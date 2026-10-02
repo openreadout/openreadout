@@ -51,6 +51,46 @@ pub fn to_pa(unit: Option<&str>) -> Option<f64> {
     }
 }
 
+/// A note when samples are far outside what a cell can produce in the channel's stated unit
+/// (beyond 10 V for a membrane voltage, 1 µA for a clamp current): the file's unit label is
+/// then probably wrong. `peak` is the largest |sample| in mV or pA, `scale` the factor that
+/// converted the stated unit to them.
+fn implausible_unit(
+    name: Option<&str>,
+    unit: Option<&str>,
+    voltage: bool,
+    peak: f64,
+    scale: f64,
+) -> Option<String> {
+    let (limit, base, what, typical) = if voltage {
+        (1e4, "mV", "membrane voltages", "mV")
+    } else {
+        (1e6, "pA", "clamp currents", "pA to nA")
+    };
+    if !(peak > limit) || scale <= 0.0 {
+        return None;
+    }
+    let stated = peak / scale;
+    Some(format!(
+        "channel {:?} is labelled {:?} but reaches {} {} ({peak:.3e} {base}); {what} are {typical}, so the unit label is probably wrong (as numbers in {base} the samples would reach {} {base}). The features below take the label literally; check the recording's units before using them",
+        name.unwrap_or("-"),
+        unit.unwrap_or("-"),
+        crate::ephys::fmt_g(stated),
+        unit.unwrap_or("-"),
+        crate::ephys::fmt_g(stated),
+    ))
+}
+
+/// A number with 4 significant digits, without exponent noise for everyday magnitudes.
+fn fmt_g(v: f64) -> String {
+    if v != 0.0 && (v.abs() >= 1e6 || v.abs() < 1e-3) {
+        format!("{v:.3e}")
+    } else {
+        let s = format!("{v:.4}");
+        s.trim_end_matches('0').trim_end_matches('.').to_string()
+    }
+}
+
 /// What [`analyze_cell`] should do.
 #[derive(Debug, Clone)]
 pub struct CellRequest {
@@ -382,8 +422,14 @@ pub fn analyze_cell(
     let mut rows = Vec::new();
     let mut spikes = Vec::new();
     let mut total = 0usize;
+    // largest |sample| in mV or pA, for the unit plausibility check
+    let mut peak = 0f64;
     for &sw in &sweeps {
         let y = read_channel(ds, &t, sw, chan, scale)?;
+        peak = y
+            .iter()
+            .filter(|v| v.is_finite())
+            .fold(peak, |m, v| m.max(v.abs()));
         let stim = protocol.as_ref().and_then(|p| p.stimulus(sw));
         let (s0, s1) = stim
             .as_ref()
@@ -471,6 +517,9 @@ pub fn analyze_cell(
             }
         }
         rows.push(row);
+    }
+    if let Some(n) = implausible_unit(Some(ch.name.as_str()), unit, voltage, peak, scale) {
+        notes.push(n);
     }
     let cell = summarize(&rows, voltage);
     Ok(CellReport {
@@ -795,6 +844,19 @@ mod tests {
         assert_eq!(to_pa(Some("nA")), Some(1000.0));
         assert_eq!(to_mv(Some("pA")), None);
         assert_eq!(to_pa(None), None);
+    }
+
+    #[test]
+    fn implausible_units_are_flagged() {
+        // a channel labelled A whose samples are pA-sized numbers (−5.4 "A")
+        let n = implausible_unit(Some("IN 0"), Some("A"), false, 5.4e12, 1e12).unwrap();
+        assert!(n.contains("probably wrong"), "{n}");
+        assert!(n.contains("5.4 pA"), "{n}");
+        // ordinary recordings pass
+        assert!(implausible_unit(None, Some("pA"), false, 2500.0, 1.0).is_none());
+        assert!(implausible_unit(None, Some("V"), true, 70.0, 1000.0).is_none());
+        // a V-labelled channel holding mV numbers (−65 "V" = −65000 mV)
+        assert!(implausible_unit(None, Some("V"), true, 65_000.0, 1000.0).is_some());
     }
 
     #[test]
