@@ -2,7 +2,7 @@
 
 > **OpenReadout is an open-source reader for lab-instrument files, designed for AI agents.**
 
-**Give any AI agent full access to raw data from microscopes, mass spectrometers, cytometers, electrophysiology rigs, and 90+ other instrument formats — in one command.**
+**Give AI agents full access to raw data from microscopes, mass spectrometers, cytometers, electrophysiology rigs, and 90+ other instrument formats — in one command.**
 
 Open-source. Single binary. No instrument software. No dependencies. No network access. Works everywhere.
 
