@@ -72,7 +72,7 @@ pub struct TidyArgs {
     #[arg(long = "where", value_name = "COLUMN=VALUE")]
     pub filters: Vec<String>,
     /// Columns to output (identity and error columns are always kept). For `info`: index
-    /// field names or aliases (see https://openreadout.github.io/openreadout/guides/lab-shares.html), or `all`.
+    /// field names or aliases (see <https://openreadout.github.io/openreadout/guides/lab-shares.html>), or `all`.
     #[arg(long, value_delimiter = ',', value_name = "COLUMNS")]
     pub fields: Vec<String>,
     /// Write the table (or, with --by, the summary) to FILE: .csv, .tsv, .jsonl, .json or

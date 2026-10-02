@@ -154,8 +154,11 @@ miniz_oxide = { version = "0.9", features = ["block-boundary"] }
 crc32fast = "1.4"
 ruzstd = "0.9"
 weezl = "0.2"
-# JPEG (baseline, progressive, lossless up to 16 bit); no default features = no rayon threads
-jpeg-decoder = { version = "0.3.2", default-features = false }
+# JPEG (baseline, progressive, lossless up to 16 bit); no default features = no rayon threads.
+# `platform_independent`: the portable integer IDCT and colour conversion on every target. Without
+# it x86/x86_64 switch at run time to an SSSE3 IDCT whose 16-bit fixed point rounds differently
+# (aarch64 never does), so the same JPEG decoded to different samples per architecture.
+jpeg-decoder = { version = "0.3.2", default-features = false, features = ["platform_independent"] }
 dicom-toolkit-jpeg2000 = { version = "0.5", default-features = false, features = ["std"] }
 # JPEG 2000 with OpenJPEG-style mid-point reconstruction; pure Rust, no dependencies, no unsafe
 rust-j2k = "0.3"
@@ -243,6 +246,7 @@ match_same_arms = "allow"
 default_trait_access = "allow"
 manual_div_ceil = "allow"
 doc_markdown = "allow"
+assert_is_empty = "allow"  # `assert!(!v.is_empty())` reads better than the suggested `assert_ne!(v.as_slice(), [])`
 
 [profile.release]
 opt-level = 3

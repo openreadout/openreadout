@@ -23,7 +23,7 @@ Shared: `text.rs` (ASCII in principle, UTF-8 or Latin-1 in practice). NMR proces
 
 ## Debugging a new file
 
-- `openreadout ls DIR` lists the parameter and data files (Bruker, Varian) or the JCAMP-DX blocks; `dump --json` → `vendor` has every parameter as stored.
+- `openreadout info DIR --view structure` lists the parameter and data files (Bruker, Varian) or the JCAMP-DX blocks; `info --view full --json` → `vendor` has every parameter as stored.
 - `tests/synthetic.rs` (Bruker, JCAMP-DX), `tests/varian_jeol.rs` and `tests/jcamp_export.rs` (writer round trips); `jcamp_asdf.rs` has the spec's own examples as unit tests (`spec_examples`, `table_vi_difdup_and_checkpoint`).
 - Spinsolve: `oracle/spinsolve.py` (nmrglue for parameters and single-row 504 files, the documented layout cross-checked against depositor CSVs); the software's own processed spectra in `*.pt1` plot files check FID processing (`tests/nmr_processing.rs`).
 - Oracles: nmrglue (Bruker, Varian, JEOL, JCAMP-DX), with the `jcamp` package as a second opinion on JCAMP-DX (`oracle/gen.py`, `oracle/jcamp_validate.py` for exports).

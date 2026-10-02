@@ -17,7 +17,7 @@ Microplate-reader exports (`plate`): the text, CSV and workbook files plate-read
 
 ## Debugging a new file
 
-- `openreadout report FILE` names the dialect, container and delimiter, software and read modes (the fingerprint); `openreadout dump FILE --json` → `vendor` shows the header lines as parsed.
+- `openreadout check FILE --report` names the dialect, container and delimiter, software and read modes (the fingerprint); `openreadout info FILE --view full --json` → `vendor` shows the header lines as parsed.
 - A new software version usually moves a header line or a matrix title: each dialect module's unit tests hold a minimal export of every layout seen (e.g. `gen5.rs` `headerless_with_procedure_and_unnamed_kinetic_read`, `tecan_csv.rs` `sparkcontrol_endpoint_list_and_kinetic_rows`, `softmax_pda.rs` `wrong_well_count_is_refused_and_cuts_never_panic`).
 - There are no integration tests in this crate: corpus exports (allotropy fixtures and public repositories) pin it, with oracles from `oracle/plate.py` and `oracle/plate_exports.py` (`uv run --group plate`); ASM output is validated by `oracle/asm_validate.py`.
 
@@ -52,7 +52,7 @@ Microplate-reader exports (`plate`): the text, CSV and workbook files plate-read
 | [`src/model.rs`](src/model.rs) | The vendor-neutral model every export parser fills: an export holds plate reads (blocks), each with one or more measurement channels and one observation per well, channel, time |
 | [`src/sheet.rs`](src/sheet.rs) | A uniform cell grid for every export: delimited text files become one sheet of text cells, workbooks (XLSX, XLS, XLSB, ODS) become one sheet per worksheet with typed cells |
 | [`src/text.rs`](src/text.rs) | Text decoding and splitting for delimited exports: byte-order marks, UTF-16, UTF-8 with a Windows-1252 fallback, CR/LF/CRLF line endings, tab or comma fields with CSV quoting |
-| [`src/vendors/bmg.rs`](src/vendors/bmg.rs) | BMG LABTECH exports: MARS data-analysis CSV/TXT (PHERAstar, CLARIOstar, FLUOstar, POLARstar, SPECTROstar, NEPHELOstar) and SMART Control XLSX (numbered sections, one sheet per view… |
+| [`src/vendors/bmg.rs`](src/vendors/bmg.rs) | BMG LABTECH exports: MARS data-analysis CSV/TXT (PHERAstar, CLARIOstar, FLUOstar, POLARstar, SPECTROstar, NEPHELOstar) and SMART Control XLSX (numbered sections, one sheet per… |
 | [`src/vendors/cursor.rs`](src/vendors/cursor.rs) | A bounds-checked reader over a byte slice for the binary document parsers |
 | [`src/vendors/envision.rs`](src/vendors/envision.rs) | PerkinElmer / Revvity EnVision Workstation CSV exports and Revvity Kaleido CSV exports (EnVision Nexus, EnSight, VICTOR Nivo) |
 | [`src/vendors/gen5.rs`](src/vendors/gen5.rs) | Agilent BioTek Gen5 text/XLSX exports (Synergy, Cytation, Epoch, ELx readers) |

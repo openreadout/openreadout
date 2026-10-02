@@ -25,7 +25,8 @@ Quick start::
 Functions and methods are named after the CLI commands (``info`` with ``view=``, ``check``,
 ``stats``, ``spectra``, ``analyze``, ``export``, ``batch``, ``link``).
 
-Metadata is the same JSON the ``openreadout`` CLI prints (https://openreadout.github.io/openreadout/getting-started/reading-json.html), typed as
+Metadata is the same JSON the ``openreadout`` CLI prints
+(https://openreadout.github.io/openreadout/getting-started/reading-json.html), typed as
 :class:`~openreadout.FileInfo`. Errors are :class:`~openreadout.OpenReadoutError`
 subclasses that are also the matching built-in exception (``OSError``, ``ValueError``, ...).
 """
@@ -37,16 +38,16 @@ import os
 from typing import Any, Dict, List, Optional, cast
 
 from . import _native
+from ._batch import BatchResult, batch, link
 from ._errors import (
     CorruptFileError,
-    OpenReadoutError,
     InstrumentFileNotFoundError,
     InstrumentIOError,
+    OpenReadoutError,
     UnknownFormatError,
     UnsupportedFeatureError,
     UsageError,
 )
-from ._batch import BatchResult, batch, link
 from ._file import (
     _PATH_KINDS,
     DEFAULT_BUFFER_NAME,
@@ -75,6 +76,7 @@ __version__: str = _native.__version__
 
 __all__ = [
     "DIMS",
+    "BatchResult",
     "ChannelInfo",
     "CheckReport",
     "CorruptFileError",
@@ -86,10 +88,10 @@ __all__ = [
     "Finding",
     "FormatDescriptor",
     "ImageInfo",
-    "OpenReadoutError",
     "InstrumentFileNotFoundError",
     "InstrumentIOError",
     "LsEntry",
+    "OpenReadoutError",
     "PathLike",
     "PhysicalSize",
     "SourceLike",
@@ -98,7 +100,6 @@ __all__ = [
     "UsageError",
     "__version__",
     "analyze",
-    "BatchResult",
     "batch",
     "export",
     "formats",

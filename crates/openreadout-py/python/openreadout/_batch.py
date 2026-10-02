@@ -1,16 +1,16 @@
 """Batch tables, group summaries and sample links (https://openreadout.github.io/openreadout/guides/batch.html).
 
-    import openreadout as ic
+import openreadout
 
-    res = ic.batch("table", ["runs/"], sample_sheets=["samples.csv"],
-                   where=["parameter=FITC-A"], by=["condition"])
-    res.table        # pandas DataFrame: one row per file x parameter, annotations joined
-    res.summary      # pandas DataFrame: n, mean, sd, sem, median, min, max, cv_percent per group
-    res.joins[0]     # the join report: key chosen, unmatched and ambiguous rows
-    res.to_arrow()   # pyarrow.Table of the rows
+res = openreadout.batch("table", ["runs/"], sample_sheets=["samples.csv"],
+               where=["parameter=FITC-A"], by=["condition"])
+res.table        # pandas DataFrame: one row per file x parameter, annotations joined
+res.summary      # pandas DataFrame: n, mean, sd, sem, median, min, max, cv_percent per group
+res.joins[0]     # the join report: key chosen, unmatched and ambiguous rows
+res.to_arrow()   # pyarrow.Table of the rows
 
-    ic.batch("summarize", "rows.parquet", by=["condition", "dose"], values=["mean"])
-    ic.link("share/")["groups"]
+ic.batch("summarize", "rows.parquet", by=["condition", "dose"], values=["mean"])
+ic.link("share/")["groups"]
 """
 
 from __future__ import annotations
@@ -33,13 +33,13 @@ def _paths(v: Union[PathLike, Sequence[PathLike], None]) -> List[str]:
     return [os.fspath(p) for p in v]
 
 
-def _frame(columns: List[Dict[str, Any]], rows: List[List[Any]]):
+def _frame(columns: List[Dict[str, Any]], rows: List[List[Any]]) -> Any:
     """A pandas DataFrame (typed from the column list) or, without pandas, a list of dicts."""
     names = [c["name"] for c in columns]
     try:
         import pandas as pd
     except ImportError:  # pragma: no cover - pandas is optional
-        return [dict(zip(names, r)) for r in rows]
+        return [dict(zip(names, r, strict=False)) for r in rows]
     df = pd.DataFrame(rows, columns=names)
     for c in columns:
         n, kind = c["name"], c["type"]
@@ -77,23 +77,32 @@ class BatchResult:
         self.summary = _frame(s["table"]["columns"], s["table"]["rows"]) if s else None
         self.summary_info: Optional[Dict[str, Any]] = s
 
-    def to_arrow(self):
+    def to_arrow(self) -> Any:
         """The rows as a ``pyarrow.Table`` (needs pyarrow)."""
         import pyarrow as pa
 
         names = [c["name"] for c in self.columns]
-        cols = list(zip(*self.raw["rows"])) if self.raw["rows"] else [[] for _ in names]
-        types = {"float": pa.float64(), "integer": pa.int64(), "boolean": pa.bool_(), "string": pa.string()}
+        cols: List[Sequence[Any]] = (
+            list(zip(*self.raw["rows"], strict=False)) if self.raw["rows"] else [[] for _ in names]
+        )
+        types = {
+            "float": pa.float64(),
+            "integer": pa.int64(),
+            "boolean": pa.bool_(),
+            "string": pa.string(),
+        }
         arrays = []
-        for c, vals in zip(self.columns, cols):
+        for c, col in zip(self.columns, cols, strict=False):
             t = types.get(c["type"], pa.string())
-            vals = list(vals)
+            vals: List[Any] = list(col)
             if t == pa.string():
                 vals = [None if v is None else str(v) for v in vals]
             arrays.append(pa.array(vals, type=t))
         fields = [
-            pa.field(c["name"], a.type, metadata={k: str(c[k]) for k in ("role", "unit") if c.get(k)})
-            for c, a in zip(self.columns, arrays)
+            pa.field(
+                c["name"], a.type, metadata={k: str(c[k]) for k in ("role", "unit") if c.get(k)}
+            )
+            for c, a in zip(self.columns, arrays, strict=False)
         ]
         return pa.Table.from_arrays(arrays, schema=pa.schema(fields))
 
@@ -167,7 +176,7 @@ def _summarize(
     control: Optional[str] = None,
     where: Optional[Sequence[str]] = None,
     exact_by: bool = False,
-):
+) -> Any:
     req = {
         "table": table,
         "by": list(by),
@@ -178,7 +187,9 @@ def _summarize(
         "where": list(where or []),
         "exact_by": exact_by,
     }
-    out = json.loads(_native.summarize_json(json.dumps({k: v for k, v in req.items() if v is not None})))
+    out = json.loads(
+        _native.summarize_json(json.dumps({k: v for k, v in req.items() if v is not None}))
+    )
     s = out["summary"]
     df = _frame(s["table"]["columns"], s["table"]["rows"])
     if hasattr(df, "attrs"):
@@ -201,4 +212,5 @@ def link(
         "formats": list(formats or []),
         "no_recursive": not recursive,
     }
-    return json.loads(_native.link_json(json.dumps(req)))
+    out: Dict[str, Any] = json.loads(_native.link_json(json.dumps(req)))
+    return out

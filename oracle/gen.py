@@ -371,6 +371,10 @@ def czi(p: Path) -> dict:
         rendered = _czi_rendered(f, meta)
         if rendered is not None:
             return rendered
+        comps = sorted({int(e.compression) for e in f.subblock_directory})
+        # JPEG subblocks (compression 1): decoders may differ by one count (IDCT rounding); record
+        # plane means for files marked `lossy` in the manifest, as for TIFF.
+        lossy = 1 in comps
         n_scenes = len(f.scenes)
         for s in range(n_scenes):
             xa = f.asxarray(scene=s)
@@ -396,7 +400,10 @@ def czi(p: Path) -> dict:
                                 sel.append({"C": c, "Z": z, "T": t, **fixed}.get(d, slice(None) if d in "YXS" else 0))
                             plane = arr[tuple(sel)]
                             # czifile returns R,G,B sample order for Bgr* pixel types (as does openreadout).
-                            planes.append({"c": c, "z": z, "t": t, "xxh3": h(plane)}); n += 1
+                            rec = {"c": c, "z": z, "t": t, "xxh3": h(plane)}
+                            if lossy:
+                                rec["mean"] = float(np.asarray(plane, dtype=np.float64).mean())
+                            planes.append(rec); n += 1
                 img = {"index": len(images), "name": getattr(sc, "name", None), "size_x": shape.get("X", 1), "size_y": shape.get("Y", 1), "size_z": Z, "size_c": C, "size_t": T,
                        "samples_per_pixel": spp, "pixel_type": dtype_name(xa.dtype), "dims": "".join(dims), "shape": list(xa.shape), "other_dims": other,
                        "pyramid_levels": 1 + len(_czi_level_groups(sc)),
@@ -407,7 +414,6 @@ def czi(p: Path) -> dict:
                 else:
                     img["levels"] = _czi_levels(f, sc)
                 images.append(img)
-        comps = sorted({int(e.compression) for e in f.subblock_directory})
         return {"reader": f"czifile {czifile.__version__}", "images": images, "physical_size_um": _czi_scaling(meta),
                 "subblock_count": len(f.subblock_directory), "compression_ids": comps}
 
@@ -2384,7 +2390,9 @@ def _bf_planes(p: Path, series: int, info: dict, tmp: Path, sidecar=None) -> lis
     XYZCT page = z + Z * (c + C * t), ...; `info["dimension_order"]`, default XYCZT). With `sidecar`
     (a (directory, name prefix) pair) the hashed planes are also written as raw little-endian
     files `<prefix>_c<c>_z<z>_t<t>.bin`, which the corpus harness compares within the manifest's
-    pixel_tolerance (lossy codecs decode slightly differently in every implementation)."""
+    pixel_tolerance (lossy codecs decode slightly differently in every implementation). Each
+    plane also carries its mean, which the harness compares for files marked `lossy` when the
+    (uncommitted) sidecars are absent, as on CI."""
     import subprocess, tifffile
     out = tmp / f"s{series}.ome.tif"
     subprocess.run([_bftools("bfconvert"), "-no-upgrade", "-overwrite", "-series", str(series), str(p), str(out)],
@@ -2405,7 +2413,8 @@ def _bf_planes(p: Path, series: int, info: dict, tmp: Path, sidecar=None) -> lis
                 page += idx[ax] * stride
                 stride *= size[ax]
             a = pages[page].asarray()
-            planes.append({"c": c, "z": z, "t": t, "xxh3": h(a)})
+            planes.append({"c": c, "z": z, "t": t, "xxh3": h(a),
+                           "mean": float(np.asarray(a, dtype=np.float64).mean())})
             if sidecar is not None:
                 sidecar[0].mkdir(parents=True, exist_ok=True)
                 raw = np.ascontiguousarray(a).astype(a.dtype.newbyteorder("<")).tobytes()

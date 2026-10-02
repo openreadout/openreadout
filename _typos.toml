@@ -5,7 +5,12 @@
 [files]
 extend-exclude = [
   "corpus/files",          # downloaded binary test data (gitignored)
-  "corpus/oracle/*.json",  # generated ground truth: hashes and vendor strings
+  "corpus/oracle/**",      # generated ground truth: hashes and vendor strings
+  "corpus/snapshots/**",   # generated reader outputs (vendor strings)
+  "corpus/assurance/**",   # generated evidence tables (corpus ids and vendor strings)
+  "corpus/manifest.toml",  # corpus catalogue: depositors' file names, titles and attributions, verbatim
+  "fuzz/corpus/**",        # fuzz seeds: bytes of corpus files
+  "**/tests/fixtures/**",  # test input files
   "oracle/schema/*.xsd",   # third-party OME schema, kept verbatim
   "*.lock",
   "book/book",             # website build output
@@ -44,6 +49,62 @@ ba = "ba"            # barium, as in BaTiO3 (a DM3 corpus sample)
 vas = "vas"          # "vas" (vasculature) in a Figshare corpus file name
 flate = "flate"      # the `flate2` crate
 clen = "clen"        # compressed length, a local name in the timsTOF reader
+# More format, vendor and domain vocabulary
+oif = "oif"              # Olympus FluoView `.oif` files
+subtile = "subtile"      # MIRAX tiles are split into subtiles
+efel = "efel"            # the eFEL electrophysiology feature library
+eis = "eis"              # electrochemical impedance spectroscopy
+acn = "acn"              # acetonitrile (LC mobile phase)
+aci = "aci"              # Arbin auxiliary channel interface (`ACI_Phase_Angle`)
+als = "als"              # Agilent HiP-ALS autosampler
+thm = "thm"              # OpenLab device name `THM` (column thermostat)
+toi = "toi"              # RDML target type "of interest"
+rin = "rin"              # input resistance R_in
+ttest = "ttest"          # SciPy `ttest_ind`
+analogout = "analogout"  # Intan `analogout.dat`
+undet = "undet"          # qPCR "undetermined" Cq
+nam = "nam"              # Bruker BES3T `xNAM` axis-name keys
+gud = "gud"              # Shimadzu LabSolutions XML element `GUD`
+tio = "tio"              # the WITio MATLAB toolbox
+onl = "onl"              # HEKA PatchMaster `.onl` tree
+fle = "fle"              # Bruker timsTOF fleX
+ded = "ded"              # "ANDed"
+mis = "mis"              # "mis-decodes"
+comput = "comput"        # journal abbreviation (Neural Comput.)
+reson = "reson"          # journal abbreviation (J. Magn. Reson.)
+# Vendor spellings that readers must match exactly
+resolucion = "resolucion"  # OMNIC Spanish-locale label
+parms = "parms"            # Agilent `StingrayViewParms`
+valide = "valide"          # Seahorse `ValideRate`
+chrone = "chrone"          # `IsoChroneType`
+choosen = "choosen"        # UNICORN `ColumnsChoosen`
+criterias = "criterias"    # UNICORN `ResultSearchCriterias`
+assymetry = "assymetry"    # UNICORN peak table column
+compability = "compability"  # Biacore `BIA compability info` stream
+acquistion = "acquistion"  # ChemStation report text `Acquistion Mode`
+caputre = "caputre"        # Olympus `ImageCaputreDate`
+mesurement = "mesurement"  # Rigaku `MesurementConditions`
+datas = "datas"            # a key in vendor JSON
+subtiles = "subtiles"
+unparseable = "unparseable"  # accepted spelling
+annote = "annote"        # nmrglue JEOL header field name
+# Local names and test data
+thr = "thr"              # threshold
+allo = "allo"
+nin = "nin"              # bytes in (inflate status)
+gam = "gam"              # Gamry flag in an oracle script
+iy = "iy"                # overlap along y
+wheight = "wheight"      # weighted height
+truncat = "truncat"      # substring match for "truncated"/"truncation"
+abd = "abd"              # three test bytes
+fo = "fo"                # base64 test keys and a vendor CSV column
+# Fragments of corpus file names and ids
+iz = "iz"
+aso = "aso"
+foto = "foto"
+wll = "wll"
+hom = "hom"
+sampl = "sampl"
 # Third-party API names
 writeable = "writeable"  # NumPy `ndarray.flags.writeable`
 arange = "arange"        # NumPy `np.arange`
@@ -51,3 +112,4 @@ arange = "arange"        # NumPy `np.arange`
 [default.extend-identifiers]
 OTHERn = "OTHERn"  # FCS 3.1 OTHER segments, numbered (`OTHER1`, `OTHER2`, ...)
 ot = "ot"          # a loop variable (one trace) in the HDF5 fixture tests
+

@@ -8,9 +8,8 @@ import json
 from pathlib import Path
 from typing import Callable
 
-import pytest
-
 import openreadout
+import pytest
 
 REPO = Path(__file__).resolve().parents[3]
 Corpus = Callable[[str], Path]
@@ -32,7 +31,7 @@ def test_nmr_peaks_integrals_match_topspin(corpus: Corpus) -> None:
         path, "nmr-peaks", from_="fid", integrate=regions, integral_reference=(0, ref)
     )
     assert r["source"] == "fid"
-    for ours, theirs in zip(r["integrals"], o["topspin_integrals"]):
+    for ours, theirs in zip(r["integrals"], o["topspin_integrals"], strict=True):
         assert ours["normalized"] == pytest.approx(theirs["value"], rel=0.02)
     assert r["main_peak"]["ppm"] == pytest.approx(1.5731, abs=0.01)
 
@@ -43,8 +42,12 @@ def test_ephys_features_match_efel(corpus: Corpus) -> None:
     r = openreadout.analyze(path, "ephys-features")
     assert r["clamp_mode"] == "current_clamp"
     assert r["cell"]["rheobase_pa"] == o["cell"]["rheobase_pa"]
-    assert [s["spike_count"] for s in r["sweeps"]] == [int(s["spike_count"][0]) for s in o["sweeps"]]
-    assert r["cell"]["input_resistance_mohm"] == pytest.approx(o["cell"]["input_resistance_mohm"], rel=0.01)
+    assert [s["spike_count"] for s in r["sweeps"]] == [
+        int(s["spike_count"][0]) for s in o["sweeps"]
+    ]
+    assert r["cell"]["input_resistance_mohm"] == pytest.approx(
+        o["cell"]["input_resistance_mohm"], rel=0.01
+    )
 
 
 def test_spikes_match_spikeinterface(corpus: Corpus) -> None:

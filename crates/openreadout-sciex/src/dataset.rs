@@ -150,14 +150,19 @@ fn read_stream<R: Read + Seek>(cfb: &Cfb, f: &mut R, path: &Path, name: &str) ->
     cfb.read(f, path, e, MAX_STREAM).ok()
 }
 
-/// The `.wiff` a path names: the file itself, or the `.wiff` beside a `.wiff.scan`.
-pub fn wiff_path(path: &Path) -> PathBuf {
+/// The `.wiff` a path names: the file itself, or the `.wiff` beside a `.wiff.scan` (name matched
+/// case-insensitively: published pairs differ in case, e.g. `X_AQ.wiff` + `X_aq.wiff.scan`).
+pub fn wiff_path(fs: &Fs, path: &Path) -> PathBuf {
     let name = path
         .file_name()
         .map(|n| n.to_string_lossy().into_owned())
         .unwrap_or_default();
     if name.to_ascii_lowercase().ends_with(".wiff.scan") {
-        return path.with_file_name(&name[..name.len() - 5]);
+        let wiff = &name[..name.len() - 5];
+        return path
+            .parent()
+            .and_then(|dir| fs.find_in_dir(dir, wiff))
+            .unwrap_or_else(|| path.with_file_name(wiff));
     }
     path.to_path_buf()
 }
@@ -219,7 +224,7 @@ impl SciexDataset {
     pub fn open_input(input: &Input) -> Result<Self> {
         let fs = input.fs().clone();
         let opened = input.path().to_path_buf();
-        let path = wiff_path(&opened);
+        let path = wiff_path(&fs, &opened);
         let mut f = fs.open(&path).map_err(|e| Error::io(&path, e))?;
         let size = f.size().map_err(|e| Error::io(&path, e))?;
         let cfb = Cfb::open(&mut f, &path, FORMAT_ID)?;

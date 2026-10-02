@@ -34,7 +34,7 @@
 //! let run = &info.spectra[0];
 //! println!("{} spectra, MS levels {:?}", run.scan_count, run.ms_levels);
 //! let spectrum = dataset.read_spectrum(0, 0)?;
-//! println!("MS{} at {} s: {} points", spectrum.ms_level, spectrum.rt_s, spectrum.mz.len());
+//! println!("MS{} at {:?} s: {} points", spectrum.ms_level, spectrum.rt_s, spectrum.mz.len());
 //! # Ok::<(), openreadout_core::Error>(())
 //! ```
 //!

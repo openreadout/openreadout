@@ -19,7 +19,7 @@ X-ray diffraction scans: PANalytical XRDML (`panalytical-xrdml`, `xrdml.rs`), Br
 
 ## Debugging a new file
 
-- `openreadout dump FILE --json` → `vendor` holds the headers (XRDML optics stay there); `openreadout report FILE` gives the version and layout.
+- `openreadout info FILE --view full --json` → `vendor` holds the headers (XRDML optics stay there); `openreadout check FILE --report` gives the version and layout.
 - `tests/synthetic.rs` builds each format; `common.rs` unit tests pin axis handling (`axes_and_spacing`).
 - Oracle: the instrument software's `.xy`/`.txt` exports of the same scan through `oracle/series_oracle.py --export`.
 

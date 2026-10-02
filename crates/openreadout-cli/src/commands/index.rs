@@ -87,7 +87,7 @@ pub struct SearchArgs {
     /// Query, e.g. `"objective=63x channel~GFP acquired<2020 format=czi size>1GB"`. Terms are
     /// ANDed; `OR` separates alternatives; `field=v`, `!=`, `~` (contains), `<`, `<=`, `>`,
     /// `>=`, `field:TERM_ID`, `-term` negates, `a|b` alternatives, bare words search paths,
-    /// samples, channels and descriptions. Empty: everything. See https://openreadout.github.io/openreadout/guides/lab-shares.html.
+    /// samples, channels and descriptions. Empty: everything. See <https://openreadout.github.io/openreadout/guides/lab-shares.html>.
     #[arg(value_name = "QUERY", default_value = "")]
     pub query: String,
     /// Sort by a field (`size`, `acquired`, `-size` for descending). Default: path order.

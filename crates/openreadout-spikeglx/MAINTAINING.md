@@ -16,7 +16,7 @@ SpikeGLX recordings: a `.meta` text file beside a headerless interleaved int16 `
 
 ## Debugging a new file
 
-- `openreadout dump FILE --json` → `vendor` is the `.meta` as written; the probe type (`imDatPrb_type`) decides the scaling path.
+- `openreadout info FILE --view full --json` → `vendor` is the `.meta` as written; the probe type (`imDatPrb_type`) decides the scaling path.
 - `tests/synthetic.rs` writes `.meta`/`.bin` pairs for each stream kind.
 
 ## Fragile spots

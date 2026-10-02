@@ -18,7 +18,7 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the HDF5 tree (groups, datasets with shape/type/filters, attributes) for all three readers — the first command for any HDF5 variant.
+- `openreadout info FILE --view structure` lists the HDF5 tree (groups, datasets with shape/type/filters, attributes) for all three readers — the first command for any HDF5 variant.
 - `tests/fixtures.rs` reads the committed `.ims`/NWB/HDF5 fixtures against their oracle JSON; `tests/nwb_export.rs` round-trips the NWB writer (also checked by `oracle/nwb_validate.py` with pynwb).
 - Oracles: h5py-based readers in `oracle/gen.py` (`ims`, `nwb`).
 
@@ -45,7 +45,7 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 
 | file | what it does (its module documentation) |
 | --- | --- |
-| [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the HDF5-based readers (Imaris `.ims`, NWB and generic HDF5): the variant features of a file and the feature values the development corp… |
+| [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the HDF5-based readers (Imaris `.ims`, NWB and generic HDF5): the variant features of a file and the feature values the development… |
 | [`src/generic.rs`](src/generic.rs) | Any other HDF5 file: `info --view structure` lists groups, datasets and attributes; `info` summarizes; nothing is decoded as images or traces |
 | [`src/h5util.rs`](src/h5util.rs) | Shared HDF5 helpers on top of `hdf5-pure`: detection, attribute text, a tree walk, and a plane reader for 3-D (z, y, x) datasets that decodes chunks itself so that filters |
 | [`src/ims.rs`](src/ims.rs) | Imaris `.ims` (HDF5): `DataSet/ResolutionLevel N/TimePoint T/Channel C/Data` volumes, `DataSetInfo` metadata |
@@ -53,7 +53,7 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 | [`src/lib.rs`](src/lib.rs) | HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volumes (pyramids, LZ4/deflate chunks), NWB 2.x (session fields, plain `TimeSeries` as traces) and a |
 | [`src/nwb.rs`](src/nwb.rs) | Neurodata Without Borders (NWB 2.x, HDF5): session fields; `TimeSeries`, `ElectricalSeries` and `SpatialSeries` under `acquisition/` and `processing/`, and the intracellular |
 | [`src/nwb_tables.rs`](src/nwb_tables.rs) | NWB tables: every `DynamicTable` (electrodes, units, trials, …), the spike times of a units table, and `SpikeEventSeries`, as numeric tables |
-| [`src/nwb_write.rs`](src/nwb_write.rs) | NWB 2.x writer (`export --to nwb`): the traces of an electrophysiology file (ABF sweeps, Neuralynx, Blackrock, SpikeGLX, Intan, ...) as plain `TimeSeries` under `/acquisition/`, on… |
+| [`src/nwb_write.rs`](src/nwb_write.rs) | NWB 2.x writer (`export --to nwb`): the traces of an electrophysiology file (ABF sweeps, Neuralynx, Blackrock, SpikeGLX, Intan, ...) as plain `TimeSeries` under `/acquisition/`… |
 
 ### Where variants branch
 

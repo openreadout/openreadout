@@ -18,8 +18,8 @@ Bruker timsTOF acquisitions (`.d` directories; TDF and TSF; `bruker-tdf`). Proje
 
 ## Debugging a new file
 
-- `openreadout ls RUN.d` lists the database tables with row counts and the binary file; `dump --json` → `vendor` has `GlobalMetadata` and the calibration rows.
-- `openreadout report RUN.d` shows the calibration state (`assurance.calibrations`): `not_applied` means a model type the reader does not know yet.
+- `openreadout info RUN.d --view structure` lists the database tables with row counts and the binary file; `info --view full --json` → `vendor` has `GlobalMetadata` and the calibration rows.
+- `openreadout check RUN.d --report` shows the calibration state (`assurance.calibrations`): `not_applied` means a model type the reader does not know yet.
 - `oracle/timsrust-oracle` (a separate Rust workspace, Apache-2.0 timsrust) and vendor-library conversions are the ground truth; `tests/fuzz_regressions.rs` replays malformed databases and blobs.
 
 ## Fragile spots
@@ -67,7 +67,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - undecoded "frames of an unsupported compression type"
 - undecoded "m/z conversion parameters"
 - undecoded "orphan PASEF selections"
-- calibration what, CalibrationStatus::Applied, &[Scope::Spectra], c.to_st…
+- calibration what, CalibrationStatus::Applied, &[Scope::Spectra]…
 - calibration "{c}: values differ from Bruker's calibrated values, typically by tens of ppm (the calibration table is in `info --view full`)"
 
 ### Validated variants and the corpus files that pin them

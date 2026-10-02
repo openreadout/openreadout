@@ -1,8 +1,7 @@
 name: CI
 
-# Cost control: the repository is private, so every minute is billed (macOS 10x, Windows 2x).
-# Pushes to main run only the cheap Linux gate. The full matrix (macOS/Windows tests, cross builds,
-# coverage, Python, examples) runs on pull requests, weekly, and on manual dispatch.
+# Every job runs on pushes to main, pull requests (Dependabot's included), weekly and on manual
+# dispatch. The repository is public, so GitHub-hosted runner minutes are free.
 on:
   push:
     branches: [main]
@@ -42,7 +41,7 @@ jobs:
           cargo clippy -p openreadout --all-targets --features mcp-http -- -D warnings
           cargo clippy -p openreadout-corpus-tests --all-targets --features corpus -- -D warnings
       - name: Unit and CLI tests
-        run: cargo test
+        run: cargo test --no-fail-fast
       - name: cargo-deny (licenses, bans, advisories)
         uses: EmbarkStudios/cargo-deny-action@3c6349835b2b7b196a839186cb8b78e02f7b5f25 # v2.1.1
       - name: Vocabulary check (clean-room rule 5)
@@ -75,8 +74,38 @@ jobs:
           cargo build -p openreadout --features mcp-http
           python3 oracle/mcp_smoke.py --http target/debug/openreadout crates/openreadout-lif/tests/fixtures/synthetic-dims.lif --synthetic
 
+  # Downloads the smoke corpus once per manifest version and caches it for the jobs below, so
+  # parallel jobs do not each download it (data hosts throttle concurrent downloads).
+  corpus-fetch:
+    name: fetch the smoke corpus
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: corpus/files
+          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+          enableCrossOsArchive: true
+          lookup-only: true
+      - if: steps.cache.outputs.cache-hit != 'true'
+        uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - if: steps.cache.outputs.cache-hit != 'true'
+        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - if: steps.cache.outputs.cache-hit != 'true'
+        run: cargo xtask corpus fetch --tier smoke
+      - if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: corpus/files
+          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+          enableCrossOsArchive: true
+
   corpus-smoke:
     name: corpus smoke tier vs oracle
+    needs: corpus-fetch
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -84,15 +113,16 @@ jobs:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - name: Cache corpus (smoke tier, ~200 MB)
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      - name: Restore the smoke corpus (downloaded once by corpus-fetch)
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: corpus/files
           key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
-      - name: Fetch smoke tier
+          enableCrossOsArchive: true
+      - name: Fetch what the cache did not have
         run: cargo xtask corpus fetch --tier smoke
       - name: Compare every reader against oracle ground truth
-        run: CORPUS_REPORT=corpus-report.md cargo test -p openreadout-corpus-tests --features corpus --profile corpus -- --nocapture
+        run: CORPUS_REPORT=corpus-report.md cargo test --no-fail-fast -p openreadout-corpus-tests --features corpus --profile corpus -- --nocapture
       - name: Publish report
         if: always()
         run: cat corpus-report.md >> "$GITHUB_STEP_SUMMARY" || true
@@ -130,7 +160,7 @@ jobs:
 
   python-tests:
     name: python ${{ matrix.python }} (openreadout + bioio plugin)
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    needs: corpus-fetch
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -146,6 +176,16 @@ jobs:
           python-version: ${{ matrix.python }}
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Restore the smoke corpus (downloaded once by corpus-fetch)
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: corpus/files
+          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+          enableCrossOsArchive: true
+      - name: Fetch what the cache did not have
+        run: cargo xtask corpus fetch --tier smoke
+      # After the corpus fetch: maturin-action exports RUSTC_WRAPPER=sccache, which exists only in
+      # its manylinux container, so a later host-side cargo command would fail.
       - name: Build the abi3 wheel (manylinux)
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
@@ -153,13 +193,6 @@ jobs:
           args: --out dist  # profile release-py comes from pyproject.toml
           manylinux: auto
           sccache: true
-      - name: Cache corpus (smoke tier, ~200 MB)
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: corpus/files
-          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
-      - name: Fetch smoke tier
-        run: cargo xtask corpus fetch --tier smoke
       - name: Install the wheel, the bioio plugin and the (permissive) oracle readers
         run: |
           set -e
@@ -182,7 +215,6 @@ jobs:
 
   cross-build:
     name: build ${{ matrix.target }}
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -227,7 +259,6 @@ jobs:
   # local overlay registry, so this works before anything is on crates.io. Nothing is uploaded.
   publish-dry-run:
     name: crates.io publish dry run
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -254,7 +285,7 @@ jobs:
               echo "::error::$f contains test or corpus files"; exit 1
             fi
           done
-          ls -l $crates
+          echo "$crates" | xargs ls -l
 
   # THIRD-PARTY-NOTICES.md (licenses of everything linked into the binary) must match Cargo.lock.
   third-party-notices:
@@ -359,7 +390,6 @@ jobs:
 
   test-os:
     name: tests on ${{ matrix.os }}
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -374,7 +404,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - name: Unit and CLI tests
-        run: cargo test
+        run: cargo test --no-fail-fast
 
   msrv:
     name: MSRV (rust-version in Cargo.toml)
@@ -400,7 +430,6 @@ jobs:
 
   coverage:
     name: coverage (llvm-cov)
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -462,7 +491,7 @@ jobs:
 
   examples:
     name: examples against the smoke corpus
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    needs: corpus-fetch
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -472,12 +501,13 @@ jobs:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - name: Cache corpus (smoke tier)
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      - name: Restore the smoke corpus (downloaded once by corpus-fetch)
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: corpus/files
           key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
-      - name: Fetch smoke tier
+          enableCrossOsArchive: true
+      - name: Fetch what the cache did not have
         run: cargo xtask corpus fetch --tier smoke
       - name: Build the CLI
         run: cargo build -p openreadout
@@ -524,7 +554,6 @@ jobs:
   # 15 s each on pull requests (about 15 min plus the build), 60 s each weekly and on manual runs.
   fuzz-smoke:
     name: fuzz smoke (every target, 15 s each; 60 s weekly)
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     # 92 targets: about 25 min at 15 s each (pull requests), about 95 min at 60 s (weekly), plus the build.
     timeout-minutes: 150
@@ -545,7 +574,10 @@ jobs:
           tool: cargo-fuzz
       - name: Build fuzz targets
         working-directory: fuzz
-        run: cargo +nightly fuzz build -O -a
+        # Explicit target: the prebuilt cargo-fuzz is a musl binary and would otherwise default to
+        # musl (static libc, which the sanitizer cannot use).
+        run: |
+          cargo +nightly fuzz build -O -a --target "$(rustc +nightly -vV | sed -n 's/^host: //p')"
       - name: Run each target from the committed seeds
         working-directory: fuzz
         env:
@@ -555,7 +587,7 @@ jobs:
           fail=0
           for t in $(cargo +nightly fuzz list); do
             echo "::group::$t"
-            mkdir -p "work/$t" "artifacts/$t"
+            mkdir -p "work/$t" "artifacts/$t" "corpus/$t"  # targets without committed seeds start empty
             if ! "$bin/$t" "work/$t" "corpus/$t" -max_total_time="$SECS" \
                 -rss_limit_mb=2048 -malloc_limit_mb=2048 -timeout=20 -artifact_prefix="artifacts/$t/"; then
               echo "::error::fuzz target $t found a crash (see the fuzz-artifacts upload)"
@@ -576,7 +608,7 @@ jobs:
   # tarball (`cargo xtask r-vendor`) through R CMD check --as-cran (the tarball-size NOTE is expected).
   r-package:
     name: R package on ${{ matrix.os }}
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    needs: corpus-fetch
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -601,12 +633,13 @@ jobs:
           working-directory: r/openreadout
           extra-packages: any::rcmdcheck, any::roxygen2
           needs: check
-      - name: Cache corpus (smoke tier, ~200 MB)
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      - name: Restore the smoke corpus (downloaded once by corpus-fetch)
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: corpus/files
           key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
-      - name: Fetch smoke tier
+          enableCrossOsArchive: true
+      - name: Fetch what the cache did not have
         run: cargo xtask corpus fetch --tier smoke
       - name: Clippy and unit tests of the extendr crate
         run: |
@@ -629,13 +662,19 @@ jobs:
         run: |
           cargo xtask r-vendor
           R CMD build r/openreadout
-          Rscript -e 'rcmdcheck::rcmdcheck(list.files(pattern = "^openreadout_.*[.]tar[.]gz$"), args = c("--as-cran", "--no-manual"), error_on = "warning")'
+          # Fails on any error or warning except "checking compiled code": Rust's standard library
+          # links exit/abort, which every Rust-based R package reports and cannot avoid.
+          # shellcheck disable=SC2016  # R code, not shell: $ is R's member operator
+          Rscript -e '
+            r <- rcmdcheck::rcmdcheck(list.files(pattern = "^openreadout_.*[.]tar[.]gz$"),
+                                      args = c("--as-cran", "--no-manual"), error_on = "never")
+            w <- r$warnings[!grepl("^checking compiled code", r$warnings)]
+            if (length(r$errors) > 0 || length(w) > 0) quit(status = 1)'
 
   # Workflow integrations (integrations/, book/src/guides/pipelines.md) against this commit's binary: nf-test
   # of the Nextflow modules, planemo lint of the Galaxy tools, the Snakemake wrapper tests.
   integrations:
     name: Nextflow, Galaxy and Snakemake integrations
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: read

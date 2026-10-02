@@ -23,8 +23,8 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 
 ## Debugging a new file
 
-1. `openreadout detect FILE` and `openreadout info FILE --json`, then read `assurance` (which variant feature is unseen) and `notes`.
-2. `openreadout ls FILE` lists the bundle items, tree levels, Spike2 channels and block counts, or the Open Ephys streams; `openreadout dump FILE` prints the parsed headers and the vendor tree.
+1. `openreadout info FILE --view format` and `openreadout info FILE --json`, then read `assurance` (which variant feature is unseen) and `notes`.
+2. `openreadout info FILE --view structure` lists the bundle items, tree levels, Spike2 channels and block counts, or the Open Ephys streams; `openreadout info FILE --view full` prints the parsed headers and the vendor tree.
 3. `openreadout check FILE` for structural problems (damaged blocks, records past the end).
 4. Compare with the oracles the corpus uses: load-heka-python and pyHEKA for PatchMaster, Neo's `Spike2RawIO` and `OpenEphysBinaryRawIO`/`OpenEphysRawIO` for the others (run as documented in `oracle/`; see each provenance log for licences).
 5. Start from the synthetic fixtures in `src/spike2/tests.rs` and `src/openephys/tests.rs` to reproduce a layout without the corpus, and add the file with `cargo xtask variant intake` (`docs/maintaining.md`).
@@ -57,8 +57,8 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | file | what it does (its module documentation) |
 | --- | --- |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the readers in this crate: the variant features of a file and the feature values the development corpus validates |
-| [`src/heka/bundle.rs`](src/heka/bundle.rs) | The PatchMaster "bundle" header: a signature, the writing program's version, and up to twelve items, each the start, length and extension of an embedded file (`.dat` samples, `.pul… |
-| [`src/heka/dataset.rs`](src/heka/dataset.rs) | `Dataset` for a PatchMaster bundle: every series is a trace (sweeps × channels); channels of a series whose sample interval or point counts differ form further traces of that serie… |
+| [`src/heka/bundle.rs`](src/heka/bundle.rs) | The PatchMaster "bundle" header: a signature, the writing program's version, and up to twelve items, each the start, length and extension of an embedded file (`.dat` samples… |
+| [`src/heka/dataset.rs`](src/heka/dataset.rs) | `Dataset` for a PatchMaster bundle: every series is a trace (sweeps × channels); channels of a series whose sample interval or point counts differ form further traces of that… |
 | [`src/heka/mod.rs`](src/heka/mod.rs) | HEKA PatchMaster bundle files (`.dat`): a bundle header, the samples, and the pulsed tree (Root → Group → Series → Sweep → Trace) |
 | [`src/heka/tree.rs`](src/heka/tree.rs) | HEKA's "Tree" container and the pulsed tree (`.pul`) inside a bundle: Root → Group → Series → Sweep → Trace records, each followed by its child count |
 | [`src/lib.rs`](src/lib.rs) | Readers for electrophysiology recordings that have no other home in OpenReadout: HEKA PatchMaster bundles (`heka-patchmaster`), CED Spike2 `.smr`/`.smrx` files (`ced-spike2`), |
@@ -68,9 +68,9 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | [`src/openephys/mod.rs`](src/openephys/mod.rs) | Open Ephys recordings: the binary format (`structure.oebin` + `continuous.dat` + `.npy`) and the legacy one-file-per-channel format (`.continuous`, `.events`, `.spikes`) |
 | [`src/openephys/npy.rs`](src/openephys/npy.rs) | Minimal reader of NumPy `.npy` files (the format NumPy documents: magic `\x93NUMPY`, version, header length, a Python-literal dict with `descr`, `fortran_order` and `shape`) |
 | [`src/openephys/tests.rs`](src/openephys/tests.rs) | Synthetic-directory tests of the Open Ephys reader |
-| [`src/spike2/dataset.rs`](src/spike2/dataset.rs) | `Dataset` for a Spike2 `.smr` or `.smrx`: every waveform channel is a trace (pauses split sweeps); events, markers and text marks form the `events` table, AdcMark/RealMark waveform… |
+| [`src/spike2/dataset.rs`](src/spike2/dataset.rs) | `Dataset` for a Spike2 `.smr` or `.smrx`: every waveform channel is a trace (pauses split sweeps); events, markers and text marks form the `events` table, AdcMark/RealMark… |
 | [`src/spike2/file.rs`](src/spike2/file.rs) | The 32-bit Spike2 `.smr` layout: a 512-byte file header, 140-byte channel headers, and per channel a chain of data blocks (20-byte header, then items) |
-| [`src/spike2/file64.rs`](src/spike2/file64.rs) | The 64-bit Spike2 `.smrx` layout, derived from the files and the Spike2 software's own exports of them (no CED documentation or library; `docs/provenance/ced-spike2.md`): a header … |
+| [`src/spike2/file64.rs`](src/spike2/file64.rs) | The 64-bit Spike2 `.smrx` layout, derived from the files and the Spike2 software's own exports of them (no CED documentation or library; `docs/provenance/ced-spike2.md`): a header… |
 | [`src/spike2/mod.rs`](src/spike2/mod.rs) | CED Spike2 data files: 32-bit `.smr` and 64-bit `.smrx` |
 | [`src/spike2/tests.rs`](src/spike2/tests.rs) | Synthetic-file tests of the Spike2 reader |
 | [`src/winwcp/mod.rs`](src/winwcp/mod.rs) | WinWCP `.wcp` files (Strathclyde Electrophysiology Software): a 1024-byte `KEY=value` text header, then `NR` records of an analysis header and interleaved int16 samples |

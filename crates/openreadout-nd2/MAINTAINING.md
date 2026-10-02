@@ -19,7 +19,7 @@ Nikon ND2 (`nd2`): chunk-based files (NIS-Elements 3.x–5.x, format versions 2.
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists every chunk (name, offset, size) or legacy box; `dump --json` → `vendor` has the decoded LV/variant trees under the chunk names; `dump --all-frames` the per-frame records.
+- `openreadout info FILE --view structure` lists every chunk (name, offset, size) or legacy box; `info --view full --json` → `vendor` has the decoded LV/variant trees under the chunk names; `info --view full --all-frames` the per-frame records.
 - A new NIS-Elements version usually adds LV keys or a loop kind: `meta.rs` unit tests (`loop_tree_masks_and_merging`, `ne_time_periods_respect_validity`, `layout_handles_extra_and_missing_frames`, `wavelengths_follow_probe_then_filter`) are the templates; `lv.rs` tests pin the encoding.
 - Oracles: the `nd2` package (primary), Bio-Formats (second opinion, black box).
 
@@ -48,7 +48,7 @@ Nikon ND2 (`nd2`): chunk-based files (NIS-Elements 3.x–5.x, format versions 2.
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`): the variant features of an ND2 file and the feature values the development corpus validates |
 | [`src/container.rs`](src/container.rs) | Chunked container: chunk headers, the chunk map, and the rescue scan |
 | [`src/dataset.rs`](src/dataset.rs) | `Dataset` implementation for ND2 (chunk-based files and legacy JPEG 2000-based files) |
-| [`src/deinterleave.rs`](src/deinterleave.rs) | Channel de-interleaving of ND2 frames: a frame stores every component of a pixel next to each other (`c0 c1 … cN-1`, rows padded to `stride` bytes); a plane is one channel's span o… |
+| [`src/deinterleave.rs`](src/deinterleave.rs) | Channel de-interleaving of ND2 frames: a frame stores every component of a pixel next to each other (`c0 c1 … cN-1`, rows padded to `stride` bytes); a plane is one channel's span… |
 | [`src/frames.rs`](src/frames.rs) | Per-frame acquisition records: the custom-data tag table (`CustomDataVar\|CustomDataV2_0!`), the per-frame arrays it describes (`CustomData\|<tag>!`), acquisition times |
 | [`src/fuzzing.rs`](src/fuzzing.rs) | Byte-slice entry points into the ND2 parsers, for the cargo-fuzz targets in `fuzz/` |
 | [`src/legacy.rs`](src/legacy.rs) | Legacy ND2 (NIS-Elements 2.x): a JPEG 2000 box sequence whose frames are `jp2c` codestreams and whose metadata are XML boxes, indexed by a box map at the end of the file |

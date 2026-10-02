@@ -47,4 +47,4 @@ body:
   - type: input
     id: current
     attributes:
-      label: Output of `openreadout detect FILE --json` on one of the files (if you have run it)
+      label: Output of `openreadout info FILE --view format --json` on one of the files (if you have run it)

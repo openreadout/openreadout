@@ -28,4 +28,4 @@ mkdir -p "$DIR"
 install -m 755 "$tmp/openreadout" "$DIR/openreadout"
 echo "installed $DIR/openreadout ($("$DIR/openreadout" --version))"
 case ":$PATH:" in *":$DIR:"*) ;; *) echo "add $DIR to your PATH, e.g.: export PATH=\"$DIR:\$PATH\"" ;; esac
-echo "agent skill: openreadout skill --install all    |  MCP: openreadout mcp --config claude"
+echo "agent skill: openreadout self skill --install all    |  MCP: openreadout mcp --config claude"

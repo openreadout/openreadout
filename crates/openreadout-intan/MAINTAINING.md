@@ -17,7 +17,7 @@ Intan Technologies RHD2000 (`.rhd`) and RHS2000 (`.rhs`) recordings (`intan`). P
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists header parts and data blocks; `dump --json` → `vendor` has the header by the application-note names.
+- `openreadout info FILE --view structure` lists header parts and data blocks; `info --view full --json` → `vendor` has the header by the application-note names.
 - A new Intan software version most often changes the header (a new field before the signal groups): compare the header length `ls` reports with the corpus file of the nearest version (`corpus/snapshots/intan.jsonl`).
 - `tests/synthetic.rs` writes RHD/RHS headers and blocks from the format note.
 

@@ -20,7 +20,7 @@ Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruke
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the blocks (OPUS directory, WDF chain, PE nested blocks, JASCO streams) with offsets and sizes; `dump --json` → `vendor` has the parameter blocks by their stored names.
+- `openreadout info FILE --view structure` lists the blocks (OPUS directory, WDF chain, PE nested blocks, JASCO streams) with offsets and sizes; `info --view full --json` → `vendor` has the parameter blocks by their stored names.
 - `tests/synthetic.rs` (OPUS, OMNIC, WDF, PE) and `tests/jasco_synthetic.rs` build files from the notes.
 - Oracles (`oracle/spectro.py`, run as black boxes): brukeropus (MIT) for OPUS with brukeropusreader (GPL, black box) as a second opinion, SpectroChemPy for OMNIC, renishawWiRE (MIT) for WDF, specio for `.sp`; JASCO has `oracle/jasco_oracle.py`. Vendor text exports (`oracle-export`) are compared by `openreadout-corpus-tests/tests/spectro.rs`.
 
@@ -55,20 +55,20 @@ Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruke
 
 | file | what it does (its module documentation) |
 | --- | --- |
-| [`src/agilent.rs`](src/agilent.rs) | Agilent FT-IR imaging files (focal-plane-array microscopes: Cary 600 series with Resolutions Pro): a data file of band-sequential float32 images (`.dat` spectra, `.seq` interferogr… |
+| [`src/agilent.rs`](src/agilent.rs) | Agilent FT-IR imaging files (focal-plane-array microscopes: Cary 600 series with Resolutions Pro): a data file of band-sequential float32 images (`.dat` spectra, `.seq`… |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the vibrational-spectroscopy readers (Bruker OPUS, Thermo OMNIC, Renishaw WiRE, PerkinElmer `.sp`): the variant features of a file and |
-| [`src/cary.rs`](src/cary.rs) | Agilent (Varian) Cary UV-Vis files (`.dsw` Scan, `.bsw` batch Scan, `.bsk` Scanning Kinetics): our notes are `docs/formats/agilent-cary.md`, provenance `docs/provenance/agilent-car… |
+| [`src/cary.rs`](src/cary.rs) | Agilent (Varian) Cary UV-Vis files (`.dsw` Scan, `.bsw` batch Scan, `.bsk` Scanning Kinetics): our notes are `docs/formats/agilent-cary.md`, provenance… |
 | [`src/common.rs`](src/common.rs) | The model every spectroscopy reader fills, and the one `Dataset` that serves it |
-| [`src/fsm.rs`](src/fsm.rs) | PerkinElmer Spotlight `.fsm` images: `PEPE`, a 40-byte description (`DataSet - 4D…`), then blocks: 5100 the image geometry and spectral axis, 5104 the history and instrument record… |
+| [`src/fsm.rs`](src/fsm.rs) | PerkinElmer Spotlight `.fsm` images: `PEPE`, a 40-byte description (`DataSet - 4D…`), then blocks: 5100 the image geometry and spectral axis, 5104 the history and instrument… |
 | [`src/jasco.rs`](src/jasco.rs) | JASCO Spectra Manager `.jws` files (and `.jrs` from the instruments' firmware): FT-IR, Raman, UV-Vis, circular dichroism and fluorescence spectra |
 | [`src/lib.rs`](src/lib.rs) | Clean-room readers for optical and vibrational spectroscopy files |
 | [`src/omnic.rs`](src/omnic.rs) | Thermo Fisher OMNIC files: `.spa` (one spectrum) and `.spg` (a group of spectra) |
-| [`src/omnic_srs.rs`](src/omnic_srs.rs) | Thermo Fisher OMNIC `.srs` series (rapid scan, high-speed real time, GC-IR, TGA-IR): the `.spa` file header with a table of 22-byte key records; the series spectra in one record (k… |
+| [`src/omnic_srs.rs`](src/omnic_srs.rs) | Thermo Fisher OMNIC `.srs` series (rapid scan, high-speed real time, GC-IR, TGA-IR): the `.spa` file header with a table of 22-byte key records; the series spectra in one record… |
 | [`src/opus.rs`](src/opus.rs) | Bruker OPUS files (`.0`, `.1`, …): a block directory, parameter blocks and data blocks |
 | [`src/pesp.rs`](src/pesp.rs) | PerkinElmer `.sp` files: `PEPE`, a 40-byte description, then nested blocks of typed members |
-| [`src/spc.rs`](src/spc.rs) | Galactic / Thermo GRAMS SPC (`.spc`): a 512-byte header (256 in the old 0x4D format), an optional x array, then one or more subfiles (32-byte header + y values), then an optional l… |
+| [`src/spc.rs`](src/spc.rs) | Galactic / Thermo GRAMS SPC (`.spc`): a 512-byte header (256 in the old 0x4D format), an optional x array, then one or more subfiles (32-byte header + y values), then an optional… |
 | [`src/wdf.rs`](src/wdf.rs) | Renishaw WiRE `.wdf` files: a chain of named blocks (header, spectra, x list, origin lists, map geometry, white-light image, property sets) |
-| [`src/witec.rs`](src/witec.rs) | WITec Project (`.wip`) and WITec Data (`.wid`) files: a tree of tagged records holding spectra (single spectra, line scans, depth profiles and Raman maps), images derived from them… |
+| [`src/witec.rs`](src/witec.rs) | WITec Project (`.wip`) and WITec Data (`.wid`) files: a tree of tagged records holding spectra (single spectra, line scans, depth profiles and Raman maps), images derived from… |
 
 ### Where variants branch
 

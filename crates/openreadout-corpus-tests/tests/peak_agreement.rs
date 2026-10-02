@@ -211,6 +211,19 @@ fn trace(ds: &mut dyn Dataset, target: Target) -> Option<Chromatogram> {
         .map(|mut o| o.chromatograms.remove(0))
 }
 
+/// Whether every vendor-integrated chromatogram (`corpus/oracle/quant`, `corpus/oracle/openlab`)
+/// is on disk.
+fn all_cases_present() -> bool {
+    let files = corpus_dir();
+    ["corpus/oracle/quant", "corpus/oracle/openlab"]
+        .iter()
+        .all(|d| {
+            read_json_dir(&root().join(d))
+                .iter()
+                .all(|(_, o)| files.join(o["input"].as_str().unwrap()).exists())
+        })
+}
+
 /// Every vendor-integrated chromatogram present in the corpus directory.
 fn cases() -> Vec<Case> {
     let reg = registry();
@@ -645,13 +658,16 @@ fn vendor_agreement() {
     }
     let (d, a) = (&design["drop"], &design[default.id()]);
     let ((_, dp, _), (_, ap, _)) = (stats(&d.area), stats(&a.area));
-    if ap > 0.5 * dp {
+    // The overall margin over drop is a claim about the whole set; a subset (CI's smoke tier)
+    // checks only the per-family bounds above.
+    let whole_set = all_cases_present();
+    if whole_set && ap > 0.5 * dp {
         problems.push(format!(
             "overall area p95 {ap} is not well below drop's {dp}"
         ));
     }
     let ((_, dp, _), (_, ap, _)) = (stats(&d.area_pct), stats(&a.area_pct));
-    if ap > 0.5 * dp {
+    if whole_set && ap > 0.5 * dp {
         problems.push(format!(
             "overall area-% p95 {ap} is not well below drop's {dp}"
         ));

@@ -2,14 +2,13 @@
 
 import numpy as np
 import pytest
-
 from openreadout import File, UsageError
 
 
 def test_xic_and_peaks(corpus):
     with File(corpus("mtbls20-caffeine-pos.raw")) as f:
         out = f.analyze("chromatogram", tic=True, mz=[195.0877], ppm=10, max_points=20000)
-        tic, xic = out["chromatograms"]
+        _tic, xic = out["chromatograms"]
         assert isinstance(xic["rt_min"], np.ndarray) and len(xic["rt_min"]) == 47
         assert xic["kind"] == "xic" and xic["centroid_scans"] == 47
         assert xic["apex_rt_min"] == pytest.approx(0.6129, abs=1e-3)

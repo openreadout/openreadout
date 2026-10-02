@@ -37,7 +37,7 @@
 //! println!("{} spectra, MS levels {:?}", run.scan_count, run.ms_levels);
 //! // Spectrum 0 of run 0: parallel m/z and intensity arrays.
 //! let spectrum = dataset.read_spectrum(0, 0)?;
-//! println!("MS{} at {} s: {} points", spectrum.ms_level, spectrum.rt_s, spectrum.mz.len());
+//! println!("MS{} at {:?} s: {} points", spectrum.ms_level, spectrum.rt_s, spectrum.mz.len());
 //! # Ok::<(), openreadout_core::Error>(())
 //! ```
 //!

@@ -47,13 +47,13 @@ Whole-slide formats that keep their pyramid as many small stored images next to 
 
 | file | what it does (its module documentation) |
 | --- | --- |
-| [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`) of MIRAX slides: the variant features that change how the pyramid is placed and decoded, and the feature values the development corpus valid… |
+| [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`) of MIRAX slides: the variant features that change how the pyramid is placed and decoded, and the feature values the development corpus… |
 | [`src/image.rs`](src/image.rs) | Decoding the stored images of slide formats that keep one JPEG, PNG or BMP file per tile: always to 8-bit interleaved R, G, B |
 | [`src/lib.rs`](src/lib.rs) | Clean-room readers for whole-slide formats that keep their pyramid in many stored images next to a settings file: 3DHISTECH MIRAX (`.mrxs`, format id `mirax`) |
 | [`src/mirax/dataset.rs`](src/mirax/dataset.rs) | `Dataset` for a MIRAX slide: one pyramidal image (RGB for brightfield, one channel per filter for fluorescence), associated images and records as attachments |
-| [`src/mirax/index.rs`](src/mirax/index.rs) | `Index.dat`: a five-character version string, the slide id, two little-endian `i32` pointers (the hierarchical and non-hierarchical root tables), then pointer tables and linked lis… |
+| [`src/mirax/index.rs`](src/mirax/index.rs) | `Index.dat`: a five-character version string, the slide id, two little-endian `i32` pointers (the hierarchical and non-hierarchical root tables), then pointer tables and linked… |
 | [`src/mirax/ini.rs`](src/mirax/ini.rs) | `Slidedat.ini`: `[SECTION]` headers and `KEY = VALUE` lines, UTF-8 (optionally with a byte-order mark) or UTF-16LE with a byte-order mark, CRLF or LF line ends |
-| [`src/mirax/mod.rs`](src/mirax/mod.rs) | 3DHISTECH MIRAX (`.mrxs`): a `.mrxs` preview JPEG next to a directory of the same name with `Slidedat.ini` (settings), `Index.dat` (where every stored image lies) and `Data*.dat` (… |
+| [`src/mirax/mod.rs`](src/mirax/mod.rs) | 3DHISTECH MIRAX (`.mrxs`): a `.mrxs` preview JPEG next to a directory of the same name with `Slidedat.ini` (settings), `Index.dat` (where every stored image lies) and `Data*.dat`… |
 | [`src/mirax/render.rs`](src/mirax/render.rs) | Placing a MIRAX level's stored images: every image (or, at coarse levels, every camera position inside an image, a "subtile") goes to its camera's recorded position scaled to the |
 | [`src/mirax/slide.rs`](src/mirax/slide.rs) | The slide model of a MIRAX data set: settings, pyramid levels with their stored images, filters, camera positions and non-hierarchical records |
 

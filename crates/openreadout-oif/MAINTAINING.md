@@ -16,7 +16,7 @@ Olympus FluoView OIF and OIB data sets (`oif`, `oib`; FV1000/FV1200/FV10i). Proj
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists every member (streams or files) with sizes; `dump --json` → `vendor` has the settings sections.
+- `openreadout info FILE --view structure` lists every member (streams or files) with sizes; `info --view full --json` → `vendor` has the settings sections.
 - A missing or extra plane usually means a new plane-name pattern: look at `parse_plane_name` and the unit tests beside it.
 - `tests/synthetic.rs` builds OIF folders and OIB compound files.
 
@@ -43,10 +43,10 @@ Olympus FluoView OIF and OIB data sets (`oif`, `oib`; FV1000/FV1200/FV10i). Proj
 | file | what it does (its module documentation) |
 | --- | --- |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the Olympus FluoView OIB and OIF readers: the variant features of a file and the feature values the development corpus validates |
-| [`src/dataset.rs`](src/dataset.rs) | `Dataset` for Olympus FluoView OIF/OIB data sets: one TIFF per plane (`s_C001Z002T003.tif`), the plane's axis indices in its file name, a `.pty` property file per plane and the mai… |
+| [`src/dataset.rs`](src/dataset.rs) | `Dataset` for Olympus FluoView OIF/OIB data sets: one TIFF per plane (`s_C001Z002T003.tif`), the plane's axis indices in its file name, a `.pty` property file per plane and the… |
 | [`src/lib.rs`](src/lib.rs) | Clean-room reader for Olympus FluoView OIF and OIB data sets (FV1000/FV1200/FV10i) |
 | [`src/settings.rs`](src/settings.rs) | FluoView settings files (`.oif`, `.pty`, `OibInfo.txt`, `.roi`, `.lut`): INI-style text, UTF-16LE with a byte-order mark (or UTF-8), `[Section]` headers and `Key=Value` lines |
-| [`src/store.rs`](src/store.rs) | The two ways FluoView stores the same set of files: OIF (a main `.oif` settings file plus a `<name>.oif.files` folder next to it) and OIB (every file packed into one MS-CFB compoun… |
+| [`src/store.rs`](src/store.rs) | The two ways FluoView stores the same set of files: OIF (a main `.oif` settings file plus a `<name>.oif.files` folder next to it) and OIB (every file packed into one MS-CFB… |
 
 ### Where variants branch
 

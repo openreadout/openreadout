@@ -20,7 +20,7 @@ Shared helpers: `util.rs` (bounded reads, endian-aware numbers, half floats, OLE
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the MRC header/extended header/sections, the DM tag tree, the SER elements or the EMD HDF5 tree; `dump --json` → `vendor` has the header fields and tag trees by their stored names.
+- `openreadout info FILE --view structure` lists the MRC header/extended header/sections, the DM tag tree, the SER elements or the EMD HDF5 tree; `info --view full --json` → `vendor` has the header fields and tag trees by their stored names.
 - `tests/synthetic_mrc.rs` and `tests/synthetic_emd.rs` build files; DM and SER have unit tests in their modules (`parses_scalars_strings_structs_and_arrays`, `parses_header_elements_and_tags`).
 - Oracles: mrcfile (MRC; Bio-Formats second opinion, which flips rows and treats stacks as Z — adjudicated), dm3_lib (DM), ncempy (SER) and h5py (EMD), all in `oracle/gen.py`.
 
@@ -49,18 +49,18 @@ Shared helpers: `util.rs` (bounded reads, endian-aware numbers, half floats, OLE
 
 | file | what it does (its module documentation) |
 | --- | --- |
-| [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the electron-microscopy readers (MRC, Gatan DM, TIA SER, Velox EMD): the variant features of a file and the feature values the developme… |
+| [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the electron-microscopy readers (MRC, Gatan DM, TIA SER, Velox EMD): the variant features of a file and the feature values the… |
 | [`src/dm/dataset.rs`](src/dm/dataset.rs) | `Dataset` for DM3/DM4 files: images from `ImageList`, thumbnails as attachments |
 | [`src/dm/dm5.rs`](src/dm/dm5.rs) | DM5: the same tag tree as DM3/DM4, stored in HDF5 (`docs/formats/dm.md`, "DM5") |
 | [`src/dm/mod.rs`](src/dm/mod.rs) | Gatan Digital Micrograph DM3 / DM4 / DM5 reader |
 | [`src/dm/tags.rs`](src/dm/tags.rs) | The DM3/DM4 tag tree: header, tag groups and data tags (see `docs/formats/dm.md`) |
-| [`src/emd/berkeley.rs`](src/emd/berkeley.rs) | NCEM/Berkeley EMD (the open "Electron Microscopy Dataset" HDF5 convention, versions 0.2 and 1.0): data groups marked by an `emd_group_type` attribute (1 in 0.2, `"array"` in 1.0) h… |
+| [`src/emd/berkeley.rs`](src/emd/berkeley.rs) | NCEM/Berkeley EMD (the open "Electron Microscopy Dataset" HDF5 convention, versions 0.2 and 1.0): data groups marked by an `emd_group_type` attribute (1 in 0.2, `"array"` in 1.0)… |
 | [`src/emd/dataset.rs`](src/emd/dataset.rs) | `Dataset` for Velox EMD files (HDF5 through `hdf5-pure`) |
 | [`src/emd/mod.rs`](src/emd/mod.rs) | EMD (HDF5-based) reader: Thermo Fisher Velox EMD images through the pure-Rust `hdf5-pure` crate |
 | [`src/emd/spectra.rs`](src/emd/spectra.rs) | Velox EDS data: detector spectra (`Data/Spectrum/<id>`) and the X-ray event streams (`Data/SpectrumStream/<id>`) from which spectrum images are assembled |
 | [`src/lib.rs`](src/lib.rs) | Clean-room readers for electron-microscopy formats, registered as separate formats: |
 | [`src/mrc/dataset.rs`](src/mrc/dataset.rs) | `Dataset` for MRC/CCP4 files: normalized metadata, listing, plane reads, integrity checks |
-| [`src/mrc/ext.rs`](src/mrc/ext.rs) | Extended headers: FEI1/FEI2 metadata blocks (layout from mrcfile's BSD-licensed `dtypes.py`), SerialEM `SERI` section records and Agard-style integer/real records (IMOD documentati… |
+| [`src/mrc/ext.rs`](src/mrc/ext.rs) | Extended headers: FEI1/FEI2 metadata blocks (layout from mrcfile's BSD-licensed `dtypes.py`), SerialEM `SERI` section records and Agard-style integer/real records (IMOD… |
 | [`src/mrc/header.rs`](src/mrc/header.rs) | The 1024-byte MRC2014 main header (CCP-EM specification; see `docs/formats/mrc.md`) |
 | [`src/mrc/mod.rs`](src/mrc/mod.rs) | MRC / CCP4 / MAP reader (MRC2014, CCP-EM specification) |
 | [`src/ser/dataset.rs`](src/ser/dataset.rs) | `Dataset` for TIA series files: one image per `.ser` (elements as T, or as rows for 1-D elements), metadata from the `.emi` sidecar when present |

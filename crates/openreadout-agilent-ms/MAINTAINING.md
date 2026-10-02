@@ -17,7 +17,7 @@ Agilent MassHunter `.d` mass-spectrometry directories: Q-TOF, TOF, triple quadru
 
 ## Debugging a new file
 
-- `openreadout ls RUN.d` lists the `AcqData` files; `openreadout scans RUN.d` lists the index without decoding peaks; `dump --json` → `vendor` has the XML documents.
+- `openreadout info RUN.d --view structure` lists the `AcqData` files; `openreadout spectra RUN.d` lists the index without decoding peaks; `info --view full --json` → `vendor` has the XML documents.
 - A new acquisition software release usually changes `MSScan.xsd`: the reader follows the schema, so diff the new XSD with a corpus one first. `layout.rs` unit tests (`layouts_from_fallback_schemas`, `lzf_literal_and_backref`, `calibration_clamps_the_polynomial`) are the templates for new cases.
 - Ground truth: the depositor's mzML as `oracle-export`; `oracle/gen.py --export run.mzML --id ID RUN.d` (the oracle needs the export).
 - `tests/synthetic.rs` builds `AcqData` directories.

@@ -7,9 +7,8 @@ import math
 import shutil
 from pathlib import Path
 
-import pytest
-
 import openreadout as ic
+import pytest
 
 REPO = Path(__file__).resolve().parents[3]
 
@@ -44,7 +43,10 @@ def test_table_batch_with_sample_sheet_and_summary(corpus, tmp_path):
     # FlowIO ground truth (corpus/oracle/batch/fcs-summaries.json)
     truth = json.loads((REPO / "corpus/oracle/batch/fcs-summaries.json").read_text())
     med = {
-        f["id"]: p["median"] for f in truth["files"] for p in f["parameters"] if p["parameter"] == "FITC-A"
+        f["id"]: p["median"]
+        for f in truth["files"]
+        for p in f["parameters"]
+        if p["parameter"] == "FITC-A"
     }
     treated = [med["fcsparser-hts-lsr-ii-d06"], med["fcsparser-facs-diva"]]
     s = res.summary

@@ -18,7 +18,7 @@ The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; 
 
 ## Debugging a new file
 
-- `openreadout scans FILE` lists spectrum headers from the index without decoding arrays; `openreadout spectrum FILE --index N --json` decodes one; `dump --json` → `vendor` has the header (cvList, fileDescription, software, instrument configurations).
+- `openreadout spectra FILE` lists spectrum headers from the index without decoding arrays; `openreadout spectra FILE --index N --json` decodes one; `info --view full --json` → `vendor` has the header (cvList, fileDescription, software, instrument configurations).
 - A file written by new software: compare its `softwareList` and native-id format with a corpus file (`corpus/snapshots/mzml.jsonl` lists the writers seen).
 - The CV terms interpreted are listed in `cv.rs`; a new term is added there with its accession checked against `psi-ms.obo`.
 - No integration tests in this crate: unit tests in `binary.rs`, `numpress.rs`, `scan.rs`, `mzmlb.rs`; the corpus (pyteomics oracles in `oracle/gen.py`, and the m/z agreement test against vendor-library conversions) and `oracle/make_mzml_fixtures.py` synthetic files pin it.

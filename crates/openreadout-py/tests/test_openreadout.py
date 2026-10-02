@@ -12,14 +12,14 @@ import threading
 from pathlib import Path
 from typing import Any, Callable, Dict, Optional
 
-import openreadout
 import numpy as np
+import openreadout
 import pytest
 from openreadout import (
     CorruptFileError,
     File,
-    OpenReadoutError,
     InstrumentFileNotFoundError,
+    OpenReadoutError,
     UnknownFormatError,
     UsageError,
 )
@@ -32,13 +32,16 @@ LIF = "aics-s-1-t-4-c-2-z-1.lif"  # 1 series, T=4, C=2, uint16
 OME_TIFF = "ome-artificial-multi-channel-z-series.ome.tiff"  # OME-TIFF, C=3, Z=5, int8
 IMAGEJ_TIFF = "aics-s_1_t_10_c_3_z_1.tiff"  # ImageJ hyperstack, T=10, C=3, big-endian uint16
 MRC = "mrcfile-emd-3197.map"  # EMDB volume, Z=20, float32, 11.4 Å pixels
-DM4 = "zenodo13821437-Figure-2e.dm4"  # Gatan DM4 diffraction pattern, float32 (thumbnail is an attachment)
+# Gatan DM4 diffraction pattern, float32 (the thumbnail is an attachment)
+DM4 = "zenodo13821437-Figure-2e.dm4"
 IMS = "ome-imaris/croppedRetinaLz4.ims"  # Imaris 5 (HDF5), LZ4 chunks, Z=64, C=2, uint8
 ZVI = "figshare-zvi/figshare26880337-Figure_1H.zvi"  # AxioVision ZVI, C=3, uint16
 OME_ZARR = "zenodo13982701-220605_151046_mip.zarr.zip"  # NGFF 0.4 plate: 2 fields, 2 labels
 NWB = "dandi-nwb/dandi000006-sub-anm372907_ses-20170613.nwb"  # NWB 2.0.2, two irregular TimeSeries
 DCIMG = "dcimg/zenodo-14281237/Cell07_642_000_000.dcimg"  # Hamamatsu DCIMG v7, T=10, uint16
-METAMORPH_ND = "metamorph/ssbd-232-vec-35mm/Dish1.nd"  # MetaMorph .nd series: C=2 x T=31 MetaSeries TIFFs
+METAMORPH_ND = (
+    "metamorph/ssbd-232-vec-35mm/Dish1.nd"  # MetaMorph .nd series: C=2 x T=31 MetaSeries TIFFs
+)
 
 Corpus = Callable[[str], Path]
 Oracle = Callable[[str], Optional[Dict[str, Any]]]
@@ -422,7 +425,10 @@ def test_thermo_raw_spectra_match_oracle(corpus: Corpus, oracle: Any) -> None:
             assert sp["precursor_mz"] == pytest.approx(s["precursor_mz"], rel=1e-9)
             assert sp["mz"].dtype == np.float64 and sp["intensity"].dtype == np.float32
             assert xxhash.xxh3_128_hexdigest(sp["mz"].astype("<f8").tobytes()) == s["xxh3_mz"]
-            assert xxhash.xxh3_128_hexdigest(sp["intensity"].astype("<f4").tobytes()) == s["xxh3_intensity"]
+            assert (
+                xxhash.xxh3_128_hexdigest(sp["intensity"].astype("<f4").tobytes())
+                == s["xxh3_intensity"]
+            )
         with pytest.raises(UsageError):
             f.read_spectrum()
 
@@ -437,7 +443,11 @@ def test_thermo_raw_experiment(corpus: Corpus) -> None:
         assert e["provenance"]["sample.id"]["from"] == "spectra[0].extra.sample_name"
         assert e["instrument"]["model"] == "LTQ Orbitrap Discovery"
         assert e["method"]["parameters"]["polarity"]["value"] == ["positive"]
-        assert e["method"]["parameters"]["method_length"] == {"value": 2, "unit": "min", "ucum": "min"}
+        assert e["method"]["parameters"]["method_length"] == {
+            "value": 2,
+            "unit": "min",
+            "ucum": "min",
+        }
         assert e["measurements"][0]["kind"] == "spectra"
         assert "MS1+MS2" in e["measurements"][0]["what"]
 
@@ -459,7 +469,7 @@ def test_truncated_raw_is_corrupt(corpus: Corpus, tmp_path: Path) -> None:
         assert report["ok"] is False
         assert report["findings"][0]["code"] == "truncated"
         with pytest.raises(CorruptFileError) as exc:
-            f.info
+            _ = f.info
         assert exc.value.exit_code == 4
 
 
@@ -557,7 +567,9 @@ def test_read_trace_on_image_file_is_unsupported(corpus: Corpus) -> None:
         ("timsrust-test-dda.d/analysis.tdf", None, "bruker-tdf"),
     ],
 )
-def test_read_spectrum_matches_oracle(corpus: Corpus, name: str, oracle_id: Optional[str], fmt: str) -> None:
+def test_read_spectrum_matches_oracle(
+    corpus: Corpus, name: str, oracle_id: Optional[str], fmt: str
+) -> None:
     import json
 
     path = corpus(name)
@@ -568,19 +580,26 @@ def test_read_spectrum_matches_oracle(corpus: Corpus, name: str, oracle_id: Opti
         n = f.info["spectra"][0]["scan_count"]
         first = f.read_spectrum(0)
         assert first["index"] == 0 and first["mz"].dtype == np.float64
-        assert first["intensity"].dtype == np.float32 and first["mz"].shape == first["intensity"].shape
+        assert (
+            first["intensity"].dtype == np.float32 and first["mz"].shape == first["intensity"].shape
+        )
         assert f.read_spectrum(scan=first["scan_number"])["index"] == 0
         if oracle_id is None:
             return
         truth = json.loads(
-            (Path(__file__).resolve().parents[3] / "corpus" / "oracle" / f"{oracle_id}.json").read_text()
+            (
+                Path(__file__).resolve().parents[3] / "corpus" / "oracle" / f"{oracle_id}.json"
+            ).read_text()
         )
         assert n == truth["spectra"]["scan_count"]
         for s in truth["spectra"]["scans"]:
             sp = f.read_spectrum(s["index"])
             assert sp["ms_level"] == s["ms_level"]
             assert xxhash.xxh3_128_hexdigest(sp["mz"].astype("<f8").tobytes()) == s["xxh3_mz"]
-            assert xxhash.xxh3_128_hexdigest(sp["intensity"].astype("<f4").tobytes()) == s["xxh3_intensity"]
+            assert (
+                xxhash.xxh3_128_hexdigest(sp["intensity"].astype("<f4").tobytes())
+                == s["xxh3_intensity"]
+            )
 
 
 def test_spectra_match_oracle_headers(corpus: Corpus) -> None:
@@ -588,17 +607,22 @@ def test_spectra_match_oracle_headers(corpus: Corpus) -> None:
 
     path = corpus("mtbls20-caffeine-pos.raw")
     truth = json.loads(
-        (Path(__file__).resolve().parents[3] / "corpus" / "oracle" / "mtbls20-caffeine-pos.json").read_text()
+        (
+            Path(__file__).resolve().parents[3] / "corpus" / "oracle" / "mtbls20-caffeine-pos.json"
+        ).read_text()
     )["spectra"]["scans"]
     with File(path) as f:
         every = f.spectra()
         assert every["source"] == "headers" and every["matched"] == len(truth)
-        for ours, theirs in zip(every["scans"], truth):
+        for ours, theirs in zip(every["scans"], truth, strict=True):
             assert ours["scan_number"] == theirs["scan_number"]
             assert ours["ms_level"] == theirs["ms_level"]
             assert abs(ours["rt_s"] - theirs["rt_s"]) < 1e-3
             if theirs.get("precursor_mz") is not None:
-                assert abs(ours["precursor_mz"] - theirs["precursor_mz"]) < 1e-6 * theirs["precursor_mz"]
+                assert (
+                    abs(ours["precursor_mz"] - theirs["precursor_mz"])
+                    < 1e-6 * theirs["precursor_mz"]
+                )
         ms2 = f.spectra(ms_level=2, limit=2)
         assert ms2["returned"] == 2 and ms2["truncated"]
         assert ms2["matched"] == sum(1 for s in truth if s["ms_level"] == 2)
@@ -666,7 +690,13 @@ def test_plate_read_table_matches_allotropy(corpus: Corpus, name: str) -> None:
         triples: Dict[str, list] = {}
         for t in f.tables:
             assert [c["name"] for c in t["columns"]] == [
-                "well", "row", "col", "read", "wavelength_nm", "time_s", "value",
+                "well",
+                "row",
+                "col",
+                "read",
+                "wavelength_nm",
+                "time_s",
+                "value",
             ]
             rows = f.read_table(t["index"])
             assert rows.shape == (t["row_count"], 7)
@@ -703,7 +733,10 @@ def _oracle_by_id(ident: str) -> Dict[str, Any]:
         ("nmrxiv-s837/24", "nmrxiv-s837-24"),  # TopSpin 3.7: 2D ser, 128 rows
         ("jcamp-lancashire-pktab1.jdx", "jcamp-lancashire-pktab1"),  # JCAMP-DX MS peak table
         ("nmrpy-test1.fid", "nmrpy-test1-fid"),  # Varian INOVA: 24 int32 traces
-        ("nmrxiv-s200/Limonene_7020ug200uL_CDCl3_HSQC_400MHz_Jeol.jdf", "nmrxiv-s200-hsqc-jdf"),  # JEOL 2D
+        (
+            "nmrxiv-s200/Limonene_7020ug200uL_CDCl3_HSQC_400MHz_Jeol.jdf",
+            "nmrxiv-s200-hsqc-jdf",
+        ),  # JEOL 2D
     ],
 )
 def test_read_trace_matches_oracle(corpus: Corpus, rel: str, ident: str) -> None:
@@ -746,10 +779,16 @@ def test_trace_channels_and_axis(corpus: Corpus) -> None:
     [
         ("entab-chemstation_mwd.d", "entab-chemstation-mwd-d", "chemstation"),  # five v30 signals
         ("entab-test_179_fid.ch", "entab-test-179-fid-ch", "chemstation"),  # v179 f64 FID
-        ("cheminfo-agilent-hplc.cdf", "cheminfo-agilent-hplc-cdf", "andi-chrom"),  # ANDI chromatogram
+        (
+            "cheminfo-agilent-hplc.cdf",
+            "cheminfo-agilent-hplc-cdf",
+            "andi-chrom",
+        ),  # ANDI chromatogram
     ],
 )
-def test_chromatography_read_trace_matches_oracle(corpus: Corpus, rel: str, ident: str, fmt: str) -> None:
+def test_chromatography_read_trace_matches_oracle(
+    corpus: Corpus, rel: str, ident: str, fmt: str
+) -> None:
     path = corpus(rel)
     truth = _oracle_by_id(ident)
     with File(path) as f:
@@ -849,7 +888,11 @@ def test_qpcr_records_and_rdml_export(corpus, tmp_path):
     import json as _json
 
     path = corpus("eds-7500-abhd17c-ddct.eds")
-    oracle = _json.loads((Path(__file__).resolve().parents[3] / "corpus/oracle/qpcr/eds-7500-abhd17c-ddct.json").read_text())
+    oracle = _json.loads(
+        (
+            Path(__file__).resolve().parents[3] / "corpus/oracle/qpcr/eds-7500-abhd17c-ddct.json"
+        ).read_text()
+    )
     rep = openreadout.analyze(path, "qpcr", well="A2", target="18s")
     (rec,) = rep["records"]
     want = next(r for r in oracle["records"] if r["well"] == "A2" and r["target"] == "18s")
@@ -880,4 +923,6 @@ def test_screening_plate_layout_planes_and_well_stats(corpus: Corpus) -> None:
         plane = f.read_plane(image=a01["images"][0], c=pl["c"], z=pl["z"], t=pl["t"])
         assert _xxh3(plane) == pl["xxh3"]
         rows = f.stats(per="well", select=["c=0"], wells=["A01"])["rows"]
-        assert rows[0]["well"] == "A01" and rows[0]["planes"] == 2 and rows[0]["planes_missing"] == 4
+        assert (
+            rows[0]["well"] == "A01" and rows[0]["planes"] == 2 and rows[0]["planes_missing"] == 4
+        )

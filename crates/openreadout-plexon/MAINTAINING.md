@@ -16,7 +16,7 @@ Plexon PLX ("Plexon 1") and PL2 electrophysiology recordings (`plexon`). Project
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists headers and block/record runs; `dump --json` → `vendor` has the headers.
+- `openreadout info FILE --view structure` lists headers and block/record runs; `info --view full --json` → `vendor` has the headers.
 - `tests/plx_synthetic.rs` and `tests/pl2_synthetic.rs` build files from the format note.
 - `info` walks every block header: slow on very large PLX files is expected, not a hang.
 

@@ -8,8 +8,8 @@ import threading
 from pathlib import Path
 from typing import Any, Dict
 
-import openreadout
 import numpy as np
+import openreadout
 import pytest
 from openreadout import File
 

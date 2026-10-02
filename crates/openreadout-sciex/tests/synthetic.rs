@@ -516,3 +516,30 @@ fn reads_the_same_from_memory() {
         .unwrap_err();
     assert_eq!(err.exit_code(), 6, "{err}");
 }
+
+#[test]
+fn a_scan_companion_finds_its_wiff_whatever_the_case() {
+    use std::path::Path;
+    use std::sync::Arc;
+
+    use openreadout_core::source::{Fs, MemFs, MemSource};
+
+    let mut mem = MemFs::new();
+    mem.insert(
+        Path::new("run/X_AQ.wiff"),
+        Arc::new(MemSource::new("X_AQ.wiff", vec![0u8; 8])),
+    );
+    mem.insert(
+        Path::new("run/X_aq.wiff.scan"),
+        Arc::new(MemSource::new("X_aq.wiff.scan", vec![0u8; 8])),
+    );
+    let fs = Fs::new(Arc::new(mem));
+    assert_eq!(
+        openreadout_sciex::wiff_path(&fs, Path::new("run/X_aq.wiff.scan")),
+        Path::new("run/X_AQ.wiff")
+    );
+    assert_eq!(
+        openreadout_sciex::wiff_path(&fs, Path::new("run/X_AQ.wiff")),
+        Path::new("run/X_AQ.wiff")
+    );
+}

@@ -70,6 +70,11 @@ ignore = ["UP006", "UP007", "UP035", "UP045", "B006", "RUF001", "RUF002", "RUF00
 strict = true
 files = ["crates/openreadout-py/python/openreadout", "python/bioio-openreadout/bioio_openreadout"]
 
+# Optional dependencies without type information.
+[[tool.mypy.overrides]]
+module = ["pandas", "pandas.*", "pyarrow", "pyarrow.*"]
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 testpaths = ["crates/openreadout-py/tests", "python/bioio-openreadout/tests"]
 addopts = "--import-mode=importlib"

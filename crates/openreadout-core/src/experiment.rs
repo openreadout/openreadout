@@ -2388,10 +2388,8 @@ fn ms_technique(c: &Ctx<'_>, s: &SpectraInfo) -> (String, &'static str, &'static
 
 fn ion_sources(c: &Ctx<'_>, s: &SpectraInfo) -> Vec<String> {
     let mut v: Vec<String> = Vec::new();
-    for k in ["ion_sources"] {
-        if let Some(a) = s.extra.get(k).and_then(Value::as_array) {
-            v.extend(a.iter().filter_map(Value::as_str).map(str::to_string));
-        }
+    if let Some(a) = s.extra.get("ion_sources").and_then(Value::as_array) {
+        v.extend(a.iter().filter_map(Value::as_str).map(str::to_string));
     }
     for k in ["ionisation", "ionization"] {
         if let Some(x) = s.extra.get(k).and_then(Value::as_str) {
@@ -3074,10 +3072,9 @@ fn ms_chrom_params(c: &mut Ctx<'_>) {
             "traces[].extra.detector",
         );
     }
-    for p in ["traces[0].extra.run_time_s"] {
-        if let Some(v) = c.num(p) {
-            c.param("run_time", Quantity::number(v, "s"), p);
-        }
+    let p = "traces[0].extra.run_time_s";
+    if let Some(v) = c.num(p) {
+        c.param("run_time", Quantity::number(v, "s"), p);
     }
     // GC settings from the ChemStation method report (`acqmeth.txt`).
     for base in [

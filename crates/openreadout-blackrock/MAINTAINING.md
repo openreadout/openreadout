@@ -18,7 +18,7 @@ Blackrock Neurotech NSx continuous files and NEV event files (`blackrock`). Proj
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the packets (NSx) or packet kinds (NEV) with offsets; `dump --json` → `vendor` has the basic and extended headers by their spec names.
+- `openreadout info FILE --view structure` lists the packets (NSx) or packet kinds (NEV) with offsets; `info --view full --json` → `vendor` has the basic and extended headers by their spec names.
 - A spec 2.1 file read without its `.nev` has unscaled values: `report` shows the assumption in `assurance.assumed`.
 - `tests/synthetic.rs` writes NSx 2.2/3.0 and NEV files from the spec layout; add a case there for a new packet or header variant.
 

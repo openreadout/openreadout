@@ -20,7 +20,7 @@ Each module is a self-contained parser plus its `Dataset`; `lib.rs` holds the fo
 
 ## Debugging a new file
 
-- `openreadout ls FILE` (Biacore: the compound-file storages); `dump --json` → `vendor` (ITC header, Biacore environment and chip, Seahorse XML, GenePix header records).
+- `openreadout info FILE --view structure` (Biacore: the compound-file storages); `info --view full --json` → `vendor` (ITC header, Biacore environment and chip, Seahorse XML, GenePix header records).
 - `tests/biacore_synthetic.rs` and `tests/seahorse_synthetic.rs` build files; ITC and GenePix have unit tests in their modules (`header_blocks_and_rows`, `parses_a_results_file`).
 - Oracles: `oracle/itc_oracle.py`, `oracle/biacore_oracle.py`, `oracle/seahorse_oracle.py`, `oracle/gpr_oracle.py` (compared by the corpus tests in `crates/openreadout-corpus-tests/tests/*_oracle`).
 
@@ -52,14 +52,14 @@ Each module is a self-contained parser plus its `Dataset`; `lib.rs` holds the fo
 | file | what it does (its module documentation) |
 | --- | --- |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the biophysics readers (MicroCal ITC, Cytiva Biacore, Agilent Seahorse XF): the variant features of a file and the feature values the |
-| [`src/biacore.rs`](src/biacore.rs) | Cytiva Biacore result files (`.blr`, Biacore T200 Control Software): a compound file with the run's environment, the sensor chip, the report-point table and one storage per cycle, … |
+| [`src/biacore.rs`](src/biacore.rs) | Cytiva Biacore result files (`.blr`, Biacore T200 Control Software): a compound file with the run's environment, the sensor chip, the report-point table and one storage per cycle… |
 | [`src/biacore_eval.rs`](src/biacore_eval.rs) | The evaluation items of a Biacore T200 evaluation file (`.bme`): XML streams `Evaluation/EvaluationItemN` (ISO-8859-1) |
-| [`src/gpr.rs`](src/gpr.rs) | GenePix Results files (`.gpr`, GenePix Pro): an Axon Text File (ATF 1.0) whose header records describe the scan (scanner, wavelengths, PMT gains, laser power, pixel size, GAL file)… |
+| [`src/gpr.rs`](src/gpr.rs) | GenePix Results files (`.gpr`, GenePix Pro): an Axon Text File (ATF 1.0) whose header records describe the scan (scanner, wavelengths, PMT gains, laser power, pixel size, GAL… |
 | [`src/itc.rs`](src/itc.rs) | MicroCal isothermal titration calorimetry raw files (`.itc`: VP-ITC, iTC200, MicroCal ITC software): a text header (method, concentrations, cell volume, instrument) and the |
 | [`src/lib.rs`](src/lib.rs) | Clean-room readers for biophysical bench instruments |
-| [`src/octet.rs`](src/octet.rs) | Sartorius (ForteBio) Octet biolayer-interferometry result files (`.frd`, one per biosensor): XML with the experiment, the sensor and every assay step with its time and wavelength-s… |
-| [`src/seahorse.rs`](src/seahorse.rs) | Agilent Seahorse XF assay result files (`.asyr`, Wave): gzip-compressed XML holding the plate map, the injections, the executed protocol and every plate reading of the O2 and pH se… |
-| [`src/seahorse_rates.rs`](src/seahorse_rates.rs) | Oxygen consumption, extracellular acidification and proton efflux rates of Seahorse XF assays, computed from the stored sensor emissions with the published method (Gerencser et al.… |
+| [`src/octet.rs`](src/octet.rs) | Sartorius (ForteBio) Octet biolayer-interferometry result files (`.frd`, one per biosensor): XML with the experiment, the sensor and every assay step with its time and… |
+| [`src/seahorse.rs`](src/seahorse.rs) | Agilent Seahorse XF assay result files (`.asyr`, Wave): gzip-compressed XML holding the plate map, the injections, the executed protocol and every plate reading of the O2 and pH… |
+| [`src/seahorse_rates.rs`](src/seahorse_rates.rs) | Oxygen consumption, extracellular acidification and proton efflux rates of Seahorse XF assays, computed from the stored sensor emissions with the published method (Gerencser et… |
 | [`src/zetasizer.rs`](src/zetasizer.rs) | Malvern Zetasizer `.dts` measurement files: a compound file with one `REC<n>` stream per record |
 
 ### Where variants branch
