@@ -371,6 +371,10 @@ def czi(p: Path) -> dict:
         rendered = _czi_rendered(f, meta)
         if rendered is not None:
             return rendered
+        comps = sorted({int(e.compression) for e in f.subblock_directory})
+        # JPEG subblocks (compression 1): decoders may differ by one count (IDCT rounding); record
+        # plane means for files marked `lossy` in the manifest, as for TIFF.
+        lossy = 1 in comps
         n_scenes = len(f.scenes)
         for s in range(n_scenes):
             xa = f.asxarray(scene=s)
@@ -396,7 +400,10 @@ def czi(p: Path) -> dict:
                                 sel.append({"C": c, "Z": z, "T": t, **fixed}.get(d, slice(None) if d in "YXS" else 0))
                             plane = arr[tuple(sel)]
                             # czifile returns R,G,B sample order for Bgr* pixel types (as does openreadout).
-                            planes.append({"c": c, "z": z, "t": t, "xxh3": h(plane)}); n += 1
+                            rec = {"c": c, "z": z, "t": t, "xxh3": h(plane)}
+                            if lossy:
+                                rec["mean"] = float(np.asarray(plane, dtype=np.float64).mean())
+                            planes.append(rec); n += 1
                 img = {"index": len(images), "name": getattr(sc, "name", None), "size_x": shape.get("X", 1), "size_y": shape.get("Y", 1), "size_z": Z, "size_c": C, "size_t": T,
                        "samples_per_pixel": spp, "pixel_type": dtype_name(xa.dtype), "dims": "".join(dims), "shape": list(xa.shape), "other_dims": other,
                        "pyramid_levels": 1 + len(_czi_level_groups(sc)),
@@ -407,7 +414,6 @@ def czi(p: Path) -> dict:
                 else:
                     img["levels"] = _czi_levels(f, sc)
                 images.append(img)
-        comps = sorted({int(e.compression) for e in f.subblock_directory})
         return {"reader": f"czifile {czifile.__version__}", "images": images, "physical_size_um": _czi_scaling(meta),
                 "subblock_count": len(f.subblock_directory), "compression_ids": comps}
 
