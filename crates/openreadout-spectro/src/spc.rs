@@ -807,13 +807,11 @@ fn parse_old(file_len: u64, h: &[u8]) -> Result<Parsed> {
     let comment = crate::common::text_field(&h[64..194]);
     let data_at = SPC_OLD_HEADER_LEN;
     let mut parsed = Parsed::default();
-    if data_at + npts * 4 > file_len {
+    let data_end = data_at.saturating_add(npts.saturating_mul(4));
+    if data_end > file_len {
         parsed.findings.push(Finding::error(
             "truncated",
-            format!(
-                "{npts} points need bytes up to {}, the file has {file_len}",
-                data_at + npts * 4
-            ),
+            format!("{npts} points need bytes up to {data_end}, the file has {file_len}"),
         ));
     }
     let (xq, xu, data_type) = x_axis(xtype);
