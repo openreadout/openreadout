@@ -3,35 +3,35 @@ revision = 3
 requires-python = ">=3.10, <3.14"
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version < '3.11' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version < '3.11' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
 ]
 conflicts = [[
@@ -219,7 +219,7 @@ wheels = [
 
 [[package]]
 name = "allotropy"
-version = "0.1.146"
+version = "0.1.147"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "babel" },
@@ -239,9 +239,9 @@ dependencies = [
     { name = "xlrd" },
     { name = "xmltodict" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/00/c4/65099093427186f6444dacb614a02a883df9e0812443db0cc58313028b36/allotropy-0.1.146.tar.gz", hash = "sha256:c36b6e2aa4c973ed4bcb62d7372655049443d8ec59bf41d771979b781317c59a", size = 1498326, upload-time = "2026-09-22T19:06:13.656Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3c/13/15fc420854bea64db8a87fc30006b526fedf8b5ef36da852ef82cc014dbf/allotropy-0.1.147.tar.gz", hash = "sha256:3ee8a0f324767e41d6e7d3b601c470bb176d51df14348b9bd9c8fadb1287f93f", size = 1498535, upload-time = "2026-09-28T15:19:15.366Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/42/f1/886e1bc59c274af4cd97d3a5e26527e6fcdcae90b7fcdd09821bf25f17f9/allotropy-0.1.146-py3-none-any.whl", hash = "sha256:055d9ad0835227bb9f1fa8aa2d826755400cadfe09ab4f5688bdeea891362939", size = 1893919, upload-time = "2026-09-22T19:06:15.434Z" },
+    { url = "https://files.pythonhosted.org/packages/39/e7/3d233f2cdda1443d1de792d5c23345f1bbc3639e4b53bab0584c3af44db2/allotropy-0.1.147-py3-none-any.whl", hash = "sha256:607f45d61336aec07346630d5a0f6b583931a25139de127d24dfd0407684df68", size = 1894110, upload-time = "2026-09-28T15:19:13.731Z" },
 ]
 
 [[package]]
@@ -474,7 +474,7 @@ wheels = [
 
 [[package]]
 name = "bioio-czi"
-version = "3.0.0"
+version = "3.0.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aicspylibczi" },
@@ -490,9 +490,9 @@ dependencies = [
     { name = "xarray", version = "2025.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "xarray", version = "2026.7.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/89/de/024520088db1532fe915b1c6ae1633169700ef226d77e0c0b591ee647279/bioio_czi-3.0.0.tar.gz", hash = "sha256:a6d496197c57e0fdb1b51c13ca28d97ed72c547e04d359f92600cd4bbc2b428b", size = 2210634, upload-time = "2026-09-18T19:56:03.521Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ed/ff/1edb5d02d83c174cfd9dce289809030cb095383f7cd5a2f0550e12326a7c/bioio_czi-3.0.1.tar.gz", hash = "sha256:1b11f23529fe46fd6a0777ff535227c9a5f402cd58cf8ccd314007b62d83d5ac", size = 2211050, upload-time = "2026-09-28T18:17:32.278Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1b/65/a165a49583b321d5f2114bd463892d5bbc142fdaaa7ddacf46dbe9d319f8/bioio_czi-3.0.0-py3-none-any.whl", hash = "sha256:8a6d12a4ac0da6bdb507e05342d167a221a21070e181362e1998342dbec10391", size = 2220514, upload-time = "2026-09-18T19:56:01.572Z" },
+    { url = "https://files.pythonhosted.org/packages/a7/e3/2570d3eee358529710d14111ccf771e89edbfdaf0454d87d687d46ddfb42/bioio_czi-3.0.1-py3-none-any.whl", hash = "sha256:4b5cef4b803e82b14fe6fb5a599d0fa93198c3cafaa7291d1ad650fc77cf15a2", size = 2220755, upload-time = "2026-09-28T18:17:30.497Z" },
 ]
 
 [[package]]
@@ -539,80 +539,28 @@ wheels = [
 
 [[package]]
 name = "bioio-ome-tiff"
-version = "1.1.0"
-source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version < '3.11'",
-]
-dependencies = [
-    { name = "bioio-base", marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "dask", extra = ["array"], marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "fsspec", marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "imagecodecs", version = "2025.3.30", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "ome-types", extra = ["lxml"], marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "pydantic", version = "2.13.5", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "pyyaml", marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "tifffile", version = "2025.5.10", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "xarray", version = "2025.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "xmlschema", marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "zarr", version = "2.18.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/49/ba/f6c2ba8421ac0208c8cbb12085d101a4b5f22b40a7f8cf53557afab1d1d4/bioio_ome_tiff-1.1.0.tar.gz", hash = "sha256:c25b88d77e169c19a275a5b376fcf772315395f7c37b732dc0c19c9190bd0b4d", size = 30886, upload-time = "2025-04-18T20:21:05.852Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/43/27/a8be335ce5a996f6efc3f1fbf1b468a05de6eadc5ed521ff10d039878609/bioio_ome_tiff-1.1.0-py3-none-any.whl", hash = "sha256:fa7e5e6a112f5f7613f54281d9702e60d9bf2f95a2f8714f917a8a1e3156350e", size = 24969, upload-time = "2025-04-18T20:21:04.616Z" },
-]
-
-[[package]]
-name = "bioio-ome-tiff"
 version = "1.4.0"
 source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-]
 dependencies = [
-    { name = "bioio-base", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "dask", extra = ["array"], marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "fsspec", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "bioio-base" },
+    { name = "dask", extra = ["array"] },
+    { name = "fsspec" },
+    { name = "imagecodecs", version = "2025.3.30", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "imagecodecs", version = "2026.3.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "imagecodecs", version = "2026.8.16", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "ome-types", extra = ["lxml"], marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "ome-types", extra = ["lxml"] },
     { name = "pydantic", version = "2.12.5", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "pydantic", version = "2.13.5", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "pyyaml", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "pydantic", version = "2.13.5", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "pyyaml" },
+    { name = "tifffile", version = "2024.12.12", source = { registry = "https://pypi.org/simple" }, extra = ["zarr"], marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "tifffile", version = "2026.3.3", source = { registry = "https://pypi.org/simple" }, extra = ["zarr"], marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "tifffile", version = "2026.9.20", source = { registry = "https://pypi.org/simple" }, extra = ["zarr"], marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "xarray", version = "2025.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "xarray", version = "2026.7.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "xmlschema", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "xmlschema" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/b3/95/fd5ccfb07c5159983a40746b1c0da1c7648918bcfdb940189bf52f7340d1/bioio_ome_tiff-1.4.0.tar.gz", hash = "sha256:0073ff612926ea17c72a32f378d62361e282dd7afbc561e8c0a53316fd8d2e29", size = 34520, upload-time = "2025-07-10T21:34:52.763Z" }
 wheels = [
@@ -644,21 +592,21 @@ version = "3.9.2"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version < '3.11' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version < '3.11' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
 ]
 dependencies = [
@@ -685,16 +633,16 @@ version = "3.10.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -1033,16 +981,16 @@ version = "1.3.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -1109,16 +1057,16 @@ version = "1.4.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -1172,7 +1120,7 @@ resolution-markers = [
 dependencies = [
     { name = "imagecodecs", version = "2025.3.30", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.11' and sys_platform == 'win32') or (python_full_version >= '3.11' and extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate') or (sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "tifffile", version = "2025.5.10", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "tifffile", version = "2024.12.12", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/de/ae/b58158800bb2b8b8105fb24b45d7bf46c21b9cc4145d896ceb5ccaabee0f/czifile-2019.7.2.2.tar.gz", hash = "sha256:14e375e4e89ec6062b24af91cd1aa5f4793333d93422b3a017eb3f94fa17a835", size = 18719, upload-time = "2026-02-23T16:10:38.457Z" }
 wheels = [
@@ -1185,16 +1133,16 @@ version = "2019.7.2.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -1215,16 +1163,16 @@ version = "2026.8.16"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -1941,16 +1889,16 @@ version = "2026.3.6"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -1975,16 +1923,16 @@ version = "2026.8.16"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -2289,16 +2237,16 @@ version = "2026.2.16"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -2317,16 +2265,16 @@ version = "2026.7.14"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -2586,30 +2534,30 @@ version = "3.11.2"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -2992,16 +2940,16 @@ version = "3.6.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -3017,16 +2965,16 @@ version = "3.7"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -3102,16 +3050,16 @@ version = "0.16.5"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -3145,16 +3093,16 @@ version = "0.17.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -3248,16 +3196,16 @@ version = "2.4.6"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -3322,16 +3270,16 @@ version = "2.5.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -3513,16 +3461,16 @@ version = "0.19.2"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -3575,16 +3523,16 @@ version = "1.8.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -3622,8 +3570,7 @@ dependencies = [
     { name = "bioio-czi" },
     { name = "bioio-lif" },
     { name = "bioio-nd2" },
-    { name = "bioio-ome-tiff", version = "1.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "bioio-ome-tiff", version = "1.4.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "bioio-ome-tiff" },
     { name = "bioio-ome-zarr", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "brukeropus" },
     { name = "brukeropusreader" },
@@ -3688,7 +3635,7 @@ dependencies = [
     { name = "spc-io" },
     { name = "specio" },
     { name = "spectrochempy", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
-    { name = "tifffile", version = "2025.5.10", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "tifffile", version = "2024.12.12", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "tifffile", version = "2026.3.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "tifffile", version = "2026.9.20", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "xxhash" },
@@ -3788,7 +3735,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 chrom = [{ name = "rainbow-api", specifier = ">=1.5.2" }]
 fplc = [{ name = "pycorn", specifier = "==0.19" }]
-plate = [{ name = "allotropy", specifier = "==0.1.146" }]
+plate = [{ name = "allotropy", specifier = "==0.1.147" }]
 qpcr = [
     { name = "qslib", specifier = ">=0.15" },
     { name = "rdmlpython", specifier = ">=1.7.2" },
@@ -4007,16 +3954,16 @@ version = "0.25.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -4038,16 +3985,16 @@ version = "0.26.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -4336,16 +4283,16 @@ version = "2.12.5"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -4367,21 +4314,21 @@ version = "2.13.5"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version < '3.11' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version < '3.11' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
 ]
 dependencies = [
@@ -4401,16 +4348,16 @@ version = "2.41.5"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -4507,21 +4454,21 @@ version = "2.46.5"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version < '3.11' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version < '3.11' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version < '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
 ]
 dependencies = [
@@ -4649,16 +4596,16 @@ version = "0.10.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -5445,16 +5392,16 @@ version = "1.17.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -5512,16 +5459,16 @@ version = "1.18.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -5792,7 +5739,7 @@ wheels = [
 
 [[package]]
 name = "tifffile"
-version = "2025.5.10"
+version = "2024.12.12"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version < '3.11'",
@@ -5800,9 +5747,15 @@ resolution-markers = [
 dependencies = [
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/44/d0/18fed0fc0916578a4463f775b0fbd9c5fed2392152d039df2fb533bfdd5d/tifffile-2025.5.10.tar.gz", hash = "sha256:018335d34283aa3fd8c263bae5c3c2b661ebc45548fde31504016fcae7bf1103", size = 365290, upload-time = "2025-05-10T19:22:34.386Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/37/c9/fc4e490c5b0ccad68c98ea1d6e0f409bd7d50e2e8fc30a0725594d3104ff/tifffile-2024.12.12.tar.gz", hash = "sha256:c38e929bf74c04b6c8708d87f16b32c85c6d7c2514b99559ea3db8003ba4edda", size = 365416, upload-time = "2024-12-13T02:05:16.73Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5d/06/bd0a6097da704a7a7c34a94cfd771c3ea3c2f405dd214e790d22c93f6be1/tifffile-2025.5.10-py3-none-any.whl", hash = "sha256:e37147123c0542d67bc37ba5cdd67e12ea6fbe6e86c52bee037a9eb6a064e5ad", size = 226533, upload-time = "2025-05-10T19:22:27.279Z" },
+    { url = "https://files.pythonhosted.org/packages/d8/1e/76cbc758f6865a9da18001ac70d1a4154603b71e233f704401fc7d62493e/tifffile-2024.12.12-py3-none-any.whl", hash = "sha256:6ff0f196a46a75c8c0661c70995e06ea4d08a81fe343193e69f1673f4807d508", size = 227538, upload-time = "2024-12-13T02:05:13.974Z" },
+]
+
+[package.optional-dependencies]
+zarr = [
+    { name = "fsspec", marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "zarr", version = "2.18.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
 ]
 
 [[package]]
@@ -5811,16 +5764,16 @@ version = "2026.3.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -5846,16 +5799,16 @@ version = "2026.9.20"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -6239,30 +6192,30 @@ version = "2026.7.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -6543,16 +6496,16 @@ version = "3.1.6"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version > '3.11' and python_full_version < '3.12' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version > '3.11' and python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.11' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
@@ -6576,16 +6529,16 @@ version = "3.4.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.13' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
-    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version >= '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and extra != 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
+    "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform == 'emscripten' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
     "python_full_version == '3.12.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'group-18-openreadout-oracle-chrom' and extra != 'group-18-openreadout-oracle-plate'",
