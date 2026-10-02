@@ -25,6 +25,7 @@ on:
       - "docs/**"
       - "examples/**"
       - "CHANGELOG.md"
+      - "README.md"
       - "web/**"
       - ".github/workflows/docs.yml"
   workflow_dispatch:
@@ -37,6 +38,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # ci.yml runs typos too, but it skips pull requests that only change the website or prose files.
+  typos:
+    name: typos (spell check, _typos.toml)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: crate-ci/typos@00f422f3b19c57bc6338715ebfe3316d38768461 # v1.50.3
+
   build:
     name: build the site
     runs-on: ubuntu-latest
