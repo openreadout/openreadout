@@ -10690,6 +10690,7 @@ source = "Zenodo 6094961, data/vsi-ets-test-jpg2k.vsi"
 attribution = "Nikolaus Ehrenfeuchter"
 notes = "one image stack, JPEG 2000 compressed ETS tiles"
 pixel_tolerance = 3
+lossy = true  # irreversible 9/7 tiles: Bio-Formats' decoder rounds 19 of 22 planes differently by 1; without sidecars (CI) plane means are compared
 
 [[file]]
 id = "ome-cellsens-metadatatest-01"
