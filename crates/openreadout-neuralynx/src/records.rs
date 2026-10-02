@@ -22,8 +22,8 @@ pub const SPIKE_SAMPLES: u64 = 32;
 pub const SPIKE_FEATURES: usize = 8;
 /// Bytes before the waveform in a spike record.
 pub const SPIKE_PREFIX_LEN: u64 = 48;
-/// Bytes of a video-tracker record: u16 ×3, u64 timestamp, u32[400] points, i16, i32 ×3,
-/// i32[50] targets.
+/// Bytes of a video-tracker record: u16 ×3, u64 timestamp, `u32[400]` points, i16, i32 ×3,
+/// `i32[50]` targets.
 pub const NVT_RECORD_LEN: u64 = 1828;
 /// A video-tracker record's first field.
 pub const NVT_RECORD_START: u16 = 0x800;

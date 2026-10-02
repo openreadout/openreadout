@@ -67,7 +67,7 @@ pub struct InfoArgs {
     /// `--view full`: replace values flagged as personal data (operator names, e-mails,
     /// phone numbers, patient-like ids, dates of birth, free-text comments) with stable
     /// salted hashes. Needs a salt: `--salt-file` or OPENREADOUT_REDACT_SALT
-    /// (https://openreadout.github.io/openreadout/guides/lab-shares.html#personal-data).
+    /// (<https://openreadout.github.io/openreadout/guides/lab-shares.html#personal-data>).
     #[arg(long, conflicts_with = "sidecar", help_heading = "--view full")]
     pub redact: bool,
     /// File holding the redaction salt (never printed or stored).

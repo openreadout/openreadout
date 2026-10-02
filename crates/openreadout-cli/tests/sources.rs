@@ -83,6 +83,6 @@ fn a_buffer_is_detected_by_content_and_name() {
     let (det, ds) = reg.open_input(&input).unwrap();
     assert_eq!(det.format_id, "czi");
     let info = ds.info().unwrap();
-    assert_eq!(info.path, "dropped/mini.czi");
+    assert_eq!(Path::new(&info.path), Path::new("dropped/mini.czi"));
     assert!(!info.images.is_empty());
 }

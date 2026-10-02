@@ -64,7 +64,7 @@ struct GlobalArgs {
     quiet: bool,
     /// Live window in seconds: an incomplete file modified less than this long ago is
     /// reported as `acquisition.state: in_progress` (still being written) instead of
-    /// interrupted. Default 300, or OPENREADOUT_LIVE_WINDOW; 0 turns it off. See https://openreadout.github.io/openreadout/guides/lab-shares.html.
+    /// interrupted. Default 300, or OPENREADOUT_LIVE_WINDOW; 0 turns it off. See <https://openreadout.github.io/openreadout/guides/lab-shares.html>.
     #[arg(long, global = true, value_name = "SECONDS")]
     live_window: Option<f64>,
     /// JSON output: keep only these values of `data`, as JSON pointers (`/images/0/physical_size`;
@@ -79,7 +79,7 @@ struct GlobalArgs {
     /// outputs that depend on a variant (format version, writer, codec, layout) no development
     /// file confirmed against an independent reader, on a structure left undecoded, or on a
     /// vendor calibration not applied. `info --json` → `assurance.strict_refuses` lists them;
-    /// `check` and `info --view structure` still run. Also OPENREADOUT_STRICT=1. See https://openreadout.github.io/openreadout/reference/assurance.html.
+    /// `check` and `info --view structure` still run. Also OPENREADOUT_STRICT=1. See <https://openreadout.github.io/openreadout/reference/assurance.html>.
     #[arg(long, global = true)]
     strict: bool,
     /// Panic on purpose (tests the panic handler).

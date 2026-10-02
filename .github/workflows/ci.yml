@@ -41,7 +41,7 @@ jobs:
           cargo clippy -p openreadout --all-targets --features mcp-http -- -D warnings
           cargo clippy -p openreadout-corpus-tests --all-targets --features corpus -- -D warnings
       - name: Unit and CLI tests
-        run: cargo test
+        run: cargo test --no-fail-fast
       - name: cargo-deny (licenses, bans, advisories)
         uses: EmbarkStudios/cargo-deny-action@3c6349835b2b7b196a839186cb8b78e02f7b5f25 # v2.1.1
       - name: Vocabulary check (clean-room rule 5)
@@ -404,7 +404,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - name: Unit and CLI tests
-        run: cargo test
+        run: cargo test --no-fail-fast
 
   msrv:
     name: MSRV (rust-version in Cargo.toml)
