@@ -215,7 +215,10 @@ impl Item for CheckReport {
         Some(if self.findings.is_empty() {
             "intact".into()
         } else {
-            format!("{} findings", self.findings.len())
+            match self.findings.len() {
+                1 => "1 finding".into(),
+                n => format!("{n} findings"),
+            }
         })
     }
     fn relabel(&mut self, to: &str) {
