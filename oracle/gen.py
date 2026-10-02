@@ -2384,7 +2384,9 @@ def _bf_planes(p: Path, series: int, info: dict, tmp: Path, sidecar=None) -> lis
     XYZCT page = z + Z * (c + C * t), ...; `info["dimension_order"]`, default XYCZT). With `sidecar`
     (a (directory, name prefix) pair) the hashed planes are also written as raw little-endian
     files `<prefix>_c<c>_z<z>_t<t>.bin`, which the corpus harness compares within the manifest's
-    pixel_tolerance (lossy codecs decode slightly differently in every implementation)."""
+    pixel_tolerance (lossy codecs decode slightly differently in every implementation). Each
+    plane also carries its mean, which the harness compares for files marked `lossy` when the
+    (uncommitted) sidecars are absent, as on CI."""
     import subprocess, tifffile
     out = tmp / f"s{series}.ome.tif"
     subprocess.run([_bftools("bfconvert"), "-no-upgrade", "-overwrite", "-series", str(series), str(p), str(out)],
@@ -2405,7 +2407,8 @@ def _bf_planes(p: Path, series: int, info: dict, tmp: Path, sidecar=None) -> lis
                 page += idx[ax] * stride
                 stride *= size[ax]
             a = pages[page].asarray()
-            planes.append({"c": c, "z": z, "t": t, "xxh3": h(a)})
+            planes.append({"c": c, "z": z, "t": t, "xxh3": h(a),
+                           "mean": float(np.asarray(a, dtype=np.float64).mean())})
             if sidecar is not None:
                 sidecar[0].mkdir(parents=True, exist_ok=True)
                 raw = np.ascontiguousarray(a).astype(a.dtype.newbyteorder("<")).tobytes()
