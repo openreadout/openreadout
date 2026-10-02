@@ -1,8 +1,7 @@
 name: CI
 
-# Cost control: the repository is private, so every minute is billed (macOS 10x, Windows 2x).
-# Pushes to main run only the cheap Linux gate. The full matrix (macOS/Windows tests, cross builds,
-# coverage, Python, examples) runs on pull requests, weekly, and on manual dispatch.
+# Every job runs on pushes to main, pull requests (Dependabot's included), weekly and on manual
+# dispatch. The repository is public, so GitHub-hosted runner minutes are free.
 on:
   push:
     branches: [main]
@@ -161,7 +160,6 @@ jobs:
 
   python-tests:
     name: python ${{ matrix.python }} (openreadout + bioio plugin)
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     needs: corpus-fetch
     runs-on: ubuntu-latest
     strategy:
@@ -217,7 +215,6 @@ jobs:
 
   cross-build:
     name: build ${{ matrix.target }}
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -262,7 +259,6 @@ jobs:
   # local overlay registry, so this works before anything is on crates.io. Nothing is uploaded.
   publish-dry-run:
     name: crates.io publish dry run
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -394,7 +390,6 @@ jobs:
 
   test-os:
     name: tests on ${{ matrix.os }}
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -435,7 +430,6 @@ jobs:
 
   coverage:
     name: coverage (llvm-cov)
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -497,7 +491,6 @@ jobs:
 
   examples:
     name: examples against the smoke corpus
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     needs: corpus-fetch
     runs-on: ubuntu-latest
     permissions:
@@ -561,7 +554,6 @@ jobs:
   # 15 s each on pull requests (about 15 min plus the build), 60 s each weekly and on manual runs.
   fuzz-smoke:
     name: fuzz smoke (every target, 15 s each; 60 s weekly)
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     # 92 targets: about 25 min at 15 s each (pull requests), about 95 min at 60 s (weekly), plus the build.
     timeout-minutes: 150
@@ -616,7 +608,6 @@ jobs:
   # tarball (`cargo xtask r-vendor`) through R CMD check --as-cran (the tarball-size NOTE is expected).
   r-package:
     name: R package on ${{ matrix.os }}
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     needs: corpus-fetch
     runs-on: ${{ matrix.os }}
     permissions:
@@ -677,7 +668,6 @@ jobs:
   # of the Nextflow modules, planemo lint of the Galaxy tools, the Snakemake wrapper tests.
   integrations:
     name: Nextflow, Galaxy and Snakemake integrations
-    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: read
