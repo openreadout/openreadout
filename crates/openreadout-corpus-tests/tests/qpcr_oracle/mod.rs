@@ -276,10 +276,8 @@ fn check_records(
             (None, None) => {}
             (a, b) => errs.push(format!("{at}: cq oracle {a:?} ours {b:?}")),
         }
-        if !lc96_not_called
-            && !(rdml && at_cycles)
-            && o["cq_undetermined"].as_bool().unwrap_or(false) != r.cq_undetermined
-        {
+        let withheld = lc96_not_called || (rdml && at_cycles);
+        if !withheld && o["cq_undetermined"].as_bool().unwrap_or(false) != r.cq_undetermined {
             errs.push(format!(
                 "{at}: undetermined oracle {} ours {}",
                 o["cq_undetermined"], r.cq_undetermined
