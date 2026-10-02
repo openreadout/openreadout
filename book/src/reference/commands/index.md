@@ -73,6 +73,7 @@ Every error carries a `hint` that says what to do next. Human output prints `err
 Special cases:
 
 - With several inputs, the exit code is the highest code of any input. Each input's own code is in its JSON wrapper or in the summary table.
+- A batch table (`batch`, or `--tidy`, `--sample-sheet`, `--by`, `--csv` on another command) exits 0 once the table is built: a data set that failed is a row with an `error` column. `--fail-fast` exits with the first failure's code instead.
 - `check --against` exits 0 when the two files hold the same data and 1 when they differ.
 - `self doctor` exits 1 when a self-test check fails.
 - A file that an instrument is still writing (OME-TIFF, OME-Zarr, ND2, CZI) is not corrupt. It exits 0 with `acquisition.state: in_progress`.

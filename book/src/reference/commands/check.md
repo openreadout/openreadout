@@ -72,7 +72,14 @@ planes: 2 compared, 2 identical, 0 within tolerance, 0 mismatched
 
 ## `--against`
 
-`check A --against B` answers "is B the same data as A?". It diffs the two files' `info` metadata, compares geometry, channel names and physical sizes per image, and hashes every selected plane of images with equal geometry. Numbers equal within a relative 1e-9 count as equal. `/path`, `/size_bytes`, `/format`, `/format_version` and `/notes` are always left out of the diff. It exits 0 when the files are identical and 1 when they differ; the JSON wrapper has `ok: true` in both cases.
+`check A --against B` answers "is B the same data as A?". It diffs the two files' `info` metadata, compares geometry, channel names and physical sizes per image, and hashes every selected plane of images with equal geometry. Numbers equal within a relative 1e-9 count as equal. `/path`, `/size_bytes`, `/format`, `/format_version`, `/notes` and `/images/*/dimension_order` (the order a container stores planes in; OME-Zarr is always `t, c, z`) are always left out of the diff.
+
+With `--select`, the planes compared are narrowed to the selection. When B holds only those planes of an image, as an export made with the same `--select` does, B's planes are matched to A's selected planes in order, the metadata diff sees A narrowed the same way, and the image is reported with `selected: true`:
+
+```bash
+openreadout export a.nd2 --select c=1 -o c1.ome.tiff
+openreadout check a.nd2 --against c1.ome.tiff --select c=1    # identical
+``` It exits 0 when the files are identical and 1 when they differ; the JSON wrapper has `ok: true` in both cases.
 
 ## `--report`
 
@@ -81,6 +88,12 @@ The bundle lets you report a file that OpenReadout cannot read without sharing t
 ## Files still being written
 
 On an OME-TIFF, OME-Zarr, ND2 or CZI that an instrument is still writing, `check` covers the complete planes, reports an `acquisition` block, and exits 0. See [Live acquisition](../../guides/lab-shares.md).
+
+A copy that was cut short can look the same while it is new. A file modified within the live window (300 seconds by default) counts as still being written, and an ND2 has no pointer that tells a truncated copy from a growing file. So checking a copy right after making it can exit 0 with `acquisition.state: in_progress` instead of 4. To check a finished copy, turn detection off:
+
+```bash
+openreadout check copy.nd2 --live-window 0    # exits 4 if the copy is truncated
+```
 
 ## JSON
 

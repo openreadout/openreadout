@@ -84,7 +84,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 ## Open findings
 
 - New-variant intakes (`corpus/intake/`): none.
-- Second-opinion disagreements adjudicated: 26 (0 where neither reader was right; `corpus/oracle/second/adjudications.toml`).
+- Second-opinion disagreements adjudicated (`corpus/oracle/second/adjudications.toml`, 0 where neither reader was right): 26 whole-file entries, and 28 field entries that settle 123 per-file field differences ([second opinions](../../../docs/benchmark/second-opinions.md)).
 - Corpus files whose oracle is known to disagree for a documented reason (`oracle_skip`): 8.
 - Corpus entries whose licence or source is not yet confirmed (from intakes; tier `hold`, never fetched automatically): 0.
 - Known upstream dependency bugs with reproducers (`fuzz/known-upstream/`): 5.

@@ -45,6 +45,7 @@ openreadout export -r --skip-unknown raw/ -o ome/              # mirrors raw/ un
 - A directory that is itself a data set, such as a ChemStation `.D`, a Waters `.raw` or a Bruker `.d`, is one input.
 - A failed file does not stop the run. `--fail-fast` stops at the first failure.
 - The exit code is the worst code of any input, so `check -r DIR` exits 4 when any file is corrupt. See [Exit codes](../reference/commands/index.md#exit-codes).
+- Batch tables are the exception: `batch`, and any command that builds a table (`--tidy`, `--sample-sheet`, `--by`, `--csv`, or several inputs to `trace`, `table` and `gate`), exit 0 once the table is built. A data set that fails is a row with an `error` column and is counted in the `N data sets (N ok, N failed)` line. Pass `--fail-fast` to stop at the first failure and exit with its code instead.
 - `--skip-unknown` leaves out files that are not instrument data, such as READMEs and spreadsheets.
 
 ```text
