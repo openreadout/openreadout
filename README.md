@@ -197,7 +197,7 @@ openreadout info any-file --json
 | Plate readers and qPCR | Plate-reader exports, RDML, Applied Biosystems, LightCycler, Rotor-Gene | Allotrope ASM, RDML, CSV |
 | Other | ÄKTA, ITC, Biacore, Seahorse, Octet, Zetasizer, XRD, EPR, electrochemistry, thermal analysis | CSV, Parquet |
 
-The [format list](https://openreadout.github.io/openreadout/formats/index.html) has all 96 formats and their known gaps. `openreadout self formats` prints the same list.
+The [format list](https://openreadout.github.io/openreadout/formats.html) has all 96 formats and their known gaps. `openreadout self formats` prints the same list.
 
 ## Use Cases
 
@@ -353,8 +353,8 @@ Every reader was written from public files and permissively licensed documentati
 The [documentation](https://openreadout.github.io/openreadout/) has guides for every command and format:
 
 - **Getting started:** [Install](https://openreadout.github.io/openreadout/getting-started/install.html) | [Your first file](https://openreadout.github.io/openreadout/getting-started/first-file.html) | [Reading the JSON output](https://openreadout.github.io/openreadout/getting-started/reading-json.html)
-- **Reference:** [Commands](https://openreadout.github.io/openreadout/reference/commands/index.html) | [MCP tools](https://openreadout.github.io/openreadout/reference/mcp.html) | [Formats](https://openreadout.github.io/openreadout/formats/index.html)
-- **Guides:** [AI agents](https://openreadout.github.io/openreadout/guides/agents.html) | [Python](https://openreadout.github.io/openreadout/guides/python.html) | [R](https://openreadout.github.io/openreadout/guides/r.html) | [Analysis](https://openreadout.github.io/openreadout/guides/analysis.html) | [Batch tables](https://openreadout.github.io/openreadout/guides/batch.html)
+- **Reference:** [Commands](https://openreadout.github.io/openreadout/reference/commands.html) | [MCP tools](https://openreadout.github.io/openreadout/reference/mcp.html) | [Formats](https://openreadout.github.io/openreadout/formats.html)
+- **Guides:** [AI agents](https://openreadout.github.io/openreadout/guides/agents.html) | [Python](https://openreadout.github.io/openreadout/guides/python.html) | [R](https://openreadout.github.io/openreadout/guides/r.html) | [Recipes](https://openreadout.github.io/openreadout/recipes.html) | [Batch tables](https://openreadout.github.io/openreadout/guides/batch.html)
 - **A file that does not work:** run `openreadout check --report FILE` and attach the bundle to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). It contains no data values, sample names or paths.
 
 ## License

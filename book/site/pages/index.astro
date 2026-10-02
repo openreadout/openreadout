@@ -1,0 +1,241 @@
+---
+import Editorial from "../layouts/Editorial.astro";
+import formats from "../data/formats.json";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const nFormats = formats.formats.length;
+const repo = "https://github.com/openreadout/openreadout";
+---
+
+<Editorial
+  page="home"
+  title="OpenReadout: read raw lab-instrument files"
+  description={`OpenReadout reads the raw files that ${nFormats} kinds of lab instrument write, without the vendor's software: what is in them, whether they are intact, and open-format copies, from the command line, Python, R or an AI assistant.`}
+>
+  <section class="hero wide">
+    <div class="kicker"><span>Free and open source</span><span>One binary, no instrument software</span><span>No network access</span></div>
+    <h1>Instrument files, readable by AI agents</h1>
+    <div class="hero-grid">
+      <div>
+        <p class="deck">
+          Microscopes, mass spectrometers, cytometers and plate readers save their results in formats only their makers’ software can open.
+          OpenReadout reads {nFormats} of them without that software. It tells an agent, a script or you what a file holds, checks that it is
+          intact, draws it as a picture an agent can look at, and converts it to an open format.
+        </p>
+        <div class="ctas">
+          <a class="btn primary" href={base + "getting-started/install.html"}>Install</a>
+          <a class="btn" href={base + "demo/"}>Try a file in your browser</a>
+          <a class="btn" href={base + "formats.html"}>See the {nFormats} formats</a>
+        </div>
+      </div>
+      <div class="install" id="install">
+        <div role="tablist" aria-label="Ways to start">
+          <button role="tab" aria-selected="true" aria-controls="i-ai" id="t-ai">AI agent</button>
+          <button role="tab" aria-selected="false" aria-controls="i-cli" id="t-cli" tabindex="-1">Command line</button>
+          <button role="tab" aria-selected="false" aria-controls="i-py" id="t-py" tabindex="-1">Python</button>
+        </div>
+        <div class="panes">
+          <div role="tabpanel" id="i-ai" aria-labelledby="t-ai">
+            <pre><code><span class="c"># paste into your agent's chat: it reads the skill and installs the rest</span>
+<span class="p">$ </span>curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/skills/openreadout/SKILL.md
+<span class="c"># or, with openreadout installed, register it yourself</span>
+<span class="p">$ </span>openreadout self skill --install all
+<span class="p">$ </span>openreadout mcp --install claude-desktop   <span class="c"># or claude, cursor, codex, vscode, gemini …</span></code></pre>
+          </div>
+          <div role="tabpanel" id="i-cli" aria-labelledby="t-cli" hidden>
+            <pre><code><span class="c"># until the first release, build from source (Rust 1.91+)</span>
+<span class="p">$ </span>cargo install --locked --git {repo} openreadout
+<span class="c"># what is in it, is it intact, look at it, convert it</span>
+<span class="p">$ </span>openreadout info cells.lif
+<span class="p">$ </span>openreadout check plate7/
+<span class="p">$ </span>openreadout preview cells.lif --composite
+<span class="p">$ </span>openreadout export cells.lif -o cells.ome.tiff</code></pre>
+          </div>
+          <div role="tabpanel" id="i-py" aria-labelledby="t-py" hidden>
+            <pre><code><span class="c"># until wheels are published: pip install . in a checkout</span>
+<span class="p">$ </span>pip install openreadout
+<span class="p">&gt;&gt;&gt; </span>import openreadout
+<span class="p">&gt;&gt;&gt; </span>with openreadout.File("cells.lif") as f:
+<span class="p">... </span>    plane = f.read_plane(image=0, c=0, z=0)   <span class="c"># a NumPy array</span></code></pre>
+          </div>
+          <p class="note" id="install-note">There is no packaged release yet. Every route: <a href={base + "getting-started/install.html"}>Install</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <figure class="wide" id="f-decode-wrap">
+    <div class="decode panel" id="f-decode">
+      <div class="cv" id="cwrap">
+        <canvas id="hero" width="1487" height="542" aria-label="A Zeiss slide-scanner file shown first as its raw bytes, then decoded into a section of a young mouse"></canvas>
+        <div class="readout" id="ro" hidden></div>
+        <div class="scalebar on-light" id="heroBar"></div>
+      </div>
+      <div class="slider"><span>bytes</span><input type="range" id="decodeRange" min="0" max="1000" value="1000" aria-label="Decode the file" /><span>picture</span></div>
+    </div>
+    <figcaption>
+      <b>A 3.7 GB file from a Zeiss slide scanner, raw and decoded.</b> A young mouse, cut lengthwise and stained, at 0.22 µm per pixel:{" "}
+      <span id="gpx"></span> in one image. Drag the slider; point at the picture for coordinates in millimetres of tissue.
+      Showing it whole takes OpenReadout 2.5 MB of reads, under a thousandth of the file. <a href={base + "how-it-works.html"}>How it works</a>.
+    </figcaption>
+  </figure>
+
+  <div class="col">
+    <h2>What comes out</h2>
+    <p>
+      Decoded, the files turn back into what was measured: images, but also voltages, spectra, glowing DNA and hundreds of thousands of single cells.
+      Every panel below was drawn from numbers OpenReadout returned for a public file. Flip the switch to see each file the way a program sees it
+      without a reader.
+    </p>
+  </div>
+  <figure class="wide" id="f-plate">
+    <div class="plate-bar"><span>Show</span><button class="chipbtn" id="pDecoded" aria-pressed="true">decoded</button><button class="chipbtn" id="pBytes" aria-pressed="false">as bytes</button></div>
+    <div class="plate" id="plate"></div>
+  </figure>
+
+  <div class="col">
+    <h2>Ask in plain words</h2>
+    <p>
+      With OpenReadout connected, an agent can answer the questions people ask about their files. Six are below. The tool output is exactly what
+      OpenReadout returned for public sample files; the replies were written from it.
+    </p>
+  </div>
+  <figure class="wide">
+    <div class="panel script" id="f-script">
+      <div class="qs" role="tablist" id="qs" aria-label="Questions"></div>
+      <div class="play" id="play" role="tabpanel"></div>
+    </div>
+  </figure>
+
+  <section class="wide agents">
+    <div class="agents-grid">
+      <div>
+        <h2>Built for agents</h2>
+        <p>
+          An agent should not have to scrape a viewer’s screen or guess a binary layout. OpenReadout gives it the same few things for every format,
+          over the command line or 15 MCP tools.
+        </p>
+        <dl class="can">
+          <dt>Stable JSON</dt><dd>Every command takes <code>--json</code> and prints one envelope with a <a href={base + "reference/json.html"}>published schema</a>.</dd>
+          <dt>Exit codes</dt><dd><code>0</code> ok, <code>3</code> unknown format, <code>4</code> corrupt, <code>6</code> unsupported feature: branch on the code, not the message.</dd>
+          <dt>Errors with a hint</dt><dd>Every error says what to try next, so the agent can correct itself.</dd>
+          <dt>Pictures</dt><dd><code>preview</code> draws images, traces, spectra and plates as PNG with rulers and a scale bar, so the agent can look before it measures.</dd>
+          <dt>Cheap metadata</dt><dd><code>info</code> reads headers only: a 100 GB file costs what a small one does. <code>--only</code> returns just the fields asked for.</dd>
+          <dt>Assurance</dt><dd>Each answer says whether files like this one were checked against an independent reader, so the agent knows when to double-check.</dd>
+        </dl>
+      </div>
+      <div class="err-demo">
+        <p class="caption"><b>An agent asks for an image that is not there.</b></p>
+        <pre><code><span class="p">$ </span>openreadout preview cells.lif --image 3 --json
+{"{"}
+  "ok": false,
+  "error": {"{"}
+    "code": "usage",
+    "message": "usage error: image 3 not found (file has 1 images)",
+    "hint": "Indices are zero-based; `openreadout info FILE --json` lists the images, traces (sweep_count, sample_count), tables (row_count) and spectra the file holds.",
+    "exit_code": 2
+  {"}"}
+{"}"}</code></pre>
+        <p class="caption">It follows the hint, lists the images and picks the right index. <a href={base + "getting-started/assistant.html"}>Connect an assistant</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wide">
+    <h2 class="sr">Promises</h2>
+    <div class="promises">
+      <div>
+        <h3>It never changes your files</h3>
+        <p>Readers open files read-only. Every export goes to a new file, is read back and compared with the source, and only then is renamed into place.</p>
+      </div>
+      <div>
+        <h3>It never goes online</h3>
+        <p>The program makes no network connections, so nothing leaves the computer it runs on. The browser demo runs in the tab, under a policy that forbids requests.</p>
+      </div>
+      <div>
+        <h3>It says when to double-check</h3>
+        <p>Every format carries a confidence level and a list of known gaps, and every file read gets an <a href={base + "reference/assurance.html"}>assurance</a> verdict, so an answer can say how far to trust it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wide">
+    <h2>Where to go next</h2>
+    <div class="next">
+      <a href={base + "getting-started/install.html"}><b>Install</b><span>One binary for macOS, Windows and Linux, or the Python and R packages.</span></a>
+      <a href={base + "getting-started/first-file.html"}><b>Your first file</b><span>info, check, export and preview in five minutes.</span></a>
+      <a href={base + "getting-started/assistant.html"}><b>Connect an assistant</b><span>A skill and an MCP server for Claude, Cursor, VS Code, Codex, Gemini and others.</span></a>
+      <a href={base + "recipes.html"}><b>Recipes</b><span>Is this file intact? Fit an IC50. Index a lab share. One command each.</span></a>
+      <a href={base + "formats.html"}><b>Formats</b><span>Every reader, what it covers, how far it has been checked, and its known gaps.</span></a>
+      <a href={base + "how-it-works.html"}><b>How it works</b><span>An illustrated look inside instrument files, and why OpenReadout reads so little of them.</span></a>
+    </div>
+  </section>
+
+  <div class="wide notes">
+    <p>
+      <b>About the files.</b> Every figure comes from public files: Zenodo records, OME sample data and the test data of open-source projects such as
+      pyABF and FlowKit, used under their licences. The damaged-folder example was made by cutting a real file short. <span id="ver"></span>
+    </p>
+  </div>
+</Editorial>
+
+<style>
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+</style>
+
+<script>
+  import "../scripts/home.js";
+
+  // install tabs
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>("#install [role=tab]")];
+  const select = (t: HTMLButtonElement) => {
+    tabs.forEach((x) => {
+      const on = x === t;
+      x.setAttribute("aria-selected", String(on));
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute("aria-controls")!)!.hidden = !on;
+    });
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => select(t));
+    t.addEventListener("keydown", (e) => {
+      const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (!d) return;
+      const n = tabs[(i + d + tabs.length) % tabs.length];
+      select(n);
+      n.focus();
+    });
+  });
+  // copy buttons
+  document.querySelectorAll<HTMLPreElement>("#install pre").forEach((pre) => {
+    const b = document.createElement("button");
+    b.className = "copy";
+    b.type = "button";
+    b.textContent = "Copy";
+    b.addEventListener("click", async () => {
+      const text = [...pre.querySelectorAll("code")]
+        .map((c) =>
+          c.innerText
+            .split("\n")
+            .filter((l) => /^(\$|>>>|\.\.\.) /.test(l))
+            .map((l) => l.replace(/^(\$|>>>|\.\.\.) /, "").replace(/\s+#.*$/, ""))
+            .join("\n"),
+        )
+        .join("\n");
+      try {
+        await navigator.clipboard.writeText(text);
+        b.textContent = "Copied";
+        setTimeout(() => (b.textContent = "Copy"), 1500);
+      } catch {
+        b.textContent = "Select and copy";
+      }
+    });
+    pre.append(b);
+  });
+</script>

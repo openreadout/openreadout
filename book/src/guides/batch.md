@@ -131,7 +131,7 @@ openreadout batch qpcr plates/ --set ddcq=true --set 'reference_targets=["18s"]'
 openreadout batch stats plate/ --set per=well --sample-sheet layout.csv
 ```
 
-The analyses themselves are described in [Choosing an analysis](analysis.md).
+The analyses themselves are described in [Recipes](../recipes/index.md).
 
 ## Sample sheets and plate layouts
 

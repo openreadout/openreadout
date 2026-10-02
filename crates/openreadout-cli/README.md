@@ -14,7 +14,7 @@ openreadout export slide.lif -o slide.ome.tiff   # convert, verified on write
 openreadout mcp                                  # MCP server on stdio
 ```
 
-Supported formats: [format list](https://openreadout.github.io/openreadout/formats/index.html), or `openreadout self formats`. Documentation: <https://openreadout.github.io/openreadout/>. Other install channels: [install page](https://openreadout.github.io/openreadout/getting-started/install.html).
+Supported formats: [format list](https://openreadout.github.io/openreadout/formats.html), or `openreadout self formats`. Documentation: <https://openreadout.github.io/openreadout/>. Other install channels: [install page](https://openreadout.github.io/openreadout/getting-started/install.html).
 
 Cargo features: `mcp` (on by default) adds the MCP server. `mcp-http` (off by default) adds a Streamable HTTP transport that listens on loopback only.
 

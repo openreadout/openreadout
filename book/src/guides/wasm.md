@@ -1,6 +1,6 @@
 # WebAssembly
 
-OpenReadout's readers also compile to WebAssembly, so a web page or a Node program can read instrument files without a server. The [demo page](../getting-started/browser.md) is built this way.
+OpenReadout's readers also compile to WebAssembly, so a web page or a Node program can read instrument files without a server. The [demo page](/openreadout/demo/) is built this way.
 
 ## The npm package
 
@@ -88,7 +88,7 @@ rustup target add wasm32-unknown-unknown
 cargo install wasm-bindgen-cli --locked --version <the wasm-bindgen version in Cargo.lock>
 scripts/wasm.sh build        # writes packaging/wasm/pkg/
 scripts/wasm.sh test         # tests in Node
-scripts/wasm.sh demo         # the demo page, after `mdbook build book`
+scripts/wasm.sh demo         # the demo page, after `npm run build` in book/
 ```
 
 `scripts/wasm.sh build` runs `wasm-opt` to shrink the module when binaryen is installed (`cd packaging/wasm && npm install` provides it).

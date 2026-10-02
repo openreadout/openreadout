@@ -1,27 +1,36 @@
+/* The demo page, in the website's colours (book/site/styles/tokens.css). The page's security
+   policy allows only its own files, so it uses the system's fonts rather than the site's. */
 :root {
-  --bg: #fbfbfa;
-  --fg: #1d1f21;
-  --muted: #5d6166;
+  --bg: #ffffff;
+  --fg: #16181d;
+  --fg-2: #3c424c;
+  --muted: #6b727e;
   --card: #ffffff;
-  --line: #dcdcd8;
-  --accent: #2458b3;
-  --pass: #1d7a3e;
-  --fail: #b3261e;
-  --code-bg: #f3f3f0;
+  --panel: #f4f5f7;
+  --line: #e2e5e9;
+  --accent: #2f5bd3;
+  --pass: #23845a;
+  --fail: #c23a4b;
+  --code-bg: #f4f5f7;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #151618;
-    --fg: #e6e6e3;
-    --muted: #a3a6aa;
-    --card: #1d1f22;
-    --line: #34373b;
-    --accent: #8ab4f8;
-    --pass: #6fcf8a;
-    --fail: #f28b82;
-    --code-bg: #111214;
+    --bg: #111316;
+    --fg: #e7e9ec;
+    --fg-2: #bcc1c8;
+    --muted: #8a919b;
+    --card: #15181b;
+    --panel: #181b1f;
+    --line: #262a30;
+    --accent: #6a88ee;
+    --pass: #3aa574;
+    --fail: #e0677a;
+    --code-bg: #181b1f;
   }
 }
 
@@ -30,22 +39,91 @@
 }
 
 body {
-  margin: 0 auto;
-  max-width: 72rem;
-  padding: 1.5rem 1rem 3rem;
+  margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  font: 16px/1.55 var(--sans);
   -webkit-font-smoothing: antialiased;
 }
 
+header.site {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 56px;
+  padding: 0 max(16px, calc((100% - 72rem) / 2));
+  border-bottom: 1px solid var(--line);
+  font-size: 0.82rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+header.site nav {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+@media (max-width: 480px) {
+  header.site {
+    gap: 16px;
+  }
+
+  header.site nav {
+    gap: 12px;
+  }
+}
+
+header.site nav a {
+  color: var(--fg-2);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+header.site nav a:hover,
+header.site nav a[aria-current="page"] {
+  color: var(--fg);
+}
+
+header.site nav a[aria-current="page"] {
+  box-shadow: 0 2px 0 var(--accent);
+}
+
+.page {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2.5rem 16px 3rem;
+}
+
+.intro {
+  max-width: 44rem;
+}
+
 h1 {
-  font-size: 1.6rem;
-  margin: 0 0 0.25rem;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.75rem;
 }
 
 a {
   color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.86em;
 }
 
 .lede,
@@ -54,9 +132,15 @@ footer {
   color: var(--muted);
 }
 
+.lede {
+  font-size: 1.05rem;
+  color: var(--fg-2);
+}
+
 .privacy {
   border-left: 3px solid var(--pass);
   padding: 0.25rem 0.75rem;
+  color: var(--fg-2);
 }
 
 .drop {
@@ -64,25 +148,33 @@ footer {
   flex-direction: column;
   align-items: center;
   gap: 0.25rem;
-  padding: 2.5rem 1rem;
-  margin: 1rem 0;
-  border: 2px dashed var(--line);
+  padding: 3rem 1rem;
+  margin: 1.5rem 0;
+  border: 1.5px dashed var(--line);
   border-radius: 10px;
-  background: var(--card);
+  background: var(--panel);
+  color: var(--muted);
   cursor: pointer;
   text-align: center;
   transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.drop svg {
+  color: var(--accent);
+  margin-bottom: 0.25rem;
 }
 
 .drop:hover,
 .drop.over,
 .drop:focus-within {
   border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, var(--panel));
 }
 
 .drop .big {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 600;
+  color: var(--fg);
 }
 
 .drop input {
@@ -109,6 +201,9 @@ footer {
 }
 
 .grid > h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.6rem;
   margin: 1rem 0 0;
   overflow-wrap: anywhere;
 }
@@ -127,7 +222,11 @@ footer {
 
 .card h3 {
   margin: 0 0 0.5rem;
-  font-size: 1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .summary {
@@ -149,7 +248,7 @@ pre {
   padding: 0.75rem;
   background: var(--code-bg);
   border-radius: 6px;
-  font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font: 12.5px/1.5 var(--mono);
 }
 
 .pass {
@@ -167,6 +266,8 @@ pre {
 }
 
 footer {
-  margin-top: 2rem;
-  font-size: 0.9rem;
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.85rem;
 }

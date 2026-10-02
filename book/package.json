@@ -1,0 +1,22 @@
+{
+  "name": "openreadout-site",
+  "private": true,
+  "type": "module",
+  "description": "The OpenReadout website: home page, documentation and format list (Astro + Starlight).",
+  "scripts": {
+    "data": "node scripts/gen-data.mjs",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check-links": "python3 check_links.py"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.42.5",
+    "@fontsource-variable/newsreader": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "@fontsource/ibm-plex-sans": "5.3.0",
+    "astro": "7.3.5",
+    "js-yaml": "^4.3.2",
+    "unist-util-visit": "5.1.0"
+  }
+}

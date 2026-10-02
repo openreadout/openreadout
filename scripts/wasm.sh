@@ -4,7 +4,7 @@
 #   scripts/wasm.sh build   # packaging/wasm/pkg/ (wasm-bindgen --target web), size-optimized
 #   scripts/wasm.sh test    # wasm-bindgen-test in Node, then the npm wrapper's and the demo's tests
 #   scripts/wasm.sh demo    # build, then copy the demo page (web/) with the module inlined
-#                           # into book/book/demo/ (after `mdbook build book`) or $DEMO_OUT
+#                           # into book/book/demo/ (after `npm run build` in book/) or $DEMO_OUT
 #   scripts/wasm.sh sizes   # print the sizes of the built module
 #
 # Needs: rustup target add wasm32-unknown-unknown; wasm-bindgen-cli at the version of the

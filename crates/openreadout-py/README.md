@@ -1,6 +1,6 @@
 # openreadout (Python)
 
-Read raw lab-instrument files from Python without vendor software, Java or a C toolchain. The package wraps OpenReadout's Rust readers. It returns the same JSON as the `openreadout` command-line tool, and NumPy, dask or xarray arrays for pixels. The formats it reads are listed at <https://openreadout.github.io/openreadout/formats/index.html>.
+Read raw lab-instrument files from Python without vendor software, Java or a C toolchain. The package wraps OpenReadout's Rust readers. It returns the same JSON as the `openreadout` command-line tool, and NumPy, dask or xarray arrays for pixels. The formats it reads are listed at <https://openreadout.github.io/openreadout/formats.html>.
 
 ```bash
 pip install openreadout            # needs only NumPy

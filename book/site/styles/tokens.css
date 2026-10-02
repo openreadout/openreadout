@@ -1,0 +1,78 @@
+/* Design tokens shared by every page of the site: the editorial pages (home, how it works), the
+   documentation (Starlight, mapped in docs.css) and the browser demo (web/style.css repeats them).
+   Light is the default; dark follows the system unless the reader picked a theme, which Starlight
+   stores as data-theme on <html>. */
+@import "@fontsource-variable/newsreader/opsz.css";
+@import "@fontsource-variable/newsreader/opsz-italic.css";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+:root {
+  --paper: #ffffff;
+  --ink: #16181d;
+  --ink-2: #3c424c;
+  --muted: #6b727e;
+  --rule: #e2e5e9;
+  --panel: #f4f5f7;
+  --panel-2: #e9ecef;
+  --slide: #f6f5f7;
+  --hex: #9aa1ab;
+  /* the colour key: data, description, signposts, other, error */
+  --d: #2f5bd3;
+  --m: #c98a14;
+  --s: #23845a;
+  --o: #a9afb8;
+  --x: #c23a4b;
+  --accent: var(--d);
+  --accent-soft: #e6ecfb;
+  --surface: var(--paper);
+  --mark-gray-2: var(--panel-2);
+
+  --serif: "Newsreader Variable", "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111316;
+    --ink: #e7e9ec;
+    --ink-2: #bcc1c8;
+    --muted: #8a919b;
+    --rule: #262a30;
+    --panel: #181b1f;
+    --panel-2: #20242a;
+    --slide: #15181b;
+    --hex: #4c535c;
+    --d: #6a88ee;
+    --m: #af7a22;
+    --s: #3aa574;
+    --o: #4e555e;
+    --x: #e0677a;
+    --accent-soft: #1b2442;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #111316;
+  --ink: #e7e9ec;
+  --ink-2: #bcc1c8;
+  --muted: #8a919b;
+  --rule: #262a30;
+  --panel: #181b1f;
+  --panel-2: #20242a;
+  --slide: #15181b;
+  --hex: #4c535c;
+  --d: #6a88ee;
+  --m: #af7a22;
+  --s: #3aa574;
+  --o: #4e555e;
+  --x: #e0677a;
+  --accent-soft: #1b2442;
+  color-scheme: dark;
+}

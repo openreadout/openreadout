@@ -96,7 +96,7 @@ OPENREADOUT_INSTALL_FROM=openreadout-aarch64-apple-darwin.tar.gz OPENREADOUT_INS
 maturin build --out dist && maturin sdist --out dist                        # Python wheel (profile release-py) + sdist
 python -m build python/bioio-openreadout --outdir dist && python -m build python/napari-openreadout --outdir dist
 twine check --strict dist/*
-mdbook build book && python3 book/check_links.py                            # docs site builds, no broken links
+(cd book && npm ci && npm run build) && python3 book/check_links.py                         # docs site builds, no broken links
 docker build -t openreadout . && docker run --rm openreadout self formats --json
 cargo fetch --locked && cargo about generate --frozen --fail -m crates/openreadout-cli/Cargo.toml about.hbs -o THIRD-PARTY-NOTICES.md
 ```

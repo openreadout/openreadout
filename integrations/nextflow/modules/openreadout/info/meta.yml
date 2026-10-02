@@ -18,7 +18,7 @@ tools:
   - "openreadout":
       description: "Reads raw lab-instrument files without vendor software: metadata as JSON, exports to open formats (OME-TIFF, OME-Zarr, mzML, Parquet), validation."
       homepage: "https://github.com/openreadout/openreadout"
-      documentation: "https://openreadout.github.io/openreadout/reference/commands/index.html"
+      documentation: "https://openreadout.github.io/openreadout/reference/commands.html"
       tool_dev_url: "https://github.com/openreadout/openreadout"
       licence: ["MIT", "Apache-2.0"]
       identifier: ""
