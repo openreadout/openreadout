@@ -68,3 +68,9 @@ OME-Zarr is an open standard; no vendor format is involved and nothing was rever
 
 **Inferred:** nothing beyond the specification and the codec documents. The composition order is the NGFF 0.4 specification's (https://ngff.openmicroscopy.org/0.4/, section "multiscales metadata"): a dataset lists exactly one scale and at most one translation after it, and the multiscales-level transformations "are applied after them".
 
+
+## 2026-10-02 — OME-XML next to an image at the root
+
+**Corpus files:** none new; the reader's fixtures (`crates/openreadout-zarr/tests/fixtures/`) and OpenReadout's own exports of `crates/openreadout-cli/tests/fixtures/mini.{nd2,lif,czi}`.
+**Prior art consulted:** the OME-NGFF 0.4/0.5 specification's `bioformats2raw.layout` section (https://ngff.openmicroscopy.org/, CC-BY-4.0): the `OME` group holds `METADATA.ome.xml`.
+**What was decided.** OpenReadout's OME-Zarr writer now also writes `OME/METADATA.ome.xml` (and an empty `OME` group) for a single image stored at the root, as it did for collections, so the objective, instrument, acquisition mode, exposures and fluorophores survive the export. When a root image's store has `OME/METADATA.ome.xml`, the reader applies OME `Image` 0 to it as it does for collection series. A document whose `Creator` is `openreadout …` is authoritative for channel colours: OpenReadout's writer gives every `omero` channel a display colour and states in the OME-XML whether the source recorded one, so a channel without an OME `Color` has none. Other writers' colours are read as before. The writer no longer invents a `name` ("Image N") for an unnamed source image (OME-NGFF makes it optional).

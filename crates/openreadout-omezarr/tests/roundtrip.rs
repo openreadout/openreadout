@@ -122,7 +122,9 @@ fn single_image_at_root_with_pyramid() {
     assert_eq!(r.format, "ome-zarr");
     assert_eq!(r.images_written, 1);
     assert_eq!(r.planes_written, 12);
-    assert_eq!(r.ome_xml_bytes, 0);
+    // a single image stays at the root; its OME-XML sits in `OME/` as in collections
+    assert!(r.ome_xml_bytes > 0);
+    assert!(out.join("OME").join("METADATA.ome.xml").is_file());
     assert!(r.bytes_written > 0);
 
     let root = read_json(&out.join("zarr.json"));

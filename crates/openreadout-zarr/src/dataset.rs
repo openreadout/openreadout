@@ -277,7 +277,8 @@ fn ome_color(c: i32) -> String {
     )
 }
 
-/// Fill image metadata from the matching OME-XML `Image` (bioformats2raw collections).
+/// Fill image metadata from the matching OME-XML `Image` (bioformats2raw collections, and
+/// images at the root with an `OME/METADATA.ome.xml`).
 fn apply_ome(info: &mut ImageInfo, img: &OmeImage, doc: &OmeDocument) {
     if img.name.is_some() {
         info.name.clone_from(&img.name);
@@ -292,6 +293,10 @@ fn apply_ome(info: &mut ImageInfo, img: &OmeImage, doc: &OmeDocument) {
         info.time_increment_s = px.time_increment;
     }
     let inst = doc.instrument_of(img);
+    let ours = doc
+        .creator
+        .as_deref()
+        .is_some_and(|c| c.starts_with("openreadout "));
     for ch in &mut info.channels {
         if let Some(o) = px.channels.get(ch.index as usize) {
             if o.name.is_some() {
@@ -302,6 +307,10 @@ fn apply_ome(info: &mut ImageInfo, img: &OmeImage, doc: &OmeDocument) {
             ch.emission_nm = o.emission_wavelength;
             if let Some(c) = o.color {
                 ch.color = Some(ome_color(c));
+            } else if ours {
+                // our writer gives every `omero` channel a display colour; the OME-XML says
+                // whether the source recorded one
+                ch.color = None;
             }
             ch.acquisition_mode = doc.channel_mode(o);
             // as the OME-TIFF reader: the first plane of the channel with an exposure
@@ -556,6 +565,8 @@ impl ZarrDataset {
         let mut groups: Vec<(String, Option<String>, BTreeMap<String, Value>)> = Vec::new();
         if ngff_root.get("multiscales").is_some() {
             groups.push((String::new(), None, BTreeMap::new()));
+            // An image at the root may keep its OME-XML in `OME/` too (OpenReadout exports do).
+            ds.load_ome_xml()?;
         } else if let Some(plate) = ngff_root.get("plate") {
             ds.layout = "plate";
             let rows: Vec<String> = plate
@@ -643,15 +654,7 @@ impl ZarrDataset {
                 extra.insert("series".into(), json!(s));
                 groups.push((s.clone(), Some(s.clone()), extra));
             }
-            if let Some(xml) = ds.store.get("OME/METADATA.ome.xml")? {
-                let text = String::from_utf8_lossy(&xml);
-                match parse_ome_xml(&text) {
-                    Some(doc) => ds.ome_xml = Some((doc, xml.len())),
-                    None => ds
-                        .notes
-                        .push("OME/METADATA.ome.xml is present but is not OME-XML".into()),
-                }
-            }
+            ds.load_ome_xml()?;
         } else {
             return Err(Error::unsupported(
                 FORMAT_ID,
@@ -1144,6 +1147,20 @@ impl ZarrDataset {
 }
 
 impl ZarrDataset {
+    /// Parse `OME/METADATA.ome.xml` when the store has one.
+    fn load_ome_xml(&mut self) -> Result<()> {
+        if let Some(xml) = self.store.get("OME/METADATA.ome.xml")? {
+            let text = String::from_utf8_lossy(&xml);
+            match parse_ome_xml(&text) {
+                Some(doc) => self.ome_xml = Some((doc, xml.len())),
+                None => self
+                    .notes
+                    .push("OME/METADATA.ome.xml is present but is not OME-XML".into()),
+            }
+        }
+        Ok(())
+    }
+
     /// Growing-file evidence (see [`Dataset::write_state`]) for a directory store: the
     /// metadata documents are written first and chunk files appear one by one, so a level-0
     /// array whose stored chunks form a strict prefix of the chunk grid in C order (the order

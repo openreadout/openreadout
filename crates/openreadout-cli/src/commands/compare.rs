@@ -23,7 +23,7 @@ pub struct CompareOpts {
     pub tolerance: Option<f64>,
     /// Leave this JSON pointer (into `info --json` data) out of the metadata diff; `*` matches
     /// one segment, e.g. `/images/*/name`. Repeatable. `/path`, `/size_bytes`, `/format`,
-    /// `/format_version` and `/notes` are always left out.
+    /// `/format_version`, `/notes` and `/images/*/dimension_order` are always left out.
     #[arg(long, value_name = "POINTER", requires = "against")]
     pub ignore: Vec<String>,
     /// Also diff the `extra` objects (format-specific; they usually differ between formats).

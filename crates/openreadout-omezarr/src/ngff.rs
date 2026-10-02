@@ -96,8 +96,8 @@ pub fn multiscales(im: &ImageInfo, level_sizes: &[(u32, u32)], creator: &str) ->
             })
         })
         .collect();
-    json!({
-        "name": image_name(im),
+    with_name(
+        json!({
         "axes": axes(im),
         "datasets": datasets,
         "type": "mean",
@@ -105,7 +105,9 @@ pub fn multiscales(im: &ImageInfo, level_sizes: &[(u32, u32)], creator: &str) ->
             "description": "Each level is the previous level downsampled 2x in y and x by the mean of 2x2 pixel blocks (partial blocks at odd edges average the pixels present); z, c and t are not downsampled.",
             "method": creator,
         },
-    })
+        }),
+        im,
+    )
 }
 
 /// One `multiscales` entry for levels of the given sizes and downsampling factors (relative to
@@ -145,8 +147,8 @@ pub fn multiscales_with_factors(
             "Each level is the previous level downsampled 2x in y and x by the mean of 2x2 pixel blocks (partial blocks at odd edges average the pixels present); z, c and t are not downsampled.",
         ),
     };
-    json!({
-        "name": image_name(im),
+    with_name(
+        json!({
         "axes": axes(im),
         "datasets": datasets,
         "type": kind,
@@ -154,15 +156,19 @@ pub fn multiscales_with_factors(
             "description": description,
             "method": creator,
         },
-    })
+        }),
+        im,
+    )
 }
 
-/// Display name of an image.
-pub fn image_name(im: &ImageInfo) -> String {
-    im.name
-        .clone()
-        .filter(|n| !n.is_empty())
-        .unwrap_or_else(|| format!("Image {}", im.index))
+/// Add the image's `name` to a `multiscales` or `omero` object when the source names it
+/// (OME-NGFF makes it optional; an invented name would read back as metadata the source
+/// never had).
+fn with_name(mut v: Value, im: &ImageInfo) -> Value {
+    if let (Some(n), Value::Object(m)) = (im.name.as_ref().filter(|n| !n.is_empty()), &mut v) {
+        m.insert("name".into(), json!(n));
+    }
+    v
 }
 
 /// Observed sample range of one written (Zarr) channel.
@@ -255,15 +261,17 @@ pub fn omero(im: &ImageInfo, c_map: &[u32], ranges: &[ChannelRange], default_z: 
             }));
         }
     }
-    json!({
-        "name": image_name(im),
+    with_name(
+        json!({
         "channels": channels,
         "rdefs": {
             "defaultT": 0,
             "defaultZ": default_z,
             "model": if channels.len() == 1 { "greyscale" } else { "color" },
         },
-    })
+        }),
+        im,
+    )
 }
 
 /// Integers as JSON integers, everything else as floats.
@@ -421,7 +429,8 @@ mod tests {
             m["datasets"][2]["coordinateTransformations"][0]["scale"],
             json!([1.0, 1.0, 1.0, 4.0, 4.0])
         );
-        assert_eq!(m["name"], "Image 3");
+        // an unnamed source image gets no invented name
+        assert!(m.get("name").is_none());
     }
 
     #[test]

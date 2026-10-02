@@ -1,6 +1,6 @@
 //! Microscopy: CZI, ND2, LIF, TIFF and OME-TIFF/OME-Zarr reads, truncation and exports.
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use crate::common::*;
 
@@ -1520,6 +1520,75 @@ fn ome_tiff_round_trip_keeps_metadata_corpus() {
         );
         assert_eq!(v["data"]["identical"], true, "{name}");
         assert_eq!(out.status.code(), Some(0), "{name}");
+    }
+}
+
+/// The fixtures' OME-Zarr exports compare identical, metadata included: the objective,
+/// instrument and acquisition mode travel in `OME/METADATA.ome.xml`, and neither a name nor a
+/// display colour is invented. An export made with `--select` compares identical with
+/// `check --against --select` (same selection). Regression for the 2026-10 website audit.
+#[test]
+fn ome_zarr_round_trip_and_selected_exports_compare_identical() {
+    let tmp = tempfile::tempdir().unwrap();
+    let check = |src: &Path, other: &Path, select: &[&str]| {
+        let mut cmd = bin();
+        cmd.args(["check", "--json"])
+            .arg(src)
+            .arg("--against")
+            .arg(other);
+        for s in select {
+            cmd.args(["--select", s]);
+        }
+        let out = cmd.output().unwrap();
+        let v = json(&out);
+        assert_eq!(
+            v["data"]["metadata"]["difference_count"],
+            0,
+            "{}: {:#}",
+            other.display(),
+            v["data"]["metadata"]["differences"]
+        );
+        assert_eq!(v["data"]["identical"], true, "{}", other.display());
+        assert_eq!(out.status.code(), Some(0));
+        v
+    };
+    for name in ["mini.nd2", "mini.lif", "mini.czi"] {
+        let src = fixture(name);
+        let zarr = tmp.path().join(format!("{name}.ome.zarr"));
+        let out = bin()
+            .arg("export")
+            .arg(&src)
+            .args(["--to", "ome-zarr", "-o"])
+            .arg(&zarr)
+            .output()
+            .unwrap();
+        assert!(out.status.success(), "{name}: {}", stderr(&out));
+        assert!(zarr.join("OME").join("METADATA.ome.xml").is_file());
+        check(&src, &zarr, &[]);
+    }
+    let src = fixture("mini.lif");
+    for to in ["ome-zarr", "ome-tiff"] {
+        let out_path = tmp.path().join(format!("z1.{to}"));
+        let out = bin()
+            .arg("export")
+            .arg(&src)
+            .args(["--to", to, "--select", "z=1", "-o"])
+            .arg(&out_path)
+            .output()
+            .unwrap();
+        assert!(out.status.success(), "{to}: {}", stderr(&out));
+        let v = check(&src, &out_path, &["z=1"]);
+        assert_eq!(v["data"]["images"][0]["selected"], true);
+        assert_eq!(v["data"]["planes"]["planes"], 1);
+        // without the selection the export is (correctly) a different file
+        let out = bin()
+            .args(["check", "--json"])
+            .arg(&src)
+            .arg("--against")
+            .arg(&out_path)
+            .output()
+            .unwrap();
+        assert_eq!(out.status.code(), Some(1));
     }
 }
 
