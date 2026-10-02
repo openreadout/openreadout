@@ -186,7 +186,11 @@
           ]
         },
         "geometry_equal": {
-          "description": "Both files have the image and their geometries agree.",
+          "description": "Both files have the image and their geometries agree (with `selected`, after the\nselection).",
+          "type": "boolean"
+        },
+        "selected": {
+          "description": "The second file holds only the selected planes of this image (an export made with the\nsame selection): planes, channels and the metadata diff were matched in selection\norder, and `ours` is the geometry after the selection.",
           "type": "boolean"
         },
         "channel_names_equal": {

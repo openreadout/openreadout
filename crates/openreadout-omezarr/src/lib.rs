@@ -2,9 +2,10 @@
 //!
 //! Every image becomes a `multiscales` group with 5-D arrays in `t, c, z, y, x` order, one
 //! array per resolution level (2×2 mean pyramid), plus `omero` channel display metadata.
-//! A single exported image is written at the root of the store; several images become a
-//! `bioformats2raw.layout` collection (`0/`, `1/`, ... plus an `OME/` group listing the
-//! series and holding `METADATA.ome.xml`). A multi-well plate (a high-content screening
+//! A single exported image is written at the root of the store, with an `OME/` group holding
+//! `METADATA.ome.xml` (objective, instrument and channel details OME-NGFF has no place for);
+//! several images become a `bioformats2raw.layout` collection (`0/`, `1/`, ... plus an `OME/`
+//! group listing the series and holding `METADATA.ome.xml`). A multi-well plate (a high-content screening
 //! plate, [`openreadout_core::plate`]) becomes an OME-NGFF HCS plate: `<row>/<column>/<field>`
 //! image groups under `plate` and `well` metadata.
 //!
@@ -82,7 +83,7 @@ pub struct ZarrExportOptions {
     pub codec: Codec,
     /// Replace an existing output directory.
     pub overwrite: bool,
-    /// Embed the vendor metadata tree (as JSON) in `OME/METADATA.ome.xml` (collections only).
+    /// Embed the vendor metadata tree (as JSON) in `OME/METADATA.ome.xml` (not for plates).
     pub embed_vendor: bool,
     /// Chunk edge in pixels for y and x (chunks are `1×1×1×chunk×chunk`).
     pub chunk: u32,
@@ -692,8 +693,10 @@ fn write_store(
     Ok((count, records, xml_len))
 }
 
-/// The metadata of a multi-image store (collection root, `OME` group listing the series,
-/// `OME/METADATA.ome.xml`); returns the XML's size (0 for single-image stores).
+/// The metadata of a store that is not a plate: for several images the collection root and
+/// the `OME` group listing the series; for every store `OME/METADATA.ome.xml`, which carries
+/// what OME-NGFF has no place for (objective, instrument, acquisition mode, exposures).
+/// Returns the XML's size (0 for plates).
 fn write_collection(
     ds: &mut dyn Dataset,
     info: &FileInfo,
@@ -703,63 +706,67 @@ fn write_collection(
     opts: &ZarrExportOptions,
     layout: Option<&PlateSummary>,
 ) -> Result<u64> {
-    let mut xml_len = 0u64;
     if plans.first().is_some_and(|p| p.well.is_some()) {
         write_plate_groups(store, plans, layout)?;
-    } else if plans.len() > 1 {
+        return Ok(0);
+    }
+    if plans.len() > 1 {
         write_group(store, "/", ngff::collection_root_attributes())?;
         let series: Vec<String> = plans
             .iter()
             .map(|p| p.group.trim_start_matches('/').to_string())
             .collect();
         write_group(store, "/OME", ngff::series_attributes(&series))?;
-        let written: Vec<WrittenImage<'_>> = plans
-            .iter()
-            .map(|p| {
-                // Describe the selected planes (exported index space) and where each came
-                // from, so the metadata document carries per-plane `Plane` elements.
-                let mut planes = Vec::new();
-                let mut source_planes = Vec::new();
-                for (ti, &t) in p.t_map.iter().enumerate() {
-                    for (zi, &z) in p.z_map.iter().enumerate() {
-                        for (ci, &c) in p.c_map.iter().enumerate() {
-                            planes.push((ci as u32, zi as u32, ti as u32));
-                            source_planes.push((c, z, t));
-                        }
+    } else {
+        // A single image stays at the root (readers open it as a plain image); the `OME`
+        // group only holds the metadata document.
+        write_group(store, "/OME", serde_json::json!({}))?;
+    }
+    let written: Vec<WrittenImage<'_>> = plans
+        .iter()
+        .map(|p| {
+            // Describe the selected planes (exported index space) and where each came
+            // from, so the metadata document carries per-plane `Plane` elements.
+            let mut planes = Vec::new();
+            let mut source_planes = Vec::new();
+            for (ti, &t) in p.t_map.iter().enumerate() {
+                for (zi, &z) in p.z_map.iter().enumerate() {
+                    for (ci, &c) in p.c_map.iter().enumerate() {
+                        planes.push((ci as u32, zi as u32, ti as u32));
+                        source_planes.push((c, z, t));
                     }
                 }
-                WrittenImage {
-                    info: p.info,
-                    first_ifd: 0,
-                    planes,
-                    size_c: p.c_map.len() as u32,
-                    size_z: p.z_map.len() as u32,
-                    size_t: p.t_map.len() as u32,
-                    c_map: p.c_map.clone(),
-                    source_planes,
-                    frames: ds
-                        .frames(p.info.index, None)
-                        .map(|(_, r)| r)
-                        .unwrap_or_default(),
-                }
-            })
-            .collect();
-        let vendor_json = if opts.embed_vendor {
-            ds.vendor_metadata()
-                .ok()
-                .filter(|v| !v.is_null())
-                .and_then(|v| serde_json::to_string(&v).ok())
-                .filter(|s| s.len() < 8 << 20)
-        } else {
-            None
-        };
-        let xml = build_ome_xml_metadata_only(info, &written, CREATOR, vendor_json.as_deref())
-            .map_err(Error::Other)?;
-        let p = dir.join("OME").join("METADATA.ome.xml");
-        std::fs::write(&p, xml.as_bytes()).map_err(|e| Error::io(&p, e))?;
-        xml_len = xml.len() as u64;
-    }
-    Ok(xml_len)
+            }
+            WrittenImage {
+                info: p.info,
+                first_ifd: 0,
+                planes,
+                size_c: p.c_map.len() as u32,
+                size_z: p.z_map.len() as u32,
+                size_t: p.t_map.len() as u32,
+                c_map: p.c_map.clone(),
+                source_planes,
+                frames: ds
+                    .frames(p.info.index, None)
+                    .map(|(_, r)| r)
+                    .unwrap_or_default(),
+            }
+        })
+        .collect();
+    let vendor_json = if opts.embed_vendor {
+        ds.vendor_metadata()
+            .ok()
+            .filter(|v| !v.is_null())
+            .and_then(|v| serde_json::to_string(&v).ok())
+            .filter(|s| s.len() < 8 << 20)
+    } else {
+        None
+    };
+    let xml = build_ome_xml_metadata_only(info, &written, CREATOR, vendor_json.as_deref())
+        .map_err(Error::Other)?;
+    let p = dir.join("OME").join("METADATA.ome.xml");
+    std::fs::write(&p, xml.as_bytes()).map_err(|e| Error::io(&p, e))?;
+    Ok(xml.len() as u64)
 }
 
 /// The `plate` root, one group per row and the `well` groups of an HCS plate store.

@@ -54,7 +54,9 @@ pub struct CheckArgs {
     /// `--planes`, `--against`: only this image index.
     #[arg(long, help_heading = "Plane hashes (--planes)")]
     pub image: Option<u32>,
-    /// `--planes`, `--against`: plane selection, e.g. `c=0`, `z=2-5`, `t=0,3`. Repeatable.
+    /// `--planes`, `--against`: plane selection, e.g. `c=0`, `z=2-5`, `t=0,3`. Repeatable. With
+    /// `--against`, a second file holding only the selected planes (an export with the same
+    /// `--select`) is matched to them in order.
     #[arg(long = "select", help_heading = "Plane hashes (--planes)")]
     pub select: Vec<String>,
     /// `--planes`, `--against`: pyramid level (0 = full resolution).
