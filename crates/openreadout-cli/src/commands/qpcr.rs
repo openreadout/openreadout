@@ -1,5 +1,5 @@
 //! `analyze qpcr`: named per-well results of a real-time PCR file (RDML, Applied Biosystems `.eds`,
-//! Rotor-Gene `.rex`), and the analyses: our own threshold Cq against the vendor's, ΔΔCq
+//! Rotor-Gene `.rex`, LightCycler 480 `.ixo`), and the analyses: our own threshold Cq against the vendor's, ΔΔCq
 //! relative quantification, standard curves (`openreadout_qpcr::qpcr_report`).
 
 use std::path::{Path, PathBuf};
@@ -12,7 +12,8 @@ use crate::output::{emit, fail};
 /// Arguments of `qpcr`.
 #[derive(Debug, clap::Args)]
 pub struct QpcrArgs {
-    /// A qPCR file: RDML (`.rdml`), Applied Biosystems `.eds`, Rotor-Gene `.rex`.
+    /// A qPCR file: RDML (`.rdml`, LightCycler 96 `.lc96p`), Applied Biosystems `.eds`,
+    /// Rotor-Gene `.rex`, LightCycler 480 `.ixo`.
     #[arg(value_name = "FILE")]
     pub file: PathBuf,
     /// Only this well (`A1`, `B3`).

@@ -14,7 +14,7 @@ openreadout batch summarize [OPTIONS] <TABLE>
 - `peaks`, `chromatogram`, `assay`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `gate`: the [`analyze`](analyze.md) subcommands.
 - `summarize`: group statistics of one table written earlier.
 
-Failures are rows with an `error` column, so one bad file does not stop the run. The [Batch tables guide](../../guides/batch.md) explains the row grain of each measure, sample-sheet keys and group summaries.
+Failures are rows with an `error` column, so one bad file does not stop the run, and the command exits 0 once the table is built. `--fail-fast` stops at the first failure and exits with its code. The [Batch tables guide](../../guides/batch.md) explains the row grain of each measure, sample-sheet keys and group summaries.
 
 ## Flags
 

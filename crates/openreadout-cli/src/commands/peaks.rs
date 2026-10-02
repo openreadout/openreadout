@@ -94,6 +94,7 @@ pub struct PeaksArgs {
     #[arg(long, value_name = "MIN")]
     pub rt: Option<f64>,
     /// Half-width of the retention-time window of `--rt` and of compounds without one, minutes.
+    /// Default 0.5.
     #[arg(long, value_name = "MIN")]
     pub window: Option<f64>,
     /// Which peak in the window `--rt` (and `--targets`) report.

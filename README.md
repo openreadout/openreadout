@@ -289,7 +289,7 @@ The skill source is in [`skills/openreadout`](skills/openreadout).
 - **Assurance on every answer** — each result says whether files like it were validated against an independent reader. Agents know when to double-check.
 - **Built-in preview renderer** — `preview` writes a PNG the agent can look at. Agents can *see* the image, trace, or plate they are reasoning about.
 - **Cheap metadata** — `info` reads headers only, so a 100 GB file costs the same as a small one. `--only` returns just the fields asked for, saving tokens.
-- **Safe by default** — inputs are opened read-only, nothing connects to the network, and only `export` writes files, always to a new path.
+- **Safe by default** — inputs are opened read-only and nothing connects to the network.
 
 ### Error Recovery
 

@@ -402,17 +402,32 @@ fn findings(s: &mut String, root: &Path, manifest: &[repo::Entry]) -> Result<()>
     );
     let adj = fs::read_to_string(root.join("corpus/oracle/second/adjudications.toml"))
         .unwrap_or_default();
+    // Whole-file entries (`[file.*]`, `[recorded.*]`: second_opinion.rs) and field entries
+    // (`[[field]]`: second_fields.rs, one entry covering several files and fields). The number of
+    // field differences they settle is counted by the test run, in
+    // docs/benchmark/second-opinions.md.
     let adjudicated = adj
         .lines()
         .filter(|l| l.starts_with("[file.") || l.starts_with("[recorded."))
         .count();
+    let field_entries = adj.lines().filter(|l| l.trim() == "[[field]]").count();
     let neither = adj
         .lines()
         .filter(|l| l.trim() == "right = \"neither\"")
         .count();
+    let field_differences = fs::read_to_string(root.join("docs/benchmark/second-opinions.md"))
+        .ok()
+        .and_then(|t| {
+            let line = t.lines().find(|l| l.starts_with("All families:"))?;
+            let (before, _) = line.split_once(" adjudicated differences")?;
+            before.rsplit(' ').next()?.parse::<u64>().ok()
+        });
     let _ = writeln!(
         s,
-        "- Second-opinion disagreements adjudicated: {adjudicated} ({neither} where neither reader was right; `corpus/oracle/second/adjudications.toml`)."
+        "- Second-opinion disagreements adjudicated (`corpus/oracle/second/adjudications.toml`, {neither} where neither reader was right): {adjudicated} whole-file entries, and {field_entries} field entries{}.",
+        field_differences.map_or_else(String::new, |n| format!(
+            " that settle {n} per-file field differences ([second opinions](../../../docs/benchmark/second-opinions.md))"
+        ))
     );
     let skips = fs::read_to_string(root.join("corpus/manifest.toml"))
         .unwrap_or_default()
