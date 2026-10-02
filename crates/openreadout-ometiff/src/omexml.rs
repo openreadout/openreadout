@@ -130,14 +130,27 @@ fn end(w: &mut W, name: &str) -> R {
     w.write_event(Event::End(BytesEnd::new(name)))
         .map_err(|e| e.to_string())
 }
+/// `s` without the characters XML 1.0 does not allow (C0 controls other than tab, newline and
+/// carriage return; U+FFFE, U+FFFF): vendor metadata can contain them, and a document holding
+/// one does not parse.
+fn xml_chars(s: &str) -> std::borrow::Cow<'_, str> {
+    let bad = |c: char| {
+        (c < ' ' && !matches!(c, '\t' | '\n' | '\r')) || matches!(c, '\u{FFFE}' | '\u{FFFF}')
+    };
+    if s.contains(bad) {
+        s.replace(bad, "").into()
+    } else {
+        s.into()
+    }
+}
 fn text_el(w: &mut W, name: &str, text: &str) -> R {
     start(w, BytesStart::new(name))?;
-    w.write_event(Event::Text(BytesText::new(text)))
+    w.write_event(Event::Text(BytesText::new(&xml_chars(text))))
         .map_err(|e| e.to_string())?;
     end(w, name)
 }
 fn attr(el: &mut BytesStart<'_>, k: &str, v: impl AsRef<str>) {
-    el.push_attribute((k, v.as_ref()));
+    el.push_attribute((k, xml_chars(v.as_ref()).as_ref()));
 }
 fn attr_f(el: &mut BytesStart<'_>, k: &str, v: f64) {
     el.push_attribute((k, fmt_f64(v).as_str()));
@@ -1122,7 +1135,7 @@ fn build(
                 let mut m = BytesStart::new("M");
                 attr(&mut m, "K", *k);
                 start(&mut w, m)?;
-                w.write_event(Event::Text(BytesText::new(v)))
+                w.write_event(Event::Text(BytesText::new(&xml_chars(v))))
                     .map_err(|x| x.to_string())?;
                 end(&mut w, "M")?;
             }
@@ -1332,6 +1345,12 @@ mod tests {
     use openreadout_core::model::{FormatDescriptor, InstrumentInfo, PhysicalSize};
     use openreadout_core::{Confidence, PixelType};
     use serde_json::json;
+
+    #[test]
+    fn characters_xml_forbids_are_dropped() {
+        assert_eq!(xml_chars("a\0b\u{1}c\td\ne\u{FFFF}"), "abc\td\ne");
+        assert!(matches!(xml_chars("plain"), std::borrow::Cow::Borrowed(_)));
+    }
 
     fn file(images: Vec<ImageInfo>) -> FileInfo {
         FileInfo {
