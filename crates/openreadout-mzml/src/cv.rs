@@ -24,6 +24,16 @@ impl Param {
             .ok()
             .filter(|v: &f64| v.is_finite())
     }
+    /// The term's meaning for a summary: its name, or for a generic parent term written with
+    /// the specific value in `value` (`software` = "Xcalibur", `detector type` =
+    /// "electron multiplier", as some writers do when no specific term fits) that value.
+    pub(crate) fn label(&self) -> String {
+        if GENERIC_PARENTS.contains(&self.accession.as_str()) && !self.value.trim().is_empty() {
+            self.value.trim().to_string()
+        } else {
+            self.name.clone()
+        }
+    }
     pub(crate) fn to_json(&self) -> serde_json::Value {
         let mut m = serde_json::Map::new();
         if !self.accession.is_empty() {
@@ -47,6 +57,16 @@ impl Param {
         serde_json::Value::Object(m)
     }
 }
+
+/// Parent terms that writers fill with a free-text `value` when no specific child term fits:
+/// instrument model, software, ionization type, mass analyzer type, detector type.
+pub(crate) const GENERIC_PARENTS: [&str; 5] = [
+    "MS:1000031",
+    "MS:1000531",
+    "MS:1000008",
+    "MS:1000443",
+    "MS:1000026",
+];
 
 /// `referenceableParamGroup` id → its params.
 pub(crate) type ParamGroups = HashMap<String, Vec<Param>>;

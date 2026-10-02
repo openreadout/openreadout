@@ -419,10 +419,24 @@ impl MzmlDataset {
             .find(|c| want.is_none() || c.attr("id") == want)
             .or_else(|| list.children_named("instrumentConfiguration").next())?;
         let ps = params(ic, &self.groups);
+        // the generic `instrument model` term with no value: the model name may sit in a user
+        // param (`instrument model name`, as OpenReadout writes it)
+        let user_model = || {
+            ps.iter()
+                .find(|p| p.accession.is_empty() && p.name == "instrument model name")
+                .map(|p| p.value.trim().to_string())
+                .filter(|v| !v.is_empty())
+        };
         let model = ps
             .iter()
             .find(|p| p.accession != "MS:1000529" && p.accession.starts_with("MS:"))
-            .map(|p| p.name.clone())
+            .map(|p| {
+                if p.accession == "MS:1000031" && p.value.trim().is_empty() {
+                    user_model().unwrap_or_else(|| p.name.clone())
+                } else {
+                    p.label()
+                }
+            })
             .or_else(|| {
                 ps.iter()
                     .find(|p| p.accession.is_empty())
@@ -431,7 +445,7 @@ impl MzmlDataset {
         let detector = ic.child("componentList").map(|cl| {
             cl.children_named("detector")
                 .flat_map(|d| params(d, &self.groups))
-                .map(|p| p.name)
+                .map(|p| p.label())
                 .collect::<Vec<_>>()
                 .join(", ")
         });
@@ -458,7 +472,7 @@ impl MzmlDataset {
         let name = params(s, &self.groups)
             .into_iter()
             .next()
-            .map(|p| p.name)
+            .map(|p| p.label())
             .or_else(|| {
                 s.child("softwareParam")
                     .and_then(|p| p.attr("name").map(str::to_string))
@@ -559,7 +573,12 @@ impl MzmlDataset {
                     let (name, version) = self
                         .software(s.attr("id").unwrap_or_default())
                         .unwrap_or((None, None));
-                    json!({"id": s.attr("id"), "name": name, "version": version})
+                    let accession = params(s, &self.groups)
+                        .into_iter()
+                        .next()
+                        .map(|p| p.accession)
+                        .filter(|a| !a.is_empty() && !cv::GENERIC_PARENTS.contains(&a.as_str()));
+                    json!({"id": s.attr("id"), "name": name, "version": version, "accession": accession})
                 })
                 .collect();
             extra.insert("software".into(), json!(sw));
@@ -575,10 +594,13 @@ impl MzmlDataset {
                                 .iter()
                                 .filter(|c| matches!(c.tag.as_str(), "source" | "analyzer" | "detector"))
                                 .map(|c| {
+                                    let ps = params(c, &self.groups);
                                     json!({
                                         "kind": c.tag,
                                         "order": c.attr("order").and_then(|o| o.parse::<u32>().ok()),
-                                        "terms": params(c, &self.groups).iter().map(|p| p.name.clone()).collect::<Vec<_>>(),
+                                        "terms": ps.iter().map(cv::Param::label).collect::<Vec<_>>(),
+                                        // parallel to `terms`; empty for user params and generic terms
+                                        "accessions": ps.iter().map(|p| if cv::GENERIC_PARENTS.contains(&p.accession.as_str()) && !p.value.trim().is_empty() { String::new() } else { p.accession.clone() }).collect::<Vec<_>>(),
                                     })
                                 })
                                 .collect()
