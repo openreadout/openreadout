@@ -1412,6 +1412,7 @@ dependencies = [
 name = "openreadout-biophys"
 version = "0.1.0"
 dependencies = [
+ "base64 0.23.1",
  "openreadout-core",
  "roxmltree 0.21.1",
  "serde_json",
