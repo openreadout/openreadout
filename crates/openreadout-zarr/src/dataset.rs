@@ -293,13 +293,16 @@ fn apply_ome(info: &mut ImageInfo, img: &OmeImage, doc: &OmeDocument) {
         info.time_increment_s = px.time_increment;
     }
     let inst = doc.instrument_of(img);
+    // OpenReadout's writer invents an `omero` label and colour for every channel; its OME-XML
+    // says what the source recorded (when channels map one to one: not for split RGB samples)
     let ours = doc
         .creator
         .as_deref()
-        .is_some_and(|c| c.starts_with("openreadout "));
+        .is_some_and(|c| c.starts_with("openreadout "))
+        && px.channels.len() == info.channels.len();
     for ch in &mut info.channels {
         if let Some(o) = px.channels.get(ch.index as usize) {
-            if o.name.is_some() {
+            if o.name.is_some() || ours {
                 ch.name.clone_from(&o.name);
             }
             ch.fluorophore.clone_from(&o.fluor);
@@ -308,8 +311,6 @@ fn apply_ome(info: &mut ImageInfo, img: &OmeImage, doc: &OmeDocument) {
             if let Some(c) = o.color {
                 ch.color = Some(ome_color(c));
             } else if ours {
-                // our writer gives every `omero` channel a display colour; the OME-XML says
-                // whether the source recorded one
                 ch.color = None;
             }
             ch.acquisition_mode = doc.channel_mode(o);
