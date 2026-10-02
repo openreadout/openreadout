@@ -104,7 +104,7 @@ openreadout-index = { workspace = true }
 openreadout-batch = { workspace = true }
 openreadout-live = { workspace = true }
 # SIGINT/SIGTERM as a flag for `watch` (safe API; MIT OR Apache-2.0).
-signal-hook = { version = "0.3", default-features = false }
+signal-hook = { version = "0.4", default-features = false }
 openreadout-mcp = { workspace = true, optional = true }
 clap = { workspace = true }
 serde = { workspace = true }
