@@ -1566,6 +1566,28 @@ fn ome_zarr_round_trip_and_selected_exports_compare_identical() {
         assert!(zarr.join("OME").join("METADATA.ome.xml").is_file());
         check(&src, &zarr, &[]);
     }
+    // unnamed channels stay unnamed (the writer's `omero` label is for display only)
+    let src = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../openreadout-zarr/tests/fixtures/ngff05-v3-yx-zstd-stored.zip");
+    let zarr = tmp.path().join("unnamed.ome.zarr");
+    let out = bin()
+        .arg("export")
+        .arg(&src)
+        .args(["--to", "ome-zarr", "-o"])
+        .arg(&zarr)
+        .output()
+        .unwrap();
+    assert!(out.status.success(), "{}", stderr(&out));
+    let out = bin()
+        .args(["check", "--json"])
+        .arg(&src)
+        .arg("--against")
+        .arg(&zarr)
+        .output()
+        .unwrap();
+    let v = json(&out);
+    assert_eq!(v["data"]["images"][0]["channel_names_equal"], true, "{v:#}");
+
     let src = fixture("mini.lif");
     for to in ["ome-zarr", "ome-tiff"] {
         let out_path = tmp.path().join(format!("z1.{to}"));
