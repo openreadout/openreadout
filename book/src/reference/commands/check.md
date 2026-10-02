@@ -76,7 +76,7 @@ planes: 2 compared, 2 identical, 0 within tolerance, 0 mismatched
 
 ## `--report`
 
-The bundle lets you report a file that OpenReadout cannot read without sharing the file. It holds the file's assurance fingerprint, every decode stage with its error, the structure map, and the metadata with free text replaced. It contains no pixel, spectral, trace or table values and no path. Nothing is sent anywhere. Attach it to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). Read the bundle first with `--dry-run` if you want to see exactly what it contains.
+The bundle lets you report a file that OpenReadout cannot read without sharing the file. It holds the file's assurance fingerprint, every decode stage with its error, the structure map, and the metadata with free text replaced. It contains no pixel, spectral, trace or table values and no path. OpenReadout doesn't send it anywhere. Attach it to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). Read the bundle first with `--dry-run` if you want to see exactly what it contains.
 
 ## Files still being written
 

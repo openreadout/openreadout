@@ -1,6 +1,6 @@
 # Assurance and strict mode
 
-A reader can be right on every file it was tested on and still return plausible but wrong numbers for a variant it has never seen: a new format version, another writer, an unusual codec. So for every file, `info` and `check` say whether this file lies inside what its reader was validated on. Validated means that development files of the same variant were read correctly and confirmed by an independent reader. The `--strict` flag turns that into a guarantee.
+A reader can pass all its tests and still return plausible but wrong numbers for a variant it hasn't seen before: a new format version, another writer, an unusual codec. So `info` and `check` tell you whether a file is a variant its reader has been validated on, meaning that development files of the same variant were read correctly and confirmed by an independent reader. With `--strict`, OpenReadout refuses to return values that haven't been validated.
 
 ## The `assurance` block
 
@@ -39,9 +39,9 @@ The file is `crates/openreadout-tiff/tests/fixtures/codecs/lerc_uint16.tif` in t
 
 ### Level
 
-- `validated`: every feature of the file's variant was read correctly on development files that an independent reader confirmed. Nothing is left undecoded, assumed or uncalibrated.
-- `partially_validated`: values are decoded along validated paths, but something is less certain. For example, a descriptive feature such as the writer version was never seen, a structure was skipped, or a value was assumed.
-- `unvalidated`: some output depends on something never validated, so its values may be wrong.
+- `validated`: every feature of the file's variant was read correctly on development files that an independent reader confirmed, and no part of the file was skipped, assumed or left uncalibrated.
+- `partially_validated`: values are decoded along validated paths, but something is less certain. For example, a descriptive feature such as the writer version hasn't been seen before, a structure was skipped, or a value was assumed.
+- `unvalidated`: some output depends on something that hasn't been validated, so its values may be wrong.
 
 `summary` says the same in one line, for people and agents.
 
@@ -74,7 +74,7 @@ The scopes are:
 - `inferred_fields`: how many normalized fields have a meaning that was worked out from files rather than taken from a specification. See [Provenance](../guides/metadata.md#provenance).
 - `strict_refuses`: the outputs `--strict` refuses for this file.
 - `strict_withholds`: single fields `--strict` replaces with null (below).
-- `reader_confidence`: the reader's overall level (`high`, `medium` or `low`), for context. It is computed from the test evidence by a fixed [rubric](https://github.com/openreadout/openreadout/blob/main/docs/assurance.md#the-confidence-rubric), never assigned by hand. The [evidence page](../project/evidence.md) lists it per format with the files behind it.
+- `reader_confidence`: the reader's overall level (`high`, `medium` or `low`), for context. It is computed from the test evidence by a fixed [rubric](https://github.com/openreadout/openreadout/blob/main/docs/assurance.md#the-confidence-rubric), not set by hand. The [evidence page](../project/evidence.md) lists it per format with the files behind it.
 
 ### What to do with it
 
@@ -109,7 +109,7 @@ Each request needs one scope, and is refused when that scope is in `strict_refus
 | `trace`, and analyses on traces | `traces` |
 | `table`, and analyses on tables | `tables` |
 
-These are never refused, because they report on the file rather than on its measured values: `check`, `info --view structure`, `info --view format`, provenance and attachments. `check` still prints the assurance block.
+Strict mode doesn't refuse these, because they report on the file rather than on its measured values: `check`, `info --view structure`, `info --view format`, provenance and attachments. `check` still prints the assurance block.
 
 Strict mode refuses only `unvalidated` outputs. A `partially_validated` file is read, because its values are decoded along validated paths.
 
@@ -117,10 +117,10 @@ Strict mode refuses only `unvalidated` outputs. A `partially_validated` file is 
 
 A single value can be wrong even when every output is decoded along validated paths: a read mode guessed from a label, or a measurement time taken from the wrong field. `--strict` handles these one value at a time. `info` returns everything else, replaces each field in `strict_withholds` with null, and says so in `notes`. Asking for a withheld field directly with `--only` exits 6 with the reason, instead of printing null.
 
-A field is withheld when its value was assumed, when it was derived by a rule that no independent reader has confirmed, or when no independent reader has ever compared that field for this format.
+A field is withheld when its value was assumed, when it was derived by a rule that no independent reader has confirmed, or when no independent reader has compared that field for this format.
 
 ## Getting a variant validated
 
-If a file you need is refused or not `validated`, you can help. `openreadout check --report FILE` writes a diagnostic bundle to a local file: the fingerprint, each decoding step with its error, and the file's structure. It holds no pixel, spectral or trace values, and no free text or paths unless you add `--include-text`. `--dry-run` prints it without writing anything. Nothing is sent anywhere. Attach the bundle to an issue, ideally with an export of the same file from the vendor's software. See [Contributing](../project/contributing.md).
+If a file you need is refused or not `validated`, you can help. `openreadout check --report FILE` writes a diagnostic bundle to a local file: the fingerprint, each decoding step with its error, and the file's structure. It holds no pixel, spectral or trace values, and no free text or paths unless you add `--include-text`. `--dry-run` prints it without writing anything. OpenReadout doesn't send it anywhere. Attach the bundle to an issue, ideally with an export of the same file from the vendor's software. See [Contributing](../project/contributing.md).
 
-How the validated sets are derived from the test corpus is described for maintainers in [docs/assurance.md](https://github.com/openreadout/openreadout/blob/main/docs/assurance.md).
+For maintainers, [docs/assurance.md](https://github.com/openreadout/openreadout/blob/main/docs/assurance.md) explains how the validated sets are derived from the test corpus.

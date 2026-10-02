@@ -23,7 +23,7 @@ DAD1 A, Sig=254,4 Ref=360,100: 17 peaks, area in mAU·min, noise σ 0.002 (segme
 17  26.694    25.800  28.927   0.1958    0.14    0.1276     62.6  1.5553     1.74  BB
 ```
 
-`cheminfo-agilent-hplc.cdf` is an Agilent HPLC run in ANDI (netCDF) format, committed at [`fuzz/corpus/whole_andi/`](../../../fuzz/corpus/whole_andi/cheminfo-agilent-hplc.cdf). Every output on this page is real; long tables are trimmed. A ChemStation `.D` directory works the same way.
+`cheminfo-agilent-hplc.cdf` is an Agilent HPLC run in ANDI (netCDF) format, committed at [`fuzz/corpus/whole_andi/`](../../../fuzz/corpus/whole_andi/cheminfo-agilent-hplc.cdf). The output on this page is real, with long tables trimmed. A ChemStation `.D` directory works the same way.
 
 ## What it tells you
 

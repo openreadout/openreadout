@@ -156,7 +156,7 @@ export function mount(doc) {
   const status = doc.getElementById("status");
   const show = async (file) => {
     if (!file) return;
-    status.textContent = `Reading ${file.name} in this tab…`;
+    status.textContent = `Reading ${file.name}…`;
     try {
       const r = await analyze(file);
       render(doc, out, model(r));

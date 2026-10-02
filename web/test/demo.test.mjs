@@ -50,7 +50,7 @@ test("an unreadable file shows the CLI's error and hint", async () => {
 
 test("the page states and enforces that nothing is uploaded", () => {
   const html = readFileSync(join(out, "index.html"), "utf8");
-  assert.match(html, /Nothing is uploaded\./);
+  assert.match(html, /Your file stays on your computer\./);
   const csp = html.match(/http-equiv="Content-Security-Policy"\s+content="([^"]+)"/)[1];
   assert.match(csp, /connect-src 'none'/);
   assert.match(csp, /form-action 'none'/);

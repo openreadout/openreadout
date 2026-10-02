@@ -17,7 +17,7 @@ mini.nd2 (nd2): OK
     - loop-tree frame count equals uiSequenceCount
 ```
 
-`mini.nd2` is a small Nikon file in the repository at [`crates/openreadout-cli/tests/fixtures/mini.nd2`](../../../crates/openreadout-cli/tests/fixtures/mini.nd2). Every output on this page is real; long lines are trimmed.
+`mini.nd2` is a small Nikon file in the repository at [`crates/openreadout-cli/tests/fixtures/mini.nd2`](../../../crates/openreadout-cli/tests/fixtures/mini.nd2). The output on this page is real, with long lines trimmed.
 
 Here is the same file cut off after 1200 bytes (`head -c 1200 mini.nd2 > cut.nd2`), as happens when a copy is interrupted. `--live-window 0` is needed only because the cut file is brand new (see below):
 

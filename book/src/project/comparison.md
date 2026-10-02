@@ -15,7 +15,7 @@ How OpenReadout relates to tools you may already use. Facts about other projects
 | **Machine interface** | JSON with published schemas, fixed exit codes, error hints, MCP tools | Java API; CLI output is text for people | Python objects (xarray, dask, NumPy) | Python objects | files; exit status |
 | **Metadata** | normalized OME-style model, the vendor tree, and the provenance of each field | OME-XML model + original metadata | OME model via plugins (`ome_types`) + standard dims/channels/pixel sizes | format-specific structures (nd2 is especially rich) | mzML (PSI-MS controlled vocabulary) |
 | **Integrity check** | `check`: structure, truncation, missing planes (exit code 4) | not a dedicated feature | no | no | no |
-| **Writes** | open formats such as OME-TIFF, OME-Zarr, mzML, Parquet and NWB ([list](../reference/commands/export.md)); never modifies the source | OME-TIFF and other open formats; OME-Zarr via `bioformats2raw` | OME-TIFF, OME-Zarr, via writer plugins | no (read-only) | mzML, mzXML, MGF and others |
+| **Writes** | open formats such as OME-TIFF, OME-Zarr, mzML, Parquet and NWB ([list](../reference/commands/export.md)); doesn't modify the source | OME-TIFF and other open formats; OME-Zarr via `bioformats2raw` | OME-TIFF, OME-Zarr, via writer plugins | no (read-only) | mzML, mzXML, MGF and others |
 | **Large files** | header-only metadata; one plane at a time | plane/tile access through the API | lazy dask arrays | memory-mapped / lazy access varies by library | streaming conversion |
 
 ## When to use which
@@ -29,4 +29,4 @@ How OpenReadout relates to tools you may already use. Facts about other projects
 
 ## How OpenReadout uses them
 
-czifile, nd2 and liffile are the main reference readers for microscopy in the [validation](validation.md) tests. Bio-Formats (`bfconvert`) decides when they disagree with OpenReadout. bioio and its plugins give second opinions and check exports. OpenReadout's parsers were written from files and permissively licensed documentation, never from the source code of the copyleft projects above ([clean-room policy](clean-room.md)).
+czifile, nd2 and liffile are the main reference readers for microscopy in the [validation](validation.md) tests. Bio-Formats (`bfconvert`) decides when they disagree with OpenReadout. bioio and its plugins give second opinions and check exports. We wrote OpenReadout's parsers from files and permissively licensed documentation, not from the source code of the copyleft projects above ([clean-room policy](clean-room.md)).

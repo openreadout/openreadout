@@ -81,7 +81,7 @@ const MOUSE = (() => {
     $("#zrWhat").innerHTML = `Showing <b>${labels[i]}</b>: ${fmtInt(s.r[2])} × ${fmtInt(s.r[3])} pixels of the original, drawn at ${SIZE_NAME[s.scale]}.`;
     $("#zrBig").innerHTML = `${(read / 1e6).toFixed(1)} MB <small>read of ${fmtInt(Math.round(MOUSE.total / 1e6))} MB</small>`;
     $("#zrMeter").style.width = Math.max(read / MOUSE.total * 100, .3) + "%";
-    $("#zrDetail").textContent = `${s.tiles.length} tile${s.tiles.length > 1 ? "s" : ""} (${fmtBytes(s.bytes)}) plus the header, description and catalogue (${fmtBytes(MAPS.mouse.sig)}). The other ${fmtInt(MOUSE.segs.length - s.tiles.length - 4)} records are never touched.`;
+    $("#zrDetail").textContent = `${s.tiles.length} tile${s.tiles.length > 1 ? "s" : ""} (${fmtBytes(s.bytes)}) plus the header, description and catalogue (${fmtBytes(MAPS.mouse.sig)}). The other ${fmtInt(MOUSE.segs.length - s.tiles.length - 4)} records are skipped.`;
     [...$("#zrSteps").children].forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
     drawMap();
   }

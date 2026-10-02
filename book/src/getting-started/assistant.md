@@ -4,13 +4,13 @@ OpenReadout is designed for AI agents. An assistant can use it in two ways: thro
 
 ## Connect it
 
-**In one line.** Paste this into your agent's chat. The agent reads the skill, which tells it how to install the program and use every command:
+**In one line.** Paste this into your agent's chat. The agent reads the skill, which tells it how to install and use the program:
 
 ```text
 curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/skills/openreadout/SKILL.md
 ```
 
-There is no packaged release yet, and the install script the skill names starts working with the first release. Until then, [install with cargo](install.md) yourself, then connect the program with one of the commands below.
+There is no packaged release yet, so the install script the skill uses won't work until there is one. Until then, [install with cargo](install.md) yourself, then connect the program with one of the commands below.
 
 **The skill**, for agents with a shell (Claude Code, Codex, Cursor, Copilot, Gemini CLI):
 
@@ -26,7 +26,7 @@ openreadout self skill --install all       # both
 openreadout mcp --install claude-desktop   # then restart Claude Desktop
 ```
 
-The client names are `claude` (or `claude-code`), `claude-desktop`, `cursor`, `codex`, `vscode`, `gemini`, `windsurf`, `zed`, `continue` and `cline`. The command adds an entry with the program's full path to the client's configuration file, keeps the other servers, backs up the old file next to it, and changes nothing if OpenReadout is already there:
+The client names are `claude` (or `claude-code`), `claude-desktop`, `cursor`, `codex`, `vscode`, `gemini`, `windsurf`, `zed`, `continue` and `cline`. The command adds an entry with the program's full path to the client's configuration file, keeps the other servers, backs up the old file next to it, and leaves the file alone if OpenReadout is already in it:
 
 ```text
 $ openreadout mcp --install cursor
@@ -55,7 +55,7 @@ Ask in plain words and give the path:
 - **Stable JSON.** Every command takes `--json`, with [published schemas](../reference/json/envelope.md). Keys are not renamed or removed without a `schema_version` bump.
 - **Fixed exit codes:** 0 ok, 1 error, 2 usage, 3 unknown format, 4 corrupt, 5 I/O, 6 unsupported feature.
 - **Errors with a hint** that says what to do next (see below).
-- **Assurance on every answer:** whether files like this one were validated against an independent reader.
+- **Assurance with each answer:** whether files like this one were validated against an independent reader.
 - **Pictures:** `preview` draws images, traces, spectra and plates, so the agent can look at the data.
 - **Cheap metadata:** `info` reads headers only, and `--only` returns just the fields asked for.
 - **Read-only inputs** and no network access.
@@ -79,12 +79,12 @@ $ openreadout preview mini.nd2 --image 3 --json
 
 ## How the assistant sees images
 
-`openreadout_preview` returns a picture as image content, followed by JSON that says what was drawn. Image previews have rulers labelled in full-resolution pixels and a µm scale bar when the pixel size is known, so the assistant can read a feature's coordinates off the rulers and ask again for just that `region`; only the tiles the region touches are read. It measures intensities with `openreadout_stats`, not from the picture.
+`openreadout_preview` returns a picture as image content, followed by JSON that says what was drawn. Image previews have rulers labelled in full-resolution pixels and a µm scale bar when the pixel size is known, so the assistant can read a feature's coordinates off the rulers and ask again for just that `region`. To measure intensities it uses `openreadout_stats`, not the picture.
 
 ## Privacy
 
-- No tool connects to the network. Release binaries contain no networking code.
-- Source files are never modified. `openreadout_export` writes a new file, reads it back to verify it, then renames it into place, and replaces an existing output only when asked to overwrite.
+- OpenReadout doesn't connect to the network. Release binaries contain no networking code.
+- OpenReadout doesn't modify your files. `openreadout_export` writes a new file, reads it back to check it, then gives it its final name. It replaces an existing output only if you ask it to overwrite.
 - The server runs as you, so it can open any file your user account can read.
 
 ## More

@@ -21,7 +21,7 @@
 
 `openreadout <command> --help` is the authoritative list of flags for the version you have installed. These pages describe each flag in one line and add what the help text leaves out.
 
-Every command prints human-readable text by default. With `--json` it prints the JSON wrapper described in [Reading the JSON output](../../getting-started/reading-json.md). The fields of each command's `data` are listed in the [JSON reference](../json/index.md). Commands never write to the file they read.
+Every command prints human-readable text by default. With `--json` it prints the JSON wrapper described in [Reading the JSON output](../../getting-started/reading-json.md). The fields of each command's `data` are listed in the [JSON reference](../json/index.md). Commands don't write to the files they read.
 
 ## Global flags
 

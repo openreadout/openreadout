@@ -28,7 +28,7 @@ drug       c0            median  2     35   0    0      35     35     35        
 samples.csv joined on `file` = path: 4/4 rows, 4/4 data sets annotated (added: condition)
 ```
 
-OpenReadout found the join key itself and reported it on the last line: the sheet's `file` column matches the file names. The channel name became a group column on its own. The two conditions were imaged with differently named channels, and a mean never mixes two channels.
+OpenReadout worked out the join key and reported it on the last line: the sheet's `file` column matches the file names. It also added the channel name as a group column, because the two conditions were imaged with differently named channels and it won't average across channels.
 
 ## Several files at once
 
@@ -99,7 +99,7 @@ Each row is one data set times the measure's grain:
 
 Columns come in a fixed order. `path`, `format` and `files` are first. Then come the keys (image, channel, parameter, well), what the file records about the sample, your sample sheet's columns, the values, and finally `error` and `error_code`. Names are lower case and stable. A unit that never changes is part of the name (`duration_s`, `wavelength_nm`). The JSON output lists every column with its type, unit and description.
 
-A file that cannot be read becomes a row with `error` and `error_code` set, and the run carries on. Files that belong together, such as a multi-file OME-TIFF or a SpikeGLX `.meta` and `.bin`, are measured once, and the `files` column counts them. Your sample sheet and the output file are never treated as inputs.
+A file that cannot be read becomes a row with `error` and `error_code` set, and the run carries on. Files that belong together, such as a multi-file OME-TIFF or a SpikeGLX `.meta` and `.bin`, are measured once, and the `files` column counts them. Your sample sheet and the output file are not treated as inputs.
 
 Narrow the table with these flags:
 
@@ -158,7 +158,7 @@ OpenReadout tries each sheet column against several keys of every data set:
 
 The pair that matches the most rows wins. When rows still match several sheet rows, a second column joins the key; plate barcode plus well is the usual case. Sheet values with `*` or `?` are patterns (`ctrl_*.fcs`). To set the key yourself, use `--key SHEET_COLUMN=FIELD`, and repeat it for a composite key.
 
-Nothing is dropped silently. The join report names:
+Unmatched rows are reported, not dropped. The join report lists:
 
 - the key chosen and the runners-up
 - the columns added
@@ -176,7 +176,7 @@ Wells of high-content screening images need no extra work. `stats` rows carry th
 
 `--by condition[,dose]` adds one summary row per group and value column. Each row has `n`, `mean`, `sd`, `sem`, `median`, `min`, `max` and `cv_percent`. `--value` picks the value columns; the default is the measure's main values.
 
-Different measurements are never pooled. Columns that say *what* was measured, such as channel, FCS parameter, population, trace or wavelength, are added to the groups whenever they vary. `--exact-by` turns this off. Images, wells, sweeps and files are pooled.
+Different measurements are not pooled. Columns that say *what* was measured, such as channel, FCS parameter, population, trace or wavelength, are added to the groups whenever they vary. `--exact-by` turns this off. Images, wells, sweeps and files are pooled.
 
 - `--replicate COLUMN` averages each replicate (a well, a biological replicate) first, so `n` counts replicates.
 - `--test welch` or `--test mann-whitney`, with `--control VALUE`, compares every group with the control group. It adds `diff`, `ratio`, `statistic`, `df` and a two-sided `p_value`. The tests match SciPy's `ttest_ind(equal_var=False)` and `mannwhitneyu`. P-values are not corrected for multiple comparisons.
@@ -197,13 +197,13 @@ openreadout batch summarize per_well.parquet --by condition,dose --value mean
 openreadout link share/ --json
 ```
 
-Every link names its evidence and a confidence:
+Each link lists its evidence and a confidence:
 
 - High: the same barcode; the same plate barcode and well; the same recorded sample id; one file names the other as its source; the same acquisition start, run length and instrument; the same sequence of mass spectra.
 - Medium: the same instrument serial, scan count and run length; the same sample name where no id is recorded; the same file stem in two formats.
 - Medium or low: one file's sample id appears in the other's file name.
 
-A well alone never links two files, because wells repeat on every plate. Identifiers that name controls (`blank`, `QC`, `pool`, `standard`) count as weak evidence. So do identifiers that more than `--max-shared` data sets share (default 12). Links at or above `--min-confidence` (default `medium`) form groups; weaker ones are listed separately. A group whose files record different sample ids is reported as a conflict.
+A matching well on its own doesn't link two files, because every plate has the same wells. Identifiers that name controls (`blank`, `QC`, `pool`, `standard`) count as weak evidence. So do identifiers that more than `--max-shared` data sets share (default 12). Links at or above `--min-confidence` (default `medium`) form groups; weaker ones are listed separately. A group whose files record different sample ids is reported as a conflict.
 
 ## Shell loops
 

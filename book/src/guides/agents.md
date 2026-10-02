@@ -31,7 +31,7 @@ The skill is `SKILL.md` plus a few reference files, in the [Agent Skills](https:
 
 ## The MCP server
 
-`openreadout mcp --install <client>` adds OpenReadout to a client's configuration file. It keeps the other servers and settings, backs up the old file next to it, and changes nothing if OpenReadout is already configured. `openreadout mcp --config <client>` prints the entry instead, with the full path of the program filled in, so you can add it by hand.
+`openreadout mcp --install <client>` adds OpenReadout to a client's configuration file. It keeps the other servers and settings, backs up the old file next to it, and leaves the file alone if OpenReadout is already configured. `openreadout mcp --config <client>` prints the entry instead, with the full path of the program filled in, so you can add it by hand.
 
 | client | name | user-level file | project file (`--project`) |
 | --- | --- | --- | --- |
@@ -113,9 +113,9 @@ The MCP server also offers resources and prompts, which some clients show as men
 
 ## What the agent can change
 
-- Only `openreadout_export` writes next to your data. It always writes a new file, verifies it by reading it back, and never modifies the source. It replaces an existing output only when asked to overwrite.
+- Only `openreadout_export` writes next to your data. It writes a new file, reads it back to check it, and leaves the source alone. It replaces an existing output only if asked to overwrite.
 - `openreadout_batch`, `openreadout_index` and `openreadout_check` write only to output paths given to them.
-- No tool connects to the network.
+- None of the tools connect to the network.
 - Errors come back with a stable `code`, an `exit_code` and a `hint` the agent can act on.
 
-To see exactly what a client receives, run the example client in [`examples/mcp/mcp_client.py`](../../../examples/mcp/mcp_client.py). All tools and their arguments are listed in [MCP tools](../reference/mcp.md).
+To see exactly what a client receives, run the example client in [`examples/mcp/mcp_client.py`](../../../examples/mcp/mcp_client.py). [MCP tools](../reference/mcp.md) lists each tool and its arguments.

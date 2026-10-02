@@ -25,11 +25,11 @@ standard curve RNase P: slope -3.4770, intercept 40.768, R² 0.9995, efficiency 
 note: target RNase P: amplificationEfficiency 93.91181 read as a percentage (1.9391 fold)
 ```
 
-`rdml-stepone-std.rdml` is an RDML file written by StepOne Software, from the RDML R package's examples (MIT). It is committed at [`fuzz/corpus/core_zip/rdml-stepone-std.rdml`](../../../fuzz/corpus/core_zip/rdml-stepone-std.rdml): one target (RNase P), five standards from 625 to 10000 copies in triplicate, two unknown populations and three NTCs. Every output on this page is real; long tables are trimmed.
+`rdml-stepone-std.rdml` is an RDML file written by StepOne Software, from the RDML R package's examples (MIT). It is committed at [`fuzz/corpus/core_zip/rdml-stepone-std.rdml`](../../../fuzz/corpus/core_zip/rdml-stepone-std.rdml): one target (RNase P), five standards from 625 to 10000 copies in triplicate, two unknown populations and three NTCs. The output on this page is real, with long tables trimmed.
 
 ## What it tells you
 
-- The table has one row per well and target. `Cq` is the value the file stores, as the instrument software called it. `undet.` marks wells the file says did not amplify; they are never averaged as a number.
+- The table has one row per well and target. `Cq` is the value the file stores, as the instrument software called it. `undet.` marks wells the file says did not amplify; they are left out of averages.
 - Look at the NTC wells. Here they read `40.000`, which is the run's cycle count: StepOne wrote that number into this RDML file, and OpenReadout reports it as written. OpenReadout reads a Cq at the cycle count as undetermined only in SDS-layout `.eds` files, where the software is known to write it that way, so in RDML check NTCs by eye.
 - The standard curve is a least-squares line of Cq against log10(quantity) over the standard wells. A slope of −3.32 means 100 % efficiency; efficiency = (10^(−1/slope) − 1) × 100, here 93.9 %.
 - When the file stores the vendor's own fit, its slope, efficiency and R² are given next to ours (`vendor_slope`, `vendor_efficiency_percent` and `vendor_r2` in the JSON). This file stores only the target's efficiency, 93.91181, which matches.

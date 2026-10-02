@@ -48,7 +48,7 @@ Wall time per process and peak RSS.
 | Thermo RAW `mtbls404-QC1_001` | 42 MB | 7.9 ms; 10 MiB | n/a | n/a |
 | mzML `mtbls404-QC1_001` | 115 MB | 50 ms; 6 MiB | n/a | pyteomics 1.93 s (1.45 s); 132 MiB |
 
-For a one-off question about a file, a native binary with nothing to start answers in milliseconds. JVM and Python tools spend most of their time starting. Inside a running Python process, the FCS and ABF readers are as fast as OpenReadout. `info` on mzML reads each spectrum header through the index, so its time grows with the number of spectra.
+For a one-off question about a file, a native binary answers in milliseconds because there is no runtime to start. JVM and Python tools spend most of their time starting up. Inside a running Python process, the FCS and ABF readers are as fast as OpenReadout. `info` on mzML reads each spectrum header through the index, so its time grows with the number of spectra.
 
 ## Export to OME-TIFF
 
@@ -75,7 +75,7 @@ Deflate is limited by compression and gains the most from threads. Uncompressed 
 
 ## Memory
 
-Export holds a bounded number of decoded planes, whatever the size of the file. Planes are decoded in windows of at most `threads` planes and at most 1 GiB, and at most two windows are alive at a time. Peak memory is therefore a few planes plus a few tens of MiB, not the file. No plane above 4 GiB is assembled in memory; larger images are read and exported block by block.
+Export holds a bounded number of decoded planes, whatever the size of the file. Planes are decoded in windows of at most `threads` planes and at most 1 GiB, and at most two windows are alive at a time. So peak memory is a few planes plus a few tens of MiB, however large the file. Planes larger than 4 GiB are read and exported block by block instead of being assembled in memory.
 
 `crates/openreadout-bench/tests/memory_ceiling.rs` enforces this. It counts heap bytes while exporting synthetic images of 16 and 64 planes at 1 and 4 threads, and checks that the peak does not grow with the number of planes.
 

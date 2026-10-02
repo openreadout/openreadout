@@ -20,4 +20,4 @@ Each recipe is one task, one command and how to read what comes back. The output
 
 - [Index and search a lab share](index-share.md): catalogue a share once, then search it, report on its health and find personal data before sharing.
 
-The same tasks are available to an AI agent as MCP tools; [Connect an assistant](../getting-started/assistant.md) sets that up. Every command and flag is in the [command reference](../reference/commands/index.md).
+The same tasks are available to an AI agent as MCP tools; [Connect an assistant](../getting-started/assistant.md) sets that up. The [command reference](../reference/commands/index.md) covers each command and flag.

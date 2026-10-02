@@ -16,21 +16,21 @@ See also the [comparison with other tools](comparison.md).
 
 ## Is it validated?
 
-Every reader is compared with independent readers on a corpus of public files, and every disagreement is recorded with its reason ([Validation](validation.md)). CI runs the smallest tier of that corpus on every push.
+We compare each reader with independent readers on a corpus of public files and write down the reason for each disagreement ([Validation](validation.md)). CI runs the smallest tier of that corpus on every push.
 
 This is not validation in the regulatory sense (IQ/OQ/PQ under GxP). See [regulated use](#can-i-use-it-in-a-regulated-gxp-21-cfr-part-11-lab) below.
 
 ## Can it write vendor formats?
 
-No. OpenReadout never rewrites raw acquisition files: the raw file is the primary record. It writes open formats, such as OME-TIFF, OME-Zarr, mzML and Parquet, to new files and reads each one back to verify it. The [roadmap](roadmap.md) mentions writers for experiment set-up files, such as acquisition worklists, not for raw data.
+No. The raw file is the primary record, so OpenReadout doesn't write to it. It writes open formats, such as OME-TIFF, OME-Zarr, mzML and Parquet, to new files and reads each one back to verify it. The [roadmap](roadmap.md) mentions writers for experiment set-up files, such as acquisition worklists, not for raw data.
 
 ## You run GPL readers. Does that make OpenReadout GPL?
 
-No. GPL and LGPL readers (Bio-Formats, libCZI and pylibCZIrw, bioio-czi, bioio-lif, readlif) run only in the separate `oracle/` Python environment, as black boxes that produce reference values. They are never linked into, shipped with or imported by OpenReadout or its Python packages, and their source is never read while writing a parser ([clean-room policy](clean-room.md), rule 3). What is committed from them is plane hashes and geometry, not code.
+No. GPL and LGPL readers (Bio-Formats, libCZI and pylibCZIrw, bioio-czi, bioio-lif, readlif) run only in the separate `oracle/` Python environment, as black boxes that produce reference values. They aren't linked into, shipped with or imported by OpenReadout or its Python packages, and we don't read their source while writing a parser ([clean-room policy](clean-room.md), rule 3). All we keep from them is plane hashes and geometry.
 
 ## How were the formats worked out, and is that legal?
 
-From files the project legitimately holds, by hex dumps and comparing files that differ in one setting, and from the published documentation of permissively licensed readers. Never from a vendor SDK, header, DLL or non-public specification. Each format page links to a provenance log that records every step. Reverse engineering file formats for interoperability is lawful in the US and protected in the EU. The [clean-room policy](clean-room.md) lists the rules the project follows. This is not legal advice.
+From files we are allowed to use, by reading hex dumps and comparing files that differ in one setting, and from the published documentation of permissively licensed readers. We don't use vendor SDKs, headers, DLLs or non-public specifications. Each format page links to a provenance log that records how we got there. Reverse engineering file formats for interoperability is lawful in the US and protected in the EU. The [clean-room policy](clean-room.md) lists the rules the project follows. This is not legal advice.
 
 ## How large a file can it handle?
 
@@ -48,7 +48,7 @@ Not for submission data without your own qualification. The project provides som
 
 - release binaries built from tagged commits, with build attestations;
 - the corpus comparison, which you can rerun on your own machine;
-- `verified: true` in every export result, and the tool name and version recorded in every export;
+- `verified: true` in each export result, and the tool name and version recorded in each exported file;
 - no in-place writes, no network access and no telemetry.
 
 You still need your own qualification, support arrangements and change control.
@@ -65,4 +65,4 @@ No. The binary contains no network code (`cargo deny` checks this in CI), no tel
 
 ## Why the focus on AI agents?
 
-Agents are good at deciding what to do with a file and bad at parsing vendor formats. OpenReadout gives them a reliable, typed way to do the second part. The same properties, stable JSON, exit codes and no runtime, also make it easy to use in shell scripts and pipelines.
+Agents are good at deciding what to do with a file but bad at parsing vendor formats, so OpenReadout does the parsing for them. Stable JSON, exit codes and a single binary also make it easy to use in shell scripts and pipelines.

@@ -1,6 +1,6 @@
 # Your first file
 
-This page walks through the four commands you will use most: `info`, `check`, `export` and `preview`. The examples use `mini.nd2`, a small Nikon ND2 file committed to the repository at [`crates/openreadout-cli/tests/fixtures/mini.nd2`](https://github.com/openreadout/openreadout/blob/main/crates/openreadout-cli/tests/fixtures/mini.nd2). It holds one 8 × 8 pixel image, one channel and two time points. Every output below is real; long lines are trimmed. Use your own files the same way.
+This page walks through the four commands you will use most: `info`, `check`, `export` and `preview`. The examples use `mini.nd2`, a small Nikon ND2 file committed to the repository at [`crates/openreadout-cli/tests/fixtures/mini.nd2`](https://github.com/openreadout/openreadout/blob/main/crates/openreadout-cli/tests/fixtures/mini.nd2). It holds one 8 × 8 pixel image, one channel and two time points. The output below is real, with long lines trimmed. Your own files work the same way.
 
 ## What is in the file?
 
@@ -14,7 +14,7 @@ mini.nd2
       objective: Plan Fluor 10x 10x NA 0
 ```
 
-`info` reads headers and metadata only, never pixel data, so it is as fast on a 100 GB file as on this one. Each `[n]` line is one image: a CZI scene, an ND2 XY position, a LIF series. Other commands select it with `--image n`.
+`info` reads headers and metadata but not pixel data, so it is as fast on a 100 GB file as on this one. Each `[n]` line is one image: a CZI scene, an ND2 XY position, a LIF series. Other commands select it with `--image n`.
 
 The `assurance` line says whether files like this one were checked against an independent reader during development. See [Assurance and strict mode](../reference/assurance.md).
 
@@ -63,7 +63,7 @@ $ openreadout export mini.nd2 --to ome-zarr -o mini.ome.zarr
 wrote mini.ome.zarr (1 images, 2 planes, 2876 bytes, verified=true)
 ```
 
-`export` never opens the source file for writing. It writes to a temporary file, reads every plane back and compares it with the source, and only then renames the file into place. To export part of a file, use `--image` and `--select`, for example `--select c=1 --select z=2-4`. See [export](../reference/commands/export.md) for all target formats.
+`export` doesn't modify the source file. It writes to a temporary file, reads each plane back to compare it with the source, and then gives the file its final name. To export part of a file, use `--image` and `--select`, for example `--select c=1 --select z=2-4`. See [export](../reference/commands/export.md) for all target formats.
 
 To compare the source with its export yourself:
 
@@ -85,9 +85,9 @@ wrote mini.preview.png (35x49 png, 231 bytes, verified=true): image 0 level 0 c=
 view it: open (or Read) mini.preview.png; zoom with --region X,Y,W,H in full-res px read off the rulers (now showing 0,0,8,8)
 ```
 
-`preview` writes a PNG of one plane next to the input: by default channel 0, the middle z and the first time point. Open `mini.preview.png` and you see the 8 × 8 plane in gray, dark at the top-left corner and brightening toward the bottom-right, inside a frame with rulers along the top and left edges. The rulers are labelled in full-resolution pixels. On larger images a µm scale bar is drawn as well when the pixel size is known; this tiny picture has none. Contrast stretches the 0.1 to 99.9 percentiles of the plane (`--contrast`).
+`preview` writes a PNG of one plane next to the input: by default channel 0, the middle z and the first time point. Open `mini.preview.png` and you see the 8 × 8 plane in gray, dark at the top-left corner and brightening toward the bottom-right, inside a frame with rulers along the top and left edges. The rulers are labelled in full-resolution pixels. Larger images also get a µm scale bar when the pixel size is known. The contrast is stretched between the 0.1 and 99.9 percentiles of the plane (see `--contrast`).
 
-On a large image, read the coordinates you want off the rulers and zoom in with `--region X,Y,WIDTH,HEIGHT`; only the tiles the region touches are read. `--select c=1`, `--mip z` and `--composite` pick other planes, a maximum projection or all channels blended. For traces, spectra and plates, `preview` draws a plot or a heat map instead. See [preview](../reference/commands/preview.md).
+On a large image, read the coordinates you want off the rulers and zoom in with `--region X,Y,WIDTH,HEIGHT`. OpenReadout reads only the tiles in that region. `--select c=1`, `--mip z` and `--composite` pick other planes, a maximum projection or all channels blended. For traces, spectra and plates, `preview` draws a plot or a heat map instead. See [preview](../reference/commands/preview.md).
 
 ## Next steps
 

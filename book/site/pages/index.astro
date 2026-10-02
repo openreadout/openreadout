@@ -5,27 +5,39 @@ import formats from "../data/formats.json";
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 const nFormats = formats.formats.length;
 const repo = "https://github.com/openreadout/openreadout";
+// Keep in step with the table in README.md.
+const areas = [
+  ["Light microscopy", "Zeiss CZI, Nikon ND2, Leica LIF, Olympus OIR/VSI/OIB, Imaris, OME-TIFF and other TIFF variants, OME-Zarr, whole-slide images", "OME-TIFF, OME-Zarr"],
+  ["High-content screening", "Harmony (Opera Phenix, Operetta), ImageXpress, CellVoyager", "OME-Zarr plate, OME-TIFF"],
+  ["Electron microscopy", "MRC, Gatan DM3/DM4, FEI SER/EMI, Velox EMD", "OME-TIFF, OME-Zarr"],
+  ["Mass spectrometry", "Thermo RAW, Bruker timsTOF, Agilent MassHunter, Waters MassLynx, Sciex WIFF, mzML", "mzML, Parquet, Arrow"],
+  ["Chromatography", "Agilent ChemStation and OpenLab, Shimadzu, Chromeleon, AIA/ANDI", "CSV, JCAMP-DX, Parquet"],
+  ["Electrophysiology", "Axon ABF, Intan, SpikeGLX, Open Ephys, Neuralynx, Blackrock, Plexon, HEKA, Spike2, NWB", "NWB, CSV, Parquet"],
+  ["NMR and spectroscopy", "Bruker TopSpin and OPUS, Varian, JEOL, Thermo OMNIC, Renishaw, JCAMP-DX, SPC", "JCAMP-DX, CSV"],
+  ["Flow cytometry", "FCS, FlowJo workspaces, Gating-ML", "CSV, Parquet, Arrow"],
+  ["Plate readers and qPCR", "Plate-reader exports, RDML, Applied Biosystems, LightCycler, Rotor-Gene", "Allotrope ASM, RDML, CSV"],
+  ["Other", "ÄKTA, ITC, Biacore, Seahorse, Octet, Zetasizer, XRD, EPR, electrochemistry, thermal analysis", "CSV, Parquet"],
+];
 ---
 
 <Editorial
   page="home"
   title="OpenReadout: read raw lab-instrument files"
-  description={`OpenReadout reads the raw files that ${nFormats} kinds of lab instrument write, without the vendor's software: what is in them, whether they are intact, and open-format copies, from the command line, Python, R or an AI assistant.`}
+  description={`OpenReadout is an open-source reader for lab-instrument files, designed for AI agents. It reads ${nFormats} formats without vendor software and returns metadata, images, traces, spectra and tables as JSON, open-format exports and previews.`}
 >
   <section class="hero wide">
-    <div class="kicker"><span>Free and open source</span><span>One binary, no instrument software</span><span>No network access</span></div>
+    <div class="kicker"><span>Open source</span><span>Single binary</span><span>No instrument software</span><span>No network access</span></div>
     <h1>Instrument files, readable by AI agents</h1>
     <div class="hero-grid">
       <div>
         <p class="deck">
-          Microscopes, mass spectrometers, cytometers and plate readers save their results in formats only their makers’ software can open.
-          OpenReadout reads {nFormats} of them without that software. It tells an agent, a script or you what a file holds, checks that it is
-          intact, draws it as a picture an agent can look at, and converts it to an open format.
+          OpenReadout is an open-source reader for lab-instrument files, designed for AI agents. It reads {nFormats} formats from microscopes,
+          mass spectrometers, cytometers, electrophysiology rigs and other instruments, without the vendor's software. Your agent gets the
+          metadata, images, traces, spectra and tables as JSON, open-format copies of the files, and previews it can look at.
         </p>
         <div class="ctas">
           <a class="btn primary" href={base + "getting-started/install.html"}>Install</a>
-          <a class="btn" href={base + "demo/"}>Try a file in your browser</a>
-          <a class="btn" href={base + "formats.html"}>See the {nFormats} formats</a>
+          <a class="btn" href={base + "demo/"}>Try it in your browser</a>
         </div>
       </div>
       <div class="install" id="install">
@@ -58,74 +70,66 @@ const repo = "https://github.com/openreadout/openreadout";
 <span class="p">&gt;&gt;&gt; </span>with openreadout.File("cells.lif") as f:
 <span class="p">... </span>    plane = f.read_plane(image=0, c=0, z=0)   <span class="c"># a NumPy array</span></code></pre>
           </div>
-          <p class="note" id="install-note">There is no packaged release yet. Every route: <a href={base + "getting-started/install.html"}>Install</a>.</p>
+          <p class="note" id="install-note">There is no packaged release yet. <a href={base + "getting-started/install.html"}>Install</a> lists the other options.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <figure class="wide" id="f-decode-wrap">
-    <div class="decode panel" id="f-decode">
-      <div class="cv" id="cwrap">
-        <canvas id="hero" width="1487" height="542" aria-label="A Zeiss slide-scanner file shown first as its raw bytes, then decoded into a section of a young mouse"></canvas>
-        <div class="readout" id="ro" hidden></div>
-        <div class="scalebar on-light" id="heroBar"></div>
-      </div>
-      <div class="slider"><span>bytes</span><input type="range" id="decodeRange" min="0" max="1000" value="1000" aria-label="Decode the file" /><span>picture</span></div>
+  <figure class="wide hero-fig">
+    <img src={base + "img/mouse-overview.jpg"} width="1487" height="542" alt="Section of a whole mouse, stained, decoded from a Zeiss CZI slide scan" />
+    <div class="zooms">
+      <img src={base + "img/mouse-zoom-1.jpg"} alt="Zoomed view of the mouse section" loading="lazy" />
+      <img src={base + "img/mouse-zoom-2.jpg"} alt="Closer view of the same region" loading="lazy" />
+      <img src={base + "img/mouse-zoom-3.jpg"} alt="The same region at full resolution" loading="lazy" />
     </div>
     <figcaption>
-      <b>A 3.7 GB file from a Zeiss slide scanner, raw and decoded.</b> A young mouse, cut lengthwise and stained, at 0.22 µm per pixel:{" "}
-      <span id="gpx"></span> in one image. Drag the slider; point at the picture for coordinates in millimetres of tissue.
-      Showing it whole takes OpenReadout 2.5 MB of reads, under a thousandth of the file. <a href={base + "how-it-works.html"}>How it works</a>.
+      A whole-mouse section from a 3.7 GB Zeiss slide scan: 190,309 × 69,378 pixels at 0.22 µm. OpenReadout reads about 2.5 MB of the file to
+      draw the overview, and only the tiles it needs for each zoom. <a href={base + "how-it-works.html"}>How it works</a>.
     </figcaption>
   </figure>
 
-  <div class="col">
-    <h2>What comes out</h2>
-    <p>
-      Decoded, the files turn back into what was measured: images, but also voltages, spectra, glowing DNA and hundreds of thousands of single cells.
-      Every panel below was drawn from numbers OpenReadout returned for a public file. Flip the switch to see each file the way a program sees it
-      without a reader.
-    </p>
-  </div>
-  <figure class="wide" id="f-plate">
-    <div class="plate-bar"><span>Show</span><button class="chipbtn" id="pDecoded" aria-pressed="true">decoded</button><button class="chipbtn" id="pBytes" aria-pressed="false">as bytes</button></div>
-    <div class="plate" id="plate"></div>
-  </figure>
-
-  <div class="col">
-    <h2>Ask in plain words</h2>
-    <p>
-      With OpenReadout connected, an agent can answer the questions people ask about their files. Six are below. The tool output is exactly what
-      OpenReadout returned for public sample files; the replies were written from it.
-    </p>
-  </div>
-  <figure class="wide">
-    <div class="panel script" id="f-script">
-      <div class="qs" role="tablist" id="qs" aria-label="Questions"></div>
-      <div class="play" id="play" role="tabpanel"></div>
+  <section class="wide">
+    <h2>What it does</h2>
+    <div class="next">
+      <a href={base + "reference/commands/info.html"}><b>Inspect</b><span>Images, channels, traces, spectra, tables and metadata, as text or JSON.</span></a>
+      <a href={base + "recipes/check-files.html"}><b>Check</b><span>Finds truncated files, missing planes and damaged structure, and exits with code 4 when a file is corrupt.</span></a>
+      <a href={base + "recipes/export.html"}><b>Export</b><span>OME-TIFF, OME-Zarr, mzML, NWB, CSV, Parquet, Arrow, JCAMP-DX, Allotrope ASM and RDML. Each export is read back and verified.</span></a>
+      <a href={base + "reference/commands/preview.html"}><b>Preview</b><span>Image planes, traces, spectra and plate heat maps as PNG, with rulers and a scale bar.</span></a>
+      <a href={base + "recipes.html"}><b>Analyze</b><span>Chromatogram peaks, plate assays, qPCR, NMR peaks, patch-clamp features, spikes and flow gates, with documented methods.</span></a>
+      <a href={base + "guides/batch.html"}><b>Batch</b><span>Runs over whole folders, indexes lab shares and watches running acquisitions.</span></a>
     </div>
-  </figure>
+  </section>
+
+  <section class="wide">
+    <h2>Decoded from raw files</h2>
+    <p class="lead">Each panel is drawn from what OpenReadout read out of a public sample file, with no vendor software and no conversion.</p>
+    <div class="plate" id="plate"></div>
+  </section>
 
   <section class="wide agents">
-    <div class="agents-grid">
-      <div>
-        <h2>Built for agents</h2>
-        <p>
-          An agent should not have to scrape a viewer’s screen or guess a binary layout. OpenReadout gives it the same few things for every format,
-          over the command line or 15 MCP tools.
-        </p>
-        <dl class="can">
-          <dt>Stable JSON</dt><dd>Every command takes <code>--json</code> and prints one envelope with a <a href={base + "reference/json.html"}>published schema</a>.</dd>
-          <dt>Exit codes</dt><dd><code>0</code> ok, <code>3</code> unknown format, <code>4</code> corrupt, <code>6</code> unsupported feature: branch on the code, not the message.</dd>
-          <dt>Errors with a hint</dt><dd>Every error says what to try next, so the agent can correct itself.</dd>
-          <dt>Pictures</dt><dd><code>preview</code> draws images, traces, spectra and plates as PNG with rulers and a scale bar, so the agent can look before it measures.</dd>
-          <dt>Cheap metadata</dt><dd><code>info</code> reads headers only: a 100 GB file costs what a small one does. <code>--only</code> returns just the fields asked for.</dd>
-          <dt>Assurance</dt><dd>Each answer says whether files like this one were checked against an independent reader, so the agent knows when to double-check.</dd>
-        </dl>
+    <h2>For AI agents</h2>
+    <p class="lead">
+      Connect OpenReadout to Claude, Cursor, Codex, VS Code, Gemini or another agent with the skill or the MCP server, then ask about your files
+      in plain words. The tool output below is what OpenReadout returned for public sample files.
+    </p>
+    <figure>
+      <div class="panel script" id="f-script">
+        <div class="qs" role="tablist" id="qs" aria-label="Questions"></div>
+        <div class="play" id="play" role="tabpanel"></div>
       </div>
+    </figure>
+    <div class="agents-grid">
+      <dl class="can">
+        <dt>Stable JSON</dt><dd>Every command takes <code>--json</code> and prints JSON with a <a href={base + "reference/json.html"}>published schema</a>.</dd>
+        <dt>Exit codes</dt><dd><code>0</code> ok, <code>3</code> unknown format, <code>4</code> corrupt, <code>6</code> unsupported feature. Agents branch on the code, not the message.</dd>
+        <dt>Errors with a hint</dt><dd>Each error says what to try next, so the agent can fix its own mistakes.</dd>
+        <dt>Previews</dt><dd><code>preview</code> writes a PNG the agent can look at, so it can see the image, trace or plate it is reasoning about.</dd>
+        <dt>Cheap metadata</dt><dd><code>info</code> reads headers only, so a 100 GB file costs the same as a small one. <code>--only</code> returns just the fields asked for.</dd>
+        <dt>Assurance</dt><dd>Each result says whether files like it were validated against an independent reader, so the agent knows when to double-check.</dd>
+      </dl>
       <div class="err-demo">
-        <p class="caption"><b>An agent asks for an image that is not there.</b></p>
+        <p class="caption"><b>An agent asks for an image that does not exist.</b></p>
         <pre><code><span class="p">$ </span>openreadout preview cells.lif --image 3 --json
 {"{"}
   "ok": false,
@@ -136,25 +140,37 @@ const repo = "https://github.com/openreadout/openreadout";
     "exit_code": 2
   {"}"}
 {"}"}</code></pre>
-        <p class="caption">It follows the hint, lists the images and picks the right index. <a href={base + "getting-started/assistant.html"}>Connect an assistant</a>.</p>
+        <p class="caption">The agent follows the hint, lists the images and picks the right index. <a href={base + "getting-started/assistant.html"}>Connect an assistant</a>.</p>
       </div>
     </div>
   </section>
 
   <section class="wide">
-    <h2 class="sr">Promises</h2>
+    <h2>Formats</h2>
+    <div class="tidy-wrap">
+      <table class="tidy areas">
+        <thead><tr><th>Area</th><th>Formats</th><th>Export to</th></tr></thead>
+        <tbody>
+          {areas.map(([a, f, x]) => <tr><td>{a}</td><td>{f}</td><td>{x}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p><a href={base + "formats.html"}>All {nFormats} formats</a>, with what each reader covers and its known gaps.</p>
+  </section>
+
+  <section class="wide">
     <div class="promises">
       <div>
-        <h3>It never changes your files</h3>
-        <p>Readers open files read-only. Every export goes to a new file, is read back and compared with the source, and only then is renamed into place.</p>
+        <h3>Tested against real files</h3>
+        <p>Readers are tested on about 1,500 public instrument files and compared with independent libraries such as czifile, nd2, Bio-Formats, FlowIO and pyABF. Pixel data must match exactly. <a href={base + "project/validation.html"}>Validation</a>.</p>
       </div>
       <div>
-        <h3>It never goes online</h3>
-        <p>The program makes no network connections, so nothing leaves the computer it runs on. The browser demo runs in the tab, under a policy that forbids requests.</p>
+        <h3>Your files are read-only</h3>
+        <p>OpenReadout doesn't modify your files. Exports go to a new file, which is read back and compared with the original before it gets its final name.</p>
       </div>
       <div>
-        <h3>It says when to double-check</h3>
-        <p>Every format carries a confidence level and a list of known gaps, and every file read gets an <a href={base + "reference/assurance.html"}>assurance</a> verdict, so an answer can say how far to trust it.</p>
+        <h3>It works offline</h3>
+        <p>OpenReadout doesn't connect to the internet, so your data stays on your computer. Readers are written from public files and permissively licensed documentation, under a <a href={base + "project/clean-room.html"}>clean-room policy</a>.</p>
       </div>
     </div>
   </section>
@@ -162,18 +178,18 @@ const repo = "https://github.com/openreadout/openreadout";
   <section class="wide">
     <h2>Where to go next</h2>
     <div class="next">
-      <a href={base + "getting-started/install.html"}><b>Install</b><span>One binary for macOS, Windows and Linux, or the Python and R packages.</span></a>
+      <a href={base + "getting-started/install.html"}><b>Install</b><span>One binary for macOS, Windows and Linux.</span></a>
       <a href={base + "getting-started/first-file.html"}><b>Your first file</b><span>info, check, export and preview in five minutes.</span></a>
-      <a href={base + "getting-started/assistant.html"}><b>Connect an assistant</b><span>A skill and an MCP server for Claude, Cursor, VS Code, Codex, Gemini and others.</span></a>
-      <a href={base + "recipes.html"}><b>Recipes</b><span>Is this file intact? Fit an IC50. Index a lab share. One command each.</span></a>
-      <a href={base + "formats.html"}><b>Formats</b><span>Every reader, what it covers, how far it has been checked, and its known gaps.</span></a>
-      <a href={base + "how-it-works.html"}><b>How it works</b><span>An illustrated look inside instrument files, and why OpenReadout reads so little of them.</span></a>
+      <a href={base + "getting-started/assistant.html"}><b>Connect an assistant</b><span>The skill and the MCP server for Claude, Cursor, VS Code, Codex, Gemini and others.</span></a>
+      <a href={base + "recipes.html"}><b>Recipes</b><span>Check a folder, fit an IC50, index a lab share. One command each.</span></a>
+      <a href={base + "guides/python.html"}><b>Python and R</b><span>Pixels as NumPy, dask or xarray arrays, tables as data frames.</span></a>
+      <a href={base + "how-it-works.html"}><b>How it works</b><span>A look inside instrument files, and why OpenReadout reads so little of them.</span></a>
     </div>
   </section>
 
   <div class="wide notes">
     <p>
-      <b>About the files.</b> Every figure comes from public files: Zenodo records, OME sample data and the test data of open-source projects such as
+      <b>About the files.</b> The images and examples use public files: Zenodo records, OME sample data and the test data of open-source projects such as
       pyABF and FlowKit, used under their licences. The damaged-folder example was made by cutting a real file short. <span id="ver"></span>
     </p>
   </div>

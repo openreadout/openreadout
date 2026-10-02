@@ -22,14 +22,14 @@ check: ok 8, truncated 2
 personal data: 2 flags in 1 data sets (free_text 2)
 ```
 
-`share` here is a scratch folder with copies of public test files from the repository (CZI, ND2, LIF, FCS, mzML and ABF), one ND2 cut short and one text file. Every output on this page is real; long lines and paths are trimmed.
+`share` here is a scratch folder with copies of public test files from the repository (CZI, ND2, LIF, FCS, mzML and ABF), one ND2 cut short and one text file. The output on this page is real, with long lines and paths trimmed.
 
 ## What it tells you
 
-- The crawl reads headers only: what `info` reads, the headers-only integrity check, and the first and last 64 KiB of each file for a fingerprint. Pixels, events and spectra are never read, so it is quick on a large share.
+- The crawl reads headers only: what `info` reads, the headers-only integrity check, and the first and last 64 KiB of each file for a fingerprint. It doesn't read pixels, events or spectra, so it is quick on a large share.
 - `idx` is a directory of Parquet tables (`experiments.parquet`, `files.parquet`, `problems.parquet`) and an `index.json` manifest. There is no server or database: DuckDB, pandas, polars or Excel read the tables directly.
 - `check:` counts data sets per integrity status. One truncated file here is the cut ND2, the other a 32 KiB test FCS file whose events need more bytes than it has.
-- `personal data:` counts flags, never values. Here one FCS file has a free-text comment that should be reviewed before it is shared.
+- `personal data:` counts flags but doesn't show the values. Here one FCS file has a free-text comment that should be reviewed before it is shared.
 - Run the same command again to update the index. Unchanged files are not opened again (`0 new, 0 changed, 11 unchanged`). An interrupted crawl continues where it stopped.
 
 ## Variations
@@ -48,7 +48,7 @@ zenodo10577621-LineScan-Z200.czi  czi                        10.0  EC Plan-Neofl
 5 of 5 matching data sets (paths under .../share/scope)
 ```
 
-Every term must match; `|` gives alternatives within a term, `OR` between terms. Comparisons take units and partial dates:
+All terms must match; `|` gives alternatives within a term, `OR` between terms. Comparisons take units and partial dates:
 
 ```bash
 openreadout search idx "objective=63x channel~GFP acquired<2020"

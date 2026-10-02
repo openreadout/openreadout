@@ -1,6 +1,6 @@
 # Convert to an open format
 
-Convert a vendor file when you need to open it in software that cannot read the original, hand it to a collaborator, or deposit it in an archive. `export` writes OME-TIFF or OME-Zarr for images, mzML for mass spectrometry, CSV, Parquet or Arrow for tables and traces, NWB for electrophysiology, and a few others. It never modifies the source.
+Convert a vendor file when you need to open it in software that cannot read the original, hand it to a collaborator, or deposit it in an archive. `export` writes OME-TIFF or OME-Zarr for images, mzML for mass spectrometry, CSV, Parquet or Arrow for tables and traces, NWB for electrophysiology, and a few others. It doesn't modify the source file.
 
 ## Run it
 
@@ -9,14 +9,14 @@ $ openreadout export mini.nd2
 wrote mini.ome.tiff (1 images, 2 planes, 2612 bytes, verified=true)
 ```
 
-`mini.nd2` is a small Nikon file in the repository at [`crates/openreadout-cli/tests/fixtures/mini.nd2`](../../../crates/openreadout-cli/tests/fixtures/mini.nd2). The other files on this page are public test files under [`fuzz/corpus/`](../../../fuzz/corpus/). Every output is real.
+`mini.nd2` is a small Nikon file in the repository at [`crates/openreadout-cli/tests/fixtures/mini.nd2`](../../../crates/openreadout-cli/tests/fixtures/mini.nd2). The other files on this page are public test files under [`fuzz/corpus/`](../../../fuzz/corpus/). The output is real.
 
 ## What it tells you
 
 - `wrote` names the new file. Without `-o` it goes next to the input, named after it with the target's extension.
-- `verified=true` means the export was read back and compared with the source before it was renamed into place. Until then it exists only under a temporary name, so an interrupted export never leaves a half-written file behind.
+- `verified=true` means the export was read back and compared with the source before it got its final name. Until then it has a temporary name, so an interrupted export doesn't leave a half-written file behind.
 - The target is chosen from the data: OME-TIFF for images, CSV for tables and traces, mzML for mass spectrometry. Pick another with `--to`.
-- An existing output is never replaced unless you pass `--overwrite`. Without it, `export` stops with exit code 2.
+- `export` won't replace an existing file unless you pass `--overwrite`. Without it, `export` stops with exit code 2.
 - A combination that does not fit, such as an image file `--to csv`, exits 6 with a hint that names the target to use.
 
 ## Variations

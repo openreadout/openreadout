@@ -1,13 +1,13 @@
 # Metadata conventions and the experiment model
 
-Every reader maps its vendor's metadata onto one model with OME-style names. The same rules hold whatever the source format, so a script written against a CZI file also works on an ND2 or a LIF file. This page lists those rules: units, timestamps, colours, axes and missing values. It then describes the `experiment` block, which says what a file's contents mean as an experiment, and how the model maps onto OME-XML when you export.
+Each reader maps its vendor's metadata onto one model with OME-style names. The same rules apply to every format, so a script written against a CZI file also works on an ND2 or a LIF file. This page lists those rules: units, timestamps, colours, axes and missing values. It then describes the `experiment` block, which says what a file's contents mean as an experiment, and how the model maps onto OME-XML when you export.
 
 For a first tour of the JSON output, read [Reading the JSON output](../getting-started/reading-json.md).
 
 ## Missing values
 
-- **Missing is omitted.** A value the file does not record is left out of the JSON. It is never written as `0`, `""` or a default. A value the file stores as `0` where `0` is impossible, such as the pixel size of an uncalibrated axis, also counts as missing.
-- **Empty text is missing.** A text field stored empty or blank is left out, exactly like one the file does not have. Absent therefore covers both "not stored" and "stored empty". Two kinds of name are always present, even when empty: table column names and signal-channel names, because an unnamed column is still a column.
+- **Missing is omitted.** If the file doesn't record a value, it is left out of the JSON rather than written as `0`, `""` or a default. A value the file stores as `0` where `0` is impossible, such as the pixel size of an uncalibrated axis, also counts as missing.
+- **Empty text is missing.** A text field stored empty or blank is left out, just like one the file doesn't have, so a missing key means either "not stored" or "stored empty". Two kinds of name are always present, even when empty: table column names and signal-channel names, because an unnamed column is still a column.
 - **Vendor text is kept verbatim** in the vendor tree of `info --view full`. The normalized field holds the converted value. When a reader converts local text, it keeps the original in `extra`, for example ND2's `extra.acquired_at_text`.
 - **Text is trimmed.** Leading and trailing blanks are removed from objective and instrument names; inner spacing is kept.
 
@@ -125,7 +125,7 @@ Other keys belong to the format, such as ND2's `pfs_status` and `camera_temperat
 
 ## The experiment block
 
-The `experiment` block says what a file's contents mean as an experiment: which sample, on which instrument, with which method, when, by whom, and what was measured, in scientific words. It has the same shape for a confocal stack, an LC-MS run, a flow-cytometry tube and a plate read, so the same question works on every file. It is left out when nothing is known.
+The `experiment` block says what a file's contents mean as an experiment: which sample, on which instrument, with which method, when, by whom, and what was measured, in scientific words. It has the same shape for a confocal stack, an LC-MS run, a flow-cytometry tube and a plate read, so you can ask the same question of any file. It is left out when the file records none of this.
 
 ```bash
 openreadout info run.raw --json | jq .data.experiment
@@ -192,7 +192,7 @@ The parts:
 - **NMR**: Bruker's `USERA1` to `USERA5` fields, then the first line of the title; JCAMP-DX `##TITLE`; JEOL's `sample_id`.
 - **Microscopy** (CZI, ND2 and LIF only): the plate well of the scenes when all images share one, else the image name when every image has the same one and it looks like a sample id.
 
-Software defaults are never sample ids: `Position 1`, `Series011`, `TileScan_002_Merging`, `Plate 1`, `Specimen_001`, file names, and placeholders such as `NA`, `-1` and `<user>`. A LIF project name describes the experiment, not one sample, so it becomes `method.name`.
+Software defaults are not used as sample ids: `Position 1`, `Series011`, `TileScan_002_Merging`, `Plate 1`, `Specimen_001`, file names, and placeholders such as `NA`, `-1` and `<user>`. A LIF project name describes the experiment, not one sample, so it becomes `method.name`.
 
 ### Terms and units
 
@@ -215,7 +215,7 @@ Units are written for people and carry their [UCUM](https://ucum.org) code: `µm
 | Ontology for Biomedical Investigations (`OBI:`) | 2026-07-27 | CC BY 4.0 | <https://github.com/obi-ontology/obi> |
 | Unified Code for Units of Measure (UCUM) | 2.2 | UCUM License (no charge, royalty-free) | <https://ucum.org/license> |
 
-Every term id and label was checked against the EBI Ontology Lookup Service for the release listed. Attribution is in the repository's `NOTICE` file.
+We checked each term id and label against the EBI Ontology Lookup Service for the release listed. Attribution is in the repository's `NOTICE` file.
 
 ### Asking in words
 

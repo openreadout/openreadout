@@ -168,11 +168,11 @@ with openreadout.File("run.czi") as f:
 openreadout.export("plate.eds", "plate.rdml")       # qPCR to RDML
 ```
 
-`export(output, to=None, **options)` writes OME-TIFF, OME-Zarr, mzML or RDML; `to` is told from the output's extension unless given. Exports take the same options as [`openreadout export`](../reference/commands/export.md). They are written to a temporary file, read back and verified, then renamed into place. An existing file is replaced only with `overwrite=True`.
+`export(output, to=None, **options)` writes OME-TIFF, OME-Zarr, mzML or RDML; `to` is told from the output's extension unless given. Exports take the same options as [`openreadout export`](../reference/commands/export.md). Each export is written to a temporary file, read back and checked, then given its final name. An existing file is replaced only with `overwrite=True`.
 
 ### Bytes and file objects
 
-`open`, `File`, `info` and `analyze` also take the file's bytes or a binary file object with `read` and `seek`, such as an open file, `io.BytesIO` or an fsspec file. Nothing is written to disk:
+`open`, `File`, `info` and `analyze` also take the file's bytes or a binary file object with `read` and `seek`, such as an open file, `io.BytesIO` or an fsspec file. This doesn't write anything to disk:
 
 ```python
 import fsspec, openreadout
@@ -252,4 +252,4 @@ def info(path):
 
 ## Working on the package
 
-To work on the bindings, run `maturin develop` from the repository root inside a virtual environment, then `python -m pytest`. Do not pass `--release`: the project selects a build profile in which a Rust bug raises a Python exception instead of ending the interpreter. How the wheels are built and published is described in [`docs/release-process.md`](https://github.com/openreadout/openreadout/blob/main/docs/release-process.md).
+To work on the bindings, run `maturin develop` from the repository root inside a virtual environment, then `python -m pytest`. Do not pass `--release`: the project selects a build profile in which a Rust bug raises a Python exception instead of ending the interpreter. [`docs/release-process.md`](https://github.com/openreadout/openreadout/blob/main/docs/release-process.md) describes how the wheels are built and published.
