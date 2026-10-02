@@ -599,8 +599,15 @@ impl MzmlDataset {
                                         "kind": c.tag,
                                         "order": c.attr("order").and_then(|o| o.parse::<u32>().ok()),
                                         "terms": ps.iter().map(cv::Param::label).collect::<Vec<_>>(),
-                                        // parallel to `terms`; empty for user params and generic terms
-                                        "accessions": ps.iter().map(|p| if cv::GENERIC_PARENTS.contains(&p.accession.as_str()) && !p.value.trim().is_empty() { String::new() } else { p.accession.clone() }).collect::<Vec<_>>(),
+                                        // parallel to `terms`; null for user params and value-carrying generic terms
+                                        "accessions": ps
+                                            .iter()
+                                            .map(|p| {
+                                                let generic = cv::GENERIC_PARENTS.contains(&p.accession.as_str())
+                                                    && !p.value.trim().is_empty();
+                                                (!generic && !p.accession.is_empty()).then(|| p.accession.clone())
+                                            })
+                                            .collect::<Vec<_>>(),
                                     })
                                 })
                                 .collect()
