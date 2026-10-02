@@ -6,6 +6,7 @@ use std::path::{Path, PathBuf};
 use clap::ValueEnum;
 use openreadout_core::model::{
     DetectOutput, Dump, FileInfo, ImageInfo, Listing, SpectraInfo, TableInfo, TraceInfo,
+    round_noise,
 };
 use openreadout_core::{Error, InfoOutput, Registry, Result};
 use openreadout_ops::explain::Explanation;
@@ -487,8 +488,8 @@ fn render_image(s: &mut String, im: &ImageInfo) {
         s.push_str(&format!(
             "      objective: {} {}x NA {}\n",
             o.model.as_deref().unwrap_or("-"),
-            o.nominal_magnification.unwrap_or(0.0),
-            o.lens_na.unwrap_or(0.0)
+            round_noise(o.nominal_magnification.unwrap_or(0.0)),
+            round_noise(o.lens_na.unwrap_or(0.0))
         ));
     }
     if let Some(t) = &im.acquired_at {

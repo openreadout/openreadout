@@ -265,6 +265,20 @@ impl ImageInfo {
                 .as_deref()
                 .and_then(crate::acquisition_mode::label);
         }
+        // Unit conversions leave binary noise (1e-7 m × 1e6 = 0.09999999999999999 µm): keep
+        // 15 significant digits, which no instrument records more precisely.
+        for v in [
+            &mut self.physical_size.x,
+            &mut self.physical_size.y,
+            &mut self.physical_size.z,
+            &mut self.time_increment_s,
+        ] {
+            *v = v.map(round_noise);
+        }
+        if let Some(o) = &mut self.objective {
+            o.lens_na = o.lens_na.map(round_noise);
+            o.nominal_magnification = o.nominal_magnification.map(round_noise);
+        }
         // Text fields are compared and exported as values: no padding, no blanks.
         if let Some(o) = &mut self.objective {
             o.model = trimmed(o.model.take());
@@ -283,6 +297,15 @@ impl ImageInfo {
         }
         self
     }
+}
+
+/// `v` to 15 significant digits: removes the last-bit noise of decimal conversions
+/// (`0.30000000000000004` → `0.3`). Non-finite values are returned unchanged.
+pub fn round_noise(v: f64) -> f64 {
+    if !v.is_finite() || v == 0.0 {
+        return v;
+    }
+    format!("{v:.14e}").parse().unwrap_or(v)
 }
 
 fn trimmed(s: Option<String>) -> Option<String> {
@@ -997,6 +1020,23 @@ pub struct Trace {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    #[allow(clippy::float_cmp)]
+    fn finish_removes_conversion_noise() {
+        let mut im = ImageInfo::new(0, 1, 1, PixelType::Uint8);
+        im.physical_size = PhysicalSize::micrometres(Some(1e-7 * 1e6), Some(0.1 + 0.2), None);
+        im.objective = Some(ObjectiveInfo {
+            lens_na: Some(0.1 * 3.0),
+            ..ObjectiveInfo::default()
+        });
+        let im = im.finish();
+        assert_eq!(im.physical_size.x, Some(0.1));
+        assert_eq!(im.physical_size.y, Some(0.3));
+        assert_eq!(im.objective.unwrap().lens_na, Some(0.3));
+        assert_eq!(round_noise(0.123_456_789_012_345_67), 0.123_456_789_012_346);
+        assert!(round_noise(f64::NAN).is_nan());
+    }
 
     #[test]
     fn finish_normalizes_modes_immersion_and_padding() {
