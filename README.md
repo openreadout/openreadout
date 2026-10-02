@@ -72,7 +72,7 @@ Open-source. Single binary. No instrument software. No dependencies. No network 
 </tr>
 </table>
 
-<p align="center"><em>Everything above was decoded by OpenReadout straight from the raw instrument files — no vendor software, no conversion.</em></p>
+<p align="center"><em>Everything above was decoded by OpenReadout from raw files — no vendor software, no conversion.</em></p>
 
 ## For AI Agents — Get Started in One Line
 
