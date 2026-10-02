@@ -1,9 +1,9 @@
 name: CI
 
-# Runs on pushes to main, pull requests (Dependabot's included), weekly and on manual dispatch.
-# Changes only to the website (book/, built and checked by docs.yml) or to prose files nothing
-# reads skip it. Pull requests skip the release cross-builds and fuzz only the targets they touch;
-# main builds every release target, and the weekly run fuzzes every target for longer.
+# Runs on pushes to main, pull requests (including Dependabot's), weekly and on manual dispatch.
+# It skips changes that only touch the website (docs.yml checks those) or the prose files listed
+# below. Pull requests don't run the release builds and only fuzz the targets they could affect.
+# Pushes to main run the release builds, and the weekly run fuzzes all targets for longer.
 on:
   push:
     branches: [main]
@@ -22,8 +22,8 @@ on:
     - cron: "23 5 * * 1"
   workflow_dispatch:
 
-# A new push to a pull request replaces its running checks; runs on main always finish, so main
-# keeps saving the caches pull requests restore from.
+# A new push to a pull request cancels the run in progress. Runs on main finish, so they save
+# caches that pull requests can use.
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -89,8 +89,8 @@ jobs:
           python3 oracle/mcp_smoke.py --http target/debug/openreadout crates/openreadout-lif/tests/fixtures/synthetic-dims.lif --synthetic
 
   # Downloads the smoke corpus once per manifest version and caches it for the jobs below, so
-  # parallel jobs do not each download it (data hosts throttle concurrent downloads). A new
-  # manifest starts from the latest cached corpus and downloads only what it lacks.
+  # parallel jobs do not each download it (data hosts throttle concurrent downloads). When the
+  # manifest changes, it starts from the most recent cached corpus and downloads the missing files.
   corpus-fetch:
     name: fetch the smoke corpus
     runs-on: ubuntu-latest
@@ -206,9 +206,9 @@ jobs:
           enableCrossOsArchive: true
       - name: Fetch what the cache did not have
         run: cargo xtask corpus fetch --tier smoke
-      # No sccache: it stores every compiled object as its own Actions cache entry, hundreds per
-      # run, which pushed the repository past its 10 GB cache limit and evicted the build and
-      # corpus caches the other jobs restore.
+      # We don't use sccache here. It saves each compiled file as a separate Actions cache entry,
+      # hundreds per run, which filled the repository's 10 GB cache and pushed out the build and
+      # corpus caches the other jobs use.
       - name: Build the abi3 wheel (manylinux)
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
@@ -235,8 +235,8 @@ jobs:
           ruff check crates/openreadout-py python
           mypy
 
-  # Release builds of every published target. Not on pull requests: test-os already compiles and
-  # tests on Windows and macOS there, and these builds hold scarce macOS runners for up to 25 min.
+  # Release builds for each platform we publish. These skip pull requests because test-os already
+  # tests on Windows and macOS, and these builds tie up macOS runners for up to 25 minutes.
   cross-build:
     name: build ${{ matrix.target }}
     if: github.event_name != 'pull_request'
@@ -575,9 +575,10 @@ jobs:
           echo "::group::mcp_client.py"
           python3 examples/mcp/mcp_client.py "$files/zenodo7015307-T-3-Z-5-CH-2.czi"
           echo "::endgroup::"
-  # cargo-fuzz targets from the committed seeds, Linux only, never on pushes. Pull requests run
-  # the targets their diff can reach (fuzz/affected.py), 15 s each, and skip the build when there
-  # are none; weekly and manual runs fuzz all of them (134) for 60 s each, about 2.5 h.
+  # Runs the cargo-fuzz targets from the committed seeds on Linux. Pull requests fuzz the targets
+  # their changes could affect (fuzz/affected.py) for 15 s each, and skip the build if there are
+  # none. Weekly and manual runs fuzz all 134 targets for 60 s each, which takes about 2.5 hours.
+  # Pushes to main don't fuzz.
   fuzz-smoke:
     name: fuzz smoke (targets the change reaches, 15 s each; all, 60 s weekly)
     if: github.event_name != 'push'

@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
-"""Print the fuzz targets a change can affect, one per line.
+"""Print the fuzz targets a change could affect, one per line.
 
-Usage (from anywhere in the repository; needs git and cargo):
+Run it from anywhere in the repository. It needs git and cargo.
 
     python3 fuzz/affected.py BASE_REV    # targets affected by BASE_REV..HEAD
-    python3 fuzz/affected.py --all       # every target
+    python3 fuzz/affected.py --all       # all targets
 
-A target is affected when the diff touches its source file, its committed seeds
-(fuzz/corpus/<target>/), or any workspace crate it reaches through `openreadout_*` paths in its
-source, following the crates' normal and build dependencies (from `cargo metadata --no-deps`,
-which reads only the workspace manifests). Changes to the harness (fuzz/src/, fuzz/Cargo.*) or
-to the root Cargo.toml or rust-toolchain.toml affect every target. CI's `fuzz-smoke` job uses
-this on pull requests; the weekly run fuzzes everything.
+A target counts as affected if the diff changes its source file, its seeds in
+fuzz/corpus/<target>/, or a crate it depends on. The script finds those crates from the
+`openreadout_*` names in the target's source, plus their dependencies from `cargo metadata`.
+Changes to fuzz/src/, fuzz/Cargo.toml, fuzz/Cargo.lock, the root Cargo.toml or
+rust-toolchain.toml affect all targets. CI's `fuzz-smoke` job uses this on pull requests.
 """
 
 from __future__ import annotations

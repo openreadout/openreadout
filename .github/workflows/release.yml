@@ -171,8 +171,8 @@ jobs:
           target: ${{ matrix.target }}
           manylinux: ${{ matrix.manylinux || 'auto' }}
           args: --out dist  # profile release-py (optimized, unwinds on panic) from pyproject.toml
-          # No sccache: tagged builds must not use a compiler cache (cache poisoning), and on dry runs
-          # its one-cache-entry-per-object storage evicts the CI caches (see ci.yml, python-tests).
+          # We don't use sccache. Tagged builds shouldn't use a compiler cache (cache poisoning), and
+          # on dry runs it fills the Actions cache (see python-tests in ci.yml).
       - name: Smoke-test the wheel
         if: matrix.smoke
         shell: bash

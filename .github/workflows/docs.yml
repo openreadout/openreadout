@@ -38,7 +38,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Also in ci.yml, which skips changes only to the website and prose files.
+  # ci.yml runs typos too, but it skips pull requests that only change the website or prose files.
   typos:
     name: typos (spell check, _typos.toml)
     if: github.event_name == 'pull_request'
