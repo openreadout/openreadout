@@ -26,7 +26,7 @@ check: corrupt 2, ok 10, truncated 3, warning 4
 personal data: 10 flags in 6 data sets (free_text 2, person_name 8)
 ```
 
-The crawl reads headers only. For each data set it runs what `info` runs, the integrity check in its headers-only mode (`check --headers-only`), and the [personal-data rules](#personal-data). It also reads the first and last 64 KiB of each file for a content fingerprint. Pixel planes, table rows, trace samples and spectra are never read.
+The crawl reads headers only. For each data set it runs what `info` runs, the integrity check in its headers-only mode (`check --headers-only`), and the [personal-data rules](#personal-data). It also reads the first and last 64 KiB of each file for a content fingerprint. It doesn't read pixel planes, table rows, trace samples or spectra.
 
 - **Resumable.** Stop the crawl at any time, with Ctrl-C or a crash, and run the same command again: it continues from its last checkpoint. `--restart` discards the interrupted crawl instead.
 - **Incremental.** Run it again next week and only new or changed files are read. A file with the same size, modification time and OpenReadout version is not opened again. `--full-rescan` reads everything.
@@ -52,7 +52,7 @@ Some data sets are a directory or several files. Each becomes one record in `exp
 - **Files that name each other**: multi-file OME-TIFF, CZI file parts, OIR continuation files, OIF folders, VSI `.ets` stacks, imzML `.ibd`, SER/EMI pairs, SpikeGLX `.bin` and `.meta`.
 - **Stream series**: SpikeGLX runs with several probes, and Blackrock `.nsX` with `.nev`. The other streams' counts are added to the first stream's record.
 
-Files no reader recognises are not dropped. Each is a `role = unknown` row of `files.parquet`, and `index.json` counts them per extension under `unknown_extensions`.
+Files that no reader recognises are kept as `role = unknown` rows of `files.parquet`, and `index.json` counts them per extension under `unknown_extensions`.
 
 ### What the index directory holds
 
@@ -64,7 +64,7 @@ Files no reader recognises are not dropped. Each is a `role = unknown` row of `f
 | `problems.parquet` | one row per problem: integrity findings, files that could not be opened, walk errors, personal-data flags |
 | `state/` | crawl state used to resume and to update; it may be deleted, and the next crawl is then a full one |
 
-The JSON Schema of `index.json` is printed by `openreadout self schema index`. Timestamps in the tables are UTC microseconds. Rows are in walk order: within a directory, its files and data-set directories by name, then its sub-directories by name. `schema_version` in `index.json` changes only when a column is renamed, removed or retyped; new columns may be added.
+`openreadout self schema index` prints the JSON Schema of `index.json`. Timestamps in the tables are UTC microseconds. Rows are in walk order: within a directory, its files and data-set directories by name, then its sub-directories by name. `schema_version` in `index.json` changes only when a column is renamed, removed or retyped; new columns may be added.
 
 The tables are ordinary Parquet:
 
@@ -333,9 +333,9 @@ The report is Markdown. `-o FILE` also writes it to a file, and `--json` gives i
 - **Duplicates**: byte-identical data sets. Only candidates with the same size and fingerprint are hashed in full (SHA-256) to confirm. `--no-hash` lists the candidates without reading anything.
 - **Same experiment stored twice**: data sets that are not byte-identical but record the same acquisition, such as a CZI and its OME-TIFF export, or a Thermo `.raw` and its mzML.
 - **Files at risk**: data sets in vendor-only formats with no open-format file next to them. Zeiss AxioVision and FEI TIA files are marked `legacy` because their vendor software is discontinued.
-- **Personal data**: flags per kind, rule and field. Values are never printed.
+- **Personal data**: flags per kind, rule and field. The values themselves are not printed.
 
-Lists are capped at `--max-list N` (default 100); counts are always complete.
+Lists are capped at `--max-list N` (default 100); counts are not capped.
 
 ## Export a slice
 
@@ -364,13 +364,13 @@ dataset/data/<id>.spectra<N>.scans.parquet     one row per spectrum
 - `--license SPDX` sets the licence of the whole export. Without it, each source gets the licence of the nearest `LICENSE`, `LICENCE` or `COPYING` file at or above it, or `unknown`.
 - `--redact` replaces personal data; see [Redaction](#redaction).
 
-The datasheet records the query, counts, formats, techniques, instruments, the date range, every source with its fingerprint and the files written from it, licences and personal-data flags. Its JSON Schema is printed by `openreadout self schema search-export`.
+The datasheet records the query, counts, formats, techniques, instruments, the date range, every source with its fingerprint and the files written from it, licences and personal-data flags. `openreadout self schema search-export` prints its JSON Schema.
 
-Every output is written under a temporary name, read back and compared, then renamed into place. Sources are never written. A rerun resumes where the last one stopped. The exit code is 1 when a data set could not be exported or an output could not be verified; the datasheet lists it under `skipped` with the reason.
+Each output is written under a temporary name, read back and compared, then renamed. The sources are not modified. A rerun resumes where the last one stopped. The exit code is 1 when a data set could not be exported or an output could not be verified; the datasheet lists it under `skipped` with the reason.
 
 ## Files still being written
 
-You can read data while the instrument is still writing it. `info`, `info --view structure`, `check` and `check --planes` read every complete plane of a growing file. They report the unfinished part in an `acquisition` block instead of failing as corrupt. Nothing here writes to the data or locks it.
+You can read data while the instrument is still writing it. `info`, `info --view structure`, `check` and `check --planes` read every complete plane of a growing file. They report the unfinished part in an `acquisition` block instead of failing as corrupt. None of these commands write to the data or lock it.
 
 | format | read while growing | unit read |
 | --- | --- | --- |
@@ -442,7 +442,7 @@ openreadout watch /data/incoming --qc --since 1h      # with QC; data sets touch
 openreadout watch /data/incoming --qc-rules lab.toml --stall-after 300 --timeout 3600
 ```
 
-Each line is a [JSON wrapper](../getting-started/reading-json.md#the-json-wrapper) whose `data` is one event. Its JSON Schema is printed by `openreadout self schema watch`.
+Each line is a [JSON wrapper](../getting-started/reading-json.md#the-json-wrapper) whose `data` is one event. `openreadout self schema watch` prints its JSON Schema.
 
 | event | when |
 | --- | --- |
@@ -458,10 +458,10 @@ Each line is a [JSON wrapper](../getting-started/reading-json.md#the-json-wrappe
 Every event also has `seq` (increasing by one), `ts` (UTC time), `path` and `format`.
 
 - `watch` polls; it does not rely on file-system notifications. Notifications do not see writes that another machine makes to an SMB or NFS share. `--interval` sets the time between polls (default 0.25 seconds).
-- Each poll checks the size and modification time of every file. Only data sets that changed, or that are still in progress, are opened, read-only, and closed again. Nothing is held open or locked between polls.
+- Each poll checks the size and modification time of every file. Only data sets that changed, or that are still in progress, are opened, read-only, and closed again. No file stays open or locked between polls.
 - `--since` takes `all`, a duration (`90s`, `10m`, `2h`, `1d`) or an ISO-8601 time. The default is the live window, so running acquisitions are picked up and old files stay quiet. With `--once` the default is `all`.
 - `--max-tracked N` bounds memory (default 100,000 data sets); finished data sets are forgotten first.
-- `--once`, `--timeout SECONDS`, Ctrl-C or a closed pipe stop it. Every line printed is whole, and the exit code is 0.
+- `--once`, `--timeout SECONDS`, Ctrl-C or a closed pipe stop it. Each line printed is complete, and the exit code is 0.
 
 On a network share, add the share's attribute-cache time to the delay; SMB and NFS clients often cache file sizes for about a second.
 
@@ -510,7 +510,7 @@ QC reads each new plane or spectrum, so `--qc` costs one plane read per new plan
 
 ## Personal data
 
-Crawling an institution's storage is where personal data surfaces: operator names in headers, patient-like identifiers typed into sample names, e-mail addresses in comments. `index` checks every string of the `info` output and records a flag per field with its kind and rule, never the value. Flags are in `experiments.parquet` (`pii_count`, `pii_kinds`, `pii_fields`), in `problems.parquet` (`category = pii`), in `index.json` and in the health report.
+An institution's storage holds personal data in many places: operator names in headers, patient-like identifiers typed into sample names, e-mail addresses in comments. `index` checks every string of the `info` output and records a flag per field with its kind and rule, but not the value. Flags are in `experiments.parquet` (`pii_count`, `pii_kinds`, `pii_fields`), in `problems.parquet` (`category = pii`), in `index.json` and in the health report.
 
 The rules favour precision over recall. Each needs a field whose name says it holds a person, a keyword next to the value, or a pattern that is unambiguous on its own. A name typed into a neutrally named field, such as `notes`, with no keyword, is not found.
 
@@ -535,7 +535,7 @@ Strings that OpenReadout writes itself, such as paths, format ids, reader notes 
 
 `search --export --redact` and `info --view full --redact` replace every flagged value, and every other string that contains it, with `redacted:` and 16 hex digits of a keyed hash (HMAC-SHA256) of the value. The same value gets the same replacement in every file and every run, so records stay linkable without the name.
 
-The key is a salt that you provide, either with `--salt-file FILE` (at least 8 bytes) or the `OPENREADOUT_REDACT_SALT` environment variable. There is deliberately no option that takes the salt on the command line, where it would end up in shell history. It is never printed, logged or stored. `--redact` without a salt is a usage error (exit 2).
+The key is a salt that you provide, either with `--salt-file FILE` (at least 8 bytes) or the `OPENREADOUT_REDACT_SALT` environment variable. There is no option that takes the salt itself on the command line, so it can't end up in your shell history. OpenReadout doesn't print, log or store it. `--redact` without a salt is a usage error (exit 2).
 
 ```bash
 head -c 32 /dev/urandom | base64 > ~/.openreadout-salt && chmod 600 ~/.openreadout-salt

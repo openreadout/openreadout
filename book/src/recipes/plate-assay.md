@@ -24,7 +24,7 @@ positive               positive      8     1946.625 205.558429    10.6          
 quality: Z′ 0.889149 (excellent), S/B 51.933796, S/N 28.672203, SSMD -28.621679, median replicate CV 2.301801%
 ```
 
-The plate (a 96-well luminescence grid) and its layout are synthetic test files in the repository at [`crates/openreadout-assay/tests/fixtures/`](../../../crates/openreadout-assay/tests/fixtures/). Every output on this page is real; long tables are trimmed. Any plate-reader export OpenReadout reads works the same way (see [Plate readers](../formats/plate-readers.md)).
+The plate (a 96-well luminescence grid) and its layout are synthetic test files in the repository at [`crates/openreadout-assay/tests/fixtures/`](../../../crates/openreadout-assay/tests/fixtures/). The output on this page is real, with long tables trimmed. Any plate-reader export OpenReadout reads works the same way (see [Plate readers](../formats/plate-readers.md)).
 
 The layout is a long table with one line per well:
 

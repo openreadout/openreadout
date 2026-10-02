@@ -1,6 +1,6 @@
 # Fiji and ImageJ
 
-Fiji reads CZI, ND2 and LIF files with its bundled Bio-Formats importer, so you do not need OpenReadout just to look at a file. OpenReadout helps around Fiji in three ways:
+Fiji reads CZI, ND2 and LIF files with its bundled Bio-Formats importer, so you do not need OpenReadout just to look at a file. OpenReadout is still useful alongside Fiji in three ways:
 
 - **Before opening:** `openreadout check` tells you whether a large file is complete, and `openreadout info` what it holds, without starting Java.
 - **For sharing:** an exported OME-TIFF opens in Fiji, QuPath, napari, Python and OMERO, with no vendor reader needed on the other side.

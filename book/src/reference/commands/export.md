@@ -6,7 +6,7 @@
 openreadout export [OPTIONS] <FILE>...
 ```
 
-Every export is written under a temporary name, read back and compared with the source, and only then renamed into place. The source file is never modified.
+Each export is written under a temporary name, read back and compared with the source, then given its final name. The source file is not modified.
 
 ## Flags
 

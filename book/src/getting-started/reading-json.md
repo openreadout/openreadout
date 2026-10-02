@@ -94,14 +94,14 @@ $ openreadout info mini.nd2 --only '/images/0/physical_size,/images/*/channels/0
 - `pixel_type` uses the OME-XML names (`uint8`, `uint16`, `float` and so on). `samples_per_pixel` is 3 for RGB images.
 - `physical_size` is the pixel size; `unit` gives the unit. The number is what the file recorded. Round it for display, not for computing.
 - `time_increment_s` is the time between time points, in seconds. Times are in seconds unless the field name says otherwise (for example `_ms`).
-- A value the file does not record is left out, never written as `0` or `""`. Test whether a key is present, not whether it is truthy. One exception: a mass spectrum's `rt_s` (retention time) is `null` when the file gives no time for that scan.
+- If the file doesn't record a value, the key is left out rather than set to `0` or `""`. Test whether a key is present, not whether it is truthy. One exception: a mass spectrum's `rt_s` (retention time) is `null` when the file gives no time for that scan.
 - `extra` holds format-specific values, such as the ND2 loop structure or the CZI compression.
 
 The `experiment` object describes the measurement in instrument-independent terms: the sample, the instrument, the method and its parameters with units, and a sentence saying what was measured. For `mini.nd2`, `experiment.measurements[0].what` is "fluorescence, 1 channel (DAPI), 2 time points every 100 ms, 8 × 8 px at 0.25 µm/px". See [Metadata conventions and the experiment model](../guides/metadata.md).
 
 The `assurance` object says whether files like this one were confirmed against an independent reader during development. See [Assurance and strict mode](../reference/assurance.md).
 
-Every field of every result is listed, with its type and meaning, in the [JSON output reference](../reference/json/index.md). `openreadout self schema <command>` prints the same schemas.
+The [JSON output reference](../reference/json/index.md) lists each field with its type and meaning. `openreadout self schema <command>` prints the same schemas.
 
 ## Provenance: where a field's meaning came from
 
@@ -123,7 +123,7 @@ The four values are:
 - `prior-art`: the documentation of a permissively licensed community reader.
 - `inferred`: our own comparison of many example files.
 
-`inferred` does not mean guessed. It means nobody outside this project wrote the rule down. Inferred fields are tested against independent readers like every other field. How each field was derived is recorded per format in [`docs/formats`](https://github.com/openreadout/openreadout/tree/main/docs/formats).
+`inferred` doesn't mean guessed: it means no one outside this project has written the rule down. Inferred fields are tested against independent readers like the rest. The notes for each format in [`docs/formats`](https://github.com/openreadout/openreadout/tree/main/docs/formats) say how each field was derived.
 
 ## With jq
 

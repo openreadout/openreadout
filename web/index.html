@@ -14,7 +14,7 @@
     <title>OpenReadout in the browser</title>
     <meta
       name="description"
-      content="Drop a microscopy, mass spectrometry, flow cytometry or electrophysiology file and read it in your browser. Nothing is uploaded."
+      content="Drop a microscopy, mass spectrometry, flow cytometry or electrophysiology file to see what is in it. The file stays on your computer."
     />
     <link rel="stylesheet" href="style.css" />
     <script type="module" src="app.js"></script>
@@ -34,15 +34,15 @@
     </header>
     <div class="page">
       <header class="intro">
-        <h1>Read an instrument file in your browser</h1>
+        <h1>Read a file in your browser</h1>
         <p class="lede">
           Drop a file to see what is in it: Zeiss CZI, Nikon ND2, Leica LIF, OME-TIFF, FCS, Thermo RAW, mzML, Axon ABF, NWB and
           <a href="../formats.html">the other formats OpenReadout reads</a>. You get the same description, metadata, integrity check and
           preview as the <code>openreadout</code> command line.
         </p>
         <p class="privacy" id="privacy">
-          <strong>Nothing is uploaded.</strong> The file is read by WebAssembly in this tab; the
-          page's security policy forbids it from making any network request.
+          <strong>Your file stays on your computer.</strong> OpenReadout runs in this tab, and the
+          page can't make network requests.
         </p>
       </header>
       <main>
@@ -57,10 +57,9 @@
       </main>
       <footer>
         <p>
-          The same readers and JSON as the <code>openreadout</code> command line:
-          <code>info --view explain</code>, <code>info --json</code>, <code>check</code> and <code>preview</code>.
-          Large files are read in blocks, only where the readers look. For whole folders, exports and analyses,
-          <a href="../getting-started/install.html">install the command line</a>.
+          This page runs <code>info --view explain</code>, <code>info --json</code>, <code>check</code> and
+          <code>preview</code>. It reads only the parts of a file it needs, so large files are fine. To convert
+          files, work on whole folders or run analyses, <a href="../getting-started/install.html">install the command line</a>.
         </p>
       </footer>
     </div>

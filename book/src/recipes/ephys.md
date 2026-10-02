@@ -14,7 +14,7 @@ cells/pyabf-model-vc-step.atf             atf     voltage_clamp                 
 cells/pyabf-sine-sweep-magnitude-20.atf   atf     -                              -                   -  ephys-analysis: unsupported feature: a …  unsupported_feature
 ```
 
-`cells/` holds the three public pyABF sample recordings committed at [`fuzz/corpus/whole_abf/`](../../../fuzz/corpus/whole_abf/) and [`fuzz/corpus/whole_atf/`](../../../fuzz/corpus/whole_atf/). Two are voltage-clamp recordings and one is a sine-sweep test file, so there are no spikes to report; on current-clamp recordings the same command fills the spike, rheobase and f–I columns. Every output on this page is real.
+`cells/` holds the three public pyABF sample recordings committed at [`fuzz/corpus/whole_abf/`](../../../fuzz/corpus/whole_abf/) and [`fuzz/corpus/whole_atf/`](../../../fuzz/corpus/whole_atf/). Two are voltage-clamp recordings and one is a sine-sweep test file, so there are no spikes to report; on current-clamp recordings the same command fills the spike, rheobase and f–I columns. The output on this page is real.
 
 ## What it tells you
 

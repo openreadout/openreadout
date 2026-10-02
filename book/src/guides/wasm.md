@@ -16,7 +16,7 @@ const { meta, png } = await f.preview(); // a preview image and what was drawn
 f.close();
 ```
 
-`open` takes a `File` or `Blob`, a byte array, or a range reader: an object with a `size` and a `read(offset, length)` method that the page implements, for example with HTTP range requests. Blobs up to 256 MiB are read whole. Larger ones are read in blocks, only where the readers look, so `info` on a multi-gigabyte file reads only a few megabytes.
+`open` takes a `File` or `Blob`, a byte array, or a range reader: an object with a `size` and a `read(offset, length)` method that the page implements, for example with HTTP range requests. Blobs up to 256 MiB are read whole. For larger ones the readers fetch only the blocks they need, so `info` on a multi-gigabyte file reads only a few megabytes.
 
 Data sets that span several files or a directory (Bruker `.d`, ChemStation `.D`, Waters `.raw`, NMR experiment directories, multi-file OME-TIFF) need their sibling files. Open them with `openAmong(files, path)`, where `files` is a dropped folder:
 
@@ -49,24 +49,24 @@ Errors are thrown as `InstrumentError`, with `code`, `exitCode` and `hint` field
 - the OME-Zarr reader
 - writing files: `export` and the other writers
 - `watch`, `index` and the MCP server
-- multi-threaded decoding (everything runs on the calling thread)
+- multi-threaded decoding (it all runs on the calling thread)
 - the check for files still being written, because there is no modification time
 
 A bug that makes Rust panic stops the WebAssembly instance. The readers are fuzzed so that malformed files give errors instead, but a page that must survive a panic should load the module again.
 
 ## Privacy of the demo page
 
-The demo page in [`web/`](https://github.com/openreadout/openreadout/tree/main/web) cannot upload anything. Its Content-Security-Policy is:
+The demo page in [`web/`](https://github.com/openreadout/openreadout/tree/main/web) can't upload your file. Its Content-Security-Policy is:
 
 ```text
 default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob:; connect-src 'none'; form-action 'none'; base-uri 'none'
 ```
 
-so the browser refuses any request the page makes after loading its own files. Because the policy forbids fetching even the WebAssembly module, the build inlines the module into the page.
+so the browser blocks any request the page makes after loading its own files. The policy also blocks fetching the WebAssembly module, so the build inlines the module into the page.
 
 ## Reading from other sources in Rust
 
-The readers do not read from a path directly. They read from a byte source: a local file, a buffer in memory, or a function the host provides that reads byte ranges. This is what lets the same readers run in a browser, open Python `bytes` and file objects, and read from S3 or an HTTP server through code the host writes. OpenReadout itself never opens a network connection.
+The readers do not read from a path directly. They read from a byte source: a local file, a buffer in memory, or a function the host provides that reads byte ranges. That way the same readers can run in a browser, open Python `bytes` and file objects, and read from S3 or an HTTP server through code the host writes. OpenReadout itself doesn't open network connections.
 
 ```rust
 use std::sync::Arc;
@@ -79,7 +79,7 @@ let (detection, dataset) = registry.open_input(&input)?;
 let info = dataset.info()?;
 ```
 
-A buffer is `Input::from_bytes(name, bytes)`, and a set of files held in memory is a `MemFs`. The design is described in [`docs/architecture.md`](https://github.com/openreadout/openreadout/blob/main/docs/architecture.md).
+A buffer is `Input::from_bytes(name, bytes)`, and a set of files held in memory is a `MemFs`. [`docs/architecture.md`](https://github.com/openreadout/openreadout/blob/main/docs/architecture.md) describes the design.
 
 ## Building the module
 

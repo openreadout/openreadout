@@ -109,7 +109,7 @@ Chromatography data systems end a peak where its flank has become as flat as the
 
 `auto` changes only where a flank ends. It ends a falling flank where the slope of the signal has returned to its noise level, as long as the signal does not rise again into a neighbouring peak soon after. A flat stretch that leads into a neighbour is an overlap, so the flank continues to the valley as with `drop`. Baselines and codes are then built exactly as with `drop`. Its parameters are fixed, so the same signal always gives the same peaks.
 
-Each peak says why its baseline was drawn so:
+Each peak records why its baseline was drawn the way it was:
 
 | `baseline_reason` | meaning | codes |
 | --- | --- | --- |

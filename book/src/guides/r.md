@@ -123,7 +123,7 @@ tryCatch(openreadout_read_image("broken.czi"),
          openreadout_corrupt_file = function(e) message("corrupt: ", e$hint))
 ```
 
-A malformed file never crashes R: a reader error or a bug in the Rust code is raised as an R error.
+A malformed file doesn't crash R: reader errors and bugs in the Rust code become R errors.
 
 ## Working on the package
 

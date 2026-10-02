@@ -1,6 +1,6 @@
 # Install
 
-OpenReadout is one program, `openreadout`, with no runtime dependencies. Every route on this page gives you the same binary, built from the same source.
+OpenReadout is one program, `openreadout`, with no runtime dependencies. All the options on this page give you the same binary, built from the same source.
 
 OpenReadout has not had its first release yet. Until it does, build it from the repository with cargo.
 

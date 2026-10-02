@@ -90,7 +90,7 @@ Without `scan`, `index` or `nth`, lists the scan headers of a run without decodi
 
 ### openreadout_export
 
-Writes a new file, reads it back and verifies it, then renames it into place. The source is never modified. An existing output is replaced only with `overwrite: true`.
+Writes a new file, reads it back to check it, then gives it its final name. It doesn't modify the source. An existing output is replaced only with `overwrite: true`.
 
 - `format`: `ome-tiff`, `ome-zarr`, `mzml`, `asm`, `rdml`, `parquet`, `arrow`, `nwb` or `jcamp`. The default is `mzml` for mass-spectrometry files and `ome-tiff` otherwise. CSV export is available only on the command line.
 - `output`: the output path. The default is next to the input.
@@ -116,7 +116,7 @@ Groups files that measured the same sample, from their headers. Every link has i
 
 `openreadout_search` queries an index with the query language of [`search`](commands/search.md), for example `format=nd2 objective=60x`. `total` counts every match; `limit` (default 50, at most 1000) caps the results, and `fields: ["all"]` returns every column.
 
-`openreadout_watch` looks once at `dirs` per call and returns the events since `cursor`: new data sets, planes and scans, completed and stalled data sets, QC findings (with `qc: true`) and errors. Poll with the returned `cursor`. The watcher persists between calls with the same `dirs`. Files are never locked. See [Lab shares, indexes and live acquisitions](../guides/lab-shares.md).
+`openreadout_watch` looks once at `dirs` per call and returns the events since `cursor`: new data sets, planes and scans, completed and stalled data sets, QC findings (with `qc: true`) and errors. Poll with the returned `cursor`. The watcher persists between calls with the same `dirs`. It doesn't lock files. See [Lab shares, indexes and live acquisitions](../guides/lab-shares.md).
 
 ### openreadout_formats
 
@@ -126,7 +126,7 @@ No arguments. Returns every supported format with its read and write support, co
 
 `openreadout_preview` lets an agent look at the data. By default it draws image 0 (channel 0, middle z, first time point); for files without images, trace 0, spectrum 0 or the first plate table. Large images are read from the pyramid level nearest `max_size`. The encoded picture is kept under 750 kB: a PNG over that size is sent as JPEG, then halved until it fits, and `notes` says so. The same request always gives the same bytes.
 
-Image previews have rulers labelled in full-resolution pixels, and a µm scale bar when the pixel size is known. An agent can read the coordinates of a feature off the rulers and call again with `region` in the same numbers; only the tiles the region touches are read. The JSON gives the exact mapping from picture pixels to source pixels. Measure intensities with `openreadout_stats`, not from the picture.
+Image previews have rulers labelled in full-resolution pixels, and a µm scale bar when the pixel size is known. An agent can read the coordinates of a feature off the rulers and call again with `region` in the same numbers. OpenReadout reads only the tiles in that region. The JSON gives the exact mapping from picture pixels to source pixels. Measure intensities with `openreadout_stats`, not from the picture.
 
 `openreadout_info` with `view: "summary"` attaches a smaller picture of the same kind, about 384 px, taken from the smallest pyramid level that is large enough. When that would decode too much data, it adds a note pointing to `openreadout_preview` instead. `thumbnail: false` skips it.
 
@@ -141,7 +141,7 @@ Every tool has a title and the four MCP behaviour hints:
 | index, check | no | no | yes |
 | export, batch | no | yes | yes |
 
-`openreadout_export` and `openreadout_batch` are marked destructive because, with `overwrite: true`, they replace an existing output file. Without it they refuse to touch an existing path. `openreadout_check` writes only with `report: true` and `output`. No tool reaches the network (`openWorldHint` is `false` for all).
+`openreadout_export` and `openreadout_batch` are marked destructive because, with `overwrite: true`, they replace an existing output file. Without it they refuse to touch an existing path. `openreadout_check` writes only with `report: true` and `output`. None of the tools reach the network (`openWorldHint` is `false` for all).
 
 ## Progress
 
@@ -193,7 +193,7 @@ Security model:
 - **DNS rebinding.** The `Host` header must name `localhost`, `127.0.0.1` or `[::1]` (or the bound address, with `--allow-remote`). Any other host gets 403.
 - **Browsers.** Any request with an `Origin` header gets 403, so a web page cannot drive the server, even from the same machine.
 - **Token.** When `OPENREADOUT_MCP_TOKEN` is set, every request must carry `Authorization: Bearer <token>`, or it gets 401. The token is compared in constant time. Set one whenever other users or processes on the machine should not reach the server, and always with `--allow-remote`.
-- **What a client can do.** The tools read any file the user running the server can read, and `openreadout_export` writes new files next to them. Anyone who can reach the port has that power. There is no TLS; put a TLS-terminating proxy in front for anything beyond loopback.
+- **What a client can do.** The tools read any file the user running the server can read, and `openreadout_export` writes new files next to them. So can anyone who can reach the port. There is no TLS; put a TLS-terminating proxy in front for anything beyond loopback.
 - Only `/mcp` is served. Sessions are kept in memory and end when the process stops.
 
 ## Testing a server

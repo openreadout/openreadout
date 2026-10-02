@@ -1,10 +1,10 @@
 # Validation
 
-A reader for an undocumented file format is only as good as the evidence that it reads real files correctly. OpenReadout collects that evidence in four ways:
+A reader for an undocumented file format needs evidence that it reads real files correctly. OpenReadout collects that evidence in four ways:
 
-- **Independent readers.** Every development file with a reference reader is opened by that reader too, and the two results are compared plane by plane.
-- **Vendor-software exports.** Where a conversion made with the vendor's own library exists (for mass spectrometry: ProteoWizard's reference conversions and depositors' msconvert output), or the file stores the vendor software's own results (such as Chromeleon's stored peaks), OpenReadout's values are compared with it.
-- **A held-out set.** Files from sources never used during development measure whether the readers work on files they have not seen.
+- **Independent readers.** When another reader can open a development file, we open it with both and compare the results plane by plane.
+- **Vendor-software exports.** Where a conversion made with the vendor's own library exists (for mass spectrometry: ProteoWizard's reference conversions and depositors' msconvert output), or the file stores the vendor software's own results (such as Chromeleon's stored peaks), we compare OpenReadout's values with those.
+- **A held-out set.** Files from sources we didn't use during development show whether the readers work on files they haven't seen.
 - **Second opinions** on metadata fields (units, channel names, acquisition times, instrument models) from a second reader or the vendor's export.
 
 This page explains each one and gives the headline numbers, each with the page or file it comes from.
@@ -16,7 +16,7 @@ From [Project health](health.md), which `cargo xtask health --write` generates f
 | what | number |
 | --- | --- |
 | formats, reader crates | 96 formats in 40 reader crates |
-| confidence (computed, never assigned by hand) | 44 high, 38 medium, 14 low |
+| confidence (computed, not set by hand) | 44 high, 38 medium, 14 low |
 | corpus manifest | 3,610 entries; 1,653 development inputs of 95 formats from 528 depositors; 187 held-out inputs |
 | development files read | 1,629 |
 | compared with an independent reader | 1,514, all of which agree (100%) |
@@ -33,7 +33,7 @@ From [`second-opinions.md`](../../../docs/benchmark/second-opinions.md) (2026-09
 
 ## The test corpus
 
-[`corpus/manifest.toml`](../../../corpus/manifest.toml) lists every test file with its download URL, checksum, license, source and attribution. A file is admitted only if its license allows redistribution, or if its owner gave written permission. Medical or patient-identifiable data and vendor demo datasets are never admitted. Besides development inputs, the manifest holds parts of multi-file documents, companion files, exports made by the depositors' own software, and deliberately damaged files.
+[`corpus/manifest.toml`](../../../corpus/manifest.toml) lists every test file with its download URL, checksum, license, source and attribution. A file can be added only if its license allows redistribution or its owner has given written permission. Medical or patient-identifiable data and vendor demo datasets are not accepted. Besides development inputs, the manifest holds parts of multi-file documents, companion files, exports made by the depositors' own software, and deliberately damaged files.
 
 Files are downloaded, not committed. They are grouped in tiers, and each tier includes the ones above it:
 
@@ -42,7 +42,7 @@ Files are downloaded, not committed. They are grouped in tiers, and each tier in
 | `smoke` | on every push, in CI |
 | `standard` | before a release |
 | `full` | on demand; multi-gigabyte stress files |
-| `hold` | never fetched automatically; the license is not yet confirmed |
+| `hold` | not fetched automatically; the license is not yet confirmed |
 
 ```bash
 cargo xtask corpus fetch --tier smoke      # resumable; verifies checksums
@@ -64,11 +64,11 @@ Exports are checked too. `oracle/omexml_validate.py` validates the OME-XML of an
 
 ## When readers disagree
 
-A disagreement is never resolved by changing OpenReadout's output until it matches.
+We don't settle a disagreement by tweaking OpenReadout's output until it matches.
 
 1. **A third reader decides.** Bio-Formats (`bfconvert`, run as a black box) shares no code with either side.
 2. **If OpenReadout is wrong,** the reader is fixed and the finding goes into the format's provenance log.
-3. **If the reference reader is wrong,** the manifest entry gets an `oracle_skip` field that names the reader, its version and the reason. The file is still opened on every run, so a crash would still fail the test; it is only not compared. For example, the `nd2` package reads one ND2 file one byte off, and Bio-Formats agrees with OpenReadout.
+3. **If the reference reader is wrong,** the manifest entry gets an `oracle_skip` field that names the reader, its version and the reason. The file is still opened on each run, so a crash still fails the test, but its results aren't compared. For example, the `nd2` package reads one ND2 file one byte off, and Bio-Formats agrees with OpenReadout.
 4. **If the readers interpret the file differently,** the manifest and the format notes say which interpretation OpenReadout uses and why.
 5. **Files OpenReadout detects but cannot read yet** are `skip`, and `openreadout self formats` lists the gap.
 
@@ -78,7 +78,7 @@ Files on the `heldout` tier come from sources that were not used during developm
 
 ## Why GPL readers can be references
 
-Running a program and comparing its output is not copying it. GPL and LGPL readers run in a separate Python environment (`oracle/`). They are never linked or shipped, and their source is never read while writing a parser. See rule 3 of the [clean-room policy](clean-room.md).
+Running a program and comparing its output doesn't copy its code. GPL and LGPL readers run in a separate Python environment (`oracle/`). We don't link or ship them, and we don't read their source while writing a parser. See rule 3 of the [clean-room policy](clean-room.md).
 
 ## The appendices
 

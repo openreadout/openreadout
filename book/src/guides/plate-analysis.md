@@ -78,7 +78,7 @@ A,,100,50,
 B,,100,50,
 ```
 
-Layout information is merged well by well, later sources winning:
+Layout information is merged well by well, and later sources override earlier ones:
 
 1. The layout the export embeds, such as Gen5 `Well ID` and `Conc/Dil`, SkanIt sample matrices and layout sheets, or BMG content maps. `--no-embedded-layout` ignores it.
 2. `--layout FILE`.
@@ -92,7 +92,7 @@ Some names do not say which way a control points. A vehicle or untreated well is
 openreadout analyze assay dose-response plate.xlsx --layout layout.csv --role DMSO=negative
 ```
 
-`--role NAME=ROLE` (repeatable) sets the role of every well whose role text or sample name is NAME. `--role CTL=positive` also covers `CTL1` and `CTL2`. It wins over every other source.
+`--role NAME=ROLE` (repeatable) sets the role of every well whose role text or sample name is NAME. `--role CTL=positive` also covers `CTL1` and `CTL2`. It overrides every other source.
 
 The output's `warnings` list what may be wrong with the layout: a role text that is not a role name, controls of unknown sign, and `--role` entries that matched no well. Each warning names the `--role` argument that fixes it.
 

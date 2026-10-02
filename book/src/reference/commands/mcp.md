@@ -6,7 +6,7 @@
 openreadout mcp [OPTIONS]
 ```
 
-Without flags it serves the MCP tools over stdio. The tools, resources and prompts it offers are described in the [MCP reference](../mcp.md).
+Without flags it serves the MCP tools over stdio. The [MCP reference](../mcp.md) describes the tools, resources and prompts it offers.
 
 ## Flags
 
@@ -15,7 +15,7 @@ Without flags it serves the MCP tools over stdio. The tools, resources and promp
 `CLIENT` is one of `claude`, `claude-desktop`, `cursor`, `codex`, `vscode`, `gemini`, `windsurf`, `zed`, `continue` or `cline`.
 
 - `--config CLIENT`: print the configuration snippet for this client, with this binary's absolute path, instead of serving.
-- `--install CLIENT`: write the configuration into the client's config file. Other servers and settings are kept, the previous file is backed up next to it, and nothing changes if the server is already configured.
+- `--install CLIENT`: write the configuration into the client's config file. Other servers and settings are kept, the previous file is backed up next to it, and the file is left alone if the server is already configured.
 - `--project`: with `--install`, write the project-level file in the current directory (such as `.mcp.json` or `.vscode/mcp.json`) instead of the user-level one.
 - `--config-path PATH`: with `--install`, edit this file instead of the client's default.
 

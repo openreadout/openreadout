@@ -1,112 +1,46 @@
 // Figures of the home page. Data: site/data/home.json (taken from real public files; see the
 // notes at the end of the page).
 import D from "../data/home.json";
-import { $, h, s, fmtInt, reduced, css, hexRows, scaleBar, coverBar, figs } from "./charts.js";
+import { $, h, fmtInt, coverBar, figs } from "./charts.js";
 const BASE = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
+// Gallery labels: format · what the file holds, then a few facts read from it.
 const META = {
-  stem: { title: "A plant stem, through a laser microscope", machine: "Leica confocal microscope · .lif", usual: "Leica LAS X",
-    body: "A slice across the stem of a lily-of-the-valley. The microscope split the light into 29 colour bands; the rings are bundles of tubes that carry water and sugar.",
-    facts: c => [`${c.facts.channels} colour bands`, "512 × 512 px", "2.27 µm per pixel"], ask: "Which of the 29 colour bands is brightest?" },
-  atoms: { title: "Individual atoms in a crystal", machine: "Gatan electron-microscope camera · .dm3", usual: "Gatan DigitalMicrograph",
-    body: "Each bright dot is a column of atoms. The window shown is about 7 nanometres wide, roughly ten thousand times narrower than a human hair.",
-    facts: c => ["1024 × 1024 px", "0.0244 nm per pixel", "window: 7.3 nm"], ask: "How wide is this image in nanometres?" },
-  tissue: { title: "A tissue slide, as a pathologist sees it", machine: "Akoya / PerkinElmer slide scanner · .qptiff", usual: "Akoya Phenochart",
-    body: "Stained pink and purple with H&E, the standard stain in hospital pathology labs. The full scan is 818 million pixels; this preview read only a small, low-resolution copy stored inside the file.",
-    facts: c => ["30,720 × 26,640 px", "0.5 µm per pixel", "402 MB"], ask: "Show me the top-left corner at full resolution." },
-  neuron: { title: "A brain cell firing", machine: "Axon patch-clamp amplifier · .abf", usual: "Molecular Devices pCLAMP",
-    body: "A glass needle touches one neuron and records its voltage 20,000 times a second. Push in a small current and it fires: each spike is one nerve impulse.",
-    facts: c => [`${fmtInt(c.facts.spikes_total)} spikes found`, `${c.facts.sweeps} recordings`, `up to ${c.facts.rate_hz} spikes/s`], ask: "How fast does this cell fire when it's stimulated?" },
-  cannabis: { title: "Weighing the molecules in a cannabis extract", machine: "Thermo Fisher Orbitrap mass spectrometer · .raw", usual: "Thermo Xcalibur (Windows)",
-    body: "The instrument separates the mixture over 24 minutes and weighs whatever comes out, thousands of times. Each peak is a group of molecules leaving at the same moment.",
-    facts: c => [`${fmtInt(c.facts.scans)} scans`, c.facts.model, "24 min run"], ask: "When does the THCA peak come out?" },
-  juice: { title: "The infrared fingerprint of fruit juice", machine: "Bruker FT-IR spectrometer · OPUS .0", usual: "Bruker OPUS",
-    body: "Molecules absorb infrared light at frequencies set by their chemical bonds, so the dips identify what's in the sample. Food labs use this kind of scan to check juice for dilution or added sugar.",
-    facts: c => [`${fmtInt(c.facts.points)} points`, "4000 → 500 cm⁻¹", "orange-peach juice"], ask: "Where are the strongest absorption bands?" },
-  pcr: { title: "The kind of machine that ran COVID tests", machine: "Applied Biosystems QuantStudio 7 Pro · .eds", usual: "Design & Analysis software",
-    body: "It copies DNA over and over and measures the glow. A sample with more DNA lights up sooner, so each 10-fold dilution here rises 3.3 cycles later, as the chemistry predicts.",
-    facts: c => [`${c.facts.amplified} wells amplified`, `${c.facts.cycles} cycles`, `rise at cycle ${c.facts.cq_min}–${c.facts.cq_max}`], ask: "Did any wells fail to amplify?" },
-  plate: { title: "384 tiny experiments on one plate", machine: "Tecan plate reader · Magellan export", usual: "Tecan Magellan",
-    body: "A plate reader measures the colour of 384 wells at once. This one is an ELISA, the lab test behind many antibody tests: the darker a well, the more of the target it holds.",
-    facts: c => [`${c.facts.wells} wells`, `${c.facts.wavelength} nm`, `${c.facts.reads} reads`], ask: "Which wells are above the cut-off?" },
-  cells: { title: "290,172 immune cells, measured one at a time", machine: "BD LSR II flow cytometer · .fcs", usual: "BD FACSDiva, FlowJo",
-    body: "Cells stream single-file past lasers and each is measured for 15 things. Plotting two markers splits the T cells into the two kinds your immune system relies on.",
-    facts: c => [`${fmtInt(c.facts.events)} cells`, `${c.facts.params} measurements each`, "6,000 shown"], ask: "What share of these T cells are helper cells?" },
+  stem: { title: "Leica LIF · confocal lambda scan", usual: "Leica LAS X",
+    facts: c => [`${c.facts.channels} spectral channels`, "512 × 512 px", "2.27 µm per pixel"] },
+  atoms: { title: "Gatan DM3 · atomic-resolution STEM", usual: "Gatan DigitalMicrograph",
+    facts: () => ["1024 × 1024 px", "0.0244 nm per pixel"] },
+  tissue: { title: "Akoya QPTIFF · H&E whole slide", usual: "Akoya Phenochart",
+    facts: () => ["30,720 × 26,640 px", "0.5 µm per pixel", "402 MB"] },
+  neuron: { title: "Axon ABF · patch clamp", usual: "Molecular Devices pCLAMP",
+    facts: c => [`${c.facts.sweeps} sweeps`, `${fmtInt(c.facts.spikes_total)} spikes`, `${c.facts.rate_khz} kHz`] },
+  cannabis: { title: "Thermo Orbitrap RAW · LC-MS run", usual: "Thermo Xcalibur",
+    facts: c => [c.facts.model, `${fmtInt(c.facts.scans)} scans`, "24 min"] },
+  juice: { title: "Bruker OPUS · FT-IR spectrum", usual: "Bruker OPUS",
+    facts: c => [`${fmtInt(c.facts.points)} points`, "4000 → 500 cm⁻¹"] },
+  pcr: { title: "Applied Biosystems EDS · qPCR", usual: "Design & Analysis",
+    facts: c => [c.facts.instrument, `${c.facts.wells} wells`, `${c.facts.cycles} cycles`] },
+  plate: { title: "Tecan Magellan · 384-well ELISA", usual: "Tecan Magellan",
+    facts: c => [`${c.facts.wells} wells`, `${c.facts.wavelength} nm`, `${c.facts.reads} reads`] },
+  cells: { title: "FCS · flow cytometry", usual: "BD FACSDiva, FlowJo",
+    facts: c => [`${fmtInt(c.facts.events)} cells`, `${c.facts.params} parameters`, "6,000 plotted"] },
 };
-(function decode() {
-  const m = D.mouse, UM = 0.22, WMM = m.size_x * UM / 1000, HMM = m.size_y * UM / 1000;
-  $("#gpx").textContent = `${fmtInt(m.size_x)} by ${fmtInt(m.size_y)} pixels, ${(m.size_x * m.size_y / 1e9).toFixed(1)} billion`;
-  const cv = $("#hero"), ctx = cv.getContext("2d"), wrap = $("#cwrap"), range = $("#decodeRange");
-  const img = new Image(), hexStr = m.hex.toUpperCase();
-  let off, px, W, H, cw, ch, cols, rows, noise = [], p = 1, anim = null;
-  function setup() {
-    const r = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = Math.max(280, Math.round(r.width)); H = Math.round(W * 542 / 1487);
-    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    off = document.createElement("canvas"); off.width = W; off.height = H;
-    const o = off.getContext("2d"); o.drawImage(img, 0, 0, W, H); px = o.getImageData(0, 0, W, H).data;
-    const fs = Math.max(6, Math.min(11, W / 120));
-    ctx.font = `${fs}px "IBM Plex Mono", ui-monospace, Menlo, monospace`;
-    cw = ctx.measureText("0").width + 0.5; ch = fs * 1.35; cols = Math.ceil(W / cw); rows = Math.ceil(H / ch);
-    noise = Array.from({ length: rows }, (_, i) => (Math.sin(i * 12.9898) * 43758.5453) % 1);
-    scaleBar($("#heroBar"), WMM * 1000 / W, W * 0.14); draw();
-  }
-  function draw() {
-    const band = W * 0.16, bg = css("--slide", cv), ink = css("--hex", cv);
-    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
-    for (let r = 0; r < rows; r++) {
-      const y = r * ch, edge = p * (W + band * 2) - band + Math.abs(noise[r]) * band * 0.7 - band * 0.35;
-      if (edge > 0) ctx.drawImage(off, 0, y, Math.min(edge, W), ch, 0, y, Math.min(edge, W), ch);
-      for (let c = Math.max(0, Math.floor(edge / cw)); c < cols; c++) {
-        const x = c * cw, d = x - edge; let color = ink;
-        if (d < band) { const i = ((Math.min(H - 1, Math.floor(y + ch / 2)) * W) + Math.min(W - 1, Math.floor(x))) * 4; color = d / band < 0.6 ? `rgb(${px[i]},${px[i + 1]},${px[i + 2]})` : ink; }
-        ctx.fillStyle = color; ctx.fillText(hexStr[(r * cols + c) % hexStr.length], x, y + ch * 0.8);
-      }
-    }
-    $("#heroBar").style.opacity = p > .98 ? 1 : 0;
-  }
-  range.addEventListener("input", () => { cancelAnimationFrame(anim); p = range.value / 1000; draw(); });
-  wrap.addEventListener("pointermove", e => {
-    const r = wrap.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, ro = $("#ro");
-    ro.hidden = false;
-    ro.textContent = p > .5 ? `${(x / r.width * WMM).toFixed(2)} mm, ${(y / r.height * HMM).toFixed(2)} mm` : `byte ${fmtInt(Math.floor((y / r.height * rows | 0) * cols + x / r.width * cols))}`;
-    ro.style.left = Math.min(x, r.width - 150) + "px"; ro.style.top = Math.min(y, r.height - 30) + "px";
-  });
-  wrap.addEventListener("pointerleave", () => $("#ro").hidden = true);
-  img.onload = () => {
-    setup();
-    if (reduced) return;
-    p = 0; range.value = 0; draw();
-    setTimeout(() => {
-      const t0 = performance.now();
-      const step = now => { const k = Math.min(1, (now - t0) / 2200), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; p = e; range.value = Math.round(p * 1000); draw(); if (k < 1) anim = requestAnimationFrame(step); };
-      anim = requestAnimationFrame(step);
-    }, 700);
-  };
-  img.src = BASE + m.overview;
-  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => img.complete && setup(), 150); });
-})();
 
-/* ---------- figure: the file map ---------- */
-(function plate() {
+/* ---------- gallery ---------- */
+(function gallery() {
   const WIDTH_UM = { stem: [512 * 2.2749510763209395, "on-dark"], atoms: [300 * 2.44140625e-5, "on-dark"], tissue: [30720 * 0.5, "on-light"] };
-  const hexes = [];
   D.cards.forEach(cd => {
     if (cd.img) cd.img = BASE + cd.img;
     const mt = META[cd.id]; cd.title = mt.title;
     const el = h("div", { class: "spec" }), fig = h("div", { class: "fig" });
     figs[cd.kind](fig, cd);
     if (WIDTH_UM[cd.id]) coverBar(fig, fig.querySelector("img"), WIDTH_UM[cd.id][0], WIDTH_UM[cd.id][1]);
-    const hv = h("pre", { class: "hexview", hidden: "", "aria-label": "First bytes of the file" }, hexRows(cd.hex, 13));
-    fig.append(hv); hexes.push(hv);
-    el.append(fig, h("h3", {}, mt.title), h("p", {}, mt.body), h("div", { class: "who" }, `${mt.machine} · normally opened in ${mt.usual}`));
+    el.append(fig, h("h3", {}, mt.title), h("p", {}, mt.facts(cd).join(" · ")), h("div", { class: "who" }, `Usually opened in ${mt.usual}`));
     $("#plate").append(el);
   });
-  const set = on => { hexes.forEach(x => x.hidden = !on); $("#pBytes").setAttribute("aria-pressed", String(on)); $("#pDecoded").setAttribute("aria-pressed", String(!on)); };
-  $("#pBytes").onclick = () => set(true); $("#pDecoded").onclick = () => set(false);
 })();
 
-/* ---------- a whole lab ---------- */
+/* ---------- questions an agent can answer ---------- */
 (function convos() {
   const esc = x => String(x).replace(/&/g, "&amp;").replace(/</g, "&lt;");
   const n0 = v => fmtInt(Math.round(v));
@@ -142,7 +76,7 @@ const META = {
     { tab: "Settings for a paper",
       user: "What settings was <code>run42.czi</code> recorded with? I need them for the methods section of my paper.",
       tools: [[call("openreadout_explain", { file: "run42.czi" }), line(ex.summary), line(ex.paragraphs[0].replace(/; operator \S+/, "")), line(ex.paragraphs[2]), line(ex.paragraphs[3])]],
-      ai: ["Everything is recorded in the file. Here's a paragraph you can adapt:",
+      ai: ["It's all in the file. Here's a paragraph you can adapt:",
            "<blockquote>Images were acquired on a Zeiss Axio Observer.Z1 spinning-disk confocal microscope with a Plan-Apochromat 20×/0.8 air objective, using ZEN 2.3 (blue edition). EGFP and TagRFP were excited at 488 nm and 558 nm with 10 ms exposures, alongside a brightfield channel. At each of three stage positions, z-stacks of 5 planes 1 µm apart were collected at 1.08 µm per pixel.</blockquote>" ] },
     { tab: "Convert for Fiji",
       user: "Can you convert <code>stem.lif</code> so my collaborator can open it in Fiji? Make sure nothing gets lost.",

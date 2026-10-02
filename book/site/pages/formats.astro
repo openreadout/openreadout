@@ -23,8 +23,8 @@ const esc = (s: string) => s.replace(/`([^`]+)`/g, "<code>$1</code>");
   <p class="lead">
     OpenReadout reads the {formats.length} formats below. Each links to our notes on its layout and metadata and to the provenance log of its reader.{" "}
     <b>Confidence</b> says how thoroughly a reader has been checked against independent readers on public files ({conf.high} high, {conf.medium} medium,{" "}
-    {conf.low} low); <b>known gaps</b> are what it does not handle yet. The version you have installed is the authority:{" "}
-    <code>openreadout self formats</code> prints the same list.
+    {conf.low} low); <b>known gaps</b> are what it does not handle yet. To see the list for the version you have installed, run{" "}
+    <code>openreadout self formats</code>.
   </p>
 
   <div class="fmt-tools not-content">
@@ -80,8 +80,8 @@ const esc = (s: string) => s.replace(/`([^`]+)`/g, "<code>$1</code>");
   <p>
     Each page shows our notes from <a href="https://github.com/openreadout/openreadout/tree/main/docs/formats"><code>docs/formats/</code></a>: the byte
     layout, the metadata OpenReadout normalizes, and a vocabulary table of every public name in the reader’s code. It links to the reader’s provenance log,
-    which records which files were examined, which prior art was consulted and what was inferred from what. Together they are the evidence behind the
-    <a href={base + "project/clean-room.html"}>clean-room policy</a>. OpenReadout never writes these formats; it exports to open ones instead (see
+    which records the files we examined, the prior art we consulted and what we inferred from each. Together they show how each reader follows the
+    <a href={base + "project/clean-room.html"}>clean-room policy</a>. OpenReadout doesn't write vendor formats; it exports to open ones instead (see
     <a href={base + "reference/commands/export.html"}><code>export</code></a>).
   </p>
   <h2 id="requesting-a-format">Requesting a format</h2>

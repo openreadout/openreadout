@@ -6,7 +6,7 @@
 openreadout watch [OPTIONS] [DIR]...
 ```
 
-`watch` polls. It opens files read-only and never locks them. Sub-directories are walked, and a directory data set (a Zarr store, a Bruker `.d`) counts as one data set.
+`watch` polls. It opens files read-only and doesn't lock them. Sub-directories are walked, and a directory data set (a Zarr store, a Bruker `.d`) counts as one data set.
 
 ## Flags
 
@@ -32,7 +32,7 @@ openreadout watch --print-qc-rules > rules.toml      # start your own rules from
 openreadout watch /data/incoming --qc-rules rules.toml
 ```
 
-Event types, the in-progress heuristic and the rule format are described in the [lab share guide](../../guides/lab-shares.md), under [QC rules](../../guides/lab-shares.md#qc-rules).
+The [lab share guide](../../guides/lab-shares.md) describes the event types and the in-progress heuristic, and [QC rules](../../guides/lab-shares.md#qc-rules) describes the rule format.
 
 ## JSON
 
