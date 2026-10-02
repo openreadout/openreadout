@@ -1,6 +1,6 @@
 # openreadout (npm)
 
-Read raw lab-instrument files without vendor software. OpenReadout prints what is in a file as JSON, checks its integrity, exports it to open formats and runs as an MCP server for AI agents. The formats it reads are listed at <https://openreadout.github.io/openreadout/formats/index.html>.
+Read raw lab-instrument files without vendor software. OpenReadout prints what is in a file as JSON, checks its integrity, exports it to open formats and runs as an MCP server for AI agents. The formats it reads are listed at <https://openreadout.github.io/openreadout/formats.html>.
 
 This npm package is a thin installer for the native [OpenReadout](https://github.com/openreadout/openreadout) binary. On install it downloads the prebuilt, statically linked binary for your platform from the GitHub release with the same version, **verifies its SHA-256 against the release's `SHA256SUMS`**, and links it as `openreadout`. There are no runtime dependencies.
 

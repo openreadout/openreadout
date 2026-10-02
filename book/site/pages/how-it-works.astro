@@ -1,0 +1,167 @@
+---
+import Editorial from "../layouts/Editorial.astro";
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+---
+
+<Editorial
+  page="how"
+  title="How it works · OpenReadout"
+  description="An illustrated look inside the files lab instruments write, and at how OpenReadout reads only the parts a question needs."
+>
+  <header class="col hero">
+    <div class="kicker"><span>How it works</span><span>Every figure is drawn from real files</span></div>
+    <h1>Inside the files instruments write</h1>
+    <p class="deck">
+      A file from a slide scanner is not one long picture. It is closer to a warehouse with a catalogue, and every instrument maker designed its own.
+      This page looks inside a few of them, and shows why OpenReadout can answer questions about a four-gigabyte file by reading a few megabytes of it.
+    </p>
+  </header>
+
+  <div class="col">
+    <h2>A file is a warehouse with a catalogue</h2>
+    <p>
+      The Zeiss file on the <a href={base}>home page</a> is 3.7 gigabytes. It holds shelves of small <span class="k d">tiles of pixels</span>, a
+      <span class="k m">description</span> of how everything was recorded, and <span class="k s">signposts</span> that say where everything is: a header at the
+      very start and a catalogue of every tile at the very end. The rest is <span class="k o">leftover space</span>.
+    </p>
+    <p>
+      Here is that layout, drawn to scale from the file’s own records. Each of the 3.7 billion bytes has a place on the bar. The two strips below it magnify the
+      first 800 kilobytes and the last 12.5 megabytes, where the signposts live.
+    </p>
+  </div>
+  <figure class="wide">
+    <div class="panel map" id="f-map">
+      <canvas id="mapCv" height="220"></canvas>
+      <div class="tip" id="mapTip" hidden></div>
+    </div>
+    <figcaption>
+      <b>The Zeiss file’s 8,564 records, from its own directory.</b> Hover for detail. Tiles at full resolution are dark; the paler bands are the same image
+      stored again at half, a quarter, an eighth of the size, down to a thumbnail.
+    </figcaption>
+  </figure>
+
+  <div class="col">
+    <h2>Reading only what a question needs</h2>
+    <p>
+      Because the catalogue records where each tile sits in the picture and where it sits in the file, a program that reads the catalogue never has to load the
+      whole thing. OpenReadout reads the header, the description and the catalogue first, 1.4 megabytes in all. Then it fetches only the tiles that cover the
+      part of the picture it was asked about, at the level of detail it was asked for. Pick a view and watch which bytes it needs.
+    </p>
+  </div>
+  <figure class="wide">
+    <div class="panel zr" id="f-zoom">
+      <div class="zr-img" id="zrImg"></div>
+      <div class="zr-side">
+        <div class="ui" id="zrWhat"></div>
+        <div class="big" id="zrBig"></div>
+        <div class="meter"><i id="zrMeter"></i></div>
+        <div class="ui" id="zrDetail" style="color:var(--muted)"></div>
+      </div>
+      <div class="zr-map"><canvas id="zrMap" height="46"></canvas></div>
+      <div class="steps" id="zrSteps" role="group" aria-label="Choose a view"></div>
+    </div>
+  </figure>
+  <div class="col">
+    <p>
+      Whichever view you pick, OpenReadout reads between 2.2 and 3.1 megabytes, less than a thousandth of the file. That is why <code>info</code> describes a
+      multi-gigabyte slide in a fraction of a second, and why an agent never needs the whole file in its conversation to look closely at part of it. The same
+      holds for files on a network share or in object storage: only the blocks a reader asks for are fetched.
+    </p>
+
+    <h2>How an agent looks at a picture</h2>
+    <p>
+      Agents that browse the web take screenshots and read them. OpenReadout gives them the same habit for instrument data. <code>preview</code> renders any
+      image as a small picture with rulers in full-resolution pixels and a scale bar, so the agent can read coordinates off the rulers and ask for a closer look.
+    </p>
+    <p>
+      Here are the three pictures OpenReadout returns on the way to a practical question: <em>is this scan sharp enough to count cells, or does the slide need
+      to be scanned again?</em> The notes between them are the kind of reasoning an agent does with each one.
+    </p>
+  </div>
+  <figure class="wide">
+    <div class="look" id="look"></div>
+    <figcaption>
+      Real previews, unedited. The same tool draws chromatograms, voltage traces, spectra and plate heat maps, so an agent can glance at any file before deciding
+      what to measure. <a href={base + "reference/commands/preview.html"}>preview</a>.
+    </figcaption>
+  </figure>
+
+  <div class="col">
+    <h2>Every instrument keeps its own kind of catalogue</h2>
+    <p>
+      Zeiss’s warehouse is only one design. Thermo Fisher stores a mass spectrometer run as one long stream of scans with an index at the end. Flow cytometers
+      write three blocks, the middle one a list of key–value pairs. Gatan’s electron-microscope files are a single tree of named tags that contains everything,
+      the picture included. Each maker designed its layout on its own, often decades ago, and many have changed it between software versions.
+    </p>
+  </div>
+  <figure class="wide">
+    <div class="panel" id="f-multi">
+      <div class="multi" id="multi"></div>
+      <div class="tip" id="multiTip" hidden></div>
+    </div>
+    <figcaption>
+      <b>Nine files from nine instruments</b>, each stretched to the same width and coloured with the same key as above. Hover any band. The
+      <a href={base + "formats.html"}>format pages</a> describe each layout byte by byte.
+    </figcaption>
+  </figure>
+
+  <div class="col">
+    <h2>Reading without the maker’s code</h2>
+    <p>
+      None of these layouts came from a vendor’s software kit. Each reader was worked out from public sample files, by hex dump and by comparison with what
+      independent open-source readers report, under a <a href={base + "project/clean-room.html"}>clean-room policy</a>: no vendor SDKs, headers or DLLs, and no
+      GPL reader source. Every step is written down in the format’s provenance log. Then every reader is checked against independent readers on public files,
+      pixel for pixel, and each answer carries an <a href={base + "reference/assurance.html"}>assurance</a> verdict that says whether files like it were part of
+      that check.
+    </p>
+
+    <h2>A whole lab at once</h2>
+    <p>
+      Real questions are rarely about one file. A lab’s shared drive holds years of runs from every instrument it has owned, under names like
+      <code>run_007_final2.nd2</code>. Before anyone can analyse them, someone has to find the right ones and make sure they are intact.
+    </p>
+    <p>
+      So OpenReadout also catalogues whole folders. We pointed it at the collection of public files this project is tested on: <span id="labBig"></span>. It
+      read every header, checked every structure and wrote an index in <span id="labSecs"></span>. After that, questions that would have meant opening a thousand
+      files in a dozen programs come back at once. Try one:
+    </p>
+  </div>
+  <figure class="wide">
+    <div class="panel lab" id="f-lab">
+      <div class="query" role="status" aria-live="polite"><span class="p">search</span><span id="qText"></span><output id="qOut"></output></div>
+      <div class="presets" id="presets"></div>
+      <div class="tray" id="tray"></div>
+    </div>
+    <figcaption>
+      Each square is one dataset: a file, or a folder the instrument treats as one run, grouped by kind of instrument. The damaged files are real; many were put in
+      the collection on purpose, to make sure OpenReadout catches them.
+    </figcaption>
+  </figure>
+  <div class="col">
+    <p>The same index produces a health report for the whole drive. In this collection it found <span id="health"></span></p>
+    <p>
+      Once the right files are found, one command measures all of them and returns a single table, joined to the lab’s own sample sheet if there is one. Here,
+      spike analysis of every sweep in <span id="batchN"></span> recordings took a twenty-fifth of a second. An excerpt, from two very different neurons:
+    </p>
+  </div>
+  <div class="wide"><div class="tidy-wrap"><table class="tidy" id="tidy"></table></div></div>
+  <div class="col">
+    <p>
+      The same works for chromatogram peaks, plate-reader curves, qPCR runs, NMR spectra, cytometry gates and image statistics, across as many files as the lab has.
+      <a href={base + "recipes/index-share.html"}>Index and search a lab share</a> shows how.
+    </p>
+
+    <div class="notes">
+      <p>
+        <b>About the files.</b> Every figure comes from public files: Zenodo records, OME sample data and the test data of open-source projects such as pyABF and
+        FlowKit, used under their licences. The file list and licences are in
+        <a href="https://github.com/openreadout/openreadout/blob/main/corpus/manifest.toml">corpus/manifest.toml</a>. The anatomy is described only as far as the
+        images show it.
+      </p>
+    </div>
+  </div>
+</Editorial>
+
+<script>
+  import "../scripts/how.js";
+</script>

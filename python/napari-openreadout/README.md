@@ -1,6 +1,6 @@
 # napari-openreadout
 
-A [napari](https://napari.org) reader plugin that opens raw microscopy and electron-microscopy files with [OpenReadout](https://github.com/openreadout/openreadout). The formats it reads are listed at <https://openreadout.github.io/openreadout/formats/index.html>.
+A [napari](https://napari.org) reader plugin that opens raw microscopy and electron-microscopy files with [OpenReadout](https://github.com/openreadout/openreadout). The formats it reads are listed at <https://openreadout.github.io/openreadout/formats.html>.
 
 ```bash
 pip install napari napari-openreadout

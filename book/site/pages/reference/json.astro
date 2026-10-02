@@ -1,0 +1,209 @@
+---
+// The JSON reference, rendered at build time from docs/schema/*.schema.json (written by
+// `cargo xtask schema gen` from the Rust types). One section per schema; the types it uses are
+// listed under it. Anchors are the schema names (#info, #peaks, …); a Markdown link to
+// reference/json/<name>.md is mapped to reference/json.html#<name> by site/loader.ts.
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+
+const dir = join(process.cwd(), "..", "docs", "schema");
+const repo = "https://github.com/openreadout/openreadout/blob/main/docs/schema/";
+
+type S = Record<string, any>;
+const esc = (t: string) => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+// Descriptions come from Rust doc comments: backticks are code, the rest is plain text.
+const md = (t?: string) =>
+  t
+    ? esc(t)
+        .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '<a href="$2">$1</a>')
+        .replace(/\n\n+/g, "</p><p>")
+    : "";
+
+// Display order: the envelope first, then by command.
+const ORDER = ["envelope", "info", "info-format", "info-full", "info-explain", "info-structure", "check", "check-planes", "check-against", "check-report", "export", "export-attachment", "preview", "stats", "stats-wells", "trace", "table", "spectra", "spectrum", "chromatogram", "peaks", "assay", "qpcr", "nmr-peaks", "ephys-features", "spikes", "gate", "batch-table", "batch-summary", "link", "sidecar", "sidecar-file", "index", "search", "search-health", "search-export", "watch", "formats", "doctor"];
+const files = readdirSync(dir).filter((f) => f.endsWith(".schema.json"));
+const names = files.map((f) => f.replace(/\.schema\.json$/, ""));
+names.sort((a, b) => (ORDER.indexOf(a) + 1 || 999) - (ORDER.indexOf(b) + 1 || 999) || a.localeCompare(b));
+// index.schema.json gets the anchor "index-manifest": a link to reference/json/index.md means the
+// top of the page (Starlight drops "index" from ids), so the schema needs another name.
+const anchor = (n: string) => (n === "index" ? "index-manifest" : n);
+
+function typeOf(p: S, sid: string): string {
+  if (!p || typeof p !== "object") return "any";
+  if (p.$ref) {
+    const name = p.$ref.split("/").pop();
+    return `<a href="#${sid}--${name}">${esc(name)}</a>`;
+  }
+  for (const k of ["anyOf", "oneOf", "allOf"]) {
+    if (p[k]) {
+      const parts = p[k].filter((x: S) => x.type !== "null").map((x: S) => typeOf(x, sid));
+      const nullable = p[k].some((x: S) => x.type === "null");
+      return parts.join(" | ") + (nullable ? " | null" : "");
+    }
+  }
+  if (p.enum) return p.enum.map((v: unknown) => `<code>${esc(JSON.stringify(v))}</code>`).join(" | ");
+  if (p.const !== undefined) return `<code>${esc(JSON.stringify(p.const))}</code>`;
+  const t = Array.isArray(p.type) ? p.type : p.type ? [p.type] : [];
+  const nullable = t.includes("null");
+  const base = t.filter((x: string) => x !== "null");
+  let out: string;
+  if (base[0] === "array") out = `array of ${typeOf(p.items ?? {}, sid)}`;
+  else if (base[0] === "object" && p.additionalProperties && typeof p.additionalProperties === "object" && !p.properties)
+    out = `map of ${typeOf(p.additionalProperties, sid)}`;
+  else out = base.length ? base.join(" | ") : "any";
+  if (p.format && base[0] !== "array") out += ` <span class="fmt">(${esc(p.format)})</span>`;
+  return out + (nullable ? " | null" : "");
+}
+
+function props(obj: S, sid: string): string {
+  const req = new Set<string>(obj.required ?? []);
+  const entries = Object.entries<S>(obj.properties ?? {});
+  if (!entries.length) {
+    if (obj.oneOf || obj.anyOf) return `<p class="variants">One of: ${typeOf(obj, sid)}</p>`;
+    if (obj.enum) return `<p class="variants">One of: ${typeOf(obj, sid)}</p>`;
+    return `<p class="variants">${typeOf(obj, sid)}</p>`;
+  }
+  const rows = entries
+    .map(
+      ([k, p]) =>
+        `<tr><td><code>${esc(k)}</code>${req.has(k) ? "" : ' <span class="opt">optional</span>'}</td><td class="ty">${typeOf(p, sid)}</td><td>${md(p.description)}</td></tr>`,
+    )
+    .join("");
+  return `<table class="props"><thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+const sections = names.map((n) => {
+  const s: S = JSON.parse(readFileSync(join(dir, n + ".schema.json"), "utf8"));
+  const id = anchor(n);
+  const defs = Object.entries<S>(s.$defs ?? s.definitions ?? {}).sort(([a], [b]) => a.localeCompare(b));
+  const types = defs
+    .map(
+      ([name, d]) =>
+        `<details class="def" id="${id}--${esc(name)}"><summary><code>${esc(name)}</code>${d.description ? ` <span>${md(d.description.split("\n")[0])}</span>` : ""}</summary>${d.description && d.description.includes("\n") ? `<p>${md(d.description)}</p>` : ""}${props(d, id)}</details>`,
+    )
+    .join("");
+  const html = `<p>${md(s.description)}</p>${props(s, id)}${defs.length ? `<h3 class="types">Types used (${defs.length})</h3>${types}` : ""}<p class="src"><a href="${repo}${n}.schema.json">${n}.schema.json</a> · ${esc(s.title ?? "")}</p>`;
+  return { id, name: n === "sidecar-file" ? "sidecar file" : n === "index" ? "index" : n, html };
+});
+const headings = [
+  { depth: 2, slug: "the-envelope", text: "How to read this page" },
+  ...sections.map((s) => ({ depth: 2, slug: s.id, text: s.name })),
+];
+---
+
+<StarlightPage
+  frontmatter={{
+    title: "JSON output schemas",
+    description: "Every JSON document OpenReadout prints, generated from the published JSON Schemas in docs/schema.",
+    editUrl: false,
+  }}
+  headings={headings}
+>
+  <h2 id="the-envelope">How to read this page</h2>
+  <p>
+    With <code>--json</code>, every command prints one envelope: <code>ok</code>, <code>schema_version</code> and either <code>data</code> or
+    <code>error</code> (<a href="#envelope">envelope</a>). The sections below describe <code>data</code> for each command and view. They are generated
+    from the JSON Schemas in <a href="https://github.com/openreadout/openreadout/tree/main/docs/schema"><code>docs/schema/</code></a>, which
+    <code>cargo xtask schema gen</code> writes from the Rust types, so they cannot drift from the program. Keys are stable: fields are added freely, and
+    renaming or removing one needs a <code>schema_version</code> bump. <a href="../getting-started/reading-json.html">Reading the JSON output</a> explains
+    provenance, units and how to decide how far to trust a value.
+  </p>
+  <p class="jump not-content">
+    {sections.map((s) => <a href={"#" + s.id}>{s.name}</a>)}
+  </p>
+  {
+    sections.map((s) => (
+      <section class="schema">
+        <h2 id={s.id}>{s.name}</h2>
+        <Fragment set:html={s.html} />
+      </section>
+    ))
+  }
+</StarlightPage>
+
+<style is:global>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.4rem;
+    font-size: 0.8rem;
+  }
+  .jump a {
+    font-family: var(--mono);
+    padding: 0.1rem 0.45rem;
+    border-radius: 4px;
+    background: var(--sl-color-gray-6);
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+  }
+  .jump a:hover {
+    color: var(--sl-color-white);
+    background: var(--sl-color-accent-low);
+  }
+  section.schema h2 {
+    font-family: var(--mono) !important;
+    font-size: 1.35rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sl-color-hairline);
+  }
+  table.props {
+    font-size: 0.82rem;
+  }
+  table.props td:first-child {
+    white-space: nowrap;
+  }
+  table.props td.ty {
+    font-size: 0.78rem;
+    color: var(--sl-color-gray-2);
+    min-width: 8rem;
+  }
+  table.props .opt,
+  table.props .fmt {
+    font-size: 0.7rem;
+    color: var(--sl-color-gray-3);
+  }
+  h3.types {
+    font-family: var(--sans) !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sl-color-gray-3) !important;
+  }
+  details.def {
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    margin: 0.4rem 0 !important;
+  }
+  details.def > summary {
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  details.def > summary span {
+    color: var(--sl-color-gray-3);
+    font-size: 0.8rem;
+  }
+  details.def:target {
+    border-color: var(--sl-color-accent);
+  }
+  .src {
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+  }
+  .variants {
+    font-size: 0.85rem;
+  }
+</style>
+
+<script>
+  // Opening a link to a type opens its <details>.
+  const open = () => {
+    const el = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (el instanceof HTMLDetailsElement) el.open = true;
+  };
+  addEventListener("hashchange", open);
+  open();
+</script>

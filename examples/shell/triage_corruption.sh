@@ -9,7 +9,7 @@
 #          then a summary. Non-instrument files (exit 3) are counted, not listed.
 # Exit:    0 if nothing is corrupt or failed to read, 1 otherwise, so it can gate a pipeline.
 #
-# Exit codes are the contract (https://openreadout.github.io/openreadout/reference/commands/index.html#exit-codes): 0 intact, 3 not an instrument file,
+# Exit codes are the contract (https://openreadout.github.io/openreadout/reference/commands.html#exit-codes): 0 intact, 3 not an instrument file,
 # 4 corrupt or truncated, 5 I/O, 6 unsupported feature. Branch on them, not on messages.
 set -euo pipefail
 

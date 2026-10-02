@@ -1,6 +1,6 @@
 # openreadout-wasm
 
-OpenReadout compiled to WebAssembly. It reads raw lab-instrument files in a browser or in Node, and nothing is uploaded: the module has no network code and reads only the bytes you hand it. The formats it reads are listed at <https://openreadout.github.io/openreadout/formats/index.html>.
+OpenReadout compiled to WebAssembly. It reads raw lab-instrument files in a browser or in Node, and nothing is uploaded: the module has no network code and reads only the bytes you hand it. The formats it reads are listed at <https://openreadout.github.io/openreadout/formats.html>.
 
 ```js
 import { open } from "openreadout-wasm";

@@ -20,33 +20,49 @@
     <script type="module" src="app.js"></script>
   </head>
   <body>
-    <header>
-      <h1>OpenReadout in the browser</h1>
-      <p class="lede">
-        Drop an instrument file to see what is in it: Zeiss CZI, Nikon ND2, Leica LIF, OME-TIFF,
-        FCS, Thermo RAW, mzML, Axon ABF, NWB and
-        <a href="../formats/index.html">the other formats OpenReadout reads</a>.
-      </p>
-      <p class="privacy" id="privacy">
-        <strong>Nothing is uploaded.</strong> The file is read by WebAssembly in this tab; the
-        page's security policy forbids it from making any network request.
-      </p>
+    <header class="site">
+      <a class="brand" href="../" aria-label="OpenReadout home">
+        <svg width="20" height="20" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="1.5" width="25" height="25" rx="7" fill="none" stroke="currentColor" stroke-width="2.4"></rect><path d="M6 17h3l2.2-7 3.3 11 2.6-8 1.4 4H22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        OpenReadout
+      </a>
+      <nav aria-label="Sections">
+        <a href="../getting-started/install.html">Docs</a>
+        <a href="../recipes.html">Recipes</a>
+        <a href="../formats.html">Formats</a>
+        <a href="./" aria-current="page">Try it</a>
+      </nav>
     </header>
-    <main>
-      <label id="drop" class="drop" for="pick">
-        <span class="big">Drop a file here</span>
-        <span>or click to choose one</span>
-        <input id="pick" type="file" />
-      </label>
-      <p id="status" role="status" aria-live="polite">Loading the WebAssembly module…</p>
-      <div id="out" class="grid"></div>
-    </main>
-    <footer>
-      <p>
-        The same readers and JSON as the <code>openreadout</code> command line:
-        <code>info --view explain</code>, <code>info --json</code>, <code>check</code> and <code>preview</code>.
-        Large files are read in blocks, only where the readers look.
-      </p>
-    </footer>
+    <div class="page">
+      <header class="intro">
+        <h1>Read an instrument file in your browser</h1>
+        <p class="lede">
+          Drop a file to see what is in it: Zeiss CZI, Nikon ND2, Leica LIF, OME-TIFF, FCS, Thermo RAW, mzML, Axon ABF, NWB and
+          <a href="../formats.html">the other formats OpenReadout reads</a>. You get the same description, metadata, integrity check and
+          preview as the <code>openreadout</code> command line.
+        </p>
+        <p class="privacy" id="privacy">
+          <strong>Nothing is uploaded.</strong> The file is read by WebAssembly in this tab; the
+          page's security policy forbids it from making any network request.
+        </p>
+      </header>
+      <main>
+        <label id="drop" class="drop" for="pick">
+          <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0-4 4m4-4 4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span class="big">Drop a file here</span>
+          <span>or click to choose one</span>
+          <input id="pick" type="file" />
+        </label>
+        <p id="status" role="status" aria-live="polite">Loading the WebAssembly module…</p>
+        <div id="out" class="grid"></div>
+      </main>
+      <footer>
+        <p>
+          The same readers and JSON as the <code>openreadout</code> command line:
+          <code>info --view explain</code>, <code>info --json</code>, <code>check</code> and <code>preview</code>.
+          Large files are read in blocks, only where the readers look. For whole folders, exports and analyses,
+          <a href="../getting-started/install.html">install the command line</a>.
+        </p>
+      </footer>
+    </div>
   </body>
 </html>

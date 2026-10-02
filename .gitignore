@@ -25,6 +25,8 @@
 /fuzz/logs/
 /fuzz/coverage/
 /book/book/
+/book/node_modules/
+/book/.astro/
 /.venv/
 /fuzz/local-seeds/
 /fuzz/found/

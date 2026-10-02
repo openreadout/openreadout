@@ -1,0 +1,289 @@
+---
+// The format list: every reader the CLI reports (`openreadout self formats --json`, regenerated
+// into site/data/formats.json by scripts/gen-data.mjs), filterable by field, text and confidence.
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import data from "../data/formats.json";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const formats = [...data.formats].sort((a, b) => data.fields.indexOf(a.field) - data.fields.indexOf(b.field) || a.name.localeCompare(b.name));
+const count = (f: string) => formats.filter((x) => x.field === f).length;
+const conf = { high: 0, medium: 0, low: 0 } as Record<string, number>;
+formats.forEach((f) => conf[f.confidence]++);
+const esc = (s: string) => s.replace(/`([^`]+)`/g, "<code>$1</code>");
+---
+
+<StarlightPage
+  frontmatter={{
+    title: "Formats",
+    description: `The ${formats.length} instrument formats OpenReadout reads, with their confidence and known gaps.`,
+    tableOfContents: false,
+    editUrl: false,
+  }}
+>
+  <p class="lead">
+    OpenReadout reads the {formats.length} formats below. Each links to our notes on its layout and metadata and to the provenance log of its reader.{" "}
+    <b>Confidence</b> says how thoroughly a reader has been checked against independent readers on public files ({conf.high} high, {conf.medium} medium,{" "}
+    {conf.low} low); <b>known gaps</b> are what it does not handle yet. The version you have installed is the authority:{" "}
+    <code>openreadout self formats</code> prints the same list.
+  </p>
+
+  <div class="fmt-tools not-content">
+    <label class="fmt-search">
+      <span class="sr-only">Search formats</span>
+      <input id="fmt-q" type="search" placeholder="Search by name, maker or extension: czi, Thermo, .abf…" autocomplete="off" />
+    </label>
+    <div class="fmt-chips" role="group" aria-label="Filter by field">
+      <button type="button" class="chip" aria-pressed="true" data-field="">All <span>{formats.length}</span></button>
+      {data.fields.map((f) => count(f) > 0 && (
+        <button type="button" class="chip" aria-pressed="false" data-field={f}>{f} <span>{count(f)}</span></button>
+      ))}
+    </div>
+    <p class="fmt-count" id="fmt-count" role="status" aria-live="polite">{formats.length} formats</p>
+  </div>
+
+  <div class="fmt-table not-content">
+    <table>
+      <thead>
+        <tr><th>Format</th><th>Extensions</th><th>Field</th><th>Confidence</th><th>Known gaps</th></tr>
+      </thead>
+      <tbody>
+        {formats.map((f) => (
+          <tr
+            data-field={f.field}
+            data-text={[f.id, f.name, f.vendor, ...f.extensions.map((e) => "." + e)].join(" ").toLowerCase()}
+          >
+            <td>
+              <a href={`${base}formats/${f.page}.html`}>{f.name}</a>
+              <span class="vendor">{f.vendor}{f.can_write ? " · also written by export" : ""}</span>
+            </td>
+            <td class="ext">{f.extensions.map((e) => <code>.{e}</code>)}</td>
+            <td class="field">{f.field}</td>
+            <td><span class={`conf ${f.confidence}`}>{f.confidence}</span></td>
+            <td class="gaps">
+              {f.known_gaps.length ? (
+                <details>
+                  <summary>{f.known_gaps.length} {f.known_gaps.length === 1 ? "gap" : "gaps"}</summary>
+                  <ul>{f.known_gaps.map((g) => <li set:html={esc(g)} />)}</ul>
+                </details>
+              ) : (
+                <span class="none">none listed</span>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="fmt-empty" id="fmt-empty" hidden>No format matches. <a href="https://github.com/openreadout/openreadout/issues/new/choose">Request one</a>.</p>
+  </div>
+
+  <h2 id="what-a-format-page-contains">What a format page contains</h2>
+  <p>
+    Each page shows our notes from <a href="https://github.com/openreadout/openreadout/tree/main/docs/formats"><code>docs/formats/</code></a>: the byte
+    layout, the metadata OpenReadout normalizes, and a vocabulary table of every public name in the reader’s code. It links to the reader’s provenance log,
+    which records which files were examined, which prior art was consulted and what was inferred from what. Together they are the evidence behind the
+    <a href={base + "project/clean-room.html"}>clean-room policy</a>. OpenReadout never writes these formats; it exports to open ones instead (see
+    <a href={base + "reference/commands/export.html"}><code>export</code></a>).
+  </p>
+  <h2 id="requesting-a-format">Requesting a format</h2>
+  <p>
+    Open a <a href="https://github.com/openreadout/openreadout/issues/new/choose">format request</a>. The most useful thing to attach is a link to a public
+    file under an open license, with the name and version of the acquisition software. Instruments that have no open reader anywhere yet are surveyed in
+    <a href={base + "project/bench-instruments-survey.html"}>Bench instruments without open readers</a>.
+  </p>
+</StarlightPage>
+
+<style>
+  .lead {
+    font-size: 1.05rem;
+  }
+  .fmt-tools {
+    display: grid;
+    gap: 0.75rem;
+    margin: 1.5rem 0 1rem;
+  }
+  .fmt-search input {
+    width: 100%;
+    font: inherit;
+    font-size: 0.95rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 6px;
+    background: var(--sl-color-black);
+    color: var(--sl-color-white);
+  }
+  .fmt-search input:focus {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: -1px;
+    border-color: transparent;
+  }
+  .fmt-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .chip {
+    font: inherit;
+    font-size: 0.8rem;
+    border: 1px solid var(--sl-color-gray-5);
+    background: var(--sl-color-black);
+    color: var(--sl-color-gray-2);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    cursor: pointer;
+  }
+  .chip span {
+    color: var(--sl-color-gray-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .chip[aria-pressed="true"] {
+    background: var(--sl-color-white);
+    color: var(--sl-color-black);
+    border-color: var(--sl-color-white);
+  }
+  .chip[aria-pressed="true"] span {
+    color: var(--sl-color-gray-5);
+  }
+  .fmt-count {
+    font-size: 0.8rem;
+    color: var(--sl-color-gray-3);
+    margin: 0;
+  }
+  .fmt-table {
+    overflow-x: auto;
+  }
+  .fmt-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+  }
+  .fmt-table th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--sl-color-gray-2);
+    border-bottom: 1px solid var(--sl-color-gray-4);
+    padding: 0.4rem 0.75rem 0.4rem 0;
+    white-space: nowrap;
+  }
+  .fmt-table td {
+    border-bottom: 1px solid var(--sl-color-hairline);
+    padding: 0.55rem 0.75rem 0.55rem 0;
+    vertical-align: top;
+  }
+  .fmt-table td a {
+    color: var(--sl-color-white);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .fmt-table td a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--sl-color-accent);
+  }
+  .vendor {
+    display: block;
+    color: var(--sl-color-gray-3);
+    font-size: 0.78rem;
+  }
+  .ext {
+    min-width: 8.5rem;
+  }
+  .ext code {
+    font-size: 0.74rem;
+    margin: 0 0.25rem 0.25rem 0;
+    display: inline-block;
+    padding: 0 0.3rem;
+    border-radius: 3px;
+    background: var(--sl-color-gray-6);
+  }
+  .field {
+    color: var(--sl-color-gray-2);
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  .conf {
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .conf.high {
+    color: var(--s);
+    background: color-mix(in srgb, var(--s) 14%, transparent);
+  }
+  .conf.medium {
+    color: var(--m);
+    background: color-mix(in srgb, var(--m) 16%, transparent);
+  }
+  .conf.low {
+    color: var(--sl-color-gray-2);
+    background: var(--sl-color-gray-6);
+  }
+  .gaps {
+    min-width: 14rem;
+  }
+  .gaps summary {
+    cursor: pointer;
+    color: var(--sl-color-gray-2);
+    font-size: 0.8rem;
+  }
+  .gaps ul {
+    margin: 0.4rem 0 0;
+    padding-left: 1rem;
+    font-size: 0.78rem;
+    color: var(--sl-color-gray-2);
+    line-height: 1.5;
+  }
+  .gaps li + li {
+    margin-top: 0.3rem;
+  }
+  .gaps code {
+    font-size: 0.72rem;
+  }
+  .none {
+    color: var(--sl-color-gray-3);
+    font-size: 0.8rem;
+  }
+  @media (max-width: 50rem) {
+    .fmt-table th:nth-child(3),
+    .fmt-table td:nth-child(3) {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const q = document.getElementById("fmt-q") as HTMLInputElement;
+  const chips = [...document.querySelectorAll<HTMLButtonElement>(".fmt-chips .chip")];
+  const rows = [...document.querySelectorAll<HTMLTableRowElement>(".fmt-table tbody tr")];
+  const countEl = document.getElementById("fmt-count")!;
+  const empty = document.getElementById("fmt-empty")!;
+  let field = "";
+  function apply() {
+    const words = q.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    let n = 0;
+    for (const r of rows) {
+      const show = (!field || r.dataset.field === field) && words.every((w) => r.dataset.text!.includes(w));
+      r.hidden = !show;
+      if (show) n++;
+    }
+    countEl.textContent = `${n} ${n === 1 ? "format" : "formats"}${field ? " in " + field : ""}`;
+    empty.hidden = n > 0;
+    const params = new URLSearchParams();
+    if (q.value) params.set("q", q.value);
+    if (field) params.set("field", field);
+    history.replaceState(null, "", params.size ? "?" + params : location.pathname);
+  }
+  chips.forEach((c) =>
+    c.addEventListener("click", () => {
+      field = c.dataset.field!;
+      chips.forEach((x) => x.setAttribute("aria-pressed", String(x === c)));
+      apply();
+    }),
+  );
+  q.addEventListener("input", apply);
+  const init = new URLSearchParams(location.search);
+  if (init.get("q")) q.value = init.get("q")!;
+  const f0 = init.get("field");
+  if (f0) chips.find((c) => c.dataset.field === f0)?.click();
+  else if (q.value) apply();
+</script>

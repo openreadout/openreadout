@@ -1,0 +1,16 @@
+---
+import Default from "@astrojs/starlight/components/Footer.astro";
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+---
+
+<Default />
+<nav class="or-footer" aria-label="More">
+  <a href={base + "project/changelog.html"}>Changelog</a>
+  <a href={base + "project/health.html"}>Project health</a>
+  <a href={base + "project/evidence.html"}>Evidence per format</a>
+  <a href={base + "project/performance.html"}>Performance</a>
+  <a href={base + "project/bench-instruments-survey.html"}>Instruments without open readers</a>
+  <a href={base + "project/contributing.html"}>Contributing</a>
+  <a href="https://github.com/openreadout/openreadout/blob/main/TRADEMARKS.md">Trademarks</a>
+  <span>MIT OR Apache-2.0 · not affiliated with any instrument maker</span>
+</nav>

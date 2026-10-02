@@ -1,0 +1,233 @@
+/* Starlight, in the site's colours and type (tokens.css). Starlight always sets data-theme on
+   <html>, so the dark values below follow the reader's choice and the system default. */
+
+:root {
+  --sl-font: var(--sans);
+  --sl-font-mono: var(--mono);
+  --sl-content-width: 46rem;
+  --sl-line-height: 1.7;
+  --sl-text-h1: 2.3rem;
+  --sl-text-h2: 1.6rem;
+  --sl-text-h3: 1.25rem;
+  --sl-text-h4: 1.05rem;
+  --sl-text-code: 0.86rem;
+}
+
+:root[data-theme="light"] {
+  --sl-color-white: #16181d;
+  --sl-color-gray-1: #24272e;
+  --sl-color-gray-2: #3c424c;
+  --sl-color-gray-3: #5d646f;
+  --sl-color-gray-4: #8c939d;
+  --sl-color-gray-5: #e2e5e9;
+  --sl-color-gray-6: #f4f5f7;
+  --sl-color-gray-7: #fafbfc;
+  --sl-color-black: #ffffff;
+  --sl-color-accent-low: #e6ecfb;
+  --sl-color-accent: #2f5bd3;
+  --sl-color-accent-high: #1d3f9e;
+  --sl-color-text-accent: #2a52c2;
+  --sl-color-bg-nav: rgba(255, 255, 255, 0.92);
+  --sl-color-bg-sidebar: #ffffff;
+  --sl-color-hairline-light: #e2e5e9;
+  --sl-color-hairline: #e2e5e9;
+  --sl-color-hairline-shade: #e2e5e9;
+}
+
+:root[data-theme="dark"] {
+  --sl-color-white: #e7e9ec;
+  --sl-color-gray-1: #d3d7dc;
+  --sl-color-gray-2: #bcc1c8;
+  --sl-color-gray-3: #8a919b;
+  --sl-color-gray-4: #5d646e;
+  --sl-color-gray-5: #262a30;
+  --sl-color-gray-6: #181b1f;
+  --sl-color-gray-7: #14161a;
+  --sl-color-black: #111316;
+  --sl-color-accent-low: #1b2442;
+  --sl-color-accent: #6a88ee;
+  --sl-color-accent-high: #c9d5fb;
+  --sl-color-text-accent: #8fa6f3;
+  --sl-color-bg-nav: rgba(17, 19, 22, 0.92);
+  --sl-color-bg-sidebar: #111316;
+  --sl-color-hairline-light: #262a30;
+  --sl-color-hairline: #262a30;
+  --sl-color-hairline-shade: #262a30;
+}
+
+/* Header: a quiet bar, the wordmark in the sans, top-level links beside the search. */
+header.header {
+  backdrop-filter: saturate(1.4) blur(8px);
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+.site-title {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  color: var(--sl-color-white);
+  gap: 0.5rem;
+}
+.site-title img {
+  height: 1.25rem;
+  width: auto;
+}
+
+/* Headings in the serif, like the home page. */
+.sl-markdown-content :is(h1, h2, h3),
+h1#_top {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--sl-color-white);
+}
+.sl-markdown-content :is(h4, h5, h6) {
+  font-family: var(--sans);
+  font-weight: 600;
+}
+.sl-markdown-content h2 {
+  margin-top: 2.4em;
+}
+.sl-markdown-content h3 {
+  margin-top: 1.8em;
+}
+.content-panel:first-of-type + .content-panel {
+  border-top: 0;
+}
+
+/* The lead paragraph of a page reads a little larger. */
+.sl-markdown-content > p:first-child,
+.sl-markdown-content > div:first-child > p:first-child {
+  font-size: 1.08rem;
+  color: var(--sl-color-gray-1);
+}
+
+/* Links: ink-coloured with an accent underline, so dense reference pages stay readable. */
+.sl-markdown-content a:not(:where(.not-content *)) {
+  color: var(--sl-color-text-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--sl-color-text-accent) 40%, transparent);
+}
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+  text-decoration-color: currentColor;
+}
+
+/* Inline code. */
+.sl-markdown-content :not(pre) > code {
+  font-size: 0.86em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--sl-color-gray-6);
+  border: 1px solid var(--sl-color-hairline);
+}
+
+/* Tables: hairlines, no zebra, compact numbers. */
+.sl-markdown-content table {
+  font-size: 0.9rem;
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+}
+.sl-markdown-content :is(th, td) {
+  border: 0;
+  border-bottom: 1px solid var(--sl-color-hairline);
+  padding: 0.45rem 0.75rem 0.45rem 0;
+  vertical-align: top;
+}
+.sl-markdown-content th {
+  font-weight: 600;
+  color: var(--sl-color-gray-2);
+  border-bottom-color: var(--sl-color-gray-4);
+  text-align: left;
+}
+.sl-markdown-content tr:nth-child(2n) {
+  background: none;
+}
+
+/* Blockquotes become notes. */
+.sl-markdown-content blockquote {
+  border-inline-start: 3px solid var(--sl-color-accent);
+  background: var(--sl-color-gray-6);
+  padding: 0.75rem 1rem;
+  border-radius: 0 6px 6px 0;
+  font-style: normal;
+  color: var(--sl-color-gray-1);
+}
+
+/* Sidebar: group labels as small caps, the current page marked with a bar, not a fill. */
+.sidebar-content .top-level > li > details > summary .group-label > span,
+.sidebar-content .top-level > li > .large {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-3);
+}
+.sidebar-content a {
+  font-size: 0.9rem;
+}
+.sidebar-content a[aria-current="page"],
+.sidebar-content a[aria-current="page"]:hover,
+.sidebar-content a[aria-current="page"]:focus {
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-white);
+  font-weight: 600;
+}
+
+/* Cards and link cards (used on section index pages). */
+.sl-link-card {
+  border-radius: 8px;
+  border-color: var(--sl-color-hairline);
+  box-shadow: none;
+}
+.sl-link-card:hover {
+  border-color: var(--sl-color-accent);
+  background: var(--sl-color-gray-7);
+}
+
+/* Expressive Code: match the panel colours. */
+.expressive-code {
+  margin-block: 1.1rem 1.4rem;
+}
+
+/* Footer links under every docs page. */
+.or-footer {
+  margin-top: 4rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--sl-color-hairline);
+  font-size: 0.82rem;
+  color: var(--sl-color-gray-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+}
+.or-footer a {
+  color: var(--sl-color-gray-3);
+  text-decoration: none;
+}
+.or-footer a:hover {
+  color: var(--sl-color-white);
+}
+
+/* The header's top-level links. */
+.or-topnav {
+  display: none;
+  gap: 1.25rem;
+  font-size: 0.9rem;
+  font-family: var(--sans);
+}
+.or-topnav a {
+  color: var(--sl-color-gray-2);
+  text-decoration: none;
+}
+.or-topnav a:hover,
+.or-topnav a[aria-current="page"] {
+  color: var(--sl-color-white);
+}
+@media (min-width: 72rem) {
+  .or-topnav {
+    display: flex;
+  }
+}

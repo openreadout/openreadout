@@ -1,7 +1,8 @@
 name: Docs
 
-# Builds the mdBook in book/ on every pull request that touches documentation, and publishes it
-# to GitHub Pages on pushes to main. One-time setup: Settings > Pages > Source: "GitHub Actions".
+# Builds the website in book/ (Astro + Starlight) on every pull request that touches it, and
+# publishes it to GitHub Pages on pushes to main. One-time setup: Settings > Pages > Source:
+# "GitHub Actions".
 
 on:
   push:
@@ -13,6 +14,7 @@ on:
       - "CHANGELOG.md"
       - "README.md"
       - "skills/**"
+      - "crates/**"
       - "web/**"
       - "crates/openreadout-wasm/**"
       - "packaging/wasm/**"
@@ -23,6 +25,7 @@ on:
       - "docs/**"
       - "examples/**"
       - "CHANGELOG.md"
+      - "web/**"
       - ".github/workflows/docs.yml"
   workflow_dispatch:
 
@@ -33,28 +36,35 @@ concurrency:
   group: docs-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  MDBOOK_VERSION: "0.5.4"
-
 jobs:
   build:
-    name: build the book
+    name: build the site
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: peaceiris/actions-mdbook@ee69d230fe19748b7abf22df32acaa93833fad08 # v2.0.0
-        with:
-          mdbook-version: ${{ env.MDBOOK_VERSION }}
-      - name: Regenerate the JSON reference from docs/schema
-        run: python3 book/gen_json_reference.py
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
       - name: Regenerate the project-health page from the repository
         run: cargo xtask health --write
+      # The format list on the site is the CLI's own (`self formats --json`), and every flag in
+      # `<command> --help` must be on that command's reference page.
+      - name: Format list and command reference from the CLI
+        run: |
+          cargo build --bin openreadout
+          node book/scripts/gen-data.mjs
+          node book/scripts/check-commands.mjs
+      - name: Install the site's dependencies
+        working-directory: book
+        run: npm ci
       - name: Build
-        run: mdbook build book
-      # Every relative link and #fragment of the built site must resolve (book/check_links.py).
+        working-directory: book
+        run: npm run build
+      # Every in-site link and #fragment of the built site must resolve (book/check_links.py).
       - name: Check links
         run: python3 book/check_links.py
       # The drop-a-file demo (web/, book/src/guides/wasm.md) goes to book/book/demo/ on the published site.
@@ -63,8 +73,6 @@ jobs:
         if: github.event_name != 'pull_request'
         with:
           targets: wasm32-unknown-unknown
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-        if: github.event_name != 'pull_request'
       - name: Demo page (WebAssembly build)
         if: github.event_name != 'pull_request'
         run: |

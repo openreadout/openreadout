@@ -1,0 +1,2070 @@
+{
+ "version": "openreadout 0.1.0",
+ "fields": [
+  "Light microscopy",
+  "Electron microscopy",
+  "Mass spectrometry",
+  "Chromatography",
+  "IR, Raman and UV-Vis",
+  "NMR",
+  "Flow cytometry",
+  "Electrophysiology",
+  "Plate readers and qPCR",
+  "Bench biophysics",
+  "Materials and electrochemistry",
+  "Containers"
+ ],
+ "formats": [
+  {
+   "id": "czi",
+   "name": "Zeiss CZI",
+   "vendor": "Carl Zeiss Microscopy",
+   "extensions": [
+    "czi"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "JPEG (id 1) subblocks decode with jpeg-decoder, which differs from libjpeg-turbo by up to a few grey levels on lossy streams (lossless JPEG is bit-exact); 12-bit DCT JPEG is not decoded",
+    "JPEG-lossless (id 3), chunked (id 7) and camera/system raw (id >= 100) subblocks are not decoded (no public sample)",
+    "Multi-file documents: part discovery (`<name> (<k>).czi`) is inferred from synthetic fixtures; no public multi-file CZI was available",
+    "Dimensions H, I, R, V, B that vary are one image per combination of coordinates; validated on H only (SIM phases; Airyscan-era multi-track files where some channels exist at H = 0 only, the others read as 0 and listed in extra.absent_channels); no public file varies along I, R, V or B",
+    "Scenes above 4 GiB are read by region (`--region`), not whole; pyramid levels and regions are read with `--level`/`--region`, and `export` copies the pyramid",
+    "Subblocks stored below their logical size without a pyramid flag (Airyscan fast-scan) are not upsampled",
+    "Complex-valued pixel types are not decoded",
+    "Super-resolved renderings (subblocks stored above their logical size, e.g. PALM) are exposed as their own image at the stored size, pixel size divided by the stored-to-logical ratio; they are not resampled onto the other channels' grid"
+   ],
+   "page": "czi",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "lif",
+   "name": "Leica LIF",
+   "vendor": "Leica Microsystems",
+   "extensions": [
+    "lif",
+    "lifext",
+    "lof",
+    "xlif",
+    "xlef",
+    "xlcf",
+    "xllf"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "FLIM/TCSPC raw photon data (FALCON) is detected and described but not decoded; reading those planes exits 6",
+    "XLIF frames stored as single-page TIFF files are read (validated on two LAS X exports); JPEG and PNG frames follow the same rule unvalidated (a note says so); BMP and multi-page OME/Aivia TIFF frames are not read (exit 6)",
+    "LOF, XLEF and XLCF are implemented from liffile's documentation and synthetic test files only; XLLF folder lists and XLIF files with TIFF frames are validated on real LAS X 3.7 exports (two depositors)",
+    "Tile scans are stitched from stage positions without registration or blending; LAS X 'Merged' images may differ where it registered overlapping tiles",
+    "Rotation (DimID 6) and XT/T-slice (DimID 7/8) addressing is validated on synthetic files only",
+    "LIFEXT sidecar images (pyramid previews, histograms) are listed from the .lif but read by opening the .lifext itself",
+    "Version-1 LIF containers (32-bit block lengths) are untested"
+   ],
+   "page": "lif",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "nd2",
+   "name": "Nikon ND2",
+   "vendor": "Nikon",
+   "extensions": [
+    "nd2"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Lossy-compressed frames (eCompression 1) are not decoded: no public sample exists to derive the codec from",
+    "Custom loops and unrecognized loop types are folded into T; NE-time sub-loops (pSubLoops) are not expanded",
+    "Legacy (JPEG 2000) files: events and per-frame times are read, ROIs and custom-data columns do not exist in that generation",
+    "ROI geometry is normalized from the documented tree layout but no corpus file contains ROIs; units are as stored",
+    "RGB planes carry no excitation/emission wavelengths (the nd2 package assigns pseudo-wavelengths; we do not)",
+    "RGB planes are returned R, G, B (modern files store B, G, R; validated on dye-coded planes); legacy JPEG 2000 RGB planes keep the codestream order their JP2 colour box declares as sRGB (inferred, no reference export)"
+   ],
+   "page": "nd2",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "thermo-raw",
+   "name": "Thermo RAW",
+   "vendor": "Thermo Fisher Scientific",
+   "extensions": [
+    "raw"
+   ],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Validated file versions: 63, 64, 66; other versions open with a note and may misparse",
+    "Detector controllers (UV/DAD channels, PDA field, analog pressure/temperature/A-D) are traces. An Accela PDA file (v63) is validated against an independent conversion (GNPS/MassIVE msconvert mzML of MTBLS773): all 10,501 PDA spectra × 401 wavelengths and their times exact, channel A equal to its `UV 1` chromatogram (that conversion times it one 0.1 s sample later; our grid lines up with the PDA field). The Vanquish DAD/CAD (v66) and the analog channels are validated by internal consistency only (DAD channels equal the PDA field at their wavelength; stored per-scan values equal the samples). Units are inferred (mAU; no unit is stored) or taken from the method text; file versions before 63 expose only the mass spectrometer",
+    "SRM scans (TSQ window records) are validated against the depositor's chromatograms, not against spectra; their per-peak flag bytes are not interpreted, and full-scan quadrupole (Q1MS/Q3MS) scans have no corpus file",
+    "Scan filter text covers analyzer, polarity, data kind, ionization, in-source CID (sid=), turbo scan rate (t), dependent flag, multiplexing (msx), scan type, MS level, precursors with activation (CID, HCD, ETD) and energy, SPS MS3, and scan ranges (SRM product windows included); multi-range SIM scans list every range; rarer filter tokens (supplemental activation, FAIMS) are not composed",
+    "Ion-trap (m/z-grid) profiles are validated against vendor-library conversions (LTQ Velos, Orbitrap ion-trap MS2/MS3 of ProteoWizard's test data); four-coefficient ion-cyclotron profiles are decoded from prior-art notes but have no corpus file to validate against",
+    "The embedded instrument-method container is read for its stream list and the per-device method text; binary method data and the tune block are not decoded",
+    "Centroid lists keep the peaks the file flags as reference/background ions, as conversions with the current vendor library do; conversions made before October 2020 (ProteoWizard up to 3.0.20239) left them out, so their peak counts are lower",
+    "Orbitrap Exploris packets end in a per-peak annotation block (isotope-cluster marks, inferred) that is skipped; Orbitrap Astral and Ascend files have no corpus file",
+    "Precursor charge is what the file records (`Charge State`); ion-trap (LTQ) and triple-quadrupole SRM scans record none, so none is reported"
+   ],
+   "page": "thermo-raw",
+   "field": "Mass spectrometry"
+  },
+  {
+   "id": "fcs",
+   "name": "FCS (Flow Cytometry Standard)",
+   "vendor": "ISAC open standard (all cytometer vendors)",
+   "extensions": [
+    "fcs",
+    "lmd"
+   ],
+   "family": "flow-cytometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Histogram data sets ($MODE C/U, deprecated in FCS 3.1) are described but not decoded",
+    "Integer fields that are not a whole number of bytes (bit-packed $PnB) are not decoded",
+    "$BYTEORD permutations other than 1,2,3,4 and 4,3,2,1 are not decoded",
+    "read_table/export return raw values; `table --compensate/--transform` and `analyze gate` apply scale conversion, spillover, transforms and gates",
+    "FlowJo workspaces: transforms other than linear, log, logicle, biex and ArcSinh, derived parameters and non-OLS spectral unmixing are reported as unsupported",
+    "FCS 1.0 and FCS 4.0 files are detected but not read"
+   ],
+   "page": "fcs",
+   "field": "Flow cytometry"
+  },
+  {
+   "id": "imzml",
+   "name": "imzML (mass spectrometry imaging)",
+   "vendor": "imzML open standard (converted from any vendor)",
+   "extensions": [
+    "imzml",
+    "ibd"
+   ],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Pixels are exposed as spectra with `extra.position`; no ion images are rendered",
+    "The .ibd MD5 (IMS:1000090) is not verified; its SHA-1 (IMS:1000091) and UUID are"
+   ],
+   "page": "mzml",
+   "field": "Mass spectrometry"
+  },
+  {
+   "id": "mzml",
+   "name": "mzML (HUPO-PSI)",
+   "vendor": "HUPO-PSI open standard (converted from any vendor)",
+   "extensions": [
+    "mzml",
+    "mzml.gz"
+   ],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": true,
+   "confidence": "high",
+   "known_gaps": [
+    "Arrays other than m/z, intensity and chromatogram time/intensity (ion mobility, charge, noise, ...) are listed but not returned",
+    "Byte-shuffled and dictionary zstd, and the truncation+prediction encodings (MS:1003089/1003090) are recognised but not decoded (exit 6)",
+    "gzip-compressed files (.mzML.gz) are decompressed once at every open (restart points are kept in memory, not saved): `info` costs about two decompressions of the file; mzMLb is its own format id (mzmlb)",
+    "Only the first scan of a spectrum and the last precursor are normalized; the rest stay in the element tree"
+   ],
+   "page": "mzml",
+   "field": "Mass spectrometry"
+  },
+  {
+   "id": "mzxml",
+   "name": "mzXML (ISB)",
+   "vendor": "ISB/SPC open format (converted from any vendor)",
+   "extensions": [
+    "mzxml",
+    "mzxml.gz"
+   ],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "`peaks` content types other than m/z-int pairs (e.g. m/z ruler) are not decoded (exit 6)",
+    "No chromatograms: mzXML stores none"
+   ],
+   "page": "mzml",
+   "field": "Mass spectrometry"
+  },
+  {
+   "id": "mzmlb",
+   "name": "mzMLb (mzML in HDF5)",
+   "vendor": "HUPO-PSI open standard (converted from any vendor)",
+   "extensions": [
+    "mzmlb"
+   ],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "The truncation + prediction encodings (MS:1003089/1003090) are recognised but not decoded (exit 6)",
+    "HDF5 filters other than deflate, shuffle, Fletcher-32, LZ4 and Blosc (e.g. SZIP) are not decoded",
+    "Everything the mzML reader does not do applies here too (see mzml)"
+   ],
+   "page": "mzml",
+   "field": "Mass spectrometry"
+  },
+  {
+   "id": "bruker-tdf",
+   "name": "Bruker timsTOF (TDF/TSF .d)",
+   "vendor": "Bruker",
+   "extensions": [
+    "d",
+    "tdf",
+    "tsf"
+   ],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "m/z and 1/K0 apply the file's MzCalibration (types 1, 2) and TimsCalibration (type 2) models, validated to <= 0.065 ppm and 5e-13 V*s/cm2 against vendor-library conversions of five files; other model types fall back to the acquisition-range approximation (tens of ppm off) and say so in notes and check",
+    "prm-PASEF frames (MsMsType 10) are summed whole, not split per target window (no public prm-PASEF file to validate against)",
+    "Spectra are raw sums of TOF bins over scans (no smoothing or centroiding); per-scan mobility arrays are not returned by `spectra` (library: TimsDataset::read_frame)",
+    "TimsCompressionType 1 frames hold more scans than Frames.NumScans; all are read (NumPeaks and SummedIntensities count them; the reference conversion lists only the first NumScans)"
+   ],
+   "page": "bruker-tdf",
+   "field": "Mass spectrometry"
+  },
+  {
+   "id": "oir",
+   "name": "Olympus/Evident OIR",
+   "vendor": "Evident (Olympus)",
+   "extensions": [
+    "oir"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Compressed pixel blocks are not known to exist and are not handled; 4-byte samples are read as float32 on the strength of oirfile's documentation only (no corpus file)",
+    "RGB (colour camera) acquisitions are exposed as three planar channels, not as interleaved RGB; no corpus file",
+    "Line scans are exposed as XY planes whose height is the number of stored lines (no reinterpretation of Y as time); no corpus file",
+    "POIR/MPOIR archives (zip collections of OIR files, mosaic layouts in matl.omp2info) are not read; open the .oir files inside",
+    "Chunk names with axis letters other than t, l and z are listed by `check` but not exposed",
+    "Excitation wavelength is reported only when exactly one enabled laser line is linked to the channel"
+   ],
+   "page": "oir",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "vsi",
+   "name": "Olympus/Evident cellSens VSI",
+   "vendor": "Evident (Olympus)",
+   "extensions": [
+    "vsi",
+    "ets"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "No specification: the .vsi record tree and ETS layout are derived from 27 corpus files (11 with pixel data: cellSens Dimension 1.18/3.2/3.x, VS200 ASW, VS120 dotSlide 2.5, Stream Essentials 1.7; ETS versions 0x00030003/5/6); names, calibration, channels, exposure, objective, camera, times and dimension kinds come from records identified by comparison with Bio-Formats; everything else is only in `vendor` under numeric tags",
+    "Dimension kinds other than Z (1), T (2) and channel (4) never occurred in the corpus; one would be exposed as T with a note and a `check` warning",
+    "ETS sample types other than 8-bit (2) and 16-bit (4) unsigned, and compressions other than raw (0), JPEG (2) and JPEG 2000 (3), are not decoded (exit 6)",
+    "Unstored whole-slide tiles are filled with the ETS background value (as Bio-Formats does); JPEG tiles are decoded with jpeg-decoder and may differ by a few levels from other decoders",
+    "Where the tile grid is offset from the image corner (record 2410), coarser pyramid levels place it at the nearest pixel of offset/2^L; Bio-Formats truncates, so such levels can differ from it by one pixel",
+    "Planes larger than 4 GiB (full-resolution whole slides) are read by region (`--region`) or at a pyramid level (`--level`), not whole",
+    "Stacks without an ETS file (focus maps, sample masks, measurement/ROI layers) and blob_*.ets focus data are listed, not decoded; a stack directory holding several frame_t*.ets files is read from the first only",
+    "The excitation wavelength (record 2474) is inferred from plausibility across 9 channels (Bio-Formats reports only emission)"
+   ],
+   "page": "vsi",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "mirax",
+   "name": "3DHISTECH MIRAX slide",
+   "vendor": "3DHISTECH",
+   "extensions": [
+    "mrxs"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "No specification: the layout comes from OpenSlide's public format documentation and the corpus files; placement of camera photos was derived by comparison with OpenSlide run as a black box",
+    "Levels above 0 place camera photos at fractional pixels: values are bilinear resamplings as OpenSlide renders them (within a few grey levels of OpenSlide), not stored samples",
+    "Slides without a camera position table (exported with overlaps removed) are listed but their pixels are refused (exit 6): no such development file yet",
+    "Fluorescence slides with more than three filters, or filters sharing a colour component, are refused (exit 6)",
+    "Level 0 is too large to read whole: read a region (`--region`) or a coarser level (`--level`)",
+    "The scan-information records (focus, motor positions) and stitching records are listed as attachments, not decoded"
+   ],
+   "page": "mirax",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "zvi",
+   "name": "Zeiss AxioVision ZVI",
+   "vendor": "Carl Zeiss (AxioVision)",
+   "extensions": [
+    "zvi"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Derived without a specification from 16 corpus files (12 depositors, 8 microscope stands, 2003-2025): 16-bit grey (pixel format 4) and 3 x 16-bit colour (format 8) are validated bit for bit; 8-bit grey and 3 x 8-bit colour are inferred (a note says so); other formats exit 6",
+    "Time series (tag 2821), multi-position and mosaic files are handled by inferred index tags that no public file exercises (a note says so); the acquisition-setup folder (Image/RootFolder) is listed, not interpreted",
+    "Scale units other than micrometres (code 76) are not interpreted; uncalibrated axes have no physical size",
+    "Layers, shapes (annotations) and the document summary property sets are listed, not decoded"
+   ],
+   "page": "zvi",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "oib",
+   "name": "Olympus FluoView OIB",
+   "vendor": "Evident (Olympus)",
+   "extensions": [
+    "oib"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Derived without a specification from 12 corpus data sets (FV1000/FV1200, FluoView 4.2): 16-bit grey planes, uncompressed or LZW; 8-bit and colour planes follow the TIFF reader but no corpus file has them",
+    "Plane file names with axis letters other than C, Z, T and L become separate images (inferred, no corpus file)",
+    "Line scans (XT) are exposed as planes whose height is the number of lines (Y is time); point scans and multi-area time lapse are not reinterpreted",
+    "ROI (.roi) and LUT (.lut) files are listed, not decoded; channel colours are not reported",
+    "Multi-page plane TIFFs are read from their first page only"
+   ],
+   "page": "oif",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "oif",
+   "name": "Olympus FluoView OIF",
+   "vendor": "Evident (Olympus)",
+   "extensions": [
+    "oif"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Derived without a specification from 12 corpus data sets (FV1000/FV1200, FluoView 4.2): 16-bit grey planes, uncompressed or LZW; 8-bit and colour planes follow the TIFF reader but no corpus file has them",
+    "Plane file names with axis letters other than C, Z, T and L become separate images (inferred, no corpus file)",
+    "Line scans (XT) are exposed as planes whose height is the number of lines (Y is time); point scans and multi-area time lapse are not reinterpreted",
+    "ROI (.roi) and LUT (.lut) files are listed, not decoded; channel colours are not reported",
+    "Multi-page plane TIFFs are read from their first page only"
+   ],
+   "page": "oif",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "dcimg",
+   "name": "Hamamatsu DCIMG",
+   "vendor": "Hamamatsu Photonics",
+   "extensions": [
+    "dcimg"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Derived without a specification from 15 corpus files (versions 7 and 0x1000000; ORCA-Flash4.0 and ORCA-Fusion; 16-bit); 8-bit frames are inferred",
+    "Each file is one image: Bio-Formats groups sibling files named `<stem>_NNN_NNN.dcimg` into a Z stack, this reader does not (nothing in the file says the siblings belong together)",
+    "Planes are returned in stored row order; Bio-Formats returns them bottom row first",
+    "Only the first session of a file is read (no corpus file has more than one)",
+    "No physical pixel size: the file records none"
+   ],
+   "page": "dcimg",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "rdml",
+   "name": "RDML (Real-time PCR Data Markup Language)",
+   "vendor": "RDML consortium (open standard); written by Bio-Rad CFX Maestro, Roche LightCycler 96/480, Applied Biosystems StepOne, qPCR analysis tools",
+   "extensions": [
+    "rdml",
+    "rdm",
+    "lc96p",
+    "xml"
+   ],
+   "family": "qpcr",
+   "can_read": true,
+   "can_write": true,
+   "confidence": "high",
+   "known_gaps": [
+    "Digital PCR partitions (RDML 1.3 `partitions`, partition tables) are counted, not read",
+    "Documentation, xRef, cDNA synthesis and commercial-assay elements are kept only in the vendor tree",
+    "LightCycler 96 (.lc96p, or RDML with its app_data.xml/calculated_data.xml): the software's calls, replicate Cq mean/SD and exclusions are attached; an RDML cq under a call other than Positive is not a Cq, even when it is a plausible number (kept as cq_stored; the software's analyses list none for such graphs, and rdmlpython and other RDML readers report the stored number). Validated against the software's results table for 3 files (108 Cqs) and its absolute-quantification analysis in a fourth (56 Cqs, 8 Negative graphs without one); melting-peak Tm of LightCycler 96 analyses is not read"
+   ],
+   "page": "qpcr",
+   "field": "Plate readers and qPCR"
+  },
+  {
+   "id": "applied-biosystems-eds",
+   "name": "Applied Biosystems experiment document (.eds)",
+   "vendor": "Thermo Fisher Scientific / Applied Biosystems (QuantStudio 1-7 Pro, 12K Flex, ViiA 7, StepOne, StepOnePlus, 7500)",
+   "extensions": [
+    "eds"
+   ],
+   "family": "qpcr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Raw optical images (`apldbio/sds/images/*.tiff`, `quant/*.quant`) are listed, not decoded; files that keep only images have no curves",
+    "Genotyping (allelic discrimination): the vendor's calls are the table genotypes (SDS layout; codes mapped from 1000 Genomes genotypes of 4 reference samples at 2 markers of one QuantStudio 7 run); JSON-layout (Design & Analysis 2) genotyping results are not read",
+    "Relative-quantification results (RQ, ΔΔCt) computed by the vendor are not parsed; `analyze qpcr --ddcq` computes them",
+    "SDS/7500 layouts: the threshold comes from the analysis protocol (equal to the exported Ct Threshold in 8 StepOnePlus runs); an automatic baseline window is recovered per well from Rn − ΔRn (572 of 574 wells equal to the export) or left empty, never reported as the setting"
+   ],
+   "page": "qpcr",
+   "field": "Plate readers and qPCR"
+  },
+  {
+   "id": "bio-rad-pcrd",
+   "name": "Bio-Rad CFX data file (.pcrd)",
+   "vendor": "Bio-Rad Laboratories (CFX96, CFX384, CFX Opus; CFX Maestro / CFX Manager)",
+   "extensions": [
+    "pcrd"
+   ],
+   "family": "qpcr",
+   "can_read": false,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Encrypted container (a zip whose single member is encrypted): detected and refused with exit 6; export RDML from CFX Maestro instead"
+   ],
+   "page": "qpcr",
+   "field": "Plate readers and qPCR"
+  },
+  {
+   "id": "rotor-gene-rex",
+   "name": "Qiagen Rotor-Gene run file (.rex)",
+   "vendor": "Qiagen (Rotor-Gene Q, Rotor-Gene 6000; Rotor-Gene Q Series Software)",
+   "extensions": [
+    "rex"
+   ],
+   "family": "qpcr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "No Cq values: Rotor-Gene files keep raw channel readings and the run setup; the analysis lives in the vendor software (`analyze qpcr --cq` computes Cq)",
+    "Melt channels are read when the file records them as readings of a melt step; gain optimisation and other auxiliary readings are listed only"
+   ],
+   "page": "qpcr",
+   "field": "Plate readers and qPCR"
+  },
+  {
+   "id": "roche-lightcycler-ixo",
+   "name": "Roche LightCycler 480 experiment (.ixo)",
+   "vendor": "Roche Diagnostics (LightCycler 480, LightCycler 480 II; LightCycler 480 software 1.5)",
+   "extensions": [
+    "ixo"
+   ],
+   "family": "qpcr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Read: run and instrument, thermal protocol, detection channels, sample names and per-channel target/type/concentration, raw fluorescence per cycle and melt readings (instrument units, no color compensation), and the vendor's absolute-quantification results (Cp and positive/negative call). Validated on 4 LightCycler 480 QC runs (software 1.5.0 and 1.5.1): every vendor-positive well rises and every negative stays flat in the analysed channel",
+    "Only `Legacy Absolute Quantification Analysis` results are read (one channel, no ratio); Tm calling, genotyping, relative quantification and other analyses are listed in the vendor tree, not read; a call other than 0 or 2 gives no Cq",
+    "Vendor melt smoothing and derivative arrays (DARZ/FORM binary properties) and the temperature log are not decoded; -dF/dT is computed from the raw melt readings",
+    "Our own Cq (`analyze qpcr --cq`) is not the LightCycler 480's Cp algorithm (not public); use the vendor Cp in `cq`",
+    "The closing checksum line is kept (`vendor.trailer`), not verified"
+   ],
+   "page": "qpcr",
+   "field": "Plate readers and qPCR"
+  },
+  {
+   "id": "abf",
+   "name": "Axon Binary Format (ABF)",
+   "vendor": "Molecular Devices (Axon Instruments) pCLAMP",
+   "extensions": [
+    "abf"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Command (DAC) waveforms are synthesized (trace 1) for ABF 2 episodic files with step, ramp and pulse-train epochs only; stimulus files, user lists, alternating outputs, conditioning trains, triangle/cosine/biphasic epochs and ABF 1 files keep the epoch table only",
+    "User lists, statistics, math, scope and voice-tag sections are listed but not decoded",
+    "Pre-1.6 ABF 1 files: telegraph, protocol path and 20-entry epoch tables are not in the header and are not reported",
+    "Old pCLAMP/Axotape files without an `ABF ` signature (CLPX, FTCX) are not read"
+   ],
+   "page": "abf",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "atf",
+   "name": "Axon Text File (ATF)",
+   "vendor": "Molecular Devices (Axon Instruments) pCLAMP",
+   "extensions": [
+    "atf"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Only time-series ATF (first column time) is read; GenePix results files (also ATF) are read by `genepix-gpr`, GenePix array lists exit 6",
+    "Values are the decimal text as written by the exporting program (already rounded)"
+   ],
+   "page": "abf",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "neuralynx",
+   "name": "Neuralynx (NCS/NEV/NSE/NTT)",
+   "vendor": "Neuralynx (Cheetah, Pegasus)",
+   "extensions": [
+    "ncs",
+    "nev",
+    "nse",
+    "nst",
+    "ntt",
+    "nvt"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "A recording directory is one session: channels on different sample grids (rate, segment boundaries) are separate traces, never resampled; event and spike files are separate tables",
+    "Raw data (.nrd) files are not read; video-tracker (.nvt) records give the extracted position, angle and target count, not the colour-transition points or target bitfields",
+    "Sampling rate is the header value; when timestamps imply another rate (pre-Cheetah-5 1 MHz clock) it is reported in extra.timestamp_rate_hz, not applied"
+   ],
+   "page": "neuralynx",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "blackrock",
+   "name": "Blackrock NSx/NEV",
+   "vendor": "Blackrock Neurotech (Cerebus, NeuroPort)",
+   "extensions": [
+    "ns1",
+    "ns2",
+    "ns3",
+    "ns4",
+    "ns5",
+    "ns6",
+    "nev"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "A recording directory is one session (each NSx file a trace, each NEV a table, clocks kept); NEV rows are not assigned to NSx sweeps",
+    "NEV video-sync, tracking, button, configuration and log packets are counted (kind 3), not decoded; comment text is in `info --view full`",
+    "Spec 2.1 NSx scaling needs the .nev with the same name next to it"
+   ],
+   "page": "blackrock",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "spikeglx",
+   "name": "SpikeGLX (.bin + .meta)",
+   "vendor": "SpikeGLX (HHMI Janelia), Neuropixels / NI-DAQ / OneBox",
+   "extensions": [
+    "bin",
+    "meta"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "A run directory is one session with one trace per stream (AP, LF, NI, OneBox), each on its own clock; streams are not aligned on their sync pulses",
+    "Probe sites come from ~snsGeomMap (µm) or ~snsShankMap (grid column/row, not converted to µm); imro bank/reference settings are reported in `info --view full`, not normalized",
+    "imMaxInt defaults for probe types other than NP 1.0 and 2.0 (types 21/24) are inferred from the ProbeTable when the metadata omits it"
+   ],
+   "page": "spikeglx",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "intan",
+   "name": "Intan RHD2000/RHS2000",
+   "vendor": "Intan Technologies (RHD/RHS recording and stimulation systems)",
+   "extensions": [
+    "rhd",
+    "rhs"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "\"One file per signal type\" and \"one file per channel\" directories (info.rhd/info.rhs + .dat) are read as one recording; temperature sensors are not saved in those layouts",
+    "Stimulation words return the signed current; the amp-settle, charge-recovery and compliance bits are not exposed",
+    "Split recordings (one file per N minutes) are read file by file"
+   ],
+   "page": "intan",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "plexon",
+   "name": "Plexon PLX/PL2",
+   "vendor": "Plexon (MAP, OmniPlex)",
+   "extensions": [
+    "plx",
+    "pl2"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "PLX has no index: `info` walks every data-block header (fast, but proportional to the file size)",
+    "PLX values are in mV by the gain formulas Neo documents; version 100/101 files assume a preamplifier gain of 1000",
+    "PL2 is derived from hex dumps of public files (Plexon's reader is a DLL); spike waveforms and events are confirmed against Neo on a PLX of the same recording, PL2 continuous records only for internal consistency",
+    "PLX version 107 (and continuous channels of unequal length) are read but have no oracle-confirmed continuous data",
+    "PL2 footer index and device settings are not read; `info` walks the data-record headers"
+   ],
+   "page": "plexon",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "heka-patchmaster",
+   "name": "HEKA PatchMaster bundle (.dat)",
+   "vendor": "HEKA Elektronik (Harvard Bioscience) PatchMaster",
+   "extensions": [
+    "dat"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Stimulus (PGF) templates, amplifier (.amp), solution and marker trees are not decoded; the command waveform is not synthesized",
+    "Files with separate .pul/.pgf files (DAT1), PULSE-era files, big-endian (PowerPC) files and PatchMaster Next v2000 (64-bit) bundles are refused",
+    "Non-zero Y offsets and scaled float traces are refused (never seen in a development file)",
+    "Values are not zero-subtracted; PatchMaster's zero level is reported per channel"
+   ],
+   "page": "heka-patchmaster",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "ced-spike2",
+   "name": "CED Spike2 data file (.smr, .smrx)",
+   "vendor": "Cambridge Electronic Design (CED) Spike2",
+   "extensions": [
+    "smr",
+    "smrx"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "64-bit .smrx: the layout is derived from public files and Spike2's own exports (no documentation); Adc, rising events and empty marker channels are validated, RealWave, AdcMark/RealMark/TextMark and level events follow the same rules unvalidated",
+    "Level-event channels are listed as event times; the level after each edge is not reported",
+    "Interleaved AdcMark waveforms are returned in stored (interleaved) order",
+    "Spike2 memory and virtual channels are not reconstructed; only stored channels are read"
+   ],
+   "page": "ced-spike2",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "winwcp",
+   "name": "WinWCP data file (.wcp)",
+   "vendor": "Strathclyde Electrophysiology Software (WinWCP)",
+   "extensions": [
+    "wcp"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "The channel zero level (YZ) is reported, not subtracted (as Neo does); both public files have 0",
+    "Record status (accepted/rejected), type and group are reported per sweep; rejected records are not dropped",
+    "Stimulus protocols (.vpr) and analysis results are not read"
+   ],
+   "page": "winwcp",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "open-ephys",
+   "name": "Open Ephys recording (binary or Open Ephys format)",
+   "vendor": "Open Ephys GUI",
+   "extensions": [
+    "oebin",
+    "continuous"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Input is a recording directory (or its structure.oebin / a .continuous file); NWB-format Open Ephys recordings are read by the NWB reader",
+    "Binary format: spike groups and binary (tracking) event streams are listed, not decoded; synchronized timestamps are reported per sweep, samples are not resampled",
+    "Channel units come from structure.oebin as recorded; when empty, µV for neural and V for ADC channels (Open Ephys docs)",
+    "Legacy format: records that are not full 1024-sample records on a regular clock are refused per channel; gaps and recording numbers split sweeps (Neo zero-fills gaps)"
+   ],
+   "page": "open-ephys",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "agilent-masshunter",
+   "name": "Agilent MassHunter (.d)",
+   "vendor": "Agilent Technologies",
+   "extensions": [
+    "d"
+   ],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Validated on MSScan layouts 5 (6400-series triple quadrupole 2006-2014: MRM, dynamic MRM, full, product-ion, neutral-loss and SIM scans, quadrupole profiles) and 6 (6200 TOF and 6500-series Q-TOF, acquisition software B.05 to B.10), and on the 6560 ion-mobility layout (drift-bin profiles, all-ions frames); other layouts are read through the file's own MSScan.xsd but are unverified",
+    "Q-TOF profile spectra (MSProfile.bin, LZF) are checked against the scan index only (counts sum to the recorded TIC; the base-peak bin's m/z equals the recorded base-peak m/z): no export holds them; profiles are returned without the zero runs between peaks",
+    "Precursor m/z is each MS/MS scan's own recorded value; ProteoWizard exports report a value averaged over the scans that share a precursor (differences up to 1e-5 relative)",
+    "Ion-mobility data: drift-bin spectra only (the frame-summed spectra are not listed); all-ions high-energy spectra carry no precursor or collision energy (the frame method's energy ramp is shown by dump); compressed drift-bin profiles and CCS values are not supported",
+    "Precursor-ion scans have not been seen; neutral-loss scans report the loss as extra.neutral_loss_mz, not as a precursor",
+    "MSPeriodicActuals.bin, MSActualDefs.xml, the acquisition method's device settings and MSTree2.bin are listed but not decoded; ion-mode codes are reported as numbers",
+    "DAD spectra (DAD1.sd/.sp) are listed but not decoded; DAD and LC-module signals (*.cd/*.cg) are exposed as traces"
+   ],
+   "page": "agilent-masshunter",
+   "field": "Mass spectrometry"
+  },
+  {
+   "id": "sciex-wiff",
+   "name": "Sciex WIFF (.wiff + .wiff.scan)",
+   "vendor": "SCIEX",
+   "extensions": [
+    "wiff",
+    "scan",
+    "wiff2"
+   ],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    ".wiff2 (SCIEX OS) files are encrypted and are refused (exit 6); convert them with the vendor's software",
+    "Validated on MRM files (QTRAP 6500+ scheduled MRM, Analyst 1.7.2: 165 SRM chromatograms bit-exact; QTRAP 6500; a 2007 ten-sample Analyst file with one value per transition per cycle) and LC device traces, and on TripleTOF 6600 and 5600+ data-dependent files (Analyst TF; scan times, MS levels, polarity, precursors, TIC and base-peak m/z against the export); other scan types (Q1/Q3 scans, enhanced product ion, MRM³, SWATH variable windows) are listed but not decoded",
+    "TOF spectra are the stored time-to-digital histograms (counts per bin, calibrated per scan); the vendor library's peak picking, which depositor exports hold, is not reproduced",
+    "ZenoTOF (SCIEX OS) .wiff + .wiff.scan files open, but their precursor charges and rolling collision energies are not read (reported absent); not validated against an export",
+    "TripleTOF 5600 files: the index TIC is not the sum of the stored counts (median +0.6 %, from -64 % on the most intense scans to +38 % on the weakest); every scan's largest count equals the index's base-peak intensity at the index's base-peak m/z, so the counts are returned as stored and `total_ion_current` is the index value",
+    "The first half of every 2N-value MRM cycle (zero in the corpus files) is not interpreted; transitions are assigned to cycles by their scheduling windows, and a boundary cycle whose values are all zero is left out of the transitions that start or end there (inferred from one file)",
+    "Multi-period methods: only period 0's experiments are described; multi-sample files expose one run per sample but only sample 1's acquisition time"
+   ],
+   "page": "sciex-wiff",
+   "field": "Mass spectrometry"
+  },
+  {
+   "id": "openlab-cds",
+   "name": "Agilent OpenLab CDS injection (.dx, with its .rx results)",
+   "vendor": "Agilent",
+   "extensions": [
+    "dx",
+    "rx"
+   ],
+   "family": "chromatography",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Detector signals (.CH, Signal179), instrument curves (.IT: pressure, flow, solvent ratios, temperatures) and DAD spectra parts (.UV, Spectra131: one trace, one channel per wavelength; bit-identical to rainbow-api, unit checked against the DAD's own channels) are traces; spectra directories (.UVD) and parts of other content types are listed, not decoded",
+    "Vendor peaks (.rx) are a table with the vendor's retention times, areas, heights, area %, limits and baseline codes; compound amounts, calibration and custom fields (e.g. GPC results) are not read, and every corpus file has unnamed compounds",
+    "Without the result set's .acaml sequence file, vendor peaks are matched to a signal by their baseline values (the vendor's baseline at a BB peak limit is the signal sample there); tables[0].extra.signal_mapping says how",
+    "A result-set folder (.rslt) is not one data set: open its .dx files (openreadout batch 'set.rslt/*.dx')",
+    "Validated on GC-FID (54 injections, OpenLab CDS 2.6 and a YADG GC injection), one LC-DAD/FLD result set whose detector signals were cut to 4 values by its publisher and two LC-DAD injections with spectra; no LC-MS .dx in the corpus"
+   ],
+   "page": "openlab-cds",
+   "field": "Chromatography"
+  },
+  {
+   "id": "chemstation",
+   "name": "Agilent ChemStation data directory (.D: .ch, .uv, .ms)",
+   "vendor": "Agilent",
+   "extensions": [
+    "d",
+    "ch",
+    "uv",
+    "ms"
+   ],
+   "family": "chromatography",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Signal-file versions other than 2 (.ms), 30, 81, 130, 131 (.uv), 179 and 181 are listed but not decoded",
+    "Signal files are read whole; .ch files above 512 MiB are refused (exit 6)",
+    ".reg register files, RUN.LOG and method (.M) files are listed with sizes, not decoded",
+    "Vendor peak reports are tables[0] vendor_peaks: Result.xml (limits, baselines, named compounds and amounts), else Report.TXT (the printed report), and RESULTS.CSV (MSD ChemStation TIC integration); check finds every reported peak on our decoded signal, Result.xml areas recomputed between the vendor's limits (median ratio 0.9999 on 66 peaks) (2 + 4 GC runs, 144 peaks; 12 MSD runs, 46 peaks). Binary reports (REPORT.REG, .rpt) and calibration curves/levels are not read",
+    "MS scans are reported as stored (thresholded m/z–intensity pairs at 0.05 m/z resolution), MS level 1, polarity unknown",
+    "Agilent MassHunter (.d with AcqData/) and OpenLab CDS (.dx) are different formats: agilent-masshunter and openlab-cds read them",
+    ".ch headers hold no point count: a version 81/179/181 body cut exactly at a value boundary cannot be told from a complete one (check reports the interval the header time range implies)"
+   ],
+   "page": "chemstation",
+   "field": "Chromatography"
+  },
+  {
+   "id": "andi-chrom",
+   "name": "AIA/ANDI netCDF (chromatography and mass spectrometry)",
+   "vendor": "ASTM E1947 / E2077 open standard (exported by most chromatography data systems)",
+   "extensions": [
+    "cdf",
+    "nc"
+   ],
+   "family": "chromatography",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "netCDF CDF-5 (64-bit data) files are recognised but not read (ANDI files are CDF-1)",
+    "Non-uniform chromatography sampling (raw_data_retention) is reported, but traces assume the regular actual_sampling_interval grid",
+    "ANDI/MS: MS level is reported as 1 (the template has no MS level); library/SIM extensions (group variables) are listed, not mapped",
+    "ANDI/MS: the total-ion chromatogram is a trace only when scan times are evenly spaced (within 1 %)"
+   ],
+   "page": "andi-chrom",
+   "field": "Chromatography"
+  },
+  {
+   "id": "waters-raw",
+   "name": "Waters MassLynx .raw directory",
+   "vendor": "Waters",
+   "extensions": [
+    "raw"
+   ],
+   "family": "chromatography",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Spectra are validated point for point (m/z within 0.06 ppm, intensities equal) against vendor-library conversions of 13 acquisitions (SYNAPT G2/G2-Si/XS, Synapt MS, Xevo TQ-MS/G2-XS, ACQUITY SQD; 12-, 8- and 6-byte layouts, centroid and continuum, DDA, MSe, product-ion scans); the index flag 0x100 means values stored calibrated, otherwise the `Cal Function n` polynomial (T0, T1) is applied",
+    "Lock-mass (lock-spray) correction is not applied: each reference scan's flagged lock-mass peak is reported (`lock_mass_peak_mz`); files MassLynx already corrected are read as stored",
+    "Ion-mobility (HDMS/HDMSe/HDDDA/HD-MRM) and SONAR functions: the drift-resolved bins (_funcNNN.cdt) are not decoded; their stored drift-summed spectra are returned and say so",
+    "MRM intensities (4-byte layout) are scaled so each scan sums to the TIC stored in _FUNCnnn.IDX (rainbow reports twice these values) and exposed as tables/traces, not spectra",
+    "Photodiode-array functions are a trace of stored absorbance counts (unscaled); binary .EE/.CMP files and the third word of 12-byte values are listed, not decoded"
+   ],
+   "page": "waters-raw",
+   "field": "Chromatography"
+  },
+  {
+   "id": "shimadzu",
+   "name": "Shimadzu LabSolutions data file (.lcd, .gcd)",
+   "vendor": "Shimadzu",
+   "extensions": [
+    "lcd",
+    "gcd"
+   ],
+   "family": "chromatography",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Read: chromatograms (older layout in mV; newer layout and .gcd in the unit of their Chromatogram Status record, e.g. µV), status traces (pump pressures, oven/cooler temperatures in the record's unit), the PDA field (stored µAU, shown in mAU) and LabSolutions' own peak tables (tables[0] vendor_peaks). Validated point for point against LabSolutions ASCII exports of an older-layout (LCsolution 1.25) and a newer-layout (5.109) file (25,038 trace points, 8 peaks in every column), bit-exact against chromConverter on 2 files, and against the vendor's own peak areas on 4 files (LC-UV, PDA, GC)",
+    "Newer-layout LC chromatograms (LSS Raw Data/Chromatogram ChN) are named by their 2D Data Item title (DT 52 or 48) and scaled by their status record; the unit rule is the one validated on older-layout exports, a 5.109 export and a GC file's vendor peak areas, but no export exists of a file-version-5.01 (DT 48) chromatogram",
+    "PDA channel chromatograms (a wavelength and bandwidth) are not extracted: their vendor peak tables are read and labelled with the channel's wavelength (channel 0 has none recorded); newer-layout peak records are read in their first 64 bytes only (no k', plates, tailing, resolution)",
+    "Older-layout status traces are named by module model and quantity (LC-20AD pressure 1): the file stores no names; LabSolutions' export names (Pump A Pressure, Oven Temp.) are its own",
+    "LC-MS (TLM Raw Data): MRM and SIM records are spectra (run 0), equal to msconvert's on 610 spectra of 3 CC0 files; full-scan and product-ion-scan spectra are refused (exit 6: the vendor's reader returns other values), their retention time, TIC and precursor listed; polarity unknown. MS quantitative results, compound and calibration tables and method streams are listed, not decoded"
+   ],
+   "page": "shimadzu",
+   "field": "Chromatography"
+  },
+  {
+   "id": "chromeleon",
+   "name": "Thermo Scientific Chromeleon 7 archive (.cmbx)",
+   "vendor": "Thermo Fisher Scientific",
+   "extensions": [
+    "cmbx"
+   ],
+   "family": "chromatography",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Read: every archived 2D signal (detector channels, PDA-extracted channels, MS extracted-ion chromatograms, pump pressure and flow; encodings PtsLDiff, PtsLL2Df, PtsDDCmp) and every 3D field (PDA spectra: one trace, one channel per wavelength) of every injection, and the calibration standards a processing method holds, as traces with their unit, device and recorded range from the sequence file. Validated point for point against Chromeleon's own ASCII exports (6 HPAEC-PAD injections, 55,446 points, Chromeleon 7.3.1) and a Chromeleon 7.2.10 PDF report (57 GC-FID injections); every signal and 3D field of 10 archives equals the sequence file's recorded point count, times, minimum and maximum; Chromeleon's extracted channels equal our 3D fields bit for bit",
+    "Chromeleon's own integration results, as it last saved them, are tables[0] vendor_peaks (retention time, limits, baseline, area, height, component, 50/10/5 % points; widths, asymmetry, tailing, plates and resolution computed from those points): equal to the PDF report's printed values, and every one of 5,360 stored peaks of 9 archives reproduced by our integration on our decoded signal within 1e-6. Injection details (position, volume, inject time, type, status, level, methods) are tables[1] injections and traces[].extra, equal to the vendor's exports and report. Amounts are not stored with the peaks and are not computed; injections Chromeleon saved no results for have none",
+    "Audit trails, instrument methods (the script: stages, times, property settings such as gradients and oven programs) and processing-method settings are decompressed (LZMA2) and offered as attachments and in dump; report definitions, layouts and custom raw items are listed only",
+    "Mass-spectrometry data (MSRawItem) is an embedded Thermo .raw file: listed with a hint to extract it and open it as thermo-raw; MS channels Chromeleon derives on demand have no stored points and are not traces. Unknown section tags, block layouts or result values never seen are refused (exit 6)",
+    "Chromeleon 6 backups (.cmb) are a different format and are not read"
+   ],
+   "page": "chromeleon",
+   "field": "Chromatography"
+  },
+  {
+   "id": "empower-arw",
+   "name": "Waters Empower ASCII raw-data export (.arw)",
+   "vendor": "Waters",
+   "extensions": [
+    "arw"
+   ],
+   "family": "chromatography",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Read: 2D exports (a row of quoted field names, a row of their values, then time/value rows) as one trace with every exported field; equal to Appia's reading of the same files. Empower keeps its native raw data in its database: exports (this ASCII export and AIA/netCDF, read by andi-chrom) are how data leaves it",
+    "Multi-column (3D PDA) exports are refused (exit 6): no public example with a licence; export PDA data as AIA/netCDF or as single-wavelength channels",
+    "The export does not state the value's unit, and times are assumed to be minutes (Empower's export unit)"
+   ],
+   "page": "empower-arw",
+   "field": "Chromatography"
+  },
+  {
+   "id": "opera-harmony",
+   "name": "Revvity/PerkinElmer Harmony and Columbus exports (Opera Phenix, Operetta, Opera)",
+   "vendor": "Revvity (PerkinElmer)",
+   "extensions": [
+    "idx.xml",
+    "xml",
+    "flex"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Harmony 4/5 `Index.idx.xml` with TIFF planes, Columbus `ImageIndex.ColumbusIDX.xml` with multi-page TIFF or `.flex` planes, and standalone Opera `.flex` files or measurement folders are read; the older `Index.ref.xml` layout with gzip-compressed planes (`.tiff.gz`) is not",
+    "Standalone `.flex`: time series (Kinetic) and compressed pages are not validated on a public file; one well per file, pages as the Flex XML's Image@BufferNo say",
+    "FLIM planes (several FlimID values) and sequence/fk/fl variants in file names are not told apart",
+    "Flat-field profiles and skew-crop parameters are listed by `info --view full`, not applied",
+    "The Z step is the PositionZ difference of the first field's first two planes"
+   ],
+   "page": "opera-harmony",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "imagexpress",
+   "name": "Molecular Devices ImageXpress / MetaXpress plate (HTD + TIFF)",
+   "vendor": "Molecular Devices",
+   "extensions": [
+    "htd"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Z series (ZStep_<n> folders) and time series (TimePoint_<n> folders) follow the folder names; Z projections and stitched montages are not handled specially",
+    "A plate folder without its HTD is read from the file names: missing planes cannot be detected there",
+    "Excitation wavelengths and per-channel colours are not recorded in the files read; channel names come from the HTD (WaveName) or the plane files' illumination setting",
+    "Cellomics/CellWorX variants of the HTD (`.pnl`) are not read"
+   ],
+   "page": "imagexpress",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "cellvoyager",
+   "name": "Yokogawa CellVoyager measurement (CV7000, CV8000, CQ1)",
+   "vendor": "Yokogawa",
+   "extensions": [
+    "mlf",
+    "mrf",
+    "wpi",
+    "mes"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Tiled fields (several PartialTileIndex values) are not stitched",
+    "The objective's numerical aperture is not recorded in the files read",
+    "Excitation is reported only for channels with a single laser; the emission band comes from the filter name (BP<centre>/<width>)",
+    "Correction files (shading, geometry, crosstalk) are listed, not applied"
+   ],
+   "page": "cellvoyager",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "tiff",
+   "name": "TIFF family (TIFF, BigTIFF, OME-TIFF, ImageJ, SVS, NDPI, LSM, QPTIFF, Leica SCN, Ventana BIF, Micro-Manager, MetaMorph STK/.nd, Thermo Fisher EER)",
+   "vendor": "open standard (TIFF 6.0 / OME); Leica Aperio, Hamamatsu, Zeiss, PerkinElmer, Molecular Devices MetaMorph, Thermo Fisher (Falcon EER) conventions",
+   "extensions": [
+    "tif",
+    "tiff",
+    "ome.tif",
+    "ome.tiff",
+    "svs",
+    "ndpi",
+    "lsm",
+    "qptiff",
+    "btf",
+    "stk",
+    "nd",
+    "eer",
+    "scn",
+    "bif",
+    "gel"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": true,
+   "confidence": "high",
+   "known_gaps": [
+    "Old-style JPEG (6) is decoded only in its tables form (not lossless, not a single JPEGInterchangeFormat stream); LERC tiles exit 6 in default builds (the opt-in `lerc` feature decodes them with lerc-rs, which panics on some malformed input; SECURITY.md). JPEG 2000 tiles (Aperio 33003/33005, 34712) are decoded, irreversible (9/7) ones within 1 grey level of OpenJPEG (the reconstruction is not bit-exact)",
+    "Packed 1-31-bit, half and 24-bit float and complex-integer samples are decoded only uncompressed or with LZW, deflate, PackBits or zstd (not inside JPEG, JPEG 2000, WebP, JPEG XL or LERC chunks)",
+    "Ventana BIF: tiles are returned on their stored grid; the overlaps recorded in EncodeInfo/TileJointInfo are reported, not stitched (such files are partially decoded for --strict); volumetric BIF (ImageDepth > 1) exits 6",
+    "EER (Falcon electron-event movies): frames are decoded to counts on the sensor grid; the sub-pixel (super-resolution) positions of events are not used, the gain reference is not applied, and the TIFF Orientation is reported, not applied",
+    "Planes larger than 4 GiB (whole-slide level 0) are read by region (`--region`), not whole; NDPI level 0 is read by its JPEG restart intervals (baseline JPEG only)",
+    "NDPI files larger than 4 GiB (offset high bytes in tag 65324) and LSM files larger than 4 GiB (wrapped strip offsets) are not supported",
+    "OME Modulo annotations (FLIM/lambda sub-dimensions along C/Z/T) are not expanded; the OME sizes are reported as stored",
+    "Micro-Manager multi-file datasets without OME-XML and other TIFF dialects fall back to plain-TIFF behaviour (pages as Z)",
+    "MetaMorph STK: only uncompressed stacks; `.nd` series: file names are built from the .nd keys (`_w<i><name>_s<j>_t<k>`), stage positions become separate images, no time increment is derived from the member files",
+    "Nikon NIS-Elements TIFF exports: files are grouped by the `xy`/`c` tokens of their names (validated on one public export; `t`/`z` tokens inferred); the LV and XML metadata blocks (objective, channel names, text information) are not decoded; the pixel size tag's meaning is inferred",
+    "Palette (indexed-colour) pages return the stored indices; photometric WhiteIsZero pages return stored values (not inverted)",
+    "JPEG: YCbCr stored as separate sample planes (PlanarConfiguration 2, e.g. Bio-Formats 8.x from planar input) and three-component streams in grey/palette/CMYK pages are refused (exit 6) rather than decoded to wrong colours; chroma upsampling differs from libjpeg-turbo by up to 3 counts"
+   ],
+   "page": "tiff",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "ome-zarr",
+   "name": "OME-Zarr (OME-NGFF)",
+   "vendor": "open standard (OME-NGFF, Zarr)",
+   "extensions": [
+    "zarr",
+    "ome.zarr",
+    "zip"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": true,
+   "confidence": "high",
+   "known_gaps": [
+    "Label images are exposed as images after the others (label ids as stored); their colours and properties are copied, not interpreted",
+    "Codecs other than blosc (blosclz/lz4/snappy/zlib/zstd, byte and bit shuffle)/zstd/gzip/zlib/lz4/crc32c/sharding/transpose are not decoded (exit 4 on read, reported by `check`)",
+    "String, structured and datetime data types are not read (exit 6); float16 is widened to float32, bool is uint8 0/1",
+    "Scale and translation transformations are composed (physical sizes, `extra.origin_um`); NGFF 0.6 coordinate systems and affine/rotation transformations are reported, not applied",
+    "Axes other than t/c/z/y/x are read at index 0",
+    "Remote (HTTP/S3) stores are not opened: the binary has no network access"
+   ],
+   "page": "ome-zarr",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "mrc",
+   "name": "MRC / CCP4 (MRC2014)",
+   "vendor": "CCP-EM open standard (cryo-EM, tomography, crystallography software)",
+   "extensions": [
+    "mrc",
+    "mrcs",
+    "map",
+    "ccp4",
+    "rec",
+    "st",
+    "ali",
+    "preali"
+   ],
+   "family": "electron-microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Complex modes 3 and 4 (Fourier transforms) are returned as stored (NX complex values per row), not expanded to the full transform",
+    "MAPC/MAPR/MAPS are reported, not applied: planes are returned in file order",
+    "FEI1/FEI2 extended-header fields are decoded from mrcfile's published layout; presence bitmasks are reported raw, not interpreted",
+    "HDF5 extended headers (EXTTYP HDF5), .mrcz and bzip2-compressed files are not read; gzip-compressed files (.map.gz, .mrc.gz) are decompressed once at open"
+   ],
+   "page": "mrc",
+   "field": "Electron microscopy"
+  },
+  {
+   "id": "dm",
+   "name": "Gatan Digital Micrograph (DM3/DM4/DM5)",
+   "vendor": "Gatan",
+   "extensions": [
+    "dm3",
+    "dm4",
+    "dm5"
+   ],
+   "family": "electron-microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Old-style packed complex (DataType 5), RGB (8) and the other RGB/RGBA variants (15-22, 24-26) are described but not decoded (exit 6): no public file shows their byte layout; complex (3, 13), RGBA (23), binary (14) and 64-bit integers are decoded",
+    "Packed Fourier transforms (DataType 27, 28) are returned as the stored half plane (X/2 + 1 columns), not mirrored into the full plane",
+    "Thumbnails are exposed as raw-pixel attachments, not images",
+    "Data with more than three dimensions (4D-STEM) is returned as frames of the first two dimensions, the scan positions flattened into T (extra.frame_grid gives the grid)",
+    "Line plots overlaying several images (ImageSourceList) are returned image by image; display settings and annotations are listed by `info --view full`, not interpreted"
+   ],
+   "page": "dm",
+   "field": "Electron microscopy"
+  },
+  {
+   "id": "ser",
+   "name": "FEI TIA / ES Vision series (SER + EMI)",
+   "vendor": "FEI / Thermo Fisher Scientific (TIA)",
+   "extensions": [
+    "ser",
+    "emi"
+   ],
+   "family": "electron-microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Complex element data (types 9, 10) is described but not decoded",
+    "Series whose elements differ in size are listed but not read",
+    "Pixel-size units are not stored in the .ser; deltas below 1 mm are taken as metres",
+    "Only the <ObjectInfo> XML of the .emi is read (display layout and data copies are not)",
+    "Line and area scans are exposed as T (elements in file order), not as scan axes"
+   ],
+   "page": "ser",
+   "field": "Electron microscopy"
+  },
+  {
+   "id": "emd",
+   "name": "EMD (Velox, HDF5)",
+   "vendor": "Thermo Fisher Scientific (Velox); HDF5-based",
+   "extensions": [
+    "emd"
+   ],
+   "family": "electron-microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Velox images, EDS spectra (traces), EDS spectrum images assembled from uint16 event streams and STEM-EELS spectrum images (Data/EelsSpectrumImage, validated on one dual-EELS file) are read; line profiles, EELS point spectra and the Data/SpectrumImage blob are listed, not decoded; other stream encodings are not read",
+    "EDS spectrum images are summed over detector segments and frames (per-segment and per-frame cubes are not exposed); the first plane read decodes every event into memory (at most 400 million events)",
+    "Berkeley EMD (0.2 and 1.0) data groups are read as images: X is each array's last dimension, Y the one before, leading dimensions are T; metadata groups are copied, not normalised beyond the microscope model and voltage",
+    "Per-frame metadata of multi-frame Velox images is not exposed"
+   ],
+   "page": "emd",
+   "field": "Electron microscopy"
+  },
+  {
+   "id": "ims",
+   "name": "Imaris IMS (HDF5)",
+   "vendor": "Oxford Instruments / Bitplane (Imaris)",
+   "extensions": [
+    "ims"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Imaris 3 (`.ims` TIFF-based files) is not this format; those files go to the TIFF reader",
+    "Scene8 objects: their statistics and numeric record datasets are tables; surface meshes (`SurfaceModel`, `BlockData`), text fields and the legacy `Scene` group are not decoded",
+    "Only the first data set is read when a file declares several (NumberOfDataSets > 1)",
+    "Chunks compressed with filters other than deflate, shuffle, fletcher32 and LZ4 exit 6"
+   ],
+   "page": "ims",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "nwb",
+   "name": "NWB (Neurodata Without Borders 2.x, HDF5)",
+   "vendor": "open standard (NWB)",
+   "extensions": [
+    "nwb"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": true,
+   "confidence": "high",
+   "known_gaps": [
+    "Traces are TimeSeries, ElectricalSeries and SpatialSeries under acquisition/ and processing/, and patch-clamp series (current/voltage clamp, their stimuli) there and under stimulus/presentation/, one trace per sweep (intracellular recording tables are tables, not used to group sweeps); ImageSeries, optical-physiology and other series types are listed by `info --view structure`, not decoded",
+    "Tables hold numbers: text columns become category codes (`extra.categories`), ragged columns a per-row count (units' spike times also a table of their own), object-reference columns are left out",
+    "NWB 1.x files and the Zarr backend are not read",
+    "Timestamps are compared for uniform sampling; irregular series are returned with a `time` channel"
+   ],
+   "page": "hdf5",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "bruker-nmr",
+   "name": "Bruker TopSpin NMR",
+   "vendor": "Bruker",
+   "extensions": [],
+   "family": "nmr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Input is an experiment directory (or its acqus/fid/ser, or a pdata/<n> directory), not a single file",
+    "Processed data: 1D, 2D and 3D components are read; 4D+ processing is not decoded",
+    "Time-domain values are scaled by 2^NC by analogy with nmrglue's NC_proc rule (inferred); the digital-filter group delay is reported, and removed only when the FID is processed (`analyze nmr-peaks`, `trace --process`; 1-D rows only)",
+    "Non-uniformly sampled ser files are returned as acquired rows; nuslist indices are available as a table; NUS reconstruction is out of scope",
+    "DTYPA/DTYPP values other than 0 (int32) and 2 (float64) are not decoded"
+   ],
+   "page": "bruker-nmr",
+   "field": "NMR"
+  },
+  {
+   "id": "jcamp-dx",
+   "name": "JCAMP-DX",
+   "vendor": "IUPAC open standard (NMR, IR, UV-Vis, MS spectra)",
+   "extensions": [
+    "jdx",
+    "dx",
+    "jcamp",
+    "jcm"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": true,
+   "confidence": "high",
+   "known_gaps": [
+    "##PEAK ASSIGNMENTS= tables and JCAMP-CS structure blocks are listed, not decoded",
+    "ASDF compression inside (XY..XY) peak tables is not decoded (AFFN only)",
+    "##RADATA= (interferograms) is listed, not decoded"
+   ],
+   "page": "jcamp-dx",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "varian-nmr",
+   "name": "Varian/Agilent VnmrJ NMR",
+   "vendor": "Agilent (Varian)",
+   "extensions": [],
+   "family": "nmr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Input is a data directory (`<name>.fid/` with fid and procpar), or its fid/procpar/text/log",
+    "Sweeps are the fid's traces in disk order: arrayed and multidimensional data are not reordered by phase or array parameters (nmrglue's as_2d order)",
+    "Block scale factors and drift corrections are reported, not applied (as nmrglue)",
+    "Processed data (datdir/phasefile, datdir/data) are listed, not decoded: no public file or permissive prior art",
+    "int16 samples (dp='n') are decoded from the header flags but covered by synthetic tests only"
+   ],
+   "page": "varian-nmr",
+   "field": "NMR"
+  },
+  {
+   "id": "jeol-jdf",
+   "name": "JEOL Delta NMR",
+   "vendor": "JEOL",
+   "extensions": [
+    "jdf"
+   ],
+   "family": "nmr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "1D and 2D (32-point submatrix) data with real/complex axes are decoded; 3D+ and small-submatrix layouts, TPPI and envelope axes are unsupported (exit 6)",
+    "Values are returned as stored; nmrglue returns the complex conjugate",
+    "String parameters hold at most 16 characters (longer values are cut in the file)",
+    "Acquisition start (ACTUAL_START_TIME, seconds since 1990-01-01 UTC) and header dates are inferred from corpus files",
+    "Context, annotation and history sections are not decoded"
+   ],
+   "page": "jeol-jdf",
+   "field": "NMR"
+  },
+  {
+   "id": "magritek-spinsolve",
+   "name": "Magritek Spinsolve benchtop NMR",
+   "vendor": "Magritek",
+   "extensions": [
+    "1d",
+    "2d"
+   ],
+   "family": "nmr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Input is an experiment directory (acqu.par and data.1d/data.2d), or any file in it; a folder of experiments lists them",
+    "Prospa data types 501 (complex), 503 (x + real) and 504 (x + complex) are decoded; other type codes and multi-row files with an x block are listed, not decoded",
+    "Plot files (.pt1/.pt2), MestReNova documents and nmr_fid.dx are listed, not decoded (open nmr_fid.dx with the JCAMP-DX reader)",
+    "The x block's unit is not stored: it is named (ms or ppm) only when its spacing matches the dwell time or the spectral width",
+    "Sub-experiment folders (e.g. 1D_T1IRT2/0000/) are opened one by one"
+   ],
+   "page": "magritek-spinsolve",
+   "field": "NMR"
+  },
+  {
+   "id": "bruker-opus",
+   "name": "Bruker OPUS",
+   "vendor": "Bruker",
+   "extensions": [
+    "0",
+    "1",
+    "2"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Any numbered extension (.0, .1, … .999) is an OPUS file when it starts with 0A 0A FE FE; the extensions listed are the common ones",
+    "3D series blocks (rapid scan, time-resolved) follow brukeropus's layout; no public series file was available to validate them",
+    "Report blocks (quant and search results), embedded bitmaps and blocks of unknown type are listed by `info --view structure`, not decoded",
+    "Data blocks without a data-status block are listed, not decoded"
+   ],
+   "page": "bruker-opus",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "thermo-omnic",
+   "name": "Thermo Fisher OMNIC",
+   "vendor": "Thermo Fisher Scientific (Nicolet)",
+   "extensions": [
+    "spa",
+    "spg",
+    "srs"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Series files (.srs: rapid scan, high-speed, GC-IR, TGA-IR) are read from their key table: the series spectra, their times and the backgrounds; the per-series profiles (Gram-Schmidt, chemigrams) and processing records are listed, not decoded; no licensed .srs file was available, so the series layout rests on held test files",
+    "OMNIC map files (.map) are not recognised",
+    "Resolution and the instrument serial number come from the processing-history text (English or French OMNIC); files without that text have neither",
+    "y-unit codes other than absorbance, transmittance, reflectance, log(1/R), single beam, Kubelka-Munk, volts, photoacoustic and Raman intensity are reported as `intensity`"
+   ],
+   "page": "thermo-omnic",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "renishaw-wdf",
+   "name": "Renishaw WiRE",
+   "vendor": "Renishaw",
+   "extensions": [
+    "wdf"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "x-list and y-unit codes are named only where the corpus confirms them (Raman shift, counts); other codes are reported as numbers with an `x` axis",
+    "Property sets are decoded to a tree; keys WiRE does not name in the file appear as `#<number>` and only those whose meaning the corpus shows are normalized (objective, laser name, serial numbers)",
+    "Map pixels are placed from the stage coordinates on the WMAP grid; maps without coordinates fall back to storage order",
+    "Line scans and depth or time series are traces with a positions table, not images",
+    "Pre-WiRE-3 files, processed data blocks (baseline, cosmic-ray removal results) and embedded Z-stacks are not decoded"
+   ],
+   "page": "renishaw-wdf",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "perkinelmer-sp",
+   "name": "PerkinElmer Spectrum (.sp)",
+   "vendor": "PerkinElmer",
+   "extensions": [
+    "sp"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "One spectrum per file (2D constant-interval data sets); Spotlight image files (.fsm) are read by the perkinelmer-fsm reader",
+    "Instrument settings are named from their values in the corpus (scans, resolution, detector, source, beamsplitter, apodization, laser wavenumber); other settings are in the vendor tree by member id",
+    "UV-Vis (.sp from Lambda instruments, x in nm) follows the same layout by inference; no public UV-Vis .sp file was available"
+   ],
+   "page": "perkinelmer-sp",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "jasco-jws",
+   "name": "JASCO Spectra Manager (.jws)",
+   "vendor": "JASCO",
+   "extensions": [
+    "jws",
+    "jrs"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Validated on FT/IR-4600/4700, NRS-5100 Raman, V-630/V-730 UV-Vis, J-1500 circular dichroism (1-3 channels) and FP-8300 fluorescence files; interval/kinetics files (`.jwb`) and channel or axis codes not seen are refused or returned unnamed with a finding",
+    "Time-course files carry their x axis as time without a unit (the unit is not in a field that has been validated)",
+    "Acquisition parameters are named for FT-IR (module 9) only; the other instruments' parameter records are kept raw in the vendor tree",
+    "Text fields of flat files are decoded as UTF-8 or Latin-1; Japanese (Shift-JIS) titles may be garbled"
+   ],
+   "page": "jasco-jws",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "galactic-spc",
+   "name": "Galactic / Thermo GRAMS SPC (.spc)",
+   "vendor": "Thermo Fisher Scientific (Galactic Industries) GRAMS",
+   "extensions": [
+    "spc"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Big-endian (0x4C) files, per-subfile x arrays (TXYXYS, mass spectra) and old-format (0x4D) multifiles are refused",
+    "16-bit fixed-point values follow the documented rule but no development file has them",
+    "Multifile maps are returned as spectrum series with a subfile table (z, W); the map grid is not rebuilt",
+    "Other programs' .spc files (Bruker EPR, Becker & Hickl, EDAX, Shimadzu UV) are not Galactic SPC and are not read by this reader"
+   ],
+   "page": "galactic-spc",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "witec-project",
+   "name": "WITec Project / WITec Data",
+   "vendor": "WITec (Oxford Instruments)",
+   "extensions": [
+    "wip",
+    "wid"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Format versions 0-7 (WITec Control 1.6 to WITec Suite SIX); spectral calibrations of the grating and polynomial kinds are validated, linear and lookup-table x calibrations follow the published format description without a development file",
+    "Filter, cursor, colour-profile and mask-definition records (analysis settings) are listed, not decoded; the images they produced are read",
+    "Acquisition settings come from each measurement's information text (English WITec software); the version-7 Suite SIX parameter records are kept in the vendor tree only",
+    "The acquisition time is local time (the file holds no time zone)"
+   ],
+   "page": "witec-project",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "agilent-fpa",
+   "name": "Agilent FT-IR imaging (Resolutions Pro)",
+   "vendor": "Agilent",
+   "extensions": [
+    "dat",
+    "seq",
+    "dms",
+    "dmd",
+    "drd",
+    "bsp",
+    "dmt"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "A mosaic is read from its whole-image .dms file (or one tile at a time); tiles are not assembled when the .dms is missing",
+    "Rows run top to bottom: the files store them bottom to top (inferred from how a mosaic's tiles are stacked in its .dms)",
+    "The pixel size is the detector pixel size times the aggregation, read from the header; stage positions are not in the files",
+    "Settings are read from the header's text settings (English Resolutions Pro); the selected-pixel spectrum stored in the header is not returned"
+   ],
+   "page": "agilent-fpa",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "perkinelmer-fsm",
+   "name": "PerkinElmer Spotlight image (.fsm)",
+   "vendor": "PerkinElmer",
+   "extensions": [
+    "fsm"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Image rows are in acquisition order (stage y increasing by one step per row); which way up Spectrum IMAGE draws them is not in the file",
+    "Only the 4-D constant-interval layout (one float32 spectrum per pixel block) has been seen",
+    "Instrument settings are named as in the .sp reader (the same member ids); other settings are in the vendor tree"
+   ],
+   "page": "perkinelmer-fsm",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "agilent-cary",
+   "name": "Agilent Cary UV-Vis (.dsw, .bsw, .bsk)",
+   "vendor": "Agilent (Varian)",
+   "extensions": [
+    "dsw",
+    "bsw",
+    "bsk",
+    "csw"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Validated against the Cary software's CSV exports on Cary 4000 Scan 3.00 files (absorbance over wavelength); Cary 60 files of Scan and Scanning Kinetics 5.0 are read the same way but have no export to check them against",
+    "Only the spectrum and baseline stores are decoded; graph, report, database and baseline-info stores are listed by `info --view structure`",
+    "Y modes other than absorbance and X modes other than nanometers have no corpus file: their spectra are returned with a finding",
+    "Collection times are a local clock (no time zone is stored), read month/day/year as every corpus file writes them"
+   ],
+   "page": "agilent-cary",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "microcal-itc",
+   "name": "MicroCal ITC (.itc)",
+   "vendor": "Malvern Panalytical (MicroCal)",
+   "extensions": [
+    "itc"
+   ],
+   "family": "calorimetry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Validated on VP-ITC (VPViewer2000 1.4.8-1.30), iTC200 (1.25-1.26) and MicroCal ITC software 1.29 files; PEAQ-ITC `.apitc` and analysis projects (`.apj`) are not read",
+    "Time and differential power are validated against Origin's raw exports; the cell temperature column is inferred; further data columns (7- and 9-column files) are exposed unnamed",
+    "Integrated injection heats are the analysis software's (baseline and integration) and are not stored in the file; they are not computed",
+    "Calibration lines (`%`) are kept verbatim in the vendor tree, not interpreted"
+   ],
+   "page": "microcal-itc",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "cytiva-biacore-blr",
+   "name": "Cytiva Biacore result file (.blr)",
+   "vendor": "Cytiva (Biacore)",
+   "extensions": [
+    "blr"
+   ],
+   "family": "spr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Validated on Biacore T200 Control Software 2.0.1-2.0.2 result files (kinetics/affinity and immobilization wizards, manual runs); other Biacore systems (3000, X100, S200, 8K, Insight) and evaluation files (`.bme`, `.bie`) are not read",
+    "Sensorgrams and the reference-subtracted curves are returned as stored; kinetic or affinity fits (ka, kd, KD) are the evaluation software's and are not computed",
+    "Report points are the control software's; at 1 Hz storage they average data the file does not hold",
+    "Event-log codes, the quality and time-correction streams and the wizard template are kept or listed, not interpreted"
+   ],
+   "page": "cytiva-biacore",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "cytiva-biacore-bme",
+   "name": "Cytiva Biacore T200 evaluation file (.bme)",
+   "vendor": "Cytiva (Biacore)",
+   "extensions": [
+    "bme"
+   ],
+   "family": "spr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Fits (kinetics, affinity) are the evaluation software's, returned as stored with their parameters, standard errors and Chi²; they are not recomputed",
+    "The evaluation's own processed curves (aligned, blank-subtracted, in `EvaluationItemNBinary`), plots and report-point tables are not decoded; the sensorgrams are the result files' as the evaluation copied them",
+    "Concentration-analysis items (calibration curves) are listed without their results",
+    "Biacore 8K, S200 and Insight evaluation files are not read"
+   ],
+   "page": "cytiva-biacore",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "agilent-seahorse-asyr",
+   "name": "Agilent Seahorse XF assay result (.asyr)",
+   "vendor": "Agilent (Seahorse)",
+   "extensions": [
+    "asyr"
+   ],
+   "family": "cell-metabolism",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "OCR, ECAR and PER are not stored; they are computed (published compartment model, the file's constants) only for standard 96-well plates with Wave's AKOS settings, where they agree with Wave's own rates (OCR within 0.2 pmol/min, ECAR within 0.001 mpH/min); other plates (24-well, spheroid) return the emissions and a note saying why",
+    "PER uses kVol 1.6 (not stored; what Wave prints for the same plate) and is withheld by --strict",
+    "Raw LED on/off emission and reference arrays and the calibration arrays are not exposed; templates (.asyt) are not read"
+   ],
+   "page": "agilent-seahorse",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "sartorius-octet-frd",
+   "name": "Sartorius Octet BLI result (.frd)",
+   "vendor": "Sartorius (ForteBio)",
+   "extensions": [
+    "frd"
+   ],
+   "family": "binding-kinetics",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "One file is one biosensor; the experiment's other sensors are separate .frd files (read them together with batch)",
+    "Kinetic fits (kon, koff, KD) are made by the Octet analysis software and are not in .frd files",
+    "Only kinetics experiments (KineticsData) are read"
+   ],
+   "page": "sartorius-octet",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "malvern-zetasizer-dts",
+   "name": "Malvern Zetasizer measurement file (.dts)",
+   "vendor": "Malvern Panalytical",
+   "extensions": [
+    "dts"
+   ],
+   "family": "particle-sizing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Size and zeta results are returned as stored; the size distributions, correlation functions and phase plots are not decoded",
+    "Number and volume means and the diffusion coefficient the software exports are computed at export and are not returned",
+    "Molecular-weight, protein-mobility and other record kinds are listed, not decoded",
+    "ZS Xplorer .zmes files are not read"
+   ],
+   "page": "malvern-zetasizer",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "genepix-gpr",
+   "name": "GenePix Results (.gpr)",
+   "vendor": "Molecular Devices (Axon GenePix)",
+   "extensions": [
+    "gpr"
+   ],
+   "family": "microarray",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "GenePix array lists (.gal), settings (.gps) and the scan TIFF images are not read by this reader (the TIFF reader opens the images)",
+    "Values are the text GenePix wrote; no normalization, background correction or flag filtering is applied"
+   ],
+   "page": "genepix-gpr",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "biorad-scn",
+   "name": "Bio-Rad Image Lab (.scn)",
+   "vendor": "Bio-Rad",
+   "extensions": [
+    "scn"
+   ],
+   "family": "gel-imaging",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Validated on 13 development files from Image Lab 3.0.1 to 6.1.0 (ChemiDoc MP, ChemiDoc XRS+, Gel Doc XR+, a merged image); all hold one 16-bit scan. Scans imported from Typhoon/Molecular Dynamics `.gel` files carry a square-root encoding (`scaler/moldyn`) that is reported, not applied, and no corpus file exercises it",
+    "Lane and band analyses, molecular-weight calibrations and volume tools are not stored in any file seen; other parts are listed by `info --view structure` and kept in the vendor tree",
+    "Multi-channel (fluorescent multiplex) files have no public sample; each ScanImageTag would be its own image",
+    "Scans imported from Molecular Dynamics .gel keep their stored square-root-encoded counts (the scale is reported, not applied)",
+    "Leica SCN whole-slide files share the extension: they are TIFF and go to the TIFF reader"
+   ],
+   "page": "biorad-scn",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "cytiva-unicorn-res",
+   "name": "Cytiva ÄKTA UNICORN result (.res)",
+   "vendor": "Cytiva (GE Healthcare, Amersham Biosciences)",
+   "extensions": [
+    "res"
+   ],
+   "family": "chromatography",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Validated on two files (ÄKTAprime 2009, Ettan LC 2017), both with the `UNICORN 3.10` layout text; other UNICORN 3-5 systems (ÄKTA explorer, purifier, FPLC) are expected to share the layout but have no public sample",
+    "Times are the sample index × the curve's interval from the method start; a sub-sample start offset some curves carry is read as milliseconds (unvalidated, < 1 sample)",
+    "Binary blocks (CONFIG, CALIB, ColumnsChoosen, Template, fraction-collector configuration, the per-run block) are listed by `info --view structure`, not decoded",
+    "The run start is derived from the header's end time minus the curves' duration (the logbook's own start text is local time without a zone)"
+   ],
+   "page": "cytiva-unicorn",
+   "field": "Chromatography"
+  },
+  {
+   "id": "cytiva-unicorn-zip",
+   "name": "Cytiva ÄKTA UNICORN 6/7 result export (.zip)",
+   "vendor": "Cytiva",
+   "extensions": [
+    "zip"
+   ],
+   "family": "chromatography",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Validated on UNICORN 7.1, 7.3 and 7.7 exports (ÄKTA pure 25, pure 150L, avant); UNICORN 6 exports have no public sample",
+    "Curves are read at full resolution; reduced-resolution point files, if an export has them, are not used",
+    "Evaluated curves on a volume grid (IsoChroneType Volume) have volumes but no times",
+    "Pool tables, method phases and the audit trail are kept in the vendor tree (`info --view full`), not as tables",
+    "A UNICORN database backup (`.bak`) or a `.result` file from the UNICORN database is not an export and is not read"
+   ],
+   "page": "cytiva-unicorn",
+   "field": "Chromatography"
+  },
+  {
+   "id": "bruker-bes3t",
+   "name": "Bruker BES3T EPR (.DSC/.DTA)",
+   "vendor": "Bruker",
+   "extensions": [
+    "dsc",
+    "dta"
+   ],
+   "family": "epr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "ASCII data sets (IRFMT A), N-tuple axes (NTUP) and points whose values have different number formats are refused (exit 6)",
+    "Values are returned as stored: no normalization by scans, gain, power or conversion time (Xepr's and EasySpin's optional scalings)",
+    "The manipulation history layer (#MHL) is counted, not interpreted; processed data sets are read like acquired ones",
+    "Only the standard parameters are normalized; device parameters (#DSL) are in the vendor tree as text"
+   ],
+   "page": "bruker-epr",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "bruker-esp",
+   "name": "Bruker ESP/WinEPR EPR (.par/.spc)",
+   "vendor": "Bruker",
+   "extensions": [
+    "par",
+    "spc"
+   ],
+   "family": "epr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "The .spc file has no header: its layout (little-endian float32 for WinEPR, big-endian int32 for ESP) and point count come from the .par file; a data set without its .par file is not recognised",
+    "Values are returned as stored: no normalization by scans, gain or conversion time"
+   ],
+   "page": "bruker-epr",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "panalytical-xrdml",
+   "name": "PANalytical XRDML",
+   "vendor": "Malvern Panalytical",
+   "extensions": [
+    "xrdml"
+   ],
+   "family": "diffraction",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Area-detector frames (2D XRDML) are refused (exit 6); 1D scans of 1D and 2D detectors are read",
+    "Intensities are returned as stored (counts, attenuation applied, as the schema defines them); count rates are intensities divided by the counting time in `extra.counting_time_s`",
+    "Optics are kept in the vendor tree; only the tube, wavelength and detector name are normalized"
+   ],
+   "page": "xrd",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "bruker-raw",
+   "name": "Bruker DIFFRAC RAW",
+   "vendor": "Bruker",
+   "extensions": [
+    "raw"
+   ],
+   "family": "diffraction",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "RAW1.01 (DIFFRACplus) and RAW4.00 (DIFFRAC.SUITE) are read; the older `RAW ` and `RAW2` versions are refused (exit 6)",
+    "Ranges whose records carry per-point parameters other than the measured 2θ, and RAW4 records wider than one float32, are refused (exit 6)",
+    "The scanned axis is the drive the range header marks as moving, else 2θ for coupled and detector scans; other scan types are refused",
+    "Detector, slit and goniometer settings are kept in the vendor tree; only the tube, wavelengths, step time, user and sample are normalized"
+   ],
+   "page": "xrd",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "bruker-brml",
+   "name": "Bruker DIFFRAC.SUITE BRML",
+   "vendor": "Bruker",
+   "extensions": [
+    "brml"
+   ],
+   "family": "diffraction",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "2D detector frames (recorded views wider than one value) are refused (exit 6); integrated 1D counts are read",
+    "Counts are returned as stored; absorber factors are a separate channel and are not applied",
+    "Evaluation, template and instruction containers are not decoded"
+   ],
+   "page": "xrd",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "rigaku-ras",
+   "name": "Rigaku RAS",
+   "vendor": "Rigaku",
+   "extensions": [
+    "ras"
+   ],
+   "family": "diffraction",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Intensities are returned as stored; the attenuation column is a separate channel and is not applied (a file with factors other than 1 is flagged)"
+   ],
+   "page": "xrd",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "rigaku-rasx",
+   "name": "Rigaku RASX",
+   "vendor": "Rigaku",
+   "extensions": [
+    "rasx"
+   ],
+   "family": "diffraction",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Intensities are returned as stored; the attenuation column is a separate channel and is not applied (a file with factors other than 1 is flagged)",
+    "Area-detector images stored in a .rasx are not read"
+   ],
+   "page": "xrd",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "biologic-mpr",
+   "name": "BioLogic EC-Lab (.mpr)",
+   "vendor": "BioLogic",
+   "extensions": [
+    "mpr"
+   ],
+   "family": "electrochemistry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "A file with a column id not validated against an EC-Lab export is refused (exit 6) with the advice to read its .mpt export; about 70 ids are known",
+    "Quantities EC-Lab computes only when exporting text (energies, capacities, efficiency, P/W where not stored) are not returned",
+    "Technique parameters (the settings module) are not decoded; the technique, channel and acquisition start are",
+    "Instrument model and software version are not in a decoded field of the .mpr (the .mpt export names them)"
+   ],
+   "page": "biologic-eclab",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "biologic-mpt",
+   "name": "BioLogic EC-Lab text export (.mpt)",
+   "vendor": "BioLogic",
+   "extensions": [
+    "mpt"
+   ],
+   "family": "electrochemistry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Every column EC-Lab exported is returned, including those it computed at export; columns not in the vocabulary keep a name made from EC-Lab's label",
+    "Header facts are read from the `key : value` lines EC-Lab writes in English"
+   ],
+   "page": "biologic-eclab",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "gamry-dta",
+   "name": "Gamry Framework (.DTA)",
+   "vendor": "Gamry Instruments",
+   "extensions": [
+    "dta"
+   ],
+   "family": "electrochemistry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Text columns (the `Over` overload flags) are kept out of the traces",
+    "Header parameters are kept in the vendor tree; only the date, time, potentiostat, notes, area and scan rate are normalized"
+   ],
+   "page": "gamry-dta",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "neware-nda",
+   "name": "Neware BTS (.nda)",
+   "vendor": "Neware",
+   "extensions": [
+    "nda"
+   ],
+   "family": "electrochemistry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Versions 29 (BTS 7) and 130 (BTS 8/9, both record layouts) are read; other versions are refused (exit 6)",
+    "Auxiliary records of version-29 and BTS 9.0 files (0x65) are not decoded; BTS 9.1 records carry their temperature",
+    "A current range missing from the known scale table is refused",
+    "Cycle numbers are as stored (1-based); BTSDA's charge-first cycle renumbering is not applied"
+   ],
+   "page": "neware",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "neware-ndax",
+   "name": "Neware BTS (.ndax)",
+   "vendor": "Neware",
+   "extensions": [
+    "ndax"
+   ],
+   "family": "electrochemistry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    ".ndc versions 5, 11, 14, 16 and 17 are read; other versions are refused (exit 6)",
+    "In versions 11-17 only logged records carry capacities and energies (NaN between them); the step time between logged records follows from the logging interval (reported as assumed)",
+    "Auxiliary channels of versions 5, 11 and 16 are not decoded",
+    "The step program (Step.xml) is kept out; the executed steps are the steps table"
+   ],
+   "page": "neware",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "arbin-res",
+   "name": "Arbin MITS Pro result (.res)",
+   "vendor": "Arbin Instruments",
+   "extensions": [
+    "res"
+   ],
+   "family": "electrochemistry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Only the Jet 4 / ACE database of MITS Pro 4-8 is read; the MITS 10+ SQL Server data and the .xlsx/.csv exports are not",
+    "Smart-battery, CAN-BMS and multi-cell ACI tables are listed (ls) but not returned",
+    "The schedule (.sdu) is named, not read; step types are not in the file",
+    "`date_time` is the tester's local time; the file stores no time zone"
+   ],
+   "page": "arbin-res",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "netzsch-ngb",
+   "name": "NETZSCH Proteus (.ngb-*)",
+   "vendor": "NETZSCH",
+   "extensions": [
+    "ngb-ss3",
+    "ngb-bs3",
+    "ngb-ds3",
+    "ngb-sd7",
+    "ngb-bd7",
+    "ngb-dla",
+    "ngb-cla"
+   ],
+   "family": "thermal-analysis",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "The DSC signal is returned in µV as stored; Proteus's sensitivity calibration (to mW, mW/mg) is not applied",
+    "The temperature program, PID settings and calibration tables are not decoded",
+    "Analysis (.ngb-taa) and state (.ngb-od7) files are not measurement files and are refused",
+    "Channels without a known meaning are returned as channel_<id> without a unit"
+   ],
+   "page": "netzsch-ngb",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "ta-universal-analysis",
+   "name": "TA Instruments data file (Universal Analysis, .001)",
+   "vendor": "TA Instruments",
+   "extensions": [
+    "001"
+   ],
+   "family": "thermal-analysis",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Values are the stored signals; Universal Analysis's analyses (onsets, peak areas, normalisation by size) are not computed",
+    "Only the header key/value lines are decoded; calibration lines are kept in the vendor tree",
+    "TRIOS (.tri) files are a different format (`ta-trios`)"
+   ],
+   "page": "ta-universal-analysis",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "ta-trios",
+   "name": "TA Instruments TRIOS (.tri)",
+   "vendor": "TA Instruments",
+   "extensions": [
+    "tri"
+   ],
+   "family": "thermal-analysis",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Values are the stored signals; variables TRIOS computes (normalised heat flow, derivatives, viscosities of flow steps, DMA moduli) are not, except the oscillation moduli of parallel-plate rheometer steps",
+    "Signals of unknown meaning are returned as signal_<guid> without a unit",
+    "Files of the 2019 generation (TRIOS 3/4, byte 2 = 12) store their data differently and are refused",
+    "Per-point oscillation waveforms and analysis results stored in the file are not decoded"
+   ],
+   "page": "ta-trios",
+   "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "hdf5",
+   "name": "HDF5 (generic)",
+   "vendor": "open standard (The HDF Group)",
+   "extensions": [
+    "h5",
+    "hdf5",
+    "he5",
+    "hdf"
+   ],
+   "family": "container",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Structure only: groups, datasets (shape, type) and attributes are listed; no dataset is decoded as an image, table or trace",
+    "HDF4 (`.hdf` without the HDF5 signature) is not read"
+   ],
+   "page": "hdf5",
+   "field": "Containers"
+  },
+  {
+   "id": "plate",
+   "name": "Plate-reader exports",
+   "vendor": "Agilent BioTek, Molecular Devices, BMG LABTECH, Revvity/PerkinElmer, Tecan, Thermo Fisher Scientific",
+   "extensions": [
+    "txt",
+    "csv",
+    "tsv",
+    "tab",
+    "asc",
+    "xlsx",
+    "xlsm",
+    "xls",
+    "xlsb",
+    "ods",
+    "pda",
+    "sda",
+    "xpt",
+    "prt"
+   ],
+   "family": "plate-reader",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "SoftMax Pro binary documents: SoftMax Pro 5 .pda plate sections (absorbance, endpoint or kinetic, one wavelength, 96 wells; 4 documents from 2 labs validated value-for-value against their text exports) and SoftMax Pro 6/7 .sda endpoint plates (absorbance, fluorescence, luminescence; one wavelength; 6 documents validated) are decoded; kinetic, spectrum and well-scan sections of 6/7 documents, several wavelengths, other plate sizes and cuvette sets are refused (exit 6: export them as text)",
+    "Gen5 experiment files (.xpt): endpoint and kinetic reads decoded from the plate archives (validated on Gen5 2.08, 3.04, 3.11 and 3.15 files from three labs against their exports); the detection mode comes from the read name (number, ex,em, Lum), other names are `unknown`; flagged cells (OVRFLW etc.) are NaN without their text; area scans, spectra, well scans and protocol files (.prt) are refused",
+    "Gen5 area scans and multi-plate kinetic exports, SoftMax Pro well scans and fluorescence spectra are not decoded",
+    "Values calculated by the vendor software are kept as `calculated` reads; curve fits and group tables are kept verbatim only (`openreadout analyze assay` recomputes standard curves, IC50s and kinetics from the reads). SoftMax Pro 5 document templates give the layout (samples, groups, `Blank` group as blanks); SoftMax Pro text-export group tables and SoftMax Pro 6/7 group sections are not used as layouts, and document-stored reduced values are not read",
+    "Day/month order of slash dates is assumed month-first when ambiguous (flagged)"
+   ],
+   "page": "plate-readers",
+   "field": "Plate readers and qPCR"
+  }
+ ]
+}

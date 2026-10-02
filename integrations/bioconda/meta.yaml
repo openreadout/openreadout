@@ -47,7 +47,7 @@ about:
     formats (OME-TIFF, OME-Zarr, mzML, Parquet), validates them, builds tidy tables over many files,
     and serves the same operations as MCP tools.
   dev_url: https://github.com/openreadout/openreadout
-  doc_url: https://openreadout.github.io/openreadout/reference/commands/index.html
+  doc_url: https://openreadout.github.io/openreadout/reference/commands.html
 
 extra:
   recipe-maintainers:

@@ -3,7 +3,7 @@
 Every error raised by the native core is an :class:`OpenReadoutError` and also an instance of
 the closest built-in exception, so ordinary ``except OSError`` / ``except ValueError`` code keeps
 working. Each carries the same ``code``, ``exit_code`` and ``hint`` the CLI reports in its JSON
-error envelope (see https://openreadout.github.io/openreadout/reference/commands/index.html#exit-codes).
+error envelope (see https://openreadout.github.io/openreadout/reference/commands.html#exit-codes).
 """
 
 from __future__ import annotations

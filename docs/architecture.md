@@ -92,7 +92,7 @@ One error type, `openreadout_core::Error`, maps every failure to a stable string
 - **No panics on bad input.** Checked arithmetic, bounds-checked slices and no `unsafe`; a malformed file becomes `corrupt_file` (exit 4).
 - **Bounded memory.** Every size read from a file is checked before it is allocated; the limits are in [the memory model](architecture-memory.md).
 - **Own vocabulary.** Every public identifier in a format crate appears in that format's vocabulary table (`docs/formats/<fmt>.md`); `cargo xtask vocab-check` enforces it in CI. See the [clean-room policy](legal/clean-room-policy.md).
-- **Stable JSON.** Payload types derive `JsonSchema`. `cargo xtask schema gen` writes `docs/schema/*.json`, CI fails on drift, and the [JSON reference](../book/src/reference/json/index.md) is generated from those files.
+- **Stable JSON.** Payload types derive `JsonSchema`. `cargo xtask schema gen` writes `docs/schema/*.json`, CI fails on drift, and the website's [JSON reference](https://openreadout.github.io/openreadout/reference/json.html) is rendered from those files at build time (`book/site/pages/reference/json.astro`).
 
 ## Adding a format
 

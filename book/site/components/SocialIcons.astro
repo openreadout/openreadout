@@ -1,0 +1,19 @@
+---
+// Header links beside the search box: the top-level sections, then GitHub.
+import Default from "@astrojs/starlight/components/SocialIcons.astro";
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const here = Astro.url.pathname;
+const links = [
+  ["Docs", "getting-started/install.html", /\/(getting-started|guides|reference|project)\//],
+  ["Recipes", "recipes.html", /\/recipes/],
+  ["Formats", "formats.html", /\/formats/],
+  ["Try it", "demo/", /\/demo\//],
+] as const;
+---
+
+<nav class="or-topnav" aria-label="Sections">
+  {links.map(([label, href, re]) => (
+    <a href={base + href} aria-current={re.test(here) ? "page" : undefined}>{label}</a>
+  ))}
+</nav>
+<Default />

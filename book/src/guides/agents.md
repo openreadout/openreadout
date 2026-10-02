@@ -118,4 +118,4 @@ The MCP server also offers resources and prompts, which some clients show as men
 - No tool connects to the network.
 - Errors come back with a stable `code`, an `exit_code` and a `hint` the agent can act on.
 
-To see exactly what a client receives, run the example client in [Examples](examples.md). All tools and their arguments are listed in [MCP tools](../reference/mcp.md).
+To see exactly what a client receives, run the example client in [`examples/mcp/mcp_client.py`](../../../examples/mcp/mcp_client.py). All tools and their arguments are listed in [MCP tools](../reference/mcp.md).

@@ -3,7 +3,7 @@
 # The native functions never raise R errors themselves: a failure comes back as a list of class
 # `openreadout_native_error`, which .ic() turns into a condition of classes
 # c(<specific>, "openreadout_error", "error", "condition") carrying `code`, `exit_code` and
-# `hint` (the values of the CLI's JSON error envelope, https://openreadout.github.io/openreadout/reference/commands/index.html#exit-codes).
+# `hint` (the values of the CLI's JSON error envelope, https://openreadout.github.io/openreadout/reference/commands.html#exit-codes).
 
 #' @useDynLib openreadout, .registration = TRUE
 NULL
