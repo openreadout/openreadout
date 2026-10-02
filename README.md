@@ -2,11 +2,11 @@
 
 > **OpenReadout is an open-source reader for lab-instrument files, designed for AI agents.**
 
-**Give any AI agent full access to raw data from microscopes, mass spectrometers, cytometers, electrophysiology rigs and 90+ other instrument formats — in one command.**
+**Give any AI agent full access to raw data from microscopes, mass spectrometers, cytometers, electrophysiology rigs, and 90+ other instrument formats — in one command.**
 
 Open-source. Single binary. No instrument software. No dependencies. No network access. Works everywhere.
 
-**OpenReadout makes proprietary instrument files legible to AI: it pulls out the metadata, images, traces, spectra and tables as structured JSON, converts them to open formats, and renders previews so your agent can see and understand the data.** Every format is validated against independent readers.
+**OpenReadout makes data in proprietary instrument formats readable by AI: it pulls out the metadata, images, traces, spectra, and tables as structured JSON, converts them to open formats, and renders previews so your agent can see and understand the data.** Every format is validated against independent libraries.
 
 [![CI](https://github.com/openreadout/openreadout/actions/workflows/ci.yml/badge.svg)](https://github.com/openreadout/openreadout/actions/workflows/ci.yml)
 [![Docs](https://github.com/openreadout/openreadout/actions/workflows/docs.yml/badge.svg)](https://openreadout.github.io/openreadout/)
@@ -47,7 +47,7 @@ Open-source. Single binary. No instrument software. No dependencies. No network 
 </table>
 
 <p align="center">—</p>
-<p align="center"><strong>Spectra, Traces and Curves</strong></p>
+<p align="center"><strong>Spectra, Traces, and Curves</strong></p>
 
 <table>
 <tr>
@@ -95,7 +95,7 @@ openreadout self skill --install all      # skill for Claude Code, Codex, Cursor
 openreadout mcp --install claude-desktop  # MCP server for Claude Desktop (or cursor, codex, vscode, ...)
 ```
 
-Your agent can now open, check, plot and convert instrument files on your behalf.
+Your agent can now open, check, plot, and convert instrument files on your behalf.
 
 ## For Developers — See It Live in 30 Seconds
 
@@ -113,7 +113,7 @@ openreadout preview cells.lif --composite
 openreadout export cells.lif -o cells.ome.tiff
 ```
 
-That's it. The same commands work on a CZI, an ND2, a Thermo RAW, an ABF or any of the other formats.
+That's it. The same commands work on a CZI, an ND2, a Thermo RAW, an ABF, or any of the other formats.
 
 <p align="center">
   <img src=".github/assets/demo.gif" alt="Terminal session: openreadout info describes a Leica LIF file, check reports that a truncated copy is incomplete and exits with code 4, export writes a verified OME-TIFF, analyze peaks lists four peaks in a GC chromatogram, and info --json piped to jq prints the pixel size." width="100%">
@@ -166,7 +166,7 @@ What used to take vendor software or a different library for every format:
 
 ```python
 import czifile, nd2, liffile, pyabf, flowio
-# ... a different API, metadata layout and set of quirks for each one ...
+# ... a different API, metadata layout, and set of quirks for each one ...
 ```
 
 Now takes one command, for all of them:
@@ -177,12 +177,12 @@ openreadout info any-file --json
 
 **What OpenReadout can do:**
 
-- **Inspect** images, channels, traces, spectra, tables and metadata -- in plain text or structured JSON
-- **Check** files for truncation, missing planes and damaged structure -- exit code 4 when a file is corrupt
-- **Export** to OME-TIFF, OME-Zarr, mzML, NWB, CSV, Parquet, Arrow, JCAMP-DX, Allotrope ASM and RDML -- every export read back and verified
-- **Preview** image planes, traces, spectra and plate heat maps as PNG
-- **Analyze** chromatographic peaks, plate assays (IC50, standard curves), qPCR (Cq, ΔΔCq), NMR peaks, patch-clamp features, spikes and flow-cytometry gates -- with documented methods
-- **Batch** over whole directories, index lab shares and watch running acquisitions
+- **Inspect** images, channels, traces, spectra, tables, and metadata -- in plain text or structured JSON
+- **Check** files for truncation, missing planes, and damaged structure -- exit code 4 when a file is corrupt
+- **Export** to OME-TIFF, OME-Zarr, mzML, NWB, CSV, Parquet, Arrow, JCAMP-DX, Allotrope ASM, and RDML -- every export read back and verified
+- **Preview** image planes, traces, spectra, and plate heat maps as PNG
+- **Analyze** chromatographic peaks, plate assays (IC50, standard curves), qPCR (Cq, ΔΔCq), NMR peaks, patch-clamp features, spikes, and flow-cytometry gates -- with documented methods
+- **Batch** over whole directories, index lab shares, and watch running acquisitions
 
 | Area | Formats | Export to |
 | --- | --- | --- |
@@ -203,18 +203,18 @@ The [format list](https://openreadout.github.io/openreadout/formats.html) has al
 
 **For Researchers:**
 - Open instrument files on any computer, without the acquisition software
-- Convert a folder of raw files to OME-Zarr, mzML or NWB for analysis and sharing
+- Convert a folder of raw files to OME-Zarr, mzML, or NWB for analysis and sharing
 - Verify that files copied off an instrument PC are complete
 
 **For AI Agents:**
 - Answer questions about a file: channels, pixel size, objective, acquisition time, scan count
-- Extract metadata, traces, spectra and tables as JSON
+- Extract metadata, traces, spectra, and tables as JSON
 - Run documented analyses (peak areas, IC50s, Cq values) and report the method used
 
 **For Core Facilities and Pipelines:**
 - Index a lab share into searchable Parquet tables with `index` and `search`
 - Watch instrument directories and flag stalled or damaged acquisitions with `watch`
-- Run in Nextflow, Snakemake and Galaxy pipelines ([`integrations/`](integrations))
+- Run in Nextflow, Snakemake, and Galaxy pipelines ([`integrations/`](integrations))
 
 ## Installation
 
@@ -242,7 +242,7 @@ brew install openreadout/tap/openreadout
 npm install -g openreadout
 ```
 
-Docker, Nix, cargo-binstall and the other channels are on the [install page](https://openreadout.github.io/openreadout/getting-started/install.html).
+Docker, Nix, cargo-binstall, and the other channels are on the [install page](https://openreadout.github.io/openreadout/getting-started/install.html).
 
 Verify installation: `openreadout --version`
 
@@ -261,7 +261,7 @@ openreadout mcp --install vscode          # VS Code / Copilot
 openreadout mcp --install gemini          # Gemini CLI
 ```
 
-Windsurf, Zed, Continue and Cline are supported too. The server exposes 15 tools (`openreadout_info`, `openreadout_check`, `openreadout_preview`, `openreadout_export`, `openreadout_analyze`, ...) over JSON-RPC — no shell access needed.
+Windsurf, Zed, Continue, and Cline are supported too. The server exposes 15 tools (`openreadout_info`, `openreadout_check`, `openreadout_preview`, `openreadout_export`, `openreadout_analyze`, ...) over JSON-RPC — no shell access needed.
 
 ### Claude Code Plugin
 
@@ -287,7 +287,7 @@ The skill source is in [`skills/openreadout`](skills/openreadout).
 - **Fixed exit codes** — `0` ok, `1` error, `2` usage, `3` unknown format, `4` corrupt file, `5` I/O, `6` unsupported feature. Agents branch on the code, not on the message.
 - **Self-healing errors** — every error carries a `hint` that says what to do next. Agents self-correct without human intervention.
 - **Assurance on every answer** — each result says whether files like it were validated against an independent reader. Agents know when to double-check.
-- **Built-in preview renderer** — `preview` writes a PNG the agent can look at. Agents can *see* the image, trace or plate they are reasoning about.
+- **Built-in preview renderer** — `preview` writes a PNG the agent can look at. Agents can *see* the image, trace, or plate they are reasoning about.
 - **Cheap metadata** — `info` reads headers only, so a 100 GB file costs the same as a small one. `--only` returns just the fields asked for, saving tokens.
 - **Safe by default** — inputs are opened read-only, nothing connects to the network, and only `export` writes files, always to a new path.
 
@@ -314,7 +314,7 @@ The agent follows the hint, lists the images, and picks the right index.
 
 ## Python and R
 
-**Python** — `pip install openreadout` returns metadata as dicts and pixels as NumPy, dask or xarray arrays, with plugins for [bioio](https://github.com/bioio-devs/bioio) and napari. Until wheels are published, run `pip install .` in a checkout. See the [Python guide](https://openreadout.github.io/openreadout/guides/python.html).
+**Python** — `pip install openreadout` returns metadata as dicts and pixels as NumPy, dask, or xarray arrays, with plugins for [bioio](https://github.com/bioio-devs/bioio) and napari. Until wheels are published, run `pip install .` in a checkout. See the [Python guide](https://openreadout.github.io/openreadout/guides/python.html).
 
 ```python
 import openreadout
@@ -342,9 +342,9 @@ with openreadout.File("cells.lif") as f:
 
 ## Validation
 
-Readers are tested against about 1,500 public instrument files. Each file's geometry, metadata and plane hashes are compared with independent readers (czifile, nd2, liffile, Bio-Formats, FlowIO, pyABF and others), and pixel data must match exactly. See [Validation](https://openreadout.github.io/openreadout/project/validation.html).
+Readers are tested against about 1,500 public instrument files. Each file's geometry, metadata, and plane hashes are compared with independent libraries (czifile, nd2, liffile, Bio-Formats, FlowIO, pyABF, and others), and pixel data must match exactly. See [Validation](https://openreadout.github.io/openreadout/project/validation.html).
 
-Every reader was written from public files and permissively licensed documentation — no vendor SDKs, headers, DLLs or GPL source code. See the [clean-room policy](docs/legal/clean-room-policy.md).
+Every reader was written from public files and permissively licensed documentation — no vendor SDKs, headers, DLLs, or GPL source code. See the [clean-room policy](docs/legal/clean-room-policy.md).
 
 ## Documentation
 
@@ -353,7 +353,7 @@ The [documentation](https://openreadout.github.io/openreadout/) has guides for e
 - **Getting started:** [Install](https://openreadout.github.io/openreadout/getting-started/install.html) | [Your first file](https://openreadout.github.io/openreadout/getting-started/first-file.html) | [Reading the JSON output](https://openreadout.github.io/openreadout/getting-started/reading-json.html)
 - **Reference:** [Commands](https://openreadout.github.io/openreadout/reference/commands.html) | [MCP tools](https://openreadout.github.io/openreadout/reference/mcp.html) | [Formats](https://openreadout.github.io/openreadout/formats.html)
 - **Guides:** [AI agents](https://openreadout.github.io/openreadout/guides/agents.html) | [Python](https://openreadout.github.io/openreadout/guides/python.html) | [R](https://openreadout.github.io/openreadout/guides/r.html) | [Recipes](https://openreadout.github.io/openreadout/recipes.html) | [Batch tables](https://openreadout.github.io/openreadout/guides/batch.html)
-- **A file that does not work:** run `openreadout check --report FILE` and attach the bundle to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). It contains no data values, sample names or paths.
+- **A file that does not work:** run `openreadout check --report FILE` and attach the bundle to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). It contains no data values, sample names, or paths.
 
 ## License
 
