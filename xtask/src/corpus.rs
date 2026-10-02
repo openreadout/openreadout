@@ -274,6 +274,26 @@ fn fetch(m: &Manifest, dir: &Path, sel: &Selection, record: bool) -> Result<()> 
     Ok(())
 }
 
+/// Where fetch records a complete, checked download of `filename`: under `<dir>/.receipts/`,
+/// never beside the data, where a receipt inside a data-set folder would become one of its files.
+/// A receipt left beside the file by an older fetch is moved there.
+fn receipt(dir: &Path, filename: &str) -> PathBuf {
+    let path = dir.join(".receipts").join(format!("{filename}.ok"));
+    let beside = dir.join(format!("{filename}.ok"));
+    if !path.exists() && beside.is_file() {
+        let _ = write_receipt(&path, "").and_then(|()| Ok(fs::rename(&beside, &path)?));
+    }
+    path
+}
+
+fn write_receipt(path: &Path, text: impl AsRef<[u8]>) -> Result<()> {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    fs::write(path, text)?;
+    Ok(())
+}
+
 /// Download one entry (or its parts) unless a `.ok` marker says it is complete; extract a
 /// bundle. SHA-256 values to write into the manifest (`--record`) go to `recorded`.
 fn fetch_entry(
@@ -283,7 +303,7 @@ fn fetch_entry(
     recorded: &mut Vec<(String, String)>,
 ) -> Result<()> {
     let dst = dir.join(&e.filename);
-    let ok_marker = dir.join(format!("{}.ok", e.filename));
+    let ok_marker = receipt(dir, &e.filename);
     if !e.parts.is_empty() {
         if ok_marker.exists() {
             println!("have     {}  (directory of {} files)", e.id, e.parts.len());
@@ -291,7 +311,7 @@ fn fetch_entry(
         }
         println!("fetch    {}  ({} files)", e.id, e.parts.len());
         let n = fetch_parts(e, dir)?;
-        fs::write(
+        write_receipt(
             &ok_marker,
             format!("{{\"id\":\"{}\",\"parts\":{}}}\n", e.id, e.parts.len()),
         )?;
@@ -340,7 +360,7 @@ fn fetch_entry(
             unzip(&dst, dir).with_context(|| format!("unpack {}", e.id))?;
             println!("unpacked {}", e.id);
         }
-        fs::write(
+        write_receipt(
             &ok_marker,
             format!("{{\"id\":\"{}\",\"sha256\":\"{sha}\"}}\n", e.id),
         )?;
@@ -349,14 +369,14 @@ fn fetch_entry(
     // A bundle without `unpack` is extracted into `<corpus>/<id>/` (minus `strip` leading
     // components) by the checked extractor.
     if e.role == "bundle" && !e.unpack {
-        let marker = dir.join(format!("{}.extracted.ok", e.id));
+        let marker = receipt(dir, &format!("{}.extracted", e.id));
         if marker.exists() {
             return Ok(());
         }
         let out = dir.join(&e.id);
         println!("extract  {} -> {}", e.id, out.display());
         let n = extract_bundle(&dst, &out, e.strip).with_context(|| format!("extract {}", e.id))?;
-        fs::write(&marker, format!("{{\"id\":\"{}\",\"files\":{n}}}\n", e.id))?;
+        write_receipt(&marker, format!("{{\"id\":\"{}\",\"files\":{n}}}\n", e.id))?;
         println!("ok       {} ({n} files)", e.id);
     }
     Ok(())
@@ -402,7 +422,7 @@ fn check_bundle_member(
     recorded: &mut Vec<(String, String)>,
 ) -> Result<()> {
     let dst = dir.join(&e.filename);
-    let ok_marker = dir.join(format!("{}.ok", e.filename));
+    let ok_marker = receipt(dir, &e.filename);
     if ok_marker.exists() {
         println!("have     {}", e.id);
         return Ok(());
@@ -431,7 +451,7 @@ fn check_bundle_member(
     if e.sha256.is_empty() && record {
         recorded.push((e.filename.clone(), sha.clone()));
     }
-    fs::write(
+    write_receipt(
         &ok_marker,
         format!("{{\"id\":\"{}\",\"sha256\":\"{sha}\"}}\n", e.id),
     )?;
@@ -493,7 +513,7 @@ fn verify(m: &Manifest, dir: &Path) -> Result<()> {
 fn status(m: &Manifest, dir: &Path) {
     let is_present = |e: &&&Entry| {
         if e.bundle.is_empty() && !e.url.is_empty() {
-            dir.join(format!("{}.ok", e.filename)).exists()
+            receipt(dir, &e.filename).exists()
         } else {
             dir.join(&e.filename).exists()
         }
@@ -593,7 +613,7 @@ fn verify_entry(e: &Entry, all: &[Entry], dir: &Path) -> Result<Option<(String, 
         ("SHA MISMATCH".into(), false)
     } else if e.size != 0 && e.size != n {
         // fetch writes `<file>.ok` after a complete, checked download
-        let partial = !e.url.is_empty() && !dir.join(format!("{}.ok", e.filename)).exists();
+        let partial = !e.url.is_empty() && !receipt(dir, &e.filename).exists();
         let status = if partial {
             format!(
                 "SIZE MISMATCH ({n} of {} bytes, an interrupted download: run `cargo xtask corpus fetch` again)",

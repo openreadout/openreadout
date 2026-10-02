@@ -652,6 +652,9 @@ fn corpus_metadata_conforms() {
     // format → provenance key → realized in at least one file?
     let mut realized: BTreeMap<String, BTreeMap<String, bool>> = BTreeMap::new();
     let mut per_format: BTreeMap<String, (usize, usize)> = BTreeMap::new();
+    // Formats with a development file missing here (e.g. CI's smoke tier): a provenance key no
+    // present file fills may be filled by an absent one, so the dead-key check skips them.
+    let mut incomplete: BTreeSet<String> = BTreeSet::new();
     for e in manifest
         .file
         .iter()
@@ -662,6 +665,7 @@ fn corpus_metadata_conforms() {
         }
         let path = files_dir.join(&e.filename);
         if !path.exists() {
+            incomplete.insert(e.format.clone());
             continue;
         }
         let ds = match reg.open(&path) {
@@ -719,7 +723,10 @@ fn corpus_metadata_conforms() {
     }
     // Provenance keys that never resolve anywhere are typos or dead entries.
     let allowed: BTreeSet<(&str, &str)> = UNREALIZED_OK.iter().map(|(f, k, _)| (*f, *k)).collect();
-    for (fmt, keys) in &realized {
+    for (fmt, keys) in realized
+        .iter()
+        .filter(|(f, _)| only.is_none() && !incomplete.contains(*f))
+    {
         let dead: Vec<&String> = keys
             .iter()
             .filter(|(k, ok)| !**ok && !allowed.contains(&(fmt.as_str(), k.as_str())))

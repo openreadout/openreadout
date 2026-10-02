@@ -120,6 +120,17 @@ pub fn normalized(info: &Value, prefixes: &[String]) -> Value {
                 }
                 *s = t;
             }
+            // 12 significant digits: the platform's libm (powf, exp, ...) may differ in the last
+            // bits, which is not a change in what the reader returns.
+            Value::Number(n) if n.is_f64() => {
+                if let Some(r) = n
+                    .as_f64()
+                    .and_then(|x| format!("{x:.11e}").parse::<f64>().ok())
+                    .and_then(serde_json::Number::from_f64)
+                {
+                    *n = r;
+                }
+            }
             Value::Array(a) => a.iter_mut().for_each(|x| walk(x, prefixes)),
             Value::Object(m) => m.values_mut().for_each(|x| walk(x, prefixes)),
             _ => {}
