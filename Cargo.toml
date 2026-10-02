@@ -243,6 +243,7 @@ match_same_arms = "allow"
 default_trait_access = "allow"
 manual_div_ceil = "allow"
 doc_markdown = "allow"
+assert_is_empty = "allow"  # `assert!(!v.is_empty())` reads better than the suggested `assert_ne!(v.as_slice(), [])`
 
 [profile.release]
 opt-level = 3

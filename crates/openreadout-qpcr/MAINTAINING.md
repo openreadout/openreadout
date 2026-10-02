@@ -53,8 +53,8 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 | [`src/analysis.rs`](src/analysis.rs) | Our own qPCR analysis (documented in `docs/formats/qpcr.md` → "Analysis"): threshold-cycle Cq with linear baseline subtraction, melt-curve −dF/dT, and least-squares helpers for |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the qPCR readers (RDML, Applied Biosystems `.eds`, Bio-Rad `.pcrd`, Rotor-Gene `.rex`): the variant features of a run file and the |
 | [`src/dataset.rs`](src/dataset.rs) | `Dataset` over the normalized model: the results table, curve tables, traces, listing, integrity checks and provenance |
-| [`src/eds.rs`](src/eds.rs) | Applied Biosystems experiment documents (`.eds`): the `apldbio/sds/` XML layout (QuantStudio, ViiA 7), the 7500 / StepOne layout (`multicomponent_data.txt`) and the JSON layout (De… |
-| [`src/ixo.rs`](src/ixo.rs) | Roche LightCycler 480 experiment files (`.ixo`): an XML object stream (`<objectstream signature="IXOS">`) of `<obj name class>` / `<prop name>` / `<list name count>` elements, foll… |
+| [`src/eds.rs`](src/eds.rs) | Applied Biosystems experiment documents (`.eds`): the `apldbio/sds/` XML layout (QuantStudio, ViiA 7), the 7500 / StepOne layout (`multicomponent_data.txt`) and the JSON layout… |
+| [`src/ixo.rs`](src/ixo.rs) | Roche LightCycler 480 experiment files (`.ixo`): an XML object stream (`<objectstream signature="IXOS">`) of `<obj name class>` / `<prop name>` / `<list name count>` elements… |
 | [`src/lc96.rs`](src/lc96.rs) | Roche LightCycler 96 experiment files (`.lc96p`): an RDML 1.1 zip (read by [`crate::rdml`]) with Roche members next to `rdml_data.xml` |
 | [`src/lib.rs`](src/lib.rs) | Real-time PCR (qPCR) readers: RDML (the open interchange format, read and written), Applied Biosystems / Thermo Fisher `.eds` experiment documents (QuantStudio, ViiA 7, |
 | [`src/model.rs`](src/model.rs) | The normalized qPCR model every dialect is parsed into (names: `docs/formats/qpcr.md`) |

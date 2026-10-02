@@ -48,7 +48,7 @@ Nikon ND2 (`nd2`): chunk-based files (NIS-Elements 3.x–5.x, format versions 2.
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`): the variant features of an ND2 file and the feature values the development corpus validates |
 | [`src/container.rs`](src/container.rs) | Chunked container: chunk headers, the chunk map, and the rescue scan |
 | [`src/dataset.rs`](src/dataset.rs) | `Dataset` implementation for ND2 (chunk-based files and legacy JPEG 2000-based files) |
-| [`src/deinterleave.rs`](src/deinterleave.rs) | Channel de-interleaving of ND2 frames: a frame stores every component of a pixel next to each other (`c0 c1 … cN-1`, rows padded to `stride` bytes); a plane is one channel's span o… |
+| [`src/deinterleave.rs`](src/deinterleave.rs) | Channel de-interleaving of ND2 frames: a frame stores every component of a pixel next to each other (`c0 c1 … cN-1`, rows padded to `stride` bytes); a plane is one channel's span… |
 | [`src/frames.rs`](src/frames.rs) | Per-frame acquisition records: the custom-data tag table (`CustomDataVar\|CustomDataV2_0!`), the per-frame arrays it describes (`CustomData\|<tag>!`), acquisition times |
 | [`src/fuzzing.rs`](src/fuzzing.rs) | Byte-slice entry points into the ND2 parsers, for the cargo-fuzz targets in `fuzz/` |
 | [`src/legacy.rs`](src/legacy.rs) | Legacy ND2 (NIS-Elements 2.x): a JPEG 2000 box sequence whose frames are `jp2c` codestreams and whose metadata are XML boxes, indexed by a box map at the end of the file |

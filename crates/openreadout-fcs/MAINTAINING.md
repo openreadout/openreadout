@@ -44,7 +44,7 @@ Flow Cytometry Standard files, versions 2.0, 3.0, 3.1 and 3.2 (`fcs`), plus flow
 
 | file | what it does (its module documentation) |
 | --- | --- |
-| [`src/analysis.rs`](src/analysis.rs) | What `openreadout analyze gate` and `table --compensate/--transform/--workspace/--gatingml` do: read a gating file, bind it to an FCS data set, stream the events through the evalua… |
+| [`src/analysis.rs`](src/analysis.rs) | What `openreadout analyze gate` and `table --compensate/--transform/--workspace/--gatingml` do: read a gating file, bind it to an FCS data set, stream the events through the… |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`): the variant features of an FCS file (version, data type and byte order, acquisition platform) and the feature values the development |
 | [`src/crc.rs`](src/crc.rs) | The optional data-set CRC (FCS 3.1 §3.5): 16-bit CCITT polynomial (x^16 + x^12 + x^5 + 1), each input byte bit-reversed, initial value 0 — i.e |
 | [`src/dataset.rs`](src/dataset.rs) | `Dataset` implementation: normalized tables, vendor keywords, listing, event reads, checks |
@@ -63,7 +63,7 @@ Flow Cytometry Standard files, versions 2.0, 3.0, 3.1 and 3.2 (`fcs`), plus flow
 | [`src/keywords.rs`](src/keywords.rs) | TEXT (and supplemental TEXT / ANALYSIS) keyword-value parsing (FCS 3.1 §3.2) |
 | [`src/layout.rs`](src/layout.rs) | What the TEXT keywords say about the DATA segment: data type, byte order, mode, parameters, and how to turn DATA bytes into values (FCS 3.1 §3.2.20 and §3.3) |
 | [`src/lib.rs`](src/lib.rs) | Reader for FCS (Flow Cytometry Standard) files, versions 2.0, 3.0, 3.1 and 3.2 |
-| [`src/vendor.rs`](src/vendor.rs) | Which instrument family wrote a data set, and what each parameter is (scatter, fluorescence, full-spectrum detector, metal-tagged mass channel, time, …), from keywords the file its… |
+| [`src/vendor.rs`](src/vendor.rs) | Which instrument family wrote a data set, and what each parameter is (scatter, fluorescence, full-spectrum detector, metal-tagged mass channel, time, …), from keywords the file… |
 
 ### Where variants branch
 
@@ -90,7 +90,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `fcs` | format_version | `3.0` | metadata, tables | 22 | 22 | `fcsparser-cyflow-cube-8`, `fcsparser-cytek-xp5`, `fcsparser-facs-diva` |
 | `fcs` | format_version | `3.1` | metadata, tables | 14 | 14 | `fcsparser-miltenyi-duplicate-names`, `fcsparser-miltenyi-fcs31`, `fcsparser-miltenyi-fcs31-add` |
 | `fcs` | format_version | `3.2` | metadata, tables | 1 | 1 | `zenodo19221995-facsdiscover-zam36` |
-| `fcs` | instrument | `4486521 Attune NxT Acoustic Focusing Cytometer (Lasers: BRVY…` | descriptive | 1 | 1 | `flowio-g11` |
+| `fcs` | instrument | `4486521 Attune NxT Acoustic Focusing Cytometer (Lasers…` | descriptive | 1 | 1 | `flowio-g11` |
 | `fcs` | instrument | `Aurora` | descriptive | 1 | 1 | `zenodo17457137-aurora-beads` |
 | `fcs` | instrument | `BD Accuri C6 Plus` | descriptive | 1 | 1 | `flowio-b01-kc-a-w-91-us` |
 | `fcs` | instrument | `Cube_15` | descriptive | 1 | 1 | `fcsparser-cyflow-cube-8` |

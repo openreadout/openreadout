@@ -54,7 +54,7 @@ Shared: `binary.rs` (Pascal strings, bounded whole-file reads, date and number f
 | file | what it does (its module documentation) |
 | --- | --- |
 | [`src/andi_dataset.rs`](src/andi_dataset.rs) | `Dataset` for AIA/ANDI netCDF files: the chromatography template (one trace from `ordinate_values`, the peak table as a table) and the mass-spectrometry template (one spectra |
-| [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the chromatography readers (Agilent ChemStation and OpenLab CDS, ANDI netCDF, Shimadzu LabSolutions): the variant features of a data set… |
+| [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the chromatography readers (Agilent ChemStation and OpenLab CDS, ANDI netCDF, Shimadzu LabSolutions): the variant features of a data… |
 | [`src/binary.rs`](src/binary.rs) | Length-prefixed strings, bounded whole-file reads, and the date and number formatting shared by the chromatography readers |
 | [`src/chemstation_dataset.rs`](src/chemstation_dataset.rs) | `Dataset` for Agilent ChemStation `.D` directories and single `.ch`/`.uv`/`.ms` files: one trace per `.ch` signal, one multi-channel trace (one channel per wavelength) per `.uv` |
 | [`src/chemstation_decode.rs`](src/chemstation_decode.rs) | Decoders for ChemStation signal bodies |
@@ -62,9 +62,9 @@ Shared: `binary.rs` (Pascal strings, bounded whole-file reads, date and number f
 | [`src/chemstation_method.rs`](src/chemstation_method.rs) | The method report ChemStation writes into a `.D` directory as `acqmeth.txt` (`docs/formats/chemstation.md` § Acquisition method text): method path, GC oven program, |
 | [`src/chemstation_report.rs`](src/chemstation_report.rs) | Peak reports ChemStation writes into a `.D` directory (`docs/formats/chemstation.md` § Vendor peak reports): `Result.xml` (LC/GC ChemStation's XML export: every integrated peak |
 | [`src/chromeleon.rs`](src/chromeleon.rs) | Thermo Scientific Chromeleon 7 archives (`.cmbx`): the parsers |
-| [`src/chromeleon_dataset.rs`](src/chromeleon_dataset.rs) | `Dataset` for Thermo Scientific Chromeleon 7 archives (`.cmbx`): one trace per archived 2D signal (every injection of the sequence, every channel), described by the sequence file a… |
+| [`src/chromeleon_dataset.rs`](src/chromeleon_dataset.rs) | `Dataset` for Thermo Scientific Chromeleon 7 archives (`.cmbx`): one trace per archived 2D signal (every injection of the sequence, every channel), described by the sequence file… |
 | [`src/chromeleon_results.rs`](src/chromeleon_results.rs) | Chromeleon 7 sequence files (`.cmd`) beyond the signal descriptions: the object graph (catalog records 18, data records 19), injection details, processing-method components, |
-| [`src/empower_arw.rs`](src/empower_arw.rs) | Waters Empower ASCII raw-data exports (`.arw`): what Empower writes when a result's raw data is exported as ASCII — a row of quoted field names the export method chose (`"SampleNam… |
+| [`src/empower_arw.rs`](src/empower_arw.rs) | Waters Empower ASCII raw-data exports (`.arw`): what Empower writes when a result's raw data is exported as ASCII — a row of quoted field names the export method chose… |
 | [`src/lib.rs`](src/lib.rs) | Readers for chromatography data |
 | [`src/netcdf.rs`](src/netcdf.rs) | A minimal reader for the netCDF classic format (CDF-1) and its 64-bit-offset variant (CDF-2): header (dimensions, attributes, variables) and variable data, fixed-size and record |
 | [`src/openlab_dataset.rs`](src/openlab_dataset.rs) | `Dataset` for Agilent OpenLab CDS injections: a `.dx` container (zip) holding the injection manifest (`injection.acmd`), one ChemStation-style version-179 signal part per detector |

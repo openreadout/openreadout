@@ -342,7 +342,8 @@ fn consistent(ds: &mut dyn Dataset, h: &ScanHeader) -> Vec<String> {
         format!("{:?}", h.scan_filter),
         format!("{:?}", sp.scan_filter),
     );
-    for (what, ours, theirs) in [("activation", h.activation.clone(), sp.activation.clone())] {
+    {
+        let (what, ours, theirs) = ("activation", h.activation.clone(), sp.activation.clone());
         if theirs.is_some() && ours != theirs {
             m.push(format!("{what}: header {ours:?} != spectrum {theirs:?}"));
         }

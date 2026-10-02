@@ -771,7 +771,7 @@ pub fn parse_sequence_contents(cmd: &[u8]) -> SequenceContents {
                 }
             }
             "Chromatogram" => {
-                let signal = obj.parent.as_ref().and_then(&find);
+                let signal = obj.parent.as_ref().and_then(find);
                 let signal_file_id = signal.and_then(|s| {
                     record(&s.id)
                         .and_then(|r| pb_bytes(r, 5))

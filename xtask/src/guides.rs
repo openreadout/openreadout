@@ -147,11 +147,7 @@ fn module_doc(text: &str) -> String {
         .next()
         .unwrap_or_default()
         .trim_end_matches('.');
-    let mut s: String = first.chars().take(180).collect();
-    if first.chars().count() > 180 {
-        s.push('…');
-    }
-    s.replace('|', "\\|")
+    truncate_words(first, 180).replace('|', "\\|")
 }
 
 /// `(call, kind or first string argument, text)` of every `feature(`, `context(`, `undecoded(`,
@@ -242,9 +238,17 @@ fn snake(kind: &str) -> String {
 }
 
 fn short(s: &str, n: usize) -> String {
-    let t: String = s.chars().take(n).collect();
-    let t = if s.chars().count() > n { t + "…" } else { t };
-    t.replace('|', "\\|").replace('`', "'")
+    truncate_words(s, n).replace('|', "\\|").replace('`', "'")
+}
+
+/// `s` cut to at most `n` characters at a word boundary, with "…" when anything was cut.
+fn truncate_words(s: &str, n: usize) -> String {
+    if s.chars().count() <= n {
+        return s.to_string();
+    }
+    let head: String = s.chars().take(n).collect();
+    let cut = head.rfind(char::is_whitespace).unwrap_or(head.len());
+    format!("{}…", head[..cut].trim_end_matches([',', ';', ':', ' ']))
 }
 
 /// The generated confidence of `format` from its profile's generated block.

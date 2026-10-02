@@ -67,7 +67,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - undecoded "frames of an unsupported compression type"
 - undecoded "m/z conversion parameters"
 - undecoded "orphan PASEF selections"
-- calibration what, CalibrationStatus::Applied, &[Scope::Spectra], c.to_st…
+- calibration what, CalibrationStatus::Applied, &[Scope::Spectra]…
 - calibration "{c}: values differ from Bruker's calibrated values, typically by tens of ppm (the calibration table is in `info --view full`)"
 
 ### Validated variants and the corpus files that pin them

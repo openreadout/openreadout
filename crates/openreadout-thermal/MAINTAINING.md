@@ -45,9 +45,9 @@ Thermal-analysis instrument files: NETZSCH Proteus (`netzsch-ngb`: `.ngb-ss3`, `
 | --- | --- |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the thermal-analysis readers: the variant features of a file and the feature values the development corpus validates |
 | [`src/lib.rs`](src/lib.rs) | Clean-room readers for thermal-analysis instrument files |
-| [`src/ngb.rs`](src/ngb.rs) | NETZSCH Proteus measurement files (`.ngb-ss3`, `.ngb-sd7`, `.ngb-ds3`, `.ngb-bs3`, `.ngb-dla`, `.ngb-cla`): a zip of `Streams/stream_N.table` members, each a small database of seri… |
-| [`src/ta.rs`](src/ta.rs) | TA Instruments Q-series data files as Universal Analysis reads them (`.001`, `.002`, …): a UTF-16 text header, a form-feed, the signal count, then float32 records ended by a sentin… |
-| [`src/trios.rs`](src/trios.rs) | TA Instruments TRIOS files (`.tri`: DSC, TGA, DMA and Discovery rheometers): a header of length-prefixed key/value strings, a thumbnail, then tagged objects — procedure steps holdi… |
+| [`src/ngb.rs`](src/ngb.rs) | NETZSCH Proteus measurement files (`.ngb-ss3`, `.ngb-sd7`, `.ngb-ds3`, `.ngb-bs3`, `.ngb-dla`, `.ngb-cla`): a zip of `Streams/stream_N.table` members, each a small database of… |
+| [`src/ta.rs`](src/ta.rs) | TA Instruments Q-series data files as Universal Analysis reads them (`.001`, `.002`, …): a UTF-16 text header, a form-feed, the signal count, then float32 records ended by a… |
+| [`src/trios.rs`](src/trios.rs) | TA Instruments TRIOS files (`.tri`: DSC, TGA, DMA and Discovery rheometers): a header of length-prefixed key/value strings, a thumbnail, then tagged objects — procedure steps… |
 
 ### Where variants branch
 

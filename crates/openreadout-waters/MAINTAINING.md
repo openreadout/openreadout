@@ -46,7 +46,7 @@ Waters MassLynx `.raw` directories (`waters-raw`): full-scan spectra of TOF inst
 | --- | --- |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`): the variant features of a Waters MassLynx `.raw` directory and the feature values the development corpus validates |
 | [`src/dataset.rs`](src/dataset.rs) | `Dataset` for Waters MassLynx `.raw` directories: text metadata (`_HEADER.TXT`, `_extern.inf`, `_INLET.INF`), the per-function scan index (`_FUNCnnn.IDX`), full-scan spectra |
-| [`src/layout.rs`](src/layout.rs) | Byte layouts of the files in a MassLynx `.raw` directory: the scan index (`_FUNCnnn.IDX`), the value layouts of `_FUNCnnn.DAT`, function blocks (`_FUNCTNS.INF`), per-scan statistic… |
+| [`src/layout.rs`](src/layout.rs) | Byte layouts of the files in a MassLynx `.raw` directory: the scan index (`_FUNCnnn.IDX`), the value layouts of `_FUNCnnn.DAT`, function blocks (`_FUNCTNS.INF`), per-scan… |
 | [`src/lib.rs`](src/lib.rs) | Clean-room reader for Waters MassLynx `.raw` directories: full-scan spectra of TOF instruments (SYNAPT, Xevo, Vion) with the m/z calibration applied, MS/MS precursors and |
 
 ### Where variants branch

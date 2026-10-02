@@ -48,7 +48,7 @@ High-content screening plates, three plate-imager families, each an index file p
 | file | what it does (its module documentation) |
 | --- | --- |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the screening-plate readers (Opera/Operetta Harmony and Columbus, ImageXpress/MetaXpress, CellVoyager): the variant features of a plate |
-| [`src/cellvoyager.rs`](src/cellvoyager.rs) | Yokogawa CellVoyager measurements (CV7000, CV8000, CQ1): `MeasurementData.mlf` (one record per image) with `MeasurementDetail.mrf` (plate and channel geometry), the measurement set… |
+| [`src/cellvoyager.rs`](src/cellvoyager.rs) | Yokogawa CellVoyager measurements (CV7000, CV8000, CQ1): `MeasurementData.mlf` (one record per image) with `MeasurementDetail.mrf` (plate and channel geometry), the measurement… |
 | [`src/dataset.rs`](src/dataset.rs) | `Dataset` over a parsed plate: one image per field of view, planes read lazily from the plate's TIFF files, `check` against the index, the plate layout for `info` → `plate` |
 | [`src/flex.rs`](src/flex.rs) | Standalone Opera `.flex` files: a multi-page TIFF whose first IFD carries tag 65200, an XML document describing the plate, the well and every page (`Well/Images/Image@BufferNo`) |
 | [`src/harmony.rs`](src/harmony.rs) | Revvity/PerkinElmer Harmony exports (Opera Phenix, Operetta, Operetta CLS, Sonata): `Images/Index.idx.xml` (also `Index.xml` / `Index.ref.xml`) naming one TIFF per plane |

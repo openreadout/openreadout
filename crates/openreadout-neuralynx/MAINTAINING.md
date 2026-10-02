@@ -73,7 +73,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `neuralynx` | instrument | `DigitalLynx` | descriptive | 1 | 1 | `nlx-cheetah-v5-4-0-csc5-trunc-ncs` |
 | `neuralynx` | instrument | `DigitalLynxSX` | descriptive | 6 | 6 | `nlx-cheetah-v5-5-1-session`, `nlx-cheetah-v5-5-1-stet3a-nse`, `nlx-cheetah-v5-5-1-tet3a-ncs` |
 | `neuralynx` | layout | `segmented by every record timestamp` | traces | 8 | 8 | `nlx-bml-unfilledsplit-ncs`, `nlx-cheetah-v4-0-2-csc14-trunc-ncs`, `nlx-cheetah-v5-5-1-session` |
-| `neuralynx` | layout | `segmented by first and last record (one gap-free run; 'check…` | traces | 6 | 6 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `nlx-bml-csc1-trunc-ncs` |
+| `neuralynx` | layout | `segmented by first and last record (one gap-free run…` | traces | 6 | 6 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `nlx-bml-csc1-trunc-ncs` |
 | `neuralynx` | record | `ncs` | traces | 13 | 13 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `nlx-bml-csc1-trunc-ncs` |
 | `neuralynx` | record | `nev` | tables | 6 | 6 | `figshare25325560-events-nev`, `nlx-cheetah-v5-5-1-events-nev`, `nlx-cheetah-v5-5-1-session` |
 | `neuralynx` | record | `nse` | tables | 2 | 2 | `nlx-cheetah-v5-5-1-session`, `nlx-cheetah-v5-5-1-stet3a-nse` |

@@ -43,8 +43,8 @@ The TIFF family (`tiff`): TIFF 6.0 and BigTIFF, with OME-TIFF (single and multi-
 
 | file | what it does (its module documentation) |
 | --- | --- |
-| [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`): the variant features of a TIFF-family file (sub-format, writer, codec with its colour space, sample arrangement, layout) and the feature va… |
-| [`src/bif.rs`](src/bif.rs) | Roche Ventana BIF whole-slide files (iScan HT, Coreo, DP 200/600): a BigTIFF whose pages are named by their `ImageDescription` (`level=N mag=M quality=Q` pyramid levels, `Label_Ima… |
+| [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`): the variant features of a TIFF-family file (sub-format, writer, codec with its colour space, sample arrangement, layout) and the feature… |
+| [`src/bif.rs`](src/bif.rs) | Roche Ventana BIF whole-slide files (iScan HT, Coreo, DP 200/600): a BigTIFF whose pages are named by their `ImageDescription` (`level=N mag=M quality=Q` pyramid levels… |
 | [`src/check.rs`](src/check.rs) | `check`: structural validation of the IFD chain, strip/tile extents and the OME plane map |
 | [`src/chunk_codecs.rs`](src/chunk_codecs.rs) | Chunks coded with WebP (50001), JPEG XL (50002, 52546), LERC (34887) and old-style JPEG (6) |
 | [`src/container.rs`](src/container.rs) | The TIFF container: header, IFD chain, field values |
@@ -67,7 +67,7 @@ The TIFF family (`tiff`): TIFF 6.0 and BigTIFF, with OME-TIFF (single and multi-
 | [`src/nis.rs`](src/nis.rs) | Nikon NIS-Elements TIFF exports: the private double-valued tags on page 0 and the index tokens at the end of the file names that tie one export's files together |
 | [`src/ome.rs`](src/ome.rs) | OME-XML (the open OME data model, schemas 2008-02 … 2016-06) → the subset we normalize |
 | [`src/philips.rs`](src/philips.rs) | Philips TIFF whole-slide exports: page 0's `ImageDescription` is an XML `DataObject` tree (`ObjectType="DPUfsImport"`) of DICOM-named attributes; the reduced pages are the pyramid, |
-| [`src/scn.rs`](src/scn.rs) | Leica SCN whole-slide files (SCN400, SCN400F, Aperio Versa exports of that layout): a BigTIFF whose first `ImageDescription` is an XML document (namespace `http://www.leica-microsy… |
+| [`src/scn.rs`](src/scn.rs) | Leica SCN whole-slide files (SCN400, SCN400F, Aperio Versa exports of that layout): a BigTIFF whose first `ImageDescription` is an XML document (namespace… |
 | [`src/tags.rs`](src/tags.rs) | Tag numbers used by the reader (TIFF 6.0, TIFF Technical Notes, and the private tags the microscopy conventions use) |
 
 ### Where variants branch
