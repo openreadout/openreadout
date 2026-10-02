@@ -10,9 +10,9 @@ from __future__ import annotations
 
 __all__ = [
     "CorruptFileError",
-    "OpenReadoutError",
     "InstrumentFileNotFoundError",
     "InstrumentIOError",
+    "OpenReadoutError",
     "UnknownFormatError",
     "UnsupportedFeatureError",
     "UsageError",

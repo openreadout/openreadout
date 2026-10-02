@@ -216,9 +216,7 @@ class File:
     def __repr__(self) -> str:
         if self.closed:
             return f"<openreadout.File {self.path!r} format={self.format!r} (closed)>"
-        return (
-            f"<openreadout.File {self.path!r} format={self.format!r} images={len(self.images)}>"
-        )
+        return f"<openreadout.File {self.path!r} format={self.format!r} images={len(self.images)}>"
 
     # ----- metadata --------------------------------------------------------------------------
 
@@ -229,10 +227,8 @@ class File:
 
     @property
     def format(self) -> str:
-        """Format id: ``"czi"``, ``"nd2"``, ``"lif"``, ``"tiff"``, ``"mrc"``, ``"dm"``, ``"ser"``,
-        ``"emd"``, ``"fcs"``, ``"abf"``, ``"neuralynx"``, ``"blackrock"``, ``"spikeglx"``, ``"intan"``, ``"plexon"``,
-        ``"bruker-nmr"``, ``"jcamp-dx"``, ``"varian-nmr"``, ``"jeol-jdf"``, ``"ome-zarr"``, ``"ims"``, ``"zvi"``, ``"oib"``, ``"oif"``, ``"dcimg"``, ``"nwb"``, ``"hdf5"``, ...
-        (``openreadout.formats()`` lists them all)."""
+        """Format id, such as ``"czi"``, ``"nd2"`` or ``"fcs"``; ``openreadout.formats()`` lists
+        them all."""
         return self._n.format
 
     @property
@@ -246,17 +242,17 @@ class File:
         return self._info
 
     @property
-    def plate(self) -> Optional[dict]:
+    def plate(self) -> Optional[Dict[str, Any]]:
         """The plate layout of a high-content screening plate (Harmony, ImageXpress,
         CellVoyager, OME-Zarr plate): ``id``, ``plate_type``, ``rows``, ``columns``, ``wells``
         (each with the image indices of its fields), ``planes_missing`` and ``complete``.
         ``None`` for other files. Same as ``info["plate"]``."""
-        return self.info.get("plate")
+        return cast(Optional[Dict[str, Any]], self.info.get("plate"))
 
     def stats(
         self,
         image: Optional[int] = None,
-        select=(),
+        select: Sequence[str] = (),
         level: int = 0,
         region: Optional[Tuple[int, int, int, int]] = None,
         bins: int = 0,
@@ -264,8 +260,8 @@ class File:
         per_plane: bool = True,
         mip: Optional[str] = None,
         per: Optional[str] = None,
-        wells=(),
-    ) -> dict:
+        wells: Sequence[str] = (),
+    ) -> Dict[str, Any]:
         """Pixel statistics, the same JSON as ``openreadout stats --json`` (its ``data``):
         ``planes`` (per plane; omitted with ``per_plane=False``), ``channels`` (per image ×
         channel, with ``name`` and ``image_name``) and ``images`` (per image, with ``name``);
@@ -284,7 +280,10 @@ class File:
         if per is not None:
             if per not in ("well", "field"):
                 raise UsageError(f"per must be 'well' or 'field', not {per!r}")
-            return json.loads(self._n.well_stats_json(list(select), list(wells), per == "field"))
+            rows: Dict[str, Any] = json.loads(
+                self._n.well_stats_json(list(select), list(wells), per == "field")
+            )
+            return rows
         if wells:
             raise UsageError("wells= needs per='well' or per='field'")
         _check_nonnegative(level=level, bins=bins)
@@ -292,18 +291,19 @@ class File:
             _check_nonnegative(image=image)
         if mip is not None and mip not in ("z", "t"):
             raise UsageError(f"mip must be 'z' or 't', not {mip!r}")
-        return json.loads(
+        out: Dict[str, Any] = json.loads(
             self._n.stats_json(
                 image,
                 list(select),
                 level,
-                None if region is None else tuple(int(v) for v in region),
+                None if region is None else (region[0], region[1], region[2], region[3]),
                 bins,
                 log_bins,
                 per_plane,
                 mip,
             )
         )
+        return out
 
     @property
     def experiment(self) -> Optional[Experiment]:
@@ -341,11 +341,11 @@ class File:
 
     @property
     def traces(self) -> List[Dict[str, Any]]:
-        """Sampled-signal blocks and spectra (electrophysiology recordings, NMR FIDs and
-        processed spectra, JCAMP-DX spectra, FT-IR/Raman spectra from Bruker OPUS, Thermo OMNIC,
-        Renishaw WiRE and PerkinElmer .sp, one sweep per spectrum of a group or map): ``sweep_count``, ``sample_count`` (samples per
-        sweep), ``sample_rate_hz`` and ``channels[]`` with ``name``, ``unit``, ``scale`` and
-        ``offset``; shorthand for ``info["traces"]`` (empty for image and table formats)."""
+        """Sampled-signal blocks and spectra (electrophysiology sweeps, NMR FIDs and spectra,
+        IR/Raman spectra; one sweep per spectrum of a group or map): ``sweep_count``,
+        ``sample_count`` (samples per sweep), ``sample_rate_hz`` and ``channels[]`` with ``name``,
+        ``unit``, ``scale`` and ``offset``. Shorthand for ``info["traces"]`` (empty for image and
+        table formats)."""
         return self.info.get("traces", [])
 
     def read_trace(
@@ -386,7 +386,9 @@ class File:
         t = self._trace_info(trace)
         axis = t.get("extra", {}).get("axis") or {}
         if axis.get("irregular") and axis.get("channel") is not None:
-            return self.read_trace(trace, 0, first_sample, max_samples, channel=int(axis["channel"]))
+            return self.read_trace(
+                trace, 0, first_sample, max_samples, channel=int(axis["channel"])
+            )
         if "first" not in axis or "step" not in axis:
             return None
         end = (
@@ -850,7 +852,9 @@ class File:
             start, end = rt_range
             filt["rt_min_s"] = float(start) * 60.0
             filt["rt_max_s"] = float(end) * 60.0
-        out = self._n.scans_json(run, json.dumps(filt), offset, 2**64 - 1 if limit is None else limit)
+        out = self._n.scans_json(
+            run, json.dumps(filt), offset, 2**64 - 1 if limit is None else limit
+        )
         return cast(Dict[str, Any], json.loads(out))
 
     def read_spectrum(

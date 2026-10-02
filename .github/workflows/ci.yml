@@ -587,7 +587,7 @@ jobs:
           fail=0
           for t in $(cargo +nightly fuzz list); do
             echo "::group::$t"
-            mkdir -p "work/$t" "artifacts/$t"
+            mkdir -p "work/$t" "artifacts/$t" "corpus/$t"  # targets without committed seeds start empty
             if ! "$bin/$t" "work/$t" "corpus/$t" -max_total_time="$SECS" \
                 -rss_limit_mb=2048 -malloc_limit_mb=2048 -timeout=20 -artifact_prefix="artifacts/$t/"; then
               echo "::error::fuzz target $t found a crash (see the fuzz-artifacts upload)"
@@ -662,7 +662,14 @@ jobs:
         run: |
           cargo xtask r-vendor
           R CMD build r/openreadout
-          Rscript -e 'rcmdcheck::rcmdcheck(list.files(pattern = "^openreadout_.*[.]tar[.]gz$"), args = c("--as-cran", "--no-manual"), error_on = "warning")'
+          # Fails on any error or warning except "checking compiled code": Rust's standard library
+          # links exit/abort, which every Rust-based R package reports and cannot avoid.
+          # shellcheck disable=SC2016  # R code, not shell: $ is R's member operator
+          Rscript -e '
+            r <- rcmdcheck::rcmdcheck(list.files(pattern = "^openreadout_.*[.]tar[.]gz$"),
+                                      args = c("--as-cran", "--no-manual"), error_on = "never")
+            w <- r$warnings[!grepl("^checking compiled code", r$warnings)]
+            if (length(r$errors) > 0 || length(w) > 0) quit(status = 1)'
 
   # Workflow integrations (integrations/, book/src/guides/pipelines.md) against this commit's binary: nf-test
   # of the Nextflow modules, planemo lint of the Galaxy tools, the Snakemake wrapper tests.

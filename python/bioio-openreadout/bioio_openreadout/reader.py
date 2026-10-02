@@ -7,8 +7,8 @@ from datetime import timedelta
 from numbers import Integral
 from typing import Any, Dict, List, Optional, Tuple
 
-import openreadout
 import numpy as np
+import openreadout
 import xarray as xr
 from bioio_base import constants, exceptions, io, reader, types
 from fsspec.implementations.local import LocalFileSystem  # type: ignore[import-untyped]

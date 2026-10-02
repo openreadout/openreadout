@@ -12,8 +12,8 @@ import threading
 from pathlib import Path
 from typing import Any, Callable, Dict, List
 
-import openreadout
 import numpy as np
+import openreadout
 import pytest
 from openreadout import File, UsageError
 

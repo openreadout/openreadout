@@ -141,8 +141,8 @@ fn dir_size(p: &Path) -> u64 {
     })
 }
 
-/// Drop tests, benches and examples of the vendored crates, and clear their checksum lists so
-/// cargo does not look for the removed files (the package checksum stays).
+/// Drop tests, benches, examples and top-level Makefiles of the vendored crates, and clear their
+/// checksum lists so cargo does not look for the removed files (the package checksum stays).
 fn prune_vendor(vendor: &Path) -> Result<()> {
     for entry in fs::read_dir(vendor)? {
         let dir = entry?.path();
@@ -169,6 +169,12 @@ fn prune_vendor(vendor: &Path) -> Result<()> {
             && dir.join("lib").is_dir()
         {
             fs::remove_dir_all(dir.join("lib"))?;
+        }
+        // A crate's own top-level Makefile is for its developers, not for cargo; R CMD check warns
+        // about GNU make extensions in any Makefile under src/ (r-efi ships one).
+        let makefile = dir.join("Makefile");
+        if makefile.is_file() && !dir.join("build.rs").is_file() {
+            fs::remove_file(&makefile)?;
         }
         let ck = dir.join(".cargo-checksum.json");
         if ck.is_file() {

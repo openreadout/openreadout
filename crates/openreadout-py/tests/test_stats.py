@@ -8,9 +8,8 @@ import shutil
 import subprocess
 
 import numpy as np
-import pytest
-
 import openreadout
+import pytest
 
 FILE = "zenodo7015307-S-2-T-3-Z-5-CH-1.czi"  # 2 scenes x 3 time points x 5 z planes
 
