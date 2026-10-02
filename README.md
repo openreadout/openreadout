@@ -6,7 +6,7 @@
 
 Open-source. Single binary. No instrument software. No dependencies. No network access. Works everywhere.
 
-**OpenReadout's built-in preview renderer draws images, traces, spectra and plate maps to PNG — and that's what gives AI eyes on your data.** Every reader is checked bit for bit against independent readers, and every answer says how well it was validated, so an agent knows when to trust it.
+**OpenReadout makes proprietary instrument files legible to AI: it pulls out the metadata, images, traces, spectra and tables as structured JSON, converts them to open formats, and renders previews so your agent can see and understand the data.** Every format is validated against independent readers.
 
 [![CI](https://github.com/openreadout/openreadout/actions/workflows/ci.yml/badge.svg)](https://github.com/openreadout/openreadout/actions/workflows/ci.yml)
 [![Docs](https://github.com/openreadout/openreadout/actions/workflows/docs.yml/badge.svg)](https://openreadout.github.io/openreadout/)
@@ -128,7 +128,7 @@ openreadout info cells.lif
 # →   [0] PEI_laminin_35k  2048x2048 z=1 c=2 t=1  uint16  px=0.3250 µm
 # →       objective: HC PL FLUOTAR L 20x/0.40 DRY
 
-# Is it complete? (exit code 4 if not)
+# Is it complete?
 openreadout check partial-copy.lif
 # → error  truncated       block chain runs past end of file
 # → error  missing_planes  geometry needs 16777216 bytes but only 8969789 are stored
@@ -162,7 +162,7 @@ openreadout info cells.lif --json
 
 ## Why OpenReadout?
 
-What used to take the instrument PC, or a different library for every format:
+What used to take vendor software or a different library for every format:
 
 ```python
 import czifile, nd2, liffile, pyabf, flowio
@@ -197,7 +197,7 @@ openreadout info any-file --json
 | Plate readers and qPCR | Plate-reader exports, RDML, Applied Biosystems, LightCycler, Rotor-Gene | Allotrope ASM, RDML, CSV |
 | Other | ÄKTA, ITC, Biacore, Seahorse, Octet, Zetasizer, XRD, EPR, electrochemistry, thermal analysis | CSV, Parquet |
 
-The [format list](https://openreadout.github.io/openreadout/formats.html) has all 96 formats and their known gaps. `openreadout self formats` prints the same list.
+The [format list](https://openreadout.github.io/openreadout/formats.html) has all 96 formats and their known gaps.
 
 ## Use Cases
 
@@ -339,8 +339,6 @@ with openreadout.File("cells.lif") as f:
 | Mass spectrometry | ✓ | ✗ | ✗ | ✗ | ✓ |
 | Ephys, flow, NMR, chromatography, plates, qPCR | ✓ | ✗ | ✗ | ✗ | ✗ |
 | Cross-platform | ✓ | ✓ | ✓ | ✓ | Windows (or Wine) |
-
-Bio-Formats reads more microscopy formats, and msconvert is the reference converter for mass spectrometry. The [comparison page](https://openreadout.github.io/openreadout/project/comparison.html) says when to use which.
 
 ## Validation
 
