@@ -17,10 +17,10 @@ Open-source. Single binary. No instrument software. No dependencies. No network 
 </p>
 
 <p align="center">
-  <img src=".github/assets/mouse-czi.jpg" alt="Sagittal section of a whole young mouse, trichrome stained, decoded from a Zeiss CZI slide scan" width="100%">
+  <img src=".github/assets/mouse-czi.jpg" alt="Sagittal section of a whole mouse, trichrome stained, decoded from a Zeiss CZI slide scan" width="100%">
 </p>
 
-<p align="center"><em>A whole young mouse from a 3.7 GB Zeiss slide scan: 190,309 × 69,378 pixels at 0.22 µm.</em></p>
+<p align="center"><em>A whole-mouse section from a 3.7 GB Zeiss slide scan: 190,309 × 69,378 pixels at 0.22 µm.</em></p>
 
 <table>
 <tr>
@@ -361,7 +361,7 @@ Licensed under either the [Apache License 2.0](LICENSE-APACHE) or the [MIT licen
 
 Bug reports and contributions are welcome on [GitHub Issues](https://github.com/openreadout/openreadout/issues). See [CONTRIBUTING.md](CONTRIBUTING.md), and read the [clean-room policy](docs/legal/clean-room-policy.md) before working on a reader.
 
-Images and demo files come from the public test corpus ([`corpus/manifest.toml`](corpus/manifest.toml)), used under their licences: young mouse, Zeiss sample images for Bio-Formats ([Zenodo 10577621](https://zenodo.org/records/10577621), CC-BY-4.0); Convallaria lambda scan, Maria Manuela Azevedo ([Zenodo 14976703](https://zenodo.org/records/14976703), CC-BY-4.0); BaTiO3 STEM, Rama Vasudevan and Gerd Duscher ([Zenodo 8190744](https://zenodo.org/records/8190744), CC-BY-4.0); H&E QPTIFF, PerkinElmer via the OME sample images (CC-BY-4.0); qPCR, the [RDML](https://github.com/kablag/RDML) R package (MIT); MS2, [ProteoWizard](https://github.com/ProteoWizard/pwiz) test data (Apache-2.0); HPLC, [cheminfo](https://github.com/cheminfo/netcdf-gcms) (MIT); EPR, [EasySpin](https://github.com/StollLab/EasySpin) (MIT); patch clamp, [pyABF](https://github.com/swharden/pyABF) (MIT); GC-FID, [entab](https://github.com/bovee/entab) (MIT); terminal demo, Allen Institute for Cell Science (BSD-3-Clause). [`demo.tape`](.github/assets/demo.tape) regenerates the demo.
+Images and demo files come from the public test corpus ([`corpus/manifest.toml`](corpus/manifest.toml)), used under their licences: mouse section, Zeiss sample images for Bio-Formats ([Zenodo 10577621](https://zenodo.org/records/10577621), CC-BY-4.0); Convallaria lambda scan, Maria Manuela Azevedo ([Zenodo 14976703](https://zenodo.org/records/14976703), CC-BY-4.0); BaTiO3 STEM, Rama Vasudevan and Gerd Duscher ([Zenodo 8190744](https://zenodo.org/records/8190744), CC-BY-4.0); H&E QPTIFF, PerkinElmer via the OME sample images (CC-BY-4.0); qPCR, the [RDML](https://github.com/kablag/RDML) R package (MIT); MS2, [ProteoWizard](https://github.com/ProteoWizard/pwiz) test data (Apache-2.0); HPLC, [cheminfo](https://github.com/cheminfo/netcdf-gcms) (MIT); EPR, [EasySpin](https://github.com/StollLab/EasySpin) (MIT); patch clamp, [pyABF](https://github.com/swharden/pyABF) (MIT); GC-FID, [entab](https://github.com/bovee/entab) (MIT); terminal demo, Allen Institute for Cell Science (BSD-3-Clause). [`demo.tape`](.github/assets/demo.tape) regenerates the demo.
 
 ---
 
