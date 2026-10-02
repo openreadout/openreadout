@@ -16,7 +16,7 @@ OME-Zarr / OME-NGFF 0.1–0.5 on Zarr v2 and v3, directory and zip stores (`ome-
 
 ## Debugging a new file
 
-- `openreadout ls STORE` lists groups, arrays and chunks; `dump --json` → `vendor` holds the group attributes as written.
+- `openreadout info STORE --view structure` lists groups, arrays and chunks; `info --view full --json` → `vendor` holds the group attributes as written.
 - A new NGFF version: `ngff.rs` is pure JSON → add a unit test with the new `.zattrs`/`zarr.json` next to `axes_scales_and_versions`.
 - `tests/fixtures.rs` reads the committed stores in `tests/fixtures/` (and their oracle JSON); `oracle/make_zarr_fixtures.py` regenerates them.
 

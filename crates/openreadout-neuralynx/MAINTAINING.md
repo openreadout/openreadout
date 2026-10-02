@@ -16,7 +16,7 @@ Neuralynx Cheetah/Pegasus files: NCS continuous channels, NEV events, NSE/NST/NT
 
 ## Debugging a new file
 
-- `openreadout ls FILE` shows the header and record ranges; `dump --json` → `vendor` has the header keys as written.
+- `openreadout info FILE --view structure` shows the header and record ranges; `info --view full --json` → `vendor` has the header keys as written.
 - Date or rate surprises: look at `extra.timestamp_rate_hz` in `info` and the header's application version.
 - `tests/synthetic.rs` builds headers and records; the header-style cases are unit tests in `header.rs` (`parses_header_styles`, `dates`).
 

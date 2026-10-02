@@ -17,7 +17,7 @@ The Leica LIF family (`lif`): LIF, LIFEXT, LOF, XLIF, XLEF, XLCF, XLLF. Project-
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the memory blocks (id, offset, size) and the XML member files; `dump --json` → `vendor` is the XML as JSON.
+- `openreadout info FILE --view structure` lists the memory blocks (id, offset, size) and the XML member files; `info --view full --json` → `vendor` is the XML as JSON.
 - `xml.rs` unit tests hold small XML headers for each case found (`parses_images_flim_and_tiles`, `hardware_settings_mode_and_legacy_objective`, `timestamps_as_hex_text_or_filetime_halves`); add the new element there first.
 - `tests/fixtures.rs` reads the committed LIF/LOF/XLEF fixtures in `tests/fixtures/` against their oracle JSON (`tests/fixtures/make_fixtures.py`).
 - Oracles: liffile (primary) and readlif (second opinion).

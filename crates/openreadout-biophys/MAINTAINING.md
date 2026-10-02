@@ -20,7 +20,7 @@ Each module is a self-contained parser plus its `Dataset`; `lib.rs` holds the fo
 
 ## Debugging a new file
 
-- `openreadout ls FILE` (Biacore: the compound-file storages); `dump --json` → `vendor` (ITC header, Biacore environment and chip, Seahorse XML, GenePix header records).
+- `openreadout info FILE --view structure` (Biacore: the compound-file storages); `info --view full --json` → `vendor` (ITC header, Biacore environment and chip, Seahorse XML, GenePix header records).
 - `tests/biacore_synthetic.rs` and `tests/seahorse_synthetic.rs` build files; ITC and GenePix have unit tests in their modules (`header_blocks_and_rows`, `parses_a_results_file`).
 - Oracles: `oracle/itc_oracle.py`, `oracle/biacore_oracle.py`, `oracle/seahorse_oracle.py`, `oracle/gpr_oracle.py` (compared by the corpus tests in `crates/openreadout-corpus-tests/tests/*_oracle`).
 

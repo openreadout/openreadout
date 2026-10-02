@@ -18,8 +18,8 @@ Waters MassLynx `.raw` directories (`waters-raw`): full-scan spectra of TOF inst
 
 ## Debugging a new file
 
-- `openreadout ls RUN.raw` lists every member file and function; `openreadout scans RUN.raw` shows the index without decoding peaks.
-- A new instrument usually means a new function type or value layout: `openreadout report RUN.raw` names the function types and layouts (the assurance fingerprint); `layout.rs` has unit tests with rainbow's documented examples (`rainbow_examples`).
+- `openreadout info RUN.raw --view structure` lists every member file and function; `openreadout spectra RUN.raw` shows the index without decoding peaks.
+- A new instrument usually means a new function type or value layout: `openreadout check RUN.raw --report` names the function types and layouts (the assurance fingerprint); `layout.rs` has unit tests with rainbow's documented examples (`rainbow_examples`).
 - The ground truth is a depositor mzML (`oracle-export`); `oracle/gen.py --export … RUN.raw` (use `uv run --group chrom` for rainbow-based chromatography oracles).
 - `tests/synthetic.rs` builds directories for each layout.
 

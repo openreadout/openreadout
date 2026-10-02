@@ -14,4 +14,4 @@ if (-not (($env:Path -split ";") -contains $dir)) {
   [Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path", "User") + ";$dir", "User")
   Write-Host "added $dir to your user PATH (open a new terminal)"
 }
-Write-Host "agent skill: openreadout skill --install all    |  MCP: openreadout mcp --config claude"
+Write-Host "agent skill: openreadout self skill --install all    |  MCP: openreadout mcp --config claude"

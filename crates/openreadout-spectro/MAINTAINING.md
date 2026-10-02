@@ -20,7 +20,7 @@ Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruke
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the blocks (OPUS directory, WDF chain, PE nested blocks, JASCO streams) with offsets and sizes; `dump --json` → `vendor` has the parameter blocks by their stored names.
+- `openreadout info FILE --view structure` lists the blocks (OPUS directory, WDF chain, PE nested blocks, JASCO streams) with offsets and sizes; `info --view full --json` → `vendor` has the parameter blocks by their stored names.
 - `tests/synthetic.rs` (OPUS, OMNIC, WDF, PE) and `tests/jasco_synthetic.rs` build files from the notes.
 - Oracles (`oracle/spectro.py`, run as black boxes): brukeropus (MIT) for OPUS with brukeropusreader (GPL, black box) as a second opinion, SpectroChemPy for OMNIC, renishawWiRE (MIT) for WDF, specio for `.sp`; JASCO has `oracle/jasco_oracle.py`. Vendor text exports (`oracle-export`) are compared by `openreadout-corpus-tests/tests/spectro.rs`.
 

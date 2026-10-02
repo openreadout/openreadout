@@ -19,7 +19,7 @@ Flow Cytometry Standard files, versions 2.0, 3.0, 3.1 and 3.2 (`fcs`), plus flow
 
 ## Debugging a new file
 
-- `openreadout dump FILE.fcs --json` → `vendor` has every keyword as written; `openreadout ls` lists the segments with offsets; `check` names the keyword or offset that is off.
+- `openreadout info FILE.fcs --view full --json` → `vendor` has every keyword as written; `openreadout info --view structure` lists the segments with offsets; `check` names the keyword or offset that is off.
 - `tests/synthetic.rs` writes FCS files from the standard (every data type and byte order); `tests/fcs32.rs` covers 3.2; `tests/gating.rs` the analysis. Keyword and layout edge cases are unit tests in `keywords.rs` and `layout.rs` (`spec_escape_example`, `spillover_spec_examples`).
 - Oracles: FlowIO (primary, with fcsparser as a second opinion); FlowKit/flowutils for gating and transforms (`oracle/flow.py`).
 

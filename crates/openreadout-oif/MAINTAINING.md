@@ -16,7 +16,7 @@ Olympus FluoView OIF and OIB data sets (`oif`, `oib`; FV1000/FV1200/FV10i). Proj
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists every member (streams or files) with sizes; `dump --json` → `vendor` has the settings sections.
+- `openreadout info FILE --view structure` lists every member (streams or files) with sizes; `info --view full --json` → `vendor` has the settings sections.
 - A missing or extra plane usually means a new plane-name pattern: look at `parse_plane_name` and the unit tests beside it.
 - `tests/synthetic.rs` builds OIF folders and OIB compound files.
 

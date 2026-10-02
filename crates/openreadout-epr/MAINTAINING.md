@@ -17,7 +17,7 @@ Electron paramagnetic resonance data: Bruker BES3T (`bruker-bes3t`: `.DSC` descr
 
 ## Debugging a new file
 
-- `openreadout dump FILE.DSC --json` → `vendor` has every descriptor layer as text; the device layer (`#DSL`) is kept but not normalized.
+- `openreadout info FILE.DSC --view full --json` → `vendor` has every descriptor layer as text; the device layer (`#DSL`) is kept but not normalized.
 - `tests/synthetic.rs` writes BES3T and ESP/WinEPR pairs; `params.rs` unit tests hold descriptor and `.par` examples (`descriptor_layers_devices_and_continuations`, `par_needs_known_keys`).
 - Oracle: DeerLab's BES3T reader (MIT, vendored unchanged as `oracle/third_party/deerload.py`) through `oracle/series_oracle.py --deerload`; ESP/WinEPR against the depositor's exports.
 

@@ -17,7 +17,7 @@ Olympus/Evident cellSens VSI files (cellSens, VS120/VS200 slide scanners) with t
 
 ## Debugging a new file
 
-- `openreadout ls SLIDE.vsi` lists the record tree summary, stacks and ETS files; `dump --json` → `vendor` has every record under its numeric tag (only identified tags are named).
+- `openreadout info SLIDE.vsi --view structure` lists the record tree summary, stacks and ETS files; `info --view full --json` → `vendor` has every record under its numeric tag (only identified tags are named).
 - An unknown dimension kind is exposed as T with a note and a `check` warning: that note is the signal of a new acquisition type.
 - No integration tests in this crate beyond unit tests (`tree.rs` `parses_nested_records`, `reports_bad_links`; `ets.rs` `write_small_ets`, `reads_header_and_table`); the corpus with the Bio-Formats second opinion pins it.
 

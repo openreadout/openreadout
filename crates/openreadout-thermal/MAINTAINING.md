@@ -16,7 +16,7 @@ Thermal-analysis instrument files: NETZSCH Proteus (`netzsch-ngb`: `.ngb-ss3`, `
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the NGB streams and tables; `dump --json` → `vendor` has the metadata records.
+- `openreadout info FILE --view structure` lists the NGB streams and tables; `info --view full --json` → `vendor` has the metadata records.
 - `ngb.rs` unit tests (`records_and_table_opens`) and `tests/synthetic.rs` pin the record grammar; a new Proteus version usually adds a field type or table.
 - Oracle: Proteus/UA text exports of the same measurement through `oracle/series_oracle.py --export`.
 

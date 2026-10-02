@@ -15,7 +15,7 @@ Bio-Rad Image Lab `.scn` gel and blot images (`biorad-scn`). Project-wide proces
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the MIME parts with offsets and sizes; `dump --json` → `vendor` has the XML headers.
+- `openreadout info FILE --view structure` lists the MIME parts with offsets and sizes; `info --view full --json` → `vendor` has the XML headers.
 - A new Image Lab version: diff the XML part names and elements (`ls`, `vendor`) with a corpus file of the nearest version (Image Lab 3.0.1 to 6.1.0 are in the corpus).
 - `tests/synthetic.rs` builds multipart files from the format note.
 

@@ -16,7 +16,7 @@ Zeiss AxioVision ZVI files (`zvi`; OLE2 / MS-CFB compound files). Project-wide p
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the storages and streams; `dump --json` → `vendor` has every tag by id with its value.
+- `openreadout info FILE --view structure` lists the storages and streams; `info --view full --json` → `vendor` has every tag by id with its value.
 - To identify an unknown tag, compare its values across corpus files (the method of the provenance log), never from vendor code.
 - `tests/synthetic.rs` builds compound files with items and tag lists.
 

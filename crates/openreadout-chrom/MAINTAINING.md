@@ -22,7 +22,7 @@ Shared: `binary.rs` (Pascal strings, bounded whole-file reads, date and number f
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists compound-file storages (Shimadzu), zip members (OpenLab, Chromeleon), netCDF variables (ANDI) or the `.D` directory's files; `dump --json` → `vendor` has the parsed headers and XML.
+- `openreadout info FILE --view structure` lists compound-file storages (Shimadzu), zip members (OpenLab, Chromeleon), netCDF variables (ANDI) or the `.D` directory's files; `info --view full --json` → `vendor` has the parsed headers and XML.
 - Each module holds unit tests with minimal byte layouts of every variant seen (`chemstation_header.rs` `versions`, `shimadzu_channels.rs` `older_layout_labels`/`newer_layout_labels`/`chromatogram_items_with_dt_48`, `chromeleon.rs` `second_difference_pairs`, `openlab_dataset.rs` `malformed_containers_are_clean_errors`). There are no integration tests: corpus files pin the rest.
 - Ground truth: the vendor's own ASCII/AIA exports as `oracle-export` (`oracle/shimadzu_export.py`, `oracle/chromeleon_oracle.py`, `oracle/empower_arw_oracle.py`, `oracle/openlab_cds.py`), rainbow-api for ChemStation (`uv run --group chrom`).
 

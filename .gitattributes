@@ -1,0 +1,5 @@
+# Files embedded in the binary or compared byte for byte across copies keep LF on every platform
+# (Windows checkouts would otherwise convert them to CRLF).
+SKILL.md text eol=lf
+skills/** text eol=lf
+crates/openreadout-cli/references/** text eol=lf

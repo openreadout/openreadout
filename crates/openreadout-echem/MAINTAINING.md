@@ -18,7 +18,7 @@ Electrochemistry and battery-cycler data: BioLogic EC-Lab binary `.mpr` and `.mp
 
 ## Debugging a new file
 
-- `openreadout report FILE` names the technique, version and column set (fingerprint); `openreadout ls FILE` lists the `.mpr` modules or the `.ndax` members; `dump --json` → `vendor` has the settings text and headers.
+- `openreadout check FILE --report` names the technique, version and column set (fingerprint); `openreadout info FILE --view structure` lists the `.mpr` modules or the `.ndax` members; `info --view full --json` → `vendor` has the settings text and headers.
 - A refused EC-Lab column id: export the same file as `.mpt` from EC-Lab, then add the id with its label and unit after comparing the two (never guess a unit).
 - `tests/synthetic.rs` builds `.mpr`, `.mpt`, `.DTA`, `.nda` and `.ndax` files; unit tests in each module pin layouts (`labels_and_times`, `tables_and_sweeps`, `ranges_and_names`, `calendar_stamps`).
 - Oracles: the vendor's text exports and permissive readers' outputs, through `oracle/series_oracle.py` (`corpus/oracle/series/`), compared by the corpus test's series comparison.

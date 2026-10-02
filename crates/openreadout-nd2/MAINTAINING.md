@@ -19,7 +19,7 @@ Nikon ND2 (`nd2`): chunk-based files (NIS-Elements 3.x–5.x, format versions 2.
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists every chunk (name, offset, size) or legacy box; `dump --json` → `vendor` has the decoded LV/variant trees under the chunk names; `dump --all-frames` the per-frame records.
+- `openreadout info FILE --view structure` lists every chunk (name, offset, size) or legacy box; `info --view full --json` → `vendor` has the decoded LV/variant trees under the chunk names; `info --view full --all-frames` the per-frame records.
 - A new NIS-Elements version usually adds LV keys or a loop kind: `meta.rs` unit tests (`loop_tree_masks_and_merging`, `ne_time_periods_respect_validity`, `layout_handles_extra_and_missing_frames`, `wavelengths_follow_probe_then_filter`) are the templates; `lv.rs` tests pin the encoding.
 - Oracles: the `nd2` package (primary), Bio-Formats (second opinion, black box).
 

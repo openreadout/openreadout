@@ -18,7 +18,7 @@ Olympus/Evident FluoView OIR files, including multi-file series whose pixel bloc
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists every block (kind, offset, size) and chunk tag; `dump --json` → `vendor` has each XML document by its root name.
+- `openreadout info FILE --view structure` lists every block (kind, offset, size) and chunk tag; `info --view full --json` → `vendor` has each XML document by its root name.
 - `check` names planes with missing or overlapping chunks: the first thing to run on a file from a new FluoView version.
 - There are no synthetic tests in this crate: the corpus (oirfile oracle, Bio-Formats second opinion) pins it. A new variant is best pinned by adding its file to the corpus through `cargo xtask variant intake`.
 

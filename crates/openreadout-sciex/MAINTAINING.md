@@ -17,7 +17,7 @@ Legacy Sciex `.wiff` files with their `.wiff.scan` companions (`sciex-wiff`); `.
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the compound-file streams; `openreadout scans FILE` lists the index records without decoding peaks.
+- `openreadout info FILE --view structure` lists the compound-file streams; `openreadout spectra FILE` lists the index records without decoding peaks.
 - The ground truth is always a depositor conversion (mzML): pair it as `oracle-export` (`cargo xtask variant intake FILE --export run.mzML`) and generate the oracle with `oracle/gen.py --export`.
 - `tests/synthetic.rs` builds compound files with index records and scan data.
 

@@ -20,7 +20,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the zip members (or XML objects); `dump --json` → `vendor` has the setup and results trees; `openreadout qpcr FILE --cq` compares our Cq with the vendor's for every well — a systematic difference points at the baseline or threshold reading.
+- `openreadout info FILE --view structure` lists the zip members (or XML objects); `info --view full --json` → `vendor` has the setup and results trees; `openreadout analyze qpcr FILE --cq` compares our Cq with the vendor's for every well — a systematic difference points at the baseline or threshold reading.
 - `tests/synthetic.rs` builds `.eds` (all three layouts), RDML, `.rex` and `.ixo` files; the dialect modules hold unit tests of their parsers (`text_results`, `multicomponent_txt_records`, `small_rex`, `small_ixo`).
 - Oracles: `oracle/qpcr.py` (the vendor's own text exports as `oracle-export`, RDML via rdmlpython) and the `qpcr_*` corpus tests.
 

@@ -23,8 +23,8 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 
 ## Debugging a new file
 
-1. `openreadout detect FILE` and `openreadout info FILE --json`, then read `assurance` (which variant feature is unseen) and `notes`.
-2. `openreadout ls FILE` lists the bundle items, tree levels, Spike2 channels and block counts, or the Open Ephys streams; `openreadout dump FILE` prints the parsed headers and the vendor tree.
+1. `openreadout info FILE --view format` and `openreadout info FILE --json`, then read `assurance` (which variant feature is unseen) and `notes`.
+2. `openreadout info FILE --view structure` lists the bundle items, tree levels, Spike2 channels and block counts, or the Open Ephys streams; `openreadout info FILE --view full` prints the parsed headers and the vendor tree.
 3. `openreadout check FILE` for structural problems (damaged blocks, records past the end).
 4. Compare with the oracles the corpus uses: load-heka-python and pyHEKA for PatchMaster, Neo's `Spike2RawIO` and `OpenEphysBinaryRawIO`/`OpenEphysRawIO` for the others (run as documented in `oracle/`; see each provenance log for licences).
 5. Start from the synthetic fixtures in `src/spike2/tests.rs` and `src/openephys/tests.rs` to reproduce a layout without the corpus, and add the file with `cargo xtask variant intake` (`docs/maintaining.md`).

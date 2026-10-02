@@ -103,7 +103,7 @@ impl InstrumentServer {
         with_strict((self.registry)(), strict)
     }
 
-    /// Names of the tools this server offers (for `openreadout doctor`).
+    /// Names of the tools this server offers (for `openreadout self doctor`).
     pub fn tool_names(&self) -> Vec<String> {
         let mut names: Vec<String> = self
             .tool_router

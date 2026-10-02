@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        The docs site, `openreadout --help`, `openreadout <command> --help` and `openreadout formats` answer many questions. If the docs were wrong or unclear, please say where; that is a docs bug worth fixing.
+        The docs site, `openreadout --help`, `openreadout <command> --help` and `openreadout self formats` answer many questions. If the docs were wrong or unclear, please say where; that is a docs bug worth fixing.
 
   - type: textarea
     id: question

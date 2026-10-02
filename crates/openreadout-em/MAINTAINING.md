@@ -20,7 +20,7 @@ Shared helpers: `util.rs` (bounded reads, endian-aware numbers, half floats, OLE
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the MRC header/extended header/sections, the DM tag tree, the SER elements or the EMD HDF5 tree; `dump --json` → `vendor` has the header fields and tag trees by their stored names.
+- `openreadout info FILE --view structure` lists the MRC header/extended header/sections, the DM tag tree, the SER elements or the EMD HDF5 tree; `info --view full --json` → `vendor` has the header fields and tag trees by their stored names.
 - `tests/synthetic_mrc.rs` and `tests/synthetic_emd.rs` build files; DM and SER have unit tests in their modules (`parses_scalars_strings_structs_and_arrays`, `parses_header_elements_and_tags`).
 - Oracles: mrcfile (MRC; Bio-Formats second opinion, which flips rows and treats stacks as Z — adjudicated), dm3_lib (DM), ncempy (SER) and h5py (EMD), all in `oracle/gen.py`.
 

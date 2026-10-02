@@ -18,7 +18,7 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists the HDF5 tree (groups, datasets with shape/type/filters, attributes) for all three readers — the first command for any HDF5 variant.
+- `openreadout info FILE --view structure` lists the HDF5 tree (groups, datasets with shape/type/filters, attributes) for all three readers — the first command for any HDF5 variant.
 - `tests/fixtures.rs` reads the committed `.ims`/NWB/HDF5 fixtures against their oracle JSON; `tests/nwb_export.rs` round-trips the NWB writer (also checked by `oracle/nwb_validate.py` with pynwb).
 - Oracles: h5py-based readers in `oracle/gen.py` (`ims`, `nwb`).
 

@@ -1,4 +1,4 @@
-//! `openreadout report`: the diagnostic bundle for new-variant issues is written to a local
+//! `openreadout check --report`: the diagnostic bundle for new-variant issues is written to a local
 //! file, holds the decode path and structure, and never the file's name, path or free text
 //! unless asked (docs/maintaining.md).
 

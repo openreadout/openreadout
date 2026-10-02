@@ -27,10 +27,10 @@ pub fn install() {
             .map(|s| (*s).to_string())
             .or_else(|| payload.downcast_ref::<String>().cloned())
             .unwrap_or_else(|| "unknown panic".into());
-        // A closed output pipe (`openreadout info --json f | head -1`) is not a bug: stop
-        // quietly, as a process killed by SIGPIPE would, without writing anything more.
+        // A closed output pipe (`openreadout info --json f | head -1`) is not an error: the reader
+        // took what it wanted. Stop quietly with exit 0, so `set -o pipefail` scripts still pass.
         if msg.contains("Broken pipe") || msg.contains("failed printing to stdout") {
-            std::process::exit(1);
+            std::process::exit(0);
         }
         let at = info
             .location()
@@ -41,7 +41,7 @@ pub fn install() {
             "This is a bug in openreadout {}; please report it at {ISSUES} with the command line and the output of the same command run with RUST_BACKTRACE=1.",
             env!("CARGO_PKG_VERSION")
         );
-        // `openreadout report`: finish the bundle with the crash recorded, so the bug can be
+        // `check --report`: finish the bundle with the crash recorded, so the bug can be
         // reported with it.
         let report = openreadout_index::report::panic_hook(&message);
         let json = std::env::args_os().any(|a| a == "--json" || a == "--jsonl");

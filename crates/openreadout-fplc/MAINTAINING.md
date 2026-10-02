@@ -20,7 +20,7 @@ Cytiva ÄKTA / UNICORN protein-purification results: UNICORN 3–5 `.res` files 
 
 ## Debugging a new file
 
-- `openreadout ls FILE` lists `.res` blocks (name, kind, offset, size) or the export's members; `dump --json` → `vendor` has the method text and XML.
+- `openreadout info FILE --view structure` lists `.res` blocks (name, kind, offset, size) or the export's members; `info --view full --json` → `vendor` has the method text and XML.
 - `tests/synthetic.rs` builds `.res` block directories and export zips; `nrbf.rs` unit tests cover the two NRBF records.
 - Oracle: `oracle/fplc_oracle.py` (see the format note); curves are compared with UNICORN's text export where one exists.
 

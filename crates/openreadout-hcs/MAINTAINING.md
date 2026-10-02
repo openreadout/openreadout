@@ -20,7 +20,7 @@ High-content screening plates, three plate-imager families, each an index file p
 
 ## Debugging a new file
 
-- `openreadout info PLATE --json` → `plate` (wells, fields, completeness); `ls` lists the index and plane files; `dump --json` → `vendor` has the index header and channel descriptions.
+- `openreadout info PLATE --json` → `plate` (wells, fields, completeness); `ls` lists the index and plane files; `info --view full --json` → `vendor` has the index header and channel descriptions.
 - A new Harmony version: a namespace or element change in `Index.idx.xml` — the unit tests in `harmony.rs` hold small indexes of each version seen (`parses_a_small_index`, `channel_descriptions_from_maps`).
 - `tests/synthetic.rs` builds plates of each family; `oracle/hcs.py` is the oracle (tifffile on the plane files, the index read independently).
 
