@@ -236,11 +236,14 @@ impl QpcrDataset {
                         })?;
                         let mut d = crate::rdml::parse_rdml(&t)?;
                         crate::lc96::apply(&z, &mut d)?;
+                        crate::rdml::cq_at_cycle_count(&mut d);
                         d
                     }
                 } else if format_id == RDML_FORMAT_ID {
                     let bytes = fs.read(path).map_err(|e| Error::io(path, e))?;
-                    crate::rdml::parse_rdml(&openreadout_core::zip::text(&bytes))?
+                    let mut d = crate::rdml::parse_rdml(&openreadout_core::zip::text(&bytes))?;
+                    crate::rdml::cq_at_cycle_count(&mut d);
+                    d
                 } else {
                     return Err(Error::corrupt(
                         EDS_FORMAT_ID,
