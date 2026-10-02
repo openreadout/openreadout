@@ -5,23 +5,24 @@ Use this when you have a folder of patch-clamp recordings (ABF, ATF, NWB) and wa
 ## Run it
 
 ```text
-$ openreadout batch ephys-features cells/ --set rows=cell --fields clamp_mode,spike_count_total,holding_current_pa
-3 data sets (2 ok, 1 failed)
-path                                      format  clamp_mode     spike_count_total  holding_current_pa  error                                     error_code
-────────────────────────────────────────  ──────  ─────────────  ─────────────────  ──────────────────  ────────────────────────────────────────  ───────────────────
-cells/pyabf-2018-12-09-pclamp11-0001.abf  abf     voltage_clamp                  0           -3.482e12  -                                         -
-cells/pyabf-model-vc-step.atf             atf     voltage_clamp                  0            -139.648  -                                         -
-cells/pyabf-sine-sweep-magnitude-20.atf   atf     -                              -                   -  ephys-analysis: unsupported feature: a …  unsupported_feature
+$ openreadout batch ephys-features cells/ --set rows=cell --fields clamp_mode,spike_count_total,rheobase_pa,fi_slope_hz_per_pa,input_resistance_mohm
+3 data sets (3 ok, 0 failed)
+path                                 format  clamp_mode     spike_count_total  rheobase_pa  fi_slope_hz_per_pa  input_resistance_mohm
+───────────────────────────────────  ──────  ─────────────  ─────────────────  ───────────  ──────────────────  ─────────────────────
+cells/pyabf-171116sh-0018.abf        abf     current_clamp                117           50              0.0655               104.1564
+cells/pyabf-190619b-0003.abf         abf     current_clamp                117          120             -0.0538               224.0087
+cells/pyabf-2019-07-24-0055-fsi.abf  abf     current_clamp                948           25              0.3717               176.8225
 ```
 
-`cells/` holds the three public pyABF sample recordings committed at [`fuzz/corpus/whole_abf/`](../../../fuzz/corpus/whole_abf/) and [`fuzz/corpus/whole_atf/`](../../../fuzz/corpus/whole_atf/). Two are voltage-clamp recordings and one is a sine-sweep test file, so there are no spikes to report; on current-clamp recordings the same command fills the spike, rheobase and f–I columns. The output on this page is real.
+`cells/` holds three public current-clamp recordings from the [pyABF](https://github.com/swharden/pyABF) sample data (MIT): `171116sh_0018.abf`, `190619b_0003.abf` and `2019-07-24 0055 fsi.abf`, a fast-spiking interneuron. Each has a series of current steps that drive the cell from silence to repetitive firing. The output on this page is real.
 
 ## What it tells you
 
-- Each row is one recording (`rows=cell`). `--fields` keeps the table narrow; without it you also get `access_resistance_mohm` and `membrane_resistance_mohm` here. Current-clamp files add `rheobase_pa`, `fi_slope_hz_per_pa`, `max_firing_rate_hz`, `input_resistance_mohm`, `tau_ms`, `sag_ratio` and `resting_mv`.
+- Each row is one recording (`rows=cell`). `--fields` keeps the table narrow; without it you also get `max_firing_rate_hz`, `tau_ms`, `sag_ratio` and `resting_mv`. Voltage-clamp files give `holding_current_pa`, `access_resistance_mohm` and `membrane_resistance_mohm` instead.
 - `clamp_mode` is decided from the units: a voltage channel with a current command is current clamp, a current channel with a voltage command is voltage clamp.
-- Check the units before you trust a number. The ABF file labels its input channel `A` (amperes) while its values are a few units, so the holding current comes out as −3.482 × 10¹² pA. `openreadout info FILE` shows each channel's unit.
-- A file that cannot be analyzed becomes a row with `error` and `error_code`, and the run carries on. The sine-sweep ATF has no voltage or current unit, so it is `unsupported_feature`.
+- Rheobase is the smallest step that makes the cell fire, and the f–I slope is fitted over the steps that do. A negative slope means the rate falls at the larger steps: `190619b_0003` fires 98 spikes at 240 pA and 1 at 420 pA (`--csv fi` shows the curve), so look at it before you average slopes.
+- Check the units before you trust a number. If samples are implausible for the channel's unit (a current channel labelled `A` that holds values of a few units, say), the report adds a note naming the likely unit. `openreadout info FILE` shows each channel's unit.
+- A file that cannot be analyzed becomes a row with `error` and `error_code`, and the run carries on.
 
 ## Variations
 
@@ -51,7 +52,7 @@ OpenReadout picks the join key itself (usually the file name) and reports it, an
 ```text
 $ openreadout batch ephys-features cells/ --set rows=cell -o cells.csv
 ...
-wrote cells.csv (3 rows × 9 columns, csv, 472 bytes, verified=true)
+wrote cells.csv (3 rows × 13 columns, csv, 699 bytes, verified=true)
 ```
 
 ### From an assistant

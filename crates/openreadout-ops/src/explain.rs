@@ -171,6 +171,12 @@ fn explain_info(info: &FileInfo) -> Explanation {
         }
         ex.summary.push('.');
     } else if let Some(t) = info.tables.first() {
+        // events × parameters is flow-cytometry wording; other tables have rows and columns
+        let (rows, cols) = if info.format.family == "flow-cytometry" {
+            ("event", "parameter")
+        } else {
+            ("row", "column")
+        };
         let _ = write!(
             ex.summary,
             " {} {} × {}.",
@@ -179,8 +185,8 @@ fn explain_info(info: &FileInfo) -> Explanation {
             } else {
                 "The first holds"
             },
-            count_u64(t.row_count, "event"),
-            count(t.columns.len(), "parameter")
+            count_u64(t.row_count, rows),
+            count(t.columns.len(), cols)
         );
     }
 

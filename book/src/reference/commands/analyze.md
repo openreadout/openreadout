@@ -71,7 +71,7 @@ Both take the flags in [Several inputs](index.md#several-inputs).
 - `--baseline-window MIN`: window of the running baseline that decides where peaks end.
 - `--area-seconds`: report areas in signal × seconds instead of signal × minutes.
 - `--rt MIN`: report the peak at this expected retention time.
-- `--window MIN`: half-width of the `--rt` window.
+- `--window MIN`: half-width of the `--rt` window, and of `--targets` compounds without their own. Default 0.5 min.
 - `--pick largest|nearest`: which peak in the window to report. Default `largest`.
 - `--integrate A-B`: integrate between two retention times with a straight baseline. Repeatable.
 - `--x-range A:B`: integrate a window of the trace's own axis (cm⁻¹, nm, ppm; minutes on a chromatogram). Repeatable.
@@ -160,7 +160,7 @@ openreadout analyze spikes [OPTIONS] <FILE>
 openreadout analyze qpcr [OPTIONS] <FILE>
 ```
 
-The input is an RDML file, an Applied Biosystems `.eds` or a Rotor-Gene `.rex`.
+The input is an RDML file (also a LightCycler 96 `.lc96p`), an Applied Biosystems `.eds`, a Rotor-Gene `.rex` or a LightCycler 480 `.ixo`.
 
 - `--well WELL`, `--target TARGET`, `--sample SAMPLE`, `--run RUN`: only these records.
 - `--cq`: also compute a threshold Cq for every curve and compare it with the vendor's.

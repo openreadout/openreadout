@@ -22,7 +22,8 @@ pub struct CheckArgs {
     pub against: Option<String>,
     /// against: only this image index (in both files).
     pub image: Option<u32>,
-    /// against: plane selection strings such as `c=0`, `z=2-5`, `t=0,3`.
+    /// against: plane selection strings such as `c=0`, `z=2-5`, `t=0,3`. A second file holding
+    /// only the selected planes (an export with the same selection) is matched to them in order.
     #[serde(default)]
     pub select: Vec<String>,
     /// against: largest absolute sample difference that still counts as equal. Default:

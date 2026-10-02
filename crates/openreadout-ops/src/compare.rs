@@ -5,7 +5,10 @@
 //!
 //! "ours" is the first file (`a`), "theirs" the second (`b`). Planes are matched by image
 //! index and (c, z, t); images whose geometry differs are reported and not compared plane by
-//! plane. Tables and traces are compared through their metadata only.
+//! plane. With a plane selection, a second file holding only the selected planes of an image
+//! (an export made with the same `--select`) is compared with that selection of the first:
+//! its planes are matched in order, and the metadata diff sees the first file narrowed the
+//! same way. Tables and traces are compared through their metadata only.
 
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -16,13 +19,16 @@ use openreadout_core::reader::{Dataset, PlaneIndex};
 use openreadout_core::select::Selection;
 use openreadout_core::{Error, PixelType, Plane, Result};
 
-/// Metadata paths ignored by default: they describe the container, not the data.
-pub const DEFAULT_IGNORES: [&str; 5] = [
+/// Metadata paths ignored by default: they describe the container, not the data. The
+/// dimension order is the order a container stores planes in (OME-Zarr always `t, c, z`);
+/// planes are matched by (c, z, t) whatever it is.
+pub const DEFAULT_IGNORES: [&str; 6] = [
     "/path",
     "/size_bytes",
     "/format",
     "/format_version",
     "/notes",
+    "/images/*/dimension_order",
 ];
 
 /// Most differences and plane mismatches listed (the counts stay exact).
@@ -141,8 +147,14 @@ pub struct ImageComparison {
     /// Absent when the second file has no image with this index.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub theirs: Option<Geometry>,
-    /// Both files have the image and their geometries agree.
+    /// Both files have the image and their geometries agree (with `selected`, after the
+    /// selection).
     pub geometry_equal: bool,
+    /// The second file holds only the selected planes of this image (an export made with the
+    /// same selection): planes, channels and the metadata diff were matched in selection
+    /// order, and `ours` is the geometry after the selection.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub selected: bool,
     /// Channel names agree.
     pub channel_names_equal: bool,
     /// Channel names of the first file (listed only when they differ).
@@ -456,6 +468,50 @@ fn diff_planes(a: &Plane, b: &Plane) -> (Option<u64>, Option<f64>, Option<String
     (Some(differing), Some(max), None)
 }
 
+/// The indices of `0..n` a selection keeps (all of them for an empty list), in order.
+fn pick(n: u32, s: &[u32]) -> Vec<u32> {
+    (0..n).filter(|v| s.is_empty() || s.contains(v)).collect()
+}
+
+/// Source plane indices of one image, per axis: `(c, z, t)`.
+type AxisMaps = (Vec<u32>, Vec<u32>, Vec<u32>);
+
+/// Per axis (c, z, t): pairs of (index in the first file, index in the second).
+type AxisPairs = [Vec<(u32, u32)>; 3];
+
+/// An image narrowed to the selected planes, as an export with that selection describes it:
+/// sizes and plane count shrink, kept channels are renumbered in order. `None` when the
+/// selection keeps every plane or none.
+fn project(im: &ImageInfo, sel: &Selection) -> Option<(ImageInfo, AxisMaps)> {
+    let (cs, zs, ts) = (
+        pick(im.size_c, &sel.c),
+        pick(im.size_z, &sel.z),
+        pick(im.size_t, &sel.t),
+    );
+    let full = cs.len() == im.size_c as usize
+        && zs.len() == im.size_z as usize
+        && ts.len() == im.size_t as usize;
+    if full || cs.is_empty() || zs.is_empty() || ts.is_empty() {
+        return None;
+    }
+    let mut narrowed = im.clone();
+    narrowed.size_c = cs.len() as u32;
+    narrowed.size_z = zs.len() as u32;
+    narrowed.size_t = ts.len() as u32;
+    narrowed.plane_count = (cs.len() * zs.len() * ts.len()) as u64;
+    narrowed.channels = im
+        .channels
+        .iter()
+        .filter_map(|ch| {
+            let pos = cs.iter().position(|&v| v == ch.index)?;
+            let mut ch = ch.clone();
+            ch.index = pos as u32;
+            Some(ch)
+        })
+        .collect();
+    Some((narrowed, (cs, zs, ts)))
+}
+
 /// Compare two opened files. `a`/`b` are their summaries.
 pub fn compare(
     ds_a: &mut dyn Dataset,
@@ -473,6 +529,40 @@ pub fn compare(
     }
     let sel = Selection::parse(&req.select)?;
     let mut notes = Vec::new();
+
+    // Images of `b` that hold exactly the selected planes of the same image of `a`.
+    let mut projected: Vec<(u32, AxisMaps)> = Vec::new();
+    let mut narrowed = a.clone();
+    if !sel.is_all() {
+        for im in &mut narrowed.images {
+            if req.image.is_some_and(|w| w != im.index) {
+                continue;
+            }
+            let Some(theirs) = b.images.iter().find(|x| x.index == im.index) else {
+                continue;
+            };
+            if Geometry::from(&*im) == Geometry::from(theirs) {
+                continue;
+            }
+            if let Some((p, maps)) = project(im, &sel)
+                && Geometry::from(&p) == Geometry::from(theirs)
+            {
+                narrowed.plane_count = narrowed
+                    .plane_count
+                    .saturating_sub(im.plane_count)
+                    .saturating_add(p.plane_count);
+                *im = p;
+                projected.push((im.index, maps));
+            }
+        }
+        if !projected.is_empty() {
+            notes.push(format!(
+                "the second file holds only the selected planes of image(s) {:?}: they were compared with that selection of the first file",
+                projected.iter().map(|(i, _)| *i).collect::<Vec<_>>()
+            ));
+        }
+    }
+    let a = &narrowed;
 
     let mut ignored: Vec<String> = DEFAULT_IGNORES.iter().map(|s| (*s).to_string()).collect();
     ignored.extend(req.ignore.iter().cloned());
@@ -507,7 +597,8 @@ pub fn compare(
         return Err(Error::Usage(format!("image {i} exists in neither file")));
     }
     let mut images = Vec::new();
-    let mut to_read: Vec<(u32, Geometry)> = Vec::new();
+    // image index and, per axis, (index in `a`, index in `b`) pairs
+    let mut to_read: Vec<(u32, AxisPairs)> = Vec::new();
     let mut skipped = Vec::new();
     for i in indices {
         let ia = a.images.iter().find(|im| im.index == i);
@@ -529,8 +620,26 @@ pub fn compare(
             (Some(x), Some(y)) => physical_equal(x, y),
             _ => false,
         };
+        let maps = projected.iter().find(|(k, _)| *k == i).map(|(_, m)| m);
         if geometry_equal && let Some(g) = &ga {
-            to_read.push((i, g.clone()));
+            let pairs = |v: Vec<u32>| {
+                v.into_iter()
+                    .enumerate()
+                    .map(|(k, x)| (x, k as u32))
+                    .collect()
+            };
+            let same = |n: u32, s: &[u32]| pick(n, s).into_iter().map(|x| (x, x)).collect();
+            to_read.push((
+                i,
+                match maps {
+                    Some((cs, zs, ts)) => [pairs(cs.clone()), pairs(zs.clone()), pairs(ts.clone())],
+                    None => [
+                        same(g.size_c, &sel.c),
+                        same(g.size_z, &sel.z),
+                        same(g.size_t, &sel.t),
+                    ],
+                },
+            ));
         } else {
             skipped.push(i);
         }
@@ -539,6 +648,7 @@ pub fn compare(
             ours: ga,
             theirs: gb,
             geometry_equal,
+            selected: maps.is_some(),
             channel_names_equal,
             ours_channels: if channel_names_equal { Vec::new() } else { na },
             theirs_channels: if channel_names_equal { Vec::new() } else { nb },
@@ -559,16 +669,21 @@ pub fn compare(
         mismatches: Vec::new(),
     };
     if !req.no_pixels {
-        for (i, g) in &to_read {
-            for c in 0..g.size_c {
-                for z in 0..g.size_z {
-                    for t in 0..g.size_t {
-                        if !sel.contains(c, z, t) {
-                            continue;
-                        }
+        for (i, [cs, zs, ts]) in &to_read {
+            for &(c, bc) in cs {
+                for &(z, bz) in zs {
+                    for &(t, bt) in ts {
                         let idx = PlaneIndex { c, z, t };
                         let pa = ds_a.read_plane_level(*i, idx, req.level)?;
-                        let pb = ds_b.read_plane_level(*i, idx, req.level)?;
+                        let pb = ds_b.read_plane_level(
+                            *i,
+                            PlaneIndex {
+                                c: bc,
+                                z: bz,
+                                t: bt,
+                            },
+                            req.level,
+                        )?;
                         planes.planes += 1;
                         let (ha, hb) = (pa.xxh3_hex(), pb.xxh3_hex());
                         if ha == hb {

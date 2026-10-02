@@ -119,8 +119,10 @@ fn lightcycler96_results_match_the_vendor_table() {
                 .push((cq, r.cq_mean, r.cq_sd));
             } else if r.cq_stored.is_some() {
                 assert!(
-                    r.flags.iter().any(|f| f.starts_with("lc96_")),
-                    "{id} {}: a stored cq without a LightCycler 96 call flag",
+                    r.flags
+                        .iter()
+                        .any(|f| f.starts_with("lc96_") || f == "cq_at_cycle_count"),
+                    "{id} {}: a stored cq without a LightCycler 96 call or cycle-count flag",
                     r.well
                 );
             }

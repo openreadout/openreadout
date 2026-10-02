@@ -141,7 +141,8 @@ pub fn export_mzml(
     let written = (|| -> Result<Written> {
         let f = File::create(&tmp).map_err(|e| Error::io(&tmp, e))?;
         let mut w = CountingWriter::new(BufWriter::new(f), &tmp);
-        let head = header_xml(&info, run, input, thermo_ids, vendor_ids, last - first + 1);
+        let (head, source_configs) =
+            header_xml(&info, run, input, thermo_ids, vendor_ids, last - first + 1);
         w.write_str(&head)?;
         let mut offsets = Vec::new();
         let mut hashes = Vec::new();
@@ -159,17 +160,46 @@ pub fn export_mzml(
             };
             offsets.push((id.clone(), w.pos + 6)); // after the six-space indent
             points += sp.mz.len() as u64;
-            let (xml, hash) = spectrum_xml(&sp, k as u64, &id)?;
+            let (xml, hash) = spectrum_xml(&sp, k as u64, &id, !source_configs)?;
             hashes.push(hash);
             w.write_str(&xml)?;
         }
-        w.write_str("    </spectrumList>\n  </run>\n</mzML>\n")?;
+        w.write_str("    </spectrumList>\n")?;
+        // The source's chromatograms (mzML inputs: TIC, SRM traces, ...), as they were read.
+        let chroms = chromatograms(ds, &info)?;
+        let mut chrom_offsets = Vec::new();
+        let mut chrom_hashes = Vec::new();
+        if !chroms.is_empty() {
+            w.write_str(&format!(
+                "    <chromatogramList count=\"{}\" defaultDataProcessingRef=\"openreadout_conversion\">\n",
+                chroms.len()
+            ))?;
+            for (k, c) in chroms.iter().enumerate() {
+                chrom_offsets.push((c.id.clone(), w.pos + 6));
+                let (xml, hash) = chromatogram_xml(c, k as u64)?;
+                chrom_hashes.push(hash);
+                w.write_str(&xml)?;
+            }
+            w.write_str("    </chromatogramList>\n")?;
+        }
+        w.write_str("  </run>\n</mzML>\n")?;
         let index_offset = w.pos + 2;
-        let mut idx = String::from("  <indexList count=\"1\">\n    <index name=\"spectrum\">\n");
+        let mut idx = format!(
+            "  <indexList count=\"{}\">\n    <index name=\"spectrum\">\n",
+            if chroms.is_empty() { 1 } else { 2 }
+        );
         for (id, off) in &offsets {
             let _ = writeln!(idx, "      <offset idRef=\"{}\">{off}</offset>", escape(id));
         }
-        idx.push_str("    </index>\n  </indexList>\n");
+        idx.push_str("    </index>\n");
+        if !chroms.is_empty() {
+            idx.push_str("    <index name=\"chromatogram\">\n");
+            for (id, off) in &chrom_offsets {
+                let _ = writeln!(idx, "      <offset idRef=\"{}\">{off}</offset>", escape(id));
+            }
+            idx.push_str("    </index>\n");
+        }
+        idx.push_str("  </indexList>\n");
         let _ = write!(
             idx,
             "  <indexListOffset>{index_offset}</indexListOffset>\n  <fileChecksum>"
@@ -181,6 +211,8 @@ pub fn export_mzml(
         Ok(Written {
             offsets: offsets.into_iter().map(|(_, o)| o).collect(),
             hashes,
+            chrom_offsets: chrom_offsets.into_iter().map(|(_, o)| o).collect(),
+            chrom_hashes,
             points,
             sha,
             index_offset,
@@ -227,6 +259,8 @@ pub fn default_output(input: &Path) -> std::path::PathBuf {
 struct Written {
     offsets: Vec<u64>,
     hashes: Vec<u128>,
+    chrom_offsets: Vec<u64>,
+    chrom_hashes: Vec<u128>,
     points: u64,
     sha: String,
     index_offset: u64,
@@ -388,6 +422,98 @@ fn analyzer_cv(token: &str) -> (String, String) {
     }
 }
 
+/// One instrument configuration of the source (mzML inputs): its model and serial terms
+/// `(accession, name)`, and its components `(kind, order, [(accession, name)])`.
+struct SourceConfig {
+    terms: Vec<Term>,
+    components: Vec<(String, u32, Vec<Term>)>,
+}
+
+/// A CV term: `(accession, name)`; the accession is empty when the source gave none.
+type Term = (String, String);
+
+/// The source's instrument configurations (`extra.instrument_configurations`, written by the
+/// mzML reader); empty for other inputs or when a configuration lists no components.
+fn source_configs(run: &openreadout_core::SpectraInfo) -> Vec<SourceConfig> {
+    let Some(list) = run
+        .extra
+        .get("instrument_configurations")
+        .and_then(|v| v.as_array())
+    else {
+        return Vec::new();
+    };
+    let str_of = |v: &serde_json::Value, k: &str| {
+        v.get(k)
+            .and_then(|x| x.as_str())
+            .unwrap_or_default()
+            .to_string()
+    };
+    let mut out = Vec::new();
+    for c in list {
+        let terms = c
+            .get("terms")
+            .and_then(|t| t.as_array())
+            .map(|t| {
+                t.iter()
+                    .map(|t| (str_of(t, "accession"), str_of(t, "name")))
+                    .filter(|(a, _)| !a.is_empty())
+                    .collect()
+            })
+            .unwrap_or_default();
+        let mut components = Vec::new();
+        for (k, comp) in c
+            .get("components")
+            .and_then(|v| v.as_array())
+            .into_iter()
+            .flatten()
+            .enumerate()
+        {
+            let kind = str_of(comp, "kind");
+            if !matches!(kind.as_str(), "source" | "analyzer" | "detector") {
+                continue;
+            }
+            let order = comp
+                .get("order")
+                .and_then(serde_json::Value::as_u64)
+                .and_then(|o| u32::try_from(o).ok())
+                .unwrap_or(k as u32 + 1);
+            let names = comp.get("terms").and_then(|v| v.as_array());
+            let accs = comp.get("accessions").and_then(|v| v.as_array());
+            let terms: Vec<Term> = names
+                .into_iter()
+                .flatten()
+                .enumerate()
+                .filter_map(|(i, n)| {
+                    let acc = accs
+                        .and_then(|a| a.get(i))
+                        .and_then(|a| a.as_str())
+                        .unwrap_or_default();
+                    Some((acc.to_string(), n.as_str()?.to_string()))
+                })
+                .collect();
+            components.push((kind, order, terms));
+        }
+        if components.is_empty() {
+            return Vec::new();
+        }
+        out.push(SourceConfig { terms, components });
+    }
+    out
+}
+
+/// A component term: its own accession when known, else the generic parent term of the
+/// component kind with the name as its value.
+fn component_cv(kind: &str, acc: &str, name: &str) -> String {
+    if acc.starts_with("MS:") {
+        return cv(&escape(acc), &escape(name), "");
+    }
+    match kind {
+        "source" => cv("MS:1000008", "ionization type", name),
+        "analyzer" => cv("MS:1000443", "mass analyzer type", name),
+        _ => cv("MS:1000026", "detector type", name),
+    }
+}
+
 fn header_xml(
     info: &openreadout_core::FileInfo,
     run: &openreadout_core::SpectraInfo,
@@ -395,7 +521,7 @@ fn header_xml(
     thermo: bool,
     vendor_ids: bool,
     count: u64,
-) -> String {
+) -> (String, bool) {
     let mut levels = run.ms_levels.clone();
     levels.sort_unstable();
     let name = input
@@ -479,7 +605,19 @@ fn header_xml(
     s.push_str("      </sourceFile>\n    </sourceFileList>\n  </fileDescription>\n");
     s.push_str("  <referenceableParamGroupList count=\"1\">\n    <referenceableParamGroup id=\"CommonInstrumentParams\">\n");
     let model = inst.model.clone().unwrap_or_default();
-    if thermo {
+    // mzML inputs: the source's own instrument configurations, with their exact terms
+    let configs = source_configs(run);
+    let model_term = configs
+        .first()
+        .and_then(|c| {
+            c.terms
+                .iter()
+                .find(|(a, n)| a != "MS:1000529" && *n == model)
+        })
+        .filter(|_| !model.is_empty());
+    if let Some((acc, name)) = model_term {
+        let _ = writeln!(s, "      {}", cv(&escape(acc), &escape(name), ""));
+    } else if thermo {
         let _ = writeln!(
             s,
             "      {}",
@@ -517,7 +655,7 @@ fn header_xml(
             cv("MS:1000529", "instrument serial number", serial)
         );
     }
-    if !model.is_empty() {
+    if !model.is_empty() && model_term.is_none() {
         let _ = writeln!(
             s,
             "      <userParam name=\"instrument model name\" value=\"{}\"/>",
@@ -535,19 +673,60 @@ fn header_xml(
             "openreadout"
         )
     );
+    // the source's own term for its software when it has one (mzML inputs)
+    let software_term = inst.software.as_deref().and_then(|name| {
+        run.extra
+            .get("software")?
+            .as_array()?
+            .iter()
+            .find(|e| e.get("name").and_then(|n| n.as_str()) == Some(name))?
+            .get("accession")?
+            .as_str()
+            .map(|a| cv(&escape(a), &escape(name), ""))
+    });
     let _ = writeln!(
         s,
         "    <software id=\"acquisition\" version=\"{}\">\n      {}\n    </software>",
         escape(inst.software_version.as_deref().unwrap_or("unknown")),
-        cv(
+        software_term.unwrap_or_else(|| cv(
             "MS:1000531",
             "software",
             inst.software.as_deref().unwrap_or("acquisition software")
-        )
+        ))
     );
     s.push_str("  </softwareList>\n");
-    let ans = analyzers(run);
-    let _ = writeln!(s, "  <instrumentConfigurationList count=\"{}\">", ans.len());
+    if !configs.is_empty() {
+        let _ = writeln!(
+            s,
+            "  <instrumentConfigurationList count=\"{}\">",
+            configs.len()
+        );
+        for (k, c) in configs.iter().enumerate() {
+            let _ = writeln!(
+                s,
+                "    <instrumentConfiguration id=\"IC{}\">\n      <referenceableParamGroupRef ref=\"CommonInstrumentParams\"/>\n      <componentList count=\"{}\">",
+                k + 1,
+                c.components.len()
+            );
+            for (kind, order, terms) in &c.components {
+                let _ = writeln!(s, "        <{kind} order=\"{order}\">");
+                for (acc, name) in terms {
+                    let _ = writeln!(s, "          {}", component_cv(kind, acc, name));
+                }
+                let _ = writeln!(s, "        </{kind}>");
+            }
+            s.push_str("      </componentList>\n      <softwareRef ref=\"acquisition\"/>\n    </instrumentConfiguration>\n");
+        }
+        s.push_str("  </instrumentConfigurationList>\n");
+    }
+    let ans = if configs.is_empty() {
+        analyzers(run)
+    } else {
+        Vec::new()
+    };
+    if !ans.is_empty() {
+        let _ = writeln!(s, "  <instrumentConfigurationList count=\"{}\">", ans.len());
+    }
     for (k, a) in ans.iter().enumerate() {
         let (an, det) = analyzer_cv(a);
         let _ = writeln!(
@@ -557,7 +736,9 @@ fn header_xml(
             source_cv(run)
         );
     }
-    s.push_str("  </instrumentConfigurationList>\n");
+    if !ans.is_empty() {
+        s.push_str("  </instrumentConfigurationList>\n");
+    }
     let _ = writeln!(
         s,
         "  <dataProcessingList count=\"1\">\n    <dataProcessing id=\"openreadout_conversion\">\n      <processingMethod order=\"0\" softwareRef=\"openreadout\">\n        {}\n      </processingMethod>\n    </dataProcessing>\n  </dataProcessingList>",
@@ -574,17 +755,30 @@ fn header_xml(
             )
         })
         .unwrap_or_default();
+    // keep the source's run id (mzML inputs) when it is a valid XML ID
+    let run_id = run
+        .extra
+        .get("run_id")
+        .and_then(|v| v.as_str())
+        .filter(|r| {
+            r.chars()
+                .next()
+                .is_some_and(|c| c.is_ascii_alphabetic() || c == '_')
+                && r.chars()
+                    .all(|c| c.is_ascii_alphanumeric() || matches!(c, '_' | '-' | '.'))
+        })
+        .map_or(id.clone(), str::to_string);
     let _ = writeln!(
         s,
         "  <run id=\"{}\" defaultInstrumentConfigurationRef=\"IC1\"{start} defaultSourceFileRef=\"RAW1\">",
-        escape(&id)
+        escape(&run_id)
     );
     let _ = writeln!(
         s,
         "    <spectrumList count=\"{count}\" defaultDataProcessingRef=\"openreadout_conversion\">"
     );
     let _ = info;
-    s
+    (s, !configs.is_empty())
 }
 
 /// `(analyzer token, activation token, energy, windows)` parsed from a scan filter.
@@ -631,7 +825,14 @@ fn fmt_f(v: f64) -> String {
     }
 }
 
-fn spectrum_xml(sp: &Spectrum, index: u64, id: &str) -> Result<(String, u128)> {
+/// `analyzer_refs`: point ion-trap (`ITMS`) scans at the second instrument configuration, as
+/// written for scan-filter analyzers (not when the source's own configurations are copied).
+fn spectrum_xml(
+    sp: &Spectrum,
+    index: u64,
+    id: &str,
+    analyzer_refs: bool,
+) -> Result<(String, u128)> {
     let mut mz_bytes = Vec::with_capacity(sp.mz.len() * 8);
     for v in &sp.mz {
         mz_bytes.extend_from_slice(&v.to_le_bytes());
@@ -658,7 +859,7 @@ fn spectrum_xml(sp: &Spectrum, index: u64, id: &str) -> Result<(String, u128)> {
     let act = act.or_else(|| sp.activation.as_deref().map(str::to_ascii_lowercase));
     let energy = energy.or(sp.collision_energy);
     let ic = match analyzer {
-        Some("ITMS") => " instrumentConfigurationRef=\"IC2\"",
+        Some("ITMS") if analyzer_refs => " instrumentConfigurationRef=\"IC2\"",
         _ => "",
     };
     let mut s = String::new();
@@ -1002,6 +1203,13 @@ fn verify(path: &Path, w: &Written) -> std::result::Result<(), String> {
             ));
         }
     }
+    for &o in &w.chrom_offsets {
+        if !at_offset(o, b"<chromatogram")? {
+            return Err(format!(
+                "index offset {o} does not point at a <chromatogram> element"
+            ));
+        }
+    }
     if !at_offset(w.index_offset, b"<indexList")? {
         return Err("indexListOffset does not point at <indexList>".into());
     }
@@ -1012,6 +1220,7 @@ fn verify(path: &Path, w: &Written) -> std::result::Result<(), String> {
     let mut in_binary = false;
     let mut arrays: Vec<Vec<u8>> = Vec::new();
     let mut k = 0usize;
+    let mut kc = 0usize;
     loop {
         match reader.read_event_into(&mut buf) {
             Ok(Event::Start(e)) if e.name().as_ref() == "binary" => in_binary = true,
@@ -1038,6 +1247,17 @@ fn verify(path: &Path, w: &Written) -> std::result::Result<(), String> {
                 arrays.clear();
                 k += 1;
             }
+            Ok(Event::End(e)) if e.name().as_ref() == "chromatogram" => {
+                let mut h = Vec::new();
+                for a in &arrays {
+                    h.extend_from_slice(a);
+                }
+                if Some(&xxhash_rust::xxh3::xxh3_128(&h)) != w.chrom_hashes.get(kc) {
+                    return Err(format!("chromatogram {kc}: arrays differ after writing"));
+                }
+                arrays.clear();
+                kc += 1;
+            }
             Ok(Event::Eof) => break,
             Err(e) => return Err(format!("XML error at {}: {e}", reader.buffer_position())),
             _ => {}
@@ -1047,7 +1267,137 @@ fn verify(path: &Path, w: &Written) -> std::result::Result<(), String> {
     if k != w.hashes.len() {
         return Err(format!("{k} spectra read back, {} written", w.hashes.len()));
     }
+    if kc != w.chrom_hashes.len() {
+        return Err(format!(
+            "{kc} chromatograms read back, {} written",
+            w.chrom_hashes.len()
+        ));
+    }
     Ok(())
+}
+
+/// A chromatogram to write: a source trace that is an mzML chromatogram.
+struct Chromatogram {
+    id: String,
+    accession: String,
+    name: String,
+    time_s: Vec<f64>,
+    intensity: Vec<f64>,
+    /// Label of the counts unit (MS:1000131): the source's, which may be the older
+    /// "number of counts".
+    counts_unit: &'static str,
+    precursor_mz: Option<f64>,
+    product_mz: Option<f64>,
+}
+
+/// The traces the reader marks as chromatograms (`extra.chromatogram_type_accession`, set by
+/// the mzML reader), with their `time` and `intensity` channels.
+fn chromatograms(
+    ds: &mut dyn Dataset,
+    info: &openreadout_core::FileInfo,
+) -> Result<Vec<Chromatogram>> {
+    let mut out = Vec::new();
+    for t in &info.traces {
+        let (Some(acc), Some(name)) = (
+            t.extra
+                .get("chromatogram_type_accession")
+                .and_then(|v| v.as_str()),
+            t.extra.get("chromatogram_type").and_then(|v| v.as_str()),
+        ) else {
+            continue;
+        };
+        let col = |n: &str| t.channels.iter().position(|c| c.name == n);
+        let (Some(ti), Some(ii)) = (col("time"), col("intensity")) else {
+            continue;
+        };
+        let mut tr = ds.read_trace(t.index, 0, 0, t.sample_count)?;
+        let (Some(time_s), Some(intensity)) = (
+            tr.channels.get_mut(ti).map(std::mem::take),
+            tr.channels.get_mut(ii).map(std::mem::take),
+        ) else {
+            continue;
+        };
+        let f = |k: &str| t.extra.get(k).and_then(serde_json::Value::as_f64);
+        let counts_unit = if t.channels[ii].unit.as_deref() == Some("number of counts") {
+            "number of counts"
+        } else {
+            "number of detector counts"
+        };
+        out.push(Chromatogram {
+            id: t
+                .name
+                .clone()
+                .unwrap_or_else(|| format!("chromatogram={}", t.index)),
+            accession: acc.to_string(),
+            name: name.to_string(),
+            time_s,
+            intensity,
+            counts_unit,
+            precursor_mz: f("precursor_mz"),
+            product_mz: f("product_mz"),
+        });
+    }
+    Ok(out)
+}
+
+/// One `<chromatogram>` element (64-bit time in seconds and intensity, zlib) and the xxh3-128
+/// of its decoded arrays.
+fn chromatogram_xml(c: &Chromatogram, index: u64) -> Result<(String, u128)> {
+    let le = |v: &[f64]| v.iter().flat_map(|x| x.to_le_bytes()).collect::<Vec<u8>>();
+    let (tb, ib) = (le(&c.time_s), le(&c.intensity));
+    let mut h = tb.clone();
+    h.extend_from_slice(&ib);
+    let hash = xxhash_rust::xxh3::xxh3_128(&h);
+    let (t64, i64_) = (base64_encode(&zlib(&tb)?), base64_encode(&zlib(&ib)?));
+    let i = "        ";
+    let mut s = String::new();
+    let _ = writeln!(
+        s,
+        "      <chromatogram index=\"{index}\" id=\"{}\" defaultArrayLength=\"{}\">",
+        escape(&c.id),
+        c.time_s.len()
+    );
+    let _ = writeln!(s, "{i}{}", cv(&escape(&c.accession), &escape(&c.name), ""));
+    for (el, v) in [("precursor", c.precursor_mz), ("product", c.product_mz)] {
+        if let Some(v) = v {
+            let _ = writeln!(
+                s,
+                "{i}<{el}>\n{i}  <isolationWindow>\n{i}    {}\n{i}  </isolationWindow>\n{i}</{el}>",
+                cv_unit(
+                    "MS:1000827",
+                    "isolation window target m/z",
+                    &fmt_f(v),
+                    "MS:1000040",
+                    "m/z"
+                )
+            );
+        }
+    }
+    let _ = writeln!(s, "{i}<binaryDataArrayList count=\"2\">");
+    let _ = writeln!(
+        s,
+        "{i}  <binaryDataArray encodedLength=\"{}\">\n{i}    {}\n{i}    {}\n{i}    {}\n{i}    <binary>{t64}</binary>\n{i}  </binaryDataArray>",
+        t64.len(),
+        cv("MS:1000523", "64-bit float", ""),
+        cv("MS:1000574", "zlib compression", ""),
+        cv_unit("MS:1000595", "time array", "", "UO:0000010", "second")
+    );
+    let _ = writeln!(
+        s,
+        "{i}  <binaryDataArray encodedLength=\"{}\">\n{i}    {}\n{i}    {}\n{i}    {}\n{i}    <binary>{i64_}</binary>\n{i}  </binaryDataArray>",
+        i64_.len(),
+        cv("MS:1000523", "64-bit float", ""),
+        cv("MS:1000574", "zlib compression", ""),
+        cv_unit(
+            "MS:1000515",
+            "intensity array",
+            "",
+            "MS:1000131",
+            c.counts_unit
+        )
+    );
+    let _ = writeln!(s, "{i}</binaryDataArrayList>\n      </chromatogram>");
+    Ok((s, hash))
 }
 
 /// SHA-1 (FIPS 180-4), used only for the mzML `fileChecksum` element.

@@ -10,7 +10,7 @@ rdml-stepone-std.rdml (rdml, rdml): Standard Curve Example
 instrument: Applied Biosystems StepOne™ Instrument
 24 well x target records
 well   sample                 target            task        Cq        Tm
-A1     NTC_RNase P            RNase P           ntc         40.000         -
+A1     NTC_RNase P            RNase P           ntc        undet.(40)         -
 ...
 A4     pop1_RNase P           RNase P           unknown     28.963         -
 A5     pop1_RNase P           RNase P           unknown     28.839         -
@@ -19,10 +19,13 @@ B2     STD_RNase P_10000.0    RNase P           standard    26.874         -
 ...
 C8     STD_RNase P_625.0      RNase P           standard    31.035         -
 
-Cq: 24 determined, 0 undetermined, 0 no result (0 excluded)
+Cq: 21 determined, 3 undetermined, 0 no result (0 excluded)
+...
 
 standard curve RNase P: slope -3.4770, intercept 40.768, R² 0.9995, efficiency 93.9 % (15 wells, 5 levels)
 note: target RNase P: amplificationEfficiency 93.91181 read as a percentage (1.9391 fold)
+note: 3 reactions store a cq at or beyond the run's cycle count, which is how the exporting software writes "no Cq": reported as undetermined, the stored number kept as cq_stored
+...
 ```
 
 `rdml-stepone-std.rdml` is an RDML file written by StepOne Software, from the RDML R package's examples (MIT). It is committed at [`fuzz/corpus/core_zip/rdml-stepone-std.rdml`](../../../fuzz/corpus/core_zip/rdml-stepone-std.rdml): one target (RNase P), five standards from 625 to 10000 copies in triplicate, two unknown populations and three NTCs. The output on this page is real, with long tables trimmed.
@@ -30,7 +33,7 @@ note: target RNase P: amplificationEfficiency 93.91181 read as a percentage (1.9
 ## What it tells you
 
 - The table has one row per well and target. `Cq` is the value the file stores, as the instrument software called it. `undet.` marks wells the file says did not amplify; they are left out of averages.
-- Look at the NTC wells. Here they read `40.000`, which is the run's cycle count: StepOne wrote that number into this RDML file, and OpenReadout reports it as written. OpenReadout reads a Cq at the cycle count as undetermined only in SDS-layout `.eds` files, where the software is known to write it that way, so in RDML check NTCs by eye.
+- Look at the NTC wells. The file stores `40` for them, the run's cycle count, which is how StepOne writes "no Cq". OpenReadout reports a Cq at or past the cycle count as undetermined, shows the stored number in brackets and keeps it as `cq_stored` in the JSON. Their curves rise about 3 % over baseline, against 257–331 % for the amplified wells.
 - The standard curve is a least-squares line of Cq against log10(quantity) over the standard wells. A slope of −3.32 means 100 % efficiency; efficiency = (10^(−1/slope) − 1) × 100, here 93.9 %.
 - When the file stores the vendor's own fit, its slope, efficiency and R² are given next to ours (`vendor_slope`, `vendor_efficiency_percent` and `vendor_r2` in the JSON). This file stores only the target's efficiency, 93.91181, which matches.
 
@@ -38,11 +41,18 @@ note: target RNase P: amplificationEfficiency 93.91181 read as a percentage (1.9
 
 ### Relative expression (ΔΔCq)
 
-```bash
-openreadout analyze qpcr plate.eds --ddcq --reference GAPDH --control untreated
+```text
+$ openreadout analyze qpcr eds-7500-abhd17c-ddct.eds --ddcq
+...
+ΔΔCq (reference: 18s; control: Lenvatinib/Vector)
+sample                 target            n   meanCq    ΔCq     ΔΔCq      RQ
+ABHD17C OE             ABHD17C            2   22.538  14.092   -5.614  48.988
+Lenvatinib/ABHD17C OE  ABHD17C            3   22.995  14.398   -5.308  39.623
+Lenvatinib/Vector      ABHD17C            3   27.145  19.706    0.000   1.000
+Vector                 ABHD17C            3   27.192  19.530   -0.177   1.130
 ```
 
-`--reference` names the endogenous control and `--control` the calibrator sample. Both default to the ones the file records. Each sample and target gets ΔCq, ΔΔCq and RQ = 2^−ΔΔCq with its range. A file without a reference target gives a usage error that lists its targets:
+`eds-7500-abhd17c-ddct.eds` is a 7500 run with two targets, ABHD17C and the 18S reference, from [Figshare](https://doi.org/10.6084/m9.figshare.32706510.v1) (CC-BY-4.0). The file records 18s as the endogenous control and Lenvatinib/Vector as the calibrator, so no flags are needed; `--reference TARGET` and `--control SAMPLE` override them. Each sample and target gets ΔCq, ΔΔCq and RQ = 2^−ΔΔCq with its range. ABHD17C OE reads about 49 times the calibrator's level. A file without a reference target gives a usage error that lists its targets:
 
 ```text
 $ openreadout analyze qpcr rdml-stepone-std.rdml --ddcq

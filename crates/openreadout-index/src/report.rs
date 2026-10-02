@@ -1207,9 +1207,10 @@ fn run_stages(reg: &Registry, path: &Path, b: &mut Builder<'_>) {
                 })
                 .collect();
             let d = format!(
-                "{} ({} findings)",
+                "{} ({} finding{})",
                 if r.ok { "ok" } else { "not ok" },
-                findings.len()
+                findings.len(),
+                if findings.len() == 1 { "" } else { "s" }
             );
             b.report.integrity = Some(Integrity {
                 mode: if b.opts.full_check { "full" } else { "headers" }.into(),

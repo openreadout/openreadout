@@ -33,6 +33,13 @@ pub const LC96_WITHHELD: &[(&str, usize)] = &[
     ("lc96p-pendo-hmuy-24h48h-r34", 60),
 ];
 
+/// Stored RDML `cq` values at or beyond the run's cycle count (the exporting software's "no
+/// Cq"), which the reader reports as undetermined with the number in `cq_stored` while
+/// rdmlpython reads them as Cqs: adjudicated per file (docs/provenance/qpcr.md, 2026-10-02: the
+/// StepOne export's three no-template controls store 40.0 of 40 cycles). A file with another
+/// count fails until its withheld values are looked at.
+pub const CYCLE_COUNT_WITHHELD: &[(&str, usize)] = &[("rdml-stepone-std", 3)];
+
 /// Compare one opened file with its oracle; differences go to `errs`, the summary is returned.
 pub fn compare_dataset(
     format: &str,
@@ -235,6 +242,7 @@ fn check_records(
     let (mut n_cq, mut n_curves, mut n_melt, mut n_setup) = (0, 0, 0, 0);
     let (mut n_export, mut n_export_und, mut n_amp) = (0, 0, 0);
     let mut n_withheld = 0usize;
+    let mut n_at_cycles = 0usize;
     let mut missing = 0;
     for o in recs {
         let run = if rdml {
@@ -260,14 +268,16 @@ fn check_records(
         // LightCycler 96: the RDML cq of a reaction its software does not call positive is not
         // a Cq; we keep it as cq_stored (docs/provenance/qpcr.md, 2026-09-26)
         let lc96_not_called = r.flags.iter().any(|x| x.starts_with("lc96_"));
+        let at_cycles = r.flags.iter().any(|x| x == "cq_at_cycle_count");
         match (f(&o["cq"]), r.cq) {
             (Some(a), Some(b)) if close(a, b, 1e-9) => n_cq += 1,
             (Some(a), None) if lc96_not_called && r.cq_stored == Some(a) => n_withheld += 1,
+            (Some(a), None) if rdml && at_cycles && r.cq_stored == Some(a) => n_at_cycles += 1,
             (None, None) => {}
             (a, b) => errs.push(format!("{at}: cq oracle {a:?} ours {b:?}")),
         }
-        if !lc96_not_called && o["cq_undetermined"].as_bool().unwrap_or(false) != r.cq_undetermined
-        {
+        let withheld = lc96_not_called || (rdml && at_cycles);
+        if !withheld && o["cq_undetermined"].as_bool().unwrap_or(false) != r.cq_undetermined {
             errs.push(format!(
                 "{at}: undetermined oracle {} ours {}",
                 o["cq_undetermined"], r.cq_undetermined
@@ -453,6 +463,21 @@ fn check_records(
         errs.push(format!(
             "{id}: {n_withheld} stored Cqs withheld under LightCycler 96 calls other than Positive (the oracle reads them as Cqs), {expected} adjudicated (LC96_WITHHELD)"
         ));
+    }
+    let expected = CYCLE_COUNT_WITHHELD
+        .iter()
+        .find(|(f, _)| *f == id)
+        .map_or(0, |(_, n)| *n);
+    if n_at_cycles != expected {
+        errs.push(format!(
+            "{id}: {n_at_cycles} stored Cqs at or beyond the cycle count withheld (the oracle reads them as Cqs), {expected} adjudicated (CYCLE_COUNT_WITHHELD)"
+        ));
+    }
+    if n_at_cycles > 0 {
+        let _ = write!(
+            detail,
+            "; {n_at_cycles} stored Cqs at the cycle count withheld as undetermined (adjudicated)"
+        );
     }
     if n_withheld > 0 {
         let _ = write!(

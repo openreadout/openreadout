@@ -28,3 +28,8 @@
 between sweeps) from the corpus protocols (`0113 steps dual -100 to 300 step 25`: epoch 1 carries
 the −100 + 25·sweep pA step; epoch 4 repeats it later in the sweep); clamp mode from the units of
 the recorded channel and the enabled command output.
+
+## 2026-10-02 — implausible channel units
+
+**Corpus files:** `pyabf-2018-12-09-pclamp11-0001` (pyABF test data, MIT): its recorded channel `IN 0` is labelled `A` while its samples run from −5.4 to 0.2, which in amperes would be a holding current of −3.5 × 10¹² pA. **Prior art consulted:** none.
+**What was decided.** The features keep taking the file's unit literally (nothing is rescaled), but when the largest sample of the analysed sweeps exceeds what a cell produces in that unit (10 V for a membrane voltage, 1 µA for a clamp current) the report carries a note that the unit label is probably wrong and what the samples would be in mV or pA.

@@ -156,3 +156,15 @@ Files without a recorded threshold (Bio-Rad CFX, LightCycler 96 and StepOne RDML
 
 **Decision:** the rule stands: a stored RDML `cq` under a call other than Positive is not what the software shows, and `cq` stays null (`cq_stored` keeps the number). Changes: the `absQuantDataSource` / `absQuantStatisticalRow` rows are read like the relative-quantification ones (the analysis' Cq per graph, the groups' Cq mean and SD: `rdml-lc96-bactxy` gains `cq_mean`/`cq_sd` on 56 reactions), a graph an analysis lists with a Cq keeps it whatever the call (no corpus case), and the note says how many of the withheld values an analysis lists without a Cq. The qPCR corpus test used to count a withheld value as a matched Cq, so the 303 withheld values of `rdml-lc96-bactxy` passed unseen; it now counts them apart and fails unless the per-file count is the adjudicated one (`LC96_WITHHELD` in `crates/openreadout-corpus-tests/tests/qpcr_oracle/mod.rs`).
 
+
+## 2026-10-02 — RDML: a stored `cq` at the cycle count is undetermined
+
+**Question (website audit):** in `rdml-stepone-std` the three no-template controls (A1–A3) store `<cq>40.0</cq>` and were reported as determined Cqs; the `.eds` reader already reads the same vendor's "Ct = cycle count" as undetermined (2026-09-24).
+**Corpus files used:** `rdml-stepone-std` (RDML package test data, MIT). Development tier only.
+**Prior art consulted:** none beyond the committed oracle (`corpus/oracle/qpcr/rdml-stepone-std.json`, rdmlpython, MIT, run as a black box), which reports the stored number.
+
+**Evidence:**
+- The file is a StepOne export (`<instrument>` Applied Biosystems StepOne): every reaction has 40 amplification points (cycles 1–40). Its thermal program reads as 41 cycles (`loop` with `repeat` 40), so the measured curve, not the program, gives the cycle count.
+- Curves: the three NTCs rise 2.6–3.3 % above their baseline (cycles 4–13) by the last three cycles; the 21 reactions with a Cq below the cycle count rise 257–331 %. A threshold crossing at exactly the last cycle is not what the NTC curves show.
+
+**Decision:** after the LightCycler 96 calls are applied, a stored RDML `cq` ≥ the cycle count (the last cycle of the assay's amplification curve, else the run program's) is reported as undetermined, the number kept in `cq_stored`, the record flagged `cq_at_cycle_count`, and `info` notes how many. The qPCR corpus test counts these apart from matched Cqs and fails unless the per-file count is the adjudicated one (`CYCLE_COUNT_WITHHELD`: `rdml-stepone-std` 3).

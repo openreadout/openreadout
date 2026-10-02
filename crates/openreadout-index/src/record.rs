@@ -342,10 +342,12 @@ impl Summary {
             s.pixel_type = serde_json::to_value(im.pixel_type)
                 .ok()
                 .and_then(|v| v.as_str().map(str::to_string));
-            s.physical_size_x_um = im.physical_size.x;
-            s.physical_size_y_um = im.physical_size.y;
-            s.physical_size_z_um = im.physical_size.z;
-            s.time_increment_s = im.time_increment_s;
+            // readers normalize in `ImageInfo::finish`; also here for any that set sizes later
+            let r = |v: Option<f64>| v.map(openreadout_core::model::round_noise);
+            s.physical_size_x_um = r(im.physical_size.x);
+            s.physical_size_y_um = r(im.physical_size.y);
+            s.physical_size_z_um = r(im.physical_size.z);
+            s.time_increment_s = r(im.time_increment_s);
             s.mosaic_tiles = im.mosaic.as_ref().map(|m| m.tile_count);
         }
         for im in &info.images {
