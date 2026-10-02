@@ -279,3 +279,49 @@ fn scans_list_headers_with_filters_pages_and_csv() {
         .unwrap();
     assert_eq!(out.status.code(), Some(2));
 }
+
+/// An mzML exported to mzML keeps its instrument (exact model, software and component terms)
+/// and its chromatograms: `check --against` finds the two identical. Regression for the
+/// 2026-10 website audit (generic term names came back, the TIC was dropped).
+#[test]
+fn mzml_to_mzml_keeps_instrument_terms_and_chromatograms() {
+    let src = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../../fuzz/corpus/whole_mzml/pyteomics-tiny-pwiz.mzML");
+    let tmp = tempfile::tempdir().unwrap();
+    let out_path = tmp.path().join("rt.mzML");
+    let out = bin()
+        .arg("export")
+        .arg(&src)
+        .args(["--to", "mzml", "-o"])
+        .arg(&out_path)
+        .output()
+        .unwrap();
+    assert!(out.status.success(), "{}", stderr(&out));
+    let out = bin()
+        .args(["info", "--json"])
+        .arg(&out_path)
+        .output()
+        .unwrap();
+    let v = json(&out);
+    let inst = &v["data"]["spectra"][0]["instrument"];
+    assert_eq!(inst["model"], "LCQ Deca");
+    assert_eq!(inst["software"], "CompassXtract");
+    assert_eq!(inst["detector"], "electron multiplier");
+    assert_eq!(
+        v["data"]["traces"][0]["extra"]["chromatogram_type"],
+        "total ion current chromatogram"
+    );
+    let out = bin()
+        .args(["check", "--json"])
+        .arg(&src)
+        .arg("--against")
+        .arg(&out_path)
+        .output()
+        .unwrap();
+    let v = json(&out);
+    assert_eq!(
+        v["data"]["identical"], true,
+        "{:#}",
+        v["data"]["metadata"]["differences"]
+    );
+}
