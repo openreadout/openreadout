@@ -668,8 +668,8 @@ Used by:
 Used by:
 
 - [flatbuffers 25.12.19](https://github.com/google/flatbuffers)
-- [rmcp-macros 3.4.0](https://github.com/modelcontextprotocol/rust-sdk/)
-- [rmcp 3.4.0](https://github.com/modelcontextprotocol/rust-sdk/)
+- [rmcp-macros 3.5.0](https://github.com/modelcontextprotocol/rust-sdk/)
+- [rmcp 3.5.0](https://github.com/modelcontextprotocol/rust-sdk/)
 
 ```text
 Apache License
@@ -969,7 +969,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Used by:
 
-- [xxhash-rust 0.8.18](https://github.com/DoumanAsh/xxhash-rust)
+- [xxhash-rust 0.8.19](https://github.com/DoumanAsh/xxhash-rust)
 
 ```text
 Boost Software License - Version 1.0 - August 17th, 2003
@@ -1929,7 +1929,7 @@ DEALINGS IN THE SOFTWARE.
 Used by:
 
 - [signal-hook-registry 1.4.8](https://github.com/vorner/signal-hook)
-- [signal-hook 0.3.18](https://github.com/vorner/signal-hook)
+- [signal-hook 0.4.4](https://github.com/vorner/signal-hook)
 
 ```text
 Copyright (c) 2017 tokio-jsonrpc developers
@@ -3738,8 +3738,8 @@ Used by:
 - [serde_repr 0.1.21](https://github.com/dtolnay/serde-repr)
 - [syn 2.0.119](https://github.com/dtolnay/syn)
 - [syn 3.0.6](https://github.com/dtolnay/syn)
-- [thiserror-impl 2.0.20](https://github.com/dtolnay/thiserror)
-- [thiserror 2.0.20](https://github.com/dtolnay/thiserror)
+- [thiserror-impl 2.0.21](https://github.com/dtolnay/thiserror)
+- [thiserror 2.0.21](https://github.com/dtolnay/thiserror)
 - [typed-path 0.12.3](https://github.com/chipsenkbeil/typed-path)
 - [unicode-ident 1.0.26](https://github.com/dtolnay/unicode-ident)
 - [zmij 1.0.23](https://github.com/dtolnay/zmij)

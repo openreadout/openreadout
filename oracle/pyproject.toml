@@ -104,7 +104,7 @@ dependencies = [
 #   uv run --group plate python gen.py <plate file>
 #   uv run --group chrom python gen.py <ChemStation / Waters path>
 [dependency-groups]
-plate = ["allotropy==0.1.146"]
+plate = ["allotropy==0.1.147"]
 chrom = ["rainbow-api>=1.5.2"]
 # qPCR: rdmlpython (MIT, RDML consortium) reads and validates RDML (including `export --to rdml`);
 # qslib (EUPL-1.2, copyleft) is run as a black box only, as a second reader of QuantStudio .eds.
