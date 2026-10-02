@@ -43,3 +43,14 @@ cargo xtask schema gen                                 # after changing a JSON o
 - Tag each normalized field with its provenance: `Source::{Spec,VendorImpl,PriorArt,Inferred}`.
 - Every error carries a `hint` an agent can act on.
 - Commit messages are Angular style: `feat(czi): ...`, `fix(lif): ...`, `docs: ...`.
+
+## Writing
+
+Write comments, docs, commit messages and PR descriptions in plain, natural language. Reread what you wrote and ask two questions. Would a person say it this way? Does all of it need saying? Watch for these habits:
+
+- Absolutes like "never", "always", "every" and "nothing" when they aren't literally true.
+- Passive voice when you can say who does what.
+- Roundabout phrasing when a short, direct sentence would do.
+- Semicolons and colons where two sentences or a plain list would read better.
+- Uncommon words used as if they were standard terms.
+- Swapping in synonyms to avoid repeating a word. Use the same term for the same thing every time, so readers don't wonder whether you mean something different.
