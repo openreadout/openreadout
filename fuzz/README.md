@@ -141,7 +141,7 @@ dependency (one here, three in `crates/openreadout-codecs/tests/fixtures/malform
 
 ### Last recorded run per target (to 2026-09-24)
 
-One libFuzzer worker (`-fork=1`, AddressSanitizer, debug assertions on) for every run. Campaign 2 (2026-09-23) ran every target that existed then for 3 minutes; campaign 3 (2026-09-24) ran every target added or substantially changed since then for 90 seconds, and a second round the same day reran the targets whose readers had changed (the shared zip reader, spectral bands, the auto baseline, qPCR, OpenLab CDS, Gen5, Shimadzu, WiRE, Harmony, the CZI/VSI/NDPI pyramids, ND2) for another 90 seconds each. The table shows the last run of each target that existed on 2026-09-24; targets added later have no long run recorded yet. CI's `fuzz-smoke` job runs every target on Linux for 15 s on pull requests and 60 s weekly.
+One libFuzzer worker (`-fork=1`, AddressSanitizer, debug assertions on) for every run. Campaign 2 (2026-09-23) ran every target that existed then for 3 minutes; campaign 3 (2026-09-24) ran every target added or substantially changed since then for 90 seconds, and a second round the same day reran the targets whose readers had changed (the shared zip reader, spectral bands, the auto baseline, qPCR, OpenLab CDS, Gen5, Shimadzu, WiRE, Harmony, the CZI/VSI/NDPI pyramids, ND2) for another 90 seconds each. The table shows the last run of each target that existed on 2026-09-24; targets added later have no long run recorded yet. CI's `fuzz-smoke` job runs on Linux: on pull requests, 15 s for each target the change can reach (`affected.py`); weekly, every target for 60 s.
 
 | area | targets | last recorded run | notes |
 | --- | --- | --- | --- |

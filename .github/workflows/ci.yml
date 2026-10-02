@@ -1,18 +1,32 @@
 name: CI
 
-# Every job runs on pushes to main, pull requests (Dependabot's included), weekly and on manual
-# dispatch. The repository is public, so GitHub-hosted runner minutes are free.
+# Runs on pushes to main, pull requests (Dependabot's included), weekly and on manual dispatch.
+# Changes only to the website (book/, built and checked by docs.yml) or to prose files nothing
+# reads skip it. Pull requests skip the release cross-builds and fuzz only the targets they touch;
+# main builds every release target, and the weekly run fuzzes every target for longer.
 on:
   push:
     branches: [main]
+    paths-ignore: &prose
+      - "book/**"
+      - "README.md"
+      - "CONTRIBUTING.md"
+      - "CODE_OF_CONDUCT.md"
+      - "SECURITY.md"
+      - "TRADEMARKS.md"
+      - "AGENTS.md"
+      - "CLAUDE.md"
   pull_request:
+    paths-ignore: *prose
   schedule:
     - cron: "23 5 * * 1"
   workflow_dispatch:
 
+# A new push to a pull request replaces its running checks; runs on main always finish, so main
+# keeps saving the caches pull requests restore from.
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
@@ -75,7 +89,8 @@ jobs:
           python3 oracle/mcp_smoke.py --http target/debug/openreadout crates/openreadout-lif/tests/fixtures/synthetic-dims.lif --synthetic
 
   # Downloads the smoke corpus once per manifest version and caches it for the jobs below, so
-  # parallel jobs do not each download it (data hosts throttle concurrent downloads).
+  # parallel jobs do not each download it (data hosts throttle concurrent downloads). A new
+  # manifest starts from the latest cached corpus and downloads only what it lacks.
   corpus-fetch:
     name: fetch the smoke corpus
     runs-on: ubuntu-latest
@@ -90,6 +105,13 @@ jobs:
           key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
           enableCrossOsArchive: true
           lookup-only: true
+      - if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: corpus/files
+          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+          restore-keys: corpus-smoke-
+          enableCrossOsArchive: true
       - if: steps.cache.outputs.cache-hit != 'true'
         uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
       - if: steps.cache.outputs.cache-hit != 'true'
@@ -184,15 +206,15 @@ jobs:
           enableCrossOsArchive: true
       - name: Fetch what the cache did not have
         run: cargo xtask corpus fetch --tier smoke
-      # After the corpus fetch: maturin-action exports RUSTC_WRAPPER=sccache, which exists only in
-      # its manylinux container, so a later host-side cargo command would fail.
+      # No sccache: it stores every compiled object as its own Actions cache entry, hundreds per
+      # run, which pushed the repository past its 10 GB cache limit and evicted the build and
+      # corpus caches the other jobs restore.
       - name: Build the abi3 wheel (manylinux)
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
           command: build
           args: --out dist  # profile release-py comes from pyproject.toml
           manylinux: auto
-          sccache: true
       - name: Install the wheel, the bioio plugin and the (permissive) oracle readers
         run: |
           set -e
@@ -213,8 +235,11 @@ jobs:
           ruff check crates/openreadout-py python
           mypy
 
+  # Release builds of every published target. Not on pull requests: test-os already compiles and
+  # tests on Windows and macOS there, and these builds hold scarce macOS runners for up to 25 min.
   cross-build:
     name: build ${{ matrix.target }}
+    if: github.event_name != 'pull_request'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -550,42 +575,59 @@ jobs:
           echo "::group::mcp_client.py"
           python3 examples/mcp/mcp_client.py "$files/zenodo7015307-T-3-Z-5-CH-2.czi"
           echo "::endgroup::"
-  # Every cargo-fuzz target (about 60) from the committed seeds, Linux only, never on pushes:
-  # 15 s each on pull requests (about 15 min plus the build), 60 s each weekly and on manual runs.
+  # cargo-fuzz targets from the committed seeds, Linux only, never on pushes. Pull requests run
+  # the targets their diff can reach (fuzz/affected.py), 15 s each, and skip the build when there
+  # are none; weekly and manual runs fuzz all of them (134) for 60 s each, about 2.5 h.
   fuzz-smoke:
-    name: fuzz smoke (every target, 15 s each; 60 s weekly)
+    name: fuzz smoke (targets the change reaches, 15 s each; all, 60 s weekly)
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
-    # 92 targets: about 25 min at 15 s each (pull requests), about 95 min at 60 s (weekly), plus the build.
-    timeout-minutes: 150
+    timeout-minutes: 240
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 2  # a pull request's merge commit and its base (first parent)
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - name: Choose targets
+        id: targets
+        env:
+          WHICH: ${{ github.event_name == 'pull_request' && 'HEAD^1' || '--all' }}
+        run: |
+          python3 fuzz/affected.py "$WHICH" > fuzz-targets.txt
+          n=$(wc -l < fuzz-targets.txt)
+          echo "count=$n" >> "$GITHUB_OUTPUT"
+          { echo "### Fuzz targets: $n"; tr '\n' ' ' < fuzz-targets.txt; echo; } >> "$GITHUB_STEP_SUMMARY"
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        if: steps.targets.outputs.count != '0'
         with:
           toolchain: nightly
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        if: steps.targets.outputs.count != '0'
         with:
           workspaces: fuzz
       - uses: taiki-e/install-action@83ac0ad63c0167e6f06796fab0fce28db1bf3db0 # v2.87.22
+        if: steps.targets.outputs.count != '0'
         with:
           tool: cargo-fuzz
       - name: Build fuzz targets
+        if: steps.targets.outputs.count != '0'
         working-directory: fuzz
         # Explicit target: the prebuilt cargo-fuzz is a musl binary and would otherwise default to
         # musl (static libc, which the sanitizer cannot use).
         run: |
           cargo +nightly fuzz build -O -a --target "$(rustc +nightly -vV | sed -n 's/^host: //p')"
       - name: Run each target from the committed seeds
+        if: steps.targets.outputs.count != '0'
         working-directory: fuzz
         env:
           SECS: ${{ github.event_name == 'pull_request' && '15' || '60' }}
         run: |
           bin="target/$(rustc +nightly -vV | sed -n 's/^host: //p')/release"
           fail=0
-          for t in $(cargo +nightly fuzz list); do
+          while read -r t; do
             echo "::group::$t"
             mkdir -p "work/$t" "artifacts/$t" "corpus/$t"  # targets without committed seeds start empty
             if ! "$bin/$t" "work/$t" "corpus/$t" -max_total_time="$SECS" \
@@ -594,7 +636,7 @@ jobs:
               fail=1
             fi
             echo "::endgroup::"
-          done
+          done < ../fuzz-targets.txt
           exit $fail
       - name: Upload crash artifacts
         if: failure()

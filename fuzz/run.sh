@@ -10,7 +10,8 @@
 # One target at a time, one worker, 2 GB RSS cap: fuzzing next to builds on a 16 GB machine
 # has exhausted memory before. Needs a nightly toolchain and cargo-fuzz
 # (`rustup toolchain install nightly`, `cargo install cargo-fuzz`). CI's `fuzz-smoke` job runs
-# the equivalent of `fuzz/run.sh 15` on pull requests and `fuzz/run.sh 60` weekly (Linux only).
+# the equivalent of `fuzz/run.sh 15 $(python3 affected.py origin/main)` on pull requests and
+# `fuzz/run.sh 60` weekly (Linux only).
 set -euo pipefail
 cd "$(dirname "$0")"
 SECS="${1:-60}"
