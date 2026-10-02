@@ -15,21 +15,43 @@ use openreadout_core::{Error, Result};
 /// windows-1252; the imzML example files) are read through this guard, which replaces every
 /// byte above 0x7F by `?`: one byte for one byte, so byte offsets stay valid, at the cost of
 /// the non-ASCII characters in free text (names, addresses). Markup is ASCII in both encodings.
+///
+/// It also stops a single token (a tag, or the text between two tags) longer than
+/// [`MAX_TOKEN`]: quick-xml holds a whole token in memory, and a small compressed input can
+/// expand into one gigantic token.
 #[derive(Debug)]
 pub(crate) struct Guard<R> {
     inner: R,
     on: bool,
+    /// Bytes since the last `<` or `>`.
+    run: usize,
 }
+
+/// Longest token read. The largest real tokens are base64 binary arrays of one spectrum or
+/// chromatogram, far below this.
+const MAX_TOKEN: usize = 256 << 20;
 
 impl<R: std::io::Read> std::io::Read for Guard<R> {
     fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
         let n = self.inner.read(buf)?;
-        if self.on {
-            for b in &mut buf[..n] {
-                if *b > 0x7f {
-                    *b = b'?';
-                }
+        for b in &mut buf[..n] {
+            if self.on && *b > 0x7f {
+                *b = b'?';
             }
+            if matches!(*b, b'<' | b'>') {
+                self.run = 0;
+            } else {
+                self.run += 1;
+            }
+        }
+        if self.run > MAX_TOKEN {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                format!(
+                    "an XML tag or text run is longer than {} MiB",
+                    MAX_TOKEN >> 20
+                ),
+            ));
         }
         Ok(n)
     }
@@ -63,7 +85,7 @@ pub(crate) fn single_byte_encoding(f: &mut SourceFile) -> std::io::Result<bool> 
 
 /// A buffered, encoding-guarded reader over `f` from its current position.
 pub(crate) fn guarded<R: std::io::Read>(inner: R, on: bool, cap: usize) -> BufReader<Guard<R>> {
-    BufReader::with_capacity(cap, Guard { inner, on })
+    BufReader::with_capacity(cap, Guard { inner, on, run: 0 })
 }
 
 /// Deepest element nesting we follow (mzML needs about 8; a hostile file cannot recurse us).
