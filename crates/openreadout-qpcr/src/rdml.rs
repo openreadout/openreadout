@@ -72,6 +72,52 @@ fn f(n: Node<'_, '_>, name: &str) -> Option<f64> {
 }
 
 /// RDML uses -1.0 for "not available" in `cq`, `N0`, `corrCq`, `corrP`.
+/// A stored `cq` at or beyond the run's cycle count is "no Cq" written as a number: the
+/// StepOne software's RDML export stores its undetermined wells (here no-template controls)
+/// as `cq` = the cycle count (40.0 of 40 cycles), as it does in `.eds` text results
+/// (docs/provenance/qpcr.md, 2026-10-02). Such a value is reported as undetermined, kept in
+/// `cq_stored` and flagged `cq_at_cycle_count`. The cycle count is the last cycle of the
+/// assay's amplification curve (what was measured; the StepOne file's program reads as 41
+/// cycles for its 40), else the run program's. Runs after the LightCycler 96 calls (which
+/// already withhold their own stored values). Returns the number of values withheld.
+pub(crate) fn cq_at_cycle_count(d: &mut QpcrData) -> usize {
+    let mut n = 0usize;
+    for run in &mut d.runs {
+        let program = run
+            .program
+            .and_then(|p| d.programs.get(p))
+            .and_then(Program::cycles);
+        for a in run.reactions.iter_mut().flat_map(|r| r.assays.iter_mut()) {
+            let curve = a.amplification.as_ref().and_then(|c| {
+                c.cycles
+                    .iter()
+                    .copied()
+                    .filter(|c| c.is_finite())
+                    .reduce(f64::max)
+            });
+            let Some(cycles) = curve.or(program.map(f64::from)) else {
+                continue;
+            };
+            if let Some(v) = a.cq
+                && cycles >= 1.0
+                && v >= cycles
+            {
+                a.cq = None;
+                a.cq_undetermined = true;
+                a.cq_stored = Some(v);
+                a.flags.push("cq_at_cycle_count".into());
+                n += 1;
+            }
+        }
+    }
+    if n > 0 {
+        d.notes.push(format!(
+            "{n} reactions store a cq at or beyond the run's cycle count, which is how the exporting software writes \"no Cq\": reported as undetermined, the stored number kept as cq_stored"
+        ));
+    }
+    n
+}
+
 fn not_available(v: Option<f64>) -> (Option<f64>, bool) {
     match v {
         Some(x) if (x + 1.0).abs() < 1e-12 => (None, true),
@@ -589,6 +635,38 @@ mod tests {
     <react id="13"><sample id="Std1"/><data><tar id="GAPDH"/><cq>18</cq></data></react>
   </run></experiment>
 </rdml>"#;
+
+    #[test]
+    #[allow(clippy::float_cmp)]
+    fn cq_at_the_cycle_count_is_undetermined() {
+        let curve = |n: u32| Curve {
+            cycles: (1..=n).map(f64::from).collect(),
+            fluorescence: vec![0.0; n as usize],
+            corrected: None,
+            quantity: "fluorescence",
+        };
+        let assay = |cq: f64| Assay {
+            cq: Some(cq),
+            amplification: Some(curve(40)),
+            ..Assay::default()
+        };
+        let mut d = QpcrData::new(Dialect::Rdml);
+        d.runs.push(Run {
+            reactions: vec![Reaction {
+                assays: vec![assay(40.0), assay(39.98), assay(28.9)],
+                ..Reaction::default()
+            }],
+            ..Run::default()
+        });
+        assert_eq!(cq_at_cycle_count(&mut d), 1);
+        let a = &d.runs[0].reactions[0].assays;
+        assert!(a[0].cq.is_none() && a[0].cq_undetermined);
+        assert_eq!(a[0].cq_stored, Some(40.0));
+        assert_eq!(a[0].flags, ["cq_at_cycle_count"]);
+        assert_eq!(a[1].cq, Some(39.98));
+        assert_eq!(a[2].cq, Some(28.9));
+        assert!(d.notes.iter().any(|n| n.contains("cycle count")));
+    }
 
     #[test]
     fn parses_a_small_document() {
