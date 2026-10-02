@@ -2,39 +2,32 @@
 
 OpenReadout is one program, `openreadout`, with no runtime dependencies. All the options on this page give you the same binary, built from the same source.
 
-OpenReadout has not had its first release yet. Until it does, build it from the repository with cargo.
+## Install script
 
-## cargo
-
-You need Rust 1.91 or newer (from [rustup](https://rustup.rs)). This builds the program and puts it in `~/.cargo/bin`:
+On macOS and Linux this puts the binary in `~/.local/bin`:
 
 ```bash
-cargo install --locked --git https://github.com/openreadout/openreadout openreadout
+curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/install.sh | sh
 ```
 
-Add `--no-default-features` for a smaller binary without the MCP server and without Parquet and Arrow export.
+Set `OPENREADOUT_VERSION=v0.1.0` for a specific version, or `OPENREADOUT_INSTALL_DIR` for another directory. On Windows (PowerShell) this installs into `%LOCALAPPDATA%\Programs\openreadout` and adds it to your `PATH`:
 
-From the first release on, `cargo install openreadout --locked` builds the version on crates.io, and `cargo binstall openreadout` downloads the release binary instead of compiling.
+```powershell
+irm https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/install.ps1 | iex
+```
 
 ## Other ways
 
-These work today, from a clone of the repository:
-
-- **From source:** `cargo build --release -p openreadout`. The binary is `target/release/openreadout`.
-- **Nix:** `nix run github:openreadout/openreadout -- info run42.czi`, or `nix profile install github:openreadout/openreadout`. The flake builds from source, so it works on any commit.
-- **Docker:** `docker build -t openreadout .` in a checkout.
-- **Python:** `pip install .` in a checkout builds the Python package. It reads the same files from Python but does not put the `openreadout` command on your `PATH`. See [Python](../guides/python.md).
-- **R:** `R CMD INSTALL r/openreadout`, which needs a Rust toolchain. See [R](../guides/r.md).
-
-From the first release on (not available yet):
-
-- **Install script (macOS, Linux):** `curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/install.sh | sh` puts the binary in `~/.local/bin`. Set `OPENREADOUT_VERSION=v0.1.0` for a specific version or `OPENREADOUT_INSTALL_DIR` for another directory. On Windows: `irm https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/install.ps1 | iex`, which installs into `%LOCALAPPDATA%\Programs\openreadout` and adds it to your `PATH`.
 - **Homebrew:** `brew install openreadout/tap/openreadout`. Each release also attaches the formula, `openreadout.rb`, which you can install with `brew install --formula ./openreadout.rb`.
 - **Scoop (Windows):** `scoop install https://github.com/openreadout/openreadout/releases/latest/download/openreadout.json`.
 - **npm:** `npx openreadout info run42.czi` or `npm install -g openreadout`. The package downloads the release binary for your platform and checks it against the release's `SHA256SUMS`. `OPENREADOUT_BINARY` points it at a binary you already have.
-- **Docker image:** `docker run --rm -v "$PWD:/data" ghcr.io/openreadout/openreadout info /data/run42.czi`. The image holds the binary and the license files only (no shell), for `linux/amd64` and `linux/arm64`. Add `--user "$(id -u):$(id -g)"` so exported files belong to you.
-- **Python wheels:** `pip install openreadout`, for Linux, macOS and Windows.
+- **cargo:** `cargo binstall openreadout` downloads the release binary; `cargo install openreadout --locked` builds it (Rust 1.91 or newer, from [rustup](https://rustup.rs)) and puts it in `~/.cargo/bin`. Add `--no-default-features` for a smaller binary without the MCP server and without Parquet and Arrow export.
+- **Docker:** `docker run --rm -v "$PWD:/data" ghcr.io/openreadout/openreadout info /data/run42.czi`. The image holds the binary and the license files only (no shell), for `linux/amd64` and `linux/arm64`. Add `--user "$(id -u):$(id -g)"` so exported files belong to you.
+- **Python:** `pip install openreadout` reads the same files from Python, with wheels for Linux, macOS and Windows. It does not put the `openreadout` command on your `PATH`. See [Python](../guides/python.md).
+- **R:** `R CMD INSTALL r/openreadout` from a checkout, which needs a Rust toolchain. See [R](../guides/r.md).
+- **Nix:** `nix run github:openreadout/openreadout -- info run42.czi`, or `nix profile install github:openreadout/openreadout`.
 - **Release archives:** `openreadout-<target>.tar.gz` (`.zip` on Windows) from the [releases page](https://github.com/openreadout/openreadout/releases), for `x86_64-unknown-linux-musl` and `aarch64-unknown-linux-musl` (static, any Linux distribution), `aarch64-apple-darwin`, `x86_64-apple-darwin` and `x86_64-pc-windows-msvc`. Each archive holds the binary, the README, the licenses and notices, man pages and shell completions.
+- **From source:** `cargo install --locked --git https://github.com/openreadout/openreadout openreadout` builds the latest commit.
 
 Not available yet: winget (manifests in [`packaging/winget`](../../../packaging/winget)) and bioconda (recipe drafted in [`integrations/bioconda`](../../../integrations/bioconda), not submitted). Nextflow, Galaxy and Snakemake use the binary on your `PATH`; see [Pipelines](../guides/pipelines.md).
 

@@ -8,7 +8,7 @@ Use this when you want pixels, table rows or trace samples as NumPy arrays in yo
 pip install openreadout
 ```
 
-Until the first release is on PyPI, install it from a checkout of the repository with `pip install .` (this needs a Rust toolchain). The package does not install the `openreadout` command; for that, see [Install](../getting-started/install.md).
+The package does not install the `openreadout` command; for that, see [Install](../getting-started/install.md).
 
 ```python
 import openreadout

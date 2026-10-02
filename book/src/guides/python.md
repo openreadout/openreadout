@@ -19,13 +19,6 @@ pip install bioio bioio-openreadout       # the bioio plugin
 
 Wheels are built for CPython 3.10 and newer on Linux (x86_64 and aarch64, glibc and musl), macOS (x86_64 and arm64) and Windows (x64). On other platforms, pip builds from source, which needs a Rust toolchain.
 
-Until the first release is on PyPI, build from a checkout of the repository (this also needs Rust):
-
-```bash
-pip install .
-pip install ./python/bioio-openreadout
-```
-
 The Python package does not install the `openreadout` command. For that, see [Install](../getting-started/install.md).
 
 ## The `openreadout` package
