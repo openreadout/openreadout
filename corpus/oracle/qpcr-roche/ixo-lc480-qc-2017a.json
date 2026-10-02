@@ -1,0 +1,735 @@
+{
+ "id": "ixo-lc480-qc-2017a",
+ "kind": "ixo",
+ "reader": "Python standard library (xml.etree, zlib, base64, struct)",
+ "experiment": "QC 2017-11-09 Instrument A | LightCycler PCR QC Kit Cat.No. 06746381001 v04",
+ "instrument": "LightCycler 480 - LED lamp",
+ "started_at": "2017-11-09T09:53:24.812",
+ "programs": [
+  {
+   "name": "Melting A",
+   "cycles": 1,
+   "mode": "Melting Curves"
+  },
+  {
+   "name": "Cycling",
+   "cycles": 45,
+   "mode": "Quantification"
+  },
+  {
+   "name": "Melting B",
+   "cycles": 1,
+   "mode": "Melting Curves"
+  }
+ ],
+ "channels": [
+  "465-510",
+  "498-640"
+ ],
+ "positions": [
+  {
+   "pos": 0,
+   "sample": "Sample 1",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 1,
+   "sample": "Sample 2",
+   "call": 2,
+   "cp": 21.9345281957783,
+   "included": true
+  },
+  {
+   "pos": 2,
+   "sample": "Sample 3",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 3,
+   "sample": "Sample 4",
+   "call": 2,
+   "cp": 21.8974396305919,
+   "included": true
+  },
+  {
+   "pos": 4,
+   "sample": "Sample 5",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 5,
+   "sample": "Sample 6",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 6,
+   "sample": "Sample 7",
+   "call": 2,
+   "cp": 21.918989516897,
+   "included": true
+  },
+  {
+   "pos": 7,
+   "sample": "Sample 8",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 8,
+   "sample": "Sample 9",
+   "call": 2,
+   "cp": 21.9219782809169,
+   "included": true
+  },
+  {
+   "pos": 9,
+   "sample": "Sample 10",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 10,
+   "sample": "Sample 11",
+   "call": 2,
+   "cp": 21.9357602626651,
+   "included": true
+  },
+  {
+   "pos": 11,
+   "sample": "Sample 12",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 12,
+   "sample": "Sample 13",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 13,
+   "sample": "Sample 14",
+   "call": 2,
+   "cp": 21.9045823452531,
+   "included": true
+  },
+  {
+   "pos": 14,
+   "sample": "Sample 15",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 15,
+   "sample": "Sample 16",
+   "call": 2,
+   "cp": 21.9120083407181,
+   "included": true
+  },
+  {
+   "pos": 16,
+   "sample": "Sample 17",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 17,
+   "sample": "Sample 18",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 18,
+   "sample": "Sample 19",
+   "call": 2,
+   "cp": 21.9037448737827,
+   "included": true
+  },
+  {
+   "pos": 19,
+   "sample": "Sample 20",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 20,
+   "sample": "Sample 21",
+   "call": 2,
+   "cp": 21.9049401113503,
+   "included": true
+  },
+  {
+   "pos": 21,
+   "sample": "Sample 22",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 22,
+   "sample": "Sample 23",
+   "call": 2,
+   "cp": 21.9166825624274,
+   "included": true
+  },
+  {
+   "pos": 23,
+   "sample": "Sample 24",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 24,
+   "sample": "Sample 25",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 25,
+   "sample": "Sample 26",
+   "call": 2,
+   "cp": 21.9297152154612,
+   "included": true
+  },
+  {
+   "pos": 26,
+   "sample": "Sample 27",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 27,
+   "sample": "Sample 28",
+   "call": 2,
+   "cp": 21.9112930536536,
+   "included": true
+  },
+  {
+   "pos": 28,
+   "sample": "Sample 29",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 29,
+   "sample": "Sample 30",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 30,
+   "sample": "Sample 31",
+   "call": 2,
+   "cp": 21.9062022121324,
+   "included": true
+  },
+  {
+   "pos": 31,
+   "sample": "Sample 32",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 32,
+   "sample": "Sample 33",
+   "call": 2,
+   "cp": 21.8870863608778,
+   "included": true
+  },
+  {
+   "pos": 33,
+   "sample": "Sample 34",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 34,
+   "sample": "Sample 35",
+   "call": 2,
+   "cp": 21.8961717780311,
+   "included": true
+  },
+  {
+   "pos": 35,
+   "sample": "Sample 36",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 36,
+   "sample": "Sample 37",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 37,
+   "sample": "Sample 38",
+   "call": 2,
+   "cp": 21.8849195140976,
+   "included": true
+  },
+  {
+   "pos": 38,
+   "sample": "Sample 39",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 39,
+   "sample": "Sample 40",
+   "call": 2,
+   "cp": 21.9316497109897,
+   "included": true
+  },
+  {
+   "pos": 40,
+   "sample": "Sample 41",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 41,
+   "sample": "Sample 42",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 42,
+   "sample": "Sample 43",
+   "call": 2,
+   "cp": 21.9169917211451,
+   "included": true
+  },
+  {
+   "pos": 43,
+   "sample": "Sample 44",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 44,
+   "sample": "Sample 45",
+   "call": 2,
+   "cp": 21.9386539958738,
+   "included": true
+  },
+  {
+   "pos": 45,
+   "sample": "Sample 46",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 46,
+   "sample": "Sample 47",
+   "call": 2,
+   "cp": 21.9039473762196,
+   "included": true
+  },
+  {
+   "pos": 47,
+   "sample": "Sample 48",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 48,
+   "sample": "Sample 49",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 49,
+   "sample": "Sample 50",
+   "call": 2,
+   "cp": 21.8937627898978,
+   "included": true
+  },
+  {
+   "pos": 50,
+   "sample": "Sample 51",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 51,
+   "sample": "Sample 52",
+   "call": 2,
+   "cp": 21.9051855203289,
+   "included": true
+  },
+  {
+   "pos": 52,
+   "sample": "Sample 53",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 53,
+   "sample": "Sample 54",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 54,
+   "sample": "Sample 55",
+   "call": 2,
+   "cp": 21.9287983714816,
+   "included": true
+  },
+  {
+   "pos": 55,
+   "sample": "Sample 56",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 56,
+   "sample": "Sample 57",
+   "call": 2,
+   "cp": 21.9094908115467,
+   "included": true
+  },
+  {
+   "pos": 57,
+   "sample": "Sample 58",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 58,
+   "sample": "Sample 59",
+   "call": 2,
+   "cp": 21.9165672194886,
+   "included": true
+  },
+  {
+   "pos": 59,
+   "sample": "Sample 60",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 60,
+   "sample": "Sample 61",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 61,
+   "sample": "Sample 62",
+   "call": 2,
+   "cp": 21.918054546632,
+   "included": true
+  },
+  {
+   "pos": 62,
+   "sample": "Sample 63",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 63,
+   "sample": "Sample 64",
+   "call": 2,
+   "cp": 21.8920944487632,
+   "included": true
+  },
+  {
+   "pos": 64,
+   "sample": "Sample 65",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 65,
+   "sample": "Sample 66",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 66,
+   "sample": "Sample 67",
+   "call": 2,
+   "cp": 21.878252164279,
+   "included": true
+  },
+  {
+   "pos": 67,
+   "sample": "Sample 68",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 68,
+   "sample": "Sample 69",
+   "call": 2,
+   "cp": 21.9347670934687,
+   "included": true
+  },
+  {
+   "pos": 69,
+   "sample": "Sample 70",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 70,
+   "sample": "Sample 71",
+   "call": 2,
+   "cp": 21.9129934956202,
+   "included": true
+  },
+  {
+   "pos": 71,
+   "sample": "Sample 72",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 72,
+   "sample": "Sample 73",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 73,
+   "sample": "Sample 74",
+   "call": 2,
+   "cp": 21.9349568259711,
+   "included": true
+  },
+  {
+   "pos": 74,
+   "sample": "Sample 75",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 75,
+   "sample": "Sample 76",
+   "call": 2,
+   "cp": 21.9046933161641,
+   "included": true
+  },
+  {
+   "pos": 76,
+   "sample": "Sample 77",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 77,
+   "sample": "Sample 78",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 78,
+   "sample": "Sample 79",
+   "call": 2,
+   "cp": 21.9140123305158,
+   "included": true
+  },
+  {
+   "pos": 79,
+   "sample": "Sample 80",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 80,
+   "sample": "Sample 81",
+   "call": 2,
+   "cp": 21.9151844457162,
+   "included": true
+  },
+  {
+   "pos": 81,
+   "sample": "Sample 82",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 82,
+   "sample": "Sample 83",
+   "call": 2,
+   "cp": 21.9435285565868,
+   "included": true
+  },
+  {
+   "pos": 83,
+   "sample": "Sample 84",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 84,
+   "sample": "Sample 85",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 85,
+   "sample": "Sample 86",
+   "call": 2,
+   "cp": 21.9443389230292,
+   "included": true
+  },
+  {
+   "pos": 86,
+   "sample": "Sample 87",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 87,
+   "sample": "Sample 88",
+   "call": 2,
+   "cp": 21.9444390656247,
+   "included": true
+  },
+  {
+   "pos": 88,
+   "sample": "Sample 89",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 89,
+   "sample": "Sample 90",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 90,
+   "sample": "Sample 91",
+   "call": 2,
+   "cp": 21.9007257966332,
+   "included": true
+  },
+  {
+   "pos": 91,
+   "sample": "Sample 92",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 92,
+   "sample": "Sample 93",
+   "call": 2,
+   "cp": 21.9367885079662,
+   "included": true
+  },
+  {
+   "pos": 93,
+   "sample": "Sample 94",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  },
+  {
+   "pos": 94,
+   "sample": "Sample 95",
+   "call": 2,
+   "cp": 21.9322157158415,
+   "included": true
+  },
+  {
+   "pos": 95,
+   "sample": "Sample 96",
+   "call": 0,
+   "cp": 0.0,
+   "included": true
+  }
+ ],
+ "readings": {
+  "0/0": [
+   51,
+   23166738.915802002,
+   4299.2699999999995
+  ],
+  "0/1": [
+   51,
+   13816492.143493652,
+   4309.050000000003
+  ],
+  "1/0": [
+   45,
+   26614915.41455078,
+   2607.0000000000014
+  ],
+  "1/1": [
+   45,
+   15881066.515289307,
+   2607.0300000000016
+  ],
+  "2/0": [
+   95,
+   48454385.56210327,
+   6973.24
+  ],
+  "2/1": [
+   95,
+   31182030.188201904,
+   6992.719999999999
+  ]
+ }
+}

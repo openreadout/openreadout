@@ -1,0 +1,39 @@
+{
+ "id": "rsciio-dm-2d-test-27-dm4",
+ "file": "rsciio-dm-2d-test-27-dm4.dm4",
+ "size": 26724,
+ "sha256": "4f517cfca2603e6454760d16ee4313bcf8d5456e64c47cd10b0ddaad2656ebee",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "test",
+   "size_x": 2,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 3,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "97b500c692b00e7e9b289e0c1bf9a653"
+    }
+   ],
+   "pixel_type": "complex"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

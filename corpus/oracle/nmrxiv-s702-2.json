@@ -1,0 +1,143 @@
+{
+ "id": "nmrxiv-s702-2",
+ "file": "2",
+ "size": 1662075,
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 32768,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sample_rate_hz": 23809.5238095238,
+   "nmrglue_shape": [
+    32768
+   ],
+   "nmrglue_dtype": "complex128",
+   "reader": "nmrglue 0.12 bruker.read",
+   "parameters": {
+    "acqus": {
+     "TD": 65536,
+     "NS": 1024,
+     "DS": 4,
+     "NUC1": "13C",
+     "SFO1": 100.627859309,
+     "BF1": 100.61779753,
+     "SW_h": 23809.5238095238,
+     "SW": 236.609662304466,
+     "DTYPA": 2,
+     "BYTORDA": 0,
+     "NC": 0,
+     "AQ_mod": 3,
+     "DECIM": 840,
+     "DSPFVS": 21,
+     "GRPDLY": 76,
+     "PULPROG": "zgpg30",
+     "SOLVENT": "CDCl3",
+     "TE": 297.4529,
+     "DATE": 1642613281,
+     "INSTRUM": "Avance 4",
+     "PROBHD": "Z172720_0001 (PI HR-BBO400S1-BBF/H/D-5.0-Z SP FB)",
+     "FnTYPE": 0,
+     "FnMODE": 0,
+     "NusTD": 0,
+     "RG": 101
+    }
+   },
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 32768,
+     "channels": [
+      {
+       "xxh3": "6b5a6a4f73282c68f10dba3c7be172b8",
+       "first": [
+        27.15625,
+        -152.5078125,
+        110.3515625,
+        -216.078125,
+        334.484375,
+        -361.6328125,
+        644.5234375,
+        -738.109375
+       ]
+      },
+      {
+       "xxh3": "d0aa8b1587fa2db29affb374996781ab",
+       "first": [
+        6.2421875,
+        -23.453125,
+        101.625,
+        -18.7109375,
+        171.40625,
+        -154.015625,
+        235.7109375,
+        -405.4375
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "pdata/1",
+   "sample_count": 131072,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 131072,
+     "channels": [
+      {
+       "xxh3": "d8efb939a41245059f5d198e703d1a4e",
+       "first": [
+        -149811712.0,
+        -86076416.0,
+        -34532864.0,
+        -21413376.0,
+        -55064064.0,
+        -110978560.0,
+        -156875776.0,
+        -177502208.0
+       ]
+      },
+      {
+       "xxh3": "93250f06330b72e378d2b54036316a26",
+       "first": [
+        236758016.0,
+        216651776.0,
+        165797376.0,
+        94230528.0,
+        36641280.0,
+        20995072.0,
+        45338112.0,
+        92740096.0
+       ]
+      }
+     ]
+    }
+   ],
+   "reader": "nmrglue 0.12 bruker.read_pdata(scale_data=True)",
+   "parameters": {
+    "procs": {
+     "SI": 131072,
+     "XDIM": 0,
+     "NC_proc": 9,
+     "OFFSET": 218.4523,
+     "SW_p": 23809.5238095238,
+     "SF": 100.617783879886,
+     "AXNUC": "13C",
+     "BYTORDP": 0,
+     "DTYPP": 0,
+     "FTSIZE": 131072
+    }
+   },
+   "ppm_first": 218.45229999999998,
+   "ppm_last": -18.179250002093227
+  }
+ ]
+}

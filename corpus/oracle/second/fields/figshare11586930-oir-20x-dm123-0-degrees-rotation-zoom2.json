@@ -1,0 +1,42 @@
+{
+ "id": "figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2",
+ "file": "oir-depth/figshare11586930/20x_DM123_0_degrees_rotation_zoom2.oir",
+ "format": "oir",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "acquisition date (earliest image)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2019-07-25T13:48:28.121",
+   "cmp": "time_or_utc",
+   "abs": 60.0
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 512,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 512,
+   "cmp": "exact"
+  }
+ ]
+}

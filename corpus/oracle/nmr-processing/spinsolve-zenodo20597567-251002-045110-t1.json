@@ -1,0 +1,55 @@
+{
+ "id": "spinsolve-zenodo20597567-251002-045110-t1",
+ "path": "spinsolve-zenodo20597567/Metronidazole_T1+TLLS/251002-045110 T1ieTime (metro50mMD2O)",
+ "kind": "spinsolve",
+ "vendor_spectra": [
+  {
+   "file": "T1ieTimeIR-Spectra.pt1",
+   "points": 16384,
+   "axis_offsets": [
+    1676,
+    198863,
+    396050,
+    593237,
+    790424,
+    987611,
+    1184798,
+    1381985,
+    1579172,
+    1776359,
+    1973546,
+    2170733,
+    2367920,
+    2565107,
+    2762294,
+    2959481,
+    3156668,
+    3353855,
+    3551042,
+    3748229
+   ],
+   "axis_first_ppm": -76.26847901005219,
+   "axis_step_ppm": 0.009785425895411112
+  }
+ ],
+ "script_phase_deg": [
+  308.364,
+  0.0
+ ],
+ "acqu": {
+  "bandwidth": 10,
+  "b1Freq": 62.3735307,
+  "lowestFrequency": -4757.1343169757965,
+  "nrPnts": 16384,
+  "zf": 1,
+  "filter": "no",
+  "filterType": "exp:0.5"
+ },
+ "proc": {
+  "f1PPMOffset": "3.89373",
+  "plotStart": "-124.747",
+  "plotStart2": "0.1",
+  "plotWidth": "997.977",
+  "plotWidth2": "39.9"
+ }
+}

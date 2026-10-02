@@ -1,0 +1,206 @@
+{
+ "id": "dandi000006-anm372907-20170613",
+ "file": "dandi000006-sub-anm372907_ses-20170613.nwb",
+ "size": 258992,
+ "sha256": "974be4e6bb774eeef4075e4920db664cd2d9499d41278a953fc72e81ebaec846",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.0.2",
+ "session": {
+  "session_description": "",
+  "identifier": "anm372907_2017-06-13_5",
+  "session_start_time": "2017-06-13T00:00:00-05:00"
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "lick_left_times",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "lick_left_times"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 470,
+     "channels": [
+      {
+       "xxh3": "e308436717abb46c38712fef1574139f",
+       "first": [
+        375.9439660000003,
+        376.08562800000027,
+        376.26413100000036,
+        376.42629700000043,
+        376.5691300000003,
+        376.7231290000004,
+        376.89046200000075,
+        377.03479500000003
+       ]
+      },
+      {
+       "xxh3": "30f66500b6ae1a7c02b109c06456c0fd",
+       "first": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "lick_right_times",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "lick_right_times"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 872,
+     "channels": [
+      {
+       "xxh3": "5e05c4e90559c10ac6362535cea0172d",
+       "first": [
+        351.105946,
+        351.266446,
+        351.3812790000005,
+        351.5271110000007,
+        351.6684399999998,
+        351.8042770000005,
+        351.93344300000024,
+        352.089609
+       ]
+      },
+      {
+       "xxh3": "c56b8745d0a78da72b4bcdf093631396",
+       "first": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "name": "units",
+   "event_count": 1,
+   "parameter_names": [
+    "id",
+    "depth",
+    "quality",
+    "cell_type",
+    "spike_times_count",
+    "electrodes_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "f714252bacb34f57070c155722340122",
+    "depth": "ac0f79efe55aa87e4166317968909019",
+    "quality": "2c0a8a99dc147d5445c3b49d035665b2",
+    "cell_type": "2c0a8a99dc147d5445c3b49d035665b2",
+    "spike_times_count": "bcff62d889b7ac1a41950b7d73695558",
+    "electrodes_count": "1d85e13540b8f55dacbcf3ae8a39cd07"
+   }
+  },
+  {
+   "index": 1,
+   "name": "units/spike_times",
+   "event_count": 1284,
+   "parameter_names": [
+    "unit_row",
+    "unit_id",
+    "spike_time"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "unit_row": "6cb8904764e9bc4bb9e97e2dc1f0c92c",
+    "unit_id": "0a2bc96f5770bc080cf150ee37e5d752",
+    "spike_time": "0fed8832b493e8facd11d10f3135113a"
+   }
+  },
+  {
+   "index": 2,
+   "name": "intervals/trials",
+   "event_count": 139,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "type",
+    "response",
+    "stim_present",
+    "is_good",
+    "cue_start_time",
+    "pole_in_time",
+    "pole_out_time"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "a3a3ae02b01f53aa5bcf2e852b3f795c",
+    "start_time": "d07ec18f1b27c09b62eff1686c3540fe",
+    "stop_time": "c05deff5d77358ed1b999f839648d203",
+    "type": "f6a1151ecb062e4ffaaea017cb025fa0",
+    "response": "2f6c0241cfeebe480130efeeab8ebcdb",
+    "stim_present": "262464ac3add0b39f2d7d3546c5a7a42",
+    "is_good": "96330f6c68c14eb5c39a6b36571f1e86",
+    "cue_start_time": "1cd8c41f1a7eefc150fe6fc6e0aa28a1",
+    "pole_in_time": "9e97f87390a2a2becd0efcbdd405787c",
+    "pole_out_time": "471cec15a17068a93bad5ac2078d6625"
+   }
+  },
+  {
+   "index": 3,
+   "name": "general/extracellular_ephys/electrodes",
+   "event_count": 64,
+   "parameter_names": [
+    "id",
+    "x",
+    "y",
+    "z",
+    "imp",
+    "location",
+    "filtering",
+    "group_name"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "674a409c2aae24ec8e955183c665b50d",
+    "x": "3258ca92e0a00944b2987a9d949e807c",
+    "y": "3258ca92e0a00944b2987a9d949e807c",
+    "z": "3258ca92e0a00944b2987a9d949e807c",
+    "imp": "6f64323b6a569fe80a3d95f92a53c476",
+    "location": "3258ca92e0a00944b2987a9d949e807c",
+    "filtering": "3258ca92e0a00944b2987a9d949e807c",
+    "group_name": "3258ca92e0a00944b2987a9d949e807c"
+   }
+  }
+ ]
+}

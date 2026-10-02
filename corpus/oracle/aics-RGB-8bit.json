@@ -1,0 +1,53 @@
+{
+ "id": "aics-RGB-8bit",
+ "file": "aics-RGB-8bit.czi",
+ "size": 1749952,
+ "sha256": "44593e6210f2f9066f8608c53c31806f4d173d1d26bb3bb5c32b182fb0c0a43e",
+ "max_planes_hashed": 32,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 924,
+   "size_y": 624,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "dims": "YXS",
+   "shape": [
+    624,
+    924,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 0' (Y: 624, X: 924, S: 3) bgr24 uncompressed>"
+   ],
+   "physical_size_um": {
+    "x": 1.0833333333333333,
+    "y": 1.0833333333333333,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ab94ed048a3daf3abff3825fb12c6680"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 1.0833333333333333,
+  "y": 1.0833333333333333,
+  "z": null
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

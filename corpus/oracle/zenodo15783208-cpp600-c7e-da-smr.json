@@ -1,0 +1,128 @@
+{
+ "id": "zenodo15783208-cpp600-c7e-da-smr",
+ "file": "zenodo15783208-cpp600-c7e-da.smr",
+ "size": 660480,
+ "sha256": "1d017a1b152ff6f640f3c0b05d90104ac9defb1e9f1e4b19c981c78156251bb4",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 Spike2RawIO (try_signal_grouping=False)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ECG"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 1000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 14329,
+     "channels": [
+      {
+       "xxh3": "5f94ec88f05292f25783c9b9b5e9d886",
+       "first": [
+        -0.000762939453125,
+        -0.0006103515625,
+        -0.0006103515625,
+        -0.00030517578125,
+        -0.000457763671875,
+        -0.0006103515625,
+        -0.00030517578125,
+        -0.0006103515625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ELC spk"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 20000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 286571,
+     "channels": [
+      {
+       "xxh3": "412695bf3bac9760cee2372830916612",
+       "first": [
+        -0.020751953125,
+        -0.006561279296875,
+        0.010528564453125,
+        -0.02593994140625,
+        0.01312255859375,
+        -0.03265380859375,
+        -0.0225830078125,
+        -0.030059814453125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ELC LF"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 1000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 14329,
+     "channels": [
+      {
+       "xxh3": "30c64d46711faf065cae5b7fd22d0b6a",
+       "first": [
+        -0.1348876953125,
+        -0.1416015625,
+        -0.134429931640625,
+        -0.144195556640625,
+        -0.167083740234375,
+        -0.14801025390625,
+        -0.157318115234375,
+        -0.182342529296875
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 0,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "time_s": "99aa06d3014798d86001c324468d497f",
+    "tick": "99aa06d3014798d86001c324468d497f",
+    "channel": "99aa06d3014798d86001c324468d497f",
+    "code0": "99aa06d3014798d86001c324468d497f",
+    "code1": "99aa06d3014798d86001c324468d497f",
+    "code2": "99aa06d3014798d86001c324468d497f",
+    "code3": "99aa06d3014798d86001c324468d497f",
+    "text": "99aa06d3014798d86001c324468d497f"
+   }
+  }
+ ]
+}

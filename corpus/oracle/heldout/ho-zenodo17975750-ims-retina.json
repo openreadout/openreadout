@@ -1,0 +1,256 @@
+{
+ "id": "ho-zenodo17975750-ims-retina",
+ "file": "Ms_63x_SuperResolution.ims",
+ "size": 30602096,
+ "sha256": "5e0e0ec964929c20f9b4cceba213ae1eda7dd5e4f9feac6303369ea9b4905e1b",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 930,
+   "size_y": 1004,
+   "size_z": 3,
+   "size_c": 11,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.029247311827957773,
+    "y": 0.029282868525897864,
+    "z": 0.11825666666666616
+   },
+   "channel_names": [
+    "DAPI",
+    "R1_AF647_CytochromeC",
+    "R1_i594_CD44",
+    "R1_AF680_HSP60",
+    "R1_AF555_GS",
+    "DAPI",
+    "R2_AF488_PNA",
+    "R2_AF647_Phalloidin",
+    "R2_AF594_MLOpsin",
+    "R2_AF532_SOpsin",
+    "R2_AF647_Rhodopsin"
+   ],
+   "filters": [
+    1
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1a8a3d39ef830cca25922d7109e644df"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "cacafcc11143bd8d8e18e417cd932000"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1d0379ebe7cfb36cbf92110b9635f868"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e09aaf93d86be8342d1eb249d7c4b979"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "ca01e314f8376e1426be1fff89a9a2b6"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "9ea129bc44729656490fdb6a0d1aeedf"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c104458d9dd7937ba1664ab1fa3941e8"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "9ecb30253b72c82eff7bc88feae0a796"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "0ec7a66674b72811877a7a3db4b6973c"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e37c8962de9fd8c80590054c36453732"
+    },
+    {
+     "c": 3,
+     "z": 1,
+     "t": 0,
+     "xxh3": "0094f4d855c29fd440966ccd54a96505"
+    },
+    {
+     "c": 3,
+     "z": 2,
+     "t": 0,
+     "xxh3": "0dfd2ba883b08a5d86c56dd22d01eaf3"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "38e9b3fcebe138e88a7570cf45cc92ea"
+    },
+    {
+     "c": 4,
+     "z": 1,
+     "t": 0,
+     "xxh3": "ca9b624f1c2558fa3a366fb307084600"
+    },
+    {
+     "c": 4,
+     "z": 2,
+     "t": 0,
+     "xxh3": "9a3358cb2a0f7f406c13c3a05ed47e22"
+    },
+    {
+     "c": 5,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4ec8f6ec93063e76b9d1fd0109a475c1"
+    },
+    {
+     "c": 5,
+     "z": 1,
+     "t": 0,
+     "xxh3": "95152505a293336605f3456a9dd1b41e"
+    },
+    {
+     "c": 5,
+     "z": 2,
+     "t": 0,
+     "xxh3": "bc9249156aa9ecc244c63c0942b2f95a"
+    },
+    {
+     "c": 6,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9f01bffeecd8674a2871288971033dbf"
+    },
+    {
+     "c": 6,
+     "z": 1,
+     "t": 0,
+     "xxh3": "543bc5b4c0455fc0da80c9283a4c60a2"
+    },
+    {
+     "c": 6,
+     "z": 2,
+     "t": 0,
+     "xxh3": "65298a713936291d681c1d80a3182260"
+    },
+    {
+     "c": 7,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1ae4144c2bd77da1e065ea29a409a553"
+    },
+    {
+     "c": 7,
+     "z": 1,
+     "t": 0,
+     "xxh3": "b32143f0fd5ea1a3234d50f97daee7dc"
+    },
+    {
+     "c": 7,
+     "z": 2,
+     "t": 0,
+     "xxh3": "18a323cc2b1a8bde299fc772053209af"
+    },
+    {
+     "c": 8,
+     "z": 0,
+     "t": 0,
+     "xxh3": "47b1ba9ff39cf0267b6e721e1dd37730"
+    },
+    {
+     "c": 8,
+     "z": 1,
+     "t": 0,
+     "xxh3": "bcc018ed952e0ae673f33eeaede93a88"
+    },
+    {
+     "c": 8,
+     "z": 2,
+     "t": 0,
+     "xxh3": "67e9027e37b71f9c51c3c8655c8aec8d"
+    },
+    {
+     "c": 9,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a9417b26ae6a60d5edb1b01b0719e925"
+    },
+    {
+     "c": 9,
+     "z": 1,
+     "t": 0,
+     "xxh3": "1b7a8deed4cdc537446f86022d777234"
+    },
+    {
+     "c": 9,
+     "z": 2,
+     "t": 0,
+     "xxh3": "5f9771abbdde229461e4c1dc5909b42f"
+    },
+    {
+     "c": 10,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fe50b007fbd0b73e7c03858505121ac9"
+    },
+    {
+     "c": 10,
+     "z": 1,
+     "t": 0,
+     "xxh3": "cc2b344005da38a57f783c7354a4a2f4"
+    },
+    {
+     "c": 10,
+     "z": 2,
+     "t": 0,
+     "xxh3": "26053d844db6455e85f3605f3c478817"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 930,
+   "height": 1004,
+   "size_z": 3,
+   "size_t": 1,
+   "size_c": 11,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint16",
+   "thumbnail": "false"
+  }
+ ]
+}

@@ -1,0 +1,110 @@
+{
+ "id": "zenodo5223412-1h-3b-jdf",
+ "file": "1H_3b-1.jdf",
+ "size": 296000,
+ "sha256": "e20a602fb15f26a3b275a98e06dde2c19e5f50be1def77abc0e3b18b285ff7f9",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 16384,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 jeol.read",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "006c0bf95e3f51c78b31a103ff90a8aa",
+       "first": [
+        -1.5680347663033587e-06,
+        0.0019226133835888108,
+        0.04068059477511351,
+        0.5953268611768919,
+        -0.3291169065305492,
+        -0.3009860460738322,
+        0.6151952302469822,
+        -0.8670869779473958
+       ]
+      },
+      {
+       "xxh3": "6346416d3863a911243e1e75c0b7a469",
+       "first": [
+        -1.2571727316707892e-05,
+        0.00488033779772613,
+        -0.252684433990206,
+        -0.2356517855656106,
+        1.0572951384188578,
+        -1.408825639558592,
+        1.336145997950473,
+        -1.4475674296542296
+       ]
+      }
+     ]
+    }
+   ],
+   "sample_rate_hz": 7503.001200480192,
+   "parameters": {
+    "extra": {
+     "spectrometer_frequency_mhz": 399.78219837825003,
+     "spectral_width_hz": 7503.001200480192,
+     "scans": 8,
+     "time_domain_size": 16384,
+     "solvent": "DMSO-D6",
+     "pulse_program": "single_pulse.ex2"
+    }
+   }
+  }
+ ],
+ "header": {
+  "major_version": 1,
+  "minor_version": 1,
+  "data_format": "one_d",
+  "data_axis_type": [
+   "complex",
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+  "data_points": [
+   16384,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "data_offset_start": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "data_offset_stop": [
+   16383,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "endian": "little_endian",
+  "data_type": "float64"
+ }
+}

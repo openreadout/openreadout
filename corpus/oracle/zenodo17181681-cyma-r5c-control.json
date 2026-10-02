@@ -1,0 +1,59 @@
+{
+ "id": "zenodo17181681-cyma-r5c-control",
+ "file": "zenodo17181681-cyma-r5c-control.atf",
+ "size": 76476158,
+ "sha256": "77aab41e91244a0fce27bd3a6b135be3224dcf310beee1b8e0db3a30d38b5a67",
+ "max_planes_hashed": 64,
+ "reader": "pyabf 2.3.8 ATF (values re-read as float64)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "Im_scaled",
+    "10_Vm"
+   ],
+   "channel_units": [
+    "pA",
+    "mV"
+   ],
+   "sample_rate_hz": 49999.99999999999,
+   "pyabf_rate_hz": 50000,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3000000,
+     "channels": [
+      {
+       "xxh3": "150c126db83f022e4385f61780192cb2",
+       "first": [
+        57.251,
+        56.4575,
+        47.6379,
+        62.0422,
+        59.5398,
+        60.791,
+        57.7087,
+        58.0444
+       ]
+      },
+      {
+       "xxh3": "debae835d1021dc50376e3caf8c29336",
+       "first": [
+        50.1099,
+        50.1404,
+        49.9573,
+        50.0488,
+        50.0793,
+        50.0793,
+        49.9878,
+        49.9878
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

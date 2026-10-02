@@ -1,0 +1,32 @@
+{
+ "id": "scn-zenodo7977915-ncbp2",
+ "file": "scn-zenodo7977915-ncbp2.scn",
+ "size": 1351830,
+ "sha256": "e1aafa5cfa46336960db000e9656ba6efe7192fd91ecb6dab74f9d2ff87740e3",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 916,
+   "size_y": 733,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 103.7117903930131,
+    "y": 103.71173260572988
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41e7587ee059e1484f0b5439e9ef480c"
+    }
+   ]
+  }
+ ]
+}

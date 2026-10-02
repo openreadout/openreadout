@@ -1,0 +1,130 @@
+[package]
+name = "openreadout"
+description = "One binary that reads raw lab-instrument files, prints JSON, exports to open formats and runs as an MCP server"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+readme = "README.md"
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
+include = ["/src", "/build.rs", "/README.md", "/SKILL.md", "/references", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+# `cargo binstall openreadout` downloads the release archive instead of compiling.
+# Asset names match .github/workflows/release.yml; the binary sits at the archive root.
+# Linux hosts (gnu or musl) get the static musl build.
+[package.metadata.binstall]
+pkg-url = "{ repo }/releases/download/v{ version }/openreadout-{ target }{ archive-suffix }"
+bin-dir = "{ bin }{ binary-ext }"
+pkg-fmt = "tgz"
+disabled-strategies = ["quick-install"]
+
+[package.metadata.binstall.overrides.x86_64-pc-windows-msvc]
+pkg-fmt = "zip"
+
+[package.metadata.binstall.overrides.x86_64-unknown-linux-gnu]
+pkg-url = "{ repo }/releases/download/v{ version }/openreadout-x86_64-unknown-linux-musl.tar.gz"
+
+[package.metadata.binstall.overrides.aarch64-unknown-linux-gnu]
+pkg-url = "{ repo }/releases/download/v{ version }/openreadout-aarch64-unknown-linux-musl.tar.gz"
+
+[[bin]]
+name = "openreadout"
+path = "src/main.rs"
+
+[features]
+default = ["mcp", "parquet"]
+mcp = ["dep:openreadout-mcp"]
+# `export --to parquet|arrow` (and the MCP tool's `parquet`/`arrow` formats): the Apache Arrow
+# and Parquet crates, pure Rust (Snappy and LZ4 only). On by default. Measured 2026-09-23 on
+# aarch64-apple-darwin: adding them grew the release binary from 16.8 MB to 22.7 MB. Since
+# `index` writes Parquet, the Arrow crates are now linked either way; this feature only gates
+# the `parquet`/`arrow` export targets.
+parquet = ["dep:openreadout-arrow", "openreadout-mcp?/parquet"]
+# Streamable HTTP transport for `openreadout mcp --http` (a loopback HTTP server; off by default
+# because the shipped binary does no networking, see AGENTS.md rule 5).
+mcp-http = ["mcp", "openreadout-mcp/http"]
+
+[dependencies]
+openreadout-core = { workspace = true }
+openreadout-ops = { workspace = true }
+openreadout-czi = { workspace = true }
+openreadout-nd2 = { workspace = true }
+openreadout-lif = { workspace = true }
+openreadout-tiff = { workspace = true }
+openreadout-fcs = { workspace = true }
+openreadout-thermo = { workspace = true }
+openreadout-agilent-ms = { workspace = true }
+openreadout-sciex = { workspace = true }
+openreadout-waters = { workspace = true }
+openreadout-mzml = { workspace = true }
+openreadout-bruker-tims = { workspace = true }
+openreadout-plate = { workspace = true }
+openreadout-qpcr = { workspace = true }
+openreadout-assay = { workspace = true }
+openreadout-oir = { workspace = true }
+openreadout-vsi = { workspace = true }
+openreadout-wsi = { workspace = true }
+openreadout-abf = { workspace = true }
+openreadout-neuralynx = { workspace = true }
+openreadout-blackrock = { workspace = true }
+openreadout-spikeglx = { workspace = true }
+openreadout-intan = { workspace = true }
+openreadout-plexon = { workspace = true }
+openreadout-ephys = { workspace = true }
+openreadout-chrom = { workspace = true }
+openreadout-em = { workspace = true }
+openreadout-nmr = { workspace = true }
+openreadout-signal = { workspace = true }
+openreadout-ometiff = { workspace = true }
+openreadout-omezarr = { workspace = true }
+openreadout-zarr = { workspace = true }
+openreadout-hdf5 = { workspace = true }
+openreadout-zvi = { workspace = true }
+openreadout-oif = { workspace = true }
+openreadout-dcimg = { workspace = true }
+openreadout-hcs = { workspace = true }
+openreadout-spectro = { workspace = true }
+openreadout-biophys = { workspace = true }
+openreadout-gel = { workspace = true }
+openreadout-thermal = { workspace = true }
+openreadout-echem = { workspace = true }
+openreadout-epr = { workspace = true }
+openreadout-xrd = { workspace = true }
+openreadout-fplc = { workspace = true }
+openreadout-mzml-writer = { workspace = true }
+openreadout-arrow = { workspace = true, optional = true }
+openreadout-preview = { workspace = true }
+openreadout-quant = { workspace = true }
+openreadout-index = { workspace = true }
+openreadout-batch = { workspace = true }
+openreadout-live = { workspace = true }
+# SIGINT/SIGTERM as a flag for `watch` (safe API; MIT OR Apache-2.0).
+signal-hook = { version = "0.3", default-features = false }
+openreadout-mcp = { workspace = true, optional = true }
+clap = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+schemars = { workspace = true }
+anyhow = { workspace = true }
+xxhash-rust = { workspace = true }
+rayon = { workspace = true }
+clap_complete = { workspace = true }
+clap_mangen = { workspace = true }
+indicatif = { workspace = true }
+anstream = { workspace = true }
+anstyle = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+
+[lints]
+workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-unknown-linux-gnu"]

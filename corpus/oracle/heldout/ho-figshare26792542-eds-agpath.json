@@ -1,0 +1,437 @@
+{
+ "id": "ho-figshare26792542-eds-agpath",
+ "file": "Figure 5 AgPath qRT-PCR IVT RNA 06Sep23.eds",
+ "size": 1625745,
+ "sha256": "47dac1c5b1bd5cb027bba6628928ccaa616158c74a16deabbec6db9ab15c738f",
+ "reader": "Python stdlib (zipfile, ElementTree, json) over the vendor's own result files",
+ "format": "applied-biosystems-eds",
+ "rows": 8,
+ "columns": 12,
+ "records": [
+  {
+   "position": 1,
+   "row": 1,
+   "col": 1,
+   "well": "A1",
+   "target": "Target 1",
+   "sample": "Samples unrelated to the study",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 3,
+   "row": 1,
+   "col": 3,
+   "well": "A3",
+   "target": "Target 1",
+   "sample": "Chicken/Tanzania/Mbeya/MT15/2012   10^5 copies",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 5,
+   "row": 1,
+   "col": 5,
+   "well": "A5",
+   "target": "Target 1",
+   "sample": "Pigeon/Ukraine/Kharkiv/23-01/967/2013   10^5 copies",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 7,
+   "row": 1,
+   "col": 7,
+   "well": "A7",
+   "target": "Target 1",
+   "sample": "Avian/USA/FL/475985/606/2007   10^5 copies",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 9,
+   "row": 1,
+   "col": 9,
+   "well": "A9",
+   "target": "Target 1",
+   "sample": "Df-1 cell total RNA",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 11,
+   "row": 1,
+   "col": 11,
+   "well": "A11",
+   "target": "Target 1",
+   "sample": "No template controls",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 13,
+   "row": 2,
+   "col": 1,
+   "well": "B1",
+   "target": "Target 1",
+   "sample": "Samples unrelated to the study",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 15,
+   "row": 2,
+   "col": 3,
+   "well": "B3",
+   "target": "Target 1",
+   "sample": "Chicken/Tanzania/Mbeya/MT15/2012   10^5 copies",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 17,
+   "row": 2,
+   "col": 5,
+   "well": "B5",
+   "target": "Target 1",
+   "sample": "Pigeon/Ukraine/Kharkiv/23-01/967/2013   10^5 copies",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 19,
+   "row": 2,
+   "col": 7,
+   "well": "B7",
+   "target": "Target 1",
+   "sample": "Avian/USA/FL/475985/606/2007   10^5 copies",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 21,
+   "row": 2,
+   "col": 9,
+   "well": "B9",
+   "target": "Target 1",
+   "sample": "Df-1 cell total RNA",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 23,
+   "row": 2,
+   "col": 11,
+   "well": "B11",
+   "target": "Target 1",
+   "sample": "No template controls",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 25,
+   "row": 3,
+   "col": 1,
+   "well": "C1",
+   "target": "Target 1",
+   "sample": "Samples unrelated to the study",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 27,
+   "row": 3,
+   "col": 3,
+   "well": "C3",
+   "target": "Target 1",
+   "sample": "Chicken/Tanzania/Mbeya/MT15/2012   10^5 copies",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 29,
+   "row": 3,
+   "col": 5,
+   "well": "C5",
+   "target": "Target 1",
+   "sample": "Pigeon/Ukraine/Kharkiv/23-01/967/2013   10^5 copies",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 31,
+   "row": 3,
+   "col": 7,
+   "well": "C7",
+   "target": "Target 1",
+   "sample": "Avian/USA/FL/475985/606/2007   10^5 copies",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 33,
+   "row": 3,
+   "col": 9,
+   "well": "C9",
+   "target": "Target 1",
+   "sample": "Df-1 cell total RNA",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  },
+  {
+   "position": 35,
+   "row": 3,
+   "col": 11,
+   "well": "C11",
+   "target": "Target 1",
+   "sample": "No template controls",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": false,
+   "tm": []
+  }
+ ],
+ "cycles": 40,
+ "acquisition_temperatures_c": [
+  72.0
+ ],
+ "acquisition_temperature_c": 72.0,
+ "qslib_multicomponent": {
+  "reader": "qslib (EUPL-1.2, black box)",
+  "stage": 2,
+  "wells": {
+   "A1": {
+    "FAM": {
+     "n": 40,
+     "sum": 7462726.669
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 13652397.48
+    }
+   },
+   "A11": {
+    "FAM": {
+     "n": 40,
+     "sum": 9191797.38
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 12016135.84
+    }
+   },
+   "A3": {
+    "FAM": {
+     "n": 40,
+     "sum": 9829488.995
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 13974092.77
+    }
+   },
+   "A5": {
+    "FAM": {
+     "n": 40,
+     "sum": 5777532.43
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 13707497.78
+    }
+   },
+   "A7": {
+    "FAM": {
+     "n": 40,
+     "sum": 4385668.721
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 12072287.81
+    }
+   },
+   "A9": {
+    "FAM": {
+     "n": 40,
+     "sum": 5429390.01
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 13394624.98
+    }
+   },
+   "B1": {
+    "FAM": {
+     "n": 40,
+     "sum": 8203881.609
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 12577694.08
+    }
+   },
+   "B11": {
+    "FAM": {
+     "n": 40,
+     "sum": 9512249.61
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 10276462.26
+    }
+   },
+   "B3": {
+    "FAM": {
+     "n": 40,
+     "sum": 10858328.984
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 10638774.45
+    }
+   },
+   "B5": {
+    "FAM": {
+     "n": 40,
+     "sum": 4316130.959
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 12104582.93
+    }
+   },
+   "B7": {
+    "FAM": {
+     "n": 40,
+     "sum": 4703142.476
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 12279197.5
+    }
+   },
+   "B9": {
+    "FAM": {
+     "n": 40,
+     "sum": 3723855.646
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 11874574.32
+    }
+   },
+   "C1": {
+    "FAM": {
+     "n": 40,
+     "sum": 7676032.606
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 11429353.17
+    }
+   },
+   "C11": {
+    "FAM": {
+     "n": 40,
+     "sum": 7326723.01
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 9775089.96
+    }
+   },
+   "C3": {
+    "FAM": {
+     "n": 40,
+     "sum": 10853915.322
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 10647868.77
+    }
+   },
+   "C5": {
+    "FAM": {
+     "n": 40,
+     "sum": 6402709.77
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 13208357.31
+    }
+   },
+   "C7": {
+    "FAM": {
+     "n": 40,
+     "sum": 4771357.846
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 11727802.36
+    }
+   },
+   "C9": {
+    "FAM": {
+     "n": 40,
+     "sum": 3648430.965
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 10022481.459999999
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,580 @@
+{
+ "id": "flowio-data-stop-offset-discrepancy",
+ "file": "flowio-data-stop-offset-discrepancy.fcs",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 2,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 26,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "FSC LogH",
+    "FSC LogA",
+    "FSC LinH",
+    "FSC LinA",
+    "SSC LogH",
+    "SSC LogA",
+    "SSC LinH",
+    "SSC LinA",
+    "488/552nm PECy5.5 (710/40) LogH",
+    "405nm BV710 (710/40) LogH",
+    "xxxxxxxxxxxxxx (710/40) LogH",
+    "488/552nm PE Cy7 (740LP) LogH",
+    "405nm Qdot800 (740LP) LogH",
+    "642nm APC Cy7 (740LP) LogH",
+    "488/552nm PECy5 (676/29) LogH",
+    "642nm APC (676/29) LogH",
+    "488/552nm PI (615/30) LogH",
+    "405nm Qdot605 (615/30) LogH",
+    "488/552nm FITC (530/30) LogH",
+    "405nm BV521 (530/30) LogH",
+    "488/552nm PE (580/30) LogH",
+    "405nm BV570 (580/30) LogH",
+    "405nm BV421 (445/60) LogH",
+    "405nm 405SSC (405/10) LogH",
+    "Width",
+    "Time"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC LogH": 65536.0,
+    "FSC LogA": 65536.0,
+    "FSC LinH": 65536.0,
+    "FSC LinA": 65536.0,
+    "SSC LogH": 65536.0,
+    "SSC LogA": 65536.0,
+    "SSC LinH": 65536.0,
+    "SSC LinA": 65536.0,
+    "488/552nm PECy5.5 (710/40) LogH": 65536.0,
+    "405nm BV710 (710/40) LogH": 65536.0,
+    "xxxxxxxxxxxxxx (710/40) LogH": 65536.0,
+    "488/552nm PE Cy7 (740LP) LogH": 65536.0,
+    "405nm Qdot800 (740LP) LogH": 65536.0,
+    "642nm APC Cy7 (740LP) LogH": 65536.0,
+    "488/552nm PECy5 (676/29) LogH": 65536.0,
+    "642nm APC (676/29) LogH": 65536.0,
+    "488/552nm PI (615/30) LogH": 65536.0,
+    "405nm Qdot605 (615/30) LogH": 65536.0,
+    "488/552nm FITC (530/30) LogH": 65536.0,
+    "405nm BV521 (530/30) LogH": 65536.0,
+    "488/552nm PE (580/30) LogH": 65536.0,
+    "405nm BV570 (580/30) LogH": 65536.0,
+    "405nm BV421 (445/60) LogH": 65536.0,
+    "405nm 405SSC (405/10) LogH": 65536.0,
+    "Width": 65536.0,
+    "Time": 11209599.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC LogH": 16,
+    "FSC LogA": 16,
+    "FSC LinH": 16,
+    "FSC LinA": 16,
+    "SSC LogH": 16,
+    "SSC LogA": 16,
+    "SSC LinH": 16,
+    "SSC LinA": 16,
+    "488/552nm PECy5.5 (710/40) LogH": 16,
+    "405nm BV710 (710/40) LogH": 16,
+    "xxxxxxxxxxxxxx (710/40) LogH": 16,
+    "488/552nm PE Cy7 (740LP) LogH": 16,
+    "405nm Qdot800 (740LP) LogH": 16,
+    "642nm APC Cy7 (740LP) LogH": 16,
+    "488/552nm PECy5 (676/29) LogH": 16,
+    "642nm APC (676/29) LogH": 16,
+    "488/552nm PI (615/30) LogH": 16,
+    "405nm Qdot605 (615/30) LogH": 16,
+    "488/552nm FITC (530/30) LogH": 16,
+    "405nm BV521 (530/30) LogH": 16,
+    "488/552nm PE (580/30) LogH": 16,
+    "405nm BV570 (580/30) LogH": 16,
+    "405nm BV421 (445/60) LogH": 16,
+    "405nm 405SSC (405/10) LogH": 16,
+    "Width": 16,
+    "Time": 32
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "parameter gain ($PnG)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC LinH": 6.5536,
+    "FSC LinA": 6.5536,
+    "SSC LinH": 6.5536,
+    "SSC LinA": 6.5536,
+    "Width": 6.5536,
+    "Time": 78125.000109
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/gain"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "I",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "little-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS3.0",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "S1400EXi",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer serial ($CYTSN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "S1417EXiBRVY01052015-45",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2019-06-28T17:29:39.850",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2019-06-28T17:32:04.017",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "spillover parameters (SPILL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/parameters",
+   "theirs": [
+    "488/552nm PECy5.5 (710/40) LogH",
+    "405nm BV710 (710/40) LogH",
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "488/552nm PE Cy7 (740LP) LogH",
+    "405nm Qdot800 (740LP) LogH",
+    "642nm APC Cy7 (740LP) LogH",
+    "488/552nm PECy5 (676/29) LogH",
+    "642nm APC (676/29) LogH",
+    "488/552nm PI (615/30) LogH",
+    "405nm Qdot605 (615/30) LogH",
+    "488/552nm FITC (530/30) LogH",
+    "405nm BV521 (530/30) LogH",
+    "488/552nm PE (580/30) LogH",
+    "405nm BV570 (580/30) LogH",
+    "405nm BV421 (445/60) LogH",
+    "405nm 405SSC (405/10) LogH"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "spillover matrix (SPILL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/matrix",
+   "theirs": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "cmp": "num",
+   "rel": 1e-12
+  }
+ ],
+ "notes": [
+  "FlowKit could not compensate: ValueError: Timestep value should be a float value but found the value 'xxxxxxxxx'"
+ ]
+}

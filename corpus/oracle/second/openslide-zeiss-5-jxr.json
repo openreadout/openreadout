@@ -1,0 +1,21 @@
+{
+ "id": "openslide-zeiss-5-jxr",
+ "file": "openslide-zeiss-5-jxr.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 11323,
+   "size_y": 11338,
+   "planes": [],
+   "skip": "larger than ORACLE_MAX_PIXELS"
+  },
+  {
+   "index": 1,
+   "size_x": 11300,
+   "size_y": 11335,
+   "planes": [],
+   "skip": "larger than ORACLE_MAX_PIXELS"
+  }
+ ]
+}

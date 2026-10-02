@@ -1,0 +1,17 @@
+{
+ "id": "zenodo13680725-map-a01",
+ "file": "zenodo13680725-map-a01.oir",
+ "size": 1701149,
+ "sha256": "a5d5cdfb8401da9d47586150ca7edab8f61b70aa50e4d36f148bc8cdbf703188",
+ "max_planes_hashed": 64,
+ "reader": "oirfile 2026.9.6",
+ "images": [],
+ "reader_sizes": {},
+ "datetime": "2024-09-04T08:47:21.683+02:00",
+ "companion_files": [],
+ "channel_names": [
+  "CH1",
+  "CH1",
+  "CH2"
+ ]
+}

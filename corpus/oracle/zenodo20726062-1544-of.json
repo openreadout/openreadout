@@ -1,0 +1,83 @@
+{
+ "id": "zenodo20726062-1544-of",
+ "file": "zenodo20726062-1544-of",
+ "size": 269291703,
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 OpenEphysRawIO record layout + NumPy",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "CH1",
+    "ADC1"
+   ],
+   "channel_units": [
+    "uV",
+    "V"
+   ],
+   "sample_rate_hz": 30000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 66593792,
+     "channels": [
+      {
+       "xxh3": "2814b78586cedb5383969cb578c68afb",
+       "first": [
+        2365.7400000000002,
+        2358.7200000000003,
+        2359.3050000000003,
+        2353.065,
+        2365.545,
+        2370.81,
+        2365.545,
+        2370.81
+       ]
+      },
+      {
+       "xxh3": "ade183476d6533b4a4b99a9faf1dfc24",
+       "first": [
+        0.016326916,
+        0.0152588,
+        0.01449586,
+        0.0152588,
+        0.017089856,
+        0.012969979999999999,
+        0.014648448,
+        0.016632092
+       ]
+      }
+     ],
+     "hashed_samples": 16777216
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 2,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "file": "e5189a9599e3f86205ea23ef06e28b2d",
+    "timestamp": "b072ba994b5088f716617407443fd13c",
+    "time_s": "dc615fc0794a46901464e9ecf55a7988",
+    "sample_position": "e5189a9599e3f86205ea23ef06e28b2d",
+    "event_type": "be2e9e42499d80219e9defea1ff9fa83",
+    "processor_id": "c7568c33d8e224dad298af352624dfae",
+    "event_id": "e5189a9599e3f86205ea23ef06e28b2d",
+    "channel": "e5189a9599e3f86205ea23ef06e28b2d",
+    "recording": "e5189a9599e3f86205ea23ef06e28b2d"
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "neo 0.14.5 OpenEphysRawIO API",
+  "channels_compared": 2,
+  "values_agree": true
+ }
+}

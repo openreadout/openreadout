@@ -1,0 +1,21 @@
+{
+ "id": "xrd-zenodo18522047-ras-5ysz",
+ "file": "xrd-zenodo18522047-ras-5ysz.ras",
+ "format": "rigaku-ras",
+ "family": "bench",
+ "readers": [
+  "the .ras text header (`*KEY \"value\"` lines)"
+ ],
+ "checks": [
+  {
+   "field": "MEAS_SCAN_START_TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-03-11T11:58:58",
+   "cmp": "time_or_utc"
+  }
+ ]
+}

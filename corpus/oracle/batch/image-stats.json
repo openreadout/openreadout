@@ -1,0 +1,224 @@
+{
+ "generator": "nd2 0.11.3 + numpy 2.5.3",
+ "files": [
+  {
+   "id": "aics-ND2-dims-p4z5t3c2y32x32",
+   "dims": [
+    "P",
+    "T",
+    "Z",
+    "C",
+    "Y",
+    "X"
+   ],
+   "rows": [
+    {
+     "image": 0,
+     "channel": 0,
+     "count": 15360,
+     "mean": 98.5711588542,
+     "min": 60.0,
+     "max": 134.0,
+     "median": 98.0
+    },
+    {
+     "image": 0,
+     "channel": 1,
+     "count": 15360,
+     "mean": 98.5753255208,
+     "min": 62.0,
+     "max": 121.0,
+     "median": 98.0
+    },
+    {
+     "image": 1,
+     "channel": 0,
+     "count": 15360,
+     "mean": 98.5778645833,
+     "min": 76.0,
+     "max": 137.0,
+     "median": 98.0
+    },
+    {
+     "image": 1,
+     "channel": 1,
+     "count": 15360,
+     "mean": 98.5654947917,
+     "min": 81.0,
+     "max": 142.0,
+     "median": 98.0
+    },
+    {
+     "image": 2,
+     "channel": 0,
+     "count": 15360,
+     "mean": 98.5677734375,
+     "min": 63.0,
+     "max": 133.0,
+     "median": 98.0
+    },
+    {
+     "image": 2,
+     "channel": 1,
+     "count": 15360,
+     "mean": 98.529296875,
+     "min": 78.0,
+     "max": 132.0,
+     "median": 98.0
+    },
+    {
+     "image": 3,
+     "channel": 0,
+     "count": 15360,
+     "mean": 98.5597005208,
+     "min": 53.0,
+     "max": 134.0,
+     "median": 98.0
+    },
+    {
+     "image": 3,
+     "channel": 1,
+     "count": 15360,
+     "mean": 98.55,
+     "min": 78.0,
+     "max": 141.0,
+     "median": 98.0
+    }
+   ]
+  },
+  {
+   "id": "aics-ND2-dims-t3c2y32x32",
+   "dims": [
+    "P",
+    "T",
+    "C",
+    "Y",
+    "X"
+   ],
+   "rows": [
+    {
+     "image": 0,
+     "channel": 0,
+     "count": 3072,
+     "mean": 98.5563151042,
+     "min": 81.0,
+     "max": 119.0,
+     "median": 98.0
+    },
+    {
+     "image": 0,
+     "channel": 1,
+     "count": 3072,
+     "mean": 98.4388020833,
+     "min": 82.0,
+     "max": 116.0,
+     "median": 98.0
+    }
+   ]
+  },
+  {
+   "id": "aics-ND2-dims-p2z5t3-2c4y32x32",
+   "dims": [
+    "P",
+    "T",
+    "Z",
+    "C",
+    "Y",
+    "X"
+   ],
+   "rows": [
+    {
+     "image": 0,
+     "channel": 0,
+     "count": 25600,
+     "mean": 98.582421875,
+     "min": 61.0,
+     "max": 141.0,
+     "median": 98.0
+    },
+    {
+     "image": 0,
+     "channel": 1,
+     "count": 25600,
+     "mean": 98.5611328125,
+     "min": 61.0,
+     "max": 135.0,
+     "median": 98.0
+    },
+    {
+     "image": 0,
+     "channel": 2,
+     "count": 25600,
+     "mean": 98.594921875,
+     "min": 72.0,
+     "max": 125.0,
+     "median": 98.0
+    },
+    {
+     "image": 0,
+     "channel": 3,
+     "count": 25600,
+     "mean": 98.640703125,
+     "min": 79.0,
+     "max": 132.0,
+     "median": 99.0
+    },
+    {
+     "image": 1,
+     "channel": 0,
+     "count": 25600,
+     "mean": 98.5969921875,
+     "min": 64.0,
+     "max": 134.0,
+     "median": 98.0
+    },
+    {
+     "image": 1,
+     "channel": 1,
+     "count": 25600,
+     "mean": 98.5594140625,
+     "min": 58.0,
+     "max": 135.0,
+     "median": 98.0
+    },
+    {
+     "image": 1,
+     "channel": 2,
+     "count": 25600,
+     "mean": 98.6041796875,
+     "min": 65.0,
+     "max": 142.0,
+     "median": 99.0
+    },
+    {
+     "image": 1,
+     "channel": 3,
+     "count": 25600,
+     "mean": 98.6104296875,
+     "min": 77.0,
+     "max": 134.0,
+     "median": 99.0
+    }
+   ]
+  },
+  {
+   "id": "aics-ND2-maxime-BF007",
+   "dims": [
+    "P",
+    "Y",
+    "X"
+   ],
+   "rows": [
+    {
+     "image": 0,
+     "channel": 0,
+     "count": 25584,
+     "mean": 37053.2204894,
+     "min": 11670.0,
+     "max": 54164.0,
+     "median": 37125.5
+    }
+   ]
+  }
+ ]
+}

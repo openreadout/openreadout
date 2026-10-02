@@ -1,0 +1,24 @@
+{
+ "id": "softmax7-prestoblue-inhexp134",
+ "file": "softmax7-prestoblue-inhexp134.sda",
+ "size": 126090,
+ "sha256": "030c7c36e9abe5ec6b602f27332ff891a5fef4e2e4abc85a97a31113bbecd249",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (MOLDEV_SOFTMAX_PRO) on the depositor's export softmax7-prestoblue-inhexp134.txt",
+ "plate": {
+  "groups": [
+   {
+    "mode": "fluorescence",
+    "wells": 96,
+    "values": 480,
+    "errors": 0,
+    "wavelengths": [
+     585.0
+    ],
+    "value_xxh3": "736807d8d714dda54a51fef86ebaa3eb"
+   }
+  ],
+  "header": {},
+  "documents": 480
+ }
+}

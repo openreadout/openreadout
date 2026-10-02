@@ -1,0 +1,65 @@
+{
+ "id": "ncem-mrc-temp",
+ "file": "ncem-mrc-temp.mrc",
+ "size": 197632,
+ "sha256": "a3ebbbdafd6c417fc02de9ce7a814ca4e6fddd120f1bf50b74ab8bbfe7cba0bd",
+ "max_planes_hashed": 64,
+ "reader": "mrcfile 1.5.4",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 3,
+   "pixel_type": "float",
+   "layout": "image-stack",
+   "physical_size_um": {
+    "x": 0.0002,
+    "y": 0.0002,
+    "z": null
+   },
+   "mrcfile_voxel_size_angstrom": [
+    2.0,
+    2.0,
+    2.0
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "259cd35e4a5dc3cb286c95be5294b3f9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "0e087e5e5ff27f36c951ee67a10044b3"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "f94f66f316d5c8b99eb962198cade652"
+    }
+   ]
+  }
+ ],
+ "header": {
+  "mode": 2,
+  "ispg": 0,
+  "nsymbt": 0,
+  "exttyp": "\u0000\u0000\u0000\u0000",
+  "nversion": 0,
+  "mapcrs": [
+   1,
+   2,
+   3
+  ],
+  "imod_stamp": false,
+  "imod_flags": 0
+ },
+ "fei_first_block": null
+}

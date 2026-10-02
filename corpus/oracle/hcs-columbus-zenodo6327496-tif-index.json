@@ -1,0 +1,273 @@
+{
+ "id": "hcs-columbus-zenodo6327496-tif-index",
+ "file": "ImageIndex.ColumbusIDX.xml",
+ "size": 14443,
+ "sha256": "13e446880559eeb10161e092d2117fe5befb412e6f537e9974b12ec0140f9d12",
+ "max_planes_hashed": 64,
+ "reader": "Python stdlib index parse + tifffile 2026.9.20; Bio-Formats 8.5.0 showinf/bfconvert (GPL, black box)",
+ "hcs": {
+  "format": "opera-harmony",
+  "plate": {
+   "id": "220227nr- KK125 H2BeGFP test 10x ncf",
+   "rows": 2,
+   "columns": 3,
+   "wells_imaged": 2,
+   "fields": 2,
+   "planes_expected": 12,
+   "planes_missing": 0,
+   "planes_absent": 0,
+   "planes_not_recorded": 0,
+   "planes_present": 12
+  },
+  "channels": [
+   "Brightfield",
+   "Alexa 488"
+  ],
+  "size_c": 2,
+  "size_z": 3,
+  "size_t": 1,
+  "size": [
+   1360,
+   1024
+  ],
+  "pixel_type": "uint16",
+  "pixel_size_um": [
+   0.993224514937,
+   0.993224514937
+  ],
+  "wells": [
+   {
+    "well": "A01",
+    "images": [
+     0
+    ]
+   },
+   {
+    "well": "B01",
+    "images": [
+     1
+    ]
+   }
+  ],
+  "images": [
+   {
+    "index": 0,
+    "well": "A01",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "001001-1.tif",
+      "page": 0,
+      "xxh3": "6308fd0e38b14cf3597e8be5ff3d3b65",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     },
+     {
+      "c": 0,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "001001-1.tif",
+      "page": 2,
+      "xxh3": "2931d1adbb9183cf81633d3d8ec864b6",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     },
+     {
+      "c": 0,
+      "z": 2,
+      "t": 0,
+      "state": "present",
+      "file": "001001-1.tif",
+      "page": 4,
+      "xxh3": "40e6640978deb33601817b6eee63089d",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "001001-1.tif",
+      "page": 1,
+      "xxh3": "b8b956cf317c93e70e0537110bf69d79",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     },
+     {
+      "c": 1,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "001001-1.tif",
+      "page": 3,
+      "xxh3": "925a54cd9c2ea6e4c79e5aa7d4c01592",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     },
+     {
+      "c": 1,
+      "z": 2,
+      "t": 0,
+      "state": "present",
+      "file": "001001-1.tif",
+      "page": 5,
+      "xxh3": "37fb4cdd06c5f9c08d05333b019587e3",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     }
+    ]
+   },
+   {
+    "index": 1,
+    "well": "B01",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "002001-1.tif",
+      "page": 0,
+      "xxh3": "dcf4cc562e873dc579563c461d6b6454",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     },
+     {
+      "c": 0,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "002001-1.tif",
+      "page": 2,
+      "xxh3": "3d694778ed2a6fd6352c6a2106e90cec",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     },
+     {
+      "c": 0,
+      "z": 2,
+      "t": 0,
+      "state": "present",
+      "file": "002001-1.tif",
+      "page": 4,
+      "xxh3": "cc7de3a6ba05ad4a754355e725d98486",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "002001-1.tif",
+      "page": 1,
+      "xxh3": "d790b693a5cd9dd7dff23f2692d8b79e",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     },
+     {
+      "c": 1,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "002001-1.tif",
+      "page": 3,
+      "xxh3": "3e17e07d9ea63f7118e454300c2bd99f",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     },
+     {
+      "c": 1,
+      "z": 2,
+      "t": 0,
+      "state": "present",
+      "file": "002001-1.tif",
+      "page": 5,
+      "xxh3": "770a558b7410b73a0b106ec2ab53b6b1",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1360
+      ]
+     }
+    ]
+   }
+  ],
+  "bioformats": {
+   "series": 2,
+   "size_c": [
+    2
+   ],
+   "size_z": [
+    3
+   ],
+   "size_t": [
+    1
+   ],
+   "sizes": [
+    [
+     1360,
+     1024
+    ]
+   ],
+   "types": [
+    "uint16"
+   ],
+   "physical_size_um": [
+    0.993224514937,
+    0.993224514937
+   ],
+   "channels": [
+    "Brightfield",
+    "Alexa 488"
+   ],
+   "fields_mapped": 2,
+   "planes_compared": 12,
+   "planes_agree": 12,
+   "planes_disagree": 0,
+   "absent_planes_blank": 0,
+   "absent_planes_repeated": 0,
+   "problems": []
+  }
+ }
+}

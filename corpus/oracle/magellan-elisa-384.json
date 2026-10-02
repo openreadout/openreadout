@@ -1,0 +1,27 @@
+{
+ "id": "magellan-elisa-384",
+ "file": "magellan-elisa-384.xlsx",
+ "size": 22742,
+ "sha256": "ff7d0abd74b624c6475e59f6ff0ea20e997e100b0dea1c75cd594f4ded2d9869",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (TECAN_MAGELLAN)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 384,
+    "values": 768,
+    "errors": 0,
+    "wavelengths": [
+     485.0,
+     560.0
+    ],
+    "value_xxh3": "67d613199995a2058162650345370683"
+   }
+  ],
+  "header": {
+   "serial_number": "12901000069"
+  },
+  "documents": 384
+ }
+}

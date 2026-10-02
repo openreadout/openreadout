@@ -1,0 +1,1663 @@
+{
+ "id": "pwiz-sciex-pressuretrace",
+ "file": "PressureTrace1.wiff",
+ "size": 344064,
+ "sha256": "61c9ddeadc6a6e243a42e071b0b58ad8358a7522b4507643f2ae3722006f2374",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 on the depositor's mzML (PressureTrace1.mzML)",
+ "paired_export": "PressureTrace1.mzML",
+ "export_software": [
+  [
+   "Analyst",
+   "unknown"
+  ],
+  [
+   "pwiz_Reader_ABI",
+   "3.0.22236"
+  ]
+ ],
+ "peak_picking_in_export": false,
+ "images": [],
+ "chromatograms": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "kind": "tic",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "d838292dd07466ce26aaf3cca1cf78e4",
+   "sum_intensity": 22190104.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     50.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 912,
+   "xxh3_time_min_nonzero": "5e1b1af71a1ed60dd292479754753e42",
+   "xxh3_intensity_nonzero": "f36e9ac8a9819f5c49356c0c8b57f3d7"
+  },
+  {
+   "index": 1,
+   "id": "BPC",
+   "kind": "bpc",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "1367864415e49cb145138f4ed691b079",
+   "sum_intensity": 12308649.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     50.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 912,
+   "xxh3_time_min_nonzero": "5e1b1af71a1ed60dd292479754753e42",
+   "xxh3_intensity_nonzero": "2c6e72838cf0aa816ef17a8b84fe539c"
+  },
+  {
+   "index": 2,
+   "id": "SRM SIC Q1=487.257 Q3=860.422 sample=1 period=1 experiment=1 transition=0 ce=26.4 name=iRT-C18 Standard Peptides.LGGNEQVTR.+2y8.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 487.257,
+   "product_mz": 860.422,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 26.39999961853,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "9845cab4e9d03860e7b36be1c54f9703",
+   "sum_intensity": 22200.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 161,
+   "xxh3_time_min_nonzero": "b68cab0fa69f6d82c3e7de48fa102ec7",
+   "xxh3_intensity_nonzero": "49da766aa3d43a8efc7317d74f49b400"
+  },
+  {
+   "index": 3,
+   "id": "SRM SIC Q1=487.257 Q3=803.401 sample=1 period=1 experiment=1 transition=1 ce=26.4 name=iRT-C18 Standard Peptides.LGGNEQVTR.+2y7.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 487.257,
+   "product_mz": 803.401,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 26.39999961853,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "335b39d147c85fe0a215789b4317a30e",
+   "sum_intensity": 21750.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 153,
+   "xxh3_time_min_nonzero": "d271ffa8425164ec34119794c215bbcc",
+   "xxh3_intensity_nonzero": "f5f360ef9a640be85f0813acb57fd74c"
+  },
+  {
+   "index": 4,
+   "id": "SRM SIC Q1=487.257 Q3=503.294 sample=1 period=1 experiment=1 transition=2 ce=26.4 name=iRT-C18 Standard Peptides.LGGNEQVTR.+2y4.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 487.257,
+   "product_mz": 503.294,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 26.39999961853,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "6dab378d41dea6611c2f4352ea146512",
+   "sum_intensity": 75250.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 294,
+   "xxh3_time_min_nonzero": "a120d5d339a25c36ef1f62166c72d888",
+   "xxh3_intensity_nonzero": "44e93a4d645dbbf038d60652a35f1fa2"
+  },
+  {
+   "index": 5,
+   "id": "SRM SIC Q1=644.823 Q3=1016.53 sample=1 period=1 experiment=1 transition=3 ce=32.1 name=iRT-C18 Standard Peptides.GAGSSEPVTGLDAK.+2y10.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 644.823,
+   "product_mz": 1016.526,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 32.099998474121,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "74098f1cee42ce873df95186c2573198",
+   "sum_intensity": 78802.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 296,
+   "xxh3_time_min_nonzero": "8c7a3c2c295a2fcbf4209ba3eb530c58",
+   "xxh3_intensity_nonzero": "edabd7ed5b565939e0da7f90bcc952ba"
+  },
+  {
+   "index": 6,
+   "id": "SRM SIC Q1=644.823 Q3=800.451 sample=1 period=1 experiment=1 transition=4 ce=32.1 name=iRT-C18 Standard Peptides.GAGSSEPVTGLDAK.+2y8.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 644.823,
+   "product_mz": 800.451,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 32.099998474121,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "d9e5d5815c76b9e6a3431ce5375cd458",
+   "sum_intensity": 276712.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 466,
+   "xxh3_time_min_nonzero": "4293ccf76dbac04924c189ce3d8c4d12",
+   "xxh3_intensity_nonzero": "98f507b437978e19cf7e0a81f763a36a"
+  },
+  {
+   "index": 7,
+   "id": "SRM SIC Q1=644.823 Q3=604.33 sample=1 period=1 experiment=1 transition=5 ce=32.1 name=iRT-C18 Standard Peptides.GAGSSEPVTGLDAK.+2y6.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 644.823,
+   "product_mz": 604.33,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 32.099998474121,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "310ff498eff1ca4c32cf7dc329aacc82",
+   "sum_intensity": 134401.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 404,
+   "xxh3_time_min_nonzero": "993f5da0c36f7413ee610e325d5486a2",
+   "xxh3_intensity_nonzero": "37dc14700b6520628987474e1d8366f3"
+  },
+  {
+   "index": 8,
+   "id": "SRM SIC Q1=683.828 Q3=966.453 sample=1 period=1 experiment=1 transition=6 ce=33.5 name=iRT-C18 Standard Peptides.VEATFGVDESNAK.+2y9.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 683.828,
+   "product_mz": 966.453,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 33.5,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "f6043b7db25bce3cfcd92baa575922b5",
+   "sum_intensity": 424988.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 414,
+   "xxh3_time_min_nonzero": "c2e1c3a1829d7ce0307c007b2b475c06",
+   "xxh3_intensity_nonzero": "a472ee57996b42e31fe4f81b8cb6425a"
+  },
+  {
+   "index": 9,
+   "id": "SRM SIC Q1=683.828 Q3=663.294 sample=1 period=1 experiment=1 transition=7 ce=33.5 name=iRT-C18 Standard Peptides.VEATFGVDESNAK.+2y6.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 683.828,
+   "product_mz": 663.294,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 33.5,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "f927bbe94866f117315bb376b0f78297",
+   "sum_intensity": 242470.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 369,
+   "xxh3_time_min_nonzero": "0d91a014dbf2f83de48b74ec190ea8a5",
+   "xxh3_intensity_nonzero": "2e48a75c6a0b35184adcd20527955b7b"
+  },
+  {
+   "index": 10,
+   "id": "SRM SIC Q1=683.828 Q3=819.388 sample=1 period=1 experiment=1 transition=8 ce=33.5 name=iRT-C18 Standard Peptides.VEATFGVDESNAK.+2b8.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 683.828,
+   "product_mz": 819.388,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 33.5,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "3d500cf7d94917cdb308281413d6c8b6",
+   "sum_intensity": 434890.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 393,
+   "xxh3_time_min_nonzero": "91a8497b857bb0ba61545087fcf30d21",
+   "xxh3_intensity_nonzero": "a00daa7edf01217bde1950e1d6c3fab9"
+  },
+  {
+   "index": 11,
+   "id": "SRM SIC Q1=547.298 Q3=817.441 sample=1 period=1 experiment=1 transition=9 ce=28.6 name=iRT-C18 Standard Peptides.YILAGVENSK.+2y8.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 547.298,
+   "product_mz": 817.441,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 28.60000038147,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "7559bbcf26565c1f1da2acb052837bcb",
+   "sum_intensity": 1687466.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 480,
+   "xxh3_time_min_nonzero": "c73ce54b2e6e8d09139e8a169ef13549",
+   "xxh3_intensity_nonzero": "f99f31b2a0f4aab29a24eec04c7be0f3"
+  },
+  {
+   "index": 12,
+   "id": "SRM SIC Q1=547.298 Q3=704.357 sample=1 period=1 experiment=1 transition=10 ce=28.6 name=iRT-C18 Standard Peptides.YILAGVENSK.+2y7.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 547.298,
+   "product_mz": 704.357,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 28.60000038147,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "a9145e2b754ddaae790e2aa3ab41b473",
+   "sum_intensity": 3702109.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 629,
+   "xxh3_time_min_nonzero": "291510d54da2ccca7fb4327f0d1cba38",
+   "xxh3_intensity_nonzero": "3c90c4aa1bcc90e3903308aabf268704"
+  },
+  {
+   "index": 13,
+   "id": "SRM SIC Q1=547.298 Q3=633.32 sample=1 period=1 experiment=1 transition=11 ce=28.6 name=iRT-C18 Standard Peptides.YILAGVENSK.+2y6.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 547.298,
+   "product_mz": 633.32,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 28.60000038147,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "26ce90986aeb8c9b565f2268620f95c3",
+   "sum_intensity": 1132445.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 490,
+   "xxh3_time_min_nonzero": "8a60b2fd53b594667f54f937775d4b92",
+   "xxh3_intensity_nonzero": "208322396e8083dab05bee35bef8507c"
+  },
+  {
+   "index": 14,
+   "id": "SRM SIC Q1=669.838 Q3=1041.5 sample=1 period=1 experiment=1 transition=12 ce=33 name=iRT-C18 Standard Peptides.TPVISGGPYEYR.+2y9.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 669.838,
+   "product_mz": 1041.5,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 33.0,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "d1ea3d3aba0d5d26dc4663cbeb8e3d38",
+   "sum_intensity": 335930.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 356,
+   "xxh3_time_min_nonzero": "e18fae6e4a890d003dd393aea9b1e52f",
+   "xxh3_intensity_nonzero": "bb6ace910f861ba3f0d661e49d89dc14"
+  },
+  {
+   "index": 15,
+   "id": "SRM SIC Q1=669.838 Q3=928.416 sample=1 period=1 experiment=1 transition=13 ce=33 name=iRT-C18 Standard Peptides.TPVISGGPYEYR.+2y8.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 669.838,
+   "product_mz": 928.416,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 33.0,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "dc49677763382f5dd5e3405589789b72",
+   "sum_intensity": 510397.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 402,
+   "xxh3_time_min_nonzero": "18228f0f76c56b1f38afd3a6e3064a33",
+   "xxh3_intensity_nonzero": "258298342fb62d003f0134c904140889"
+  },
+  {
+   "index": 16,
+   "id": "SRM SIC Q1=669.838 Q3=841.384 sample=1 period=1 experiment=1 transition=14 ce=33 name=iRT-C18 Standard Peptides.TPVISGGPYEYR.+2y7.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 669.838,
+   "product_mz": 841.384,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 33.0,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "103d2fd96d1ea268c9264354ea99e7ba",
+   "sum_intensity": 210229.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 348,
+   "xxh3_time_min_nonzero": "819b428cd1373e40465119ccfaa7eb26",
+   "xxh3_intensity_nonzero": "2b9154b6b8251a24eb05465c6310d6e9"
+  },
+  {
+   "index": 17,
+   "id": "SRM SIC Q1=683.854 Q3=1069.53 sample=1 period=1 experiment=1 transition=15 ce=33.5 name=iRT-C18 Standard Peptides.TPVITGAPYEYR.+2y9.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 683.854,
+   "product_mz": 1069.531,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 33.5,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "9848ab6d6749364622e0e5f46b093efa",
+   "sum_intensity": 133664.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 258,
+   "xxh3_time_min_nonzero": "d7cc92c2436ac9a9a640739d0a5fdd9c",
+   "xxh3_intensity_nonzero": "7aa70a74674eaa7da0dcbd07b143c766"
+  },
+  {
+   "index": 18,
+   "id": "SRM SIC Q1=683.854 Q3=956.447 sample=1 period=1 experiment=1 transition=16 ce=33.5 name=iRT-C18 Standard Peptides.TPVITGAPYEYR.+2y8.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 683.854,
+   "product_mz": 956.447,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 33.5,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "f3ee7b5b3589fdc2a159188428ed0f99",
+   "sum_intensity": 213947.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 336,
+   "xxh3_time_min_nonzero": "86a3900cc3fdcb390d6bd92c40062e41",
+   "xxh3_intensity_nonzero": "1e31592c7114495b87b7236b4b89cea2"
+  },
+  {
+   "index": 19,
+   "id": "SRM SIC Q1=683.854 Q3=855.4 sample=1 period=1 experiment=1 transition=17 ce=33.5 name=iRT-C18 Standard Peptides.TPVITGAPYEYR.+2y7.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 683.854,
+   "product_mz": 855.4,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 33.5,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "62c0e479f841d91ef31f09ae7f38ca65",
+   "sum_intensity": 122812.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 310,
+   "xxh3_time_min_nonzero": "05734cb483ae3e8cdfb99ab60f1d0ec3",
+   "xxh3_intensity_nonzero": "aa2c303a39436600c66f3f86790d924d"
+  },
+  {
+   "index": 20,
+   "id": "SRM SIC Q1=699.338 Q3=926.473 sample=1 period=1 experiment=1 transition=18 ce=34 name=iRT-C18 Standard Peptides.DGLDAASYYAPVR.+2y8.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 699.338,
+   "product_mz": 926.473,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 34.0,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "05be76bbf165df2134d96898367ce4a1",
+   "sum_intensity": 226496.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 362,
+   "xxh3_time_min_nonzero": "37998320ae3688d1ec16fac7ecae802c",
+   "xxh3_intensity_nonzero": "43fe54f73b4e613c8acec3d897d5b174"
+  },
+  {
+   "index": 21,
+   "id": "SRM SIC Q1=699.338 Q3=855.436 sample=1 period=1 experiment=1 transition=19 ce=34 name=iRT-C18 Standard Peptides.DGLDAASYYAPVR.+2y7.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 699.338,
+   "product_mz": 855.436,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 34.0,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "2fe91fcdee9df042f9d925dc9fb0fdcf",
+   "sum_intensity": 242259.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     50.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 350,
+   "xxh3_time_min_nonzero": "ef7859e1828382341dd692c77c3d3e78",
+   "xxh3_intensity_nonzero": "2e33d8a3c3baef52b555cfe31d783eee"
+  },
+  {
+   "index": 22,
+   "id": "SRM SIC Q1=699.338 Q3=605.341 sample=1 period=1 experiment=1 transition=20 ce=34 name=iRT-C18 Standard Peptides.DGLDAASYYAPVR.+2y5.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 699.338,
+   "product_mz": 605.341,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 34.0,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "85c14ba777dac97e1f0f4a64c8a22c44",
+   "sum_intensity": 133811.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 339,
+   "xxh3_time_min_nonzero": "e0828d1423aedab8e1cbdfc720b42b65",
+   "xxh3_intensity_nonzero": "719bf5b5e5adcdba9a02e14f71070bf0"
+  },
+  {
+   "index": 23,
+   "id": "SRM SIC Q1=726.836 Q3=1066.48 sample=1 period=1 experiment=1 transition=21 ce=35 name=iRT-C18 Standard Peptides.ADVTPADFSEWSK.+2y9.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 726.836,
+   "product_mz": 1066.484,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 35.0,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "e940b3a4337b5b873999d74618455808",
+   "sum_intensity": 1400063.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 483,
+   "xxh3_time_min_nonzero": "4106ac9f0d6e026ee0fab9adf557d3cb",
+   "xxh3_intensity_nonzero": "e03b0853cb229d2e937cb2ed24c2d9dd"
+  },
+  {
+   "index": 24,
+   "id": "SRM SIC Q1=726.836 Q3=584.269 sample=1 period=1 experiment=1 transition=22 ce=35 name=iRT-C18 Standard Peptides.ADVTPADFSEWSK.+2y10+2.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 726.836,
+   "product_mz": 584.269,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 35.0,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "691625babfc2dbebd7670ad26dd3cc48",
+   "sum_intensity": 280307.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 388,
+   "xxh3_time_min_nonzero": "13406e8acb3cca87a553751674afca40",
+   "xxh3_intensity_nonzero": "6925c41c2be3afc70e50750d6205b479"
+  },
+  {
+   "index": 25,
+   "id": "SRM SIC Q1=726.836 Q3=533.746 sample=1 period=1 experiment=1 transition=23 ce=35 name=iRT-C18 Standard Peptides.ADVTPADFSEWSK.+2y9+2.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 726.836,
+   "product_mz": 533.746,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 35.0,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "46daf1f2c45c64c6e5f0c7fa98ceb135",
+   "sum_intensity": 655619.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 385,
+   "xxh3_time_min_nonzero": "d4c4f5041e94f414e717410f6db793db",
+   "xxh3_intensity_nonzero": "5b8a18f0b9ed8a636e62bddd633a7c37"
+  },
+  {
+   "index": 26,
+   "id": "SRM SIC Q1=622.854 Q3=826.478 sample=1 period=1 experiment=1 transition=24 ce=31.3 name=iRT-C18 Standard Peptides.GTFIIDPGGVIR.+2y8.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 622.854,
+   "product_mz": 826.478,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 31.299999237061,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "44b1cf06504570c5f45da1a4a7587687",
+   "sum_intensity": 338869.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 305,
+   "xxh3_time_min_nonzero": "29513366b2fe90454bf96466fea1f24f",
+   "xxh3_intensity_nonzero": "0f3780fc1b9f2cd79090b05947cf9955"
+  },
+  {
+   "index": 27,
+   "id": "SRM SIC Q1=622.854 Q3=713.394 sample=1 period=1 experiment=1 transition=25 ce=31.3 name=iRT-C18 Standard Peptides.GTFIIDPGGVIR.+2y7.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 622.854,
+   "product_mz": 713.394,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 31.299999237061,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "ddf19fe3a700392de737a9efcb483244",
+   "sum_intensity": 290885.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 320,
+   "xxh3_time_min_nonzero": "1a4d44edcd552d11cbe328bbffcb18cf",
+   "xxh3_intensity_nonzero": "94555c818064ca1cab7c7491bbd4272c"
+  },
+  {
+   "index": 28,
+   "id": "SRM SIC Q1=622.854 Q3=598.367 sample=1 period=1 experiment=1 transition=26 ce=31.3 name=iRT-C18 Standard Peptides.GTFIIDPGGVIR.+2y6.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 622.854,
+   "product_mz": 598.367,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 31.299999237061,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "4763f849c19e00f71a177f8ed1b50d26",
+   "sum_intensity": 1084549.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 440,
+   "xxh3_time_min_nonzero": "926fcb91e5ec2ef6f44ebd337ea9f85f",
+   "xxh3_intensity_nonzero": "b4911806782f5cd5ec9e3eacb3cf2b42"
+  },
+  {
+   "index": 29,
+   "id": "SRM SIC Q1=636.869 Q3=854.509 sample=1 period=1 experiment=1 transition=27 ce=31.8 name=iRT-C18 Standard Peptides.GTFIIDPAAVIR.+2y8.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 636.869,
+   "product_mz": 854.509,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 31.799999237061,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "e08cff979c6f0bcf1cb677951e76a4cc",
+   "sum_intensity": 2813407.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 547,
+   "xxh3_time_min_nonzero": "a318077aecf37609bae516a6daa73047",
+   "xxh3_intensity_nonzero": "7271192fae99371b4f454491d937011b"
+  },
+  {
+   "index": 30,
+   "id": "SRM SIC Q1=636.869 Q3=741.425 sample=1 period=1 experiment=1 transition=28 ce=31.8 name=iRT-C18 Standard Peptides.GTFIIDPAAVIR.+2y7.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 636.869,
+   "product_mz": 741.425,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 31.799999237061,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "84753ab85cf538c39774d5cece2f6bc4",
+   "sum_intensity": 432619.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 423,
+   "xxh3_time_min_nonzero": "60a0029e61eb1583a4bd238103a1ac02",
+   "xxh3_intensity_nonzero": "5160e4c21f0c025a254faf61a7a01996"
+  },
+  {
+   "index": 31,
+   "id": "SRM SIC Q1=636.869 Q3=626.398 sample=1 period=1 experiment=1 transition=29 ce=31.8 name=iRT-C18 Standard Peptides.GTFIIDPAAVIR.+2y6.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 636.869,
+   "product_mz": 626.398,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 31.799999237061,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "64855cc77e787a06773e588083f52bce",
+   "sum_intensity": 786544.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 451,
+   "xxh3_time_min_nonzero": "a03f2b99ee660f4dee0261c80aa874dc",
+   "xxh3_intensity_nonzero": "76ab68dfa3c3cafbc25917fc80f90398"
+  },
+  {
+   "index": 32,
+   "id": "SRM SIC Q1=776.93 Q3=1051.56 sample=1 period=1 experiment=1 transition=30 ce=36.8 name=iRT-C18 Standard Peptides.LFLQFGAQGSPFLK.+2y10.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 776.93,
+   "product_mz": 1051.557,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 36.799999237061,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "6f9f44f5849fca8752a9f279600adf01",
+   "sum_intensity": 1436421.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 382,
+   "xxh3_time_min_nonzero": "1e88dbd81414173b2748357c80526672",
+   "xxh3_intensity_nonzero": "7e07fb1c3b24605d3251ecdc17cad38a"
+  },
+  {
+   "index": 33,
+   "id": "SRM SIC Q1=776.93 Q3=904.489 sample=1 period=1 experiment=1 transition=31 ce=36.8 name=iRT-C18 Standard Peptides.LFLQFGAQGSPFLK.+2y9.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 776.93,
+   "product_mz": 904.489,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 36.799999237061,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "1833feccb5244388a2d5a72a87a6b720",
+   "sum_intensity": 1479650.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 369,
+   "xxh3_time_min_nonzero": "df14f4622b8f52ce453142bfaa142588",
+   "xxh3_intensity_nonzero": "d66e0c233ead9c238cdaf67eec1541f7"
+  },
+  {
+   "index": 34,
+   "id": "SRM SIC Q1=776.93 Q3=504.318 sample=1 period=1 experiment=1 transition=32 ce=36.8 name=iRT-C18 Standard Peptides.LFLQFGAQGSPFLK.+2y4.light",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 776.93,
+   "product_mz": 504.318,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 36.799999237061,
+   "n_points": 1454,
+   "xxh3_time_min": "7fce6658be3d37c7083259b6bc04fc4a",
+   "xxh3_intensity": "8fd85c0b87695c425c1216e5ab90f0e5",
+   "sum_intensity": 828143.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.013766666874289513,
+     0.0
+    ],
+    [
+     0.027516666799783707,
+     0.0
+    ],
+    [
+     0.04128333181142807,
+     0.0
+    ],
+    [
+     0.05503333359956741,
+     0.0
+    ]
+   ],
+   "n_nonzero": 442,
+   "xxh3_time_min_nonzero": "7d44800a2cf0d53492dd50b7d28d251d",
+   "xxh3_intensity_nonzero": "3f02f40ca9849182b2b205d6cde7955b"
+  },
+  {
+   "index": 35,
+   "id": "Column Pressure (channel 1)",
+   "kind": "other",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 1148,
+   "xxh3_time_min": "ab23223949d4acad5f401e829f9314e2",
+   "xxh3_intensity": "d837ba5af539df9f59fdcbc62fcbda58",
+   "sum_intensity": 651734.0,
+   "first_points": [
+    [
+     0.0,
+     1470.0
+    ],
+    [
+     0.008333333767950535,
+     1470.0
+    ],
+    [
+     0.01666666753590107,
+     1513.0
+    ],
+    [
+     0.02500000037252903,
+     1513.0
+    ],
+    [
+     0.03333333507180214,
+     1562.0
+    ]
+   ],
+   "n_nonzero": 1148,
+   "xxh3_time_min_nonzero": "ab23223949d4acad5f401e829f9314e2",
+   "xxh3_intensity_nonzero": "d837ba5af539df9f59fdcbc62fcbda58"
+  },
+  {
+   "index": 36,
+   "id": "Pump A Flowrate (channel 2)",
+   "kind": "other",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 1148,
+   "xxh3_time_min": "ab23223949d4acad5f401e829f9314e2",
+   "xxh3_intensity": "74d45ac1e19b3e42fcd5ea74b04e39a6",
+   "sum_intensity": 93189480.0,
+   "first_points": [
+    [
+     0.0,
+     91590.0
+    ],
+    [
+     0.008333333767950535,
+     91590.0
+    ],
+    [
+     0.01666666753590107,
+     87500.0
+    ],
+    [
+     0.02500000037252903,
+     87500.0
+    ],
+    [
+     0.03333333507180214,
+     88170.0
+    ]
+   ],
+   "n_nonzero": 1148,
+   "xxh3_time_min_nonzero": "ab23223949d4acad5f401e829f9314e2",
+   "xxh3_intensity_nonzero": "74d45ac1e19b3e42fcd5ea74b04e39a6"
+  },
+  {
+   "index": 37,
+   "id": "Pump B Flowrate (channel 3)",
+   "kind": "other",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 1148,
+   "xxh3_time_min": "ab23223949d4acad5f401e829f9314e2",
+   "xxh3_intensity": "625fdcf824321ee573b9227d9d76076e",
+   "sum_intensity": 8754320.0,
+   "first_points": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.008333333767950535,
+     0.0
+    ],
+    [
+     0.01666666753590107,
+     0.0
+    ],
+    [
+     0.02500000037252903,
+     0.0
+    ],
+    [
+     0.03333333507180214,
+     0.0
+    ]
+   ],
+   "n_nonzero": 1136,
+   "xxh3_time_min_nonzero": "495db0dacacb2fc90dcb27bc3ce68e74",
+   "xxh3_intensity_nonzero": "463f407619f77b020b176a46060ffbe1"
+  },
+  {
+   "index": 38,
+   "id": "Column Pressure (channel 4)",
+   "kind": "other",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 3508,
+   "xxh3_time_min": "d497eb20a5c5ddade2980348d955f959",
+   "xxh3_intensity": "a7cc0baf4a67f0e34afc90dfbfe7785c",
+   "sum_intensity": 4274607.0,
+   "first_points": [
+    [
+     0.0,
+     1396.0
+    ],
+    [
+     0.008333333767950535,
+     1396.0
+    ],
+    [
+     0.01666666753590107,
+     1369.0
+    ],
+    [
+     0.02500000037252903,
+     1369.0
+    ],
+    [
+     0.03333333507180214,
+     1352.0
+    ]
+   ],
+   "n_nonzero": 3508,
+   "xxh3_time_min_nonzero": "d497eb20a5c5ddade2980348d955f959",
+   "xxh3_intensity_nonzero": "a7cc0baf4a67f0e34afc90dfbfe7785c"
+  },
+  {
+   "index": 39,
+   "id": "Pump A Flowrate (channel 5)",
+   "kind": "other",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 3508,
+   "xxh3_time_min": "d497eb20a5c5ddade2980348d955f959",
+   "xxh3_intensity": "db3d3876e67d50ccd0710a2986e1eb48",
+   "sum_intensity": 19220266.0,
+   "first_points": [
+    [
+     0.0,
+     7038.0
+    ],
+    [
+     0.008333333767950535,
+     7038.0
+    ],
+    [
+     0.01666666753590107,
+     7927.0
+    ],
+    [
+     0.02500000037252903,
+     7927.0
+    ],
+    [
+     0.03333333507180214,
+     7927.0
+    ]
+   ],
+   "n_nonzero": 3508,
+   "xxh3_time_min_nonzero": "d497eb20a5c5ddade2980348d955f959",
+   "xxh3_intensity_nonzero": "db3d3876e67d50ccd0710a2986e1eb48"
+  },
+  {
+   "index": 40,
+   "id": "Pump B Flowrate (channel 6)",
+   "kind": "other",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 3508,
+   "xxh3_time_min": "d497eb20a5c5ddade2980348d955f959",
+   "xxh3_intensity": "bcca7ee693023b63bb6f5b95c24a85f5",
+   "sum_intensity": 8834707.0,
+   "first_points": [
+    [
+     0.0,
+     680.0
+    ],
+    [
+     0.008333333767950535,
+     680.0
+    ],
+    [
+     0.01666666753590107,
+     303.0
+    ],
+    [
+     0.02500000037252903,
+     303.0
+    ],
+    [
+     0.03333333507180214,
+     252.0
+    ]
+   ],
+   "n_nonzero": 3508,
+   "xxh3_time_min_nonzero": "d497eb20a5c5ddade2980348d955f959",
+   "xxh3_intensity_nonzero": "bcca7ee693023b63bb6f5b95c24a85f5"
+  }
+ ]
+}

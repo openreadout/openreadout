@@ -1,0 +1,224 @@
+{
+ "id": "chemplexity-011f0601-fid1a-ch",
+ "file": "chemplexity-011F0601-FID1A.CH",
+ "format": "chemstation",
+ "family": "chromatography",
+ "readers": [
+  "chromConverter 0.9.0 (GPL-3.0, R, run as a black box with its own parsers)"
+ ],
+ "checks": [
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/extra/sample_name",
+   "theirs": "1208 1H1 124.5",
+   "cmp": "text"
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: operator",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/extra/operator",
+   "theirs": "Sam",
+   "cmp": "text"
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/extra/method",
+   "theirs": "FLRAMP9.M",
+   "cmp": "text"
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: file version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/extra/format_version",
+   "theirs": "81",
+   "cmp": "text"
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: file type",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/extra/file_type",
+   "theirs": "GC DATA FILE",
+   "cmp": "text"
+  },
+  {
+   "field": "instrument model (the detector module's id)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "HP G1530A",
+   "cmp": "text"
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/channels/0/unit",
+   "theirs": "pA",
+   "cmp": "text"
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/extra/axis/first",
+   "theirs": 0.0006802000045776367,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: last time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/extra/x_end_min",
+   "theirs": 75.42735,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: signal: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    3.4140626780572347,
+    3.4140626780572347,
+    3.415364761458477,
+    3.413021011336241,
+    3.413541844696738,
+    3.411328302914626,
+    3.413021011336241,
+    3.4138022613769863,
+    3.416015803159098,
+    3.4144533030776074,
+    3.411849136275123,
+    3.4105470528738806,
+    3.410156427853508,
+    3.4109376778942533,
+    3.4122397612954956,
+    3.4126303863158682,
+    3.4109376778942533,
+    3.4092449694726383,
+    3.4052085109287873,
+    3.4052085109287873,
+    3.402083510765806,
+    3.4063803859899053,
+    3.4098960111732595,
+    3.4121095529553713,
+    3.4115887195948744,
+    3.410807469554129,
+    3.411328302914626,
+    3.4138022613769863,
+    3.414323094737483,
+    3.417578303240589,
+    3.416015803159098,
+    3.4140626780572347
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 8.271524975664455e-08
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: signal: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 45256,
+   "cmp": "exact"
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: signal: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": 3.3990887189429486,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 8.271524975664455e-08
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: signal: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 82715.24975664455,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 8.271524975664455e-08
+  },
+  {
+   "field": "chemplexity-011F0601-FID1A.CH: signal: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=chemplexity-011F0601-FID1A.CH]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 41.563602203134145,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 8.271524975664456e-05
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "id": "zenodo18685575-1243-164kx-LAADF",
+ "file": "zenodo18685575-1243-164kx-LAADF.emd",
+ "size": 33999681,
+ "sha256": "66202692eb89e3bb254b48c259e0ba87b4ec6adf63aeab7032617b3eca0f5cdc",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "eed3501bb4c14d27b8aaa948af9e9597",
+   "size_x": 4096,
+   "size_y": 4096,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.00014840621772939798,
+    "y": 0.00014840621772939798,
+    "z": null
+   },
+   "detector": "HAADF",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a1dd1ab150ba7283be9f0e2411960578"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"7\",\n    \"format\": \"Velox\"\n}\n"
+}

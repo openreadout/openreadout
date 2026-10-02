@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SpectrumOutput",
+  "description": "Output of `spectra --scan`/`--index`: one spectrum with its arrays.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input file.",
+      "type": "string"
+    },
+    "run": {
+      "description": "Run index the spectrum belongs to.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "view": {
+      "description": "`primary` (profile when recorded) or `centroid` (the instrument's centroid list).",
+      "type": "string"
+    },
+    "point_count": {
+      "description": "Number of points in the full spectrum (the arrays may be shortened by `max_points`).",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "truncated": {
+      "description": "True when `mz`/`intensity` were shortened to `max_points`.",
+      "type": "boolean"
+    },
+    "spectrum": {
+      "description": "The spectrum, with its arrays.",
+      "$ref": "#/$defs/Spectrum"
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "run",
+    "view",
+    "point_count",
+    "truncated",
+    "spectrum"
+  ],
+  "$defs": {
+    "Spectrum": {
+      "description": "One mass spectrum.",
+      "type": "object",
+      "properties": {
+        "index": {
+          "description": "Zero-based spectrum index within its run.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "scan_number": {
+          "description": "Scan number as the instrument counts it (1-based in most formats).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "ms_level": {
+          "description": "MS level: 1 for a full scan, 2 for a fragment (MS/MS) scan, and so on.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "rt_s": {
+          "description": "Retention time in seconds; null when the file states none for this spectrum (never an\ninvented 0).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double",
+          "default": null
+        },
+        "polarity": {
+          "description": "`positive`, `negative` or `unknown`.",
+          "type": "string"
+        },
+        "centroided": {
+          "description": "True when the peaks are centroids (one point per peak) rather than a sampled profile.",
+          "type": "boolean"
+        },
+        "precursor_mz": {
+          "description": "m/z of the precursor ion that was isolated and fragmented (MS2 and above).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "precursor_charge": {
+          "description": "Charge state of the precursor, when the instrument determined it.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        },
+        "scan_filter": {
+          "description": "Instrument scan filter or scan description string (e.g. Thermo `FTMS + p ESI Full ms`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "total_ion_current": {
+          "description": "Sum of all intensities in the spectrum (TIC).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "native_id": {
+          "description": "The spectrum's identifier in its file (mzML `id`, e.g. `controllerType=0 controllerNumber=1 scan=17`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "base_peak_mz": {
+          "description": "m/z of the most intense peak.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "base_peak_intensity": {
+          "description": "Intensity of the most intense peak.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "precursor_intensity": {
+          "description": "Intensity of the selected precursor ion, when recorded.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "isolation_window_mz": {
+          "description": "Precursor isolation window `[lower, upper]` in m/z.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "activation": {
+          "description": "Dissociation method: `CID`, `HCD`, `ETD`, `ECD`, `ETHCD`, `UVPD`, ... (upper case).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "collision_energy": {
+          "description": "Collision energy as recorded (usually eV, or % normalized for Thermo `@hcd35.00`).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "inverse_reduced_mobility": {
+          "description": "Ion mobility of the precursor or scan, as inverse reduced mobility 1/K0 in V·s/cm².",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "scan_window_mz": {
+          "description": "Scan (acquisition) window `[lower, upper]` in m/z.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "extra": {
+          "description": "Format-specific scan metadata in the reader's documented vocabulary.",
+          "type": "object",
+          "additionalProperties": true
+        },
+        "mz": {
+          "description": "Mass-to-charge ratios of the points, ascending.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "intensity": {
+          "description": "Intensity of each point (same length as `mz`).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "required": [
+        "index",
+        "scan_number",
+        "ms_level",
+        "polarity",
+        "centroided",
+        "mz",
+        "intensity"
+      ]
+    }
+  }
+}

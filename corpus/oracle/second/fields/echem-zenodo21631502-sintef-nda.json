@@ -1,0 +1,22 @@
+{
+ "id": "echem-zenodo21631502-sintef-nda",
+ "file": "echem-zenodo21631502-sintef-nda.nda",
+ "format": "neware-nda",
+ "family": "bench",
+ "readers": [
+  "NewareNDA 2026.6.11 (BSD-3): the first record's Timestamp"
+ ],
+ "checks": [
+  {
+   "field": "first record Timestamp",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-12-22T00:44:24.885000-08:00",
+   "cmp": "time_or_utc",
+   "abs": 1.0
+  }
+ ]
+}

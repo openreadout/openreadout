@@ -1,0 +1,750 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CellReport",
+  "description": "Output of `analyze ephys-features`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "Input path.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id.",
+      "type": "string"
+    },
+    "trace": {
+      "description": "Trace analysed.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "channel": {
+      "description": "Channel analysed.",
+      "$ref": "#/$defs/ChannelRef"
+    },
+    "clamp_mode": {
+      "description": "`current_clamp`, `voltage_clamp` or `unknown` (from the channel and command units).",
+      "type": "string"
+    },
+    "sample_rate_hz": {
+      "description": "Sampling rate, Hz.",
+      "type": "number",
+      "format": "double"
+    },
+    "settings": {
+      "description": "Spike detection settings.",
+      "$ref": "#/$defs/ApSettings"
+    },
+    "stimulus": {
+      "description": "Stimulus from the protocol, when there is one.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StimulusInfo"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "cell": {
+      "description": "Per-cell features.",
+      "$ref": "#/$defs/CellFeatures"
+    },
+    "sweeps": {
+      "description": "One row per sweep.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SweepFeatures"
+      }
+    },
+    "spike_count_total": {
+      "description": "Total spikes detected.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "spikes": {
+      "description": "One row per spike (at most `max_spikes`).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Spike"
+      }
+    },
+    "spikes_truncated": {
+      "description": "True when `spikes` was cut at `max_spikes`.",
+      "type": "boolean"
+    },
+    "notes": {
+      "description": "Remarks.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "trace",
+    "channel",
+    "clamp_mode",
+    "sample_rate_hz",
+    "settings",
+    "cell",
+    "sweeps",
+    "spike_count_total",
+    "spikes",
+    "spikes_truncated"
+  ],
+  "$defs": {
+    "ChannelRef": {
+      "description": "The channel analysed.",
+      "type": "object",
+      "properties": {
+        "index": {
+          "description": "Channel index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "Name.",
+          "type": "string"
+        },
+        "unit": {
+          "description": "Unit as recorded.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "index",
+        "name"
+      ]
+    },
+    "ApSettings": {
+      "description": "Detection settings.",
+      "type": "object",
+      "properties": {
+        "peak_threshold_mv": {
+          "description": "Voltage a spike must cross upward, mV.",
+          "type": "number",
+          "format": "double"
+        },
+        "dvdt_threshold_v_per_s": {
+          "description": "`dV/dt` defining the onset, V/s.",
+          "type": "number",
+          "format": "double"
+        },
+        "dvdt_window_samples": {
+          "description": "Consecutive samples the onset criterion must hold.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "peak_threshold_mv",
+        "dvdt_threshold_v_per_s",
+        "dvdt_window_samples"
+      ]
+    },
+    "StimulusInfo": {
+      "description": "The stimulus found in the protocol.",
+      "type": "object",
+      "properties": {
+        "output": {
+          "description": "Command output name.",
+          "type": "string"
+        },
+        "unit": {
+          "description": "Command unit.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "holding": {
+          "description": "Holding level, in `unit`.",
+          "type": "number",
+          "format": "double"
+        },
+        "epoch": {
+          "description": "Epoch index used as the stimulus.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "output",
+        "holding"
+      ]
+    },
+    "CellFeatures": {
+      "description": "Per-cell summary.",
+      "type": "object",
+      "properties": {
+        "resting_mv": {
+          "description": "Median baseline (pre-stimulus) voltage over sweeps, mV.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rheobase_pa": {
+          "description": "Smallest depolarising step that evokes at least one spike during the stimulus, pA.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rheobase_sweep": {
+          "description": "The sweep of that step.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "fi_curve": {
+          "description": "f–I curve over depolarising steps.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FiPoint"
+          }
+        },
+        "fi_slope_hz_per_pa": {
+          "description": "Least-squares slope of rate vs current over steps that fire, Hz/pA.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "max_firing_rate_hz": {
+          "description": "Highest firing rate, Hz.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "input_resistance_mohm": {
+          "description": "Slope of steady-state deflection vs current over spike-free hyperpolarising steps, MΩ.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "tau_ms": {
+          "description": "Median time constant over hyperpolarising steps, ms.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "capacitance_pf": {
+          "description": "τ / R_in, pF.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "sag_ratio": {
+          "description": "Sag ratio of the most hyperpolarising step.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "holding_current_pa": {
+          "description": "Median holding current, pA (voltage clamp).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "access_resistance_mohm": {
+          "description": "Median access resistance, MΩ (voltage clamp).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "membrane_resistance_mohm": {
+          "description": "Median membrane resistance, MΩ (voltage clamp).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "membrane_capacitance_pf": {
+          "description": "Median membrane capacitance from the test pulse, pF (voltage clamp).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "fi_curve"
+      ]
+    },
+    "FiPoint": {
+      "description": "One point of the f–I curve.",
+      "type": "object",
+      "properties": {
+        "sweep": {
+          "description": "Sweep.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "current_pa": {
+          "description": "Injected current relative to holding, pA.",
+          "type": "number",
+          "format": "double"
+        },
+        "rate_hz": {
+          "description": "Firing rate during the stimulus, Hz.",
+          "type": "number",
+          "format": "double"
+        },
+        "spike_count": {
+          "description": "Spikes during the stimulus.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "sweep",
+        "current_pa",
+        "rate_hz",
+        "spike_count"
+      ]
+    },
+    "SweepFeatures": {
+      "description": "One sweep.",
+      "type": "object",
+      "properties": {
+        "sweep": {
+          "description": "Sweep index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "stimulus_start_s": {
+          "description": "Stimulus start, s from the sweep start.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "stimulus_end_s": {
+          "description": "Stimulus end, s.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "stimulus_pa": {
+          "description": "Injected current relative to holding, pA (current clamp).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "stimulus_mv": {
+          "description": "Command step relative to holding, mV (voltage clamp).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "spike_count": {
+          "description": "Spikes in the whole sweep.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "spike_count_stimulus": {
+          "description": "Spikes whose peak falls inside the stimulus.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0
+        },
+        "firing_rate_hz": {
+          "description": "Spikes in the stimulus / stimulus duration, Hz.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "first_spike_latency_ms": {
+          "description": "First spike peak after stimulus onset, ms.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "isi_mean_ms": {
+          "description": "Mean inter-spike interval inside the stimulus, ms.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "isi_cv": {
+          "description": "ISI coefficient of variation inside the stimulus.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "adaptation_index": {
+          "description": "ISI adaptation index inside the stimulus.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "half_width_mean_ms": {
+          "description": "Mean spike half-width, ms.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "amplitude_mean_mv": {
+          "description": "Mean spike amplitude (peak − onset), mV.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "passive": {
+          "description": "Passive response (current clamp, spike-free sweeps; baseline always).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StepResponse"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "test_pulse": {
+          "description": "Test-pulse metrics (voltage clamp).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TestPulse"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sweep",
+        "spike_count"
+      ]
+    },
+    "StepResponse": {
+      "description": "Passive response to one current step.",
+      "type": "object",
+      "properties": {
+        "baseline_mv": {
+          "description": "Baseline voltage, mV.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "steady_state_mv": {
+          "description": "Steady-state voltage at the end of the step, mV.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "extreme_mv": {
+          "description": "Extreme voltage during the step (minimum for hyperpolarising steps), mV.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "input_resistance_mohm": {
+          "description": "(steady − baseline) / ΔI, MΩ.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "tau_ms": {
+          "description": "Membrane time constant, ms.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "sag_ratio": {
+          "description": "(steady − min) / (baseline − min) (eFEL sag_ratio1), hyperpolarising steps.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "steady_fraction": {
+          "description": "(baseline − steady) / (baseline − min) (eFEL sag_ratio2), hyperpolarising steps.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      }
+    },
+    "TestPulse": {
+      "description": "Voltage-clamp test-pulse metrics (module docs).",
+      "type": "object",
+      "properties": {
+        "delta_mv": {
+          "description": "Voltage step, mV.",
+          "type": "number",
+          "format": "double"
+        },
+        "holding_current_pa": {
+          "description": "Current before the step, pA.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "peak_current_pa": {
+          "description": "Transient peak minus baseline, pA.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "steady_current_pa": {
+          "description": "Steady state minus baseline, pA.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "access_resistance_mohm": {
+          "description": "ΔV / peak, MΩ.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "membrane_resistance_mohm": {
+          "description": "ΔV / steady − access, MΩ.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "total_resistance_mohm": {
+          "description": "ΔV / steady, MΩ.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "tau_ms": {
+          "description": "Decay time constant of the transient, ms.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "capacitance_pf": {
+          "description": "Q/ΔV · ((Ra + Rm)/Rm)² from the transient's charge, pF.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "delta_mv"
+      ]
+    },
+    "Spike": {
+      "description": "One action potential.",
+      "type": "object",
+      "properties": {
+        "sweep": {
+          "description": "Sweep index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "index": {
+          "description": "Spike number within the sweep (0-based).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "peak_sample": {
+          "description": "Sample index of the peak within the sweep.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "peak_time_s": {
+          "description": "Peak time from the sweep start, s.",
+          "type": "number",
+          "format": "double"
+        },
+        "peak_mv": {
+          "description": "Peak voltage, mV.",
+          "type": "number",
+          "format": "double"
+        },
+        "threshold_time_s": {
+          "description": "Onset time, s.",
+          "type": "number",
+          "format": "double"
+        },
+        "threshold_mv": {
+          "description": "Onset voltage, mV.",
+          "type": "number",
+          "format": "double"
+        },
+        "threshold_from_dvdt": {
+          "description": "True when the onset met the dV/dt criterion.",
+          "type": "boolean"
+        },
+        "amplitude_mv": {
+          "description": "Peak − onset voltage, mV.",
+          "type": "number",
+          "format": "double"
+        },
+        "half_width_ms": {
+          "description": "Width at half amplitude, ms.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rise_time_ms": {
+          "description": "Onset to peak, ms.",
+          "type": "number",
+          "format": "double"
+        },
+        "decay_time_ms": {
+          "description": "Peak to the return to the onset voltage, ms.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "ahp_mv": {
+          "description": "After-hyperpolarisation minimum, mV.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "ahp_depth_mv": {
+          "description": "Onset − AHP minimum, mV.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "upstroke_v_per_s": {
+          "description": "Largest rising dV/dt, V/s.",
+          "type": "number",
+          "format": "double"
+        },
+        "downstroke_v_per_s": {
+          "description": "Largest falling dV/dt (negative), V/s.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "isi_ms": {
+          "description": "Time since the previous spike's peak, ms.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "sweep",
+        "index",
+        "peak_sample",
+        "peak_time_s",
+        "peak_mv",
+        "threshold_time_s",
+        "threshold_mv",
+        "threshold_from_dvdt",
+        "amplitude_mv",
+        "rise_time_ms",
+        "upstroke_v_per_s"
+      ]
+    }
+  }
+}

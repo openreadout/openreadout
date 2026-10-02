@@ -1,0 +1,80 @@
+{
+ "id": "aics-OverViewScan-ome-tiff",
+ "file": "aics-OverViewScan.ome.tiff",
+ "size": 84595378,
+ "sha256": "32ea90044eecc527259a7fb379bda3f87dfb2713c889d957c724886e6f522601",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "ome",
+   "axes": "YX",
+   "shape": [
+    3216,
+    7400
+   ],
+   "size_x": 7400,
+   "size_y": 3216,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 4,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 4.5743626119409,
+    "y": 4.5743626119409
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "12cf98f8aace0a2f17b1cf051852a73e"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "label image",
+   "kind": "ome",
+   "axes": "YX",
+   "shape": [
+    2030,
+    422
+   ],
+   "size_x": 422,
+   "size_y": 2030,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 4.5743626119409,
+    "y": 4.5743626119409
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a28444f09780b64ec8df0d515c8343d3"
+    }
+   ]
+  }
+ ]
+}

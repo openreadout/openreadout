@@ -1,0 +1,731 @@
+{
+ "id": "zhulong-001-1-sm-d",
+ "file": "zhulong-001-1-0312650-0713-SM.D",
+ "format": "chemstation",
+ "family": "chromatography",
+ "readers": [
+  "chromConverter 0.9.0 (GPL-3.0, R, run as a black box with its own parsers)"
+ ],
+ "checks": [
+  {
+   "field": "DAD1.UV: sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1.UV]/extra/sample_name",
+   "theirs": "0312650-0713-SM",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1.UV: operator",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1.UV]/extra/operator",
+   "theirs": "SYSTEM",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1.UV: method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1.UV]/extra/method",
+   "theirs": "Photobromination-09-30-2021.M",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1.UV: file version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1.UV]/extra/format_version",
+   "theirs": "131",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1.UV: file type",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1.UV]/extra/file_type",
+   "theirs": "LC DATA FILE",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1.UV: acquisition time (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1.UV]/extra/acquired_at",
+   "theirs": "2021-09-30T17:21:19",
+   "cmp": "wallclock"
+  },
+  {
+   "field": "acquisition start (first signal file's header)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-09-30T17:21:19",
+   "cmp": "time_or_utc",
+   "abs": 1.0
+  },
+  {
+   "field": "instrument model (the detector module's id)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "DAD1",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1.UV: wavelengths",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1.UV]/channels#len",
+   "theirs": 106,
+   "cmp": "exact"
+  },
+  {
+   "field": "DAD1.UV: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1.UV]/channels/0/unit",
+   "theirs": "mAU",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1.UV: channel 0 wavelength",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1.UV]/channels/0/extra/wavelength_nm",
+   "theirs": 190.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "DAD1.UV: 190 nm: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    -888.0587,
+    -861.7501,
+    -896.4419,
+    -822.4182,
+    -844.4471,
+    -891.9735,
+    -843.6303,
+    -865.479,
+    -841.6877,
+    -854.8717,
+    -880.4231,
+    -785.974,
+    -849.4081,
+    -862.9966,
+    -857.748,
+    -872.4899,
+    -816.6938,
+    -829.5455,
+    -882.247,
+    -814.3816,
+    -838.8963,
+    -849.4563,
+    -864.8381,
+    -888.3376,
+    -822.5374,
+    -836.1816,
+    -870.1329,
+    -840.5972,
+    -880.0802,
+    -862.988,
+    -845.8185,
+    -907.7668
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1.4980239999999998e-09
+  },
+  {
+   "field": "DAD1.UV: 190 nm: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 982,
+   "cmp": "exact"
+  },
+  {
+   "field": "DAD1.UV: 190 nm: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -1089.682,
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1.4980239999999998e-09
+  },
+  {
+   "field": "DAD1.UV: 190 nm: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 1498.024,
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1.4980239999999998e-09
+  },
+  {
+   "field": "DAD1.UV: 190 nm: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": -534.1541887912424,
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1.498024e-06
+  },
+  {
+   "field": "DAD1.UV: channel 53 wavelength",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1.UV]/channels/53/extra/wavelength_nm",
+   "theirs": 296.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "DAD1.UV: 296 nm: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=53]/samples",
+   "theirs": [
+    -3.498554,
+    -2.710819,
+    -1.906395,
+    -2.610207,
+    -2.02179,
+    -3.680229,
+    -1.984596,
+    -1.597404,
+    -2.678394,
+    -2.351284,
+    -3.203869,
+    -2.221584,
+    -1.934052,
+    -3.455639,
+    -2.746582,
+    -1.950741,
+    -2.426147,
+    -2.458572,
+    -3.171444,
+    -1.758575,
+    -0.6756783,
+    -3.501892,
+    -2.493382,
+    -2.763748,
+    -2.358913,
+    -0.9403229,
+    -3.545761,
+    -3.045082,
+    -1.660824,
+    -3.204823,
+    -1.921654,
+    -3.192902
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 3.586216e-10
+  },
+  {
+   "field": "DAD1.UV: 296 nm: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=53]/stats/count",
+   "theirs": 982,
+   "cmp": "exact"
+  },
+  {
+   "field": "DAD1.UV: 296 nm: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=53]/stats/min",
+   "theirs": -44.27385,
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 3.586216e-10
+  },
+  {
+   "field": "DAD1.UV: 296 nm: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=53]/stats/max",
+   "theirs": 358.6216,
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 3.586216e-10
+  },
+  {
+   "field": "DAD1.UV: 296 nm: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=53]/stats/mean",
+   "theirs": 4.739737202410386,
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 3.586216e-07
+  },
+  {
+   "field": "DAD1.UV: channel 105 wavelength",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1.UV]/channels/105/extra/wavelength_nm",
+   "theirs": 400.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "DAD1.UV: 400 nm: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=105]/samples",
+   "theirs": [
+    11.63673,
+    14.57644,
+    12.7902,
+    13.29041,
+    13.06725,
+    11.89899,
+    16.1581,
+    13.79347,
+    11.48415,
+    13.41343,
+    11.58476,
+    13.39483,
+    13.71861,
+    12.27093,
+    14.44912,
+    13.33952,
+    12.27474,
+    11.95669,
+    11.55996,
+    14.17923,
+    14.29892,
+    12.27236,
+    14.49537,
+    12.68101,
+    12.5246,
+    13.24177,
+    11.06262,
+    14.70661,
+    14.36377,
+    11.90376,
+    13.03005,
+    12.49027
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 2.7793880000000002e-11
+  },
+  {
+   "field": "DAD1.UV: 400 nm: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=105]/stats/count",
+   "theirs": 982,
+   "cmp": "exact"
+  },
+  {
+   "field": "DAD1.UV: 400 nm: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=105]/stats/min",
+   "theirs": -11.80601,
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 2.7793880000000002e-11
+  },
+  {
+   "field": "DAD1.UV: 400 nm: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=105]/stats/max",
+   "theirs": 27.79388,
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 2.7793880000000002e-11
+  },
+  {
+   "field": "DAD1.UV: 400 nm: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1.UV]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=105]/stats/mean",
+   "theirs": 14.13281294898167,
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 2.7793880000000002e-08
+  },
+  {
+   "field": "DAD1A.ch: sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1A.ch]/extra/sample_name",
+   "theirs": "0312650-0713-SM",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1A.ch: operator",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1A.ch]/extra/operator",
+   "theirs": "SYSTEM",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1A.ch: method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1A.ch]/extra/method",
+   "theirs": "Photobromination-09-30-2021.M",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1A.ch: file version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1A.ch]/extra/format_version",
+   "theirs": "130",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1A.ch: file type",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1A.ch]/extra/file_type",
+   "theirs": "LC DATA FILE",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1A.ch: acquisition time (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1A.ch]/extra/acquired_at",
+   "theirs": "2021-09-30T17:21:19",
+   "cmp": "wallclock"
+  },
+  {
+   "field": "DAD1A.ch: signal",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1A.ch]/extra/signal",
+   "theirs": "DAD1A, Sig=210,4  Ref=360,100",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1A.ch: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1A.ch]/channels/0/unit",
+   "theirs": "mAU",
+   "cmp": "text"
+  },
+  {
+   "field": "DAD1A.ch: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1A.ch]/extra/axis/first",
+   "theirs": 0.0005,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "DAD1A.ch: last time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=DAD1A.ch]/extra/x_end_min",
+   "theirs": 2.5021666666666667,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "DAD1A.ch: signal: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    -371.46472930908203,
+    -371.2344169616699,
+    -371.32740020751953,
+    -371.40560150146484,
+    -371.3374137878418,
+    -371.6397285461426,
+    -371.20819091796875,
+    -371.2296485900879,
+    -371.28543853759766,
+    -371.43468856811523,
+    -371.25635147094727,
+    -371.2582588195801,
+    -371.4261054992676,
+    -371.26731872558594,
+    -371.2949752807617,
+    -371.5190887451172,
+    -371.3054656982422,
+    -371.03271484375,
+    -371.5667724609375,
+    -371.2625503540039,
+    -371.16098403930664,
+    -371.5214729309082,
+    -371.3517189025879,
+    -371.366024017334,
+    -371.30212783813477,
+    -371.671199798584,
+    -371.2916374206543,
+    -371.22249603271484,
+    -371.6282844543457,
+    -371.3960647583008,
+    -371.1199760437012,
+    -371.5071678161621
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 8.70147705078125e-10
+  },
+  {
+   "field": "DAD1A.ch: signal: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 3003,
+   "cmp": "exact"
+  },
+  {
+   "field": "DAD1A.ch: signal: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -410.53199768066406,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 8.70147705078125e-10
+  },
+  {
+   "field": "DAD1A.ch: signal: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 870.147705078125,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 8.70147705078125e-10
+  },
+  {
+   "field": "DAD1A.ch: signal: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=DAD1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": -287.2920233211714,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 8.70147705078125e-07
+  }
+ ]
+}

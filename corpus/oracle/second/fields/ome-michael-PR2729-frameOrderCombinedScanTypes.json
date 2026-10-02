@@ -1,0 +1,42 @@
+{
+ "id": "ome-michael-PR2729-frameOrderCombinedScanTypes",
+ "file": "ome-michael-PR2729-frameOrderCombinedScanTypes.lif",
+ "format": "lif",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "acquisition date (earliest image)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2017-01-30T07:56:07",
+   "cmp": "time_or_utc",
+   "abs": 60.0
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 64,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 64,
+   "cmp": "exact"
+  }
+ ]
+}

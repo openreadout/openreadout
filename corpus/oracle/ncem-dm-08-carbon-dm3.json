@@ -1,0 +1,76 @@
+{
+ "id": "ncem-dm-08-carbon-dm3",
+ "file": "ncem-dm-08-carbon-dm3.dm3",
+ "size": 302702,
+ "sha256": "d165decfd3f18b7fe70a5b2679d4cde03cec328461a96e3d99b88c3aac6b3337",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "08_carbon",
+   "size_x": 2048,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f412a8f32c114bd903b08d4458e58386"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "08_carbon",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "e-"
+   ],
+   "ppm_first": 240.0000035762787,
+   "ppm_last": 444.7000066265464,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2048,
+     "channels": [
+      {
+       "xxh3": "5b2cae3f3bf2488a68aa7cb7b38033fe",
+       "first": [
+        21281.0,
+        21206.0,
+        21333.0,
+        21365.0,
+        21257.0,
+        21148.0,
+        21210.0,
+        21135.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

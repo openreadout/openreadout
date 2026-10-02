@@ -1,0 +1,9 @@
+{
+ "id": "zenodo14601517-bi183",
+ "file": "zenodo14601517-bi183.spc",
+ "format": "galactic-spc",
+ "family": "vibrational-spectroscopy",
+ "readers": [],
+ "checks": [],
+ "error": "NotImplementedError: only LSB format is supproted"
+}

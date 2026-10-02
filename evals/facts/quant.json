@@ -1,0 +1,107 @@
+{
+ "chromhandler-001f0101-d-fid1a-ch": {
+  "extractor": "evals/quant.py",
+  "facts": {
+   "main_peak_area_percent": {
+    "how": "ChemStation area-percent report, FID1 A: area % of the largest peak",
+    "reader": "ChemStation Report.TXT (vendor integration of this injection)",
+    "value": {
+     "area_percent": 97.91525,
+     "rt_min": 2.824
+    }
+   }
+  },
+  "file": "chromhandler-001F0101.D/FID1A.ch"
+ },
+ "chromhandler-001f0102-d-fid1a-ch": {
+  "extractor": "evals/quant.py",
+  "facts": {
+   "main_peak": {
+    "how": "ChemStation area-percent report, FID1 A: the peak with the largest area (pA*s) and its retention time",
+    "reader": "ChemStation Report.TXT (vendor integration of this injection)",
+    "value": {
+     "area": 17187.1,
+     "rt_min": 2.823
+    }
+   }
+  },
+  "file": "chromhandler-001F0102.D/FID1A.ch"
+ },
+ "chromhandler-001f0103-d-fid1a-ch": {
+  "extractor": "evals/quant.py",
+  "facts": {
+   "second_peak": {
+    "how": "ChemStation area-percent report, FID1 A: retention time of the second-largest peak by area",
+    "reader": "ChemStation Report.TXT (vendor integration of this injection)",
+    "value": {
+     "area": 81.04944,
+     "rt_min": 4.057
+    }
+   }
+  },
+  "file": "chromhandler-001F0103.D/FID1A.ch"
+ },
+ "chromhandler-001f0104-d-tcd2b-ch": {
+  "extractor": "evals/quant.py",
+  "facts": {
+   "main_peak_height": {
+    "how": "ChemStation area-percent report, TCD2 B: height (25 uV) of the largest peak",
+    "reader": "ChemStation Report.TXT (vendor integration of this injection)",
+    "value": {
+     "height": 195.31581,
+     "rt_min": 2.832
+    }
+   }
+  },
+  "file": "chromhandler-001F0104.D/TCD2B.ch"
+ },
+ "chromhandler-rau-r505-05-d-data-ms": {
+  "extractor": "evals/quant.py",
+  "facts": {
+   "tic_area_ratio_6p06_6p30": {
+    "how": "MSD ChemStation integrator, TIC: area of the peak at 6.06 min / area of the peak at 6.30 min",
+    "reader": "MSD ChemStation RESULTS.CSV (vendor integrator on the total-ion chromatogram)",
+    "value": {
+     "ratio": 1.5497026,
+     "rt_a": 6.055,
+     "rt_b": 6.301
+    }
+   }
+  },
+  "file": "chromhandler-RAU-R505-05.D/data.ms"
+ },
+ "mtbls1822-tsq-74": {
+  "extractor": "evals/quant.py",
+  "facts": {
+   "srm_155_004_111_074_peak": {
+    "how": "SRM chromatogram 155.004 > 111.074 (its most intense transition) of the depositor's mzML; the largest peak picked and integrated by pyOpenMS",
+    "reader": "pyteomics 5.0.1 SRM chromatogram of the depositor's mzML + pyOpenMS 3.5.0 PeakPickerChromatogram/PeakIntegrator (trapezoid, base-to-base)",
+    "value": {
+     "apex_rt_min": 0.41771668,
+     "area_counts_s": 13024.742,
+     "end_min": 0.46628332,
+     "height": 8334.6323,
+     "start_min": 0.38148333
+    }
+   }
+  },
+  "file": "mtbls1822-tsq-74.mzML"
+ },
+ "mtbls20-caffeine-pos": {
+  "extractor": "evals/quant.py",
+  "facts": {
+   "xic_195_0877_peak": {
+    "how": "MS1 XIC of m/z 195.0877 ± 10 ppm (sum per scan); the largest peak picked and integrated by pyOpenMS",
+    "reader": "pyteomics 5.0.1 XIC on the depositor's mzML + pyOpenMS 3.5.0 PeakPickerChromatogram/PeakIntegrator (trapezoid, base-to-base)",
+    "value": {
+     "apex_rt_min": 0.61289667,
+     "area_counts_s": 1151275600.0,
+     "end_min": 1.1692,
+     "height": 43136165.0,
+     "start_min": 0.18354667
+    }
+   }
+  },
+  "file": "mtbls20-caffeine-pos.mzML"
+ }
+}

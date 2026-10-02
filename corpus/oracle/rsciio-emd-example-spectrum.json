@@ -1,0 +1,34 @@
+{
+ "id": "rsciio-emd-example-spectrum",
+ "file": "rsciio-emd-example-spectrum.emd",
+ "size": 16264,
+ "sha256": "14d30ab9f2b124c1208b36c99729a7c6f73e00d6babd84da1b1a4e14273c32f6",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 (Berkeley EMD groups)",
+ "images": [
+  {
+   "index": 0,
+   "emd_group": "signals/__unnamed__",
+   "size_x": 3,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "583ee361663f563f83e77f585e9f1e52"
+    }
+   ]
+  }
+ ],
+ "version": "0.2"
+}

@@ -1,0 +1,62 @@
+{
+ "id": "zenodo10624872-21022013-smr",
+ "file": "zenodo10624872-21022013.smr",
+ "size": 5936128,
+ "sha256": "fea26d7fd4de0e0a7c2dfec52f796b7fd8aa6da79afc4a6e9eb43658bcc31bbd",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 Spike2RawIO (try_signal_grouping=False)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "IL"
+   ],
+   "channel_units": [
+    "Volt"
+   ],
+   "sample_rate_hz": 1000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2939754,
+     "channels": [
+      {
+       "xxh3": "de27de8cfdb179e898f8ea492e0870e1",
+       "first": [
+        -0.04913330078125,
+        -0.0518798828125,
+        -0.0537109375,
+        -0.056610107421875,
+        -0.059356689453125,
+        -0.061798095703125,
+        -0.06561279296875,
+        -0.069427490234375
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 966,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "time_s": "e25458da6f47650a2fe664362e3a8b92",
+    "tick": "b815b3ad50908a05b0bfbad9b12c4762",
+    "channel": "3a8b856b47cccca327f353ebefb452ff",
+    "code0": "4690ce5f8840a783a632f75b9ce22ad7",
+    "code1": "4690ce5f8840a783a632f75b9ce22ad7",
+    "code2": "4690ce5f8840a783a632f75b9ce22ad7",
+    "code3": "4690ce5f8840a783a632f75b9ce22ad7",
+    "text": "4690ce5f8840a783a632f75b9ce22ad7"
+   }
+  }
+ ]
+}

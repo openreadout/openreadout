@@ -1,0 +1,184 @@
+{
+ "id": "entab-chemstation-mwd-d",
+ "file": "entab-chemstation_mwd.d",
+ "size": 27672,
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) / Aston (BSD-3) for version 81",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "mwd1A"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 2.5,
+   "x_first_min": -0.03966666666666667,
+   "x_last_min": 11.960333333333333,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1801,
+     "channels": [
+      {
+       "xxh3": "7ca70b800b5a5fd4f5e26390b5115f2f",
+       "first": [
+        -36.34977340698242,
+        -36.47327423095703,
+        -36.577701568603516,
+        -36.690711975097656,
+        -36.82422637939453,
+        -36.97824478149414,
+        -37.16135025024414,
+        -37.374019622802734
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "mwd1B"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 2.5,
+   "x_first_min": -0.03966666666666667,
+   "x_last_min": 11.960333333333333,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1801,
+     "channels": [
+      {
+       "xxh3": "4be9ea7e972113b5595d44398bf0b669",
+       "first": [
+        -0.396728515625,
+        -0.4220008850097656,
+        -0.4391670227050781,
+        -0.4425048828125,
+        -0.44536590576171875,
+        -0.4620552062988281,
+        -0.48732757568359375,
+        -0.5164146423339844
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "mwd1C"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 2.5,
+   "x_first_min": -0.03966666666666667,
+   "x_last_min": 11.960333333333333,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1801,
+     "channels": [
+      {
+       "xxh3": "039de63ec076e6ca9fa73d75160ad94d",
+       "first": [
+        -0.05340576171875,
+        -0.04482269287109375,
+        -0.0286102294921875,
+        -0.01621246337890625,
+        -0.023365020751953125,
+        -0.04482269287109375,
+        -0.06771087646484375,
+        -0.080108642578125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "mwd1D"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 2.5,
+   "x_first_min": -0.03966666666666667,
+   "x_last_min": 11.960333333333333,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1801,
+     "channels": [
+      {
+       "xxh3": "ae8e327d35362e0948ad073984a07db6",
+       "first": [
+        0.015735626220703125,
+        0.027179718017578125,
+        0.0514984130859375,
+        0.07200241088867188,
+        0.0820159912109375,
+        0.07200241088867188,
+        0.04291534423828125,
+        0.006198883056640625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "mwd1E"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 2.5,
+   "x_first_min": -0.03966666666666667,
+   "x_last_min": 11.960333333333333,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1801,
+     "channels": [
+      {
+       "xxh3": "8eada39997862fe0d1492cf17a36a9ff",
+       "first": [
+        -0.08392333984375,
+        -0.0743865966796875,
+        -0.06771087646484375,
+        -0.062465667724609375,
+        -0.05435943603515625,
+        -0.0476837158203125,
+        -0.046253204345703125,
+        -0.050067901611328125
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

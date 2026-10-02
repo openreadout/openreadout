@@ -1,0 +1,21 @@
+{
+ "id": "envision-text-screenwerk-lum1536",
+ "file": "envision-text-screenwerk-lum1536.csv",
+ "size": 21010,
+ "sha256": "707c65369f82977e9ac533ff971b0a55f070d8cdb04a45c3456236ef177bb12f",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py envision_csv_summary (independent reader of the export text; allotropy cannot parse this export)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "luminescence",
+    "wells": 1536,
+    "values": 1536,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "e66944d64a64e768023847b2038b5734"
+   }
+  ],
+  "header": {}
+ }
+}

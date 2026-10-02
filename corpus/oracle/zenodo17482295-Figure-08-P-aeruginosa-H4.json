@@ -1,0 +1,247 @@
+{
+ "id": "zenodo17482295-Figure-08-P-aeruginosa-H4",
+ "file": "zenodo17482295-Figure-08-P-aeruginosa-H4.czi",
+ "size": 2357312,
+ "sha256": "8c9f9d4e64caf1fddc803e29d351a3bede2d814bc6a082492b7a43606c3caa02",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 416,
+   "size_y": 416,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "HCYX",
+   "shape": [
+    4,
+    4,
+    416,
+    416
+   ],
+   "other_dims": {
+    "H": 4
+   },
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.033844217370788306,
+    "y": 0.033844217370788306,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d8c2e86991653d4626bc6796b0fb0156"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c0e36d7ce5d99678f4170f85ec3e116c"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5d3b07f9b1ef950c8e5179cc0b6e30cf"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e98298b9375416b7136ca587023e701"
+    }
+   ],
+   "dimension_index": {
+    "H": 0
+   },
+   "levels": []
+  },
+  {
+   "index": 1,
+   "name": "Scene 0",
+   "size_x": 416,
+   "size_y": 416,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "HCYX",
+   "shape": [
+    4,
+    4,
+    416,
+    416
+   ],
+   "other_dims": {
+    "H": 4
+   },
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.033844217370788306,
+    "y": 0.033844217370788306,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7245711aa20c184de049e1d41c32b3d5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f52c9f5adff41cd05254d6a4904e1f8"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6219cbdbd2eddc8153a5ac72b7d70c5f"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f52c9f5adff41cd05254d6a4904e1f8"
+    }
+   ],
+   "dimension_index": {
+    "H": 1
+   },
+   "levels": []
+  },
+  {
+   "index": 2,
+   "name": "Scene 0",
+   "size_x": 416,
+   "size_y": 416,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "HCYX",
+   "shape": [
+    4,
+    4,
+    416,
+    416
+   ],
+   "other_dims": {
+    "H": 4
+   },
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.033844217370788306,
+    "y": 0.033844217370788306,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9fac40cfccf64b240ec72901a4ce7038"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f52c9f5adff41cd05254d6a4904e1f8"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "414a7eb6fbae07b3fa70b105823b75e3"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f52c9f5adff41cd05254d6a4904e1f8"
+    }
+   ],
+   "dimension_index": {
+    "H": 2
+   },
+   "levels": []
+  },
+  {
+   "index": 3,
+   "name": "Scene 0",
+   "size_x": 416,
+   "size_y": 416,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "HCYX",
+   "shape": [
+    4,
+    4,
+    416,
+    416
+   ],
+   "other_dims": {
+    "H": 4
+   },
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.033844217370788306,
+    "y": 0.033844217370788306,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "535a1c004f94d0fc7961f2fe99fd5c08"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f52c9f5adff41cd05254d6a4904e1f8"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "77bbdd224ea20509fb757b14c4af349a"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f52c9f5adff41cd05254d6a4904e1f8"
+    }
+   ],
+   "dimension_index": {
+    "H": 3
+   },
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.033844217370788306,
+  "y": 0.033844217370788306,
+  "z": null
+ },
+ "subblock_count": 10,
+ "compression_ids": [
+  0
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "id": "synthetic-tiff-jpeg-tifffile-rgb-ascoded",
+ "file": "synthetic-tiff-jpeg-tifffile-rgb-ascoded.tif",
+ "size": 375490,
+ "sha256": "5c843acca57316b2920497e6b370b800a8bd95efaa6b46325656f4168cd4b4ba",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "shaped",
+ "flags": [
+  "shaped"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "shaped",
+   "axes": "YXS",
+   "shape": [
+    1000,
+    1300,
+    3
+   ],
+   "size_x": 1300,
+   "size_y": 1000,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": true,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "87c8168924ef6ccfb9dd698ba755401a",
+     "mean": 221.41280051282052
+    }
+   ]
+  }
+ ]
+}

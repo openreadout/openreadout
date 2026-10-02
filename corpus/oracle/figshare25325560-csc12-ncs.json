@@ -1,0 +1,46 @@
+{
+ "id": "figshare25325560-csc12-ncs",
+ "file": "CSC12.ncs",
+ "size": 1873660,
+ "sha256": "a7cfa8515dd672561401fbef0bbe85a318564f3d1042776d1b660da92f3ab135",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 NeuralynxRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CSC12"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 1000.0,
+   "neo_gain": [
+    -0.0457763671875
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 910678,
+     "channels": [
+      {
+       "xxh3": "d9c6e1786d3f77b614c66dbcaf1b4579",
+       "first": [
+        700.9735107421875,
+        707.0159912109375,
+        710.26611328125,
+        714.7979736328125,
+        709.9456787109375,
+        689.94140625,
+        670.5780029296875,
+        652.40478515625
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

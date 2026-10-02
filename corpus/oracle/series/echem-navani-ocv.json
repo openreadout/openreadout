@@ -1,0 +1,61 @@
+{
+ "id": "echem-navani-ocv",
+ "format": "biologic-mpr",
+ "independent": true,
+ "traces": [
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "time/s",
+   "optional": true,
+   "n": 2,
+   "samples": [
+    [
+     0,
+     0.0,
+     0.0
+    ],
+    [
+     1,
+     5.593199858703883,
+     5.593199858703883
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-navani-ocv.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Ewe/V",
+   "optional": true,
+   "n": 2,
+   "samples": [
+    [
+     0,
+     0.0,
+     -0.37380897998809814
+    ],
+    [
+     1,
+     5.593199858703883,
+     -0.37328216433525085
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-navani-ocv.mpr (GPL, black box)"
+  }
+ ],
+ "facts": [
+  {
+   "path": "acquisition.started_at",
+   "value": "2023-12-07T14:22:24",
+   "prefix": true,
+   "source": "galvani"
+  }
+ ]
+}

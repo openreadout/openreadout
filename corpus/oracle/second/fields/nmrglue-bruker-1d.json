@@ -1,0 +1,189 @@
+{
+ "id": "nmrglue-bruker-1d",
+ "file": "nmrglue-test-data/bruker_1d",
+ "format": "bruker-nmr",
+ "family": "nmr",
+ "readers": [
+  "nmrglue 0.12 (BSD-3) bruker.read_jcamp on acqus and procs"
+ ],
+ "checks": [
+  {
+   "field": "acqus SFO1",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectrometer_frequency_mhz",
+   "theirs": 600.132820611,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus BF1",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/base_frequency_mhz",
+   "theirs": 600.13,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus SW_h",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectral_width_hz",
+   "theirs": 10000.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus SW",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectral_width_ppm",
+   "theirs": 16.6629780217968,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus O1",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/carrier_offset_hz",
+   "theirs": 2820.61100006104,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus TE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/temperature_k",
+   "theirs": 298.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus TD",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/time_domain_size",
+   "theirs": 4096,
+   "cmp": "exact"
+  },
+  {
+   "field": "acqus NS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/scans",
+   "theirs": 512,
+   "cmp": "exact"
+  },
+  {
+   "field": "acqus DS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/dummy_scans",
+   "theirs": 2,
+   "cmp": "exact"
+  },
+  {
+   "field": "acqus DECIM",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/decimation",
+   "theirs": 16,
+   "cmp": "exact"
+  },
+  {
+   "field": "acqus DSPFVS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/dsp_firmware",
+   "theirs": 12,
+   "cmp": "exact"
+  },
+  {
+   "field": "acqus RG",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/receiver_gain",
+   "theirs": 16384.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus PULPROG",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/pulse_program",
+   "theirs": "oneone.cpj",
+   "cmp": "text"
+  },
+  {
+   "field": "acqus SOLVENT",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/solvent",
+   "theirs": "DMSO",
+   "cmp": "text"
+  },
+  {
+   "field": "acqus INSTRUM",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/instrument",
+   "theirs": "spect",
+   "cmp": "text"
+  },
+  {
+   "field": "acqus NUC1",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/nucleus",
+   "theirs": "1H",
+   "cmp": "text"
+  },
+  {
+   "field": "acqus DATE (seconds since 1970)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2007-08-23T16:56:06Z",
+   "cmp": "time",
+   "abs": 1.0
+  }
+ ]
+}

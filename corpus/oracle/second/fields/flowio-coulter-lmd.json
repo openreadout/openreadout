@@ -1,0 +1,196 @@
+{
+ "id": "flowio-coulter-lmd",
+ "file": "flowio-coulter-lmd.lmd",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 18110,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 8,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "FS Lin",
+    "SS Lin",
+    "FL1 Log",
+    "FL2 Log",
+    "FL1 Lin",
+    "FL2 Lin",
+    "FL3 Lin",
+    "FL3 Log"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FS Lin": 1024.0,
+    "SS Lin": 1024.0,
+    "FL1 Log": 1024.0,
+    "FL2 Log": 1024.0,
+    "FL1 Lin": 1024.0,
+    "FL2 Lin": 1024.0,
+    "FL3 Lin": 1024.0,
+    "FL3 Log": 1024.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FS Lin": 16,
+    "SS Lin": 16,
+    "FL1 Log": 16,
+    "FL2 Log": 16,
+    "FL1 Lin": 16,
+    "FL2 Lin": 16,
+    "FL3 Lin": 16,
+    "FL3 Log": 16
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "I",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "little-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS2.0",
+   "cmp": "text"
+  },
+  {
+   "field": "file name ($FIL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/file_name",
+   "theirs": "life-dead-comp dead no dye 00002019 003.LMD",
+   "cmp": "text"
+  },
+  {
+   "field": "system ($SYS)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/system",
+   "theirs": "CXP",
+   "cmp": "text"
+  },
+  {
+   "field": "operator ($OP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "kashofer",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "Cytomics FC 500",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2009-11-11T17:15:58.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2009-11-11T17:16:45.000",
+   "cmp": "time",
+   "abs": 0.02
+  }
+ ]
+}

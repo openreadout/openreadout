@@ -1,0 +1,91 @@
+{
+ "id": "mzdata-three-test-scans",
+ "file": "mzdata-three-test-scans.mzML",
+ "size": 237646,
+ "sha256": "62d105570de9620a7d84285487ba6e509d38f41fadfcf176dc04b7759b878ed3",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3,
+     "channels": [
+      {
+       "xxh3": "c63d37428ce4978fdecfaba34601f469",
+       "first": [
+        1327.697410583496,
+        1327.965202331543,
+        1328.041877746582
+       ]
+      },
+      {
+       "xxh3": "e4813c1371f0733c7b12a3132774ddf7",
+       "first": [
+        18161616896.0,
+        3704253184.0,
+        47062116.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "id": "BPC",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3,
+     "channels": [
+      {
+       "xxh3": "c63d37428ce4978fdecfaba34601f469",
+       "first": [
+        1327.697410583496,
+        1327.965202331543,
+        1328.041877746582
+       ]
+      },
+      {
+       "xxh3": "0b333d2c036937ba5d7c17d6329b26c0",
+       "first": [
+        502212384.0,
+        69120096.0,
+        1230223.375
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 3,
+  "by_index": true
+ ,
+  "scans": [
+{"index":0,"scan_number":10014,"ms_level":1,"rt_s":1327.6974,"polarity":"positive","centroided":false,"filter":"FTMS + p NSI Full lock ms [350.00-1500.00]","precursor_mz":null,"precursor_charge":null,"isolation_target_mz":null,"activation":null,"collision_energy":null,"total_ion_current":18161617000.0,"n_peaks":27826,"n_nonzero":14642,"mz_bits":64,"xxh3_mz":"37f1da8730ee4f5c9eb3e561d26b1d1b","xxh3_intensity":"191fef6ff36bcb536252468d485da40f","xxh3_mz_nonzero":"12cd809fae43babb2383989183bc884e","xxh3_intensity_nonzero":"8e29eed631a9e51af06c85db7212e38a","sum_intensity":18161617485.26798,"mz_min":346.521240234375,"mz_max":1515.1590576171875,"first_peaks":[[346.521240234375,0.0],[346.52276611328125,0.0],[346.5242919921875,0.0],[346.5258483886719,0.0],[350.17529296875,0.0]],"first_nonzero_peaks":[[350.1815185546875,30400.111328125],[350.1830749511719,62420.58984375],[350.18463134765625,93867.6328125],[350.1861877441406,111050.0703125],[350.187744140625,111047.1640625]]},
+{"index":1,"scan_number":10015,"ms_level":2,"rt_s":1327.9651800000001,"polarity":"positive","centroided":false,"filter":"FTMS + p NSI d Full ms2 562.74@hcd27.00 [100.00-1165.00]","precursor_mz":562.739745982435,"precursor_charge":2,"isolation_target_mz":562.73974609375,"activation":["beam-type collision-induced dissociation"],"collision_energy":27.0,"total_ion_current":3704253200.0,"n_peaks":3493,"n_nonzero":1718,"mz_bits":64,"xxh3_mz":"9f30a264e1cb6e58b79f503ad1d0b718","xxh3_intensity":"d2187342c161f321ffd3c4238e028310","xxh3_mz_nonzero":"963794f34b87db2a1325874e83366f6e","xxh3_intensity_nonzero":"dd6043ac197ed220449b7d65866c6e09","sum_intensity":3704253126.7148438,"mz_min":99.0053482055664,"mz_max":1176.8787841796875,"first_peaks":[[99.0053482055664,0.0],[99.00627899169922,0.0],[99.00721740722656,0.0],[99.00814819335938,0.0],[101.11775207519531,0.0]],"first_nonzero_peaks":[[101.12161254882812,110176.5],[101.12257385253906,163774.78125],[101.12354278564453,185319.4375],[101.12450408935547,164049.109375],[101.1254653930664,110173.7734375]]},
+{"index":2,"scan_number":10016,"ms_level":2,"rt_s":1328.04186,"polarity":"positive","centroided":false,"filter":"FTMS + p NSI d Full ms2 617.26@hcd27.00 [100.00-1280.00]","precursor_mz":617.264933277471,"precursor_charge":2,"isolation_target_mz":617.264953613281,"activation":["beam-type collision-induced dissociation"],"collision_energy":27.0,"total_ion_current":47062116.0,"n_peaks":5390,"n_nonzero":2575,"mz_bits":64,"xxh3_mz":"73b94ecfc1c099a871ef92c8a8127678","xxh3_intensity":"bd06ed0b373f8bd1f028d8cd21c86170","xxh3_mz_nonzero":"0f97948e3c1f867bc62029b567cd9655","xxh3_intensity_nonzero":"0ebaac3c01ab5ac8062944979590426c","sum_intensity":47062118.05928421,"mz_min":99.00534057617188,"mz_max":1293.0577392578125,"first_peaks":[[99.00534057617188,0.0],[99.00627899169922,0.0],[99.00720977783203,0.0],[99.00814819335938,0.0],[100.03277587890625,0.0]],"first_nonzero_peaks":[[100.03656768798828,714.1405639648438],[100.03752136230469,1827.51611328125],[100.03846740722656,3121.3251953125],[100.03942108154297,3683.501708984375],[100.04036712646484,3117.765869140625]]}
+ ]
+ }
+}

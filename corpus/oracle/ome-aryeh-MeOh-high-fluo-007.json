@@ -1,0 +1,241 @@
+{
+ "id": "ome-aryeh-MeOh-high-fluo-007",
+ "file": "ome-aryeh-MeOh-high-fluo-007.nd2",
+ "size": 13131776,
+ "sha256": "68ba9ba438b8dc7c76861c252bd096293d83885db0e559fb41bbbe29ba53a47c",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 800,
+   "size_y": 600,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 13,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 13, 'Y': 600, 'X': 800}",
+   "physical_size_um": {
+    "x": 0.37,
+    "y": 0.37,
+    "z": null
+   },
+   "channel_names": [
+    "pdt-405"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2ca0c5975cda27841011e4804caf7d1f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "14a0faf319685f8c34cc71265ad20e79"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "abe4d633689e9c1494485fa6a78d4f39"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "283ecde670475ef189c6eb59e2555af5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "2fa1d9692b50cabc248d1f2202ff4ce5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "176ba275a0036cdc3350c3d739b786f8"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "afa0865438dea4a897c10600f6f31cb4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "9136fda5b03faf528066afa7ad251d31"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "51f09017896f94e77d6efb997d6b2dd4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "276048b4ecd6aaad5fccdcd14f41e9ea"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 10,
+     "xxh3": "b6bbca07e4addba9e784fea6c7f947fe"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 11,
+     "xxh3": "5a41af74b3fcd43797443e53d2330086"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 12,
+     "xxh3": "9375b5a04bde65eb5eb8b1fb5019bea4"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "pdt-405",
+    "color": "#FF0000",
+    "excitation_nm": 400.0,
+    "emission_nm": 460.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 13,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1865.0624733939767,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 10252.172912580892,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 21837.128548372537,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 32032.016588084403,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 4,
+    "time_ms": 46536.29573744349,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 50221.690649844706,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 6,
+    "time_ms": 60222.86979686469,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 72505.80018345639,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 8,
+    "time_ms": 81678.04687877186,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 9,
+    "time_ms": 90278.87175504677,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 10,
+    "time_ms": 101563.93923316896,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 11,
+    "time_ms": 110900.24320834689,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   },
+   {
+    "index": 12,
+    "time_ms": 122650.07871695794,
+    "tags": {
+     "PFS_OFFSET": -1,
+     "Z": 2544.05
+    }
+   }
+  ],
+  "acquired_at": "2010-12-29T10:19:48.240Z",
+  "acquired_at_unix_ms": 1293617988240
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T(13) x \u03bb(1)\r\nCamera Name: QImaging Retiga 2000R Mono\r\nNumerical Aperture: 1.3\r\nRefractive Index: 1.515\r\n Name: pdt-405\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Binning: 2x2\r\n  Exposure: 3.5 ms\r\n  Software Gain: 1.0\r\n  Readout Speed: 20 MHz\r\n  Hardware Gain: 10.0\r\n  Hardware Offset: 0\r\n Microscope Settings:   Filter Blocks: 2 (CFP/dapi)\r\n  Uniblitz VCM-D1, Shutter(DIA): Closed\r\n  Light (EPI) Iris intensity: 100.0\r\n  LightPath: Left\r\n  Zoom: 1.00x\r\nTime Loop: 13\r\n- Equidistant (Period 10000 ms)",
+  "capturing": "QImaging Retiga 2000R Mono\r\nBinning: 2x2\r\nExposure: 3.5 ms\r\nSoftware Gain: 1.0\r\nReadout Speed: 20 MHz\r\nHardware Gain: 10.0\r\nHardware Offset: 0",
+  "date": "29/12/2010  12:19:48",
+  "optics": "Plan Fluor 40x Oil DIC H N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=1, heightPx=600, pixelDataType='unsigned', sequenceCount=13, widthBytes=1600, widthPx=800, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

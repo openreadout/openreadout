@@ -1,0 +1,44 @@
+{
+ "id": "pyabf-sine-sweep-magnitude-20-atf",
+ "file": "pyabf-sine-sweep-magnitude-20.atf",
+ "size": 1799784,
+ "sha256": "d5c298775475ee3d75722cf5d0a571327b63013cc80e702fb5b478bb4ffeaf20",
+ "max_planes_hashed": 64,
+ "reader": "pyabf 2.3.8 ATF (values re-read as float64)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "IN 0"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 10000.0,
+   "pyabf_rate_hz": 10000,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "5bb53a1c27e319f5910405313fc78f9e",
+       "first": [
+        0.0,
+        2e-06,
+        8e-06,
+        1.8e-05,
+        3.2e-05,
+        5e-05,
+        7.2e-05,
+        9.8e-05
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

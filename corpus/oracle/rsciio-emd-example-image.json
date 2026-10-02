@@ -1,0 +1,34 @@
+{
+ "id": "rsciio-emd-example-image",
+ "file": "rsciio-emd-example-image.emd",
+ "size": 17104,
+ "sha256": "ab32bb274c4e159dbf2e39bf18119b1476e1eec04349ab5fcc77e9701773f9cb",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 (Berkeley EMD groups)",
+ "images": [
+  {
+   "index": 0,
+   "emd_group": "signals/__unnamed__",
+   "size_x": 3,
+   "size_y": 3,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "96ed54250849eb33d98c67ddff8458af"
+    }
+   ]
+  }
+ ],
+ "version": "0.2"
+}

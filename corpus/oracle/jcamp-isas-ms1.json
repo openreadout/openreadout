@@ -1,0 +1,54 @@
+{
+ "id": "jcamp-isas-ms1",
+ "file": "jcamp-isas-ms1.dx",
+ "size": 947,
+ "sha256": "a90101754996364310a4ed0319235f1ab3f40cf809ee9e584c18db4e789331d5",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "2-Chlorphenol",
+   "kind": "peak_table",
+   "data_type": "MASS SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 26,
+     "channels": [
+      {
+       "xxh3": "e5152adcc1384c98ef67438764f24c90",
+       "first": [
+        50.0,
+        51.0,
+        52.0,
+        53.0,
+        54.0,
+        60.0,
+        61.0,
+        62.0
+       ]
+      },
+      {
+       "xxh3": "19bb25f666477a1197f2f4bfbb691ab2",
+       "first": [
+        5.84,
+        9.55,
+        4.19,
+        1.12,
+        12.67,
+        3.8,
+        10.16,
+        13.47
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 26,
+   "channel_count": 2,
+   "reader": "jcamp 1.2.2"
+  }
+ ]
+}

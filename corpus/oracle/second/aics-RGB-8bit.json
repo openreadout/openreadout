@@ -1,0 +1,20 @@
+{
+ "id": "aics-RGB-8bit",
+ "file": "aics-RGB-8bit.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 924,
+   "size_y": 624,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ab94ed048a3daf3abff3825fb12c6680"
+    }
+   ]
+  }
+ ]
+}

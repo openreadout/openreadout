@@ -1,0 +1,60 @@
+{
+ "id": "chromhandler-rau-r505-08-d-results-csv",
+ "input": "chromhandler-RAU-R505-08.D/data.ms",
+ "signal": {
+  "tic": true
+ },
+ "vendor": {
+  "software": "MSD ChemStation (MassHunter GC/MS)",
+  "source": "RESULTS.CSV",
+  "time_unit": "min",
+  "area_to_signal_s": null,
+  "note": "areas in the integrator's own units: compare area % (area_percent)"
+ },
+ "peaks": [
+  {
+   "rt_min": 6.055,
+   "first_scan": 856,
+   "max_scan": 860,
+   "last_scan": 876,
+   "code": "M",
+   "height": 1506033.0,
+   "area": 12691142.0,
+   "percent_of_max": 100.0,
+   "area_percent": 38.003
+  },
+  {
+   "rt_min": 6.301,
+   "first_scan": 898,
+   "max_scan": 903,
+   "last_scan": 909,
+   "code": "M",
+   "height": 1168623.0,
+   "area": 8870133.0,
+   "percent_of_max": 69.89,
+   "area_percent": 26.561
+  },
+  {
+   "rt_min": 10.156,
+   "first_scan": 1568,
+   "max_scan": 1570,
+   "last_scan": 1574,
+   "code": "M3",
+   "height": 25627.0,
+   "area": 249939.0,
+   "percent_of_max": 1.97,
+   "area_percent": 0.748
+  },
+  {
+   "rt_min": 10.287,
+   "first_scan": 1590,
+   "max_scan": 1593,
+   "last_scan": 1605,
+   "code": "M",
+   "height": 1029031.0,
+   "area": 11583893.0,
+   "percent_of_max": 91.28,
+   "area_percent": 34.687
+  }
+ ]
+}

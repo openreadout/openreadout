@@ -1,0 +1,72 @@
+{
+ "id": "flowio-b01-kc-a-w-91-us",
+ "file": "flowio-b01-kc-a-w-91-us.fcs",
+ "size": 93402,
+ "sha256": "33736fb7a40a4f571837c231d342df5fd4b20b5dd70439b74b3610f94b6c2a36",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.1",
+   "parameter_count": 14,
+   "event_count": 1589,
+   "parameter_names": [
+    "FSC-A",
+    "SSC-A",
+    "FL1-A",
+    "FL2-A",
+    "FL3-A",
+    "FL4-A",
+    "FSC-H",
+    "SSC-H",
+    "FL1-H",
+    "FL2-H",
+    "FL3-H",
+    "FL4-H",
+    "Width",
+    "Time"
+   ],
+   "parameter_labels": [
+    "FSC-A",
+    "SSC-A",
+    "FITC-A",
+    "PE-A",
+    "PerCP-A",
+    "APC-A",
+    "FSC-H",
+    "SSC-H",
+    "FITC-H",
+    "PE-H",
+    "PerCP-H",
+    "APC-H",
+    "Width",
+    "Time"
+   ],
+   "dtypes": [
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32"
+   ],
+   "xxh3": "6112166013d9a8012f78824a63a6d35e",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 1589,
+  "xxh3": "6112166013d9a8012f78824a63a6d35e",
+  "agrees_with_flowio": true
+ }
+}

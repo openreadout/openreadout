@@ -1,0 +1,91 @@
+{
+ "id": "jcamp-isas-ms1",
+ "file": "jcamp-isas-ms1.dx",
+ "format": "jcamp-dx",
+ "family": "nmr",
+ "readers": [
+  "jcamp 1.3.2 (MIT)"
+ ],
+ "checks": [
+  {
+   "field": "##TITLE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/title",
+   "theirs": "2-Chlorphenol",
+   "cmp": "text"
+  },
+  {
+   "field": "##DATA TYPE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/data_type",
+   "theirs": "MASS SPECTRUM",
+   "cmp": "text"
+  },
+  {
+   "field": "##ORIGIN",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/origin",
+   "theirs": "H. Mayer, ISAS Dortmund",
+   "cmp": "text"
+  },
+  {
+   "field": "##OWNER",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/owner",
+   "theirs": "COPYRIGHT (C) 1993 by ISAS Dortmund, FRG",
+   "cmp": "text"
+  },
+  {
+   "field": "##JCAMP-DX version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/jcamp_version",
+   "theirs": "5.00",
+   "cmp": "text"
+  },
+  {
+   "field": "##NPOINTS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 26,
+   "cmp": "exact"
+  },
+  {
+   "field": "##XUNITS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/unit",
+   "theirs": "M/Z",
+   "cmp": "text"
+  },
+  {
+   "field": "##SPECTROMETER/DATA SYSTEM",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "Finnigan MAT Magnum",
+   "cmp": "loose"
+  }
+ ]
+}

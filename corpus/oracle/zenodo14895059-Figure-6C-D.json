@@ -1,0 +1,51 @@
+{
+ "id": "zenodo14895059-Figure-6C-D",
+ "file": "zenodo14895059-Figure-6C-D.czi",
+ "size": 12194496,
+ "sha256": "df6e4f66391132e11968bef60ae686696eb9328a475cba0fc60947e7ddf1c097",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 4248,
+   "size_y": 2832,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "YX",
+   "shape": [
+    2832,
+    4248
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 1.2166405230740616,
+    "y": 1.2166405230740616,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31c61743a8ed97661863fc3389563667"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 1.2166405230740616,
+  "y": 1.2166405230740616,
+  "z": null
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

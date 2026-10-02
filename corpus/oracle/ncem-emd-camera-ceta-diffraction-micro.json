@@ -1,0 +1,36 @@
+{
+ "id": "ncem-emd-camera-ceta-diffraction-micro",
+ "file": "ncem-emd-camera-ceta-diffraction-micro.emd",
+ "size": 754917,
+ "sha256": "d1907b64fa1853daaba10f84053bcd493db3dcd4b15a607c43109c56bc5b640a",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "5c415056c9dc4df8be289b4bf4d63e8c",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int16",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "detector": "BM-Ceta",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bf097adcda9ba399660232d54800d81d"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"8\",\n    \"format\": \"Velox\"\n}\n"
+}

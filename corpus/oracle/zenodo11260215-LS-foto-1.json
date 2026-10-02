@@ -1,0 +1,51 @@
+{
+ "id": "zenodo11260215-LS-foto-1",
+ "file": "zenodo11260215-LS-foto-1.czi",
+ "size": 3926784,
+ "sha256": "0d3ed415670b91a93028bd07b9ab398c4e4387a416d80d5e9ec70f01912be7a4",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1380,
+   "size_y": 1380,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "YX",
+   "shape": [
+    1380,
+    1380
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.09779068330652994,
+    "y": 0.09779068330652994,
+    "z": 1.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bd600b775a2039fe098e4601ca2f8776"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.09779068330652994,
+  "y": 0.09779068330652994,
+  "z": 1.0
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "id": "bmg-smart-control-fi",
+ "file": "bmg-smart-control-fi.xlsx",
+ "size": 26152,
+ "sha256": "9ebf2d55407c919d4ad60084b5fd5c10c4da4480d01d34274e0205950abc7125",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (BMG_LABTECH_SMART_CONTROL)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "fluorescence",
+    "wells": 96,
+    "values": 96,
+    "errors": 0,
+    "wavelengths": [
+     520.0
+    ],
+    "value_xxh3": "6c976b1a2ac6bde1018920015fdcb84b"
+   }
+  ],
+  "header": {},
+  "documents": 96
+ }
+}

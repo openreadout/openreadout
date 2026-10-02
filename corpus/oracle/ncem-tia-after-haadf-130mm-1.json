@@ -1,0 +1,38 @@
+{
+ "id": "ncem-tia-after-haadf-130mm-1",
+ "file": "ncem-tia-After-HAADF-130mm_1.ser",
+ "size": 2097286,
+ "sha256": "393620aef99388d120ae6a65fc0ca6130a751c578643ae7752072b09d717e4b3",
+ "max_planes_hashed": 64,
+ "reader": "ncempy.io.ser (GPL, black box)",
+ "series_version": 528,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.0032703611893458774,
+    "y": 0.0032703611893458774,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cd00dd96f704e2f6f7f65d4c88609240"
+    }
+   ]
+  }
+ ],
+ "emi": {
+  "AcceleratingVoltage": 200000,
+  "Microscope []": "Microscope Titan 300 kV D3165 SuperTwin",
+  "Magnification [x]": 20000
+ }
+}

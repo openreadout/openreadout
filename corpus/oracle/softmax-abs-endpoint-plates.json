@@ -1,0 +1,24 @@
+{
+ "id": "softmax-abs-endpoint-plates",
+ "file": "softmax-abs-endpoint-plates.txt",
+ "size": 2928,
+ "sha256": "8984ccbb468046ebf697414a172cade3fc5d3d60c892b8de7c183d7724269d2b",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (MOLDEV_SOFTMAX_PRO)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 287,
+    "errors": 1,
+    "wavelengths": [
+     426.0
+    ],
+    "value_xxh3": "4eb218dbcabade023d7d6fcb2d39654a"
+   }
+  ],
+  "header": {},
+  "documents": 96
+ }
+}

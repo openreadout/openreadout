@@ -1,0 +1,48 @@
+{
+ "id": "nmrxiv-s853-4",
+ "path": "nmrxiv-s853/4",
+ "procs": {
+  "SI": 32768,
+  "LB": 1,
+  "WDW": 1,
+  "PHC0": -16.92592,
+  "PHC1": -198.0078,
+  "OFFSET": 160.1592,
+  "SF": 125.757788526,
+  "SW_p": 20161.2903225039,
+  "NC_proc": -13,
+  "ME_mod": 0,
+  "TDoff": 0,
+  "BC_mod": 0,
+  "FCOR": 1,
+  "TDeff": 65536
+ },
+ "acqus": {
+  "DSPFVS": 20,
+  "DIGMOD": 1,
+  "AQ_mod": 3,
+  "GRPDLY": 67.9840087890625,
+  "DECIM": 992
+ },
+ "nucleus": "13C",
+ "topspin_snr": 40.05355990795701,
+ "topspin_noise_sd": 1174.0040184009104,
+ "topspin_peaks": [
+  {
+   "index": 27211,
+   "ppm": 27.028569135174877,
+   "height": 47023.040283203125
+  }
+ ],
+ "nmrglue_fid": {
+  "pipeline": "remove_digital_filter, zf_size(32768), em(1/SW_h), fft, ps(+1*PHC0, -1*PHC1), di, rev",
+  "correlation_with_topspin": 0.8291076753459133,
+  "peaks": [
+   {
+    "index": 27210,
+    "ppm": 27.033461665170307,
+    "height": 2347808.1988562215
+   }
+  ]
+ }
+}

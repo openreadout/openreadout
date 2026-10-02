@@ -1,0 +1,311 @@
+{
+ "id": "zenodo17948627-axioscan-2scenes",
+ "file": "zenodo17948627-axioscan-2scenes.czi",
+ "size": 139584512,
+ "sha256": "21b94c49673a73fbf9ab6b89b1a743a7bf2432e3739874098421b35cf470c57b",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 11237,
+   "size_y": 11248,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    3,
+    11248,
+    11237
+   ],
+   "other_dims": {},
+   "pyramid_levels": 5,
+   "physical_size_um": {
+    "x": 0.325,
+    "y": 0.325,
+    "z": 1.5
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d476048617a63f60dd834e25467209d0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "939df3a2b66dc0392de291cd8b63ddec"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6927c57aaa1687ee9f6d0ec0f02bafd8"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 5618,
+     "size_y": 5624,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "7a301f8fd32d58d26e98edd7e5553854"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "f277952cd78c22f63bb57896bdb7b03b"
+      },
+      {
+       "c": 2,
+       "z": 0,
+       "t": 0,
+       "xxh3": "0d4d6e6a1e6243d41d967b6afbb5e310"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 2809,
+     "size_y": 2812,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "ea1535f40efeafd6fd15466b91fe3fc4"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "72ed45c898a1c6af1e520ecb0ef1b6c6"
+      },
+      {
+       "c": 2,
+       "z": 0,
+       "t": 0,
+       "xxh3": "9a42082f28236de1bbc489fbd11021a1"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 1404,
+     "size_y": 1406,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "d42c141a2131e677e54d1539c5dc2b31"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "80f2dac86e389cb04f456f5c0350e08b"
+      },
+      {
+       "c": 2,
+       "z": 0,
+       "t": 0,
+       "xxh3": "8057adfa00756cb49f01236896f0a0cb"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 702,
+     "size_y": 703,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "292432067d2db38f5feba5368eacc27a"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "e5f710235e2c7f0f0bea2fe2697ede5f"
+      },
+      {
+       "c": 2,
+       "z": 0,
+       "t": 0,
+       "xxh3": "3c8d5db697e25741881d05098b5f99c6"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Scene 1",
+   "size_x": 11237,
+   "size_y": 9397,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    3,
+    9397,
+    11237
+   ],
+   "other_dims": {},
+   "pyramid_levels": 5,
+   "physical_size_um": {
+    "x": 0.325,
+    "y": 0.325,
+    "z": 1.5
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8c520a802052e7a257969c8deea6eca3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "10213034d12a8469ac758abbc4ad20fd"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bf730021aefa29b8e334dff23f79b4b6"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 5618,
+     "size_y": 4698,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "143808ccd7e52dd8054734d61b3c8507"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "4cd46ed76d4cccc2d4844cb9a58152e3"
+      },
+      {
+       "c": 2,
+       "z": 0,
+       "t": 0,
+       "xxh3": "7e09162cbcf3ddac84bd7bd9cde925fc"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 2809,
+     "size_y": 2349,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "d906a6bb51bfb75b96ac76e6e05fd62b"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "af6e3dafbed94bb2402bb6f62a36efd2"
+      },
+      {
+       "c": 2,
+       "z": 0,
+       "t": 0,
+       "xxh3": "a45487b9233edb63308fb9abaf83afe9"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 1404,
+     "size_y": 1174,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "bea69e54f072b94dc038de88e5416246"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "a68da5c309e6fe899dbf960c0ab323d1"
+      },
+      {
+       "c": 2,
+       "z": 0,
+       "t": 0,
+       "xxh3": "ce91f2cd323543092865bcaefc3de9c6"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 702,
+     "size_y": 587,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "46d6525126af3b642bb1c22e1613e690"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "dd55a8b30542ba50e14507548c3dfa16"
+      },
+      {
+       "c": 2,
+       "z": 0,
+       "t": 0,
+       "xxh3": "b1408ec3bdd294e3cdc3ab10f8c6655e"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.325,
+  "y": 0.325,
+  "z": 1.5
+ },
+ "subblock_count": 480,
+ "compression_ids": [
+  4
+ ]
+}

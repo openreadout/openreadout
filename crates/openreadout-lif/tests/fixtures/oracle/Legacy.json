@@ -1,0 +1,44 @@
+{
+ "id": "Legacy",
+ "file": "Legacy.lof",
+ "size": 1251,
+ "sha256": "32ea4fc2201e13e91b33c218be54b87c48c53dbd7f9bd2b30e3e34089b72ea69",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Legacy",
+   "path": "Legacy",
+   "size_x": 4,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2,
+    4
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 1.0,
+    "y": 1.0,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "40319bcdb042262747fd9a5bd25e5391"
+    }
+   ]
+  }
+ ]
+}

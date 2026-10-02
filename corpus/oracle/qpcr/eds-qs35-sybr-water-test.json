@@ -1,0 +1,757 @@
+{
+ "id": "eds-qs35-sybr-water-test",
+ "file": "eds-qs35-sybr-water-test.eds",
+ "size": 2021385,
+ "sha256": "f618e723e0af8542ec6b7649768124f1e8643e7b8b8c985e3191d3ee68b8820c",
+ "reader": "Python stdlib (zipfile, ElementTree, json) over the vendor's own result files",
+ "format": "applied-biosystems-eds",
+ "rows": 8,
+ "columns": 12,
+ "records": [
+  {
+   "position": 73,
+   "row": 7,
+   "col": 1,
+   "well": "G1",
+   "target": "Bactin",
+   "sample": "DEPC Sedat",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 29.7889,
+   "cq_undetermined": false,
+   "tm": [
+    77.678856,
+    84.689476
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3134680.23,
+   "corrected_sum": 1169364.0581614,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 11843788.4697,
+   "melt_t_sum": 8916.0003
+  },
+  {
+   "position": 74,
+   "row": 7,
+   "col": 2,
+   "well": "G2",
+   "target": "Bactin",
+   "sample": "DEPC Sedat",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 25.558094,
+   "cq_undetermined": false,
+   "tm": [
+    84.689476,
+    77.22164
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3507777.099,
+   "corrected_sum": 1940462.245146,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 12422262.2743,
+   "melt_t_sum": 8916.0003
+  },
+  {
+   "position": 75,
+   "row": 7,
+   "col": 3,
+   "well": "G3",
+   "target": "Bactin",
+   "sample": "DEPC HY 27",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 22.472178,
+   "cq_undetermined": false,
+   "tm": [
+    76.7677
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 4663894.917,
+   "corrected_sum": 2505554.066239,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 10726067.61224,
+   "melt_t_sum": 8916.753
+  },
+  {
+   "position": 76,
+   "row": 7,
+   "col": 4,
+   "well": "G4",
+   "target": "Bactin",
+   "sample": "DEPC HY 27",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 29.775873,
+   "cq_undetermined": false,
+   "tm": [
+    78.1396
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3599786.097,
+   "corrected_sum": 1048439.5878064,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 11747960.80759,
+   "melt_t_sum": 8916.753
+  },
+  {
+   "position": 77,
+   "row": 7,
+   "col": 5,
+   "well": "G5",
+   "target": "Bactin",
+   "sample": "DEPC HY28",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 25.809875,
+   "cq_undetermined": false,
+   "tm": [
+    77.68858
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3622099.07,
+   "corrected_sum": 2017390.12716,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 11118151.59386,
+   "melt_t_sum": 8919.694
+  },
+  {
+   "position": 78,
+   "row": 7,
+   "col": 6,
+   "well": "G6",
+   "target": "Bactin",
+   "sample": "DEPC HY28",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 29.769028,
+   "cq_undetermined": false,
+   "tm": [
+    77.84108,
+    84.85564
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3158468.952,
+   "corrected_sum": 1184404.2504833,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 12131570.10369,
+   "melt_t_sum": 8919.694
+  },
+  {
+   "position": 79,
+   "row": 7,
+   "col": 7,
+   "well": "G7",
+   "target": "Bactin",
+   "sample": "DEPC Grace",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 21.539248,
+   "cq_undetermined": false,
+   "tm": [
+    73.26986
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 2259430.192,
+   "corrected_sum": 1348480.6104807,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 2780308.75775,
+   "melt_t_sum": 8922.4556
+  },
+  {
+   "position": 80,
+   "row": 7,
+   "col": 8,
+   "well": "G8",
+   "target": "Bactin",
+   "sample": "DEPC Grace",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 20.704998,
+   "cq_undetermined": false,
+   "tm": [
+    75.25271
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3566381.132,
+   "corrected_sum": 2505227.3301703,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 6368986.790889,
+   "melt_t_sum": 8922.4556
+  },
+  {
+   "position": 81,
+   "row": 7,
+   "col": 9,
+   "well": "G9",
+   "target": "Bactin",
+   "sample": "MilliQ",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 28.616789,
+   "cq_undetermined": false,
+   "tm": [
+    74.04065,
+    90.52338,
+    85.33437
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 1362448.671,
+   "corrected_sum": 445392.665704,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 1813428.26746,
+   "melt_t_sum": 8928.3418
+  },
+  {
+   "position": 82,
+   "row": 7,
+   "col": 10,
+   "well": "G10",
+   "target": "Bactin",
+   "sample": "MilliQ",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 18.058077,
+   "cq_undetermined": false,
+   "tm": [
+    74.80374
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 4256769.465,
+   "corrected_sum": 3045817.301888,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 6230150.2152968,
+   "melt_t_sum": 8928.3418
+  },
+  {
+   "position": 83,
+   "row": 7,
+   "col": 11,
+   "well": "G11",
+   "target": "Bactin",
+   "sample": "New DEPC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 16.382538,
+   "cq_undetermined": false,
+   "tm": [
+    77.0845,
+    79.98276,
+    93.25375,
+    61.22032
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 6007804.076,
+   "corrected_sum": 4442077.645873,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 12647962.513417,
+   "melt_t_sum": 8923.7297
+  },
+  {
+   "position": 84,
+   "row": 7,
+   "col": 12,
+   "well": "G12",
+   "target": "Bactin",
+   "sample": "New DEPC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 20.783726,
+   "cq_undetermined": false,
+   "tm": [
+    74.94894
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 4350622.185,
+   "corrected_sum": 2381224.632665,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 6433142.351294,
+   "melt_t_sum": 8923.7297
+  },
+  {
+   "position": 85,
+   "row": 8,
+   "col": 1,
+   "well": "H1",
+   "target": "Bactin",
+   "sample": "DEPC Sedat",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 30.050367,
+   "cq_undetermined": false,
+   "tm": [
+    77.52645,
+    84.53707
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3501407.379,
+   "corrected_sum": 1092040.914112,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 12709041.377805,
+   "melt_t_sum": 8916.0003
+  },
+  {
+   "position": 86,
+   "row": 8,
+   "col": 2,
+   "well": "H2",
+   "target": "Bactin",
+   "sample": "DEPC Sedat",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 29.602873,
+   "cq_undetermined": false,
+   "tm": [
+    77.83126,
+    84.84188
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3716961.139,
+   "corrected_sum": 1027545.417347,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 11416898.50542,
+   "melt_t_sum": 8916.0003
+  },
+  {
+   "position": 87,
+   "row": 8,
+   "col": 3,
+   "well": "H3",
+   "target": "Bactin",
+   "sample": "DEPC HY 27",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 29.953691,
+   "cq_undetermined": false,
+   "tm": [
+    77.98717,
+    85.60885
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3998611.484,
+   "corrected_sum": 643571.080268,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 9438553.32195,
+   "melt_t_sum": 8916.753
+  },
+  {
+   "position": 88,
+   "row": 8,
+   "col": 4,
+   "well": "H4",
+   "target": "Bactin",
+   "sample": "DEPC HY 27",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 30.028858,
+   "cq_undetermined": false,
+   "tm": [
+    78.44447
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 4367025.272,
+   "corrected_sum": 642569.924594,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 9592555.255046,
+   "melt_t_sum": 8916.753
+  },
+  {
+   "position": 89,
+   "row": 8,
+   "col": 5,
+   "well": "H5",
+   "target": "Bactin",
+   "sample": "DEPC HY28",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 29.431273,
+   "cq_undetermined": false,
+   "tm": [
+    78.14606,
+    85.3131
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 4080628.831,
+   "corrected_sum": 719958.240465,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 9696361.1128,
+   "melt_t_sum": 8919.694
+  },
+  {
+   "position": 90,
+   "row": 8,
+   "col": 6,
+   "well": "H6",
+   "target": "Bactin",
+   "sample": "DEPC HY28",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 30.154926,
+   "cq_undetermined": false,
+   "tm": [
+    78.14606
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3935109.117,
+   "corrected_sum": 562851.620001,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 8363782.78417,
+   "melt_t_sum": 8919.694
+  },
+  {
+   "position": 91,
+   "row": 8,
+   "col": 7,
+   "well": "H7",
+   "target": "Bactin",
+   "sample": "DEPC Grace",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 28.12258,
+   "cq_undetermined": false,
+   "tm": [
+    77.9982,
+    85.319496
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 4008161.498,
+   "corrected_sum": 654275.258793,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 8059197.22617,
+   "melt_t_sum": 8922.4556
+  },
+  {
+   "position": 92,
+   "row": 8,
+   "col": 8,
+   "well": "H8",
+   "target": "Bactin",
+   "sample": "DEPC Grace",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 29.303253,
+   "cq_undetermined": false,
+   "tm": [
+    77.9982
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3720216.92,
+   "corrected_sum": 517043.881382,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 6872256.660095,
+   "melt_t_sum": 8922.4556
+  },
+  {
+   "position": 93,
+   "row": 8,
+   "col": 9,
+   "well": "H9",
+   "target": "Bactin",
+   "sample": "MilliQ",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 27.837774,
+   "cq_undetermined": false,
+   "tm": [
+    77.703476,
+    85.181755
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3611402.046,
+   "corrected_sum": 521833.0568812,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 6915927.30599,
+   "melt_t_sum": 8928.3418
+  },
+  {
+   "position": 94,
+   "row": 8,
+   "col": 10,
+   "well": "H10",
+   "target": "Bactin",
+   "sample": "MilliQ",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 30.465668,
+   "cq_undetermined": false,
+   "tm": [
+    77.856094
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3537987.386,
+   "corrected_sum": 412791.409609,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 6510525.3918,
+   "melt_t_sum": 8928.3418
+  },
+  {
+   "position": 95,
+   "row": 8,
+   "col": 11,
+   "well": "H11",
+   "target": "Bactin",
+   "sample": "New DEPC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 30.40291,
+   "cq_undetermined": false,
+   "tm": [
+    77.8472
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 3594735.115,
+   "corrected_sum": 368478.730693,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 6630203.9132,
+   "melt_t_sum": 8923.7297
+  },
+  {
+   "position": 96,
+   "row": 8,
+   "col": 12,
+   "well": "H12",
+   "target": "Bactin",
+   "sample": "New DEPC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 30.483494,
+   "cq_undetermined": false,
+   "tm": [
+    77.54212
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 2384769.193,
+   "corrected_sum": 252986.340053,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 115,
+   "melt_sum": 4155566.582505,
+   "melt_t_sum": 8923.7297
+  }
+ ],
+ "cycles": 40,
+ "acquisition_temperatures_c": [
+  60.0
+ ],
+ "acquisition_temperature_c": 60.0,
+ "qslib_multicomponent": {
+  "reader": "qslib (EUPL-1.2, black box)",
+  "stage": 2,
+  "wells": {
+   "G1": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3134680.23
+    }
+   },
+   "G10": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4256769.465
+    }
+   },
+   "G11": {
+    "SYBR": {
+     "n": 40,
+     "sum": 6007804.076
+    }
+   },
+   "G12": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4350622.185
+    }
+   },
+   "G2": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3507777.099
+    }
+   },
+   "G3": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4663894.917
+    }
+   },
+   "G4": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3599786.097
+    }
+   },
+   "G5": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3622099.07
+    }
+   },
+   "G6": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3158468.952
+    }
+   },
+   "G7": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2259430.192
+    }
+   },
+   "G8": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3566381.132
+    }
+   },
+   "G9": {
+    "SYBR": {
+     "n": 40,
+     "sum": 1362448.671
+    }
+   },
+   "H1": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3501407.379
+    }
+   },
+   "H10": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3537987.386
+    }
+   },
+   "H11": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3594735.115
+    }
+   },
+   "H12": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2384769.193
+    }
+   },
+   "H2": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3716961.139
+    }
+   },
+   "H3": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3998611.484
+    }
+   },
+   "H4": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4367025.272
+    }
+   },
+   "H5": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4080628.831
+    }
+   },
+   "H6": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3935109.117
+    }
+   },
+   "H7": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4008161.498
+    }
+   },
+   "H8": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3720216.92
+    }
+   },
+   "H9": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3611402.046
+    }
+   }
+  }
+ }
+}

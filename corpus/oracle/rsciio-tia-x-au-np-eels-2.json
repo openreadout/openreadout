@@ -1,0 +1,68 @@
+{
+ "id": "rsciio-tia-x-au-np-eels-2",
+ "file": "rsciio-tia-X-Au-NP-EELS_2.ser",
+ "size": 8326,
+ "sha256": "8c19dc06797cc0c408e67b7204c6aecfb3e7ac766ecbe69c1dec08171ef35b7a",
+ "max_planes_hashed": 64,
+ "reader": "ncempy.io.ser (GPL, black box)",
+ "series_version": 528,
+ "traces": [
+  {
+   "index": 0,
+   "name": "rsciio-tia-X-Au-NP-EELS_2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "counts"
+   ],
+   "ppm_first": 2160.0,
+   "ppm_last": 2569.4,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2048,
+     "channels": [
+      {
+       "xxh3": "ef93ad1494c1eef067a3b554fdbacd91",
+       "first": [
+        455.0,
+        439.0,
+        465.0,
+        418.0,
+        379.0,
+        367.0,
+        389.0,
+        341.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a56e0444ff9d18fd3558e31bf8ac8b9e"
+    }
+   ]
+  }
+ ],
+ "emi": null
+}

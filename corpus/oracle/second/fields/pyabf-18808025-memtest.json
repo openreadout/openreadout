@@ -1,0 +1,472 @@
+{
+ "id": "pyabf-18808025-memtest",
+ "file": "pyabf-18808025-memtest.abf",
+ "format": "abf",
+ "family": "electrophysiology",
+ "readers": [
+  "Neo 0.14.5 AxonRawIO (BSD-3)"
+ ],
+ "checks": [
+  {
+   "field": "sweep count",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sweep_count",
+   "theirs": 40,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "sample rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_rate_hz",
+   "theirs": 20000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "samples per sweep",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 12000,
+   "cmp": "exact"
+  },
+  {
+   "field": "channel names",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels",
+   "theirs": {
+    "0": "IN0"
+   },
+   "cmp": "loose",
+   "by": "/index",
+   "each": "/name"
+  },
+  {
+   "field": "channel units",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels",
+   "theirs": {
+    "0": "pA"
+   },
+   "cmp": "loose",
+   "by": "/index",
+   "each": "/unit"
+  },
+  {
+   "field": "channel scale",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels/*/scale",
+   "theirs": [
+    0.12207030670197154
+   ],
+   "cmp": "num",
+   "rel": 1e-06
+  },
+  {
+   "field": "channel offset",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels/*/offset",
+   "theirs": [
+    0.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-09
+  },
+  {
+   "field": "recording start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-08-08T13:49:04.826000",
+   "cmp": "time",
+   "abs": 0.002
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    -14.770507110938556,
+    -15.502928951150386,
+    -16.235350791362215,
+    -16.357421098064187,
+    -15.8691398712563,
+    -14.770507110938556,
+    -13.671874350620813,
+    -14.038085270726727,
+    -14.648436804236585,
+    -15.624999257852357,
+    -15.991210177958271,
+    -15.502928951150386,
+    -15.258788337746443,
+    -14.526366497534614,
+    -13.793944657322784,
+    -13.061522817110955,
+    -11.840819750091239,
+    -11.352538523283354,
+    -11.718749443389267,
+    -13.54980404391884,
+    -14.892577417640528,
+    -14.770507110938556,
+    -14.28222588413067,
+    -13.305663430514898,
+    -10.986327603177438,
+    -10.009765149561666,
+    -10.620116683071524,
+    -11.840819750091239,
+    -13.54980404391884,
+    -15.13671803104447,
+    -15.13671803104447,
+    -14.892577417640528
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.5043943173027494e-10
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 12000,
+   "cmp": "exact"
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -450.439431730275,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.5043943173027494e-10
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 422.24119088211955,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.5043943173027494e-10
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": -16.22034631616343,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.50439431730275e-07
+  },
+  {
+   "field": "trace 0 sweep 20 channel 0: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "20",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    -21.606444286248962,
+    -20.263670912527274,
+    -20.019530299123332,
+    -20.263670912527274,
+    -20.751952139335163,
+    -20.385741219229246,
+    -20.629881832633192,
+    -21.36230367284502,
+    -21.24023336614305,
+    -20.874022446037134,
+    -20.507811525931217,
+    -19.165038152209533,
+    -17.700194471785874,
+    -18.554686618699673,
+    -20.629881832633192,
+    -21.972655206354876,
+    -22.583006739864736,
+    -21.972655206354876,
+    -21.728514592950933,
+    -21.972655206354876,
+    -21.972655206354876,
+    -20.996092752739106,
+    -19.04296784550756,
+    -17.33398355167996,
+    -17.211913244977985,
+    -17.578124165083903,
+    -19.287108458911504,
+    -20.385741219229246,
+    -19.89745999242136,
+    -19.531249072315447,
+    -19.409178765613476,
+    -20.385741219229246
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.3103025296466147e-10
+  },
+  {
+   "field": "trace 0 sweep 20 channel 0: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "20",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 12000,
+   "cmp": "exact"
+  },
+  {
+   "field": "trace 0 sweep 20 channel 0: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "20",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -431.0302529646615,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.3103025296466147e-10
+  },
+  {
+   "field": "trace 0 sweep 20 channel 0: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "20",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 387.8173643921636,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.3103025296466147e-10
+  },
+  {
+   "field": "trace 0 sweep 20 channel 0: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "20",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": -19.595671676677412,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.310302529646615e-07
+  },
+  {
+   "field": "trace 0 sweep 39 channel 0: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "39",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    -18.554686618699673,
+    -18.554686618699673,
+    -17.944335085189817,
+    -16.113280484660244,
+    -14.892577417640528,
+    -13.793944657322784,
+    -14.160155577428698,
+    -15.014647724342499,
+    -15.624999257852357,
+    -15.8691398712563,
+    -15.380858644448415,
+    -15.13671803104447,
+    -14.892577417640528,
+    -15.014647724342499,
+    -16.357421098064187,
+    -17.944335085189817,
+    -17.33398355167996,
+    -16.235350791362215,
+    -16.357421098064187,
+    -16.235350791362215,
+    -15.13671803104447,
+    -13.183593123812926,
+    -12.329100976899126,
+    -12.817382203707012,
+    -14.038085270726727,
+    -15.380858644448415,
+    -16.967772631574043,
+    -16.84570232487207,
+    -15.747069564554328,
+    -15.014647724342499,
+    -14.404296190832643,
+    -14.28222588413067
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.20288065974888e-10
+  },
+  {
+   "field": "trace 0 sweep 39 channel 0: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "39",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 12000,
+   "cmp": "exact"
+  },
+  {
+   "field": "trace 0 sweep 39 channel 0: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "39",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -420.288065974888,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.20288065974888e-10
+  },
+  {
+   "field": "trace 0 sweep 39 channel 0: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "39",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 373.29099789462896,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.20288065974888e-10
+  },
+  {
+   "field": "trace 0 sweep 39 channel 0: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "39",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": -23.04448336182598,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.2028806597488805e-07
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "id": "envision-text-dse-lum1536-tab",
+ "file": "envision-text-dse-lum1536-tab.txt",
+ "size": 16966,
+ "sha256": "2ae1fac3f77c392e7546a2e01438b1bcdd7aac9ea95e72daf94497301d11aa59",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py envision_csv_summary (independent reader of the export text; allotropy cannot parse this export)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "luminescence",
+    "wells": 1536,
+    "values": 1536,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "da23e2c8426d8a63132006085ce63497"
+   }
+  ],
+  "header": {}
+ }
+}

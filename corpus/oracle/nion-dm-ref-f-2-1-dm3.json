@@ -1,0 +1,64 @@
+{
+ "id": "nion-dm-ref-f-2-1-dm3",
+ "file": "nion-dm-ref-f-2-1-dm3.dm3",
+ "size": 1592,
+ "sha256": "36bb6151a67894dab740fcb2da9998ad8de837853835a7ea6ee8e3fed9f2c167",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 0,
+   "name": null,
+   "size_x": 4,
+   "size_y": 3,
+   "size_z": 1,
+   "size_c": 5,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "06cbe38189c34d3198bada4a69c08f62"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "26e6d96db80697f7c0daf8a3fecfa3cd"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4ac6abcc6f726bb24afa5b763414fb70"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4e1fe7b58d62d31ef510bba22dbd1271"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dfe07cbeeb279405f019392c3cf5127e"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.DataType'"
+ ]
+}

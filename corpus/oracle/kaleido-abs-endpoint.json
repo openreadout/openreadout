@@ -1,0 +1,28 @@
+{
+ "id": "kaleido-abs-endpoint",
+ "file": "kaleido-abs-endpoint.csv",
+ "size": 3790,
+ "sha256": "5ccb543b44f6d3d702843ea81132d6289121124b984191cba1dc57d4e85691ee",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (REVVITY_KALEIDO)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 96,
+    "errors": 0,
+    "wavelengths": [
+     450.0
+    ],
+    "value_xxh3": "bb0be8b5fa377dabdbec4a88025909c0"
+   }
+  ],
+  "header": {
+   "model": "EnSight",
+   "serial_number": "1234567",
+   "software_version": "2.0.3058.126"
+  },
+  "documents": 96
+ }
+}

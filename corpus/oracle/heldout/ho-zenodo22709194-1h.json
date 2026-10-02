@@ -1,0 +1,74 @@
+{
+ "id": "ho-zenodo22709194-1h",
+ "file": "1_1H_N-(2,2,2-trichloro-1-(3-(p-tolyl)thioureido)ethyl)pivalamide",
+ "size": 159761,
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 16384,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 varian.read(as_2d=True)",
+   "nmrglue_dtype": "complex64",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "889dc1a856d9f153a9cd68eb05ad4f2c",
+       "first": [
+        1537.4752197265625,
+        10871.08203125,
+        -6909.859375,
+        5834.3193359375,
+        5229.85302734375,
+        -1610.119873046875,
+        -460.6578674316406,
+        -2385.236572265625
+       ]
+      },
+      {
+       "xxh3": "ab11963b067e74207b976f5681d821a3",
+       "first": [
+        -15632.4306640625,
+        4083.876953125,
+        546.1650390625,
+        -7442.080078125,
+        6115.3505859375,
+        2838.0380859375,
+        3235.97412109375,
+        748.800537109375
+       ]
+      }
+     ]
+    }
+   ],
+   "sample_rate_hz": 8012.82051282,
+   "parameters": {
+    "extra": {
+     "nucleus": "1H",
+     "spectrometer_frequency_mhz": 400.0675293,
+     "spectral_width_hz": 8012.82051282,
+     "scans": 8,
+     "time_domain_size": 32768,
+     "pulse_program": "s2pul",
+     "solvent": "dmso"
+    }
+   }
+  }
+ ],
+ "file_header": {
+  "nblocks": 1,
+  "ntraces": 1,
+  "np": 32768,
+  "ebytes": 4,
+  "tbytes": 131072,
+  "bbytes": 131100,
+  "status": 201,
+  "nbheaders": 1
+ }
+}

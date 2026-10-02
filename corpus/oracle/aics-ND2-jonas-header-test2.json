@@ -1,0 +1,320 @@
+{
+ "id": "aics-ND2-jonas-header-test2",
+ "file": "aics-ND2-jonas-header-test2.nd2",
+ "size": 14700544,
+ "sha256": "48a6302fa0667b68fea455a880d4ccc8fd589fcbdfe771114af2d0034b86ad05",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "2.1",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 696,
+   "size_y": 520,
+   "size_z": 5,
+   "size_c": 1,
+   "size_t": 4,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 4, 'Z': 5, 'Y': 520, 'X': 696}",
+   "physical_size_um": {
+    "x": 0.12863494437945,
+    "y": 0.12863494437945,
+    "z": 0.5
+   },
+   "channel_names": [
+    "Jonas_DIC"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9cd56594466a68aef822cba047da4c40"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "fa831b9f4c3bfaa696060c5519f263c7"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "8828173140630419c7d810d5daba7b4c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "c60cf1a4d3df5269bb9ca890dcbaad8a"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "a29d72eb2d52d0becc83f83e9fad6461"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "faefff92aeefc31a11e0ddc54749875b"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 2,
+     "xxh3": "ffa930ee08625d58fb472c84baa2ebd5"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 3,
+     "xxh3": "d6a0cc851e1925f640600aa8ea01c610"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "cd6a6f66e7733d87f13d13ecfb15fdf9"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "0ec5fbec36e5db66c3994d4d8aedc451"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 2,
+     "xxh3": "29ba0a9dc327ae9eb8d18d91194ca8ef"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 3,
+     "xxh3": "a596abd6b9b17ee0f42968345f31224b"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "77efc4bfc678dad23e324db0527719c2"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 1,
+     "xxh3": "d07dc1ce676c8acbf4a30e33b5221746"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 2,
+     "xxh3": "d408d1eda7c057860cc2160bd3da17b9"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 3,
+     "xxh3": "96094ac9cf64b4cf3cb71df904a216dc"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "bc48f5b62b8cb5d8049c36359c7e40c3"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 1,
+     "xxh3": "e09f2be61bfc05276303318c4e73897c"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 2,
+     "xxh3": "1d0cb7753da238020f73e82c02dfeb20"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 3,
+     "xxh3": "5342a845303a63b625370b484751acea"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Jonas_DIC",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "camera"
+    ]
+   }
+  ],
+  "frame_count": 20,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 135.96519273519516,
+    "tags": {
+     "Z": 1.0
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 1651.6926037073135,
+    "tags": {
+     "Z": 0.5
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 3202.319817185402,
+    "tags": {
+     "Z": 0.0
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 4719.8434237241745,
+    "tags": {
+     "Z": -0.5
+    }
+   },
+   {
+    "index": 4,
+    "time_ms": 6228.601783454418,
+    "tags": {
+     "Z": -1.0
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 7762.714976191521,
+    "tags": {
+     "Z": 1.0
+    }
+   },
+   {
+    "index": 6,
+    "time_ms": 9288.110626399517,
+    "tags": {
+     "Z": 0.5
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 10796.868357598782,
+    "tags": {
+     "Z": 0.0
+    }
+   },
+   {
+    "index": 8,
+    "time_ms": 12315.392064392567,
+    "tags": {
+     "Z": -0.5
+    }
+   },
+   {
+    "index": 9,
+    "time_ms": 13825.128254115582,
+    "tags": {
+     "Z": -1.0
+    }
+   },
+   {
+    "index": 10,
+    "time_ms": 15381.704037070274,
+    "tags": {
+     "Z": 1.0
+    }
+   },
+   {
+    "index": 11,
+    "time_ms": 16909.05376237631,
+    "tags": {
+     "Z": 0.5
+    }
+   },
+   {
+    "index": 12,
+    "time_ms": 18417.80285614729,
+    "tags": {
+     "Z": 0.0
+    }
+   },
+   {
+    "index": 13,
+    "time_ms": 19927.543511927128,
+    "tags": {
+     "Z": -0.5
+    }
+   },
+   {
+    "index": 14,
+    "time_ms": 21437.27344316244,
+    "tags": {
+     "Z": -1.0
+    }
+   },
+   {
+    "index": 15,
+    "time_ms": 22970.463346123695,
+    "tags": {
+     "Z": 1.0
+    }
+   },
+   {
+    "index": 16,
+    "time_ms": 24479.170840740204,
+    "tags": {
+     "Z": 0.5
+    }
+   },
+   {
+    "index": 17,
+    "time_ms": 25989.922005593777,
+    "tags": {
+     "Z": 0.0
+    }
+   },
+   {
+    "index": 18,
+    "time_ms": 27523.094390153885,
+    "tags": {
+     "Z": -0.5
+    }
+   },
+   {
+    "index": 19,
+    "time_ms": 29048.454329788685,
+    "tags": {
+     "Z": -1.0
+    }
+   }
+  ],
+  "acquired_at": "2009-03-06T15:58:30.744Z",
+  "acquired_at_unix_ms": 1236355110744
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T'(4) x Z(5) x \u03bb(2)\r\nNumerical Aperture: 1.4\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: PSM_GFP\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: CoolSnap HQ2\r\n  Binning: 2x2\r\n  Exposure: Triggered\r\n  Readout Speed: 10 MHz\r\n  Calibrated Gain: 1 x\r\n  Visual Gain: Off\r\n  Temperature: -30.3\u00b0C\r\n Microscope Settings:   Filter (Emission): 4 (FITC (Em))\r\n  Filter Blocks (Turret): 5 (DIA)\r\n  SmartShutter (DIA) state: Closed\r\n  SmartShutter (DIA) mode: Fast\r\n  SFC Shutter (Aux1) state: Closed\r\n  SFC Shutter (Aux1) mode: Fast\r\n  Light (DIA): Remote Switch On\r\n  Light (DIA): On\r\n  Light (DIA) Voltage: 3.8\r\n  LightPath: Left\r\n  Analyzer: Extracted\r\n  Condenser: 4 (4.) H)\r\n  Zoom: 1.00x\r\n  SFC Lasers (active):\r\n     Number of Laser Lines:0\r\n     No Active Laser Line.\r\n  Aperture Position: slit 70 um\r\n  Exposure: 200 ms\r\n\r\nPlane #2:\r\n Name: Jonas_DIC\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: CoolSnap HQ2\r\n  Binning: 2x2\r\n  Exposure: Triggered\r\n  Readout Speed: 10 MHz\r\n  Calibrated Gain: 1 x\r\n  Visual Gain: Off\r\n  Temperature: -30.3\u00b0C\r\n Microscope Settings:   Filter (Emission): 5 (DIA)\r\n  Filter Blocks (Turret): 5 (DIA)\r\n  SmartShutter (DIA) state: Closed\r\n  SmartShutter (DIA) mode: Fast\r\n  SFC Shutter (Aux1) state: Closed\r\n  SFC Shutter (Aux1) mode: Fast\r\n  Light (DIA): Remote Switch On\r\n  Light (DIA): On\r\n  Light (DIA) Voltage: 7.5\r\n  LightPath: Left\r\n  Analyzer: Extracted\r\n  Condenser: 4 (4.) H)\r\n  Zoom: 1.00x\r\n  SFC Lasers (active):\r\n     Number of Laser Lines:0\r\n     No Active Laser Line.\r\n  Aperture Position: slit 70 um\r\n  Exposure: 200 ms\r\n\r\nTime Loop: 4\r\n- Nonequidistant\r\nZ Stack Loop: 5\r\n- Step: 0.5 \u00b5m\r\n- Device: NI671x, NI673x Z Drive",
+  "capturing": "Roper Scientific\r\n\r\nCamera Type: CoolSnap HQ2\r\nBinning: 2x2\r\nExposure: Triggered\r\nReadout Speed: 10 MHz\r\nCalibrated Gain: 1 x\r\nVisual Gain: Off\r\nTemperature: -30.3\u00b0C",
+  "date": "06/03/2009  10:58:30 AM",
+  "optics": "Plan Apo 100x Oil DIC H"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=14, componentCount=1, heightPx=520, pixelDataType='unsigned', sequenceCount=20, widthBytes=1392, widthPx=696, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

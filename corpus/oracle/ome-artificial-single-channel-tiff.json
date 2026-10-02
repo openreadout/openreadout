@@ -1,0 +1,45 @@
+{
+ "id": "ome-artificial-single-channel-tiff",
+ "file": "ome-artificial-single-channel.ome.tiff",
+ "size": 76097,
+ "sha256": "4a05075b3e5e3ecdd0343cc466eacb07322167238d8535c81a1499e84455e3eb",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "single-channel.ome.tiff",
+   "kind": "ome",
+   "axes": "YX",
+   "shape": [
+    167,
+    439
+   ],
+   "size_x": 439,
+   "size_y": 167,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "int8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "786bef9b4139b216975d1ed91b89fae9"
+    }
+   ]
+  }
+ ]
+}

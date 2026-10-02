@@ -1,0 +1,94 @@
+{
+ "id": "ho-zenodo20703055-oir-trpv1",
+ "file": "21.05.26 TRPV1 ER.oir",
+ "size": 21979130,
+ "sha256": "43b8019dd185e5d36fd154c115c02c2cb6f43c1458e75c23e3888b3931b15650",
+ "max_planes_hashed": 64,
+ "reader": "oirfile 2026.9.6",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.207160189800746,
+    "y": 0.207160189800746,
+    "z": null
+   },
+   "time_increment_s": null,
+   "lambda_nm": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cbdb412fe3c3a4fcbe4533b2c54364b2"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9d5722a7fb9c9734ca953ffc7c1638d2"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b2a04e56d16a1e9fa477766a4301a424"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "kind": "reference",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.207160189800746,
+    "y": 0.207160189800746
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d5d0593f1b42b3ab11e3f2fc20c7eae4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aece1681f442eafb6e99f6d46ebaaed1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a8a9d1b17078cc7fb9a75932f22c438c"
+    }
+   ]
+  }
+ ],
+ "reader_sizes": {
+  "C": 3,
+  "Y": 1024,
+  "X": 1024
+ },
+ "datetime": "2026-05-21T16:11:40.139+02:00",
+ "companion_files": [],
+ "channel_names": [
+  "CH1",
+  "CH1",
+  "CH2",
+  "CH3",
+  "CH4"
+ ]
+}

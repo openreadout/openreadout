@@ -1,0 +1,168 @@
+{
+ "id": "pwiz-thermo-isolation-offset",
+ "file": "pwiz-thermo/IsolationMzOffset-ReportedMassOffset.raw",
+ "format": "thermo-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (IsolationMzOffset-ReportedMassOffset.mzML)",
+  "the vendor-library conversion (IsolationMzOffset-ReportedMassOffset.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}#len",
+   "theirs": 1,
+   "cmp": "exact"
+  },
+  {
+   "field": "MS2 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/2",
+   "theirs": 1,
+   "cmp": "exact"
+  },
+  {
+   "field": "first retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#min",
+   "theirs": 408.00731269266,
+   "cmp": "num",
+   "abs": 0.001
+  },
+  {
+   "field": "last retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#max",
+   "theirs": 408.00731269266,
+   "cmp": "num",
+   "abs": 0.001
+  },
+  {
+   "field": "polarities",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/parameters/polarity/value",
+   "theirs": [
+    "positive"
+   ],
+   "cmp": "set"
+  },
+  {
+   "field": "scan MS level",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "1": 2
+   },
+   "cmp": "exact",
+   "by": "/scan_number",
+   "each": "/ms_level"
+  },
+  {
+   "field": "scan retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "1": 408.00731269266
+   },
+   "cmp": "num",
+   "abs": 0.001,
+   "by": "/scan_number",
+   "each": "/rt_s"
+  },
+  {
+   "field": "scan polarity",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "1": "positive"
+   },
+   "cmp": "text",
+   "by": "/scan_number",
+   "each": "/polarity"
+  },
+  {
+   "field": "scan precursor m/z",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "1": 379.711334228516
+   },
+   "cmp": "num",
+   "rel": 1e-06,
+   "by": "/scan_number",
+   "each": "/precursor_mz"
+  },
+  {
+   "field": "scan precursor charge",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "1": 2
+   },
+   "cmp": "exact",
+   "by": "/scan_number",
+   "each": "/precursor_charge"
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2020-06-03T16:18:17Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 1
+  }
+ ]
+}

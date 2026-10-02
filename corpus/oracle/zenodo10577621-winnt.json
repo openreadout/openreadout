@@ -1,0 +1,53 @@
+{
+ "id": "zenodo10577621-winnt",
+ "file": "zenodo10577621-winnt.czi",
+ "size": 147488,
+ "sha256": "0e43fe6393c9881483d9eef4cf812947ae82fd6a70cd8316dafb6264ef9704ea",
+ "max_planes_hashed": 32,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 275,
+   "size_y": 174,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "dims": "YXS",
+   "shape": [
+    174,
+    275,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 0' (Y: 174, X: 275, S: 3) bgr24 uncompressed>"
+   ],
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3fb282c612ed03d16de4afce0816a994"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": null,
+  "y": null,
+  "z": null
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

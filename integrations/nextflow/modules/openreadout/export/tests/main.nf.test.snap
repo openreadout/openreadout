@@ -1,0 +1,104 @@
+{
+    "czi - ome-tiff - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "mini_czi"
+                        },
+                        "mini_czi.ome.tiff:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    
+                ],
+                "4": [
+                    
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "mini_czi"
+                        },
+                        "mini_czi.export.json:md5,b0bf52617e726895a0dfbff5dd891f35"
+                    ]
+                ],
+                "6": [
+                    "versions.yml:md5,58d09ff026ccc07c28a5636d7df3726b"
+                ],
+                "csv": [
+                    
+                ],
+                "mzml": [
+                    
+                ],
+                "ome_tiff": [
+                    [
+                        {
+                            "id": "mini_czi"
+                        },
+                        "mini_czi.ome.tiff:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ome_zarr": [
+                    
+                ],
+                "parquet": [
+                    
+                ],
+                "report": [
+                    [
+                        {
+                            "id": "mini_czi"
+                        },
+                        "mini_czi.export.json:md5,b0bf52617e726895a0dfbff5dd891f35"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,58d09ff026ccc07c28a5636d7df3726b"
+                ]
+            }
+        ],
+        "timestamp": "2026-09-24T15:00:19.971508",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "versions": {
+        "content": [
+            [
+                "versions.yml:md5,58d09ff026ccc07c28a5636d7df3726b"
+            ]
+        ],
+        "timestamp": "2026-09-24T15:00:11.24787",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "csv": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "tube_a"
+                    },
+                    "tube_a.csv:md5,d40cebb2a8da23df4ad922e91952f6cb"
+                ]
+            ]
+        ],
+        "timestamp": "2026-09-24T15:00:17.12303",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

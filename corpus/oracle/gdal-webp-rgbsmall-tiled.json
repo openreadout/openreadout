@@ -1,0 +1,44 @@
+{
+ "id": "gdal-webp-rgbsmall-tiled",
+ "file": "gdal-rgbsmall_WEBP_tiled.tif",
+ "size": 5112,
+ "sha256": "37a1dc9ab94323a17981590a73b3d1aa2ee179fb148c80999bfcea0cd8b9bad6",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "geotiff",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "geotiff",
+   "axes": "YXS",
+   "shape": [
+    50,
+    50,
+    3
+   ],
+   "size_x": 50,
+   "size_y": 50,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f44e80d088ef2d67de0c6bc7a71250d2"
+    }
+   ]
+  }
+ ]
+}

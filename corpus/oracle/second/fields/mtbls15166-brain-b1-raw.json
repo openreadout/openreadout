@@ -1,0 +1,41 @@
+{
+ "id": "mtbls15166-brain-b1-raw",
+ "file": "mtbls15166-brain-b1-raw-zip/ANR_DeciVerneuil_TRP_Depletion_Kinetics_2_Brain_B1.raw",
+ "format": "waters-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "the .raw's _HEADER.TXT (MassLynx text header), read as text"
+ ],
+ "checks": [
+  {
+   "field": "acquisition start (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-01-25T13:06:48",
+   "cmp": "time"
+  },
+  {
+   "field": "instrument (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "XEVO-TQXS",
+   "cmp": "text"
+  },
+  {
+   "field": "acquired name (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "240123_Dosage TRP_Cerveaux_B1",
+   "cmp": "text"
+  }
+ ]
+}

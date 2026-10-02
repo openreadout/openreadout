@@ -1,0 +1,42 @@
+{
+ "id": "dcimg-zenodo14268554-bead-bot4-560-00000-00008",
+ "file": "bead_bot4__560_00000_00008.dcimg",
+ "size": 820384,
+ "sha256": "a4143499eabdc18c30a97fe36984784fe4e176800f76c3497e5058b17d39fdbf",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box), rows flipped; dcimg 0.6.0.post1 (MIT) second opinion and frame records",
+ "dcimg_version": "0x1000000",
+ "images": [
+  {
+   "index": 0,
+   "name": "bead_bot4__560_00000_00008",
+   "size_x": 2048,
+   "size_y": 200,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {},
+   "bioformats_rows_flipped": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b17d6ecc1f690d51b210af7908a1fb5b"
+    }
+   ],
+   "dcimg_raw_diff_pixels": [
+    0
+   ]
+  }
+ ],
+ "check_frames": [
+  {
+   "t": 0,
+   "frame": 0,
+   "acquired_at": "2024-11-29T15:19:56.361868Z"
+  }
+ ]
+}

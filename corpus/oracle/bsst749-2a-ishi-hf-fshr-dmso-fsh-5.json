@@ -1,0 +1,209 @@
+{
+ "id": "bsst749-2a-ishi-hf-fshr-dmso-fsh-5",
+ "file": "bsst749-2a-ishi-hf-fshr-dmso-fsh-5.lif",
+ "size": 1868451,
+ "sha256": "edfc9a261340a490c17cea5d3a44e86142cbcaa0b90b3b3fd8f0bca5f10b7cf6",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Series002",
+   "path": "Series002",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.056712133072408286,
+    "y": 0.05671213307240744,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c5c375d93d8e6366bdeec230d54113c3"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Series005",
+   "path": "Series005",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.08171743639921736,
+    "y": 0.08171743639921736,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1602688be3f818c3af52e23b49200481"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Series007",
+   "path": "Series007",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.06261655577299302,
+    "y": 0.06261655577299387,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fdbdb3205c1fd54bc212f91f4e68075a"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Series009",
+   "path": "Series009",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.06850262230919735,
+    "y": 0.06850262230919735,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f7d659d0bca4e78e73d912ea9b2b95c3"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Series012",
+   "path": "Series012",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.09386467710371828,
+    "y": 0.09386467710371828,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1c4d069b641d4e1b5a8342221746ba3c"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "Series014",
+   "path": "Series014",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.06977863013698507,
+    "y": 0.06977863013698507,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9cf6a68f2a920acf1d0b30dfa44df818"
+    }
+   ]
+  }
+ ]
+}

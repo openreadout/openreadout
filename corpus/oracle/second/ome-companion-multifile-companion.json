@@ -1,0 +1,44 @@
+{
+ "id": "ome-companion-multifile-companion",
+ "file": "ome-companion/multifile.companion.ome",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 18,
+   "size_y": 24,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0c15f4611e362803b1e4180c0b76a919"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "2b899f00ca3e45f4c18bdfcf63d06c22"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "942f4881ffd38ca8b72154774d46b1bf"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "f6de994bc261d4a35d30fdf87502350f"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "d092a22ac3cb7d1b781f5b29ef92f481"
+    }
+   ]
+  }
+ ]
+}

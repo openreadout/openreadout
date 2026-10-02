@@ -1,0 +1,115 @@
+{
+ "id": "zenodo7500539-pda-cmcsza-hec-dx",
+ "file": "jcamp-zenodo/7500539/PDA-CMCsZa-HEC.DX",
+ "format": "jcamp-dx",
+ "family": "nmr",
+ "readers": [
+  "jcamp 1.3.2 (MIT)"
+ ],
+ "checks": [
+  {
+   "field": "##TITLE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/title",
+   "theirs": "Sample 084 By User Date Friday, May 20 2022",
+   "cmp": "text"
+  },
+  {
+   "field": "##DATA TYPE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/data_type",
+   "theirs": "INFRARED SPECTRUM",
+   "cmp": "text"
+  },
+  {
+   "field": "##ORIGIN",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/origin",
+   "theirs": "Exported PE Spectrum Data File",
+   "cmp": "text"
+  },
+  {
+   "field": "##OWNER",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/owner",
+   "theirs": "User",
+   "cmp": "text"
+  },
+  {
+   "field": "##JCAMP-DX version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/jcamp_version",
+   "theirs": "4.24",
+   "cmp": "text"
+  },
+  {
+   "field": "##NPOINTS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 3601,
+   "cmp": "exact"
+  },
+  {
+   "field": "##FIRSTX",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/first",
+   "theirs": 4000.0,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "field": "##LASTX",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/last",
+   "theirs": 400.0,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "field": "##XUNITS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/unit",
+   "theirs": "1/CM",
+   "cmp": "text"
+  },
+  {
+   "field": "##SPECTROMETER/DATA SYSTEM",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "PERKIN-ELMER Frontier FT-IR IR",
+   "cmp": "loose"
+  }
+ ]
+}

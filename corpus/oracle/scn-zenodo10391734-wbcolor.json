@@ -1,0 +1,32 @@
+{
+ "id": "scn-zenodo10391734-wbcolor",
+ "file": "scn-zenodo10391734-wbcolor.scn",
+ "size": 12107938,
+ "sha256": "da1ed893d7102d8663ce0e6a3a7954c3d2bfdef9998a2367fe42510ee951e804",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2750,
+   "size_y": 2200,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 34.54545454545455,
+    "y": 34.54545454545455
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1e950e49c7f376b1dd2127aaf767d14b"
+    }
+   ]
+  }
+ ]
+}

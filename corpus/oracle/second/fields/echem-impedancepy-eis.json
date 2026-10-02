@@ -1,0 +1,31 @@
+{
+ "id": "echem-impedancepy-eis",
+ "file": "echem-impedancepy-eis.DTA",
+ "format": "gamry-dta",
+ "family": "bench",
+ "readers": [
+  "gamry-parser 0.4.6 (MIT) header"
+ ],
+ "checks": [
+  {
+   "field": "DATE TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-04-23T16:43:15",
+   "cmp": "time"
+  },
+  {
+   "field": "PSTAT (potentiostat label)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "REF3000-34128",
+   "cmp": "text"
+  }
+ ]
+}

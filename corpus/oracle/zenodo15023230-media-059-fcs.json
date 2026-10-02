@@ -1,0 +1,75 @@
+{
+ "id": "zenodo15023230-media-059-fcs",
+ "file": "06042020_media_059.fcs",
+ "size": 24654,
+ "sha256": "b06af3f0605a0d5a1d461be338a764018b13080557ca9b3421ec344da735dc67",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 15,
+   "event_count": 348,
+   "parameter_names": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "FITC-A",
+    "PE-A",
+    "PE-Texas Red-A",
+    "BV786-A",
+    "BV650-A",
+    "BV421-A",
+    "V500-A",
+    "APC-Cy7-A",
+    "Time"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "CFSE",
+    "CD25",
+    "hCD45",
+    "CD3",
+    "CD8",
+    "CXCR5",
+    "CD4",
+    "DUMP",
+    null
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "20befefe6be12d41cebe3a8fc4d395a1",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 348,
+  "xxh3": "20befefe6be12d41cebe3a8fc4d395a1",
+  "agrees_with_flowio": true
+ }
+}

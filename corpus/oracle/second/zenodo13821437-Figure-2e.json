@@ -1,0 +1,20 @@
+{
+ "id": "zenodo13821437-Figure-2e",
+ "file": "zenodo13821437-Figure-2e.dm4",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "90995956e476dcfc22ca188c3c53de92"
+    }
+   ]
+  }
+ ]
+}

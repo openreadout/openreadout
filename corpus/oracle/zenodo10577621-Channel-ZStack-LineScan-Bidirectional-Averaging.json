@@ -1,0 +1,239 @@
+{
+ "id": "zenodo10577621-Channel-ZStack-LineScan-Bidirectional-Averaging",
+ "file": "zenodo10577621-Channel-ZStack-LineScan-Bidirectional-Averaging.czi",
+ "size": 67456,
+ "sha256": "fb80d0713cf85f020d031d9df1cde1bfe110b9b3543d11ddd6f6876737d870cb",
+ "max_planes_hashed": 32,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 1,
+   "size_z": 21,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CZX",
+   "shape": [
+    2,
+    21,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 0' (C: 2, Z: 21, X: 512) gray16 uncompressed>"
+   ],
+   "physical_size_um": {
+    "x": 1.6605316419276783,
+    "y": 0.0,
+    "z": 1.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0897f265708c42659e27106e9c62e4ae"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "0897f265708c42659e27106e9c62e4ae"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "0897f265708c42659e27106e9c62e4ae"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "0897f265708c42659e27106e9c62e4ae"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "0897f265708c42659e27106e9c62e4ae"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "0897f265708c42659e27106e9c62e4ae"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 16,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 17,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 18,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 19,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 0,
+     "z": 20,
+     "t": 0,
+     "xxh3": "c9cc69a61faa96f6322c921a0591a82b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8d8359c10e397ddada597d9225f13ac9"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "8d8359c10e397ddada597d9225f13ac9"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "8d8359c10e397ddada597d9225f13ac9"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "8d8359c10e397ddada597d9225f13ac9"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "8d8359c10e397ddada597d9225f13ac9"
+    },
+    {
+     "c": 1,
+     "z": 5,
+     "t": 0,
+     "xxh3": "8d8359c10e397ddada597d9225f13ac9"
+    },
+    {
+     "c": 1,
+     "z": 6,
+     "t": 0,
+     "xxh3": "76069e1283caf90024cf4e2db32f1f0c"
+    },
+    {
+     "c": 1,
+     "z": 7,
+     "t": 0,
+     "xxh3": "76069e1283caf90024cf4e2db32f1f0c"
+    },
+    {
+     "c": 1,
+     "z": 8,
+     "t": 0,
+     "xxh3": "76069e1283caf90024cf4e2db32f1f0c"
+    },
+    {
+     "c": 1,
+     "z": 9,
+     "t": 0,
+     "xxh3": "76069e1283caf90024cf4e2db32f1f0c"
+    },
+    {
+     "c": 1,
+     "z": 10,
+     "t": 0,
+     "xxh3": "76069e1283caf90024cf4e2db32f1f0c"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 1.6605316419276783,
+  "y": 0.0,
+  "z": 1.0
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

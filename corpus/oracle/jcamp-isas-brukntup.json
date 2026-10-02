@@ -1,0 +1,54 @@
+{
+ "id": "jcamp-isas-brukntup",
+ "file": "jcamp-isas-brukntup.dx",
+ "size": 293649,
+ "sha256": "8014dd1d3221a0985c1e62048a04a4a6e21b82c586043c2174b6cd800c943194",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "testntup",
+   "kind": "ntuples",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "c36bcb3a5ca28d3decddb0f0808371b0",
+       "first": [
+        2254931.0,
+        -5251616.0,
+        -7180176.0,
+        -1602188.0,
+        10651583.0,
+        4361512.0,
+        -3649428.0,
+        2136250.0
+       ]
+      },
+      {
+       "xxh3": "f10a68d1125740f435c5effe42588901",
+       "first": [
+        -6966283.0,
+        -7618714.0,
+        2230894.0,
+        10670409.0,
+        3009602.0,
+        -7955453.0,
+        -4398650.0,
+        5535143.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 16384,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 jcampdx.read"
+  }
+ ]
+}

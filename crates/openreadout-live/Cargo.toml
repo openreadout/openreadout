@@ -1,0 +1,40 @@
+[package]
+name = "openreadout-live"
+description = "Reading files while instruments still write them: a directory watcher and live QC rules for OpenReadout"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["microscopy", "mass-spectrometry", "acquisition", "watch", "qc"]
+categories.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-live"
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+[dependencies]
+openreadout-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+schemars = { workspace = true }
+toml = { workspace = true }
+xxhash-rust = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+openreadout-czi = { workspace = true }
+openreadout-nd2 = { workspace = true }
+openreadout-tiff = { workspace = true }
+openreadout-zarr = { workspace = true }
+openreadout-omezarr = { workspace = true }
+openreadout-thermo = { workspace = true }
+
+[lints]
+workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-unknown-linux-gnu"]

@@ -1,0 +1,20 @@
+{
+ "id": "aics-OverViewScan",
+ "file": "aics-OverViewScan.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 7398,
+   "size_y": 3212,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "709d9a71107e7b2fa26105cfe3210232"
+    }
+   ]
+  }
+ ]
+}

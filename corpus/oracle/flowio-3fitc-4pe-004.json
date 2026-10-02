@@ -1,0 +1,42 @@
+{
+ "id": "flowio-3fitc-4pe-004",
+ "file": "flowio-3fitc-4pe-004.fcs",
+ "size": 757929,
+ "sha256": "240e76eba7e04c7e9116c8c3ad8388ccb2faf58105d21b831d122764a3621e53",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "2.0",
+   "parameter_count": 4,
+   "event_count": 94569,
+   "parameter_names": [
+    "FSC-H",
+    "SSC-H",
+    "FL1-H",
+    "FL2-H"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null
+   ],
+   "dtypes": [
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16"
+   ],
+   "xxh3": "7f575e2b46d88bf9ecf155261ca5bdd1",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 94569,
+  "xxh3": "7f575e2b46d88bf9ecf155261ca5bdd1",
+  "agrees_with_flowio": true
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "id": "scn-zenodo6723849-tubulin",
+ "file": "scn-zenodo6723849-tubulin.scn",
+ "format": "biorad-scn",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "acquisition date (earliest image)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-03-02T10:46:22",
+   "cmp": "time_or_utc",
+   "abs": 60.0
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 464,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 346,
+   "cmp": "exact"
+  }
+ ]
+}

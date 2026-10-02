@@ -1,0 +1,51 @@
+{
+ "id": "pwiz-waters-hdmrm-short-nolm",
+ "file": "pwiz-waters/HDMRM_Short_noLM.raw",
+ "format": "waters-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "the .raw's _HEADER.TXT (MassLynx text header), read as text"
+ ],
+ "checks": [
+  {
+   "field": "acquisition start (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-05-16T14:37:29",
+   "cmp": "time"
+  },
+  {
+   "field": "instrument (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "SYNAPTG2-Si",
+   "cmp": "text"
+  },
+  {
+   "field": "sample description (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/name",
+   "theirs": "HDMRM acquisition",
+   "cmp": "text"
+  },
+  {
+   "field": "acquired name (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "HDMRM_Skyline_Short",
+   "cmp": "text"
+  }
+ ]
+}

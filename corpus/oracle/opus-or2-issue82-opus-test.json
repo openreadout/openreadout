@@ -1,0 +1,244 @@
+{
+ "id": "opus-or2-issue82-opus-test",
+ "file": "opus-or2-issue82-opus-test.0",
+ "size": 64152,
+ "sha256": "d7af633f0cfc693cf8c19c7fcd17ecb7e7eada836ee02239ed7f499c09da3aea",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "match_2ch",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1112,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1112,
+     "channels": [
+      {
+       "xxh3": "02374695356496302a300d9478e173c6",
+       "first": [
+        0.0024467522744089365,
+        0.0027383824344724417,
+        0.0033251510467380285,
+        0.003970424644649029,
+        0.004528447985649109,
+        0.0048127444460988045,
+        0.0047180564142763615,
+        0.004404228646308184
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 12488.0,
+   "x_last": 3600.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 16.0,
+     "laser_wavenumber_cm1": 15798.9091796875,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "RT-PbS [External]",
+     "instrument": "MPA",
+     "instrument_serial": "2593",
+     "sample_name": "REP1;MPA2;3z1011119;Colza;Euralis",
+     "aperture": "Open",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "match",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1112,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1112,
+     "channels": [
+      {
+       "xxh3": "f356d7bfc686a8048901a7be38d62ee8",
+       "first": [
+        0.6471374034881592,
+        0.6474593281745911,
+        0.6477139592170715,
+        0.6478062272071838,
+        0.6476724743843079,
+        0.6474188566207886,
+        0.6471008658409119,
+        0.6468467116355896
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 12488.0,
+   "x_last": 3600.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 16.0,
+     "laser_wavenumber_cm1": 15798.9091796875,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "RT-PbS [External]",
+     "instrument": "MPA",
+     "instrument_serial": "2593",
+     "sample_name": "REP1;MPA2;3z1011119;Colza;Euralis",
+     "aperture": "Open",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1112,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1112,
+     "channels": [
+      {
+       "xxh3": "9c42f5e5bba41ddd27a72c8d850c0b34",
+       "first": [
+        0.9984222054481506,
+        0.996082067489624,
+        0.9989911913871765,
+        1.0011252164840698,
+        1.0010713338851929,
+        0.9990495443344116,
+        0.9962735176086426,
+        0.9955082535743713
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 12488.0,
+   "x_last": 3600.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 16.0,
+     "laser_wavenumber_cm1": 15798.9091796875,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "RT-PbS [External]",
+     "instrument": "MPA",
+     "instrument_serial": "2593",
+     "sample_name": "REP1;MPA2;3z1011119;Colza;Euralis",
+     "aperture": "Open",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 3,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1112,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1112,
+     "channels": [
+      {
+       "xxh3": "1aefcd40e90c8c5fb51a2ca8f897867c",
+       "first": [
+        0.0005153040983714163,
+        0.0005229241214692593,
+        0.000525991024915129,
+        0.0005300643388181925,
+        0.0005365379620343447,
+        0.0005440193344838917,
+        0.0005495527293533087,
+        0.0005507811438292265
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 12488.0,
+   "x_last": 3600.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 16.0,
+     "laser_wavenumber_cm1": 15798.9091796875,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "RT-PbS [External]",
+     "instrument": "MPA",
+     "instrument_serial": "2593",
+     "sample_name": "REP1;MPA2;3z1011119;Colza;Euralis",
+     "aperture": "Open",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 4,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1118,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1118,
+     "channels": [
+      {
+       "xxh3": "4d7a9468588494eb851bb69f56de10b3",
+       "first": [
+        0.00799559149891138,
+        0.008033986203372478,
+        0.008081935346126556,
+        0.008134476840496063,
+        0.008183627389371395,
+        0.008223479613661766,
+        0.008252658881247044,
+        0.008278206922113895
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 12520.0,
+   "x_last": 3584.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 16.0,
+     "laser_wavenumber_cm1": 15798.9091796875,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "RT-PbS [External]",
+     "instrument": "MPA",
+     "instrument_serial": "2593",
+     "sample_name": "REP1;MPA2;3z1011119;Colza;Euralis",
+     "aperture": "Open",
+     "scans": 64
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": false
+ }
+}

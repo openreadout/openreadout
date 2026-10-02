@@ -1,0 +1,104 @@
+{
+ "id": "dandi000117-sub-20210511003-0019-icephys",
+ "file": "dandi-nwb/dandi000117-sub-20210511003-0019_icephys.nwb",
+ "format": "nwb",
+ "family": "electrophysiology",
+ "readers": [
+  "pynwb 4.2.0 (BSD-3)"
+ ],
+ "checks": [
+  {
+   "field": "session start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-05-11T17:33:29.556000-07:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "session description",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/comment",
+   "theirs": "PLACEHOLDER",
+   "cmp": "text"
+  },
+  {
+   "field": "subject id",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "20210511003_2021_05_11_0019",
+   "cmp": "text"
+  },
+  {
+   "field": "index_0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=index_0]/sample_count",
+   "theirs": 18000,
+   "cmp": "exact"
+  },
+  {
+   "field": "index_0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=index_0]/sample_rate_hz",
+   "theirs": 10000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "index_0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=index_0]/channels/[name=index_0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "index_1: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=index_1]/sample_count",
+   "theirs": 18000,
+   "cmp": "exact"
+  },
+  {
+   "field": "index_1: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=index_1]/sample_rate_hz",
+   "theirs": 10000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "index_1: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=index_1]/channels/[name=index_1]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  }
+ ]
+}

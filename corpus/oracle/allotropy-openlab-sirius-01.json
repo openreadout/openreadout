@@ -1,0 +1,158 @@
+{
+ "id": "allotropy-openlab-sirius-01",
+ "file": "2023-09-01 07-52-57-04-00-01.dx",
+ "size": 4116,
+ "sha256": "55458df3ec2ca5ab1f05f0ad0b462071f1939c152dee19027dea5080a00b85e6",
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) + chromConverter 0.9.0 (black box)",
+ "oracle_note": "detector signals: rainbow-api parse_file on the extracted .CH parts, equal to chromConverter 0.9.0 (max |difference| 0); instrument curves: chromConverter 0.9.0 read_agilent_dx(what = 'instrument')",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DAD1D"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 0.00714774994788099,
+   "x_first_min": 0.004791666666666666,
+   "x_last_min": 7.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4,
+     "channels": [
+      {
+       "xxh3": "d9f29eea7f41fac52bfea972aaf4a416",
+       "first": [
+        0.10151416063308716,
+        0.10190904140472412,
+        0.09726732969284058,
+        0.08635967969894409
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "DAD1D,Sig=228,4  Ref=360,100",
+   "parameters": {
+    "extra": {
+     "sample_name": "ACN",
+     "operator": "SYSTEM",
+     "method_path": "D:\\CDS Data\\Andrographolide\\Results\\Luxo HPLC-2023-09-01 07-52-44-04-00.rslt\\Andrographolide 38% ACN.amx"
+    }
+   }
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DAD1B"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 0.00714774994788099,
+   "x_first_min": 0.004791666666666666,
+   "x_last_min": 7.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4,
+     "channels": [
+      {
+       "xxh3": "183445a3e5d30ccbc8da256e7fa02e06",
+       "first": [
+        0.04544854164123535,
+        0.03028661012649536,
+        0.004880130290985107,
+        -0.03219395875930786
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "DAD1B,Sig=210,4  Ref=360,100",
+   "parameters": {
+    "extra": {
+     "sample_name": "ACN",
+     "operator": "SYSTEM",
+     "method_path": "D:\\CDS Data\\Andrographolide\\Results\\Luxo HPLC-2023-09-01 07-52-44-04-00.rslt\\Andrographolide 38% ACN.amx"
+    }
+   }
+  },
+  {
+   "index": 2,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1A"
+   ],
+   "channel_units": [
+    "bar"
+   ],
+   "sample_rate_hz": 16.666666666666668,
+   "x_first_min": 0.0005333333333333334,
+   "x_last_min": 0.0015333333333333334,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "685a06e194f81b40d5c76ee7b241319c",
+       "first": [
+        124.411,
+        123.804
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1A,Pressure"
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 25,
+   "parameter_names": [],
+   "sorted_column_hashes": [
+    {
+     "column": "rt_min",
+     "xxh3": "b8f37d08ae6c9e15738fbd045b305c93",
+     "count": 25
+    },
+    {
+     "column": "start_min",
+     "xxh3": "c471d4b4858f2864a69638a1032b5ef4",
+     "count": 25
+    },
+    {
+     "column": "end_min",
+     "xxh3": "4df5c1985a4df5d7733504bbb5bc8b3b",
+     "count": 25
+    },
+    {
+     "column": "area",
+     "xxh3": "84c883d3af3365ef1c5fbc01db6fce2b",
+     "count": 25
+    },
+    {
+     "column": "height",
+     "xxh3": "02a5a8bad6c3d5c42c538a6580883178",
+     "count": 25
+    },
+    {
+     "column": "area_percent",
+     "xxh3": "fa6b78c60bc8e9cad91d36532a3914cb",
+     "count": 25
+    }
+   ]
+  }
+ ]
+}

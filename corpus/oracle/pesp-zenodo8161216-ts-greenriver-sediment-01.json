@@ -1,0 +1,40 @@
+{
+ "id": "pesp-zenodo8161216-ts-greenriver-sediment-01",
+ "file": "pesp-zenodo8161216-ts-greenriver-sediment-01.sp",
+ "size": 29428,
+ "sha256": "04c06fd59cd8880af3b094a69f66299e152cd3557392990680af89688f1969e3",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3401,
+   "x_first": 4000.0,
+   "x_last": 600.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3401,
+     "channels": [
+      {
+       "xxh3": "9eb9538745924b92da4679365d68f025",
+       "first": [
+        98.60458172193044,
+        98.58741413265169,
+        98.5701668855886,
+        98.5710722219557,
+        98.58194333783402,
+        98.6120809709129,
+        98.64222236378981,
+        98.66615819257704
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,46 @@
+{
+ "id": "spinsolveproc-proton",
+ "path": "spinsolveproc/230213-131158 Proton (lyogel)/data.1d",
+ "kind": "spinsolve",
+ "vendor_spectra": [
+  {
+   "file": "spectrum.pt1",
+   "points": 8192,
+   "axis_offsets": [
+    1676
+   ],
+   "axis_first_ppm": -26.2605886886594,
+   "axis_step_ppm": 0.007583151581883366
+  }
+ ],
+ "script_phase_deg": [
+  -0.351563,
+  0.0
+ ],
+ "acqu": {
+  "bandwidth": 5,
+  "b1Freq": 80.48784939999999,
+  "lowestFrequency": -2113.658307528161,
+  "nrPnts": 8192,
+  "zf": 1,
+  "filter": "no",
+  "filterType": "exp:0.5"
+ },
+ "proc": {
+  "apodizationFunction": "exp:0.5",
+  "baseLineCorrectionMethod": "None",
+  "displayInPPM": "yes",
+  "ftOrigin": "Start",
+  "ftType": "Complex",
+  "p0Phase": "0.351563",
+  "p1Phase": "0",
+  "p1Pivot": "0",
+  "p1FixedPhase": "0",
+  "phaseMethod": "p0, p1 fixed phase",
+  "ppmOffset": "4.8",
+  "zeroFill": "1",
+  "plotWidth": "1609.76",
+  "plotStart": "-402.439",
+  "shiftPoints": "1"
+ }
+}

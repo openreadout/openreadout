@@ -1,0 +1,20 @@
+{
+ "id": "synthetic-bgr24-uncompressed",
+ "file": "synthetic-bgr24-uncompressed.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 256,
+   "size_y": 96,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7408cd51b22c3e4fa40d823250e01ef6"
+    }
+   ]
+  }
+ ]
+}

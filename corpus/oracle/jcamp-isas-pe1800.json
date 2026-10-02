@@ -1,0 +1,41 @@
+{
+ "id": "jcamp-isas-pe1800",
+ "file": "jcamp-isas-pe1800.dx",
+ "size": 21491,
+ "sha256": "2638133a4b51aac4b8854a00ccc3124f064ee379a80dbd77a665b97cadb6c6d9",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "Isobutylacrylat 1 ul",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3301,
+     "channels": [
+      {
+       "xxh3": "ec49e35312bc378e94759bc01d6223f3",
+       "first": [
+        1.016,
+        1.0159,
+        1.0159,
+        1.0158,
+        1.0158,
+        1.0157,
+        1.0157,
+        1.0156
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 3301,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "id": "nion-dm-ref-f-0-2-dm5",
+ "file": "nion-dm-ref-f-0-2-dm5.dm5",
+ "size": 17136,
+ "sha256": "b63708d933aa52a4e259d2506cd835983d6c78cc942156130e87de2d11afef92",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 (DM5 groups and attributes)",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 0,
+   "name": "/",
+   "size_x": 2,
+   "size_y": 3,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2d0408b485dd77b108c27fcd95d1fea5"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "thumbnails": []
+}

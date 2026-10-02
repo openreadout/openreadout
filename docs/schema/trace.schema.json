@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TraceSlice",
+  "description": "Output of `trace`: a window of one sweep of one trace.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input file.",
+      "type": "string"
+    },
+    "trace": {
+      "description": "Trace index (see `info` → `traces[]`).",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "sweep": {
+      "description": "Sweep index.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "sweep_count": {
+      "description": "Sweeps in the trace.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "sample_rate_hz": {
+      "description": "Samples per second.",
+      "type": "number",
+      "format": "double"
+    },
+    "sweep_sample_count": {
+      "description": "Samples in this sweep.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "first_sample": {
+      "description": "First sample of the window (zero-based, within the sweep).",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "sample_count": {
+      "description": "Samples in the window (statistics cover all of them).",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "start_s": {
+      "description": "Time of the first window sample in seconds. Single-sweep traces use the trace's own\nclock: `info.traces[].start_s + first_sample / sample_rate_hz` (a chromatogram's\nretention time, negative when acquisition began before injection; an electrophysiology\nrecording's clock). Multi-sweep traces are timed from the start of the sweep\n(`first_sample / sample_rate_hz`; `sweep_start_s` places the sweep in the recording).\nIrregularly sampled traces (`sample_rate_hz` 0 with a `time` channel) report that\nchannel's first window value; traces without a time base (spectra) report 0.",
+      "type": "number",
+      "format": "double"
+    },
+    "sweep_start_s": {
+      "description": "Time of the sweep's first sample on the recording clock, seconds, when the file\nrecords it (`info.traces[].start_s` for a single sweep, `extra.sweep_starts_s[sweep]`\nfor multi-sweep traces).",
+      "type": [
+        "number",
+        "null"
+      ],
+      "format": "double"
+    },
+    "channels": {
+      "description": "One entry per requested channel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TraceChannelSlice"
+      }
+    },
+    "truncated": {
+      "description": "True when fewer samples are returned than the window holds.",
+      "type": "boolean"
+    },
+    "axis": {
+      "description": "The trace's abscissa (`info` → `traces[].extra.axis`: `{quantity, unit, first, step,\n…}`), e.g. the ppm axis of an NMR spectrum or a chromatogram's retention time in\nminutes; sample `i` of the sweep is at `first + i * step`. For a time axis this agrees\nwith `start_s` and `sample_rate_hz` (`first` = `start_s` at `first_sample` 0, `step` =\n1 / `sample_rate_hz`, in `unit`). Irregular axes (`irregular: true`) name the channel\nholding each sample's abscissa instead."
+    },
+    "x_range": {
+      "description": "The axis window asked for (`x_range`, low to high): axis units, or seconds for signals\nwithout an axis. `first_sample`/`sample_count` are the samples inside it.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "number",
+        "format": "double"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "trace",
+    "sweep",
+    "sweep_count",
+    "sample_rate_hz",
+    "sweep_sample_count",
+    "first_sample",
+    "sample_count",
+    "start_s",
+    "channels",
+    "truncated"
+  ],
+  "$defs": {
+    "TraceChannelSlice": {
+      "description": "One channel of a `TraceSlice`.",
+      "type": "object",
+      "properties": {
+        "index": {
+          "description": "Channel index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "Channel name.",
+          "type": "string"
+        },
+        "unit": {
+          "description": "Physical unit of the samples.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stats": {
+          "description": "Statistics over the whole window.",
+          "$ref": "#/$defs/TraceStats"
+        },
+        "samples": {
+          "description": "The first `max_samples` samples of the window, scaled to `unit`.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "required": [
+        "index",
+        "name",
+        "stats",
+        "samples"
+      ]
+    },
+    "TraceStats": {
+      "description": "Summary statistics of one channel over the requested window.",
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "Samples in the window.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "finite": {
+          "description": "Finite samples (NaN/inf are skipped by min/max/mean/std).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "min": {
+          "description": "Smallest finite sample.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "max": {
+          "description": "Largest finite sample.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "mean": {
+          "description": "Mean of the finite samples.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "std": {
+          "description": "Population standard deviation.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "argmin": {
+          "description": "Sample index of the minimum, counted from the start of the sweep (not of the window:\nthe index within `samples` is `argmin - first_sample`).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "argmax": {
+          "description": "Sample index of the maximum, counted from the start of the sweep (not of the window:\nthe index within `samples` is `argmax - first_sample`).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "argmin_time_s": {
+          "description": "Time of the minimum in seconds, on the same clock as the slice's `start_s`. Absent when\nthe trace has no time base (a spectrum; see `argmin_axis_value`).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "argmax_time_s": {
+          "description": "Time of the maximum in seconds, on the same clock as the slice's `start_s` (for a\nchromatogram: the retention time of the tallest point, in seconds).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "argmin_axis_value": {
+          "description": "Position of the minimum on the slice's `axis`, in `axis.unit` (retention time in\nminutes, chemical shift in ppm, wavenumber, …). Present only when the slice has an `axis`.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "argmax_axis_value": {
+          "description": "Position of the maximum on the slice's `axis`, in `axis.unit`: `axis.first + argmax *\naxis.step`, or the abscissa channel's value for an irregular axis.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "count",
+        "finite"
+      ]
+    }
+  }
+}

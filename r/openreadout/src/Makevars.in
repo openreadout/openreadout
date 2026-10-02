@@ -1,0 +1,37 @@
+# src/Makevars is generated from this file by ../configure (see book/src/guides/r.md).
+#
+# The Rust side (crates/openreadout-r) is built as a static library that R links into
+# openreadout.so together with entrypoint.c. Two layouts:
+#   repository  - the package inside a checkout of the OpenReadout repository: cargo builds the
+#                 workspace crate into the workspace's target/ directory (incremental).
+#   vendored    - a source tarball made by `cargo xtask r-vendor`: the crates are in src/rust/
+#                 and their dependencies in src/rust/vendor.tar.xz; cargo builds offline.
+
+TARGET_DIR = @TARGET_DIR@
+LIBDIR = $(TARGET_DIR)/@PROFILE_DIR@
+STATLIB = $(LIBDIR)/libopenreadout_r.a
+PKG_LIBS = -L$(LIBDIR) -lopenreadout_r @NATIVE_LIBS@
+
+CARGOTMP = $(CURDIR)/.cargo
+VENDOR_DIR = $(CURDIR)/vendor
+
+all: $(SHLIB) rust_clean
+
+.PHONY: all rust_clean $(STATLIB)
+
+$(SHLIB): $(STATLIB)
+
+$(STATLIB):
+	@if [ "@MODE@" = "vendored" ] && [ -f ./rust/vendor.tar.xz ]; then \
+		rm -rf $(VENDOR_DIR) && tar xf ./rust/vendor.tar.xz && \
+		mkdir -p $(CARGOTMP) && cp ./rust/vendor-config.toml $(CARGOTMP)/config.toml; \
+	fi
+	@if [ "@MODE@" = "vendored" ]; then export CARGO_HOME=$(CARGOTMP); fi; \
+	export PATH="$(PATH):$(HOME)/.cargo/bin" && export WINAPI_NO_BUNDLED_LIBRARIES=1 && \
+	echo "using $$(cargo --version) and $$(rustc --version)" && \
+	cargo build -j @JOBS@ --lib --profile @PROFILE@ --manifest-path="@MANIFEST@" --target-dir "$(TARGET_DIR)" @CARGO_FLAGS@
+
+rust_clean: $(SHLIB)
+	@if [ "@MODE@" = "vendored" ] && [ "$(NOT_CRAN)" != "true" ]; then \
+		rm -rf $(CARGOTMP) $(VENDOR_DIR) $(TARGET_DIR); \
+	fi

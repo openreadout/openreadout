@@ -1,0 +1,235 @@
+{
+ "id": "gc2asm-v181-d",
+ "file": "gc2asm-V181.D",
+ "format": "chemstation",
+ "family": "chromatography",
+ "readers": [
+  "chromConverter 0.9.0 (GPL-3.0, R, run as a black box with its own parsers)"
+ ],
+ "checks": [
+  {
+   "field": "FID1A.ch: sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/sample_name",
+   "theirs": "140+H",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: operator",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/operator",
+   "theirs": "SYSTEM",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/method",
+   "theirs": "DET3300.M",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: file version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/format_version",
+   "theirs": "181",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: file type",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/file_type",
+   "theirs": "GC DATA FILE",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: acquisition time (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/acquired_at",
+   "theirs": "2022-08-23T12:48:20",
+   "cmp": "wallclock"
+  },
+  {
+   "field": "acquisition start (first signal file's header)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-08-23T12:48:20",
+   "cmp": "time_or_utc",
+   "abs": 1.0
+  },
+  {
+   "field": "FID1A.ch: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/channels/0/unit",
+   "theirs": "pA",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/axis/first",
+   "theirs": -0.00126875,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "FID1A.ch: last time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/x_end_min",
+   "theirs": 19.705397916666666,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "FID1A.ch: signal: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    2.1010416666666667,
+    2.1024739583333334,
+    2.1059895833333333,
+    2.11015625,
+    2.1108072916666667,
+    2.1145833333333335,
+    2.1177083333333333,
+    2.1221354166666666,
+    2.1235677083333333,
+    2.123828125,
+    2.1260416666666666,
+    2.1240885416666666,
+    2.120963541666667,
+    2.1141927083333334,
+    2.1084635416666666,
+    2.1020833333333333,
+    2.1029947916666667,
+    2.10625,
+    2.12265625,
+    2.140494791666667,
+    2.15,
+    2.1490885416666665,
+    2.136458333333333,
+    2.1234375,
+    2.105598958333333,
+    2.0930989583333335,
+    2.0884114583333333,
+    2.089973958333333,
+    2.098046875,
+    2.107552083333333,
+    2.119921875,
+    2.140755208333333
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.905589453125e-08
+  },
+  {
+   "field": "FID1A.ch: signal: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 5914,
+   "cmp": "exact"
+  },
+  {
+   "field": "FID1A.ch: signal: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": 2.0884114583333333,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.905589453125e-08
+  },
+  {
+   "field": "FID1A.ch: signal: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 59055.89453125,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.905589453125e-08
+  },
+  {
+   "field": "FID1A.ch: signal: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 992.0792501990335,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.9055894531250006e-05
+  }
+ ]
+}

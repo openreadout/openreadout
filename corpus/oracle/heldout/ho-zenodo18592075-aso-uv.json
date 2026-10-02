@@ -1,0 +1,89 @@
+{
+ "id": "ho-zenodo18592075-aso-uv",
+ "file": "ASO_sample_UV.cdf",
+ "size": 118424,
+ "sha256": "b15dc47a803f5c88f137470a684d41508f8124a84cb30d3e5ecba986c5bfe27e",
+ "max_planes_hashed": 64,
+ "reader": "scipy.io.netcdf_file (scipy 1.18.1)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DAD1 A, Sig=260,4 Ref=off"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 9.99999985098839,
+   "sample_rate_tolerance_hz": 1e-06,
+   "x_first_min": 0.0012500000496705372,
+   "x_last_min": 47.999584048613904,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 28800,
+     "channels": [
+      {
+       "xxh3": "c648970b1a5109862301647ddff2e382",
+       "first": [
+        -0.009916722774505615,
+        -0.008687376976013184,
+        -0.006705522537231445,
+        -0.004634261131286621,
+        -0.003688037395477295,
+        -0.003129243850708008,
+        -0.0025704503059387207,
+        -0.0023990869522094727
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 12,
+   "parameter_names": [
+    "peak_retention_time",
+    "peak_start_time",
+    "peak_end_time",
+    "peak_width",
+    "peak_area",
+    "peak_area_percent",
+    "peak_height",
+    "peak_height_percent",
+    "peak_asymmetry",
+    "baseline_start_time",
+    "baseline_start_value",
+    "baseline_stop_time",
+    "baseline_stop_value",
+    "migration_time",
+    "peak_area_square_root",
+    "manually_reintegrated_peaks"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "int16"
+   ],
+   "xxh3": "023e925425b40a8c8b9ac979eb2cc72a"
+  }
+ ]
+}

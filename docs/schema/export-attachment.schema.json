@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExtractOutput",
+  "description": "Output of `export --attachment`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input file.",
+      "type": "string"
+    },
+    "attachment": {
+      "description": "The attachment that was extracted.",
+      "$ref": "#/$defs/AttachmentInfo"
+    },
+    "output": {
+      "description": "Where the bytes were written.",
+      "type": "string"
+    },
+    "bytes_written": {
+      "description": "Number of bytes written.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "xxh3": {
+      "description": "xxh3-128 of the written bytes, 32 hex chars.",
+      "type": "string"
+    },
+    "verified": {
+      "description": "True once the output was read back and matched.",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "attachment",
+    "output",
+    "bytes_written",
+    "xxh3",
+    "verified"
+  ],
+  "$defs": {
+    "AttachmentInfo": {
+      "description": "A file embedded in the container (thumbnail, label image, time stamps, ...).",
+      "type": "object",
+      "properties": {
+        "index": {
+          "description": "Zero-based index, usable with `export --attachment #<index>`.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "Name as stored in the container (e.g. `Thumbnail`, `Label`).",
+          "type": "string"
+        },
+        "content_type": {
+          "description": "Content type as the file declares it (e.g. `JPG`, `CZI`, `CZTIMS`).",
+          "type": "string"
+        },
+        "extension": {
+          "description": "Suggested file extension for the extracted bytes, without the dot.",
+          "type": "string"
+        },
+        "offset": {
+          "description": "Byte offset of the attachment payload in its file.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "size": {
+          "description": "Payload size in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "extra": {
+          "description": "Format-specific details in the reader's documented vocabulary.",
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "index",
+        "name",
+        "content_type",
+        "extension",
+        "size"
+      ]
+    }
+  }
+}

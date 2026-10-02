@@ -1,0 +1,43 @@
+{
+ "id": "ho-figshare25036019-ns5-tfus",
+ "file": "NHPFig4b_tFUS_PRF1kHz.ns5",
+ "size": 25995509,
+ "sha256": "4b7c7e7d4ccadf97f1c9fc494367e8a48bbd5bb9da8b94ec9ec24105199fb82c",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 BlackrockRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "analog 16"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 30000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12997560,
+     "channels": [
+      {
+       "xxh3": "13285280453dfadaae4d2a4d21351563",
+       "first": [
+        1458.7981200598163,
+        1458.1878719443341,
+        1457.5776238288522,
+        1456.8148136844995,
+        1458.1878719443341,
+        1457.2724997711111,
+        1458.0353099154636,
+        1457.2724997711111
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

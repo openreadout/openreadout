@@ -1,0 +1,1502 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AssayOutput",
+  "description": "`openreadout analyze assay … --json` data.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input (`plate`, or `long-csv`).",
+      "type": "string"
+    },
+    "analysis": {
+      "description": "The analysis run (`wells`, `curve`, `dose-response`, `kinetics`, `growth`, `qc`).",
+      "type": "string"
+    },
+    "table": {
+      "description": "Table (plate) index.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "plate": {
+      "description": "Plate (table) name.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "read": {
+      "description": "The read analysed.",
+      "$ref": "#/$defs/ReadSummary"
+    },
+    "reduce": {
+      "description": "How kinetic time courses were reduced to one value per well (endpoint analyses).",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "layout": {
+      "description": "Where the layout came from and what it assigns.",
+      "$ref": "#/$defs/LayoutSummary"
+    },
+    "blank": {
+      "description": "Blank subtraction applied.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BlankSummary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "outliers": {
+      "description": "Outlier rule and flagged wells.",
+      "$ref": "#/$defs/OutlierSummary"
+    },
+    "wells": {
+      "description": "One row per well.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/WellRow"
+      }
+    },
+    "samples": {
+      "description": "One row per replicate group (sample, standard level, control, dose).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SampleRow"
+      }
+    },
+    "curve": {
+      "description": "Standard-curve fit report (`curve`).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CurveReport"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "compounds": {
+      "description": "One row per compound (`dose-response`).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CompoundRow"
+      }
+    },
+    "kinetics": {
+      "description": "One row per well (`kinetics`).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/KineticRow"
+      }
+    },
+    "growth": {
+      "description": "One row per well (`growth`).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/GrowthRow"
+      }
+    },
+    "quality": {
+      "description": "Assay quality from control wells (whenever positive and negative controls exist).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/QualityReport"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "written": {
+      "description": "Files written (`--csv`, `--preview`).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "description": "What was assumed or left out.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "description": "What may be wrong with the layout: role names read as samples, controls of unknown sign,\nrole-map entries that matched no well.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "analysis",
+    "table",
+    "read",
+    "layout",
+    "outliers"
+  ],
+  "$defs": {
+    "ReadSummary": {
+      "description": "The read analysed.",
+      "type": "object",
+      "properties": {
+        "number": {
+          "description": "1-based read number.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "label": {
+          "description": "Label as the file writes it.",
+          "type": "string"
+        },
+        "mode": {
+          "description": "Detection mode.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit": {
+          "description": "Unit of the values.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "calculated": {
+          "description": "Values the vendor software calculated (not measured).",
+          "type": "boolean"
+        },
+        "kinetic": {
+          "description": "Whether the read has several time points per well.",
+          "type": "boolean"
+        },
+        "time_points": {
+          "description": "Time points per well (kinetic reads).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0
+        },
+        "wavelength_nm": {
+          "description": "The wavelength selected (spectral reads).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "wells_measured": {
+          "description": "Wells with values.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "number",
+        "label",
+        "kinetic",
+        "wells_measured"
+      ]
+    },
+    "LayoutSummary": {
+      "description": "Layout summary.",
+      "type": "object",
+      "properties": {
+        "sources": {
+          "description": "Sources merged, in order (later ones win well by well): `embedded:<title>`, a file path,\n`text`, `--blank`, ….",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "wells_assigned": {
+          "description": "Measured wells with a role.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "roles": {
+          "description": "Measured wells per role (`unassigned` for wells the layout does not name).",
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "uint",
+            "minimum": 0
+          }
+        },
+        "concentration_unit": {
+          "description": "Unit of the concentrations, when the layout states one.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "sources",
+        "wells_assigned",
+        "roles"
+      ]
+    },
+    "BlankSummary": {
+      "description": "Blank subtraction applied.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "description": "`mean` or `median`.",
+          "type": "string"
+        },
+        "wells": {
+          "description": "Blank wells used.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "n": {
+          "description": "Number of blank wells used.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "value": {
+          "description": "The value subtracted (endpoint), or its mean over time points (kinetic: subtracted per\ntime point).",
+          "type": "number",
+          "format": "double"
+        },
+        "sd": {
+          "description": "SD of the blank wells (endpoint).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "per_time_point": {
+          "description": "Whether the blank was subtracted per time point.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "method",
+        "wells",
+        "n",
+        "value"
+      ]
+    },
+    "OutlierSummary": {
+      "description": "Outlier rule and result.",
+      "type": "object",
+      "properties": {
+        "rule": {
+          "description": "`mad`, `grubbs` or `none`.",
+          "type": "string"
+        },
+        "threshold": {
+          "description": "Modified z-score cut-off (mad) or alpha (grubbs).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "flagged": {
+          "description": "Wells flagged.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excluded": {
+          "description": "Whether flagged wells were left out of means, fits and controls.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "rule",
+        "flagged",
+        "excluded"
+      ]
+    },
+    "WellRow": {
+      "description": "One well.",
+      "type": "object",
+      "properties": {
+        "well": {
+          "description": "Well name (`A1`).",
+          "type": "string"
+        },
+        "row": {
+          "description": "1-based row.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "col": {
+          "description": "1-based column.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "role": {
+          "description": "Role (`blank`, `standard`, `sample`, `positive`, `negative`, `control`, `empty`), or\n`unassigned`.",
+          "type": "string"
+        },
+        "group": {
+          "description": "Replicate group this well belongs to.",
+          "type": "string"
+        },
+        "sample": {
+          "description": "Sample name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "compound": {
+          "description": "Compound.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "concentration": {
+          "description": "Nominal concentration (standards, doses).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "dilution": {
+          "description": "Dilution factor.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "raw": {
+          "description": "The value as read (after `reduce` for kinetic reads); null when the cell was not a\nnumber.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "value": {
+          "description": "After blank subtraction (equal to `raw` without one).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "outlier": {
+          "description": "Flagged as an outlier in its replicate group.",
+          "type": "boolean"
+        },
+        "excluded": {
+          "description": "Left out of means and fits.",
+          "type": "boolean"
+        },
+        "back_calculated": {
+          "description": "Concentration back-calculated from the standard curve (`curve`).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "final_concentration": {
+          "description": "`back_calculated` × `dilution`.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "flag": {
+          "description": "`curve`: `in_range`, `below_range`, `above_range` (outside the standards'\nconcentrations), `below_curve`, `above_curve` (beyond an asymptote: no concentration) or\n`not_computable`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quantifiable": {
+          "description": "`curve`: within [LLOQ, ULOQ].",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "recovery_percent": {
+          "description": "Standards: back-calculated / nominal × 100.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "percent_effect": {
+          "description": "`dose-response` with `normalize: controls`: percent effect.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "extra": {
+          "description": "Other layout columns.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "well",
+        "row",
+        "col",
+        "role",
+        "group",
+        "outlier",
+        "excluded"
+      ]
+    },
+    "SampleRow": {
+      "description": "One replicate group.",
+      "type": "object",
+      "properties": {
+        "group": {
+          "description": "Group name (the sample name, else role and concentration, else the well).",
+          "type": "string"
+        },
+        "role": {
+          "description": "Role of the group.",
+          "type": "string"
+        },
+        "sample": {
+          "description": "Sample name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "compound": {
+          "description": "Compound.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "concentration": {
+          "description": "Nominal concentration.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "dilution": {
+          "description": "Dilution factor.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "wells": {
+          "description": "Wells of the group.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metric": {
+          "description": "What `mean`/`sd`/`cv_percent` summarise: `value` (blank-subtracted), or a kinetic/growth\nmetric (`max_slope_per_min`, `doubling_time_h`).",
+          "type": "string"
+        },
+        "n": {
+          "description": "Wells in the group.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "n_used": {
+          "description": "Wells used (numbers, not excluded).",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "mean": {
+          "description": "Mean of the used wells.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "sd": {
+          "description": "Sample SD (n − 1).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "cv_percent": {
+          "description": "SD / |mean| × 100.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "outliers": {
+          "description": "Outlier wells.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "back_calculated_mean": {
+          "description": "`curve`: mean of the wells' back-calculated concentrations.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "back_calculated_sd": {
+          "description": "`curve`: SD of the wells' back-calculated concentrations.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "back_calculated_cv_percent": {
+          "description": "`curve`: CV % of the wells' back-calculated concentrations.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "back_calculated_of_mean": {
+          "description": "`curve`: concentration back-calculated from the group's mean signal.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "final_concentration": {
+          "description": "`back_calculated_mean` × dilution.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "flag": {
+          "description": "`curve`: range flag of `back_calculated_of_mean`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "recovery_percent": {
+          "description": "Standards: `back_calculated_mean` / nominal × 100.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "group",
+        "role",
+        "wells",
+        "metric",
+        "n",
+        "n_used"
+      ]
+    },
+    "CurveReport": {
+      "description": "Standard-curve report.",
+      "type": "object",
+      "properties": {
+        "fit": {
+          "description": "The fit.",
+          "$ref": "#/$defs/FitReport"
+        },
+        "fit_on": {
+          "description": "`replicates` or `means`.",
+          "type": "string"
+        },
+        "range_low": {
+          "description": "Lowest standard concentration.",
+          "type": "number",
+          "format": "double"
+        },
+        "range_high": {
+          "description": "Highest standard concentration.",
+          "type": "number",
+          "format": "double"
+        },
+        "lloq": {
+          "description": "Lower limit of quantification.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "uloq": {
+          "description": "Upper limit of quantification.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "loq_rule": {
+          "description": "How LLOQ/ULOQ were set.",
+          "type": "string"
+        },
+        "concentration_unit": {
+          "description": "Unit of the concentrations, when the layout states one.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "fit",
+        "fit_on",
+        "range_low",
+        "range_high",
+        "loq_rule"
+      ]
+    },
+    "FitReport": {
+      "description": "A fitted curve.",
+      "type": "object",
+      "properties": {
+        "model": {
+          "description": "`linear`, `4pl`, `5pl`.",
+          "type": "string"
+        },
+        "formula": {
+          "description": "The formula in the parameter names.",
+          "type": "string"
+        },
+        "weighting": {
+          "description": "`none`, `1/y`, `1/y2`, `1/x`, `1/x2`.",
+          "type": "string"
+        },
+        "parameters": {
+          "description": "Parameters with standard errors and confidence limits.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ParamRow"
+          }
+        },
+        "n_points": {
+          "description": "Points fitted.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "n_levels": {
+          "description": "Distinct concentrations.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "df": {
+          "description": "Residual degrees of freedom.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "r_squared": {
+          "description": "1 − SSE/SST.",
+          "type": "number",
+          "format": "double"
+        },
+        "residual_se": {
+          "description": "Residual standard error √(SSE/df).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "sse": {
+          "description": "Weighted sum of squared residuals.",
+          "type": "number",
+          "format": "double"
+        },
+        "converged": {
+          "description": "Whether the optimiser converged.",
+          "type": "boolean"
+        },
+        "iterations": {
+          "description": "Optimiser iterations.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "confidence": {
+          "description": "Confidence level of the limits.",
+          "type": "number",
+          "format": "double"
+        },
+        "direction": {
+          "description": "`increasing` or `decreasing` response with concentration.",
+          "type": "string"
+        },
+        "points": {
+          "description": "The points with fitted values and residuals.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CurvePoint"
+          }
+        }
+      },
+      "required": [
+        "model",
+        "formula",
+        "weighting",
+        "parameters",
+        "n_points",
+        "n_levels",
+        "df",
+        "r_squared",
+        "sse",
+        "converged",
+        "iterations",
+        "confidence",
+        "direction",
+        "points"
+      ]
+    },
+    "ParamRow": {
+      "description": "One fitted parameter.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name (`a`, `b`, `c`, `d`, `g`; `slope`, `intercept`).",
+          "type": "string"
+        },
+        "value": {
+          "description": "Estimate.",
+          "type": "number",
+          "format": "double"
+        },
+        "se": {
+          "description": "Standard error (Wald).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "ci_low": {
+          "description": "Lower confidence limit: value − t·SE.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "ci_high": {
+          "description": "Upper confidence limit: value + t·SE.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ]
+    },
+    "CurvePoint": {
+      "description": "One point of a fit.",
+      "type": "object",
+      "properties": {
+        "label": {
+          "description": "Well (replicate fits) or group (fits on means).",
+          "type": "string"
+        },
+        "x": {
+          "description": "Concentration.",
+          "type": "number",
+          "format": "double"
+        },
+        "y": {
+          "description": "Response.",
+          "type": "number",
+          "format": "double"
+        },
+        "fitted": {
+          "description": "Fitted response.",
+          "type": "number",
+          "format": "double"
+        },
+        "residual": {
+          "description": "y − fitted.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "label",
+        "x",
+        "y",
+        "fitted",
+        "residual"
+      ]
+    },
+    "CompoundRow": {
+      "description": "Dose-response of one compound.",
+      "type": "object",
+      "properties": {
+        "compound": {
+          "description": "Compound name.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "`IC50` (response falls with dose) or `EC50`.",
+          "type": "string"
+        },
+        "ec50": {
+          "description": "Concentration at the curve's midpoint (the 4PL/5PL parameter c).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "ec50_se": {
+          "description": "Standard error of `ec50` (Wald, delta method).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "ec50_ci_low": {
+          "description": "Lower confidence limit of `ec50`, from ln(c) ± t·SE(ln c).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "ec50_ci_high": {
+          "description": "Upper confidence limit of `ec50`.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "log10_ec50": {
+          "description": "log10 of `ec50`.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "absolute_ec50": {
+          "description": "Concentration where the fitted curve crosses 50 % effect (`normalize: controls`).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "hill_slope": {
+          "description": "Hill slope, GraphPad sign convention: positive when the response rises with dose.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "top": {
+          "description": "The upper plateau: max(a, d).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "bottom": {
+          "description": "The lower plateau: min(a, d).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "response_at_zero": {
+          "description": "Response at zero dose (a).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "response_at_infinity": {
+          "description": "Response at infinite dose (d).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "n_concentrations": {
+          "description": "Doses (distinct concentrations).",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "min_concentration": {
+          "description": "Lowest and highest dose tested.",
+          "type": "number",
+          "format": "double"
+        },
+        "max_concentration": {
+          "description": "Highest dose tested.",
+          "type": "number",
+          "format": "double"
+        },
+        "extrapolated": {
+          "description": "`ec50` lies outside the tested doses.",
+          "type": "boolean"
+        },
+        "fit": {
+          "description": "The fit.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FitReport"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "description": "Why no fit was made.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "compound",
+        "kind",
+        "n_concentrations",
+        "min_concentration",
+        "max_concentration"
+      ]
+    },
+    "KineticRow": {
+      "description": "Kinetic metrics of one well.",
+      "type": "object",
+      "properties": {
+        "well": {
+          "description": "Well name.",
+          "type": "string"
+        },
+        "role": {
+          "description": "Role, or `unassigned`.",
+          "type": "string"
+        },
+        "sample": {
+          "description": "Sample name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "n_points": {
+          "description": "Time points used.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "window": {
+          "description": "Points per window.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "max_slope_per_min": {
+          "description": "Largest windowed slope, value units per minute (Vmax).",
+          "type": "number",
+          "format": "double"
+        },
+        "max_slope_per_s": {
+          "description": "The same per second.",
+          "type": "number",
+          "format": "double"
+        },
+        "max_slope_r_squared": {
+          "description": "r² of the max-slope window.",
+          "type": "number",
+          "format": "double"
+        },
+        "time_at_max_slope_s": {
+          "description": "Mean time of the max-slope window (s).",
+          "type": "number",
+          "format": "double"
+        },
+        "window_start_s": {
+          "description": "First time of the max-slope window (s).",
+          "type": "number",
+          "format": "double"
+        },
+        "window_end_s": {
+          "description": "Last time of the max-slope window (s).",
+          "type": "number",
+          "format": "double"
+        },
+        "lag_time_s": {
+          "description": "Lag time (s).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "mean_slope_per_min": {
+          "description": "Least-squares slope over all points, value units per minute.",
+          "type": "number",
+          "format": "double"
+        },
+        "mean_slope_r_squared": {
+          "description": "r² of the all-points line.",
+          "type": "number",
+          "format": "double"
+        },
+        "max_value": {
+          "description": "Largest value.",
+          "type": "number",
+          "format": "double"
+        },
+        "time_to_max_s": {
+          "description": "Time of the largest value (s).",
+          "type": "number",
+          "format": "double"
+        },
+        "min_value": {
+          "description": "Smallest value.",
+          "type": "number",
+          "format": "double"
+        },
+        "initial_value": {
+          "description": "First value.",
+          "type": "number",
+          "format": "double"
+        },
+        "final_value": {
+          "description": "Last value.",
+          "type": "number",
+          "format": "double"
+        },
+        "auc": {
+          "description": "Trapezoidal area under the curve (value × s).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "well",
+        "role",
+        "n_points",
+        "window",
+        "max_slope_per_min",
+        "max_slope_per_s",
+        "max_slope_r_squared",
+        "time_at_max_slope_s",
+        "window_start_s",
+        "window_end_s",
+        "mean_slope_per_min",
+        "mean_slope_r_squared",
+        "max_value",
+        "time_to_max_s",
+        "min_value",
+        "initial_value",
+        "final_value",
+        "auc"
+      ]
+    },
+    "GrowthRow": {
+      "description": "Growth metrics of one well.",
+      "type": "object",
+      "properties": {
+        "well": {
+          "description": "Well name.",
+          "type": "string"
+        },
+        "role": {
+          "description": "Role, or `unassigned`.",
+          "type": "string"
+        },
+        "sample": {
+          "description": "Sample name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "n_points": {
+          "description": "Time points used.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "background": {
+          "description": "The well's own minimum, subtracted as background when the layout has no blank wells\n(growthcurver's default); absent when blanks were subtracted or subtraction is off.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "window": {
+          "description": "Points per window of the log-scale fit.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "threshold": {
+          "description": "Values at or below this were left out of the log-scale fit.",
+          "type": "number",
+          "format": "double"
+        },
+        "growth_rate_per_h": {
+          "description": "Maximum specific growth rate µmax (per hour).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "doubling_time_h": {
+          "description": "ln 2 / µmax, hours.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "doubling_time_min": {
+          "description": "ln 2 / µmax, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "exp_phase_start_s": {
+          "description": "First time of the exponential phase (s).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "exp_phase_end_s": {
+          "description": "Last time of the exponential phase (s).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "exp_r_squared": {
+          "description": "r² of ln(value) against time in the exponential phase.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "lag_time_s": {
+          "description": "Lag time (s).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "max_value": {
+          "description": "Largest value.",
+          "type": "number",
+          "format": "double"
+        },
+        "time_to_max_s": {
+          "description": "Time of the largest value (s).",
+          "type": "number",
+          "format": "double"
+        },
+        "auc_h": {
+          "description": "Trapezoidal area under the curve (value × h).",
+          "type": "number",
+          "format": "double"
+        },
+        "logistic_k": {
+          "description": "Logistic fit: carrying capacity K.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "logistic_n0": {
+          "description": "Logistic fit: N0 at the first time point.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "logistic_r_per_h": {
+          "description": "Logistic fit: r (per hour).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "logistic_doubling_time_h": {
+          "description": "Logistic fit: ln 2 / r (hours).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "logistic_t_mid_s": {
+          "description": "Logistic fit: inflection time (s).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "logistic_sigma": {
+          "description": "Logistic fit: residual SD.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "well",
+        "role",
+        "n_points",
+        "window",
+        "threshold",
+        "max_value",
+        "time_to_max_s",
+        "auc_h"
+      ]
+    },
+    "QualityReport": {
+      "description": "Assay quality of the plate (values as read, before blank subtraction).",
+      "type": "object",
+      "properties": {
+        "positive": {
+          "description": "Positive-control wells.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GroupStats"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "negative": {
+          "description": "Negative-control wells.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GroupStats"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "blank": {
+          "description": "Blank wells.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GroupStats"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "samples": {
+          "description": "Sample wells.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GroupStats"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "z_prime": {
+          "description": "Z′ = 1 − 3 (SDpos + SDneg) / |mean pos − mean neg| (Zhang, Chung & Oldenburg 1999).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "z_factor": {
+          "description": "Z = 1 − 3 (SDsamples + SDneg) / |mean samples − mean neg|.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "signal_to_background": {
+          "description": "Higher control mean / lower control mean.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "signal_to_noise": {
+          "description": "|mean pos − mean neg| / SDneg.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "ssmd": {
+          "description": "Strictly standardized mean difference (mean pos − mean neg) / √(SDpos² + SDneg²).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "median_replicate_cv_percent": {
+          "description": "Median CV % over replicate groups of two or more wells.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "assessment": {
+          "description": "`excellent` (Z′ ≥ 0.5), `marginal` (0 < Z′ < 0.5) or `unusable` (Z′ ≤ 0).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "GroupStats": {
+      "description": "Statistics of a group of control wells.",
+      "type": "object",
+      "properties": {
+        "wells": {
+          "description": "Wells used.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "n": {
+          "description": "Count.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "mean": {
+          "description": "Mean.",
+          "type": "number",
+          "format": "double"
+        },
+        "sd": {
+          "description": "Sample SD.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "cv_percent": {
+          "description": "CV %.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "min": {
+          "description": "Smallest value.",
+          "type": "number",
+          "format": "double"
+        },
+        "max": {
+          "description": "Largest value.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "wells",
+        "n",
+        "mean",
+        "min",
+        "max"
+      ]
+    }
+  }
+}

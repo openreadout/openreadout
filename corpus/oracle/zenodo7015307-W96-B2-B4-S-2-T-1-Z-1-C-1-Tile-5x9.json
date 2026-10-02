@@ -1,0 +1,137 @@
+{
+ "id": "zenodo7015307-W96-B2-B4-S-2-T-1-Z-1-C-1-Tile-5x9",
+ "file": "zenodo7015307-W96-B2-B4-S-2-T-1-Z-1-C-1-Tile-5x9.czi",
+ "size": 31262496,
+ "sha256": "34ea79a7c187ac23075ceda7d408d61d5efbf0bfab13523abd55819baa38d891",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 2944,
+   "size_y": 3444,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "YX",
+   "shape": [
+    3444,
+    2944
+   ],
+   "other_dims": {},
+   "pyramid_levels": 3,
+   "physical_size_um": {
+    "x": 0.39999999999999997,
+    "y": 0.39999999999999997,
+    "z": 1.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "01ba1f31fa0193de5a485e6c4696559e"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 1472,
+     "size_y": 1722,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "a859e2bfcdcb2c5a7ba9aaed6297891e"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 736,
+     "size_y": 861,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "492723cacd0cd6428c3f96e8ba8798ab"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Scene 1",
+   "size_x": 2944,
+   "size_y": 3444,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "YX",
+   "shape": [
+    3444,
+    2944
+   ],
+   "other_dims": {},
+   "pyramid_levels": 3,
+   "physical_size_um": {
+    "x": 0.39999999999999997,
+    "y": 0.39999999999999997,
+    "z": 1.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1eed9d8dee82baf159665f4897275a47"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 1472,
+     "size_y": 1722,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "eefef2e53a8dc691637fb3dfee6e7a57"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 736,
+     "size_y": 861,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "359257bebab64849edce427990b0c71e"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.39999999999999997,
+  "y": 0.39999999999999997,
+  "z": 1.0
+ },
+ "subblock_count": 100,
+ "compression_ids": [
+  0
+ ]
+}

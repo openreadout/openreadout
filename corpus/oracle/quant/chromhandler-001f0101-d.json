@@ -1,0 +1,61 @@
+{
+ "id": "chromhandler-001f0101-d",
+ "input": "chromhandler-001F0101.D",
+ "vendor": {
+  "software": "Agilent ChemStation",
+  "source": "Report.TXT (area-percent report)",
+  "time_unit": "min",
+  "area_to_signal_s": 1.0,
+  "note": "areas in signal\u00b7s ([pA*s], [25 uV*s]); widths are ChemStation's peak widths"
+ },
+ "signals": [
+  {
+   "signal": "FID1 A",
+   "trace_name": "FID1A",
+   "area_unit": "min",
+   "height_unit": "pA*s",
+   "peaks": [
+    {
+     "rt_min": 2.824,
+     "code": "BB S",
+     "width_min": 0.0881,
+     "area": 45713.7,
+     "height": 7718.08594,
+     "area_percent": 97.91525
+    },
+    {
+     "rt_min": 4.057,
+     "code": "BB",
+     "width_min": 0.0928,
+     "area": 955.59546,
+     "height": 149.11475,
+     "area_percent": 2.04681
+    },
+    {
+     "rt_min": 9.209,
+     "code": "BB",
+     "width_min": 0.0817,
+     "area": 17.71351,
+     "height": 3.40485,
+     "area_percent": 0.03794
+    }
+   ]
+  },
+  {
+   "signal": "TCD2 B",
+   "trace_name": "TCD2B",
+   "area_unit": "min",
+   "height_unit": "25 uV*s",
+   "peaks": [
+    {
+     "rt_min": 2.828,
+     "code": "BB",
+     "width_min": 0.0864,
+     "area": 2608.15039,
+     "height": 444.79111,
+     "area_percent": 100.0
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+# Draft bioconda recipe (recipes/openreadout/meta.yaml in bioconda-recipes). Not submitted yet:
+# fill in the release tarball's sha256, then open a pull request against bioconda/bioconda-recipes.
+# Once merged, bioconda publishes `bioconda::openreadout` and BioContainers builds
+# `quay.io/biocontainers/openreadout:<version>--<build>`, which the Nextflow modules, Galaxy tools
+# and Snakemake wrappers in integrations/ declare.
+{% set name = "openreadout" %}
+{% set version = "0.1.0" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/openreadout/openreadout/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: FILL_IN_AT_SUBMISSION
+
+build:
+  number: 0
+  run_exports:
+    - {{ pin_subpackage(name, max_pin="x.x") }}
+
+requirements:
+  build:
+    - {{ compiler('rust') }}
+    - {{ compiler('c') }}
+    - cargo-bundle-licenses
+
+test:
+  commands:
+    - openreadout --version
+    - openreadout self formats --json
+    - openreadout self doctor --json
+
+about:
+  home: https://github.com/openreadout/openreadout
+  license: MIT OR Apache-2.0
+  license_family: MIT
+  license_file:
+    - LICENSE-MIT
+    - LICENSE-APACHE
+    - THIRDPARTY.yml
+  summary: Read raw lab-instrument files (microscopy, flow cytometry, mass spectrometry, chromatography, plate readers, qPCR, electrophysiology, NMR) without vendor software
+  description: |
+    One static binary that reads raw instrument files (Zeiss CZI, Nikon ND2, Leica LIF, Olympus,
+    whole-slide images, FCS, Thermo RAW, mzML, Agilent, Waters, Sciex, ChemStation, ABF, RDML,
+    plate-reader exports, Bruker NMR, ...) and returns their metadata as JSON, exports them to open
+    formats (OME-TIFF, OME-Zarr, mzML, Parquet), validates them, builds tidy tables over many files,
+    and serves the same operations as MCP tools.
+  dev_url: https://github.com/openreadout/openreadout
+  doc_url: https://openreadout.github.io/openreadout/reference/commands/index.html
+
+extra:
+  recipe-maintainers:
+    - richardzimring

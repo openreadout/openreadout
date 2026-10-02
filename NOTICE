@@ -1,0 +1,84 @@
+OpenReadout
+Copyright (c) 2026 The OpenReadout Authors
+"The OpenReadout Authors" are the people who contributed to this project, as recorded in
+its version-control history (each commit carries a Developer Certificate of Origin sign-off).
+
+Licensed under either of the MIT license (LICENSE-MIT) or the Apache License,
+Version 2.0 (LICENSE-APACHE), at your option.
+
+Code derived from permissively licensed sources (their licences retained):
+- crates/openreadout-jpegxr — a Rust port of the decoder path of jxrlib, the JPEG XR reference
+  library ("JPEG XR Device Porting Kit v1.0"), Copyright (c) 2009 Microsoft Corp., BSD 2-clause
+  ("New BSD License"); the licence text is crates/openreadout-jpegxr/LICENSE. The sources read were
+  those bundled in the `jpegxr` 0.3.1 crate (https://crates.io/crates/jpegxr).
+
+Prior art consulted as documentation (permissively licensed; no code copied):
+- czifile  — Christoph Gohlke, BSD-3-Clause, https://github.com/cgohlke/czifile
+- liffile  — Christoph Gohlke, BSD-3-Clause, https://github.com/cgohlke/liffile
+- nd2      — Talley Lambert and contributors, BSD-3-Clause, https://github.com/tlambert03/nd2
+- tifffile — Christoph Gohlke, BSD-3-Clause, https://github.com/cgohlke/tifffile
+- bioio    — Allen Institute for Cell Science, BSD-3-Clause, https://github.com/bioio-devs/bioio
+- OME Data Model and OME-TIFF specification — Open Microscopy Environment, https://ome-model.readthedocs.io/
+- ZEISS libCZI documentation pages (concept pages only, not source): resolution protocol, valid-pixel mask, https://zeiss.github.io/libczi/
+- FCS 3.1 normative specification — International Society for Advancement of Cytometry (ISAC), CC BY-SA 3.0, https://isac-net.org/data-standards/
+- FlowIO    — Scott White, BSD-3-Clause, https://github.com/whitews/FlowIO
+- oirfile   — Christoph Gohlke, BSD-3-Clause, https://github.com/cgohlke/oirfile
+- Bio-Formats format pages for Olympus OIR, cellSens VSI and Zeiss ZVI (documentation pages only, not source), https://bio-formats.readthedocs.io/
+- OME-NGFF specification (0.1–0.5) — Open Microscopy Environment, https://ngff.openmicroscopy.org/; Zarr v2/v3 specifications, https://zarr-specs.readthedocs.io/
+- c-blosc — The Blosc Developers, BSD-3-Clause, https://github.com/Blosc/c-blosc (chunk format document and blosc.c/blosclz.c decoding rules; shuffle.c bit-unshuffle block rules)
+- bitshuffle — Kiyoshi Masui and contributors, MIT, https://github.com/kiyo-masui/bitshuffle (the bit-transpose transform)
+- Snappy format description — Google, BSD-3-Clause, https://github.com/google/snappy/blob/main/format_description.txt
+- imagecodecs — Christoph Gohlke, BSD-3-Clause, https://github.com/cgohlke/imagecodecs (EER electron-event decoding rule in imcd.c)
+- hdf5_plugins LZ4 filter (H5Zlz4.c) — The HDF Group, BSD-style HDF5 licence, https://github.com/HDFGroup/hdf5_plugins (filter 32004 chunk layout)
+- NWB 2 schema documentation — Neurodata Without Borders, https://nwb-schema.readthedocs.io/; HDMF-common schema documentation (DynamicTable, VectorIndex), https://hdmf-common-schema.readthedocs.io/
+- Microsoft [MS-CFB] and [MS-OAUT] Open Specifications (compound files; VARIANT type codes), https://learn.microsoft.com/openspecs/
+- fcsparser — Eugene Yurtsev, MIT, https://github.com/eyurtsev/fcsparser
+- nmrglue   — Jonathan J. Helmus and contributors, BSD-3-Clause, https://github.com/jjhelmus/nmrglue
+             (Bruker parameter syntax, fid/ser/pdata layout, NC_proc scaling, digital-filter group-delay table)
+- jcamp     — Nathan Hagen, MIT, https://github.com/nzhagen/jcamp
+- JCAMP-DX protocols (IR 4.24, NMR, MS, 5.01) — IUPAC CPEP Subcommittee on Electronic Data Standards, https://www.jcamp-dx.org/protocols.html
+- pyABF    — Scott W Harden, MIT, https://github.com/swharden/pyABF (ABF file-format guide and source)
+- Neo      — Neo authors and contributors, BSD-3-Clause, https://github.com/NeuralEnsemble/python-neo
+             (also the Plexon PLX layout and gains, Intan split-layout file names; its PL2 module is not used)
+- ProbeTable — Howard Hughes Medical Institute, BSD-3-Clause, https://github.com/billkarsh/ProbeTable
+- allotropy — Benchling, Inc. and contributors, MIT, https://github.com/Benchling-Open-Source/allotropy
+             (plate-reader export layouts and ASM output shape; also run as the plate-reader oracle)
+- Allotrope Simple Model plate-reader schema (REC/2025/03) — Allotrope Foundation, CC BY-NC 4.0 / CC BY-ND 4.0,
+             https://gitlab.com/allotrope-public/asm (used unmodified for validation in oracle/ only; not distributed)
+
+Vendor- and author-published file-format documentation consulted (public, no login):
+- Neuralynx "Neuralynx Data File Formats" (Rev 1.1) and Cheetah Reference Guide, https://neuralynx.fh-co.com/
+- Blackrock Neurotech LB-0023 "NEV and NSx file formats" (Rev 7.00) and LB-0110, https://blackrockneurotech.com/
+- Intan Technologies "RHD/RHS Data File Formats" application notes, https://intantech.com/
+- SpikeGLX metadata documentation (Janelia Research Campus software terms), https://billkarsh.github.io/SpikeGLX/
+- MRC2014 specification — CCP-EM, https://www.ccpem.ac.uk/mrc_format/mrc2014.php (open standard); IMOD MRC format notes, https://bio3d.colorado.edu/imod/doc/mrc_format.txt (documentation only)
+- mrcfile   — CCP-EM / Science and Technology Facilities Council, BSD-3-Clause, https://github.com/ccpem/mrcfile
+- pyDM3reader (dm3_lib) — Pierre-Ivan Raynal and contributors, MIT, https://github.com/piraynal/pyDM3reader
+- dm4       — James Anderson, MIT, https://github.com/jamesra/dm4
+- nionswift-io — Nion Co., Apache-2.0, https://github.com/nion-software/nionswift-io (DM3/DM4 data types)
+- Gatan "*.dm5 documentation" — Gatan, Inc., https://www.gatan.com/dm5-documentation (public vendor page: DM5 HDF5 layout, DataType list)
+- EMD (Electron Microscopy Dataset) specification — https://emdatasets.com/format/ (open convention; Berkeley EMD 0.2/1.0)
+- Digital Micrograph and TIA file format notes — Chris Boothroyd, https://personal.ntu.edu.sg/cbb/info/ (public web pages, documentation only)
+- entab    — Roderick Bovee, MIT, https://github.com/bovee/entab (Agilent ChemStation readers, read as documentation; test data in the corpus)
+- Aston    — Roderick Bovee, BSD-3-Clause, https://github.com/bovee/Aston (Agilent ChemStation readers, read as documentation and run as an oracle)
+- netCDF Classic Format Specification — Unidata/UCAR, https://docs.unidata.ucar.edu/netcdf-c/current/file_format_specifications.html (open specification)
+- [MS-CFB] Compound File Binary File Format — Microsoft Open Specifications, https://learn.microsoft.com/openspecs/windows_protocols/ms-cfb/ (open specification)
+- rainbow documentation pages (file-format descriptions), https://rainbow-api.readthedocs.io/ (documentation pages)
+
+Tools run as black-box oracles during development only (never linked):
+- ZEISS libCZI and pylibCZIrw (LGPL-3.0), Bio-Formats (GPL-2.0+), bioio-czi and bioio-lif (GPL-3.0), readlif (GPL-3.0)
+- ncempy / openNCEM (GPL-3.0-or-later) and RosettaSciIO (GPL-3.0): TIA SER, Gatan DM and EMD oracles
+- rainbow-api (LGPL-3.0): Agilent ChemStation and Waters MassLynx oracle; scipy netcdf_file (BSD-3-Clause) and olefile (BSD-2-Clause) are also run as oracles
+- pylibCZIrw is also run to write synthetic CZI test fixtures (oracle/make_czi_fixtures.py); the fixtures are data, not code
+
+Controlled vocabularies (term ids and labels only, in crates/openreadout-core/src/vocab.rs;
+no ontology files are distributed; see book/src/guides/metadata.md):
+- PSI-MS controlled vocabulary 4.2.2 — HUPO Proteomics Standards Initiative, CC BY 3.0, https://github.com/HUPO-PSI/psi-ms-CV
+- Chemical Methods Ontology (CHMO) 2026-05-28 — Royal Society of Chemistry, CC BY 4.0, https://github.com/rsc-ontologies/rsc-cmo
+- Biological Imaging Methods Ontology (FBbi) 2026-06-25 — CC BY 4.0, https://github.com/CRBS/Biological_Imaging_Methods_Ontology
+- Ontology for Biomedical Investigations (OBI) 2026-07-27 — OBI Consortium, CC BY 4.0, https://github.com/obi-ontology/obi
+- Unified Code for Units of Measure (UCUM) 2.2 — Copyright (c) 1998-2024 Regenstrief Institute, Inc. and
+  the UCUM Organization; unit codes used unmodified under the UCUM License, https://ucum.org/license
+  (provided "as is", without warranty)
+
+Trademarks: see TRADEMARKS.md.

@@ -1,0 +1,14 @@
+{
+ "id": "zenodo10577621-Young-mouse",
+ "file": "zenodo10577621-Young-mouse.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 190309,
+   "size_y": 69378,
+   "planes": [],
+   "skip": "larger than ORACLE_MAX_PIXELS"
+  }
+ ]
+}

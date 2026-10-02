@@ -1,0 +1,371 @@
+{
+ "id": "mzdata-small-mzmlb",
+ "file": "mzdata-small-mzmlb.mzMLb",
+ "format": "mzmlb",
+ "family": "mass-spectrometry",
+ "readers": [
+  "pyopenms 3.5.0 (BSD-3) on the file",
+  "the file header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}#len",
+   "theirs": 48,
+   "cmp": "exact"
+  },
+  {
+   "field": "MS1 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/1",
+   "theirs": 14,
+   "cmp": "exact"
+  },
+  {
+   "field": "MS2 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/2",
+   "theirs": 34,
+   "cmp": "exact"
+  },
+  {
+   "field": "first retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#min",
+   "theirs": 0.29610000000000003,
+   "cmp": "num",
+   "abs": 0.001
+  },
+  {
+   "field": "last retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#max",
+   "theirs": 29.23420000002,
+   "cmp": "num",
+   "abs": 0.001
+  },
+  {
+   "field": "polarities",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/parameters/polarity/value",
+   "theirs": [
+    "positive"
+   ],
+   "cmp": "set"
+  },
+  {
+   "field": "scan MS level",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "controllerType=0 controllerNumber=1 scan=1": 1,
+    "controllerType=0 controllerNumber=1 scan=2": 1,
+    "controllerType=0 controllerNumber=1 scan=3": 2,
+    "controllerType=0 controllerNumber=1 scan=4": 2,
+    "controllerType=0 controllerNumber=1 scan=5": 2,
+    "controllerType=0 controllerNumber=1 scan=6": 2,
+    "controllerType=0 controllerNumber=1 scan=7": 2,
+    "controllerType=0 controllerNumber=1 scan=8": 1,
+    "controllerType=0 controllerNumber=1 scan=9": 1,
+    "controllerType=0 controllerNumber=1 scan=10": 2,
+    "controllerType=0 controllerNumber=1 scan=11": 2,
+    "controllerType=0 controllerNumber=1 scan=12": 2,
+    "controllerType=0 controllerNumber=1 scan=13": 2,
+    "controllerType=0 controllerNumber=1 scan=14": 2,
+    "controllerType=0 controllerNumber=1 scan=15": 1,
+    "controllerType=0 controllerNumber=1 scan=16": 1,
+    "controllerType=0 controllerNumber=1 scan=17": 2,
+    "controllerType=0 controllerNumber=1 scan=18": 2,
+    "controllerType=0 controllerNumber=1 scan=19": 2,
+    "controllerType=0 controllerNumber=1 scan=20": 2,
+    "controllerType=0 controllerNumber=1 scan=21": 2,
+    "controllerType=0 controllerNumber=1 scan=22": 1,
+    "controllerType=0 controllerNumber=1 scan=23": 1,
+    "controllerType=0 controllerNumber=1 scan=24": 2,
+    "controllerType=0 controllerNumber=1 scan=25": 2,
+    "controllerType=0 controllerNumber=1 scan=26": 2,
+    "controllerType=0 controllerNumber=1 scan=27": 2,
+    "controllerType=0 controllerNumber=1 scan=28": 2,
+    "controllerType=0 controllerNumber=1 scan=29": 1,
+    "controllerType=0 controllerNumber=1 scan=30": 1,
+    "controllerType=0 controllerNumber=1 scan=31": 2,
+    "controllerType=0 controllerNumber=1 scan=32": 2,
+    "controllerType=0 controllerNumber=1 scan=33": 2,
+    "controllerType=0 controllerNumber=1 scan=34": 2,
+    "controllerType=0 controllerNumber=1 scan=35": 1,
+    "controllerType=0 controllerNumber=1 scan=36": 1,
+    "controllerType=0 controllerNumber=1 scan=37": 2,
+    "controllerType=0 controllerNumber=1 scan=38": 2,
+    "controllerType=0 controllerNumber=1 scan=39": 2,
+    "controllerType=0 controllerNumber=1 scan=40": 2,
+    "controllerType=0 controllerNumber=1 scan=41": 2,
+    "controllerType=0 controllerNumber=1 scan=42": 1,
+    "controllerType=0 controllerNumber=1 scan=43": 1,
+    "controllerType=0 controllerNumber=1 scan=44": 2,
+    "controllerType=0 controllerNumber=1 scan=45": 2,
+    "controllerType=0 controllerNumber=1 scan=46": 2,
+    "controllerType=0 controllerNumber=1 scan=47": 2,
+    "controllerType=0 controllerNumber=1 scan=48": 2
+   },
+   "cmp": "exact",
+   "by": "/native_id",
+   "each": "/ms_level"
+  },
+  {
+   "field": "scan retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "controllerType=0 controllerNumber=1 scan=1": 0.29610000000000003,
+    "controllerType=0 controllerNumber=1 scan=2": 0.47380000002,
+    "controllerType=0 controllerNumber=1 scan=3": 0.67309999998,
+    "controllerType=0 controllerNumber=1 scan=4": 1.37029999998,
+    "controllerType=0 controllerNumber=1 scan=5": 2.0955,
+    "controllerType=0 controllerNumber=1 scan=6": 2.9172,
+    "controllerType=0 controllerNumber=1 scan=7": 3.71539999998,
+    "controllerType=0 controllerNumber=1 scan=8": 4.5009,
+    "controllerType=0 controllerNumber=1 scan=9": 4.66729999998,
+    "controllerType=0 controllerNumber=1 scan=10": 4.87219999998,
+    "controllerType=0 controllerNumber=1 scan=11": 5.574199999979999,
+    "controllerType=0 controllerNumber=1 scan=12": 6.28819999998,
+    "controllerType=0 controllerNumber=1 scan=13": 7.0329,
+    "controllerType=0 controllerNumber=1 scan=14": 7.8013000000199995,
+    "controllerType=0 controllerNumber=1 scan=15": 8.607100000019999,
+    "controllerType=0 controllerNumber=1 scan=16": 8.78449999998,
+    "controllerType=0 controllerNumber=1 scan=17": 8.9853,
+    "controllerType=0 controllerNumber=1 scan=18": 9.68650000002,
+    "controllerType=0 controllerNumber=1 scan=19": 10.4022,
+    "controllerType=0 controllerNumber=1 scan=20": 11.19949999998,
+    "controllerType=0 controllerNumber=1 scan=21": 12.0417,
+    "controllerType=0 controllerNumber=1 scan=22": 12.820399999980001,
+    "controllerType=0 controllerNumber=1 scan=23": 13.00480000002,
+    "controllerType=0 controllerNumber=1 scan=24": 13.20439999998,
+    "controllerType=0 controllerNumber=1 scan=25": 13.97539999998,
+    "controllerType=0 controllerNumber=1 scan=26": 14.6847,
+    "controllerType=0 controllerNumber=1 scan=27": 15.550300000019998,
+    "controllerType=0 controllerNumber=1 scan=28": 16.35979999998,
+    "controllerType=0 controllerNumber=1 scan=29": 17.128999999980003,
+    "controllerType=0 controllerNumber=1 scan=30": 17.33389999998,
+    "controllerType=0 controllerNumber=1 scan=31": 18.22219999998,
+    "controllerType=0 controllerNumber=1 scan=32": 18.939,
+    "controllerType=0 controllerNumber=1 scan=33": 19.71160000002,
+    "controllerType=0 controllerNumber=1 scan=34": 20.574900000000003,
+    "controllerType=0 controllerNumber=1 scan=35": 21.513499999980002,
+    "controllerType=0 controllerNumber=1 scan=36": 21.68569999998,
+    "controllerType=0 controllerNumber=1 scan=37": 21.8853,
+    "controllerType=0 controllerNumber=1 scan=38": 22.59469999998,
+    "controllerType=0 controllerNumber=1 scan=39": 23.32039999998,
+    "controllerType=0 controllerNumber=1 scan=40": 24.11770000002,
+    "controllerType=0 controllerNumber=1 scan=41": 24.90790000002,
+    "controllerType=0 controllerNumber=1 scan=42": 25.708999999979998,
+    "controllerType=0 controllerNumber=1 scan=43": 25.99330000002,
+    "controllerType=0 controllerNumber=1 scan=44": 26.19400000002,
+    "controllerType=0 controllerNumber=1 scan=45": 26.8992,
+    "controllerType=0 controllerNumber=1 scan=46": 27.6339,
+    "controllerType=0 controllerNumber=1 scan=47": 28.386199999979997,
+    "controllerType=0 controllerNumber=1 scan=48": 29.23420000002
+   },
+   "cmp": "num",
+   "abs": 0.001,
+   "by": "/native_id",
+   "each": "/rt_s"
+  },
+  {
+   "field": "scan polarity",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "controllerType=0 controllerNumber=1 scan=1": "positive",
+    "controllerType=0 controllerNumber=1 scan=2": "positive",
+    "controllerType=0 controllerNumber=1 scan=3": "positive",
+    "controllerType=0 controllerNumber=1 scan=4": "positive",
+    "controllerType=0 controllerNumber=1 scan=5": "positive",
+    "controllerType=0 controllerNumber=1 scan=6": "positive",
+    "controllerType=0 controllerNumber=1 scan=7": "positive",
+    "controllerType=0 controllerNumber=1 scan=8": "positive",
+    "controllerType=0 controllerNumber=1 scan=9": "positive",
+    "controllerType=0 controllerNumber=1 scan=10": "positive",
+    "controllerType=0 controllerNumber=1 scan=11": "positive",
+    "controllerType=0 controllerNumber=1 scan=12": "positive",
+    "controllerType=0 controllerNumber=1 scan=13": "positive",
+    "controllerType=0 controllerNumber=1 scan=14": "positive",
+    "controllerType=0 controllerNumber=1 scan=15": "positive",
+    "controllerType=0 controllerNumber=1 scan=16": "positive",
+    "controllerType=0 controllerNumber=1 scan=17": "positive",
+    "controllerType=0 controllerNumber=1 scan=18": "positive",
+    "controllerType=0 controllerNumber=1 scan=19": "positive",
+    "controllerType=0 controllerNumber=1 scan=20": "positive",
+    "controllerType=0 controllerNumber=1 scan=21": "positive",
+    "controllerType=0 controllerNumber=1 scan=22": "positive",
+    "controllerType=0 controllerNumber=1 scan=23": "positive",
+    "controllerType=0 controllerNumber=1 scan=24": "positive",
+    "controllerType=0 controllerNumber=1 scan=25": "positive",
+    "controllerType=0 controllerNumber=1 scan=26": "positive",
+    "controllerType=0 controllerNumber=1 scan=27": "positive",
+    "controllerType=0 controllerNumber=1 scan=28": "positive",
+    "controllerType=0 controllerNumber=1 scan=29": "positive",
+    "controllerType=0 controllerNumber=1 scan=30": "positive",
+    "controllerType=0 controllerNumber=1 scan=31": "positive",
+    "controllerType=0 controllerNumber=1 scan=32": "positive",
+    "controllerType=0 controllerNumber=1 scan=33": "positive",
+    "controllerType=0 controllerNumber=1 scan=34": "positive",
+    "controllerType=0 controllerNumber=1 scan=35": "positive",
+    "controllerType=0 controllerNumber=1 scan=36": "positive",
+    "controllerType=0 controllerNumber=1 scan=37": "positive",
+    "controllerType=0 controllerNumber=1 scan=38": "positive",
+    "controllerType=0 controllerNumber=1 scan=39": "positive",
+    "controllerType=0 controllerNumber=1 scan=40": "positive",
+    "controllerType=0 controllerNumber=1 scan=41": "positive",
+    "controllerType=0 controllerNumber=1 scan=42": "positive",
+    "controllerType=0 controllerNumber=1 scan=43": "positive",
+    "controllerType=0 controllerNumber=1 scan=44": "positive",
+    "controllerType=0 controllerNumber=1 scan=45": "positive",
+    "controllerType=0 controllerNumber=1 scan=46": "positive",
+    "controllerType=0 controllerNumber=1 scan=47": "positive",
+    "controllerType=0 controllerNumber=1 scan=48": "positive"
+   },
+   "cmp": "text",
+   "by": "/native_id",
+   "each": "/polarity"
+  },
+  {
+   "field": "scan precursor m/z",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "controllerType=0 controllerNumber=1 scan=3": 810.789428710938,
+    "controllerType=0 controllerNumber=1 scan=4": 837.344604492188,
+    "controllerType=0 controllerNumber=1 scan=5": 725.362060546875,
+    "controllerType=0 controllerNumber=1 scan=6": 558.868957519531,
+    "controllerType=0 controllerNumber=1 scan=7": 812.325317382813,
+    "controllerType=0 controllerNumber=1 scan=10": 810.752807617188,
+    "controllerType=0 controllerNumber=1 scan=11": 837.960815429688,
+    "controllerType=0 controllerNumber=1 scan=12": 644.057067871094,
+    "controllerType=0 controllerNumber=1 scan=13": 725.233520507813,
+    "controllerType=0 controllerNumber=1 scan=14": 559.192749023438,
+    "controllerType=0 controllerNumber=1 scan=17": 811.408081054688,
+    "controllerType=0 controllerNumber=1 scan=18": 837.355712890625,
+    "controllerType=0 controllerNumber=1 scan=19": 643.798217773438,
+    "controllerType=0 controllerNumber=1 scan=20": 558.944213867188,
+    "controllerType=0 controllerNumber=1 scan=21": 725.137451171875,
+    "controllerType=0 controllerNumber=1 scan=24": 810.844604492188,
+    "controllerType=0 controllerNumber=1 scan=25": 837.415771484375,
+    "controllerType=0 controllerNumber=1 scan=26": 674.638305664063,
+    "controllerType=0 controllerNumber=1 scan=27": 643.739929199219,
+    "controllerType=0 controllerNumber=1 scan=28": 725.3583984375,
+    "controllerType=0 controllerNumber=1 scan=31": 837.386352539063,
+    "controllerType=0 controllerNumber=1 scan=32": 643.796508789063,
+    "controllerType=0 controllerNumber=1 scan=33": 558.749389648438,
+    "controllerType=0 controllerNumber=1 scan=34": 882.45263671875,
+    "controllerType=0 controllerNumber=1 scan=37": 810.734497070313,
+    "controllerType=0 controllerNumber=1 scan=38": 837.346435546875,
+    "controllerType=0 controllerNumber=1 scan=39": 643.725463867188,
+    "controllerType=0 controllerNumber=1 scan=40": 725.6767578125,
+    "controllerType=0 controllerNumber=1 scan=41": 674.698852539063,
+    "controllerType=0 controllerNumber=1 scan=44": 810.818725585938,
+    "controllerType=0 controllerNumber=1 scan=45": 837.778076171875,
+    "controllerType=0 controllerNumber=1 scan=46": 674.841369628906,
+    "controllerType=0 controllerNumber=1 scan=47": 558.899841308594,
+    "controllerType=0 controllerNumber=1 scan=48": 882.535034179688
+   },
+   "cmp": "num",
+   "rel": 1e-06,
+   "by": "/native_id",
+   "each": "/precursor_mz"
+  },
+  {
+   "field": "instrument model",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "LTQ FT",
+   "cmp": "text",
+   "reader": 1
+  },
+  {
+   "field": "instrument serial number",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "SN06061F",
+   "cmp": "text",
+   "reader": 1
+  },
+  {
+   "field": "acquisition software version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/software_version",
+   "theirs": "1.1 Beta 7",
+   "cmp": "prefix",
+   "reader": 1
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2005-07-20T18:44:22Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 1
+  }
+ ]
+}

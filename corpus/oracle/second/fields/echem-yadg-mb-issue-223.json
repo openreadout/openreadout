@@ -1,0 +1,31 @@
+{
+ "id": "echem-yadg-mb-issue-223",
+ "file": "echem-yadg-mb-issue-223.mpr",
+ "format": "biologic-mpr",
+ "family": "bench",
+ "readers": [
+  "the EC-Lab export of the same run (echem-yadg-mb-issue-223.mpt) text header, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "Acquisition started on",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-07-30T09:24:35.408000",
+   "cmp": "time"
+  },
+  {
+   "field": "Device",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "MPG-2",
+   "cmp": "loose"
+  }
+ ]
+}

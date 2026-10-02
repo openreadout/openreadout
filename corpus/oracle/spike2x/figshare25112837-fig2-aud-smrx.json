@@ -1,0 +1,248 @@
+{
+ "export": "Spike2 MATLAB export Fig_2_2367_200303_E210_aud_0.mat",
+ "traces": [
+  {
+   "title": "FC_Real",
+   "sample_count": 3152721,
+   "start_s": 5.4e-05,
+   "interval_s": 9.999999999999999e-05,
+   "unit": "",
+   "comment": "STIM",
+   "gain": 0.000152587890625,
+   "offset": 0.0,
+   "codes_xxh3": "334524cf8497e841dde1387b8a83fdb8",
+   "codes_first": [
+    7,
+    2,
+    22,
+    25,
+    33,
+    13,
+    9,
+    20
+   ]
+  },
+  {
+   "title": "Lick",
+   "sample_count": 3152721,
+   "start_s": 2.4e-05,
+   "interval_s": 9.999999999999999e-05,
+   "unit": "",
+   "comment": "",
+   "gain": 0.000152587890625,
+   "offset": 0.0,
+   "codes_xxh3": "c0b17e97955cf2dff973703e3b83de18",
+   "codes_first": [
+    91,
+    93,
+    91,
+    87,
+    88,
+    90,
+    94,
+    89
+   ]
+  },
+  {
+   "title": "OldstmIN",
+   "sample_count": 3152721,
+   "start_s": 0.0,
+   "interval_s": 9.999999999999999e-05,
+   "unit": "",
+   "comment": "",
+   "gain": 0.000152587890625,
+   "offset": 0.0,
+   "codes_xxh3": "e484004154fbb972797785373db287d8",
+   "codes_first": [
+    -20,
+    -22,
+    -26,
+    -27,
+    -21,
+    -23,
+    -23,
+    -22
+   ]
+  },
+  {
+   "title": "Piezo_Co",
+   "sample_count": 3152721,
+   "start_s": 9.4e-05,
+   "interval_s": 9.999999999999999e-05,
+   "unit": "",
+   "comment": "",
+   "gain": 0.000152587890625,
+   "offset": 0.0,
+   "codes_xxh3": "e65d4ed952796bba604530736a338f57",
+   "codes_first": [
+    31,
+    30,
+    27,
+    30,
+    32,
+    29,
+    27,
+    30
+   ]
+  },
+  {
+   "title": "Pupil",
+   "sample_count": 1576361,
+   "start_s": 6.4e-05,
+   "interval_s": 0.00019999999999999998,
+   "unit": "",
+   "comment": "PUPIL",
+   "gain": 0.000152587890625,
+   "offset": 0.0,
+   "processed_at_export": true
+  },
+  {
+   "title": "photoDio",
+   "sample_count": 1576361,
+   "start_s": 4.4e-05,
+   "interval_s": 0.00019999999999999998,
+   "unit": "",
+   "comment": "",
+   "gain": 0.000152587890625,
+   "offset": 0.0,
+   "codes_xxh3": "ef3a04fe8777d9a858b670b6034bc4e6",
+   "codes_first": [
+    -2,
+    -2,
+    -2,
+    -2,
+    -2,
+    -1,
+    -3,
+    -2
+   ]
+  },
+  {
+   "title": "sound ef",
+   "sample_count": 10509070,
+   "start_s": 2e-06,
+   "interval_s": 2.9999999999999997e-05,
+   "unit": "",
+   "comment": "",
+   "gain": 0.000152587890625,
+   "offset": 0.0,
+   "codes_xxh3": "80b1bbcc38f3b3146cf0ebfbee358291",
+   "codes_first": [
+    -53,
+    11,
+    28,
+    20,
+    -26,
+    -13,
+    8,
+    2
+   ]
+  },
+  {
+   "title": "stim_out",
+   "sample_count": 3152721,
+   "start_s": 3.4e-05,
+   "interval_s": 9.999999999999999e-05,
+   "unit": "",
+   "comment": "",
+   "gain": 0.000152587890625,
+   "offset": 0.0,
+   "codes_xxh3": "a7f21fbf633056b918bc21ba0508e357",
+   "codes_first": [
+    32605,
+    32591,
+    32609,
+    32594,
+    32584,
+    32597,
+    32586,
+    32599
+   ]
+  },
+  {
+   "title": "walk",
+   "sample_count": 1576361,
+   "start_s": 1.4e-05,
+   "interval_s": 0.00019999999999999998,
+   "unit": "cm/s",
+   "comment": "encoder",
+   "gain": 0.152587890625,
+   "offset": -3001.5,
+   "processed_at_export": true
+  },
+  {
+   "title": "wfcam_tr",
+   "sample_count": 1576361,
+   "start_s": 7.4e-05,
+   "interval_s": 0.00019999999999999998,
+   "unit": "",
+   "comment": "",
+   "gain": 0.000152587890625,
+   "offset": 0.0,
+   "codes_xxh3": "542283fb4e5ece847417570f0127d5e7",
+   "codes_first": [
+    147,
+    144,
+    146,
+    156,
+    150,
+    146,
+    149,
+    141
+   ]
+  },
+  {
+   "title": "whisk",
+   "sample_count": 1576361,
+   "start_s": 8.4e-05,
+   "interval_s": 0.00019999999999999998,
+   "unit": "",
+   "comment": "",
+   "gain": 0.000152587890625,
+   "offset": 0.0,
+   "codes_xxh3": "5f1fbc2b2b6dbedeb974403b529e0ef2",
+   "codes_first": [
+    670,
+    669,
+    669,
+    673,
+    672,
+    672,
+    674,
+    675
+   ]
+  }
+ ],
+ "events": [
+  {
+   "title": "Keyboard",
+   "count": 0,
+   "ticks_xxh3": "99aa06d3014798d86001c324468d497f",
+   "ticks_first": [],
+   "tick_s": 2e-06
+  },
+  {
+   "title": "WFframec",
+   "count": 15764,
+   "ticks_xxh3": "f466b901906a9dc6fc53508675af7a4e",
+   "ticks_first": [
+    6631,
+    16631,
+    26631,
+    36631,
+    46631,
+    56632,
+    66632,
+    76632
+   ],
+   "tick_s": 2e-06
+  },
+  {
+   "title": "camera",
+   "count": 0,
+   "ticks_xxh3": "99aa06d3014798d86001c324468d497f",
+   "ticks_first": [],
+   "tick_s": 2e-06
+  }
+ ]
+}

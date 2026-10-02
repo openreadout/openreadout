@@ -1,0 +1,20 @@
+{
+ "id": "aics-tiff-4c-3z-pyramid",
+ "file": "aics-4c_3Z_pyramid.tiff",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 924,
+   "size_y": 624,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3caa739f1e30bdff46f1e5c60ca87621"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,366 @@
+{
+ "id": "pwiz-waters-091204-nfdm-008",
+ "file": "pwiz-waters/091204_NFDM_008.raw",
+ "format": "waters-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "the .raw's _HEADER.TXT (MassLynx text header), read as text",
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (091204_NFDM_008.mzML)",
+  "the vendor-library conversion (091204_NFDM_008.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "acquisition start (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2009-12-04T16:38:54",
+   "cmp": "time"
+  },
+  {
+   "field": "instrument (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "JAA143 Synapt MS",
+   "cmp": "text"
+  },
+  {
+   "field": "sample description (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/name",
+   "theirs": "NFDM, 20 x 1 ug/uL",
+   "cmp": "text"
+  },
+  {
+   "field": "acquired name (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "091204_NFDM_008",
+   "cmp": "text"
+  },
+  {
+   "field": "spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}#len",
+   "theirs": 41,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "MS1 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/1",
+   "theirs": 20,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "MS2 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/2",
+   "theirs": 21,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "first retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#min",
+   "theirs": 1.3150000199399998,
+   "cmp": "num",
+   "abs": 0.001,
+   "reader": 1
+  },
+  {
+   "field": "last retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#max",
+   "theirs": 30.425999164560004,
+   "cmp": "num",
+   "abs": 0.001,
+   "reader": 1
+  },
+  {
+   "field": "polarities",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/parameters/polarity/value",
+   "theirs": [
+    "positive"
+   ],
+   "cmp": "set",
+   "reader": 1
+  },
+  {
+   "field": "scan MS level",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=10 process=0 scan=1": 1,
+    "function=1 process=0 scan=1": 1,
+    "function=1 process=0 scan=2": 1,
+    "function=3 process=0 scan=1": 2,
+    "function=4 process=0 scan=1": 2,
+    "function=5 process=0 scan=1": 2,
+    "function=6 process=0 scan=1": 2,
+    "function=7 process=0 scan=1": 2,
+    "function=8 process=0 scan=1": 2,
+    "function=9 process=0 scan=1": 2,
+    "function=2 process=0 scan=1": 2,
+    "function=2 process=0 scan=2": 2,
+    "function=1 process=0 scan=3": 1,
+    "function=1 process=0 scan=4": 1,
+    "function=2 process=0 scan=3": 2,
+    "function=3 process=0 scan=2": 2,
+    "function=3 process=0 scan=3": 2,
+    "function=1 process=0 scan=5": 1,
+    "function=1 process=0 scan=6": 1,
+    "function=10 process=0 scan=2": 1,
+    "function=1 process=0 scan=7": 1,
+    "function=1 process=0 scan=8": 1,
+    "function=2 process=0 scan=4": 2,
+    "function=3 process=0 scan=4": 2,
+    "function=4 process=0 scan=2": 2,
+    "function=5 process=0 scan=2": 2,
+    "function=6 process=0 scan=2": 2,
+    "function=7 process=0 scan=2": 2,
+    "function=8 process=0 scan=2": 2,
+    "function=9 process=0 scan=2": 2,
+    "function=9 process=0 scan=3": 2,
+    "function=1 process=0 scan=9": 1,
+    "function=1 process=0 scan=10": 1,
+    "function=1 process=0 scan=11": 1,
+    "function=1 process=0 scan=12": 1,
+    "function=1 process=0 scan=13": 1,
+    "function=1 process=0 scan=14": 1,
+    "function=1 process=0 scan=15": 1,
+    "function=10 process=0 scan=3": 1,
+    "function=1 process=0 scan=16": 1,
+    "function=1 process=0 scan=17": 1
+   },
+   "cmp": "exact",
+   "by": "/native_id",
+   "each": "/ms_level",
+   "reader": 1
+  },
+  {
+   "field": "scan retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=10 process=0 scan=1": 1.3150000199399998,
+    "function=1 process=0 scan=1": 2.39500008522,
+    "function=1 process=0 scan=2": 3.4130001068399998,
+    "function=3 process=0 scan=1": 3.93500000238,
+    "function=4 process=0 scan=1": 4.456999897979999,
+    "function=5 process=0 scan=1": 4.97400015594,
+    "function=6 process=0 scan=1": 5.497000068419999,
+    "function=7 process=0 scan=1": 6.01899996402,
+    "function=8 process=0 scan=1": 6.5419998765,
+    "function=9 process=0 scan=1": 7.0640002191,
+    "function=2 process=0 scan=1": 7.587000131580001,
+    "function=2 process=0 scan=2": 8.1029999256,
+    "function=1 process=0 scan=3": 9.1219997406,
+    "function=1 process=0 scan=4": 10.146000087240001,
+    "function=2 process=0 scan=3": 10.667999982840001,
+    "function=3 process=0 scan=2": 11.1850002408,
+    "function=3 process=0 scan=3": 11.7070001364,
+    "function=1 process=0 scan=5": 12.73099958898,
+    "function=1 process=0 scan=6": 13.74800026416,
+    "function=10 process=0 scan=2": 14.04799997808,
+    "function=1 process=0 scan=7": 15.14599978926,
+    "function=1 process=0 scan=8": 16.168999671959998,
+    "function=2 process=0 scan=4": 16.69100046156,
+    "function=3 process=0 scan=4": 17.2140008211,
+    "function=4 process=0 scan=2": 17.735999822639997,
+    "function=5 process=0 scan=2": 18.25900018218,
+    "function=6 process=0 scan=2": 18.78099918366,
+    "function=7 process=0 scan=2": 19.3039995432,
+    "function=8 process=0 scan=2": 19.82600033286,
+    "function=9 process=0 scan=2": 20.34799933434,
+    "function=9 process=0 scan=3": 20.86399912836,
+    "function=1 process=0 scan=9": 21.883000731480003,
+    "function=1 process=0 scan=10": 22.906000614179998,
+    "function=1 process=0 scan=11": 23.92299950124,
+    "function=1 process=0 scan=12": 24.94700074194,
+    "function=1 process=0 scan=13": 25.96499919894,
+    "function=1 process=0 scan=14": 26.98800086976,
+    "function=1 process=0 scan=15": 28.004999756820002,
+    "function=10 process=0 scan=3": 28.30600082874,
+    "function=1 process=0 scan=16": 29.402999281859998,
+    "function=1 process=0 scan=17": 30.425999164560004
+   },
+   "cmp": "num",
+   "abs": 0.001,
+   "by": "/native_id",
+   "each": "/rt_s",
+   "reader": 1
+  },
+  {
+   "field": "scan polarity",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=10 process=0 scan=1": "positive",
+    "function=1 process=0 scan=1": "positive",
+    "function=1 process=0 scan=2": "positive",
+    "function=3 process=0 scan=1": "positive",
+    "function=4 process=0 scan=1": "positive",
+    "function=5 process=0 scan=1": "positive",
+    "function=6 process=0 scan=1": "positive",
+    "function=7 process=0 scan=1": "positive",
+    "function=8 process=0 scan=1": "positive",
+    "function=9 process=0 scan=1": "positive",
+    "function=2 process=0 scan=1": "positive",
+    "function=2 process=0 scan=2": "positive",
+    "function=1 process=0 scan=3": "positive",
+    "function=1 process=0 scan=4": "positive",
+    "function=2 process=0 scan=3": "positive",
+    "function=3 process=0 scan=2": "positive",
+    "function=3 process=0 scan=3": "positive",
+    "function=1 process=0 scan=5": "positive",
+    "function=1 process=0 scan=6": "positive",
+    "function=10 process=0 scan=2": "positive",
+    "function=1 process=0 scan=7": "positive",
+    "function=1 process=0 scan=8": "positive",
+    "function=2 process=0 scan=4": "positive",
+    "function=3 process=0 scan=4": "positive",
+    "function=4 process=0 scan=2": "positive",
+    "function=5 process=0 scan=2": "positive",
+    "function=6 process=0 scan=2": "positive",
+    "function=7 process=0 scan=2": "positive",
+    "function=8 process=0 scan=2": "positive",
+    "function=9 process=0 scan=2": "positive",
+    "function=9 process=0 scan=3": "positive",
+    "function=1 process=0 scan=9": "positive",
+    "function=1 process=0 scan=10": "positive",
+    "function=1 process=0 scan=11": "positive",
+    "function=1 process=0 scan=12": "positive",
+    "function=1 process=0 scan=13": "positive",
+    "function=1 process=0 scan=14": "positive",
+    "function=1 process=0 scan=15": "positive",
+    "function=10 process=0 scan=3": "positive",
+    "function=1 process=0 scan=16": "positive",
+    "function=1 process=0 scan=17": "positive"
+   },
+   "cmp": "text",
+   "by": "/native_id",
+   "each": "/polarity",
+   "reader": 1
+  },
+  {
+   "field": "scan precursor m/z",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=3 process=0 scan=1": 568.349,
+    "function=4 process=0 scan=1": 954.559,
+    "function=5 process=0 scan=1": 647.353,
+    "function=6 process=0 scan=1": 1568.94,
+    "function=7 process=0 scan=1": 390.748,
+    "function=8 process=0 scan=1": 305.154,
+    "function=9 process=0 scan=1": 1229.81,
+    "function=2 process=0 scan=1": 1262.26,
+    "function=2 process=0 scan=2": 1262.26,
+    "function=2 process=0 scan=3": 569.364,
+    "function=3 process=0 scan=2": 349.177,
+    "function=3 process=0 scan=3": 349.177,
+    "function=2 process=0 scan=4": 1261.76,
+    "function=3 process=0 scan=4": 955.556,
+    "function=4 process=0 scan=2": 954.052,
+    "function=5 process=0 scan=2": 1262.76,
+    "function=6 process=0 scan=2": 1230.81,
+    "function=7 process=0 scan=2": 1569.93,
+    "function=8 process=0 scan=2": 1568.44,
+    "function=9 process=0 scan=2": 646.348,
+    "function=9 process=0 scan=3": 646.348
+   },
+   "cmp": "num",
+   "rel": 1e-05,
+   "by": "/native_id",
+   "each": "/precursor_mz",
+   "reader": 1
+  },
+  {
+   "field": "acquisition software version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/software_version",
+   "theirs": "4.1",
+   "cmp": "prefix",
+   "reader": 2
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2009-12-04T16:38:54Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 2
+  }
+ ]
+}

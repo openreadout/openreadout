@@ -1,0 +1,99 @@
+{
+ "id": "pwiz-thermo-ft-hcd-msx",
+ "file": "FT-HCD-MSX.raw",
+ "size": 78309,
+ "sha256": "b3d97b3856dd1e8dd6846d21c58b1b1824c309480908fe4c2dfabe152bd6dd7b",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 on the depositor's mzML (FT-HCD-MSX.mzML)",
+ "paired_export": "FT-HCD-MSX.mzML",
+ "export_software": [
+  [
+   "Xcalibur",
+   ""
+  ],
+  [
+   "pwiz",
+   "3.0.23188"
+  ]
+ ],
+ "peak_picking_in_export": false,
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "controllerType=0 controllerNumber=1 scan=1",
+    "ms_level": 2,
+    "rt_s": 1601.28912,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": "FTMS + c NSI Full msx ms2 522.99@hcd27.00 698.07@hcd27.00 502.98@hcd27.00 768.10@hcd27.00 [70.00-1590.00]",
+    "precursor_mz": 522.987607,
+    "precursor_charge": null,
+    "isolation_target_mz": 522.987607,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 27.0,
+    "total_ion_current": 136441170.0,
+    "base_peak_mz": 86.0967517,
+    "n_peaks": 1504,
+    "n_nonzero": 1504,
+    "mz_bits": 32,
+    "xxh3_mz": "140d7d68a132451cf14b746b40e4d0a0",
+    "xxh3_intensity": "a962594d64c58afd237c11ed2c53a58d",
+    "xxh3_mz_nonzero": "140d7d68a132451cf14b746b40e4d0a0",
+    "xxh3_intensity_nonzero": "a962594d64c58afd237c11ed2c53a58d",
+    "sum_intensity": 135019401.35791016,
+    "mz_min": 70.02922821044922,
+    "mz_max": 1430.7952880859375,
+    "first_peaks": [
+     [
+      70.02922821044922,
+      77060.4765625
+     ],
+     [
+      70.04566955566406,
+      12398.2294921875
+     ],
+     [
+      70.04747009277344,
+      8588.8935546875
+     ],
+     [
+      70.0656509399414,
+      7664051.5
+     ],
+     [
+      70.08463287353516,
+      26488.14453125
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      70.02922821044922,
+      77060.4765625
+     ],
+     [
+      70.04566955566406,
+      12398.2294921875
+     ],
+     [
+      70.04747009277344,
+      8588.8935546875
+     ],
+     [
+      70.0656509399414,
+      7664051.5
+     ],
+     [
+      70.08463287353516,
+      26488.14453125
+     ]
+    ]
+   }
+  ]
+ }
+}

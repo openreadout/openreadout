@@ -1,0 +1,31 @@
+{
+ "id": "echem-zenodo7245929-rde-eis-dimethyl",
+ "file": "echem-zenodo7245929-rde-eis-dimethyl.DTA",
+ "format": "gamry-dta",
+ "family": "bench",
+ "readers": [
+  "gamry-parser 0.4.6 (MIT) header"
+ ],
+ "checks": [
+  {
+   "field": "DATE TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2020-06-05T15:56:12",
+   "cmp": "time"
+  },
+  {
+   "field": "PSTAT (potentiostat label)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "IFC5000-04580",
+   "cmp": "text"
+  }
+ ]
+}

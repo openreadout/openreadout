@@ -1,0 +1,22 @@
+{
+ "id": "mtbls390-wb-cc-bat-01-cdf",
+ "file": "mtbls390-WB_CC_BAT_01.cdf",
+ "format": "andi-chrom",
+ "family": "chromatography",
+ "readers": [
+  "scipy 1.18.1 netcdf_file: the file's global attributes (ANDI, ASTM E1947)"
+ ],
+ "checks": [
+  {
+   "field": "injection_date_time_stamp",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2013-05-07T12:30:00+00:00",
+   "cmp": "time",
+   "zone": true
+  }
+ ]
+}

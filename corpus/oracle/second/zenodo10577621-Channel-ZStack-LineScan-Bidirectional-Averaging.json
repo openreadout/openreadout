@@ -1,0 +1,26 @@
+{
+ "id": "zenodo10577621-Channel-ZStack-LineScan-Bidirectional-Averaging",
+ "file": "zenodo10577621-Channel-ZStack-LineScan-Bidirectional-Averaging.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 1,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0897f265708c42659e27106e9c62e4ae"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8d8359c10e397ddada597d9225f13ac9"
+    }
+   ]
+  }
+ ]
+}

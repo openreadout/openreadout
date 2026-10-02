@@ -1,0 +1,72 @@
+{
+ "id": "aics-OverViewScan-ome-tiff",
+ "file": "aics-OverViewScan.ome.tiff",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 7400,
+   "size_y": 3216,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "12cf98f8aace0a2f17b1cf051852a73e"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 3700,
+   "size_y": 1608,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "151c064e78fadcabc0ac15c8badfe221"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "size_x": 1850,
+   "size_y": 804,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5211c01a76771d56a4a541e012665cc2"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "size_x": 925,
+   "size_y": 402,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9e1547080cf968619f5b3808606e265d"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "size_x": 422,
+   "size_y": 2030,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a28444f09780b64ec8df0d515c8343d3"
+    }
+   ]
+  }
+ ]
+}

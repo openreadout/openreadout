@@ -1,0 +1,722 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PreviewOutput",
+  "description": "Output of `preview`: what was rendered, and where it went.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input file.",
+      "type": "string"
+    },
+    "kind": {
+      "description": "`image`, `trace`, `spectrum` or `plate`.",
+      "type": "string"
+    },
+    "output": {
+      "description": "The written file (CLI); absent when the preview is returned inline (MCP image content).",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "encoding": {
+      "description": "`png` or `jpeg`.",
+      "type": "string"
+    },
+    "width": {
+      "description": "Image width in pixels.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "height": {
+      "description": "Image height in pixels.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "bytes": {
+      "description": "Size of the encoded image.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "xxh3": {
+      "description": "xxh3-128 of the encoded bytes, 32 hex chars (identical across runs for the same request).",
+      "type": "string"
+    },
+    "verified": {
+      "description": "True once a written file was read back and matched.",
+      "type": "boolean"
+    },
+    "image": {
+      "description": "Present for image previews.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ImagePreview"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "trace": {
+      "description": "Present for trace previews.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TracePreview"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "spectrum": {
+      "description": "Present for spectrum previews.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SpectrumPreview"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "plate": {
+      "description": "Present for plate previews.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PlatePreview"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "notes": {
+      "description": "Anything the caller should know (fallbacks, caps, implied options).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "hint": {
+      "description": "What to do next with the picture (look at it; zoom with a region read off the rulers).",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "kind",
+    "encoding",
+    "width",
+    "height",
+    "bytes",
+    "xxh3",
+    "verified"
+  ],
+  "$defs": {
+    "ImagePreview": {
+      "description": "Details of an image preview.\n\nPNG pixel `(px, py)` inside `plot_area` shows full-resolution source pixel\n`x = source_origin.x + (px - plot_area.x) * source_per_pixel`,\n`y = source_origin.y + (py - plot_area.y) * source_per_pixel_y` (left/top edges of the PNG\npixel), whatever pyramid level, downsample or region was drawn; the ruler labels use the same\nnumbers, so a `region` read off them can be passed straight back.",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "Image index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "level": {
+          "description": "Pyramid level read (0 = full resolution).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "source_width": {
+          "description": "Plane size at that level.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "source_height": {
+          "description": "Plane height at that level.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "region": {
+          "description": "The rectangle drawn, in the pixel coordinates of `level`, when a region was asked for.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Region"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "downsample": {
+          "description": "Block size of the averaging downsample (1 = none).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "c": {
+          "description": "Channels, z-planes and time points used.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        },
+        "z": {
+          "description": "Z indices used.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        },
+        "t": {
+          "description": "Time indices used.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        },
+        "projection": {
+          "description": "`max-z` or `max-t` for a maximum-intensity projection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "composite": {
+          "description": "True when channels were blended into one colour image.",
+          "type": "boolean"
+        },
+        "rgb": {
+          "description": "True when the planes are RGB (samples_per_pixel 3).",
+          "type": "boolean"
+        },
+        "contrast": {
+          "description": "Contrast rule applied (`auto` resolved to what it did, e.g. `percentile:0.1,99.9`).",
+          "type": "string"
+        },
+        "lut": {
+          "description": "`gray`, `channel-color` or `rgb`.",
+          "type": "string"
+        },
+        "channels": {
+          "description": "One entry per channel drawn.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PreviewChannel"
+          }
+        },
+        "axes": {
+          "description": "True when the picture is framed by coordinate rulers (labelled in full-resolution\npixels), with a scale bar when the pixel size is known.",
+          "type": "boolean",
+          "default": false
+        },
+        "grid": {
+          "description": "True when grid lines were drawn over the data at the ruler ticks.",
+          "type": "boolean"
+        },
+        "plot_area": {
+          "description": "The data's rectangle inside the PNG, in PNG pixels (the whole PNG without rulers).",
+          "$ref": "#/$defs/Region",
+          "default": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "source_origin": {
+          "description": "Full-resolution source coordinate of the plot area's top-left corner.",
+          "$ref": "#/$defs/SourcePoint",
+          "default": {
+            "x": 0.0,
+            "y": 0.0
+          }
+        },
+        "source_per_pixel": {
+          "description": "Full-resolution source pixels per PNG pixel, horizontally (pyramid level scale ×\n`downsample`).",
+          "type": "number",
+          "format": "double",
+          "default": 0.0
+        },
+        "source_per_pixel_y": {
+          "description": "Full-resolution source pixels per PNG pixel, vertically (equal to `source_per_pixel` up\nto the rounding of pyramid level sizes).",
+          "type": "number",
+          "format": "double",
+          "default": 0.0
+        },
+        "full_res_region": {
+          "description": "The full-resolution (level 0) rectangle the plot area shows: pass it, or a part of it,\nback as `region` to zoom.",
+          "$ref": "#/$defs/Region",
+          "default": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "scale_bar": {
+          "description": "The scale bar drawn, when the physical pixel size is known.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ScaleBar"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "image",
+        "level",
+        "source_width",
+        "source_height",
+        "downsample",
+        "c",
+        "z",
+        "t",
+        "composite",
+        "rgb",
+        "contrast",
+        "lut",
+        "channels"
+      ]
+    },
+    "Region": {
+      "description": "A rectangle of a plane, in the pixel coordinates of the resolution level it is read at.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "description": "Left edge (column of the first pixel).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "y": {
+          "description": "Top edge (row of the first pixel).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "width": {
+          "description": "Width in pixels (at least 1).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "height": {
+          "description": "Height in pixels (at least 1).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ]
+    },
+    "PreviewChannel": {
+      "description": "One channel of an image preview.",
+      "type": "object",
+      "properties": {
+        "index": {
+          "description": "C index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "Channel name, if recorded.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "color": {
+          "description": "Display colour `#RRGGBB` (`#FFFFFF` with the gray LUT).",
+          "type": "string"
+        },
+        "color_source": {
+          "description": "Where the colour came from: `file` (`channels[].color`), `wavelength`, `palette` or `lut`.",
+          "type": "string"
+        },
+        "display_min": {
+          "description": "Sample value shown as black.",
+          "type": "number",
+          "format": "double"
+        },
+        "display_max": {
+          "description": "Sample value shown at full brightness.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "index",
+        "color",
+        "color_source",
+        "display_min",
+        "display_max"
+      ]
+    },
+    "SourcePoint": {
+      "description": "A point in full-resolution (level 0) source pixel coordinates.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "description": "Column (may be fractional on a downsampled pyramid level).",
+          "type": "number",
+          "format": "double"
+        },
+        "y": {
+          "description": "Row.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "ScaleBar": {
+      "description": "The scale bar drawn under an image preview.",
+      "type": "object",
+      "properties": {
+        "length": {
+          "description": "Length as labelled (e.g. `50`).",
+          "type": "number",
+          "format": "double"
+        },
+        "unit": {
+          "description": "Unit of the label: `nm`, `µm` or `mm`.",
+          "type": "string"
+        },
+        "length_um": {
+          "description": "Length in µm.",
+          "type": "number",
+          "format": "double"
+        },
+        "pixels": {
+          "description": "Length in PNG pixels.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "length",
+        "unit",
+        "length_um",
+        "pixels"
+      ]
+    },
+    "TracePreview": {
+      "description": "Details of a trace preview.",
+      "type": "object",
+      "properties": {
+        "trace": {
+          "description": "Trace index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "sweep": {
+          "description": "Sweep index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "sample_rate_hz": {
+          "description": "Samples per second.",
+          "type": "number",
+          "format": "double"
+        },
+        "sweep_sample_count": {
+          "description": "Samples in the sweep.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "sample_count": {
+          "description": "Samples drawn (from the start of the sweep).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "truncated": {
+          "description": "True when the sweep is longer than the samples drawn.",
+          "type": "boolean"
+        },
+        "x_axis": {
+          "description": "Label of the horizontal axis, when known.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/XAxis"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "channels": {
+          "description": "One panel per channel, top to bottom.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TracePreviewChannel"
+          }
+        }
+      },
+      "required": [
+        "trace",
+        "sweep",
+        "sample_rate_hz",
+        "sweep_sample_count",
+        "sample_count",
+        "truncated",
+        "channels"
+      ]
+    },
+    "XAxis": {
+      "description": "The horizontal axis of a trace or spectrum preview (the labels at its two ends).",
+      "type": "object",
+      "properties": {
+        "quantity": {
+          "description": "`time`, `chemical_shift`, `mz`, `sample`, … (the reader's `extra.axis.quantity` when set).",
+          "type": "string"
+        },
+        "unit": {
+          "description": "`s`, `min`, `ppm`, `m/z`, … (empty for sample indices).",
+          "type": "string"
+        },
+        "first": {
+          "description": "Value at the left edge.",
+          "type": "number",
+          "format": "double"
+        },
+        "last": {
+          "description": "Value at the right edge (smaller than `first` for NMR chemical shift, which runs right to left).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "quantity",
+        "unit",
+        "first",
+        "last"
+      ]
+    },
+    "TracePreviewChannel": {
+      "description": "One channel of a trace preview.",
+      "type": "object",
+      "properties": {
+        "index": {
+          "description": "Channel index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "Channel name.",
+          "type": "string"
+        },
+        "unit": {
+          "description": "Physical unit of the samples.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "color": {
+          "description": "Line colour `#RRGGBB`.",
+          "type": "string"
+        },
+        "min": {
+          "description": "Bottom and top of the panel's y axis (the channel's finite range, padded by 5 %).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "max": {
+          "description": "Top of the panel's y axis.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "index",
+        "name",
+        "color"
+      ]
+    },
+    "SpectrumPreview": {
+      "description": "Details of a mass-spectrum preview.",
+      "type": "object",
+      "properties": {
+        "run": {
+          "description": "Run index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "index": {
+          "description": "Zero-based spectrum index.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "scan_number": {
+          "description": "Scan number as the instrument counts it.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "ms_level": {
+          "description": "MS level (1 = full scan, 2 = fragment scan, ...).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "rt_s": {
+          "description": "Retention time in seconds; null when the file states none.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "style": {
+          "description": "`sticks` (centroided) or `profile` (a line through the points).",
+          "type": "string"
+        },
+        "point_count": {
+          "description": "Points in the spectrum.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "x_axis": {
+          "description": "m/z range of the x axis.",
+          "$ref": "#/$defs/XAxis"
+        },
+        "max_intensity": {
+          "description": "Largest intensity (the top of the plot).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "precursor_mz": {
+          "description": "Precursor m/z of a fragment (MS2+) scan.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "run",
+        "index",
+        "scan_number",
+        "ms_level",
+        "style",
+        "point_count",
+        "x_axis"
+      ]
+    },
+    "PlatePreview": {
+      "description": "Details of a plate heat map.",
+      "type": "object",
+      "properties": {
+        "table": {
+          "description": "Table index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "layout": {
+          "description": "`wide` (one column per well) or `long` (`well` or `row` + `column` columns).",
+          "type": "string"
+        },
+        "rows": {
+          "description": "Plate geometry, e.g. 8 × 12.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "columns": {
+          "description": "Plate columns (e.g. 12 for a 96-well plate).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "wells": {
+          "description": "Wells with a finite value.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "value": {
+          "description": "What each cell shows (a column name, or `mean of N rows`).",
+          "type": "string"
+        },
+        "min": {
+          "description": "Colour-scale ends (dark = min, yellow = max).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "max": {
+          "description": "Value shown at the yellow end of the scale.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "table",
+        "layout",
+        "rows",
+        "columns",
+        "wells",
+        "value"
+      ]
+    }
+  }
+}

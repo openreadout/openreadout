@@ -1,0 +1,24 @@
+{
+ "reader": "PyCORN 0.19 pc_uni6 (GPL-2.0, black box); allotropy 0.1.146 (MIT)",
+ "curves": [],
+ "allotropy": {},
+ "not_arrays": [
+  "UV",
+  "Cond",
+  "pH",
+  "System pressure",
+  "Cond temp"
+ ],
+ "events": {
+  "Fraction": [],
+  "Logbook_count": 0,
+  "Injection": [
+   [
+    0.0,
+    0.0,
+    "Injection"
+   ]
+  ]
+ },
+ "peak_tables": []
+}

@@ -1,0 +1,63 @@
+{
+ "id": "zenodo18008291-ref-2022-04-26-0001",
+ "file": "zenodo18008291-ref-2022-04-26-0001.abf",
+ "size": 70160,
+ "sha256": "6a18f7c5620e072e45d8cc722fe6fcc322756564463140d033e719d2fdd13b62",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 AxonRawIO",
+ "oracle_note": "pyABF refused the file (Support for float data is not implemented); read with Neo's AxonRawIO instead",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 2,
+   "channel_count": 1,
+   "neo_channel_names": [
+    "IN0"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 20000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8000,
+     "channels": [
+      {
+       "xxh3": "a949cbaca50c795d819e60fb3e89c5a0",
+       "first": [
+        -262.14599609375,
+        -261.8408203125,
+        -261.8408203125,
+        -261.53564453125,
+        -261.23046875,
+        -260.92529296875,
+        -260.31494140625,
+        -259.70458984375
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 1,
+     "sample_count": 8000,
+     "channels": [
+      {
+       "xxh3": "f06bf238366681093c2c34850247b2be",
+       "first": [
+        -308.837890625,
+        -308.53271484375,
+        -308.53271484375,
+        -307.92236328125,
+        -307.31201171875,
+        -307.0068359375,
+        -306.70166015625,
+        -306.396484375
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

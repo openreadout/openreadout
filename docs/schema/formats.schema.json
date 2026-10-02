@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FormatsOutput",
+  "description": "Output of `self formats`.",
+  "type": "object",
+  "properties": {
+    "formats": {
+      "description": "Every registered format, in detection order.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FormatDescriptor"
+      }
+    }
+  },
+  "required": [
+    "formats"
+  ],
+  "$defs": {
+    "FormatDescriptor": {
+      "description": "Static description of a format as the tool understands it.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Short id used on the command line, e.g. `czi`.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Human name, e.g. `Zeiss CZI`.",
+          "type": "string"
+        },
+        "vendor": {
+          "description": "Vendor (nominative use only).",
+          "type": "string"
+        },
+        "extensions": {
+          "description": "File extensions, lowercase, without the dot.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "family": {
+          "description": "Family: `microscopy`, `mass-spectrometry`, `flow-cytometry`, ...",
+          "type": "string"
+        },
+        "can_read": {
+          "description": "True when the tool can read this format.",
+          "type": "boolean"
+        },
+        "can_write": {
+          "description": "True when `export` can also write this format (e.g. mzML, OME-Zarr).",
+          "type": "boolean"
+        },
+        "confidence": {
+          "description": "Overall confidence in this reader.",
+          "$ref": "#/$defs/Confidence"
+        },
+        "known_gaps": {
+          "description": "Things this reader knowingly does not handle yet.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "vendor",
+        "extensions",
+        "family",
+        "can_read",
+        "can_write",
+        "confidence",
+        "known_gaps"
+      ]
+    },
+    "Confidence": {
+      "description": "Per-format confidence summary shown by `info` and `self formats`.",
+      "oneOf": [
+        {
+          "description": "Validated against an oracle across the corpus; structure from vendor docs or a spec.",
+          "type": "string",
+          "const": "high"
+        },
+        {
+          "description": "Validated on the corpus; some fields inferred.",
+          "type": "string",
+          "const": "medium"
+        },
+        {
+          "description": "Early support; expect gaps.",
+          "type": "string",
+          "const": "low"
+        }
+      ]
+    }
+  }
+}

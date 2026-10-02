@@ -1,0 +1,46 @@
+{
+ "flowkit-8c-e01": {
+  "extractor": "evals/routing_facts.py",
+  "facts": {
+   "comp_cd4_hi_cd8_lo": {
+    "how": "scale values, $SPILLOVER compensation, CD4 PE-Cy7 FLR-A > 2000 and CD8 PerCP-Cy55 FLR-A < 500; of 290172",
+    "reader": "flowio 1.4.0 + numpy 2.5.3",
+    "value": 99523
+   }
+  },
+  "file": "flowkit-8c-e01.fcs"
+ },
+ "mtbls773-001-blank-start": {
+  "extractor": "evals/routing_facts.py",
+  "facts": {
+   "pda_280_apex_min": {
+    "how": "argmax of the 280 nm value over the PDA spectra (controllerType=4) of GNPS's mzML",
+    "reader": "pyteomics 5.0.1",
+    "value": 20.39
+   },
+   "pda_lambda_max_at_apex_nm": {
+    "how": "wavelength of the largest value of the spectrum at that apex",
+    "reader": "pyteomics 5.0.1",
+    "value": 252.0
+   },
+   "uv1_apex_min": {
+    "how": "argmax of the conversion's UV 1 chromatogram (channel A, 280 nm, 9 nm band)",
+    "reader": "pyteomics 5.0.1",
+    "value": 20.391666
+   }
+  },
+  "file": "mtbls773-001-blank-start.raw"
+ },
+ "zenodo7015307-Z-5-CH-2": {
+  "extractor": "evals/routing_facts.py",
+  "facts": {
+   "brightest_mip_file": {
+    "how": "per file: mean of every time point's max-over-z projection of channel 2; means stack_1.czi 8038.9, stack_2.czi 16365.0, stack_3.czi 16223.1",
+    "margin": 0.0087476292,
+    "reader": "czifile 2026.8.16 + numpy 2.5.3",
+    "value": "stack_2.czi"
+   }
+  },
+  "file": "zenodo7015307-Z-5-CH-2.czi"
+ }
+}

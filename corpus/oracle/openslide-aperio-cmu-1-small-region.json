@@ -1,0 +1,50 @@
+{
+ "id": "openslide-aperio-cmu-1-small-region",
+ "file": "openslide-aperio-CMU-1-Small-Region.svs",
+ "size": 1938955,
+ "sha256": "ed92d5a9f2e86df67640d6f92ce3e231419ce127131697fbbce42ad5e002c8a7",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "svs",
+ "flags": [
+  "svs"
+ ],
+ "page_count": 4,
+ "series_count": 4,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "svs",
+   "axes": "YXS",
+   "shape": [
+    2967,
+    2220,
+    3
+   ],
+   "size_x": 2220,
+   "size_y": 2967,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.499,
+    "y": 0.49899999999999994
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "836763667002458220f45bb6790c8d20",
+     "mean": 205.57520948653405
+    }
+   ]
+  }
+ ]
+}

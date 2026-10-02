@@ -1,0 +1,24 @@
+{
+ "id": "softmax5-elisa-il10",
+ "file": "softmax5-elisa-il10.pda",
+ "size": 18569,
+ "sha256": "bf9c69b9f4d0dad9993734e17550cf63c2387765983b20cfd09da622c4d626a2",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (MOLDEV_SOFTMAX_PRO) on the depositor's export softmax5-elisa-il10.txt",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 96,
+    "errors": 0,
+    "wavelengths": [
+     595.0
+    ],
+    "value_xxh3": "57b85fdeaf354019e69214fa22415d18"
+   }
+  ],
+  "header": {},
+  "documents": 96
+ }
+}

@@ -1,0 +1,292 @@
+{
+ "id": "zenodo10510047-cytof-mouse",
+ "file": "zenodo10510047-cytof-myeloid-c05.fcs",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 1714,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 54,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "BCKG190Di",
+    "Ba138Di",
+    "Bi209Di",
+    "Ce140Di",
+    "Ce142Di",
+    "Cs133Di",
+    "Dy162Di",
+    "Dy164Di",
+    "Er166Di",
+    "Er167Di",
+    "Er168Di",
+    "Er170Di",
+    "Eu151Di",
+    "Eu153Di",
+    "Event_length",
+    "Gd155Di",
+    "Gd156Di",
+    "Gd158Di",
+    "Gd160Di",
+    "Ho165Di",
+    "I127Di",
+    "Ir191Di",
+    "Ir193Di",
+    "Lu175Di",
+    "Lu176Di",
+    "Nd143Di",
+    "Nd144Di",
+    "Nd148Di",
+    "Nd150Di",
+    "Pb208Di",
+    "Pd102Di",
+    "Pd104Di",
+    "Pd105Di",
+    "Pd106Di",
+    "Pd108Di",
+    "Pd110Di",
+    "Pr141Di",
+    "Pt194Di",
+    "Pt195Di",
+    "Pt198Di",
+    "Rh103Di",
+    "Sm149Di",
+    "Sm152Di",
+    "Sm154Di",
+    "Sn120Di",
+    "Tb159Di",
+    "Tm169Di",
+    "Xe131Di",
+    "Y89Di",
+    "Yb172Di",
+    "Yb173Di",
+    "Yb174Di",
+    "Yb176Di",
+    "Time"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "BCKG190Di": 4096.0,
+    "Ba138Di": 4096.0,
+    "Bi209Di": 12000.0,
+    "Ce140Di": 8192.0,
+    "Ce142Di": 4096.0,
+    "Cs133Di": 4096.0,
+    "Dy162Di": 12000.0,
+    "Dy164Di": 4096.0,
+    "Er166Di": 12000.0,
+    "Er167Di": 4096.0,
+    "Er168Di": 4096.0,
+    "Er170Di": 12000.0,
+    "Eu151Di": 8192.0,
+    "Eu153Di": 8192.0,
+    "Event_length": 4096.0,
+    "Gd155Di": 4096.0,
+    "Gd156Di": 4096.0,
+    "Gd158Di": 4096.0,
+    "Gd160Di": 4096.0,
+    "Ho165Di": 8192.0,
+    "I127Di": 4096.0,
+    "Ir191Di": 12000.0,
+    "Ir193Di": 12000.0,
+    "Lu175Di": 8192.0,
+    "Lu176Di": 8192.0,
+    "Nd143Di": 4096.0,
+    "Nd144Di": 4096.0,
+    "Nd148Di": 8192.0,
+    "Nd150Di": 4096.0,
+    "Pb208Di": 8192.0,
+    "Pd102Di": 12000.0,
+    "Pd104Di": 4096.0,
+    "Pd105Di": 12000.0,
+    "Pd106Di": 12000.0,
+    "Pd108Di": 4096.0,
+    "Pd110Di": 4096.0,
+    "Pr141Di": 4096.0,
+    "Pt194Di": 8192.0,
+    "Pt195Di": 8192.0,
+    "Pt198Di": 4096.0,
+    "Rh103Di": 4096.0,
+    "Sm149Di": 4096.0,
+    "Sm152Di": 4096.0,
+    "Sm154Di": 4096.0,
+    "Sn120Di": 4096.0,
+    "Tb159Di": 12000.0,
+    "Tm169Di": 4096.0,
+    "Xe131Di": 4096.0,
+    "Y89Di": 4096.0,
+    "Yb172Di": 4096.0,
+    "Yb173Di": 4096.0,
+    "Yb174Di": 4096.0,
+    "Yb176Di": 8192.0,
+    "Time": 3019870.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "BCKG190Di": 32,
+    "Ba138Di": 32,
+    "Bi209Di": 32,
+    "Ce140Di": 32,
+    "Ce142Di": 32,
+    "Cs133Di": 32,
+    "Dy162Di": 32,
+    "Dy164Di": 32,
+    "Er166Di": 32,
+    "Er167Di": 32,
+    "Er168Di": 32,
+    "Er170Di": 32,
+    "Eu151Di": 32,
+    "Eu153Di": 32,
+    "Event_length": 32,
+    "Gd155Di": 32,
+    "Gd156Di": 32,
+    "Gd158Di": 32,
+    "Gd160Di": 32,
+    "Ho165Di": 32,
+    "I127Di": 32,
+    "Ir191Di": 32,
+    "Ir193Di": 32,
+    "Lu175Di": 32,
+    "Lu176Di": 32,
+    "Nd143Di": 32,
+    "Nd144Di": 32,
+    "Nd148Di": 32,
+    "Nd150Di": 32,
+    "Pb208Di": 32,
+    "Pd102Di": 32,
+    "Pd104Di": 32,
+    "Pd105Di": 32,
+    "Pd106Di": 32,
+    "Pd108Di": 32,
+    "Pd110Di": 32,
+    "Pr141Di": 32,
+    "Pt194Di": 32,
+    "Pt195Di": 32,
+    "Pt198Di": 32,
+    "Rh103Di": 32,
+    "Sm149Di": 32,
+    "Sm152Di": 32,
+    "Sm154Di": 32,
+    "Sn120Di": 32,
+    "Tb159Di": 32,
+    "Tm169Di": 32,
+    "Xe131Di": 32,
+    "Y89Di": 32,
+    "Yb172Di": 32,
+    "Yb173Di": 32,
+    "Yb174Di": 32,
+    "Yb176Di": 32,
+    "Time": 32
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "F",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "little-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS3.0",
+   "cmp": "text"
+  },
+  {
+   "field": "file name ($FIL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/file_name",
+   "theirs": "export_c05_eae_20210325_07_cells_found_1_Wanted_cells_exp_0_myeloid cells (CD45+CD11b+).fcs",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "DVSSCIENCES-FLUIDIGM-CYTOF-7.0.8493",
+   "cmp": "text"
+  }
+ ]
+}

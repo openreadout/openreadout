@@ -1,0 +1,8 @@
+{
+ "id": "ho-barrick-icontrol-cr082824",
+ "file": "cr_082824_pre.csv",
+ "size": 16665,
+ "sha256": "b6bd02c73b0ae1a8b6029c1312134e3ef57d6df3c5e1badebb6f58bbb4c2e23d",
+ "max_planes_hashed": 64,
+ "error": "RuntimeError: no independent oracle: allotropy has no Tecan i-control parser, and icontrol_summary found no plate blocks (it reads the tab-delimited text and XLSX exports, not the comma-delimited CSV)"
+}

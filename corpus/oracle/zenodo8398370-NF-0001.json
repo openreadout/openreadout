@@ -1,0 +1,39 @@
+{
+ "id": "zenodo8398370-NF-0001",
+ "file": "zenodo8398370-NF-0001.dm4",
+ "size": 16953663,
+ "sha256": "bc66cf954bb58a1ac8256330fa66395dee156b0a37c4647dcb23429c321e6eef",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "NF__0001",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 7,
+   "physical_size_um": {
+    "x": 0.0011457958025857806,
+    "y": 0.0011457958025857806,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b1d4ff8c72714d7f193e2e2033d1b95d"
+    }
+   ],
+   "pixel_type": "int32"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

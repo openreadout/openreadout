@@ -1,0 +1,689 @@
+{
+ "id": "trios-zenodo17225583-gelma3-4c-freq",
+ "format": "ta-trios",
+ "independent": true,
+ "traces": [
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Storage modulus",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     3185.72
+    ],
+    [
+     1,
+     null,
+     3194.2
+    ],
+    [
+     2,
+     null,
+     3187.35
+    ],
+    [
+     3,
+     null,
+     3251.17
+    ],
+    [
+     4,
+     null,
+     3468.27
+    ],
+    [
+     5,
+     null,
+     3902.56
+    ],
+    [
+     6,
+     null,
+     4865.1
+    ],
+    [
+     7,
+     null,
+     6901.07
+    ],
+    [
+     8,
+     null,
+     11096.4
+    ],
+    [
+     9,
+     null,
+     31514.7
+    ],
+    [
+     10,
+     null,
+     133557.0
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 1e-06,
+   "y_tol_rel": 0.001,
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Loss modulus",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     2.45288
+    ],
+    [
+     1,
+     null,
+     13.0071
+    ],
+    [
+     2,
+     null,
+     5.22553
+    ],
+    [
+     3,
+     null,
+     0.944156
+    ],
+    [
+     4,
+     null,
+     5.28334
+    ],
+    [
+     5,
+     null,
+     22.0768
+    ],
+    [
+     6,
+     null,
+     154.975
+    ],
+    [
+     7,
+     null,
+     417.97
+    ],
+    [
+     8,
+     null,
+     1667.66
+    ],
+    [
+     9,
+     null,
+     1808.9
+    ],
+    [
+     10,
+     null,
+     -98371.4
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 1e-06,
+   "y_tol_rel": 0.001,
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Tan(delta)",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     0.000769961
+    ],
+    [
+     1,
+     null,
+     0.0040721
+    ],
+    [
+     2,
+     null,
+     0.00163946
+    ],
+    [
+     3,
+     null,
+     0.000290405
+    ],
+    [
+     4,
+     null,
+     0.00152333
+    ],
+    [
+     5,
+     null,
+     0.005657
+    ],
+    [
+     6,
+     null,
+     0.0318545
+    ],
+    [
+     7,
+     null,
+     0.0605659
+    ],
+    [
+     8,
+     null,
+     0.150289
+    ],
+    [
+     9,
+     null,
+     0.0573986
+    ],
+    [
+     10,
+     null,
+     -0.736548
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 1e-09,
+   "y_tol_rel": 0.001,
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Angular frequency",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     6.28319
+    ],
+    [
+     1,
+     null,
+     9.95809
+    ],
+    [
+     2,
+     null,
+     15.7828
+    ],
+    [
+     3,
+     null,
+     25.0137
+    ],
+    [
+     4,
+     null,
+     39.6438
+    ],
+    [
+     5,
+     null,
+     62.8319
+    ],
+    [
+     6,
+     null,
+     99.5816
+    ],
+    [
+     7,
+     null,
+     157.827
+    ],
+    [
+     8,
+     null,
+     250.14
+    ],
+    [
+     9,
+     null,
+     396.441
+    ],
+    [
+     10,
+     null,
+     628.319
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 0.0,
+   "y_tol_rel": 2e-05,
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Oscillation torque",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     0.763157
+    ],
+    [
+     1,
+     null,
+     0.288916
+    ],
+    [
+     2,
+     null,
+     0.915599
+    ],
+    [
+     3,
+     null,
+     3.91036
+    ],
+    [
+     4,
+     null,
+     11.5242
+    ],
+    [
+     5,
+     null,
+     30.5252
+    ],
+    [
+     6,
+     null,
+     78.1911
+    ],
+    [
+     7,
+     null,
+     197.962
+    ],
+    [
+     8,
+     null,
+     498.968
+    ],
+    [
+     9,
+     null,
+     1255.38
+    ],
+    [
+     10,
+     null,
+     3151.67
+    ]
+   ],
+   "y_scale": 1000000.0,
+   "y_tol_abs": 0.0,
+   "y_tol_rel": 2e-05,
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Step time",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     6.11783
+    ],
+    [
+     1,
+     null,
+     12.9836
+    ],
+    [
+     2,
+     null,
+     19.7436
+    ],
+    [
+     3,
+     null,
+     26.4923
+    ],
+    [
+     4,
+     null,
+     33.2204
+    ],
+    [
+     5,
+     null,
+     40.0768
+    ],
+    [
+     6,
+     null,
+     46.8248
+    ],
+    [
+     7,
+     null,
+     53.41
+    ],
+    [
+     8,
+     null,
+     60.2097
+    ],
+    [
+     9,
+     null,
+     66.7456
+    ],
+    [
+     10,
+     null,
+     73.5041
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 0.0,
+   "y_tol_rel": 2e-05,
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Temperature",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     4.0
+    ],
+    [
+     1,
+     null,
+     3.99
+    ],
+    [
+     2,
+     null,
+     3.99
+    ],
+    [
+     3,
+     null,
+     4.01
+    ],
+    [
+     4,
+     null,
+     3.99
+    ],
+    [
+     5,
+     null,
+     4.0
+    ],
+    [
+     6,
+     null,
+     4.0
+    ],
+    [
+     7,
+     null,
+     4.01
+    ],
+    [
+     8,
+     null,
+     3.99
+    ],
+    [
+     9,
+     null,
+     4.01
+    ],
+    [
+     10,
+     null,
+     4.0
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 0.0051,
+   "y_tol_rel": 0.0,
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Raw phase",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     0.062366
+    ],
+    [
+     1,
+     null,
+     0.874122
+    ],
+    [
+     2,
+     null,
+     179.889
+    ],
+    [
+     3,
+     null,
+     179.995
+    ],
+    [
+     4,
+     null,
+     179.991
+    ],
+    [
+     5,
+     null,
+     179.986
+    ],
+    [
+     6,
+     null,
+     179.961
+    ],
+    [
+     7,
+     null,
+     179.959
+    ],
+    [
+     8,
+     null,
+     179.935
+    ],
+    [
+     9,
+     null,
+     179.972
+    ],
+    [
+     10,
+     null,
+     180.613
+    ]
+   ],
+   "y_scale": 57.29577951308232,
+   "y_tol_abs": 0.0,
+   "y_tol_rel": 2e-05,
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Oscillation displacement",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     0.000349351
+    ],
+    [
+     1,
+     null,
+     0.000349561
+    ],
+    [
+     2,
+     null,
+     0.000350469
+    ],
+    [
+     3,
+     null,
+     0.000350032
+    ],
+    [
+     4,
+     null,
+     0.000353336
+    ],
+    [
+     5,
+     null,
+     0.000352525
+    ],
+    [
+     6,
+     null,
+     0.000351752
+    ],
+    [
+     7,
+     null,
+     0.000351287
+    ],
+    [
+     8,
+     null,
+     0.000350994
+    ],
+    [
+     9,
+     null,
+     0.000351917
+    ],
+    [
+     10,
+     null,
+     0.000353787
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 0.0,
+   "y_tol_rel": 2e-05,
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Complex viscosity",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     507.023
+    ],
+    [
+     1,
+     null,
+     320.767
+    ],
+    [
+     2,
+     null,
+     201.951
+    ],
+    [
+     3,
+     null,
+     129.975
+    ],
+    [
+     4,
+     null,
+     87.4858
+    ],
+    [
+     5,
+     null,
+     62.1121
+    ],
+    [
+     6,
+     null,
+     48.8802
+    ],
+    [
+     7,
+     null,
+     43.8056
+    ],
+    [
+     8,
+     null,
+     44.859
+    ],
+    [
+     9,
+     null,
+     79.6248
+    ],
+    [
+     10,
+     null,
+     263.998
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 1e-09,
+   "y_tol_rel": 0.001,
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls"
+  }
+ ],
+ "facts": [
+  {
+   "path": "acquisition.operator",
+   "value": "Kelsey",
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls Details sheet"
+  },
+  {
+   "path": "sample.name",
+   "value": "GelMA3%DMA2%DMEM4Cfreq",
+   "source": "TRIOS export trios-zenodo17225583-gelma3-4c-freq.xls Details sheet"
+  }
+ ]
+}

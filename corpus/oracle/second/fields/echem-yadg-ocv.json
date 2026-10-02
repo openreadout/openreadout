@@ -1,0 +1,31 @@
+{
+ "id": "echem-yadg-ocv",
+ "file": "echem-yadg-ocv.mpr",
+ "format": "biologic-mpr",
+ "family": "bench",
+ "readers": [
+  "the EC-Lab export of the same run (echem-yadg-ocv.mpt) text header, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "Acquisition started on",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2020-01-16T14:13:34",
+   "cmp": "time"
+  },
+  {
+   "field": "Device",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "VMP3",
+   "cmp": "loose"
+  }
+ ]
+}

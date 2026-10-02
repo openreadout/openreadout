@@ -1,0 +1,32 @@
+{
+ "id": "scn-zenodo3517804-p27",
+ "file": "scn-zenodo3517804-p27.scn",
+ "size": 332109,
+ "sha256": "68ea32d86c7b81645d5d1f5407ab1a264a914552934eda351cc9dac2b1772d25",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 464,
+   "size_y": 346,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 204.74137931034483,
+    "y": 204.7413294797688
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "397f599c3a3ec263eb068b934de12201"
+    }
+   ]
+  }
+ ]
+}

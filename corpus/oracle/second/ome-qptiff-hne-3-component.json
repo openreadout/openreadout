@@ -1,0 +1,26 @@
+{
+ "id": "ome-qptiff-hne-3-component",
+ "file": "ome-qptiff-HnE_3_1x1component_data.tif",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1864,
+   "size_y": 1400,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5ad59f77092159c980201d91fc45c281"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "24692639b84032f92b3cbefd392bda5e"
+    }
+   ]
+  }
+ ]
+}

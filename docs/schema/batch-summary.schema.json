@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SummarizeOutput",
+  "description": "Output of `batch summarize`.",
+  "type": "object",
+  "properties": {
+    "input": {
+      "description": "The table summarized.",
+      "type": "string"
+    },
+    "summary": {
+      "description": "The summary.",
+      "$ref": "#/$defs/SummaryOutput"
+    },
+    "output": {
+      "description": "Where it was written (`-o`).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WrittenFile"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "input",
+    "summary"
+  ],
+  "$defs": {
+    "SummaryOutput": {
+      "description": "A summary: one row per group and value column.",
+      "type": "object",
+      "properties": {
+        "group_by": {
+          "description": "Columns that define a group: `by` plus the measurement dimensions added.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "added_dimensions": {
+          "description": "Dimensions added automatically.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "values": {
+          "description": "Value columns summarized.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "replicate": {
+          "description": "Replicate column, if any.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "test": {
+          "description": "Test and control, if any.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "control": {
+          "description": "The control group (value of the first `by` column).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rows_used": {
+          "description": "Table rows used / left out (errors, filters, missing values).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "rows_excluded": {
+          "description": "Rows left out by filters or errors.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "table": {
+          "description": "The summary table.",
+          "$ref": "#/$defs/Table"
+        },
+        "notes": {
+          "description": "Things to know.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "group_by",
+        "values",
+        "rows_used",
+        "rows_excluded",
+        "table"
+      ]
+    },
+    "Table": {
+      "description": "A table: columns and rows of cells in column order.",
+      "type": "object",
+      "properties": {
+        "columns": {
+          "description": "Columns.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Column"
+          }
+        },
+        "rows": {
+          "description": "Rows; each has one cell per column.",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Value"
+            }
+          }
+        }
+      },
+      "required": [
+        "columns",
+        "rows"
+      ]
+    },
+    "Column": {
+      "description": "One column.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name (stable; units that never change are part of it, e.g. `sample_rate_hz`).",
+          "type": "string"
+        },
+        "type": {
+          "description": "Inferred type.",
+          "$ref": "#/$defs/ColumnType"
+        },
+        "unit": {
+          "description": "Unit of every value in the column, when fixed.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "role": {
+          "description": "What the column holds.",
+          "$ref": "#/$defs/Role"
+        },
+        "description": {
+          "description": "One line on its meaning.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "role"
+      ]
+    },
+    "ColumnType": {
+      "description": "Column type, inferred from the cells.",
+      "oneOf": [
+        {
+          "description": "Text.",
+          "type": "string",
+          "const": "string"
+        },
+        {
+          "description": "Whole numbers.",
+          "type": "string",
+          "const": "integer"
+        },
+        {
+          "description": "Real numbers (a column mixing integers and reals is `float`).",
+          "type": "string",
+          "const": "float"
+        },
+        {
+          "description": "`true`/`false`.",
+          "type": "string",
+          "const": "boolean"
+        }
+      ]
+    },
+    "Role": {
+      "description": "What a column holds.",
+      "oneOf": [
+        {
+          "description": "Which data set a row comes from: `path`, `format`, `files`.",
+          "type": "string",
+          "const": "id"
+        },
+        {
+          "description": "The row's position within its data set (the measure's grain): `channel`, `population`,\n`well`, `parameter`, …",
+          "type": "string",
+          "const": "key"
+        },
+        {
+          "description": "Joined from a sample sheet or plate layout.",
+          "type": "string",
+          "const": "annotation"
+        },
+        {
+          "description": "Recorded in the file's own metadata (sample id, well, instrument).",
+          "type": "string",
+          "const": "metadata"
+        },
+        {
+          "description": "A measured or computed value.",
+          "type": "string",
+          "const": "value"
+        },
+        {
+          "description": "`error`, `error_code`.",
+          "type": "string",
+          "const": "error"
+        }
+      ]
+    },
+    "Value": {
+      "description": "One cell.",
+      "anyOf": [
+        {
+          "description": "No value (JSON `null`, an empty CSV field).",
+          "type": "null"
+        },
+        {
+          "description": "`true` / `false`.",
+          "type": "boolean"
+        },
+        {
+          "description": "A whole number.",
+          "type": "integer",
+          "format": "int64"
+        },
+        {
+          "description": "A real number (NaN and infinities are written as `null`).",
+          "type": "number",
+          "format": "double"
+        },
+        {
+          "description": "Text.",
+          "type": "string"
+        }
+      ]
+    },
+    "WrittenFile": {
+      "description": "What was written.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "The file.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Its format.",
+          "$ref": "#/$defs/TableFormat"
+        },
+        "rows": {
+          "description": "Data rows.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "columns": {
+          "description": "Columns.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes": {
+          "description": "Size in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "Read back and checked before it was renamed into place.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "format",
+        "rows",
+        "columns",
+        "bytes",
+        "verified"
+      ]
+    },
+    "TableFormat": {
+      "description": "A table file format.",
+      "oneOf": [
+        {
+          "description": "Comma-separated values with a header row.",
+          "type": "string",
+          "const": "csv"
+        },
+        {
+          "description": "Tab-separated values with a header row.",
+          "type": "string",
+          "const": "tsv"
+        },
+        {
+          "description": "One JSON object per row and line.",
+          "type": "string",
+          "const": "jsonl"
+        },
+        {
+          "description": "`{\"columns\": [...], \"rows\": [[...], ...]}`.",
+          "type": "string",
+          "const": "json"
+        },
+        {
+          "description": "Apache Parquet (Snappy), with column metadata.",
+          "type": "string",
+          "const": "parquet"
+        }
+      ]
+    }
+  }
+}

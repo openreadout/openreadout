@@ -1,0 +1,127 @@
+<tool id="openreadout_info" name="OpenReadout metadata" version="@TOOL_VERSION@+galaxy@VERSION_SUFFIX@" profile="@PROFILE@" license="MIT">
+    <description>of raw instrument files (CZI, ND2, LIF, FCS, Thermo RAW, mzML, ...) as JSON</description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="creator"/>
+    <expand macro="requirements"/>
+    <expand macro="version_command"/>
+    <command detect_errors="exit_code"><![CDATA[
+@LINK_INPUT@
+openreadout
+#if $detail.mode == 'full'
+    info '$input_name' --view full
+    #if not $detail.vendor
+        --no-vendor
+    #end if
+    #if $detail.all_frames
+        --all-frames
+    #end if
+#elif $detail.mode == 'check'
+    check '$input_name'
+#else
+    info '$input_name'
+#end if
+    --json
+    > '$output'
+    #if $detail.mode == 'check'
+        ## `check` exits 4 when it finds problems: keep the report, fail only on other errors
+        || [ \$? -eq 4 ]
+    #end if
+    ]]></command>
+    <inputs>
+        <param name="input" type="data" format="data" label="Instrument file" help="Detected from its content: CZI, ND2, LIF, OIR, VSI, whole-slide and OME-TIFF, FCS, Thermo RAW, mzML/mzXML, ChemStation, ANDI, ABF, JCAMP-DX, plate-reader exports, qPCR (RDML, EDS), ..."/>
+        <conditional name="detail">
+            <param name="mode" type="select" label="What to report">
+                <option value="info" selected="true">Normalized summary (openreadout info)</option>
+                <option value="full">Summary with per-plane records, vendor metadata and provenance (openreadout info --view full)</option>
+                <option value="check">Integrity check (openreadout check)</option>
+            </param>
+            <when value="info"/>
+            <when value="full">
+                <param name="vendor" type="boolean" checked="true" label="Include the vendor metadata tree"/>
+                <param name="all_frames" type="boolean" checked="false" label="Every per-frame record" help="Default: the first 100 per image"/>
+            </when>
+            <when value="check"/>
+        </conditional>
+    </inputs>
+    <outputs>
+        <data name="output" format="json" label="${tool.name} on ${on_string}"/>
+    </outputs>
+    <tests>
+        <test expect_num_outputs="1">
+            <param name="input" value="mini.czi"/>
+            <output name="output">
+                <assert_contents>
+                    <has_text text="&quot;ok&quot;"/>
+                    <has_text text="&quot;czi&quot;"/>
+                    <has_text text="&quot;size_x&quot;"/>
+                </assert_contents>
+            </output>
+        </test>
+        <test expect_num_outputs="1">
+            <param name="input" value="tube_a.fcs"/>
+            <output name="output">
+                <assert_contents>
+                    <has_text text="&quot;fcs&quot;"/>
+                    <has_text text="FITC-A"/>
+                    <has_text text="CD4"/>
+                </assert_contents>
+            </output>
+        </test>
+        <test expect_num_outputs="1">
+            <param name="input" value="mini.lif"/>
+            <conditional name="detail">
+                <param name="mode" value="full"/>
+                <param name="vendor" value="false"/>
+            </conditional>
+            <output name="output">
+                <assert_contents>
+                    <has_text text="&quot;lif&quot;"/>
+                    <has_text text="&quot;provenance&quot;"/>
+                </assert_contents>
+            </output>
+        </test>
+        <test expect_num_outputs="1">
+            <param name="input" value="mini.czi"/>
+            <conditional name="detail">
+                <param name="mode" value="check"/>
+            </conditional>
+            <output name="output">
+                <assert_contents>
+                    <has_text text="&quot;checks_performed&quot;"/>
+                </assert_contents>
+            </output>
+        </test>
+    </tests>
+    <help><![CDATA[
+**What it does**
+
+Reads a raw laboratory instrument file without the vendor's software and reports what is in it
+as JSON:
+
+- **Metadata** (``openreadout info``): the format, and depending on the file the images
+  (dimensions, pixel type, physical pixel size, channels with wavelengths, objective, pyramid
+  levels), tables (FCS data sets with their parameters, plate reads), traces (electrophysiology
+  sweeps, chromatograms, NMR FIDs and spectra), mass-spectrometry runs (scan count, MS levels,
+  retention-time range, instrument), and the experiment (sample, method, operator, acquisition
+  time). Reads headers only, so it is fast on multi-gigabyte files.
+- **Full metadata** (``openreadout info --view full``): the summary plus per-plane acquisition records, the
+  vendor's own metadata tree and the provenance of every normalized field.
+- **Integrity check** (``openreadout check``): structural validation and data checksums; the
+  report lists every finding.
+
+**Input**
+
+Any supported file; the format is detected from the content. Data sets stored as directories
+(Bruker ``.d``, Agilent ``.D``, Waters ``.raw``) are not supported in Galaxy.
+
+**Output**
+
+The JSON envelope ``{"ok": true, "schema_version": ..., "data": {...}}``; the schema is
+``docs/schema/info.schema.json`` in the OpenReadout repository.
+
+@HELP_FOOTER@
+    ]]></help>
+    <expand macro="citations"/>
+</tool>

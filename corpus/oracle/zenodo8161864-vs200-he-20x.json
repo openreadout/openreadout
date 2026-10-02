@@ -1,0 +1,377 @@
+{
+ "id": "zenodo8161864-vs200-he-20x",
+ "file": "Image_L2410_Part3_1_H+E_20X.vsi",
+ "size": 1555804,
+ "sha256": "754c908978b5d1c68c1f01a8fe52f40fe5e860e0924df926ea584742d08d8478",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "label",
+   "size_x": 8036,
+   "size_y": 9384,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 2.7330336729973714,
+    "y": 2.7330225638763928
+   },
+   "channel_names": [
+    "Label Scan"
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2023-07-08T00:30:08",
+   "resolutions": 6,
+   "planes": [],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 4018,
+     "size_y": 4692,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "949610b0be3d67d9ec0054866b336a2f"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 2009,
+     "size_y": 2346,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "c9d06d3478d7b7751df69aee0fb3b0e0"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 1005,
+     "size_y": 1173,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "73a8d8e76b4980c2ddbea2a830a01767"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 503,
+     "size_y": 587,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "13896d822e35569f7efeb0dffb07e22c"
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 252,
+     "size_y": 294,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "f4b90385ca937357ceafde0c2895f93f"
+      }
+     ]
+    }
+   ],
+   "level_sizes": [
+    [
+     8036,
+     9384
+    ],
+    [
+     4018,
+     4692
+    ],
+    [
+     2009,
+     2346
+    ],
+    [
+     1005,
+     1173
+    ],
+    [
+     503,
+     587
+    ],
+    [
+     252,
+     294
+    ]
+   ]
+  },
+  {
+   "index": 1,
+   "name": "overview",
+   "size_x": 18065,
+   "size_y": 9166,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 2.73320119516431,
+    "y": 2.732995230058859
+   },
+   "channel_names": [
+    "BF"
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2023-07-08T00:30:15",
+   "resolutions": 7,
+   "planes": [],
+   "levels": [
+    {
+     "level": 2,
+     "size_x": 4517,
+     "size_y": 2292,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "ea764f404c73be682b2df5ca62cf2c9f"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 2259,
+     "size_y": 1146,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "1cd674276267bb1de07531c87004be95"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 1130,
+     "size_y": 573,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "ba9d900f9f9c9d618dbe0b1750aa372d"
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 565,
+     "size_y": 287,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "f1f42c13c7068abc2bafe453c7544f0e"
+      }
+     ]
+    },
+    {
+     "level": 6,
+     "size_x": 283,
+     "size_y": 144,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "8f209865b84775166fe22482610ce658"
+      }
+     ]
+    }
+   ],
+   "level_sizes": [
+    [
+     18065,
+     9166
+    ],
+    [
+     9033,
+     4583
+    ],
+    [
+     4517,
+     2292
+    ],
+    [
+     2259,
+     1146
+    ],
+    [
+     1130,
+     573
+    ],
+    [
+     565,
+     287
+    ],
+    [
+     283,
+     144
+    ]
+   ]
+  },
+  {
+   "index": 2,
+   "name": "20x_BF_01",
+   "size_x": 67170,
+   "size_y": 58321,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.27380840914486587,
+    "y": 0.2738103106811254
+   },
+   "channel_names": [
+    "BF"
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2023-07-08T00:37:32",
+   "resolutions": 9,
+   "planes": [],
+   "levels": [
+    {
+     "level": 4,
+     "size_x": 4199,
+     "size_y": 3646,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "80aa070772136eb042eabc4b3de2ae6b"
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 2100,
+     "size_y": 1823,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "df6abf53cb0a3b5b5253528824d669f3"
+      }
+     ]
+    },
+    {
+     "level": 6,
+     "size_x": 1050,
+     "size_y": 912,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "61680df0c114ae0cf65fa28238b09c04"
+      }
+     ]
+    },
+    {
+     "level": 7,
+     "size_x": 525,
+     "size_y": 456,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "225651583847e91c5e885433a9d2948b"
+      }
+     ]
+    },
+    {
+     "level": 8,
+     "size_x": 263,
+     "size_y": 228,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "5a6d1158c963e67c2d0e5c3bbed2f841"
+      }
+     ]
+    }
+   ],
+   "level_sizes": [
+    [
+     67170,
+     58321
+    ],
+    [
+     33585,
+     29161
+    ],
+    [
+     16793,
+     14581
+    ],
+    [
+     8397,
+     7291
+    ],
+    [
+     4199,
+     3646
+    ],
+    [
+     2100,
+     1823
+    ],
+    [
+     1050,
+     912
+    ],
+    [
+     525,
+     456
+    ],
+    [
+     263,
+     228
+    ]
+   ]
+  }
+ ]
+}

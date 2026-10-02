@@ -1,0 +1,8 @@
+{
+ "id": "ho-zenodo16421485-wiff-analyst",
+ "file": "TAP_Labeling_NegativeMode_Sciex.wiff",
+ "size": 2277376,
+ "sha256": "bfc6edd72340e11b2ba3adadd77098f4c637281ac37297e8b10bf05ead79fdd3",
+ "max_planes_hashed": 64,
+ "error": "ValueError: a Sciex .wiff needs --export <depositor mzML/mzXML> before its path"
+}

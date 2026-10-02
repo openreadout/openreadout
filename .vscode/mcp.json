@@ -1,0 +1,5 @@
+{
+  "servers": {
+    "openreadout": { "type": "stdio", "command": "openreadout", "args": ["mcp"] }
+  }
+}

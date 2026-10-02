@@ -1,0 +1,79 @@
+{
+ "id": "rsciio-dm-1d-test-eels-spectrum-dm3",
+ "file": "rsciio-dm-1d-test-eels-spectrum-dm3.dm3",
+ "size": 340307,
+ "sha256": "2cb9960a8027300ac1884a3a3b45d10d964da63cc805364d2787519c7e1ec96f",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "EELS Acquire",
+   "size_x": 2048,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f183791e91e6467df172d385da74d6c1"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "EELS Acquire",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "e-"
+   ],
+   "ppm_first": -100.0,
+   "ppm_last": 923.5,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2048,
+     "channels": [
+      {
+       "xxh3": "43d44c5cbd2dc4fc7a629a8350745fdc",
+       "first": [
+        -20.6795654296875,
+        -54.7528076171875,
+        204.568603515625,
+        51.325439453125,
+        -80.176025390625,
+        -90.234130859375,
+        81.953857421875,
+        27.7943115234375
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}

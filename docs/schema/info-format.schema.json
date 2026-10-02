@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DetectOutput",
+  "description": "Output of `info --view format`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id, e.g. `czi`.",
+      "type": "string"
+    },
+    "name": {
+      "description": "Human name of the format, e.g. `Zeiss CZI`.",
+      "type": "string"
+    },
+    "confidence": {
+      "description": "How the format was recognised.",
+      "$ref": "#/$defs/DetectConfidence"
+    },
+    "note": {
+      "description": "Why detection is less than definite, if it is.",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "name",
+    "confidence"
+  ],
+  "$defs": {
+    "DetectConfidence": {
+      "description": "How sure detection is.",
+      "oneOf": [
+        {
+          "description": "A format-specific signature matched.",
+          "type": "string",
+          "const": "definite"
+        },
+        {
+          "description": "Structure looks right but no unique signature exists.",
+          "type": "string",
+          "const": "likely"
+        },
+        {
+          "description": "Only the file extension matched.",
+          "type": "string",
+          "const": "extension-only"
+        }
+      ]
+    }
+  }
+}

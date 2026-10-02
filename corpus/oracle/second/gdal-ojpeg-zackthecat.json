@@ -1,0 +1,14 @@
+{
+ "id": "gdal-ojpeg-zackthecat",
+ "file": "gdal-zackthecat.tif",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 234,
+   "size_y": 213,
+   "planes": [],
+   "skip": "bfconvert: CalledProcessError: Command '['oracle/bftools/bftools/bfconvert', '-no-upgrade', '-overwrite', '-series', '0', 'corpus/files/gdal-zackthecat.tif', '<tmp>']' returned non-zero exit status 1."
+  }
+ ]
+}

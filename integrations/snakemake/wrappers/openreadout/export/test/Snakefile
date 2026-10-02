@@ -1,0 +1,89 @@
+# Test of the openreadout export wrapper. Run from this directory:
+#   snakemake --cores 1 --directory . all        (openreadout on PATH)
+# or with the conda environment once the bioconda recipe exists:
+#   snakemake --cores 1 --software-deployment-method conda all
+
+from pathlib import Path
+
+WRAPPER = f"file://{Path(workflow.basedir).parent}"
+DATA = Path(workflow.basedir).parents[4] / "test-data"
+
+
+rule all:
+    input:
+        "results/checked",
+
+
+# The outputs hold what the inputs hold (values written by test-data/make_test_data.py).
+rule check:
+    input:
+        tiff="results/mini_czi.ome.tiff",
+        report="results/mini_czi.export.json",
+        zarr="results/mini_lif.ome.zarr",
+        csv="results/tube_a.csv",
+        parquet="results/tube_b.parquet",
+    output:
+        touch("results/checked"),
+    run:
+        import json
+
+        report = json.loads(Path(input.report).read_text())
+        assert report["ok"] and report["data"]["verified"], report
+        assert Path(input.tiff).read_bytes()[:4] in (b"II+\x00", b"II*\x00"), "not a TIFF"
+        assert (Path(input.zarr) / "zarr.json").is_file(), "no zarr.json"
+        lines = Path(input.csv).read_text().splitlines()
+        assert lines[:3] == ["FSC-A,SSC-A,FITC-A", ",,CD4", "1000,500,100"], lines[:3]
+        assert len(lines) == 12, len(lines)
+        data = Path(input.parquet).read_bytes()
+        assert data[:4] == b"PAR1" and data[-4:] == b"PAR1", "not Parquet"
+
+
+rule export_ome_tiff:
+    input:
+        DATA / "mini.czi",
+    output:
+        output="results/mini_czi.ome.tiff",
+        report="results/mini_czi.export.json",
+    log:
+        "logs/export_ome_tiff.log",
+    params:
+        extra="--compression lzw",
+    wrapper:
+        WRAPPER
+
+
+rule export_ome_zarr:
+    input:
+        DATA / "mini.lif",
+    output:
+        directory("results/mini_lif.ome.zarr"),
+    log:
+        "logs/export_ome_zarr.log",
+    wrapper:
+        WRAPPER
+
+
+rule export_csv:
+    input:
+        DATA / "tube_a.fcs",
+    output:
+        "results/tube_a.csv",
+    log:
+        "logs/export_csv.log",
+    params:
+        extra="--labels",
+    wrapper:
+        WRAPPER
+
+
+rule export_parquet:
+    input:
+        DATA / "tube_b.fcs",
+    output:
+        "results/tube_b.parquet",
+    log:
+        "logs/export_parquet.log",
+    params:
+        format="parquet",
+    wrapper:
+        WRAPPER

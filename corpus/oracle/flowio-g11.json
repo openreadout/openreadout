@@ -1,0 +1,66 @@
+{
+ "id": "flowio-g11",
+ "file": "flowio-g11.fcs",
+ "size": 285872,
+ "sha256": "40ed9f6d4293a87077cab07a34c68b2497d4d69988adcb64a5f718098f48b56f",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.1",
+   "parameter_count": 12,
+   "event_count": 5785,
+   "parameter_names": [
+    "Time",
+    "FSC-A",
+    "SSC-A",
+    "BL1-A",
+    "YL2-A",
+    "VL1-A",
+    "FSC-H",
+    "SSC-H",
+    "VL1-H",
+    "FSC-W",
+    "SSC-W",
+    "VL1-W"
+   ],
+   "parameter_labels": [
+    "Time",
+    "FSC-A",
+    "SSC-A",
+    "GFP-A",
+    "mCherry-A",
+    "Alexa Fluor\u2122 405-A",
+    "FSC-H",
+    "SSC-H",
+    "Alexa Fluor\u2122 405-H",
+    "FSC-W",
+    "SSC-W",
+    "Alexa Fluor\u2122 405-W"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "094fe1e43bee6bf7381cb5204f1bdfed",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 5785,
+  "xxh3": "094fe1e43bee6bf7381cb5204f1bdfed",
+  "agrees_with_flowio": true
+ }
+}

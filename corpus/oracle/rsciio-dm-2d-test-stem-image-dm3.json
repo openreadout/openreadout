@@ -1,0 +1,39 @@
+{
+ "id": "rsciio-dm-2d-test-stem-image-dm3",
+ "file": "rsciio-dm-2d-test-stem-image-dm3.dm3",
+ "size": 96400,
+ "sha256": "fcba806af75bc3c2e50e7d7b0626cba545c1464f39e99c8922b225b0b0b0224c",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "test_STEM_image",
+   "size_x": 68,
+   "size_y": 68,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 11,
+   "physical_size_um": {
+    "x": 0.0002485380172729492,
+    "y": 0.0002485380172729492,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b0d36fab69abd29c29e16364c13c54d2"
+    }
+   ],
+   "pixel_type": "uint32"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

@@ -1,0 +1,191 @@
+{
+ "id": "openslide-zeiss-5-cropped",
+ "file": "openslide-zeiss-5-cropped.czi",
+ "size": 80002752,
+ "sha256": "6defce5e5507f07d91ecdaa8f2c156026495c8cef9c4ab181fc3f6564629829f",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 20563,
+   "size_y": 20164,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "dims": "YXS",
+   "shape": [
+    20164,
+    20563,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": 6,
+   "physical_size_um": {
+    "x": 0.17221300702379483,
+    "y": 0.17221300702379483,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b18711d2cb829ac7eee8421d23ea287e"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 10281,
+     "size_y": 10082,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "5952ca72e1bd0d3a550014e02d3aa724"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 5140,
+     "size_y": 5041,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "a1337438f543d229780bebbf6c5a4a30"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 2570,
+     "size_y": 2520,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "1818f55dbc6699a495fc6bc7eb049062"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 1285,
+     "size_y": 1260,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "264711e6192e0b3939d672f2d24ab23f"
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 642,
+     "size_y": 630,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "3becfa09de0d6c88e3ba6d5368731366"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Scene 1",
+   "size_x": 3899,
+   "size_y": 4676,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "dims": "YXS",
+   "shape": [
+    4676,
+    3899,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": 4,
+   "physical_size_um": {
+    "x": 0.17221300702379483,
+    "y": 0.17221300702379483,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "06b65fcca614189545ec7d4ffd27b4d5"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 1949,
+     "size_y": 2338,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "21f773c6ea7b912e92452e6188bedeb2"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 974,
+     "size_y": 1169,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "a9531a720b9254f9886e52b840cf88cf"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 487,
+     "size_y": 584,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "6d95a9858622e1579299d230cd8ec8c9"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.17221300702379483,
+  "y": 0.17221300702379483,
+  "z": null
+ },
+ "subblock_count": 238,
+ "compression_ids": [
+  4
+ ]
+}

@@ -1,0 +1,15 @@
+# Build context for the Dockerfile: sources only.
+**
+!Cargo.toml
+!Cargo.lock
+!.cargo/
+!crates/
+!xtask/
+!skills/
+!LICENSE-MIT
+!LICENSE-APACHE
+!NOTICE
+!THIRD-PARTY-NOTICES.md
+crates/**/tests/
+crates/openreadout-py/python/
+**/__pycache__/

@@ -1,0 +1,38 @@
+/target
+/corpus/files/
+/oracle/bftools/
+/oracle/.venv/
+/oracle/.cache/
+/oracle/__pycache__/
+**/__pycache__/
+*.pyc
+/dist/
+/wheels/
+*.ome.tiff
+*.ome.tif
+!/docs/**/*.ome.tiff
+.DS_Store
+/.env
+# maturin develop drops the compiled extension next to the Python sources
+/crates/openreadout-py/python/openreadout/_native*.so
+/crates/openreadout-py/python/openreadout/_native*.pyd
+*.egg-info/
+.pytest_cache/
+# cargo-fuzz build output, crash artifacts and the growing working corpus (seeds: fuzz/corpus)
+/fuzz/target/
+/fuzz/artifacts*/
+/fuzz/work/
+/fuzz/logs/
+/fuzz/coverage/
+/book/book/
+/.venv/
+/fuzz/local-seeds/
+/fuzz/found/
+# WebAssembly package build output (scripts/wasm.sh) and npm installs
+/packaging/wasm/pkg/
+/packaging/wasm/node_modules/
+/web/node_modules/
+# Claude Code worktrees and local state
+/.claude/
+# eval run output (reports, per-run records, transcripts, logs)
+/evals/results/

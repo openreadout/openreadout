@@ -1,0 +1,79 @@
+{
+ "id": "rsciio-dm-1d-test-eds-spectrum-dm3",
+ "file": "rsciio-dm-1d-test-eds-spectrum-dm3.dm3",
+ "size": 350908,
+ "sha256": "e051f16cb70d57d70c50239d5d9f9c97789a355c2b605ddcfe8e981aaa3cf114",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "EDS Spectrum",
+   "size_x": 4096,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 11,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e1df21b9c284cb530fe14608811f3242"
+    }
+   ],
+   "pixel_type": "uint32"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "EDS Spectrum",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "Counts"
+   ],
+   "ppm_first": -0.47799998168647306,
+   "ppm_last": 19.996999560661614,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4096,
+     "channels": [
+      {
+       "xxh3": "3940534289320ffc870d3db0b644bb38",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}

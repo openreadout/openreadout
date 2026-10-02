@@ -1,0 +1,446 @@
+{
+ "id": "zenodo13982701-organoid-mip",
+ "file": "zenodo13982701-220605_151046_mip.zarr.zip",
+ "size": 870487,
+ "sha256": "4f85fff822c1aa3d37003a3d3b1dc10912cafd9f929bae65780a9b3c007d162b",
+ "max_planes_hashed": 64,
+ "reader": "zarr-python 3.4.0 (NGFF metadata interpreted in gen.py)",
+ "kind": "plate",
+ "ngff_version": "0.4",
+ "zarr_format": 2,
+ "labels": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "C/02/0",
+   "size_x": 535,
+   "size_y": 680,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "axes": [
+    "c",
+    "z",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.2166666666666666,
+    "y": 0.2166666666666666,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [
+    "R0_DAPI"
+   ],
+   "level_sizes": [
+    [
+     535,
+     680
+    ],
+    [
+     267,
+     340
+    ],
+    [
+     133,
+     170
+    ],
+    [
+     66,
+     85
+    ],
+    [
+     33,
+     42
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "691e8012651f755ee5c2121a9dda2944"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 267,
+     "size_y": 340,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "27419ccd165befabac704e8c63aff79e"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 133,
+     "size_y": 170,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "801f79aa7d2ce6e16503695a5129a79e"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 66,
+     "size_y": 85,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "2e40d9a94a161c86f2d3520f49af1755"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 33,
+     "size_y": 42,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "c570b2555a2a85a482968cb244c12ac2"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "C/02/1",
+   "size_x": 535,
+   "size_y": 680,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "axes": [
+    "c",
+    "z",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.2166666666666666,
+    "y": 0.2166666666666666,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [
+    "R1_DAPI"
+   ],
+   "level_sizes": [
+    [
+     535,
+     680
+    ],
+    [
+     267,
+     340
+    ],
+    [
+     133,
+     170
+    ],
+    [
+     66,
+     85
+    ],
+    [
+     33,
+     42
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5c9f5416a2f886b9fce4544e408c6630"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 267,
+     "size_y": 340,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "b4d533beb613ccf5ec52e9f309763dc9"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 133,
+     "size_y": 170,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "705eb15407bcb256b2fdee460bf4f4d1"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 66,
+     "size_y": 85,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "e4a91683f200402fe0a005387599f8da"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 33,
+     "size_y": 42,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "5f04fa5f9aa4c5ca4403ee30b673c874"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "C/02/0/labels/org",
+   "size_x": 535,
+   "size_y": 680,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint32",
+   "axes": [
+    "z",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.2166666666666666,
+    "y": 0.2166666666666666,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     535,
+     680
+    ],
+    [
+     267,
+     340
+    ],
+    [
+     133,
+     170
+    ],
+    [
+     66,
+     85
+    ],
+    [
+     33,
+     42
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "969f9fa767cac9b320573789d5f46cde"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 267,
+     "size_y": 340,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "07bb5402070d1196c5c84c41f79d9849"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 133,
+     "size_y": 170,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "f3cb8dac162d0e628617c77337ad6603"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 66,
+     "size_y": 85,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "eebbed054e94d1c997962901d87a32f9"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 33,
+     "size_y": 42,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "9b1bdf41227039481f8ca3cd904a2f1e"
+      }
+     ]
+    }
+   ],
+   "label_of": 0
+  },
+  {
+   "index": 3,
+   "name": "C/02/1/labels/org",
+   "size_x": 535,
+   "size_y": 680,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint32",
+   "axes": [
+    "z",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.2166666666666666,
+    "y": 0.2166666666666666,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     535,
+     680
+    ],
+    [
+     267,
+     340
+    ],
+    [
+     133,
+     170
+    ],
+    [
+     66,
+     85
+    ],
+    [
+     33,
+     42
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e185b6a25897032c8eaae234145717be"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 267,
+     "size_y": 340,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "937ca3526290c2fe07a307fed87d16bb"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 133,
+     "size_y": 170,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "0108dd988629c0e20aa543dc46ce94c1"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 66,
+     "size_y": 85,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "67b3f0c331d816582cdc9d86a146d839"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 33,
+     "size_y": 42,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "28bf4ed6288ab38b383c73377a22bf30"
+      }
+     ]
+    }
+   ],
+   "label_of": 1
+  }
+ ]
+}

@@ -1,0 +1,59 @@
+{
+ "id": "zenodo7015307-S-1-CH-2",
+ "file": "zenodo7015307-S-1-CH-2.czi",
+ "size": 1576608,
+ "sha256": "b88b11f6263e425a595c1dd7515c15f42bd7f15e31fdf5bd6206b92bf3c5c64a",
+ "max_planes_hashed": 32,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    2,
+    256,
+    256
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 0' (C: 2, Y: 256, X: 256) gray16 uncompressed>"
+   ],
+   "physical_size_um": {
+    "x": 0.09999999999999999,
+    "y": 0.09999999999999999,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d6fc7ddb3f2f47aa7c5292b67ec602d9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3c87b98c5a0ff29af83ca74b3b8ee700"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.09999999999999999,
+  "y": 0.09999999999999999,
+  "z": null
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

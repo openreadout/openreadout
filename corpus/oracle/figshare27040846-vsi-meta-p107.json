@@ -1,0 +1,10 @@
+{
+ "id": "figshare27040846-vsi-meta-p107",
+ "file": "P107.vsi",
+ "size": 2073607,
+ "sha256": "a9014416a30c14459d4b943fd1b4cf5e96180c137cc5aa3fcdebd42cade7e2d1",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [],
+ "independent": false
+}

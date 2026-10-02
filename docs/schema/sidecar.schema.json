@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SidecarReport",
+  "description": "Output of `info --view full --sidecar` for one input.",
+  "type": "object",
+  "properties": {
+    "input": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "output": {
+      "description": "The sidecar path.",
+      "type": "string"
+    },
+    "status": {
+      "description": "`written` or `unchanged` (an up-to-date sidecar was already there).",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input (absent when the sidecar was unchanged and the file not opened).",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "bytes": {
+      "description": "Size of the sidecar in bytes.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "verified": {
+      "description": "True when a written sidecar was read back and matched.",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "input",
+    "output",
+    "status",
+    "bytes",
+    "verified"
+  ]
+}

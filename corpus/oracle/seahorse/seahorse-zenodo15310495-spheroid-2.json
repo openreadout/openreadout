@@ -1,0 +1,1477 @@
+{
+ "id": "seahorse-zenodo15310495-spheroid-2",
+ "format": "agilent-seahorse-asyr",
+ "independent": false,
+ "reader": "Python standard library (gzip, xml.etree): a second implementation of docs/formats/agilent-seahorse.md",
+ "name": "20240903_Thomas_spheroid2 NONeTETRAeDNJeGLY",
+ "serial": "411183",
+ "sw_version": "2.6.3.8",
+ "rows": 8,
+ "cols": 12,
+ "wells": [
+  "A1",
+  "A2",
+  "A3",
+  "A4",
+  "A5",
+  "A6",
+  "A7",
+  "A8",
+  "A9",
+  "A10",
+  "A11",
+  "A12",
+  "B1",
+  "B2",
+  "B3",
+  "B4",
+  "B5",
+  "B6",
+  "B7",
+  "B8",
+  "B9",
+  "B10",
+  "B11",
+  "B12",
+  "C1",
+  "C2",
+  "C3",
+  "C4",
+  "C5",
+  "C6",
+  "C7",
+  "C8",
+  "C9",
+  "C10",
+  "C11",
+  "C12",
+  "D1",
+  "D2",
+  "D3",
+  "D4",
+  "D5",
+  "D6",
+  "D7",
+  "D8",
+  "D9",
+  "D10",
+  "D11",
+  "D12",
+  "E1",
+  "E2",
+  "E3",
+  "E4",
+  "E5",
+  "E6",
+  "E7",
+  "E8",
+  "E9",
+  "E10",
+  "E11",
+  "E12",
+  "F1",
+  "F2",
+  "F3",
+  "F4",
+  "F5",
+  "F6",
+  "F7",
+  "F8",
+  "F9",
+  "F10",
+  "F11",
+  "F12",
+  "G1",
+  "G2",
+  "G3",
+  "G4",
+  "G5",
+  "G6",
+  "G7",
+  "G8",
+  "G9",
+  "G10",
+  "G11",
+  "G12",
+  "H1",
+  "H2",
+  "H3",
+  "H4",
+  "H5",
+  "H6",
+  "H7",
+  "H8",
+  "H9",
+  "H10",
+  "H11",
+  "H12"
+ ],
+ "groups": [
+  "Background",
+  "Nonyl 25",
+  "Nonyl 12",
+  "Nonyl 6",
+  "Nonyl 3",
+  "Nonyl 50",
+  "Nonyl 50",
+  "1DNJ 3",
+  "1DNJ 6",
+  "1DNJ 12",
+  "1DNJ 25",
+  "Background",
+  "Nonyl 50",
+  "Nonyl 25",
+  "Nonyl 12",
+  "Nonyl 6",
+  "Nonyl 3",
+  "1DNJ 50",
+  "1DNJ 50",
+  "1DNJ 3",
+  "1DNJ 6",
+  "1DNJ 12",
+  "1DNJ 25",
+  "1DNJ 50",
+  "Nonyl 50",
+  "Nonyl 25",
+  "Nonyl 12",
+  "Nonyl 6",
+  "Nonyl 3",
+  "untreated",
+  "untreated",
+  "1DNJ 3",
+  "1DNJ 6",
+  "1DNJ 12",
+  "1DNJ 25",
+  "1DNJ 50",
+  "Nonyl 50",
+  "Nonyl 25",
+  "Nonyl 12",
+  "Nonyl 6",
+  "Nonyl 3",
+  "untreated",
+  "untreated",
+  "1DNJ 3",
+  "1DNJ 6",
+  "1DNJ 12",
+  "1DNJ 25",
+  "1DNJ 50",
+  "Tetra 50",
+  "Tetra 25",
+  "Tetra 12",
+  "Tetra 6",
+  "Tetra 3",
+  "untreated",
+  "untreated",
+  "Glyset 3",
+  "Glyset 6",
+  "Glyset 12",
+  "Glyset 25",
+  "Glyset 50",
+  "Tetra 50",
+  "Tetra 25",
+  "Tetra 12",
+  "Tetra 6",
+  "Tetra 3",
+  "untreated",
+  "untreated",
+  "Glyset 3",
+  "Glyset 6",
+  "Glyset 12",
+  "Glyset 25",
+  "Glyset 50",
+  "Tetra 50",
+  "Tetra 25",
+  "Tetra 12",
+  "Tetra 6",
+  "Tetra 3",
+  "Glyset 50",
+  "Glyset 50",
+  "Glyset 3",
+  "Glyset 6",
+  "Glyset 12",
+  "Glyset 25",
+  "Glyset 50",
+  "Background",
+  "Tetra 25",
+  "Tetra 12",
+  "Tetra 6",
+  "Tetra 3",
+  "Tetra 50",
+  "Tetra 50",
+  "Glyset 3",
+  "Glyset 6",
+  "Glyset 12",
+  "Glyset 25",
+  "Background"
+ ],
+ "background": [
+  "A1",
+  "A12",
+  "H1",
+  "H12"
+ ],
+ "injections": [
+  {
+   "group": "Nonyl 25",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 25",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 25",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 25",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 12",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 12",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 12",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 12",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 6",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 6",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 6",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 6",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 3",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 3",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 3",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 3",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 50",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 50",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 50",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Nonyl 50",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 3",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 3",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 3",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 3",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 6",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 6",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 6",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 6",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 12",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 12",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 12",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 12",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 25",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 25",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 25",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 25",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 50",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 50",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 50",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1DNJ 50",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "untreated",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "untreated",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "untreated",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "untreated",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 50",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 50",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 50",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 50",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 25",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 25",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 25",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 25",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 12",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 12",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 12",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 12",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 6",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 6",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 6",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 6",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 3",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 3",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 3",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Tetra 3",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 12",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 12",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 12",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 12",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 25",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 25",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 25",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 25",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 50",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 50",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 50",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Glyset 50",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  }
+ ],
+ "readings": 264,
+ "measurements": 22,
+ "measure_commands": 22,
+ "analytes": [
+  "O2",
+  "pH"
+ ],
+ "samples": {
+  "O2": [
+   [
+    0,
+    0,
+    11562.546174617462
+   ],
+   [
+    0,
+    14,
+    11715.416299872213
+   ],
+   [
+    0,
+    27,
+    11552.469519483624
+   ],
+   [
+    0,
+    41,
+    11357.668319807635
+   ],
+   [
+    0,
+    54,
+    11456.593395761458
+   ],
+   [
+    0,
+    68,
+    11349.555596263051
+   ],
+   [
+    0,
+    81,
+    11434.656196654149
+   ],
+   [
+    0,
+    95,
+    11513.468988391378
+   ],
+   [
+    38,
+    0,
+    11700.574100719425
+   ],
+   [
+    38,
+    14,
+    12216.368024989351
+   ],
+   [
+    38,
+    27,
+    12077.023701220973
+   ],
+   [
+    38,
+    41,
+    11939.725605172154
+   ],
+   [
+    38,
+    54,
+    12124.47509452573
+   ],
+   [
+    38,
+    68,
+    11873.657252888319
+   ],
+   [
+    38,
+    81,
+    12011.472550025655
+   ],
+   [
+    38,
+    95,
+    11693.086588000664
+   ],
+   [
+    75,
+    0,
+    11838.971223021583
+   ],
+   [
+    75,
+    14,
+    12384.695868237966
+   ],
+   [
+    75,
+    27,
+    12299.84674329502
+   ],
+   [
+    75,
+    41,
+    12149.426981500977
+   ],
+   [
+    75,
+    54,
+    12310.444992599902
+   ],
+   [
+    75,
+    68,
+    12059.00440286186
+   ],
+   [
+    75,
+    81,
+    12321.60232717317
+   ],
+   [
+    75,
+    95,
+    11816.63364361702
+   ],
+   [
+    113,
+    0,
+    12080.49775220284
+   ],
+   [
+    113,
+    14,
+    12850.369302853896
+   ],
+   [
+    113,
+    27,
+    12920.948275862069
+   ],
+   [
+    113,
+    41,
+    12647.215789473685
+   ],
+   [
+    113,
+    54,
+    12813.254605263157
+   ],
+   [
+    113,
+    68,
+    12674.686788990826
+   ],
+   [
+    113,
+    81,
+    12821.189318726463
+   ],
+   [
+    113,
+    95,
+    11897.940794944287
+   ],
+   [
+    150,
+    0,
+    12218.869987412336
+   ],
+   [
+    150,
+    14,
+    13446.068436745705
+   ],
+   [
+    150,
+    27,
+    13804.996407185628
+   ],
+   [
+    150,
+    41,
+    13469.521052631579
+   ],
+   [
+    150,
+    54,
+    13762.533552631578
+   ],
+   [
+    150,
+    68,
+    13475.758943313154
+   ],
+   [
+    150,
+    81,
+    13498.797329681614
+   ],
+   [
+    150,
+    95,
+    11959.2755695992
+   ],
+   [
+    188,
+    0,
+    12466.299892125135
+   ],
+   [
+    188,
+    14,
+    13377.644236229415
+   ],
+   [
+    188,
+    27,
+    13376.083333333334
+   ],
+   [
+    188,
+    41,
+    13147.803429087082
+   ],
+   [
+    188,
+    54,
+    13225.711465701597
+   ],
+   [
+    188,
+    68,
+    13182.559266055046
+   ],
+   [
+    188,
+    81,
+    13738.7649375107
+   ],
+   [
+    188,
+    95,
+    12056.802062541585
+   ],
+   [
+    225,
+    0,
+    12606.652283351314
+   ],
+   [
+    225,
+    14,
+    13156.934270300964
+   ],
+   [
+    225,
+    27,
+    13092.005747126437
+   ],
+   [
+    225,
+    41,
+    12805.962550759514
+   ],
+   [
+    225,
+    54,
+    13079.010858835145
+   ],
+   [
+    225,
+    68,
+    12946.222568807341
+   ],
+   [
+    225,
+    81,
+    13734.73686012669
+   ],
+   [
+    225,
+    95,
+    12115.126226509228
+   ],
+   [
+    263,
+    0,
+    12740.703936724787
+   ],
+   [
+    263,
+    14,
+    13302.058631459398
+   ],
+   [
+    263,
+    27,
+    13414.617189370361
+   ],
+   [
+    263,
+    41,
+    12992.021052631579
+   ],
+   [
+    263,
+    54,
+    13425.04837117473
+   ],
+   [
+    263,
+    68,
+    13212.729908256882
+   ],
+   [
+    263,
+    81,
+    14290.611539120013
+   ],
+   [
+    263,
+    95,
+    12184.535684578274
+   ]
+  ],
+  "pH": [
+   [
+    0,
+    0,
+    28235.75972256626
+   ],
+   [
+    0,
+    14,
+    30197.876229679758
+   ],
+   [
+    0,
+    27,
+    31642.38525308351
+   ],
+   [
+    0,
+    41,
+    30543.580521597392
+   ],
+   [
+    0,
+    54,
+    30216.335884451608
+   ],
+   [
+    0,
+    68,
+    30625.282557104714
+   ],
+   [
+    0,
+    81,
+    29608.001829108962
+   ],
+   [
+    0,
+    95,
+    27822.71013802951
+   ],
+   [
+    38,
+    0,
+    28945.631304347822
+   ],
+   [
+    38,
+    14,
+    30276.10555050046
+   ],
+   [
+    38,
+    27,
+    31976.90811617807
+   ],
+   [
+    38,
+    41,
+    31475.276097882506
+   ],
+   [
+    38,
+    54,
+    31575.99081982453
+   ],
+   [
+    38,
+    68,
+    30995.66793978881
+   ],
+   [
+    38,
+    81,
+    30228.832469016437
+   ],
+   [
+    38,
+    95,
+    27933.534857691076
+   ],
+   [
+    75,
+    0,
+    28922.763530874432
+   ],
+   [
+    75,
+    14,
+    30189.5748406528
+   ],
+   [
+    75,
+    27,
+    31629.994089272368
+   ],
+   [
+    75,
+    41,
+    31572.32991989429
+   ],
+   [
+    75,
+    54,
+    31565.37499272367
+   ],
+   [
+    75,
+    68,
+    30900.28038715486
+   ],
+   [
+    75,
+    81,
+    30340.937400950876
+   ],
+   [
+    75,
+    95,
+    28010.388439676564
+   ],
+   [
+    113,
+    0,
+    28790.96220159151
+   ],
+   [
+    113,
+    14,
+    29957.158469945356
+   ],
+   [
+    113,
+    27,
+    31287.4524003808
+   ],
+   [
+    113,
+    41,
+    30941.35862639636
+   ],
+   [
+    113,
+    54,
+    30932.634662469398
+   ],
+   [
+    113,
+    68,
+    30372.089317908656
+   ],
+   [
+    113,
+    81,
+    29977.307624504185
+   ],
+   [
+    113,
+    95,
+    27939.367139309463
+   ],
+   [
+    150,
+    0,
+    28435.84012928891
+   ],
+   [
+    150,
+    14,
+    29303.085762331837
+   ],
+   [
+    150,
+    27,
+    30492.545343220627
+   ],
+   [
+    150,
+    41,
+    30430.827232068907
+   ],
+   [
+    150,
+    54,
+    30306.226986349317
+   ],
+   [
+    150,
+    68,
+    29695.986468200274
+   ],
+   [
+    150,
+    81,
+    29496.00370468378
+   ],
+   [
+    150,
+    95,
+    27680.641500360663
+   ],
+   [
+    188,
+    0,
+    28414.828358208953
+   ],
+   [
+    188,
+    14,
+    28849.43089430894
+   ],
+   [
+    188,
+    27,
+    29449.189980260024
+   ],
+   [
+    188,
+    41,
+    29536.208008622118
+   ],
+   [
+    188,
+    54,
+    29461.371825558992
+   ],
+   [
+    188,
+    68,
+    28972.259986459037
+   ],
+   [
+    188,
+    81,
+    28882.98208612778
+   ],
+   [
+    188,
+    95,
+    27429.39971139971
+   ],
+   [
+    225,
+    0,
+    28546.468413198472
+   ],
+   [
+    225,
+    14,
+    29328.09477078368
+   ],
+   [
+    225,
+    27,
+    29204.626548672568
+   ],
+   [
+    225,
+    41,
+    29233.526215364192
+   ],
+   [
+    225,
+    54,
+    29150.332710280374
+   ],
+   [
+    225,
+    68,
+    28685.51685731487
+   ],
+   [
+    225,
+    81,
+    29031.484152908975
+   ],
+   [
+    225,
+    95,
+    27527.103359794724
+   ],
+   [
+    263,
+    0,
+    28420.38120905548
+   ],
+   [
+    263,
+    14,
+    29326.862511393112
+   ],
+   [
+    263,
+    27,
+    29144.75475039161
+   ],
+   [
+    263,
+    41,
+    29012.414611872144
+   ],
+   [
+    263,
+    54,
+    28672.725758372788
+   ],
+   [
+    263,
+    68,
+    28229.231719255964
+   ],
+   [
+    263,
+    81,
+    28756.700203162265
+   ],
+   [
+    263,
+    95,
+    27457.551989730426
+   ]
+  ]
+ },
+ "background_ratio": 0.07639028158328742
+}

@@ -1,0 +1,41 @@
+{
+ "id": "zenodo7500539-pda-cmcsza-hec-dx",
+ "file": "PDA-CMCsZa-HEC.DX",
+ "size": 48875,
+ "sha256": "6960060b96d7b736866df075cecbe4dd96fb208e6aa2caf68c4240c344e51fe7",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "Sample 084 By User Date Friday, May 20 2022",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3601,
+     "channels": [
+      {
+       "xxh3": "8a25d6e4a2df37228199ff981728f2d9",
+       "first": [
+        0.9954191446304217,
+        0.9954181909561053,
+        0.9954167604446307,
+        0.9954125881194964,
+        0.9954041242599383,
+        0.9953935146331683,
+        0.9953856468200579,
+        0.9953831434249774
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 3601,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  }
+ ]
+}

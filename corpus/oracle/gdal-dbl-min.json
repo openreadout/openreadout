@@ -1,0 +1,43 @@
+{
+ "id": "gdal-dbl-min",
+ "file": "gdal-dbl-min.tif",
+ "size": 312,
+ "sha256": "8d8035e901d36ec60eb777b9b8dd6725d624bb7c0f7e432a2eff4d51b078c8ce",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YX",
+   "shape": [
+    1,
+    4
+   ],
+   "size_x": 4,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "double",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2026a2a64d57191cb256857681250bd4"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+{
+ "id": "synthetic-multifile",
+ "file": "synthetic-multifile.czi",
+ "error": "RuntimeError: Illegal data detected at offset 544 -> Invalid SubBlock-magic"
+}

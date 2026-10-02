@@ -1,0 +1,792 @@
+{
+ "id": "zenodo14231228-Sla2-WT-18-roi",
+ "file": "zenodo14231228-Sla2-WT-18-roi.nd2",
+ "size": 605327360,
+ "sha256": "4cb72cbccc9fb895c62054ac395cbad6a814c0875d033007c7b906e4aa135378",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1000,
+   "size_y": 1000,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 151,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 151, 'C': 2, 'Y': 1000, 'X': 1000}",
+   "physical_size_um": {
+    "x": 0.065,
+    "y": 0.065,
+    "z": null
+   },
+   "channel_names": [
+    "Q_405_Lucas",
+    "Q_488_Lucas"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e3cf4b4fa95f600107941e2f848fb754"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "736f8014a77b3df1fafbf0d9323abb07"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 10,
+     "xxh3": "60066c32b73f201d9a81410ce44ac464"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 14,
+     "xxh3": "9ab66533ce998440ef0092b715e398eb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 19,
+     "xxh3": "edd6e34a1f957de6001b842c6a597de5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 24,
+     "xxh3": "6dffb9f6a451eba75766ad40913a9c8d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 29,
+     "xxh3": "1f3b600f379381a2bed74dabc838ebe4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 33,
+     "xxh3": "006b9724a4f10034f9960545153105ea"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 38,
+     "xxh3": "982b6db5bbb65c99885998793ae01279"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 43,
+     "xxh3": "30856d3056c04816e963a4a1fa87c440"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 48,
+     "xxh3": "7c3d0bf1ad700b8d73ab586b35254217"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 53,
+     "xxh3": "51ebc0558f9404b62994d28a2c503d1e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 57,
+     "xxh3": "83d530b818c26021781dd5c9a964a58e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 62,
+     "xxh3": "3d5aac95395376a74b82152c509de20c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 67,
+     "xxh3": "7db3ab420e37cd26b2d81c2e61bde39d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 72,
+     "xxh3": "d2567822a547fdd5a1cca2b4889289ab"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 76,
+     "xxh3": "e9a38468b5f11d06063770696f9b6182"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 81,
+     "xxh3": "7438831773a4116ac6b32be603598342"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 86,
+     "xxh3": "14556ad287f7ee172c3cd63fad9b2712"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 91,
+     "xxh3": "1c8a22d5efdc5aff14ef2995f06f2975"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 96,
+     "xxh3": "e7d04ed269ed0c38e9abb317c6bfc8fd"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 100,
+     "xxh3": "7d574bde0aa2031ee0b0fde602a8452d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 105,
+     "xxh3": "ea7be1cc6cc14bdee5b7d06d3ab37b8c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 110,
+     "xxh3": "6a977532d058a33d6e2d97dfcca7f87a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 115,
+     "xxh3": "5e46db98cdb5a24f51df9d4b97e53052"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 119,
+     "xxh3": "608f8f31686fade234ba4b1ef8aaa524"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 124,
+     "xxh3": "9531361f1aebd9449a76df1196100b4c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 129,
+     "xxh3": "68c2464d3784ca07fd7d6da7257b5181"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 134,
+     "xxh3": "84a8c063cef6ec6bba92f48ca9eecd11"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 139,
+     "xxh3": "959df96f9ed9dd1154c8ef5be21f65a9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 143,
+     "xxh3": "bc3dd234af5ccd2fef35c5226aa892e1"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 148,
+     "xxh3": "d63d5cb32f88d671f8b22a17916aed6f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "65368a1d59c2156e513dfa950192456e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 7,
+     "xxh3": "856c978048de326ef212a98c5c9d697f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 11,
+     "xxh3": "956a70e95ed36a5b64666d71e4cb7330"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 16,
+     "xxh3": "74a307ded9f7528bfbb52568a1915cd6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 21,
+     "xxh3": "449c9203b81b2175b432c4f3cce19dd3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 26,
+     "xxh3": "8e798342a048847b57ca2a9a2ed18107"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 31,
+     "xxh3": "17642bcbe62fecbc17c2eaba37b794b1"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 35,
+     "xxh3": "eddc9f51fe4203f56f2073040d8eeff5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 40,
+     "xxh3": "2d2269db78d4a8ce7fe14342990bf377"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 45,
+     "xxh3": "0eddbdaaebc4b746d30495163897ca3c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 50,
+     "xxh3": "9d18103026f6f6a65eec15d7569ff795"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 54,
+     "xxh3": "68d8d6d3698f6c4cc7dacece8da0c24d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 59,
+     "xxh3": "6e8364630bffb55e5ba44fcbea1931f3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 64,
+     "xxh3": "a317f965ee94e7b3b81d7a9364eb0739"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 69,
+     "xxh3": "c2a26104cd1717049434ef0544ae1c5c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 74,
+     "xxh3": "0629ad90e8ec2c65b1960312410eac87"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 78,
+     "xxh3": "e10a6e2786700fcab0b06ae9a1907a2a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 83,
+     "xxh3": "f459e148e6a34d9c939a88034e0d6cdf"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 88,
+     "xxh3": "d83404f7372d76729ef65d6e4280baf3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 93,
+     "xxh3": "5df8a3ab3cee01321b141f43277f87c2"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 97,
+     "xxh3": "b7a6307d00bded03f2227e338eaf6710"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 102,
+     "xxh3": "5c6dde0a90be91b563ad24a8453509a8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 107,
+     "xxh3": "8b7a15b626c69e88f9bf480d6ec9db9b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 112,
+     "xxh3": "765a54767cab2ebe17b81adcae53e432"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 117,
+     "xxh3": "b47d5bb84803d26315ce409edf9dcd99"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 121,
+     "xxh3": "2d063486cefa24fa8133d7922a715ef3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 126,
+     "xxh3": "0a01b7bbd68e22af547f666f507fa1f5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 131,
+     "xxh3": "3c0197b3de620d7ba755f5282fea790b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 136,
+     "xxh3": "55bfb4294d2abeff8818209d16f09ec3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 140,
+     "xxh3": "20ce61bb36665a96b5c4909a13dd26f0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 145,
+     "xxh3": "9856e7857e4aa92db3512f5bc6904f50"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 150,
+     "xxh3": "5838b2f79c482795475210c7850fedf2"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Q_405_Lucas",
+    "color": "#FF0000",
+    "excitation_nm": 405.0,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "camera"
+    ]
+   },
+   {
+    "name": "Q_488_Lucas",
+    "color": "#00FF00",
+    "excitation_nm": 405.0,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "camera"
+    ]
+   }
+  ],
+  "frame_count": 151,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 216.4615300782025,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.24,
+     "Z1": 5366.24,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 14032.825543750077,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.24,
+     "Z1": 5366.24,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 13,
+    "time_ms": 26033.897565234452,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.24,
+     "Z1": 5366.24,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 20,
+    "time_ms": 40033.2505925782,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.24,
+     "Z1": 5366.24,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 26,
+    "time_ms": 52031.21665703133,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.24,
+     "Z1": 5366.24,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 33,
+    "time_ms": 66032.19566093758,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.24,
+     "Z1": 5366.24,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 39,
+    "time_ms": 78032.6197332032,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.24,
+     "Z1": 5366.24,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 46,
+    "time_ms": 92033.44273125008,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.24,
+     "Z1": 5366.24,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 52,
+    "time_ms": 104033.74058281258,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.22,
+     "Z1": 5366.22,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 59,
+    "time_ms": 118030.90269218758,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.22,
+     "Z1": 5366.22,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 65,
+    "time_ms": 130032.72959648444,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.22,
+     "Z1": 5366.22,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 72,
+    "time_ms": 144034.39951835945,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.22,
+     "Z1": 5366.22,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 78,
+    "time_ms": 156035.09165703133,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.22,
+     "Z1": 5366.22,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 85,
+    "time_ms": 170032.96958671883,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.2,
+     "Z1": 5366.2,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 91,
+    "time_ms": 182042.5406316407,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.2,
+     "Z1": 5366.2,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 98,
+    "time_ms": 196033.28257500008,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.2,
+     "Z1": 5366.2,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 104,
+    "time_ms": 208034.55357109383,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.2,
+     "Z1": 5366.2,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 111,
+    "time_ms": 222033.72153984383,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.18,
+     "Z1": 5366.18,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 117,
+    "time_ms": 234036.05454765633,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.18,
+     "Z1": 5366.18,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 124,
+    "time_ms": 248035.04771171883,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.18,
+     "Z1": 5366.18,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 130,
+    "time_ms": 260037.5455144532,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.18,
+     "Z1": 5366.18,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 137,
+    "time_ms": 274036.0516179688,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.18,
+     "Z1": 5366.18,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 143,
+    "time_ms": 286034.3636296876,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.18,
+     "Z1": 5366.18,
+     "Z2": 100.0
+    }
+   },
+   {
+    "index": 150,
+    "time_ms": 300037.39561210945,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 8210,
+     "PFS_STATUS": 1,
+     "X": -16671.8,
+     "Y": 17134.3,
+     "Z": 5266.16,
+     "Z1": 5366.16,
+     "Z2": 100.0
+    }
+   }
+  ],
+  "acquired_at": "2024-09-18T17:19:11.619Z",
+  "acquired_at_unix_ms": 1726679951619
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T'(151) x \u03bb(2)\r\nCamera Name: Fusion, SN:500983\r\nNumerical Aperture: 1,49\r\nRefractive Index: 1,515\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: Q_405_Lucas\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 500 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Temperature: -8.0\u00b0C\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 2 (LF405/488/561/635-A (405/488/561/635 nm Fluorophores - Full Multiband Quad Laser ) (Di01-R405/488/561/635) (Di))\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  LightPath: L100\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  LAPP Lower Ports:\r\n     Port 2: On  (E-TIRF)\r\n  \r\n  E-TIRF1(E-TIRF) AngleMode: 0\r\n  E-TIRF1(E-TIRF) Trajectory: 0\r\n  E-TIRF1(E-TIRF) Angle: 9600.0\r\n  E-TIRF1(E-TIRF) Direction: 270.0\r\n  CSU-W1, FilterChanger(Light Path Changer): 3 (Empty)\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Di01-T405/488/568/647-13x15x0.5)\r\n  CSU-W1, FilterChanger(EM1 Wheel): 3 (FITC_(Em))\r\n  CSU-W1 Aperture: 6\r\n  CSU-W1, Observation Mode: Widefield\r\n  CSU-W1, rpm: 4000\r\n  CSU-W1 SoRa Magnification:\r\n     Port 2: On  (1x)\r\n  \r\n  NIDAQ, Shutter(AOTF): Active\r\n  NIDAQ, MultiLaser(AOTF):\r\n     Line:1; ExW:405; Power: 60.0; On\r\n  \r\n  Switcher (name: Switcher):\r\n     Port 2: On  (eTIRF)\r\n\r\nPlane #2:\r\n Name: Q_488_Lucas\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 500 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Temperature: -8.0\u00b0C\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 2 (LF405/488/561/635-A (405/488/561/635 nm Fluorophores - Full Multiband Quad Laser ) (Di01-R405/488/561/635) (Di))\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  LightPath: L100\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  LAPP Lower Ports:\r\n     Port 2: On  (E-TIRF)\r\n  \r\n  E-TIRF1(E-TIRF) AngleMode: 0\r\n  E-TIRF1(E-TIRF) Trajectory: 0\r\n  E-TIRF1(E-TIRF) Angle: 9600.0\r\n  E-TIRF1(E-TIRF) Direction: 270.0\r\n  CSU-W1, FilterChanger(Light Path Changer): 3 (Empty)\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Di01-T405/488/568/647-13x15x0.5)\r\n  CSU-W1, FilterChanger(EM1 Wheel): 3 (FITC_(Em))\r\n  CSU-W1 Aperture: 6\r\n  CSU-W1, Observation Mode: Widefield\r\n  CSU-W1, rpm: 4000\r\n  CSU-W1 SoRa Magnification:\r\n     Port 2: On  (1x)\r\n  \r\n  NIDAQ, Shutter(AOTF): Active\r\n  NIDAQ, MultiLaser(AOTF):\r\n     Line:3; ExW:488; Power: 20.0; On\r\n  \r\n  Switcher (name: Switcher):\r\n     Port 2: On  (eTIRF)\r\n\r\nTime Loop: 151\r\n- Nonequidistant",
+  "capturing": "Fusion, SN:500983\r\nSample 1:\r\n  Exposure: 500 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Temperature: -8.0\u00b0C\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\nSample 2:\r\n  Exposure: 500 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Temperature: -8.0\u00b0C\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF",
+  "date": "18/09/2024  19:19:11",
+  "optics": "Apo TIRF 100x Oil DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=2, heightPx=1000, pixelDataType='unsigned', sequenceCount=151, widthBytes=4000, widthPx=1000, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

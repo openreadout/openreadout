@@ -1,0 +1,32 @@
+{
+ "id": "scn-zenodo15237267-lchc-marker",
+ "file": "scn-zenodo15237267-lchc-marker.scn",
+ "size": 733703,
+ "sha256": "b0231e1936262f1ea2f356c06ea9915a3d9a4e1f9ba105c4aecc88416f4d87f7",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 696,
+   "size_y": 520,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 136.49425287356323,
+    "y": 136.4942307692308
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "441a04b86c1f950391bd1d7dc67400b2"
+    }
+   ]
+  }
+ ]
+}

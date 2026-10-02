@@ -1,0 +1,48 @@
+[package]
+name = "openreadout-batch"
+description = "Measurements across many instrument files as one table, with sample-sheet joins and group summaries"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["batch", "sample-sheet", "plate-layout", "tidy-data", "lab-data"]
+categories.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-batch"
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+[dependencies]
+openreadout-core = { workspace = true }
+openreadout-fcs = { workspace = true }
+openreadout-index = { workspace = true }
+# the analysis commands as batch measures (peaks, chromatogram, assay, nmr-peaks,
+# ephys-features, spikes, qpcr): the same library calls as the single-file commands
+openreadout-quant = { workspace = true }
+openreadout-assay = { workspace = true }
+openreadout-signal = { workspace = true }
+openreadout-qpcr = { workspace = true }
+arrow-array = { workspace = true }
+arrow-schema = { workspace = true }
+parquet = { workspace = true }
+# sample sheets and plate layouts saved as workbooks (XLSX, XLS, XLSB, ODS); already used by the
+# plate-reader crate, pure Rust, MIT
+calamine = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+schemars = { workspace = true }
+rayon = { workspace = true }
+glob = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+
+[lints]
+workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-unknown-linux-gnu"]

@@ -1,0 +1,5 @@
+#!/bin/sh
+# Windows (Rtools): the same configuration, for the GNU target Rtools links against.
+OPENREADOUT_TARGET_OS=windows
+export OPENREADOUT_TARGET_OS
+exec sh ./configure

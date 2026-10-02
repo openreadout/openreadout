@@ -1,0 +1,193 @@
+{
+ "id": "fcsparser-fake-bitmask",
+ "file": "fcsparser-fake-bitmask.lmd",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 50000,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 7,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "FS INT LIN",
+    "SS INT LIN",
+    "FL1 INT LOG",
+    "FL2 INT LOG",
+    "FL3 INT LOG",
+    "FL4 INT LOG",
+    "FL5 INT LOG"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FS INT LIN": 1024.0,
+    "SS INT LIN": 1024.0,
+    "FL1 INT LOG": 1024.0,
+    "FL2 INT LOG": 1024.0,
+    "FL3 INT LOG": 1024.0,
+    "FL4 INT LOG": 1024.0,
+    "FL5 INT LOG": 1024.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FS INT LIN": 16,
+    "SS INT LIN": 16,
+    "FL1 INT LOG": 16,
+    "FL2 INT LOG": 16,
+    "FL3 INT LOG": 16,
+    "FL4 INT LOG": 16,
+    "FL5 INT LOG": 16
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "I",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "little-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS2.0",
+   "cmp": "text"
+  },
+  {
+   "field": "file name ($FIL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/file_name",
+   "theirs": "12-015628-3 CLL04 001.LMD",
+   "cmp": "text"
+  },
+  {
+   "field": "system ($SYS)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/system",
+   "theirs": "BCI",
+   "cmp": "text"
+  },
+  {
+   "field": "operator ($OP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "Routine",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "Navios",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2012-04-24T12:49:28.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2012-04-24T12:51:34.000",
+   "cmp": "time",
+   "abs": 0.02
+  }
+ ]
+}

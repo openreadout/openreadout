@@ -1,0 +1,448 @@
+{
+ "id": "chromhandler-001f0101-d",
+ "file": "chromhandler-001F0101.D",
+ "format": "chemstation",
+ "family": "chromatography",
+ "readers": [
+  "chromConverter 0.9.0 (GPL-3.0, R, run as a black box with its own parsers)"
+ ],
+ "checks": [
+  {
+   "field": "FID1A.ch: sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/sample_name",
+   "theirs": "DFA-708-01",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: operator",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/operator",
+   "theirs": "Neumann_Group",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/method",
+   "theirs": "HAO_NEUMANN_GC_VALVE_FOR_LIQUIDE.M",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: file version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/format_version",
+   "theirs": "181",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: file type",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/file_type",
+   "theirs": "GC DATA FILE",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: acquisition time (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/acquired_at",
+   "theirs": "2023-07-24T21:37:10",
+   "cmp": "wallclock"
+  },
+  {
+   "field": "acquisition start (first signal file's header)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-07-24T21:37:10",
+   "cmp": "time_or_utc",
+   "abs": 1.0
+  },
+  {
+   "field": "FID1A.ch: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/channels/0/unit",
+   "theirs": "pA",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/axis/first",
+   "theirs": 0.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "FID1A.ch: last time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/x_end_min",
+   "theirs": 11.996666666666666,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "FID1A.ch: signal: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    5.034895833333334,
+    5.012109375,
+    4.892838541666666,
+    4.882421875,
+    4.933723958333333,
+    5.069270833333333,
+    5.078645833333333,
+    5.05078125,
+    5.039973958333333,
+    5.048046875,
+    5.052994791666666,
+    5.054947916666666,
+    5.053515625,
+    5.049609375,
+    5.04296875,
+    5.036588541666666,
+    5.031770833333333,
+    5.028515625,
+    5.031380208333333,
+    5.034375,
+    5.036458333333333,
+    5.037890625,
+    5.037890625,
+    5.039322916666666,
+    5.038151041666667,
+    5.0375,
+    5.0390625,
+    5.040364583333333,
+    5.042708333333334,
+    5.043489583333333,
+    5.045703125,
+    5.046614583333334
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 7.719062369791666e-09
+  },
+  {
+   "field": "FID1A.ch: signal: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 3601,
+   "cmp": "exact"
+  },
+  {
+   "field": "FID1A.ch: signal: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": 4.882421875,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 7.719062369791666e-09
+  },
+  {
+   "field": "FID1A.ch: signal: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 7719.062369791666,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 7.719062369791666e-09
+  },
+  {
+   "field": "FID1A.ch: signal: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 70.21972220534805,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 7.719062369791667e-06
+  },
+  {
+   "field": "TCD2B.ch: sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/sample_name",
+   "theirs": "DFA-708-01",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: operator",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/operator",
+   "theirs": "Neumann_Group",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/method",
+   "theirs": "HAO_NEUMANN_GC_VALVE_FOR_LIQUIDE.M",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: file version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/format_version",
+   "theirs": "181",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: file type",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/file_type",
+   "theirs": "GC DATA FILE",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: acquisition time (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/acquired_at",
+   "theirs": "2023-07-24T21:37:10",
+   "cmp": "wallclock"
+  },
+  {
+   "field": "TCD2B.ch: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/channels/0/unit",
+   "theirs": "25 uV",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/axis/first",
+   "theirs": 0.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "TCD2B.ch: last time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/x_end_min",
+   "theirs": 11.996666666666666,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "TCD2B.ch: signal: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD2B.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    22.526302083333334,
+    22.523177083333334,
+    22.511979166666666,
+    22.507421875,
+    22.504427083333333,
+    22.510416666666668,
+    22.513932291666666,
+    22.516276041666668,
+    22.513020833333332,
+    22.506119791666666,
+    22.507421875,
+    22.51171875,
+    22.512369791666668,
+    22.517838541666666,
+    22.517447916666665,
+    22.520963541666667,
+    22.508203125,
+    22.508072916666666,
+    22.507291666666667,
+    22.506510416666668,
+    22.496614583333333,
+    22.49140625,
+    22.496744791666668,
+    22.501171875,
+    22.502213541666666,
+    22.507421875,
+    22.511197916666667,
+    22.517838541666666,
+    22.51328125,
+    22.517447916666665,
+    22.511588541666665,
+    22.506380208333333
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.678778645833334e-10
+  },
+  {
+   "field": "TCD2B.ch: signal: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD2B.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 3601,
+   "cmp": "exact"
+  },
+  {
+   "field": "TCD2B.ch: signal: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD2B.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": 20.644791666666666,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.678778645833334e-10
+  },
+  {
+   "field": "TCD2B.ch: signal: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD2B.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 467.87786458333335,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.678778645833334e-10
+  },
+  {
+   "field": "TCD2B.ch: signal: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD2B.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 25.400584545380912,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 4.678778645833334e-07
+  }
+ ]
+}

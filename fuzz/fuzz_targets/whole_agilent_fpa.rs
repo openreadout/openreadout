@@ -1,0 +1,8 @@
+//! Whole-file Agilent FT-IR imaging (.dat, .seq, .dms): open -> info -> vendor -> entries -> check -> table/trace reads.
+#![no_main]
+
+use libfuzzer_sys::fuzz_target;
+
+fuzz_target!(init: openreadout_fuzz::init(), |data: &[u8]| {
+    openreadout_fuzz::whole_file(&openreadout_spectro::AgilentFpaReader, "whole_agilent_fpa", "dat", data);
+});

@@ -1,0 +1,38 @@
+{
+ "id": "zenodo10577621-Kidney-RAC-3color",
+ "file": "zenodo10577621-Kidney-RAC-3color.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 10128,
+   "size_y": 5718,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9026b6694454f5fd79fc68a27e06df35"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e973a547d6465093390acad9ce75c2f0"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d8077339bfe0c7bd1de64954c205019"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "58fd591270c066357102cbec9dba654a"
+    }
+   ]
+  }
+ ]
+}

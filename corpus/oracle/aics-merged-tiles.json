@@ -1,0 +1,63 @@
+{
+ "id": "aics-merged-tiles",
+ "file": "aics-merged-tiles.lif",
+ "size": 172634321,
+ "sha256": "9477753b24b213675745bc55bdf9806b11597f0d12ebd178628dd198cd602e71",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "TileScan_002_Merging",
+   "path": "TileScan_002_Merging",
+   "size_x": 7666,
+   "size_y": 5622,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    4,
+    5622,
+    7666
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.20024735812133074,
+    "y": 0.2002568937911404,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a24b1e07b7e54b64cf9727ba15931b65"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bb85aa3ba31ef146b0c84159c6ddb387"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e0383f3939a80776e402aec45920647b"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f9b1da1087b8e5624ffc900377ac8a84"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "id": "gdal-classictiff-one-block-byte",
+ "file": "gdal-classictiff-one-block-byte.tif",
+ "size": 414,
+ "sha256": "5c5866875f110ffe50d81c4ddec057ebd4f27aa981f0b96dff42743e72a41b65",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YX",
+   "shape": [
+    1,
+    1
+   ],
+   "size_x": 1,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ddcb22b511c75a0ad6b9d4d14ff6be13"
+    }
+   ]
+  }
+ ]
+}

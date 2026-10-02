@@ -1,0 +1,32 @@
+{
+ "id": "xrd-zenodo4635553-sand-818-28",
+ "file": "xrd-zenodo4635553-sand-818-28.xrdml",
+ "format": "panalytical-xrdml",
+ "family": "bench",
+ "readers": [
+  "the .xrdml XML, read with ElementTree"
+ ],
+ "checks": [
+  {
+   "field": "scan/header/startTimeStamp",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2020-07-07T23:15:34+03:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "comment `Diffractometer system=`",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "EMPYREAN",
+   "cmp": "text"
+  }
+ ]
+}

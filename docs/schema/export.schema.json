@@ -1,0 +1,1133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExportOutput",
+  "description": "Output of `export`: an image export report (OME-TIFF, OME-Zarr), a CSV report for tables or\ntraces, or an mzML report for mass spectra.",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/ExportReport"
+    },
+    {
+      "$ref": "#/$defs/TableExportReport"
+    },
+    {
+      "$ref": "#/$defs/TraceExportReport"
+    },
+    {
+      "$ref": "#/$defs/MzmlExportReport"
+    },
+    {
+      "$ref": "#/$defs/AsmExportReport"
+    },
+    {
+      "$ref": "#/$defs/ColumnarExportReport"
+    },
+    {
+      "$ref": "#/$defs/NwbExportReport"
+    },
+    {
+      "$ref": "#/$defs/JcampExportReport"
+    },
+    {
+      "$ref": "#/$defs/RdmlExportReport"
+    },
+    {
+      "$ref": "#/$defs/PerImageExport"
+    }
+  ],
+  "$defs": {
+    "ExportReport": {
+      "description": "What `export` reports.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The file that was read.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The OME-TIFF (or OME-Zarr) written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "`ome-tiff` or `ome-zarr`.",
+          "type": "string"
+        },
+        "images_written": {
+          "description": "Images written.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "planes_written": {
+          "description": "Planes written, over all images.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes_written": {
+          "description": "Size of the output in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "True when every written plane was read back and hashed equal to the source plane.",
+          "type": "boolean"
+        },
+        "codec": {
+          "description": "Compression used.",
+          "$ref": "#/$defs/Codec"
+        },
+        "ome_xml_bytes": {
+          "description": "Size of the embedded OME-XML in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "resolutions": {
+          "description": "Per image, the resolution levels written (tiled exports: pyramids, regions, levels);\nabsent for single-resolution exports of whole planes.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WrittenLevels"
+          }
+        },
+        "layout": {
+          "description": "OME-Zarr: `plate` when the store is an OME-NGFF high-content screening plate (row,\ncolumn and field groups); absent for single images and collections.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "images_skipped": {
+          "description": "Images left out because plane files they need are missing (`--skip-incomplete`).",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "images_written",
+        "planes_written",
+        "bytes_written",
+        "verified",
+        "codec",
+        "ome_xml_bytes"
+      ]
+    },
+    "Codec": {
+      "description": "Compression codec for the TIFF strips.",
+      "oneOf": [
+        {
+          "description": "No compression.",
+          "type": "string",
+          "const": "none"
+        },
+        {
+          "description": "Deflate (zlib), lossless; the default.",
+          "type": "string",
+          "const": "deflate"
+        },
+        {
+          "description": "LZW, lossless; readable by older TIFF software.",
+          "type": "string",
+          "const": "lzw"
+        }
+      ]
+    },
+    "WrittenLevels": {
+      "description": "Resolution levels written for one image by a tiled export.",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "Source image index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "source_level": {
+          "description": "Source pyramid level the exported full resolution was read from.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "region": {
+          "description": "Rectangle of that level that was exported (absent: all of it).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Region"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pyramid": {
+          "description": "Where the lower levels came from: `source` (copied), `mean` (2 x 2 means) or `none`.",
+          "$ref": "#/$defs/PyramidMode"
+        },
+        "sizes": {
+          "description": "`[width, height]` of every level written, full resolution first.",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "factors": {
+          "description": "Downsampling factor of every level relative to the exported full resolution (x).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "required": [
+        "image",
+        "source_level",
+        "pyramid",
+        "sizes",
+        "factors"
+      ]
+    },
+    "Region": {
+      "description": "A rectangle of a plane, in the pixel coordinates of the resolution level it is read at.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "description": "Left edge (column of the first pixel).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "y": {
+          "description": "Top edge (row of the first pixel).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "width": {
+          "description": "Width in pixels (at least 1).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "height": {
+          "description": "Height in pixels (at least 1).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ]
+    },
+    "PyramidMode": {
+      "description": "Where the lower resolutions of an export come from.",
+      "oneOf": [
+        {
+          "description": "The writer's default: the source's own levels when it has them and the whole image is\nexported from level 0; else 2 × 2 mean levels for OME-Zarr and none for OME-TIFF.",
+          "type": "string",
+          "const": "auto"
+        },
+        {
+          "description": "Full resolution only.",
+          "type": "string",
+          "const": "none"
+        },
+        {
+          "description": "The source's own pyramid levels, copied.",
+          "type": "string",
+          "const": "source"
+        },
+        {
+          "description": "2 × 2 mean levels computed from the exported resolution.",
+          "type": "string",
+          "const": "mean"
+        }
+      ]
+    },
+    "TableExportReport": {
+      "description": "Output of `export --to csv`.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The input file.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The CSV file written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Always `csv` in this schema version.",
+          "type": "string"
+        },
+        "table": {
+          "description": "Table index written.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "first_row": {
+          "description": "First row written (zero-based).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "rows_written": {
+          "description": "Data rows written.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "columns_written": {
+          "description": "Columns written.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "header_lines": {
+          "description": "Header lines before the data (1, or 2 with `--labels`).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "bytes_written": {
+          "description": "Size of the written file in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "True when the written file was read back and every value parsed equal to the source.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "table",
+        "first_row",
+        "rows_written",
+        "columns_written",
+        "header_lines",
+        "bytes_written",
+        "verified"
+      ]
+    },
+    "TraceExportReport": {
+      "description": "Output of `export --to csv` for a trace (one sweep: a time column plus one column per channel).",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The input file.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The CSV file written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Always `csv` in this schema version.",
+          "type": "string"
+        },
+        "trace": {
+          "description": "Trace index written.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "sweep": {
+          "description": "Sweep index written.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "first_sample": {
+          "description": "First sample of the sweep written (zero-based).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "samples_written": {
+          "description": "Samples (rows) written.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "channels_written": {
+          "description": "Signal channels written (the time column is not counted).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "bytes_written": {
+          "description": "Size of the written file in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "True when the written file was read back and every value parsed equal to the source.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "trace",
+        "sweep",
+        "first_sample",
+        "samples_written",
+        "channels_written",
+        "bytes_written",
+        "verified"
+      ]
+    },
+    "MzmlExportReport": {
+      "description": "Result of an mzML export.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The file that was read.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The mzML file written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Always `mzml`.",
+          "type": "string"
+        },
+        "spectra_written": {
+          "description": "Spectra written.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "points_written": {
+          "description": "Data points (m/z-intensity pairs) written, over all spectra.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes_written": {
+          "description": "Size of the written file in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "True when the file was read back and every array, the index and the checksum agreed.",
+          "type": "boolean"
+        },
+        "view": {
+          "description": "`primary` or `centroid`.",
+          "type": "string"
+        },
+        "sha1": {
+          "description": "SHA-1 of the file up to the checksum element, as recorded in it.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "spectra_written",
+        "points_written",
+        "bytes_written",
+        "verified",
+        "view",
+        "sha1"
+      ]
+    },
+    "AsmExportReport": {
+      "description": "Output of `export --to asm`.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The plate-reader export that was converted.",
+          "type": "string"
+        },
+        "output": {
+          "description": "Where the ASM JSON document was written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Always `asm`.",
+          "type": "string"
+        },
+        "manifest": {
+          "description": "The ASM manifest IRI the document declares.",
+          "type": "string"
+        },
+        "documents": {
+          "description": "`plate reader document` entries (one per plate and well).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "measurements": {
+          "description": "Measurement documents (one per well and measured read).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "values": {
+          "description": "Numeric values carried by the measurement documents (cube points counted singly).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "errors": {
+          "description": "Non-numeric cells written as error documents.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "calculated": {
+          "description": "Values of reads calculated by the vendor software, written as calculated-data documents.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes_written": {
+          "description": "Size of the written document in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "True when the written file was parsed back and its measured values matched the source.",
+          "type": "boolean"
+        },
+        "notes": {
+          "description": "Caveats of the conversion (e.g. a time zone assumed because the export records none).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "manifest",
+        "documents",
+        "measurements",
+        "values",
+        "errors",
+        "calculated",
+        "bytes_written",
+        "verified"
+      ]
+    },
+    "ColumnarExportReport": {
+      "description": "Output of a Parquet or Arrow IPC export.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The input file.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The file written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "`parquet` or `arrow`.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "What was exported: `table`, `trace` or `spectra`.",
+          "type": "string"
+        },
+        "index": {
+          "description": "Table, trace or spectra-run index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "rows_written": {
+          "description": "Rows written (table rows, trace samples over all sweeps, or spectrum points).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "columns": {
+          "description": "Column names, in order.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "compression": {
+          "description": "`none`, `snappy` or `lz4`.",
+          "type": "string"
+        },
+        "bytes_written": {
+          "description": "Size of the written file in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "True when the file was read back and its schema, metadata and every value matched.",
+          "type": "boolean"
+        },
+        "sweeps": {
+          "description": "Traces: the sweeps written.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        },
+        "first_row": {
+          "description": "Tables and traces: the first row (sample of each sweep) written, zero-based.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "spectra_written": {
+          "description": "Spectra: spectra (scans) written.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "summary_output": {
+          "description": "Spectra: the per-scan summary file (`<name>.scans.parquet`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "summary_bytes": {
+          "description": "Spectra: size of the summary file in bytes.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "kind",
+        "index",
+        "rows_written",
+        "columns",
+        "compression",
+        "bytes_written",
+        "verified"
+      ]
+    },
+    "NwbExportReport": {
+      "description": "Output of `export --to nwb`.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The input file.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The NWB file written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Always `nwb`.",
+          "type": "string"
+        },
+        "nwb_version": {
+          "description": "NWB schema version written (`nwb_version`).",
+          "type": "string"
+        },
+        "identifier": {
+          "description": "`identifier` written (a UUID derived from the source and the time of writing).",
+          "type": "string"
+        },
+        "session_start_time": {
+          "description": "`session_start_time` written.",
+          "type": "string"
+        },
+        "series": {
+          "description": "One entry per `TimeSeries`, in the order written.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NwbSeriesReport"
+          }
+        },
+        "samples_written": {
+          "description": "Samples written over all series and channels.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes_written": {
+          "description": "Size of the written file in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "True when the file was re-opened and every series and sample matched.",
+          "type": "boolean"
+        },
+        "notes": {
+          "description": "What the export assumed (e.g. a session start taken from the file's modification time).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "nwb_version",
+        "identifier",
+        "session_start_time",
+        "series",
+        "samples_written",
+        "bytes_written",
+        "verified"
+      ]
+    },
+    "NwbSeriesReport": {
+      "description": "One `TimeSeries` written.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name under `/acquisition/`.",
+          "type": "string"
+        },
+        "trace": {
+          "description": "Source trace index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "sweep": {
+          "description": "Source sweep index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "samples": {
+          "description": "Samples (rows of `data`).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "channels": {
+          "description": "Channels (columns of `data`).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "channel_indices": {
+          "description": "Source channel indices, in column order.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        },
+        "unit": {
+          "description": "`data` unit, when the channels record one.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rate_hz": {
+          "description": "`starting_time` `rate` in Hz.",
+          "type": "number",
+          "format": "double"
+        },
+        "starting_time_s": {
+          "description": "`starting_time` in seconds.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "name",
+        "trace",
+        "sweep",
+        "samples",
+        "channels",
+        "channel_indices",
+        "rate_hz",
+        "starting_time_s"
+      ]
+    },
+    "JcampExportReport": {
+      "description": "Output of `export --to jcamp`.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The input file.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The JCAMP-DX file written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Always `jcamp-dx`.",
+          "type": "string"
+        },
+        "jcamp_version": {
+          "description": "`##JCAMP-DX=` version written (`5.01`).",
+          "type": "string"
+        },
+        "data_type": {
+          "description": "`##DATA TYPE=` written (`NMR FID`, `NMR SPECTRUM`, or the source's data type).",
+          "type": "string"
+        },
+        "data_class": {
+          "description": "`XYDATA` or `NTUPLES`.",
+          "type": "string"
+        },
+        "trace": {
+          "description": "Trace index written.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "sweeps": {
+          "description": "Sweeps written.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        },
+        "pages": {
+          "description": "Data tables (NTUPLES pages; 1 for XYDATA).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "first_sample": {
+          "description": "First sample of each sweep written (zero-based).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "samples_written": {
+          "description": "Points per sweep written.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "channels_written": {
+          "description": "Channels written (one table per channel and sweep).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "encoding": {
+          "description": "`difdup` or `affn`.",
+          "type": "string"
+        },
+        "factors": {
+          "description": "The ordinate factor of each channel (value = integer × factor).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "exact": {
+          "description": "True when every value round-trips bit-exactly.",
+          "type": "boolean"
+        },
+        "max_abs_error": {
+          "description": "Largest |written − source| over all values (0 when `exact`; at most half the factor).",
+          "type": "number",
+          "format": "double"
+        },
+        "bytes_written": {
+          "description": "Size of the written file in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "True when the file was re-read and every ordinate matched.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "jcamp_version",
+        "data_type",
+        "data_class",
+        "trace",
+        "sweeps",
+        "pages",
+        "first_sample",
+        "samples_written",
+        "channels_written",
+        "encoding",
+        "factors",
+        "exact",
+        "max_abs_error",
+        "bytes_written",
+        "verified"
+      ]
+    },
+    "RdmlExportReport": {
+      "description": "What `export --to rdml` wrote.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The input file.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The RDML file written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Always `rdml`.",
+          "type": "string"
+        },
+        "rdml_version": {
+          "description": "RDML schema version written (`1.3`).",
+          "type": "string"
+        },
+        "runs": {
+          "description": "Runs (plates) written.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "reactions": {
+          "description": "Reactions (`react` elements).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "data_elements": {
+          "description": "Data elements (one per reaction × target).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "cq_values": {
+          "description": "Cq values written.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "amplification_points": {
+          "description": "Amplification data points (`adp`).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "melt_points": {
+          "description": "Melt data points (`mdp`).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "samples": {
+          "description": "Samples, targets, dyes defined.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "targets": {
+          "description": "Targets defined.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "dyes": {
+          "description": "Dyes defined.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "bytes_written": {
+          "description": "Size of the file.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "The file was read back and every reaction, Cq and data point matched.",
+          "type": "boolean"
+        },
+        "notes": {
+          "description": "What could not be carried over and why.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "rdml_version",
+        "runs",
+        "reactions",
+        "data_elements",
+        "cq_values",
+        "amplification_points",
+        "melt_points",
+        "samples",
+        "targets",
+        "dyes",
+        "bytes_written",
+        "verified",
+        "notes"
+      ]
+    },
+    "PerImageExport": {
+      "description": "Output of `export --to ome-tiff --per-image`.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The file that was read.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The directory the files were written into.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Always `ome-tiff`.",
+          "type": "string"
+        },
+        "files": {
+          "description": "One entry per image written.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PerImageFile"
+          }
+        },
+        "images_skipped": {
+          "description": "Images left out because plane files they need are missing (`--skip-incomplete`).",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        },
+        "verified": {
+          "description": "True when every file was verified.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "files",
+        "verified"
+      ]
+    },
+    "PerImageFile": {
+      "description": "One file of a `--per-image` export.",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "Image index in the input.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "well": {
+          "description": "Well of the image (plates only).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "field": {
+          "description": "Field number of the image (plates only).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "output": {
+          "description": "The OME-TIFF written.",
+          "type": "string"
+        },
+        "planes_written": {
+          "description": "Planes written.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes_written": {
+          "description": "Size of the file in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "True when every plane was read back and hashed equal to the source plane.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "image",
+        "output",
+        "planes_written",
+        "bytes_written",
+        "verified"
+      ]
+    }
+  }
+}

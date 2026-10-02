@@ -1,0 +1,269 @@
+{
+ "id": "pwiz-waters-160109-mix1-calcurve-070",
+ "file": "pwiz-waters/160109_Mix1_calcurve_070.raw",
+ "format": "waters-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "the .raw's _HEADER.TXT (MassLynx text header), read as text",
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (160109_Mix1_calcurve_070.mzML)",
+  "the vendor-library conversion (160109_Mix1_calcurve_070.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "acquisition start (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2009-01-22T15:58:31",
+   "cmp": "time"
+  },
+  {
+   "field": "instrument (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "XEVO-TQMS",
+   "cmp": "text"
+  },
+  {
+   "field": "sample description (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/name",
+   "theirs": "72amol in 100ng ecoli",
+   "cmp": "text"
+  },
+  {
+   "field": "acquired name (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "160109_Mix1_calcurve_070",
+   "cmp": "text"
+  },
+  {
+   "field": "spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}#len",
+   "theirs": 15,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "MS2 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/2",
+   "theirs": 15,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "first retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#min",
+   "theirs": 1349.3379592895399,
+   "cmp": "num",
+   "abs": 0.001,
+   "reader": 1
+  },
+  {
+   "field": "last retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#max",
+   "theirs": 4168.0407714843595,
+   "cmp": "num",
+   "abs": 0.001,
+   "reader": 1
+  },
+  {
+   "field": "polarities",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/parameters/polarity/value",
+   "theirs": [
+    "positive"
+   ],
+   "cmp": "set",
+   "reader": 1
+  },
+  {
+   "field": "scan MS level",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=17 process=0 scan=1": 2,
+    "function=17 process=0 scan=2": 2,
+    "function=19 process=0 scan=1": 2,
+    "function=19 process=0 scan=2": 2,
+    "function=19 process=0 scan=3": 2,
+    "function=19 process=0 scan=4": 2,
+    "function=13 process=0 scan=1": 2,
+    "function=13 process=0 scan=2": 2,
+    "function=13 process=0 scan=3": 2,
+    "function=21 process=0 scan=1": 2,
+    "function=16 process=0 scan=1": 2,
+    "function=23 process=0 scan=1": 2,
+    "function=18 process=0 scan=1": 2,
+    "function=18 process=0 scan=2": 2,
+    "function=24 process=0 scan=1": 2
+   },
+   "cmp": "exact",
+   "by": "/native_id",
+   "each": "/ms_level",
+   "reader": 1
+  },
+  {
+   "field": "scan retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=17 process=0 scan=1": 1349.3379592895399,
+    "function=17 process=0 scan=2": 1428.0300521850602,
+    "function=19 process=0 scan=1": 1680.2040481567199,
+    "function=19 process=0 scan=2": 1745.9890365600602,
+    "function=19 process=0 scan=3": 1763.2659530639398,
+    "function=19 process=0 scan=4": 1768.7140274047802,
+    "function=13 process=0 scan=1": 1819.42794799806,
+    "function=13 process=0 scan=2": 1826.46800994876,
+    "function=13 process=0 scan=3": 1831.5100479126,
+    "function=21 process=0 scan=1": 2471.35597229004,
+    "function=16 process=0 scan=1": 2867.16201782226,
+    "function=23 process=0 scan=1": 3251.5180206298796,
+    "function=18 process=0 scan=1": 3471.17294311524,
+    "function=18 process=0 scan=2": 3523.54591369626,
+    "function=24 process=0 scan=1": 4168.0407714843595
+   },
+   "cmp": "num",
+   "abs": 0.001,
+   "by": "/native_id",
+   "each": "/rt_s",
+   "reader": 1
+  },
+  {
+   "field": "scan polarity",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=17 process=0 scan=1": "positive",
+    "function=17 process=0 scan=2": "positive",
+    "function=19 process=0 scan=1": "positive",
+    "function=19 process=0 scan=2": "positive",
+    "function=19 process=0 scan=3": "positive",
+    "function=19 process=0 scan=4": "positive",
+    "function=13 process=0 scan=1": "positive",
+    "function=13 process=0 scan=2": "positive",
+    "function=13 process=0 scan=3": "positive",
+    "function=21 process=0 scan=1": "positive",
+    "function=16 process=0 scan=1": "positive",
+    "function=23 process=0 scan=1": "positive",
+    "function=18 process=0 scan=1": "positive",
+    "function=18 process=0 scan=2": "positive",
+    "function=24 process=0 scan=1": "positive"
+   },
+   "cmp": "text",
+   "by": "/native_id",
+   "each": "/polarity",
+   "reader": 1
+  },
+  {
+   "field": "scan precursor m/z",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=17 process=0 scan=1": 602.795,
+    "function=17 process=0 scan=2": 602.795,
+    "function=19 process=0 scan=1": 629.836,
+    "function=19 process=0 scan=2": 629.836,
+    "function=19 process=0 scan=3": 629.836,
+    "function=19 process=0 scan=4": 629.836,
+    "function=13 process=0 scan=1": 418.726,
+    "function=13 process=0 scan=2": 418.726,
+    "function=13 process=0 scan=3": 418.726,
+    "function=21 process=0 scan=1": 644.862,
+    "function=16 process=0 scan=1": 582.318,
+    "function=23 process=0 scan=1": 724.407,
+    "function=18 process=0 scan=1": 618.336,
+    "function=18 process=0 scan=2": 618.336,
+    "function=24 process=0 scan=1": 759.426
+   },
+   "cmp": "num",
+   "rel": 1e-06,
+   "by": "/native_id",
+   "each": "/precursor_mz",
+   "reader": 1
+  },
+  {
+   "field": "acquisition software version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/software_version",
+   "theirs": "4.1",
+   "cmp": "prefix",
+   "reader": 2
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2009-01-22T15:58:31Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 2
+  }
+ ]
+}

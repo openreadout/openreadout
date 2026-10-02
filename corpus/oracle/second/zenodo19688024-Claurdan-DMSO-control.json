@@ -1,0 +1,32 @@
+{
+ "id": "zenodo19688024-Claurdan-DMSO-control",
+ "file": "zenodo19688024-Claurdan-DMSO-control.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "81e5c406a0caa028bd4ca2b4151eeffb"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a76ecdaa3f095dc61e7de0d75b7f6aa3"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "59a3049688236c67bed540880ab00a96"
+    }
+   ]
+  }
+ ]
+}

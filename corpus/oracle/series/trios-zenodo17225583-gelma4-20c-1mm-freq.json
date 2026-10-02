@@ -1,0 +1,689 @@
+{
+ "id": "trios-zenodo17225583-gelma4-20c-1mm-freq",
+ "format": "ta-trios",
+ "independent": true,
+ "traces": [
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Storage modulus",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     4628.72
+    ],
+    [
+     1,
+     null,
+     4647.41
+    ],
+    [
+     2,
+     null,
+     4678.69
+    ],
+    [
+     3,
+     null,
+     4815.7
+    ],
+    [
+     4,
+     null,
+     5271.83
+    ],
+    [
+     5,
+     null,
+     6364.51
+    ],
+    [
+     6,
+     null,
+     8965.42
+    ],
+    [
+     7,
+     null,
+     15230.2
+    ],
+    [
+     8,
+     null,
+     30556.5
+    ],
+    [
+     9,
+     null,
+     78455.3
+    ],
+    [
+     10,
+     null,
+     210259.0
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 1e-06,
+   "y_tol_rel": 0.001,
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Loss modulus",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     2.90366
+    ],
+    [
+     1,
+     null,
+     5.22932
+    ],
+    [
+     2,
+     null,
+     2.04111
+    ],
+    [
+     3,
+     null,
+     3.76249
+    ],
+    [
+     4,
+     null,
+     1.87134
+    ],
+    [
+     5,
+     null,
+     45.6544
+    ],
+    [
+     6,
+     null,
+     55.7411
+    ],
+    [
+     7,
+     null,
+     278.922
+    ],
+    [
+     8,
+     null,
+     1356.14
+    ],
+    [
+     9,
+     null,
+     3379.22
+    ],
+    [
+     10,
+     null,
+     -73409.9
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 1e-06,
+   "y_tol_rel": 0.001,
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Tan(delta)",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     0.000627314
+    ],
+    [
+     1,
+     null,
+     0.00112521
+    ],
+    [
+     2,
+     null,
+     0.000436258
+    ],
+    [
+     3,
+     null,
+     0.000781297
+    ],
+    [
+     4,
+     null,
+     0.00035497
+    ],
+    [
+     5,
+     null,
+     0.00717328
+    ],
+    [
+     6,
+     null,
+     0.00621734
+    ],
+    [
+     7,
+     null,
+     0.0183138
+    ],
+    [
+     8,
+     null,
+     0.0443815
+    ],
+    [
+     9,
+     null,
+     0.0430719
+    ],
+    [
+     10,
+     null,
+     -0.34914
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 1e-09,
+   "y_tol_rel": 0.001,
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Angular frequency",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     6.28319
+    ],
+    [
+     1,
+     null,
+     9.95809
+    ],
+    [
+     2,
+     null,
+     15.7828
+    ],
+    [
+     3,
+     null,
+     25.0137
+    ],
+    [
+     4,
+     null,
+     39.6438
+    ],
+    [
+     5,
+     null,
+     62.8319
+    ],
+    [
+     6,
+     null,
+     99.5816
+    ],
+    [
+     7,
+     null,
+     157.827
+    ],
+    [
+     8,
+     null,
+     250.14
+    ],
+    [
+     9,
+     null,
+     396.441
+    ],
+    [
+     10,
+     null,
+     628.319
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 0.0,
+   "y_tol_rel": 2e-05,
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Oscillation torque",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     1.25883
+    ],
+    [
+     1,
+     null,
+     0.781655
+    ],
+    [
+     2,
+     null,
+     0.406613
+    ],
+    [
+     3,
+     null,
+     3.36771
+    ],
+    [
+     4,
+     null,
+     11.0026
+    ],
+    [
+     5,
+     null,
+     29.9825
+    ],
+    [
+     6,
+     null,
+     77.4317
+    ],
+    [
+     7,
+     null,
+     196.659
+    ],
+    [
+     8,
+     null,
+     496.226
+    ],
+    [
+     9,
+     null,
+     1248.85
+    ],
+    [
+     10,
+     null,
+     3135.33
+    ]
+   ],
+   "y_scale": 1000000.0,
+   "y_tol_abs": 0.0,
+   "y_tol_rel": 2e-05,
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Step time",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     6.03965
+    ],
+    [
+     1,
+     null,
+     12.9496
+    ],
+    [
+     2,
+     null,
+     19.7636
+    ],
+    [
+     3,
+     null,
+     26.497
+    ],
+    [
+     4,
+     null,
+     33.2907
+    ],
+    [
+     5,
+     null,
+     40.0684
+    ],
+    [
+     6,
+     null,
+     46.8828
+    ],
+    [
+     7,
+     null,
+     53.6111
+    ],
+    [
+     8,
+     null,
+     60.2156
+    ],
+    [
+     9,
+     null,
+     67.0269
+    ],
+    [
+     10,
+     null,
+     73.565
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 0.0,
+   "y_tol_rel": 2e-05,
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Temperature",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     20.0
+    ],
+    [
+     1,
+     null,
+     19.99
+    ],
+    [
+     2,
+     null,
+     20.0
+    ],
+    [
+     3,
+     null,
+     20.0
+    ],
+    [
+     4,
+     null,
+     20.01
+    ],
+    [
+     5,
+     null,
+     20.0
+    ],
+    [
+     6,
+     null,
+     20.0
+    ],
+    [
+     7,
+     null,
+     19.98
+    ],
+    [
+     8,
+     null,
+     20.0
+    ],
+    [
+     9,
+     null,
+     20.01
+    ],
+    [
+     10,
+     null,
+     20.0
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 0.0051,
+   "y_tol_rel": 0.0,
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Raw phase",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     0.0450018
+    ],
+    [
+     1,
+     null,
+     0.129884
+    ],
+    [
+     2,
+     null,
+     179.903
+    ],
+    [
+     3,
+     null,
+     179.978
+    ],
+    [
+     4,
+     null,
+     179.997
+    ],
+    [
+     5,
+     null,
+     179.97
+    ],
+    [
+     6,
+     null,
+     179.986
+    ],
+    [
+     7,
+     null,
+     179.972
+    ],
+    [
+     8,
+     null,
+     179.946
+    ],
+    [
+     9,
+     null,
+     179.947
+    ],
+    [
+     10,
+     null,
+     180.462
+    ]
+   ],
+   "y_scale": 57.29577951308232,
+   "y_tol_abs": 0.0,
+   "y_tol_rel": 2e-05,
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Oscillation displacement",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     0.000351265
+    ],
+    [
+     1,
+     null,
+     0.000349552
+    ],
+    [
+     2,
+     null,
+     0.000349318
+    ],
+    [
+     3,
+     null,
+     0.000349062
+    ],
+    [
+     4,
+     null,
+     0.000356651
+    ],
+    [
+     5,
+     null,
+     0.000356256
+    ],
+    [
+     6,
+     null,
+     0.000354856
+    ],
+    [
+     7,
+     null,
+     0.000354223
+    ],
+    [
+     8,
+     null,
+     0.000353934
+    ],
+    [
+     9,
+     null,
+     0.000354784
+    ],
+    [
+     10,
+     null,
+     0.000355099
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 0.0,
+   "y_tol_rel": 2e-05,
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Complex viscosity",
+   "n": null,
+   "samples": [
+    [
+     0,
+     null,
+     736.683
+    ],
+    [
+     1,
+     null,
+     466.697
+    ],
+    [
+     2,
+     null,
+     296.443
+    ],
+    [
+     3,
+     null,
+     192.522
+    ],
+    [
+     4,
+     null,
+     132.98
+    ],
+    [
+     5,
+     null,
+     101.297
+    ],
+    [
+     6,
+     null,
+     90.0326
+    ],
+    [
+     7,
+     null,
+     96.5153
+    ],
+    [
+     8,
+     null,
+     122.278
+    ],
+    [
+     9,
+     null,
+     198.082
+    ],
+    [
+     10,
+     null,
+     354.447
+    ]
+   ],
+   "y_scale": 1.0,
+   "y_tol_abs": 1e-09,
+   "y_tol_rel": 0.001,
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls"
+  }
+ ],
+ "facts": [
+  {
+   "path": "acquisition.operator",
+   "value": "Ali",
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls Details sheet"
+  },
+  {
+   "path": "sample.name",
+   "value": "GelMA4%TEA37mMDNEMbuff20C1mmfreq",
+   "source": "TRIOS export trios-zenodo17225583-gelma4-20c-1mm-freq.xls Details sheet"
+  }
+ ]
+}

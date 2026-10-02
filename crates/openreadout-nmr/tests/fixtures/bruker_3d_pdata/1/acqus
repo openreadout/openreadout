@@ -1,0 +1,11 @@
+##TITLE= Parameter file, TopSpin 4.1.0
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##$TD= 16
+##$AQ_mod= 3
+##$SW_h= 1000
+##$NUC1= <1H>
+##$SFO1= 600.13
+##$BYTORDA= 0
+##$DTYPA= 0
+##END=

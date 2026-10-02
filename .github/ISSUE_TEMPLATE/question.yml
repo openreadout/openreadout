@@ -1,0 +1,21 @@
+name: Question
+description: How do I...? Is it possible to...? Something in the docs is unclear.
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The docs site, `openreadout --help`, `openreadout <command> --help` and `openreadout formats` answer many questions. If the docs were wrong or unclear, please say where; that is a docs bug worth fixing.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What you are trying to do, the command or code you tried, the format, and `openreadout --version`.

@@ -1,0 +1,32 @@
+{
+ "id": "xrd-fairmat-rasx-powder",
+ "file": "xrd-fairmat-rasx-powder.rasx",
+ "format": "rigaku-rasx",
+ "family": "bench",
+ "readers": [
+  "the .rasx MesurementConditions XML (`ScanInformation/StartTime`, `SystemName`), read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "ScanInformation StartTime",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-05-05T10:35:31Z",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "GeneralInformation SystemName",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "SmartLabXE",
+   "cmp": "text"
+  }
+ ]
+}

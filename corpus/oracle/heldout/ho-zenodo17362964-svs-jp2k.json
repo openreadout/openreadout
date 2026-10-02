@@ -1,0 +1,50 @@
+{
+ "id": "ho-zenodo17362964-svs-jp2k",
+ "file": "4438-082-67.svs",
+ "size": 8991969,
+ "sha256": "4aa0b47ba9a83bdc2f954e75e85a3911b7d6ed2ac30df73d0b61ad8d2595fe73",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "svs",
+ "flags": [
+  "svs"
+ ],
+ "page_count": 5,
+ "series_count": 4,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "svs",
+   "axes": "YXS",
+   "shape": [
+    5062,
+    5976,
+    3
+   ],
+   "size_x": 5976,
+   "size_y": 5062,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 2,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.5013,
+    "y": 0.5013
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f4035eb8a1eb27614ed2240f12a5f983",
+     "mean": 234.52555284573916
+    }
+   ]
+  }
+ ]
+}

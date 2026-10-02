@@ -1,0 +1,144 @@
+{
+  "manifest_version": "0.3",
+  "name": "openreadout",
+  "display_name": "OpenReadout",
+  "version": "0.1.0",
+  "description": "Read raw lab-instrument files (microscopy, screening plates, electron microscopy, flow cytometry, electrophysiology, NMR, FT-IR/Raman, mass spectrometry, chromatography, plate readers, qPCR) without vendor software.",
+  "long_description": "One static binary that reads lab-instrument files and returns what is in them: images, channels, pixel size, signals, spectra, plate reads and acquisition metadata; shows a preview image of the data; validates file integrity; answers the usual analysis question (chromatogram peaks, standard curves, Cq values, NMR peaks, spike features, gated counts, many-file tables joined to sample sheets); and exports to OME-TIFF, OME-Zarr, mzML, Parquet, NWB, JCAMP-DX, Allotrope ASM or RDML with read-back verification. Offline, no telemetry, never modifies the source file. Every tool is read-only except export, check with report=true, batch with output and index, which only write new files (exports are verified).",
+  "author": {
+    "name": "The OpenReadout Authors",
+    "email": "openreadout@gmail.com",
+    "url": "https://github.com/openreadout"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openreadout/openreadout"
+  },
+  "homepage": "https://github.com/openreadout/openreadout",
+  "license": "MIT OR Apache-2.0",
+  "keywords": [
+    "microscopy",
+    "czi",
+    "nd2",
+    "lif",
+    "ome-tiff",
+    "ome-zarr",
+    "mzml",
+    "electrophysiology",
+    "nmr",
+    "plate-reader",
+    "science"
+  ],
+  "server": {
+    "type": "binary",
+    "entry_point": "server/openreadout",
+    "mcp_config": {
+      "command": "${__dirname}/server/openreadout",
+      "args": [
+        "mcp"
+      ],
+      "env": {},
+      "platform_overrides": {
+        "win32": {
+          "command": "${__dirname}/server/openreadout.exe"
+        }
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "openreadout_info",
+      "description": "What a file or data-set directory holds, from its headers: images, tables, traces, spectra, plate, experiment, assurance; view=full|structure|explain|format, or ask a question in words"
+    },
+    {
+      "name": "openreadout_check",
+      "description": "Integrity check with findings; against=FILE compares two files (e.g. a source and its export); report=true builds a privacy-reviewed diagnostic bundle"
+    },
+    {
+      "name": "openreadout_preview",
+      "description": "A picture of the data (image plane, composite, projection, zoomed region, trace, spectrum or plate heat map) as image content"
+    },
+    {
+      "name": "openreadout_stats",
+      "description": "Pixel statistics per channel and image: min, max, mean, std, percentiles, histogram, zero and saturated fractions; per=plane|well|field"
+    },
+    {
+      "name": "openreadout_trace",
+      "description": "One window of one sweep of a signal or 1-D spectrum in physical units: statistics, argmax_axis_value and samples"
+    },
+    {
+      "name": "openreadout_table",
+      "description": "Rows of a table (FCS events, plate reads, event, spike and peak tables); FCS optionally compensated, transformed and gated; filter and count"
+    },
+    {
+      "name": "openreadout_spectra",
+      "description": "Mass spectra of an MS run: scan headers filtered and counted, or one spectrum's m/z and intensity arrays (scan, index, or ms_level + nth)"
+    },
+    {
+      "name": "openreadout_analyze",
+      "description": "Analyses with documented methods: kind=peaks, chromatogram, nmr-peaks, ephys-features, spikes, qpcr, assay or gate"
+    },
+    {
+      "name": "openreadout_export",
+      "description": "Convert to OME-TIFF, OME-Zarr, Parquet, mzML, NWB, JCAMP-DX, Allotrope ASM or RDML with read-back verification, or write an embedded attachment"
+    },
+    {
+      "name": "openreadout_batch",
+      "description": "Any measure or analysis over many files as one tidy table, joined to sample sheets and summarized by group; measure=summarize regroups a saved table"
+    },
+    {
+      "name": "openreadout_link",
+      "description": "Group files that measured the same sample across instruments, with the evidence and a confidence"
+    },
+    {
+      "name": "openreadout_index",
+      "description": "Catalog every data set under directories into an index of Parquet tables (headers only; resumable)"
+    },
+    {
+      "name": "openreadout_search",
+      "description": "Search an index: data sets matching a query such as objective=63x channel~GFP acquired<2020"
+    },
+    {
+      "name": "openreadout_watch",
+      "description": "Watch directories where instruments write: new data sets, planes and scans, completion, stalls and live QC events since a cursor"
+    },
+    {
+      "name": "openreadout_formats",
+      "description": "Supported formats and known gaps"
+    }
+  ],
+  "compatibility": {
+    "claude_desktop": ">=1.0.0",
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ]
+  },
+  "prompts": [
+    {
+      "name": "summarize_file",
+      "description": "Summarize an instrument file",
+      "arguments": [
+        "file"
+      ],
+      "text": "Summarize the lab-instrument file ${arguments.file}: call openreadout_info (view=explain for an account in words), look at it with openreadout_preview, then report what it is, what was measured and how, when, and anything unusual. Only state values the tools returned."
+    },
+    {
+      "name": "check_file",
+      "description": "Check a file and explain problems",
+      "arguments": [
+        "file"
+      ],
+      "text": "Check whether ${arguments.file} is intact with openreadout_check. Explain every finding in plain language (cause, affected data) and suggest how to salvage what is readable."
+    },
+    {
+      "name": "convert_to_open_format",
+      "description": "Convert to an open format",
+      "arguments": [
+        "file"
+      ],
+      "text": "Convert ${arguments.file} to the open format that fits its data (OME-TIFF or OME-Zarr for images, mzML for mass spectra, Allotrope ASM for plate reads; CSV via the CLI for tables and traces) with openreadout_export, after checking its size with openreadout_info. Report the output path and whether it was verified."
+    }
+  ]
+}

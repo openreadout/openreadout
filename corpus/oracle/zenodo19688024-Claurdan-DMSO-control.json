@@ -1,0 +1,64 @@
+{
+ "id": "zenodo19688024-Claurdan-DMSO-control",
+ "file": "zenodo19688024-Claurdan-DMSO-control.czi",
+ "size": 977856,
+ "sha256": "3cd82c4b164a9fa5b4bc03fdbd312513a29f9812c27c46315ffe9879e558787c",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CYX",
+   "shape": [
+    3,
+    512,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.10543058043985258,
+    "y": 0.10543058043985258,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "81e5c406a0caa028bd4ca2b4151eeffb"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a76ecdaa3f095dc61e7de0d75b7f6aa3"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "59a3049688236c67bed540880ab00a96"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.10543058043985258,
+  "y": 0.10543058043985258,
+  "z": 0.0
+ },
+ "subblock_count": 3,
+ "compression_ids": [
+  0
+ ]
+}

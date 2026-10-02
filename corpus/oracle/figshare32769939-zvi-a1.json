@@ -1,0 +1,29 @@
+{
+ "id": "figshare32769939-zvi-a1",
+ "file": "a1.zvi",
+ "size": 2970112,
+ "sha256": "36fdc9c24b6418a3a294287f2bbdd9981bfa6e9b325e48fcb1b6f50b1ea5d168",
+ "max_planes_hashed": 64,
+ "reader": "olefile 0.47 (BSD-2) + docs/formats/zvi.md plane layout (Bio-Formats 8.5.0 cannot open this file)",
+ "independent": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1388,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b41447b4d2850424ec32c50509e4ef9c"
+    }
+   ]
+  }
+ ]
+}

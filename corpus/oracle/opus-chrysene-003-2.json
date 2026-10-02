@@ -1,0 +1,154 @@
+{
+ "id": "opus-chrysene-003-2",
+ "file": "chrysene_003.2",
+ "size": 34692,
+ "sha256": "c9106a8d3f582aa3c7b550b541cf2b4a4a4308eedbc7acd5d1ea874443522052",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 2385,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2385,
+     "channels": [
+      {
+       "xxh3": "1ed8e419be386b77515c7268beb37b55",
+       "first": [
+        0.0106019526720047,
+        0.01269580889493227,
+        0.011956526897847652,
+        0.011277449317276478,
+        0.01186529640108347,
+        0.012174452655017376,
+        0.012465953826904297,
+        0.012903385795652866
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 399.17493345629885,
+   "x_last": 4996.436002827392,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.299782,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "Backward Input",
+     "detector": "Fast ADC MCT [External]",
+     "instrument": "Vertex 70",
+     "instrument_serial": "2007434",
+     "sample_name": "Transmission 15x DAC without sample",
+     "operator": "Administrator",
+     "aperture": "6 mm",
+     "scans": 100
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 2385,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2385,
+     "channels": [
+      {
+       "xxh3": "19b7654aae1eaa05c1240ca86f91dbf7",
+       "first": [
+        0.0235886387526989,
+        0.023650703951716423,
+        0.023618390783667564,
+        0.023466307669878006,
+        0.023315437138080597,
+        0.023282615467905998,
+        0.023325778543949127,
+        0.023325156420469284
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 399.17493345629885,
+   "x_last": 4996.436002827392,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.299782,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "Backward Input",
+     "detector": "Fast ADC MCT [External]",
+     "instrument": "Vertex 70",
+     "instrument_serial": "2007434",
+     "sample_name": "Transmission 15x DAC without sample",
+     "operator": "Administrator",
+     "aperture": "6 mm",
+     "scans": 100
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 2385,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2385,
+     "channels": [
+      {
+       "xxh3": "7904ddeff132faf19de05e22cdd085c5",
+       "first": [
+        0.02417156845331192,
+        0.024352293461561203,
+        0.024277660995721817,
+        0.024083644151687622,
+        0.02396121621131897,
+        0.02394452504813671,
+        0.024005021899938583,
+        0.02402857132256031
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 399.17493345629885,
+   "x_last": 4996.436002827392,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.299782,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "Backward Input",
+     "detector": "Fast ADC MCT [External]",
+     "instrument": "Vertex 70",
+     "instrument_serial": "2007434",
+     "sample_name": "Transmission 15x DAC without sample",
+     "operator": "Administrator",
+     "aperture": "6 mm"
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

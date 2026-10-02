@@ -1,0 +1,77 @@
+{
+ "id": "zenodo4421962-bead4-linescan-4hz",
+ "file": "linescan-4hz.oif",
+ "size": 53106,
+ "sha256": "9944e31a8cbd2a77de15dda3d272b14772f47d15abe72888a3246ca85e30130e",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box); planes cross-checked with oiffile 2026.2.8",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series 1",
+   "size_x": 228,
+   "size_y": 10000,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.041
+   },
+   "channel_names": [
+    "CH2",
+    "TD1"
+   ],
+   "oiffile_agrees": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e6709fad63c687e04c1ca222e157855f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9b0d197d4c4ffe7ab87c1f2cb0246355"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Series 2",
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.041,
+    "y": 0.041
+   },
+   "channel_names": [
+    null,
+    null
+   ],
+   "oiffile_agrees": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8e177a0461e5a408adb2c31df56b8cd3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "90b6d271fef2f31e6397c34f6857f89f"
+    }
+   ]
+  }
+ ]
+}

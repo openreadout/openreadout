@@ -1,0 +1,20 @@
+{
+ "id": "nis-zenodo7677827-xy01c1",
+ "file": "nis/zenodo-7677827/single_plane_1-2000_2xy01c1.tif",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d961fdf34586d20e98c9512bc9ff5ba4"
+    }
+   ]
+  }
+ ]
+}

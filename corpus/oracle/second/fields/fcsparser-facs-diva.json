@@ -1,0 +1,638 @@
+{
+ "id": "fcsparser-facs-diva",
+ "file": "fcsparser-facs-diva.fcs",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0",
+  "FlowKit 1.3.2 (BSD-3) compensation with the file's spillover matrix"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 83411,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 12,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "Time",
+    "FSC-A",
+    "FSC-W",
+    "SSC-A",
+    "FITC-A",
+    "PE-A",
+    "PerCP-A",
+    "PE-Cy7-A",
+    "PacificBlue-A",
+    "APC-A",
+    "Alexa700-A",
+    "APC-Cy7-A"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter labels ($PnS)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FITC-A": "CD20",
+    "PE-A": "CD10",
+    "PerCP-A": "CD45",
+    "PE-Cy7-A": "CD34",
+    "PacificBlue-A": "Syto 41",
+    "APC-A": "CD19",
+    "Alexa700-A": "CD38"
+   },
+   "cmp": "text",
+   "by": "/name",
+   "each": "/label"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "Time": 262144.0,
+    "FSC-A": 262144.0,
+    "FSC-W": 262144.0,
+    "SSC-A": 262144.0,
+    "FITC-A": 262144.0,
+    "PE-A": 262144.0,
+    "PerCP-A": 262144.0,
+    "PE-Cy7-A": 262144.0,
+    "PacificBlue-A": 262144.0,
+    "APC-A": 262144.0,
+    "Alexa700-A": 262144.0,
+    "APC-Cy7-A": 262144.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "Time": 32,
+    "FSC-A": 32,
+    "FSC-W": 32,
+    "SSC-A": 32,
+    "FITC-A": 32,
+    "PE-A": 32,
+    "PerCP-A": 32,
+    "PE-Cy7-A": 32,
+    "PacificBlue-A": 32,
+    "APC-A": 32,
+    "Alexa700-A": 32,
+    "APC-Cy7-A": 32
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "detector voltage ($PnV)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-A": 484.0,
+    "FSC-W": 484.0,
+    "SSC-A": 308.0,
+    "FITC-A": 595.0,
+    "PE-A": 481.0,
+    "PerCP-A": 818.0,
+    "PE-Cy7-A": 724.0,
+    "PacificBlue-A": 460.0,
+    "APC-A": 713.0,
+    "Alexa700-A": 731.0,
+    "APC-Cy7-A": 651.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/detector_voltage"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "F",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "big-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS3.0",
+   "cmp": "text"
+  },
+  {
+   "field": "time step ($TIMESTEP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/timestep_s",
+   "theirs": 0.01,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "file name ($FIL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/file_name",
+   "theirs": "123991.fcs",
+   "cmp": "text"
+  },
+  {
+   "field": "source ($SRC)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/source",
+   "theirs": "xxxxxxxxxx15",
+   "cmp": "text"
+  },
+  {
+   "field": "system ($SYS)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/system",
+   "theirs": "Windows XP 5.1",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2014-07-18T09:44:26.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2014-07-18T09:44:26.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "spillover parameters (SPILL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/parameters",
+   "theirs": [
+    "FITC-A",
+    "PE-A",
+    "PerCP-A",
+    "PE-Cy7-A",
+    "PacificBlue-A",
+    "APC-A",
+    "Alexa700-A",
+    "APC-Cy7-A"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "spillover matrix (SPILL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/matrix",
+   "theirs": [
+    [
+     1.0,
+     0.1839411109727794,
+     0.02827867777329447,
+     0.0004060895028034042,
+     0.0006508724169327775,
+     0.0007580097351785911,
+     0.0003248783446121164,
+     0.0
+    ],
+    [
+     0.011581669303046487,
+     1.0,
+     0.19626166303408363,
+     0.010455313122640945,
+     0.0,
+     0.0005229159582986238,
+     0.0005504336817206334,
+     8.141783583894115e-05
+    ],
+    [
+     0.0,
+     0.0001727399177687636,
+     1.0,
+     0.027303162546871367,
+     0.0,
+     0.009970444623319285,
+     0.049169146119486556,
+     0.004277638550680424
+    ],
+    [
+     0.0014548190838027154,
+     0.015320643573587395,
+     0.005606180417735229,
+     1.0,
+     6.877496238929153e-05,
+     0.0007144915229670215,
+     0.02732936054186291,
+     0.07677079153405247
+    ],
+    [
+     0.002031495127462663,
+     0.0009006189461744203,
+     0.0006927644484113418,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     8.1211188372131e-05,
+     0.0,
+     0.014751575129971052,
+     0.0004916044406070384,
+     0.00013575320958375512,
+     1.0,
+     0.7745864342939027,
+     0.07835036545547949
+    ],
+    [
+     0.0002949703376648528,
+     0.00014770728430805238,
+     0.0006282841827893915,
+     0.0017836897311030691,
+     0.0006788369608804571,
+     0.0019745797905779063,
+     1.0,
+     0.10033063843137807
+    ],
+    [
+     0.00012625948190162433,
+     0.0,
+     0.0017350449621317088,
+     0.013365492022969395,
+     0.0008919012872592548,
+     0.05108943223628973,
+     0.3962356381239804,
+     1.0
+    ]
+   ],
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "compensated events (FITC-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/4",
+   "theirs": [
+    -6.041631592113879,
+    6452.638546283906,
+    276.0034240045852,
+    122.74699939986908,
+    206.5967721180798,
+    9646.46412086351,
+    4860.99754882781,
+    126.59610502439024,
+    293.70534649020254,
+    1606.3677629209535,
+    7649.257013703385,
+    1571.052441243959,
+    247.62000160847833,
+    188.4418329361578,
+    278.23633111114077,
+    1939.511924402965
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PE-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/5",
+   "theirs": [
+    0.44872922414648597,
+    84946.4445669623,
+    878.8135097452544,
+    87072.33817917883,
+    271.2103659190677,
+    454.874104987926,
+    47213.271872630925,
+    145.378936352111,
+    36845.91751433204,
+    111854.99636009429,
+    37491.28265268938,
+    55574.80148789724,
+    -24.83362604946387,
+    150.27320142970376,
+    1618.1154319305174,
+    59360.935337984134
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PerCP-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/6",
+   "theirs": [
+    11171.167773338864,
+    20946.793284871706,
+    6410.556057861156,
+    6044.44343162408,
+    49749.436159257035,
+    33846.44515565966,
+    31433.544971737847,
+    42609.02827312033,
+    11466.770558256982,
+    7738.59800058796,
+    15144.423883478634,
+    19991.49839136275,
+    23606.28872597924,
+    280.2028861286884,
+    3484.4347419507967,
+    6472.634867414387
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PE-Cy7-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/7",
+   "theirs": [
+    -311.0586105870073,
+    1607.2536538223849,
+    21.752064024168646,
+    -15.004355861492275,
+    -405.4656417121125,
+    -175.8881785503152,
+    623.2291359445873,
+    -449.43211948724394,
+    2124.696930991474,
+    423.8515732811208,
+    2139.3858319228384,
+    1471.7545900344373,
+    357.1164538519356,
+    -113.02500632471961,
+    -2.8235861917854814,
+    811.6012274142477
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PacificBlue-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/8",
+   "theirs": [
+    2054.3285363820733,
+    16392.0617169169,
+    28418.085632104045,
+    16398.181598268544,
+    6444.93691063029,
+    23855.675698637257,
+    19961.950114595693,
+    14096.264949121987,
+    22102.73415005367,
+    7716.533032391672,
+    15390.128291806272,
+    27760.526410440067,
+    16573.741488865184,
+    25495.961864241493,
+    15249.299841951402,
+    33215.70009579864
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (APC-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/9",
+   "theirs": [
+    5987.459689535833,
+    2438.053618951234,
+    741.983246530117,
+    7198.716207950184,
+    123.52361310253606,
+    5355.911293704443,
+    15574.608439184858,
+    326.8778495619312,
+    6882.463952753858,
+    5401.252803638213,
+    7554.882728748666,
+    925.8005328762089,
+    -2.4446175741291416,
+    46.58417034718015,
+    771.415241899813,
+    9694.09507907123
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (Alexa700-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/10",
+   "theirs": [
+    1159.2496681468965,
+    607.5094242749391,
+    1785.2799188896008,
+    957.7935192514377,
+    825.0277172566749,
+    460.2831286590759,
+    4296.524026118448,
+    11947.870724626315,
+    -117.49817816510094,
+    2091.768542463343,
+    3344.6379358089143,
+    392.1088468477563,
+    1154.3140524171297,
+    444.6619683299189,
+    901.1797844816806,
+    4349.418437105862
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (APC-Cy7-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/11",
+   "theirs": [
+    68.82608133839364,
+    352.2966908930159,
+    -89.03644367668689,
+    -222.4913568479412,
+    -112.45794997306884,
+    401.4850689729997,
+    339.07967626470503,
+    211.5569582084857,
+    4.139831245512744,
+    447.61210190611484,
+    -45.314646668313195,
+    -226.70628554081972,
+    145.04520678490428,
+    -219.15692893805837,
+    316.4832675336368,
+    799.5963671246664
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  }
+ ]
+}

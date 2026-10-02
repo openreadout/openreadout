@@ -1,0 +1,24 @@
+[project]
+name = "openreadout-signal-oracle"
+version = "0.1.0"
+description = "Ground truth for OpenReadout's signal analysis (nmr-peaks, ephys-features, spikes). A separate uv project because SpikeInterface pins zarr<3 while the main oracle needs zarr>=3. Third-party tools are run as black boxes; nothing here ships in the binary."
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "numpy",
+    "scipy>=1.13",
+    # NMR: nmrglue (BSD-3) processing pipeline and peak picking; TopSpin's own processed spectra,
+    # peak lists and integrals are read from the corpus pdata directories.
+    "nmrglue>=0.11",
+    # Electrophysiology readers: pyABF (MIT) and Neo (BSD-3)
+    "pyabf>=2.3.8",
+    "neo>=0.14",
+    # eFEL (LGPL-3.0): action-potential and passive features. Run as a black box only; its
+    # source is never consulted (docs/legal/clean-room-policy.md rule 3).
+    "efel>=5.7",
+    # SpikeInterface (MIT): bandpass filter, noise levels and detect_peaks for extracellular
+    # threshold crossings.
+    "spikeinterface>=0.102",
+]
+
+[tool.uv]
+package = false

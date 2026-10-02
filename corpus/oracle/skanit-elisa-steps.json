@@ -1,0 +1,28 @@
+{
+ "id": "skanit-elisa-steps",
+ "file": "skanit-elisa-steps.xlsx",
+ "size": 84290,
+ "sha256": "3ad533674c20ab4efc03da8fb6ea9bc560d9681a29e430e0b7739ad60af6d953",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (THERMO_SKANIT)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 96,
+    "errors": 0,
+    "wavelengths": [
+     450.0
+    ],
+    "value_xxh3": "69291e2a339b048b4039a7a4e3418dd8"
+   }
+  ],
+  "header": {
+   "model": "Varioskan LUX",
+   "serial_number": "3020-81776",
+   "software_version": "7.0.0.50"
+  },
+  "documents": 96
+ }
+}

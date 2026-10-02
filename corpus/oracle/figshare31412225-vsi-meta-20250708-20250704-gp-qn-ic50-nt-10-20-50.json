@@ -1,0 +1,10 @@
+{
+ "id": "figshare31412225-vsi-meta-20250708-20250704-gp-qn-ic50-nt-10-20-50",
+ "file": "20250708_20250704_GP_QN-IC50_NT_10_20_50-PhpC_2.vsi",
+ "size": 139578,
+ "sha256": "1b17d6b50ad214402e9a31f6acfd7e25b8d242b75563d8fff1ad99288aaed62d",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [],
+ "independent": false
+}

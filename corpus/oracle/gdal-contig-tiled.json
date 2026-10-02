@@ -1,0 +1,44 @@
+{
+ "id": "gdal-contig-tiled",
+ "file": "gdal-contig-tiled.tif",
+ "size": 2816,
+ "sha256": "3a016cd7f1ca6ec2cc72571ce8670a2546b15acdc7e035c329a45a8cb1717c67",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YXS",
+   "shape": [
+    37,
+    35,
+    3
+   ],
+   "size_x": 35,
+   "size_y": 37,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d07e6849323333b2f11e1e23c9999811"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bts:MeasurementData bts:Version="1.0" xmlns:bts="http://www.yokogawa.co.jp/BTS/BTSSchema/1.0">
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:14:56.145+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="1" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="1" bts:Action="2D" bts:X="0.0" bts:Y="781.0" bts:Z="-9.0" bts:Ch="1">1053601756_A01_T0001F001L01A01Z01C01.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:14:56.881+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="1" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="2" bts:Action="2D" bts:X="0.0" bts:Y="781.0" bts:Z="-10.0" bts:Ch="2">1053601756_A01_T0001F001L01A02Z01C02.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:14:57.646+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="1" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="3" bts:Action="2D" bts:X="0.0" bts:Y="781.0" bts:Z="-10.0" bts:Ch="3">1053601756_A01_T0001F001L01A03Z01C03.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:14:58.170+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="1" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="4" bts:Action="2D" bts:X="0.0" bts:Y="781.0" bts:Z="-10.0" bts:Ch="4">1053601756_A01_T0001F001L01A04Z01C04.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:14:58.825+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="1" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="5" bts:Action="2D" bts:X="0.0" bts:Y="781.0" bts:Z="-10.0" bts:Ch="5">1053601756_A01_T0001F001L01A05Z01C05.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:00.049+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="1" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="6" bts:Action="BF3D" bts:X="0.0" bts:Y="781.0" bts:Z="-17.0" bts:Ch="6">1053601756_A01_T0001F001L01A06Z01C06.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:00.153+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="1" bts:ZIndex="2" bts:TimelineIndex="1" bts:ActionIndex="6" bts:Action="BF3D" bts:X="0.0" bts:Y="781.0" bts:Z="-9.0" bts:Ch="6">1053601756_A01_T0001F001L01A06Z02C06.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:00.254+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="1" bts:ZIndex="3" bts:TimelineIndex="1" bts:ActionIndex="6" bts:Action="BF3D" bts:X="0.0" bts:Y="781.0" bts:Z="-1.0" bts:Ch="6">1053601756_A01_T0001F001L01A06Z03C06.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:01.450+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="2" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="1" bts:Action="2D" bts:X="676.3" bts:Y="390.5" bts:Z="-9.0" bts:Ch="1">1053601756_A01_T0001F002L01A01Z01C01.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:01.896+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="2" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="2" bts:Action="2D" bts:X="676.3" bts:Y="390.5" bts:Z="-10.0" bts:Ch="2">1053601756_A01_T0001F002L01A02Z01C02.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:02.660+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="2" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="3" bts:Action="2D" bts:X="676.3" bts:Y="390.5" bts:Z="-10.0" bts:Ch="3">1053601756_A01_T0001F002L01A03Z01C03.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:03.185+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="2" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="4" bts:Action="2D" bts:X="676.3" bts:Y="390.5" bts:Z="-10.0" bts:Ch="4">1053601756_A01_T0001F002L01A04Z01C04.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:03.421+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="2" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="5" bts:Action="2D" bts:X="676.3" bts:Y="390.5" bts:Z="-10.0" bts:Ch="5">1053601756_A01_T0001F002L01A05Z01C05.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:04.649+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="2" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="6" bts:Action="BF3D" bts:X="676.3" bts:Y="390.5" bts:Z="-17.0" bts:Ch="6">1053601756_A01_T0001F002L01A06Z01C06.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:04.748+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="2" bts:ZIndex="2" bts:TimelineIndex="1" bts:ActionIndex="6" bts:Action="BF3D" bts:X="676.3" bts:Y="390.5" bts:Z="-9.0" bts:Ch="6">1053601756_A01_T0001F002L01A06Z02C06.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:04.847+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="2" bts:ZIndex="3" bts:TimelineIndex="1" bts:ActionIndex="6" bts:Action="BF3D" bts:X="676.3" bts:Y="390.5" bts:Z="-1.0" bts:Ch="6">1053601756_A01_T0001F002L01A06Z03C06.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:06.062+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="3" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="1" bts:Action="2D" bts:X="676.3" bts:Y="-390.4" bts:Z="-9.0" bts:Ch="1">1053601756_A01_T0001F003L01A01Z01C01.tif</bts:MeasurementRecord>
+<bts:MeasurementRecord bts:Type="IMG" bts:Time="2021-06-14T09:15:06.598+01:00" bts:Column="1" bts:Row="1" bts:TimePoint="1" bts:FieldIndex="3" bts:ZIndex="1" bts:TimelineIndex="1" bts:ActionIndex="2" bts:Action="2D" bts:X="676.3" bts:Y="-390.4" bts:Z="-10.0" bts:Ch="2">1053601756_A01_T0001F003L01A02Z01C02.tif</bts:Measur
+=====FUZZ-NEXT-FILE=====
+Ôªø<?xml version="1.0" encoding="utf-8"?>
+<bts:MeasurementDetail bts:Version="1.0" bts:OperatorName="kwjq195" bts:Title="JUMPCP-11062021-AZbatch2" bts:Application="Cell Painting" bts:BeginTime="2021-06-14T09:13:26.4470768+01:00" bts:EndTime="2021-06-14T12:22:21.1695405+01:00" bts:MeasurementSettingFileName="CellPainting_20x_2bin_6FoV.mes" bts:ColumnCount="24" bts:RowCount="16" bts:TimePointCount="1" bts:FieldCount="6" bts:ZCount="3" bts:TargetSystem="CV8000 AZ01" bts:ReleaseNumber="R2.03.02" bts:Status="0" xmlns:bts="http://www.yokogawa.co.jp/BTS/BTSSchema/1.0">
+  <bts:MeasurementSamplePlate bts:Name="1053601756" bts:WellPlateFileName="1053601756.wpi" bts:WellPlateProductFileName="1038480001_PerkinElmer_384wCellCarrierUltra.wpp" />
+  <bts:MeasurementChannel bts:Ch="1" bts:HorizontalPixelDimension="0.65" bts:VerticalPixelDimension="0.65" bts:CameraNumber="1" bts:InputBitDepth="16" bts:InputLevel="4000" bts:HorizontalPixels="996" bts:VerticalPixels="996" bts:FilterWheelPosition="4" bts:FilterPosition="1" bts:ShadingCorrectionSource="SC_BP445-45_20x W-Y1_M01_CH01.tif" bts:ObjectiveMagnificationRatio="1" bts:OriginalHorizontalPixels="1000" bts:OriginalVerticalPixels="1000" />
+  <bts:MeasurementChannel bts:Ch="2" bts:HorizontalPixelDimension="0.65" bts:VerticalPixelDimension="0.65" bts:CameraNumber="3" bts:InputBitDepth="16" bts:InputLevel="20000" bts:HorizontalPixels="996" bts:VerticalPixels="996" bts:FilterWheelPosition="6" bts:FilterPosition="1" bts:ShadingCorrectionSource="SC_BP525-50_20x W-Y1_M01_CH02.tif" bts:ObjectiveMagnificationRatio="1" bts:OriginalHorizontalPixels="1000" bts:OriginalVerticalPixels="1000" />
+  <bts:MeasurementChannel bts:Ch="3" bts:HorizontalPixelDimension="0.65" bts:VerticalPixelDimension="0.65" bts:CameraNumber="3" bts:InputBitDepth="16" bts:InputLevel="20000" bts:HorizontalPixels="996" bts:VerticalPixels="996" bts:FilterWheelPosition="6" bts:FilterPosition="3" bts:ShadingCorrectionSource="SC_BP600-37_20x W-Y1_M01_CH03.tif" bts:ObjectiveMagnificationRatio="1" bts:OriginalHorizontalPixels="1000" bts:OriginalVerticalPixels="1000" />
+  <bts:MeasurementChannel bts:Ch="4" bts:HorizontalPixelDimension="0.65" bts:VerticalPixelDimension="0.65" bts:CameraNumber="3" bts:InputBitDepth="16" bts:InputLevel="30000" bts:HorizontalPixels="996" bts:VerticalPixels="996" bts:FilterWheelPosition="6" bts:FilterPosition="3" bts:ShadingCorrectionSource="SC_BP600-37_20x W-Y1_M01_CH04.tif" bts:ObjectiveMagnificationRatio="1" bts:OriginalHorizontalPixels="1000" bts:OriginalVerticalPixels="1000" />
+  <bts:MeasurementChannel bts:Ch="5" bts:HorizontalPixelDimension="0.65" bts:VerticalPixelDimension="0.65" bts:CameraNumber="4" bts:InputBitDepth="16" bts:InputLevel="10000" bts:HorizontalPixels="996" bts:VerticalPixels="996" bts:FilterWheelPosition="7" bts:FilterPosition="1" bts:ShadingCorrectionSource="SC_BP676-29_20x W-Y1_M01_CH05.tif" bts:ObjectiveMagnificationRatio="1" bts:OriginalHorizontalPixels="1000" bts:OriginalVerticalPixels="1000" />
+  <bts:MeasurementChannel bts:Ch="6" bts:HorizontalPixelDimension="0.65" bts:VerticalPixelDimension="0.65" bts:CameraNumber="3" bts:InputBitDepth="16" bts:InputLevel="65535" bts:HorizontalPixels="996" bts:VerticalPixels="996" bts:FilterWheelPosition="6" bts:FilterPosition="1" bts:ShadingCorrectionSource="" bts:ObjectiveMagnificationRatio="1" bts:OriginalHorizontalPixels="1000" bts:OriginalVerticalPixels="1000" />
+</bts:MeasurementDetail>
+=====FUZZ-NEXT-FILE=====
+Ôªø<?xml version="1.0" encoding="utf-8"?>
+<bts:MeasurementSetting bts:Version="1.0" bts:ProductID="1038480001" bts:Application="Cell Painting" bts:Columns="24" bts:Rows="16" xmlns:bts="http://www.yokogawa.co.jp/BTS/BTSSchema/1.0">
+  <bts:Timelapse>
+    <bts:Timeline bts:Name="Time Line 1" bts:InitialTime="0" bts:Period="21269" bts:Interval="0" bts:ExpectedTime="12305" bts:Color="#ff44ee66" bts:OverrideExpectedTime="false">
+      <bts:WellSequence bts:IsSelected="false" />
+      <bts:PointSequence bts:Method="FixedPosition">
+        <bts:FixedPosition bts:IsProportional="false">
+          <bts:Point bts:X="0" bts:Y="781.00000000000023" />
+          <bts:Point bts:X="676.3658403556467" bts:Y="390.50000000000017" />
+          <bts:Point bts:X="676.36584035564681" bts:Y="-390.49999999999989" />
+          <bts:Point bts:X="9.5641756233527689E-14" bts:Y="-781.00000000000023" />
+          <bts:Point bts:X="-676.36584035564658" bts:Y="-390.50000000000045" />
+          <bts:Point bts:X="-676.365840355647" bts:Y="390.49999999999955" />
+        </bts:FixedPosition>
+      </bts:PointSequence>
+      <bts:ActionList bts:RunMode="sequential">
+        <bts:ActionAcquire bts:XOffset="0" bts:YOffset="0" bts:ZOffset="-9" bts:IgnoreSoftFocus="true" bts:ConnectedAction="-2">
+          <bts:Ch>1</bts:Ch>
+        </bts:ActionAcquire>
+        <bts:ActionAcquire bts:XOffset="0" bts:YOffset="0" bts:ZOffset="-10" bts:IgnoreSoftFocus="true" bts:ConnectedAction="-2">
+          <bts:Ch>2</bts:Ch>
+        </bts:ActionAcquire>
+        <bts:ActionAcquire bts:XOffset="0" bts:YOffset="0" bts:ZOffset="-10" bts:IgnoreSoftFocus="true" bts:ConnectedAction="-2">
+          <bts:Ch>3</bts:Ch>
+        </bts:ActionAcquire>
+        <bts:ActionAcquire bts:XOffset="0" bts:YOffset="0" bts:ZOffset="-10" bts:IgnoreSoftFocus="true" bts:ConnectedAction="-2">
+          <bts:Ch>4</bts:Ch>
+        </bts:ActionAcquire>
+        <bts:ActionAcquire bts:XOffset="0" bts:YOffset="0" bts:ZOffset="-10" bts:IgnoreSoftFocus="true" bts:ConnectedAction="-2">
+          <bts:Ch>5</bts:Ch>
+        </bts:ActionAcquire>
+        <bts:ActionAcquireBF3D bts:XOffset="0" bts:YOffset="0" bts:AFShiftBase="-9" bts:TopDistance="8" bts:BottomDistance="-8" bts:SliceLength="8">
+          <bts:Ch>6</bts:Ch>
+        </bts:ActionAcquireBF3D>
+      </bts:ActionList>
+    </bts:Timeline>
+  </bts:Timelapse>
+  <bts:LightSourceList bts:UseCalibratedLaserPower="true">
+    <bts:LightSource bts:Name="405nm" bts:Type="Laser" bts:WaveLength="405" bts:Power="100" />
+    <bts:LightSource bts:Name="445nm" bts:Type="Laser" bts:WaveLength="445" bts:Power="0" />
+    <bts:LightSource bts:Name="488nm" bts:Type="Laser" bts:WaveLength="488" bts:Power="100" />
+    <bts:LightSource bts:Name="561nm" bts:Type="Laser" bts:WaveLength="561" bts:Power="100" />
+    <bts:LightSource bts:Name="640nm" bts:Type="Laser" bts:WaveLength="640" bts:Power="100" />
+    <bts:LightSource bts:Name="Lamp" bts:Type="Lamp" bts:WaveLength="0" bts:Power="100" />
+  </bts:LightSourceList>
+  <bts:ChannelList>
+    <bts:Channel bts:Ch="1" bts:Target="Hoechst" bts:ObjectiveID="20104" bts:Objective="20x W-Y1" bts:Magnification="20" bts:MethodID="1" bts:Method="Confocal Fluorescence 405/488/561/640 nm" bts:FilterID="1" bts:Acquisition="BP445/45" bts:ExposureTime="150" bts:Binning="2" bts:Color="#FF002FFF" bts:MinLevel="0" bts:MaxLevel="0.34329125554854578" bts:CSUID="2" bts:PinholeDiameter="50" bts:Kind="ConfocalFluorescence" bts:CameraType="DCAM" bts:InputLevel="4000" bts:Fluorophore="">
+      <bts:LightSourceName>405nm</bts:LightSourceName>
+    </bts:Channel>
+    <bts:Channel bts:Ch="2" bts:Target="Concanavalin" bts:ObjectiveID="20104" bts:Objective="20x W-Y1" bts:Magnification="20" bts:MethodID="1" bts:Method="Confocal Fluorescence 405/488/561/640 nm" bts:FilterID="3" bts:Acquisition="BP525/50" bts:ExposureTime="150" bts:Binning="2" bts:Color="#FF00FFA1" bts:MinLevel="0" bts:MaxLevel="0.647304585367306" bts:CSUID="2" bts:PinholeDiameter="50" bts:Kind="ConfocalFluorescence" bts:CameraType="DCAM" bts:InputLevel="20000" bts:Fluorophore="">
+      <bts:LightSourceName>488nm</bts:LightSourceName>
+    </bts:Channel>
+    <bts:Channel bts:Ch="3" bts:Target="SYTO" bts:ObjectiveID="20104" bts:Objective="20x W-Y1" bts:Magnification="20" bts:MethodID="1" bts:Method="Confocal Fluorescence 405/488/561/640 nm" bts:FilterID="5" bts:Acquisition="BP600/37" bts:ExposureTime="100" bts:Binning="2" bts:Color="#FFFF8200" bts:MinLevel="0" bts:MaxLevel="0.10198679672495908" bts:CSUID="2" bts:PinholeDiameter="50" bts:Kind="ConfocalFluorescence" bts:CameraType="DCAM" bts:InputLevel="20000" bts:Fluorophore="">
+      <bts:LightSourceName>488nm</bts:LightSourceName>
+    </bts:Channel>
+    <bts:Channel bts:Ch="4" bts:Target="WGA_Phalloidin" bts:ObjectiveID="20104" bts:Objective="20x W-Y1" bts:Magnification="20" bts:MethodID="1" bts:Method="Confocal Fluorescence 405/488/561/640 nm" bts:FilterID="5" bts:Acquisition="BP600/37" bts:ExposureTime="200" bts:Binning="2" bts:Color="#FFFF8200" bts:MinLevel="0" bts:MaxLevel="0.19406198466215363" bts:CSUID="2" bts:PinholeDiameter="50" bts:Kind="ConfocalFluorescence" bts:CameraType="DCAM" bts:InputLevel="30000" bts:Fluorophore="">
+      <bts:LightSourceName>561nm</bts:LightSourceName>
+    </bts:Channel>
+    <bts:Channel bts:Ch="5" bts:Target="MitoTracker" bts:ObjectiveID="20104" bts:Objective="20x W-Y1" bts:Magnification="20" bts:MethodID="1" bts:Method="Confocal Fluorescence 405/488/561/640 nm" bts:FilterID="8" bts:Acquisition="BP676/29" bts:ExposureTime="200" bts:Binning="2" bts:Color="#FFFF1B00" bts:MinLevel="0.049654818729421832" bts:MaxLevel="0.18128325047067806" bts:CSUID="2" bts:PinholeDiameter="50" bts:Kind="ConfocalFluorescence" bts:CameraType="DCAM" bts:InputLevel="10000" bts:Fluorophore="">
+      <bts:LightSourceName>640nm</bts:LightSourceName>
+    </bts:Channel>
+    <bts:Channel bts:Ch="6" bts:Target="TL" bts:ObjectiveID="20104" bts:Objective="20x W-Y1" bts:Magnification="20" bts:MethodID="4" bts:Method="Brightfield (ConfocalPath)" bts:FilterID="3" bts:Acquisition="BP525/50" bts:ExposureTime="50" bts:Binning="2" bts:Color="#FFFFFFFF" bts:MinLevel="0" bts:MaxLevel="0.13916483061438403" bts:CSUID="2" bts:PinholeDiameter="50" bts:Kind="Brightfield" bts:CameraType="DCAM" bts:InputLevel="65535" bts:Fluorophore="">
+      <bts:LightSourceName>Lamp</bts:LightSourceName>
+    </bts:Channel>
+  </bts:ChannelList>
+</bts:MeasurementSetting>
+=====FUZZ-NEXT-FILE=====
+II*     ˛              ‰      ‰                           ∫              ‰       F     ™       ≤   (           @  ' @  '                                8 h s U [ ^ l S U i ^ {  v Ä k ¨ î é p ` s Q ` A U L N Y [ F ; .       
+                                                                                                                                  
+                          
+  
+         (      	                                	        	          
+   	       	                           	                             	                      	    
+             	 !                          	                                        
+               	     	                          
+                                 	    	   
+                   	              
+                                    	    	           
+          
+       	 	      	               
+      
+    
+                 
+   	 	     	                                     
+                               
+       
+          
+      
+ 	      
+        
+    	              
+                                           
+                         	   
+                
+   
+            
+                       	                	                                                  
+                                          	 	    
+   	 	           	            	       
+                                  	            
+       
+      	   
+     
+                 	    !     
+  "                                          
+                
+       	        	  O T d R o P l ` L t v s Ñ w X ï v ú £ § ~ p ù z | ï z Ä  G T é X 1     	    	         
+                          	    
+ 
+ 	 
+    
+      	 
+        	        	      	  $      
+  
+                      	                        	                     
+              	                                                                                       	   	    	                	                     
+                      
+       	                                              	                              
+            	                
+   	   
+       
+              
+                   	    
+        	   	              
+ 	                	                                                             0             &                                        
+                         	                                     
+ 
+                       	             	 
+      	       
+                                             
+                  	            
+          	      	        	   	      	                                                            
+      	              
+    
+        	          	                 	                	                 	       	  	                      
+                  
+                                                             	                     
+    
+   
+             
+        	                     	 	                      5 g \ M X à m q S o V a Ä í  p Y i ß ° î l k t \ z t { l è w ^ k > K                	    	                           	                	    
+ 
+ 	                                               0                                   	                
+             
+         
+ 
+                                               	       
+        
+  	           	  
+                	  
+                    !                            
+       	     	        
+                                            )                                              
+                                    
+           
+        
+      
+                    	                  
+            
+ 
+     	    	      	               	                      
+                  )               
+     	      	     	     	     "                                
+       
+         
+               	         	        	                 	   
+        	      
+       
+       
+                                                   	                  	    	                       	     
+                       
+                                                       	                   	     
+    
+                                                                	                     
+                    	 	 	    	                    	     	                 
+        
+          
+            d t a T _ i O M g r c ß ü ö j m s û è ë Ä x n a { o \ { ` m g j g Z 4                	                                           	  	        	                              
+   
+          	          
+          	   	                             	   
+ 	 	       	                         	                               	                                                               
+ 	            	              
+   	      
+         
+   )                                	        
+                
+                                  
+       	         	              
+ 	  	       	   
+             
+ 
+ 	   	         
+      	                        	 	         	   	   
+                 
+           	        	       
+                         
+                     
+   
+               	      	       
+             	         	  	   	          	        	       
+                 
+                          	          
+   	     	     	             	 	 
+          	 
+ 
+      
+   
+   	                         	                           	  
+             	        	                        
+       
+     	       
+                                          
+ 	      	                	                         
+        
+                                8 ? > @ &                  
+   	             	    
+  
+                                         
+            	   	        1 N Ñ Y Z r j k ` [ S e Å } l \ b p ú í • ç x É ^ m Y c Y c p c r Z x :      	       	    
+                           	       
+                
+                      	       	                                                	     
+           
+                       !                           	     	                         
+ 
+         
+ 	                                                               	 	  	               	                    
+         %                                                
+           	  	    	         
+                                          	              
+ 	                                              	         	                                                         	                    
+     	          	                 	         	  
+                    	                                            
+                                          3  
+       
+ 
+        	                        	     	                    	         	      	   	         
+        
+   	                                   
+                                                        
+           	                    "         
+    
+    
+                                                               0 Y √ û | _   
+    
+   
+              	  
+      	                                            
+           
+             
+        	       % c n h Q : d w g é å f ` á û ã k t É ¨ o | } k ] p f d ^ Y a ] e Ç _ S  	                    	 '      	                	                      
+       	     
+         2 , - ) $ G < H : &     	                                            	            
+                  	                    
+           
+           	                               	       	                      
+    
+             	                          	         	        
+              
+                  
+   
+                  
+                                              	              &            	 	          
+ 	      	   
+            	       "                        
+  	       
+         	                       3                     
+    	     	 #                  
+                                 	                    	                                   
+                                        
+         	      
+       	   
+  
+   	                   	                          
+          	                                  
+    	 
+      	        
+           
+  	   	  	                                     	            
+                            
+                    
+               
+                	   	    
+       	 	                                    
+        A ù ô hÿ ¢ H *         
+           	     
+     	      	     
+          	 
+          	     
+ 	          	                      3     F I l c t Ç Ä ö Å t ä a Y ü • y { } õ u ∞  ö ä v x v B Y u h u Ç u c K    	              	      
+  
+                	    
+                         	      	 	      6 B a < } e m } e t ù ë k U K J @    	                                                           	          	        
+          	 
+           	        	                  
+           
+                                     
+                 
+     
+                            
+              
+   	                                                                                  	            	                                 	                                           
+                 	               
+       	                 
+ 	                       
+                  	                                  	 
+       
+         	           	            	   	     	                               	                                 	                      	           
+ 
+         	             
+                                              
+                                	   	    
+                               	                         	   	    	                                     
+                  
+ 
+  
+      	               
+                    	        	                                      n – oïbÓ ¢ "    	           	 	 
+  	    
+ 	             
+                      	                  
+                      
+      : W W ` S d p i ` r _ o Y à à x Z ê ó e b ] Ü ï ó ` M I i l | ^ } e Q !                                                                 
+       
+         - S : U f T Y ì X t ä Y ~ g } h a m [ f S :                                                                                                  
+               
+     
+ 
+                 
+                  	     	      	                                          	                 
+                    
+                      #                   
+      	                                        	               
+                    	         	    	        	 	                   
+                     
+                      	          	                   
+ 	                                    	            
+                         	       
+ 	                    !                     	               	 	                                    
+                  
+  	         	                                          	                                     	 
+                
+    	                                	           	             	   	        
+ 
+   
+   
+       
+ 
+         
+        
+       	  
+        	    	            	         	                  	      	                     
+           K ∫ aﬁ)BÎ∫	G     	                           	        	 	   
+         
+          	             	         	    	                  G b [ U U x n ] p o k { à Ü Ñ y z è ™ f ] F ê | ® i ó e _ X < ã i j K    
+         
+             	    
+             	    	 
+         	     
+               A = G b e n l t é ã w 

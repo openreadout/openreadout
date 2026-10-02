@@ -1,0 +1,42 @@
+{
+ "id": "dandi000027-sub-rat123",
+ "file": "dandi-nwb/dandi000027-sub-RAT123.nwb",
+ "format": "nwb",
+ "family": "electrophysiology",
+ "readers": [
+  "pynwb 4.2.0 (BSD-3)"
+ ],
+ "checks": [
+  {
+   "field": "session start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "1971-01-01T12:00:00+00:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "session description",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/comment",
+   "theirs": "a file to test writing and reading a Subject",
+   "cmp": "text"
+  },
+  {
+   "field": "subject id",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "RAT123",
+   "cmp": "text"
+  }
+ ]
+}

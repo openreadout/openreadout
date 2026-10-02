@@ -1,0 +1,45 @@
+{
+ "id": "spinsolveproc-t1",
+ "path": "spinsolveproc/230213-143621 T1 (lyogel)/data.2d",
+ "kind": "spinsolve",
+ "vendor_spectra": [
+  {
+   "file": "T1IR-Spectra.pt1",
+   "points": 16384,
+   "axis_offsets": [
+    1676,
+    198863,
+    396050,
+    593237,
+    790424,
+    987611,
+    1184798,
+    1381985,
+    1579172,
+    1776359
+   ],
+   "axis_first_ppm": -57.38117798767037,
+   "axis_step_ppm": 0.007583151581883366
+  }
+ ],
+ "script_phase_deg": [
+  156.16,
+  0.0
+ ],
+ "acqu": {
+  "bandwidth": 10,
+  "b1Freq": 80.48784939999999,
+  "lowestFrequency": -4618.487612266207,
+  "nrPnts": 16384,
+  "zf": 1,
+  "filter": "no",
+  "filterType": "exp:0.5"
+ },
+ "proc": {
+  "f1PPMOffset": "4.74",
+  "plotStart": "-160.976",
+  "plotStart2": "0.001",
+  "plotWidth": "1287.81",
+  "plotWidth2": "4.999"
+ }
+}

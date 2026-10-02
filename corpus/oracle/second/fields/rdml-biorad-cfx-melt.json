@@ -1,0 +1,74 @@
+{
+ "id": "rdml-biorad-cfx-melt",
+ "file": "rdml-biorad-cfx-melt.rdml",
+ "format": "rdml",
+ "family": "qpcr",
+ "readers": [
+  "the RDML XML read with Python's ElementTree"
+ ],
+ "checks": [
+  {
+   "field": "first run: instrument",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "Block Type \"96FX\", Cycler SN: CC009466, PXA270 Processor Firmware: 3.2.128.129, HC12 Thermal Control Firmware: 1.0.165.0, FX2 Controller Firmware: 1.35.0.0, Dsp Firmware Version: 1.123.0.0, 8051 Motorized Lid: 54, Shuttle SN: SG1653,Optical Head SN: 785BR3657",
+   "cmp": "text"
+  },
+  {
+   "field": "first run: reaction samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels",
+   "theirs": {
+    "A1": "Alm12",
+    "A2": "Alm12",
+    "A3": "Alm13",
+    "A4": "Alm13",
+    "A5": "Alm14",
+    "A6": "Alm14",
+    "A7": "katG 315",
+    "A8": "katG 315",
+    "A9": "H2O",
+    "A10": "H2O",
+    "D1": "Alm12",
+    "D2": "Alm12",
+    "D3": "Alm13",
+    "D4": "Alm13",
+    "D5": "Alm14",
+    "D6": "Alm14",
+    "D7": "katG 315",
+    "D8": "katG 315",
+    "D9": "H2O",
+    "D10": "H2O",
+    "H1": "Alm12",
+    "H2": "Alm12",
+    "H3": "Alm13",
+    "H4": "Alm13",
+    "H5": "Alm14",
+    "H6": "Alm14",
+    "H7": "katG 315",
+    "H8": "katG 315",
+    "H9": "H2O",
+    "H10": "H2O"
+   },
+   "cmp": "text",
+   "by": "/extra/well",
+   "each": "/extra/sample"
+  },
+  {
+   "field": "first run: amplification points per reaction",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 41,
+   "cmp": "exact"
+  }
+ ]
+}

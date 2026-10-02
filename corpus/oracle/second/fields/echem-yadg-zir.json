@@ -1,0 +1,31 @@
+{
+ "id": "echem-yadg-zir",
+ "file": "echem-yadg-zir.mpr",
+ "format": "biologic-mpr",
+ "family": "bench",
+ "readers": [
+  "the EC-Lab export of the same run (echem-yadg-zir.mpt) text header, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "Acquisition started on",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-03-26T12:10:53",
+   "cmp": "time"
+  },
+  {
+   "field": "Device",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "VMP3",
+   "cmp": "loose"
+  }
+ ]
+}

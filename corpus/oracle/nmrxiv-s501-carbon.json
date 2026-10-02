@@ -1,0 +1,74 @@
+{
+ "id": "nmrxiv-s501-carbon",
+ "file": "CARBON_01.fid",
+ "size": 301737,
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 32768,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 varian.read(as_2d=True)",
+   "nmrglue_dtype": "complex64",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 32768,
+     "channels": [
+      {
+       "xxh3": "b8e3f7bd947bfcbbb96d204fa50febb3",
+       "first": [
+        -12582.6416015625,
+        -2196.07568359375,
+        6215.69091796875,
+        26904.326171875,
+        -3753.0849609375,
+        3181.373779296875,
+        -16196.876953125,
+        -4099.93212890625
+       ]
+      },
+      {
+       "xxh3": "206dbbc875ae4a6c8dca33c72abc9c6d",
+       "first": [
+        4978.2236328125,
+        -24137.849609375,
+        -16779.759765625,
+        -2190.2890625,
+        9965.5703125,
+        28118.44921875,
+        12330.3857421875,
+        694.7137451171875
+       ]
+      }
+     ]
+    }
+   ],
+   "sample_rate_hz": 37878.7878788,
+   "parameters": {
+    "extra": {
+     "nucleus": "13C",
+     "spectrometer_frequency_mhz": 150.8082169,
+     "spectral_width_hz": 37878.7878788,
+     "scans": 3000,
+     "time_domain_size": 65536,
+     "pulse_program": "s2pul",
+     "solvent": "cdcl3"
+    }
+   }
+  }
+ ],
+ "file_header": {
+  "nblocks": 1,
+  "ntraces": 1,
+  "np": 65536,
+  "ebytes": 4,
+  "tbytes": 262144,
+  "bbytes": 262172,
+  "status": 201,
+  "nbheaders": 1
+ }
+}

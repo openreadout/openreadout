@@ -1,0 +1,53 @@
+{
+ "id": "nlx-cheetah-v5-5-1-stet3a-nse",
+ "file": "nlx-cheetah-v5-5-1-stet3a.nse",
+ "size": 172960,
+ "sha256": "8e0039b8e565412a981157f6e446f8e1e7bea3582b832a2490024c5dff32e6c6",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 NeuralynxRawIO",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 1398,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "timestamp_us": "08d9fb29da9119cd03f6c2f430df2cb0",
+    "cell": "7d7848ae0b2629e2cf77c585fea7eda5",
+    "w0_0": "35d3f7d692498ff7f70a6121adedfa26",
+    "w0_1": "080239b756aa4febad9295816047c650",
+    "w0_2": "ae8ddbb51e5e1cb69d3fea4a162286f0",
+    "w0_3": "521242e12c1fcf37fdf9ed4c3f9d2c52",
+    "w0_4": "e7802f9b64c99d87e7951dd0e218365b",
+    "w0_5": "4747004d79ed09329d49a627dbc6443e",
+    "w0_6": "f30dda29dc96910a2b272ed2cf503507",
+    "w0_7": "23f5d295eea2f7758440227129fd891c",
+    "w0_8": "3454e38b614e5d9d3d6685d21bc1959d",
+    "w0_9": "2b465083e5c506ab9cd79569bddc38d7",
+    "w0_10": "ed34d1f898b654ee2e054f63920ff622",
+    "w0_11": "f6179f5aedbe44d1e9370e94d1c93bcf",
+    "w0_12": "137017b349086c36b29e4b22998770e0",
+    "w0_13": "83a47bcd3a21da2ed3cfb15f953a33d0",
+    "w0_14": "4765f21b481525015bdc55d7164034b8",
+    "w0_15": "c429bb4ff8772771211da6d7e7b85149",
+    "w0_16": "6c1e7d385088b72a101a49ef3936a292",
+    "w0_17": "78cc1ddbfd0d2b3c5303108071f2ed38",
+    "w0_18": "ca2f4fcd26c2c3e5cc7c47db0c5aa61a",
+    "w0_19": "04e054e1b6d1abeb6260f6533ad63e75",
+    "w0_20": "9fd35e8156bb21d7b99b11019e1e2a4a",
+    "w0_21": "4349cc53abfb1bbdaf03b178736a762d",
+    "w0_22": "ccd929ad1cbf3562542dd5bcb44fa3bd",
+    "w0_23": "8dc2c2db9a1bd337f70932d3cf65220e",
+    "w0_24": "f08f75072539a2d3fa19068770dc81ee",
+    "w0_25": "e22938871bc038794298574fba197fe3",
+    "w0_26": "e4642ad7aac3e299821a1946a220c32d",
+    "w0_27": "e0e6e9813af20dd29160d65b808de8de",
+    "w0_28": "4a5fb91612a5c5a0f4c029b3758fa075",
+    "w0_29": "e766e0fb5a96b82dc97cffc83d0b16bd",
+    "w0_30": "645f01622b495702d0dede3108f86e51",
+    "w0_31": "ad0c3555d311a9a4e3760089940910f9"
+   }
+  }
+ ]
+}

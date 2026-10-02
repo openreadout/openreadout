@@ -1,0 +1,73 @@
+{
+ "id": "sciformats-andi-chrom-valid-cdf",
+ "file": "sciformats-andi_chrom_valid.cdf",
+ "size": 3384,
+ "sha256": "17eca606d92a418d0c26d82734383a052ef5e78826a068dd6208eadef7636a9f",
+ "max_planes_hashed": 64,
+ "reader": "scipy.io.netcdf_file (scipy 1.18.1)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "dummy detector name"
+   ],
+   "channel_units": [
+    "au"
+   ],
+   "sample_rate_hz": 0.1,
+   "sample_rate_tolerance_hz": 1e-06,
+   "x_first_min": 0.0,
+   "x_last_min": 1.5,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "8cd8a357a0ee3eaa0666b48615e0783c",
+       "first": [
+        10000.0,
+        111111.1015625,
+        10000.0,
+        122222.203125,
+        10000.0,
+        133333.296875,
+        10000.0,
+        10000.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 3,
+   "parameter_names": [
+    "peak_retention_time",
+    "peak_amount",
+    "peak_start_time",
+    "peak_end_time",
+    "peak_area",
+    "peak_height",
+    "baseline_start_value",
+    "baseline_stop_value"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "ce78a58315967e44b22b08c6c2d4c48a"
+  }
+ ]
+}

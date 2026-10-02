@@ -1,0 +1,193 @@
+{
+ "id": "bsst749-4ii-bodipy-ctl",
+ "file": "bsst749-4ii-bodipy-ctl.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series004",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5d5dc52b1805ec7125e508dcc6719a63"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "486a17ba479b31d834f5dfab11dcb12f"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Series007",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c7a4c4cf925186cd8f115b2f58a0f01b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "984f125cd2e28905fee0cd078e08e84b"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Series009",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "af5c930cec370eddbc8a4ad5013b6d92"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Series014",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "051e3a0b207b1be9becbcf5581cd7b69"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Series016",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f851198890fce10e4e6eb404c69dd9b9"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "Series018",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2600808ed398adb1d53db1537c304b0c"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "Series020",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5840448d1c78e61af3492be29fdc8397"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "Series026",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9fce725c8235b3547ba787163b36bc0d"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "Series029",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a81c433b97268e7fc5706c8d0096055a"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "Series031",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fb291874b14c45a8b468a67a330cd57d"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "Series034",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "48d06497319387d00cbdabb33a8cefa3"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "Preview035",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1e6827252527103a0501a20b50776036"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8cdc718f65f44ce0c919589818ce3db7"
+    }
+   ]
+  }
+ ]
+}

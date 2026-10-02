@@ -1,0 +1,288 @@
+{
+ "id": "ome-cellsens-deconv-binning2x2-mle",
+ "file": "40x SR  binning 2x2_Z-Stack_20260106_315_20MLE.vsi",
+ "size": 118470,
+ "sha256": "8302dcb152fed5171abcf7c16ab4bad8e9cda8b7df2e0eb67747b6023ea7b26e",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "SR488",
+   "size_x": 1152,
+   "size_y": 1152,
+   "size_z": 41,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.10156250000000001,
+    "y": 0.10156250000000001
+   },
+   "channel_names": [
+    "SR488"
+   ],
+   "emission_nm": [
+    518.0
+   ],
+   "acquired": "2026-01-06T13:41:47",
+   "resolutions": 1,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7a46d05cd901a3f1e1305dd63bd621d5"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "f91b4ad4b3096cd367d38d4d4522d6d7"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "f001d1c20a452ea12639197c0dc7dc8f"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "246163f525fd0f54a6de84400d55db00"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "e8853f2fc155c3384d2e01c7e14b3448"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "bc4e2d4b310c99040c23b0ee674ab278"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "8f549d79abd8cc2ff86752174d3f4f01"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "4d533c8bf834173f2f7c4a2de4cef40f"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "c107666039cbfaec14a9c0becf2a1d91"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "3359e8fac0bc2923c66b792eeac66664"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "fe2ce93c12e488e50a8a069cd1c6008b"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "72e86d57fbf51fc682e275e1df11caac"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "7ee40d6722974ba00f64d2801301cf8d"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "ce4bebb9de6925a9c235f4be7ba9d737"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "84e516f25717cd525ced6d632fc38744"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "1a18bc9551b9261a4311dd329b63718e"
+    },
+    {
+     "c": 0,
+     "z": 16,
+     "t": 0,
+     "xxh3": "f34002af7c5c2b8f5884a1251514c06e"
+    },
+    {
+     "c": 0,
+     "z": 17,
+     "t": 0,
+     "xxh3": "5d9b5fb9a831ffd0491fa60fc51ae2d9"
+    },
+    {
+     "c": 0,
+     "z": 18,
+     "t": 0,
+     "xxh3": "f1a133dad99dd43a169f943c9f3ff15e"
+    },
+    {
+     "c": 0,
+     "z": 19,
+     "t": 0,
+     "xxh3": "cb7a8d1554f46bd0af7b296758edfb87"
+    },
+    {
+     "c": 0,
+     "z": 20,
+     "t": 0,
+     "xxh3": "c4f6cca1eda65c305acbf339e4921fb6"
+    },
+    {
+     "c": 0,
+     "z": 21,
+     "t": 0,
+     "xxh3": "569d396cad7cbd6c893010b7d2b48d98"
+    },
+    {
+     "c": 0,
+     "z": 22,
+     "t": 0,
+     "xxh3": "3bf5aef7d22c81e6587523aa5316a1ea"
+    },
+    {
+     "c": 0,
+     "z": 23,
+     "t": 0,
+     "xxh3": "abcbb16cf338b2f7bd3bd8760bede6de"
+    },
+    {
+     "c": 0,
+     "z": 24,
+     "t": 0,
+     "xxh3": "54c81db1ebe549eae2bcf91d53bf0abb"
+    },
+    {
+     "c": 0,
+     "z": 25,
+     "t": 0,
+     "xxh3": "4dcae62131a650541b90d87a17c3b5dd"
+    },
+    {
+     "c": 0,
+     "z": 26,
+     "t": 0,
+     "xxh3": "b6026e6df1077a056fd024acd6a20eb8"
+    },
+    {
+     "c": 0,
+     "z": 27,
+     "t": 0,
+     "xxh3": "7ba1e1ab555ef64c5193786022afc628"
+    },
+    {
+     "c": 0,
+     "z": 28,
+     "t": 0,
+     "xxh3": "1159b72c8c5d87f57f6b8f0c19c2d2e9"
+    },
+    {
+     "c": 0,
+     "z": 29,
+     "t": 0,
+     "xxh3": "857afe24eed0e2649a61df809952289d"
+    },
+    {
+     "c": 0,
+     "z": 30,
+     "t": 0,
+     "xxh3": "af3bc927e83931526334262f6774cd47"
+    },
+    {
+     "c": 0,
+     "z": 31,
+     "t": 0,
+     "xxh3": "8a31febaf1b4d56cefb3706f5a98b047"
+    },
+    {
+     "c": 0,
+     "z": 32,
+     "t": 0,
+     "xxh3": "57d60f92a7d3dc267f51059da2477651"
+    },
+    {
+     "c": 0,
+     "z": 33,
+     "t": 0,
+     "xxh3": "ddc04256b53915e2a4c6f5b5097dfb89"
+    },
+    {
+     "c": 0,
+     "z": 34,
+     "t": 0,
+     "xxh3": "6f8951ddb2b3b8913929994d71e42b99"
+    },
+    {
+     "c": 0,
+     "z": 35,
+     "t": 0,
+     "xxh3": "5af1cbae98a19b758065115b81e823f4"
+    },
+    {
+     "c": 0,
+     "z": 36,
+     "t": 0,
+     "xxh3": "e384f3793a47f4cc5efbdee1714d3362"
+    },
+    {
+     "c": 0,
+     "z": 37,
+     "t": 0,
+     "xxh3": "db50456b204f8c0eec64e7c4a59b74e4"
+    },
+    {
+     "c": 0,
+     "z": 38,
+     "t": 0,
+     "xxh3": "a8fdd2cab288340ca7b7ec9863720233"
+    },
+    {
+     "c": 0,
+     "z": 39,
+     "t": 0,
+     "xxh3": "6768125e6eedfda591d4e665f9ebbdba"
+    },
+    {
+     "c": 0,
+     "z": 40,
+     "t": 0,
+     "xxh3": "f989828c37a329844d52201d4a1489a1"
+    }
+   ],
+   "levels": [],
+   "level_sizes": [
+    [
+     1152,
+     1152
+    ]
+   ]
+  }
+ ]
+}

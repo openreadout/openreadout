@@ -1,0 +1,31 @@
+{
+ "id": "zenodo11375101-14-mip",
+ "file": "zenodo11375101-mip-bundle/14_MIP.zvi",
+ "format": "zvi",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 1543,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 1195,
+   "cmp": "exact"
+  }
+ ]
+}

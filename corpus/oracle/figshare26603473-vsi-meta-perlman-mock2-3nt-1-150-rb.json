@@ -1,0 +1,10 @@
+{
+ "id": "figshare26603473-vsi-meta-perlman-mock2-3nt-1-150-rb",
+ "file": "Perlman MOCK2 3nt 1_150 rb.vsi",
+ "size": 1717960,
+ "sha256": "ef08c69c53a829a4124deebdd56e7d29e02d84cef13d12860a37799f08940608",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [],
+ "independent": false
+}

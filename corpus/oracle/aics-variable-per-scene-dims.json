@@ -1,0 +1,112 @@
+{
+ "id": "aics-variable-per-scene-dims",
+ "file": "aics-variable-per-scene-dims.czi",
+ "size": 28026240,
+ "sha256": "fb3894173da7958cc6270233a0c251331ea456f8a2a7a1be8350930122293053",
+ "max_planes_hashed": 16,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1848,
+   "size_y": 1248,
+   "size_z": 2,
+   "size_c": 1,
+   "size_t": 2,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "TZYX",
+   "shape": [
+    2,
+    2,
+    1248,
+    1848
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 0' (T: 2, Z: 2, Y: 1248, X: 1848) gray16 uncompressed>"
+   ],
+   "physical_size_um": {
+    "x": 0.5416666666666666,
+    "y": 0.5416666666666666,
+    "z": 2.23
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "96b30e7c61ba90c7c8d1f808f7ff8091"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "27fd014f42d96f4f4cad9b4170f3a536"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "28c57f46b3b0c72061a0453b8bb490d2"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "a2601fc25ad97d57b673702c9982645d"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Scene 1",
+   "size_x": 1848,
+   "size_y": 1248,
+   "size_z": 2,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "ZYX",
+   "shape": [
+    2,
+    1248,
+    1848
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 1' (Z: 2, Y: 1248, X: 1848) gray16 uncompressed>"
+   ],
+   "physical_size_um": {
+    "x": 0.5416666666666666,
+    "y": 0.5416666666666666,
+    "z": 2.23
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "181df49c555dd9afd06b16929d9f593e"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "4f08f35ecc5746f2ab20c807053f38db"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.5416666666666666,
+  "y": 0.5416666666666666,
+  "z": 2.23
+ },
+ "subblock_count": 6,
+ "compression_ids": [
+  0
+ ]
+}

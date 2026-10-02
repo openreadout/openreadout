@@ -1,0 +1,22 @@
+{
+ "id": "plexon-file-plexon-1-plx",
+ "file": "plexon-file-plexon-1.plx",
+ "format": "plexon",
+ "family": "electrophysiology",
+ "readers": [
+  "Neo 0.14.5 (BSD-3) PlexonRawIO: the block's rec_datetime"
+ ],
+ "checks": [
+  {
+   "field": "recording start (rec_datetime)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2000-03-03T14:16:11",
+   "cmp": "time_or_utc",
+   "abs": 0.002
+  }
+ ]
+}

@@ -1,0 +1,302 @@
+{
+ "id": "opus-brukeropus-example",
+ "file": "opus-brukeropus-example.0",
+ "size": 245696,
+ "sha256": "d500f4f04114a4b9fe3864d903ed4880c4a82e511f5dfe198212b0465b3ccc7c",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 4927,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4927,
+     "channels": [
+      {
+       "xxh3": "c8d6f174ee37d53d7deb760df6a12350",
+       "first": [
+        0.008768923580646515,
+        -0.017423229292035103,
+        0.21429963409900665,
+        0.329337477684021,
+        0.252794474363327,
+        -0.13772600889205933,
+        -1.1767736673355103,
+        -0.36193153262138367
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 9997.720922928467,
+   "x_last": 499.4039959572754,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15795.820598,
+     "apodization": "B3",
+     "beamsplitter": "KBr-Broadband",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.1]",
+     "instrument": "VERTEX 80V",
+     "instrument_serial": "1135",
+     "sample_name": "File Test",
+     "operator": "Duran",
+     "aperture": "1 mm",
+     "accessory": "TRANS *010A984F",
+     "scans": 50
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 4927,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4927,
+     "channels": [
+      {
+       "xxh3": "7177fb5a2e2d06810ff212fb3e55b700",
+       "first": [
+        1.8129392628907226e-05,
+        1.661439091549255e-05,
+        1.649673140491359e-05,
+        1.6242465790128335e-05,
+        1.541040910524316e-05,
+        1.5136232832446694e-05,
+        1.5164756405283697e-05,
+        1.5335102943936363e-05
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 9997.720922928467,
+   "x_last": 499.4039959572754,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15795.820598,
+     "apodization": "B3",
+     "beamsplitter": "KBr-Broadband",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.1]",
+     "instrument": "VERTEX 80V",
+     "instrument_serial": "1135",
+     "sample_name": "File Test",
+     "operator": "Duran",
+     "aperture": "1 mm",
+     "accessory": "TRANS *010A984F",
+     "scans": 50
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "igsm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 29456,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 29456,
+     "channels": [
+      {
+       "xxh3": "a1e2293b6e85d2aea655bac6e5295fe3",
+       "first": [
+        0.0005866613984107971,
+        0.0005712433531880379,
+        0.0005383241921663285,
+        0.00047613710165023804,
+        0.0004058736562728882,
+        0.00033611878752708434,
+        0.00029678454622626303,
+        0.00028928767889738085
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 29455.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15795.820598,
+     "apodization": "B3",
+     "beamsplitter": "KBr-Broadband",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.1]",
+     "instrument": "VERTEX 80V",
+     "instrument_serial": "1135",
+     "sample_name": "File Test",
+     "operator": "Duran",
+     "aperture": "1 mm",
+     "accessory": "TRANS *010A984F",
+     "scans": 50
+    }
+   }
+  },
+  {
+   "index": 3,
+   "reader": "brukeropus",
+   "brukeropus_key": "phsm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 512,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 512,
+     "channels": [
+      {
+       "xxh3": "0d8276ea34eb082cc32be289b30028f0",
+       "first": [
+        -0.0010518527124077082,
+        0.00044968954171054065,
+        0.016536932438611984,
+        0.10579866915941238,
+        0.25025245547294617,
+        0.13822504878044128,
+        -0.06842495501041412,
+        -0.2903458774089813
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 15764.969385894532,
+   "x_last": 0.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15795.820598,
+     "apodization": "B3",
+     "beamsplitter": "KBr-Broadband",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.1]",
+     "instrument": "VERTEX 80V",
+     "instrument_serial": "1135",
+     "sample_name": "File Test",
+     "operator": "Duran",
+     "aperture": "1 mm",
+     "accessory": "TRANS *010A984F",
+     "scans": 50
+    }
+   }
+  },
+  {
+   "index": 4,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 4933,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4933,
+     "channels": [
+      {
+       "xxh3": "e90abeea46a03940e1420526aad1b7d9",
+       "first": [
+        1.1293630450381897e-05,
+        2.6613006411935203e-05,
+        3.357215246069245e-05,
+        2.94929322990356e-05,
+        1.849916770879645e-05,
+        1.5961040844558738e-05,
+        2.7020758352591656e-05,
+        3.4672841138672084e-05
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 10005.433725954834,
+   "x_last": 495.5475944440914,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15795.820598,
+     "apodization": "B3",
+     "beamsplitter": "KBr-Broadband",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.1]",
+     "instrument": "VERTEX 80V",
+     "instrument_serial": "1135",
+     "sample_name": "File Test",
+     "operator": "Duran",
+     "aperture": "1 mm",
+     "accessory": "TRANS *010A984F",
+     "scans": 1
+    }
+   }
+  },
+  {
+   "index": 5,
+   "reader": "brukeropus",
+   "brukeropus_key": "igrf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 14728,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 14728,
+     "channels": [
+      {
+       "xxh3": "9c0824cc8bae50d39df94848cb41ea27",
+       "first": [
+        0.0004345518536865711,
+        0.0004319183644838631,
+        0.0004358231381047517,
+        0.00042988115455955267,
+        0.00042988339555449784,
+        0.0004316441190894693,
+        0.0004319583240430802,
+        0.00043492548866197467
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 14727.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15795.820598,
+     "apodization": "B3",
+     "beamsplitter": "KBr-Broadband",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.1]",
+     "instrument": "VERTEX 80V",
+     "instrument_serial": "1135",
+     "sample_name": "File Test",
+     "operator": "Duran",
+     "aperture": "1 mm",
+     "accessory": "TRANS *010A984F",
+     "scans": 1
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

@@ -1,0 +1,502 @@
+name: Release
+
+# Tag push (v*) builds everything, creates the GitHub release and runs the publish jobs whose gate
+# is open. workflow_dispatch is a full dry run: every artifact is built and uploaded to the run,
+# nothing is released or published. Gates (Settings > Secrets and variables > Actions > Variables):
+#   PUBLISH_PYPI, PUBLISH_CRATES, PUBLISH_NPM, PUBLISH_DOCKER = 'true'
+# See docs/release-process.md.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions: {}
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  version-check:
+    name: version strings agree
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - name: Every version string matches Cargo.toml (and the tag)
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          if [ "$REF_TYPE" = tag ]; then
+            cargo xtask version-check --tag "$REF_NAME"
+          else
+            cargo xtask version-check
+          fi
+
+  build:
+    name: ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, target: x86_64-unknown-linux-musl }
+          - { os: ubuntu-latest, target: aarch64-unknown-linux-musl }
+          - { os: macos-latest, target: aarch64-apple-darwin }
+          - { os: macos-15-intel, target: x86_64-apple-darwin }
+          - { os: windows-latest, target: x86_64-pc-windows-msvc }
+    env:
+      TARGET: ${{ matrix.target }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          targets: ${{ matrix.target }}
+      - name: Linux cross tools
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update && sudo apt-get install -y musl-tools
+          if [ "$TARGET" = "aarch64-unknown-linux-musl" ]; then
+            sudo apt-get install -y gcc-aarch64-linux-gnu
+            echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=aarch64-linux-gnu-gcc" >> "$GITHUB_ENV"
+          fi
+      - name: Build
+        run: cargo build --release --locked -p openreadout --target "$TARGET"
+      - name: Package
+        shell: bash
+        run: |
+          set -e
+          T="$TARGET"
+          mkdir -p dist
+          cp README.md LICENSE-MIT LICENSE-APACHE NOTICE THIRD-PARTY-NOTICES.md skills/openreadout/SKILL.md dist/
+          cp -R skills/openreadout/references dist/references
+          # Man pages (dist/man/*.1) and shell completions (dist/completions/), from a host build.
+          cargo run -p xtask -- man --out dist
+          if [ "$RUNNER_OS" = Windows ]; then
+            cp "target/$T/release/openreadout.exe" dist/
+            (cd dist && 7z a "../openreadout-$T.zip" ./*)
+            cargo run -p xtask -- mcpb pack --binary "target/$T/release/openreadout.exe" --target "$T" --out .
+          else
+            cp "target/$T/release/openreadout" dist/
+            tar -C dist -czf "openreadout-$T.tar.gz" .
+            cargo run -p xtask -- mcpb pack --binary "target/$T/release/openreadout" --target "$T" --out .
+          fi
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: "openreadout-${{ matrix.target }}.*, openreadout-mcp-${{ matrix.target }}.mcpb"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ${{ matrix.target }}
+          path: |
+            openreadout-${{ matrix.target }}.*
+            openreadout-mcp-${{ matrix.target }}.mcpb
+
+  # CycloneDX SBOM of the `openreadout` binary, one per release target (openreadout-<target>.cdx.json).
+  sbom:
+    name: SBOM (CycloneDX)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - name: Install cargo-cyclonedx
+        run: cargo install cargo-cyclonedx --locked --version 0.5.9
+      - name: Generate one SBOM per target
+        run: |
+          set -e
+          SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)  # reproducible timestamps
+          export SOURCE_DATE_EPOCH
+          mkdir -p sbom
+          for T in x86_64-unknown-linux-musl aarch64-unknown-linux-musl aarch64-apple-darwin x86_64-apple-darwin x86_64-pc-windows-msvc; do
+            cargo cyclonedx --manifest-path crates/openreadout-cli/Cargo.toml --format json --spec-version 1.5 \
+              --target "$T" --no-build-deps --override-filename "openreadout-$T.cdx" -q
+            mv "crates/openreadout-cli/openreadout-$T.cdx.json" sbom/
+            find . -name "openreadout-$T.cdx.json" -not -path "./sbom/*" -delete
+          done
+          ls -l sbom
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: sbom/*.cdx.json
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: sbom
+          path: sbom/*.cdx.json
+
+  # Python: one abi3 wheel per platform (works on CPython >= 3.10), built with maturin.
+  wheels:
+    name: wheel ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: manylinux-x86_64, os: ubuntu-latest, target: x86_64, manylinux: "2_17", smoke: true }
+          - { name: manylinux-aarch64, os: ubuntu-latest, target: aarch64, manylinux: "2_17" }
+          - { name: musllinux-x86_64, os: ubuntu-latest, target: x86_64, manylinux: musllinux_1_2 }
+          - { name: musllinux-aarch64, os: ubuntu-latest, target: aarch64, manylinux: musllinux_1_2 }
+          - { name: macos-x86_64, os: macos-15-intel, target: x86_64, smoke: true }
+          - { name: macos-arm64, os: macos-latest, target: aarch64, smoke: true }
+          - { name: windows-x64, os: windows-latest, target: x64, smoke: true }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Build wheel
+        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
+        with:
+          target: ${{ matrix.target }}
+          manylinux: ${{ matrix.manylinux || 'auto' }}
+          args: --out dist  # profile release-py (optimized, unwinds on panic) from pyproject.toml
+          # No compiler cache for tagged builds (cache poisoning), as maturin's own template does.
+          sccache: ${{ !startsWith(github.ref, 'refs/tags/') }}
+      - name: Smoke-test the wheel
+        if: matrix.smoke
+        shell: bash
+        run: |
+          set -e
+          python -m pip install dist/*.whl
+          python -c "import openreadout as ic; print(ic.__version__, [f['id'] for f in ic.formats()])"
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: dist/*.whl
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: wheels-${{ matrix.name }}
+          path: dist/*.whl
+
+  sdist:
+    name: Python sdist + bioio and napari plugins
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Build openreadout sdist
+        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
+        with:
+          command: sdist
+          args: --out dist
+      - name: Build bioio-openreadout and napari-openreadout (pure Python wheels + sdists)
+        run: |
+          python -m pip install build twine
+          python -m build python/bioio-openreadout --outdir dist
+          python -m build python/napari-openreadout --outdir dist
+          python -m twine check --strict dist/*
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: dist/*
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: python-sdist
+          path: dist/*
+
+  # Homebrew formula and Scoop manifest rendered from the release archives' checksums; attached
+  # to the release. A tap/bucket repository only needs to copy them (book/src/getting-started/install.md).
+  homebrew:
+    name: Homebrew formula + Scoop manifest
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: "{x86_64,aarch64}-*"  # the per-target build artifacts
+          path: archives
+          merge-multiple: true
+      - name: Render from the archives' SHA-256
+        run: |
+          set -e
+          (cd archives && sha256sum openreadout-*.tar.gz openreadout-*.zip) > archive-sums
+          cat archive-sums
+          mkdir -p manifests
+          cargo xtask homebrew-formula --sums archive-sums --out manifests/openreadout.rb
+          cargo xtask scoop-manifest --sums archive-sums --out manifests/openreadout.json
+          cargo xtask winget-manifest --sums archive-sums --out winget
+          ruby -c manifests/openreadout.rb
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: package-manifests
+          path: manifests/*
+      # Not a release asset (see packaging/winget/README.md); the release job drops it.
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: winget-manifests
+          path: winget
+
+  release:
+    name: GitHub release
+    needs: [version-check, build, sbom, wheels, sdist, homebrew]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          path: artifacts
+          merge-multiple: true
+      - name: Drop run-only artifacts (winget manifest tree)
+        run: rm -rf artifacts/manifests
+      - name: Checksums
+        run: |
+          cd artifacts && sha256sum ./* | sed 's# \./# #' > SHA256SUMS && cat SHA256SUMS
+      - name: Fill server.json mcpb hashes
+        env:
+          TAG: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          sums = dict(l.split()[::-1] for l in open("artifacts/SHA256SUMS"))
+          s = json.load(open("server.json"))
+          tag, repo = os.environ["TAG"], os.environ["REPO"]
+          pkgs = [p for p in s["packages"] if p["registryType"] != "mcpb"]
+          for name, sha in sums.items():
+              if name.endswith(".mcpb"):
+                  pkgs.append({"registryType": "mcpb", "identifier": f"https://github.com/{repo}/releases/download/{tag}/{name}", "fileSha256": sha, "transport": {"type": "stdio"}})
+          s["packages"] = pkgs
+          json.dump(s, open("artifacts/server.json", "w"), indent=2)
+          PY
+      - name: Create the GitHub release (tags only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: gh release create "$TAG" artifacts/* --repo "$GITHUB_REPOSITORY" --title "$TAG" --generate-notes --verify-tag
+      - name: Dry run (workflow_dispatch) - keep the would-be release assets
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-dry-run
+          path: artifacts/*
+
+  # Container image: built and smoke-tested on every run; pushed to ghcr.io only on a tag with
+  # PUBLISH_DOCKER == 'true'. The build stage cross-compiles, so both platforms build natively.
+  docker:
+    name: Docker image
+    needs: [version-check]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    env:
+      IMAGE: ghcr.io/openreadout/openreadout
+      PUSH: ${{ vars.PUBLISH_DOCKER == 'true' && startsWith(github.ref, 'refs/tags/v') }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - name: Version
+        id: v
+        run: echo "version=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)" >> "$GITHUB_OUTPUT"
+      - name: Build (linux/amd64) for testing
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          platforms: linux/amd64
+          load: true
+          tags: openreadout:test
+          build-args: |
+            VERSION=${{ steps.v.outputs.version }}
+            REVISION=${{ github.sha }}
+      - name: Smoke test
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
+        run: |
+          set -e
+          docker run --rm openreadout:test --version | grep -F "$VERSION"
+          docker run --rm openreadout:test self formats --json | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["ok"], d; print([f["id"] for f in d["data"]["formats"]])'
+          docker run --rm -v "$PWD:/data:ro" openreadout:test info /data/README.md --view format --json || [ $? -eq 3 ]
+          docker image inspect openreadout:test --format '{{ index .Config.Labels "io.modelcontextprotocol.server.name" }}' | grep -Fx io.github.openreadout/openreadout
+          docker image ls openreadout:test
+      - name: Log in to ghcr.io
+        if: env.PUSH == 'true'
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Tags
+        id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=sha
+      - name: Build (linux/amd64, linux/arm64) and push if enabled
+        id: push
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: ${{ env.PUSH == 'true' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ steps.v.outputs.version }}
+            REVISION=${{ github.sha }}
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        if: env.PUSH == 'true'
+        with:
+          subject-name: ${{ env.IMAGE }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+  # PyPI via trusted publishing (OIDC; no token stored). Off by default: nothing is uploaded
+  # until the repository variable PUBLISH_PYPI is set to 'true' (Settings > Secrets and
+  # variables > Actions > Variables) and a trusted publisher for this workflow is registered on PyPI per project: `openreadout`
+  # (environment `pypi`), `bioio-openreadout` (`pypi-bioio`), `napari-openreadout` (`pypi-napari`).
+  pypi:
+    name: publish to PyPI
+    needs: [release]
+    if: vars.PUBLISH_PYPI == 'true' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    # One job per PyPI project, each in its own environment: PyPI allows only one pending trusted
+    # publisher per (repository, workflow, environment), so the three projects cannot share one
+    # before their first upload.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { project: openreadout, prefix: openreadout, environment: pypi }
+          - { project: bioio-openreadout, prefix: bioio_openreadout, environment: pypi-bioio }
+          - { project: napari-openreadout, prefix: napari_openreadout, environment: pypi-napari }
+    environment:
+      name: ${{ matrix.environment }}
+      url: https://pypi.org/project/${{ matrix.project }}/
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: wheels-*
+          path: dist
+          merge-multiple: true
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: python-sdist
+          path: dist
+      - name: Keep only this project's distributions
+        env:
+          PREFIX: ${{ matrix.prefix }}
+        run: |
+          find dist -type f ! -name "${PREFIX}-*" -delete
+          ls -l dist
+          test -n "$(ls dist)"
+      - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # release/v1
+        with:
+          packages-dir: dist
+
+  # crates.io, in dependency order. Off until PUBLISH_CRATES == 'true'; CARGO_REGISTRY_TOKEN (a
+  # crates.io API token with publish-new + publish-update scopes) is an environment secret of
+  # `crates-io`. Re-runnable: versions already on crates.io are skipped. crates.io limits new
+  # crates (burst of 5, then one per 10 minutes), so scripts/publish-crates.sh waits out the 429s
+  # and stops before the job time limit; the first release needs the job re-run once or twice.
+  publish-crates:
+    name: publish to crates.io
+    needs: [release]
+    if: vars.PUBLISH_CRATES == 'true' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    environment:
+      name: crates-io
+      url: https://crates.io/crates/openreadout
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - name: Publish
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        # Token rather than crates.io trusted publishing: a crate's first version must be
+        # published with a token; trusted publishing can be configured per crate afterwards.
+        run: scripts/publish-crates.sh  # zizmor: ignore[use-trusted-publishing]
+
+  # npm wrapper (packaging/npm). Off until PUBLISH_NPM == 'true'. Trusted publishing (OIDC, no
+  # token): the first version is published by hand, then a trusted publisher is configured on
+  # npmjs.com (org openreadout, repo openreadout, workflow release.yml, environment npm). Runs
+  # after the release exists, because installing the package downloads the release binary.
+  publish-npm:
+    name: publish to npm
+    needs: [release]
+    if: vars.PUBLISH_NPM == 'true' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/openreadout
+    permissions:
+      contents: read
+      id-token: write  # npm trusted publishing (OIDC) and provenance
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false  # no caches in release jobs
+      - name: Update npm (trusted publishing needs npm >= 11.5.1)
+        run: | # zizmor: ignore[adhoc-packages] (the npm CLI itself)
+          npm install -g npm@^11.5.1
+          npm --version
+      - name: Test, then check that the released binary installs through the package
+        working-directory: packaging/npm
+        run: | # zizmor: ignore[adhoc-packages] (installs the tarball just packed)
+          set -e
+          npm test
+          npm pack
+          mkdir -p /tmp/npm-smoke && cd /tmp/npm-smoke
+          npm init -y >/dev/null
+          npm install "$GITHUB_WORKSPACE"/packaging/npm/openreadout-*.tgz
+          npx --no-install openreadout --version
+      - name: Publish (trusted publishing; no NODE_AUTH_TOKEN)
+        working-directory: packaging/npm
+        run: npm publish --provenance --access public

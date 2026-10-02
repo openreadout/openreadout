@@ -1,0 +1,72 @@
+{
+ "id": "plexon-file-plexon-3-plx",
+ "file": "plexon-file-plexon-3.plx",
+ "size": 2523688,
+ "sha256": "0a4f544e77992dc667d5ada7165abc606ee21ebec3761cdd55ff91ea4309190a",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 PlexonRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "V1"
+   ],
+   "sample_rate_hz": 1000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 600806,
+     "channels": [
+      {
+       "xxh3": "fa5410d52905c896de98bd23ff29f60f",
+       "first": [
+        1630.859375,
+        1525.87890625,
+        1389.16015625,
+        1176.7578125,
+        878.90625,
+        737.3046875,
+        688.4765625,
+        590.8203125
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "oracle_note": "samples of 1 channel(s) taken from Neo's parsed blocks, where Neo's chunk reader truncates the final block (see plexon() in oracle/gen.py)",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 8351,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_column_hashes": [
+    {
+     "column": "time_s",
+     "count": 8351,
+     "xxh3": "b3077f1c969e91df15ce9b68016e0d31"
+    },
+    {
+     "column": "channel",
+     "count": 8351,
+     "xxh3": "a4a56a52de1d9753f0182a6020175541"
+    },
+    {
+     "column": "unit",
+     "count": 8351,
+     "xxh3": "bbd47374f81cd6262713c8969fb9b82d"
+    },
+    {
+     "column": "w0",
+     "count": 8351,
+     "xxh3": "97340364a0af3d15a0e099ee62511da1"
+    }
+   ]
+  }
+ ]
+}

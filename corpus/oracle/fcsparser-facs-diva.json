@@ -1,0 +1,66 @@
+{
+ "id": "fcsparser-facs-diva",
+ "file": "fcsparser-facs-diva.fcs",
+ "size": 4007061,
+ "sha256": "8d0a72d1d219c880d9120bac0b7501afa23a08b4ecd2b074803e73eaa411802a",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 12,
+   "event_count": 83411,
+   "parameter_names": [
+    "Time",
+    "FSC-A",
+    "FSC-W",
+    "SSC-A",
+    "FITC-A",
+    "PE-A",
+    "PerCP-A",
+    "PE-Cy7-A",
+    "PacificBlue-A",
+    "APC-A",
+    "Alexa700-A",
+    "APC-Cy7-A"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    "CD20",
+    "CD10",
+    "CD45",
+    "CD34",
+    "Syto 41",
+    "CD19",
+    "CD38",
+    null
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "166bcb615c18f9630f82e79e0bf61882",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 83411,
+  "xxh3": "166bcb615c18f9630f82e79e0bf61882",
+  "agrees_with_flowio": true
+ }
+}

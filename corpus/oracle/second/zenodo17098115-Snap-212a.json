@@ -1,0 +1,32 @@
+{
+ "id": "zenodo17098115-Snap-212a",
+ "file": "zenodo17098115-Snap-212a.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2752,
+   "size_y": 2208,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d3cc043d62d1b89456574c216e9e1d36"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6e783098fdd9a4af562230bad37ec52a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "87bdca75fad5303ca29c471fd5e0e881"
+    }
+   ]
+  }
+ ]
+}

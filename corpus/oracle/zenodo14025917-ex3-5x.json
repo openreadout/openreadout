@@ -1,0 +1,50 @@
+{
+ "id": "zenodo14025917-ex3-5x",
+ "file": "zenodo14025917-ex3-5x.ome.tif",
+ "size": 59461539,
+ "sha256": "1d570518f8d249bf5c77f66cfa62f531d63ec5fb3a42e729109b6fb652cc286c",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "ome",
+   "axes": "YXS",
+   "shape": [
+    18362,
+    20811,
+    3
+   ],
+   "size_x": 20811,
+   "size_y": 18362,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 4,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.93550295857988,
+    "y": 0.937322834645668
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "79fc8d8cec5423bc7451903ea8d158a2",
+     "mean": 227.63844217408862
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+{
+ "id": "zenodo7015307-W96-B2-B4-S-2-T-2-Z-4-C-3-Tile-5x9",
+ "file": "zenodo7015307-W96-B2-B4-S-2-T-2-Z-4-C-3-Tile-5x9.czi",
+ "error": "RuntimeError: Not enough data read at offset 528009728 -> requested: 160 bytes, actually got 0 bytes."
+}

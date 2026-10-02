@@ -1,0 +1,14 @@
+{
+ "id": "zenodo12509122-PSR-LXR-KO-WT-1054",
+ "file": "zenodo12509122-PSR-LXR-KO-WT-1054.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 36193,
+   "size_y": 17456,
+   "planes": [],
+   "skip": "larger than ORACLE_MAX_PIXELS"
+  }
+ ]
+}

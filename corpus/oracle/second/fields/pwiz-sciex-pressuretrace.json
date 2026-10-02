@@ -1,0 +1,58 @@
+{
+ "id": "pwiz-sciex-pressuretrace",
+ "file": "pwiz-sciex/PressureTrace1.wiff",
+ "format": "sciex-wiff",
+ "family": "mass-spectrometry",
+ "readers": [
+  "olefile 0.47 (BSD-2): the .wiff storages' creation times (UTC)",
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (PressureTrace1.mzML)",
+  "the vendor-library conversion (PressureTrace1.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "acquisition start (compound-file creation time, UTC)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2019-03-29T18:53:15Z",
+   "cmp": "time",
+   "abs": 5.0
+  },
+  {
+   "field": "instrument model",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "QTRAP 6500",
+   "cmp": "text",
+   "reader": 2
+  },
+  {
+   "field": "instrument serial number",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "AB12345678",
+   "cmp": "text",
+   "reader": 2
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2019-03-29T11:53:15Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 2
+  }
+ ]
+}

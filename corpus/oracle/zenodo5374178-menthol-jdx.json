@@ -1,0 +1,45 @@
+{
+ "id": "zenodo5374178-menthol-jdx",
+ "file": "menthol.jdx",
+ "size": 130327,
+ "sha256": "335d62847be99d64816fc514895a09c2dffe77cd53f28ff296165a127087ebd5",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "AN-menthol.10.fid",
+   "kind": "xydata",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 32768,
+     "channels": [
+      {
+       "xxh3": "366a7775595b1e947bddc61b380776a1",
+       "first": [
+        1.4191297588200322,
+        1.3305760618696623,
+        1.2442929725334042,
+        1.2874345172015333,
+        1.3305760618696623,
+        1.2147750735499476,
+        1.1012446928443451,
+        1.008149780665751
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 32768,
+   "channel_count": 1,
+   "reader": "nmrglue 0.12 jcampdx.read",
+   "second_opinion": {
+    "reader": "jcamp 1.2.2",
+    "agrees": true
+   }
+  }
+ ]
+}

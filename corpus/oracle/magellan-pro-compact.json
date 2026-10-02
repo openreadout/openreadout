@@ -1,0 +1,26 @@
+{
+ "id": "magellan-pro-compact",
+ "file": "magellan-pro-compact.xlsx",
+ "size": 6007,
+ "sha256": "ac4efd9a547429f9434efe1cad46dfd875115c1d9c8a78c38c70ae06c8f23baa",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (TECAN_MAGELLAN)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 4,
+    "values": 4,
+    "errors": 0,
+    "wavelengths": [
+     492.0
+    ],
+    "value_xxh3": "1f34967648c180911ea34f877d9f647d"
+   }
+  ],
+  "header": {
+   "serial_number": "000000000"
+  },
+  "documents": 4
+ }
+}

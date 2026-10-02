@@ -1,0 +1,186 @@
+{
+ "id": "brk-3-0-session",
+ "file": "brk-3-0-session",
+ "size": 4980965,
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 BlackrockRawIO (per file)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 8,
+   "channel_names": [
+    "chan1",
+    "chan2",
+    "chan3",
+    "chan4",
+    "chan5",
+    "chan6",
+    "chan7",
+    "chan8"
+   ],
+   "channel_units": [
+    "uV",
+    "uV",
+    "uV",
+    "uV",
+    "uV",
+    "uV",
+    "uV",
+    "uV"
+   ],
+   "sample_rate_hz": 30000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 300208,
+     "channels": [
+      {
+       "xxh3": "1a5a312f6d8e7764796749e855e34bf6",
+       "first": [
+        -1286.5,
+        -1295.25,
+        -1294.25,
+        -1294.75,
+        -1298.75,
+        -1290.5,
+        -1287.75,
+        -1287.75
+       ]
+      },
+      {
+       "xxh3": "692211c49077570fe732f51f1127e4dd",
+       "first": [
+        -1595.75,
+        -1603.0,
+        -1598.0,
+        -1595.0,
+        -1595.25,
+        -1592.75,
+        -1589.0,
+        -1599.5
+       ]
+      },
+      {
+       "xxh3": "ee231f3b7848a22f9cb15886fad557fb",
+       "first": [
+        -1176.25,
+        -1174.0,
+        -1179.25,
+        -1180.5,
+        -1186.75,
+        -1190.5,
+        -1196.75,
+        -1178.25
+       ]
+      },
+      {
+       "xxh3": "0eaaa577c8314e971b15e468f927191c",
+       "first": [
+        -1478.75,
+        -1475.5,
+        -1489.0,
+        -1480.75,
+        -1494.0,
+        -1493.0,
+        -1495.0,
+        -1498.75
+       ]
+      },
+      {
+       "xxh3": "357781d70576f4012e2d5110b7d9c12e",
+       "first": [
+        -1784.75,
+        -1779.5,
+        -1771.5,
+        -1773.0,
+        -1778.0,
+        -1783.5,
+        -1771.5,
+        -1787.75
+       ]
+      },
+      {
+       "xxh3": "00eba3e2d83f91c54c9cd16544a1e74f",
+       "first": [
+        -1974.75,
+        -1969.5,
+        -1966.0,
+        -1969.0,
+        -1976.25,
+        -1965.25,
+        -1962.25,
+        -1971.25
+       ]
+      },
+      {
+       "xxh3": "9aa6c977c42d2acadac2c9aee672dfc7",
+       "first": [
+        -2511.0,
+        -2512.0,
+        -2505.5,
+        -2519.75,
+        -2516.0,
+        -2513.25,
+        -2507.5,
+        -2508.0
+       ]
+      },
+      {
+       "xxh3": "5e97d8c87e13073e329a49b5dc0e4fb3",
+       "first": [
+        -1971.25,
+        -1961.25,
+        -1954.0,
+        -1964.0,
+        -1961.75,
+        -1951.0,
+        -1957.25,
+        -1959.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 1404,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_column_hashes": [
+    {
+     "column": "time_s",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 864,
+     "xxh3": "67463bf2b4b090d5c039cb1e533947b5"
+    },
+    {
+     "column": "packet_id",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 864,
+     "xxh3": "f33f01bea1d1a3517085d9a9bdc0f691"
+    },
+    {
+     "column": "code",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 864,
+     "xxh3": "95186d5280b72f87b10cd20367ec91d5"
+    },
+    {
+     "column": "w0",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 864,
+     "xxh3": "8b5aa969b91986f53f8cebaacd542c73"
+    }
+   ]
+  }
+ ]
+}

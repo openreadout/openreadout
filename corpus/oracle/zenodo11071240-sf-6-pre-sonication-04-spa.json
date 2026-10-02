@@ -1,0 +1,109 @@
+{
+ "id": "zenodo11071240-sf-6-pre-sonication-04-spa",
+ "file": "SF_6pct_pre-sonication_04.SPA",
+ "size": 128544,
+ "sha256": "893c847f9fc3aa46e8e63d97ecc23930ef3c3605976a957909dcdad67bd00f76",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 7053,
+   "x_first": 4000.122,
+   "x_last": 600.235,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7053,
+     "channels": [
+      {
+       "xxh3": "8b8ae7a57aa4ceee499b6de766a3b762",
+       "first": [
+        -0.0005482209962792695,
+        -0.0005672155530191958,
+        -0.0005981873837299645,
+        -0.0006430860958062112,
+        -0.0007006832747720182,
+        -0.000766674114856869,
+        -0.0008358958293683827,
+        -0.0009044451871886849
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 32,
+     "background_scans": 32,
+     "laser_wavenumber_cm1": 15798.0
+    }
+   },
+   "x_tolerance": 0.002
+  },
+  {
+   "index": 1,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 12200,
+   "x_first": 0.0,
+   "x_last": 12199.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12200,
+     "channels": [
+      {
+       "xxh3": "66dae211c53c4c79d5f4adbc163df5c8",
+       "first": [
+        0.0006538733723573387,
+        0.0006488069775514305,
+        0.0004828080418519676,
+        0.0002500519040040672,
+        -7.866772648412734e-05,
+        -0.0003501668688841164,
+        -0.000588287424761802,
+        -0.0006589189288206398
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 12200,
+   "x_first": 0.0,
+   "x_last": 12199.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12200,
+     "channels": [
+      {
+       "xxh3": "4e4f1dde9f6e07bcb3decae95f125546",
+       "first": [
+        0.0006644465611316264,
+        0.0006489493534900248,
+        0.0005067922757007182,
+        0.0002612211392261088,
+        -7.226684829220176e-05,
+        -0.0003598592593334615,
+        -0.0005935094668529928,
+        -0.0006590745761059225
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "acquisition_date": "2021-05-19 03:02:02-07:00"
+}

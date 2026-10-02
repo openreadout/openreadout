@@ -1,0 +1,131 @@
+{
+ "id": "figshare28409411-vsi-dotslide",
+ "file": "144105_13p5555kbDAB msAT8 1-20016-03-23.vsi",
+ "size": 676752,
+ "sha256": "fc13dcb54a5ac2c7334ba0ce2bb2f694bdd275acd58779076bbc4b561fc71c04",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "20x",
+   "size_x": 31740,
+   "size_y": 20970,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.32280354138309647,
+    "y": 0.322796665773445
+   },
+   "channel_names": [
+    null
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2023-03-16T14:18:42",
+   "resolutions": 7,
+   "planes": [],
+   "levels": [
+    {
+     "level": 2,
+     "size_x": 7935,
+     "size_y": 5243,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "cdc9840bc8045768648d8c837152de25"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 3968,
+     "size_y": 2622,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "f877dd4247c17c1fa7be6055cae0c245"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 1984,
+     "size_y": 1311,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "92b3cf5c4aba170a69cfd763ba244c2a"
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 992,
+     "size_y": 656,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "a5ac7b9e489067b09b1accc82e46d5c6"
+      }
+     ]
+    },
+    {
+     "level": 6,
+     "size_x": 496,
+     "size_y": 328,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "0104b6ba0d6e3415b14e765675ed5717"
+      }
+     ]
+    }
+   ],
+   "level_sizes": [
+    [
+     31740,
+     20970
+    ],
+    [
+     15870,
+     10485
+    ],
+    [
+     7935,
+     5243
+    ],
+    [
+     3968,
+     2622
+    ],
+    [
+     1984,
+     1311
+    ],
+    [
+     992,
+     656
+    ],
+    [
+     496,
+     328
+    ]
+   ]
+  }
+ ]
+}

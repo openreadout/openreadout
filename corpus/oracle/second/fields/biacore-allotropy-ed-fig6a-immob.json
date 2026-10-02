@@ -1,0 +1,32 @@
+{
+ "id": "biacore-allotropy-ed-fig6a-immob",
+ "file": "biacore-allotropy-ed-fig6a-immob.blr",
+ "format": "cytiva-biacore-blr",
+ "family": "bench",
+ "readers": [
+  "allotropy 0.1.146 (MIT) ASM"
+ ],
+ "checks": [
+  {
+   "field": "ASM measurement time",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2020-01-16T16:59:38.402001+00:00",
+   "cmp": "time_or_utc",
+   "abs": 1.0
+  },
+  {
+   "field": "ASM model number",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "BiacoreT200",
+   "cmp": "loose"
+  }
+ ]
+}

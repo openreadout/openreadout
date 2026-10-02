@@ -1,0 +1,20 @@
+{
+ "id": "zenodo14895059-Figure-6C-D",
+ "file": "zenodo14895059-Figure-6C-D.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 4248,
+   "size_y": 2832,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31c61743a8ed97661863fc3389563667"
+    }
+   ]
+  }
+ ]
+}

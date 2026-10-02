@@ -1,0 +1,59 @@
+{
+ "id": "mrcfile-fei-extended",
+ "file": "mrcfile-fei-extended.mrc",
+ "size": 29265416,
+ "sha256": "e9f168012031b3a6ea47fbed8eca8b9c8a040b4d1f4fbb2e3326bdb6d9307efe",
+ "max_planes_hashed": 64,
+ "reader": "mrcfile 1.5.4",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 3710,
+   "size_y": 3838,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "layout": "image-stack",
+   "physical_size_um": {
+    "x": 8.537754932825135e-05,
+    "y": 8.537754776454209e-05,
+    "z": null
+   },
+   "mrcfile_voxel_size_angstrom": [
+    0.8537755012512207,
+    0.8537755012512207,
+    0.0
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "63ca98c3918feb5348188fc3c470dcfa"
+    }
+   ]
+  }
+ ],
+ "header": {
+  "mode": 6,
+  "ispg": 0,
+  "nsymbt": 786432,
+  "exttyp": "FEI1",
+  "nversion": 20140,
+  "mapcrs": [
+   1,
+   2,
+   3
+  ],
+  "imod_stamp": false,
+  "imod_flags": 0
+ },
+ "fei_first_block": {
+  "microscope_type": "TITAN52336320",
+  "application": "Fei EPU",
+  "high_tension": 300000.0,
+  "pixel_size_x": 8.537755225024313e-11,
+  "camera_name": "EF-CCD"
+ }
+}

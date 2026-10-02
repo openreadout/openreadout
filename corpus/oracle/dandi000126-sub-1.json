@@ -1,0 +1,42 @@
+{
+ "id": "dandi000126-sub-1",
+ "file": "dandi000126-sub-1.nwb",
+ "size": 171408,
+ "sha256": "1e11ef83a753c42ba64b22713556c7ef7e3d4126b419ccd2f9398b699f3549a4",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.3.0",
+ "session": {
+  "session_description": "A test NWB file with a TimeSeries and Subject",
+  "identifier": "3f77c586-6139-4777-a05d-f603e90b1330",
+  "session_start_time": "2021-08-12T18:29:38.867167+00:00"
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "TestData",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "TestData"
+   ],
+   "sample_rate_hz": 10.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3,
+     "channels": [
+      {
+       "xxh3": "6201b44514c242a3b6bd4fe0c195ce06",
+       "first": [
+        1.0,
+        2.0,
+        3.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

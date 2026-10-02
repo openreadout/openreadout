@@ -1,0 +1,38 @@
+{
+ "id": "mm-thomas-test2-stack",
+ "file": "mm-thomas/test2_stack/MMStack_Pos0.ome.tif",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ce9455dd4d428e0a2640e340d3093463"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "64b3364ea718f74aba416ee2f925c59b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "35a5a9cf70390164452a7b1926db4a69"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "f72ef1d104017ca9fa711f4e379af822"
+    }
+   ]
+  }
+ ]
+}

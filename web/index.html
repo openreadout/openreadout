@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- No network: connect-src 'none' forbids fetch/XHR/WebSocket/beacons, form-action 'none'
+         forbids posting a form. The page loads only its own files, and the WebAssembly module is
+         inlined in a script because it may not be fetched either. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob:; connect-src 'none'; form-action 'none'; base-uri 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>OpenReadout in the browser</title>
+    <meta
+      name="description"
+      content="Drop a microscopy, mass spectrometry, flow cytometry or electrophysiology file and read it in your browser. Nothing is uploaded."
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>OpenReadout in the browser</h1>
+      <p class="lede">
+        Drop an instrument file to see what is in it: Zeiss CZI, Nikon ND2, Leica LIF, OME-TIFF,
+        FCS, Thermo RAW, mzML, Axon ABF, NWB and
+        <a href="../formats/index.html">the other formats OpenReadout reads</a>.
+      </p>
+      <p class="privacy" id="privacy">
+        <strong>Nothing is uploaded.</strong> The file is read by WebAssembly in this tab; the
+        page's security policy forbids it from making any network request.
+      </p>
+    </header>
+    <main>
+      <label id="drop" class="drop" for="pick">
+        <span class="big">Drop a file here</span>
+        <span>or click to choose one</span>
+        <input id="pick" type="file" />
+      </label>
+      <p id="status" role="status" aria-live="polite">Loading the WebAssembly module…</p>
+      <div id="out" class="grid"></div>
+    </main>
+    <footer>
+      <p>
+        The same readers and JSON as the <code>openreadout</code> command line:
+        <code>info --view explain</code>, <code>info --json</code>, <code>check</code> and <code>preview</code>.
+        Large files are read in blocks, only where the readers look.
+      </p>
+    </footer>
+  </body>
+</html>

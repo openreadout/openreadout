@@ -1,0 +1,51 @@
+{
+ "id": "pesp-specio-spectra",
+ "file": "pesp-specio-spectra.sp",
+ "size": 28004,
+ "sha256": "6a244e8d5aab752eb5a436348ddb51ed605665c0dd3345bb3e7833c92f02c745",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3301,
+   "x_first": 4000.0,
+   "x_last": 700.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3301,
+     "channels": [
+      {
+       "xxh3": "7150bfe04d61984d7f129642778cf1c3",
+       "first": [
+        0.03723936007346753,
+        0.03718613516196354,
+        0.03713289222465257,
+        0.03707970149903056,
+        0.03702638096633455,
+        0.036988010259281154,
+        0.03696378194561382,
+        0.036950755434373476
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Spectrum One",
+     "instrument_serial": "69425",
+     "scans": 32,
+     "detector": "MCT",
+     "source": "MIR",
+     "beamsplitter": "OptKBr",
+     "apodization": "Strong"
+    }
+   }
+  }
+ ]
+}

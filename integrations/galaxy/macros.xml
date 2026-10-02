@@ -1,0 +1,52 @@
+<macros>
+    <token name="@TOOL_VERSION@">0.1.0</token>
+    <token name="@VERSION_SUFFIX@">0</token>
+    <token name="@PROFILE@">23.0</token>
+    <xml name="requirements">
+        <requirements>
+            <requirement type="package" version="@TOOL_VERSION@">openreadout</requirement>
+            <yield/>
+        </requirements>
+    </xml>
+    <xml name="version_command">
+        <version_command>openreadout --version | sed 's/^openreadout //'</version_command>
+    </xml>
+    <!-- Datasets are symlinked under their original names: detection reads the content, and the
+         extension settles the few formats without a signature (plate-reader text exports). -->
+    <token name="@LINK_INPUT@"><![CDATA[
+#import re
+#set $input_name = re.sub('[^\w\-.]', '_', str($input.element_identifier))
+ln -s '$input' '$input_name' &&
+]]></token>
+    <token name="@HELP_FOOTER@"><![CDATA[
+-----
+
+OpenReadout reads raw instrument files without vendor software. The readers were written from
+public documentation and files (clean room) and are validated against independent third-party
+readers; see https://github.com/openreadout/openreadout for the supported formats, their
+confidence and known gaps.
+]]></token>
+    <xml name="pyramid">
+        <param name="pyramid" type="select" label="Pyramid">
+            <option value="auto" selected="true">auto: keep the source's own levels (whole images from level 0)</option>
+            <option value="mean">mean: build one by averaging 2 x 2 blocks</option>
+            <option value="source">source: the source's levels only</option>
+            <option value="none">none: full resolution only</option>
+        </param>
+    </xml>
+    <xml name="citations">
+        <citations>
+            <citation type="bibtex">@misc{openreadout,
+  author = {Zimring, Richard},
+  title = {OpenReadout: raw lab-instrument files without vendor software},
+  year = {2026},
+  url = {https://github.com/openreadout/openreadout}
+}</citation>
+        </citations>
+    </xml>
+    <xml name="creator">
+        <creator>
+            <person givenName="Richard" familyName="Zimring" url="https://github.com/richardzimring"/>
+        </creator>
+    </xml>
+</macros>

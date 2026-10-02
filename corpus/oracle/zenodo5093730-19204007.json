@@ -1,0 +1,102 @@
+{
+ "id": "zenodo5093730-19204007",
+ "file": "zenodo5093730-19204007.abf",
+ "size": 1206272,
+ "sha256": "ec4e29f33b62357aace77836bac50887a169acd78921b3385a5fef1605f61a5c",
+ "max_planes_hashed": 64,
+ "reader": "pyabf 2.3.8",
+ "traces": [
+  {
+   "index": 0,
+   "abf_version": "2.6.0.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "IN 0"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 10000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sample_count": 600000,
+   "data_format": "int16",
+   "gain": [
+    0.30517576675492886
+   ],
+   "offset": [
+    0.0
+   ],
+   "protocol": "peak recovery_15s_-50mV",
+   "created": "2019-02-04T14:35:30.522",
+   "tag_comments": [],
+   "f32_max_abs_diff": 7.62939453125e-06,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 600000,
+     "channels": [
+      {
+       "xxh3": "12825927e17c9300dd56187d34760355",
+       "first": [
+        -28.991697841718242,
+        -29.907225141983027,
+        -28.381346308208382,
+        -30.21240090873796,
+        -30.517576675492887,
+        -29.29687360847317,
+        -32.04345550926753,
+        -29.907225141983027
+       ],
+       "first_f32_pyabf": [
+        -28.99169921875,
+        -29.9072265625,
+        -28.38134765625,
+        -30.21240234375,
+        -30.517578125,
+        -29.296875,
+        -32.04345703125,
+        -29.9072265625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "command",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Cmd 0"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 10000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 600000,
+     "channels": [
+      {
+       "xxh3": "174b21629285e9536204ffae1160ad45",
+       "first": [
+        -50.0,
+        -50.0,
+        -50.0,
+        -50.0,
+        -50.0,
+        -50.0,
+        -50.0,
+        -50.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

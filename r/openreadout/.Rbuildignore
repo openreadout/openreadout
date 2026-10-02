@@ -1,0 +1,9 @@
+^\.Rbuildignore$
+^src/Makevars$
+^src/Makevars\.win$
+^src/\.cargo$
+^src/vendor$
+^src/rust/target$
+^.*\.Rproj$
+^\.Rproj\.user$
+^src/\.gitignore$

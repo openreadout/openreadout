@@ -1,0 +1,39 @@
+[project]
+name = "openreadout-evals"
+version = "0.1.0"
+description = "Agent eval set for OpenReadout: questions generated from the corpus oracle, a headless Claude Code runner and a deterministic scorer. Not shipped."
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    # Independent reader for the OME-TIFF files the conversion tasks produce (BSD-3).
+    "tifffile>=2024.1.30",
+    "numpy",
+    # Codecs for OME-TIFFs an agent writes with LZW, zstd or JPEG compression (BSD-3).
+    "imagecodecs",
+    # Independent reader for the JCAMP-DX files the spectroscopy conversion task produces (MIT).
+    "jcamp>=1.2",
+]
+
+[dependency-groups]
+dev = ["pytest>=7", "ruff>=0.6"]
+
+[tool.uv]
+package = false
+default-groups = ["dev"]
+
+[tool.ruff]
+extend = "../pyproject.toml"
+target-version = "py311"
+# Question specs and report templates hold long literal strings.
+line-length = 120
+
+[tool.ruff.lint.per-file-ignores]
+# Fact tables: each fact carries a one-line, human-readable account of how its answer was computed.
+"assay_facts.py" = ["E501"]
+# Scenario prompts: one request per scenario, written as the scientist would phrase it.
+"scenario_facts.py" = ["E501"]
+# Held-out draw C: question texts and fact accounts in the words a scientist would use.
+"heldout_draw_c.py" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--import-mode=importlib"

@@ -1,0 +1,49 @@
+{
+ "id": "omnic-orange-sample1",
+ "file": "omnic-orange-sample1.spa",
+ "size": 8868,
+ "sha256": "68afc2580f2c3fde240d02c58f1535999bb5e81c7d0dee0fc6bcd4adefe90e25",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1738,
+   "x_first": 3999.703,
+   "x_last": 649.904,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1738,
+     "channels": [
+      {
+       "xxh3": "560a575990bdd4e79814d279ceaf5657",
+       "first": [
+        0.043998364359140396,
+        0.04312276467680931,
+        0.04218995198607445,
+        0.042111415416002274,
+        0.04241311177611351,
+        0.041411031037569046,
+        0.04221624508500099,
+        0.04400426894426346
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 32,
+     "background_scans": 256,
+     "laser_wavenumber_cm1": 15798.25
+    }
+   },
+   "x_tolerance": 0.002
+  }
+ ],
+ "acquisition_date": "2015-04-08 19:45:41-07:00"
+}

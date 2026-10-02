@@ -1,0 +1,42 @@
+{
+ "id": "openslide-ventana-1",
+ "file": "openslide-Ventana-1.bif",
+ "size": 227377284,
+ "sha256": "2eb05cd8f628c36408c3fde09beeeebaaae90181c4f840d5475ec7594bdcbbb6",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "bif",
+ "flags": [
+  "bigtiff"
+ ],
+ "page_count": 10,
+ "series_count": 3,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "bif",
+   "axes": "YXS",
+   "shape": [
+    21504,
+    24576,
+    3
+   ],
+   "size_x": 24576,
+   "size_y": 21504,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 8,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.25,
+    "y": 0.25
+   },
+   "planes_skipped": "series is 1585446912 bytes (> ORACLE_TIFF_MAX_BYTES)",
+   "planes": []
+  }
+ ]
+}

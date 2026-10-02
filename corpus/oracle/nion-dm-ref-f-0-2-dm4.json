@@ -1,0 +1,40 @@
+{
+ "id": "nion-dm-ref-f-0-2-dm4",
+ "file": "nion-dm-ref-f-0-2-dm4.dm4",
+ "size": 1805,
+ "sha256": "8b342e92fde4f46582b0c6a79c20d9080fd6c7919238c2155f6328d66e932de1",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 0,
+   "name": null,
+   "size_x": 2,
+   "size_y": 3,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2d0408b485dd77b108c27fcd95d1fea5"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.DataType'"
+ ]
+}

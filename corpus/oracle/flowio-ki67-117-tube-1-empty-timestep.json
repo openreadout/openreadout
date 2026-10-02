@@ -1,0 +1,75 @@
+{
+ "id": "flowio-ki67-117-tube-1-empty-timestep",
+ "file": "flowio-ki67-117-tube-1-empty-timestep.lmd",
+ "size": 14269601,
+ "sha256": "0f53e9ec7fbd15c7890680594615ef59206270bfa45d261f3afc68d04a9b8cab",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 15,
+   "event_count": 237736,
+   "parameter_names": [
+    "FS INT LIN",
+    "SS INT LIN",
+    "FL1 INT LOG",
+    "FL2 INT LOG",
+    "FL3 INT LOG",
+    "FL4 INT LOG",
+    "FL5 INT LOG",
+    "FL6 INT LOG",
+    "FL7 INT LOG",
+    "FL8 INT LOG",
+    "FL9 INT LOG",
+    "FL10 INT LOG",
+    "TIME",
+    "FS PEAK LIN",
+    "FS TOF LIN"
+   ],
+   "parameter_labels": [
+    "FS INT LIN",
+    "SS INT LIN",
+    "IgG1 isotype FITC",
+    "PE",
+    "ECD",
+    "CD13 PC5.5",
+    "CD117 PC7",
+    "CD34 APC",
+    "APC A700",
+    "APC A750",
+    "HLA DR PB",
+    "CD45 KO",
+    "TIME",
+    "FS PEAK LIN",
+    "FS TOF LIN"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "aa69c73d7c3b0d034ea3251597d4ad14",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 237736,
+  "xxh3": "aa69c73d7c3b0d034ea3251597d4ad14",
+  "agrees_with_flowio": true
+ }
+}

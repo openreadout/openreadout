@@ -1,0 +1,42 @@
+{
+ "id": "aics-variable-scene-shape-first-scene-pyramid-ome-tiff",
+ "file": "aics-variable-scene-shape-first-scene-pyramid.ome.tiff",
+ "format": "tiff",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "acquisition date (earliest image)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2019-05-09T09:49:02.553",
+   "cmp": "time_or_utc",
+   "abs": 60.0
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 7712,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 6184,
+   "cmp": "exact"
+  }
+ ]
+}

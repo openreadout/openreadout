@@ -1,0 +1,51 @@
+{
+ "generator": "flowkit 1.3.2 (flowutils 1.2.2)",
+ "gating": "zenodo7941894-icam1-wsp",
+ "format": "flowjo-wsp",
+ "samples": [
+  {
+   "fcs": "zenodo7941894-ns-dapi-fcs",
+   "sample": "Specimen_001_ns dapi.fcs",
+   "event_count": 14289,
+   "populations": [
+    {
+     "path": "/Live",
+     "count": 12723,
+     "flowjo_count": 12723
+    },
+    {
+     "path": "/Live/FSC-A, SSC-A subset",
+     "count": 11876,
+     "flowjo_count": 11876
+    },
+    {
+     "path": "/Live/FSC-A, SSC-A subset/Single Cells",
+     "count": 9489,
+     "flowjo_count": 9500
+    }
+   ]
+  },
+  {
+   "fcs": "zenodo7941894-b1-fcs",
+   "sample": "Specimen_001_B1.fcs",
+   "event_count": 15286,
+   "populations": [
+    {
+     "path": "/Live",
+     "count": 14028,
+     "flowjo_count": 14028
+    },
+    {
+     "path": "/Live/FSC-A, SSC-A subset",
+     "count": 12850,
+     "flowjo_count": 12845
+    },
+    {
+     "path": "/Live/FSC-A, SSC-A subset/Single Cells",
+     "count": 9169,
+     "flowjo_count": 9188
+    }
+   ]
+  }
+ ]
+}

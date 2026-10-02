@@ -1,0 +1,42 @@
+{
+ "id": "rsciio-dm-1d-test-23-dm3",
+ "file": "rsciio-dm-1d-test-23-dm3.dm3",
+ "size": 22680,
+ "sha256": "3902b4ee2035cfe226bad397c7e312d6a633a44cf161a5be10db8b977a37d9ff",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "test",
+   "size_x": 2,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 23,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1d97003a78f8f8ff449f3a34bf88ec63"
+    }
+   ],
+   "pixel_type": "uint8"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}

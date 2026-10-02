@@ -1,0 +1,44 @@
+{
+ "id": "ome-artificial-z-series-tf2",
+ "file": "ome-artificial-tf2-z-series.ome.tf2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 439,
+   "size_y": 167,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b0d8fcc0c787413d75df7b61bb85633f"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "6f2b127128c52f5c398201cbba131e38"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "9c6f0d6ce661ca046bb542259782b185"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "a91bbba7fd1c5e00d06314c4d87ba920"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "e926beb3322a67629811022da821aeda"
+    }
+   ]
+  }
+ ]
+}

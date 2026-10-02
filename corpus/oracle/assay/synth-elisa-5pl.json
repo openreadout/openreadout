@@ -1,0 +1,938 @@
+{
+ "case": "synth-elisa-5pl",
+ "about": "5PL standard curve weighted 1/y², back-calculated unknowns with dilution",
+ "input": {
+  "fixture": "assay-synth-elisa-5pl.csv",
+  "corpus": "assay-synth-elisa-5pl"
+ },
+ "request": {
+  "analysis": "curve",
+  "layout": "fixture:assay-synth-elisa-5pl-layout.csv",
+  "model": "5pl",
+  "weighting": "1/y2"
+ },
+ "checks": [
+  {
+   "path": "curve.fit.parameters[name=a].value",
+   "expect": 0.0024929480674242277,
+   "source": "scipy 1.18.1 curve_fit (sigma = |y|)",
+   "rel": 0.0001,
+   "abs": 1e-06
+  },
+  {
+   "path": "curve.fit.parameters[name=a].se",
+   "expect": 0.004612328004790787,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.002
+  },
+  {
+   "path": "curve.fit.parameters[name=b].value",
+   "expect": 1.4378189165102617,
+   "source": "scipy 1.18.1 curve_fit (sigma = |y|)",
+   "rel": 0.0001,
+   "abs": 1e-06
+  },
+  {
+   "path": "curve.fit.parameters[name=b].se",
+   "expect": 0.06006721817498807,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.002
+  },
+  {
+   "path": "curve.fit.parameters[name=c].value",
+   "expect": 182.88911959439523,
+   "source": "scipy 1.18.1 curve_fit (sigma = |y|)",
+   "rel": 0.0001,
+   "abs": 1e-06
+  },
+  {
+   "path": "curve.fit.parameters[name=c].se",
+   "expect": 45.202981781751184,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.002
+  },
+  {
+   "path": "curve.fit.parameters[name=d].value",
+   "expect": 3.0112158445543775,
+   "source": "scipy 1.18.1 curve_fit (sigma = |y|)",
+   "rel": 0.0001,
+   "abs": 1e-06
+  },
+  {
+   "path": "curve.fit.parameters[name=d].se",
+   "expect": 0.2537777326157006,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.002
+  },
+  {
+   "path": "curve.fit.parameters[name=g].value",
+   "expect": 0.668099483435222,
+   "source": "scipy 1.18.1 curve_fit (sigma = |y|)",
+   "rel": 0.0001,
+   "abs": 1e-06
+  },
+  {
+   "path": "curve.fit.parameters[name=g].se",
+   "expect": 0.24096131912504815,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.002
+  },
+  {
+   "path": "curve.fit.r_squared",
+   "expect": 0.9996977146545798,
+   "source": "scipy 1.18.1 curve_fit (weighted)",
+   "rel": 1e-07
+  },
+  {
+   "path": "blank.value",
+   "expect": 0.06470000000000001,
+   "source": "numpy mean of H1, H2",
+   "rel": 1e-12
+  },
+  {
+   "path": "wells[well=A3].back_calculated",
+   "expect": 172.05187292287653,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=A4].back_calculated",
+   "expect": 168.65336060220702,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S01].final_concentration",
+   "expect": 170.35261676254177,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=A5].back_calculated",
+   "expect": 39.15877269831182,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=A6].back_calculated",
+   "expect": 37.66134233567938,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S02].final_concentration",
+   "expect": 38.4100575169956,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=A7].back_calculated",
+   "expect": 38.166790964485685,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=A8].back_calculated",
+   "expect": 40.996257102395404,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S03].final_concentration",
+   "expect": 39.581524033440544,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=A9].back_calculated",
+   "expect": 661.3879320442246,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=A10].back_calculated",
+   "expect": 745.2962988421209,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S04].final_concentration",
+   "expect": 3516.710577215864,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=A11].back_calculated",
+   "expect": 84.4126163174977,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=A12].back_calculated",
+   "expect": 85.41223047964202,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S05].final_concentration",
+   "expect": 84.91242339856986,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=B3].back_calculated",
+   "expect": 153.4528854282098,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=B4].back_calculated",
+   "expect": 146.87125525928363,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S06].final_concentration",
+   "expect": 150.16207034374673,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=B5].back_calculated",
+   "expect": 8.369932487100966,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=B6].back_calculated",
+   "expect": 7.814403446672329,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S07].final_concentration",
+   "expect": 8.092167966886647,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=B7].back_calculated",
+   "expect": 73.9568175864272,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=B8].back_calculated",
+   "expect": 78.26729646360762,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S08].final_concentration",
+   "expect": 380.56028512508703,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=B9].back_calculated",
+   "expect": 25.257590419110198,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=B10].back_calculated",
+   "expect": 25.207951411335678,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S09].final_concentration",
+   "expect": 25.232770915222936,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=B11].back_calculated",
+   "expect": 327.48079732742474,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=B12].back_calculated",
+   "expect": 315.3036865828147,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S10].final_concentration",
+   "expect": 321.39224195511974,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=C3].back_calculated",
+   "expect": 263.5581328902668,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=C4].back_calculated",
+   "expect": 250.42061185290837,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S11].final_concentration",
+   "expect": 256.9893723715876,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=C5].back_calculated",
+   "expect": 353.5241938954906,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=C6].back_calculated",
+   "expect": 360.2510493442289,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S12].final_concentration",
+   "expect": 1784.4381080992985,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=C7].back_calculated",
+   "expect": 690.9463092072405,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=C8].back_calculated",
+   "expect": 951.8453131142833,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S13].final_concentration",
+   "expect": 821.3958111607619,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=C9].back_calculated",
+   "expect": 49.066305997102454,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=C10].back_calculated",
+   "expect": 49.862379809707605,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S14].final_concentration",
+   "expect": 49.464342903405026,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=C11].back_calculated",
+   "expect": 48.86704222139294,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=C12].back_calculated",
+   "expect": 47.25481510196697,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S15].final_concentration",
+   "expect": 48.06092866167995,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=D3].back_calculated",
+   "expect": 10.254482716500082,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=D4].back_calculated",
+   "expect": 10.482824710442326,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S16].final_concentration",
+   "expect": 51.84326856735602,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=D5].back_calculated",
+   "expect": 80.97052402674703,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=D6].back_calculated",
+   "expect": 81.75104706114087,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S17].final_concentration",
+   "expect": 81.36078554394395,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=D7].back_calculated",
+   "expect": 19.816795134350752,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=D8].back_calculated",
+   "expect": 20.95157607906948,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S18].final_concentration",
+   "expect": 20.384185606710115,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=D9].back_calculated",
+   "expect": 85.41223047964202,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=D10].back_calculated",
+   "expect": 90.94631723982684,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S19].final_concentration",
+   "expect": 88.17927385973442,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=D11].back_calculated",
+   "expect": 123.57526676670905,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=D12].back_calculated",
+   "expect": 114.9124603312011,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S20].final_concentration",
+   "expect": 596.2193177447754,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=E3].back_calculated",
+   "expect": 23.653592713132,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=E4].back_calculated",
+   "expect": 22.958088566768456,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S21].final_concentration",
+   "expect": 23.305840639950226,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=E5].back_calculated",
+   "expect": 284.2466921067368,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=E6].back_calculated",
+   "expect": 272.75207749882225,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S22].final_concentration",
+   "expect": 278.49938480277956,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=E7].back_calculated",
+   "expect": 9.908089700920966,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=E8].back_calculated",
+   "expect": 9.247995285616572,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S23].final_concentration",
+   "expect": 9.578042493268768,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=E9].back_calculated",
+   "expect": 14.297415714438277,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=E10].back_calculated",
+   "expect": 13.192982890618469,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S24].final_concentration",
+   "expect": 68.72599651264187,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=E11].back_calculated",
+   "expect": 78.95976444744649,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=E12].back_calculated",
+   "expect": 77.20867547982441,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S25].final_concentration",
+   "expect": 78.08421996363545,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=F3].back_calculated",
+   "expect": 163.38278028704005,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=F4].back_calculated",
+   "expect": 161.77364784770523,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S26].final_concentration",
+   "expect": 162.57821406737264,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=F5].back_calculated",
+   "expect": 48.496709696886924,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=F6].back_calculated",
+   "expect": 51.15287766706138,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S27].final_concentration",
+   "expect": 49.82479368197416,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=F7].back_calculated",
+   "expect": 29.616595579619897,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=F8].back_calculated",
+   "expect": 33.5604272700814,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S28].final_concentration",
+   "expect": 157.94255712425323,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=F9].back_calculated",
+   "expect": 257.47664214279723,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=F10].back_calculated",
+   "expect": 239.60613994146948,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S29].final_concentration",
+   "expect": 248.54139104213334,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=F11].back_calculated",
+   "expect": 944.9923371504676,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=F12].back_calculated",
+   "expect": 761.3707667300157,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S30].final_concentration",
+   "expect": 853.1815519402417,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=G3].back_calculated",
+   "expect": 429.68088702728886,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=G4].back_calculated",
+   "expect": 374.3867202909501,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S31].final_concentration",
+   "expect": 402.0338036591195,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=G5].back_calculated",
+   "expect": 52.3268884528004,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=G6].back_calculated",
+   "expect": 51.63412780713427,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S32].final_concentration",
+   "expect": 259.9025406498367,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=G7].back_calculated",
+   "expect": 191.17083335218135,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=G8].back_calculated",
+   "expect": 181.2615942095052,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S33].final_concentration",
+   "expect": 186.21621378084328,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=G9].back_calculated",
+   "expect": 14.777926820878266,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=G10].back_calculated",
+   "expect": 14.59843402314171,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S34].final_concentration",
+   "expect": 14.688180422009989,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=G11].back_calculated",
+   "expect": 260.1517212027395,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=G12].back_calculated",
+   "expect": 253.26174899757484,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S35].final_concentration",
+   "expect": 256.7067351001572,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=H3].back_calculated",
+   "expect": 240.34636621492467,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=H4].back_calculated",
+   "expect": 242.6065366172933,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S36].final_concentration",
+   "expect": 1207.382257080545,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=H5].back_calculated",
+   "expect": 13.02638351045603,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=H6].back_calculated",
+   "expect": 13.234506231347261,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S37].final_concentration",
+   "expect": 13.130444870901645,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=H7].back_calculated",
+   "expect": 236.44121755243725,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=H8].back_calculated",
+   "expect": 243.25249798651456,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S38].final_concentration",
+   "expect": 239.8468577694759,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=H9].back_calculated",
+   "expect": 89.81986015397577,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=H10].back_calculated",
+   "expect": 91.29349211510606,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S39].final_concentration",
+   "expect": 90.55667613454091,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=H11].back_calculated",
+   "expect": 143.763157704917,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "wells[well=H12].back_calculated",
+   "expect": 137.77382239727254,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL",
+   "rel": 0.0002
+  },
+  {
+   "path": "samples[group=S40].final_concentration",
+   "expect": 703.8424502554739,
+   "source": "scipy 1.18.1 curve_fit inverse 5PL × dilution",
+   "rel": 0.0002
+  },
+  {
+   "path": "curve.fit.parameters[name=a].value",
+   "expect": 0.00249294806742425,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 0.0001,
+   "abs": 1e-06
+  },
+  {
+   "path": "curve.fit.parameters[name=b].value",
+   "expect": 1.43781891801957,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 0.0001,
+   "abs": 1e-06
+  },
+  {
+   "path": "curve.fit.parameters[name=c].value",
+   "expect": 182.889119644148,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 0.0001,
+   "abs": 1e-06
+  },
+  {
+   "path": "curve.fit.parameters[name=d].value",
+   "expect": 3.01121584455436,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 0.0001,
+   "abs": 1e-06
+  },
+  {
+   "path": "curve.fit.parameters[name=g].value",
+   "expect": 0.668099483452986,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 0.0001,
+   "abs": 1e-06
+  },
+  {
+   "path": "curve.fit.points[label=A1].fitted",
+   "expect": 2.45473572828604,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=A2].fitted",
+   "expect": 2.45473572828604,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=B1].fitted",
+   "expect": 2.01707686823752,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=B2].fitted",
+   "expect": 2.01707686823752,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=C1].fitted",
+   "expect": 1.40872021548928,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=C2].fitted",
+   "expect": 1.40872021548928,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=D1].fitted",
+   "expect": 0.793422241947869,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=D2].fitted",
+   "expect": 0.793422241947869,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=E1].fitted",
+   "expect": 0.367472543010062,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=E2].fitted",
+   "expect": 0.367472543010062,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=F1].fitted",
+   "expect": 0.15121910946007,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=F2].fitted",
+   "expect": 0.15121910946007,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=G1].fitted",
+   "expect": 0.0596020909603183,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.points[label=G2].fitted",
+   "expect": 0.0596020909603183,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.sse",
+   "expect": 0.00271799510244831,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.5, weights 1/|y|: Σ (w r)²",
+   "rel": 1e-05
+  }
+ ]
+}

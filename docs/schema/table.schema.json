@@ -1,0 +1,298 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TableSlice",
+  "description": "A slice of a table as rows, for JSON consumers (`openreadout_table`).",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input file.",
+      "type": "string"
+    },
+    "table": {
+      "description": "Table index (see `info` → `tables[]`).",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "first_row": {
+      "description": "Zero-based index of the first row returned.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "total_rows": {
+      "description": "Rows in the whole table.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "columns": {
+      "description": "Column names (FCS `$PnN`).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "labels": {
+      "description": "Column labels (FCS `$PnS`), `null` where absent.",
+      "type": "array",
+      "items": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "rows": {
+      "description": "Row-major values; `rows[r][c]`. Non-finite values serialize as `null`.",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "truncated": {
+      "description": "True when more rows follow the returned slice.",
+      "type": "boolean"
+    },
+    "processing": {
+      "description": "Present when the values were processed (FCS scale values, compensation, transforms,\npopulation membership columns); absent for raw values.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TableProcessing"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "filter": {
+      "description": "Present with `--where`/`--count`: the row conditions and how many rows of the whole\ntable meet them. `rows`, `first_row` and `truncated` then page through the matching rows.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TableFilterSummary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "table",
+    "first_row",
+    "total_rows",
+    "columns",
+    "labels",
+    "rows",
+    "truncated"
+  ],
+  "$defs": {
+    "TableProcessing": {
+      "description": "What `table` did to the raw values before returning them.",
+      "type": "object",
+      "properties": {
+        "scale": {
+          "description": "Channel-to-scale conversions applied (`$PnE`, `$PnG`, `$TIMESTEP`); every processed table\nstarts from scale values.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "compensation": {
+          "description": "The compensation applied, if any.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CompensationSummary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "transforms": {
+          "description": "Transforms applied, by parameter.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AppliedTransform"
+          }
+        },
+        "gates": {
+          "description": "Membership columns appended (1 = in the population, 0 = not).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GateColumn"
+          }
+        }
+      },
+      "required": [
+        "scale",
+        "transforms",
+        "gates"
+      ]
+    },
+    "CompensationSummary": {
+      "description": "A compensation or unmixing matrix.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Matrix name or id; `$SPILLOVER`/`$SPILL`/`SPILL` for the FCS file's own.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Where it comes from: `workspace`, `gating-ml`, `fcs` or `command-line`.",
+          "type": "string"
+        },
+        "detectors": {
+          "description": "Detectors (columns), `$PnN`.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fluorochromes": {
+          "description": "Rows: fluorochromes, or the detectors that receive the unmixed values.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "matrix": {
+          "description": "Row-major coefficients (spillover fractions).",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "spectral": {
+          "description": "More detectors than rows: unmixed by ordinary least squares.",
+          "type": "boolean"
+        },
+        "used": {
+          "description": "Whether a gate (or the table) used it.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "source",
+        "detectors",
+        "fluorochromes",
+        "matrix",
+        "spectral",
+        "used"
+      ]
+    },
+    "AppliedTransform": {
+      "description": "A transform applied to one table column.",
+      "type": "object",
+      "properties": {
+        "parameter": {
+          "description": "Column (`$PnN`).",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Transform kind.",
+          "type": "string"
+        },
+        "parameters": {
+          "description": "Its parameters.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "required": [
+        "parameter",
+        "kind",
+        "parameters"
+      ]
+    },
+    "GateColumn": {
+      "description": "A population membership column.",
+      "type": "object",
+      "properties": {
+        "column": {
+          "description": "Column name in the table (`gate:<path>`).",
+          "type": "string"
+        },
+        "population": {
+          "description": "Population path.",
+          "type": "string"
+        },
+        "gating_file": {
+          "description": "Path of the workspace or Gating-ML file that defines the population.",
+          "type": "string"
+        },
+        "count_in_rows": {
+          "description": "Members among the returned rows.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "column",
+        "population",
+        "gating_file",
+        "count_in_rows"
+      ]
+    },
+    "TableFilterSummary": {
+      "description": "Rows of a whole table that meet every condition (`table --where`, `--count`).",
+      "type": "object",
+      "properties": {
+        "conditions": {
+          "description": "The conditions as parsed (`FITC-A > 1000`), all of which a row must meet. Empty with\n`--count` alone (every row counts).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "matched_rows": {
+          "description": "Rows of the whole table that meet every condition (not only the returned page).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "total_rows": {
+          "description": "Rows in the whole table.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "percent": {
+          "description": "`matched_rows / total_rows × 100` (0 for an empty table).",
+          "type": "number",
+          "format": "double"
+        },
+        "values": {
+          "description": "The values the conditions were tested on: `raw` (as stored) or `processed` (FCS scale\nvalues after compensation/transforms; see `processing`).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "conditions",
+        "matched_rows",
+        "total_rows",
+        "percent",
+        "values"
+      ]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+ "id": "bmg-mars-lum-1536",
+ "file": "bmg-mars-lum-1536.csv",
+ "format": "plate",
+ "family": "plate-reader",
+ "readers": [
+  "allotropy 0.1.146 (MIT) ASM `measurement time`"
+ ],
+ "checks": [
+  {
+   "field": "ASM measurement time (wall clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-10-16T15:09:52+00:00",
+   "cmp": "wallclock",
+   "abs": 1.0
+  }
+ ]
+}

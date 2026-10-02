@@ -1,0 +1,28 @@
+{
+ "id": "ho-bnext-cytation5-pierce660",
+ "file": "20260318-cytation5-pierce660_three_read-EXPERIMENT.txt",
+ "size": 2738,
+ "sha256": "937b166c36c6e97965bd35b63f42c27f2826e7ebd37f3114305b0bcb772ad3c8",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (AGILENT_GEN5)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 24,
+    "values": 72,
+    "errors": 0,
+    "wavelengths": [
+     660.0
+    ],
+    "value_xxh3": "d37f86d7f97c5fcb42f61d116e21e977"
+   }
+  ],
+  "header": {
+   "model": "Cytation5",
+   "serial_number": "1705168",
+   "software_version": "3.16.10"
+  },
+  "documents": 24
+ }
+}

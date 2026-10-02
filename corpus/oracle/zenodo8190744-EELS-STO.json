@@ -1,0 +1,79 @@
+{
+ "id": "zenodo8190744-EELS-STO",
+ "file": "zenodo8190744-EELS-STO.dm3",
+ "size": 322631,
+ "sha256": "aa24012809d4f817c3ce212af12eee5f5a987516124b376ffa618b39321335ce",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "01-EELS Acquire_STO",
+   "size_x": 2048,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "73a7cc91cb4b54290631f1653fe3febf"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "01-EELS Acquire_STO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "Counts"
+   ],
+   "ppm_first": 350.0,
+   "ppm_last": 861.75,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2048,
+     "channels": [
+      {
+       "xxh3": "6fac0fbf3910ccf76232c532e8cff5a6",
+       "first": [
+        185028.0,
+        183662.0,
+        183547.0,
+        183839.0,
+        182620.0,
+        182380.0,
+        182029.0,
+        179990.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}

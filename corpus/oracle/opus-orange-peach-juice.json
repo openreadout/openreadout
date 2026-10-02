@@ -1,0 +1,330 @@
+{
+ "id": "opus-orange-peach-juice",
+ "file": "opus-orange-peach-juice.0",
+ "size": 1184436,
+ "sha256": "7c1c901767cd00312f04d09d558ac5d049cdcaea3543d71c1d4bdfad5ae2034b",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "r",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1816,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1816,
+     "channels": [
+      {
+       "xxh3": "269ca6d6da4019a572aac0fa89641414",
+       "first": [
+        0.906033456325531,
+        0.9059217572212219,
+        0.906255304813385,
+        0.9065553545951843,
+        0.906499445438385,
+        0.9064684510231018,
+        0.9065083861351013,
+        0.9067291617393494
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4000.1161035156247,
+   "x_last": 499.5323388671875,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.88,
+     "apodization": "NBM",
+     "beamsplitter": "KBr",
+     "source": "Globar (MIR)",
+     "detector": "7 MICRO 250um right;+750;0.9",
+     "instrument": "IFS66V/S",
+     "sample_name": "Peach juice colorful spot",
+     "operator": "Administrator",
+     "aperture": "12 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "r_2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1816,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1816,
+     "channels": [
+      {
+       "xxh3": "769ec5c840053530614564a0eff8f3c5",
+       "first": [
+        0.9060475826263428,
+        0.9059646725654602,
+        0.9062609076499939,
+        0.906561017036438,
+        0.9064977169036865,
+        0.9064057469367981,
+        0.9065179824829102,
+        0.9067309498786926
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4000.1161035156247,
+   "x_last": 499.5323388671875,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.88,
+     "apodization": "NBM",
+     "beamsplitter": "KBr",
+     "source": "Globar (MIR)",
+     "detector": "7 MICRO 250um right;+750;0.9",
+     "instrument": "IFS66V/S",
+     "sample_name": "Peach juice colorful spot",
+     "operator": "Administrator",
+     "aperture": "12 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1816,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1816,
+     "channels": [
+      {
+       "xxh3": "39ec5246089c4fd828f86393c8ae7590",
+       "first": [
+        0.17423518002033234,
+        0.17426881194114685,
+        0.17414818704128265,
+        0.17429479956626892,
+        0.1744178831577301,
+        0.17454224824905396,
+        0.17496946454048157,
+        0.17531698942184448
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4000.1161035156247,
+   "x_last": 499.5323388671875,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.88,
+     "apodization": "NBM",
+     "beamsplitter": "KBr",
+     "source": "Globar (MIR)",
+     "detector": "7 MICRO 250um right;+750;0.9",
+     "instrument": "IFS66V/S",
+     "sample_name": "Peach juice colorful spot",
+     "operator": "Administrator",
+     "aperture": "12 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 3,
+   "reader": "brukeropus",
+   "brukeropus_key": "igsm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 14216,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 14216,
+     "channels": [
+      {
+       "xxh3": "5b5f93386da06b50bd3ab90b9dc47b84",
+       "first": [
+        0.0002231597900390625,
+        -9.822845458984375e-05,
+        -6.103515625e-05,
+        0.00016546249389648438,
+        9.1552734375e-05,
+        -0.00013780593872070312,
+        -3.5762786865234375e-05,
+        0.0003209114074707031
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 14215.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.88,
+     "apodization": "NBM",
+     "beamsplitter": "KBr",
+     "source": "Globar (MIR)",
+     "detector": "7 MICRO 250um right;+750;0.9",
+     "instrument": "IFS66V/S",
+     "sample_name": "Peach juice colorful spot",
+     "operator": "Administrator",
+     "aperture": "12 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 4,
+   "reader": "brukeropus",
+   "brukeropus_key": "phsm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 512,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 512,
+     "channels": [
+      {
+       "xxh3": "74b3bd0ea323ca9109e7d7c68959b8aa",
+       "first": [
+        -3.1076736450195312,
+        -3.0666699409484863,
+        -3.020487070083618,
+        -2.9784462451934814,
+        -2.9447011947631836,
+        -2.9138901233673096,
+        -2.8796191215515137,
+        -2.842776298522949
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7884.5104296875,
+   "x_last": 0.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.88,
+     "apodization": "NBM",
+     "beamsplitter": "KBr",
+     "source": "Globar (MIR)",
+     "detector": "7 MICRO 250um right;+750;0.9",
+     "instrument": "IFS66V/S",
+     "sample_name": "Peach juice colorful spot",
+     "operator": "Administrator",
+     "aperture": "12 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 5,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1816,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1816,
+     "channels": [
+      {
+       "xxh3": "baa723a00e26966d8c2ff0a8df3d7810",
+       "first": [
+        0.19230246543884277,
+        0.19235718250274658,
+        0.1921612024307251,
+        0.1922593116760254,
+        0.1924085170030594,
+        0.19256524741649628,
+        0.19301268458366394,
+        0.19335061311721802
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4000.1161035156247,
+   "x_last": 499.5323388671875,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.88,
+     "apodization": "NBM",
+     "beamsplitter": "KBr",
+     "source": "Globar (MIR)",
+     "detector": "7 MICRO 250um right;+750;0.9",
+     "instrument": "IFS66V/S",
+     "sample_name": "Peach juice colorful spot",
+     "operator": "Administrator",
+     "aperture": "12 mm"
+    }
+   }
+  },
+  {
+   "index": 6,
+   "reader": "brukeropus",
+   "brukeropus_key": "igrf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 14216,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 14216,
+     "channels": [
+      {
+       "xxh3": "90fe14f50506f5052e41b5ed86fc9922",
+       "first": [
+        0.00021839141845703125,
+        -0.00013303756713867188,
+        -8.96453857421875e-05,
+        0.00016045570373535156,
+        8.273124694824219e-05,
+        -0.0001685619354248047,
+        -5.316734313964844e-05,
+        0.00034546852111816406
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 14215.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.88,
+     "apodization": "NBM",
+     "beamsplitter": "KBr",
+     "source": "Globar (MIR)",
+     "detector": "7 MICRO 250um right;+750;0.9",
+     "instrument": "IFS66V/S",
+     "sample_name": "Peach juice colorful spot",
+     "operator": "Administrator",
+     "aperture": "12 mm"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,50 @@
+{
+ "openslide-aperio-cmu-1": {
+  "extractor": "evals/regions.py",
+  "facts": {
+   "centre512_mean": {
+    "how": "mean of R, G and B samples of the 512 × 512 window at the centre of level 0",
+    "reader": "tifffile 2026.9.20 + zarr 3.4.0",
+    "value": 245.8121
+   },
+   "level2_pixel_um": {
+    "how": "µm per pixel of level 2 (full resolution = level 0): MPP × width0 / width2",
+    "reader": "tifffile 2026.9.20",
+    "value": 7.984
+   },
+   "level_count": {
+    "how": "number of resolution levels of the slide image (full resolution included)",
+    "reader": "tifffile 2026.9.20",
+    "value": 3
+   }
+  },
+  "file": "openslide-aperio-CMU-1.svs"
+ },
+ "openslide-hamamatsu-cmu-1": {
+  "extractor": "evals/regions.py",
+  "facts": {
+   "centre512_mean": {
+    "how": "mean of R, G and B samples of the 512 × 512 window at the centre of level 0",
+    "reader": "tifffile 2026.9.20 + zarr 3.4.0",
+    "value": 193.57884
+   }
+  },
+  "file": "openslide-hamamatsu-CMU-1.ndpi"
+ },
+ "zenodo10577621-Young-mouse": {
+  "extractor": "evals/regions.py",
+  "facts": {
+   "centre1024_green_mean": {
+    "how": "mean green sample of the 1024 × 1024 window at the centre of scene 0",
+    "reader": "pylibCZIrw 6.1.0 (black box); czifile 2026.8.16 gives 54.2084",
+    "value": 54.100529
+   },
+   "level_count": {
+    "how": "number of resolution levels of scene 0 (full resolution included): one per power-of-two downsampling factor of the pyramid subblocks (1/2 ... 1/256)",
+    "reader": "czifile 2026.8.16 (subblock ratios); pylibCZIrw (black box) for the coarsest level",
+    "value": 9
+   }
+  },
+  "file": "zenodo10577621-Young-mouse.czi"
+ }
+}

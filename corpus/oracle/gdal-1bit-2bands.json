@@ -1,0 +1,44 @@
+{
+ "id": "gdal-1bit-2bands",
+ "file": "gdal-1bit-2bands.tif",
+ "size": 414,
+ "sha256": "b179f2bb5063ab2f7fef40f81be6d41603165b124ab4ed528fc107331790cc36",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YXS",
+   "shape": [
+    32,
+    32,
+    2
+   ],
+   "size_x": 32,
+   "size_y": 32,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 2,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "419eb33a8aafd90d9f8f847071f5f347"
+    }
+   ]
+  }
+ ]
+}

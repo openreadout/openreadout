@@ -1,0 +1,47 @@
+{
+ "aics-ND2-dims-p4z5t3c2y32x32": {
+  "extractor": "evals/agent_facts.py",
+  "facts": {
+   "mip_mean_p3_c2_t1": {
+    "how": "stage position 3 (P index 2), second channel (C index 1), first time point: max over the 5 z-slices per pixel, mean of the projection",
+    "reader": "nd2 0.11.3",
+    "value": 101.66895
+   }
+  },
+  "file": "aics-ND2-dims-p4z5t3c2y32x32.nd2"
+ },
+ "aics-ND2-dims-rgb": {
+  "extractor": "evals/agent_facts.py",
+  "facts": {
+   "blue_mean": {
+    "how": "RGB image, the blue samples of every pixel, mean",
+    "reader": "nd2 0.11.3",
+    "value": 145.40063
+   }
+  },
+  "file": "aics-ND2-dims-rgb.nd2"
+ },
+ "aics-RGB-8bit": {
+  "extractor": "evals/agent_facts.py",
+  "facts": {
+   "green_mean": {
+    "cross_check": "pylibCZIrw 6.1.0 (black box): agrees",
+    "how": "RGB (Bgr24) image, the green samples of every pixel, mean",
+    "reader": "czifile 2026.8.16",
+    "value": 28.024661
+   }
+  },
+  "file": "aics-RGB-8bit.czi"
+ },
+ "chromhandler-001f0101-d-fid1a-ch": {
+  "extractor": "evals/agent_facts.py",
+  "facts": {
+   "gc_lot_a_mean_main_area": {
+    "how": "runs 001F0101 and 001F0103 (lot A in the sheet): area of the largest FID1 A peak in each run's Report.TXT, pA·s, averaged",
+    "reader": "ChemStation Report.TXT (vendor integration of this injection)",
+    "value": 33114.6
+   }
+  },
+  "file": "chromhandler-001F0101.D/FID1A.ch"
+ }
+}

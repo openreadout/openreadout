@@ -1,0 +1,42 @@
+{
+ "id": "figshare28409411-vsi-dotslide",
+ "file": "figshare28409411-vsi-dotslide/144105_13p5555kbDAB msAT8 1-20016-03-23.vsi",
+ "format": "vsi",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "acquisition date (earliest image)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-03-16T14:18:42",
+   "cmp": "time_or_utc",
+   "abs": 60.0
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 31740,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 20970,
+   "cmp": "exact"
+  }
+ ]
+}

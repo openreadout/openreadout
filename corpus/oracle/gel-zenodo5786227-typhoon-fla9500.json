@@ -1,0 +1,43 @@
+{
+ "id": "gel-zenodo5786227-typhoon-fla9500",
+ "file": "gel-zenodo5786227-typhoon-fla9500.gel",
+ "size": 2108467,
+ "sha256": "0175a7bf9cc282fe33ee259e71b6c9370a76293907a802ead5aac3bc5fd15b2f",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "mdgel",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "mdgel",
+   "axes": "YX",
+   "shape": [
+    1030,
+    1023
+   ],
+   "size_x": 1023,
+   "size_y": 1030,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ac1d26cd1e042c7ff5fa02d911d5706d"
+    }
+   ]
+  }
+ ]
+}

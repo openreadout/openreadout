@@ -1,0 +1,13 @@
+##TITLE= Parameter file, TopSpin 4.1.0
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##$SI= 8
+##$XDIM= 4
+##$NC_proc= 0
+##$BYTORDP= 0
+##$DTYPP= 0
+##$OFFSET= 12.0
+##$SW_p= 7200.0
+##$SF= 600.13
+##$AXNUC= <1H>
+##END=

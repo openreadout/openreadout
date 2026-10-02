@@ -1,0 +1,72 @@
+{
+ "id": "nion-dm-ref-f-0-1-dm4",
+ "file": "nion-dm-ref-f-0-1-dm4.dm4",
+ "size": 1691,
+ "sha256": "0e1fcef8107b91d376bbde6eaf15efe29d88c735d6ca1061dc86fa77dbd4d236",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 0,
+   "name": null,
+   "size_x": 3,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e4e8b64d2ffcf806c3ca633d67782175"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": null,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "six"
+   ],
+   "ppm_first": 1.0,
+   "ppm_last": 5.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3,
+     "channels": [
+      {
+       "xxh3": "eb04e7d859156de249bcbcb7671c6bd4",
+       "first": [
+        0.0,
+        1.0,
+        2.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.DataType'"
+ ]
+}

@@ -1,0 +1,366 @@
+{
+ "id": "mtbls20-hydroxymethoxycinnamic-neg",
+ "file": "mtbls20-hydroxymethoxycinnamic-neg.raw",
+ "format": "thermo-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (mtbls20-hydroxymethoxycinnamic-neg.mzML)",
+  "the vendor-library conversion (mtbls20-hydroxymethoxycinnamic-neg.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}#len",
+   "theirs": 42,
+   "cmp": "exact"
+  },
+  {
+   "field": "MS1 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/1",
+   "theirs": 14,
+   "cmp": "exact"
+  },
+  {
+   "field": "MS2 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/2",
+   "theirs": 28,
+   "cmp": "exact"
+  },
+  {
+   "field": "first retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#min",
+   "theirs": 0.71860000002,
+   "cmp": "num",
+   "abs": 0.001
+  },
+  {
+   "field": "last retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#max",
+   "theirs": 116.86549999998,
+   "cmp": "num",
+   "abs": 0.001
+  },
+  {
+   "field": "polarities",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/parameters/polarity/value",
+   "theirs": [
+    "negative"
+   ],
+   "cmp": "set"
+  },
+  {
+   "field": "scan MS level",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "1": 1,
+    "2": 2,
+    "3": 2,
+    "4": 1,
+    "5": 2,
+    "6": 2,
+    "7": 1,
+    "8": 2,
+    "9": 2,
+    "10": 1,
+    "11": 2,
+    "12": 2,
+    "13": 1,
+    "14": 2,
+    "15": 2,
+    "16": 1,
+    "17": 2,
+    "18": 2,
+    "19": 1,
+    "20": 2,
+    "21": 2,
+    "22": 1,
+    "23": 2,
+    "24": 2,
+    "25": 1,
+    "26": 2,
+    "27": 2,
+    "28": 1,
+    "29": 2,
+    "30": 2,
+    "31": 1,
+    "32": 2,
+    "33": 2,
+    "34": 1,
+    "35": 2,
+    "36": 2,
+    "37": 1,
+    "38": 2,
+    "39": 2,
+    "40": 1,
+    "41": 2,
+    "42": 2
+   },
+   "cmp": "exact",
+   "by": "/scan_number",
+   "each": "/ms_level"
+  },
+  {
+   "field": "scan retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "1": 0.71860000002,
+    "2": 2.0846999999999998,
+    "3": 5.76679999998,
+    "4": 9.380700000000001,
+    "5": 10.780800000000001,
+    "6": 14.458499999999999,
+    "7": 18.07240000002,
+    "8": 19.34680000002,
+    "9": 23.0337,
+    "10": 26.64670000002,
+    "11": 27.85930000002,
+    "12": 31.54180000002,
+    "13": 35.1612,
+    "14": 36.3522,
+    "15": 39.9924,
+    "16": 43.7388,
+    "17": 45.01279999998,
+    "18": 48.656500000019996,
+    "19": 52.4088,
+    "20": 53.5488,
+    "21": 57.2325,
+    "22": 60.852,
+    "23": 62.01409999998,
+    "24": 65.6967,
+    "25": 69.3099,
+    "26": 70.45579999998,
+    "27": 74.14309999998,
+    "28": 77.75569999998001,
+    "29": 79.13130000000001,
+    "30": 82.81200000000001,
+    "31": 86.43019999998,
+    "32": 87.5967,
+    "33": 91.27729999998,
+    "34": 94.8903,
+    "35": 96.06349999998,
+    "36": 99.74890000002,
+    "37": 103.36210000002,
+    "38": 104.60680000002,
+    "39": 108.29149999997999,
+    "40": 111.91159999998,
+    "41": 113.18260000002,
+    "42": 116.86549999998
+   },
+   "cmp": "num",
+   "abs": 0.001,
+   "by": "/scan_number",
+   "each": "/rt_s"
+  },
+  {
+   "field": "scan polarity",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "1": "negative",
+    "2": "negative",
+    "3": "negative",
+    "4": "negative",
+    "5": "negative",
+    "6": "negative",
+    "7": "negative",
+    "8": "negative",
+    "9": "negative",
+    "10": "negative",
+    "11": "negative",
+    "12": "negative",
+    "13": "negative",
+    "14": "negative",
+    "15": "negative",
+    "16": "negative",
+    "17": "negative",
+    "18": "negative",
+    "19": "negative",
+    "20": "negative",
+    "21": "negative",
+    "22": "negative",
+    "23": "negative",
+    "24": "negative",
+    "25": "negative",
+    "26": "negative",
+    "27": "negative",
+    "28": "negative",
+    "29": "negative",
+    "30": "negative",
+    "31": "negative",
+    "32": "negative",
+    "33": "negative",
+    "34": "negative",
+    "35": "negative",
+    "36": "negative",
+    "37": "negative",
+    "38": "negative",
+    "39": "negative",
+    "40": "negative",
+    "41": "negative",
+    "42": "negative"
+   },
+   "cmp": "text",
+   "by": "/scan_number",
+   "each": "/polarity"
+  },
+  {
+   "field": "scan precursor m/z",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "2": 92.006721496582,
+    "3": 92.006721496582,
+    "5": 102.956733703613,
+    "6": 102.956733703613,
+    "8": 193.050369262695,
+    "9": 193.050369262695,
+    "11": 88.988403320313,
+    "12": 88.988403320313,
+    "14": 239.055435180664,
+    "15": 239.055435180664,
+    "17": 293.175140380859,
+    "18": 293.175140380859,
+    "20": 92.00675201416,
+    "21": 92.00675201416,
+    "23": 102.956680297852,
+    "24": 102.956680297852,
+    "26": 180.972640991211,
+    "27": 180.972640991211,
+    "29": 174.955703735352,
+    "30": 174.955703735352,
+    "32": 206.972290039063,
+    "33": 206.972290039063,
+    "35": 169.783203125,
+    "36": 169.783203125,
+    "38": 92.006782531738,
+    "39": 92.006782531738,
+    "41": 102.95671081543,
+    "42": 102.95671081543
+   },
+   "cmp": "num",
+   "rel": 1e-06,
+   "by": "/scan_number",
+   "each": "/precursor_mz"
+  },
+  {
+   "field": "scan precursor charge",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "8": 1,
+    "9": 1,
+    "17": 1,
+    "18": 1
+   },
+   "cmp": "exact",
+   "by": "/scan_number",
+   "each": "/precursor_charge"
+  },
+  {
+   "field": "instrument model",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "LTQ Orbitrap Discovery",
+   "cmp": "text",
+   "reader": 1
+  },
+  {
+   "field": "instrument serial number",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "20698",
+   "cmp": "text",
+   "reader": 1
+  },
+  {
+   "field": "acquisition software version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/software_version",
+   "theirs": "2.4 SP1",
+   "cmp": "prefix",
+   "reader": 1
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2011-01-25T09:42:12Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 1
+  }
+ ]
+}

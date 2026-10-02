@@ -1,0 +1,52 @@
+{
+ "id": "ome-tubhiswt-2d-tubhiswt-c1",
+ "file": "tubhiswt_C1.ome.tif",
+ "size": 269568,
+ "sha256": "c17cb626103d9a8b3f77b0d49fbff67ced2a6da83f6b2ae8beae183fb1a2a51f",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "tubhiswt",
+   "kind": "ome",
+   "axes": "CYX",
+   "shape": [
+    2,
+    512,
+    512
+   ],
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b9923bd5f0df72d9665fde5875d7c13b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "925b55203d8b163229d18b27a54c050f"
+    }
+   ]
+  }
+ ]
+}

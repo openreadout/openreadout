@@ -1,0 +1,414 @@
+{
+ "id": "fcsparser-fortessa-a01",
+ "file": "fcsparser-fortessa-a01.fcs",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0",
+  "FlowKit 1.3.2 (BSD-3) compensation with the file's spillover matrix"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 11585,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 11,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "FITC-A",
+    "PerCP-Cy5-5-A",
+    "AmCyan-A",
+    "PE-Texas Red-A",
+    "Time"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-A": 262144.0,
+    "FSC-H": 262144.0,
+    "FSC-W": 262144.0,
+    "SSC-A": 262144.0,
+    "SSC-H": 262144.0,
+    "SSC-W": 262144.0,
+    "FITC-A": 262144.0,
+    "PerCP-Cy5-5-A": 262144.0,
+    "AmCyan-A": 262144.0,
+    "PE-Texas Red-A": 262144.0,
+    "Time": 262144.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-A": 32,
+    "FSC-H": 32,
+    "FSC-W": 32,
+    "SSC-A": 32,
+    "SSC-H": 32,
+    "SSC-W": 32,
+    "FITC-A": 32,
+    "PerCP-Cy5-5-A": 32,
+    "AmCyan-A": 32,
+    "PE-Texas Red-A": 32,
+    "Time": 32
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "F",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "big-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS3.0",
+   "cmp": "text"
+  },
+  {
+   "field": "time step ($TIMESTEP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/timestep_s",
+   "theirs": 0.01,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "file name ($FIL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/file_name",
+   "theirs": "Specimen_001_A1_A01.fcs",
+   "cmp": "text"
+  },
+  {
+   "field": "source ($SRC)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/source",
+   "theirs": "Specimen_001",
+   "cmp": "text"
+  },
+  {
+   "field": "system ($SYS)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/system",
+   "theirs": "Windows XP 5.1",
+   "cmp": "text"
+  },
+  {
+   "field": "operator ($OP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "EugeneYurtsev",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "LSRII",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2013-02-28T15:19:53.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2013-02-28T15:20:03.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "spillover parameters (SPILL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/parameters",
+   "theirs": [
+    "FITC-A",
+    "PerCP-Cy5-5-A",
+    "AmCyan-A",
+    "PE-Texas Red-A"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "spillover matrix (SPILL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/matrix",
+   "theirs": [
+    [
+     1.0,
+     0.0,
+     0.15999999430400005,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.015000003206999964,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0030000039808999713,
+     0.0,
+     0.014999998701599989,
+     1.0
+    ]
+   ],
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "compensated events (FITC-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/6",
+   "theirs": [
+    16.02445507131802,
+    20.91099135076575,
+    24.113659637798122,
+    23.967785643316983,
+    -28.24377854476249,
+    38.742239364594624,
+    22.514122281655823,
+    12.776505285171615,
+    3.8747030041677766,
+    25.690908970966394,
+    -13.480771849653022,
+    20.84951753172029,
+    -39.971257724466305,
+    -0.3880510841206286,
+    -18.040946163284136,
+    15.19886103995541
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PerCP-Cy5-5-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/7",
+   "theirs": [
+    8.579999923706055,
+    7.799999713897705,
+    26.51999855041504,
+    49.13999938964844,
+    16.3799991607666,
+    8.579999923706055,
+    -12.479999542236328,
+    -12.479999542236328,
+    4.679999828338623,
+    6.239999771118164,
+    5.460000038146973,
+    -12.479999542236328,
+    -29.639999389648438,
+    -11.699999809265137,
+    1.559999942779541,
+    -42.119998931884766
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (AmCyan-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/8",
+   "theirs": [
+    135.04688480909144,
+    161.90184458320888,
+    53.68661460848818,
+    68.7395516850578,
+    58.88660260369531,
+    20.208042220473125,
+    -36.87745674717158,
+    -15.591040440618595,
+    -5.801552332164611,
+    -93.67134163380747,
+    224.01411792501895,
+    126.67207787938837,
+    18.366600236305622,
+    -135.88990082219513,
+    65.78575020835135,
+    -124.50541801241268
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PE-Texas Red-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/9",
+   "theirs": [
+    -36.720001220703125,
+    20.15999984741211,
+    13.680000305175781,
+    -12.960000991821289,
+    20.15999984741211,
+    -15.120000839233398,
+    -40.31999969482422,
+    -20.880001068115234,
+    37.44000244140625,
+    -35.28000259399414,
+    -6.4800004959106445,
+    -43.20000076293945,
+    -28.080001831054688,
+    28.80000114440918,
+    -35.28000259399414,
+    -23.760000228881836
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  }
+ ]
+}

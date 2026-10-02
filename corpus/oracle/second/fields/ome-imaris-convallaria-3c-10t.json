@@ -1,0 +1,45 @@
+{
+ "id": "ome-imaris-convallaria-3c-10t",
+ "file": "ome-imaris/Convallaria_3C_10T_confocal.ims",
+ "format": "ims",
+ "family": "imaging",
+ "readers": [
+  "h5py 3.16.0 (BSD-3): DataSetInfo/Image RecordingDate",
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "RecordingDate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-10-22T13:11:03.295",
+   "cmp": "time",
+   "abs": 0.001
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 1024,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 1024,
+   "cmp": "exact",
+   "reader": 1
+  }
+ ]
+}

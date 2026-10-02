@@ -1,0 +1,20 @@
+{
+ "id": "zenodo11260215-LS-foto-1",
+ "file": "zenodo11260215-LS-foto-1.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1380,
+   "size_y": 1380,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bd600b775a2039fe098e4601ca2f8776"
+    }
+   ]
+  }
+ ]
+}

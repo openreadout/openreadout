@@ -1,0 +1,16 @@
+{
+ "id": "nmrxiv-s200-hsqc",
+ "file": "Limonene_7020ug200uL_CDCl3_HSQC_400MHz_JDX.jdx",
+ "size": 2413564,
+ "sha256": "9737a48c8a09fb7044291de87b29f298ad01ab7354e6d2654ff5f22d7aefc7b1",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "Limonene_7020ug200uL_CDCl3_nospin_IND_skim592",
+   "kind": "ntuples",
+   "data_type": "ND NMR SPECTRUM"
+  }
+ ]
+}

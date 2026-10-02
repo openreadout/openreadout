@@ -1,0 +1,1211 @@
+{
+ "id": "ho-zenodo5569195-lif-counting",
+ "file": "AccumulatingDetection.lif",
+ "size": 26012419,
+ "sha256": "e879dd2bfeda8a8632c9672471e302cc9422fc3bd97f9d53e21648281bbca2ce",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "PosA_1",
+   "path": "PosA_1",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.040652095671981775,
+    "y": 0.040652095671981775,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6630e254d52e1f7b9f14cd2a72ef8925"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9a52cd3dc0bb342d8a3de0cdae902cfe"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "PosA_2",
+   "path": "PosA_2",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.040652095671981775,
+    "y": 0.040652095671981775,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c3b395cd2f3e3335258c9da3f7d9d9cb"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "62798a7a6d9bd7a35046389f9988c4bb"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "PosA_4",
+   "path": "PosA_4",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.040652095671981775,
+    "y": 0.040652095671981775,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "28cb4fe26403d8b5df665d3095cabec3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bec8bf2f53cea9b6088185fecf77b0a8"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "PosA_8",
+   "path": "PosA_8",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.040652095671981775,
+    "y": 0.040652095671981775,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "092816d01666f4f719d3617f5aba5e4d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "91ebb27c0165164bea89e4c2ca478150"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "PosA_16",
+   "path": "PosA_16",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.040652095671981775,
+    "y": 0.040652095671981775,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a4785d6d4399b71b0800da90ab4304b7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c971d56457a7cfc334ca8a0d916bc86a"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "PosB_1",
+   "path": "PosB_1",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067489749430524,
+    "y": 0.04067489749430524,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4c03c9d26bcfc8d6e96e589222738481"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0945ada3a2aaa57e399b6b7f484eeb73"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "PosB_2",
+   "path": "PosB_2",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067489749430524,
+    "y": 0.04067489749430524,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1283ee88f81af6d0df7908d63702af06"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7185aabc9a526f216e04c9f6293b2d74"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "PosB_4",
+   "path": "PosB_4",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067489749430524,
+    "y": 0.04067489749430524,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c9a3b9da589056e295d886b2844eb117"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7fadc7d33b3fcdcd637d8bd145f1e867"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "PosB_8",
+   "path": "PosB_8",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067489749430524,
+    "y": 0.04067489749430524,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "13b57759f4f639538b49c244f2325b71"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "821e7f622146d8d5bc6495788cad28e2"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "PosB_16",
+   "path": "PosB_16",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067489749430524,
+    "y": 0.04067489749430524,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5f901bf0d6f2fe12dfb0414d409602a1"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0ced5c1638bc3e39cd3eedaf54329256"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "PosC_1",
+   "path": "PosC_1",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "76bfa205693665422dc8bda2c79a5edb"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "de76e3e887bbcc36c8bfcffd4c82e61f"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "PosC_2",
+   "path": "PosC_2",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7c2f45337dd2638ec1d7ce640a6e268e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "329f5be34ba0568acec9d105cc1dd2cb"
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "name": "PosC_4",
+   "path": "PosC_4",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4761da5904d2b1ab35087d61b6815fd8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cf30d3329d8381ed29e31a0497876cef"
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "name": "PosC_8",
+   "path": "PosC_8",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "44c6ea472a3727130f2528b22e1050a4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d7654cd3ee164f95d354f5b9030d2e19"
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "name": "PosC_16",
+   "path": "PosC_16",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fb6809c0c1181af79f2fb6d7c6939cc8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cc6abcb2d3ce74c02e4c1327dbb7086c"
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "name": "PosD_1",
+   "path": "PosD_1",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "adbb3f48b9011dbefea7b55198d2fb20"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "23ec25b5f142dfeebd8c1f87c03832c1"
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "name": "PosD_2",
+   "path": "PosD_2",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b978d581cf3a23a21bb4d6ee0e4c8b7b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a2c1d5e3ea8f6a5cc8d3159e7b80c627"
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "name": "PosD_4",
+   "path": "PosD_4",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "585891901ecbcbc3b0a55bd5cfaaeb46"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5b9d762088d5f94716672fbf22e7e82a"
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "name": "PosD_8",
+   "path": "PosD_8",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "904a59f0443159b68d8135d71dcb76be"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "90e9916539bdd748c3bb6fa3478dbe2e"
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "name": "PosD_16",
+   "path": "PosD_16",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d1d98d0ebecfc8f31a585adc044f05d2"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a955184732ca73d283c7455cf1e5264a"
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "name": "PosE_1",
+   "path": "PosE_1",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5d69f35f5f2abac2ab4c0caa6e3266c5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3a171c8d59601c0e19d5c004a6a18089"
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "name": "PosE_2",
+   "path": "PosE_2",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f055181f75e2a87b756831fbce758168"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b567621a9aecc4b330ac8ff2e0dbea2c"
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "name": "PosE_4",
+   "path": "PosE_4",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c2dbb03d80b03aadfad9cf197b383298"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1a97c450e74097566ac5ef44b9ff2b93"
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "name": "PosE_8",
+   "path": "PosE_8",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "15c55dd839d75bd18f61e44c170890b6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "63a91e6c041d3a32a200d71975f2a2b1"
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "name": "PosE_16",
+   "path": "PosE_16",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067453302961276,
+    "y": 0.04067453302961276,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "016ce4750fd9e1444a93dd139d83688c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c44496089f7813996d9f5adbfe3c974a"
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "name": "PosF_1",
+   "path": "PosF_1",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067489749430524,
+    "y": 0.04067489749430524,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8960ec980920e4e946dff004769ff3fe"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "81b43adc1ede5cf684f9cb677b15d833"
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "name": "PosF_2",
+   "path": "PosF_2",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067489749430524,
+    "y": 0.04067489749430524,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ce3b99937cedac9712d9ea11ef66d852"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "03b456960fc3143f96954bbd9d6c29b9"
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "name": "PosF_4",
+   "path": "PosF_4",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067489749430524,
+    "y": 0.04067489749430524,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "263760bef2fce0bdd18544af360b7435"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "317e565aa1893aec5850dbe45c05ec71"
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "name": "PosF_8",
+   "path": "PosF_8",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067489749430524,
+    "y": 0.04067489749430524,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2ca3b15793a52258d05b26ba89d55d62"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d96c33617a7dd144a639136b8ee3e797"
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "name": "PosF_16",
+   "path": "PosF_16",
+   "size_x": 440,
+   "size_y": 440,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    440,
+    440
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.04067489749430524,
+    "y": 0.04067489749430524,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dd8743b953982b8c58a83d7e84b76b2e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0760994d8ecea62082e63b9cb4e9b14e"
+    }
+   ]
+  }
+ ]
+}

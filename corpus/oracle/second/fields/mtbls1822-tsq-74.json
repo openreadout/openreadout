@@ -1,0 +1,57 @@
+{
+ "id": "mtbls1822-tsq-74",
+ "file": "mtbls1822-tsq-74.raw",
+ "format": "thermo-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (mtbls1822-tsq-74.mzML)",
+  "the vendor-library conversion (mtbls1822-tsq-74.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "instrument model",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "TSQ Vantage",
+   "cmp": "text",
+   "reader": 1
+  },
+  {
+   "field": "instrument serial number",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "TQU02987",
+   "cmp": "text",
+   "reader": 1
+  },
+  {
+   "field": "acquisition software version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/software_version",
+   "theirs": "2.3.0.1206 SP1",
+   "cmp": "prefix",
+   "reader": 1
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2017-03-22T03:48:25Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 1
+  }
+ ]
+}

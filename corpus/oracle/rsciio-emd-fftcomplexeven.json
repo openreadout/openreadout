@@ -1,0 +1,60 @@
+{
+ "id": "rsciio-emd-fftcomplexeven",
+ "file": "rsciio-emd-fftcomplexeven.emd",
+ "size": 299776,
+ "sha256": "a71a041115f9bacd17a402b0f2915456540ad759091bedcc3280201277432760",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "734b684418e64dc7aa7d6f12404c90f8",
+   "size_x": 36,
+   "size_y": 70,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "complex",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "detector": "HAADF",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7b5e0af2496663113a4a7e36cd11192f"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "velox_id": "8874d5e77c3d40eab49d4325dc25f65d",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.027115295630818652,
+    "y": 0.027115295630818652,
+    "z": null
+   },
+   "detector": "HAADF",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "876c68ae2ffd1061116543e973dea53d"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"9\",\n    \"format\": \"Velox\"\n}\n"
+}

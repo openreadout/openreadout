@@ -1,0 +1,1241 @@
+{
+ "id": "ho-gh-pwiz-mzmlb-narrow",
+ "file": "narrow_scan_windows.mzMLb",
+ "size": 183103,
+ "sha256": "527e5c6fb0c80fb94c2d7a2b302e354f48255d2c9885816384e10f6fd1f77e2e",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 mzmlb.MzMLb",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 23256,
+     "channels": [
+      {
+       "xxh3": "1d6f07d2a174551f15bc2d5ebd1e4e32",
+       "first": [
+        0.052,
+        0.569,
+        0.9880000000000001,
+        1.417,
+        1.8399999999999999,
+        2.265,
+        2.6870000000000003,
+        3.1100000000000003
+       ]
+      },
+      {
+       "xxh3": "ec9100e89e3dd23ae72ee22f855e3d9c",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "6175d10be975b54f33c3bbd7599af17f",
+       "first": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 17,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "sample=1 period=1 cycle=1 experiment=926",
+    "ms_level": 2,
+    "rt_s": 414.30799999998,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 691.125596756736,
+    "base_peak_mz": null,
+    "n_peaks": 9,
+    "n_nonzero": 3,
+    "mz_bits": 64,
+    "xxh3_mz": "80cdfa6901b874335feb6f05c52c864f",
+    "xxh3_intensity": "9e31fa0027c78b4feb0303b4472f6964",
+    "xxh3_mz_nonzero": "a5f7ffe0b3a8e4cc45f2b409b4866ef4",
+    "xxh3_intensity_nonzero": "d5aa006c2e636b5ac9d80a073a18b68d",
+    "sum_intensity": 691.0,
+    "mz_min": 746.3167063247694,
+    "mz_max": 757.5889882590574,
+    "first_peaks": [
+     [
+      746.3167063247694,
+      0.0
+     ],
+     [
+      746.3220489017589,
+      245.0
+     ],
+     [
+      746.3273914787484,
+      0.0
+     ],
+     [
+      749.450722920063,
+      0.0
+     ],
+     [
+      749.4560767028139,
+      246.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      746.3220489017589,
+      245.0
+     ],
+     [
+      749.4560767028139,
+      246.0
+     ],
+     [
+      757.5836055249024,
+      200.0
+     ]
+    ]
+   },
+   {
+    "index": 1,
+    "scan_number": 2,
+    "native_id": "sample=1 period=1 cycle=1 experiment=927",
+    "ms_level": 2,
+    "rt_s": 414.31800000000004,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 826.484069197366,
+    "base_peak_mz": null,
+    "n_peaks": 12,
+    "n_nonzero": 4,
+    "mz_bits": 64,
+    "xxh3_mz": "d00b4b171a06544352e8447d63db9a7c",
+    "xxh3_intensity": "4f528c42516812385222acab46cea3b6",
+    "xxh3_mz_nonzero": "cb4c46efa2d002a819aa3ed1ac1c9137",
+    "xxh3_intensity_nonzero": "56ef382d5ee21c787f4c56ce8dd6e059",
+    "sum_intensity": 826.0,
+    "mz_min": 427.1254155432284,
+    "mz_max": 442.13248306943694,
+    "first_peaks": [
+     [
+      427.1254155432284,
+      0.0
+     ],
+     [
+      427.12945727664646,
+      226.0
+     ],
+     [
+      427.1334990100645,
+      0.0
+     ],
+     [
+      435.1042834061454,
+      0.0
+     ],
+     [
+      435.1083627151969,
+      200.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      427.12945727664646,
+      226.0
+     ],
+     [
+      435.1083627151969,
+      200.0
+     ],
+     [
+      440.2429427516254,
+      200.0
+     ],
+     [
+      442.1283709844894,
+      200.0
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "scan_number": 3,
+    "native_id": "sample=1 period=1 cycle=2 experiment=926",
+    "ms_level": 2,
+    "rt_s": 419.98499999999996,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 634.99111320428,
+    "base_peak_mz": null,
+    "n_peaks": 9,
+    "n_nonzero": 3,
+    "mz_bits": 64,
+    "xxh3_mz": "fb91f0c64bd19cd7112c70cd77c5527e",
+    "xxh3_intensity": "52844d78061234a713a04213a1b86813",
+    "xxh3_mz_nonzero": "35acfc18700adbbf5fc0f401511d6180",
+    "xxh3_intensity_nonzero": "a1b93016374d2f1e033216ad1b48f93b",
+    "sum_intensity": 635.0,
+    "mz_min": 745.4304156475289,
+    "mz_max": 749.2368985239666,
+    "first_peaks": [
+     [
+      745.4304156475289,
+      0.0
+     ],
+     [
+      745.4357550524024,
+      241.0
+     ],
+     [
+      745.441094457276,
+      0.0
+     ],
+     [
+      748.5197693405192,
+      0.0
+     ],
+     [
+      748.5251197981792,
+      197.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      745.4357550524024,
+      241.0
+     ],
+     [
+      748.5251197981792,
+      197.0
+     ],
+     [
+      749.231545542141,
+      197.0
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "scan_number": 4,
+    "native_id": "sample=1 period=1 cycle=2 experiment=927",
+    "ms_level": 2,
+    "rt_s": 419.99500000001996,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 1453.53581936109,
+    "base_peak_mz": null,
+    "n_peaks": 21,
+    "n_nonzero": 7,
+    "mz_bits": 64,
+    "xxh3_mz": "03d0356ab7bdec76b0b807adc34bce27",
+    "xxh3_intensity": "266ffc21fd02db0a0e279bc0e22b5134",
+    "xxh3_mz_nonzero": "430b00a0c06dd4750ed2f18aaca1157a",
+    "xxh3_intensity_nonzero": "93e21e29a58038d33a632fa8deb37531",
+    "sum_intensity": 1452.0,
+    "mz_min": 426.93161264598587,
+    "mz_max": 442.8319989448062,
+    "first_peaks": [
+     [
+      426.93161264598587,
+      0.0
+     ],
+     [
+      426.9356534632002,
+      200.0
+     ],
+     [
+      426.9396942804145,
+      0.0
+     ],
+     [
+      428.68306670591704,
+      0.0
+     ],
+     [
+      428.6871158031599,
+      200.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      426.9356534632002,
+      200.0
+     ],
+     [
+      428.6871158031599,
+      200.0
+     ],
+     [
+      431.07940580080816,
+      200.0
+     ],
+     [
+      432.2739809972558,
+      226.0
+     ],
+     [
+      433.75934185184906,
+      226.0
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "scan_number": 5,
+    "native_id": "sample=1 period=1 cycle=3 experiment=926",
+    "ms_level": 2,
+    "rt_s": 425.78599999998,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 5701.84824764419,
+    "base_peak_mz": null,
+    "n_peaks": 32,
+    "n_nonzero": 18,
+    "mz_bits": 64,
+    "xxh3_mz": "87b6432a22fad67ddeef742739b06f0f",
+    "xxh3_intensity": "871afe78c303fa87927e84a67b69adc4",
+    "xxh3_mz_nonzero": "330b407b11daf98f204cf281db16c818",
+    "xxh3_intensity_nonzero": "1b839457609c24f6fc506d249ab264e9",
+    "sum_intensity": 5700.0,
+    "mz_min": 748.4393536511802,
+    "mz_max": 756.3892621734925,
+    "first_peaks": [
+     [
+      748.4393536511802,
+      0.0
+     ],
+     [
+      748.4447038208493,
+      244.0
+     ],
+     [
+      748.4500539905184,
+      0.0
+     ],
+     [
+      748.4554041793099,
+      649.0
+     ],
+     [
+      748.4607543872239,
+      427.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      748.4447038208493,
+      244.0
+     ],
+     [
+      748.4554041793099,
+      649.0
+     ],
+     [
+      748.4607543872239,
+      427.0
+     ],
+     [
+      748.4661046142603,
+      158.0
+     ],
+     [
+      748.4768051257007,
+      938.0
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "scan_number": 6,
+    "native_id": "sample=1 period=1 cycle=3 experiment=927",
+    "ms_level": 2,
+    "rt_s": 425.796,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 9021.77919790191,
+    "base_peak_mz": null,
+    "n_peaks": 48,
+    "n_nonzero": 22,
+    "mz_bits": 64,
+    "xxh3_mz": "c9673bb139fd901398721313ed99a69c",
+    "xxh3_intensity": "1a17c32859c0222c0b046019e0bae644",
+    "xxh3_mz_nonzero": "876a57521caf638d1de337e97759e824",
+    "xxh3_intensity_nonzero": "aa9d14df6ba40e4eea0d25a3b92b7070",
+    "sum_intensity": 9023.0,
+    "mz_min": 426.6769889013355,
+    "mz_max": 446.2500962695759,
+    "first_peaks": [
+     [
+      426.6769889013355,
+      0.0
+     ],
+     [
+      426.68102851296317,
+      226.0
+     ],
+     [
+      426.6850681245908,
+      0.0
+     ],
+     [
+      427.1780441998901,
+      0.0
+     ],
+     [
+      427.1820861827033,
+      289.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      426.68102851296317,
+      226.0
+     ],
+     [
+      427.1820861827033,
+      289.0
+     ],
+     [
+      427.18612816551655,
+      254.0
+     ],
+     [
+      427.19421218851016,
+      226.0
+     ],
+     [
+      428.71131821897853,
+      226.0
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "scan_number": 7,
+    "native_id": "sample=1 period=1 cycle=4 experiment=926",
+    "ms_level": 2,
+    "rt_s": 431.928,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 645.409213070802,
+    "base_peak_mz": null,
+    "n_peaks": 9,
+    "n_nonzero": 3,
+    "mz_bits": 64,
+    "xxh3_mz": "0344d91f306cda093fbf62bf277d14eb",
+    "xxh3_intensity": "6e73053863a13cd736903b665780cb44",
+    "xxh3_mz_nonzero": "c91f194aaa8ce4af279e22f57589cf64",
+    "xxh3_intensity_nonzero": "ce9f8ac624c220b73b766b4365717759",
+    "sum_intensity": 645.0,
+    "mz_min": 739.3610783302532,
+    "mz_max": 749.4240704977016,
+    "first_peaks": [
+     [
+      739.3610783302532,
+      0.0
+     ],
+     [
+      739.3663959532564,
+      245.0
+     ],
+     [
+      739.3717135762596,
+      0.0
+     ],
+     [
+      748.4660718181153,
+      0.0
+     ],
+     [
+      748.4714220831625,
+      200.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      739.3663959532564,
+      245.0
+     ],
+     [
+      748.4714220831625,
+      200.0
+     ],
+     [
+      749.4187168479785,
+      200.0
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "scan_number": 8,
+    "native_id": "sample=1 period=1 cycle=4 experiment=927",
+    "ms_level": 2,
+    "rt_s": 431.93800000002,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 2959.32309134353,
+    "base_peak_mz": null,
+    "n_peaks": 42,
+    "n_nonzero": 14,
+    "mz_bits": 64,
+    "xxh3_mz": "c6d13a2d3cd789aa01bf970fe6252849",
+    "xxh3_intensity": "66131766529be66d9dc1c53df0d4cbb9",
+    "xxh3_mz_nonzero": "57e6479ae8bc86b8dd2df3a0baa1dca3",
+    "xxh3_intensity_nonzero": "000db2ecabf3a999bc38a29b494712d3",
+    "sum_intensity": 2958.0,
+    "mz_min": 426.7860459210347,
+    "mz_max": 444.5166599643347,
+    "first_peaks": [
+     [
+      426.7860459210347,
+      0.0
+     ],
+     [
+      426.790086048792,
+      226.0
+     ],
+     [
+      426.79412617654924,
+      0.0
+     ],
+     [
+      427.18206745631176,
+      0.0
+     ],
+     [
+      427.1861094580704,
+      226.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      426.790086048792,
+      226.0
+     ],
+     [
+      427.1861094580704,
+      226.0
+     ],
+     [
+      428.64651467056257,
+      200.0
+     ],
+     [
+      431.2620299189988,
+      200.0
+     ],
+     [
+      431.7332611847377,
+      226.0
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "scan_number": 9,
+    "native_id": "sample=1 period=1 cycle=5 experiment=926",
+    "ms_level": 2,
+    "rt_s": 438.50500000002,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 2302.63467618999,
+    "base_peak_mz": null,
+    "n_peaks": 27,
+    "n_nonzero": 10,
+    "mz_bits": 64,
+    "xxh3_mz": "ee876a1be7954e5d49ebd5f1e6df7b28",
+    "xxh3_intensity": "5f4fdcec669abd19a48869f4aca4eb52",
+    "xxh3_mz_nonzero": "51a928a2166d05a61235811be639e8e7",
+    "xxh3_intensity_nonzero": "8f170ba95c26bd6a30250a0d43988616",
+    "sum_intensity": 2302.0,
+    "mz_min": 739.3453386389311,
+    "mz_max": 757.4117036662253,
+    "first_peaks": [
+     [
+      739.3453386389311,
+      0.0
+     ],
+     [
+      739.350656206099,
+      200.0
+     ],
+     [
+      739.3559737732668,
+      0.0
+     ],
+     [
+      741.4525832331256,
+      0.0
+     ],
+     [
+      741.4579083727908,
+      245.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      739.350656206099,
+      200.0
+     ],
+     [
+      741.4579083727908,
+      245.0
+     ],
+     [
+      742.3155021562839,
+      200.0
+     ],
+     [
+      744.9339577194675,
+      245.0
+     ],
+     [
+      749.4403474755653,
+      250.0
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "scan_number": 10,
+    "native_id": "sample=1 period=1 cycle=5 experiment=927",
+    "ms_level": 2,
+    "rt_s": 438.51499999998,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 3442.60715749956,
+    "base_peak_mz": null,
+    "n_peaks": 43,
+    "n_nonzero": 15,
+    "mz_bits": 64,
+    "xxh3_mz": "93fff91de58b4ef02cf7e337976f7987",
+    "xxh3_intensity": "deefeb0461dadcb87cc5c6aa77138d92",
+    "xxh3_mz_nonzero": "466991f20ce6d1e09465c5d3f3b8a596",
+    "xxh3_intensity_nonzero": "e52204cfc5f1de5e192339fe7415be1b",
+    "sum_intensity": 3440.0,
+    "mz_min": 426.89525855479474,
+    "mz_max": 445.76285686089915,
+    "first_peaks": [
+     [
+      426.89525855479474,
+      0.0
+     ],
+     [
+      426.8992992000226,
+      200.0
+     ],
+     [
+      426.90333984525046,
+      0.0
+     ],
+     [
+      428.1649548491064,
+      0.0
+     ],
+     [
+      428.16900149878927,
+      200.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      426.8992992000226,
+      200.0
+     ],
+     [
+      428.16900149878927,
+      200.0
+     ],
+     [
+      429.87433163271277,
+      226.0
+     ],
+     [
+      432.72543630506357,
+      226.0
+     ],
+     [
+      432.85562576468004,
+      226.0
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "scan_number": 11,
+    "native_id": "sample=1 period=1 cycle=6 experiment=926",
+    "ms_level": 2,
+    "rt_s": 445.54300000002,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 244.848457206905,
+    "base_peak_mz": null,
+    "n_peaks": 3,
+    "n_nonzero": 1,
+    "mz_bits": 64,
+    "xxh3_mz": "d3efc781f9e7b3fa23140c0f28890d19",
+    "xxh3_intensity": "d10acd9fed4fa406e6f2cad71f74a2c0",
+    "xxh3_mz_nonzero": "5f17615a15b582ac005b9ae2cc395e97",
+    "xxh3_intensity_nonzero": "e02863bffc1a0e8bedcb26b601080c2d",
+    "sum_intensity": 245.0,
+    "mz_min": 740.2649534544403,
+    "mz_max": 740.2755951964455,
+    "first_peaks": [
+     [
+      740.2649534544403,
+      0.0
+     ],
+     [
+      740.2702743254429,
+      245.0
+     ],
+     [
+      740.2755951964455,
+      0.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      740.2702743254429,
+      245.0
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "scan_number": 12,
+    "native_id": "sample=1 period=1 cycle=6 experiment=927",
+    "ms_level": 2,
+    "rt_s": 445.55299999998,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 1855.13730067855,
+    "base_peak_mz": null,
+    "n_peaks": 27,
+    "n_nonzero": 9,
+    "mz_bits": 64,
+    "xxh3_mz": "6374ebf067af1154bf6964b543708f8b",
+    "xxh3_intensity": "5728b368069e41fe2f6c0a6bd4fd5206",
+    "xxh3_mz_nonzero": "1bf7a2abb49af2efe52c6914b8a0b6eb",
+    "xxh3_intensity_nonzero": "b93b5c14a3fdecc03caac997d0304695",
+    "sum_intensity": 1854.0,
+    "mz_min": 427.81262126141945,
+    "mz_max": 444.739103220467,
+    "first_peaks": [
+     [
+      427.81262126141945,
+      0.0
+     ],
+     [
+      427.816666244139,
+      200.0
+     ],
+     [
+      427.8207112268586,
+      0.0
+     ],
+     [
+      429.2943552221886,
+      0.0
+     ],
+     [
+      429.29840720372584,
+      200.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      427.816666244139,
+      200.0
+     ],
+     [
+      429.29840720372584,
+      200.0
+     ],
+     [
+      436.73327469844435,
+      200.0
+     ],
+     [
+      439.9514918215915,
+      200.0
+     ],
+     [
+      440.1648185002704,
+      200.0
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "scan_number": 13,
+    "native_id": "sample=1 period=1 cycle=7 experiment=927",
+    "ms_level": 2,
+    "rt_s": 453.29500000002,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 2132.03495753668,
+    "base_peak_mz": null,
+    "n_peaks": 30,
+    "n_nonzero": 10,
+    "mz_bits": 64,
+    "xxh3_mz": "0ac6b3068fe6deae5301352d9f99797e",
+    "xxh3_intensity": "7721119cb043c7900b2c9d2c15187e7f",
+    "xxh3_mz_nonzero": "fa1382278433559d2a3a5c1bc7e5b05b",
+    "xxh3_intensity_nonzero": "568f152e2f0935142e9743363003a632",
+    "sum_intensity": 2130.0,
+    "mz_min": 426.81756031142794,
+    "mz_max": 437.73863711802016,
+    "first_peaks": [
+     [
+      426.81756031142794,
+      0.0
+     ],
+     [
+      426.8216005845257,
+      226.0
+     ],
+     [
+      426.82564085762345,
+      0.0
+     ],
+     [
+      427.24997593006856,
+      0.0
+     ],
+     [
+      427.2540182492659,
+      200.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      426.8216005845257,
+      226.0
+     ],
+     [
+      427.2540182492659,
+      200.0
+     ],
+     [
+      428.24091103688806,
+      200.0
+     ],
+     [
+      428.7266857793513,
+      200.0
+     ],
+     [
+      429.1560158502861,
+      226.0
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "scan_number": 14,
+    "native_id": "sample=1 period=1 cycle=8 experiment=926",
+    "ms_level": 2,
+    "rt_s": 461.02799999999996,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 196.956083126497,
+    "base_peak_mz": null,
+    "n_peaks": 3,
+    "n_nonzero": 1,
+    "mz_bits": 64,
+    "xxh3_mz": "b331de112f648e68080bcf81db6e67e9",
+    "xxh3_intensity": "7f5d5aae38417c45a336b184cf164281",
+    "xxh3_mz_nonzero": "dc0bd7815c3c2fce3b85d811525fe94e",
+    "xxh3_intensity_nonzero": "380d7fa15c93356c1cfb59fce0066f33",
+    "sum_intensity": 197.0,
+    "mz_min": 749.45604497241,
+    "mz_max": 749.4667525757037,
+    "first_peaks": [
+     [
+      749.45604497241,
+      0.0
+     ],
+     [
+      749.4613987740569,
+      197.0
+     ],
+     [
+      749.4667525757037,
+      0.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      749.4613987740569,
+      197.0
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "scan_number": 15,
+    "native_id": "sample=1 period=1 cycle=8 experiment=927",
+    "ms_level": 2,
+    "rt_s": 461.03800000001996,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 1705.68438252498,
+    "base_peak_mz": null,
+    "n_peaks": 24,
+    "n_nonzero": 8,
+    "mz_bits": 64,
+    "xxh3_mz": "c873c518b2ce0e136773ae94f18e350b",
+    "xxh3_intensity": "8f7c0ff3fab098cbf84ebea3f92ee18e",
+    "xxh3_mz_nonzero": "0b80da507f6e2f93d60578772debcd90",
+    "xxh3_intensity_nonzero": "d15922e67cd3061746faa6a355d0989b",
+    "sum_intensity": 1705.0,
+    "mz_min": 428.18902711137395,
+    "mz_max": 440.1772738035078,
+    "first_peaks": [
+     [
+      428.18902711137395,
+      0.0
+     ],
+     [
+      428.1930738738277,
+      200.0
+     ],
+     [
+      428.19712063628145,
+      0.0
+     ],
+     [
+      429.19320514020814,
+      0.0
+     ],
+     [
+      429.1972566450317,
+      226.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      428.1930738738277,
+      200.0
+     ],
+     [
+      429.1972566450317,
+      226.0
+     ],
+     [
+      429.7322206145243,
+      226.0
+     ],
+     [
+      432.794386974373,
+      226.0
+     ],
+     [
+      436.3697607096391,
+      200.0
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "scan_number": 16,
+    "native_id": "sample=1 period=1 cycle=9 experiment=926",
+    "ms_level": 2,
+    "rt_s": 469.05199999998,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 1492.1351684245,
+    "base_peak_mz": null,
+    "n_peaks": 21,
+    "n_nonzero": 7,
+    "mz_bits": 64,
+    "xxh3_mz": "04ca1c2fb8f6479878284c5bb5138341",
+    "xxh3_intensity": "7d02c1d6557f6edaf3341f275b3338da",
+    "xxh3_mz_nonzero": "555f24a15576d978b6bcf899f0f3854b",
+    "xxh3_intensity_nonzero": "77c2af4702d7948d441d6e67e3ca60d9",
+    "sum_intensity": 1490.0,
+    "mz_min": 742.4301295891272,
+    "mz_max": 755.3384101691531,
+    "first_peaks": [
+     [
+      742.4301295891272,
+      0.0
+     ],
+     [
+      742.4354582478043,
+      200.0
+     ],
+     [
+      742.4407869064813,
+      0.0
+     ],
+     [
+      747.4314503908884,
+      0.0
+     ],
+     [
+      747.4367969673841,
+      200.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      742.4354582478043,
+      200.0
+     ],
+     [
+      747.4367969673841,
+      200.0
+     ],
+     [
+      747.8004077302389,
+      200.0
+     ],
+     [
+      748.3941388012879,
+      245.0
+     ],
+     [
+      748.4850913922661,
+      245.0
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "scan_number": 17,
+    "native_id": "sample=1 period=1 cycle=9 experiment=927",
+    "ms_level": 2,
+    "rt_s": 469.062,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 716.91612,
+    "precursor_charge": null,
+    "isolation_target_mz": 716.91612,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.0,
+    "total_ion_current": 3942.92774824264,
+    "base_peak_mz": null,
+    "n_peaks": 51,
+    "n_nonzero": 18,
+    "mz_bits": 64,
+    "xxh3_mz": "2a58fd019c0fbf561613050139937941",
+    "xxh3_intensity": "c9fc916ea3313b7bfaff386d8da42b81",
+    "xxh3_mz_nonzero": "40b505b12c32a0f342ba3833f1800d79",
+    "xxh3_intensity_nonzero": "48aacca87a7851f2e2452e301fbb35e8",
+    "sum_intensity": 3940.0,
+    "mz_min": 426.690781458965,
+    "mz_max": 446.18988065009796,
+    "first_peaks": [
+     [
+      426.690781458965,
+      0.0
+     ],
+     [
+      426.694821143806,
+      200.0
+     ],
+     [
+      426.698860828647,
+      0.0
+     ],
+     [
+      427.16355211357256,
+      0.0
+     ],
+     [
+      427.1675940357506,
+      200.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      426.694821143806,
+      200.0
+     ],
+     [
+      427.1675940357506,
+      200.0
+     ],
+     [
+      429.2476631698633,
+      200.0
+     ],
+     [
+      431.15815454575176,
+      200.0
+     ],
+     [
+      432.5927901219505,
+      226.0
+     ]
+    ]
+   }
+  ]
+ }
+}

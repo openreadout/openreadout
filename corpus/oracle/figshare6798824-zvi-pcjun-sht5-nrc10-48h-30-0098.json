@@ -1,0 +1,50 @@
+{
+ "id": "figshare6798824-zvi-pcjun-sht5-nrc10-48h-30-0098",
+ "file": "PcJun_shT5_NRC10-48h 30-0098.zvi",
+ "size": 8781824,
+ "sha256": "600847eb55a6ff137a4c6f7001e0517bd9ea6780f37ab4117a9429bffc2c9277",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "PcJun_shT5_NRC10-48h 30-0098.zvi",
+   "size_x": 1384,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.10238095238095238,
+    "y": 0.10238095238095238
+   },
+   "channel_names": [
+    "DAPI",
+    "Alexa 488",
+    "Alexa 594"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6ab6a1b694b93b9c1e1ef903ebd95f92"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "63c320a85552bbfea706b8318ccb8a74"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9d5986a121f3b218f59f4075c2b1c0d2"
+    }
+   ]
+  }
+ ]
+}

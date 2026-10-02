@@ -1,0 +1,5 @@
+{{#include ../../../docs/formats/hdf5.md}}
+
+---
+
+How this reader was derived, file by file: [provenance log](https://github.com/openreadout/openreadout/blob/main/docs/provenance/hdf5.md).

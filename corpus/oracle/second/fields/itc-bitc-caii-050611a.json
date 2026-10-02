@@ -1,0 +1,21 @@
+{
+ "id": "itc-bitc-caii-050611a",
+ "file": "itc-bitc-caii-050611a.itc",
+ "format": "microcal-itc",
+ "family": "bench",
+ "readers": [
+  "the .itc file's first `%` line, read as text"
+ ],
+ "checks": [
+  {
+   "field": "first `%` line (instrument before the firmware version)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "VPITC",
+   "cmp": "loose"
+  }
+ ]
+}

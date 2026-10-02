@@ -1,0 +1,32 @@
+{
+ "id": "zenodo10659514-B30-FAM-probe-test",
+ "file": "zenodo10659514-B30-FAM-probe-test.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 596,
+   "size_y": 596,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4f55d400526a2e5a75b352c45cbc1451"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a2e17f91d25d049ed5a2ec05a5bc15cb"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0b0dc6536c1578af9b497c42a8174b82"
+    }
+   ]
+  }
+ ]
+}

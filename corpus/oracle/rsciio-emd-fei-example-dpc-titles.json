@@ -1,0 +1,228 @@
+{
+ "id": "rsciio-emd-fei-example-dpc-titles",
+ "file": "rsciio-emd-fei-example-dpc-titles.emd",
+ "size": 739440,
+ "sha256": "c06422c623e7a7b18ed8864c99d34590488b98fef85423ac33e1ea10bef66b2f",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "15c7bc815fc74329b0dbe36f041c17ed",
+   "size_x": 2,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 9.961991555830655e-05,
+    "y": 9.961991555830655e-05,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bd8530e91a8e1221e415b666bb45b68b"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "velox_id": "48ec9761367a4318866a522029cbac29",
+   "size_x": 2,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "complex",
+   "physical_size_um": {
+    "x": 9.961991555830655e-05,
+    "y": 9.961991555830655e-05,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "411744cfbd9a02b718ce9c90603795cf"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "velox_id": "5ef23198fec041d89ced04067d22557c",
+   "size_x": 2,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 9.961991555830655e-05,
+    "y": 9.961991555830655e-05,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b461bcb9e00ee94791cfe207166b9b26"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "velox_id": "643dbd384d1a4ac99526e39d4c1768d4",
+   "size_x": 2,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 9.961991555830655e-05,
+    "y": 9.961991555830655e-05,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5d481cdd3afbfea24461c19a75245c06"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "velox_id": "656a045d188a4c8c9db43247a11f83c3",
+   "size_x": 2,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 9.961991555830655e-05,
+    "y": 9.961991555830655e-05,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "894807411f982987e9d3b2e528720c01"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "velox_id": "7427cc7f5c624649bc12e6d3690a6ec6",
+   "size_x": 2,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 9.961991555830655e-05,
+    "y": 9.961991555830655e-05,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5196a6899e451a68b9094254b12cdecc"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "velox_id": "b57bb12adc46416d8f2ba7dc61f4a10c",
+   "size_x": 2,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 9.961991555830655e-05,
+    "y": 9.961991555830655e-05,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ccf7081bf066631b782f66e083702ef8"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "velox_id": "e17e3c84bcfb4d40a97907ab2f2f2ae0",
+   "size_x": 2,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 9.961991555830655e-05,
+    "y": 9.961991555830655e-05,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "776c3d4a27e8cd98072b047de97d5b84"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "velox_id": "e2042966580049dcb76771ac66e50967",
+   "size_x": 2,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 9.961991555830655e-05,
+    "y": 9.961991555830655e-05,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fe69c6e3fa943f05f5e5656bf45e9514"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"9\",\n    \"format\": \"Velox\"\n}\n"
+}

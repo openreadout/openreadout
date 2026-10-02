@@ -1,0 +1,39 @@
+{
+ "id": "zenodo10577621-Image-5-PALM-verrechnet",
+ "file": "zenodo10577621-Image-5-PALM-verrechnet.czi",
+ "size": 3906432,
+ "sha256": "309ba0942eedbed3004adf571cfae146a05cb6e1de4514b3644b07e82f9858c3",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16 (asarray storedsize=True per channel)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1206,
+   "size_y": 1206,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.06738792808444549,
+    "y": 0.06738792808444549,
+    "z": 6.15
+   },
+   "rendering_scale": 2.355469,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f1a9c80e96b628c8bd57d71f56d25d42"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.15873015873015872,
+  "y": 0.15873015873015872,
+  "z": 6.15
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "id": "brk-2-1-l101210-001-nev",
+ "file": "brk-2-1-l101210-001.nev",
+ "size": 1483616,
+ "sha256": "115b7bd42446d6a32260658f7545a00a4eab606ecf82fe651f465501b0b4997d",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 BlackrockRawIO",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 14218,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_column_hashes": [
+    {
+     "column": "time_s",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 14210,
+     "xxh3": "407d49e82d0d78f5bfaf9ed6504335d1"
+    },
+    {
+     "column": "packet_id",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 14210,
+     "xxh3": "4b2a1a5ab4e72ae3727f1ed6baf1f220"
+    },
+    {
+     "column": "code",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 14210,
+     "xxh3": "bafe3c5126f9a69eff0c73b5ec28d8f5"
+    },
+    {
+     "column": "w0",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 14210,
+     "xxh3": "4594c73a3516fd93028baeaa55481488"
+    }
+   ]
+  }
+ ]
+}

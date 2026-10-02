@@ -1,0 +1,39 @@
+{
+ "id": "ho-zenodo18299303-ed-diff",
+ "file": "Fig_4a_Ni-DUT8_diff_1.2m_5.dm3",
+ "size": 17382584,
+ "sha256": "248e7f8050f42f26661677bb9f5f5ec316e3fc2961d76def62854a77e0622125",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "Ni-DUT8_diff_1.2m_5",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 7,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "443c4aa45df13fd5dd54c81a3bda66f5"
+    }
+   ],
+   "pixel_type": "int32"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "id": "sglx-digitalchanneltest-g0-t0-nidq-bin",
+ "file": "sglx-digitalchanneltest-g0-t0.nidq.bin",
+ "format": "spikeglx",
+ "family": "electrophysiology",
+ "readers": [
+  "the .meta text and NumPy int16 samples (SpikeGLX metadata documentation)"
+ ],
+ "checks": [
+  {
+   "field": "saved channels (nSavedChans)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels#len",
+   "theirs": 1,
+   "cmp": "exact"
+  },
+  {
+   "field": "sample rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_rate_hz",
+   "theirs": 2500.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 406776,
+   "cmp": "exact"
+  },
+  {
+   "field": "file created (fileCreateTime)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-04-11T14:40:32",
+   "cmp": "time"
+  },
+  {
+   "field": "analog channel unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels/0/unit",
+   "theirs": "V",
+   "cmp": "loose"
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "id": "zenodo8190744-bto-atomic",
+ "file": "zenodo8190744-bto-atomic.dm3",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e221e0f922cc1ecdd9881e529f5e589d"
+    }
+   ]
+  }
+ ]
+}

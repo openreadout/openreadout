@@ -1,0 +1,46 @@
+{
+ "id": "ho-figshare26337268-ncs-hpc",
+ "file": "HPC_a.ncs",
+ "size": 20407792,
+ "sha256": "ba56c37c03ba8340fbb63a7b1276a5f83eb4776c83d08900668e8a5410e796cc",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 NeuralynxRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "HPC_a"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 2000.0,
+   "neo_gain": [
+    -0.18310546875
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10000093,
+     "channels": [
+      {
+       "xxh3": "469c48c7bb844eb72e20b876ccf79443",
+       "first": [
+        50.537109375,
+        54.38232421875,
+        66.83349609375,
+        81.84814453125,
+        87.70751953125,
+        97.0458984375,
+        128.173828125,
+        171.0205078125
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

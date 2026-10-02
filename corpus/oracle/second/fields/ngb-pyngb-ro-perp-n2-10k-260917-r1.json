@@ -1,0 +1,32 @@
+{
+ "id": "ngb-pyngb-ro-perp-n2-10k-260917-r1",
+ "file": "ngb-pyngb-ro-perp-n2-10k-260917-r1.ngb-dla",
+ "format": "netzsch-ngb",
+ "family": "bench",
+ "readers": [
+  "pyNGB 0.6.0 (MIT) metadata"
+ ],
+ "checks": [
+  {
+   "field": "date_performed",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2026-09-17T19:00:24+00:00",
+   "cmp": "time",
+   "abs": 1.0
+  },
+  {
+   "field": "instrument (model code before the serial)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "DIL402",
+   "cmp": "contains"
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "id": "zenodo19965490-graphene-2",
+ "file": "zenodo19965490-graphene-2.emd",
+ "size": 8681825,
+ "sha256": "2d6b678ad1d5d5be09aad925be2becfd6c5726a8b0d5242734ff720005d63596",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "8f510cfc36b64b6cad3cab66bcbd8ce2",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 7.511111652003542e-06,
+    "y": 7.511111652003542e-06,
+    "z": null
+   },
+   "detector": "HAADF",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eed08a6cdfc388b3659ea9133babd4bd"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"11\",\n    \"format\": \"Velox\"\n}\n"
+}

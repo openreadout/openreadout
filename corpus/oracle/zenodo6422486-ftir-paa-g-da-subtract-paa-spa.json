@@ -1,0 +1,109 @@
+{
+ "id": "zenodo6422486-ftir-paa-g-da-subtract-paa-spa",
+ "file": "FTIR_PAA-g-DA_subtract_PAA.SPA",
+ "size": 168720,
+ "sha256": "31613df4b18373017dc1c9ec5b7bf1c39690a5e07a3926cb82db5ace8ef858b8",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 7468,
+   "x_first": 4000.188,
+   "x_last": 400.164,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7468,
+     "channels": [
+      {
+       "xxh3": "c647d413e226ec578b32ea376cd96a4a",
+       "first": [
+        99.6419677734375,
+        99.6418685913086,
+        99.6418228149414,
+        99.64173126220703,
+        99.64143371582031,
+        99.6409683227539,
+        99.6405029296875,
+        99.64029693603516
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 16,
+     "background_scans": 16,
+     "laser_wavenumber_cm1": 15798.259765625
+    }
+   },
+   "x_tolerance": 0.002
+  },
+  {
+   "index": 1,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 16384,
+   "x_first": 0.0,
+   "x_last": 16383.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "756fcd1266c2f65980b56d252b7c5159",
+       "first": [
+        0.0020500177051872015,
+        0.002035122364759445,
+        0.0020136088132858276,
+        0.002121483441442251,
+        0.0022614451590925455,
+        0.002108554355800152,
+        0.0014256930444389582,
+        0.00016359389701392502
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 16384,
+   "x_first": 0.0,
+   "x_last": 16383.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "a3615afa9ed2e47b9d2049f656dcf515",
+       "first": [
+        0.0021787439472973347,
+        0.002167833037674427,
+        0.00215025432407856,
+        0.0022237806115299463,
+        0.0023256654385477304,
+        0.002124446677044034,
+        0.0013605853309854865,
+        4.4862466893391684e-05
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "acquisition_date": "2021-03-12 08:58:34-08:00"
+}

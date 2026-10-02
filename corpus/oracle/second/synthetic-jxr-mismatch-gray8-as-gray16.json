@@ -1,0 +1,69 @@
+{
+ "id": "synthetic-jxr-mismatch-gray8-as-gray16",
+ "file": "synthetic-jxr-mismatch-gray8-as-gray16.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 128,
+   "size_y": 96,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7077123badff6b8f8d37850be0e0d91c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "5e30980048622c88e6083d4fb8720165"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d7164792aaabbb98fc14a2023b4d7c2b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "7f8820bb7b1490ba44fd0329c687b88b"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 128,
+   "size_y": 96,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "05e01047eba793bf5746f00444077feb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "fcef240e924ba8e7218ce1991de07133"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f152913245e63437f0ab226283b1ede9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "c4c644f55f44c4622b5b37995d370e00"
+    }
+   ]
+  }
+ ]
+}

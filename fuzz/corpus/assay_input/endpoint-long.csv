@@ -1,0 +1,13 @@
+well,value,role,concentration
+A1,0.1,blank,
+A2,0.12,blank,
+B1,1.9,standard,100
+B2,1.1,standard,50
+B3,0.6,standard,25
+B4,0.33,standard,12.5
+B5,0.2,standard,6.25
+C1,0.8,sample,
+D1,2.5,positive,
+D2,2.4,positive,
+E1,0.3,negative,
+E2,0.31,negative,

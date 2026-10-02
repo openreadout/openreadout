@@ -1,0 +1,115 @@
+{
+ "id": "ho-zenodo4903631-nd2-septin",
+ "file": "wt_100_pM_2nd_cs_013.nd2",
+ "size": 14573568,
+ "sha256": "8ff20cfc18b9e28d14762bcde704263785c8009e06fcfecf9c4dd1930fdaaa1e",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1200,
+   "size_y": 1200,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 5,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 5, 'Y': 1200, 'X': 1200}",
+   "physical_size_um": {
+    "x": 0.07352844585756467,
+    "y": 0.07352844585756467,
+    "z": null
+   },
+   "channel_names": [
+    "TIRF - 95B - FITC 100%"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31d8ed210f4de9092f5c3579d46f0900"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "7aa0d549808eff97c9f43aaaf4075fae"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "b7f636248f85ac17db5fe193c161d482"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "e9ac69afb7b4f5281ffabbfa77e21920"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "78fec5f1fe0b01b27fdec0c747adab4b"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "TIRF - 95B - FITC 100%",
+    "color": "#8AFF00",
+    "excitation_nm": null,
+    "emission_nm": 534.5,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   }
+  ],
+  "frame_count": 5,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 0.0,
+    "tags": {}
+   },
+   {
+    "index": 1,
+    "time_ms": 80.0,
+    "tags": {}
+   },
+   {
+    "index": 2,
+    "time_ms": 160.0,
+    "tags": {}
+   },
+   {
+    "index": 3,
+    "time_ms": 240.0,
+    "tags": {}
+   },
+   {
+    "index": 4,
+    "time_ms": 320.0,
+    "tags": {}
+   }
+  ],
+  "acquired_at": "2020-02-20T19:52:11.000Z",
+  "acquired_at_unix_ms": 1582228331000
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T(5)\r\nCamera Name: Photometrics Prime 95B\r\nNumerical Aperture: 1.49\r\nRefractive Index: 1.515\r\n Name: TIRF - 95B - FITC 100%\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   \r\n  Camera Type: Prime 95B\r\n  Exposure: 80 ms\r\n  Binning: 1x1\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5 (Continuous STORM)\r\n  Nikon Ti, FilterChanger(Turret2): 4\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch Off\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 5.5\r\n  LightPath: L100\r\n  PFS-S, state: On\r\n  PFS-S, offset: 6320\r\n  PFS-S, mirror: Inserted\r\n  PFS-S, mirror: Inserted\r\n  \r\n  Zoom: 1.50x\r\n  Upper Turret Layer:\r\n     Port 1: On  (H-TIRF)\r\n     Port 2: Off  (EPI)\r\n  \r\n  H-TIRF Angle: 76.5\r\n  H-TIRF Direction: 0.0\r\n  H-TIRF Alignment Wavelength: 488.0nm\r\n  H-TIRF Focus: -9000.0\r\n  H-TIRF Penetration Depth: N/A\r\n  H-TIRF Lambda 1/4: In\r\n  H-TIRF Gradation ND: Out\r\n  H-TIRF alignment information:\r\n     H-TIRF Alignment Name: internal-all_0_30\r\n     H-TIRF Focus Point: 0.0\r\n     H-TIRF Critical Angle: 62.7\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (89000 - Sedat Quad - ET)\r\n  CSU-W1, FilterChanger(EM Wheel): 3 (FITC (Em))\r\n  CSU-W1, Shutter(CSU): Opened\r\n  CSU-W1 Aperture: 10\r\n  CSU-W1, Observation Mode: Widefield\r\n  CSU-W1, rpm: 4000\r\n  NIDAQ, Shutter(TIRF laser): Active\r\n  NIDAQ, Shutter(W1 Laser): Closed\r\n  NIDAQ, Shutter(FLEX): Closed\r\n  NIDAQ, Shutter(I-Lock): Opened\r\n  NIDAQ, Shutter(MechSh): Opened\r\n  NIDAQ, Shutter(DIA): Closed\r\n  NIDAQ, MultiLaser(TIRF laser):\r\n     Line:1; ExW:405; Power:  0.0; Off\r\n     Line:2; ExW:488; Power:100.0; On\r\n     Line:3; ExW:561; Power:  0.0; Off\r\n     Line:4; ExW:640; Power:  0.0; Off\r\n  \r\n  NIDAQ, MultiLaser(W1 Laser):\r\n     Line:1; ExW:405; Power:  0.0; Off\r\n     Line:2; ExW:488; Power:  0.0; Off\r\n     Line:3; ExW:561; Power:  0.0; Off\r\n     Line:4; ExW:640; Power:  0.0; Off\r\n  \r\n  NIDAQ, MultiLaser(FLEX):\r\n     Line:1; ExW:405; Power:  0.0; Off\r\n     Line:2; ExW:488; Power:  0.0; Off\r\n     Line:3; ExW:561; Power:  0.0; Off\r\n     Line:4; ExW:640; Power:  0.0; Off\r\n  \r\n  Sola, Shutter(EPI): Closed\r\n  Sola, Illuminator(EPI) Voltage: 50.0\r\nTime Loop: 5\r\n- Equidistant (Duration 0 s)",
+  "capturing": "Photometrics Prime 95B\r\n\r\nCamera Type: Prime 95B\r\nExposure: 80 ms\r\nBinning: 1x1",
+  "date": "2/20/2020  2:52:11 PM",
+  "optics": "Apo TIRF 100x Oil DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=1, heightPx=1200, pixelDataType='unsigned', sequenceCount=5, widthBytes=2400, widthPx=1200, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

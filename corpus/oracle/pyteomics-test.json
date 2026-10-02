@@ -1,0 +1,65 @@
+{
+ "id": "pyteomics-test",
+ "file": "pyteomics-test.mzML",
+ "size": 445302,
+ "sha256": "0875f22ba358d4b3224c5a9c96d427c8d5ae9e68c50dd830c533819ab76bde7a",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 48,
+     "channels": [
+      {
+       "xxh3": "69ddf39820d19b8fbb5c2c08a4164858",
+       "first": [
+        0.29610000000000003,
+        0.4738,
+        0.6731,
+        1.3702999999999999,
+        2.0955,
+        2.9172,
+        3.7154000000000003,
+        4.5009
+       ]
+      },
+      {
+       "xxh3": "4c4584e5da9678011f48be77673bb45a",
+       "first": [
+        15245068.0,
+        12901166.0,
+        586279.0,
+        441570.15625,
+        114331.703125,
+        130427.3046875,
+        580561.0625,
+        15148302.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 2,
+  "by_index": true
+ ,
+  "scans": [
+{"index":0,"scan_number":1,"ms_level":1,"rt_s":0.29610000000000003,"polarity":"positive","centroided":false,"filter":"FTMS + p ESI Full ms [200.00-2000.00]","precursor_mz":null,"precursor_charge":null,"isolation_target_mz":null,"activation":null,"collision_energy":null,"total_ion_current":15245068.0,"n_peaks":19914,"n_nonzero":10739,"mz_bits":64,"xxh3_mz":"f6fbc13dc2abb7a5ccbe6b305e5d0743","xxh3_intensity":"cd1bc2a9ffbeaeb1cff00f76a676252c","xxh3_mz_nonzero":"548f2f126a680c218304653d87e20018","xxh3_intensity_nonzero":"56211e104cd340bb301783a516bbd9cc","sum_intensity":69381842.11895752,"mz_min":200.00018816645022,"mz_max":2000.0099466203771,"first_peaks":[[200.00018816645022,0.0],[200.0004303408315,0.0],[200.00067251579924,0.0],[200.00091469135347,0.0],[202.60582937633586,0.0]],"first_nonzero_peaks":[[204.75958873936264,1422.173583984375],[204.7598425769317,3215.4931640625],[204.76009641513016,3887.35595703125],[204.76035025395794,2843.16552734375],[204.7606040934151,582.90673828125]]},
+{"index":1,"scan_number":2,"ms_level":1,"rt_s":0.3561,"polarity":"positive","centroided":false,"filter":"FTMS + p ESI Full ms [200.00-2000.00]","precursor_mz":null,"precursor_charge":null,"isolation_target_mz":null,"activation":null,"collision_energy":null,"total_ion_current":15245068.0,"n_peaks":19914,"n_nonzero":10739,"mz_bits":32,"xxh3_mz":"fdcfbf655dab446eda317c1375384fb4","xxh3_intensity":"cd1bc2a9ffbeaeb1cff00f76a676252c","xxh3_mz_nonzero":"2ea30257dd447db9954ac929f57936dd","xxh3_intensity_nonzero":"56211e104cd340bb301783a516bbd9cc","sum_intensity":69381842.11895752,"mz_min":200.00018310546875,"mz_max":2000.0098876953125,"first_peaks":[[200.00018310546875,0.0],[200.00042724609375,0.0],[200.00067138671875,0.0],[200.00091552734375,0.0],[202.6058349609375,0.0]],"first_nonzero_peaks":[[204.75958251953125,1422.173583984375],[204.7598419189453,3215.4931640625],[204.76010131835938,3887.35595703125],[204.76034545898438,2843.16552734375],[204.76060485839844,582.90673828125]]}
+ ]
+ }
+}

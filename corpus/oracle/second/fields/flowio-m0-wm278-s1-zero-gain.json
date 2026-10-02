@@ -1,0 +1,413 @@
+{
+ "id": "flowio-m0-wm278-s1-zero-gain",
+ "file": "flowio-m0-wm278-s1-zero-gain.fcs",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0",
+  "FlowKit 1.3.2 (BSD-3) compensation with the file's spillover matrix"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 159190,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 21,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "TIME_MSW",
+    "TIME_LSW",
+    "FSC-HEIGHT",
+    "FSC-AREA",
+    "FSC-WIDTH",
+    "SSC-HEIGHT",
+    "SSC-AREA",
+    "SSC-WIDTH",
+    "FL1-HEIGHT",
+    "FL1-AREA",
+    "FL1-WIDTH",
+    "FL2-HEIGHT",
+    "FL2-AREA",
+    "FL2-WIDTH",
+    "FL3-HEIGHT",
+    "FL3-AREA",
+    "FL3-WIDTH",
+    "FL4-HEIGHT",
+    "FL4-AREA",
+    "FL4-WIDTH",
+    "SORT"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "TIME_MSW": 4294967296.0,
+    "TIME_LSW": 4294967296.0,
+    "FSC-HEIGHT": 1048576.0,
+    "FSC-AREA": 1048576.0,
+    "FSC-WIDTH": 1048576.0,
+    "SSC-HEIGHT": 1048576.0,
+    "SSC-AREA": 1048576.0,
+    "SSC-WIDTH": 1048576.0,
+    "FL1-HEIGHT": 1048576.0,
+    "FL1-AREA": 1048576.0,
+    "FL1-WIDTH": 1048576.0,
+    "FL2-HEIGHT": 1048576.0,
+    "FL2-AREA": 1048576.0,
+    "FL2-WIDTH": 1048576.0,
+    "FL3-HEIGHT": 1048576.0,
+    "FL3-AREA": 1048576.0,
+    "FL3-WIDTH": 1048576.0,
+    "FL4-HEIGHT": 1048576.0,
+    "FL4-AREA": 1048576.0,
+    "FL4-WIDTH": 1048576.0,
+    "SORT": 4294967296.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "TIME_MSW": 32,
+    "TIME_LSW": 32,
+    "FSC-HEIGHT": 32,
+    "FSC-AREA": 32,
+    "FSC-WIDTH": 32,
+    "SSC-HEIGHT": 32,
+    "SSC-AREA": 32,
+    "SSC-WIDTH": 32,
+    "FL1-HEIGHT": 32,
+    "FL1-AREA": 32,
+    "FL1-WIDTH": 32,
+    "FL2-HEIGHT": 32,
+    "FL2-AREA": 32,
+    "FL2-WIDTH": 32,
+    "FL3-HEIGHT": 32,
+    "FL3-AREA": 32,
+    "FL3-WIDTH": 32,
+    "FL4-HEIGHT": 32,
+    "FL4-AREA": 32,
+    "FL4-WIDTH": 32,
+    "SORT": 32
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "I",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "little-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS3.1",
+   "cmp": "text"
+  },
+  {
+   "field": "system ($SYS)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/system",
+   "theirs": "Microsoft Windows NT 6.2.9200.0",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "S3",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer serial ($CYTSN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "776BR2036",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-08-23T15:38:45.780",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2024-08-23T15:41:15.370",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "spillover parameters ($SPILLOVER)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/parameters",
+   "theirs": [
+    "FL1-AREA",
+    "FL2-AREA",
+    "FL3-AREA",
+    "FL4-AREA"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "spillover matrix ($SPILLOVER)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/matrix",
+   "theirs": [
+    [
+     1.0,
+     0.0,
+     0.0954534634610807,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.00167785234899329,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "compensated events (FL1-AREA)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/9",
+   "theirs": [
+    11206.177296031989,
+    1411.0246429348945,
+    212040.09221676964,
+    1757.685867791539,
+    -0.47490827456314366,
+    2842.0323520658944,
+    20755.117697766433,
+    299.7946584538197,
+    7468.021557924339,
+    4738.804253823308,
+    9.862317772464984,
+    22.00184589327693,
+    6216.050912061421,
+    29.021426502809184,
+    -0.14935277892621834,
+    44326.53040411122
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (FL2-AREA)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/12",
+   "theirs": [
+    89600.0,
+    6043.0,
+    840312.0,
+    6851.0,
+    134.0,
+    12069.0,
+    86214.0,
+    1846.0,
+    28677.0,
+    18323.0,
+    2138.0,
+    62.0,
+    22218.0,
+    982.0,
+    10.0,
+    171838.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (FL3-AREA)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/15",
+   "theirs": [
+    6450.331564934819,
+    -14.687189197070392,
+    1733.0388053023976,
+    187.2227962427024,
+    283.0453316396334,
+    -19.281831273131115,
+    -70.14786879417768,
+    122.38356152345116,
+    -12.848522905893862,
+    116.66472130846309,
+    5446.058607610865,
+    -1.1001523930502382,
+    -30.343588606672196,
+    1179.2298043257258,
+    89.01425624002606,
+    875.8791497146872
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (FL4-AREA)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/18",
+   "theirs": [
+    980.0,
+    0.0,
+    754.0,
+    0.0,
+    0.0,
+    0.0,
+    32.0,
+    1.0,
+    7.0,
+    2.0,
+    325.0,
+    1.0,
+    6.0,
+    23.0,
+    2.0,
+    189.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  }
+ ]
+}

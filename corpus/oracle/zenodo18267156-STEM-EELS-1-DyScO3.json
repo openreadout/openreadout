@@ -1,0 +1,326 @@
+{
+ "id": "zenodo18267156-STEM-EELS-1-DyScO3",
+ "file": "zenodo18267156-STEM-EELS-1-DyScO3.emd",
+ "size": 135487183,
+ "sha256": "a8a23aa512061d6169516226b1941526a68a1c66cc6b623375bebe10e63ea1c8",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "74e09e6820aa479496c21d00f58821b4",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 5.2140759521202685e-05,
+    "y": 5.2140759521202685e-05,
+    "z": null
+   },
+   "detector": "EELS Strip Detector",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "36de890740354778d987362ba23594d1"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "velox_id": "9df1d3c0c622499ea2e9a4ccaf9b576e",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 5.2140759521202685e-05,
+    "y": 5.2140759521202685e-05,
+    "z": null
+   },
+   "detector": "EELS Strip Detector",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "af5abfe9d5c520b178e19170cc0f24a6"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "velox_id": "b4f3a8843bfa47f186d3ac4448aeb891",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 5.2140759521202685e-05,
+    "y": 5.2140759521202685e-05,
+    "z": null
+   },
+   "detector": "EELS Strip Detector",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9417dcc2317857b48e57882cbb5258b6"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "velox_id": "b9e79473b8044d32b0ad5473f57425f0",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 5.2140759521202685e-05,
+    "y": 5.2140759521202685e-05,
+    "z": null
+   },
+   "detector": "DF-S",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d2335fd576b42de1a6b50f197e65e286"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "EELS spectrum image",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 2048,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "energy_axis": {
+    "first": 300,
+    "step": 1,
+    "size": 2048
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8de9b38f79d805a0af0835a295c6bf2e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "55a98fe255e7234afcd318e6d979aeb3"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4f340e2ce526ce2ede6d28cc57e9435e"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "79e01283d10022bfc427d109ba9d875b"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a34d37c711624568ef520ad41d8ada13"
+    },
+    {
+     "c": 5,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a310d9832ca08190e6cf1a7d664fa43d"
+    },
+    {
+     "c": 100,
+     "z": 0,
+     "t": 0,
+     "xxh3": "babf546067b32706cf216753f55000f9"
+    },
+    {
+     "c": 101,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0c039212fa76d4d24a27e0722f6cab43"
+    },
+    {
+     "c": 102,
+     "z": 0,
+     "t": 0,
+     "xxh3": "28bba7c6d57c4b059a2a7f34a59d879f"
+    },
+    {
+     "c": 103,
+     "z": 0,
+     "t": 0,
+     "xxh3": "089782d7051f1e5309bc60fd5cb3d0e4"
+    },
+    {
+     "c": 104,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aade4847f4ea1fe8b1a53fd78ff13645"
+    },
+    {
+     "c": 105,
+     "z": 0,
+     "t": 0,
+     "xxh3": "60d59e1faf72fe5d6a5b1b55a54304bf"
+    },
+    {
+     "c": 1024,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7b82dd6392498f743a9a0f8b2d5c3c10"
+    },
+    {
+     "c": 2047,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aef673e15d54201f6d3d676e04d3a64f"
+    }
+   ],
+   "axis_check": {
+    "image": "b9e79473b8044d32b0ad5473f57425f0",
+    "r_rows_columns": 0.8857,
+    "r_transposed": 0.1458
+   }
+  },
+  {
+   "index": 5,
+   "name": "EELS spectrum image",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 2048,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "energy_axis": {
+    "first": -100,
+    "step": 1,
+    "size": 2048
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c8419119f62f62802d8ec3d36397bd18"
+    },
+    {
+     "c": 94,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ae567768dcf4ac827a0aa0336f7f82dd"
+    },
+    {
+     "c": 95,
+     "z": 0,
+     "t": 0,
+     "xxh3": "044ef9c36c1db8903258f5c2d783d878"
+    },
+    {
+     "c": 96,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b925a34d8b4864e6cf5d5cbaf93ebcb9"
+    },
+    {
+     "c": 97,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c2fcef93e24324dfce288cf1d656d9f3"
+    },
+    {
+     "c": 98,
+     "z": 0,
+     "t": 0,
+     "xxh3": "647e6ae4d54e38800e38d6b31c3f8a47"
+    },
+    {
+     "c": 99,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1ab3d1c9b565c15bb06c3da1035833ac"
+    },
+    {
+     "c": 100,
+     "z": 0,
+     "t": 0,
+     "xxh3": "668bcdb7d62fb58ccdeede3672de1023"
+    },
+    {
+     "c": 101,
+     "z": 0,
+     "t": 0,
+     "xxh3": "924a65cb02a462d71402093f91fc6fbd"
+    },
+    {
+     "c": 102,
+     "z": 0,
+     "t": 0,
+     "xxh3": "da30e081d915692a2653f036c5ac416b"
+    },
+    {
+     "c": 103,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6e90685105d196b88a1c8ea8b40f6bf2"
+    },
+    {
+     "c": 104,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fd4a3971154605ffc1dedb483f636d6a"
+    },
+    {
+     "c": 105,
+     "z": 0,
+     "t": 0,
+     "xxh3": "408d593cb5361ca28ae04afc1d7ec034"
+    },
+    {
+     "c": 1024,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9cce3a58d3e04db17b612cafa9a2b57c"
+    },
+    {
+     "c": 2047,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b9d2f03d5099ded774eabc410ffa8372"
+    }
+   ],
+   "axis_check": {
+    "image": "b9e79473b8044d32b0ad5473f57425f0",
+    "r_rows_columns": 0.6282,
+    "r_transposed": 0.0939
+   }
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"11\",\n    \"format\": \"Velox\"\n}\n"
+}

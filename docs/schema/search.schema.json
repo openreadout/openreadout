@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SearchOutput",
+  "description": "Search results.",
+  "type": "object",
+  "properties": {
+    "index_dir": {
+      "description": "The index directory searched.",
+      "type": "string"
+    },
+    "query": {
+      "description": "The query as given.",
+      "type": "string"
+    },
+    "index_complete": {
+      "description": "Whether the index covers every root to the end (see `index.json`).",
+      "type": "boolean"
+    },
+    "total": {
+      "description": "Data sets matching.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "returned": {
+      "description": "Results returned.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "truncated": {
+      "description": "True when `total` > `returned`.",
+      "type": "boolean"
+    },
+    "fields": {
+      "description": "The columns of each result.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "results": {
+      "description": "One object per matching data set, with the requested columns.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "required": [
+    "index_dir",
+    "query",
+    "index_complete",
+    "total",
+    "returned",
+    "truncated",
+    "fields",
+    "results"
+  ]
+}

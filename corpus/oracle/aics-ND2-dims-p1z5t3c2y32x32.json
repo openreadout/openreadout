@@ -1,0 +1,445 @@
+{
+ "id": "aics-ND2-dims-p1z5t3c2y32x32",
+ "file": "aics-ND2-dims-p1z5t3c2y32x32.nd2",
+ "size": 471040,
+ "sha256": "d3b857945ba8206288583a4543381354b35683ce54554f65d5aef88f8cf45f38",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 32,
+   "size_y": 32,
+   "size_z": 5,
+   "size_c": 2,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 3, 'Z': 5, 'C': 2, 'Y': 32, 'X': 32}",
+   "physical_size_um": {
+    "x": 0.652452890023035,
+    "y": 0.652452890023035,
+    "z": 1.0
+   },
+   "channel_names": [
+    "Widefield Green",
+    "Widefield Red"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "05028c9107f9361dc6be140c42cb3ecb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "13e01c222adfe11041722b40f2dbec29"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "976e89bf66f9e9bfc8e10e31a15b5f50"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "7a99ee97b4ed2853eaef3e651b1e5bb4"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "cfe822bb1ab97c1950db6894ae7a431b"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 2,
+     "xxh3": "c508a362a938a214392eca8ac99b3c9e"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "b930223cbeddd64b1eaf9c89b599f318"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "d6349cf27897311e7bfb6e9313c4b7c8"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 2,
+     "xxh3": "25e606f535f45f0ffcb1e6373f951677"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "ea6ca7d2dc77fc3153901bf8da33db4e"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 1,
+     "xxh3": "6abedf29e05dbc24bd4d721dae2a2051"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 2,
+     "xxh3": "61f3a5ae1ddcfb76bce9494085098f18"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "59efe7c0ba65b13fd88e2b08800ff6d4"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 1,
+     "xxh3": "85ac374664651e0f0964c6b1245edacc"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 2,
+     "xxh3": "a9b914c1a261112cfbbd9ac1d45d9ed8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e3ec13dc9a1e9d9f3a81f8ecb78e0e39"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "fb3eae7bb9820f24d2142080c91d1697"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "d6e5f05d3b819e1e5b229c23ac81d323"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "fc637d5e595988bec0c3c0437e53b543"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 1,
+     "xxh3": "5aff8ba84800b4764fe98d8b1f934b69"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 2,
+     "xxh3": "d4b87872cb45013b9f340e7a2c60c1b0"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "f39fa2f5c5f18f04a1121f060940bd94"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 1,
+     "xxh3": "6e38d1f5fc556c03e01f067160adffee"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 2,
+     "xxh3": "dd2a0456f02f5074d69df3eb6e4c04b7"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "bc81d1139eb2f8ea705d178c71e30ce1"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 1,
+     "xxh3": "c31df3fe958c93b4cf87369d8eedbcc1"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 2,
+     "xxh3": "738632f92abbc234ff353a1d2c76dc51"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "91bcadd9a7ba4c4ec65dfd3831b9b4d5"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 1,
+     "xxh3": "1ccdef3b4aa4887e20c8a8d073a685d5"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 2,
+     "xxh3": "a0051517d3cff2050ffb31a5ae1ff3e1"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Widefield Green",
+    "color": "#5BFF00",
+    "excitation_nm": null,
+    "emission_nm": 535.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "Widefield Red",
+    "color": "#FF5500",
+    "excitation_nm": null,
+    "emission_nm": 620.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 15,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 635.3402131795883,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 496.44,
+     "Z1": 496.44
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 890.3599885702133,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 497.42,
+     "Z1": 497.42
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 1129.3599885702133,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 498.44,
+     "Z1": 498.44
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 1400.3900178670883,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 499.44,
+     "Z1": 499.44
+    }
+   },
+   {
+    "index": 4,
+    "time_ms": 1639.3900178670883,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 500.44,
+     "Z1": 500.44
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 4461.570193648338,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 496.46000000000004,
+     "Z1": 496.46000000000004
+    }
+   },
+   {
+    "index": 6,
+    "time_ms": 4759.599978804588,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 497.46000000000004,
+     "Z1": 497.46000000000004
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 5081.560183882713,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 498.46000000000004,
+     "Z1": 498.46000000000004
+    }
+   },
+   {
+    "index": 8,
+    "time_ms": 5376.609988570213,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 499.46000000000004,
+     "Z1": 499.46000000000004
+    }
+   },
+   {
+    "index": 9,
+    "time_ms": 5587.599978804588,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 500.46000000000004,
+     "Z1": 500.46000000000004
+    }
+   },
+   {
+    "index": 10,
+    "time_ms": 8586.750125288963,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 496.48,
+     "Z1": 496.48
+    }
+   },
+   {
+    "index": 11,
+    "time_ms": 8912.790164351463,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 497.48,
+     "Z1": 497.48
+    }
+   },
+   {
+    "index": 12,
+    "time_ms": 9139.780154585838,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 498.48,
+     "Z1": 498.48
+    }
+   },
+   {
+    "index": 13,
+    "time_ms": 9379.810183882713,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 499.46000000000004,
+     "Z1": 499.46000000000004
+    }
+   },
+   {
+    "index": 14,
+    "time_ms": 9619.790164351463,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 500.48,
+     "Z1": 500.48
+    }
+   }
+  ],
+  "acquired_at": "2021-09-28T13:38:50.382Z",
+  "acquired_at_unix_ms": 1632836330382
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T(3) x XY(1) x \u03bb(2) x Z(5)\r\nCamera Name: Flash4.0, SN:101412\r\nNumerical Aperture: 0.3\r\nRefractive Index: 1\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: Widefield Green\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n Microscope Settings:   Nikon Ti2, FilterChanger(Turret-Lo): 3 (FITC)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 3.0\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 1 (Shutter)\r\n  PFS, state: On\r\n  PFS, offset: 7959\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola, Shutter(Sola): Active\r\n  Sola, Illuminator(Sola) Voltage: 100.0\r\nPlane #2:\r\n Name: Widefield Red\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n Microscope Settings:   Nikon Ti2, FilterChanger(Turret-Lo): 4 (TRITC)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 1.5\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 1 (Shutter)\r\n  PFS, state: On\r\n  PFS, offset: 7959\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola, Shutter(Sola): Active\r\n  Sola, Illuminator(Sola) Voltage: 100.0\r\nTime Loop: 3\r\n- Equidistant (Period 1 ms)\r\nZ Stack Loop: 5\r\n- Step: 1 \u00b5m\r\n- Device: Ti2 ZDrive",
+  "capturing": "Flash4.0, SN:101412\r\nSample 1:\r\n  Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\nSample 2:\r\n  Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast",
+  "date": "9/28/2021  9:38:50 AM",
+  "optics": "Plan Fluor 10x Ph1 DLL"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=2, heightPx=32, pixelDataType='unsigned', sequenceCount=15, widthBytes=128, widthPx=32, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

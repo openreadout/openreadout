@@ -1,0 +1,62 @@
+{
+ "id": "dandi000126-sub-1",
+ "file": "dandi-nwb/dandi000126-sub-1.nwb",
+ "format": "nwb",
+ "family": "electrophysiology",
+ "readers": [
+  "pynwb 4.2.0 (BSD-3)"
+ ],
+ "checks": [
+  {
+   "field": "session start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-08-12T18:29:38.867167+00:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "session description",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/comment",
+   "theirs": "A test NWB file with a TimeSeries and Subject",
+   "cmp": "text"
+  },
+  {
+   "field": "subject id",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "1",
+   "cmp": "text"
+  },
+  {
+   "field": "TestData: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=TestData]/sample_count",
+   "theirs": 3,
+   "cmp": "exact"
+  },
+  {
+   "field": "TestData: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=TestData]/channels/[name=TestData]/unit",
+   "theirs": "n/a",
+   "cmp": "text"
+  }
+ ]
+}

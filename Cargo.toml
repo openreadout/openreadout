@@ -1,0 +1,316 @@
+[workspace]
+resolver = "3"
+members = ["crates/*", "xtask"]
+# fuzz/ (cargo-fuzz, nightly) and oracle/timsrust-oracle are separate workspaces: never built by
+# `cargo build`/`cargo test` here and never published (both are `publish = false`).
+exclude = ["fuzz", "oracle/timsrust-oracle"]
+default-members = [
+    "crates/openreadout-core",
+    "crates/openreadout-codecs",
+    "crates/openreadout-jpegxr",
+    "crates/openreadout-czi",
+    "crates/openreadout-nd2",
+    "crates/openreadout-lif",
+    "crates/openreadout-tiff",
+    "crates/openreadout-fcs",
+    "crates/openreadout-thermo",
+    "crates/openreadout-agilent-ms",
+    "crates/openreadout-sciex",
+    "crates/openreadout-waters",
+    "crates/openreadout-plate",
+    "crates/openreadout-qpcr",
+    "crates/openreadout-assay",
+    "crates/openreadout-oir",
+    "crates/openreadout-vsi",
+    "crates/openreadout-wsi",
+    "crates/openreadout-abf",
+    "crates/openreadout-neuralynx",
+    "crates/openreadout-blackrock",
+    "crates/openreadout-spikeglx",
+    "crates/openreadout-intan",
+    "crates/openreadout-plexon",
+    "crates/openreadout-ephys",
+    "crates/openreadout-chrom",
+    "crates/openreadout-em",
+    "crates/openreadout-nmr",
+    "crates/openreadout-signal",
+    "crates/openreadout-ometiff",
+    "crates/openreadout-omezarr",
+    "crates/openreadout-zarr",
+    "crates/openreadout-hdf5",
+    "crates/openreadout-zvi",
+    "crates/openreadout-oif",
+    "crates/openreadout-dcimg",
+    "crates/openreadout-hcs",
+    "crates/openreadout-spectro",
+    "crates/openreadout-fplc",
+    "crates/openreadout-biophys",
+    "crates/openreadout-gel",
+    "crates/openreadout-epr",
+    "crates/openreadout-xrd",
+    "crates/openreadout-thermal",
+    "crates/openreadout-echem",
+    "crates/openreadout-preview",
+    "crates/openreadout-quant",
+    "crates/openreadout-ops",
+    "crates/openreadout-mzml-writer",
+    "crates/openreadout-arrow",
+    "crates/openreadout-mzml",
+    "crates/openreadout-bruker-tims",
+    "crates/openreadout-index",
+    "crates/openreadout-batch",
+    "crates/openreadout-live",
+    "crates/openreadout-mcp",
+    "crates/openreadout-cli",
+    "crates/openreadout-bench",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.91"
+license = "MIT OR Apache-2.0"
+authors = ["The OpenReadout Authors <openreadout@gmail.com>"]
+repository = "https://github.com/openreadout/openreadout"
+homepage = "https://github.com/openreadout/openreadout"
+keywords = ["microscopy", "czi", "nd2", "lif", "ome-tiff"]
+categories = ["command-line-utilities", "parser-implementations", "science"]
+
+[workspace.dependencies]
+# internal
+openreadout-core = { path = "crates/openreadout-core", version = "0.1.0" }
+openreadout-codecs = { path = "crates/openreadout-codecs", version = "0.1.0" }
+openreadout-jpegxr = { path = "crates/openreadout-jpegxr", version = "0.1.0" }
+openreadout-czi = { path = "crates/openreadout-czi", version = "0.1.0" }
+openreadout-nd2 = { path = "crates/openreadout-nd2", version = "0.1.0" }
+openreadout-lif = { path = "crates/openreadout-lif", version = "0.1.0" }
+openreadout-tiff = { path = "crates/openreadout-tiff", version = "0.1.0" }
+openreadout-fcs = { path = "crates/openreadout-fcs", version = "0.1.0" }
+openreadout-thermo = { path = "crates/openreadout-thermo", version = "0.1.0" }
+openreadout-agilent-ms = { path = "crates/openreadout-agilent-ms", version = "0.1.0" }
+openreadout-sciex = { path = "crates/openreadout-sciex", version = "0.1.0" }
+openreadout-waters = { path = "crates/openreadout-waters", version = "0.1.0" }
+openreadout-mzml-writer = { path = "crates/openreadout-mzml-writer", version = "0.1.0" }
+openreadout-arrow = { path = "crates/openreadout-arrow", version = "0.1.0" }
+openreadout-mzml = { path = "crates/openreadout-mzml", version = "0.1.0" }
+openreadout-bruker-tims = { path = "crates/openreadout-bruker-tims", version = "0.1.0" }
+openreadout-plate = { path = "crates/openreadout-plate", version = "0.1.0" }
+openreadout-qpcr = { path = "crates/openreadout-qpcr", version = "0.1.0" }
+openreadout-assay = { path = "crates/openreadout-assay", version = "0.1.0" }
+openreadout-oir = { path = "crates/openreadout-oir", version = "0.1.0" }
+openreadout-vsi = { path = "crates/openreadout-vsi", version = "0.1.0" }
+openreadout-wsi = { path = "crates/openreadout-wsi", version = "0.1.0" }
+openreadout-abf = { path = "crates/openreadout-abf", version = "0.1.0" }
+openreadout-neuralynx = { path = "crates/openreadout-neuralynx", version = "0.1.0" }
+openreadout-blackrock = { path = "crates/openreadout-blackrock", version = "0.1.0" }
+openreadout-spikeglx = { path = "crates/openreadout-spikeglx", version = "0.1.0" }
+openreadout-intan = { path = "crates/openreadout-intan", version = "0.1.0" }
+openreadout-plexon = { path = "crates/openreadout-plexon", version = "0.1.0" }
+openreadout-ephys = { path = "crates/openreadout-ephys", version = "0.1.0" }
+openreadout-chrom = { path = "crates/openreadout-chrom", version = "0.1.0" }
+openreadout-em = { path = "crates/openreadout-em", version = "0.1.0" }
+openreadout-nmr = { path = "crates/openreadout-nmr", version = "0.1.0" }
+openreadout-signal = { path = "crates/openreadout-signal", version = "0.1.0" }
+openreadout-ometiff = { path = "crates/openreadout-ometiff", version = "0.1.0" }
+openreadout-omezarr = { path = "crates/openreadout-omezarr", version = "0.1.0" }
+openreadout-zarr = { path = "crates/openreadout-zarr", version = "0.1.0" }
+openreadout-hdf5 = { path = "crates/openreadout-hdf5", version = "0.1.0" }
+openreadout-zvi = { path = "crates/openreadout-zvi", version = "0.1.0" }
+openreadout-oif = { path = "crates/openreadout-oif", version = "0.1.0" }
+openreadout-dcimg = { path = "crates/openreadout-dcimg", version = "0.1.0" }
+openreadout-hcs = { path = "crates/openreadout-hcs", version = "0.1.0" }
+openreadout-spectro = { path = "crates/openreadout-spectro", version = "0.1.0" }
+openreadout-fplc = { path = "crates/openreadout-fplc", version = "0.1.0" }
+openreadout-biophys = { path = "crates/openreadout-biophys", version = "0.1.0" }
+openreadout-gel = { path = "crates/openreadout-gel", version = "0.1.0" }
+openreadout-epr = { path = "crates/openreadout-epr", version = "0.1.0" }
+openreadout-xrd = { path = "crates/openreadout-xrd", version = "0.1.0" }
+openreadout-thermal = { path = "crates/openreadout-thermal", version = "0.1.0" }
+openreadout-echem = { path = "crates/openreadout-echem", version = "0.1.0" }
+openreadout-preview = { path = "crates/openreadout-preview", version = "0.1.0" }
+openreadout-quant = { path = "crates/openreadout-quant", version = "0.1.0" }
+openreadout-ops = { path = "crates/openreadout-ops", version = "0.1.0" }
+openreadout-live = { path = "crates/openreadout-live", version = "0.1.0" }
+openreadout-mcp = { path = "crates/openreadout-mcp", version = "0.1.0" }
+openreadout-index = { path = "crates/openreadout-index", version = "0.1.0" }
+openreadout-batch = { path = "crates/openreadout-batch", version = "0.1.0" }
+# serialization / schema
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+schemars = { version = "1.2", features = ["preserve_order"] }
+toml = "1"
+# errors
+thiserror = "2"
+anyhow = "1"
+# parsing
+roxmltree = "0.21"
+quick-xml = "0.42"
+memmap2 = "0.9"
+byteorder = "1.5"
+# codecs (pure Rust only; no C toolchain needed for musl)
+flate2 = { version = "1.1", default-features = false, features = ["rust_backend"] }
+# random access into .gz files: resumable inflate at deflate block boundaries (same crate flate2 uses)
+miniz_oxide = { version = "0.9", features = ["block-boundary"] }
+crc32fast = "1.4"
+ruzstd = "0.9"
+weezl = "0.2"
+# JPEG (baseline, progressive, lossless up to 16 bit); no default features = no rayon threads
+jpeg-decoder = { version = "0.3.2", default-features = false }
+dicom-toolkit-jpeg2000 = { version = "0.5", default-features = false, features = ["std"] }
+# JPEG 2000 with OpenJPEG-style mid-point reconstruction; pure Rust, no dependencies, no unsafe
+rust-j2k = "0.3"
+# TIFF WebP (50001) tiles; image-rs, pure Rust, forbid(unsafe_code)
+image-webp = "0.2"
+# TIFF JPEG XL (50002/52546) tiles; pure Rust, conformance-tested against libjxl; no thread
+# pool (the TIFF reader decodes chunks in parallel)
+jxl-oxide = { version = "0.12", default-features = false }
+# TIFF LERC (34887) tiles; pure-Rust LERC2 (its decoder has no unsafe)
+lerc-rs = { version = "0.5", default-features = false, features = ["std"] }
+# HDF5 (pure Rust; EMD files)
+hdf5-pure = "0.47"
+# tiff
+tiff = "0.11"
+# previews (pure Rust PNG encoder; JPEG is encoded in openreadout-preview)
+png = "0.18"
+# spreadsheets (plate-reader XLSX/XLS exports), pure Rust
+calamine = { version = "0.36", default-features = false }
+# zarr (pure Rust; only the filesystem store and gzip codec, no C codecs such as blosc/zstd-sys)
+zarrs = { version = "0.23", default-features = false, features = ["gzip"] }
+# Parquet / Arrow IPC export and the `index` tables (Apache-2.0). No default features: no zstd (C), brotli or zlib
+# backends, no async, no object store; compression is Snappy (`snap`) and LZ4 (`lz4_flex`), both
+# pure Rust.
+arrow-array = { version = "60", default-features = false }
+arrow-buffer = { version = "60", default-features = false }
+arrow-schema = { version = "60", default-features = false }
+arrow-ipc = { version = "60", default-features = false, features = ["lz4"] }
+parquet = { version = "60", default-features = false, features = ["arrow", "snap", "lz4"] }
+# hashing
+xxhash-rust = { version = "0.8", features = ["xxh3"] }
+sha2 = "0.11"
+sha1 = "0.11"
+# cli
+clap = { version = "4.6", features = ["derive", "wrap_help"] }
+clap_complete = "4.5"
+clap_mangen = "0.3"
+indicatif = "0.18"
+anstream = "1"
+anstyle = "1"
+glob = "0.3"
+# parallel plane decoding (also used by zarrs)
+rayon = "1.10"
+# mcp
+rmcp = { version = "3.4", features = ["server", "transport-io", "macros", "schemars"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "io-std"] }
+# Streamable HTTP MCP transport (optional `http` feature of openreadout-mcp; loopback by default)
+hyper = { version = "1", default-features = false, features = ["server", "http1"] }
+hyper-util = { version = "0.1", default-features = false, features = ["tokio"] }
+http-body-util = "0.1"
+base64 = "0.23"
+# misc
+chrono = { version = "0.4", default-features = false, features = ["std", "clock", "serde"] }
+tempfile = "3"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+module_name_repetitions = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+must_use_candidate = "allow"
+cast_possible_truncation = "allow"
+cast_precision_loss = "allow"
+cast_sign_loss = "allow"
+cast_lossless = "allow"
+struct_excessive_bools = "allow"
+too_many_lines = "allow"
+cast_possible_wrap = "allow"
+struct_field_names = "allow"
+too_many_arguments = "allow"
+format_push_string = "allow"
+return_self_not_must_use = "allow"
+unused_async = "allow"
+unused_self = "allow"
+needless_pass_by_value = "allow"
+similar_names = "allow"
+assigning_clones = "allow"
+verbose_bit_mask = "allow"
+manual_let_else = "allow"
+match_same_arms = "allow"
+default_trait_access = "allow"
+manual_div_ceil = "allow"
+doc_markdown = "allow"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = true
+panic = "abort"
+
+# Python extension: like release, but a Rust panic becomes a Python exception (PanicException)
+# instead of aborting the host interpreter. Selected by `[tool.maturin] profile` in pyproject.toml.
+[profile.release-py]
+inherits = "release"
+panic = "unwind"
+
+# The R package (r/openreadout, crates/openreadout-r): optimized, with unwinding so extendr
+# turns a Rust panic into an R error instead of ending the R session; thin LTO and parallel code
+# generation so installing the package from source takes minutes, not tens of minutes.
+[profile.release-r]
+inherits = "release"
+panic = "unwind"
+lto = "thin"
+codegen-units = 16
+strip = false
+
+# The WebAssembly module (scripts/wasm.sh build): optimized for size; wasm-opt -Oz runs after.
+[profile.wasm-release]
+inherits = "release"
+opt-level = "z"
+
+# `cargo bench` (criterion suite in crates/openreadout-bench). Same optimization level as
+# release, but thin LTO and parallel codegen so the suite builds in minutes on a laptop; the
+# end-to-end numbers in book/src/project/performance.md come from the real release profile.
+[profile.bench]
+lto = "thin"
+codegen-units = 16
+strip = false
+debug = "line-tables-only"
+
+# Release code generation with line tables and symbols, for sampling profilers
+# (`cargo build --profile profiling`, then samply / cargo-flamegraph / macOS `sample`).
+[profile.profiling]
+inherits = "release"
+strip = false
+debug = "line-tables-only"
+
+[profile.dev.package."*"]
+opt-level = 2
+
+# The corpus suite parses every development-corpus file; unoptimized reader crates make it
+# several times slower. Optimized like release, but with overflow checks and debug assertions
+# kept on so arithmetic bugs still panic: `cargo test --profile corpus -p openreadout-corpus-tests --features corpus`.
+[profile.corpus]
+inherits = "dev"
+opt-level = 2
+debug = "line-tables-only"
+incremental = false
+
+# image-webp 0.2.4 adds Huffman code counts in u16 without overflow checks (a hostile lossless
+# stream overflows; found by fuzz target codec_webp, not fixed upstream as of 2026-09-24). Release
+# builds wrap and then reject the code as invalid; build it the same way everywhere so debug builds
+# and the fuzzer do not panic on it (reproducer: fuzz/known-upstream/image-webp-0.2.4-huffman-overflow.webp).
+[profile.dev.package.image-webp]
+overflow-checks = false
+
+# calamine 0.36.1 multiplies cell-reference digits without overflow checks (fuzz target
+# whole_plate_xlsx; reproducer fuzz/known-upstream/calamine-0.36.1-cell-reference-overflow.xlsx).
+# Release builds wrap and the plate reader rejects the reference. The plate reader's
+# catch_unwind guard does not help in the CLI (its panic hook exits first), so a debug `openreadout`
+# died with an internal error on that fixture; build calamine as release does.
+[profile.dev.package.calamine]
+overflow-checks = false

@@ -1,0 +1,79 @@
+{
+ "id": "rsciio-dm-1d-test-monarccl-spectrum-ccd-dm4",
+ "file": "rsciio-dm-1d-test-monarccl-spectrum-ccd-dm4.dm4",
+ "size": 324154,
+ "sha256": "716e4aa36615de43ec7f13098157f647dbeabebff872645fd1f49724189eb174",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "CL_15kX_3-60_CCD300s_bin2",
+   "size_x": 668,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f4b033910c72986160bea1cd852ef228"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "CL_15kX_3-60_CCD300s_bin2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "Counts"
+   ],
+   "ppm_first": 186.65910176682246,
+   "ppm_last": 465.5666875367142,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 668,
+     "channels": [
+      {
+       "xxh3": "6e4af7053a7e9eb8eb3b7f835a3ede81",
+       "first": [
+        0.0,
+        13.0,
+        10.0,
+        1.0,
+        8.0,
+        -21.0,
+        -5.0,
+        -2.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}

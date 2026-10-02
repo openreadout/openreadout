@@ -1,0 +1,93 @@
+{
+ "id": "mtbls1892-b20-pda-ch1-cdf",
+ "file": "mtbls1892-B20-PDA-Ch1.CDF",
+ "size": 29504,
+ "sha256": "aadb4770b09bc27ac850c36186bbfe2f8b219426116f9ad7f1f5ff21f625eb60",
+ "max_planes_hashed": 64,
+ "reader": "scipy.io.netcdf_file (scipy 1.18.1)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PDA"
+   ],
+   "channel_units": [
+    "Volts"
+   ],
+   "sample_rate_hz": 1.5625000349245974,
+   "sample_rate_tolerance_hz": 1e-06,
+   "x_first_min": 0.0,
+   "x_last_min": 60.01066532532374,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5627,
+     "channels": [
+      {
+       "xxh3": "7fe5f5cd4f563c66eb35091f8e7e799e",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        -3.199999980552093e-07,
+        1.883000004454516e-05,
+        3.550000110408291e-05,
+        2.932999996119179e-05,
+        3.2830001146066934e-05
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 4,
+   "parameter_names": [
+    "peak_retention_time",
+    "peak_amount",
+    "peak_start_time",
+    "peak_end_time",
+    "peak_width",
+    "peak_area",
+    "peak_area_percent",
+    "peak_height",
+    "peak_height_percent",
+    "baseline_start_time",
+    "baseline_start_value",
+    "baseline_stop_time",
+    "baseline_stop_value",
+    "retention_index",
+    "migration_time",
+    "peak_asymmetry",
+    "peak_efficiency",
+    "mass_on_column"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "68d9ccca8dcd855aecaa4729caf50532"
+  }
+ ]
+}

@@ -1,0 +1,72 @@
+{
+ "id": "zenodo18439538-cytoflex-l3",
+ "file": "zenodo18439538-cytoflex-l3.fcs",
+ "size": 1553096,
+ "sha256": "eee0d8c066d9b9e99a623528fe9f6af9a4149962ea7f14c61ca2515d02c2773a",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 14,
+   "event_count": 27630,
+   "parameter_names": [
+    "FSC-H",
+    "FSC-A",
+    "SSC-H",
+    "SSC-A",
+    "FL1-H",
+    "FL1-A",
+    "FL2-H",
+    "FL2-A",
+    "FL3-H",
+    "FL3-A",
+    "FL4-H",
+    "FL4-A",
+    "FSC-Width",
+    "Time"
+   ],
+   "parameter_labels": [
+    "FSC-H",
+    "FSC-A",
+    "SSC-H",
+    "SSC-A",
+    "GFP FITC-H",
+    "GFP FITC-A",
+    "PE-H",
+    "PE-A",
+    "Auto APC-H",
+    "Auto APC-A",
+    "APC-A750-H",
+    "APC-A750-A",
+    "FSC-Width",
+    "Time"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "126318e25f7308dd7e82e1c0c4b9423c",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 27630,
+  "xxh3": "126318e25f7308dd7e82e1c0c4b9423c",
+  "agrees_with_flowio": true
+ }
+}

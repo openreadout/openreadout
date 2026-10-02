@@ -1,0 +1,34 @@
+{
+ "id": "rsciio-emd-si100-2x1x1-3d",
+ "file": "rsciio-emd-si100-2x1x1-3d.emd",
+ "size": 28776,
+ "sha256": "54c78357daf1713e7145987454a65a902b7a0cfa9b3c7b45e00e45c1faab75a3",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 (Berkeley EMD groups)",
+ "images": [
+  {
+   "index": 0,
+   "emd_group": "4DSTEM_simulation/data/realslices/annular_detector_depth0000",
+   "size_x": 22,
+   "size_y": 44,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.00025,
+    "y": 0.00025,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fab696549e08ce6aad2c6068592ff299"
+    }
+   ]
+  }
+ ],
+ "version": null
+}

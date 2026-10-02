@@ -1,0 +1,64 @@
+{
+ "id": "rsciio-dm-2d-multi-signal-dm3",
+ "file": "rsciio-dm-2d-multi-signal-dm3.dm3",
+ "size": 689992,
+ "sha256": "cd025111a163cad9ef6fb0331b740ddefa2f7024c3f691723bd5235a313aa12e",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "HAADF",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 10,
+   "physical_size_um": {
+    "x": 1.7751578241586686e-05,
+    "y": 1.7751578241586686e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4f571cb877adbd91dadc2c579a3991a4"
+    }
+   ],
+   "pixel_type": "uint16"
+  },
+  {
+   "index": 1,
+   "image_list_index": 2,
+   "name": "Plot",
+   "size_x": 512,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e5dac1a358439e57721154bcdf1bc427"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

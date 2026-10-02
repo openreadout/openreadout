@@ -1,0 +1,63 @@
+{
+ "id": "zenodo10577621-PALM-OnlineVerrechnet",
+ "file": "zenodo10577621-PALM-OnlineVerrechnet.czi",
+ "size": 60816608,
+ "sha256": "7d2552b9454237109ac08a63fe14fc9abc59c9ab379f93b8d57ce60827720502",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16 (asarray storedsize=True per channel)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.15873015873015872,
+    "y": 0.15873015873015872,
+    "z": 0.0
+   },
+   "rendering_scale": 1.0,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ad87e2086c43ae4de95a0e25c82059ce"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 1206,
+   "size_y": 1206,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.06738792808444549,
+    "y": 0.06738792808444549,
+    "z": 0.0
+   },
+   "rendering_scale": 2.355469,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0e32ce11ef0e3058534f739c120957f9"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.15873015873015872,
+  "y": 0.15873015873015872,
+  "z": 0.0
+ }
+}

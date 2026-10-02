@@ -1,0 +1,135 @@
+{
+ "id": "pwiz-thermo-it-hcd-sps",
+ "file": "pwiz-thermo/IT-HCD-SPS.raw",
+ "format": "thermo-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (IT-HCD-SPS.mzML)",
+  "the vendor-library conversion (IT-HCD-SPS.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}#len",
+   "theirs": 1,
+   "cmp": "exact"
+  },
+  {
+   "field": "MS3 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/3",
+   "theirs": 1,
+   "cmp": "exact"
+  },
+  {
+   "field": "first retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#min",
+   "theirs": 862.72982051202,
+   "cmp": "num",
+   "abs": 0.001
+  },
+  {
+   "field": "last retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#max",
+   "theirs": 862.72982051202,
+   "cmp": "num",
+   "abs": 0.001
+  },
+  {
+   "field": "polarities",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/parameters/polarity/value",
+   "theirs": [
+    "positive"
+   ],
+   "cmp": "set"
+  },
+  {
+   "field": "scan MS level",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "1": 3
+   },
+   "cmp": "exact",
+   "by": "/scan_number",
+   "each": "/ms_level"
+  },
+  {
+   "field": "scan retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "1": 862.72982051202
+   },
+   "cmp": "num",
+   "abs": 0.001,
+   "by": "/scan_number",
+   "each": "/rt_s"
+  },
+  {
+   "field": "scan polarity",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "1": "positive"
+   },
+   "cmp": "text",
+   "by": "/scan_number",
+   "each": "/polarity"
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2019-11-07T13:42:29Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 1
+  }
+ ]
+}

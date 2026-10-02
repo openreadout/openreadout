@@ -1,0 +1,9 @@
+{
+ "id": "jcamp-isas-ms2",
+ "file": "jcamp-isas-ms2.dx",
+ "format": "jcamp-dx",
+ "family": "nmr",
+ "readers": [],
+ "checks": [],
+ "error": "Exception: Unknown character ($) encountered while parsing data"
+}

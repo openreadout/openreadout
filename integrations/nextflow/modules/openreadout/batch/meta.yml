@@ -1,0 +1,70 @@
+name: "openreadout_batch"
+description: |
+  One tidy table over many raw instrument files: per-image pixel statistics (`stats`), per-sweep
+  signal statistics (`trace`), per-parameter FCS event summaries or per-well plate reads (`table`),
+  FlowJo/Gating-ML population counts (`gate`) or header metadata (`info`), joined to a sample sheet
+  or plate layout, optionally summarized by group (n, mean, sd, sem, median, CV %, Welch or
+  Mann-Whitney tests against a control).
+keywords:
+  - batch
+  - sample sheet
+  - flow cytometry
+  - microscopy
+  - plate reader
+  - statistics
+tools:
+  - "openreadout":
+      description: "Reads raw lab-instrument files without vendor software: metadata as JSON, exports to open formats (OME-TIFF, OME-Zarr, mzML, Parquet), validation."
+      homepage: "https://github.com/openreadout/openreadout"
+      documentation: "https://openreadout.github.io/openreadout/guides/batch.html"
+      tool_dev_url: "https://github.com/openreadout/openreadout"
+      licence: ["MIT", "Apache-2.0"]
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map describing the batch
+          e.g. `[ id:'run1' ]`
+    - inputs:
+        type: file
+        description: Raw instrument files (staged under `inputs/`; the sample sheet is matched on their file names, sample ids, wells, ...)
+        pattern: "*"
+  - sample_sheet:
+      type: file
+      description: Optional sample sheet or plate layout (CSV, TSV, XLSX); pass `[]` for none
+      pattern: "*.{csv,tsv,txt,xlsx}"
+  - measure:
+      type: string
+      description: What to measure per data set
+      enum: ["stats", "trace", "table", "gate", "info"]
+output:
+  - table:
+      - meta:
+          type: map
+          description: Groovy Map describing the batch
+      - "*.table.csv":
+          type: file
+          description: The tidy table (one row per data set x channel, sweep, parameter, well or population; `path`, `format`, `error` columns; failed inputs are rows)
+          pattern: "*.table.csv"
+          ontologies:
+            - edam: "http://edamontology.org/format_3752"
+  - summary:
+      - meta:
+          type: map
+          description: Groovy Map describing the batch
+      - "*.summary.csv":
+          type: file
+          description: Group summary (only when `task.ext.args2` holds `openreadout batch summarize` options)
+          pattern: "*.summary.csv"
+          ontologies:
+            - edam: "http://edamontology.org/format_3752"
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
+authors:
+  - "@richardzimring"
+maintainers:
+  - "@richardzimring"

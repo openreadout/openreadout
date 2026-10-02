@@ -1,0 +1,53 @@
+{
+    "versions": {
+        "content": [
+            [
+                "versions.yml:md5,6a53e8f37601c316c70d100d5ad394dd"
+            ]
+        ],
+        "timestamp": "2026-09-24T15:01:19.608095",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "fcs - table - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "tubes"
+                        },
+                        "tubes.table.csv:md5,d50b6c4476497cc8a1175cc738dfa1cc"
+                    ]
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    "versions.yml:md5,6a53e8f37601c316c70d100d5ad394dd"
+                ],
+                "summary": [
+                    
+                ],
+                "table": [
+                    [
+                        {
+                            "id": "tubes"
+                        },
+                        "tubes.table.csv:md5,d50b6c4476497cc8a1175cc738dfa1cc"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,6a53e8f37601c316c70d100d5ad394dd"
+                ]
+            }
+        ],
+        "timestamp": "2026-09-24T15:00:08.117997",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

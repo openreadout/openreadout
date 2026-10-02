@@ -1,0 +1,9 @@
+{
+ "id": "jcamp-isas-brukdif",
+ "file": "jcamp-isas-brukdif.dx",
+ "format": "jcamp-dx",
+ "family": "nmr",
+ "readers": [],
+ "checks": [],
+ "error": "Exception: Unknown character ($) encountered while parsing data"
+}

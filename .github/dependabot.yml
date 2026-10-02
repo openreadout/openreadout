@@ -1,0 +1,46 @@
+# Weekly dependency updates. Grouped so one PR per ecosystem per week, not one per crate.
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      cargo:
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore(deps)"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: "ci(deps)"
+
+  # Python: the openreadout package (root pyproject.toml, maturin) and the bioio plugin.
+  - package-ecosystem: pip
+    directories:
+      - /
+      - /python/bioio-openreadout
+    schedule:
+      interval: weekly
+    groups:
+      python:
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore(deps)"
+
+  # The oracle environment (third-party readers used only to generate ground truth).
+  - package-ecosystem: uv
+    directory: /oracle
+    schedule:
+      interval: weekly
+    groups:
+      oracle:
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore(oracle)"

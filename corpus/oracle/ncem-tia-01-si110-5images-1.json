@@ -1,0 +1,62 @@
+{
+ "id": "ncem-tia-01-si110-5images-1",
+ "file": "ncem-tia-01_Si110_5images_1.ser",
+ "size": 10486918,
+ "sha256": "84fd52e199b86a95a7aee6442f2b7888d5e2aab261cb56c62a1c1c6b0081cec1",
+ "max_planes_hashed": 64,
+ "reader": "ncempy.io.ser (GPL, black box)",
+ "series_version": 528,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 5,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 8.67462211402956e-06,
+    "y": 8.67462211402956e-06,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fd57f3fe905758d0376a4c1931f30dbd"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "05f8b3a0143c6e2fc6a6d90c996d781f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "a095d9479ce4ba1bc068509fbcc9a05a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "afc347172ddc87b62a141976074e64f0"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "ad1ad8a25a5d84c933dbb1072e9c3bc3"
+    }
+   ]
+  }
+ ],
+ "emi": {
+  "AcceleratingVoltage": 200000,
+  "Microscope []": "Microscope TitanCubed 300 kV D3128 UltraTwin",
+  "Magnification [x]": 7200000
+ }
+}

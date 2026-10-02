@@ -1,0 +1,257 @@
+{
+ "id": "zenodo7015307-S-2-T-3-Z-5-CH-1",
+ "file": "zenodo7015307-S-2-T-3-Z-5-CH-1.czi",
+ "size": 5266784,
+ "sha256": "702b78570b6401ec12503db90830411eccbb4553d80c1843eda143ee36601d0a",
+ "max_planes_hashed": 32,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 5,
+   "size_c": 1,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "TZYX",
+   "shape": [
+    3,
+    5,
+    256,
+    256
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 0' (T: 3, Z: 5, Y: 256, X: 256) gray16 uncompressed>"
+   ],
+   "physical_size_um": {
+    "x": 0.09999999999999999,
+    "y": 0.09999999999999999,
+    "z": 1.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2238e8de1ec3171feee1a39809451b4c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "e768af6f897e98dcdc866d8b2785af84"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "1ae07fcc7d56bba14ebe8140b9eaf4b4"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "9d8bdbfa873b678ce32f17ee40268f57"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "9ef49830243f648b61cb8acf9f602b97"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 2,
+     "xxh3": "9e785c4f403ef5c26da82cbe3f7c7d45"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1d90dde754486802752c792674e4f4b2"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "3dd2a0c69650c119b7ccbfd3faba3eae"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 2,
+     "xxh3": "da1ee5b16e9693d112e8342e9ababf30"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "8f888e6206a592f38e06680c93b86a65"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 1,
+     "xxh3": "793f28d8040a71a4bd8a3efd8eeb1055"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 2,
+     "xxh3": "25d10f2c951b416f7e4b23c144c8a1e1"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "03722a1961ad64f3e1dfa45bba9413bc"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 1,
+     "xxh3": "e1e99979bb716fbb2021b2a07d74b416"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 2,
+     "xxh3": "f27f3a155899104a59ad3443f65514d0"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Scene 1",
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 5,
+   "size_c": 1,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "TZYX",
+   "shape": [
+    3,
+    5,
+    256,
+    256
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 1' (T: 3, Z: 5, Y: 256, X: 256) gray16 uncompressed>"
+   ],
+   "physical_size_um": {
+    "x": 0.09999999999999999,
+    "y": 0.09999999999999999,
+    "z": 1.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2ecd952ca1a8d285c0204b1475290e5c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "c44b39517c4521af6675a2c398e1d59d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "77fabbbf883d3ee9d7a98ac7f9243a20"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "86ab2fd24661e08cb8903d7349d7db77"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "4677d37a472fe727670401abe4c1d911"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 2,
+     "xxh3": "6455fb133c9d037e27e7a127b559ac67"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "f1d47a78d3c247b8f443428c0c46e50d"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "ac907d4dde15ffd57d2436973605234d"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 2,
+     "xxh3": "16b28ae035013ddfff2ad723e969ef36"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "673b76dc298055522a6698928f1bad58"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 1,
+     "xxh3": "a96f2cb557046ccc6d3331432957fdef"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 2,
+     "xxh3": "2a0cede7d6bbd8850a6948d7c478f73b"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "5a7a2793a7471bcea7a61f24dd0cfcd1"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 1,
+     "xxh3": "530f92d5abba249cca691354990e6ee4"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 2,
+     "xxh3": "2798ae74008c3485daf1130251b7cae5"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.09999999999999999,
+  "y": 0.09999999999999999,
+  "z": 1.0
+ },
+ "subblock_count": 30,
+ "compression_ids": [
+  0
+ ]
+}

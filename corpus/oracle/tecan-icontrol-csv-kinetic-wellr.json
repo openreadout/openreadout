@@ -1,0 +1,32 @@
+{
+ "id": "tecan-icontrol-csv-kinetic-wellr",
+ "file": "tecan-icontrol-csv-kinetic-wellr.csv",
+ "size": 180755,
+ "sha256": "afcc54b44a1f74e832626a050c9b29e76dffaaa146034f679a92155a2abf82d3",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py tecan_csv_summary (independent pandas reader of the CSV text; allotropy has no i-control or SparkControl parser)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 11520,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "2d1be8179dc4ced9a8112080a2658417"
+   },
+   {
+    "mode": "luminescence",
+    "wells": 96,
+    "values": 11520,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "c59ecc3f9050dcc4f6060847512a6715"
+   }
+  ],
+  "header": {
+   "software_version": "1.11.1.0",
+   "model": "infinite 200Pro"
+  }
+ }
+}

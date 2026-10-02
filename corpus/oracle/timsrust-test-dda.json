@@ -1,0 +1,41 @@
+{
+ "id": "timsrust-test-dda",
+ "reader": "timsrust tests/frame_readers.rs (commit 80e235a): expected frames, transcribed",
+ "images": [],
+ "tdf": {
+  "frames": [
+   {
+    "id": 1,
+    "scans": 4,
+    "peaks": 10,
+    "xxh3_scan_offsets": "90872a1c5cc28fbe3d87be8eecd0b591",
+    "xxh3_tof": "30b8eaf2d6b89654f715e1d1b85cd822",
+    "xxh3_intensity": "5e0c22177411fb98a804c5fc7067c1c6"
+   },
+   {
+    "id": 2,
+    "scans": 4,
+    "peaks": 26,
+    "xxh3_scan_offsets": "de7f2a2375a18a52b05eebffd3cf13aa",
+    "xxh3_tof": "74af9acbfe30d73673fc4edfe5045c9d",
+    "xxh3_intensity": "13b3cb0ee51cb709c1f6d87b97b7deae"
+   },
+   {
+    "id": 3,
+    "scans": 4,
+    "peaks": 42,
+    "xxh3_scan_offsets": "30859bebc6983654b2f25905e30eab99",
+    "xxh3_tof": "60c3a5fec1362d32869d32ed2bc7f706",
+    "xxh3_intensity": "257207bc7ef1eadca414d9fef88b0761"
+   },
+   {
+    "id": 4,
+    "scans": 4,
+    "peaks": 58,
+    "xxh3_scan_offsets": "2da530a4c0f3c10089aa21858857bb9a",
+    "xxh3_tof": "fc1007eb8458ab5f6fac754a81f153ed",
+    "xxh3_intensity": "fcb02f58db1cb66263b33f8bac964608"
+   }
+  ]
+ }
+}

@@ -1,0 +1,134 @@
+{
+ "id": "zenodo12773657-dapi-mcherry-4z-5lambda",
+ "file": "zenodo12773657-dapi-mcherry-4z-5lambda.oir",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "78736aeed5baf342688b0f83b4bdfe09"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "d7268e01f49143cf836e482c43563004"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "e7e6f25f61f67510485ecb2f5d78d164"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "9dcf7adecd44bc498b582e22e502b57a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0b8d6f5ed706b7b6f87837607eac8c16"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "f3a55de3511372bef1aa64c8f1063fdc"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "6e07cd414b3da6cb6d26982b3d8eb9eb"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "233210bbcdc631e23bf3b43426ea27e8"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c001a662d583e20b10de70b0a437eb1a"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "f65f8781d89dbee464c28009a694fbaa"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "afed2a9f695491f53e8296b01aa01a3e"
+    },
+    {
+     "c": 2,
+     "z": 3,
+     "t": 0,
+     "xxh3": "d93f0db6d65b317271e5244f796a1760"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aab0d79db4edf6d2b09b2efd6b3ed9cc"
+    },
+    {
+     "c": 3,
+     "z": 1,
+     "t": 0,
+     "xxh3": "99bcf381b57d985dc765b2ab36dd096b"
+    },
+    {
+     "c": 3,
+     "z": 2,
+     "t": 0,
+     "xxh3": "68f32cb36c7ec4cd81dab87204c96769"
+    },
+    {
+     "c": 3,
+     "z": 3,
+     "t": 0,
+     "xxh3": "0e9ee7e154bebd725a36702f7b4da58b"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8c2c9a0d920ef6b4c753ddc8d24d9a95"
+    },
+    {
+     "c": 4,
+     "z": 1,
+     "t": 0,
+     "xxh3": "836ef1fafc72ae2cc7a7a546386452fc"
+    },
+    {
+     "c": 4,
+     "z": 2,
+     "t": 0,
+     "xxh3": "e5759e6f28990248b4631dd2669b40be"
+    },
+    {
+     "c": 4,
+     "z": 3,
+     "t": 0,
+     "xxh3": "41ab1f458bcfcaeec6126da56653fed7"
+    }
+   ]
+  }
+ ]
+}

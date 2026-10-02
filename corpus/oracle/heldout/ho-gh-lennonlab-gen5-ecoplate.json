@@ -1,0 +1,27 @@
+{
+ "id": "ho-gh-lennonlab-gen5-ecoplate",
+ "file": "72_RTLC_S4_1.5.txt",
+ "size": 1505,
+ "sha256": "5f7e26d2995823b7fcd3435a803cd6c6c2b789c1de51fa8eca355d88a0bf9b64",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py gen5_text_summary (independent reader of the export text; allotropy cannot parse this export)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 96,
+    "errors": 0,
+    "wavelengths": [
+     590.0
+    ],
+    "value_xxh3": "5ba7985374b9b3a6d5ff9a5483271e58"
+   }
+  ],
+  "header": {
+   "software_version": "3.03.14",
+   "model": "Synergy H1",
+   "serial_number": "1706221C"
+  }
+ }
+}

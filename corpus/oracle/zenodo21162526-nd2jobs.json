@@ -1,0 +1,1110 @@
+{
+ "id": "zenodo21162526-nd2jobs",
+ "file": "zenodo21162526-nd2jobs.nd2",
+ "size": 151347200,
+ "sha256": "ea54f0cd01f076ec9e91c1a08783e40b74f7f54e19fabd5383ed1a107ff824f2",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f35db82603799388ed023915225edd00"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "19e12914a9d313589a22c1b238727215"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "70ef25d434c6af9e8cb94776d0c4ec72"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6371ed8d12852646036b58b028bc54fe"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "9ce8af01c4f9959fe43b96197f2ab88c"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "f578a1b49ed43d0981519830fd3222b5"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e948f22d9332520fc22cffe628785cd"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "c3443379de0871222b4062fc5b019d66"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1b61f7d42af67fbb4af52440fecce896"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "702e2b72877b735fae87ad1e52bed185"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "e6b761dd5a165c55d727fd7248843315"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "c3e79f0a7f2e9d8400d3dbeceeb0632e"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b4dd915c1ee86a0a1b9aa3b8c2a6e73c"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "e3c95282920c949743b400edf5ce6630"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "e84d86f9381806db67385d7ae8af7c6c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2328f336c667d25e0064223b09d8431e"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "6beca3d3f3a37b64d94e86a04bb2f244"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "436cf993d49636672dfd7759c6523d18"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dfc3293c1e4852e58d6cf2d03b3c3bc3"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "717bcac8e74541e0204b6fa40a4bdbd7"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "98fa18c7536b477b75b20c612a32ef8b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b9c1be9bc967ba50a15620fa62f63c53"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "37c0fb3bf44e7f42f3eeb5ccb6a6e301"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "ff17b40572742800cc813291b7297428"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7fc863c7dd8f9a37efc661e38697dfe1"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "316c5383aeeb87d0fc2e97d282fdcb05"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "86a6e85767e777e8a8c6456cabb87ffe"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "54c4e2f82a0092b12ef24e23a17352ba"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "9721a657f434ab64ebeac2d881570d20"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "3bc79ac294d58f9de94b32f31ce748a1"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "00760032f67e7b6d5ebec15e98f92299"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "e27009465019f10fda906faa9bf4e60d"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1c844beb9f00cfe7063ed8b9dc1d6fac"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ab501f56f1af83c740123d1cb254ba9e"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "90f1e38e623853650631f452a42d0374"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "6c33e028cff4c7a94f1949d77cb73fce"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c8beba68403a507fff88093c86a6d5dc"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "399918f3aec5c388a043ab6e819a8005"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "14cacf3109cd929d353621a05a08f3d4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "23a072ba204af3da848bf606ab94bd1d"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "f5780611a86fcf43427f02c893effd94"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "f0322603ab72edb7e4620bcb5c802b88"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "418090cc08bb35a8a2273afc96611bf3"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "8c3ac6b30894092a0f3c9ae533f2dc65"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "552bc49bd890129d3cef02c92f19eebc"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e568a08f953edad3b0bcc3cb839c4f8a"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "57523e55b482a97d8f782c8d1a0e6861"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "6f8c3579681acb906c1a47be1d4382fb"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b0b6d065dd2a2a34ad9ad2eb3b8fa21e"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "e25e32e91b85efe7a4839bfea8e5ca75"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "4e17036bbe9428bbec4dbf55ea9f5b32"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b9f0cf85fab3612fe755f34dde60bdd3"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "7ba13272bcfdc026ad5281e985f1d2dc"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "6a6931b566152c25613cadff1ad1d8c1"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "596b8f5011010b510b0bf80d7e99d54b"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "670d75b7efc581d5273abdea17938dd2"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "ad5515774a97c121af2d46477b383cdf"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "573ef86f69299cb24aa7917f66e7efef"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "ea2af2482ea3e71fe5e57a95f18f9f2d"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "002d84e22ebe78825d8aa042df5b2b63"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f2246d9809a1685d8be6c447e26c48a6"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "007d5b05cd7e657f68e860ae6abb8702"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "dec1cc8cc95453ec0a1cd9934b88c92c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "087af82aa0983fe986fcb87453f83128"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "398200a254a05451edd8c013e3ce02c7"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1b238433de0efa44355692ef9cc6285e"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 12, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b5b0b45cdd5010df7f3cf1b4bda0d74d"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "b00fc51f341bfc5b4b4e386235266a37"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "cbb4a4a1c6505d0360d09fc46d0dc5bc"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4bfdcfd6edd4a864940e6d65bc63bd26"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "5e59d69010014c3339a93e321da8ff00"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "bc91cea8e61f28eef439801dd802fde7"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "GFP",
+    "color": "#3AFF00",
+    "excitation_nm": 488.0,
+    "emission_nm": 526.5,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ],
+    "emission_note": "band centre (adjudicated; nd2 reports the rising edge)"
+   },
+   {
+    "name": "TD",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "brightfield",
+     "laserScanConfocal",
+     "pmt",
+     "transmitDetector"
+    ]
+   }
+  ],
+  "frame_count": 36,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 5225.206399999559,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 102728.25,
+     "Y": 65321.85,
+     "Z": 481.64,
+     "Z1": 481.64
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 6326.152400000021,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 102728.2,
+     "Y": 65321.8,
+     "Z": 487.64,
+     "Z1": 487.64
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 7335.422399999574,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 101228.2,
+     "Y": 65335.3,
+     "Z": 481.64,
+     "Z1": 481.64
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 8414.5354000004,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 101228.25,
+     "Y": 65335.25,
+     "Z": 487.64,
+     "Z1": 487.64
+    }
+   },
+   {
+    "index": 6,
+    "time_ms": 9466.881400000304,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 101214.7,
+     "Y": 63835.35,
+     "Z": 481.64,
+     "Z1": 481.64
+    }
+   },
+   {
+    "index": 8,
+    "time_ms": 10556.362399999984,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 101214.75,
+     "Y": 63835.3,
+     "Z": 487.62,
+     "Z1": 487.62
+    }
+   },
+   {
+    "index": 9,
+    "time_ms": 11547.091400000267,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 102714.7,
+     "Y": 63821.7,
+     "Z": 481.62,
+     "Z1": 481.62
+    }
+   },
+   {
+    "index": 11,
+    "time_ms": 12689.245400000364,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 102714.7,
+     "Y": 63821.8,
+     "Z": 487.64,
+     "Z1": 487.64
+    }
+   },
+   {
+    "index": 12,
+    "time_ms": 14603.919400000013,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 93728.25,
+     "Y": 65294.1,
+     "Z": 481.64,
+     "Z1": 481.64
+    }
+   },
+   {
+    "index": 14,
+    "time_ms": 15774.124400000088,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 93728.3,
+     "Y": 65294.2,
+     "Z": 487.64,
+     "Z1": 487.64
+    }
+   },
+   {
+    "index": 15,
+    "time_ms": 16785.460400000215,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 92228.3,
+     "Y": 65307.9,
+     "Z": 481.64,
+     "Z1": 481.64
+    }
+   },
+   {
+    "index": 17,
+    "time_ms": 17852.874400000088,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 92228.3,
+     "Y": 65307.8,
+     "Z": 487.64,
+     "Z1": 487.64
+    }
+   },
+   {
+    "index": 18,
+    "time_ms": 18831.003399999812,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 92214.75,
+     "Y": 63807.85,
+     "Z": 481.62,
+     "Z1": 481.62
+    }
+   },
+   {
+    "index": 20,
+    "time_ms": 19915.22240000032,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 92214.8,
+     "Y": 63807.8,
+     "Z": 487.62,
+     "Z1": 487.62
+    }
+   },
+   {
+    "index": 21,
+    "time_ms": 20876.435399999842,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 93714.7,
+     "Y": 63794.2,
+     "Z": 481.6,
+     "Z1": 481.6
+    }
+   },
+   {
+    "index": 23,
+    "time_ms": 22021.91339999996,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 93714.7,
+     "Y": 63794.3,
+     "Z": 487.6,
+     "Z1": 487.6
+    }
+   },
+   {
+    "index": 24,
+    "time_ms": 23984.39140000008,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 102755.85,
+     "Y": 56321.7,
+     "Z": 481.58,
+     "Z1": 481.58
+    }
+   },
+   {
+    "index": 26,
+    "time_ms": 25117.37739999965,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 102755.75,
+     "Y": 56321.75,
+     "Z": 487.56,
+     "Z1": 487.56
+    }
+   },
+   {
+    "index": 27,
+    "time_ms": 26086.81539999973,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 101255.75,
+     "Y": 56335.4,
+     "Z": 481.58,
+     "Z1": 481.58
+    }
+   },
+   {
+    "index": 29,
+    "time_ms": 27126.22339999955,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 101255.8,
+     "Y": 56335.3,
+     "Z": 487.58,
+     "Z1": 487.58
+    }
+   },
+   {
+    "index": 30,
+    "time_ms": 28150.227400000207,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 101242.2,
+     "Y": 54835.3,
+     "Z": 481.58,
+     "Z1": 481.58
+    }
+   },
+   {
+    "index": 32,
+    "time_ms": 29257.46239999961,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 101242.25,
+     "Y": 54835.35,
+     "Z": 487.58,
+     "Z1": 487.58
+    }
+   },
+   {
+    "index": 33,
+    "time_ms": 30173.867399999872,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 102742.25,
+     "Y": 54821.75,
+     "Z": 481.56,
+     "Z1": 481.56
+    }
+   },
+   {
+    "index": 35,
+    "time_ms": 31316.34539999999,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 102742.2,
+     "Y": 54821.85,
+     "Z": 487.56,
+     "Z1": 487.56
+    }
+   }
+  ],
+  "acquired_at": "2026-07-03T11:37:56.396Z",
+  "acquired_at_unix_ms": 1783078676396
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: XY(12) x Z(3) x \u03bb(1)\r\nCamera Name: AX\r\nNumerical Aperture: 0,75\r\nRefractive Index: 1\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: GFP\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: Multi-Channel\r\n  \tScanner: Resonant Bidirectional\r\n  \tScan Mode: Band\r\n  \tLine Averaging: 2x\r\n  \tResolution: 1024 x 1024\r\n  \t\tGFP, TD\r\n  Components:\r\n  Component GFP:\r\n  \tDetector: 4\r\n  \tEmission Range: 499 nm - 554 nm\r\n  \tGain: 21.8\r\n  \tOffset: 0\r\n  \tPinhole Size: 27.0 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.7\r\n  \t\tLaser Port: Standard\r\n  \r\n  TD:\r\n  \tGain: 28.4\r\n  \tOffset: 0\r\n  \tPinhole Size: 27.0 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm\r\n  \tLaser Port: None\r\n  \t\tEnabled\r\n  \t\tPower: 3.7\r\n  \r\n  Scan Area:\r\n  \tZoom: 1.60\r\n  \tOffset Y: 3.00\r\n  \r\n  Misc:\r\n  \tDetector Port: Standard\r\n  \tImage Mode: Normal\r\n  \tIR Filter Position: Out\r\n  \tDenoise.ai: OFF\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (DAPI)\r\n  LightPath: L100\r\n  Condenser: 1 (Shutter)\r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: TD\r\n Component Count: 1\r\n Modality: Brightfield, Laser Scan Confocal\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: Multi-Channel\r\n  \tScanner: Resonant Bidirectional\r\n  \tScan Mode: Band\r\n  \tLine Averaging: 2x\r\n  \tResolution: 1024 x 1024\r\n  \t\tGFP, TD\r\n  Components:\r\n  Component GFP:\r\n  \tDetector: 4\r\n  \tEmission Range: 499 nm - 554 nm\r\n  \tGain: 21.8\r\n  \tOffset: 0\r\n  \tPinhole Size: 27.0 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.7\r\n  \t\tLaser Port: Standard\r\n  \r\n  TD:\r\n  \tGain: 28.4\r\n  \tOffset: 0\r\n  \tPinhole Size: 27.0 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm\r\n  \tLaser Port: None\r\n  \t\tEnabled\r\n  \t\tPower: 3.7\r\n  \r\n  Scan Area:\r\n  \tZoom: 1.60\r\n  \tOffset Y: 3.00\r\n  \r\n  Misc:\r\n  \tDetector Port: Standard\r\n  \tImage Mode: Normal\r\n  \tIR Filter Position: Out\r\n  \tDenoise.ai: OFF\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (DAPI)\r\n  LightPath: L100\r\n  Condenser: 1 (Shutter)\r\n  Zoom: 1.00x\r\nZ Stack Loop: 3\r\n- Step: 3 \u00b5m\r\n- Device: Ti2 ZDrive",
+  "capturing": "AX\r\nConfiguration:\r\n\tDetector mode: Multi-Channel\r\n\tScanner: Resonant Bidirectional\r\n\tScan Mode: Band\r\n\tLine Averaging: 2x\r\n\tResolution: 1024 x 1024\r\n\t\tGFP, TD\r\nComponents:\r\nComponent GFP:\r\n\tDetector: 4\r\n\tEmission Range: 499 nm - 554 nm\r\n\tGain: 21.8\r\n\tOffset: 0\r\n\tPinhole Size: 27.0 \u00b5m\r\n\tFirst DM: 405/488/561/640 (Position 1)\r\n\tLaser 488 nm:\r\n\t\tEnabled\r\n\t\tPower: 3.7\r\n\t\tLaser Port: Standard\r\n\r\nTD:\r\n\tGain: 28.4\r\n\tOffset: 0\r\n\tPinhole Size: 27.0 \u00b5m\r\n\tFirst DM: 405/488/561/640 (Position 1)\r\n\tLaser 488 nm\r\n\tLaser Port: None\r\n\t\tEnabled\r\n\t\tPower: 3.7\r\n\r\nScan Area:\r\n\tZoom: 1.60\r\n\tOffset Y: 3.00\r\n\r\nMisc:\r\n\tDetector Port: Standard\r\n\tImage Mode: Normal\r\n\tIR Filter Position: Out\r\n\tDenoise.ai: OFF\r\n",
+  "date": "3-7-2026  13:38:22",
+  "optics": "Plan Apo VC 20x DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=2, heightPx=1024, pixelDataType='unsigned', sequenceCount=36, widthBytes=4096, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

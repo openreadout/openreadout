@@ -1,0 +1,4 @@
+# A test that hangs (an input whose declared count drives an endless loop) is killed after
+# 5 minutes instead of stalling CI; the whole suite runs in seconds.
+[profile.default]
+slow-timeout = { period = "60s", terminate-after = 5 }

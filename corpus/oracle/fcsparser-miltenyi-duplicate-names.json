@@ -1,0 +1,57 @@
+{
+ "id": "fcsparser-miltenyi-duplicate-names",
+ "file": "fcsparser-miltenyi-duplicate-names.fcs",
+ "size": 294908,
+ "sha256": "7ee7e214e54161ebea46aea860ef6c050dfdb1e093cd1d97684fbfd4bcb87cc4",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.1",
+   "parameter_count": 9,
+   "event_count": 8129,
+   "parameter_names": [
+    "HDR-CE",
+    "HDR-SE",
+    "HDR-V",
+    "FSC-A",
+    "FSC-H",
+    "SSC-A",
+    "SSC-H",
+    "FL7-A",
+    "FL7-H"
+   ],
+   "parameter_labels": [
+    "HDR-CE",
+    "HDR-SE",
+    "HDR-V",
+    "FSC-A",
+    "FSC-H",
+    "SSC-A",
+    "SSC-H",
+    "GFP/FITC-A",
+    "GFP/FITC-H"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "50be8190ce6a6e97e55fec3fec18a493",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 8129,
+  "xxh3": "50be8190ce6a6e97e55fec3fec18a493",
+  "agrees_with_flowio": true
+ }
+}

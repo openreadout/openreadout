@@ -1,0 +1,53 @@
+{
+ "id": "mtbls225-tqs-rln-20140623-056-raw",
+ "file": "mtbls225-tqs-rln-20140623-056-raw-zip/TQS-RLN-20140623-056.raw",
+ "format": "waters-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "the .raw's _HEADER.TXT (MassLynx text header), read as text",
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (mtbls225-tqs-rln-20140623-056.mzXML)",
+  "the vendor-library conversion (mtbls225-tqs-rln-20140623-056.mzXML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "acquisition start (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2014-06-23T22:36:03",
+   "cmp": "time"
+  },
+  {
+   "field": "instrument (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "XEVO-TQS",
+   "cmp": "text"
+  },
+  {
+   "field": "sample description (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/name",
+   "theirs": "Mmu_28RDDR_TCDD_S4_CBZ",
+   "cmp": "text"
+  },
+  {
+   "field": "acquired name (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "TQS-RLN-20140623-056",
+   "cmp": "text"
+  }
+ ]
+}

@@ -1,0 +1,125 @@
+{
+ "id": "nmrxiv-s597-1",
+ "path": "nmrxiv-s597/1",
+ "procs": {
+  "SI": 65536,
+  "LB": 1,
+  "WDW": 1,
+  "PHC0": -3.262893,
+  "PHC1": 45.64162,
+  "OFFSET": 234.7865,
+  "SF": 75.46774739,
+  "SW_p": 18832.3917137476,
+  "NC_proc": 1,
+  "ME_mod": 0,
+  "TDoff": 0,
+  "BC_mod": 2,
+  "FCOR": 0.5,
+  "TDeff": 65536
+ },
+ "acqus": {
+  "DSPFVS": 10,
+  "DIGMOD": 1,
+  "AQ_mod": 1,
+  "GRPDLY": -1,
+  "DECIM": 6
+ },
+ "nucleus": "13C",
+ "topspin_snr": 1840.612562413553,
+ "topspin_noise_sd": 609057.7011655332,
+ "topspin_peaks": [
+  {
+   "index": 56667,
+   "ppm": 19.01481803199499,
+   "height": 1121039256.0
+  },
+  {
+   "index": 43230,
+   "ppm": 70.17905225100165,
+   "height": 934873194.0
+  },
+  {
+   "index": 54773,
+   "ppm": 26.226625698200138,
+   "height": 682346188.0
+  },
+  {
+   "index": 41435,
+   "ppm": 77.01389636971243,
+   "height": 208656080.0
+  },
+  {
+   "index": 41324,
+   "ppm": 77.43655246841823,
+   "height": 126902346.0
+  },
+  {
+   "index": 41546,
+   "ppm": 76.59124027100663,
+   "height": 126760156.0
+  }
+ ],
+ "topspin_peaklist": [
+  {
+   "ppm": 77.4355,
+   "intensity": 1.7
+  },
+  {
+   "ppm": 77.0107,
+   "intensity": 2.8
+  },
+  {
+   "ppm": 76.5882,
+   "intensity": 1.7
+  },
+  {
+   "ppm": 70.1767,
+   "intensity": 12.5
+  },
+  {
+   "ppm": 26.2262,
+   "intensity": 9.22
+  },
+  {
+   "ppm": 19.0138,
+   "intensity": 15.0
+  }
+ ],
+ "topspin_integrals": [],
+ "nmrglue_fid": {
+  "pipeline": "remove_digital_filter, zf_size(65536), em(1/SW_h), fft, ps(-1*PHC0, +1*PHC1), di, rev",
+  "correlation_with_topspin": -0.29010932854047106,
+  "peaks": [
+   {
+    "index": 56675,
+    "ppm": 18.98435633118737,
+    "height": 769182920.6456304
+   },
+   {
+    "index": 43243,
+    "ppm": 70.12955198718925,
+    "height": 537265278.347485
+   },
+   {
+    "index": 54776,
+    "ppm": 26.2152025603973,
+    "height": 469592390.86536133
+   },
+   {
+    "index": 41552,
+    "ppm": 76.56839399540092,
+    "height": 93610598.3644812
+   },
+   {
+    "index": 41452,
+    "ppm": 76.94916525549624,
+    "height": 78685190.2105654
+   },
+   {
+    "index": 41329,
+    "ppm": 77.41751390541347,
+    "height": 32598517.466039617
+   }
+  ]
+ }
+}

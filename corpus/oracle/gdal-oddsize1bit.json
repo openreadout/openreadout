@@ -1,0 +1,43 @@
+{
+ "id": "gdal-oddsize1bit",
+ "file": "gdal-oddsize1bit.tif",
+ "size": 1433,
+ "sha256": "46e5b187e2dbbb666f05f57a476c4b7a38f35b8bfd6eb3d7aabef7375f991c4c",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YX",
+   "shape": [
+    99,
+    99
+   ],
+   "size_x": 99,
+   "size_y": 99,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cafda213c95cc87e88203c9607329828"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,58 @@
+{
+ "id": "ho-figshare12957947-oib-spleen",
+ "file": "Figure 2D Raw.oib",
+ "size": 9629696,
+ "sha256": "e594692c32bb003b566767274f505cd9fc70dc7b9b7318e7fd477bf793b76fbe",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box); planes cross-checked with oiffile 2026.2.8",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series 1",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.147,
+    "y": 0.147
+   },
+   "channel_names": [
+    "CHS1",
+    "CHS2",
+    "CH3",
+    "HSD1"
+   ],
+   "oiffile_agrees": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "998261c87f590049bdf6254ca0146827"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0ddef7f132e7c7c734286cc90037d8a8"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1db55ca38fe36668cd740dcaa2fd2440"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4e0d3795700b74c90230e826426612dd"
+    }
+   ]
+  }
+ ]
+}

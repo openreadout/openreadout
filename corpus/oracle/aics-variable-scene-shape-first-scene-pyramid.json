@@ -1,0 +1,140 @@
+{
+ "id": "aics-variable-scene-shape-first-scene-pyramid",
+ "file": "aics-variable-scene-shape-first-scene-pyramid.czi",
+ "size": 431721824,
+ "sha256": "878f4072c0b7ab12c2a1dd8d597af4833114de72ab17c5f8dd386c060f74c2ec",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 7705,
+   "size_y": 6183,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    3,
+    6183,
+    7705
+   ],
+   "other_dims": {},
+   "pyramid_levels": 4,
+   "physical_size_um": {
+    "x": 0.9082107048835328,
+    "y": 0.9082107048835328,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c8ccaa4a0769984f6382e631ad2b6f6a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7d6c6c274f7f78e2be98e84b2e42219a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bac2e83d901f4dbabd8f430c5b734888"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 3852,
+     "size_y": 3091,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "e6a3892f5ea2c8ab264b6128fb0a1b8e"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "3d93a260d2fb8dd8403437b59ba627c2"
+      },
+      {
+       "c": 2,
+       "z": 0,
+       "t": 0,
+       "xxh3": "031566f4eeb0fa66d62b55f6c4171672"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 1926,
+     "size_y": 1545,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "80df3259338408273eed87f777d6953c"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "9515174ebe681c6a7b8b2c259a46a4e2"
+      },
+      {
+       "c": 2,
+       "z": 0,
+       "t": 0,
+       "xxh3": "11c69d7739e5a1fd1f036ae59ae03ab7"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 963,
+     "size_y": 772,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "4639a1b773a08e7e0e5d0710837feb52"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "d853a43cce87c97dec2ea9d4a8c7bb10"
+      },
+      {
+       "c": 2,
+       "z": 0,
+       "t": 0,
+       "xxh3": "012e98b9de887541d80b0822e5ec6c6b"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.9082107048835328,
+  "y": 0.9082107048835328,
+  "z": null
+ },
+ "subblock_count": 90,
+ "compression_ids": [
+  0
+ ]
+}

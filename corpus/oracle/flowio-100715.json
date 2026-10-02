@@ -1,0 +1,78 @@
+{
+ "id": "flowio-100715",
+ "file": "flowio-100715.fcs",
+ "size": 4166144,
+ "sha256": "733b0f6d959527116860f4c78f0908db33fc71388c7717737b340c100b9f46e7",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "2.0",
+   "parameter_count": 16,
+   "event_count": 65016,
+   "parameter_names": [
+    "FSC-A",
+    "FSC-H",
+    "SSC-A",
+    "B515-A",
+    "R780-A",
+    "R710-A",
+    "R660-A",
+    "V800-A",
+    "V655-A",
+    "V585-A",
+    "V450-A",
+    "G780-A",
+    "G710-A",
+    "G660-A",
+    "G610-A",
+    "G560-A"
+   ],
+   "parameter_labels": [
+    " ",
+    " ",
+    " ",
+    "KI67",
+    "CD3",
+    "CD28",
+    "CD45RO",
+    "CD8",
+    "CD4",
+    "CD57",
+    "VIVID / CD14",
+    "CCR5",
+    "CD19",
+    "CD27",
+    "CCR7",
+    "CD127"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "2649d34a6c465de13902c85d9b8b6fa6",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 65016,
+  "xxh3": "2649d34a6c465de13902c85d9b8b6fa6",
+  "agrees_with_flowio": true
+ }
+}

@@ -1,0 +1,158 @@
+{
+ "id": "openms-tutorial-gaussfilter",
+ "file": "openms-tutorial-gaussfilter.mzML",
+ "size": 13200,
+ "sha256": "57ecf66a8dd933047a3834ffd9ec955117cf67cd589ec1f43226846338845f23",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [],
+ "spectra": {
+  "scan_count": 2,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "spectrum=1",
+    "ms_level": 1,
+    "rt_s": 474.558,
+    "polarity": "unknown",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "isolation_target_mz": null,
+    "activation": null,
+    "collision_energy": null,
+    "total_ion_current": null,
+    "base_peak_mz": null,
+    "n_peaks": 66,
+    "n_nonzero": 54,
+    "mz_bits": 64,
+    "xxh3_mz": "c3adb8f5c6961376d1551edd2cca2463",
+    "xxh3_intensity": "90a464e3709469050e9feede05735857",
+    "xxh3_mz_nonzero": "7fe68d4f54c1b68a6ae1261be12b2d15",
+    "xxh3_intensity_nonzero": "82346253045e3621a3a05ac217d12f30",
+    "sum_intensity": 94114.0,
+    "mz_min": 932.0,
+    "mz_max": 945.0,
+    "first_peaks": [
+     [
+      932.0,
+      92.0
+     ],
+     [
+      932.2000122070312,
+      216.0
+     ],
+     [
+      932.4000244140625,
+      79.0
+     ],
+     [
+      932.5999755859375,
+      300.0
+     ],
+     [
+      932.7999877929688,
+      213.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      932.0,
+      92.0
+     ],
+     [
+      932.2000122070312,
+      216.0
+     ],
+     [
+      932.4000244140625,
+      79.0
+     ],
+     [
+      932.5999755859375,
+      300.0
+     ],
+     [
+      932.7999877929688,
+      213.0
+     ]
+    ]
+   },
+   {
+    "index": 1,
+    "scan_number": 2,
+    "native_id": "spectrum=2",
+    "ms_level": 1,
+    "rt_s": 475.321,
+    "polarity": "unknown",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "isolation_target_mz": null,
+    "activation": null,
+    "collision_energy": null,
+    "total_ion_current": null,
+    "base_peak_mz": null,
+    "n_peaks": 66,
+    "n_nonzero": 48,
+    "mz_bits": 64,
+    "xxh3_mz": "c3adb8f5c6961376d1551edd2cca2463",
+    "xxh3_intensity": "453e0f5153d8f19e5e8a2fda9d05d450",
+    "xxh3_mz_nonzero": "b64596df7c3e69cd8435f063b3f9b99f",
+    "xxh3_intensity_nonzero": "81f6f708ef4dded1d95aa4e48239af9c",
+    "sum_intensity": 66583.0,
+    "mz_min": 932.0,
+    "mz_max": 945.0,
+    "first_peaks": [
+     [
+      932.0,
+      0.0
+     ],
+     [
+      932.2000122070312,
+      95.0
+     ],
+     [
+      932.4000244140625,
+      338.0
+     ],
+     [
+      932.5999755859375,
+      43.0
+     ],
+     [
+      932.7999877929688,
+      326.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      932.2000122070312,
+      95.0
+     ],
+     [
+      932.4000244140625,
+      338.0
+     ],
+     [
+      932.5999755859375,
+      43.0
+     ],
+     [
+      932.7999877929688,
+      326.0
+     ],
+     [
+      933.0,
+      191.0
+     ]
+    ]
+   }
+  ]
+ }
+}

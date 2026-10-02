@@ -1,0 +1,206 @@
+{
+ "id": "synthetic-timeseries",
+ "file": "synthetic-timeseries.nwb",
+ "size": 24806,
+ "sha256": "6a8fd80f741f64633653813c279a98cffec60bfcc3fc9c260ce8d2b9cdda6b38",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.7.0",
+ "session": {
+  "session_description": "synthetic session for openreadout tests",
+  "identifier": "synthetic-0001",
+  "session_start_time": "2026-01-02T03:04:05.000000+01:00"
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "ephys",
+   "sweep_count": 1,
+   "channel_count": 4,
+   "channel_names": [
+    "ephys[0]",
+    "ephys[1]",
+    "ephys[2]",
+    "ephys[3]"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "7b86d8edc64b380a86da9cd1ba60ecd5",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "7b86d8edc64b380a86da9cd1ba60ecd5",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "7b86d8edc64b380a86da9cd1ba60ecd5",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "7b86d8edc64b380a86da9cd1ba60ecd5",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "temperature",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "temperature"
+   ],
+   "sample_rate_hz": 4.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 50,
+     "channels": [
+      {
+       "xxh3": "f618dfb7883a51a90c64903a4fae4100",
+       "first": [
+        20.0,
+        20.102041244506836,
+        20.204082489013672,
+        20.306121826171875,
+        20.40816307067871,
+        20.510204315185547,
+        20.612245559692383,
+        20.714284896850586
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "voltage",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "voltage[0]",
+    "voltage[1]"
+   ],
+   "sample_rate_hz": 2000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1000,
+     "channels": [
+      {
+       "xxh3": "4bd6377d901e1ac0403cf2a444aceb4e",
+       "first": [
+        -0.20500000000000002,
+        -0.20227,
+        -0.19954,
+        -0.19681,
+        -0.19408,
+        -0.19135,
+        -0.18862,
+        -0.18589
+       ]
+      },
+      {
+       "xxh3": "423aeeb5eb18d80c525534f9bb94e6bb",
+       "first": [
+        -0.203635,
+        -0.200905,
+        -0.19817500000000002,
+        -0.195445,
+        -0.192715,
+        -0.18998500000000001,
+        -0.187255,
+        -0.184525
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "licks",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "licks"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6,
+     "channels": [
+      {
+       "xxh3": "0df8f5b8802efa19f2033656dd5843b9",
+       "first": [
+        0.1,
+        0.4,
+        0.45,
+        1.2,
+        3.0,
+        3.01
+       ]
+      },
+      {
+       "xxh3": "6f370647abf6b929a9925cf4095f528f",
+       "first": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

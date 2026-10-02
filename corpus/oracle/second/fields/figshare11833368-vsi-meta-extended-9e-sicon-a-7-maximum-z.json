@@ -1,0 +1,31 @@
+{
+ "id": "figshare11833368-vsi-meta-extended-9e-sicon-a-7-maximum-z",
+ "file": "vsi-survey/figshare11833368/Extended 9e-siCon+A_7_Maximum_Z.vsi",
+ "format": "vsi",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 490,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 512,
+   "cmp": "exact"
+  }
+ ]
+}

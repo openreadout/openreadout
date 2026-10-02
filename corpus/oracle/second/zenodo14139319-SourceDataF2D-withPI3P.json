@@ -1,0 +1,32 @@
+{
+ "id": "zenodo14139319-SourceDataF2D-withPI3P",
+ "file": "zenodo14139319-SourceDataF2D-withPI3P.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f7530616919652d4722db7fc161f7c2"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a52e82261f21ab0f8b26007109a54e1e"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1e7f783538b5fd7f697e8ba2d0ca31ab"
+    }
+   ]
+  }
+ ]
+}

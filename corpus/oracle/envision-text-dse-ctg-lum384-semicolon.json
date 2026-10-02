@@ -1,0 +1,21 @@
+{
+ "id": "envision-text-dse-ctg-lum384-semicolon",
+ "file": "envision-text-dse-ctg-lum384-semicolon.txt",
+ "size": 11639,
+ "sha256": "b5b1e25453ae8f505a9c1af9b77fd7a4397264b5ca25406007686132ede0575e",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py envision_csv_summary (independent reader of the export text; allotropy cannot parse this export)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "luminescence",
+    "wells": 384,
+    "values": 384,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "0e227d2a5403990c4cb38f5e535877df"
+   }
+  ],
+  "header": {}
+ }
+}

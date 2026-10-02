@@ -1,0 +1,21 @@
+{
+ "id": "bmg-table-wehi-multichromatic",
+ "file": "bmg-table-wehi-multichromatic.csv",
+ "size": 2624,
+ "sha256": "f30cd5c6113229cd5c7042c7bddd812b225e7a9c71847bc44a51ee6d82ac7eb4",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py bmg_csv_summary (independent reader of the export text; allotropy cannot parse this export)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "fluorescence",
+    "wells": 96,
+    "values": 192,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "2880dd32e6324a117472f0bef4a27276"
+   }
+  ],
+  "header": {}
+ }
+}

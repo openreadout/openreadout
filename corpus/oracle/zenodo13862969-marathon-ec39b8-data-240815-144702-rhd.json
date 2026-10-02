@@ -1,0 +1,108 @@
+{
+ "id": "zenodo13862969-marathon-ec39b8-data-240815-144702-rhd",
+ "file": "ec39b8-data_240815_144702.rhd",
+ "size": 46488402,
+ "sha256": "de10682add9487223877fa93e5e0c3e5ceab3b0e948a28b5be558616bbe06f6b",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 IntanRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "name": "amplifier",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "D-000"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 20000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5810304,
+     "channels": [
+      {
+       "xxh3": "7117968147af4906e0d863c6ae34abeb",
+       "first": [
+        -132.60000000000036,
+        -137.08500000000004,
+        -133.3800000000001,
+        -138.64500000000044,
+        -135.52499999999964,
+        -137.47500000000036,
+        -135.52499999999964,
+        -135.32999999999993
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "digital_in",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "DIGITAL-IN-00",
+    "DIGITAL-IN-01",
+    "DIGITAL-IN-02"
+   ],
+   "channel_units": [
+    "",
+    "",
+    ""
+   ],
+   "sample_rate_hz": 20000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5810304,
+     "channels": [
+      {
+       "xxh3": "48414cbd8a3a7147adc0f1ebef78be01",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "645cd025388daac62024834b5a2666dc",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "dbdd72c2825b1109278a196409230363",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

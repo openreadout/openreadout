@@ -1,0 +1,62 @@
+{
+ "id": "mm-thomas-test-stack",
+ "file": "mm-thomas/test_stack/test_stack_MMStack_Pos0.ome.tif",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a98421620ac383924c4dcf5e564d6ae3"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "9f11858ec85435fc7b7b98bf3b13ef92"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "ef079cff8e1ef4511de3c23a288a19b3"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "a70749d8dbb720b44e456f7f3a677f85"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31444472303d04bfcff418c97d7adb1f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "37d872a619207771f58fbfd153756dce"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "7487ffdbb347e6b2f8995fb770bfec7b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 3,
+     "xxh3": "33455707c6abf44e7cc94c50296c6f23"
+    }
+   ]
+  }
+ ]
+}

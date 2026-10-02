@@ -1,0 +1,100 @@
+{
+ "id": "ncem-emd-type1-stringdims",
+ "file": "ncem-emd-type1-stringdims.emd",
+ "size": 16032,
+ "sha256": "566ff35dcb4af80c2caf2448967ca4d33c0919dae6e485dece277a0c79dac1d2",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 (Berkeley EMD groups)",
+ "images": [
+  {
+   "index": 0,
+   "emd_group": "exper/emd_data",
+   "size_x": 6,
+   "size_y": 5,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 12,
+   "pixel_type": "int64",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4ae9d37e4ce9c7373ec8336d13aa2f3c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "092549fd72ac2085860b55fa0aad5ee9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "eda27247bb735dd48d1aea5ab291dbde"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "85d1ae4edfb6a15bf2841379a88dda93"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "c9a69393a08b616472b61adaa48e059f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "ae8d579400516479deaf6f3e83da5cb2"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "c2937b4e058c76143db3390407283216"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "2bf30c98796c89ee40790ff0c8a30d91"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "f9f82d17b1531893b9a7ce7799fdaa03"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "04f332f834db05fcf1707940cac69c9f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 10,
+     "xxh3": "987679aa639d0a780fc9e98bd2a76c2f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 11,
+     "xxh3": "94ea714fc2ba5336dc1b5d7ad918c34a"
+    }
+   ]
+  }
+ ],
+ "version": "0.2"
+}

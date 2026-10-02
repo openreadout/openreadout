@@ -1,0 +1,52 @@
+{
+ "id": "ho-zenodo14675120-dragonfly-ims",
+ "file": "Andor_Dragonfly_example_2Dsnap.ims",
+ "size": 2551146,
+ "sha256": "153a1e5ad1552a994c782e7c04c5c3ed79f09afed575ccd425cff831fc5da60d",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.19140625,
+    "y": 0.19142578124999865,
+    "z": null
+   },
+   "channel_names": [
+    "488_GFP_CF40_Zyla"
+   ],
+   "filters": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7fcdaa40b0ebfd17e7d7efc96ef068c4"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 1024,
+   "height": 1024,
+   "size_z": 1,
+   "size_t": 1,
+   "size_c": 1,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint16",
+   "thumbnail": "false"
+  }
+ ]
+}

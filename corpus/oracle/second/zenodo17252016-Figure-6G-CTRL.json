@@ -1,0 +1,26 @@
+{
+ "id": "zenodo17252016-Figure-6G-CTRL",
+ "file": "zenodo17252016-Figure-6G-CTRL.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d64ded83609b422a8a659154ca5c56a6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "832a71437f53025870822222bb4a2af0"
+    }
+   ]
+  }
+ ]
+}

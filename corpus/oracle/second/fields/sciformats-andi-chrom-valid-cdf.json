@@ -1,0 +1,32 @@
+{
+ "id": "sciformats-andi-chrom-valid-cdf",
+ "file": "sciformats-andi_chrom_valid.cdf",
+ "format": "andi-chrom",
+ "family": "chromatography",
+ "readers": [
+  "scipy 1.18.1 netcdf_file: the file's global attributes (ANDI, ASTM E1947)"
+ ],
+ "checks": [
+  {
+   "field": "injection_date_time_stamp",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-09-08T20:05:01+02:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "operator_name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "Rob",
+   "cmp": "text"
+  }
+ ]
+}

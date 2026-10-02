@@ -1,0 +1,21 @@
+{
+ "id": "epr-killian-tot-accu",
+ "file": "epr-killian-tot-accu.DSC",
+ "format": "bruker-bes3t",
+ "family": "bench",
+ "readers": [
+  "DeerLab deerload (MIT, vendored): the .DSC parameters"
+ ],
+ "checks": [
+  {
+   "field": "DATE TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-04-30T14:53:58",
+   "cmp": "time"
+  }
+ ]
+}

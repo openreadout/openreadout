@@ -1,0 +1,674 @@
+name: CI
+
+# Cost control: the repository is private, so every minute is billed (macOS 10x, Windows 2x).
+# Pushes to main run only the cheap Linux gate. The full matrix (macOS/Windows tests, cross builds,
+# coverage, Python, examples) runs on pull requests, weekly, and on manual dispatch.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "23 5 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: -D warnings
+
+jobs:
+  check:
+    name: fmt, clippy, deny, tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Format
+        run: cargo fmt --all --check
+      - name: Clippy (pedantic, warnings are errors)
+        run: |
+          cargo clippy --all-targets -- -D warnings
+          cargo clippy -p openreadout --all-targets --features mcp-http -- -D warnings
+          cargo clippy -p openreadout-corpus-tests --all-targets --features corpus -- -D warnings
+      - name: Unit and CLI tests
+        run: cargo test
+      - name: cargo-deny (licenses, bans, advisories)
+        uses: EmbarkStudios/cargo-deny-action@3c6349835b2b7b196a839186cb8b78e02f7b5f25 # v2.1.1
+      - name: Vocabulary check (clean-room rule 5)
+        run: cargo xtask vocab-check
+      - name: Held-out corpus stays held out (docs/benchmark/heldout.md)
+        run: cargo xtask heldout-check
+      - name: Skill parity
+        run: cargo xtask skill-parity
+      - name: Ground truth over 1 MiB is stored as .json.gz
+        run: cargo xtask corpus compress --check
+      - name: API documentation builds without warnings (missing docs, broken links)
+        env:
+          RUSTDOCFLAGS: -D warnings
+        run: cargo doc --no-deps
+      - name: Maintainer guides current, new-variant intakes consistent (docs/maintaining.md)
+        run: |
+          cargo xtask guides
+          cargo xtask variant check
+      - name: JSON schemas are up to date
+        run: |
+          cargo build -p openreadout
+          cargo xtask schema gen
+          git diff --exit-code -- docs/schema
+      # Cheap: no corpus download. The committed LIF fixture plus a JCAMP-DX spectrum, an mzML run
+      # and an FCS table the script writes itself cover every tool.
+      - name: MCP smoke test (stdio; annotations, resources, prompts, every tool, export progress)
+        run: python3 oracle/mcp_smoke.py target/debug/openreadout crates/openreadout-lif/tests/fixtures/synthetic-dims.lif --synthetic
+      - name: MCP smoke test (Streamable HTTP; Origin, Host and bearer-token checks)
+        run: |
+          cargo build -p openreadout --features mcp-http
+          python3 oracle/mcp_smoke.py --http target/debug/openreadout crates/openreadout-lif/tests/fixtures/synthetic-dims.lif --synthetic
+
+  corpus-smoke:
+    name: corpus smoke tier vs oracle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Cache corpus (smoke tier, ~200 MB)
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: corpus/files
+          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+      - name: Fetch smoke tier
+        run: cargo xtask corpus fetch --tier smoke
+      - name: Compare every reader against oracle ground truth
+        run: CORPUS_REPORT=corpus-report.md cargo test -p openreadout-corpus-tests --features corpus --profile corpus -- --nocapture
+      - name: Publish report
+        if: always()
+        run: cat corpus-report.md >> "$GITHUB_STEP_SUMMARY" || true
+
+  # Cheap (Linux, no corpus, no binary, no model): the eval harness's lint, its corpus-free tests
+  # (corpus- and oracle-reader-dependent ones skip) and the committed questions and README counts
+  # against the oracle JSON and facts files (evals/README.md). Runs on every push.
+  evals:
+    name: evals harness (ruff, pytest, generate --check)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: evals
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: uv (the evals project's locked environment)
+        run: |
+          python -m pip install uv==0.9.26
+          uv sync --locked
+      - name: ruff (lint and format, evals/pyproject.toml)
+        run: |
+          uv run --locked ruff check .
+          uv run --locked ruff format --check .
+      - name: pytest (corpus-free subset)
+        run: uv run --locked python -m pytest -q -ra
+      - name: Questions and README counts are up to date
+        run: uv run --locked python generate.py --check
+
+  python-tests:
+    name: python ${{ matrix.python }} (openreadout + bioio plugin)
+    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Oldest supported (abi3 floor) and newest the oracle readers support.
+        python: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Build the abi3 wheel (manylinux)
+        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
+        with:
+          command: build
+          args: --out dist  # profile release-py comes from pyproject.toml
+          manylinux: auto
+          sccache: true
+      - name: Cache corpus (smoke tier, ~200 MB)
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: corpus/files
+          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+      - name: Fetch smoke tier
+        run: cargo xtask corpus fetch --tier smoke
+      - name: Install the wheel, the bioio plugin and the (permissive) oracle readers
+        run: |
+          set -e
+          python -m pip install --upgrade pip
+          WHEEL=$(ls dist/openreadout-*.whl)
+          python -m pip install "${WHEEL}[test]" xxhash
+          python -m pip install "./python/bioio-openreadout[test]"
+          python -m pip list | grep -Ei 'openreadout|bioio|czifile|liffile|nd2|dask|xarray'
+      - name: pytest (openreadout + bioio-openreadout)
+        env:
+          OPENREADOUT_CORPUS_DIR: ${{ github.workspace }}/corpus/files
+        run: python -m pytest crates/openreadout-py/tests python/bioio-openreadout/tests -ra
+      - name: Lint and type-check the Python sources
+        if: matrix.python == '3.13'
+        run: |
+          python -m pip install ruff mypy
+          ruff format --check crates/openreadout-py python
+          ruff check crates/openreadout-py python
+          mypy
+
+  cross-build:
+    name: build ${{ matrix.target }}
+    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, target: x86_64-unknown-linux-musl }
+          - { os: ubuntu-latest, target: aarch64-unknown-linux-musl }
+          - { os: macos-latest, target: aarch64-apple-darwin }
+          - { os: macos-15-intel, target: x86_64-apple-darwin }
+          - { os: windows-latest, target: x86_64-pc-windows-msvc }
+    env:
+      TARGET: ${{ matrix.target }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Linux cross tools
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update && sudo apt-get install -y musl-tools
+          if [ "$TARGET" = "aarch64-unknown-linux-musl" ]; then
+            sudo apt-get install -y gcc-aarch64-linux-gnu
+            echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=aarch64-linux-gnu-gcc" >> "$GITHUB_ENV"
+          fi
+      - name: Build release binary
+        shell: bash
+        run: cargo build --release -p openreadout --target "$TARGET"
+      - name: Smoke
+        if: matrix.target != 'aarch64-unknown-linux-musl'
+        shell: bash
+        run: |
+          BIN="target/$TARGET/release/openreadout"
+          [ "$RUNNER_OS" = Windows ] && BIN=$BIN.exe
+          $BIN --version && $BIN self formats --json | head -c 300
+
+  # Every publishable crate packages and builds from its .crate file, in dependency order.
+  # Multi-package publish (cargo >= 1.90) resolves the not-yet-published internal crates from a
+  # local overlay registry, so this works before anything is on crates.io. Nothing is uploaded.
+  publish-dry-run:
+    name: crates.io publish dry run
+    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      # No build cache here: the packaged crates are compiled as registry crates, which cargo
+      # treats as immutable, so a cached build of the same version would hide API changes.
+      - name: cargo publish --dry-run (all publishable crates)
+        run: |
+          # The list and its order come from the crates' manifests (dependencies first), so a new
+          # crate cannot be left out.
+          # shellcheck disable=SC2046
+          cargo publish --dry-run --locked $(cargo xtask publish-order --flags)
+      - name: Packages carry no tests, fixtures or corpus files
+        # Multi-package dry runs leave the .crate files under target/package/tmp-crate (and
+        # tmp-registry) rather than target/package, depending on the cargo version.
+        run: |
+          set -euo pipefail
+          crates=$(find target/package -name 'openreadout-*.crate' | sort)
+          [ -n "$crates" ] || { echo "::error::no .crate files found under target/package"; exit 1; }
+          for f in $crates; do
+            if tar -tzf "$f" | grep -E '/(tests|corpus|fixtures|oracle)/'; then
+              echo "::error::$f contains test or corpus files"; exit 1
+            fi
+          done
+          ls -l $crates
+
+  # THIRD-PARTY-NOTICES.md (licenses of everything linked into the binary) must match Cargo.lock.
+  third-party-notices:
+    name: THIRD-PARTY-NOTICES.md is up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Install cargo-about
+        env:
+          RUSTFLAGS: ""  # a third-party tool: its own warnings must not fail the job
+        run: cargo install cargo-about --locked --features cli --version 0.9.2
+      - name: Regenerate and compare
+        run: |
+          cargo fetch --locked
+          cargo about generate --frozen --fail -m crates/openreadout-cli/Cargo.toml about.hbs -o THIRD-PARTY-NOTICES.md
+          git diff --exit-code -- THIRD-PARTY-NOTICES.md || {
+            echo "::error::THIRD-PARTY-NOTICES.md is stale; regenerate it with the command at the top of the file"; exit 1; }
+
+  # Release readiness: every version string agrees with Cargo.toml, the package-manager templates
+  # render, and the npm wrapper tests and packs.
+  release-check:
+    name: release readiness (versions, manifests, npm)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+      - name: Version strings agree with Cargo.toml
+        run: cargo xtask version-check
+      - name: xtask tests (manifest rendering)
+        run: cargo test -p xtask
+      - name: Homebrew formula and Scoop manifest render from sample checksums
+        run: |
+          set -e
+          for a in aarch64-apple-darwin x86_64-apple-darwin aarch64-unknown-linux-musl x86_64-unknown-linux-musl; do
+            echo "$(printf '%064d' 0)  openreadout-$a.tar.gz"
+          done > sample-sums
+          echo "$(printf '%064d' 0)  openreadout-x86_64-pc-windows-msvc.zip" >> sample-sums
+          cargo xtask homebrew-formula --sums sample-sums --out target/packaging/openreadout.rb
+          cargo xtask scoop-manifest --sums sample-sums --out target/packaging/openreadout.json
+          cargo xtask winget-manifest --sums sample-sums --out target/packaging/winget
+          ruby -c target/packaging/openreadout.rb
+      - name: npm wrapper tests and pack
+        working-directory: packaging/npm
+        run: |
+          npm test
+          npm pack --dry-run
+      - name: Scripts parse
+        run: |
+          bash -n scripts/bump-version.sh
+          sh -n scripts/install.sh
+
+  # Cheap (Linux only): the WebAssembly build (book/src/guides/wasm.md) with its Node tests and the demo page.
+  wasm:
+    name: WebAssembly build, Node tests, demo page
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          targets: wasm32-unknown-unknown
+          components: clippy
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+      - name: wasm-bindgen-cli at the wasm-bindgen version in Cargo.lock
+        run: |
+          v=$(awk '/^name = "wasm-bindgen"$/{getline; gsub(/"/,"",$3); print $3; exit}' Cargo.lock)
+          if ! wasm-bindgen --version 2>/dev/null | grep -qx "wasm-bindgen $v"; then
+            cargo install wasm-bindgen-cli --locked --version "$v"
+          fi
+      - name: Clippy (wasm32)
+        run: cargo clippy -p openreadout-wasm --no-deps --target wasm32-unknown-unknown --all-targets -- -D warnings
+      - name: binaryen (wasm-opt)
+        working-directory: packaging/wasm
+        run: npm ci
+      - name: Build (size profile + wasm-opt)
+        run: |
+          scripts/wasm.sh build | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: wasm-bindgen tests in Node, npm wrapper and demo page tests
+        run: scripts/wasm.sh test
+      - name: npm package contents
+        working-directory: packaging/wasm
+        run: npm pack --dry-run
+
+  # Quality-process jobs. Each job declares its
+  # own least-privilege permissions and does not persist the checkout token.
+
+  test-os:
+    name: tests on ${{ matrix.os }}
+    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Unit and CLI tests
+        run: cargo test
+
+  msrv:
+    name: MSRV (rust-version in Cargo.toml)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Read rust-version from the workspace manifest
+        id: msrv
+        run: echo "version=$(sed -n 's/^rust-version = "\(.*\)"/\1/p' Cargo.toml)" >> "$GITHUB_OUTPUT"
+      - name: Install the MSRV toolchain
+        env:
+          MSRV: ${{ steps.msrv.outputs.version }}
+        run: rustup toolchain install "$MSRV" --profile minimal
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: cargo check on the MSRV
+        env:
+          MSRV: ${{ steps.msrv.outputs.version }}
+        run: cargo "+$MSRV" check
+
+  coverage:
+    name: coverage (llvm-cov)
+    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          components: llvm-tools-preview
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: taiki-e/install-action@dfae9bf3d6f6c6f20ef4ebb3486c01a51341ff12 # v2.87.18
+        with:
+          tool: cargo-llvm-cov
+      - name: Run the tests under coverage
+        run: cargo llvm-cov --lcov --output-path lcov.info
+      - name: Summary
+        run: |
+          {
+            echo '### Line coverage'
+            echo '```'
+            cargo llvm-cov report --summary-only
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Coverage per crate and uncovered reader regions
+        run: |
+          cargo xtask coverage --from lcov.info --out target/coverage > /dev/null
+          cat target/coverage/summary.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: lcov
+          path: lcov.info
+          retention-days: 14
+
+  typos:
+    name: typos (spell check, _typos.toml)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: crate-ci/typos@512fc24f32f44ab01972217aaaf3dc86ec234d53 # v1.50.2
+
+  zizmor:
+    name: zizmor (workflow security)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Audit .github/workflows
+        # Offline audits only, so results do not depend on the GitHub API; the baseline of
+        # pre-existing findings and the pinning policy are in .github/zizmor.yml.
+        run: pipx run zizmor==1.30.1 --offline --min-severity low --config .github/zizmor.yml --format github .github/workflows
+
+  examples:
+    name: examples against the smoke corpus
+    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Cache corpus (smoke tier)
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: corpus/files
+          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+      - name: Fetch smoke tier
+        run: cargo xtask corpus fetch --tier smoke
+      - name: Build the CLI
+        run: cargo build -p openreadout
+      - name: Run examples/shell and examples/mcp
+        env:
+          OPENREADOUT: ${{ github.workspace }}/target/debug/openreadout
+        run: |
+          set -euo pipefail
+          files=corpus/files
+          work=$(mktemp -d)
+
+          echo "::group::batch_summarize.sh over the smoke tier"
+          examples/shell/batch_summarize.sh "$files" > "$work/summary.tsv"
+          test "$(wc -l < "$work/summary.tsv")" -gt 20
+          head -5 "$work/summary.tsv"
+          echo "::endgroup::"
+
+          echo "::group::triage_corruption.sh: intact files pass, a truncated copy fails"
+          mkdir "$work/triage"
+          cp "$files/zenodo7015307-T-3-Z-5-CH-2.czi" "$files/aics-ND2-dims-p2z5t3-2c4y32x32.nd2" \
+             "$files/aics-s-1-t-4-c-2-z-1.lif" "$work/triage/"
+          echo "not an instrument file" > "$work/triage/notes.txt"
+          examples/shell/triage_corruption.sh "$work/triage"
+          head -c 3000000 "$files/zenodo7015307-T-3-Z-5-CH-2.czi" > "$work/triage/truncated.czi"
+          if examples/shell/triage_corruption.sh "$work/triage" > "$work/triage.txt"; then
+            echo "::error::triage_corruption.sh did not flag a truncated file"; exit 1
+          fi
+          cat "$work/triage.txt"
+          grep -q '^CORRUPT .*truncated.czi' "$work/triage.txt"
+          echo "::endgroup::"
+
+          echo "::group::export_planes.sh (OME-TIFF and OME-Zarr)"
+          examples/shell/export_planes.sh "$work/planes" "$files/zenodo7015307-T-3-Z-5-CH-2.czi" \
+            "$files/aics-ND2-dims-p2z5t3-2c4y32x32.nd2" "$files/aics-s-1-t-4-c-2-z-1.lif"
+          CHANNEL=1 TO=ome-zarr examples/shell/export_planes.sh "$work/planes" "$files/zenodo7015307-T-3-Z-5-CH-2.czi"
+          test -f "$work/planes/zenodo7015307-T-3-Z-5-CH-2_img0_c0_z2.ome.tiff"
+          test -f "$work/planes/zenodo7015307-T-3-Z-5-CH-2_img0_c1_z2.ome.zarr/zarr.json"
+          echo "::endgroup::"
+
+          echo "::group::mcp_client.py"
+          python3 examples/mcp/mcp_client.py "$files/zenodo7015307-T-3-Z-5-CH-2.czi"
+          echo "::endgroup::"
+  # Every cargo-fuzz target (about 60) from the committed seeds, Linux only, never on pushes:
+  # 15 s each on pull requests (about 15 min plus the build), 60 s each weekly and on manual runs.
+  fuzz-smoke:
+    name: fuzz smoke (every target, 15 s each; 60 s weekly)
+    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    # 92 targets: about 25 min at 15 s each (pull requests), about 95 min at 60 s (weekly), plus the build.
+    timeout-minutes: 150
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          toolchain: nightly
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          workspaces: fuzz
+      - uses: taiki-e/install-action@dfae9bf3d6f6c6f20ef4ebb3486c01a51341ff12 # v2.87.18
+        with:
+          tool: cargo-fuzz
+      - name: Build fuzz targets
+        working-directory: fuzz
+        run: cargo +nightly fuzz build -O -a
+      - name: Run each target from the committed seeds
+        working-directory: fuzz
+        env:
+          SECS: ${{ github.event_name == 'pull_request' && '15' || '60' }}
+        run: |
+          bin="target/$(rustc +nightly -vV | sed -n 's/^host: //p')/release"
+          fail=0
+          for t in $(cargo +nightly fuzz list); do
+            echo "::group::$t"
+            mkdir -p "work/$t" "artifacts/$t"
+            if ! "$bin/$t" "work/$t" "corpus/$t" -max_total_time="$SECS" \
+                -rss_limit_mb=2048 -malloc_limit_mb=2048 -timeout=20 -artifact_prefix="artifacts/$t/"; then
+              echo "::error::fuzz target $t found a crash (see the fuzz-artifacts upload)"
+              fail=1
+            fi
+            echo "::endgroup::"
+          done
+          exit $fail
+      - name: Upload crash artifacts
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: fuzz-artifacts
+          path: fuzz/artifacts
+
+  # R package (r/openreadout, book/src/guides/r.md): clippy and unit tests of the extendr crate (they need R),
+  # install from the checkout, testthat against the smoke corpus; on Linux also the self-contained
+  # tarball (`cargo xtask r-vendor`) through R CMD check --as-cran (the tarball-size NOTE is expected).
+  r-package:
+    name: R package on ${{ matrix.os }}
+    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
+        with:
+          r-version: release
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
+        with:
+          working-directory: r/openreadout
+          extra-packages: any::rcmdcheck, any::roxygen2
+          needs: check
+      - name: Cache corpus (smoke tier, ~200 MB)
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: corpus/files
+          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+      - name: Fetch smoke tier
+        run: cargo xtask corpus fetch --tier smoke
+      - name: Clippy and unit tests of the extendr crate
+        run: |
+          cargo clippy -p openreadout-r --all-targets -- -D warnings
+          cargo test -p openreadout-r
+      - name: man/ and NAMESPACE are up to date
+        run: |
+          Rscript -e 'roxygen2::roxygenise("r/openreadout", load_code = roxygen2::load_source)'
+          git diff --exit-code -- r/openreadout/man r/openreadout/NAMESPACE
+      - name: Install from the checkout and run testthat
+        env:
+          OPENREADOUT_CORPUS_DIR: ${{ github.workspace }}/corpus/files
+        run: |
+          R CMD INSTALL r/openreadout
+          Rscript -e 'testthat::test_dir("r/openreadout/tests/testthat", package = "openreadout", load_package = "installed", stop_on_failure = TRUE)'
+      - name: R CMD check --as-cran of the vendored tarball
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          _R_CHECK_CRAN_INCOMING_REMOTE_: "false"
+        run: |
+          cargo xtask r-vendor
+          R CMD build r/openreadout
+          Rscript -e 'rcmdcheck::rcmdcheck(list.files(pattern = "^openreadout_.*[.]tar[.]gz$"), args = c("--as-cran", "--no-manual"), error_on = "warning")'
+
+  # Workflow integrations (integrations/, book/src/guides/pipelines.md) against this commit's binary: nf-test
+  # of the Nextflow modules, planemo lint of the Galaxy tools, the Snakemake wrapper tests.
+  integrations:
+    name: Nextflow, Galaxy and Snakemake integrations
+    if: github.event_name != 'push' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Build openreadout and put it on PATH
+        run: |
+          cargo build --release -p openreadout
+          echo "$GITHUB_WORKSPACE/target/release" >> "$GITHUB_PATH"
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: nf-core/setup-nextflow@893c28b667aedeba26e37f296d260ccc5bc4d914 # v3.0.1
+      - uses: nf-core/setup-nf-test@a1814872fcb861a7574def3719b91b747d4465f4 # v1.3.0
+        with:
+          version: "0.9.5"
+      - name: nf-test (Nextflow modules)
+        working-directory: integrations/nextflow
+        run: |
+          nextflow lint modules
+          nf-test test --ci
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: planemo lint (Galaxy tools) and Snakemake wrapper tests
+        run: |
+          python -m pip install planemo snakemake
+          planemo lint --fail_level warn integrations/galaxy
+          for w in export batch; do
+            (cd "integrations/snakemake/wrappers/openreadout/$w/test" && snakemake --cores 1 all)
+          done

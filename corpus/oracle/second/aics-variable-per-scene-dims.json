@@ -1,0 +1,69 @@
+{
+ "id": "aics-variable-per-scene-dims",
+ "file": "aics-variable-per-scene-dims.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1848,
+   "size_y": 1248,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "96b30e7c61ba90c7c8d1f808f7ff8091"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "27fd014f42d96f4f4cad9b4170f3a536"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "28c57f46b3b0c72061a0453b8bb490d2"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "a2601fc25ad97d57b673702c9982645d"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 1848,
+   "size_y": 1248,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "181df49c555dd9afd06b16929d9f593e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "b1cdb4b2a175cabdbdead773d82e3d3b"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "4f08f35ecc5746f2ab20c807053f38db"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "b1cdb4b2a175cabdbdead773d82e3d3b"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,803 @@
+{
+ "id": "ho-figshare28719716-rbc-timelapse",
+ "file": "36hr_RBCs_lowO2_19.nd2",
+ "size": 38658048,
+ "sha256": "0f696ffdcf0cbfda3efa9e631ff87875c6552a2d0dc7faf8ccd609dfbe0a0667",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 64,
+   "size_y": 64,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 3099,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 3099, 'Y': 64, 'X': 64}",
+   "physical_size_um": {
+    "x": 0.065,
+    "y": 0.065,
+    "z": null
+   },
+   "channel_names": [
+    ""
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "63581f28c82cd71bdf55076999d7e71f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 49,
+     "xxh3": "8bdaaf6c73d263986fade6b32ef55aaf"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 98,
+     "xxh3": "370d47a388012b47b55363c6aa2ac122"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 148,
+     "xxh3": "f9fc01a19635200c5bee2b83a771d8af"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 197,
+     "xxh3": "0e3b9ee0b7246967c0cdff54996c7582"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 246,
+     "xxh3": "e6ae4aacc844f40a66c60ad9c24dc24b"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 295,
+     "xxh3": "4a1dcca65f6bac4d89f270fbe568a7a5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 344,
+     "xxh3": "f051159444897d12338058f78fdcff84"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 393,
+     "xxh3": "0333f0509613e53ae2a0edff24bebedc"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 443,
+     "xxh3": "cb4633d12db0bb14b956dea309f7653b"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 492,
+     "xxh3": "1a97d0eb0afd871d39d322d0ca4f7753"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 541,
+     "xxh3": "326343f6c232004b7cd601927c130fdf"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 590,
+     "xxh3": "32afe06929b93f2749261be3663c6e16"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 639,
+     "xxh3": "1c06d88ed3741ad922551870541a9d8a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 688,
+     "xxh3": "27c7d87b5ee3daff79f0f8e3f26e2ee0"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 738,
+     "xxh3": "7598bd3ef38e1c4b748ca832cc5301d0"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 787,
+     "xxh3": "f3a0850e946e1cf932b3142cd9f26b76"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 836,
+     "xxh3": "d2b86b0e154b217ff1fe484bb656d411"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 885,
+     "xxh3": "f44197ef0c74c2525acf74552a9bc333"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 934,
+     "xxh3": "0be0371dfd58a24b5fd49693c1ed3aca"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 983,
+     "xxh3": "74d6bb3f3b7b77e2e37f565d8bda2490"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1033,
+     "xxh3": "0cc28095871b366d21abcbe2499d0ce8"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1082,
+     "xxh3": "2a207ef4f71a8a8e24031b90cd12a40a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1131,
+     "xxh3": "224a3755afa96c91822870dfe409c64d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1180,
+     "xxh3": "987abd88039c7adc90dd9850d414c1a7"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1229,
+     "xxh3": "3ed63fa2d06fe3fee207dec247ec5275"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1279,
+     "xxh3": "fa8a071a71e2ccc4bb6f5b1904ba5d83"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1328,
+     "xxh3": "e3736a12f966d63cfa2b18576e24df2f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1377,
+     "xxh3": "2f19328d26f2ceec0b52bb36c8f4ba86"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1426,
+     "xxh3": "44894d75613cc0a598af1d9afc8283c6"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1475,
+     "xxh3": "720a44ae49896bbe0362652de5134c21"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1524,
+     "xxh3": "aca9998edb2b4b6792582ab740be5577"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1574,
+     "xxh3": "e688b884816c5868bc307f7e43fb5d96"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1623,
+     "xxh3": "f8d8e2e6b0b9d7d60a21d20434920d10"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1672,
+     "xxh3": "3aa9137830f4b4dfb6d9dc7e5ded3686"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1721,
+     "xxh3": "394909111710d364c331cd201bc71939"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1770,
+     "xxh3": "eec13516833ad58a6fbf812e99901b63"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1819,
+     "xxh3": "6e783ae7d30f9b2043a366851bab20fc"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1869,
+     "xxh3": "e9a29207c5d198ad710ceefffe5be4f6"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1918,
+     "xxh3": "e0cc33abe604b0f99c0498ca569f812e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1967,
+     "xxh3": "532253acd103ec731060ed87ae20c6ab"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2016,
+     "xxh3": "688081ed7ad7e42ad9ed004f98823785"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2065,
+     "xxh3": "63cbe53d9a1905367fffd8dc96fb1fb8"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2115,
+     "xxh3": "f2e276236f38fdf5de11df0547400b89"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2164,
+     "xxh3": "d4bf910f6442a7e32867a247a8353130"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2213,
+     "xxh3": "d2185d1d3d0a23cc0af1ddc6505133c0"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2262,
+     "xxh3": "f7962654b57332d8f98d5994f73894a4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2311,
+     "xxh3": "d5aad7386b4cf5a60089722637b1ca69"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2360,
+     "xxh3": "908c61faed9d53e41099b8b3cf884c88"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2410,
+     "xxh3": "cae146880a8b6855985f96224d932c93"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2459,
+     "xxh3": "df11aca250f4b298717b07617e4f06eb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2508,
+     "xxh3": "f61d422d12795cf100e464cf51a9a354"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2557,
+     "xxh3": "9928f6de5db6ae0817f6e448eefbea73"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2606,
+     "xxh3": "d34cca353e399b80f796ea60b2f16a81"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2655,
+     "xxh3": "d0ea6442aa62a5713c44d16b293603f5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2705,
+     "xxh3": "343feac19e679c4ecb9b259ed6354e5c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2754,
+     "xxh3": "756d8a66671eef68238222918ba6b01c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2803,
+     "xxh3": "a43208dc8699a70af0e5700f47d3881d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2852,
+     "xxh3": "20f4ea45ebb6c27044ff134b53922a3b"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2901,
+     "xxh3": "b30c6cb87792915578834f0a4bcdbd8e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2950,
+     "xxh3": "394345feae1ea27a86bafe2d797be08d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3000,
+     "xxh3": "35ac0f4b414db25972f1ac43d697ea45"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3049,
+     "xxh3": "04c6f36b9cbca441285b907edd9bab23"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3098,
+     "xxh3": "66190a628c358803f864a096237dec61"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 3099,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 222.50812339782715,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 135,
+    "time_ms": 481.6505241394043,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.600000000002,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 269,
+    "time_ms": 690.3641242980957,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.600000000002,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 404,
+    "time_ms": 906.8921241760254,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.600000000002,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 539,
+    "time_ms": 1122.440923690796,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 673,
+    "time_ms": 1363.1417236328125,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 808,
+    "time_ms": 1573.7753238677979,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 943,
+    "time_ms": 1789.3145236968994,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 1078,
+    "time_ms": 1998.844123840332,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 1212,
+    "time_ms": 2211.7049236297607,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 1347,
+    "time_ms": 2421.944923400879,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 1482,
+    "time_ms": 2632.674524307251,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.0,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 1616,
+    "time_ms": 2849.9609241485596,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.0,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 1751,
+    "time_ms": 3066.191324234009,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 1886,
+    "time_ms": 3275.2985229492188,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.1000000000001,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 2020,
+    "time_ms": 3490.0409240722656,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.0,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 2155,
+    "time_ms": 3699.685724258423,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.0,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 2290,
+    "time_ms": 3923.8073234558105,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.0,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 2425,
+    "time_ms": 4135.928924560547,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.0,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 2559,
+    "time_ms": 4343.0681228637695,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.0,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 2694,
+    "time_ms": 4554.200923919678,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.0,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 2829,
+    "time_ms": 4765.324123382568,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.0,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 2963,
+    "time_ms": 4973.50972366333,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.0,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 3098,
+    "time_ms": 5187.580123901367,
+    "tags": {
+     "CameraTemp1": -0.4399999999999977,
+     "Camera_ExposureTime1": 0.5,
+     "PFS_OFFSET": 6249,
+     "PFS_STATUS": 3,
+     "X": -31583.5,
+     "Y": 1758.0,
+     "Z": 3557.2250000000004,
+     "Z1": 3557.2250000000004,
+     "Z2": 0.0
+    }
+   }
+  ],
+  "acquired_at": "2024-11-06T18:05:16.830Z",
+  "acquired_at_unix_ms": 1730916316830
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T(3099)\r\nCamera Name: Andor Zyla VSC-03429\r\nNumerical Aperture: 1.45\r\nRefractive Index: 1.515\r\n Name: \r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Andor Zyla\r\n  Binning: 1x1\r\n  Exposure: 500 \u00b5s\r\n  Readout Mode: Rolling shutter at 12-bit\r\n  Readout Rate: 540 MHz \r\n  Conversion Gain: Gain 4\r\n  Spurious Noise Filter: on\r\n  Sensor Mode: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -0.4\u00b0C\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 6 (DIC)\r\n  Nikon Ti, Shutter(DIA): Opened\r\n  LightPath: L100\r\n  PFS-S, state: Off\r\n  PFS-S, offset: 6249\r\n  PFS-S, mirror: Inserted\r\n  PFS-S, mirror: Inserted\r\n  \r\n  Zoom: 1.00x\r\n  Sola, Shutter(Sola): Active\r\n  Sola, Illuminator(Sola) Voltage: 50.0\r\nTime Loop: 3099\r\n- Equidistant (Duration 5 s)",
+  "capturing": "Andor Zyla VSC-03429\r\n\r\nCamera Type: Andor Zyla\r\nBinning: 1x1\r\nExposure: 500 \u00b5s\r\nReadout Mode: Rolling shutter at 12-bit\r\nReadout Rate: 540 MHz \r\nConversion Gain: Gain 4\r\nSpurious Noise Filter: on\r\nSensor Mode: Normal\r\nTrigger Mode: Internal\r\nTemperature: -0.4\u00b0C",
+  "date": "11/6/2024  11:05:16 AM",
+  "optics": "Plan Apo \u03bb 100x Oil"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=1, heightPx=64, pixelDataType='unsigned', sequenceCount=3099, widthBytes=128, widthPx=64, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

@@ -1,0 +1,8 @@
+{
+ "id": "fcsparser-cytek-nl-2000-header",
+ "file": "fcsparser-cytek-nl-2000-header.fcs",
+ "size": 3931,
+ "sha256": "1961e20bab436832ab1fad6f3563993d27181b263d8cc5d54274173b628e1fc3",
+ "max_planes_hashed": 64,
+ "error": "RuntimeError: flowio (events): FCSParsingError: FCS file indicates data section greater than file size; flowio (text only): FCSParsingError: FCS file indicates data section greater than file size; fcsparser: ValueError: The FCS file \"fcsparser-cytek-nl-2000-header.fcs\" is corrupted. Part of the data segment is missing."
+}

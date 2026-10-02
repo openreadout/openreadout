@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LMSDataContainerHeader Version="2"><Element Name="Broken" Visibility="1" CopyOption="1" UniqueID="00000000-0000-0000-0000-0000000000c1"><Data><Experiment/></Data><Children><Reference File="Series009.xlif" UUID="00000000-0000-0000-0000-0000000000b0"/><Reference File="Missing.xlif" UUID="00000000-0000-0000-0000-0000000000b1"/></Children></Element></LMSDataContainerHeader>

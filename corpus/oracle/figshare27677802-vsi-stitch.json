@@ -1,0 +1,42 @@
+{
+ "id": "figshare27677802-vsi-stitch",
+ "file": "stitch.vsi",
+ "size": 390206,
+ "sha256": "38d897d027e9879fb43179bdaf0e11d030bc4c6c7a098e1ed7b9ee2c4a03f65c",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "MIA",
+   "size_x": 15386,
+   "size_y": 4006,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 1.3586899485446797,
+    "y": 1.3586899485446797
+   },
+   "channel_names": [
+    null
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2021-08-25T07:20:24",
+   "resolutions": 6,
+   "planes": [],
+   "levels": [],
+   "level_sizes": [
+    [
+     15386,
+     4006
+    ]
+   ],
+   "bf_wrong": "tiles with negative grid indices are dropped: level 0 is mostly zeros and levels 1-5 are clipped to the non-negative tiles"
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "id": "scn-zenodo7803294-fbxo7",
+ "file": "scn-zenodo7803294-fbxo7.scn",
+ "size": 763811,
+ "sha256": "1dcbb9598034c1384ff1b8828bfc7e945c3aa386274c7eb4c67ea9c639e653fa",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 687,
+   "size_y": 550,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 173.53275109170303,
+    "y": 173.53199999999998
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7599e98e216e2fcc391a095a3f8f75b1"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,192 @@
+{
+ "id": "fcsparser-guava-muse",
+ "file": "fcsparser-guava-muse.fcs",
+ "size": 8488938,
+ "sha256": "f9b0ca844ecee33c935a6c5e6a7d81c5afe155ce40f0ed663bc51f0d9c98f0e9",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 10,
+   "event_count": 108,
+   "parameter_names": [
+    "FSC-HLin",
+    "FSC-W",
+    "YEL-HLin",
+    "YEL-W",
+    "RED-HLin",
+    "RED-W",
+    "TIME",
+    "FSC-HLog",
+    "YEL-HLog",
+    "RED-HLog"
+   ],
+   "parameter_labels": [
+    "Forward Scatter (FSC-HLin)",
+    "Forward Scatter Width (FSC-W)",
+    "Yellow Fluorescence (YEL-HLin)",
+    "Yellow Fluorescence Width (YEL-W)",
+    "Red Fluorescence (RED-HLin)",
+    "Red Fluorescence Width (RED-W)",
+    "Time",
+    "Cell Size (FSC-HLog)",
+    "Viability (YEL-HLog)",
+    "Nucleation (RED-HLog)"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "823ab4864cf50fa999bf9ee7cdb69768",
+   "xxh3_reader": "flowio 1.4.0"
+  },
+  {
+   "index": 1,
+   "version": "3.0",
+   "parameter_count": 10,
+   "event_count": 50081,
+   "parameter_names": [
+    "FSC-HLin",
+    "FSC-W",
+    "YEL-HLin",
+    "YEL-W",
+    "RED-HLin",
+    "RED-W",
+    "TIME",
+    "FSC-HLog",
+    "YEL-HLog",
+    "RED-HLog"
+   ],
+   "parameter_labels": [
+    "Forward Scatter (FSC-HLin)",
+    "Forward Scatter Width (FSC-W)",
+    "Yellow Fluorescence (YEL-HLin)",
+    "Yellow Fluorescence Width (YEL-W)",
+    "Red Fluorescence (RED-HLin)",
+    "Red Fluorescence Width (RED-W)",
+    "Time",
+    "Cell Size (FSC-HLog)",
+    "Viability (YEL-HLog)",
+    "Nucleation (RED-HLog)"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "ef6452040d872497b93e92006b41ed07",
+   "xxh3_reader": "flowio 1.4.0"
+  },
+  {
+   "index": 2,
+   "version": "3.0",
+   "parameter_count": 10,
+   "event_count": 111496,
+   "parameter_names": [
+    "FSC-HLin",
+    "FSC-W",
+    "YEL-HLin",
+    "YEL-W",
+    "RED-HLin",
+    "RED-W",
+    "TIME",
+    "FSC-HLog",
+    "YEL-HLog",
+    "RED-HLog"
+   ],
+   "parameter_labels": [
+    "Forward Scatter (FSC-HLin)",
+    "Forward Scatter Width (FSC-W)",
+    "Yellow Fluorescence (YEL-HLin)",
+    "Yellow Fluorescence Width (YEL-W)",
+    "Red Fluorescence (RED-HLin)",
+    "Red Fluorescence Width (RED-W)",
+    "Time",
+    "Cell Size (FSC-HLog)",
+    "Viability (YEL-HLog)",
+    "Nucleation (RED-HLog)"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "17eb09ad7d6756776499cc8254baf84d",
+   "xxh3_reader": "flowio 1.4.0"
+  },
+  {
+   "index": 3,
+   "version": "3.0",
+   "parameter_count": 10,
+   "event_count": 50037,
+   "parameter_names": [
+    "FSC-HLin",
+    "FSC-W",
+    "YEL-HLin",
+    "YEL-W",
+    "RED-HLin",
+    "RED-W",
+    "TIME",
+    "FSC-HLog",
+    "YEL-HLog",
+    "RED-HLog"
+   ],
+   "parameter_labels": [
+    "Forward Scatter (FSC-HLin)",
+    "Forward Scatter Width (FSC-W)",
+    "Yellow Fluorescence (YEL-HLin)",
+    "Yellow Fluorescence Width (YEL-W)",
+    "Red Fluorescence (RED-HLin)",
+    "Red Fluorescence Width (RED-W)",
+    "Time",
+    "Cell Size (FSC-HLog)",
+    "Viability (YEL-HLog)",
+    "Nucleation (RED-HLog)"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "c495ed6d15d71c3fc286b307f0f950ff",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 108,
+  "xxh3": "823ab4864cf50fa999bf9ee7cdb69768",
+  "agrees_with_flowio": true
+ }
+}

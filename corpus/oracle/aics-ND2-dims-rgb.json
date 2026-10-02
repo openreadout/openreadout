@@ -1,0 +1,78 @@
+{
+ "id": "aics-ND2-dims-rgb",
+ "file": "aics-ND2-dims-rgb.nd2",
+ "size": 159744,
+ "sha256": "7a0c00babb3c7fa40daae359ff0b35d51e5edccb0b33778e7f84e4a6bad5fe14",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 64,
+   "size_y": 64,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "sizes": "{'Y': 64, 'X': 64, 'S': 3}",
+   "physical_size_um": {
+    "x": 0.34285714285714286,
+    "y": 0.34285714285714286,
+    "z": null
+   },
+   "channel_names": [
+    "Brightfield"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c4d58aedec3213677152dd8b311bac0b"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Brightfield",
+    "color": "#FFFFFF",
+    "excitation_nm": 420.0,
+    "emission_nm": 420.0,
+    "component_count": 3,
+    "modality": [
+     "brightfield"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 178061.5878573656,
+    "tags": {
+     "Camera_ExposureTime1": 10.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 33644.3,
+     "Y": 3908.7000000000003,
+     "Z": 501.06,
+     "Z1": 501.06
+    }
+   }
+  ],
+  "acquired_at": "2021-09-28T14:26:09.607Z",
+  "acquired_at_unix_ms": 1632839169607
+ },
+ "text_info": {
+  "description": "Camera Name: Color Camera Nikon DS-Fi3\r\nNumerical Aperture: 0.3\r\nRefractive Index: 1\r\n Camera Settings: \r\nCamera Type: Nikon DS-Fi3\r\nBinning: 1.0x1.0\r\nExposure: 10 ms\r\nGain: 1.0x\r\nSharpness: Medium\r\nBrightness: 0.00\r\nHue: 0.10\r\nSaturation: 0.15\r\nWB Red: 2.38\r\nWB Blue: 3.16\r\nScene Mode: Biological: HE\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Polarizer, position: In\r\n  DIC Prism, position: Out\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 6 (Empty)\r\n  Nikon Ti2, Shutter(FL-Lo): Closed\r\n  Nikon Ti2, Shutter(DIA LED): Active\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 31.8\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 5 (OPEN)\r\n  PFS, state: Off\r\n  PFS, offset: 9251\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola, Shutter(Sola): Closed\r\n  Sola, Illuminator(Sola) Voltage: 50.0\r\n",
+  "capturing": "Color Camera Nikon DS-Fi3\r\n\r\nCamera Type: Nikon DS-Fi3\r\nBinning: 1.0x1.0\r\nExposure: 10 ms\r\nGain: 1.0x\r\nSharpness: Medium\r\nBrightness: 0.00\r\nHue: 0.10\r\nSaturation: 0.15\r\nWB Red: 2.38\r\nWB Blue: 3.16\r\nScene Mode: Biological: HE",
+  "date": "9/28/2021  10:26:09 AM",
+  "optics": "Plan Fluor 10x Ph1 DLL"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=8, bitsPerComponentSignificant=8, componentCount=3, heightPx=64, pixelDataType='unsigned', sequenceCount=1, widthBytes=192, widthPx=64, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

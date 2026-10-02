@@ -1,0 +1,34 @@
+[package]
+name = "openreadout-tiff"
+description = "Reader for TIFF-based microscopy and whole-slide formats, part of OpenReadout"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-tiff"
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+[dependencies]
+openreadout-core = { workspace = true }
+openreadout-codecs = { workspace = true }
+roxmltree = { workspace = true }
+rayon = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+tiff = { workspace = true }
+tempfile = { workspace = true }
+
+[features]
+# LERC (34887) chunks through lerc-rs, which is not robust against malformed blobs (SECURITY.md);
+# off by default, so LERC pages are exit 6.
+lerc = ["openreadout-codecs/lerc"]
+
+[lints]
+workspace = true

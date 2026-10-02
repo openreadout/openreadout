@@ -1,0 +1,28 @@
+[package]
+name = "openreadout-mzml-writer"
+description = "Indexed mzML writer for OpenReadout mass-spectrometry exports"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["mass-spectrometry", "mzml", "proteomics", "metabolomics"]
+categories.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-mzml-writer"
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+[dependencies]
+openreadout-core = { workspace = true }
+flate2 = { workspace = true }
+quick-xml = { workspace = true }
+serde = { workspace = true }
+schemars = { workspace = true }
+serde_json = { workspace = true }
+xxhash-rust = { workspace = true }
+
+[lints]
+workspace = true

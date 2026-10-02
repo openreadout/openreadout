@@ -1,0 +1,64 @@
+{
+ "generator": "flowkit 1.3.2 (flowutils 1.2.2)",
+ "gating": "zenodo19221995-celeidoscope-wsp",
+ "format": "flowjo-wsp",
+ "samples": [
+  {
+   "fcs": "zenodo19221995-facsdiscover-zam36",
+   "sample": "Zam36 YFP.fcs",
+   "event_count": 10000,
+   "populations": [
+    {
+     "path": "/Scatter",
+     "count": 9869,
+     "flowjo_count": 9852
+    },
+    {
+     "path": "/Scatter/Singles",
+     "count": 9402,
+     "flowjo_count": 9397
+    },
+    {
+     "path": "/Scatter/Singles/DRAQ5+",
+     "count": 1988,
+     "flowjo_count": 1989
+    },
+    {
+     "path": "/Scatter/Singles/DRAQ5+/Live",
+     "count": 1683,
+     "flowjo_count": 1683
+    },
+    {
+     "path": "/Scatter/Singles/DRAQ5+/Live/mCh-, mKO-",
+     "count": 1682,
+     "flowjo_count": 1682
+    },
+    {
+     "path": "/Scatter/Singles/DRAQ5+/Live/mCh-, mKO-/All Neg",
+     "count": 1612,
+     "flowjo_count": 1612
+    },
+    {
+     "path": "/Scatter/Singles/DRAQ5+/Live/mCh-, mKO-/GFP+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Scatter/Singles/DRAQ5+/Live/mCh-, mKO-/YFP+",
+     "count": 55,
+     "flowjo_count": 55
+    },
+    {
+     "path": "/Scatter/Singles/DRAQ5+/Live/mCherry+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Scatter/Singles/DRAQ5+/Live/mKO2+",
+     "count": 0,
+     "flowjo_count": 0
+    }
+   ]
+  }
+ ]
+}

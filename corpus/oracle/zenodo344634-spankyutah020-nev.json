@@ -1,0 +1,47 @@
+{
+ "id": "zenodo344634-spankyutah020-nev",
+ "file": "zenodo344634-spankyutah020.nev",
+ "size": 16267424,
+ "sha256": "0777386e8f1488fd8fd212c2caabc6ae4a92db4d078e932a75efdd0fda4c810f",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 BlackrockRawIO",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 156370,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_column_hashes": [
+    {
+     "column": "time_s",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 156350,
+     "xxh3": "48fd85d3de5fc3afc8dd94fbe33fce41"
+    },
+    {
+     "column": "packet_id",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 156350,
+     "xxh3": "58893c7eb575aa4979b8a8c37ea458c0"
+    },
+    {
+     "column": "code",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 156350,
+     "xxh3": "6a1f5a160b18f35e86ee534d322d7021"
+    },
+    {
+     "column": "w0",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 156350,
+     "xxh3": "e83a64d54db601bc31c6bd74cecd6965"
+    }
+   ]
+  }
+ ]
+}

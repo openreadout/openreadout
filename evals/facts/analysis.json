@@ -1,0 +1,948 @@
+{
+ "aics-s-1-t-4-c-2-z-1": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "c1_pixels_at_4095": {
+    "cross_check": "readlif 0.6.6 (black box; bit depth 12): agrees",
+    "how": "first channel, all 4 time points: samples equal to 4095, the 12-bit full scale (ChannelDescription Resolution 12)",
+    "reader": "liffile 2026.7.14",
+    "value": 73
+   }
+  },
+  "file": "aics-s-1-t-4-c-2-z-1.lif"
+ },
+ "assay-synth-dose-response": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "cpd_b_ic50": {
+    "how": "unweighted 4PL on the raw RLU of CPD-B's 30 wells (rows D–F, columns 1–10); the inflection concentration (µM)",
+    "reader": "scipy curve_fit 4PL on raw RLU (scipy 1.18.1, numpy 2.5.3)",
+    "value": 1.8251453
+   },
+   "z_prime": {
+    "how": "Z′ = 1 − 3 (SDpos + SDneg)/|mean pos − mean neg| from the 8 positive (column 12) and 8 negative (column 11) control wells, sample SD",
+    "reader": "numpy 2.5.3 (Zhang 1999)",
+    "value": 0.88914936
+   }
+  },
+  "file": "assay-synth-dose-response.csv"
+ },
+ "assay-synth-elisa-5pl": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "s04_final": {
+    "how": "OD minus the mean of the blank wells; 5PL fitted to the 14 standard wells weighted 1/y²; S04's two wells back-calculated × dilution 5, averaged (pg/mL)",
+    "reader": "scipy curve_fit 5PL, sigma = |y| (scipy 1.18.1, numpy 2.5.3)",
+    "value": 3516.7106
+   }
+  },
+  "file": "assay-synth-elisa-5pl.csv"
+ },
+ "brk-filespec2-3001-ns5": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "spike_rate_ch1_hz": {
+    "how": "first channel (chan1, index 0): negative peaks of the 300-6000 Hz band-passed signal beyond 5 x median(|x|)/0.6745 (SpikeInterface detect_peaks), divided by the recording duration",
+    "reader": "Neo + SpikeInterface 0.105.0 (bandpass_filter 300-6000 Hz order 5, detect_peaks by_channel, 5 x MAD, neg)",
+    "value": 14.995002
+   }
+  },
+  "file": "brk-filespec2-3001.ns5"
+ },
+ "bsst749-4i-bodipy-ctl": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "series_mean_c1": {
+    "cross_check": "readlif 0.6.6 (black box): agrees",
+    "how": "mean of channel index 0 of every image series except the `Preview*` image",
+    "reader": "liffile 2026.7.14",
+    "value": {
+     "Series003": 8.3328743,
+     "Series007": 17.401821,
+     "Series012": 12.901428,
+     "Series024": 5.9554596,
+     "Series028": 4.3311768,
+     "Series034": 2.4454689
+    }
+   }
+  },
+  "file": "bsst749-4i-bodipy-ctl.lif"
+ },
+ "cheminfo-agilent-hplc-cdf": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "apex_rt_min": {
+    "how": "time of the highest detector value (actual_delay_time + index × actual_sampling_interval, s → min)",
+    "reader": "scipy 1.18.1 netcdf_file",
+    "value": 19.626867
+   }
+  },
+  "file": "cheminfo-agilent-hplc.cdf"
+ },
+ "chromhandler-001f0101-d": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "fid_apex_rt_min": {
+    "how": "FID1A.ch: time (min) of the highest value",
+    "reader": "rainbow-api 1.5.2 (black box)",
+    "value": 2.8233333
+   }
+  },
+  "file": "chromhandler-001F0101.D"
+ },
+ "chromhandler-ca10-100um-d": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "dad_210nm_apex_rt_min": {
+    "how": "dad1C.ch (signal `DAD C, Sig=210,4`, acquisition from -0.0417 min): time (min) of the highest value",
+    "reader": "rainbow-api 1.5.2 (black box)",
+    "value": 7.6916667
+   },
+   "tallest_wavelength_nm": {
+    "how": "the five DAD signals (Sig=254, 248, 210, 260, 280 nm): `Sig=` wavelength of the one with the highest value",
+    "reader": "rainbow-api 1.5.2 (black box)",
+    "value": 260.0
+   }
+  },
+  "file": "chromhandler-CA10_100uM.D"
+ },
+ "eds-7500-abhd17c-ddct": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "cq_18s_a2": {
+    "how": "vendor Ct of target 18s in well A2 (analysis_result.txt)",
+    "reader": "zipfile + analysis_result.txt (vendor Ct)",
+    "value": 7.5925827
+   },
+   "rq_abhd17c_oe": {
+    "how": "vendor RQ (2^-ΔΔCt) of ABHD17C in sample `ABHD17C OE`, reference 18s, calibrator `Lenvatinib/Vector` (DDCT Values lines)",
+    "reader": "zipfile + analysis_result.txt `DDCT Values` (vendor RQ)",
+    "value": 48.9879
+   },
+   "tm_b3": {
+    "how": "vendor Tm of the product in well B3 (meltcuve_result.txt; one peak)",
+    "reader": "zipfile + meltcuve_result.txt (vendor Tm)",
+    "value": 85.13536
+   }
+  },
+  "file": "eds-7500-abhd17c-ddct.eds"
+ },
+ "eds-qs12k-tdmmc-stdcurve": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "undetermined_wells": {
+    "cross_check": "zipfile + analysis_result.txt (Ct = cycle count), 0-based wells on 24 columns: agrees",
+    "how": "well positions the vendor export marks Undetermined",
+    "reader": "xlrd 2.0.2 on the vendor's Results export (.xls)",
+    "value": [
+     "E3"
+    ]
+   }
+  },
+  "file": "eds-qs12k-tdmmc-stdcurve.eds"
+ },
+ "eds-qs35-npff-mtrna-ampstatus": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "inconclusive_reactions": {
+    "cross_check": "zipfile + analysis_result.txt `Amp Status`: agrees",
+    "how": "reactions with Amp Status `Inconclusive` in the vendor export",
+    "reader": "xlrd 2.0.2 on the vendor's Results export (.xls)",
+    "value": 10
+   }
+  },
+  "file": "eds-qs35-npff-mtrna-ampstatus.eds"
+ },
+ "eds-qs35-sybr-water-test": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "cq_bactin_g3": {
+    "how": "vendor Ct of target Bactin in well G3 (analysis_result.txt)",
+    "reader": "zipfile + analysis_result.txt (vendor Ct)",
+    "value": 22.472178
+   }
+  },
+  "file": "eds-qs35-sybr-water-test.eds"
+ },
+ "eds-qs7pro-tb18s-stdcurve": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "ntc_wells": {
+    "how": "wells with task NTC in setup/plate_setup.json",
+    "reader": "zipfile + json: setup/plate_setup.json (wells with task NTC)",
+    "value": 20
+   },
+   "read_temperature_c": {
+    "how": "temperature of the cycling step that collects fluorescence (run_method.json)",
+    "reader": "zipfile + json: setup/run_method.json (cycling step with a collection profile)",
+    "value": 60.0
+   },
+   "std_efficiency_pct": {
+    "how": "the vendor's standard-curve efficiency (%) for Tb18s",
+    "reader": "zipfile + json: extensions/am.sc/standard_curve_result.json (vendor fit)",
+    "value": 101.8178
+   }
+  },
+  "file": "eds-qs7pro-tb18s-stdcurve.eds"
+ },
+ "eds-viia7-npff-ddct": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "cidea_mean_ct": {
+    "cross_check": "zipfile + analysis_result.txt (Ct below the cycle count): agrees",
+    "how": "mean CT of target Cidea over its wells with a numeric CT (vendor export)",
+    "reader": "xlrd 2.0.2 on the vendor's Results export (.xls) (mean of the 35 numeric CT values)",
+    "value": 31.472305
+   },
+   "cidea_undetermined": {
+    "cross_check": "zipfile + analysis_result.txt (Ct = the 40 cycles of tcprotocol.xml): agrees",
+    "how": "Cidea reactions the vendor export marks Undetermined",
+    "reader": "xlrd 2.0.2 on the vendor's Results export (.xls)",
+    "value": 4
+   },
+   "undetermined_reactions": {
+    "cross_check": "zipfile + analysis_result.txt (Ct = the 40 cycles of tcprotocol.xml): agrees",
+    "how": "reactions (well x target) the vendor export marks Undetermined",
+    "reader": "xlrd 2.0.2 on the vendor's Results export (.xls)",
+    "value": 11
+   }
+  },
+  "file": "eds-viia7-npff-ddct.eds"
+ },
+ "empiar10045-class2d-it025": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "highest_std_class": {
+    "cross_check": "numpy on the MRC2014 layout: agrees",
+    "how": "standard deviation of each 200×200 section, 1-based index of the highest",
+    "reader": "mrcfile 1.5.4",
+    "value": 13
+   }
+  },
+  "file": "empiar10045-class2d-it025.mrcs"
+ },
+ "entab-chemstation-mwd-d": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "mwd_210nm_apex_6_8_min": {
+    "how": "mwd1A.ch (signal `MWD A, Sig=210,5`): time (min) of the highest value between 6 and 8 min (the whole run's maximum is at 11.9 min)",
+    "reader": "rainbow-api 1.5.2 (black box)",
+    "value": 7.9936667
+   },
+   "mwd_230nm_apex_rt_min": {
+    "how": "mwd1B.ch (signal `MWD B, Sig=230,5`): time (min) of the highest value",
+    "reader": "rainbow-api 1.5.2 (black box)",
+    "value": 5.307
+   }
+  },
+  "file": "entab-chemstation_mwd.d"
+ },
+ "fcsparser-fortessa-a01": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "median_fitc_a_by_file": {
+    "cross_check": "fcsparser 0.2.4: agrees",
+    "files": [
+     "fcsparser-fortessa-a01.fcs",
+     "fcsparser-hts-lsr-ii-d06.fcs"
+    ],
+    "how": "median of FITC-A ($PnG 1.0) over all events, values as stored, per file",
+    "reader": "flowio 1.4.0",
+    "value": {
+     "fcsparser-fortessa-a01": 1.5599999,
+     "fcsparser-hts-lsr-ii-d06": 42.75
+    }
+   }
+  },
+  "file": "fcsparser-fortessa-a01.fcs"
+ },
+ "flowio-100715": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "median_cd3": {
+    "cross_check": "fcsparser 0.2.4: agrees",
+    "how": "median of the parameter whose $PnS is `CD3` (R780-A) over all events, values as stored",
+    "reader": "flowio 1.4.0",
+    "value": 898.31769
+   }
+  },
+  "file": "flowio-100715.fcs"
+ },
+ "flowio-g11": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "gfp_a_above_10000": {
+    "cross_check": "fcsparser 0.2.4: agrees",
+    "how": "number of events with BL1-A ($PnS GFP-A) > 10000, values as stored",
+    "reader": "flowio 1.4.0",
+    "value": 1020
+   },
+   "median_gfp_a": {
+    "cross_check": "fcsparser 0.2.4: agrees",
+    "how": "median of parameter BL1-A ($PnS GFP-A) over all 5,785 events, values as stored",
+    "reader": "flowio 1.4.0",
+    "value": 992.0
+   }
+  },
+  "file": "flowio-g11.fcs"
+ },
+ "gen5-abs-kinetic-meanv-4pl": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "b3_max_rate": {
+    "how": "well B3 of the 420 nm kinetic read: largest least-squares slope over any 5 consecutive exported reads, in mOD/min",
+    "reader": "numpy 2.5.3 polyfit over every 5-read window (plain-Python Gen5 text read)",
+    "value": 34.84
+   },
+   "meanv_ec50": {
+    "how": "unweighted 4PL fitted to the Mean V results of the 24 STD wells; the C (EC50) parameter (Gen5 reports 14.8)",
+    "reader": "scipy curve_fit 4PL on the Mean V results (scipy 1.18.1, numpy 2.5.3)",
+    "value": 14.815932
+   }
+  },
+  "file": "gen5-abs-kinetic-meanv-4pl.txt"
+ },
+ "gen5-abs-stdcurve-linear": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "e7_conc": {
+    "how": "630 nm absorbance minus the mean of the BLK wells; least-squares line through the 21 STD wells (Conc/Dil concentrations); E7 back-calculated (Gen5 reports 1628.811)",
+    "reader": "numpy 2.5.3 polyfit (plain-Python Gen5 text read)",
+    "value": 1628.6856
+   }
+  },
+  "file": "gen5-abs-stdcurve-linear.txt"
+ },
+ "gen5-lum-endpoint": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "column12_mean": {
+    "how": "mean luminescence (RLU, the measured read) of the 8 wells of column 12 (A12-H12)",
+    "reader": "allotropy 0.1.146",
+    "value": 4442.25
+   },
+   "normlum_wells_above_100": {
+    "how": "wells whose NormLum value (calculated by Gen5 from the luminescence read) exceeds 100",
+    "reader": "allotropy 0.1.146",
+    "value": 10
+   },
+   "top_well": {
+    "how": "well with the highest luminescence value",
+    "reader": "allotropy 0.1.146",
+    "value": "B2"
+   }
+  },
+  "file": "gen5-lum-endpoint.txt"
+ },
+ "hcs-cellvoyager-jump-1053601756-folder": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "hoechst_mean_a01": {
+    "how": "the .mes channel whose Target is Hoechst; every MeasurementData.mlf record of well row 1 / column 1 in that channel whose file is in the folder (fields 1 and 2); mean over all their pixels (tifffile)",
+    "reader": "tifffile 2026.9.20",
+    "value": 34.156535
+   }
+  },
+  "file": "hcs/cellvoyager-jump-1053601756"
+ },
+ "hcs-harmony-idr0034-folder": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "dapi_mean_a01_f1": {
+    "how": "Index.idx.xml (stdlib XML): the plane of well row 1 / column 1, field 1, ChannelName DAPI; mean of its 1360x1024 pixels (tifffile)",
+    "reader": "tifffile 2026.9.20",
+    "value": 194.09958
+   }
+  },
+  "file": "hcs/harmony-idr0034"
+ },
+ "hcs-harmony6-cpg0048-41005680-index": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "channel_4_name": {
+    "cross_check": "Bio-Formats 8.5.0 showinf -omexml (committed oracle): agrees",
+    "how": "name of ChannelID 4 (Maps/Map/Entry ChannelName)",
+    "reader": "ElementTree: Maps/Map/Entry[@ChannelID=4]/ChannelName",
+    "value": "CP_Nuclei acid_512"
+   },
+   "pixel_size_um": {
+    "cross_check": "Bio-Formats 8.5.0 showinf -omexml (committed oracle): agrees",
+    "how": "image pixel size (Maps/Map/Entry ImageResolutionX, m → µm)",
+    "reader": "ElementTree: Maps/Map/Entry[@ChannelID=1]/ImageResolutionX (m → µm)",
+    "value": 0.14834407
+   }
+  },
+  "file": "hcs/harmony6-cpg0048-41005680/Index.xml"
+ },
+ "hcs-imagexpress-idr0081-folder": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "brightest_dapi_well": {
+    "how": "HTD (text): the wavelength named DAPI; among the wells whose file of that wavelength is in the folder, the one whose image has the highest mean (tifffile)",
+    "reader": "tifffile 2026.9.20",
+    "value": "A02"
+   }
+  },
+  "file": "hcs/imagexpress-idr0081"
+ },
+ "hcs-imagexpress-jump-a1170383-folder": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "brightest_channel_a01_s1": {
+    "how": "the five wavelength files of well A01 site 1; channel name = MetaSeries `_IllumSetting_`; the one with the highest mean (tifffile)",
+    "reader": "tifffile 2026.9.20",
+    "value": "Cy3"
+   }
+  },
+  "file": "hcs/imagexpress-jump-a1170383/Images"
+ },
+ "kaleido-abs-endpoint": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "column1_mean": {
+    "how": "mean absorbance of the 8 wells of column 1 (A1-H1)",
+    "reader": "allotropy 0.1.146",
+    "value": 0.66028035
+   }
+  },
+  "file": "kaleido-abs-endpoint.csv"
+ },
+ "lcd-streamfind-adc-uv": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "uv_mv_at_30_min": {
+    "how": "Detector A-Ch1 signal at 30.000 min, mV (ASCII export)",
+    "reader": "LabSolutions ASCII export [LC Chromatogram(Detector A-Ch1)]: Intensity x Intensity Multiplier (mV)",
+    "value": -4.392
+   },
+   "uv_points": {
+    "cross_check": "LabSolutions ASCII export [LC Chromatogram(Detector A-Ch1)]: data rows counted: agrees",
+    "how": "points of [LC Chromatogram(Detector A-Ch1)] in the ASCII export",
+    "reader": "LabSolutions ASCII export [LC Chromatogram(Detector A-Ch1)] `# of Points`",
+    "value": 4201
+   },
+   "uv_wavelength_nm": {
+    "how": "detection wavelength of Detector A-Ch1 in the ASCII export",
+    "reader": "LabSolutions ASCII export [LC Chromatogram(Detector A-Ch1)] `Wavelength(nm)`",
+    "value": 280.0
+   }
+  },
+  "file": "lcd-streamfind-adc-uv.lcd"
+ },
+ "mrcfile-fei-extended": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "std": {
+    "cross_check": "numpy on the MRC2014 layout: agrees",
+    "how": "population standard deviation of all 3838×3710 pixel values (the header's RMS field is -1)",
+    "reader": "mrcfile 1.5.4",
+    "value": 610.12456
+   }
+  },
+  "file": "mrcfile-fei-extended.mrc"
+ },
+ "mtbls13930-neg-sqc-5": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "scan_21_peak_count": {
+    "cross_check": "pyteomics 5.0.1 on the depositor's mzXML (`peaksCount`): agrees",
+    "how": "scan number 21 (an MS2 scan): number of centroid peaks in the depositor's export",
+    "reader": "pyteomics 5.0.1 on the depositor's mzXML (decoded m/z array)",
+    "value": 9
+   }
+  },
+  "file": "mtbls13930-neg-sqc-5.mzXML"
+ },
+ "mtbls14508-mh-b4-c18-pos-dda-r01": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "ms2_500_base_peak_mz": {
+    "cross_check": "pyteomics 5.0.1 on the depositor's mzML (`base peak m/z` cvParam): agrees",
+    "how": "the 500th MS2 spectrum in file order: m/z of its most intense peak",
+    "reader": "pyteomics 5.0.1 on the depositor's mzML (intensity array)",
+    "value": 100.07511
+   }
+  },
+  "file": "mtbls14508-mh-b4-c18-pos-dda-r01.mzML"
+ },
+ "mtbls1822-tsq-74": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "srm_top_precursor_mz": {
+    "how": "SRM chromatogram with the highest intensity point: its precursor isolation-window target m/z",
+    "reader": "pyteomics 5.0.1 on the depositor's mzML",
+    "value": 155.004
+   }
+  },
+  "file": "mtbls1822-tsq-74.mzML"
+ },
+ "mtbls20-caffeine-pos": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "ms2_count_195_0877": {
+    "cross_check": "pyopenms 3.5.0 on the depositor's mzML (selected ion m/z): agrees",
+    "how": "MS/MS spectra whose selected precursor m/z is within 0.01 of 195.0877",
+    "reader": "pyteomics 5.0.1 on the depositor's mzML (selected ion m/z)",
+    "value": 6
+   },
+   "ms2_first_rt_195_0877": {
+    "cross_check": "pyopenms 3.5.0 on the depositor's mzML (selected ion m/z): agrees",
+    "how": "scan start time (min) of the first MS/MS spectrum whose selected precursor m/z is within 0.01 of 195.0877 (caffeine [M+H]+)",
+    "reader": "pyteomics 5.0.1 on the depositor's mzML (selected ion m/z)",
+    "value": 0.19933667
+   },
+   "tic_apex_rt_min": {
+    "cross_check": "pyteomics 5.0.1 on the depositor's mzML (summed intensity arrays): agrees",
+    "how": "MS1 spectrum with the highest total ion current: its scan start time (min)",
+    "reader": "pyteomics 5.0.1 on the depositor's mzML (`total ion current` cvParams)",
+    "value": 0.61289667
+   }
+  },
+  "file": "mtbls20-caffeine-pos.mzML"
+ },
+ "mtbls75-x-fsfa-hl-gc-o7c-1-d": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "tic_apex_rt_min": {
+    "cross_check": "rainbow-api 1.5.2 (black box): agrees",
+    "how": "DATA.MS: total ion current per scan, time (min) of the highest",
+    "reader": "aston 0.7.2",
+    "value": 21.19915
+   }
+  },
+  "file": "mtbls75-x-fsfa-hl-gc-o7c-1-d-zip/x_FSFA_HL_GC_O7C_1.D"
+ },
+ "mtbls755-hilic-dpoly": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "ms2_100_base_peak_mz": {
+    "cross_check": "pyteomics 5.0.1 on the depositor's mzML (`base peak m/z` cvParam): agrees",
+    "how": "the 100th MS2 spectrum in file order: m/z of its most intense peak",
+    "reader": "pyteomics 5.0.1 on the depositor's mzML (intensity array)",
+    "value": 163.09789
+   },
+   "ms2_charge2_count": {
+    "cross_check": "pyopenms 3.5.0 on the depositor's mzML (selected ion `charge state`): agrees",
+    "how": "MS/MS spectra whose selected precursor ion has charge state 2",
+    "reader": "pyteomics 5.0.1 on the depositor's mzML (selected ion `charge state`)",
+    "value": 50
+   },
+   "xic_146_1176_apex_rt_min": {
+    "how": "positive-polarity MS1 spectra: intensities summed over m/z 146.1176 ± 10 ppm, scan start time of the maximum (min)",
+    "reader": "pyteomics 5.0.1 on the depositor's mzML",
+    "value": 5.9928851
+   }
+  },
+  "file": "mtbls755-hilic-dpoly.mzML"
+ },
+ "nlx-cheetah-v5-7-4-csc1-ncs": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "std_uv": {
+    "cross_check": "numpy on the NCS record layout: agrees",
+    "how": "population standard deviation of every valid sample of every record, in µV (ADBitVolts × 1e6)",
+    "reader": "neo 0.14.5 NeuralynxRawIO",
+    "value": 54.418649
+   }
+  },
+  "file": "nlx-cheetah-v5-7-4-csc1.ncs"
+ },
+ "nmrxiv-s200-qhnmr-jdf": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "mestrenova_tallest_ppm": {
+    "cross_check": "jcamp 1.3.2: agrees",
+    "files": [
+     "nmrxiv-s200/Limonene_7020ug200uL_CDCl3_qHNMR_400MHz_Jeol.jdf",
+     "nmrxiv-s200/Limonene_7020ug200uL_CDCl3_qHNMR_400MHz_JDX.jdx"
+    ],
+    "how": "the MestReNova-processed spectrum of the same acquisition (JCAMP-DX export in the deposit): chemical shift of the highest point",
+    "reader": "nmrglue 0.12",
+    "value": 1.717
+   }
+  },
+  "file": "nmrxiv-s200/Limonene_7020ug200uL_CDCl3_qHNMR_400MHz_Jeol.jdf"
+ },
+ "nmrxiv-s596-1": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "tallest_ppm": {
+    "cross_check": "numpy on pdata/1/1r and procs: agrees",
+    "how": "pdata/1/1r (13C): chemical shift of the highest point",
+    "reader": "nmrglue 0.12",
+    "value": 62.6407
+   }
+  },
+  "file": "nmrxiv-s596/1"
+ },
+ "nmrxiv-s846-50": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "integral_ratio_2_to_1": {
+    "how": "TopSpin's stored integrals (pdata/1/integrals.txt): region 2 (7.901-7.814 ppm) / region 1 (8.239-8.178 ppm)",
+    "reader": "TopSpin pdata/1/integrals.txt (vendor-computed integrals)",
+    "value": 2.01762
+   },
+   "tallest_ppm": {
+    "cross_check": "numpy on pdata/1/1r and procs: agrees",
+    "how": "pdata/1/1r: chemical shift of the highest point",
+    "reader": "nmrglue 0.12",
+    "value": 1.5731
+   },
+   "tallest_ppm_7_5_to_8_5": {
+    "cross_check": "numpy on pdata/1/1r and procs: agrees",
+    "how": "pdata/1/1r: chemical shift of the highest point between 7.5 and 8.5 ppm",
+    "reader": "nmrglue 0.12",
+    "value": 7.8639
+   }
+  },
+  "file": "nmrxiv-s846/50"
+ },
+ "ome-aryeh-MeOh-high-fluo-003": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "dimmest_t": {
+    "how": "mean of each of the 13 frames (T axis; one channel, one position), 1-based index of the lowest",
+    "reader": "nd2 0.11.3",
+    "value": 10
+   }
+  },
+  "file": "ome-aryeh-MeOh-high-fluo-003.nd2"
+ },
+ "openslide-aperio-jp2k-33003-1": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "level0_mean": {
+    "cross_check": "openslide-python 1.4.6 + openslide-bin 4.0.1.2 (black box): agrees within 0.05% (226.62769)",
+    "how": "page 0 (full resolution) of the Aperio SVS, JPEG 2000 tiles with Y, Cb, Cr components (compression 33003) converted to R, G, B: mean over every R, G and B sample",
+    "reader": "tifffile 2026.9.20 + imagecodecs 2026.8.16",
+    "value": 226.67683
+   }
+  },
+  "file": "openslide-aperio-JP2K-33003-1.svs"
+ },
+ "openslide-zeiss-5-flat": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "scene2_red_mean": {
+    "cross_check": "pylibCZIrw 6.1.0 (black box): agrees",
+    "how": "scene index 1 (the second of two), 11312x11337 Bgr24 pixels in JPEG XR subblocks: mean of the red samples (czifile/imagecodecs sample 0 of R, G, B; pylibCZIrw sample 2 of B, G, R)",
+    "reader": "czifile 2026.8.16 + imagecodecs 2026.8.16",
+    "value": 136.91151
+   }
+  },
+  "file": "openslide-zeiss-5-flat.czi"
+ },
+ "pyabf-14o16001-vc-pair-step": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "sweep5_ch1_max": {
+    "cross_check": "neo 0.14.5 AxonRawIO: agrees",
+    "how": "maximum of sweep index 4 (the fifth), channel index 0 (IN 0, pA)",
+    "reader": "pyabf 2.3.8",
+    "value": 1604.4921
+   }
+  },
+  "file": "pyabf-14o16001-vc-pair-step.abf"
+ },
+ "pyabf-171116sh-0011": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "sweep3_first_100ms_mean": {
+    "cross_check": "neo 0.14.5 AxonRawIO: agrees",
+    "how": "mean of the first round(0.1 s × 20 kHz) = 2000 samples of sweep index 2 (the third), pA",
+    "reader": "pyabf 2.3.8",
+    "value": -232.92851
+   }
+  },
+  "file": "pyabf-171116sh-0011.abf"
+ },
+ "pyabf-171116sh-0018": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "ap_count_sweep12": {
+    "cross_check": "pyabf 2.3.8 + numpy (crossings of 0.0 mV): agrees",
+    "how": "sweep 12 (counting from 1), whole sweep: action potentials (eFEL spike_count)",
+    "reader": "pyABF 2.3.8 + eFEL 5.7.34 (spike_count, voltage threshold -20 mV)",
+    "value": 12
+   },
+   "input_resistance_mohm": {
+    "how": "least-squares slope of (eFEL steady_state_voltage_stimend - voltage_base) against the step current over the spike-free negative steps",
+    "reader": "pyABF 2.3.8 + eFEL 5.7.34 (cell.input_resistance_mohm from eFEL per-sweep values)",
+    "value": 104.13812
+   },
+   "rheobase_pa": {
+    "cross_check": "pyabf 2.3.8 + numpy (step epoch levels; crossings of 0.0 mV): agrees",
+    "how": "smallest positive current step with at least one action potential inside the step (eFEL spike_count_stimint per sweep)",
+    "reader": "pyABF 2.3.8 + eFEL 5.7.34 (cell.rheobase_pa from eFEL per-sweep values)",
+    "value": 50.0
+   }
+  },
+  "file": "pyabf-171116sh-0018.abf"
+ },
+ "pyabf-171117-hfmixfret": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "yfp_brightest_sweep": {
+    "cross_check": "neo 0.14.5 AxonRawIO: agrees",
+    "how": "channel `YFP` (index 2 of Current, Voltage, YFP, CFP): maximum per sweep, 1-based index of the highest",
+    "reader": "pyabf 2.3.8",
+    "value": 9
+   }
+  },
+  "file": "pyabf-171117-hfmixfret.abf"
+ },
+ "pyabf-190619b-0003": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "rheobase_pa": {
+    "cross_check": "pyabf 2.3.8 + numpy (step epoch levels; crossings of 0.0 mV): agrees",
+    "how": "smallest positive current step with at least one action potential inside the step (eFEL spike_count_stimint per sweep)",
+    "reader": "pyABF 2.3.8 + eFEL 5.7.34 (cell.rheobase_pa from eFEL per-sweep values)",
+    "value": 120.0
+   }
+  },
+  "file": "pyabf-190619b-0003.abf"
+ },
+ "pyabf-2015-09-10-0001": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "sweeps_peak_above_600pA": {
+    "cross_check": "neo 0.14.5 AxonRawIO: agrees",
+    "how": "number of the 13 sweeps whose maximum on channel index 0 (Ipatch, pA) exceeds 600",
+    "reader": "pyabf 2.3.8",
+    "value": 7
+   }
+  },
+  "file": "pyabf-2015-09-10-0001.abf"
+ },
+ "pyabf-2019-07-24-0055-fsi": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "ap_count_sweep17": {
+    "cross_check": "pyabf 2.3.8 + numpy (crossings of 0.0 mV): agrees",
+    "how": "sweep 17 (the last, counting from 1), whole sweep: action potentials (eFEL spike_count)",
+    "reader": "pyABF 2.3.8 + eFEL 5.7.34 (spike_count, voltage threshold -20 mV)",
+    "value": 117
+   }
+  },
+  "file": "pyabf-2019-07-24-0055-fsi.abf"
+ },
+ "rdml-biorad-cfx-melt": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "cq_katg_d7": {
+    "how": "Cq of well D7 (sample katG 315, target EvaGreen) in run `Amp Step 3_FAM` (rdmlpython)",
+    "reader": "rdmlpython 1.7.2",
+    "value": 21.403342
+   }
+  },
+  "file": "rdml-biorad-cfx-melt.rdml"
+ },
+ "rdml-kphaffii-upr-linregpcr": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "highest_mean_cq_target": {
+    "how": "mean Cq per target over reactions with a Cq (rdmlpython); the highest",
+    "reader": "rdmlpython 1.7.2",
+    "value": "TFC1"
+   }
+  },
+  "file": "rdml-kphaffii-upr-linregpcr.rdml"
+ },
+ "rex-rotorgene-72well": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "cycles": {
+    "how": "Profile/Cycle/RepeatCount",
+    "reader": "ElementTree: Profile/Cycle/RepeatCount",
+    "value": 40
+   }
+  },
+  "file": "rex-rotorgene-72well.rex"
+ },
+ "skanit-elisa-steps": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "d5_conc": {
+    "how": "raw 450 nm absorbance minus the mean of the Blank1 wells (H1, H2); unweighted 4PL fitted to the 14 standard wells (Std0001–Std0007, concentrations from the Layout definitions sheet); D5 back-calculated (SkanIt itself reports 0.08038)",
+    "reader": "scipy curve_fit 4PL (scipy 1.18.1, numpy 2.5.3)",
+    "value": 0.080385149
+   },
+   "un0023_final": {
+    "how": "as d5_conc; the back-calculated concentrations of Un0023's wells (D3, D4) × their dilution 250, averaged (SkanIt: 64.0 and 67.8)",
+    "reader": "scipy curve_fit 4PL (scipy 1.18.1, numpy 2.5.3)",
+    "value": 65.897401
+   }
+  },
+  "file": "skanit-elisa-steps.xlsx"
+ },
+ "skanit-luciferase": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "top_well": {
+    "how": "well with the highest luminescence value",
+    "reader": "allotropy 0.1.146",
+    "value": "F11"
+   }
+  },
+  "file": "skanit-luciferase.xlsx"
+ },
+ "synthetic-gen5-headerless-stdcurve-linear": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "d4_concentration": {
+    "cross_check": "statistics.linear_regression on the blank-subtracted standards of the embedded layout: agrees within 0.50% (148.32396)",
+    "how": "Gen5's [Concentration] of well D4",
+    "reader": "the export's own [Concentration] row (Gen5-computed)",
+    "value": 148.194
+   }
+  },
+  "file": "synthetic-gen5-headerless-stdcurve-linear.txt"
+ },
+ "tecan-icontrol-csv-kinetic-wellr": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "a7_lum_first_cycle_above_100000": {
+    "how": "luminescence table (`LUMI:Lum`): first cycle number whose A7 value exceeds 100,000",
+    "reader": "pandas 2.3.3 on the CSV text (`LUMI:` table, column A7)",
+    "value": 41
+   },
+   "od_last_cycle_top_well": {
+    "cross_check": "Python csv module on the CSV text: agrees",
+    "how": "absorbance table (`OD600:600`): well with the highest value on the last cycle line",
+    "reader": "pandas 2.3.3 on the CSV text (last line of the `OD600:` table)",
+    "value": "E8"
+   }
+  },
+  "file": "tecan-icontrol-csv-kinetic-wellr.csv"
+ },
+ "tecan-icontrol-kinetic-xlsx": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "a2_doubling_min": {
+    "how": "kinetic Abs600 read, well A2 minus its own minimum; least-squares logistic N(t) = K/(1 + ((K − N0)/N0)e^(−rt)) (growthcurver's model); ln 2 / r in minutes (growthcurver's t_gen agrees to 1e-5)",
+    "reader": "scipy curve_fit logistic (growthcurver's model, bg = well minimum) (scipy 1.18.1, numpy 2.5.3)",
+    "value": 57.403232
+   }
+  },
+  "file": "tecan-icontrol-kinetic-xlsx.xlsx"
+ },
+ "tecan-sparkcontrol-csv-endpoint-flopr": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "gain_100_over_wells": {
+    "how": "the read named `Gain 100`: wells whose value is `OVER`",
+    "reader": "Python csv module on the CSV text",
+    "value": 20
+   }
+  },
+  "file": "tecan-sparkcontrol-csv-endpoint-flopr.csv"
+ },
+ "tecan-sparkcontrol-csv-kinetic-flopr": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "od600_b1_max": {
+    "how": "kinetic table `OD600`: largest value of well B1 over all cycles",
+    "reader": "pandas 2.3.3 on the CSV text (`OD600` table, line B1)",
+    "value": 0.601
+   }
+  },
+  "file": "tecan-sparkcontrol-csv-kinetic-flopr.csv"
+ },
+ "zenodo14976703-Convalaria-LambdaScan": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "brightest_band_center_nm": {
+    "cross_check": "readlif 0.6.6 (black box; λ from the dimension origin 420 nm, step 10 nm), + half the 20 nm bandwidth: agrees",
+    "how": "mean of each of the 29 λ planes; the centre of the highest one's detection window (LambdaEmission: begin + index × step + bandwidth / 2)",
+    "reader": "liffile 2026.7.14",
+    "value": 500.0
+   },
+   "brightest_band_start_nm": {
+    "cross_check": "readlif 0.6.6 (black box; λ from the dimension origin 420 nm, step 10 nm): agrees",
+    "how": "mean of each of the 29 λ planes; the λ coordinate (band start; bands are 20 nm wide, 10 nm apart) of the highest",
+    "reader": "liffile 2026.7.14",
+    "value": 490.0
+   }
+  },
+  "file": "zenodo14976703-Convalaria-LambdaScan.lif"
+ },
+ "zenodo16462008-8RRH-molmap-30A": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "voxels_above_0_08": {
+    "cross_check": "numpy on the MRC2014 layout: agrees",
+    "how": "number of voxels with a value > 0.08 (none within 1e-4 of 0.08)",
+    "reader": "mrcfile 1.5.4",
+    "value": 677
+   }
+  },
+  "file": "zenodo16462008-8RRH-molmap-30A.mrc"
+ },
+ "zenodo20040988-0050-STEM-15.4nm": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "mean": {
+    "how": "mean of the 512×512 raw detector values of the one image",
+    "reader": "h5py 3.16.0",
+    "value": 5182.7443
+   }
+  },
+  "file": "zenodo20040988-0050-STEM-15.4nm.emd"
+ },
+ "zenodo21162526-nested-loop": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "brightest_position_egfp": {
+    "how": "channel `eGFP` (C index 1 of DAPI, eGFP, mCherry, Cy5, TD): mean of each of the 24 positions, 1-based index of the highest",
+    "reader": "nd2 0.11.3",
+    "value": 6
+   }
+  },
+  "file": "zenodo21162526-nested-loop.nd2"
+ },
+ "zenodo7015307-S-3-CH-2": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "scene2_c1_at_16383": {
+    "cross_check": "pylibCZIrw 6.1.0 (black box): agrees",
+    "how": "scene index 1 (the second of three), channel index 0: number of pixels equal to 16383",
+    "reader": "czifile 2026.8.16",
+    "value": 187
+   }
+  },
+  "file": "zenodo7015307-S-3-CH-2.czi"
+ },
+ "zenodo7015307-T-1-Z-5-CH-1": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "mean_by_file": {
+    "cross_check": "pylibCZIrw 6.1.0 (black box): agrees",
+    "files": [
+     "zenodo7015307-T-1-Z-5-CH-1.czi",
+     "zenodo7015307-T-2-CH-1.czi"
+    ],
+    "how": "mean of every pixel of every plane (single-channel files), per file",
+    "reader": "czifile 2026.8.16",
+    "value": {
+     "zenodo7015307-T-1-Z-5-CH-1": 13426.881,
+     "zenodo7015307-T-2-CH-1": 14178.32
+    }
+   }
+  },
+  "file": "zenodo7015307-T-1-Z-5-CH-1.czi"
+ },
+ "zenodo7015307-Z-5-CH-2": {
+  "extractor": "evals/analysis.py",
+  "facts": {
+   "mip_mean_c2": {
+    "cross_check": "pylibCZIrw 6.1.0 (black box): agrees",
+    "how": "second channel (C index 1), maximum over the 5 z-slices per pixel, mean of that 256×256 projection",
+    "reader": "czifile 2026.8.16",
+    "value": 8038.8734
+   }
+  },
+  "file": "zenodo7015307-Z-5-CH-2.czi"
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "id": "zenodo22745748-pf1801",
+ "file": "zenodo22745748-pf1801.spc",
+ "format": "galactic-spc",
+ "family": "vibrational-spectroscopy",
+ "readers": [
+  "spc_io 0.2.1 (MIT) header date"
+ ],
+ "checks": [
+  {
+   "field": "header date (fdate)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-09-14T10:50:00",
+   "cmp": "wallclock"
+  }
+ ]
+}

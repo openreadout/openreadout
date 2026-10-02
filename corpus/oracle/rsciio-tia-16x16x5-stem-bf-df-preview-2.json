@@ -1,0 +1,62 @@
+{
+ "id": "rsciio-tia-16x16x5-stem-bf-df-preview-2",
+ "file": "rsciio-tia-16x16x5_STEM_BF_DF_preview_2.ser",
+ "size": 2958,
+ "sha256": "41581a663f6d74d7f65526b67f31a256aba864969b433d68460d1b69f4d10a10",
+ "max_planes_hashed": 64,
+ "reader": "ncempy.io.ser (GPL, black box)",
+ "series_version": 528,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 16,
+   "size_y": 16,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 5,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.021510044070327746,
+    "y": 0.021510044070327746,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "28cd30a6f51b90178f63176abd691757"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "28cd30a6f51b90178f63176abd691757"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "28cd30a6f51b90178f63176abd691757"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "28cd30a6f51b90178f63176abd691757"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "1a09a7bf785ecf1676b198245e80515b"
+    }
+   ]
+  }
+ ],
+ "emi": {
+  "AcceleratingVoltage": 200000,
+  "Microscope []": "Microscope Tecnai 200 kV D2267 SuperTwin",
+  "Magnification [x]": 10000
+ }
+}

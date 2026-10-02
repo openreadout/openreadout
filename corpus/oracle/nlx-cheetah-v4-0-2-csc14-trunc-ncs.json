@@ -1,0 +1,44 @@
+{
+ "id": "nlx-cheetah-v4-0-2-csc14-trunc-ncs",
+ "file": "nlx-cheetah-v4-0-2-csc14-trunc.ncs",
+ "size": 26824,
+ "sha256": "96ec267d23ce10f3381dd657e9ef62caef3ace9498afd02ff0fcf2b42391164f",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 NeuralynxRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 27789.0,
+   "neo_gain": [
+    0.24426
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5120,
+     "channels": [
+      {
+       "xxh3": "0a3c6b35d6e4a3fb341167314c190a25",
+       "first": [
+        -74.74356,
+        -80.85006,
+        -85.73526,
+        -84.51396,
+        -86.46804,
+        -85.97952000000001,
+        -82.55988,
+        -77.67468
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

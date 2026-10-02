@@ -1,0 +1,32 @@
+{
+ "id": "xrd-zenodo15498085-nn",
+ "file": "xrd-zenodo15498085-nn.xrdml",
+ "format": "panalytical-xrdml",
+ "family": "bench",
+ "readers": [
+  "the .xrdml XML, read with ElementTree"
+ ],
+ "checks": [
+  {
+   "field": "scan/header/startTimeStamp",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-09-30T14:13:13+02:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "comment `Diffractometer system=`",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "XPERT-PRO",
+   "cmp": "text"
+  }
+ ]
+}

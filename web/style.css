@@ -1,0 +1,172 @@
+:root {
+  --bg: #fbfbfa;
+  --fg: #1d1f21;
+  --muted: #5d6166;
+  --card: #ffffff;
+  --line: #dcdcd8;
+  --accent: #2458b3;
+  --pass: #1d7a3e;
+  --fail: #b3261e;
+  --code-bg: #f3f3f0;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #151618;
+    --fg: #e6e6e3;
+    --muted: #a3a6aa;
+    --card: #1d1f22;
+    --line: #34373b;
+    --accent: #8ab4f8;
+    --pass: #6fcf8a;
+    --fail: #f28b82;
+    --code-bg: #111214;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 72rem;
+  padding: 1.5rem 1rem 3rem;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0 0 0.25rem;
+}
+
+a {
+  color: var(--accent);
+}
+
+.lede,
+.meta,
+footer {
+  color: var(--muted);
+}
+
+.privacy {
+  border-left: 3px solid var(--pass);
+  padding: 0.25rem 0.75rem;
+}
+
+.drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 2.5rem 1rem;
+  margin: 1rem 0;
+  border: 2px dashed var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.drop:hover,
+.drop.over,
+.drop:focus-within {
+  border-color: var(--accent);
+}
+
+.drop .big {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.drop input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+#status:empty {
+  display: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: 1rem;
+}
+
+.grid > h2,
+.grid > .meta,
+.card.wide {
+  grid-column: 1 / -1;
+}
+
+.grid > h2 {
+  margin: 1rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.grid > .meta {
+  margin: 0;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1rem;
+  min-width: 0;
+}
+
+.card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.summary {
+  font-weight: 600;
+}
+
+.card img {
+  max-width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  border-radius: 4px;
+  background: repeating-conic-gradient(var(--line) 0 25%, transparent 0 50%) 0 0 / 16px 16px;
+}
+
+pre {
+  margin: 0;
+  max-height: 32rem;
+  overflow: auto;
+  padding: 0.75rem;
+  background: var(--code-bg);
+  border-radius: 6px;
+  font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.pass {
+  color: var(--pass);
+  font-weight: 600;
+}
+
+.fail,
+.error {
+  color: var(--fail);
+}
+
+.hint {
+  color: var(--muted);
+}
+
+footer {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}

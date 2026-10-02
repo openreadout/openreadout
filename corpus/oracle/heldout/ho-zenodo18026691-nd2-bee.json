@@ -1,0 +1,901 @@
+{
+ "id": "ho-zenodo18026691-nd2-bee",
+ "file": "NCSU_0030589_ventral.nd2",
+ "size": 4595712,
+ "sha256": "d0e12e63c80271e32f3406e36c6d8932a23dac3ff25b1b646b4b7414120441e2",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 32,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Z': 32, 'Y': 256, 'X': 256}",
+   "physical_size_um": {
+    "x": 4.971844555217912,
+    "y": 4.971844555217912,
+    "z": 15.284489795918368
+   },
+   "channel_names": [
+    "Cy5"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9d461480179a33c4e7488e240cc78ea7"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "0bc8abdac2fab22fe2abecec5a333f7e"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "a2bf89ca510f9ee419569c1058755f7b"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "206be6591190295e5df44a11e9aadb62"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "3786f52ee13c110a4aecbe6d24ecdbce"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "69ee8b4d2ba93853b088ea34c17c0f56"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "8fa88b31d5b6896538afb1a4288296ae"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "acd8877d2b1123b63f3b85cad4bb7fcb"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "82dee96833f9f59c7518b1fc729d0e34"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "ac15976f5fac35ada125ef6ac029210a"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "800804606439a64990671b3646adba34"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "79cf23606159bc941fb83ebbe06fc08d"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "1fc461c184d97a2cdf954e6e0a0ebfdb"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "8a5399232cbf0e207b9caf2c21e0d7e7"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "3628d6feafc0b507972636da45ccd430"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "d4271aed7c1fd61fa329ee9be6b9b6b6"
+    },
+    {
+     "c": 0,
+     "z": 16,
+     "t": 0,
+     "xxh3": "1f1f65bce2aa046f90699454655e1fd5"
+    },
+    {
+     "c": 0,
+     "z": 17,
+     "t": 0,
+     "xxh3": "f72a568bccd00cc10a9a261673d52183"
+    },
+    {
+     "c": 0,
+     "z": 18,
+     "t": 0,
+     "xxh3": "240dd9217f442691b6f2e6844d2d262c"
+    },
+    {
+     "c": 0,
+     "z": 19,
+     "t": 0,
+     "xxh3": "1ac0d794a4a1009b75ba605e5f1f1536"
+    },
+    {
+     "c": 0,
+     "z": 20,
+     "t": 0,
+     "xxh3": "a160f43dec577877e1a698a6e805a568"
+    },
+    {
+     "c": 0,
+     "z": 21,
+     "t": 0,
+     "xxh3": "b22ab9586beba24cf4f86ed4168c44a9"
+    },
+    {
+     "c": 0,
+     "z": 22,
+     "t": 0,
+     "xxh3": "2ee310e95802083e2970c54f7ecdecde"
+    },
+    {
+     "c": 0,
+     "z": 23,
+     "t": 0,
+     "xxh3": "66c65ca2f0f7b230afed27231756b32d"
+    },
+    {
+     "c": 0,
+     "z": 24,
+     "t": 0,
+     "xxh3": "21ecfd76761e3457b74d013c09b03dca"
+    },
+    {
+     "c": 0,
+     "z": 25,
+     "t": 0,
+     "xxh3": "ea6d19685c77c407276eac4c102f93f3"
+    },
+    {
+     "c": 0,
+     "z": 26,
+     "t": 0,
+     "xxh3": "55c42d0834d99acc46558921c31a9a57"
+    },
+    {
+     "c": 0,
+     "z": 27,
+     "t": 0,
+     "xxh3": "47dd7453f0d06130a6ee127c46b85ff6"
+    },
+    {
+     "c": 0,
+     "z": 28,
+     "t": 0,
+     "xxh3": "ec5b63c726a58ddf10c70dc1a6e9a69c"
+    },
+    {
+     "c": 0,
+     "z": 29,
+     "t": 0,
+     "xxh3": "c0fb936b6172204a320d0a994add621d"
+    },
+    {
+     "c": 0,
+     "z": 30,
+     "t": 0,
+     "xxh3": "a317398057073083e40f725928954603"
+    },
+    {
+     "c": 0,
+     "z": 31,
+     "t": 0,
+     "xxh3": "c8bfb06e9a8608202276b63abf3b48d8"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Cy5",
+    "color": "#00FF00",
+    "excitation_nm": 639.2,
+    "emission_nm": 700.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   }
+  ],
+  "frame_count": 32,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1212.6506021022797,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 0,
+     "X": -17133.9,
+     "Y": 4329.2,
+     "Z": 3760.46,
+     "Z1": 3760.46,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 1524.6799111366272,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 0,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 3775.76,
+     "Z1": 3775.76,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 2006.6251804828644,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 0,
+     "X": -17133.9,
+     "Y": 4329.2,
+     "Z": 3806.34,
+     "Z1": 3806.34,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 4,
+    "time_ms": 2256.7486748695374,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 0,
+     "X": -17133.9,
+     "Y": 4329.2,
+     "Z": 3821.66,
+     "Z1": 3821.66,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 2522.7736628055573,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 0,
+     "X": -17133.9,
+     "Y": 4329.2,
+     "Z": 3836.92,
+     "Z1": 3836.92,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 3022.6206138134003,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 0,
+     "X": -17133.9,
+     "Y": 4329.2,
+     "Z": 3867.48,
+     "Z1": 3867.48,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 8,
+    "time_ms": 3256.742604970932,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 0,
+     "X": -17133.9,
+     "Y": 4329.2,
+     "Z": 3882.82,
+     "Z1": 3882.82,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 9,
+    "time_ms": 3516.667019844055,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 0,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 3898.1,
+     "Z1": 3898.1,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 11,
+    "time_ms": 3980.710607767105,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 3928.64,
+     "Z1": 3928.64,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 12,
+    "time_ms": 4198.731086730957,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 3943.88,
+     "Z1": 3943.88,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 13,
+    "time_ms": 4412.651180505753,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17133.9,
+     "Y": 4329.2,
+     "Z": 3959.2000000000003,
+     "Z1": 3959.2000000000003,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 15,
+    "time_ms": 4908.697774410248,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 3989.76,
+     "Z1": 3989.76,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 16,
+    "time_ms": 5172.722574472427,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 4005.04,
+     "Z1": 4005.04,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 18,
+    "time_ms": 5642.666716575623,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17133.9,
+     "Y": 4329.2,
+     "Z": 4035.64,
+     "Z1": 4035.64,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 19,
+    "time_ms": 5858.687007665634,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 4050.92,
+     "Z1": 4050.92,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 20,
+    "time_ms": 6090.70880150795,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 4066.2400000000002,
+     "Z1": 4066.2400000000002,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 22,
+    "time_ms": 6544.851459741592,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 4096.78,
+     "Z1": 4096.78,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 23,
+    "time_ms": 6762.77192902565,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 4112.06,
+     "Z1": 4112.06,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 24,
+    "time_ms": 6994.6937136650085,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 4127.34,
+     "Z1": 4127.34,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 26,
+    "time_ms": 7458.7373015880585,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 4157.9,
+     "Z1": 4157.9,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 27,
+    "time_ms": 7706.760598659515,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 4173.2,
+     "Z1": 4173.2,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 28,
+    "time_ms": 7954.783895492554,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 4188.5,
+     "Z1": 4188.5,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 30,
+    "time_ms": 8406.726346731186,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 4219.08,
+     "Z1": 4219.08,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 31,
+    "time_ms": 8638.74814081192,
+    "tags": {
+     "Camera_CH1LaserPower": 14.7456,
+     "Camera_CH1PMTHighVoltage": 14,
+     "Camera_CH2LaserPower": 7.182400000000001,
+     "Camera_CH2PMTHighVoltage": 5,
+     "Camera_CH3LaserPower": 4.494400000000001,
+     "Camera_CH3PMTHighVoltage": 5,
+     "Camera_CH4LaserPower": 72.59039999999999,
+     "Camera_CH4PMTHighVoltage": 55,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 7912,
+     "PFS_STATUS": 3,
+     "X": -17134.0,
+     "Y": 4329.2,
+     "Z": 4234.34,
+     "Z1": 4234.34,
+     "Z2": 0.0
+    }
+   }
+  ],
+  "acquired_at": "2022-09-13T15:01:57.642Z",
+  "acquired_at_unix_ms": 1663081317642
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: Z(32)\r\nCamera Name: Nikon A1plus\r\nNumerical Aperture: 0.45\r\nRefractive Index: 1\r\n Name: Cy5\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Resonant\r\n  {Detector Selection}: DU4\r\n  \r\t\t{GaAsP}: CH2/3;\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: 450/50\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 595/50\r\n  CH4\t{Laser Wavelength}: 639.2\t{Laser Power}: 72.6\r\n  \t{PMT HV}: 55\t{PMT Offset}: -54\r\n  {Pinhole Size(um)}: 22.99\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: Bi-Direction\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 60\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH1][CH2][CH3][CH4]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: Average\r\n  {Line Average/Integrate Count}: 2\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{405 Power(1)}: 0.0\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{405 Power(2)}: 0.0\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{405 Power(3)}: 0.0\r\n  {KeepPixelBrightnessEnable}: 1\r\n  {ScalingMode}: 0\r\n  {Head type}: Legacy (FOV18)\r\n  \r\n  New processing:\r\n  Line Average Mode 2x\r\n  Denoise.ai OFF\r\n  \r\n  Resonant Sound Reduction:\r\n  Do not mute\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Polarizer, position: Out\r\n  DIC Prism, position: Out\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  Nikon Ti2, Shutter(DIA LED): Open\r\n  Nikon Ti2, Illuminator(DIA): On\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 12.2\r\n  LightPath: L100\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 5 (-----)\r\n  PFS, state: Off\r\n  PFS, offset: 7912\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola II, Shutter(Sola): Closed\r\n  Sola II, Illuminator(Sola) Iris intensity: 7.0\r\nZ Stack Loop: 32\r\n- Step: 15.3 \u00b5m\r\n- Device: Ti2 ZDrive",
+  "capturing": "Nikon A1plus\r\n              \r\n{Scanner Selection}: Resonant\r\n{Detector Selection}: DU4\r\n\r\t\t{GaAsP}: CH2/3;\r\n{Optical Path Mode}: Manual\r\n{First Dichroic Mirror}: 405/488/561/640\r\n{First Filter Cube}: 450/50\r\n{Second Filter Cube}: 525/50\r\n{Third Filter Cube}: 595/50\r\nCH4\t{Laser Wavelength}: 639.2\t{Laser Power}: 72.6\r\n\t{PMT HV}: 55\t{PMT Offset}: -54\r\n{Pinhole Size(um)}: 22.99\r\n{HV LinearCorrection}: Off\r\n{Scan Direction}: Bi-Direction\r\n{Scanner Zoom}: 1.000\r\n{Scan Speed}: 60\r\n{Channel Series Mode}: Custom\r\n{Channel Series Pass}: [CH1][CH2][CH3][CH4]\r\n{Line Skip}: None\r\n{Frame Skip}: 0\r\n{Line Average Mode}: Average\r\n{Line Average/Integrate Count}: 2\r\nStim1\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n\t{405 Power(1)}: 0.0\r\nStim2\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n\t{405 Power(2)}: 0.0\r\nStim3\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n\t{405 Power(3)}: 0.0\r\n{KeepPixelBrightnessEnable}: 1\r\n{ScalingMode}: 0\r\n{Head type}: Legacy (FOV18)\r\n\r\nNew processing:\r\nLine Average Mode 2x\r\nDenoise.ai OFF\r\n\r\nResonant Sound Reduction:\r\nDo not mute\r\n",
+  "date": "9/13/2022  11:01:57 AM",
+  "optics": "Plan Apo \u03bb 10x"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=1, heightPx=256, pixelDataType='unsigned', sequenceCount=32, widthBytes=512, widthPx=256, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

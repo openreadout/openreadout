@@ -1,0 +1,82 @@
+nextflow_process {
+
+    name "Test Process OPENREADOUT_INFO"
+    script "../main.nf"
+    process "OPENREADOUT_INFO"
+
+    tag "modules"
+    tag "openreadout"
+    tag "openreadout/info"
+
+    test("czi - mini") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'mini_czi' ],
+                    file("${moduleDir}/../../../../test-data/mini.czi", checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            def info = path(process.out.json[0][1]).json
+            assertAll(
+                { assert process.success },
+                { assert info.ok == true },
+                { assert info.data.format.id == 'czi' },
+                { assert info.data.images.size() >= 1 },
+                { assert snapshot(process.out.versions).match("versions") }
+            )
+        }
+    }
+
+    test("fcs - tube") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'tube_a' ],
+                    file("${moduleDir}/../../../../test-data/tube_a.fcs", checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            def info = path(process.out.json[0][1]).json
+            assertAll(
+                { assert process.success },
+                { assert info.data.format.id == 'fcs' },
+                { assert info.data.tables[0].row_count == 10 },
+                { assert info.data.tables[0].columns.collect { it.name } == ['FSC-A', 'SSC-A', 'FITC-A'] }
+            )
+        }
+    }
+
+    test("czi - mini - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'mini_czi' ],
+                    file("${moduleDir}/../../../../test-data/mini.czi", checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

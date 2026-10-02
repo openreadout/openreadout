@@ -1,0 +1,154 @@
+{
+ "id": "opus-or2-test-spectra",
+ "file": "opus-or2-test-spectra.0",
+ "size": 72032,
+ "sha256": "29e42e9c6653ffea37848e43a944c976e2eb81b15cede63848f6a08dddaeecde",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "r",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 4819,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4819,
+     "channels": [
+      {
+       "xxh3": "5fa7961f47c7c2488b2f27d486447843",
+       "first": [
+        0.5243431925773621,
+        0.527380108833313,
+        0.5320397615432739,
+        0.5344077944755554,
+        0.53184574842453,
+        0.5253489017486572,
+        0.5192648768424988,
+        0.5180318355560303
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7498.2916914224625,
+   "x_last": 599.920606970787,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11729.2353515625,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT Reflection [Microplate reader]",
+     "instrument": "TENSOR II",
+     "instrument_serial": "1057",
+     "sample_name": "SB9742A;Marmar;;SMAP QUICK;Soil",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "accessory": "TRANS *197C3BB8",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 4819,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4819,
+     "channels": [
+      {
+       "xxh3": "93af6fc20d553beb0f47963db0fa25de",
+       "first": [
+        0.004119829274713993,
+        0.004110544919967651,
+        0.0040797824040055275,
+        0.004056998528540134,
+        0.004069298040121794,
+        0.004121323116123676,
+        0.004185845144093037,
+        0.004216264002025127
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7498.2916914224625,
+   "x_last": 599.920606970787,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11729.2353515625,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT Reflection [Microplate reader]",
+     "instrument": "TENSOR II",
+     "instrument_serial": "1057",
+     "sample_name": "SB9742A;Marmar;;SMAP QUICK;Soil",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "accessory": "TRANS *197C3BB8",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 4825,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4825,
+     "channels": [
+      {
+       "xxh3": "acebacad388216437fc0d036159b14eb",
+       "first": [
+        0.007789580151438713,
+        0.007804157678037882,
+        0.007793414406478405,
+        0.007829012349247932,
+        0.007857123389840126,
+        0.007794274017214775,
+        0.007668190635740757,
+        0.0075915781781077385
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7504.018857121468,
+   "x_last": 597.0570241212845,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11729.2353515625,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT Reflection [Microplate reader]",
+     "instrument": "TENSOR II",
+     "instrument_serial": "1057",
+     "sample_name": "SB9742A;Marmar;;SMAP QUICK;Soil",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "accessory": "TRANS *197C3BB8",
+     "scans": 64
+    }
+   }
+  }
+ ]
+}

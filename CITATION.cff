@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use OpenReadout in your work, please cite it as below."
+type: software
+title: OpenReadout
+abstract: >-
+  One static binary that reads raw lab-instrument files (microscopy, mass spectrometry,
+  chromatography, flow cytometry, NMR, electrophysiology, spectroscopy, plate readers, qPCR and
+  more), reports what is in them as JSON, exports them to open formats and exposes the same
+  operations as MCP tools.
+authors:
+  - name: "OpenReadout contributors"
+repository-code: "https://github.com/openreadout/openreadout"
+url: "https://github.com/openreadout/openreadout"
+license: "MIT OR Apache-2.0"
+version: "0.1.0"

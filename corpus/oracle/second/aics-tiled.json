@@ -1,0 +1,15 @@
+{
+ "id": "aics-tiled",
+ "file": "aics-tiled.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "TileScan_002",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [],
+   "skip": "mosaic: readlif returns tiles"
+  }
+ ]
+}

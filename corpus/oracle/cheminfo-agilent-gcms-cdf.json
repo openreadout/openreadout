@@ -1,0 +1,8051 @@
+{
+ "id": "cheminfo-agilent-gcms-cdf",
+ "file": "cheminfo-agilent-gcms.cdf",
+ "size": 2517393,
+ "sha256": "68e73597bf013ce31fac913d5a76b4a1e6079d76f53e2707df9fc4e1271ea401",
+ "max_planes_hashed": 64,
+ "reader": "scipy.io.netcdf_file (scipy 1.18.1)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "TIC"
+   ],
+   "channel_units": [
+    "Arbitrary Intensity Units"
+   ],
+   "sample_rate_hz": 1.695587022824721,
+   "sample_rate_tolerance_hz": 1e-09,
+   "x_first_min": 0.0875,
+   "x_last_min": 62.9959,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6401,
+     "channels": [
+      {
+       "xxh3": "4360fa8b9704411bc1c0b1ab19eda6de",
+       "first": [
+        3134.0,
+        3157.0,
+        3085.0,
+        3134.0,
+        3093.0,
+        3113.0,
+        3061.0,
+        3057.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 6401,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "ms_level": 1,
+    "rt_s": 5.25,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 11,
+    "mz_bits": null,
+    "xxh3_mz": "544ed1734be60a8e1fd53e6c2a9f0602",
+    "xxh3_intensity": "07169374351dc11f3a7d217f6a44d591",
+    "sum_intensity": 3134.0,
+    "mz_min": 16.0,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.0,
+      37.0
+     ],
+     [
+      17.0,
+      293.0
+     ],
+     [
+      18.100000381469727,
+      1243.0
+     ],
+     [
+      28.0,
+      737.0
+     ],
+     [
+      32.0,
+      420.0
+     ]
+    ]
+   },
+   {
+    "index": 32,
+    "scan_number": 33,
+    "ms_level": 1,
+    "rt_s": 24.122,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 11,
+    "mz_bits": null,
+    "xxh3_mz": "2b11f8f1477d1d02e9ed18b36e87c83a",
+    "xxh3_intensity": "14afb9e39974ec4946952f319561914c",
+    "sum_intensity": 2930.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      44.0
+     ],
+     [
+      17.100000381469727,
+      244.0
+     ],
+     [
+      18.100000381469727,
+      1176.0
+     ],
+     [
+      28.100000381469727,
+      703.0
+     ],
+     [
+      32.099998474121094,
+      373.0
+     ]
+    ]
+   },
+   {
+    "index": 64,
+    "scan_number": 65,
+    "ms_level": 1,
+    "rt_s": 42.995000000000005,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 11,
+    "mz_bits": null,
+    "xxh3_mz": "6435fe89bb4994d85aba15a038834740",
+    "xxh3_intensity": "a73a17830f92ccb01eb7cb5aafa7e22e",
+    "sum_intensity": 2921.0,
+    "mz_min": 16.200000762939453,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.200000762939453,
+      32.0
+     ],
+     [
+      17.100000381469727,
+      244.0
+     ],
+     [
+      18.100000381469727,
+      1128.0
+     ],
+     [
+      28.100000381469727,
+      600.0
+     ],
+     [
+      32.0,
+      451.0
+     ]
+    ]
+   },
+   {
+    "index": 96,
+    "scan_number": 97,
+    "ms_level": 1,
+    "rt_s": 61.867000000000004,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 11,
+    "mz_bits": null,
+    "xxh3_mz": "6e84f9ff9e031115e7863114e37d5916",
+    "xxh3_intensity": "1dd8d155e043d4af267d3595eb7189ea",
+    "sum_intensity": 2831.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      30.0
+     ],
+     [
+      17.100000381469727,
+      251.0
+     ],
+     [
+      18.100000381469727,
+      1073.0
+     ],
+     [
+      28.100000381469727,
+      663.0
+     ],
+     [
+      32.0,
+      383.0
+     ]
+    ]
+   },
+   {
+    "index": 129,
+    "scan_number": 130,
+    "ms_level": 1,
+    "rt_s": 81.33,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 11,
+    "mz_bits": null,
+    "xxh3_mz": "8e14c835f7e3618f0920bdd09b7b4722",
+    "xxh3_intensity": "c213c04098f982f9326883d24b1441f2",
+    "sum_intensity": 2909.0,
+    "mz_min": 16.0,
+    "mz_max": 206.8000030517578,
+    "first_peaks": [
+     [
+      16.0,
+      40.0
+     ],
+     [
+      17.0,
+      242.0
+     ],
+     [
+      18.100000381469727,
+      1162.0
+     ],
+     [
+      28.100000381469727,
+      622.0
+     ],
+     [
+      32.0,
+      416.0
+     ]
+    ]
+   },
+   {
+    "index": 161,
+    "scan_number": 162,
+    "ms_level": 1,
+    "rt_s": 100.202,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 38,
+    "mz_bits": null,
+    "xxh3_mz": "1b128f8be518692ff91aa2a3ce37a96e",
+    "xxh3_intensity": "71e344195a94259dc95fad1247ad7099",
+    "sum_intensity": 125177.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      66.0
+     ],
+     [
+      15.100000381469727,
+      402.0
+     ],
+     [
+      16.100000381469727,
+      70.0
+     ],
+     [
+      17.100000381469727,
+      496.0
+     ],
+     [
+      18.100000381469727,
+      2194.0
+     ]
+    ]
+   },
+   {
+    "index": 193,
+    "scan_number": 194,
+    "ms_level": 1,
+    "rt_s": 119.075,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 105,
+    "mz_bits": null,
+    "xxh3_mz": "ae548c6c6b3e70287a779e7711af1ed5",
+    "xxh3_intensity": "38295d404e3573a5b75999ff225aca34",
+    "sum_intensity": 670101.0,
+    "mz_min": 12.100000381469727,
+    "mz_max": 289.0,
+    "first_peaks": [
+     [
+      12.100000381469727,
+      251.0
+     ],
+     [
+      13.100000381469727,
+      625.0
+     ],
+     [
+      14.100000381469727,
+      1088.0
+     ],
+     [
+      15.100000381469727,
+      209.0
+     ],
+     [
+      16.100000381469727,
+      56.0
+     ]
+    ]
+   },
+   {
+    "index": 225,
+    "scan_number": 226,
+    "ms_level": 1,
+    "rt_s": 137.947,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 68,
+    "mz_bits": null,
+    "xxh3_mz": "bdf2801aff9576b8bddb72c3193ed7d6",
+    "xxh3_intensity": "a55975c47c11533596ece66dcdfb96a1",
+    "sum_intensity": 29300.0,
+    "mz_min": 14.199999809265137,
+    "mz_max": 270.0,
+    "first_peaks": [
+     [
+      14.199999809265137,
+      34.0
+     ],
+     [
+      16.200000762939453,
+      35.0
+     ],
+     [
+      17.100000381469727,
+      208.0
+     ],
+     [
+      18.100000381469727,
+      1077.0
+     ],
+     [
+      26.100000381469727,
+      31.0
+     ]
+    ]
+   },
+   {
+    "index": 257,
+    "scan_number": 258,
+    "ms_level": 1,
+    "rt_s": 156.82,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 55,
+    "mz_bits": null,
+    "xxh3_mz": "2ebc0ee1bc38f58ac2d5b46efe51b308",
+    "xxh3_intensity": "52a2dfc6fd593915b4da437dec615855",
+    "sum_intensity": 18593.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      20.0
+     ],
+     [
+      16.100000381469727,
+      40.0
+     ],
+     [
+      17.0,
+      226.0
+     ],
+     [
+      18.100000381469727,
+      1015.0
+     ],
+     [
+      27.100000381469727,
+      220.0
+     ]
+    ]
+   },
+   {
+    "index": 289,
+    "scan_number": 290,
+    "ms_level": 1,
+    "rt_s": 175.692,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 70,
+    "mz_bits": null,
+    "xxh3_mz": "b07da24ebeb269f2864bcf191808e688",
+    "xxh3_intensity": "21dd019260054ec1edb7a1f1870650c9",
+    "sum_intensity": 143911.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      22.0
+     ],
+     [
+      15.100000381469727,
+      175.0
+     ],
+     [
+      15.899999618530273,
+      45.0
+     ],
+     [
+      17.0,
+      236.0
+     ],
+     [
+      18.100000381469727,
+      1020.0
+     ]
+    ]
+   },
+   {
+    "index": 322,
+    "scan_number": 323,
+    "ms_level": 1,
+    "rt_s": 195.154,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 56,
+    "mz_bits": null,
+    "xxh3_mz": "5d9f0f4639725c37f4600abc4d72b5a3",
+    "xxh3_intensity": "7680a5cfc31b394b7e9bd81c672d26e6",
+    "sum_intensity": 11022.0,
+    "mz_min": 14.199999809265137,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      14.199999809265137,
+      21.0
+     ],
+     [
+      16.0,
+      25.0
+     ],
+     [
+      17.100000381469727,
+      249.0
+     ],
+     [
+      18.100000381469727,
+      1054.0
+     ],
+     [
+      26.100000381469727,
+      21.0
+     ]
+    ]
+   },
+   {
+    "index": 354,
+    "scan_number": 355,
+    "ms_level": 1,
+    "rt_s": 214.02700000000002,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 54,
+    "mz_bits": null,
+    "xxh3_mz": "656103c79468aef9b91cb643dfbb8258",
+    "xxh3_intensity": "27ad2c5426c5f57adcae65d0af76f9ed",
+    "sum_intensity": 31730.0,
+    "mz_min": 14.0,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      14.0,
+      20.0
+     ],
+     [
+      16.100000381469727,
+      33.0
+     ],
+     [
+      17.100000381469727,
+      252.0
+     ],
+     [
+      18.100000381469727,
+      1125.0
+     ],
+     [
+      26.0,
+      27.0
+     ]
+    ]
+   },
+   {
+    "index": 386,
+    "scan_number": 387,
+    "ms_level": 1,
+    "rt_s": 232.9,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 43,
+    "mz_bits": null,
+    "xxh3_mz": "f51cffea6dae47ceabb68bf4b393fd93",
+    "xxh3_intensity": "0c394e89fdd6e4979fc418c5865ded8a",
+    "sum_intensity": 9648.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      28.0
+     ],
+     [
+      17.0,
+      239.0
+     ],
+     [
+      18.100000381469727,
+      1070.0
+     ],
+     [
+      27.0,
+      100.0
+     ],
+     [
+      28.100000381469727,
+      704.0
+     ]
+    ]
+   },
+   {
+    "index": 418,
+    "scan_number": 419,
+    "ms_level": 1,
+    "rt_s": 251.77200000000002,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 74,
+    "mz_bits": null,
+    "xxh3_mz": "9741c7d02e7c33f077563b30982fa7cb",
+    "xxh3_intensity": "bdcbb6687a453d3176a6dddf4d9f9a7f",
+    "sum_intensity": 428781.0,
+    "mz_min": 14.0,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      14.0,
+      29.0
+     ],
+     [
+      15.100000381469727,
+      93.0
+     ],
+     [
+      16.0,
+      45.0
+     ],
+     [
+      17.100000381469727,
+      245.0
+     ],
+     [
+      18.100000381469727,
+      1061.0
+     ]
+    ]
+   },
+   {
+    "index": 450,
+    "scan_number": 451,
+    "ms_level": 1,
+    "rt_s": 270.645,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 28,
+    "mz_bits": null,
+    "xxh3_mz": "f680f67373e961e372cb557d805e98a6",
+    "xxh3_intensity": "d82f75dc4f891c3fe32d37ede90456e7",
+    "sum_intensity": 5596.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      35.0
+     ],
+     [
+      17.0,
+      208.0
+     ],
+     [
+      18.100000381469727,
+      1105.0
+     ],
+     [
+      28.0,
+      678.0
+     ],
+     [
+      32.0,
+      430.0
+     ]
+    ]
+   },
+   {
+    "index": 482,
+    "scan_number": 483,
+    "ms_level": 1,
+    "rt_s": 289.517,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 57,
+    "mz_bits": null,
+    "xxh3_mz": "b4677be3c91bd7f1f1f96ecfd0c32c07",
+    "xxh3_intensity": "61d8391e5d4a271c517ece7b26b35618",
+    "sum_intensity": 16366.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      34.0
+     ],
+     [
+      17.0,
+      242.0
+     ],
+     [
+      18.100000381469727,
+      1106.0
+     ],
+     [
+      27.0,
+      260.0
+     ],
+     [
+      28.100000381469727,
+      747.0
+     ]
+    ]
+   },
+   {
+    "index": 515,
+    "scan_number": 516,
+    "ms_level": 1,
+    "rt_s": 308.97900000000004,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 39,
+    "mz_bits": null,
+    "xxh3_mz": "1e7e8a1e47e737dfc40b6d534c26f39c",
+    "xxh3_intensity": "e5b18498f223ead486d58361ef7748fb",
+    "sum_intensity": 6217.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      33.0
+     ],
+     [
+      17.100000381469727,
+      242.0
+     ],
+     [
+      18.100000381469727,
+      1125.0
+     ],
+     [
+      27.100000381469727,
+      31.0
+     ],
+     [
+      28.100000381469727,
+      703.0
+     ]
+    ]
+   },
+   {
+    "index": 547,
+    "scan_number": 548,
+    "ms_level": 1,
+    "rt_s": 327.852,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 41,
+    "mz_bits": null,
+    "xxh3_mz": "ff1bc670ed44dc72ec7522e7dea942db",
+    "xxh3_intensity": "7f382003f3ade7569c55a2a6857d7c34",
+    "sum_intensity": 5953.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      40.0
+     ],
+     [
+      17.0,
+      257.0
+     ],
+     [
+      18.100000381469727,
+      1102.0
+     ],
+     [
+      26.899999618530273,
+      24.0
+     ],
+     [
+      28.0,
+      721.0
+     ]
+    ]
+   },
+   {
+    "index": 579,
+    "scan_number": 580,
+    "ms_level": 1,
+    "rt_s": 346.724,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 43,
+    "mz_bits": null,
+    "xxh3_mz": "53b06d9ef6863ccf0953031720a34ee4",
+    "xxh3_intensity": "a1c387c812246100e90a170608856347",
+    "sum_intensity": 8534.0,
+    "mz_min": 16.0,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.0,
+      37.0
+     ],
+     [
+      17.100000381469727,
+      250.0
+     ],
+     [
+      18.100000381469727,
+      1159.0
+     ],
+     [
+      27.100000381469727,
+      51.0
+     ],
+     [
+      28.100000381469727,
+      732.0
+     ]
+    ]
+   },
+   {
+    "index": 611,
+    "scan_number": 612,
+    "ms_level": 1,
+    "rt_s": 365.597,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 35,
+    "mz_bits": null,
+    "xxh3_mz": "b83d82dc887d14f4872d12b4d39c1fb0",
+    "xxh3_intensity": "b0e01dcce9de3532b01818a423ef6a93",
+    "sum_intensity": 5537.0,
+    "mz_min": 16.0,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.0,
+      40.0
+     ],
+     [
+      17.0,
+      226.0
+     ],
+     [
+      18.100000381469727,
+      1022.0
+     ],
+     [
+      27.100000381469727,
+      23.0
+     ],
+     [
+      28.100000381469727,
+      711.0
+     ]
+    ]
+   },
+   {
+    "index": 643,
+    "scan_number": 644,
+    "ms_level": 1,
+    "rt_s": 384.469,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 79,
+    "mz_bits": null,
+    "xxh3_mz": "51982722334bc49b0800afd58eed761f",
+    "xxh3_intensity": "e1b9cfd6e672b47eee01457544d38ccc",
+    "sum_intensity": 160504.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      30.0
+     ],
+     [
+      15.100000381469727,
+      134.0
+     ],
+     [
+      16.100000381469727,
+      46.0
+     ],
+     [
+      17.100000381469727,
+      231.0
+     ],
+     [
+      18.100000381469727,
+      1106.0
+     ]
+    ]
+   },
+   {
+    "index": 675,
+    "scan_number": 676,
+    "ms_level": 1,
+    "rt_s": 403.342,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 60,
+    "mz_bits": null,
+    "xxh3_mz": "f40a24ee226261ed68bb407a4a7208d8",
+    "xxh3_intensity": "9e03426161aa86fed06fb31b825452d4",
+    "sum_intensity": 22409.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      38.0
+     ],
+     [
+      17.100000381469727,
+      228.0
+     ],
+     [
+      18.100000381469727,
+      1090.0
+     ],
+     [
+      27.100000381469727,
+      298.0
+     ],
+     [
+      28.100000381469727,
+      757.0
+     ]
+    ]
+   },
+   {
+    "index": 708,
+    "scan_number": 709,
+    "ms_level": 1,
+    "rt_s": 422.804,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 30,
+    "mz_bits": null,
+    "xxh3_mz": "d0a6002d0be6f6a652c3e88654fae916",
+    "xxh3_intensity": "669569e584c5c9a49f916b0665b7d5a8",
+    "sum_intensity": 5167.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.8000030517578,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      49.0
+     ],
+     [
+      17.0,
+      269.0
+     ],
+     [
+      18.100000381469727,
+      1202.0
+     ],
+     [
+      28.0,
+      671.0
+     ],
+     [
+      29.0,
+      23.0
+     ]
+    ]
+   },
+   {
+    "index": 740,
+    "scan_number": 741,
+    "ms_level": 1,
+    "rt_s": 441.677,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 70,
+    "mz_bits": null,
+    "xxh3_mz": "48467bbee48ca2ea7d522d2eef178bb6",
+    "xxh3_intensity": "caa1624ab8a2b1a52f72b10a4eb9c87b",
+    "sum_intensity": 44437.0,
+    "mz_min": 13.899999618530273,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      13.899999618530273,
+      24.0
+     ],
+     [
+      16.0,
+      50.0
+     ],
+     [
+      17.100000381469727,
+      227.0
+     ],
+     [
+      18.100000381469727,
+      1081.0
+     ],
+     [
+      26.0,
+      31.0
+     ]
+    ]
+   },
+   {
+    "index": 772,
+    "scan_number": 773,
+    "ms_level": 1,
+    "rt_s": 460.54900000000004,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 20,
+    "mz_bits": null,
+    "xxh3_mz": "c686ef8df85a36e6af9301e61727288c",
+    "xxh3_intensity": "8d2b951a7f62643afe097571b63d444a",
+    "sum_intensity": 4007.0,
+    "mz_min": 16.0,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.0,
+      31.0
+     ],
+     [
+      17.0,
+      243.0
+     ],
+     [
+      18.100000381469727,
+      1046.0
+     ],
+     [
+      28.100000381469727,
+      600.0
+     ],
+     [
+      32.0,
+      406.0
+     ]
+    ]
+   },
+   {
+    "index": 804,
+    "scan_number": 805,
+    "ms_level": 1,
+    "rt_s": 479.422,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 20,
+    "mz_bits": null,
+    "xxh3_mz": "05d61375850a84e9c28c57003e9dc273",
+    "xxh3_intensity": "cc96a4e827c1dab1c776fd151d073d6d",
+    "sum_intensity": 4252.0,
+    "mz_min": 16.0,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.0,
+      38.0
+     ],
+     [
+      17.0,
+      271.0
+     ],
+     [
+      18.100000381469727,
+      1129.0
+     ],
+     [
+      28.100000381469727,
+      663.0
+     ],
+     [
+      32.0,
+      457.0
+     ]
+    ]
+   },
+   {
+    "index": 836,
+    "scan_number": 837,
+    "ms_level": 1,
+    "rt_s": 498.294,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 62,
+    "mz_bits": null,
+    "xxh3_mz": "cb1dd9e5011cb4033c451f3a94df2503",
+    "xxh3_intensity": "92982e2d345531d7d1a0db8823e33433",
+    "sum_intensity": 15820.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      23.0
+     ],
+     [
+      16.100000381469727,
+      31.0
+     ],
+     [
+      17.100000381469727,
+      236.0
+     ],
+     [
+      18.100000381469727,
+      1085.0
+     ],
+     [
+      27.100000381469727,
+      101.0
+     ]
+    ]
+   },
+   {
+    "index": 868,
+    "scan_number": 869,
+    "ms_level": 1,
+    "rt_s": 517.167,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 40,
+    "mz_bits": null,
+    "xxh3_mz": "a2e51ae0521c2455d0d74eed773e8eef",
+    "xxh3_intensity": "1b2f534e1a814ff5380afaf2ff3e0dc8",
+    "sum_intensity": 5397.0,
+    "mz_min": 16.0,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.0,
+      44.0
+     ],
+     [
+      17.100000381469727,
+      231.0
+     ],
+     [
+      18.100000381469727,
+      1108.0
+     ],
+     [
+      27.0,
+      35.0
+     ],
+     [
+      28.100000381469727,
+      797.0
+     ]
+    ]
+   },
+   {
+    "index": 901,
+    "scan_number": 902,
+    "ms_level": 1,
+    "rt_s": 536.629,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 25,
+    "mz_bits": null,
+    "xxh3_mz": "bca9c95628d110b68f0f080971a0db30",
+    "xxh3_intensity": "31f855812ac485deca767e284d5d5120",
+    "sum_intensity": 4252.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      47.0
+     ],
+     [
+      17.0,
+      298.0
+     ],
+     [
+      18.100000381469727,
+      1111.0
+     ],
+     [
+      28.100000381469727,
+      673.0
+     ],
+     [
+      32.0,
+      414.0
+     ]
+    ]
+   },
+   {
+    "index": 933,
+    "scan_number": 934,
+    "ms_level": 1,
+    "rt_s": 555.5020000000001,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 35,
+    "mz_bits": null,
+    "xxh3_mz": "77f59d0c8f02e482081c0cd972de3269",
+    "xxh3_intensity": "56d7d3d470fe70fc038a575af7d6e11d",
+    "sum_intensity": 5336.0,
+    "mz_min": 16.0,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.0,
+      29.0
+     ],
+     [
+      17.100000381469727,
+      265.0
+     ],
+     [
+      18.100000381469727,
+      1066.0
+     ],
+     [
+      27.0,
+      25.0
+     ],
+     [
+      28.100000381469727,
+      604.0
+     ]
+    ]
+   },
+   {
+    "index": 965,
+    "scan_number": 966,
+    "ms_level": 1,
+    "rt_s": 574.374,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 37,
+    "mz_bits": null,
+    "xxh3_mz": "54b9d32dfb4f9fce658684cafdd7d146",
+    "xxh3_intensity": "8e529d5de266c5f949abf32c85a83781",
+    "sum_intensity": 5248.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      31.0
+     ],
+     [
+      17.100000381469727,
+      283.0
+     ],
+     [
+      18.100000381469727,
+      1093.0
+     ],
+     [
+      28.100000381469727,
+      719.0
+     ],
+     [
+      29.100000381469727,
+      27.0
+     ]
+    ]
+   },
+   {
+    "index": 997,
+    "scan_number": 998,
+    "ms_level": 1,
+    "rt_s": 593.247,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 27,
+    "mz_bits": null,
+    "xxh3_mz": "98d8af7fcf70a13e1bdd6e0dac81ff29",
+    "xxh3_intensity": "cccea2af11f7f1e9a17711bf59a991b2",
+    "sum_intensity": 4119.0,
+    "mz_min": 16.0,
+    "mz_max": 281.1000061035156,
+    "first_peaks": [
+     [
+      16.0,
+      23.0
+     ],
+     [
+      17.0,
+      241.0
+     ],
+     [
+      18.100000381469727,
+      1122.0
+     ],
+     [
+      28.100000381469727,
+      645.0
+     ],
+     [
+      29.0,
+      24.0
+     ]
+    ]
+   },
+   {
+    "index": 1029,
+    "scan_number": 1030,
+    "ms_level": 1,
+    "rt_s": 612.1189999999999,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 28,
+    "mz_bits": null,
+    "xxh3_mz": "16a1f64df578d4dbd034cbc0227f54ec",
+    "xxh3_intensity": "f0fdf114cbc7a4ebae48c381b6822052",
+    "sum_intensity": 4366.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      39.0
+     ],
+     [
+      17.100000381469727,
+      260.0
+     ],
+     [
+      18.100000381469727,
+      1165.0
+     ],
+     [
+      28.100000381469727,
+      604.0
+     ],
+     [
+      32.0,
+      450.0
+     ]
+    ]
+   },
+   {
+    "index": 1061,
+    "scan_number": 1062,
+    "ms_level": 1,
+    "rt_s": 630.992,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 36,
+    "mz_bits": null,
+    "xxh3_mz": "e11db623e73b0f364f0663ecb7f50651",
+    "xxh3_intensity": "bc4acef7c16a95e958f7397caf62249e",
+    "sum_intensity": 4891.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 281.20001220703125,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      21.0
+     ],
+     [
+      17.100000381469727,
+      224.0
+     ],
+     [
+      18.100000381469727,
+      1083.0
+     ],
+     [
+      28.0,
+      583.0
+     ],
+     [
+      29.0,
+      26.0
+     ]
+    ]
+   },
+   {
+    "index": 1093,
+    "scan_number": 1094,
+    "ms_level": 1,
+    "rt_s": 649.864,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 18,
+    "mz_bits": null,
+    "xxh3_mz": "30cc2a3c2d45e8097d2c19cf74666f03",
+    "xxh3_intensity": "42b65bd10e781899b1d73f45aa2ba2a9",
+    "sum_intensity": 3698.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      35.0
+     ],
+     [
+      17.100000381469727,
+      245.0
+     ],
+     [
+      18.100000381469727,
+      1051.0
+     ],
+     [
+      28.0,
+      674.0
+     ],
+     [
+      32.0,
+      391.0
+     ]
+    ]
+   },
+   {
+    "index": 1126,
+    "scan_number": 1127,
+    "ms_level": 1,
+    "rt_s": 669.327,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 22,
+    "mz_bits": null,
+    "xxh3_mz": "670a6c8fbc9f34f9505322d32d0fae73",
+    "xxh3_intensity": "ab5f5017dbfba15a82f2d478a9929189",
+    "sum_intensity": 3924.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 281.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      41.0
+     ],
+     [
+      17.100000381469727,
+      241.0
+     ],
+     [
+      18.100000381469727,
+      1115.0
+     ],
+     [
+      28.0,
+      713.0
+     ],
+     [
+      32.0,
+      410.0
+     ]
+    ]
+   },
+   {
+    "index": 1158,
+    "scan_number": 1159,
+    "ms_level": 1,
+    "rt_s": 688.199,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 30,
+    "mz_bits": null,
+    "xxh3_mz": "1cce04e147d0054805b345180e5faf8f",
+    "xxh3_intensity": "09bee773c2b3f28a7ebfa3ebf3c893e2",
+    "sum_intensity": 4846.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 281.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      31.0
+     ],
+     [
+      17.100000381469727,
+      259.0
+     ],
+     [
+      18.100000381469727,
+      1117.0
+     ],
+     [
+      28.100000381469727,
+      653.0
+     ],
+     [
+      32.0,
+      407.0
+     ]
+    ]
+   },
+   {
+    "index": 1190,
+    "scan_number": 1191,
+    "ms_level": 1,
+    "rt_s": 707.072,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 49,
+    "mz_bits": null,
+    "xxh3_mz": "f839832dffd7ef5e9f0cbf290c1ebf71",
+    "xxh3_intensity": "533ea77e6ec880f0e7ea196f252a665a",
+    "sum_intensity": 10832.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      36.0
+     ],
+     [
+      17.100000381469727,
+      263.0
+     ],
+     [
+      18.100000381469727,
+      1094.0
+     ],
+     [
+      27.0,
+      45.0
+     ],
+     [
+      28.0,
+      696.0
+     ]
+    ]
+   },
+   {
+    "index": 1222,
+    "scan_number": 1223,
+    "ms_level": 1,
+    "rt_s": 725.9440000000001,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 25,
+    "mz_bits": null,
+    "xxh3_mz": "2607c734172bdf14e183eda2d836a539",
+    "xxh3_intensity": "139ec4841b1116671621b73892058059",
+    "sum_intensity": 3866.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 281.0,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      20.0
+     ],
+     [
+      16.0,
+      33.0
+     ],
+     [
+      17.0,
+      249.0
+     ],
+     [
+      18.100000381469727,
+      1044.0
+     ],
+     [
+      28.0,
+      644.0
+     ]
+    ]
+   },
+   {
+    "index": 1254,
+    "scan_number": 1255,
+    "ms_level": 1,
+    "rt_s": 744.817,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 65,
+    "mz_bits": null,
+    "xxh3_mz": "4fa76ca545bc1def63c3d7c52182b6e5",
+    "xxh3_intensity": "3ea06900bf401dae338fa38c2e792389",
+    "sum_intensity": 17416.0,
+    "mz_min": 16.0,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.0,
+      35.0
+     ],
+     [
+      17.100000381469727,
+      233.0
+     ],
+     [
+      18.100000381469727,
+      1049.0
+     ],
+     [
+      27.100000381469727,
+      97.0
+     ],
+     [
+      28.100000381469727,
+      639.0
+     ]
+    ]
+   },
+   {
+    "index": 1286,
+    "scan_number": 1287,
+    "ms_level": 1,
+    "rt_s": 763.689,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 63,
+    "mz_bits": null,
+    "xxh3_mz": "62cf5e87372575727f84bc3305feda37",
+    "xxh3_intensity": "86194ad93b4e0be74730b5217cad2720",
+    "sum_intensity": 16965.0,
+    "mz_min": 16.0,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.0,
+      26.0
+     ],
+     [
+      17.100000381469727,
+      264.0
+     ],
+     [
+      18.100000381469727,
+      1069.0
+     ],
+     [
+      27.0,
+      73.0
+     ],
+     [
+      28.100000381469727,
+      678.0
+     ]
+    ]
+   },
+   {
+    "index": 1319,
+    "scan_number": 1320,
+    "ms_level": 1,
+    "rt_s": 783.1510000000001,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 87,
+    "mz_bits": null,
+    "xxh3_mz": "dd8334f4ea6ecdc0bc271c18063b7174",
+    "xxh3_intensity": "2d03260d59f16ffa5f2f3863ff3a4af3",
+    "sum_intensity": 41838.0,
+    "mz_min": 15.0,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      15.0,
+      26.0
+     ],
+     [
+      16.0,
+      27.0
+     ],
+     [
+      17.100000381469727,
+      283.0
+     ],
+     [
+      18.100000381469727,
+      1070.0
+     ],
+     [
+      27.0,
+      188.0
+     ]
+    ]
+   },
+   {
+    "index": 1351,
+    "scan_number": 1352,
+    "ms_level": 1,
+    "rt_s": 802.024,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 36,
+    "mz_bits": null,
+    "xxh3_mz": "aa3c9a7b5b8865c83e2202fd8aa8938a",
+    "xxh3_intensity": "b1f8aa5aa3aa0dd10cc7fabe9842058e",
+    "sum_intensity": 5361.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      32.0
+     ],
+     [
+      17.100000381469727,
+      245.0
+     ],
+     [
+      18.100000381469727,
+      1026.0
+     ],
+     [
+      28.0,
+      709.0
+     ],
+     [
+      32.0,
+      416.0
+     ]
+    ]
+   },
+   {
+    "index": 1383,
+    "scan_number": 1384,
+    "ms_level": 1,
+    "rt_s": 820.896,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "a73634bf79b5e947229a52fc4b8a29ec",
+    "xxh3_intensity": "0d7d75833202f9e09ac63188d8c9cbee",
+    "sum_intensity": 3896.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      48.0
+     ],
+     [
+      17.100000381469727,
+      257.0
+     ],
+     [
+      18.100000381469727,
+      1075.0
+     ],
+     [
+      28.100000381469727,
+      663.0
+     ],
+     [
+      32.0,
+      413.0
+     ]
+    ]
+   },
+   {
+    "index": 1415,
+    "scan_number": 1416,
+    "ms_level": 1,
+    "rt_s": 839.769,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 29,
+    "mz_bits": null,
+    "xxh3_mz": "2a393933118ad44da9405e1ae0f1ba8c",
+    "xxh3_intensity": "d9e2a2f366d1e73a7a4ee65286722ec2",
+    "sum_intensity": 4599.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      30.0
+     ],
+     [
+      17.100000381469727,
+      222.0
+     ],
+     [
+      18.100000381469727,
+      1050.0
+     ],
+     [
+      28.100000381469727,
+      651.0
+     ],
+     [
+      32.0,
+      403.0
+     ]
+    ]
+   },
+   {
+    "index": 1447,
+    "scan_number": 1448,
+    "ms_level": 1,
+    "rt_s": 858.641,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 28,
+    "mz_bits": null,
+    "xxh3_mz": "9972021788ca341b5398e8fba7b714e3",
+    "xxh3_intensity": "619005b1cf6a3e261d5d91e49b3db2c5",
+    "sum_intensity": 4465.0,
+    "mz_min": 16.0,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.0,
+      21.0
+     ],
+     [
+      17.100000381469727,
+      258.0
+     ],
+     [
+      18.100000381469727,
+      1138.0
+     ],
+     [
+      28.100000381469727,
+      642.0
+     ],
+     [
+      32.0,
+      392.0
+     ]
+    ]
+   },
+   {
+    "index": 1479,
+    "scan_number": 1480,
+    "ms_level": 1,
+    "rt_s": 877.514,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 28,
+    "mz_bits": null,
+    "xxh3_mz": "19444ed838e3f31bc94f874ff1e4e4a6",
+    "xxh3_intensity": "af4d4e5ac36a3fa6f5caf33094c7ae05",
+    "sum_intensity": 3981.0,
+    "mz_min": 16.0,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.0,
+      26.0
+     ],
+     [
+      17.100000381469727,
+      243.0
+     ],
+     [
+      18.100000381469727,
+      1122.0
+     ],
+     [
+      28.0,
+      660.0
+     ],
+     [
+      32.0,
+      406.0
+     ]
+    ]
+   },
+   {
+    "index": 1512,
+    "scan_number": 1513,
+    "ms_level": 1,
+    "rt_s": 896.976,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 60,
+    "mz_bits": null,
+    "xxh3_mz": "4b85c8f777980a290c46aa2a6593eb8e",
+    "xxh3_intensity": "ed9d862c4fc17f78a4449fa7a9926e34",
+    "sum_intensity": 16190.0,
+    "mz_min": 15.899999618530273,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      15.899999618530273,
+      48.0
+     ],
+     [
+      17.100000381469727,
+      264.0
+     ],
+     [
+      18.100000381469727,
+      1058.0
+     ],
+     [
+      27.0,
+      42.0
+     ],
+     [
+      28.0,
+      680.0
+     ]
+    ]
+   },
+   {
+    "index": 1544,
+    "scan_number": 1545,
+    "ms_level": 1,
+    "rt_s": 915.849,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 61,
+    "mz_bits": null,
+    "xxh3_mz": "c0cc972f21b285fcae434b419a456971",
+    "xxh3_intensity": "8db445ad2deeffe583b2b1d1730524c8",
+    "sum_intensity": 18757.0,
+    "mz_min": 16.0,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.0,
+      31.0
+     ],
+     [
+      17.100000381469727,
+      208.0
+     ],
+     [
+      18.100000381469727,
+      1171.0
+     ],
+     [
+      27.0,
+      53.0
+     ],
+     [
+      28.0,
+      675.0
+     ]
+    ]
+   },
+   {
+    "index": 1576,
+    "scan_number": 1577,
+    "ms_level": 1,
+    "rt_s": 934.721,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "13cb83799af1b4fcf8211790a6e9ccc5",
+    "xxh3_intensity": "e421a4b999321c3fcf0f6a47ffedcb79",
+    "sum_intensity": 3997.0,
+    "mz_min": 15.899999618530273,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      15.899999618530273,
+      26.0
+     ],
+     [
+      17.100000381469727,
+      271.0
+     ],
+     [
+      18.100000381469727,
+      1068.0
+     ],
+     [
+      28.100000381469727,
+      635.0
+     ],
+     [
+      32.0,
+      434.0
+     ]
+    ]
+   },
+   {
+    "index": 1608,
+    "scan_number": 1609,
+    "ms_level": 1,
+    "rt_s": 953.5939999999999,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 22,
+    "mz_bits": null,
+    "xxh3_mz": "b8a66dfce20d4ee44b817c4453450343",
+    "xxh3_intensity": "169f7c452fa3c1712f5ddf442e49b690",
+    "sum_intensity": 3725.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 280.8999938964844,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      33.0
+     ],
+     [
+      17.100000381469727,
+      261.0
+     ],
+     [
+      18.100000381469727,
+      1032.0
+     ],
+     [
+      28.100000381469727,
+      696.0
+     ],
+     [
+      32.0,
+      423.0
+     ]
+    ]
+   },
+   {
+    "index": 1640,
+    "scan_number": 1641,
+    "ms_level": 1,
+    "rt_s": 972.4660000000001,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 20,
+    "mz_bits": null,
+    "xxh3_mz": "5f785b8d061cbc55266ea75f84690649",
+    "xxh3_intensity": "e23fe9e58dfa1351bc9d6a3d68a664dd",
+    "sum_intensity": 3665.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.1999969482422,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      44.0
+     ],
+     [
+      17.100000381469727,
+      221.0
+     ],
+     [
+      18.100000381469727,
+      1076.0
+     ],
+     [
+      28.0,
+      677.0
+     ],
+     [
+      32.0,
+      418.0
+     ]
+    ]
+   },
+   {
+    "index": 1672,
+    "scan_number": 1673,
+    "ms_level": 1,
+    "rt_s": 991.3389999999999,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "d1a058690fcb098630dbce57106404c4",
+    "xxh3_intensity": "d7ca026f6f3c452e43cd5654ec5cf157",
+    "sum_intensity": 3788.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      35.0
+     ],
+     [
+      17.100000381469727,
+      254.0
+     ],
+     [
+      18.100000381469727,
+      1088.0
+     ],
+     [
+      28.100000381469727,
+      693.0
+     ],
+     [
+      29.0,
+      30.0
+     ]
+    ]
+   },
+   {
+    "index": 1705,
+    "scan_number": 1706,
+    "ms_level": 1,
+    "rt_s": 1010.801,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 19,
+    "mz_bits": null,
+    "xxh3_mz": "01b74defb154638299d48c315a78b0ab",
+    "xxh3_intensity": "69215e9debbafa0596a8db2b72c8143a",
+    "sum_intensity": 3638.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      34.0
+     ],
+     [
+      17.0,
+      261.0
+     ],
+     [
+      18.100000381469727,
+      1033.0
+     ],
+     [
+      28.0,
+      699.0
+     ],
+     [
+      32.0,
+      464.0
+     ]
+    ]
+   },
+   {
+    "index": 1737,
+    "scan_number": 1738,
+    "ms_level": 1,
+    "rt_s": 1029.674,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 19,
+    "mz_bits": null,
+    "xxh3_mz": "b8d16c8e8dbcb1dc6fbbf5c65d079d0a",
+    "xxh3_intensity": "96022df4645e9ba6d993e289df5af15d",
+    "sum_intensity": 3551.0,
+    "mz_min": 16.0,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.0,
+      24.0
+     ],
+     [
+      17.100000381469727,
+      221.0
+     ],
+     [
+      18.100000381469727,
+      1028.0
+     ],
+     [
+      28.0,
+      665.0
+     ],
+     [
+      32.0,
+      466.0
+     ]
+    ]
+   },
+   {
+    "index": 1769,
+    "scan_number": 1770,
+    "ms_level": 1,
+    "rt_s": 1048.5459999999998,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 22,
+    "mz_bits": null,
+    "xxh3_mz": "cbb358d639e65b9392f33700638682ab",
+    "xxh3_intensity": "31ef4f7aa7907da58926cabcfcd458c6",
+    "sum_intensity": 3678.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      30.0
+     ],
+     [
+      17.0,
+      254.0
+     ],
+     [
+      18.100000381469727,
+      1066.0
+     ],
+     [
+      28.0,
+      686.0
+     ],
+     [
+      32.0,
+      437.0
+     ]
+    ]
+   },
+   {
+    "index": 1801,
+    "scan_number": 1802,
+    "ms_level": 1,
+    "rt_s": 1067.4189999999999,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "1a0cc215d01baa513afc57b52ace0568",
+    "xxh3_intensity": "c4662db8727fe34639c6b3e1bec3f350",
+    "sum_intensity": 4157.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 281.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      51.0
+     ],
+     [
+      17.100000381469727,
+      255.0
+     ],
+     [
+      18.100000381469727,
+      1099.0
+     ],
+     [
+      28.100000381469727,
+      651.0
+     ],
+     [
+      32.0,
+      456.0
+     ]
+    ]
+   },
+   {
+    "index": 1833,
+    "scan_number": 1834,
+    "ms_level": 1,
+    "rt_s": 1086.291,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "4d75f8f14b20fab9f3af482052e7d224",
+    "xxh3_intensity": "45694d3a7ebc7a75824fdd0c6ca402fe",
+    "sum_intensity": 3420.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      28.0
+     ],
+     [
+      17.0,
+      238.0
+     ],
+     [
+      18.100000381469727,
+      1060.0
+     ],
+     [
+      28.100000381469727,
+      669.0
+     ],
+     [
+      32.0,
+      444.0
+     ]
+    ]
+   },
+   {
+    "index": 1865,
+    "scan_number": 1866,
+    "ms_level": 1,
+    "rt_s": 1105.164,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 15,
+    "mz_bits": null,
+    "xxh3_mz": "940a74b87b394ed85fbf78636b744687",
+    "xxh3_intensity": "970137dd78f955847b5068eecf726a52",
+    "sum_intensity": 3407.0,
+    "mz_min": 16.0,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.0,
+      36.0
+     ],
+     [
+      17.0,
+      222.0
+     ],
+     [
+      18.100000381469727,
+      1094.0
+     ],
+     [
+      28.0,
+      691.0
+     ],
+     [
+      32.0,
+      384.0
+     ]
+    ]
+   },
+   {
+    "index": 1897,
+    "scan_number": 1898,
+    "ms_level": 1,
+    "rt_s": 1124.036,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 11,
+    "mz_bits": null,
+    "xxh3_mz": "87e39b02fdcd8391bbb5d8b245b7c786",
+    "xxh3_intensity": "6a194c6e1fbd0f067fcda60a85cb2be5",
+    "sum_intensity": 3238.0,
+    "mz_min": 16.0,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.0,
+      50.0
+     ],
+     [
+      17.100000381469727,
+      220.0
+     ],
+     [
+      18.100000381469727,
+      1124.0
+     ],
+     [
+      28.0,
+      624.0
+     ],
+     [
+      32.0,
+      411.0
+     ]
+    ]
+   },
+   {
+    "index": 1930,
+    "scan_number": 1931,
+    "ms_level": 1,
+    "rt_s": 1143.499,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "c061e51d5b0044c307c344316177e0e6",
+    "xxh3_intensity": "d1f227ad07e37684d2cbe64300b5ffdf",
+    "sum_intensity": 3970.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      44.0
+     ],
+     [
+      17.100000381469727,
+      273.0
+     ],
+     [
+      18.100000381469727,
+      997.0
+     ],
+     [
+      28.100000381469727,
+      646.0
+     ],
+     [
+      32.0,
+      424.0
+     ]
+    ]
+   },
+   {
+    "index": 1962,
+    "scan_number": 1963,
+    "ms_level": 1,
+    "rt_s": 1162.371,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "9fd1c2cf518d2e9bb2acb402e46a97c3",
+    "xxh3_intensity": "65d90953876cb49e2b2b0be69ed7b933",
+    "sum_intensity": 3367.0,
+    "mz_min": 16.0,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.0,
+      41.0
+     ],
+     [
+      17.0,
+      244.0
+     ],
+     [
+      18.100000381469727,
+      1093.0
+     ],
+     [
+      28.100000381469727,
+      663.0
+     ],
+     [
+      32.0,
+      446.0
+     ]
+    ]
+   },
+   {
+    "index": 1994,
+    "scan_number": 1995,
+    "ms_level": 1,
+    "rt_s": 1181.244,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 21,
+    "mz_bits": null,
+    "xxh3_mz": "4e9d9945005fc1e9938550c870c09963",
+    "xxh3_intensity": "d295dd38e92efbb117d6192a33f1e2ba",
+    "sum_intensity": 3682.0,
+    "mz_min": 16.0,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.0,
+      36.0
+     ],
+     [
+      17.100000381469727,
+      239.0
+     ],
+     [
+      18.100000381469727,
+      1017.0
+     ],
+     [
+      28.0,
+      696.0
+     ],
+     [
+      29.0,
+      20.0
+     ]
+    ]
+   },
+   {
+    "index": 2026,
+    "scan_number": 2027,
+    "ms_level": 1,
+    "rt_s": 1200.116,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 15,
+    "mz_bits": null,
+    "xxh3_mz": "85d16ddc9e47bcb079f3d2b4329d38e8",
+    "xxh3_intensity": "8d7ff10e56cdc533609aded60b4b08d3",
+    "sum_intensity": 3332.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      40.0
+     ],
+     [
+      17.100000381469727,
+      275.0
+     ],
+     [
+      18.100000381469727,
+      1031.0
+     ],
+     [
+      28.0,
+      609.0
+     ],
+     [
+      32.0,
+      455.0
+     ]
+    ]
+   },
+   {
+    "index": 2058,
+    "scan_number": 2059,
+    "ms_level": 1,
+    "rt_s": 1218.989,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 17,
+    "mz_bits": null,
+    "xxh3_mz": "3ff48a7546fe523581cf81c7de98943d",
+    "xxh3_intensity": "9baa560a78fb91a23b27acb3b34b89d6",
+    "sum_intensity": 3382.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      42.0
+     ],
+     [
+      17.0,
+      219.0
+     ],
+     [
+      18.100000381469727,
+      1060.0
+     ],
+     [
+      28.100000381469727,
+      628.0
+     ],
+     [
+      32.0,
+      431.0
+     ]
+    ]
+   },
+   {
+    "index": 2090,
+    "scan_number": 2091,
+    "ms_level": 1,
+    "rt_s": 1237.861,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 17,
+    "mz_bits": null,
+    "xxh3_mz": "53861b42d0e5372443fc4b27b7410a93",
+    "xxh3_intensity": "ca5010f148da016c0cdd7f27a707948f",
+    "sum_intensity": 3415.0,
+    "mz_min": 14.0,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      14.0,
+      20.0
+     ],
+     [
+      16.0,
+      31.0
+     ],
+     [
+      17.100000381469727,
+      268.0
+     ],
+     [
+      18.100000381469727,
+      1103.0
+     ],
+     [
+      28.100000381469727,
+      637.0
+     ]
+    ]
+   },
+   {
+    "index": 2123,
+    "scan_number": 2124,
+    "ms_level": 1,
+    "rt_s": 1257.323,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "84ed7c09ec299d151b5fbab21e1910d2",
+    "xxh3_intensity": "93473a5b5de91f54e525d02a313c44d7",
+    "sum_intensity": 3385.0,
+    "mz_min": 16.0,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.0,
+      26.0
+     ],
+     [
+      17.100000381469727,
+      239.0
+     ],
+     [
+      18.100000381469727,
+      1085.0
+     ],
+     [
+      28.100000381469727,
+      660.0
+     ],
+     [
+      32.0,
+      461.0
+     ]
+    ]
+   },
+   {
+    "index": 2155,
+    "scan_number": 2156,
+    "ms_level": 1,
+    "rt_s": 1276.1960000000001,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "5a785bf003836f0d6f9b2c0c003c9fa6",
+    "xxh3_intensity": "6929c012959726596069bcf8b2b8f71e",
+    "sum_intensity": 3301.0,
+    "mz_min": 16.0,
+    "mz_max": 281.1000061035156,
+    "first_peaks": [
+     [
+      16.0,
+      26.0
+     ],
+     [
+      17.100000381469727,
+      255.0
+     ],
+     [
+      18.100000381469727,
+      1059.0
+     ],
+     [
+      28.0,
+      660.0
+     ],
+     [
+      32.0,
+      485.0
+     ]
+    ]
+   },
+   {
+    "index": 2187,
+    "scan_number": 2188,
+    "ms_level": 1,
+    "rt_s": 1295.068,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "83cdac346d352ce895b9d567f4d6dac1",
+    "xxh3_intensity": "08f76621d9b7113130866c980efb6f91",
+    "sum_intensity": 3186.0,
+    "mz_min": 16.200000762939453,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.200000762939453,
+      26.0
+     ],
+     [
+      17.0,
+      244.0
+     ],
+     [
+      18.100000381469727,
+      1068.0
+     ],
+     [
+      28.100000381469727,
+      639.0
+     ],
+     [
+      32.0,
+      371.0
+     ]
+    ]
+   },
+   {
+    "index": 2219,
+    "scan_number": 2220,
+    "ms_level": 1,
+    "rt_s": 1313.941,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "ca1a79f24e32e2bbdd20ff726d507dc5",
+    "xxh3_intensity": "c652bc7d71a4afb31a5b9f44cdf120e4",
+    "sum_intensity": 3259.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      34.0
+     ],
+     [
+      17.100000381469727,
+      278.0
+     ],
+     [
+      18.100000381469727,
+      1108.0
+     ],
+     [
+      28.0,
+      606.0
+     ],
+     [
+      32.0,
+      435.0
+     ]
+    ]
+   },
+   {
+    "index": 2251,
+    "scan_number": 2252,
+    "ms_level": 1,
+    "rt_s": 1332.813,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 16,
+    "mz_bits": null,
+    "xxh3_mz": "35dc6451119519d6ebc8a7e18e33ec04",
+    "xxh3_intensity": "68e93790dc744a97a07955ff7c9c2d17",
+    "sum_intensity": 3472.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      37.0
+     ],
+     [
+      17.0,
+      262.0
+     ],
+     [
+      18.100000381469727,
+      1104.0
+     ],
+     [
+      28.100000381469727,
+      625.0
+     ],
+     [
+      32.0,
+      445.0
+     ]
+    ]
+   },
+   {
+    "index": 2283,
+    "scan_number": 2284,
+    "ms_level": 1,
+    "rt_s": 1351.686,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "8f8a38ea50c3d5b29be121ff2a538a43",
+    "xxh3_intensity": "f7835e68abb1d4e41350c97f9cc05706",
+    "sum_intensity": 3365.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      32.0
+     ],
+     [
+      17.100000381469727,
+      231.0
+     ],
+     [
+      18.100000381469727,
+      1109.0
+     ],
+     [
+      28.0,
+      685.0
+     ],
+     [
+      32.0,
+      489.0
+     ]
+    ]
+   },
+   {
+    "index": 2316,
+    "scan_number": 2317,
+    "ms_level": 1,
+    "rt_s": 1371.1480000000001,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 27,
+    "mz_bits": null,
+    "xxh3_mz": "aa042816614568721af11186bedfde3d",
+    "xxh3_intensity": "94612a5ec553a37f9659976bd7bacf26",
+    "sum_intensity": 4422.0,
+    "mz_min": 16.0,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.0,
+      32.0
+     ],
+     [
+      17.100000381469727,
+      287.0
+     ],
+     [
+      18.100000381469727,
+      1058.0
+     ],
+     [
+      28.0,
+      618.0
+     ],
+     [
+      32.0,
+      393.0
+     ]
+    ]
+   },
+   {
+    "index": 2348,
+    "scan_number": 2349,
+    "ms_level": 1,
+    "rt_s": 1390.021,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "de83fee291042eaaf8daa2e6db2b9ead",
+    "xxh3_intensity": "8c06e6745ca75518d90a97e138f2ec15",
+    "sum_intensity": 3170.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      37.0
+     ],
+     [
+      17.100000381469727,
+      257.0
+     ],
+     [
+      18.100000381469727,
+      1083.0
+     ],
+     [
+      28.0,
+      599.0
+     ],
+     [
+      32.0,
+      413.0
+     ]
+    ]
+   },
+   {
+    "index": 2380,
+    "scan_number": 2381,
+    "ms_level": 1,
+    "rt_s": 1408.893,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "480bb13d715fefe2a48f9538d164a29b",
+    "xxh3_intensity": "2d103cd9f22512b85334041eefe11d07",
+    "sum_intensity": 3291.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      33.0
+     ],
+     [
+      17.0,
+      284.0
+     ],
+     [
+      18.100000381469727,
+      1056.0
+     ],
+     [
+      28.0,
+      697.0
+     ],
+     [
+      32.0,
+      423.0
+     ]
+    ]
+   },
+   {
+    "index": 2412,
+    "scan_number": 2413,
+    "ms_level": 1,
+    "rt_s": 1427.7659999999998,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "1ea2d1e6cbc51fb852b3a258bebedd64",
+    "xxh3_intensity": "ebf8704747daab4fe689715db2678b7d",
+    "sum_intensity": 3238.0,
+    "mz_min": 14.199999809265137,
+    "mz_max": 206.8000030517578,
+    "first_peaks": [
+     [
+      14.199999809265137,
+      20.0
+     ],
+     [
+      16.0,
+      26.0
+     ],
+     [
+      17.100000381469727,
+      260.0
+     ],
+     [
+      18.100000381469727,
+      1084.0
+     ],
+     [
+      28.100000381469727,
+      640.0
+     ]
+    ]
+   },
+   {
+    "index": 2444,
+    "scan_number": 2445,
+    "ms_level": 1,
+    "rt_s": 1446.638,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "fcf3a247279f0a1c8046b6c747810e1e",
+    "xxh3_intensity": "353bd1833f71a073392e651677ffd6be",
+    "sum_intensity": 3330.0,
+    "mz_min": 16.0,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.0,
+      50.0
+     ],
+     [
+      17.0,
+      244.0
+     ],
+     [
+      18.100000381469727,
+      1082.0
+     ],
+     [
+      28.0,
+      683.0
+     ],
+     [
+      32.0,
+      424.0
+     ]
+    ]
+   },
+   {
+    "index": 2476,
+    "scan_number": 2477,
+    "ms_level": 1,
+    "rt_s": 1465.511,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 21,
+    "mz_bits": null,
+    "xxh3_mz": "146a0c4b60b5b4877e30399427584995",
+    "xxh3_intensity": "6a124d8523cbd1ada1e9a4a7d423e168",
+    "sum_intensity": 4011.0,
+    "mz_min": 16.0,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.0,
+      30.0
+     ],
+     [
+      17.100000381469727,
+      265.0
+     ],
+     [
+      18.100000381469727,
+      1086.0
+     ],
+     [
+      28.0,
+      635.0
+     ],
+     [
+      32.0,
+      434.0
+     ]
+    ]
+   },
+   {
+    "index": 2509,
+    "scan_number": 2510,
+    "ms_level": 1,
+    "rt_s": 1484.973,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 19,
+    "mz_bits": null,
+    "xxh3_mz": "7177d6a2b3ce39402ec2acfe20a6bae6",
+    "xxh3_intensity": "6fd324f9504f0035aebfe856bc5a6a4b",
+    "sum_intensity": 3321.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      40.0
+     ],
+     [
+      17.0,
+      247.0
+     ],
+     [
+      18.100000381469727,
+      1075.0
+     ],
+     [
+      28.100000381469727,
+      601.0
+     ],
+     [
+      32.0,
+      434.0
+     ]
+    ]
+   },
+   {
+    "index": 2541,
+    "scan_number": 2542,
+    "ms_level": 1,
+    "rt_s": 1503.846,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 16,
+    "mz_bits": null,
+    "xxh3_mz": "2cd6a777fa75a4cb8e85d25c0b0c483a",
+    "xxh3_intensity": "3dcfc310fef687076c28d4a0ba7d1fea",
+    "sum_intensity": 3401.0,
+    "mz_min": 16.200000762939453,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.200000762939453,
+      20.0
+     ],
+     [
+      17.100000381469727,
+      271.0
+     ],
+     [
+      18.100000381469727,
+      1066.0
+     ],
+     [
+      28.100000381469727,
+      710.0
+     ],
+     [
+      32.0,
+      424.0
+     ]
+    ]
+   },
+   {
+    "index": 2573,
+    "scan_number": 2574,
+    "ms_level": 1,
+    "rt_s": 1522.718,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "38ec22a7bf92067910685f1a5b11035b",
+    "xxh3_intensity": "470e5d23d953efe7a348f65351961ed6",
+    "sum_intensity": 3098.0,
+    "mz_min": 16.0,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.0,
+      41.0
+     ],
+     [
+      17.0,
+      248.0
+     ],
+     [
+      18.100000381469727,
+      1042.0
+     ],
+     [
+      28.0,
+      607.0
+     ],
+     [
+      32.0,
+      402.0
+     ]
+    ]
+   },
+   {
+    "index": 2605,
+    "scan_number": 2606,
+    "ms_level": 1,
+    "rt_s": 1541.5910000000001,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "edd6231a321e8f969c2fb55f72bf6481",
+    "xxh3_intensity": "5afcb4f892f190995cc22220060ed97e",
+    "sum_intensity": 3332.0,
+    "mz_min": 16.0,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.0,
+      52.0
+     ],
+     [
+      17.100000381469727,
+      245.0
+     ],
+     [
+      18.100000381469727,
+      1046.0
+     ],
+     [
+      28.100000381469727,
+      733.0
+     ],
+     [
+      32.0,
+      461.0
+     ]
+    ]
+   },
+   {
+    "index": 2637,
+    "scan_number": 2638,
+    "ms_level": 1,
+    "rt_s": 1560.463,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "42a012ec7042ecda00badb5210fe0768",
+    "xxh3_intensity": "ed6cf46b222f64c7224cdbff8a843c95",
+    "sum_intensity": 3355.0,
+    "mz_min": 16.0,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.0,
+      29.0
+     ],
+     [
+      17.100000381469727,
+      256.0
+     ],
+     [
+      18.0,
+      1062.0
+     ],
+     [
+      28.100000381469727,
+      645.0
+     ],
+     [
+      32.0,
+      448.0
+     ]
+    ]
+   },
+   {
+    "index": 2669,
+    "scan_number": 2670,
+    "ms_level": 1,
+    "rt_s": 1579.336,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "5fb7ccc0ca31d7a2da111751e263068f",
+    "xxh3_intensity": "c7720831e91da94880fea4a329a580a2",
+    "sum_intensity": 3259.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      44.0
+     ],
+     [
+      17.100000381469727,
+      288.0
+     ],
+     [
+      18.100000381469727,
+      1064.0
+     ],
+     [
+      28.0,
+      616.0
+     ],
+     [
+      32.0,
+      418.0
+     ]
+    ]
+   },
+   {
+    "index": 2702,
+    "scan_number": 2703,
+    "ms_level": 1,
+    "rt_s": 1598.798,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "bcdc0fe4ab9e2a08bc9c8ede074b3980",
+    "xxh3_intensity": "b3a4aeeeb5a91b957cc2a912f89f5e47",
+    "sum_intensity": 3095.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 208.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      35.0
+     ],
+     [
+      17.100000381469727,
+      236.0
+     ],
+     [
+      18.100000381469727,
+      1026.0
+     ],
+     [
+      28.100000381469727,
+      654.0
+     ],
+     [
+      32.0,
+      423.0
+     ]
+    ]
+   },
+   {
+    "index": 2734,
+    "scan_number": 2735,
+    "ms_level": 1,
+    "rt_s": 1617.671,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 18,
+    "mz_bits": null,
+    "xxh3_mz": "483f27c4c3abd2785efbbe4b70ab134a",
+    "xxh3_intensity": "7cff2fa2e8a076ac3301d9fbb2a8a7d0",
+    "sum_intensity": 3582.0,
+    "mz_min": 16.0,
+    "mz_max": 207.1999969482422,
+    "first_peaks": [
+     [
+      16.0,
+      29.0
+     ],
+     [
+      17.0,
+      256.0
+     ],
+     [
+      18.100000381469727,
+      1101.0
+     ],
+     [
+      28.100000381469727,
+      713.0
+     ],
+     [
+      32.099998474121094,
+      445.0
+     ]
+    ]
+   },
+   {
+    "index": 2766,
+    "scan_number": 2767,
+    "ms_level": 1,
+    "rt_s": 1636.5430000000001,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "6fc763f0405e90b85ebd98a2ae5e1e58",
+    "xxh3_intensity": "d365399012e2f2ebb7d0d7ae34bf3c2a",
+    "sum_intensity": 3178.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      40.0
+     ],
+     [
+      17.100000381469727,
+      245.0
+     ],
+     [
+      18.100000381469727,
+      1069.0
+     ],
+     [
+      28.100000381469727,
+      654.0
+     ],
+     [
+      32.0,
+      440.0
+     ]
+    ]
+   },
+   {
+    "index": 2798,
+    "scan_number": 2799,
+    "ms_level": 1,
+    "rt_s": 1655.4160000000002,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "90b27d104d6a790761e71b60a6da6cf0",
+    "xxh3_intensity": "5c87386b72572e50583c97409d2c2796",
+    "sum_intensity": 3148.0,
+    "mz_min": 16.0,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.0,
+      20.0
+     ],
+     [
+      17.0,
+      225.0
+     ],
+     [
+      18.100000381469727,
+      1034.0
+     ],
+     [
+      28.100000381469727,
+      626.0
+     ],
+     [
+      32.0,
+      452.0
+     ]
+    ]
+   },
+   {
+    "index": 2830,
+    "scan_number": 2831,
+    "ms_level": 1,
+    "rt_s": 1674.288,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "3d6e1adf01f9da8ff993b8520f36ff31",
+    "xxh3_intensity": "72ce1b26eb6e15f7cb7ded0ff956d10a",
+    "sum_intensity": 3237.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      47.0
+     ],
+     [
+      17.100000381469727,
+      253.0
+     ],
+     [
+      18.100000381469727,
+      1041.0
+     ],
+     [
+      28.100000381469727,
+      689.0
+     ],
+     [
+      32.0,
+      413.0
+     ]
+    ]
+   },
+   {
+    "index": 2862,
+    "scan_number": 2863,
+    "ms_level": 1,
+    "rt_s": 1693.1609999999998,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "09d5e1635dd1e2c00432edd6c307d861",
+    "xxh3_intensity": "6a32f88096d4914d3fb2768da974c67d",
+    "sum_intensity": 3104.0,
+    "mz_min": 16.0,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.0,
+      50.0
+     ],
+     [
+      17.100000381469727,
+      246.0
+     ],
+     [
+      18.100000381469727,
+      1041.0
+     ],
+     [
+      28.0,
+      682.0
+     ],
+     [
+      32.0,
+      384.0
+     ]
+    ]
+   },
+   {
+    "index": 2894,
+    "scan_number": 2895,
+    "ms_level": 1,
+    "rt_s": 1712.033,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "3929fb4f137f455908ee130b0a7dfe68",
+    "xxh3_intensity": "c593dabb21c20146df41f651378d9308",
+    "sum_intensity": 3325.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      35.0
+     ],
+     [
+      17.0,
+      239.0
+     ],
+     [
+      18.100000381469727,
+      1076.0
+     ],
+     [
+      28.100000381469727,
+      686.0
+     ],
+     [
+      32.099998474121094,
+      462.0
+     ]
+    ]
+   },
+   {
+    "index": 2927,
+    "scan_number": 2928,
+    "ms_level": 1,
+    "rt_s": 1731.4950000000001,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "efb8d55a49d9b78330bb74ff72661cfc",
+    "xxh3_intensity": "e1cd6cb834f0c763f1c62f8d44a58528",
+    "sum_intensity": 3199.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 209.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      48.0
+     ],
+     [
+      17.0,
+      260.0
+     ],
+     [
+      18.100000381469727,
+      1053.0
+     ],
+     [
+      28.100000381469727,
+      692.0
+     ],
+     [
+      32.0,
+      394.0
+     ]
+    ]
+   },
+   {
+    "index": 2959,
+    "scan_number": 2960,
+    "ms_level": 1,
+    "rt_s": 1750.368,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "45d609dd9d78254b53be78e20e51a816",
+    "xxh3_intensity": "e6b5680463fc022a4388cb97eb38f2c1",
+    "sum_intensity": 3156.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      28.0
+     ],
+     [
+      17.100000381469727,
+      219.0
+     ],
+     [
+      18.100000381469727,
+      1117.0
+     ],
+     [
+      28.0,
+      666.0
+     ],
+     [
+      32.0,
+      419.0
+     ]
+    ]
+   },
+   {
+    "index": 2991,
+    "scan_number": 2992,
+    "ms_level": 1,
+    "rt_s": 1769.24,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 15,
+    "mz_bits": null,
+    "xxh3_mz": "31153b5fe9063ae6bbfc2776c28955b9",
+    "xxh3_intensity": "22e30b31636a7514f54a438081474163",
+    "sum_intensity": 3468.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      33.0
+     ],
+     [
+      17.0,
+      234.0
+     ],
+     [
+      18.100000381469727,
+      1174.0
+     ],
+     [
+      28.100000381469727,
+      728.0
+     ],
+     [
+      32.0,
+      438.0
+     ]
+    ]
+   },
+   {
+    "index": 3023,
+    "scan_number": 3024,
+    "ms_level": 1,
+    "rt_s": 1788.113,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "d16625f0344e700aa65a88a6bb68974d",
+    "xxh3_intensity": "73c003f2c317c0162cc8aee48c29205e",
+    "sum_intensity": 3063.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      45.0
+     ],
+     [
+      17.100000381469727,
+      271.0
+     ],
+     [
+      18.100000381469727,
+      1003.0
+     ],
+     [
+      28.100000381469727,
+      612.0
+     ],
+     [
+      32.0,
+      436.0
+     ]
+    ]
+   },
+   {
+    "index": 3055,
+    "scan_number": 3056,
+    "ms_level": 1,
+    "rt_s": 1806.9859999999999,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "c0cfaa6d59a4dd966fc8cfa8447c4185",
+    "xxh3_intensity": "0be912af3b02578656cbc93ee4011836",
+    "sum_intensity": 3105.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      39.0
+     ],
+     [
+      17.100000381469727,
+      246.0
+     ],
+     [
+      18.100000381469727,
+      1006.0
+     ],
+     [
+      28.0,
+      631.0
+     ],
+     [
+      32.0,
+      413.0
+     ]
+    ]
+   },
+   {
+    "index": 3087,
+    "scan_number": 3088,
+    "ms_level": 1,
+    "rt_s": 1825.858,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "d115ab2ab0192f9d0dd1d38b06b5d4d5",
+    "xxh3_intensity": "19b879bcc3101d1153bd05bb716f9aa0",
+    "sum_intensity": 3327.0,
+    "mz_min": 14.199999809265137,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      14.199999809265137,
+      26.0
+     ],
+     [
+      16.100000381469727,
+      28.0
+     ],
+     [
+      17.100000381469727,
+      247.0
+     ],
+     [
+      18.100000381469727,
+      1122.0
+     ],
+     [
+      28.0,
+      713.0
+     ]
+    ]
+   },
+   {
+    "index": 3120,
+    "scan_number": 3121,
+    "ms_level": 1,
+    "rt_s": 1845.32,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "f0567e3f6a3318e6def4a2e67fbc0c4c",
+    "xxh3_intensity": "279034108b45dbf2dca99dc117aedf1c",
+    "sum_intensity": 3283.0,
+    "mz_min": 16.0,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.0,
+      32.0
+     ],
+     [
+      17.0,
+      249.0
+     ],
+     [
+      18.100000381469727,
+      1072.0
+     ],
+     [
+      28.100000381469727,
+      751.0
+     ],
+     [
+      32.0,
+      421.0
+     ]
+    ]
+   },
+   {
+    "index": 3152,
+    "scan_number": 3153,
+    "ms_level": 1,
+    "rt_s": 1864.193,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "c8afdf2b429da000ad620239f2b7a47d",
+    "xxh3_intensity": "68abed61351de07aafbd0ffb6e989d24",
+    "sum_intensity": 3179.0,
+    "mz_min": 16.200000762939453,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.200000762939453,
+      25.0
+     ],
+     [
+      17.100000381469727,
+      259.0
+     ],
+     [
+      18.100000381469727,
+      1097.0
+     ],
+     [
+      28.100000381469727,
+      724.0
+     ],
+     [
+      32.0,
+      407.0
+     ]
+    ]
+   },
+   {
+    "index": 3184,
+    "scan_number": 3185,
+    "ms_level": 1,
+    "rt_s": 1883.065,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "cfbec79f74f0a967c34b13904a8ed28d",
+    "xxh3_intensity": "973abdbf47230553453262a555fa77bb",
+    "sum_intensity": 3255.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 281.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      43.0
+     ],
+     [
+      17.0,
+      264.0
+     ],
+     [
+      18.100000381469727,
+      1141.0
+     ],
+     [
+      28.0,
+      621.0
+     ],
+     [
+      32.0,
+      410.0
+     ]
+    ]
+   },
+   {
+    "index": 3216,
+    "scan_number": 3217,
+    "ms_level": 1,
+    "rt_s": 1901.938,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 11,
+    "mz_bits": null,
+    "xxh3_mz": "c8dd20d58ed5191ba236d5bc1be76053",
+    "xxh3_intensity": "bc2c060f347e8da0cccde1488c605334",
+    "sum_intensity": 3255.0,
+    "mz_min": 16.200000762939453,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.200000762939453,
+      28.0
+     ],
+     [
+      17.0,
+      235.0
+     ],
+     [
+      18.100000381469727,
+      1118.0
+     ],
+     [
+      28.100000381469727,
+      668.0
+     ],
+     [
+      32.0,
+      400.0
+     ]
+    ]
+   },
+   {
+    "index": 3248,
+    "scan_number": 3249,
+    "ms_level": 1,
+    "rt_s": 1920.81,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 11,
+    "mz_bits": null,
+    "xxh3_mz": "4967e2405defb7d9275bc208d305a9b7",
+    "xxh3_intensity": "21167258daa67321173ac005c4dbcdcd",
+    "sum_intensity": 3194.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      36.0
+     ],
+     [
+      17.100000381469727,
+      262.0
+     ],
+     [
+      18.100000381469727,
+      1131.0
+     ],
+     [
+      28.100000381469727,
+      659.0
+     ],
+     [
+      32.099998474121094,
+      410.0
+     ]
+    ]
+   },
+   {
+    "index": 3280,
+    "scan_number": 3281,
+    "ms_level": 1,
+    "rt_s": 1939.6829999999998,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "22c0436c7f1196196d73c61eff904b3a",
+    "xxh3_intensity": "13f648319e749558b39bc8dfdd922bc0",
+    "sum_intensity": 3276.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 206.89999389648438,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      30.0
+     ],
+     [
+      17.100000381469727,
+      260.0
+     ],
+     [
+      18.100000381469727,
+      1164.0
+     ],
+     [
+      28.0,
+      621.0
+     ],
+     [
+      32.0,
+      439.0
+     ]
+    ]
+   },
+   {
+    "index": 3313,
+    "scan_number": 3314,
+    "ms_level": 1,
+    "rt_s": 1959.145,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "da1e34713993ff5f6d5e589c4d4c9845",
+    "xxh3_intensity": "63e28e195430a36756c64f3b8b76e1a9",
+    "sum_intensity": 3202.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 207.89999389648438,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      21.0
+     ],
+     [
+      16.100000381469727,
+      26.0
+     ],
+     [
+      17.0,
+      209.0
+     ],
+     [
+      18.100000381469727,
+      1124.0
+     ],
+     [
+      28.0,
+      729.0
+     ]
+    ]
+   },
+   {
+    "index": 3345,
+    "scan_number": 3346,
+    "ms_level": 1,
+    "rt_s": 1978.0179999999998,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "3ad903fceb7c3c744017cbdf64ed1880",
+    "xxh3_intensity": "e26e86e67b57d9232491f4b72a3aab2f",
+    "sum_intensity": 3281.0,
+    "mz_min": 16.0,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.0,
+      37.0
+     ],
+     [
+      17.0,
+      227.0
+     ],
+     [
+      18.100000381469727,
+      1131.0
+     ],
+     [
+      28.0,
+      667.0
+     ],
+     [
+      32.0,
+      415.0
+     ]
+    ]
+   },
+   {
+    "index": 3377,
+    "scan_number": 3378,
+    "ms_level": 1,
+    "rt_s": 1996.89,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "678dd88f46d5bb7ef8b212b37aa67c26",
+    "xxh3_intensity": "dc5c3bb4b6ed26e888aedaeeeb5d9985",
+    "sum_intensity": 3277.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      22.0
+     ],
+     [
+      16.100000381469727,
+      31.0
+     ],
+     [
+      17.100000381469727,
+      263.0
+     ],
+     [
+      18.100000381469727,
+      1140.0
+     ],
+     [
+      28.0,
+      653.0
+     ]
+    ]
+   },
+   {
+    "index": 3409,
+    "scan_number": 3410,
+    "ms_level": 1,
+    "rt_s": 2015.763,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "909bbeb45d0992d8e2c3c57e34b2963f",
+    "xxh3_intensity": "99197c90f1a010780853f81bc1eb4fbf",
+    "sum_intensity": 3294.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 207.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      34.0
+     ],
+     [
+      17.100000381469727,
+      269.0
+     ],
+     [
+      18.100000381469727,
+      1087.0
+     ],
+     [
+      28.100000381469727,
+      650.0
+     ],
+     [
+      32.0,
+      454.0
+     ]
+    ]
+   },
+   {
+    "index": 3441,
+    "scan_number": 3442,
+    "ms_level": 1,
+    "rt_s": 2034.6350000000002,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 12,
+    "mz_bits": null,
+    "xxh3_mz": "c4a4b12d62e534749c77708dba87d7b0",
+    "xxh3_intensity": "5cf221cdadb8c783feb1bd2c327c61db",
+    "sum_intensity": 3271.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 208.10000610351562,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      30.0
+     ],
+     [
+      17.100000381469727,
+      228.0
+     ],
+     [
+      18.100000381469727,
+      1137.0
+     ],
+     [
+      28.0,
+      670.0
+     ],
+     [
+      32.0,
+      424.0
+     ]
+    ]
+   },
+   {
+    "index": 3473,
+    "scan_number": 3474,
+    "ms_level": 1,
+    "rt_s": 2053.508,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "4ae63f799b2dbe268ccbec10c22fecee",
+    "xxh3_intensity": "2a44df8061c401d3d8e03fac5f50522a",
+    "sum_intensity": 3234.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 280.8999938964844,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      46.0
+     ],
+     [
+      17.0,
+      254.0
+     ],
+     [
+      18.100000381469727,
+      1018.0
+     ],
+     [
+      28.0,
+      722.0
+     ],
+     [
+      32.0,
+      477.0
+     ]
+    ]
+   },
+   {
+    "index": 3506,
+    "scan_number": 3507,
+    "ms_level": 1,
+    "rt_s": 2072.9700000000003,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "18a3eda5aa986e725ed85d7ca667c438",
+    "xxh3_intensity": "3d09147c7c2a9cfb3a2cd56a455132e6",
+    "sum_intensity": 3290.0,
+    "mz_min": 16.0,
+    "mz_max": 281.0,
+    "first_peaks": [
+     [
+      16.0,
+      44.0
+     ],
+     [
+      17.100000381469727,
+      251.0
+     ],
+     [
+      18.100000381469727,
+      1105.0
+     ],
+     [
+      28.0,
+      655.0
+     ],
+     [
+      32.0,
+      457.0
+     ]
+    ]
+   },
+   {
+    "index": 3538,
+    "scan_number": 3539,
+    "ms_level": 1,
+    "rt_s": 2091.843,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 15,
+    "mz_bits": null,
+    "xxh3_mz": "497f0f6a1151a0d8a44a7ccc511eab38",
+    "xxh3_intensity": "041573d2edff435debefd1fa3c3d2bb0",
+    "sum_intensity": 3436.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 281.1000061035156,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      22.0
+     ],
+     [
+      16.0,
+      43.0
+     ],
+     [
+      17.0,
+      256.0
+     ],
+     [
+      18.100000381469727,
+      1170.0
+     ],
+     [
+      28.0,
+      756.0
+     ]
+    ]
+   },
+   {
+    "index": 3570,
+    "scan_number": 3571,
+    "ms_level": 1,
+    "rt_s": 2110.715,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "813035598eb2772b49c20aac78bd5842",
+    "xxh3_intensity": "7d07d2921eee62550436b02adf01ab43",
+    "sum_intensity": 3156.0,
+    "mz_min": 16.200000762939453,
+    "mz_max": 208.10000610351562,
+    "first_peaks": [
+     [
+      16.200000762939453,
+      24.0
+     ],
+     [
+      17.0,
+      215.0
+     ],
+     [
+      18.100000381469727,
+      1052.0
+     ],
+     [
+      28.0,
+      651.0
+     ],
+     [
+      32.099998474121094,
+      446.0
+     ]
+    ]
+   },
+   {
+    "index": 3602,
+    "scan_number": 3603,
+    "ms_level": 1,
+    "rt_s": 2129.5879999999997,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 15,
+    "mz_bits": null,
+    "xxh3_mz": "15f4ab4f02637e131a2291cf89cf534a",
+    "xxh3_intensity": "35640698d4ffc9af092b41a0bb4f78e4",
+    "sum_intensity": 3430.0,
+    "mz_min": 14.0,
+    "mz_max": 209.0,
+    "first_peaks": [
+     [
+      14.0,
+      22.0
+     ],
+     [
+      16.0,
+      43.0
+     ],
+     [
+      17.100000381469727,
+      290.0
+     ],
+     [
+      18.100000381469727,
+      1134.0
+     ],
+     [
+      28.100000381469727,
+      687.0
+     ]
+    ]
+   },
+   {
+    "index": 3634,
+    "scan_number": 3635,
+    "ms_level": 1,
+    "rt_s": 2148.46,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "a90d1732aa2e9c4d2b6447ed03ac0ae8",
+    "xxh3_intensity": "1106fc1d510bcacf2c9e5c74e4292ed2",
+    "sum_intensity": 3375.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 280.8999938964844,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      35.0
+     ],
+     [
+      17.0,
+      261.0
+     ],
+     [
+      18.100000381469727,
+      1125.0
+     ],
+     [
+      28.100000381469727,
+      689.0
+     ],
+     [
+      32.0,
+      418.0
+     ]
+    ]
+   },
+   {
+    "index": 3666,
+    "scan_number": 3667,
+    "ms_level": 1,
+    "rt_s": 2167.333,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "cdca9401d7f277045722fa1281f40d57",
+    "xxh3_intensity": "b96093d198048e93860ea6b27f0e3b84",
+    "sum_intensity": 3420.0,
+    "mz_min": 16.0,
+    "mz_max": 281.20001220703125,
+    "first_peaks": [
+     [
+      16.0,
+      31.0
+     ],
+     [
+      17.100000381469727,
+      246.0
+     ],
+     [
+      18.100000381469727,
+      1159.0
+     ],
+     [
+      28.100000381469727,
+      689.0
+     ],
+     [
+      32.0,
+      432.0
+     ]
+    ]
+   },
+   {
+    "index": 3698,
+    "scan_number": 3699,
+    "ms_level": 1,
+    "rt_s": 2186.2050000000004,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 15,
+    "mz_bits": null,
+    "xxh3_mz": "73187b9ea717251ec3a9335ac282b495",
+    "xxh3_intensity": "ccadd37863febefff2a4ed5a5f007668",
+    "sum_intensity": 3397.0,
+    "mz_min": 16.0,
+    "mz_max": 281.1000061035156,
+    "first_peaks": [
+     [
+      16.0,
+      43.0
+     ],
+     [
+      17.100000381469727,
+      260.0
+     ],
+     [
+      18.100000381469727,
+      1120.0
+     ],
+     [
+      28.100000381469727,
+      771.0
+     ],
+     [
+      32.0,
+      425.0
+     ]
+    ]
+   },
+   {
+    "index": 3731,
+    "scan_number": 3732,
+    "ms_level": 1,
+    "rt_s": 2205.667,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "116f29183e460a268325e69531b5bd21",
+    "xxh3_intensity": "7c473df353d8beb4c1104873d2b19106",
+    "sum_intensity": 3503.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 281.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      48.0
+     ],
+     [
+      17.100000381469727,
+      280.0
+     ],
+     [
+      18.100000381469727,
+      1180.0
+     ],
+     [
+      28.0,
+      648.0
+     ],
+     [
+      32.0,
+      418.0
+     ]
+    ]
+   },
+   {
+    "index": 3763,
+    "scan_number": 3764,
+    "ms_level": 1,
+    "rt_s": 2224.54,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 15,
+    "mz_bits": null,
+    "xxh3_mz": "87d591759fc0507d80a209669ce980df",
+    "xxh3_intensity": "db964078dda60731f1dbf09362ee957a",
+    "sum_intensity": 3357.0,
+    "mz_min": 16.0,
+    "mz_max": 280.8999938964844,
+    "first_peaks": [
+     [
+      16.0,
+      44.0
+     ],
+     [
+      17.0,
+      283.0
+     ],
+     [
+      18.100000381469727,
+      1052.0
+     ],
+     [
+      28.0,
+      648.0
+     ],
+     [
+      32.0,
+      396.0
+     ]
+    ]
+   },
+   {
+    "index": 3795,
+    "scan_number": 3796,
+    "ms_level": 1,
+    "rt_s": 2243.413,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 13,
+    "mz_bits": null,
+    "xxh3_mz": "c64c7db49692d0a061acad8f706aeb40",
+    "xxh3_intensity": "1e06122c2f26e9ee4766eaee21d55890",
+    "sum_intensity": 3417.0,
+    "mz_min": 16.0,
+    "mz_max": 281.0,
+    "first_peaks": [
+     [
+      16.0,
+      43.0
+     ],
+     [
+      17.100000381469727,
+      243.0
+     ],
+     [
+      18.100000381469727,
+      1127.0
+     ],
+     [
+      28.0,
+      713.0
+     ],
+     [
+      32.0,
+      499.0
+     ]
+    ]
+   },
+   {
+    "index": 3827,
+    "scan_number": 3828,
+    "ms_level": 1,
+    "rt_s": 2262.285,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 15,
+    "mz_bits": null,
+    "xxh3_mz": "8ff0db33616f29ad54219bc3b087db1e",
+    "xxh3_intensity": "b0c134f68569aa12332218d8d3933e15",
+    "sum_intensity": 3423.0,
+    "mz_min": 16.0,
+    "mz_max": 281.20001220703125,
+    "first_peaks": [
+     [
+      16.0,
+      36.0
+     ],
+     [
+      17.100000381469727,
+      288.0
+     ],
+     [
+      18.100000381469727,
+      1088.0
+     ],
+     [
+      28.100000381469727,
+      671.0
+     ],
+     [
+      32.0,
+      435.0
+     ]
+    ]
+   },
+   {
+    "index": 3859,
+    "scan_number": 3860,
+    "ms_level": 1,
+    "rt_s": 2281.158,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 14,
+    "mz_bits": null,
+    "xxh3_mz": "72df4af8025a0598586ae6fc6624a553",
+    "xxh3_intensity": "6561d745b638719e88cf40e00a9da833",
+    "sum_intensity": 3519.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 280.8999938964844,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      47.0
+     ],
+     [
+      17.0,
+      285.0
+     ],
+     [
+      18.100000381469727,
+      1162.0
+     ],
+     [
+      28.100000381469727,
+      730.0
+     ],
+     [
+      32.0,
+      455.0
+     ]
+    ]
+   },
+   {
+    "index": 3891,
+    "scan_number": 3892,
+    "ms_level": 1,
+    "rt_s": 2300.0299999999997,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 15,
+    "mz_bits": null,
+    "xxh3_mz": "ed09fb6554778cea9de720da1f63c18e",
+    "xxh3_intensity": "c7f8e86529456eb6ba04045e75024e33",
+    "sum_intensity": 3420.0,
+    "mz_min": 16.0,
+    "mz_max": 281.0,
+    "first_peaks": [
+     [
+      16.0,
+      36.0
+     ],
+     [
+      17.100000381469727,
+      259.0
+     ],
+     [
+      18.100000381469727,
+      1156.0
+     ],
+     [
+      28.100000381469727,
+      644.0
+     ],
+     [
+      32.0,
+      431.0
+     ]
+    ]
+   },
+   {
+    "index": 3924,
+    "scan_number": 3925,
+    "ms_level": 1,
+    "rt_s": 2319.492,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 15,
+    "mz_bits": null,
+    "xxh3_mz": "4557ea0452971e962d2f4d1c2f53d7dd",
+    "xxh3_intensity": "7517f7be81ba2f24867b8cf864b5d679",
+    "sum_intensity": 3512.0,
+    "mz_min": 16.0,
+    "mz_max": 281.1000061035156,
+    "first_peaks": [
+     [
+      16.0,
+      43.0
+     ],
+     [
+      17.0,
+      261.0
+     ],
+     [
+      18.100000381469727,
+      1166.0
+     ],
+     [
+      28.100000381469727,
+      678.0
+     ],
+     [
+      32.0,
+      422.0
+     ]
+    ]
+   },
+   {
+    "index": 3956,
+    "scan_number": 3957,
+    "ms_level": 1,
+    "rt_s": 2338.365,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 17,
+    "mz_bits": null,
+    "xxh3_mz": "11289b355eefa8bd9abac020c624ba10",
+    "xxh3_intensity": "a6b95ba1498b179415723f6975a3b4f6",
+    "sum_intensity": 3784.0,
+    "mz_min": 14.0,
+    "mz_max": 282.1000061035156,
+    "first_peaks": [
+     [
+      14.0,
+      24.0
+     ],
+     [
+      16.0,
+      41.0
+     ],
+     [
+      17.100000381469727,
+      267.0
+     ],
+     [
+      18.100000381469727,
+      1210.0
+     ],
+     [
+      28.100000381469727,
+      743.0
+     ]
+    ]
+   },
+   {
+    "index": 3988,
+    "scan_number": 3989,
+    "ms_level": 1,
+    "rt_s": 2357.237,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 15,
+    "mz_bits": null,
+    "xxh3_mz": "591ade1b8215feed7cbe34ecda6ccc11",
+    "xxh3_intensity": "38270f5d533142e2b18202a8f2b00a70",
+    "sum_intensity": 3557.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 281.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      29.0
+     ],
+     [
+      17.0,
+      281.0
+     ],
+     [
+      18.100000381469727,
+      1116.0
+     ],
+     [
+      28.100000381469727,
+      707.0
+     ],
+     [
+      32.0,
+      424.0
+     ]
+    ]
+   },
+   {
+    "index": 4020,
+    "scan_number": 4021,
+    "ms_level": 1,
+    "rt_s": 2376.1099999999997,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 16,
+    "mz_bits": null,
+    "xxh3_mz": "bd286bb81771f32c4236da99f5f67638",
+    "xxh3_intensity": "6620cfc8512156ecf1fe8be8cc23632f",
+    "sum_intensity": 3724.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 281.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      35.0
+     ],
+     [
+      17.100000381469727,
+      267.0
+     ],
+     [
+      18.100000381469727,
+      1202.0
+     ],
+     [
+      28.0,
+      758.0
+     ],
+     [
+      32.0,
+      458.0
+     ]
+    ]
+   },
+   {
+    "index": 4052,
+    "scan_number": 4053,
+    "ms_level": 1,
+    "rt_s": 2394.982,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 16,
+    "mz_bits": null,
+    "xxh3_mz": "055a9871350349d8ff9b58c25f18d7fd",
+    "xxh3_intensity": "4cf983a8db00ee4b3aee1a9fc67b7b75",
+    "sum_intensity": 3612.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 281.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      34.0
+     ],
+     [
+      17.100000381469727,
+      256.0
+     ],
+     [
+      18.100000381469727,
+      1178.0
+     ],
+     [
+      28.0,
+      696.0
+     ],
+     [
+      29.0,
+      21.0
+     ]
+    ]
+   },
+   {
+    "index": 4084,
+    "scan_number": 4085,
+    "ms_level": 1,
+    "rt_s": 2413.855,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 17,
+    "mz_bits": null,
+    "xxh3_mz": "513298d42dabb377631e3da39b5a4d34",
+    "xxh3_intensity": "33dabaf9673a1fda2474e93a4d44dfc3",
+    "sum_intensity": 3643.0,
+    "mz_min": 16.0,
+    "mz_max": 282.0,
+    "first_peaks": [
+     [
+      16.0,
+      27.0
+     ],
+     [
+      17.0,
+      274.0
+     ],
+     [
+      18.100000381469727,
+      1129.0
+     ],
+     [
+      28.0,
+      658.0
+     ],
+     [
+      32.099998474121094,
+      423.0
+     ]
+    ]
+   },
+   {
+    "index": 4117,
+    "scan_number": 4118,
+    "ms_level": 1,
+    "rt_s": 2433.317,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 17,
+    "mz_bits": null,
+    "xxh3_mz": "e04618629c4bca601287c3f5e9b55e17",
+    "xxh3_intensity": "7a1d9eb13373bd859443b09bc3415055",
+    "sum_intensity": 3730.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 282.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      35.0
+     ],
+     [
+      17.100000381469727,
+      276.0
+     ],
+     [
+      18.100000381469727,
+      1192.0
+     ],
+     [
+      28.100000381469727,
+      674.0
+     ],
+     [
+      32.0,
+      480.0
+     ]
+    ]
+   },
+   {
+    "index": 4149,
+    "scan_number": 4150,
+    "ms_level": 1,
+    "rt_s": 2452.19,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 18,
+    "mz_bits": null,
+    "xxh3_mz": "9b289e3c85aab57b36cad7519fe1b845",
+    "xxh3_intensity": "62ac5925c3a635e93e319c3aed00efde",
+    "sum_intensity": 3747.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 280.8999938964844,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      35.0
+     ],
+     [
+      17.100000381469727,
+      283.0
+     ],
+     [
+      18.100000381469727,
+      1193.0
+     ],
+     [
+      28.100000381469727,
+      665.0
+     ],
+     [
+      32.0,
+      428.0
+     ]
+    ]
+   },
+   {
+    "index": 4181,
+    "scan_number": 4182,
+    "ms_level": 1,
+    "rt_s": 2471.0620000000004,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 20,
+    "mz_bits": null,
+    "xxh3_mz": "8a997713def4cd00a121f15e4a2a7a94",
+    "xxh3_intensity": "5617d038311874654c17aa4ac783dd0b",
+    "sum_intensity": 3886.0,
+    "mz_min": 16.0,
+    "mz_max": 283.20001220703125,
+    "first_peaks": [
+     [
+      16.0,
+      39.0
+     ],
+     [
+      17.100000381469727,
+      287.0
+     ],
+     [
+      18.100000381469727,
+      1144.0
+     ],
+     [
+      28.0,
+      683.0
+     ],
+     [
+      32.099998474121094,
+      403.0
+     ]
+    ]
+   },
+   {
+    "index": 4213,
+    "scan_number": 4214,
+    "ms_level": 1,
+    "rt_s": 2489.935,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 20,
+    "mz_bits": null,
+    "xxh3_mz": "004f9fdf5ddc3af048f534bf0342f8fa",
+    "xxh3_intensity": "d9b394272f7fdc783df79472b854095b",
+    "sum_intensity": 3925.0,
+    "mz_min": 14.0,
+    "mz_max": 283.1000061035156,
+    "first_peaks": [
+     [
+      14.0,
+      21.0
+     ],
+     [
+      16.100000381469727,
+      31.0
+     ],
+     [
+      17.100000381469727,
+      283.0
+     ],
+     [
+      18.100000381469727,
+      1164.0
+     ],
+     [
+      28.0,
+      640.0
+     ]
+    ]
+   },
+   {
+    "index": 4245,
+    "scan_number": 4246,
+    "ms_level": 1,
+    "rt_s": 2508.8070000000002,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 19,
+    "mz_bits": null,
+    "xxh3_mz": "7a2100a928492ae378bd7adfa59e117e",
+    "xxh3_intensity": "a51b06407f551767c8e0c5d7b7468910",
+    "sum_intensity": 4118.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 282.8999938964844,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      35.0
+     ],
+     [
+      17.0,
+      272.0
+     ],
+     [
+      18.100000381469727,
+      1137.0
+     ],
+     [
+      28.0,
+      746.0
+     ],
+     [
+      32.0,
+      473.0
+     ]
+    ]
+   },
+   {
+    "index": 4277,
+    "scan_number": 4278,
+    "ms_level": 1,
+    "rt_s": 2527.68,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 20,
+    "mz_bits": null,
+    "xxh3_mz": "8772a0d2670ff19c758c85c461982d61",
+    "xxh3_intensity": "8ef200e903b2af4f1414c80d78b8cf9b",
+    "sum_intensity": 4050.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 282.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      39.0
+     ],
+     [
+      17.0,
+      276.0
+     ],
+     [
+      18.100000381469727,
+      1170.0
+     ],
+     [
+      28.0,
+      703.0
+     ],
+     [
+      32.0,
+      413.0
+     ]
+    ]
+   },
+   {
+    "index": 4310,
+    "scan_number": 4311,
+    "ms_level": 1,
+    "rt_s": 2547.1420000000003,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "cef1fda5dfd4fb5957b45860dc8b3e73",
+    "xxh3_intensity": "da10673d53bb1ee4c859b02c18b776a9",
+    "sum_intensity": 4319.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 282.8999938964844,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      33.0
+     ],
+     [
+      17.100000381469727,
+      236.0
+     ],
+     [
+      18.100000381469727,
+      1223.0
+     ],
+     [
+      28.0,
+      717.0
+     ],
+     [
+      32.0,
+      474.0
+     ]
+    ]
+   },
+   {
+    "index": 4342,
+    "scan_number": 4343,
+    "ms_level": 1,
+    "rt_s": 2566.015,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "5286bf2ec75e377723e4a5d72df23901",
+    "xxh3_intensity": "64bae8c8bcd63e55c65bfa659d8b839a",
+    "sum_intensity": 4418.0,
+    "mz_min": 16.0,
+    "mz_max": 282.0,
+    "first_peaks": [
+     [
+      16.0,
+      38.0
+     ],
+     [
+      17.100000381469727,
+      292.0
+     ],
+     [
+      18.100000381469727,
+      1164.0
+     ],
+     [
+      28.100000381469727,
+      749.0
+     ],
+     [
+      32.0,
+      500.0
+     ]
+    ]
+   },
+   {
+    "index": 4374,
+    "scan_number": 4375,
+    "ms_level": 1,
+    "rt_s": 2584.8869999999997,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 21,
+    "mz_bits": null,
+    "xxh3_mz": "81fbd83cf67f91efaad301f2eabb6a77",
+    "xxh3_intensity": "f9d906eb27d0bff4194a9994f4a82a3a",
+    "sum_intensity": 4385.0,
+    "mz_min": 16.0,
+    "mz_max": 341.20001220703125,
+    "first_peaks": [
+     [
+      16.0,
+      32.0
+     ],
+     [
+      17.0,
+      265.0
+     ],
+     [
+      18.100000381469727,
+      1167.0
+     ],
+     [
+      28.0,
+      722.0
+     ],
+     [
+      32.0,
+      451.0
+     ]
+    ]
+   },
+   {
+    "index": 4406,
+    "scan_number": 4407,
+    "ms_level": 1,
+    "rt_s": 2603.76,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 21,
+    "mz_bits": null,
+    "xxh3_mz": "ead051449a45b95b53c3eacee3c0b4f0",
+    "xxh3_intensity": "ad8064a51ebec749b27bab2ed94cf422",
+    "sum_intensity": 4494.0,
+    "mz_min": 16.0,
+    "mz_max": 283.0,
+    "first_peaks": [
+     [
+      16.0,
+      34.0
+     ],
+     [
+      17.0,
+      276.0
+     ],
+     [
+      18.100000381469727,
+      1213.0
+     ],
+     [
+      28.100000381469727,
+      715.0
+     ],
+     [
+      32.0,
+      459.0
+     ]
+    ]
+   },
+   {
+    "index": 4438,
+    "scan_number": 4439,
+    "ms_level": 1,
+    "rt_s": 2622.6319999999996,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 22,
+    "mz_bits": null,
+    "xxh3_mz": "3afaf894ae250ac872110dbd8e53fe98",
+    "xxh3_intensity": "db05232396b608d1e8b41bba32a2d3a4",
+    "sum_intensity": 4603.0,
+    "mz_min": 16.0,
+    "mz_max": 283.0,
+    "first_peaks": [
+     [
+      16.0,
+      39.0
+     ],
+     [
+      17.100000381469727,
+      250.0
+     ],
+     [
+      18.100000381469727,
+      1147.0
+     ],
+     [
+      28.100000381469727,
+      718.0
+     ],
+     [
+      32.0,
+      469.0
+     ]
+    ]
+   },
+   {
+    "index": 4470,
+    "scan_number": 4471,
+    "ms_level": 1,
+    "rt_s": 2641.505,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "6dc570bd9552e68eb9108babb18108cb",
+    "xxh3_intensity": "07f167d31c939a376ad467ad84693e9d",
+    "sum_intensity": 4570.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 283.0,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      24.0
+     ],
+     [
+      16.0,
+      42.0
+     ],
+     [
+      17.100000381469727,
+      261.0
+     ],
+     [
+      18.100000381469727,
+      1213.0
+     ],
+     [
+      28.100000381469727,
+      680.0
+     ]
+    ]
+   },
+   {
+    "index": 4503,
+    "scan_number": 4504,
+    "ms_level": 1,
+    "rt_s": 2660.9669999999996,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "8dd46d5ef165eadbc033c6b7c5056239",
+    "xxh3_intensity": "98821f606a926ae50cbf60dcebf1ce0a",
+    "sum_intensity": 4790.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 283.0,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      20.0
+     ],
+     [
+      16.100000381469727,
+      29.0
+     ],
+     [
+      17.100000381469727,
+      252.0
+     ],
+     [
+      18.100000381469727,
+      1150.0
+     ],
+     [
+      28.0,
+      752.0
+     ]
+    ]
+   },
+   {
+    "index": 4535,
+    "scan_number": 4536,
+    "ms_level": 1,
+    "rt_s": 2679.84,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 25,
+    "mz_bits": null,
+    "xxh3_mz": "da0ca7804c14170034cf744d2c5ea2ce",
+    "xxh3_intensity": "a6b3ae8fa2e0dae61c468ab2bf970971",
+    "sum_intensity": 4660.0,
+    "mz_min": 16.0,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      16.0,
+      38.0
+     ],
+     [
+      17.100000381469727,
+      326.0
+     ],
+     [
+      18.100000381469727,
+      1147.0
+     ],
+     [
+      28.100000381469727,
+      718.0
+     ],
+     [
+      32.0,
+      482.0
+     ]
+    ]
+   },
+   {
+    "index": 4567,
+    "scan_number": 4568,
+    "ms_level": 1,
+    "rt_s": 2698.712,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "10ab58d66b343d9b0e4d2487b3c0a301",
+    "xxh3_intensity": "ed1e215900529a0dccd80b2d8cfcb873",
+    "sum_intensity": 4578.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      37.0
+     ],
+     [
+      17.100000381469727,
+      285.0
+     ],
+     [
+      18.100000381469727,
+      1149.0
+     ],
+     [
+      28.0,
+      770.0
+     ],
+     [
+      32.0,
+      450.0
+     ]
+    ]
+   },
+   {
+    "index": 4599,
+    "scan_number": 4600,
+    "ms_level": 1,
+    "rt_s": 2717.585,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 28,
+    "mz_bits": null,
+    "xxh3_mz": "7fb9fd82ab539f25843f5f34dfe7044b",
+    "xxh3_intensity": "0b60cdf599a4b0567edeb199d733efa5",
+    "sum_intensity": 4956.0,
+    "mz_min": 14.0,
+    "mz_max": 355.29998779296875,
+    "first_peaks": [
+     [
+      14.0,
+      21.0
+     ],
+     [
+      16.100000381469727,
+      38.0
+     ],
+     [
+      17.0,
+      241.0
+     ],
+     [
+      18.100000381469727,
+      1231.0
+     ],
+     [
+      28.100000381469727,
+      805.0
+     ]
+    ]
+   },
+   {
+    "index": 4631,
+    "scan_number": 4632,
+    "ms_level": 1,
+    "rt_s": 2736.457,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "ca12bfa7be023102379910994d7aae0a",
+    "xxh3_intensity": "791ffdddb002bd60cab7aa31ab2c5a70",
+    "sum_intensity": 4710.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      38.0
+     ],
+     [
+      17.0,
+      258.0
+     ],
+     [
+      18.100000381469727,
+      1202.0
+     ],
+     [
+      28.0,
+      752.0
+     ],
+     [
+      32.0,
+      453.0
+     ]
+    ]
+   },
+   {
+    "index": 4663,
+    "scan_number": 4664,
+    "ms_level": 1,
+    "rt_s": 2755.33,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "d583831e928a9488ca7582d5f77dfca7",
+    "xxh3_intensity": "246691550e0a4b2554e398c2838cd26a",
+    "sum_intensity": 4619.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 283.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      33.0
+     ],
+     [
+      17.0,
+      283.0
+     ],
+     [
+      18.100000381469727,
+      1174.0
+     ],
+     [
+      28.0,
+      714.0
+     ],
+     [
+      32.0,
+      419.0
+     ]
+    ]
+   },
+   {
+    "index": 4695,
+    "scan_number": 4696,
+    "ms_level": 1,
+    "rt_s": 2774.2019999999998,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "0e382014f0ef3e68b2eff2843de57761",
+    "xxh3_intensity": "d9d85c3dbcd12039ea375750d1d5a602",
+    "sum_intensity": 4778.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.20001220703125,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      38.0
+     ],
+     [
+      17.100000381469727,
+      248.0
+     ],
+     [
+      18.100000381469727,
+      1183.0
+     ],
+     [
+      28.100000381469727,
+      783.0
+     ],
+     [
+      32.0,
+      451.0
+     ]
+    ]
+   },
+   {
+    "index": 4728,
+    "scan_number": 4729,
+    "ms_level": 1,
+    "rt_s": 2793.664,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "1924a64335faa8f2f100722ad8cf81de",
+    "xxh3_intensity": "40f30bd3399bb9ff51cb1d44a01ae2c1",
+    "sum_intensity": 4796.0,
+    "mz_min": 16.0,
+    "mz_max": 340.79998779296875,
+    "first_peaks": [
+     [
+      16.0,
+      44.0
+     ],
+     [
+      17.100000381469727,
+      295.0
+     ],
+     [
+      18.100000381469727,
+      1206.0
+     ],
+     [
+      28.0,
+      765.0
+     ],
+     [
+      32.0,
+      470.0
+     ]
+    ]
+   },
+   {
+    "index": 4760,
+    "scan_number": 4761,
+    "ms_level": 1,
+    "rt_s": 2812.537,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "b044d47e85bd1757f31d7aa994ce7bac",
+    "xxh3_intensity": "265adef367dd38a92a2328d2dcb4df3e",
+    "sum_intensity": 4704.0,
+    "mz_min": 16.0,
+    "mz_max": 355.1000061035156,
+    "first_peaks": [
+     [
+      16.0,
+      46.0
+     ],
+     [
+      17.100000381469727,
+      295.0
+     ],
+     [
+      18.100000381469727,
+      1196.0
+     ],
+     [
+      28.100000381469727,
+      733.0
+     ],
+     [
+      32.0,
+      466.0
+     ]
+    ]
+   },
+   {
+    "index": 4792,
+    "scan_number": 4793,
+    "ms_level": 1,
+    "rt_s": 2831.409,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "ef8a40560659b7c6493ce20377f900e9",
+    "xxh3_intensity": "08f13a04d3865604bf21b38f32cfcf43",
+    "sum_intensity": 4720.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 354.8999938964844,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      37.0
+     ],
+     [
+      17.100000381469727,
+      290.0
+     ],
+     [
+      18.100000381469727,
+      1227.0
+     ],
+     [
+      28.100000381469727,
+      697.0
+     ],
+     [
+      32.0,
+      483.0
+     ]
+    ]
+   },
+   {
+    "index": 4824,
+    "scan_number": 4825,
+    "ms_level": 1,
+    "rt_s": 2850.282,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "00bc6e3b953df137f9c8dcaad04b0ee1",
+    "xxh3_intensity": "d2bfc08fdc0408e8e0dff50e2b0a4841",
+    "sum_intensity": 4769.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 283.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      22.0
+     ],
+     [
+      17.100000381469727,
+      250.0
+     ],
+     [
+      18.100000381469727,
+      1230.0
+     ],
+     [
+      28.100000381469727,
+      788.0
+     ],
+     [
+      32.0,
+      453.0
+     ]
+    ]
+   },
+   {
+    "index": 4856,
+    "scan_number": 4857,
+    "ms_level": 1,
+    "rt_s": 2869.154,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 22,
+    "mz_bits": null,
+    "xxh3_mz": "8d4c46d0c97a1d9fae9c04f2ce33c323",
+    "xxh3_intensity": "8c4823cf97d026d9c2ec21ca4cc1e81b",
+    "sum_intensity": 4793.0,
+    "mz_min": 16.0,
+    "mz_max": 283.0,
+    "first_peaks": [
+     [
+      16.0,
+      42.0
+     ],
+     [
+      17.100000381469727,
+      278.0
+     ],
+     [
+      18.100000381469727,
+      1262.0
+     ],
+     [
+      28.100000381469727,
+      783.0
+     ],
+     [
+      32.099998474121094,
+      397.0
+     ]
+    ]
+   },
+   {
+    "index": 4888,
+    "scan_number": 4889,
+    "ms_level": 1,
+    "rt_s": 2888.027,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 25,
+    "mz_bits": null,
+    "xxh3_mz": "ba19132980fe18f84dff33bcee87b6d2",
+    "xxh3_intensity": "c2c73ee6df78220e6c7bb43d63831fa7",
+    "sum_intensity": 4800.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      46.0
+     ],
+     [
+      17.0,
+      288.0
+     ],
+     [
+      18.100000381469727,
+      1180.0
+     ],
+     [
+      28.0,
+      749.0
+     ],
+     [
+      32.0,
+      480.0
+     ]
+    ]
+   },
+   {
+    "index": 4921,
+    "scan_number": 4922,
+    "ms_level": 1,
+    "rt_s": 2907.489,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "d9a4a6753ade8b6a4fcaf277c5da07a0",
+    "xxh3_intensity": "59efee36b5ea150facf95beec103e09f",
+    "sum_intensity": 4953.0,
+    "mz_min": 16.200000762939453,
+    "mz_max": 283.0,
+    "first_peaks": [
+     [
+      16.200000762939453,
+      36.0
+     ],
+     [
+      17.100000381469727,
+      311.0
+     ],
+     [
+      18.100000381469727,
+      1248.0
+     ],
+     [
+      28.0,
+      779.0
+     ],
+     [
+      32.0,
+      472.0
+     ]
+    ]
+   },
+   {
+    "index": 4953,
+    "scan_number": 4954,
+    "ms_level": 1,
+    "rt_s": 2926.362,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 22,
+    "mz_bits": null,
+    "xxh3_mz": "d286c1abf53d6858543606ca1e4205aa",
+    "xxh3_intensity": "3fd187e8ddcf88f87f5e19a63e395b68",
+    "sum_intensity": 4762.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 283.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      27.0
+     ],
+     [
+      17.100000381469727,
+      297.0
+     ],
+     [
+      18.100000381469727,
+      1228.0
+     ],
+     [
+      28.0,
+      790.0
+     ],
+     [
+      32.0,
+      483.0
+     ]
+    ]
+   },
+   {
+    "index": 4985,
+    "scan_number": 4986,
+    "ms_level": 1,
+    "rt_s": 2945.234,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "19f5e451e86433199debc9de24b63c42",
+    "xxh3_intensity": "8be2514c443839ae48fb2300b7d3485e",
+    "sum_intensity": 4827.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.20001220703125,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      36.0
+     ],
+     [
+      17.100000381469727,
+      298.0
+     ],
+     [
+      18.100000381469727,
+      1235.0
+     ],
+     [
+      28.100000381469727,
+      769.0
+     ],
+     [
+      32.0,
+      436.0
+     ]
+    ]
+   },
+   {
+    "index": 5017,
+    "scan_number": 5018,
+    "ms_level": 1,
+    "rt_s": 2964.107,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 25,
+    "mz_bits": null,
+    "xxh3_mz": "3232ede5f4ca278ce33cd984a277b94c",
+    "xxh3_intensity": "c2fc1c6daac382074296ee8df61f9b8b",
+    "sum_intensity": 4642.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.20001220703125,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      40.0
+     ],
+     [
+      17.100000381469727,
+      269.0
+     ],
+     [
+      18.100000381469727,
+      1160.0
+     ],
+     [
+      28.100000381469727,
+      780.0
+     ],
+     [
+      32.0,
+      451.0
+     ]
+    ]
+   },
+   {
+    "index": 5049,
+    "scan_number": 5050,
+    "ms_level": 1,
+    "rt_s": 2982.979,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "166cbe42dd81503eac65ff81b2a4fe6f",
+    "xxh3_intensity": "9722ce75b1119ad321177c15ae333e89",
+    "sum_intensity": 4721.0,
+    "mz_min": 16.0,
+    "mz_max": 283.1000061035156,
+    "first_peaks": [
+     [
+      16.0,
+      33.0
+     ],
+     [
+      17.100000381469727,
+      275.0
+     ],
+     [
+      18.100000381469727,
+      1184.0
+     ],
+     [
+      28.100000381469727,
+      771.0
+     ],
+     [
+      32.0,
+      470.0
+     ]
+    ]
+   },
+   {
+    "index": 5081,
+    "scan_number": 5082,
+    "ms_level": 1,
+    "rt_s": 3001.852,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 25,
+    "mz_bits": null,
+    "xxh3_mz": "b1ab5185789c2f06b429152bfa071a05",
+    "xxh3_intensity": "c5b7cee83d0d76c725ed199aa2129343",
+    "sum_intensity": 4665.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 341.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      42.0
+     ],
+     [
+      17.0,
+      268.0
+     ],
+     [
+      18.100000381469727,
+      1216.0
+     ],
+     [
+      28.0,
+      731.0
+     ],
+     [
+      32.0,
+      454.0
+     ]
+    ]
+   },
+   {
+    "index": 5114,
+    "scan_number": 5115,
+    "ms_level": 1,
+    "rt_s": 3021.314,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "9ad93919448831352605615622e754b3",
+    "xxh3_intensity": "b35b8ef54e20c027f619e1f4b76b9bd0",
+    "sum_intensity": 4754.0,
+    "mz_min": 16.200000762939453,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      16.200000762939453,
+      39.0
+     ],
+     [
+      17.100000381469727,
+      304.0
+     ],
+     [
+      18.100000381469727,
+      1207.0
+     ],
+     [
+      28.100000381469727,
+      738.0
+     ],
+     [
+      32.0,
+      414.0
+     ]
+    ]
+   },
+   {
+    "index": 5146,
+    "scan_number": 5147,
+    "ms_level": 1,
+    "rt_s": 3040.187,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 25,
+    "mz_bits": null,
+    "xxh3_mz": "951d7342beed66af2fbe3b864892489b",
+    "xxh3_intensity": "8f509367b11bf56b6b884df9bd7934a5",
+    "sum_intensity": 4837.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 283.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      35.0
+     ],
+     [
+      17.100000381469727,
+      251.0
+     ],
+     [
+      18.100000381469727,
+      1249.0
+     ],
+     [
+      28.100000381469727,
+      753.0
+     ],
+     [
+      32.0,
+      499.0
+     ]
+    ]
+   },
+   {
+    "index": 5178,
+    "scan_number": 5179,
+    "ms_level": 1,
+    "rt_s": 3059.0589999999997,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "e0b64a31f69f16cbf1e2a8bf52b0a6d9",
+    "xxh3_intensity": "978e601259c8b2a4b21155b7c16c091d",
+    "sum_intensity": 4697.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      43.0
+     ],
+     [
+      17.100000381469727,
+      297.0
+     ],
+     [
+      18.100000381469727,
+      1195.0
+     ],
+     [
+      28.0,
+      729.0
+     ],
+     [
+      32.0,
+      465.0
+     ]
+    ]
+   },
+   {
+    "index": 5210,
+    "scan_number": 5211,
+    "ms_level": 1,
+    "rt_s": 3077.9320000000002,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 22,
+    "mz_bits": null,
+    "xxh3_mz": "96249a4727ef86a66ef85b6db39d9576",
+    "xxh3_intensity": "8cec2a19b5ae8dabf32c0de49ec3b14f",
+    "sum_intensity": 4581.0,
+    "mz_min": 14.0,
+    "mz_max": 283.0,
+    "first_peaks": [
+     [
+      14.0,
+      23.0
+     ],
+     [
+      16.0,
+      30.0
+     ],
+     [
+      17.100000381469727,
+      285.0
+     ],
+     [
+      18.100000381469727,
+      1236.0
+     ],
+     [
+      28.100000381469727,
+      778.0
+     ]
+    ]
+   },
+   {
+    "index": 5242,
+    "scan_number": 5243,
+    "ms_level": 1,
+    "rt_s": 3096.804,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 27,
+    "mz_bits": null,
+    "xxh3_mz": "347521bbe24cc53f647067f6b301162b",
+    "xxh3_intensity": "a59061ed07af9bceface2b6dbd79096b",
+    "sum_intensity": 4987.0,
+    "mz_min": 16.0,
+    "mz_max": 429.0,
+    "first_peaks": [
+     [
+      16.0,
+      55.0
+     ],
+     [
+      17.0,
+      255.0
+     ],
+     [
+      18.100000381469727,
+      1234.0
+     ],
+     [
+      28.0,
+      749.0
+     ],
+     [
+      32.099998474121094,
+      474.0
+     ]
+    ]
+   },
+   {
+    "index": 5274,
+    "scan_number": 5275,
+    "ms_level": 1,
+    "rt_s": 3115.677,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "ee6d099bcee3f49feb3ca9e055817bba",
+    "xxh3_intensity": "8663699714978081306d70f9bc223a72",
+    "sum_intensity": 4698.0,
+    "mz_min": 15.899999618530273,
+    "mz_max": 283.1000061035156,
+    "first_peaks": [
+     [
+      15.899999618530273,
+      26.0
+     ],
+     [
+      17.0,
+      268.0
+     ],
+     [
+      18.100000381469727,
+      1218.0
+     ],
+     [
+      28.100000381469727,
+      770.0
+     ],
+     [
+      32.0,
+      466.0
+     ]
+    ]
+   },
+   {
+    "index": 5307,
+    "scan_number": 5308,
+    "ms_level": 1,
+    "rt_s": 3135.139,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "dbf8d7a27d28e3541ab865e7187883e8",
+    "xxh3_intensity": "17b7392604e2d06aa30aa9ecb9329093",
+    "sum_intensity": 4778.0,
+    "mz_min": 16.0,
+    "mz_max": 355.20001220703125,
+    "first_peaks": [
+     [
+      16.0,
+      36.0
+     ],
+     [
+      17.100000381469727,
+      266.0
+     ],
+     [
+      18.100000381469727,
+      1261.0
+     ],
+     [
+      28.100000381469727,
+      771.0
+     ],
+     [
+      32.0,
+      469.0
+     ]
+    ]
+   },
+   {
+    "index": 5339,
+    "scan_number": 5340,
+    "ms_level": 1,
+    "rt_s": 3154.012,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "6e0305009a1730f861e0f93ab79e9de9",
+    "xxh3_intensity": "3cffdc8dde4b9c963ec151ccad63aceb",
+    "sum_intensity": 4870.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      26.0
+     ],
+     [
+      17.100000381469727,
+      293.0
+     ],
+     [
+      18.100000381469727,
+      1284.0
+     ],
+     [
+      28.100000381469727,
+      779.0
+     ],
+     [
+      32.0,
+      446.0
+     ]
+    ]
+   },
+   {
+    "index": 5371,
+    "scan_number": 5372,
+    "ms_level": 1,
+    "rt_s": 3172.884,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "877fbdc3db3ec6d4769ee73e90dff5b5",
+    "xxh3_intensity": "5884749ddddb4e51a2e65ad05294f5fc",
+    "sum_intensity": 4579.0,
+    "mz_min": 16.0,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      16.0,
+      36.0
+     ],
+     [
+      17.100000381469727,
+      265.0
+     ],
+     [
+      18.100000381469727,
+      1225.0
+     ],
+     [
+      28.100000381469727,
+      758.0
+     ],
+     [
+      32.0,
+      465.0
+     ]
+    ]
+   },
+   {
+    "index": 5403,
+    "scan_number": 5404,
+    "ms_level": 1,
+    "rt_s": 3191.757,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "aa22c9629bd02231fb8db95e843a8879",
+    "xxh3_intensity": "a6731b2852986d2677a1e6a117aee109",
+    "sum_intensity": 4734.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      34.0
+     ],
+     [
+      17.0,
+      288.0
+     ],
+     [
+      18.100000381469727,
+      1265.0
+     ],
+     [
+      28.100000381469727,
+      757.0
+     ],
+     [
+      32.0,
+      499.0
+     ]
+    ]
+   },
+   {
+    "index": 5435,
+    "scan_number": 5436,
+    "ms_level": 1,
+    "rt_s": 3210.629,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 27,
+    "mz_bits": null,
+    "xxh3_mz": "caaa02fe3ce664b81665885129522074",
+    "xxh3_intensity": "1515c88e158fbd8ffb522ee0809eda29",
+    "sum_intensity": 4793.0,
+    "mz_min": 14.0,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      14.0,
+      20.0
+     ],
+     [
+      16.0,
+      41.0
+     ],
+     [
+      17.0,
+      254.0
+     ],
+     [
+      18.100000381469727,
+      1190.0
+     ],
+     [
+      28.100000381469727,
+      718.0
+     ]
+    ]
+   },
+   {
+    "index": 5467,
+    "scan_number": 5468,
+    "ms_level": 1,
+    "rt_s": 3229.502,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "1882d495e1263e50940135c0ba1b761d",
+    "xxh3_intensity": "abbc7276f825bfc3b35c7722e94d2d8c",
+    "sum_intensity": 4782.0,
+    "mz_min": 16.200000762939453,
+    "mz_max": 283.0,
+    "first_peaks": [
+     [
+      16.200000762939453,
+      20.0
+     ],
+     [
+      17.0,
+      282.0
+     ],
+     [
+      18.100000381469727,
+      1223.0
+     ],
+     [
+      28.0,
+      753.0
+     ],
+     [
+      32.0,
+      483.0
+     ]
+    ]
+   },
+   {
+    "index": 5499,
+    "scan_number": 5500,
+    "ms_level": 1,
+    "rt_s": 3248.374,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 27,
+    "mz_bits": null,
+    "xxh3_mz": "ab5306775c377116f55268e58e3afc18",
+    "xxh3_intensity": "130454c80c6d1269948057221cbc9bd0",
+    "sum_intensity": 4748.0,
+    "mz_min": 16.0,
+    "mz_max": 429.1000061035156,
+    "first_peaks": [
+     [
+      16.0,
+      39.0
+     ],
+     [
+      17.100000381469727,
+      271.0
+     ],
+     [
+      18.100000381469727,
+      1221.0
+     ],
+     [
+      28.100000381469727,
+      769.0
+     ],
+     [
+      32.0,
+      503.0
+     ]
+    ]
+   },
+   {
+    "index": 5532,
+    "scan_number": 5533,
+    "ms_level": 1,
+    "rt_s": 3267.8360000000002,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "25573d7c289a3719f099bc08594fdf0d",
+    "xxh3_intensity": "6bcf32e4da33a97385d30ad37e32c902",
+    "sum_intensity": 4718.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 283.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      62.0
+     ],
+     [
+      17.0,
+      286.0
+     ],
+     [
+      18.100000381469727,
+      1216.0
+     ],
+     [
+      28.100000381469727,
+      724.0
+     ],
+     [
+      32.0,
+      468.0
+     ]
+    ]
+   },
+   {
+    "index": 5564,
+    "scan_number": 5565,
+    "ms_level": 1,
+    "rt_s": 3286.709,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 25,
+    "mz_bits": null,
+    "xxh3_mz": "d479b606d3cb445492e53be1cda4e973",
+    "xxh3_intensity": "fb6cba5f7006642435bec78a06fd96b8",
+    "sum_intensity": 4790.0,
+    "mz_min": 14.0,
+    "mz_max": 282.8999938964844,
+    "first_peaks": [
+     [
+      14.0,
+      20.0
+     ],
+     [
+      16.100000381469727,
+      37.0
+     ],
+     [
+      17.100000381469727,
+      297.0
+     ],
+     [
+      18.100000381469727,
+      1253.0
+     ],
+     [
+      28.100000381469727,
+      754.0
+     ]
+    ]
+   },
+   {
+    "index": 5596,
+    "scan_number": 5597,
+    "ms_level": 1,
+    "rt_s": 3305.5809999999997,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 27,
+    "mz_bits": null,
+    "xxh3_mz": "4e1a9a73e76f68254a46aea98a416e75",
+    "xxh3_intensity": "15b7337d661723503fd25e2c2a6250f3",
+    "sum_intensity": 4823.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 283.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      32.0
+     ],
+     [
+      17.0,
+      287.0
+     ],
+     [
+      18.100000381469727,
+      1216.0
+     ],
+     [
+      28.100000381469727,
+      734.0
+     ],
+     [
+      32.0,
+      461.0
+     ]
+    ]
+   },
+   {
+    "index": 5628,
+    "scan_number": 5629,
+    "ms_level": 1,
+    "rt_s": 3324.454,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "477f4f9023bc54c03fd9351f51ebc226",
+    "xxh3_intensity": "767b4d4b0ba0080863d4eac9b0ea7ed9",
+    "sum_intensity": 4578.0,
+    "mz_min": 16.0,
+    "mz_max": 354.8999938964844,
+    "first_peaks": [
+     [
+      16.0,
+      42.0
+     ],
+     [
+      17.100000381469727,
+      280.0
+     ],
+     [
+      18.100000381469727,
+      1235.0
+     ],
+     [
+      28.0,
+      676.0
+     ],
+     [
+      32.0,
+      460.0
+     ]
+    ]
+   },
+   {
+    "index": 5660,
+    "scan_number": 5661,
+    "ms_level": 1,
+    "rt_s": 3343.3269999999998,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "3324ea9e1c38d808921706c6e877ec6b",
+    "xxh3_intensity": "1d4ccc820134a544c1f5c14d4ab2ed40",
+    "sum_intensity": 4841.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 340.79998779296875,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      39.0
+     ],
+     [
+      17.100000381469727,
+      297.0
+     ],
+     [
+      18.100000381469727,
+      1235.0
+     ],
+     [
+      28.100000381469727,
+      748.0
+     ],
+     [
+      32.0,
+      519.0
+     ]
+    ]
+   },
+   {
+    "index": 5692,
+    "scan_number": 5693,
+    "ms_level": 1,
+    "rt_s": 3362.199,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "6cf1d79dea3701b7f9f1db24778b276c",
+    "xxh3_intensity": "f7c6cf1e70dc9885aceb92c2af934083",
+    "sum_intensity": 4946.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      36.0
+     ],
+     [
+      17.100000381469727,
+      326.0
+     ],
+     [
+      18.100000381469727,
+      1355.0
+     ],
+     [
+      28.100000381469727,
+      764.0
+     ],
+     [
+      32.0,
+      500.0
+     ]
+    ]
+   },
+   {
+    "index": 5725,
+    "scan_number": 5726,
+    "ms_level": 1,
+    "rt_s": 3381.661,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "f9599115c1ccfd9c5f148ac29e2e0352",
+    "xxh3_intensity": "ada53cb4989712accd0176488b4d953d",
+    "sum_intensity": 4773.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.20001220703125,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      37.0
+     ],
+     [
+      17.100000381469727,
+      300.0
+     ],
+     [
+      18.100000381469727,
+      1245.0
+     ],
+     [
+      28.0,
+      756.0
+     ],
+     [
+      32.0,
+      446.0
+     ]
+    ]
+   },
+   {
+    "index": 5757,
+    "scan_number": 5758,
+    "ms_level": 1,
+    "rt_s": 3400.534,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "fc419770d95bb98eb99405be4f7c3dc0",
+    "xxh3_intensity": "b540e2ccfc5775eab3abecd3458dcf3f",
+    "sum_intensity": 4687.0,
+    "mz_min": 16.0,
+    "mz_max": 282.79998779296875,
+    "first_peaks": [
+     [
+      16.0,
+      41.0
+     ],
+     [
+      17.100000381469727,
+      275.0
+     ],
+     [
+      18.100000381469727,
+      1229.0
+     ],
+     [
+      28.0,
+      770.0
+     ],
+     [
+      32.0,
+      449.0
+     ]
+    ]
+   },
+   {
+    "index": 5789,
+    "scan_number": 5790,
+    "ms_level": 1,
+    "rt_s": 3419.406,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "75d98ae2a16a20c2ad4341a463ad0c86",
+    "xxh3_intensity": "32ba8967320176cbf60a65b4bd2c3a6f",
+    "sum_intensity": 4813.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 355.1000061035156,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      23.0
+     ],
+     [
+      16.0,
+      39.0
+     ],
+     [
+      17.100000381469727,
+      316.0
+     ],
+     [
+      18.100000381469727,
+      1214.0
+     ],
+     [
+      28.100000381469727,
+      761.0
+     ]
+    ]
+   },
+   {
+    "index": 5821,
+    "scan_number": 5822,
+    "ms_level": 1,
+    "rt_s": 3438.279,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "f1a319b28c0782ba400ad1294393a76a",
+    "xxh3_intensity": "7cacdfb6d9aa46d5b5f0def9d964b183",
+    "sum_intensity": 4763.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.20001220703125,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      47.0
+     ],
+     [
+      17.100000381469727,
+      307.0
+     ],
+     [
+      18.100000381469727,
+      1252.0
+     ],
+     [
+      28.0,
+      690.0
+     ],
+     [
+      32.0,
+      440.0
+     ]
+    ]
+   },
+   {
+    "index": 5853,
+    "scan_number": 5854,
+    "ms_level": 1,
+    "rt_s": 3457.151,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 25,
+    "mz_bits": null,
+    "xxh3_mz": "58c8debcafe467bf26a188cef62b4554",
+    "xxh3_intensity": "46c41f833b62c99d90da335d16b33733",
+    "sum_intensity": 4697.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      23.0
+     ],
+     [
+      16.0,
+      46.0
+     ],
+     [
+      17.100000381469727,
+      280.0
+     ],
+     [
+      18.100000381469727,
+      1210.0
+     ],
+     [
+      28.100000381469727,
+      809.0
+     ]
+    ]
+   },
+   {
+    "index": 5885,
+    "scan_number": 5886,
+    "ms_level": 1,
+    "rt_s": 3476.0240000000003,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "e02962f6bc2aa7d7e8a487368d9206e9",
+    "xxh3_intensity": "0eb815da53c798d9c2c2965c84f7e9dc",
+    "sum_intensity": 4827.0,
+    "mz_min": 14.100000381469727,
+    "mz_max": 282.8999938964844,
+    "first_peaks": [
+     [
+      14.100000381469727,
+      20.0
+     ],
+     [
+      16.0,
+      38.0
+     ],
+     [
+      17.100000381469727,
+      313.0
+     ],
+     [
+      18.100000381469727,
+      1243.0
+     ],
+     [
+      28.100000381469727,
+      739.0
+     ]
+    ]
+   },
+   {
+    "index": 5918,
+    "scan_number": 5919,
+    "ms_level": 1,
+    "rt_s": 3495.486,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 27,
+    "mz_bits": null,
+    "xxh3_mz": "27999e2828baa46752a391a6c7386e37",
+    "xxh3_intensity": "ffe66e439088d0b9d57730732d37bf09",
+    "sum_intensity": 4902.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      55.0
+     ],
+     [
+      17.100000381469727,
+      273.0
+     ],
+     [
+      18.100000381469727,
+      1284.0
+     ],
+     [
+      28.0,
+      775.0
+     ],
+     [
+      32.0,
+      511.0
+     ]
+    ]
+   },
+   {
+    "index": 5950,
+    "scan_number": 5951,
+    "ms_level": 1,
+    "rt_s": 3514.3590000000004,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "4bf5e4142f196679dc6f9e842f802c20",
+    "xxh3_intensity": "de11097f5f36f98609f6df9e4dd77949",
+    "sum_intensity": 4833.0,
+    "mz_min": 16.0,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      16.0,
+      55.0
+     ],
+     [
+      17.100000381469727,
+      279.0
+     ],
+     [
+      18.100000381469727,
+      1294.0
+     ],
+     [
+      28.100000381469727,
+      772.0
+     ],
+     [
+      32.0,
+      484.0
+     ]
+    ]
+   },
+   {
+    "index": 5982,
+    "scan_number": 5983,
+    "ms_level": 1,
+    "rt_s": 3533.2309999999998,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "06430fb46a2737b368a3b8aaef793540",
+    "xxh3_intensity": "62be39e1718fdb1a11f7b15d04d55d7d",
+    "sum_intensity": 4695.0,
+    "mz_min": 16.0,
+    "mz_max": 282.8999938964844,
+    "first_peaks": [
+     [
+      16.0,
+      36.0
+     ],
+     [
+      17.0,
+      297.0
+     ],
+     [
+      18.100000381469727,
+      1251.0
+     ],
+     [
+      28.100000381469727,
+      691.0
+     ],
+     [
+      32.0,
+      456.0
+     ]
+    ]
+   },
+   {
+    "index": 6014,
+    "scan_number": 6015,
+    "ms_level": 1,
+    "rt_s": 3552.1040000000003,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "c50c30e26947b189a76b76492330daf7",
+    "xxh3_intensity": "bd11ce89d8a8b90cbed1953f9d2cb6a8",
+    "sum_intensity": 4864.0,
+    "mz_min": 16.0,
+    "mz_max": 284.0,
+    "first_peaks": [
+     [
+      16.0,
+      34.0
+     ],
+     [
+      17.100000381469727,
+      322.0
+     ],
+     [
+      18.100000381469727,
+      1212.0
+     ],
+     [
+      28.0,
+      756.0
+     ],
+     [
+      32.0,
+      506.0
+     ]
+    ]
+   },
+   {
+    "index": 6046,
+    "scan_number": 6047,
+    "ms_level": 1,
+    "rt_s": 3570.976,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 25,
+    "mz_bits": null,
+    "xxh3_mz": "f4f6d50b0e4b337428b4c886dff63c03",
+    "xxh3_intensity": "eea3896b111bb60212331887ecb6834f",
+    "sum_intensity": 4866.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 354.8999938964844,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      45.0
+     ],
+     [
+      17.0,
+      274.0
+     ],
+     [
+      18.100000381469727,
+      1278.0
+     ],
+     [
+      28.100000381469727,
+      764.0
+     ],
+     [
+      32.0,
+      484.0
+     ]
+    ]
+   },
+   {
+    "index": 6078,
+    "scan_number": 6079,
+    "ms_level": 1,
+    "rt_s": 3589.8489999999997,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "578aa9f67c52dd66ad62c18bd63820cd",
+    "xxh3_intensity": "a37afb246297b62e617232be66311984",
+    "sum_intensity": 4742.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      53.0
+     ],
+     [
+      17.100000381469727,
+      272.0
+     ],
+     [
+      18.100000381469727,
+      1203.0
+     ],
+     [
+      28.0,
+      765.0
+     ],
+     [
+      32.0,
+      459.0
+     ]
+    ]
+   },
+   {
+    "index": 6111,
+    "scan_number": 6112,
+    "ms_level": 1,
+    "rt_s": 3609.311,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 23,
+    "mz_bits": null,
+    "xxh3_mz": "8f2c892ecb121ef0989b9f6ec5cd2a91",
+    "xxh3_intensity": "8709f4edfcd340f3d495dc67c0ddddfc",
+    "sum_intensity": 4884.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      38.0
+     ],
+     [
+      17.100000381469727,
+      268.0
+     ],
+     [
+      18.100000381469727,
+      1173.0
+     ],
+     [
+      28.100000381469727,
+      810.0
+     ],
+     [
+      32.0,
+      483.0
+     ]
+    ]
+   },
+   {
+    "index": 6143,
+    "scan_number": 6144,
+    "ms_level": 1,
+    "rt_s": 3628.1839999999997,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "6876ac5b634cbb596f87f6b3cc9dddf1",
+    "xxh3_intensity": "c2d6673b11faeb243fe2b444a5fb171e",
+    "sum_intensity": 4590.0,
+    "mz_min": 16.0,
+    "mz_max": 283.1000061035156,
+    "first_peaks": [
+     [
+      16.0,
+      37.0
+     ],
+     [
+      17.0,
+      277.0
+     ],
+     [
+      18.100000381469727,
+      1164.0
+     ],
+     [
+      28.100000381469727,
+      757.0
+     ],
+     [
+      32.0,
+      442.0
+     ]
+    ]
+   },
+   {
+    "index": 6175,
+    "scan_number": 6176,
+    "ms_level": 1,
+    "rt_s": 3647.056,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "7b6ec02a1b4fbe3898d471a075c56966",
+    "xxh3_intensity": "c41a8e2483a6dc9139087d4858829aa0",
+    "sum_intensity": 4701.0,
+    "mz_min": 16.0,
+    "mz_max": 283.1000061035156,
+    "first_peaks": [
+     [
+      16.0,
+      41.0
+     ],
+     [
+      17.100000381469727,
+      312.0
+     ],
+     [
+      18.100000381469727,
+      1212.0
+     ],
+     [
+      28.100000381469727,
+      735.0
+     ],
+     [
+      32.0,
+      466.0
+     ]
+    ]
+   },
+   {
+    "index": 6207,
+    "scan_number": 6208,
+    "ms_level": 1,
+    "rt_s": 3665.929,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 26,
+    "mz_bits": null,
+    "xxh3_mz": "bc9aa464b03f37bdb4d3cd3f334e09f7",
+    "xxh3_intensity": "333e28e49dd7247f39e0e8b2fd261f04",
+    "sum_intensity": 4799.0,
+    "mz_min": 16.0,
+    "mz_max": 355.1000061035156,
+    "first_peaks": [
+     [
+      16.0,
+      39.0
+     ],
+     [
+      17.100000381469727,
+      263.0
+     ],
+     [
+      18.100000381469727,
+      1283.0
+     ],
+     [
+      28.0,
+      775.0
+     ],
+     [
+      32.0,
+      488.0
+     ]
+    ]
+   },
+   {
+    "index": 6239,
+    "scan_number": 6240,
+    "ms_level": 1,
+    "rt_s": 3684.801,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 22,
+    "mz_bits": null,
+    "xxh3_mz": "9d24caa4e2990bf492bd0fcb2a482469",
+    "xxh3_intensity": "50e94aeba4622f8280e8072d8af7a53b",
+    "sum_intensity": 4640.0,
+    "mz_min": 16.0,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      16.0,
+      49.0
+     ],
+     [
+      17.0,
+      266.0
+     ],
+     [
+      18.100000381469727,
+      1257.0
+     ],
+     [
+      28.100000381469727,
+      737.0
+     ],
+     [
+      32.0,
+      441.0
+     ]
+    ]
+   },
+   {
+    "index": 6271,
+    "scan_number": 6272,
+    "ms_level": 1,
+    "rt_s": 3703.674,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 22,
+    "mz_bits": null,
+    "xxh3_mz": "1893eb5ca0919e0e218dbce92eb70f8a",
+    "xxh3_intensity": "fb6dc1df7a1f55d475f9420fdef8f0a6",
+    "sum_intensity": 4953.0,
+    "mz_min": 14.0,
+    "mz_max": 282.8999938964844,
+    "first_peaks": [
+     [
+      14.0,
+      24.0
+     ],
+     [
+      16.100000381469727,
+      40.0
+     ],
+     [
+      17.100000381469727,
+      281.0
+     ],
+     [
+      18.100000381469727,
+      1331.0
+     ],
+     [
+      28.0,
+      801.0
+     ]
+    ]
+   },
+   {
+    "index": 6304,
+    "scan_number": 6305,
+    "ms_level": 1,
+    "rt_s": 3723.136,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 25,
+    "mz_bits": null,
+    "xxh3_mz": "45f1f1344d9830e2cf58dc7ab5fc3638",
+    "xxh3_intensity": "fddfc02f3d1212c3aa14fc3f19db5145",
+    "sum_intensity": 4877.0,
+    "mz_min": 13.899999618530273,
+    "mz_max": 283.0,
+    "first_peaks": [
+     [
+      13.899999618530273,
+      20.0
+     ],
+     [
+      16.0,
+      37.0
+     ],
+     [
+      17.100000381469727,
+      264.0
+     ],
+     [
+      18.100000381469727,
+      1272.0
+     ],
+     [
+      28.100000381469727,
+      776.0
+     ]
+    ]
+   },
+   {
+    "index": 6336,
+    "scan_number": 6337,
+    "ms_level": 1,
+    "rt_s": 3742.008,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "6ade32201e6fae8d36533c7dc0bac704",
+    "xxh3_intensity": "47c19e37079bd5455392f88323429eba",
+    "sum_intensity": 4763.0,
+    "mz_min": 16.0,
+    "mz_max": 355.0,
+    "first_peaks": [
+     [
+      16.0,
+      34.0
+     ],
+     [
+      17.100000381469727,
+      279.0
+     ],
+     [
+      18.100000381469727,
+      1245.0
+     ],
+     [
+      28.100000381469727,
+      748.0
+     ],
+     [
+      32.0,
+      514.0
+     ]
+    ]
+   },
+   {
+    "index": 6368,
+    "scan_number": 6369,
+    "ms_level": 1,
+    "rt_s": 3760.8810000000003,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "256af52da3663f4a801673c1b115df8d",
+    "xxh3_intensity": "6dbb77368ad41ef1f33e86cc86a75f30",
+    "sum_intensity": 4833.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 282.79998779296875,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      54.0
+     ],
+     [
+      17.100000381469727,
+      295.0
+     ],
+     [
+      18.100000381469727,
+      1293.0
+     ],
+     [
+      28.100000381469727,
+      786.0
+     ],
+     [
+      32.0,
+      462.0
+     ]
+    ]
+   },
+   {
+    "index": 6400,
+    "scan_number": 6401,
+    "ms_level": 1,
+    "rt_s": 3779.754,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "n_peaks": 24,
+    "mz_bits": null,
+    "xxh3_mz": "271fda1fe679b8b92fa428be3c78f162",
+    "xxh3_intensity": "e8acc916a2b95b117f63f4151c2d203d",
+    "sum_intensity": 4843.0,
+    "mz_min": 16.100000381469727,
+    "mz_max": 355.1000061035156,
+    "first_peaks": [
+     [
+      16.100000381469727,
+      41.0
+     ],
+     [
+      17.100000381469727,
+      288.0
+     ],
+     [
+      18.100000381469727,
+      1216.0
+     ],
+     [
+      28.0,
+      779.0
+     ],
+     [
+      32.0,
+      509.0
+     ]
+    ]
+   }
+  ]
+ }
+}

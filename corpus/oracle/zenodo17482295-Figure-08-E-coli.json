@@ -1,0 +1,58 @@
+{
+ "id": "zenodo17482295-Figure-08-E-coli",
+ "file": "zenodo17482295-Figure-08-E-coli.czi",
+ "size": 2429728,
+ "sha256": "40c1f37c95e76b4410468a79b1436eae3b8627f9c1bd1ccfeba8be652e80b4d7",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 683,
+   "size_y": 683,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    2,
+    683,
+    683
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.0352995257508943,
+    "y": 0.0352995257508943,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c4f9db4f367852bdb33f6bf3d872c6b8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "74d24eaefeda2600b8daa9109d79ee59"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.0352995257508943,
+  "y": 0.0352995257508943,
+  "z": null
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

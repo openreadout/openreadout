@@ -1,0 +1,124 @@
+{
+ "id": "metamorph-figshare7583960-w1-t1-stk",
+ "file": "170227-hoechst only7_w1Laser4914BDGreenOnly_t1.stk",
+ "size": 7344460,
+ "sha256": "9c0c328b77a86bf964d95a453182dd0770a08ff2b9386273205e3e9b2797b41c",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "stk",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "stk",
+   "axes": "ZYX",
+   "shape": [
+    14,
+    512,
+    512
+   ],
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 14,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "z": 0.5
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aff06c0eeaa512b6cb28613f7a8209a0"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "792560bfc756269bfa642354605731b5"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "d9e154bc7ddfa3de8714f48d92d0495e"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "ec7c279d6cc5549a20b53c6f9fd7540b"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "163fb83e0ab55cab599f7ecd50794455"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "142879976ac848bab521266e2c10f502"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "9a71c1088ded658c9a69d9ff6c0bf23d"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "74079b76e4fc87ffb9b89d9f412f890c"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "46d60bd60ad8c2485a8c58415789907c"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "da1df68bdd904c2c42230d1ac76b5766"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "95438d2ade8f1bb2b5b9991c0cd38c00"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "5c4d639f38fcef007d373cd0a7d4c129"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "45c226e819821f86fea3702e03929c57"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "26a35af588b62abec87dc66ca46f6be3"
+    }
+   ]
+  }
+ ]
+}

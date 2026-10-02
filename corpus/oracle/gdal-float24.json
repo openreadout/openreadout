@@ -1,0 +1,43 @@
+{
+ "id": "gdal-float24",
+ "file": "gdal-float24.tif",
+ "size": 1936,
+ "sha256": "5b77eedd315e1590929399e0bb5f5d0aaff6de1f12192d93beb46d0955263b95",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "geotiff",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "geotiff",
+   "axes": "YX",
+   "shape": [
+    20,
+    20
+   ],
+   "size_x": 20,
+   "size_y": 20,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "478987a832ee4f1fc0b47e65e14b44bc"
+    }
+   ]
+  }
+ ]
+}

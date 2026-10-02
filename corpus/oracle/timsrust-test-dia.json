@@ -1,0 +1,37 @@
+{
+ "id": "timsrust-test-dia",
+ "reader": "timsrust tests/frame_readers.rs (commit 80e235a): expected frames, transcribed",
+ "images": [],
+ "tdf": {
+  "frames": [
+   {
+    "id": 2,
+    "scans": 709,
+    "peaks": 754376,
+    "first_tof": 251695,
+    "first_intensity": 503392
+   },
+   {
+    "id": 3,
+    "scans": 709,
+    "peaks": 1257057,
+    "first_tof": 1006071,
+    "first_intensity": 2012144
+   },
+   {
+    "id": 5,
+    "scans": 709,
+    "peaks": 2262419,
+    "first_tof": 4022866,
+    "first_intensity": 8045734
+   },
+   {
+    "id": 6,
+    "scans": 709,
+    "peaks": 2765100,
+    "first_tof": 6285285,
+    "first_intensity": 12570572
+   }
+  ]
+ }
+}

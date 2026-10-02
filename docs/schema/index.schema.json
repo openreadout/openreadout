@@ -1,0 +1,438 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IndexManifest",
+  "description": "`index.json`.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "description": "[`INDEX_SCHEMA_VERSION`].",
+      "type": "string"
+    },
+    "tool": {
+      "description": "The tool and version that wrote it.",
+      "$ref": "#/$defs/ToolInfo"
+    },
+    "index_dir": {
+      "description": "Absolute path of the index directory.",
+      "type": "string"
+    },
+    "roots": {
+      "description": "The directories (or files) crawled, absolute.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "settings": {
+      "description": "Options of the crawl.",
+      "$ref": "#/$defs/IndexSettings"
+    },
+    "complete": {
+      "description": "True when the crawl walked every root to the end. False after a cap (`--max-files`,\n`--max-seconds`) or an interruption: the tables then hold what was read so far plus the\nprevious run's records for the rest, and rerunning the same command continues.",
+      "type": "boolean"
+    },
+    "started_at": {
+      "description": "When this run started (ISO-8601 UTC).",
+      "type": "string"
+    },
+    "updated_at": {
+      "description": "When the tables were written.",
+      "type": "string"
+    },
+    "tables": {
+      "description": "The tables.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/TableManifest"
+      }
+    },
+    "datasets": {
+      "description": "Data sets (rows of `experiments.parquet`) after multi-file grouping.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "files": {
+      "description": "Rows of `files.parquet`.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "bytes": {
+      "description": "Bytes of every file seen.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "formats": {
+      "description": "Data sets and bytes per format id.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/Tally"
+      }
+    },
+    "families": {
+      "description": "Data sets and bytes per family.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/Tally"
+      }
+    },
+    "years": {
+      "description": "Data sets per acquisition year (`unknown` when the file records no date).",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/Tally"
+      }
+    },
+    "unknown_extensions": {
+      "description": "Files no reader recognises, per lower-case extension (`(none)` for no extension).",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/Tally"
+      }
+    },
+    "check_status": {
+      "description": "Data sets per check status.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "uint64",
+        "minimum": 0
+      }
+    },
+    "problems": {
+      "description": "Problems per category (`integrity`, `readability`, `walk`, `pii`).",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "uint64",
+        "minimum": 0
+      }
+    },
+    "pii": {
+      "description": "Personal-data totals.",
+      "$ref": "#/$defs/PiiTotals"
+    },
+    "changes": {
+      "description": "Data sets per change (`new`, `changed`, `unchanged`, `moved`) and `removed`.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "uint64",
+        "minimum": 0
+      }
+    },
+    "crawl": {
+      "description": "Crawl counters, cumulative over resumed sessions.",
+      "$ref": "#/$defs/CrawlStats"
+    },
+    "files_per_s": {
+      "description": "Items per second over the crawl's wall time.",
+      "type": "number",
+      "format": "double"
+    },
+    "next": {
+      "description": "What to do next, when the crawl is not complete.",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "tool",
+    "index_dir",
+    "roots",
+    "settings",
+    "complete",
+    "started_at",
+    "updated_at",
+    "tables",
+    "datasets",
+    "files",
+    "bytes",
+    "formats",
+    "families",
+    "years",
+    "unknown_extensions",
+    "check_status",
+    "problems",
+    "pii",
+    "changes",
+    "crawl",
+    "files_per_s"
+  ],
+  "$defs": {
+    "ToolInfo": {
+      "description": "The tool that wrote the index.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "`openreadout`.",
+          "type": "string"
+        },
+        "version": {
+          "description": "Its version.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ]
+    },
+    "IndexSettings": {
+      "description": "Crawl options that shape the index.",
+      "type": "object",
+      "properties": {
+        "check": {
+          "description": "`headers`, `full` or `none`.",
+          "type": "string"
+        },
+        "follow_symlinks": {
+          "description": "Symbolic links followed.",
+          "type": "boolean"
+        },
+        "exclude": {
+          "description": "`--exclude` patterns.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "pii": {
+          "description": "Personal-data detection on.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "check",
+        "follow_symlinks",
+        "pii"
+      ]
+    },
+    "TableManifest": {
+      "description": "One table of the index.",
+      "type": "object",
+      "properties": {
+        "file": {
+          "description": "File name inside the index directory.",
+          "type": "string"
+        },
+        "rows": {
+          "description": "Rows.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "file",
+        "rows"
+      ]
+    },
+    "Tally": {
+      "description": "A count and a byte total.",
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "How many.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes": {
+          "description": "Bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "count",
+        "bytes"
+      ]
+    },
+    "PiiTotals": {
+      "description": "Personal-data totals.",
+      "type": "object",
+      "properties": {
+        "datasets_flagged": {
+          "description": "Data sets with at least one flag.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "flags": {
+          "description": "Flags.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "by_kind": {
+          "description": "Flags per kind (`person_name`, `email`, ...).",
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "uint64",
+            "minimum": 0
+          }
+        }
+      },
+      "required": [
+        "datasets_flagged",
+        "flags",
+        "by_kind"
+      ]
+    },
+    "CrawlStats": {
+      "description": "Counters of one crawl (cumulative over resumed sessions of the same run).",
+      "type": "object",
+      "properties": {
+        "items": {
+          "description": "Walk items processed: files and directory data sets.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "files_seen": {
+          "description": "Files seen, counting every file inside directory data sets.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "recognised": {
+          "description": "Items a reader recognised (before multi-file grouping).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "unknown": {
+          "description": "Items no reader recognises.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "unreadable": {
+          "description": "Recognised items that could not be opened or summarized.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "new": {
+          "description": "Items read for the first time.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "changed": {
+          "description": "Items read again (size, time or tool version changed).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "unchanged": {
+          "description": "Items reused from the previous run without being opened.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "removed": {
+          "description": "Items of the previous run that are gone.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes_seen": {
+          "description": "Bytes of every file seen.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes_read": {
+          "description": "Bytes the crawler itself read (sniffing and fingerprints); the readers' own header reads\nare not counted.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "elapsed_s": {
+          "description": "Wall time of the crawl, seconds (all sessions of a resumed run).",
+          "type": "number",
+          "format": "double"
+        },
+        "sessions": {
+          "description": "Sessions this run took (1 plus the number of resumes).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "walk": {
+          "description": "What the walk skipped.",
+          "$ref": "#/$defs/WalkStats"
+        }
+      },
+      "required": [
+        "items",
+        "files_seen",
+        "recognised",
+        "unknown",
+        "unreadable",
+        "new",
+        "changed",
+        "unchanged",
+        "removed",
+        "bytes_seen",
+        "bytes_read",
+        "elapsed_s",
+        "sessions",
+        "walk"
+      ]
+    },
+    "WalkStats": {
+      "description": "Counters of what the walk skipped.",
+      "type": "object",
+      "properties": {
+        "directories": {
+          "description": "Directories listed.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "hidden_skipped": {
+          "description": "Hidden entries (`.name`) skipped.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "symlinks_skipped": {
+          "description": "Symbolic links skipped (not followed).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "excluded": {
+          "description": "Entries skipped by `--exclude` (and the index directory).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "unreadable_directories": {
+          "description": "Directories that could not be listed.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "directories",
+        "hidden_skipped",
+        "symlinks_skipped",
+        "excluded",
+        "unreadable_directories"
+      ]
+    }
+  }
+}

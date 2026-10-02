@@ -1,0 +1,5 @@
+{
+  "mcpServers": {
+    "openreadout": { "command": "openreadout", "args": ["mcp"] }
+  }
+}

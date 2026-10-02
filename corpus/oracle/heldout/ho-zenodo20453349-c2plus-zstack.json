@@ -1,0 +1,222 @@
+{
+ "id": "ho-zenodo20453349-c2plus-zstack",
+ "file": "L437 cav1-555 vecad-488 erg-647 #2 rightwing artery.nd2",
+ "size": 19206144,
+ "sha256": "bfbe318d6d74dd0ab11961e1f81d1c4d0eff398e43440a64d547392c191d58ee",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Z': 3, 'C': 3, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.2070963358604165,
+    "y": 0.2070963358604165,
+    "z": 1.0
+   },
+   "channel_names": [
+    "Cy5",
+    "FITC",
+    "TRITC"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d9edf71f72af7a0f1ca5f0b555f4dcbc"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "3233ae8c299b1e297bab4c670c48f29c"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "d6be0f924c4f91540ebb1d48ae9d5710"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "690ae5e9f97c6f03f54b6ce3086ca24f"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "c57265e2ba670002c3bc67f39f959ff5"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "5351faa232f018b0b5d900dba4333284"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "64da22e20f09333ef444db20b8c247ab"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "24929c9878097b0ecece8e5af824d486"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1d78cf048acd907d7adacbd0c5436e73"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Cy5",
+    "color": "#FF00FF",
+    "excitation_nm": 640.0,
+    "emission_nm": 830.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   },
+   {
+    "name": "FITC",
+    "color": "#00FF00",
+    "excitation_nm": 488.0,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   },
+   {
+    "name": "TRITC",
+    "color": "#FF0000",
+    "excitation_nm": 561.0,
+    "emission_nm": 600.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   }
+  ],
+  "frame_count": 3,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 6679.289999991655,
+    "tags": {
+     "CameraTemp2": -24.90234375,
+     "Camera_000CH1PMTHighVoltage": 75,
+     "Camera_001CH2PMTHighVoltage": 75,
+     "Camera_002CH3PMTHighVoltage": 60,
+     "Camera_003CH4PMTHighVoltage": 0,
+     "Camera_004TDPMTHighVoltage": 0,
+     "Camera_005SDHighVoltage": 0,
+     "Camera_006VFCH1Gain": 0,
+     "Camera_007VFCH2Gain": 0,
+     "Camera_008VFCH3Gain": 0,
+     "Camera_009VFCH4Gain": 0,
+     "Camera_014CH1LaserPower": 7.0,
+     "Camera_015CH2LaserPower": 7.0,
+     "Camera_016CH3LaserPower": 5.0,
+     "Camera_017CH4LaserPower": 0.0,
+     "PFS_OFFSET": 6638,
+     "PFS_STATUS": 3,
+     "X": 9982.300000000001,
+     "Y": -1243.2,
+     "Z": 1895.88,
+     "Z1": 1895.88
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 19128.543799996376,
+    "tags": {
+     "CameraTemp2": -24.90234375,
+     "Camera_000CH1PMTHighVoltage": 75,
+     "Camera_001CH2PMTHighVoltage": 75,
+     "Camera_002CH3PMTHighVoltage": 60,
+     "Camera_003CH4PMTHighVoltage": 0,
+     "Camera_004TDPMTHighVoltage": 0,
+     "Camera_005SDHighVoltage": 0,
+     "Camera_006VFCH1Gain": 0,
+     "Camera_007VFCH2Gain": 0,
+     "Camera_008VFCH3Gain": 0,
+     "Camera_009VFCH4Gain": 0,
+     "Camera_014CH1LaserPower": 7.0,
+     "Camera_015CH2LaserPower": 7.0,
+     "Camera_016CH3LaserPower": 5.0,
+     "Camera_017CH4LaserPower": 0.0,
+     "PFS_OFFSET": 6638,
+     "PFS_STATUS": 3,
+     "X": 9982.300000000001,
+     "Y": -1243.2,
+     "Z": 1896.8600000000001,
+     "Z1": 1896.8600000000001
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 31532.718499988317,
+    "tags": {
+     "CameraTemp2": -24.90234375,
+     "Camera_000CH1PMTHighVoltage": 75,
+     "Camera_001CH2PMTHighVoltage": 75,
+     "Camera_002CH3PMTHighVoltage": 60,
+     "Camera_003CH4PMTHighVoltage": 0,
+     "Camera_004TDPMTHighVoltage": 0,
+     "Camera_005SDHighVoltage": 0,
+     "Camera_006VFCH1Gain": 0,
+     "Camera_007VFCH2Gain": 0,
+     "Camera_008VFCH3Gain": 0,
+     "Camera_009VFCH4Gain": 0,
+     "Camera_014CH1LaserPower": 7.0,
+     "Camera_015CH2LaserPower": 7.0,
+     "Camera_016CH3LaserPower": 5.0,
+     "Camera_017CH4LaserPower": 0.0,
+     "PFS_OFFSET": 6638,
+     "PFS_STATUS": 3,
+     "X": 9982.300000000001,
+     "Y": -1243.2,
+     "Z": 1897.8400000000001,
+     "Z1": 1897.8400000000001
+    }
+   }
+  ],
+  "acquired_at": "2025-07-03T17:53:42.392Z",
+  "acquired_at_unix_ms": 1751565222392
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: Z(3)\r\nCamera Name: Nikon C2plus\r\nNumerical Aperture: 1.4\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 3\r\nPlane #1:\r\n Name: Cy5\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU3\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: 660 LP\r\n  {Second Filter Cube}: 525/50 600/50\r\n  CH1\t{Laser Wavelength}: 640.0\t{Laser Power}: 7.0\r\n  \t{PMT HV}: 75\t{PMT Offset}: 0\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 7.0\r\n  \t{PMT HV}: 75\t{PMT Offset}: 0\r\n  CH3\t{Laser Wavelength}: 561.0\t{Laser Power}: 5.0\r\n  \t{PMT HV}: 60\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 60.00\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.5\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH3][CH2][CH1]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  {Head type}: Legacy (FOV18)\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Polarizer, position: In\r\n  DIC Prism, position: In\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (New)\r\n  LightPath: L100\r\n  Condenser: 6 (N2)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: FITC\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU3\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: 660 LP\r\n  {Second Filter Cube}: 525/50 600/50\r\n  CH1\t{Laser Wavelength}: 640.0\t{Laser Power}: 7.0\r\n  \t{PMT HV}: 75\t{PMT Offset}: 0\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 7.0\r\n  \t{PMT HV}: 75\t{PMT Offset}: 0\r\n  CH3\t{Laser Wavelength}: 561.0\t{Laser Power}: 5.0\r\n  \t{PMT HV}: 60\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 60.00\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.5\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH3][CH2][CH1]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  {Head type}: Legacy (FOV18)\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Polarizer, position: In\r\n  DIC Prism, position: In\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (New)\r\n  LightPath: L100\r\n  Condenser: 6 (N2)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\nPlane #3:\r\n Name: TRITC\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU3\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: 660 LP\r\n  {Second Filter Cube}: 525/50 600/50\r\n  CH1\t{Laser Wavelength}: 640.0\t{Laser Power}: 7.0\r\n  \t{PMT HV}: 75\t{PMT Offset}: 0\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 7.0\r\n  \t{PMT HV}: 75\t{PMT Offset}: 0\r\n  CH3\t{Laser Wavelength}: 561.0\t{Laser Power}: 5.0\r\n  \t{PMT HV}: 60\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 60.00\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.5\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH3][CH2][CH1]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  {Head type}: Legacy (FOV18)\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Polarizer, position: In\r\n  DIC Prism, position: In\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (New)\r\n  LightPath: L100\r\n  Condenser: 6 (N2)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\nZ Stack Loop: 3\r\n- Step: 1 \u00b5m\r\n- Device: Ti2 ZDrive",
+  "capturing": "Nikon C2plus\r\n              \r\n{Scanner Selection}: Galvano\r\n{Detector Selection}: DU3\r\n{Optical Path Mode}: Manual\r\n{First Dichroic Mirror}: 405/488/561/640\r\n{First Filter Cube}: 660 LP\r\n{Second Filter Cube}: 525/50 600/50\r\nCH1\t{Laser Wavelength}: 640.0\t{Laser Power}: 7.0\r\n\t{PMT HV}: 75\t{PMT Offset}: 0\r\nCH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 7.0\r\n\t{PMT HV}: 75\t{PMT Offset}: 0\r\nCH3\t{Laser Wavelength}: 561.0\t{Laser Power}: 5.0\r\n\t{PMT HV}: 60\t{PMT Offset}: 0\r\n{Pinhole Size(um)}: 60.00\r\n{HV LinearCorrection}: Off\r\n{Scan Direction}: One way\r\n{Scanner Zoom}: 1.000\r\n{Scan Speed}: 0.5\r\n{Channel Series Mode}: Custom\r\n{Channel Series Pass}: [CH3][CH2][CH1]\r\n{Line Skip}: None\r\n{Frame Skip}: 0\r\n{Line Average Mode}: None\r\n{Line Average/Integrate Count}: 0\r\nStim1\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim2\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim3\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n{Head type}: Legacy (FOV18)\r\n\r\n",
+  "date": "7/3/2025  12:53:42 PM",
+  "optics": "Plan Apo \u03bb 60x Oil"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=3, heightPx=1024, pixelDataType='unsigned', sequenceCount=3, widthBytes=6144, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=3)"
+}

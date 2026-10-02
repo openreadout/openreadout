@@ -1,0 +1,32 @@
+{
+ "id": "aics-ND2-dims-rgb",
+ "file": "aics-ND2-dims-rgb.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c15b4b3db7c92d09bfbbbe5be64f9658"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9420f7ff29b53e80ec531f9170e20212"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d38d76e5f9f5a027fda4ba993e099118"
+    }
+   ]
+  }
+ ]
+}

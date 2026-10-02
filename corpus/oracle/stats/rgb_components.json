@@ -1,0 +1,110 @@
+{
+ "how": "per image, every sample of each colour component (R, G, B) over all planes; NumPy float64",
+ "files": {
+  "aics-RGB-8bit": {
+   "filename": "aics-RGB-8bit.czi",
+   "reader": "czi",
+   "images": [
+    [
+     {
+      "count": 576576,
+      "min": 0.0,
+      "max": 182.0,
+      "mean": 13.809315684315685,
+      "std": 17.54072579702516,
+      "median": 6.0,
+      "at_type_max": 0
+     },
+     {
+      "count": 576576,
+      "min": 0.0,
+      "max": 224.0,
+      "mean": 28.0246611027861,
+      "std": 31.094749341402952,
+      "median": 17.0,
+      "at_type_max": 0
+     },
+     {
+      "count": 576576,
+      "min": 0.0,
+      "max": 104.0,
+      "mean": 14.77114898989899,
+      "std": 13.88574797972891,
+      "median": 10.0,
+      "at_type_max": 0
+     }
+    ]
+   ]
+  },
+  "openslide-zeiss-5-slidepreview-zstd0": {
+   "filename": "openslide-zeiss-5-slidepreview-zstd0.czi",
+   "reader": "czi",
+   "images": [
+    [
+     {
+      "count": 774900,
+      "min": 18176.0,
+      "max": 57088.0,
+      "mean": 49438.04209059233,
+      "std": 2786.1103124413853,
+      "median": 49664.0,
+      "at_type_max": 0
+     },
+     {
+      "count": 774900,
+      "min": 11776.0,
+      "max": 58624.0,
+      "mean": 51888.970695573626,
+      "std": 3381.033397916991,
+      "median": 52224.0,
+      "at_type_max": 0
+     },
+     {
+      "count": 774900,
+      "min": 12800.0,
+      "max": 56576.0,
+      "mean": 47702.55238095238,
+      "std": 2786.3474378627416,
+      "median": 47872.0,
+      "at_type_max": 0
+     }
+    ]
+   ]
+  },
+  "aics-ND2-dims-rgb": {
+   "filename": "aics-ND2-dims-rgb.nd2",
+   "reader": "nd2",
+   "images": [
+    [
+     {
+      "count": 4096,
+      "min": 125.0,
+      "max": 142.0,
+      "mean": 135.23974609375,
+      "std": 1.9989358335828633,
+      "median": 135.0,
+      "at_type_max": 0
+     },
+     {
+      "count": 4096,
+      "min": 137.0,
+      "max": 150.0,
+      "mean": 142.577880859375,
+      "std": 1.594451132989974,
+      "median": 142.0,
+      "at_type_max": 0
+     },
+     {
+      "count": 4096,
+      "min": 138.0,
+      "max": 154.0,
+      "mean": 145.400634765625,
+      "std": 2.4096748328763367,
+      "median": 145.0,
+      "at_type_max": 0
+     }
+    ]
+   ]
+  }
+ }
+}

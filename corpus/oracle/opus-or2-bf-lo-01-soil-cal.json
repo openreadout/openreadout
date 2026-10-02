@@ -1,0 +1,202 @@
+{
+ "id": "opus-or2-bf-lo-01-soil-cal",
+ "file": "opus-or2-bf-lo-01-soil-cal.1",
+ "size": 36576,
+ "sha256": "5a973a05ca6245e722336c9dc659b541d8424621356d38a47a4aac7c503a06ec",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1716,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1716,
+     "channels": [
+      {
+       "xxh3": "648c4d02946c2c7b0e3283b04a172eed",
+       "first": [
+        0.12397846579551697,
+        0.12346708029508591,
+        0.12318363040685654,
+        0.12350718677043915,
+        0.12391699850559235,
+        0.12404263019561768,
+        0.12417725473642349,
+        0.1241815909743309
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3997.396811017969,
+   "x_last": 499.6746013772461,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11602.421583,
+     "apodization": "B3",
+     "beamsplitter": "ZnSe",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha",
+     "instrument_serial": "2 00639",
+     "sample_name": "BF_lo_01_soil_cal",
+     "operator": "Default",
+     "accessory": "DRIFT #8490E782D",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "a_2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1716,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1716,
+     "channels": [
+      {
+       "xxh3": "fafafd8e87179997493d0347c21c3c8a",
+       "first": [
+        0.12322168797254562,
+        0.1233770027756691,
+        0.12381697446107864,
+        0.12423758953809738,
+        0.12446452677249908,
+        0.12457717210054398,
+        0.12462259083986282,
+        0.12456834316253662
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3997.396811017969,
+   "x_last": 499.6746013772461,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11602.421583,
+     "apodization": "B3",
+     "beamsplitter": "ZnSe",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha",
+     "instrument_serial": "2 00639",
+     "sample_name": "BF_lo_01_soil_cal",
+     "operator": "Default",
+     "accessory": "DRIFT #8490E782D",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1716,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1716,
+     "channels": [
+      {
+       "xxh3": "e90ccf633369e509ea73768d8f48607c",
+       "first": [
+        0.00727472547441721,
+        0.007243184372782707,
+        0.0072190724313259125,
+        0.00721328379586339,
+        0.007237709127366543,
+        0.007275093346834183,
+        0.007285257801413536,
+        0.007275547832250595
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3997.396811017969,
+   "x_last": 499.6746013772461,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11602.421583,
+     "apodization": "B3",
+     "beamsplitter": "ZnSe",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha",
+     "instrument_serial": "2 00639",
+     "sample_name": "BF_lo_01_soil_cal",
+     "operator": "Default",
+     "accessory": "DRIFT #8490E782D",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 3,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1722,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1722,
+     "channels": [
+      {
+       "xxh3": "c061f66db631aea04b9b15e83d5aae31",
+       "first": [
+        0.009608035907149315,
+        0.009648900479078293,
+        0.00967671163380146,
+        0.009685618802905083,
+        0.009661360643804073,
+        0.009622912853956223,
+        0.009600600227713585,
+        0.009602196514606476
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4005.5547636935153,
+   "x_last": 495.595625039472,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11602.421583,
+     "apodization": "B3",
+     "beamsplitter": "ZnSe",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha",
+     "instrument_serial": "2 00639",
+     "sample_name": "BF_lo_01_soil_cal",
+     "operator": "Default",
+     "accessory": "DRIFT #8490E782D",
+     "scans": 64
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

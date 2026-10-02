@@ -1,0 +1,60 @@
+{
+ "id": "nmrxiv-s596-1",
+ "path": "nmrxiv-s596/1",
+ "procs": {
+  "SI": 65536,
+  "LB": 1,
+  "WDW": 1,
+  "PHC0": -31.18107,
+  "PHC1": -45.74246,
+  "OFFSET": 234.9093,
+  "SF": 75.4677381199999,
+  "SW_p": 18832.3917137476,
+  "NC_proc": 5,
+  "ME_mod": 0,
+  "TDoff": 0,
+  "BC_mod": 2,
+  "FCOR": 0.5,
+  "TDeff": 65536
+ },
+ "acqus": {
+  "DSPFVS": 10,
+  "DIGMOD": 1,
+  "AQ_mod": 1,
+  "GRPDLY": -1,
+  "DECIM": 6
+ },
+ "nucleus": "13C",
+ "topspin_snr": 5824.776808090603,
+ "topspin_noise_sd": 1725641.7341242188,
+ "topspin_peaks": [
+  {
+   "index": 45242,
+   "ppm": 62.640776123701926,
+   "height": 10051477952.0
+  },
+  {
+   "index": 22877,
+   "ppm": 147.80027890449423,
+   "height": 51636032.0
+  }
+ ],
+ "topspin_peaklist": [
+  {
+   "ppm": 62.6372,
+   "intensity": 15.0
+  }
+ ],
+ "topspin_integrals": [],
+ "nmrglue_fid": {
+  "pipeline": "remove_digital_filter, zf_size(65536), em(1/SW_h), fft, ps(+1*PHC0, +1*PHC1), di, rev",
+  "correlation_with_topspin": -0.24672887115544576,
+  "peaks": [
+   {
+    "index": 45239,
+    "ppm": 62.65219926290794,
+    "height": 10301196296.343801
+   }
+  ]
+ }
+}

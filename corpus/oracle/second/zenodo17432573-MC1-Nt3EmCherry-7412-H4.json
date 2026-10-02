@@ -1,0 +1,38 @@
+{
+ "id": "zenodo17432573-MC1-Nt3EmCherry-7412-H4",
+ "file": "zenodo17432573-MC1-Nt3EmCherry-7412-H4.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1e99de92cf650c0578f6d67c454078f6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "43ecb7a6dc56d6a11a5bacfe0c665566"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6aa1a0090e7f1aaa1de8c1754b4c7fae"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cea7d24042ad5c4433fc250fbd1f5da3"
+    }
+   ]
+  }
+ ]
+}

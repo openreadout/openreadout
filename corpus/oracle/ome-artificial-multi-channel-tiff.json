@@ -1,0 +1,58 @@
+{
+ "id": "ome-artificial-multi-channel-tiff",
+ "file": "ome-artificial-multi-channel.ome.tiff",
+ "size": 226463,
+ "sha256": "defc827949596da7e99511bc219d31350503c28ae9d603bca7dccc5653b4dbeb",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 3,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "multi-channel.ome.tiff",
+   "kind": "ome",
+   "axes": "CYX",
+   "shape": [
+    3,
+    167,
+    439
+   ],
+   "size_x": 439,
+   "size_y": 167,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "int8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0529287b58d969b33c4df69d5b03651c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3c7fc43e3237eca32d1c671218e7a126"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "de962f51c1e71f21d2f9e8681b9a499d"
+    }
+   ]
+  }
+ ]
+}

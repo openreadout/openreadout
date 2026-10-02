@@ -1,0 +1,150 @@
+{
+ "id": "dcimg-zenodo14281237-cell07-642-000-000",
+ "file": "Cell07_642_000_000.dcimg",
+ "size": 6882416,
+ "sha256": "94d7ae417d70f815d2524c65f52dc3ff0aebc6cc41b561d3a451b537e4abc21f",
+ "max_planes_hashed": 64,
+ "reader": "dcimg 0.6.0.post1 (MIT) planes and frame records; Bio-Formats 8.5.0 (GPL, black box, rows flipped) second opinion",
+ "dcimg_version": "0x7",
+ "images": [
+  {
+   "index": 0,
+   "name": "Cell07_642_000_000",
+   "size_x": 2048,
+   "size_y": 168,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 10,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {},
+   "bioformats_rows_flipped": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "212dc044a6e6bb0f6f484f5fbf8fff41"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "8a85f6c8c338eabb021ac666381eb463"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "01461837a405992cd92671e48e58fc15"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "37462ba021e27bc28c69fd03f1a6a9ac"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "e3fd391f2811b19ce3898c0d6a680898"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "e9e777d0048def66f39c00ce8d8cc170"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "1a00a88fb1f8ff39e045bf4172d4316c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "cd4b7b2a3e81d10e678f10605a649c32"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "1364b1f936201f238c4a6da6e48505ae"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "69d69683d6e77a65b09055f9f148e7ea"
+    }
+   ],
+   "bioformats_diff_pixels": [
+    0,
+    4,
+    4,
+    4,
+    3,
+    4,
+    4,
+    4,
+    2,
+    3
+   ]
+  }
+ ],
+ "check_frames": [
+  {
+   "t": 0,
+   "frame": 0,
+   "acquired_at": "2017-11-28T21:34:15.664884Z"
+  },
+  {
+   "t": 1,
+   "frame": 1,
+   "acquired_at": "2017-11-28T21:34:15.764879Z"
+  },
+  {
+   "t": 2,
+   "frame": 2,
+   "acquired_at": "2017-11-28T21:34:15.864954Z"
+  },
+  {
+   "t": 3,
+   "frame": 3,
+   "acquired_at": "2017-11-28T21:34:15.964918Z"
+  },
+  {
+   "t": 4,
+   "frame": 4,
+   "acquired_at": "2017-11-28T21:34:16.064952Z"
+  },
+  {
+   "t": 5,
+   "frame": 5,
+   "acquired_at": "2017-11-28T21:34:16.164999Z"
+  },
+  {
+   "t": 6,
+   "frame": 6,
+   "acquired_at": "2017-11-28T21:34:16.265062Z"
+  },
+  {
+   "t": 7,
+   "frame": 7,
+   "acquired_at": "2017-11-28T21:34:16.365096Z"
+  },
+  {
+   "t": 8,
+   "frame": 8,
+   "acquired_at": "2017-11-28T21:34:16.465102Z"
+  },
+  {
+   "t": 9,
+   "frame": 9,
+   "acquired_at": "2017-11-28T21:34:16.565147Z"
+  }
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "id": "omnic-scp-wodger",
+ "file": "omnic-scp-wodger.spg",
+ "size": 180816,
+ "sha256": "c0caef3b5603a6920c3fbd0bad976718b9af5e32e098492b01704ef9ddd0ce15",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 2,
+   "channel_count": 1,
+   "sample_count": 5549,
+   "x_first": 5999.556,
+   "x_last": 649.904,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5549,
+     "channels": [
+      {
+       "xxh3": "91b259672b8675f42d8d368672754274",
+       "first": [
+        1.9831526279449463,
+        1.9840397834777832,
+        1.9842817783355713,
+        1.9835691452026367,
+        1.9809666872024536,
+        1.9772882461547852,
+        1.9751031398773193,
+        1.9756914377212524
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 1,
+     "sample_count": 5549,
+     "channels": [
+      {
+       "xxh3": "532a841822620c4c2c616d856ffdc1dd",
+       "first": [
+        2.0048975944519043,
+        2.0032899379730225,
+        2.0027432441711426,
+        2.0044028759002686,
+        2.0072927474975586,
+        2.008971929550171,
+        2.0082132816314697,
+        2.0062341690063477
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "laser_wavenumber_cm1": 15798.25
+    }
+   },
+   "x_tolerance": 0.002
+  }
+ ],
+ "acquisition_date": "2016-07-06 12:23:14-07:00"
+}

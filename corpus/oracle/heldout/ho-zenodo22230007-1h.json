@@ -1,0 +1,111 @@
+{
+ "id": "ho-zenodo22230007-1h",
+ "file": "1H.jdf",
+ "size": 558080,
+ "sha256": "b11ab7e8c7b2bbdc80cfbc5ecda2c92df543ff47a7cc84d5f6824c4cebaeeb35",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 32768,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 jeol.read",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 32768,
+     "channels": [
+      {
+       "xxh3": "2618db4c1bcacb8803f78e61cc0e11bb",
+       "first": [
+        6.6716796579883945e-06,
+        -0.000694736880420493,
+        0.04143570217076983,
+        0.10529315557484453,
+        -0.11584248401818953,
+        0.08093194151882739,
+        -0.10522511112307596,
+        0.1338208702871206
+       ]
+      },
+      {
+       "xxh3": "8eed16b98b1c03d22683a81a69a9b9f1",
+       "first": [
+        -1.1709723669059208e-05,
+        0.0014181926011700003,
+        -0.04354350574396522,
+        0.02788163627001131,
+        0.10839575188995637,
+        -0.1644462393237716,
+        0.1933420330209727,
+        -0.29320348643158656
+       ]
+      }
+     ]
+    }
+   ],
+   "sample_rate_hz": 7997.44081893794,
+   "parameters": {
+    "extra": {
+     "spectrometer_frequency_mhz": 399.78219837825003,
+     "spectral_width_hz": 7997.44081893794,
+     "scans": 16,
+     "time_domain_size": 32768,
+     "nucleus": "1H",
+     "solvent": "CHLOROFORM-D",
+     "pulse_program": "proton.jxp"
+    }
+   }
+  }
+ ],
+ "header": {
+  "major_version": 1,
+  "minor_version": 2,
+  "data_format": "one_d",
+  "data_axis_type": [
+   "complex",
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+  "data_points": [
+   32768,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "data_offset_start": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "data_offset_stop": [
+   32767,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "endian": "little_endian",
+  "data_type": "float64"
+ }
+}

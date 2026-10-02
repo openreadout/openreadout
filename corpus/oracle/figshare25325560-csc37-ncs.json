@@ -1,0 +1,46 @@
+{
+ "id": "figshare25325560-csc37-ncs",
+ "file": "CSC37.ncs",
+ "size": 1873660,
+ "sha256": "652754dc403073b0ffe7d4ada7f8371493c3b5df92fd1981c382238922d329cb",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 NeuralynxRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CSC37"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 1000.0,
+   "neo_gain": [
+    -0.06103515625
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 910678,
+     "channels": [
+      {
+       "xxh3": "73b64371efedd78b2394ef6f9d84e89f",
+       "first": [
+        1068.603515625,
+        1074.462890625,
+        1080.4443359375,
+        1083.1298828125,
+        1075.8056640625,
+        1059.87548828125,
+        1051.08642578125,
+        1044.12841796875
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

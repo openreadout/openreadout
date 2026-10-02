@@ -1,0 +1,217 @@
+{
+ "id": "flowio-ki67-117-tube-1-empty-timestep",
+ "file": "flowio-ki67-117-tube-1-empty-timestep.lmd",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 237736,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 15,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "FS INT LIN",
+    "SS INT LIN",
+    "FL1 INT LOG",
+    "FL2 INT LOG",
+    "FL3 INT LOG",
+    "FL4 INT LOG",
+    "FL5 INT LOG",
+    "FL6 INT LOG",
+    "FL7 INT LOG",
+    "FL8 INT LOG",
+    "FL9 INT LOG",
+    "FL10 INT LOG",
+    "TIME",
+    "FS PEAK LIN",
+    "FS TOF LIN"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FS INT LIN": 1024.0,
+    "SS INT LIN": 1024.0,
+    "FL1 INT LOG": 10000.0,
+    "FL2 INT LOG": 10000.0,
+    "FL3 INT LOG": 10000.0,
+    "FL4 INT LOG": 10000.0,
+    "FL5 INT LOG": 10000.0,
+    "FL6 INT LOG": 10000.0,
+    "FL7 INT LOG": 10000.0,
+    "FL8 INT LOG": 10000.0,
+    "FL9 INT LOG": 10000.0,
+    "FL10 INT LOG": 10000.0,
+    "TIME": 1023.0,
+    "FS PEAK LIN": 1024.0,
+    "FS TOF LIN": 1024.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FS INT LIN": 32,
+    "SS INT LIN": 32,
+    "FL1 INT LOG": 32,
+    "FL2 INT LOG": 32,
+    "FL3 INT LOG": 32,
+    "FL4 INT LOG": 32,
+    "FL5 INT LOG": 32,
+    "FL6 INT LOG": 32,
+    "FL7 INT LOG": 32,
+    "FL8 INT LOG": 32,
+    "FL9 INT LOG": 32,
+    "FL10 INT LOG": 32,
+    "TIME": 32,
+    "FS PEAK LIN": 32,
+    "FS TOF LIN": 32
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "F",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "little-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS3.0",
+   "cmp": "text"
+  },
+  {
+   "field": "file name ($FIL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/file_name",
+   "theirs": "Brouwers 240548 00008873 001.LMD",
+   "cmp": "text"
+  },
+  {
+   "field": "system ($SYS)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/system",
+   "theirs": "BCI",
+   "cmp": "text"
+  },
+  {
+   "field": "operator ($OP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "IFT",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "Navios",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2019-01-11T14:24:55.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2019-01-11T14:29:55.000",
+   "cmp": "time",
+   "abs": 0.02
+  }
+ ]
+}

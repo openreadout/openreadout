@@ -1,0 +1,177 @@
+{
+ "id": "synthetic-imaris",
+ "file": "synthetic-imaris.ims",
+ "size": 73623,
+ "sha256": "469ec2d50f2ccab2ad6fff9dea5829bf061aa3d37e9cda94fd50359abc9c4431",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 37,
+   "size_y": 21,
+   "size_z": 5,
+   "size_c": 2,
+   "size_t": 2,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.5,
+    "y": 0.5,
+    "z": 2.0
+   },
+   "channel_names": [
+    "DAPI",
+    "GFP"
+   ],
+   "filters": [
+    2,
+    1
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "69d854e060cfb9f1f4eaacdb4a23a37b"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "b3dff76dc625fa5f26f308fc7a46c8ab"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "ef84fbb527c4446a66a1b6bc96b6e1c9"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "bd8ab0d3f94ea51c838ca1f2fe535e88"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "3439e06ff6be718c372d3ef5decd0bb0"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "ce13d42bd47ac93bc7d377255e6c8dac"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "a79b54d0029479385a77bfbc4391ca0b"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 1,
+     "xxh3": "9c35d8a2ac45b393bfa8dbbe3cf76c10"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "92ca3619d452579b760362d526b70ef4"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 1,
+     "xxh3": "6e1188075f38c20285af06a8b44cad4c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "267ec13b36f6423f27b64955e2479886"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "a280aeaa4af3e32d2f73b3a996eda98f"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "0089eb9b95b68b4edd4f47fa32f7b631"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 1,
+     "xxh3": "a81fea7f347a9f284b6d59115b8df971"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "409e932a482b5f6d9f2d587982eea284"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 1,
+     "xxh3": "ce911f161b254fb9ee2c426c0946fad2"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "6331e9a9019a9412b6da9b78bc19f35d"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 1,
+     "xxh3": "8b30d4901fa6a02b0b43ac7737ce9f80"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "d6e6fb8d73f8d14c19e41a9f7b63db96"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 1,
+     "xxh3": "64abf98fbbea8e2d4f2e8fd495c8f625"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 19,
+     "size_y": 11,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "e2e0ee4cc3b52d3f547539fb022b730b"
+      },
+      {
+       "c": 0,
+       "z": 1,
+       "t": 0,
+       "xxh3": "2002e52a4c204b0bf9fb70f604921ccd"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": []
+}

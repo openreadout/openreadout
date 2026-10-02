@@ -1,0 +1,136 @@
+{
+ "id": "zenodo14316687-polyarc-a1-f",
+ "file": "FKB-FA-035-A1-F.dx",
+ "size": 560609,
+ "sha256": "aa3c34cb5ccc9bbfc61068dc1c0273fdb8d3a3ca625ec7b4d8bbcd5a91ca9f58",
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) + chromConverter 0.9.0 (black box)",
+ "oracle_note": "detector signals: rainbow-api parse_file on the extracted .CH parts, equal to chromConverter 0.9.0 (max |difference| 0); instrument curves: chromConverter 0.9.0 read_agilent_dx(what = 'instrument')",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FID2B"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 49.999986176088015,
+   "x_first_min": 0.0003302000045776367,
+   "x_last_min": 11.333333333333336,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 34000,
+     "channels": [
+      {
+       "xxh3": "559da9426eb5651dc173194ec8fab6ae",
+       "first": [
+        10.927604166666667,
+        10.925130208333334,
+        10.926953125,
+        10.918229166666666,
+        10.914322916666666,
+        10.913151041666666,
+        10.919921875,
+        10.923046875
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "FID2B",
+   "parameters": {
+    "extra": {
+     "sample_name": "FKB-FA-035-A1-F",
+     "operator": "Admin",
+     "method_path": "D:\\Data\\GC-FID\\Results\\FKB\\FKB-FA-035-08.rslt\\Polyarc_90_2_30_280_3.amx"
+    }
+   }
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FID1A"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 49.999986176088015,
+   "x_first_min": 0.0003302000045776367,
+   "x_last_min": 11.333333333333336,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 34000,
+     "channels": [
+      {
+       "xxh3": "afc95aa722992eb701662b9e74135a97",
+       "first": [
+        7.486328125,
+        7.483072916666667,
+        7.489583333333333,
+        7.489453125,
+        7.491145833333333,
+        7.488151041666667,
+        7.486848958333333,
+        7.488151041666667
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "FID1A",
+   "parameters": {
+    "extra": {
+     "sample_name": "FKB-FA-035-A1-F",
+     "operator": "Admin",
+     "method_path": "D:\\Data\\GC-FID\\Results\\FKB\\FKB-FA-035-08.rslt\\Polyarc_90_2_30_280_3.amx"
+    }
+   }
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 4,
+   "parameter_names": [],
+   "sorted_column_hashes": [
+    {
+     "column": "rt_min",
+     "xxh3": "15513392d8b294e0751045bc08cdd2b7",
+     "count": 4
+    },
+    {
+     "column": "start_min",
+     "xxh3": "2805e0d16beb83596ed5ce05971a051b",
+     "count": 4
+    },
+    {
+     "column": "end_min",
+     "xxh3": "96aff38a86bf87616685f997b7c5fb54",
+     "count": 4
+    },
+    {
+     "column": "area",
+     "xxh3": "6bb941f3d15f2d7b97dfd3ad4c96af53",
+     "count": 4
+    },
+    {
+     "column": "height",
+     "xxh3": "221741fe124f46fb72f050662d1f5166",
+     "count": 4
+    },
+    {
+     "column": "area_percent",
+     "xxh3": "707da51c0c803e3dc1d56d26c42441cc",
+     "count": 4
+    }
+   ]
+  }
+ ]
+}

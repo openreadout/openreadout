@@ -1,0 +1,72 @@
+{
+ "id": "pyabf-file-axon-2",
+ "file": "pyabf-file-axon-2.abf",
+ "size": 2408960,
+ "sha256": "f540509e4d9ac7f27e32a846acf6c0d785044e60f096e935175645683bf69044",
+ "max_planes_hashed": 64,
+ "reader": "pyabf 2.3.8",
+ "traces": [
+  {
+   "index": 0,
+   "abf_version": "1.8.3.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "10Vm"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 1000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sample_count": 1200000,
+   "data_format": "int16",
+   "gain": [
+    0.03356933668783315
+   ],
+   "offset": [
+    0.0
+   ],
+   "protocol": "Cc_minidigi",
+   "created": "2005-06-11T14:15:00.712",
+   "tag_comments": [
+    "Clampex start acquisition",
+    "C:\\Axon\\rsultats\\06-05\\11-06-05\\05611005.abf",
+    "Clampex end (1)",
+    "Clampex start acquisition"
+   ],
+   "f32_max_abs_diff": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1200000,
+     "channels": [
+      {
+       "xxh3": "f16a4cbe48c67e3eadbb7b73a393ed95",
+       "first": [
+        -55.2886975248612,
+        -55.255128188173366,
+        -55.255128188173366,
+        -55.22155885148553,
+        -55.1879895147977,
+        -55.1879895147977,
+        -55.1879895147977,
+        -55.1879895147977
+       ],
+       "first_f32_pyabf": [
+        -55.2886962890625,
+        -55.255126953125,
+        -55.255126953125,
+        -55.2215576171875,
+        -55.18798828125,
+        -55.18798828125,
+        -55.18798828125,
+        -55.18798828125
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

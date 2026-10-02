@@ -1,0 +1,21 @@
+{
+ "id": "itc-zenodo6608282-hts-tmp-217um",
+ "file": "itc-zenodo6608282-hts-tmp-217um.itc",
+ "format": "microcal-itc",
+ "family": "bench",
+ "readers": [
+  "the .itc file's first `%` line, read as text"
+ ],
+ "checks": [
+  {
+   "field": "first `%` line (instrument before the firmware version)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "ITC200",
+   "cmp": "loose"
+  }
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "id": "spinsolve-zenodo20597567-250610-125455-t1",
+ "path": "spinsolve-zenodo20597567/Ethanolamine_T1+TLSS/250610-125455 T1ieTime (50etha)",
+ "kind": "spinsolve",
+ "vendor_spectra": [
+  {
+   "file": "T1ieTimeIR-Spectra.pt1",
+   "points": 16384,
+   "axis_offsets": [
+    1676,
+    198863,
+    396050,
+    593237,
+    790424,
+    987611,
+    1184798,
+    1381985,
+    1579172,
+    1776359,
+    1973546,
+    2170733,
+    2367920,
+    2565107,
+    2762294,
+    2959481,
+    3156668,
+    3353855,
+    3551042,
+    3748229
+   ],
+   "axis_first_ppm": -77.45417243184001,
+   "axis_step_ppm": 0.009785365291392555
+  }
+ ],
+ "script_phase_deg": [
+  291.874,
+  0.0
+ ],
+ "acqu": {
+  "bandwidth": 10,
+  "b1Freq": 62.373917,
+  "lowestFrequency": -4831.120122567277,
+  "nrPnts": 16384,
+  "zf": 1,
+  "filter": "no",
+  "filterType": "exp:0.5"
+ },
+ "proc": {
+  "f1PPMOffset": "2.70754",
+  "plotStart": "-124.748",
+  "plotStart2": "0.1",
+  "plotWidth": "997.983",
+  "plotWidth2": "27.9"
+ }
+}

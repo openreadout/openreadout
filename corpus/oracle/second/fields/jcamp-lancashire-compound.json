@@ -1,0 +1,105 @@
+{
+ "id": "jcamp-lancashire-compound",
+ "file": "jcamp-lancashire-compound.jdx",
+ "format": "jcamp-dx",
+ "family": "nmr",
+ "readers": [
+  "jcamp 1.3.2 (MIT)"
+ ],
+ "checks": [
+  {
+   "field": "##TITLE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/title",
+   "theirs": "block 1",
+   "cmp": "text"
+  },
+  {
+   "field": "##DATA TYPE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/data_type",
+   "theirs": "INFRARED SPECTRUM",
+   "cmp": "text"
+  },
+  {
+   "field": "##ORIGIN",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/origin",
+   "theirs": "Chemistry Department",
+   "cmp": "text"
+  },
+  {
+   "field": "##JCAMP-DX version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/jcamp_version",
+   "theirs": "4.24",
+   "cmp": "text"
+  },
+  {
+   "field": "##NPOINTS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 1976,
+   "cmp": "exact"
+  },
+  {
+   "field": "##FIRSTX",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/first",
+   "theirs": 4400.0,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "field": "##LASTX",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/last",
+   "theirs": 450.0,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "field": "##XUNITS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/unit",
+   "theirs": "1/CM",
+   "cmp": "text"
+  },
+  {
+   "field": "##SPECTROMETER/DATA SYSTEM",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "PERKIN-ELMER 1600 FT-IR",
+   "cmp": "loose"
+  }
+ ]
+}

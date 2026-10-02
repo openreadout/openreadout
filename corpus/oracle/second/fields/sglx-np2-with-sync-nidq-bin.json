@@ -1,0 +1,160 @@
+{
+ "id": "sglx-np2-with-sync-nidq-bin",
+ "file": "sglx-np2-with-sync.nidq.bin",
+ "format": "spikeglx",
+ "family": "electrophysiology",
+ "readers": [
+  "the .meta text and NumPy int16 samples (SpikeGLX metadata documentation)"
+ ],
+ "checks": [
+  {
+   "field": "saved channels (nSavedChans)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels#len",
+   "theirs": 2,
+   "cmp": "exact"
+  },
+  {
+   "field": "sample rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 1000,
+   "cmp": "exact"
+  },
+  {
+   "field": "file created (fileCreateTime)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-09-04T16:01:07",
+   "cmp": "time"
+  },
+  {
+   "field": "analog channel unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels/0/unit",
+   "theirs": "V",
+   "cmp": "loose"
+  },
+  {
+   "field": "channel scale (per count)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels",
+   "theirs": {
+    "0": 0.00030517578125
+   },
+   "cmp": "num",
+   "rel": 1e-09,
+   "by": "/index",
+   "each": "/scale"
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "64"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    2.64190673828125,
+    2.6422119140625,
+    2.64190673828125,
+    2.64190673828125,
+    2.6422119140625,
+    2.64312744140625,
+    2.6422119140625,
+    2.642822265625,
+    2.64251708984375,
+    2.6422119140625,
+    2.6422119140625,
+    2.64251708984375,
+    2.64190673828125,
+    2.64190673828125,
+    2.6422119140625,
+    2.64190673828125,
+    2.6422119140625,
+    2.6422119140625,
+    2.6416015625,
+    2.64190673828125,
+    2.6416015625,
+    2.64251708984375,
+    2.6422119140625,
+    2.6422119140625,
+    2.64251708984375,
+    2.6422119140625,
+    2.6422119140625,
+    2.64251708984375,
+    2.6422119140625,
+    2.64190673828125,
+    2.6422119140625,
+    2.64190673828125,
+    2.64190673828125,
+    2.6422119140625,
+    2.6422119140625,
+    2.6422119140625,
+    2.64190673828125,
+    2.64251708984375,
+    2.6422119140625,
+    2.6422119140625,
+    2.64251708984375,
+    2.642822265625,
+    2.6422119140625,
+    2.64190673828125,
+    2.6422119140625,
+    2.64190673828125,
+    2.64251708984375,
+    2.64190673828125,
+    2.64251708984375,
+    2.6422119140625,
+    2.64251708984375,
+    2.64251708984375,
+    2.6416015625,
+    2.6422119140625,
+    2.64251708984375,
+    2.6422119140625,
+    2.6422119140625,
+    2.6422119140625,
+    2.64190673828125,
+    2.64190673828125,
+    2.64251708984375,
+    2.64190673828125,
+    2.64251708984375,
+    2.64251708984375
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.64404296875e-12
+  }
+ ]
+}

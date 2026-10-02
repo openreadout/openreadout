@@ -1,0 +1,92 @@
+{
+ "id": "ome-aryeh-MeOh-high-fluo-007",
+ "file": "ome-aryeh-MeOh-high-fluo-007.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 800,
+   "size_y": 600,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2ca0c5975cda27841011e4804caf7d1f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "14a0faf319685f8c34cc71265ad20e79"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "abe4d633689e9c1494485fa6a78d4f39"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "283ecde670475ef189c6eb59e2555af5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "2fa1d9692b50cabc248d1f2202ff4ce5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "176ba275a0036cdc3350c3d739b786f8"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "afa0865438dea4a897c10600f6f31cb4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "9136fda5b03faf528066afa7ad251d31"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "51f09017896f94e77d6efb997d6b2dd4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "276048b4ecd6aaad5fccdcd14f41e9ea"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 10,
+     "xxh3": "b6bbca07e4addba9e784fea6c7f947fe"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 11,
+     "xxh3": "5a41af74b3fcd43797443e53d2330086"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 12,
+     "xxh3": "9375b5a04bde65eb5eb8b1fb5019bea4"
+    }
+   ]
+  }
+ ]
+}

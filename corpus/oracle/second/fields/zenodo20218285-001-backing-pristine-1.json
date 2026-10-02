@@ -1,0 +1,21 @@
+{
+ "id": "zenodo20218285-001-backing-pristine-1",
+ "file": "zenodo20218285-001-backing-pristine-1.spc",
+ "format": "galactic-spc",
+ "family": "vibrational-spectroscopy",
+ "readers": [
+  "spc_io 0.2.1 (MIT) header date"
+ ],
+ "checks": [
+  {
+   "field": "header date (fdate)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-11-08T13:00:00",
+   "cmp": "wallclock"
+  }
+ ]
+}

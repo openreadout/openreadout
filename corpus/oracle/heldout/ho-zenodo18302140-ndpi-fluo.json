@@ -1,0 +1,50 @@
+{
+ "id": "ho-zenodo18302140-ndpi-fluo",
+ "file": "Colon2-TRITC.ndpi",
+ "size": 13663136,
+ "sha256": "4420ce2886aabb57d590f24cfb6550e24d2620776b2706ed9fafca7a4aedc60f",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ndpi",
+ "flags": [
+  "ndpi"
+ ],
+ "page_count": 7,
+ "series_count": 3,
+ "images": [
+  {
+   "index": 0,
+   "name": "Colon Ms 17 AGR2(Rho40x3) Muc2(Cy520x1) Fibrinogen1-1000(FAM20x2) Dapi(30x2)",
+   "kind": "ndpi",
+   "axes": "YXS",
+   "shape": [
+    16128,
+    14336,
+    3
+   ],
+   "size_x": 14336,
+   "size_y": 16128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 5,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.22112641797315527,
+    "y": 0.2210970837294656
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cfc9cc32901501b2d963b42757c304a4",
+     "mean": 2.1170363999278097
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "id": "nmrxiv-s275-13",
+ "path": "nmrxiv-s275/13",
+ "procs": {
+  "SI": 32768,
+  "LB": 1,
+  "WDW": 1,
+  "PHC0": 33.18,
+  "PHC1": -223.117,
+  "OFFSET": 218.334,
+  "SF": 150.90532294753,
+  "SW_p": 35714.2857142858,
+  "NC_proc": -2,
+  "ME_mod": 0,
+  "TDoff": 0,
+  "BC_mod": 0,
+  "FCOR": 1,
+  "TDeff": 65536
+ },
+ "acqus": {
+  "DSPFVS": 20,
+  "DIGMOD": 1,
+  "AQ_mod": 3,
+  "GRPDLY": 68,
+  "DECIM": 560
+ },
+ "nucleus": "13C",
+ "topspin_snr": 4.502154183478647,
+ "topspin_noise_sd": 26915697.921826784,
+ "topspin_peaks": [],
+ "topspin_integrals": [],
+ "nmrglue_fid": {
+  "pipeline": "remove_digital_filter, zf_size(32768), em(1/SW_h), fft, ps(+1*PHC0, -1*PHC1), di, rev",
+  "correlation_with_topspin": 0.05018895916743306,
+  "peaks": []
+ }
+}

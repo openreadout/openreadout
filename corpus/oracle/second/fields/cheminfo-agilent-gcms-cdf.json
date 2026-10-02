@@ -1,0 +1,32 @@
+{
+ "id": "cheminfo-agilent-gcms-cdf",
+ "file": "cheminfo-agilent-gcms.cdf",
+ "format": "andi-chrom",
+ "family": "chromatography",
+ "readers": [
+  "scipy 1.18.1 netcdf_file: the file's global attributes (ANDI, ASTM E1947)"
+ ],
+ "checks": [
+  {
+   "field": "injection_date_time_stamp",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2007-09-23T04:08:00+02:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "operator_name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "SC",
+   "cmp": "text"
+  }
+ ]
+}

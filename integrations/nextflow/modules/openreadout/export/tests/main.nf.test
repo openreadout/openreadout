@@ -1,0 +1,110 @@
+nextflow_process {
+
+    name "Test Process OPENREADOUT_EXPORT"
+    script "../main.nf"
+    process "OPENREADOUT_EXPORT"
+
+    tag "modules"
+    tag "openreadout"
+    tag "openreadout/export"
+
+    test("czi - ome-tiff") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'mini_czi' ],
+                    file("${moduleDir}/../../../../test-data/mini.czi", checkIfExists: true)
+                ]
+                input[1] = 'ome-tiff'
+                """
+            }
+        }
+
+        then {
+            def report = path(process.out.report[0][1]).json
+            assertAll(
+                { assert process.success },
+                { assert report.ok == true },
+                { assert report.data.verified == true },
+                { assert file(process.out.ome_tiff[0][1]).name == 'mini_czi.ome.tiff' },
+                { assert process.out.mzml.size() == 0 },
+                { assert snapshot(process.out.versions).match("versions") }
+            )
+        }
+    }
+
+    test("lif - ome-zarr") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'mini_lif' ],
+                    file("${moduleDir}/../../../../test-data/mini.lif", checkIfExists: true)
+                ]
+                input[1] = 'ome-zarr'
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert path(process.out.report[0][1]).json.data.verified == true },
+                { assert file("${process.out.ome_zarr[0][1]}/zarr.json").exists() }
+            )
+        }
+    }
+
+    test("fcs - csv") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'tube_a' ],
+                    file("${moduleDir}/../../../../test-data/tube_a.fcs", checkIfExists: true)
+                ]
+                input[1] = 'csv'
+                """
+            }
+        }
+
+        then {
+            def lines = path(process.out.csv[0][1]).readLines()
+            assertAll(
+                { assert process.success },
+                { assert lines[0] == 'FSC-A,SSC-A,FITC-A' },
+                { assert lines.size() == 11 },
+                { assert lines[1] == '1000,500,100' },
+                { assert snapshot(process.out.csv).match("csv") }
+            )
+        }
+    }
+
+    test("czi - ome-tiff - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'mini_czi' ],
+                    file("${moduleDir}/../../../../test-data/mini.czi", checkIfExists: true)
+                ]
+                input[1] = 'ome-tiff'
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

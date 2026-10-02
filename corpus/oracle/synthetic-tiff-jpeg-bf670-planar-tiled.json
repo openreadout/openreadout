@@ -1,0 +1,64 @@
+{
+ "id": "synthetic-tiff-jpeg-bf670-planar-tiled",
+ "file": "synthetic-tiff-jpeg-bf670-planar-tiled.ome.tif",
+ "size": 284078,
+ "sha256": "fcdc15d239e68659120dab01291ad514b145c0ff74f9014e2e90eaf1dc5e4d03",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "source.tif",
+   "kind": "ome",
+   "axes": "SYX",
+   "shape": [
+    3,
+    1000,
+    1300
+   ],
+   "size_x": 1300,
+   "size_y": 1000,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 1.0,
+    "y": 1.0
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ac890b961123ee8d7f0e6437003ca6c2",
+     "mean": 227.12732461538462
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5559bb29a5a7df42887f1fdea0098aa3",
+     "mean": 214.60081384615384
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "af97f3fbb2d7341cef5d03c2cf190b3f",
+     "mean": 222.50351846153845
+    }
+   ]
+  }
+ ]
+}

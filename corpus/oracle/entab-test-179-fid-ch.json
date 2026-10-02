@@ -1,0 +1,45 @@
+{
+ "id": "entab-test-179-fid-ch",
+ "file": "entab-test_179_fid.ch",
+ "size": 102144,
+ "sha256": "30e66cef5a6b56f312c99c13e0e1dac57491ae4558b3ff25b6754c740cef7b2f",
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) / Aston (BSD-3) for version 81",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "entab-test_179_fid"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 19.9999989832985,
+   "x_first_min": 0.0008276166915893554,
+   "x_last_min": 9.99999479166667,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12000,
+     "channels": [
+      {
+       "xxh3": "04864bf8066a4e3d008feb310630b8d3",
+       "first": [
+        7.7457031249999995,
+        7.744661458333333,
+        7.744010416666667,
+        7.745572916666666,
+        7.7453125,
+        7.7515624999999995,
+        7.746354166666666,
+        7.741536458333333
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "id": "zenodo7015307-W96-B2-B4-S-2-T-1-Z-1-C-1-Tile-5x9",
+ "file": "zenodo7015307-W96-B2-B4-S-2-T-1-Z-1-C-1-Tile-5x9.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2944,
+   "size_y": 3444,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "01ba1f31fa0193de5a485e6c4696559e"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 2944,
+   "size_y": 3444,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1eed9d8dee82baf159665f4897275a47"
+    }
+   ]
+  }
+ ]
+}

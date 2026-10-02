@@ -1,0 +1,111 @@
+{
+ "id": "omnic-toffolo-atr-bone-modern",
+ "trace": 0,
+ "reader": "spectrochempy 1.0.0 read_omnic",
+ "tolerance": {
+  "x": 0.0006,
+  "area_rel": 5e-05,
+  "why": "SpectroChemPy rounds the wavenumber axis to 3 decimals (steps of 0.48 cm-1)"
+ },
+ "points": 7468,
+ "bands_are_minima": false,
+ "prominent_bands": [
+  552.024,
+  998.946,
+  1539.399,
+  1634.376,
+  2920.181
+ ],
+ "median_step": 0.4819999999999709,
+ "regions": [
+  {
+   "range": [
+    900,
+    1200
+   ],
+   "linear": {
+    "points": 623,
+    "x_first": 900.112,
+    "x_last": 1199.989,
+    "area": 4.2716066343858845,
+    "area_no_baseline": 21.712942121706906,
+    "max_x": 1001.357,
+    "max_height": 0.04950022384955016,
+    "centroid": 985.8167484769078
+   },
+   "none": {
+    "points": 623,
+    "x_first": 900.112,
+    "x_last": 1199.989,
+    "area": 21.712942121706906,
+    "area_no_baseline": 21.712942121706906,
+    "max_x": 998.946,
+    "max_height": 0.11055684834718704,
+    "centroid": 1031.4231176631522
+   }
+  },
+  {
+   "range": [
+    1350,
+    1500
+   ],
+   "linear": {
+    "points": 311,
+    "x_first": 1350.409,
+    "x_last": 1499.865,
+    "area": 0.45404281754419346,
+    "area_no_baseline": 10.406197587501254,
+    "max_x": 1395.246,
+    "max_height": 0.012217545425877274,
+    "centroid": 1367.9548426059037
+   },
+   "none": {
+    "points": 311,
+    "x_first": 1350.409,
+    "x_last": 1499.865,
+    "area": 10.406197587501254,
+    "area_no_baseline": 10.406197587501254,
+    "max_x": 1499.865,
+    "max_height": 0.07859086990356445,
+    "centroid": 1426.9357557990754
+   }
+  }
+ ],
+ "export": {
+  "source": "the vendor's export Bone modern.CSV",
+  "regions": [
+   {
+    "range": [
+     900,
+     1200
+    ],
+    "linear": {
+     "points": 623,
+     "x_first": 900.112,
+     "x_last": 1199.989,
+     "area": 4.2716062183095,
+     "area_no_baseline": 21.712941337819505,
+     "max_x": 1001.357,
+     "max_height": 0.04950021564941626,
+     "centroid": 985.8167616649641
+    }
+   },
+   {
+    "range": [
+     1350,
+     1500
+    ],
+    "linear": {
+     "points": 311,
+     "x_first": 1350.409,
+     "x_last": 1499.865,
+     "area": 0.4540437436350019,
+     "area_no_baseline": 10.406198471554994,
+     "max_x": 1395.246,
+     "max_height": 0.01221754287904133,
+     "centroid": 1367.9550058678585
+    }
+   }
+  ]
+ }
+}

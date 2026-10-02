@@ -1,0 +1,14 @@
+{
+ "id": "ho-figshare31656160-lcd-pfas",
+ "file": "012A_02032025PFAS Analysis_252025_005.lcd",
+ "reader": "chromConverter  read_chroms(format_in='shimadzu_lcd') via Rscript (GPL-3.0, run as a black box)",
+ "chromatogram": null,
+ "peak_table": [
+  {
+   "rt_min": 6.85293333333333,
+   "area": 12258.4,
+   "height": 2060.0
+  }
+ ],
+ "peak_count": 1
+}

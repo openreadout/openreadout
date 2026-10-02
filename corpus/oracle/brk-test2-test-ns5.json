@@ -1,0 +1,8 @@
+{
+ "id": "brk-test2-test-ns5",
+ "file": "brk-test2-test.ns5",
+ "size": 64,
+ "sha256": "a62905c582bed1fd34f445b8fbd7b284966e3c545db0d0cb0b5b960ed4bae90f",
+ "max_planes_hashed": 64,
+ "error": "RuntimeError: spec 2.1 NSx without its .nev: Neo cannot scale it"
+}

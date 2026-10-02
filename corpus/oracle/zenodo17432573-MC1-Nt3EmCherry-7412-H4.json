@@ -1,0 +1,247 @@
+{
+ "id": "zenodo17432573-MC1-Nt3EmCherry-7412-H4",
+ "file": "zenodo17432573-MC1-Nt3EmCherry-7412-H4.czi",
+ "size": 5867264,
+ "sha256": "a292cc4589f6e6fc1ee89ac6058e6fe6048e0d16d18c58fd15f7c8e3517905d3",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "HCYX",
+   "shape": [
+    4,
+    4,
+    512,
+    512
+   ],
+   "other_dims": {
+    "H": 4
+   },
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.07799072265625,
+    "y": 0.07799072265625,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1e99de92cf650c0578f6d67c454078f6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "43ecb7a6dc56d6a11a5bacfe0c665566"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6aa1a0090e7f1aaa1de8c1754b4c7fae"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cea7d24042ad5c4433fc250fbd1f5da3"
+    }
+   ],
+   "dimension_index": {
+    "H": 0
+   },
+   "levels": []
+  },
+  {
+   "index": 1,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "HCYX",
+   "shape": [
+    4,
+    4,
+    512,
+    512
+   ],
+   "other_dims": {
+    "H": 4
+   },
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.07799072265625,
+    "y": 0.07799072265625,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "587339ef99282edfc09af9436a974aff"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8b986a9f4e28a504554761b5cf07e872"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    }
+   ],
+   "dimension_index": {
+    "H": 1
+   },
+   "levels": []
+  },
+  {
+   "index": 2,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "HCYX",
+   "shape": [
+    4,
+    4,
+    512,
+    512
+   ],
+   "other_dims": {
+    "H": 4
+   },
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.07799072265625,
+    "y": 0.07799072265625,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e0bc1385a977d2423ba91068a8926dbd"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aedcfc07ee5252c15a8f0fd9c9054808"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    }
+   ],
+   "dimension_index": {
+    "H": 2
+   },
+   "levels": []
+  },
+  {
+   "index": 3,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "HCYX",
+   "shape": [
+    4,
+    4,
+    512,
+    512
+   ],
+   "other_dims": {
+    "H": 4
+   },
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.07799072265625,
+    "y": 0.07799072265625,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "01ba0910e8c2cdf605507188856045f5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "19fcf2166104e7462267d9e7cc25f507"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    }
+   ],
+   "dimension_index": {
+    "H": 3
+   },
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.07799072265625,
+  "y": 0.07799072265625,
+  "z": null
+ },
+ "subblock_count": 10,
+ "compression_ids": [
+  0
+ ]
+}

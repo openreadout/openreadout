@@ -1,0 +1,44 @@
+{
+ "id": "aics-tiff-4c-3z-pyramid",
+ "file": "aics-4c_3Z_pyramid.tiff",
+ "size": 2193316,
+ "sha256": "165ce5ba6f0efadfa41094e2f4f04311c598e1eb7b33a879895443f82d84f329",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YXS",
+   "shape": [
+    624,
+    924,
+    3
+   ],
+   "size_x": 924,
+   "size_y": 624,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3caa739f1e30bdff46f1e5c60ca87621"
+    }
+   ]
+  }
+ ]
+}

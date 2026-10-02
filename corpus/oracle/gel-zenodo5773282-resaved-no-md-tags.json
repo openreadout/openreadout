@@ -1,0 +1,48 @@
+{
+ "id": "gel-zenodo5773282-resaved-no-md-tags",
+ "file": "gel-zenodo5773282-resaved-no-md-tags.gel",
+ "size": 6243125,
+ "sha256": "fa8c0eeb5fdc152cfff5a475eedac58c9de60d6cb3b85b668cf1fb3f9d245b96",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "imagej",
+ "flags": [
+  "imagej"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "imagej",
+   "axes": "YX",
+   "shape": [
+    1512,
+    2064
+   ],
+   "size_x": 2064,
+   "size_y": 1512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 24.999999441206455,
+    "y": 24.999999441206455
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "89c9fb99430030199b404cf5aa32c61b"
+    }
+   ]
+  }
+ ]
+}

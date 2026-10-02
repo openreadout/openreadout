@@ -1,0 +1,31 @@
+{
+ "id": "echem-yadg-gcpl-issue-149",
+ "file": "echem-yadg-gcpl-issue-149.mpr",
+ "format": "biologic-mpr",
+ "family": "bench",
+ "readers": [
+  "the EC-Lab export of the same run (echem-yadg-gcpl-issue-149.mpt) text header, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "Acquisition started on",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-01-10T11:02:29.886000",
+   "cmp": "time"
+  },
+  {
+   "field": "Device",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "SP-300",
+   "cmp": "loose"
+  }
+ ]
+}

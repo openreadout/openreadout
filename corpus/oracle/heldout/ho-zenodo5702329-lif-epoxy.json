@@ -1,0 +1,51 @@
+{
+ "id": "ho-zenodo5702329-lif-epoxy",
+ "file": "fig4a.lif",
+ "size": 2145935,
+ "sha256": "12d20fb9505ba0dbfbdb9960b40dedb9429f51e1100bd4cbb3eeae044bfcb3e1",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "bypass cyan 0",
+   "path": "bypass cyan 0",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.02083323558162268,
+    "y": 0.02083323558162268,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "163f08d65ee2b9385bcd97e93dda0376"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8b4291f9b96c60cee8379b15f47c87fb"
+    }
+   ]
+  }
+ ]
+}

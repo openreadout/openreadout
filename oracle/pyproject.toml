@@ -1,0 +1,128 @@
+[project]
+name = "openreadout-oracle"
+version = "0.1.0"
+description = "Ground-truth generators for the OpenReadout corpus. Runs third-party readers (including GPL/LGPL ones) as black boxes; nothing here ships in the binary."
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "numpy",
+    "xxhash",
+    "lxml",
+    "tifffile",
+    "imagecodecs",
+    "czifile",
+    "liffile",
+    "nd2",
+    "bioio",
+    "bioio-nd2",
+    "bioio-ome-tiff",
+    # OME-Zarr (NGFF 0.5 / Zarr v3) validation of `export --to ome-zarr` (Python >= 3.11 only):
+    "ome-zarr>=0.11; python_version >= '3.11'",
+    "bioio-ome-zarr>=3; python_version >= '3.11'",
+    "zarr>=3; python_version >= '3.11'",
+    # FCS (flow cytometry): FlowIO (BSD-3) primary, fcsparser (MIT) second opinion
+    "flowio>=1.4.0",
+    "fcsparser>=0.2.4",
+    # Plate readers: allotropy (MIT, Benchling) converts vendor exports to Allotrope ASM JSON;
+    # jsonschema validates our `export --to asm` output against the unmodified ASM schema.
+    "jsonschema",
+    # Olympus/Evident OIR: oirfile (BSD-3), Python >= 3.12 only. VSI has no permissive Python
+    # reader; Bio-Formats bftools (GPL) is run as a black box from oracle/bftools by gen.py.
+    "oirfile>=2026.9.6 ; python_full_version >= '3.12'",
+    # Electrophysiology: pyABF (MIT) for Axon ABF; Neo (BSD-3) for Neuralynx, Blackrock, SpikeGLX, Intan
+    "pyabf>=2.3.8",
+    "neo>=0.14",
+    "probeinterface>=0.3",  # MIT; SpikeGLX probe geometry oracle
+    "nept>=0.1.0",  # MIT (vandermeerlab); Neuralynx .nvt oracle (needs shapely)
+    "shapely>=2",
+    # HEKA PatchMaster: load-heka-python (MIT, not on PyPI, pinned commit) primary; pyHEKA
+    # (AGPL-3.0) is run as a black box only, for bundle versions load-heka-python refuses.
+    "load-heka-python @ git+https://github.com/easy-electrophysiology/load-heka-python@185f6edb54ac562de26aa7ce33643b453c45894d",
+    "pyheka>=1.0.1",
+    # Electron microscopy: mrcfile (BSD-3) for MRC/CCP4; pyDM3reader `dm3_lib` (MIT, not on PyPI, pinned
+    # commit) and dm4 (MIT) for DM3/DM4. ncempy (GPL-3.0-or-later) is run as a black box only, as the
+    # SER/EMI oracle and a DM second opinion.
+    "mrcfile>=1.5",
+    "dm3_lib @ git+https://github.com/piraynal/pyDM3reader@b2b3d2f1599616621eecfb1bb6677d3bee583d69",
+    "dm4>=1.0.3",
+    # NMR: nmrglue (BSD-3) for Bruker TopSpin directories and JCAMP-DX; jcamp (MIT) second opinion for JCAMP-DX
+    "nmrglue>=0.11",
+    "jcamp>=1.2",
+    # copyleft oracles, run only:
+    "bioio-czi",
+    "bioio-lif",
+    "pylibCZIrw",
+    "readlif",
+    # mass spectrometry: reads the depositor-made open-format conversions (Apache-2.0)
+    "pyteomics",
+    "psims",  # pyteomics needs it to parse PSI mzML (Apache-2.0); also writes the synthetic mzML fixtures
+    "pynumpress",  # MS-Numpress reference implementation binding (Apache-2.0): pyteomics/psims numpress
+    "pyimzml",  # imzML (Apache-2.0)
+    "pyzstd",  # zstd for psims' `zstd compression` fixture (BSD-3)
+    "ncempy>=1.16",
+    # Chromatography: Aston (BSD-3, pinned commit) for ChemStation version 81; scipy (BSD-3)
+    # netcdf_file for ANDI netCDF; olefile (BSD-2) to list Shimadzu compound files. rainbow-api
+    # (LGPL-3.0) is run as a black box only, as the ChemStation/Waters oracle.
+    "scipy>=1.15.3",
+    # Imaris IMS, NWB and generic HDF5: h5py (BSD-3) with hdf5plugin (MIT) for the LZ4 filter 32004
+    "h5py",
+    "hdf5plugin",
+    # Open exports: pyarrow (Apache-2.0) reads `export --to parquet|arrow`; pynwb (BSD-3) and
+    # nwbinspector (BSD-3) read and inspect `export --to nwb` (nmrglue and jcamp above read
+    # `export --to jcamp`).
+    "pyarrow>=17",
+    "pynwb>=2.8",
+    "nwbinspector>=0.6",
+    "olefile>=0.47",
+    "aston",
+    "oiffile>=2026.2.8 ; python_full_version >= '3.11'",
+    "dcimg>=0.6.0",
+    "flowkit>=1.2",
+    # Whole-slide images: OpenSlide (LGPL-2.1, run as a black box only) decodes Aperio JPEG 2000
+    # tiles (33003 YCbCr / 33005 RGB) to RGB, the reference for our JPEG 2000 SVS decoding.
+    "openslide-python>=1.4",
+    "openslide-bin>=4.0",
+    # Vibrational spectroscopy: brukeropus (MIT) for Bruker OPUS; renishawWiRE (MIT) for Renishaw
+    # WiRE .wdf; SpectroChemPy (CeCILL-B, BSD-like) for OMNIC .spa/.spg/.srs, OPUS, WDF and
+    # PerkinElmer .sp. brukeropusreader (GPL-3.0) is run as a black box only, as an OPUS second opinion.
+    "brukeropus>=1.4",
+    "renishawWiRE>=0.1.16",
+    "spectrochempy>=1.0 ; python_full_version >= '3.11'",
+    "brukeropusreader>=1.3.4",
+    # PerkinElmer .sp: specio (BSD-3) reads the data member and the x range; `six` is its
+    # undeclared dependency.
+    "specio>=0.1",
+    # Galactic SPC: SpectroChemPy (above) primary; spc-io (MIT) second opinion and fallback.
+    "spc-io>=0.2.1",
+    "six",
+    # Quantitation oracles (chromatogram extraction, peak picking and integration): pyOpenMS
+    # (BSD-3) PeakPickerMRM / PeakIntegrator; SciPy (above) find_peaks/peak_widths second opinion.
+    "pyopenms>=3.2",
+]
+
+# allotropy 0.1.146 pins rainbow-api 1.0.10, while the chromatography oracle needs rainbow-api
+# >= 1.5.2 (signal versions 181 and Waters MRM). They live in two groups that uv keeps apart:
+#   uv run --group plate python gen.py <plate file>
+#   uv run --group chrom python gen.py <ChemStation / Waters path>
+[dependency-groups]
+plate = ["allotropy==0.1.146"]
+chrom = ["rainbow-api>=1.5.2"]
+# qPCR: rdmlpython (MIT, RDML consortium) reads and validates RDML (including `export --to rdml`);
+# qslib (EUPL-1.2, copyleft) is run as a black box only, as a second reader of QuantStudio .eds.
+#   uv run --group qpcr python qpcr.py <file>
+qpcr = ["rdmlpython>=1.7.2", "qslib>=0.15", "xlrd>=2.0"]  # xlrd (BSD-3): vendor .xls result exports (held-out cross-checks)
+# ÄKTA/UNICORN (fplc_oracle.py): PyCORN (GPL-2.0) run as a black box only; allotropy (MIT) from `plate`.
+#   uv run --group plate --group fplc python fplc_oracle.py --id ID FILE ...
+fplc = ["pycorn==0.19"]
+# Sampled-column formats (series_oracle.py): geddes (MIT) for diffraction, gamry-parser (MIT) for
+# Gamry .DTA, NewareNDA (BSD-3) for Neware .nda/.ndax, pyngb (MIT) for NETZSCH .ngb; galvani
+# (GPL-3.0) is run as a black box only, for BioLogic .mpr.
+#   uv run --group series python series_oracle.py ...
+series = ["geddes==1.0.0", "gamry-parser==0.4.6", "NewareNDA==2026.6.11", "pyngb==0.6.0", "galvani==0.5.0", "openpyxl"]
+
+[tool.uv]
+package = false
+default-groups = []
+conflicts = [[{ group = "plate" }, { group = "chrom" }]]
+
+[tool.uv.sources]
+aston = { git = "https://github.com/bovee/Aston", rev = "3bfd589384ba180d8d632b3f28c312e8b1f2594b" }

@@ -1,0 +1,22 @@
+{
+ "id": "envision-abs-a450",
+ "file": "envision-abs-a450.csv",
+ "format": "plate",
+ "family": "plate-reader",
+ "readers": [
+  "allotropy 0.1.146 (MIT) ASM `measurement time`"
+ ],
+ "checks": [
+  {
+   "field": "ASM measurement time (wall clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-01-15T10:30:00+00:00",
+   "cmp": "wallclock",
+   "abs": 1.0
+  }
+ ]
+}

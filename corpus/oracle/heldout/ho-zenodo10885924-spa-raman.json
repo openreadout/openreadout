@@ -1,0 +1,49 @@
+{
+ "id": "ho-zenodo10885924-spa-raman",
+ "file": "Raman Spectroscopy 1.SPA",
+ "size": 5364,
+ "sha256": "1553e6b15df0bb6ce4188dcfe324155ccdfc3f4704b40827066fed7f144dc8d6",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 565,
+   "x_first": 599.357,
+   "x_last": 55.53,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 565,
+     "channels": [
+      {
+       "xxh3": "a8f4b7835e50e698aa91e05bce07818b",
+       "first": [
+        0.0390489362180233,
+        -0.0018853110959753394,
+        0.09107007086277008,
+        0.38628536462783813,
+        0.6537288427352905,
+        0.8207581043243408,
+        0.861295223236084,
+        0.944789469242096
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 12,
+     "background_scans": 512,
+     "laser_wavenumber_cm1": 15798.0
+    }
+   },
+   "x_tolerance": 0.0005
+  }
+ ],
+ "acquisition_date": "2024-02-19 06:04:53-08:00"
+}

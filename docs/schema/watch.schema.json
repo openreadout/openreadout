@@ -1,0 +1,317 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WatchEvent",
+  "description": "One line of `watch` output.",
+  "type": "object",
+  "properties": {
+    "seq": {
+      "description": "Sequence number, increasing by one per event within a watcher (the MCP cursor).",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "event": {
+      "description": "What happened.",
+      "$ref": "#/$defs/EventKind"
+    },
+    "ts": {
+      "description": "When the event was emitted (ISO-8601 UTC, milliseconds).",
+      "type": "string"
+    },
+    "path": {
+      "description": "The data set (a file, or a directory store).",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id, once known.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state": {
+      "description": "`in_progress`, `interrupted` or `complete`.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "image": {
+      "description": "Image index (plane events).",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint32",
+      "minimum": 0
+    },
+    "c": {
+      "description": "Channel index (plane events).",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint32",
+      "minimum": 0
+    },
+    "z": {
+      "description": "Z index (plane events).",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint32",
+      "minimum": 0
+    },
+    "t": {
+      "description": "Time index (plane events).",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint32",
+      "minimum": 0
+    },
+    "run": {
+      "description": "Run (spectra) or trace index.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint32",
+      "minimum": 0
+    },
+    "index": {
+      "description": "Zero-based position of the plane, scan or sweep among those reported for the data set.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "complete": {
+      "description": "Planes (or scans) complete so far.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "expected": {
+      "description": "Planes the finished data set will hold, when known.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "size_bytes": {
+      "description": "Size of the data set in bytes when the event was produced.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "mtime": {
+      "description": "Modification time of the data set (ISO-8601 UTC).",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "idle_s": {
+      "description": "Seconds since the data set last grew (`dataset_stalled`).",
+      "type": [
+        "number",
+        "null"
+      ],
+      "format": "double"
+    },
+    "qc": {
+      "description": "The fired rule (`qc`).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/QcFinding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "error": {
+      "description": "What went wrong (`error`).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ErrorBody"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "seq",
+    "event",
+    "ts",
+    "path"
+  ],
+  "$defs": {
+    "EventKind": {
+      "description": "Kinds of events.",
+      "oneOf": [
+        {
+          "description": "A data set was seen for the first time (or reappeared).",
+          "type": "string",
+          "const": "dataset_new"
+        },
+        {
+          "description": "A new complete image plane.",
+          "type": "string",
+          "const": "plane_new"
+        },
+        {
+          "description": "A new mass-spectrometry scan.",
+          "type": "string",
+          "const": "scan_new"
+        },
+        {
+          "description": "A new sweep (frame) of a trace: electrophysiology sweeps, NMR FIDs.",
+          "type": "string",
+          "const": "frame_new"
+        },
+        {
+          "description": "The data set is finished: every end-of-file structure is written and it stopped changing.",
+          "type": "string",
+          "const": "dataset_complete"
+        },
+        {
+          "description": "A data set still being written has not grown for `stall_after` (or was interrupted).",
+          "type": "string",
+          "const": "dataset_stalled"
+        },
+        {
+          "description": "A QC rule fired.",
+          "type": "string",
+          "const": "qc"
+        },
+        {
+          "description": "A data set could not be read.",
+          "type": "string",
+          "const": "error"
+        }
+      ]
+    },
+    "QcFinding": {
+      "description": "A fired rule.",
+      "type": "object",
+      "properties": {
+        "rule": {
+          "description": "Rule name.",
+          "type": "string"
+        },
+        "metric": {
+          "description": "Metric measured.",
+          "$ref": "#/$defs/Metric"
+        },
+        "value": {
+          "description": "Measured value.",
+          "type": "number",
+          "format": "double"
+        },
+        "bound": {
+          "description": "`min` or `max`: which bound was crossed.",
+          "type": "string"
+        },
+        "threshold": {
+          "description": "The bound's value.",
+          "type": "number",
+          "format": "double"
+        },
+        "description": {
+          "description": "The rule's description.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "saturation_level": {
+          "description": "`saturated_fraction` only: the sample value counted as saturated (2^bits − 1 from the\nfile's recorded bit depth, else the pixel type's maximum).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "rule",
+        "metric",
+        "value",
+        "bound",
+        "threshold"
+      ]
+    },
+    "Metric": {
+      "description": "A QC metric.",
+      "oneOf": [
+        {
+          "description": "Fraction of samples at the detector's ceiling (recorded bit depth, else the pixel\ntype's maximum).",
+          "type": "string",
+          "const": "saturated_fraction"
+        },
+        {
+          "description": "Plane sharpness relative to the first planes of the same image and channel.",
+          "type": "string",
+          "const": "sharpness_ratio"
+        },
+        {
+          "description": "Gap before a new time point relative to the median gap.",
+          "type": "string",
+          "const": "interval_ratio"
+        },
+        {
+          "description": "MS1 total ion current relative to the first MS1 scans.",
+          "type": "string",
+          "const": "tic_ratio"
+        }
+      ]
+    },
+    "ErrorBody": {
+      "description": "Structured error body. `hint` is meant to be actionable by an agent.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Stable code: `unknown_format`, `unsupported_feature`, `corrupt_file`, `usage`, `io`, `error`,\n`internal_panic` (a bug: the tool panicked; please report it).",
+          "type": "string"
+        },
+        "message": {
+          "description": "Human-readable description of the failure.",
+          "type": "string"
+        },
+        "hint": {
+          "description": "What to try next, when the tool knows.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "exit_code": {
+          "description": "The process exit code for this error (see the crate docs).",
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "exit_code"
+      ]
+    }
+  }
+}

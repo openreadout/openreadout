@@ -1,0 +1,44 @@
+{
+ "id": "zenodo2248038-nujol1",
+ "file": "zenodo2248038-nujol1.spc",
+ "size": 9808,
+ "sha256": "5f3f67d2c951f5ffd9115c5e0b439bf90b3709ade7e4fd2edd33255e7ac15de2",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_spc",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 2388,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2388,
+     "channels": [
+      {
+       "xxh3": "e0ee23b47f5d549c938693a514a7fd60",
+       "first": [
+        0.04079354926943779,
+        0.04079354926943779,
+        0.04079354926943779,
+        0.040241822600364685,
+        0.040103890001773834,
+        0.040379755198955536,
+        0.04051768407225609,
+        0.04051768407225609
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 5000.5146484375,
+   "x_last": 397.26416015625
+  }
+ ],
+ "second_opinion": {
+  "reader": "spc-io 0.2.1 (MIT)",
+  "error": "NotImplementedError: only LSB format is supproted"
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "id": "epr-mars-ky3-96k",
+ "file": "epr-mars-ky3-96k.DSC",
+ "format": "bruker-bes3t",
+ "family": "bench",
+ "readers": [
+  "DeerLab deerload (MIT, vendored): the .DSC parameters"
+ ],
+ "checks": [
+  {
+   "field": "DATE TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2009-06-24T22:23:23",
+   "cmp": "time"
+  }
+ ]
+}

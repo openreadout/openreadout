@@ -1,0 +1,21 @@
+{
+ "id": "echem-gamryparser-cv",
+ "file": "echem-gamryparser-cv.dta",
+ "format": "gamry-dta",
+ "family": "bench",
+ "readers": [
+  "gamry-parser 0.4.6 (MIT) header"
+ ],
+ "checks": [
+  {
+   "field": "DATE TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2019-03-06T16:35:22",
+   "cmp": "time"
+  }
+ ]
+}

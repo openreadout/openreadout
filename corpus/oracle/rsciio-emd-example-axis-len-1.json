@@ -1,0 +1,58 @@
+{
+ "id": "rsciio-emd-example-axis-len-1",
+ "file": "rsciio-emd-example-axis-len-1.emd",
+ "size": 6616,
+ "sha256": "b7dd478cc501e2639477a48f141e305ab76baa83c26c2b3dd850675d07d76ef4",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 (Berkeley EMD groups)",
+ "images": [
+  {
+   "index": 0,
+   "emd_group": "test_group/data_group",
+   "size_x": 5,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 5,
+   "pixel_type": "double",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ce62b44e257dbdc8114ddfda264d5aa9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "ce62b44e257dbdc8114ddfda264d5aa9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "ce62b44e257dbdc8114ddfda264d5aa9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "ce62b44e257dbdc8114ddfda264d5aa9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "ce62b44e257dbdc8114ddfda264d5aa9"
+    }
+   ]
+  }
+ ],
+ "version": "0.2"
+}

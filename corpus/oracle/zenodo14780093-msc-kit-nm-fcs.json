@@ -1,0 +1,75 @@
+{
+ "id": "zenodo14780093-msc-kit-nm-fcs",
+ "file": "MSC kit_NM.fcs",
+ "size": 710960,
+ "sha256": "af39391d714f06193ee5c98842fc26acb8bd17aa53c9faec5665fe8f93443d6c",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 15,
+   "event_count": 11799,
+   "parameter_names": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "FITC-A",
+    "PE-A",
+    "PE-Cy5-A",
+    "APC-A",
+    "DAPI-A",
+    "APC-H7-A",
+    "Pacific Orange-A",
+    "PE-Cy7-A",
+    "Time"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "d7b49cf0dc38ae998a1823e22dec735e",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 11799,
+  "xxh3": "d7b49cf0dc38ae998a1823e22dec735e",
+  "agrees_with_flowio": true
+ }
+}

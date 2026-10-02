@@ -1,0 +1,17 @@
+[package]
+name = "timsrust-oracle"
+version = "0.1.0"
+edition = "2024"
+publish = false
+license = "MIT OR Apache-2.0"
+description = "Ground truth for the Bruker timsTOF corpus: runs timsrust (Apache-2.0) as a black box. Not part of the OpenReadout workspace or binary."
+
+# A workspace of its own: its heavy dependencies (timsrust pulls arrow/parquet and a bundled
+# SQLite) never enter the OpenReadout lock file, `cargo deny` or the shipped binary.
+[workspace]
+
+[dependencies]
+timsrust = "=0.6.6"
+rusqlite = { version = "0.35", features = ["bundled"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+xxhash-rust = { version = "0.8", features = ["xxh3"] }

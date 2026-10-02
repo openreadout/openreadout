@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LinkOutput",
+  "description": "Output of `link`.",
+  "type": "object",
+  "properties": {
+    "inputs": {
+      "description": "How the inputs became data sets.",
+      "$ref": "#/$defs/InputReport"
+    },
+    "min_confidence": {
+      "description": "Minimum confidence of links that form groups.",
+      "$ref": "#/$defs/Confidence"
+    },
+    "groups": {
+      "description": "Groups of two or more data sets.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/LinkGroup"
+      }
+    },
+    "unlinked": {
+      "description": "Data sets in no group.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "unlinked_examples": {
+      "description": "Some of them.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "weak_links": {
+      "description": "Links below `min_confidence` (not grouped), strongest first (first 50).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Link"
+      }
+    },
+    "shared_identifiers": {
+      "description": "Identifiers treated as weak evidence.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SharedIdentifier"
+      }
+    },
+    "notes": {
+      "description": "Things to know.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "inputs",
+    "min_confidence",
+    "groups",
+    "unlinked"
+  ],
+  "$defs": {
+    "InputReport": {
+      "description": "How the inputs turned into data sets.",
+      "type": "object",
+      "properties": {
+        "datasets": {
+          "description": "Data sets measured (rows come from these), including those that failed.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "ok": {
+          "description": "Data sets measured without error.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "failed": {
+          "description": "Data sets that failed (their rows carry `error`).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "skipped_unknown": {
+          "description": "Files found by walking a directory that no reader recognises (not in the table).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "skipped_format": {
+          "description": "Data sets of other formats left out by the format filter.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "skipped_sheets": {
+          "description": "Sample sheets and layouts found among the inputs (never measured).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "grouped_members": {
+          "description": "Files that belong to another input's multi-file data set (measured once, with it).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "skipped_examples": {
+          "description": "A few of the skipped paths, with why.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reused": {
+          "description": "Data sets whose rows were reused from the journal of an interrupted run.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "datasets",
+        "ok",
+        "failed",
+        "skipped_unknown",
+        "skipped_format",
+        "skipped_sheets",
+        "grouped_members"
+      ]
+    },
+    "Confidence": {
+      "description": "How sure a link is.",
+      "oneOf": [
+        {
+          "description": "Circumstantial: a shared control name, a short id inside a file name.",
+          "type": "string",
+          "const": "low"
+        },
+        {
+          "description": "Likely: the same sample name or file stem, a start time without a run length.",
+          "type": "string",
+          "const": "medium"
+        },
+        {
+          "description": "Recorded identifiers agree (barcode, sample id, the conversion's source file, the same\nacquisition).",
+          "type": "string",
+          "const": "high"
+        }
+      ]
+    },
+    "LinkGroup": {
+      "description": "Data sets that measured the same sample.",
+      "type": "object",
+      "properties": {
+        "group": {
+          "description": "Group number (from 1, in the order of the first member).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "confidence": {
+          "description": "The weakest link that holds the group together (low when the group has a conflict).",
+          "$ref": "#/$defs/Confidence"
+        },
+        "sample": {
+          "description": "The sample id the members share, when they do.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "members": {
+          "description": "Members in input order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LinkMember"
+          }
+        },
+        "links": {
+          "description": "The links, with evidence.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Link"
+          }
+        },
+        "conflicts": {
+          "description": "Disagreements inside the group (different sample ids).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "group",
+        "confidence",
+        "members",
+        "links"
+      ]
+    },
+    "LinkMember": {
+      "description": "A member of a group.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "The data set.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Format id.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sample_id": {
+          "description": "Recorded sample id.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "well": {
+          "description": "Recorded well.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "barcode": {
+          "description": "Recorded barcode.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "started_at": {
+          "description": "Acquisition start.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "path"
+      ]
+    },
+    "Link": {
+      "description": "A link between two data sets.",
+      "type": "object",
+      "properties": {
+        "a": {
+          "description": "One data set.",
+          "type": "string"
+        },
+        "b": {
+          "description": "The other.",
+          "type": "string"
+        },
+        "confidence": {
+          "description": "The strongest evidence's confidence.",
+          "$ref": "#/$defs/Confidence"
+        },
+        "evidence": {
+          "description": "All evidence found.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          }
+        }
+      },
+      "required": [
+        "a",
+        "b",
+        "confidence",
+        "evidence"
+      ]
+    },
+    "Evidence": {
+      "description": "One piece of evidence.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Kind (`same_sample_id`, `same_acquisition`, …; see the module documentation).",
+          "type": "string"
+        },
+        "detail": {
+          "description": "The values compared, and where they came from.",
+          "type": "string"
+        },
+        "confidence": {
+          "description": "Confidence of this evidence alone.",
+          "$ref": "#/$defs/Confidence"
+        }
+      },
+      "required": [
+        "kind",
+        "detail",
+        "confidence"
+      ]
+    },
+    "SharedIdentifier": {
+      "description": "An identifier shared by many data sets or naming a control.",
+      "type": "object",
+      "properties": {
+        "field": {
+          "description": "Field (`sample_id`, `sample_name`, `barcode`).",
+          "type": "string"
+        },
+        "value": {
+          "description": "Value.",
+          "type": "string"
+        },
+        "datasets": {
+          "description": "Data sets recording it.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "reason": {
+          "description": "Why it was treated as weak.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "value",
+        "datasets",
+        "reason"
+      ]
+    }
+  }
+}

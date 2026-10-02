@@ -1,0 +1,22 @@
+{
+ "id": "zenodo4992158-tt14-ntt",
+ "file": "zenodo4992158-tt14.ntt",
+ "format": "neuralynx",
+ "family": "electrophysiology",
+ "readers": [
+  "Neo 0.14.5 (BSD-3) NlxHeader: `## Time Opened` / `-TimeCreated`"
+ ],
+ "checks": [
+  {
+   "field": "header time opened",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2015-10-18T08:27:51.648000",
+   "cmp": "time_or_utc",
+   "abs": 0.002
+  }
+ ]
+}

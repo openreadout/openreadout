@@ -1,0 +1,46 @@
+{
+ "id": "nlx-cheetah-v5-4-0-csc5-trunc-ncs",
+ "file": "nlx-cheetah-v5-4-0-csc5-trunc.ncs",
+ "size": 23692,
+ "sha256": "692d56b62d4475ca12483cc03aa4add884e02d5c40be9bb7ded367069b6b33b8",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 NeuralynxRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CSC5"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 1017.375,
+   "neo_gain": [
+    -0.015300000000000001
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3584,
+     "channels": [
+      {
+       "xxh3": "3d63a0309fb8348954c412fc6d868bf4",
+       "first": [
+        -58.58370000000001,
+        -40.3461,
+        -20.2725,
+        4.8501,
+        18.6048,
+        21.5577,
+        27.540000000000003,
+        37.3626
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,41 @@
+{
+ "id": "mtbls225-tqs-rln-20140623-056-raw",
+ "file": "TQS-RLN-20140623-056.raw",
+ "size": 192276,
+ "max_planes_hashed": 64,
+ "reader": "pyteomics MzXML on the depositor's export (mtbls225-tqs-rln-20140623-056.mzXML)",
+ "paired_export": "mtbls225-tqs-rln-20140623-056.mzXML",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 788,
+   "parameter_names": [],
+   "column_hashes": {
+    "rt_min": "ca4c2b42de7c19370bcbde3ffd4818df",
+    "tic_stored": "33a86a03fae3728032d7d7ea5d8cca90",
+    "207.82 > 99.66": "050a2eead0228ba241649fc4cd1e96f1",
+    "221.9 > 113.65": "85f988a48da2023f6304e502eaa92c89",
+    "237.82 > 129.72": "29740de0ee6e7e28aee6332a13bec02d",
+    "247.9 > 139.7": "d3379e8d5f63488edcf06e7e85d68a4e",
+    "249.85 > 141.83": "e6de3368fb5e03085f69e7c07dc30efc",
+    "251.85 > 143.71": "3558eb1e3d4f3344ab366cb490cd42d9",
+    "253.81 > 145.58": "4d347df22207eaf7f7b355032e8d99e0",
+    "263.91 > 155.76": "3886bda3b410c49aa163e8b28159c0cd",
+    "264.87 > 112.75": "61eed3f94194e5a0a42c98e6239d1f91",
+    "265.89 > 157.69": "40a3fbd597e634e31d753c3b6bedcb57",
+    "279 > 127": "b6f2b72ec1ab4a3dc7031895e2c9536b",
+    "279.87 > 127.73": "2c6f4d5414c48f6b133d5dbf9802eaae",
+    "281.84 > 173.71": "28512a762dc726a206494f17af79538d",
+    "287.87 > 179.75": "14baa8271d20b57a4feb1e65ad8fa6bb",
+    "298 > 147": "2903f7054f358102b4b0b50d31b5d069",
+    "306.94 > 198.77": "5b89ebe5eeb99b52295b858cbda3056b",
+    "313.87 > 205.76": "44ec4f5e3036d683dd1d68069bbcd24c",
+    "336.74 > 228.73": "9c324307e97910c72c106996a8c32dcd",
+    "399.02 > 182.74": "8d761b47562bd2eb1ebc4b819548dd18",
+    "413 > 196.79": "eaebb451ec62d14d953a01a7546d7ae3",
+    "560.66 > 158.59": "eeb0f80624e99810af2f7edb7ef702a7"
+   }
+  }
+ ],
+ "oracle_note": "chromatograms exported as one-point scans (m/z 0); times are minutes"
+}

@@ -1,0 +1,159 @@
+{
+ "id": "oe-legacy-sampledata-3",
+ "file": "OpenEphys_SampleData_3",
+ "size": 20375317,
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 OpenEphysRawIO record layout + NumPy",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "CH1",
+    "CH2",
+    "CH3"
+   ],
+   "channel_units": [
+    "uV",
+    "uV",
+    "uV"
+   ],
+   "sample_rate_hz": 2000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 758784,
+     "channels": [
+      {
+       "xxh3": "cfac1653bb01341c9f59c63a7061b8fa",
+       "first": [
+        -22.815,
+        -8.19,
+        -16.575,
+        -11.31,
+        -2.9250000000000003,
+        14.625,
+        122.265,
+        147.81
+       ]
+      },
+      {
+       "xxh3": "2371c2f95b3d7badfe170632aeb1e7e8",
+       "first": [
+        -8.19,
+        4.29,
+        -0.9750000000000001,
+        3.9000000000000004,
+        15.795,
+        31.200000000000003,
+        134.35500000000002,
+        159.705
+       ]
+      },
+      {
+       "xxh3": "05a156d3bd44ed8297d9efea82fa5e1a",
+       "first": [
+        11.115,
+        12.48,
+        0.39,
+        6.4350000000000005,
+        18.915,
+        35.685,
+        137.475,
+        166.53
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "CH1",
+    "CH2",
+    "CH3"
+   ],
+   "channel_units": [
+    "uV",
+    "uV",
+    "uV"
+   ],
+   "sample_rate_hz": 2000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1756160,
+     "channels": [
+      {
+       "xxh3": "fcb105eda8772068d07295504a3658fc",
+       "first": [
+        -1024.92,
+        -1020.63,
+        -1030.77,
+        -1026.48,
+        -1005.4200000000001,
+        -999.57,
+        -923.715,
+        -869.505
+       ]
+      },
+      {
+       "xxh3": "5e59dc723278cb7f743037b7db68c438",
+       "first": [
+        -771.8100000000001,
+        -767.52,
+        -774.735,
+        -771.03,
+        -747.0450000000001,
+        -748.02,
+        -667.095,
+        -616.005
+       ]
+      },
+      {
+       "xxh3": "fb858511ce2d3a31325dcc1816fe7d56",
+       "first": [
+        -1051.635,
+        -1050.66,
+        -1058.265,
+        -1052.025,
+        -1026.675,
+        -1026.48,
+        -934.83,
+        -882.57
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 9,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "file": "2be2a5e1bf17258cafa9b216f4f9bd2f",
+    "timestamp": "019faf93ee639da490e5af8b1d2924bf",
+    "time_s": "163b7c28106ea279acab0ab95bbcd303",
+    "sample_position": "0442236975e8eee0d19b67b2d77d4003",
+    "event_type": "ce0abf57157e8bccf9481c96b3f30893",
+    "processor_id": "bd7d014c9963041c66ee4347e85d6513",
+    "event_id": "9f6202eb3f2bf45ef38271fc8b601cef",
+    "channel": "43aaa04e88d7e80f2762e62707a6f759",
+    "recording": "0442236975e8eee0d19b67b2d77d4003"
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "neo 0.14.5 OpenEphysRawIO API",
+  "error": "NeoReadWriteError: This file has a non valid data block size for channel 32, this case cannot be handled"
+ }
+}

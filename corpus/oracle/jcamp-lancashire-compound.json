@@ -1,0 +1,165 @@
+{
+ "id": "jcamp-lancashire-compound",
+ "file": "jcamp-lancashire-compound.jdx",
+ "size": 28790,
+ "sha256": "daaf9c1ebdea013194aafd63d1c2ea4a7db742f63c084dcc3f7a8bf9e8c0a3fb",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "block 1",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1976,
+     "channels": [
+      {
+       "xxh3": "68cbb5ba1825c499be9dda8203b291ad",
+       "first": [
+        0.046700000000000005,
+        0.046700000000000005,
+        0.0477,
+        0.0473,
+        0.0473,
+        0.0478,
+        0.0478,
+        0.0477
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 1976,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  },
+  {
+   "index": 1,
+   "name": "block 2",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1976,
+     "channels": [
+      {
+       "xxh3": "0da33435c1be6452c0acd3680fdd9aeb",
+       "first": [
+        0.055400000000000005,
+        0.0553,
+        0.055600000000000004,
+        0.055200000000000006,
+        0.0555,
+        0.055,
+        0.0553,
+        0.055200000000000006
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 1976,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  },
+  {
+   "index": 2,
+   "name": "block 3",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3951,
+     "channels": [
+      {
+       "xxh3": "25827b204a99533a5e0aa76a9effba2e",
+       "first": [
+        0.5607,
+        0.5617,
+        0.5627,
+        0.5634,
+        0.5637,
+        0.5637,
+        0.5646,
+        0.5648000000000001
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 3951,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  },
+  {
+   "index": 3,
+   "name": "trans-[Rh(py)4Cl2]Cl.5H2O",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1976,
+     "channels": [
+      {
+       "xxh3": "e8f63c80a9d97beb9b951c7b679d5f1d",
+       "first": [
+        0.378,
+        0.3776,
+        0.378,
+        0.3776,
+        0.3781,
+        0.3776,
+        0.3779,
+        0.37820000000000004
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 1976,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  },
+  {
+   "index": 4,
+   "name": "block 5",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3951,
+     "channels": [
+      {
+       "xxh3": "40823426f9172274ec4c4758dbbe780b",
+       "first": [
+        0.5385,
+        0.5392,
+        0.5395,
+        0.5399,
+        0.5406000000000001,
+        0.5408000000000001,
+        0.5416000000000001,
+        0.5419
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 3951,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  }
+ ]
+}

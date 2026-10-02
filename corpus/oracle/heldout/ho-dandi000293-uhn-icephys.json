@@ -1,0 +1,34 @@
+{
+ "id": "ho-dandi000293-uhn-icephys",
+ "file": "sub-1802-18201004_icephys.nwb",
+ "size": 715794,
+ "sha256": "e8d2c480b25b794bc39d19bb5c2e72d5e28d9d597100f624e30e5271327616fd",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.3.0",
+ "session": {
+  "session_description": "PLACEHOLDER",
+  "identifier": "18201004.abf",
+  "session_start_time": "2018-02-01T12:56:09.421000-05:00"
+ },
+ "traces": [],
+ "tables": [
+  {
+   "index": 0,
+   "name": "general/intracellular_ephys/sweep_table",
+   "event_count": 16,
+   "parameter_names": [
+    "id",
+    "series_count",
+    "sweep_number"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "8c3167aa9e2a7228d0a381548332aaec",
+    "series_count": "896ed09c938155b468ab281cbb6af3f5",
+    "sweep_number": "f31565423bee0ec0292d32ef053486be"
+   }
+  }
+ ]
+}

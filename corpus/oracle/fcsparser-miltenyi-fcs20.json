@@ -1,0 +1,78 @@
+{
+ "id": "fcsparser-miltenyi-fcs20",
+ "file": "fcsparser-miltenyi-fcs20.fcs",
+ "size": 643582,
+ "sha256": "28c442794bf920c72cb7c84cdca0e972d5cbace49727ddedde9d717c8b049128",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "2.0",
+   "parameter_count": 16,
+   "event_count": 10000,
+   "parameter_names": [
+    "HDR-T",
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "V2-A",
+    "V2-H",
+    "V2-W",
+    "Y2-A",
+    "Y2-H",
+    "Y2-W",
+    "B1-A",
+    "B1-H",
+    "B1-W"
+   ],
+   "parameter_labels": [
+    "HDR-T",
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "V2-A",
+    "V2-H",
+    "V2-W",
+    "Y2-A",
+    "Y2-H",
+    "Y2-W",
+    "B1-A",
+    "B1-H",
+    "B1-W"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "99a20744b5b11bb797e317d3a29c9fbd",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 10000,
+  "xxh3": "99a20744b5b11bb797e317d3a29c9fbd",
+  "agrees_with_flowio": true
+ }
+}

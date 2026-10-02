@@ -1,0 +1,196 @@
+{
+ "id": "hcs-imagexpress-jump-a1170383-folder",
+ "file": "Images",
+ "size": 21218422,
+ "max_planes_hashed": 64,
+ "reader": "Python stdlib index parse + tifffile 2026.9.20; Bio-Formats 8.5.0 showinf/bfconvert (GPL, black box)",
+ "hcs": {
+  "format": "imagexpress",
+  "plate": {
+   "id": null,
+   "rows": null,
+   "columns": null,
+   "wells_imaged": 1,
+   "fields": 2,
+   "planes_expected": 10,
+   "planes_missing": 0,
+   "planes_absent": 0,
+   "planes_not_recorded": 0,
+   "planes_present": 10
+  },
+  "channels": [
+   "Cy5",
+   "Texas Red",
+   "Cy3",
+   "FITC",
+   "DAPI"
+  ],
+  "size_c": 5,
+  "size_z": 1,
+  "size_t": 1,
+  "size": [
+   1024,
+   1024
+  ],
+  "pixel_type": "uint16",
+  "pixel_size_um": [
+   0.7032,
+   0.7032
+  ],
+  "wells": [
+   {
+    "well": "A01",
+    "images": [
+     0,
+     1
+    ]
+   }
+  ],
+  "images": [
+   {
+    "index": 0,
+    "well": "A01",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "HTS_A01_s1_w14996E914-A4B6-49AF-8081-5B58A8653201.tif",
+      "xxh3": "2e40c1a223a9de87735bdc07ee35c22f",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1024
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "HTS_A01_s1_w20B4AE6FD-1ADC-4BA5-AB69-A459DD5C1532.tif",
+      "xxh3": "654dfadbfd8f48887848dd347665fc6a",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1024
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "HTS_A01_s1_w33EFC51B3-6F57-4273-AFE3-BAA0781C8ACF.tif",
+      "xxh3": "03bd16878c7c7c56291a370d846db620",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1024
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "HTS_A01_s1_w4F2379347-1CEC-4A42-8B9A-492A42B28243.tif",
+      "xxh3": "f244987602525dbb3016b7d1732efeb3",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1024
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "HTS_A01_s1_w58DBAB0C3-7E97-4AA7-95D4-CF3EFB4A906D.tif",
+      "xxh3": "3ee10be2e4d177bc2ffd5f265fcc291c",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1024
+      ]
+     }
+    ]
+   },
+   {
+    "index": 1,
+    "well": "A01",
+    "field": 2,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "HTS_A01_s2_w1FCD99AF9-4A73-42E8-A4AA-04F37F044F54.tif",
+      "xxh3": "9cde1ff5c1c52192856df51816c80bd3",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1024
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "HTS_A01_s2_w2EAC90B2A-C587-4508-A848-56A9E1DCB631.tif",
+      "xxh3": "6a3bb281a925a17a227a95ee6217c881",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1024
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "HTS_A01_s2_w349B534A5-1B69-4C45-9EAE-E5C7B72A6B94.tif",
+      "xxh3": "a200a961ca3aab609e285a76e783a382",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1024
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "HTS_A01_s2_w483B397DC-3FFB-41B4-B7B5-6206D0721444.tif",
+      "xxh3": "75792707882ddb0b746f08683e9be378",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1024
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "HTS_A01_s2_w58B16E946-7AD4-44EC-AEE7-5C54997C5BD6.tif",
+      "xxh3": "a808841f7e9ad3df0a0d7a50457cddcf",
+      "dtype": "uint16",
+      "shape": [
+       1024,
+       1024
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

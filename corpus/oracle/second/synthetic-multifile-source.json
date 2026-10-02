@@ -1,0 +1,32 @@
+{
+ "id": "synthetic-multifile-source",
+ "file": "synthetic-multifile-source.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 128,
+   "size_y": 96,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1dc53dc2b9a94261964ecfaabb5458cb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "b7e89e6bfd7274a5fc1dd08838a663c1"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "3a1d9a53a40149c76ec70e5c2288590f"
+    }
+   ]
+  }
+ ]
+}

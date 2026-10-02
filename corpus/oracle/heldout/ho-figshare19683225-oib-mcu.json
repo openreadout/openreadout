@@ -1,0 +1,43 @@
+{
+ "id": "ho-figshare19683225-oib-mcu",
+ "file": "Image0001 before perm.oib",
+ "size": 815104,
+ "sha256": "4fa696d98d3dd58ec2eba4db64402ab9c751086eef801d3ec5265ab4f700dd41",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box); planes cross-checked with oiffile 2026.2.8",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series 1",
+   "size_x": 320,
+   "size_y": 320,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 2,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.994,
+    "y": 0.994
+   },
+   "channel_names": [
+    "CH3"
+   ],
+   "oiffile_agrees": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "04ec024c9401035b2438bfaade139da7"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "86d7e0af2d6c2a04c20bed850424935f"
+    }
+   ]
+  }
+ ]
+}

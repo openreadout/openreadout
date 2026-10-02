@@ -1,0 +1,181 @@
+<tool id="openreadout_batch" name="OpenReadout batch table" version="@TOOL_VERSION@+galaxy@VERSION_SUFFIX@" profile="@PROFILE@" license="MIT">
+    <description>one tidy table over many instrument files, joined to a sample sheet</description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="creator"/>
+    <expand macro="requirements"/>
+    <expand macro="version_command"/>
+    <command detect_errors="exit_code"><![CDATA[
+#import re
+mkdir inputs &&
+#for $f in $inputs
+    #set $fname = re.sub('[^\w\-.]', '_', str($f.element_identifier))
+    ln -s '$f' 'inputs/$fname' &&
+#end for
+#if $sample_sheet
+    #set $sheet_ext = {'tabular': 'tsv', 'tsv': 'tsv', 'csv': 'csv', 'xlsx': 'xlsx', 'txt': 'txt'}.get(str($sample_sheet.ext), 'csv')
+    ln -s '$sample_sheet' 'sample_sheet.$sheet_ext' &&
+#end if
+openreadout '$measure.name' inputs/ --tidy
+#if $sample_sheet
+    --sample-sheet 'sample_sheet.$sheet_ext'
+#end if
+#if $measure.name == 'stats'
+    --per '$measure.per'
+#elif $measure.name == 'table'
+    #if str($measure.compensate) != 'none'
+        --compensate '$measure.compensate'
+    #end if
+#end if
+#for $w in $filters
+    --where '$w.condition'
+#end for
+    -o table.csv
+#if str($summary.by).strip()
+    && openreadout batch summarize table.csv
+        --by '$summary.by'
+    #if str($summary.values).strip()
+        --value '$summary.values'
+    #end if
+    #if $summary.test.kind != 'none'
+        --test '$summary.test.kind' --control '$summary.test.control'
+    #end if
+        -o summary.csv
+    && mv summary.csv '$summary_table'
+#end if
+    && mv table.csv '$table'
+    ]]></command>
+    <inputs>
+        <param name="inputs" type="data" format="data" multiple="true" label="Instrument files" help="Files are named after their Galaxy dataset names, which the sample sheet can refer to"/>
+        <param name="sample_sheet" type="data" format="csv,tabular,xlsx" optional="true" label="Sample sheet or plate layout" help="CSV, tabular or XLSX. The join key is chosen from the data (file name, sample id recorded in the file, well, barcode, ...) and reported"/>
+        <conditional name="measure">
+            <param name="name" type="select" label="Measure">
+                <option value="table" selected="true">table: FCS events per parameter (n, median, mean, sd, min, max) or plate reads per well</option>
+                <option value="stats">stats: pixel statistics per image and channel</option>
+                <option value="trace">trace: signal statistics per trace, sweep and channel</option>
+                <option value="info">info: one row of header metadata per file</option>
+            </param>
+            <when value="table">
+                <param name="compensate" type="select" label="FCS compensation">
+                    <option value="none" selected="true">none (raw values)</option>
+                    <option value="auto">auto</option>
+                    <option value="fcs">the file's spillover matrix</option>
+                </param>
+            </when>
+            <when value="stats">
+                <param name="per" type="select" label="One row per">
+                    <option value="channel" selected="true">image and channel</option>
+                    <option value="image">image</option>
+                    <option value="plane">plane</option>
+                </param>
+            </when>
+            <when value="trace"/>
+            <when value="info"/>
+        </conditional>
+        <repeat name="filters" title="Row filter" min="0">
+            <param name="condition" type="text" label="Keep rows where" help="COLUMN=VALUE or COLUMN!=VALUE, e.g. parameter=FITC-A">
+                <validator type="regex" message="COLUMN=VALUE or COLUMN!=VALUE">^[\w.:\-]+!?=[^'"]+$</validator>
+            </param>
+        </repeat>
+        <section name="summary" title="Group summary" expanded="true">
+            <param name="by" type="text" value="" label="Summarize by these columns" help="Comma-separated, e.g. condition,dose. Empty: no summary">
+                <validator type="regex" message="column names separated by commas">^[\w.:\-, ]*$</validator>
+            </param>
+            <param name="values" type="text" value="" label="Value columns" help="Comma-separated; default: the measure's main values">
+                <validator type="regex" message="column names separated by commas">^[\w.:\-, ]*$</validator>
+            </param>
+            <conditional name="test">
+                <param name="kind" type="select" label="Test against a control group">
+                    <option value="none" selected="true">no test</option>
+                    <option value="welch">Welch's t-test</option>
+                    <option value="mann-whitney">Mann-Whitney U</option>
+                </param>
+                <when value="none"/>
+                <when value="welch">
+                    <param name="control" type="text" label="Control group" help="A value of the first summary column">
+                        <validator type="regex" message="a plain value">^[^'"]+$</validator>
+                    </param>
+                </when>
+                <when value="mann-whitney">
+                    <param name="control" type="text" label="Control group" help="A value of the first summary column">
+                        <validator type="regex" message="a plain value">^[^'"]+$</validator>
+                    </param>
+                </when>
+            </conditional>
+        </section>
+    </inputs>
+    <outputs>
+        <data name="table" format="csv" label="${tool.name} on ${on_string}: table"/>
+        <data name="summary_table" format="csv" label="${tool.name} on ${on_string}: summary">
+            <filter>summary['by'].strip() != ''</filter>
+        </data>
+    </outputs>
+    <tests>
+        <test expect_num_outputs="2">
+            <param name="inputs" value="tube_a.fcs,tube_b.fcs"/>
+            <param name="sample_sheet" value="samples.csv" ftype="csv"/>
+            <conditional name="measure">
+                <param name="name" value="table"/>
+            </conditional>
+            <repeat name="filters">
+                <param name="condition" value="parameter=FITC-A"/>
+            </repeat>
+            <section name="summary">
+                <param name="by" value="condition"/>
+                <param name="values" value="median"/>
+                <conditional name="test">
+                    <param name="kind" value="none"/>
+                </conditional>
+            </section>
+            <output name="table" ftype="csv">
+                <assert_contents>
+                    <has_n_lines n="3"/>
+                    <has_text text="control"/>
+                    <has_text text="treated"/>
+                    <has_text text="104.5"/>
+                    <has_text text="204.5"/>
+                </assert_contents>
+            </output>
+            <output name="summary_table" ftype="csv">
+                <assert_contents>
+                    <has_text text="condition"/>
+                    <has_text text="control"/>
+                    <has_text text="treated"/>
+                </assert_contents>
+            </output>
+        </test>
+        <test expect_num_outputs="1">
+            <param name="inputs" value="mini.czi,mini.lif"/>
+            <conditional name="measure">
+                <param name="name" value="stats"/>
+                <param name="per" value="image"/>
+            </conditional>
+            <output name="table" ftype="csv">
+                <assert_contents>
+                    <has_text text="mini.czi"/>
+                    <has_text text="mini.lif"/>
+                    <has_text text="mean"/>
+                </assert_contents>
+            </output>
+        </test>
+    </tests>
+    <help><![CDATA[
+**What it does**
+
+Measures many raw instrument files the same way and returns **one tidy table** (``openreadout
+<measure> --tidy``): one row per file and per image and channel (``stats``), trace, sweep and
+channel (``trace``), FCS parameter or plate well (``table``), or one row of header metadata per file
+(``info``). Files that cannot be read become rows with an ``error``, so nothing is dropped silently.
+
+A **sample sheet** or **plate layout** (CSV, tabular or XLSX) is joined to the rows: the join key is
+chosen from the data (the file name, the sample id recorded in the file, the well, a barcode, ...).
+Give the sheet a column with the dataset names (e.g. ``tube_a.fcs``) to join on file names.
+
+The optional **group summary** (``openreadout batch summarize``) reports n, mean, sd, sem, median, min,
+max and CV % per group, and a Welch t-test or Mann-Whitney U test of each group against a control.
+
+@HELP_FOOTER@
+    ]]></help>
+    <expand macro="citations"/>
+</tool>

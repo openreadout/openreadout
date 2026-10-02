@@ -1,0 +1,5 @@
+[alias]
+xtask = "run --quiet --package xtask --"
+
+[target.'cfg(all(target_env = "msvc", target_os = "windows"))']
+rustflags = ["-C", "target-feature=+crt-static"]

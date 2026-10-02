@@ -1,0 +1,44 @@
+{
+ "generator": "flowkit 1.3.2 (flowutils 1.2.2)",
+ "gating": "zenodo14537941-hoxa13-wsp",
+ "format": "flowjo-wsp",
+ "samples": [
+  {
+   "fcs": "zenodo14537941-tomato-1-003-fcs",
+   "sample": "Specimen_001_tomato+ 1_003.fcs",
+   "event_count": 10000,
+   "populations": [
+    {
+     "path": "/FSC SSC",
+     "count": 7656,
+     "flowjo_count": 7678
+    },
+    {
+     "path": "/FSC SSC/Single Cells",
+     "count": 7314,
+     "flowjo_count": 7331
+    },
+    {
+     "path": "/FSC SSC/Single Cells/Single Cells",
+     "count": 7202,
+     "flowjo_count": 7230
+    },
+    {
+     "path": "/FSC SSC/Single Cells/Single Cells/Kit+",
+     "count": 423,
+     "flowjo_count": 425
+    },
+    {
+     "path": "/FSC SSC/Single Cells/Single Cells/Kit+/Negative",
+     "count": 418,
+     "flowjo_count": 420
+    },
+    {
+     "path": "/FSC SSC/Single Cells/Single Cells/Kit+/Tomato+",
+     "count": 5,
+     "flowjo_count": 5
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "id": "zenodo16108826-sample-5-13",
+ "file": "zenodo16108826-sample-5-13.spc",
+ "format": "galactic-spc",
+ "family": "vibrational-spectroscopy",
+ "readers": [
+  "spc_io 0.2.1 (MIT) header date"
+ ],
+ "checks": [
+  {
+   "field": "header date (fdate)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-05-06T12:11:00",
+   "cmp": "wallclock"
+  }
+ ]
+}

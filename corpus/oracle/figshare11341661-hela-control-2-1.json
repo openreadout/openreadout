@@ -1,0 +1,43 @@
+{
+ "id": "figshare11341661-hela-control-2-1",
+ "file": "figshare11341661-20170331_HeLaS_Control_2_1.zvi",
+ "size": 5897216,
+ "sha256": "2556795d4616ad313788f4084c15b7d4a71b937bea43d1aa128a5c96f2fdc4c6",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "figshare11341661-20170331_HeLaS_Control_2_1.zvi",
+   "size_x": 1388,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.0645,
+    "y": 0.0645
+   },
+   "channel_names": [
+    "BLUE",
+    "RED"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "492cbb1945870453d4e4063dfcfee48c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b7b1c1db87ca9a7401acbb7887de2703"
+    }
+   ]
+  }
+ ]
+}

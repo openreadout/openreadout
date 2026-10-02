@@ -1,0 +1,26 @@
+{
+ "id": "zenodo10577621-PALM-OnlineVerrechnet",
+ "file": "zenodo10577621-PALM-OnlineVerrechnet.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "179c63c30962af0f21c5dbe3303fe576"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ad87e2086c43ae4de95a0e25c82059ce"
+    }
+   ]
+  }
+ ]
+}

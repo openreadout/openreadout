@@ -1,0 +1,51 @@
+{
+ "id": "zenodo22967314-ftir-r1-raw-data-sp",
+ "file": "FTIR_R1_raw_data.sp",
+ "size": 15864,
+ "sha256": "d4eac33fae7f2e18da769a7abcf8a0ab06faf01cf9e04e68177c9c5a6fbeb6da",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1676,
+   "x_first": 4000.0,
+   "x_last": 650.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1676,
+     "channels": [
+      {
+       "xxh3": "79510efbbb192ce7e5f2949e7f718781",
+       "first": [
+        99.68254472258151,
+        99.68516943994089,
+        99.68781435888823,
+        99.68996548162977,
+        99.69059464690173,
+        99.68913955979731,
+        99.6862323785355,
+        99.68344354187012
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Spectrum 100",
+     "instrument_serial": "79516",
+     "scans": 16,
+     "detector": "MIR TGS",
+     "source": "MIR",
+     "beamsplitter": "OptKBr",
+     "apodization": "Strong"
+    }
+   }
+  }
+ ]
+}

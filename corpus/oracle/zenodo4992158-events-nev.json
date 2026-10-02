@@ -1,0 +1,22 @@
+{
+ "id": "zenodo4992158-events-nev",
+ "file": "zenodo4992158-events.nev",
+ "size": 78208,
+ "sha256": "98b55247506c53cae5249dbd3cd7322ad1bd5bcd1a040b86320184ac169fc8e1",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 NeuralynxRawIO",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 336,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "timestamp_us": "ff9a9b23bd5f422f62eaf0beb485bfd9",
+    "event_id": "ae3e3529af893763db901ddc0a4e5541",
+    "ttl": "a4328676b07bbbeef57e51c08aa384c7"
+   }
+  }
+ ]
+}

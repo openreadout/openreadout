@@ -1,0 +1,48 @@
+{
+ "id": "aics-tiff-s-1-t-1-c-1-z-1",
+ "file": "aics-s_1_t_1_c_1_z_1.tiff",
+ "size": 1192984,
+ "sha256": "daf5299c31619afbf592d3ec55eecc837f28375d76cabc39cb3912415c8e7d7a",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "imagej",
+ "flags": [
+  "imagej"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "imagej",
+   "axes": "YX",
+   "shape": [
+    325,
+    475
+   ],
+   "size_x": 475,
+   "size_y": 325,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 1.0833343267440796,
+    "y": 1.0833344459533691
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "586a20205e66e95ced13ce1d7901696d"
+    }
+   ]
+  }
+ ]
+}

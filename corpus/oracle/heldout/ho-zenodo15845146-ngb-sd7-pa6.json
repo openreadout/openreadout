@@ -1,0 +1,5 @@
+{
+ "id": "ho-zenodo15845146-ngb-sd7-pa6",
+ "format": "netzsch-ngb",
+ "error": "BadZipFile: File is not a zip file"
+}

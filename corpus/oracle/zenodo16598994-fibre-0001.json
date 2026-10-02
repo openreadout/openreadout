@@ -1,0 +1,74 @@
+{
+ "id": "zenodo16598994-fibre-0001",
+ "file": "zenodo16598994-fibre-0001.oir",
+ "size": 31003633,
+ "sha256": "7c53dba2811c76f52a7ca27966a0f0ba209dd418036a4f7c43e36e03f5ce2ddd",
+ "max_planes_hashed": 64,
+ "reader": "oirfile 2026.9.6",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.011113744088022,
+    "y": 0.011113744088022,
+    "z": null
+   },
+   "time_increment_s": null,
+   "lambda_nm": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0b1872c9ad099a28faa8c9cab35a163a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e63ff6f889d332420212f2dd756070b5"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "kind": "reference",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.011113744088022,
+    "y": 0.011113744088022
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "764c834ce340316cfe6e9e886f9dcc69"
+    }
+   ]
+  }
+ ],
+ "reader_sizes": {
+  "C": 2,
+  "Y": 2048,
+  "X": 2048
+ },
+ "datetime": "2024-10-09T13:22:08.691+02:00",
+ "companion_files": [],
+ "channel_names": [
+  "CH1",
+  "CH1",
+  "CH2"
+ ]
+}

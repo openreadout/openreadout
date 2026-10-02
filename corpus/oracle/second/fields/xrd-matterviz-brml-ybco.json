@@ -1,0 +1,32 @@
+{
+ "id": "xrd-matterviz-brml-ybco",
+ "file": "xrd-matterviz-brml-ybco.brml",
+ "format": "bruker-brml",
+ "family": "bench",
+ "readers": [
+  "the .brml XML members, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "RawData TimeStampStarted",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-12-08T20:52:37.0467215-08:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "InstrumentDescription DeviceTypeDesc",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "A52 Device",
+   "cmp": "text"
+  }
+ ]
+}

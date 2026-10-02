@@ -1,0 +1,868 @@
+{
+ "ho-biad2152-imagexpress-210224": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "brightest_site_dapi_b02": {
+    "how": "site (counting from 1) of well B02 with the highest mean in wavelength 1 (DAPI)",
+    "reader": "tifffile 2026.9.20 (MetaXpress file names: _<well>_s<site>_w<wavelength>)",
+    "value": 3
+   }
+  },
+  "file": "heldout/ho-biad2152-imagexpress-210224/TimePoint_1"
+ },
+ "ho-bnext-cytation5-pierce660": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "top_well": {
+    "how": "well with the highest value of the first 660 nm read",
+    "reader": "allotropy 0.1.146",
+    "value": "H3"
+   }
+  },
+  "file": "heldout/ho-bnext-cytation5-pierce660/20260318-cytation5-pierce660_three_read-EXPERIMENT.txt"
+ },
+ "ho-cpg0002-phenix-harmony6": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "brighter_well_phalloidin": {
+    "how": "of wells A01 and A02 (the wells in the copy), the one with the higher pooled mean of channel 4 (WG-Phalloidin) over its fields",
+    "reader": "tifffile 2026.9.20",
+    "value": "A02"
+   }
+  },
+  "file": "heldout/ho-cpg0002-phenix-harmony6/CPBroadPhenixC1PlaneP1__C_BIN2_1P_2020-11-09T10_37_04-Measurement1"
+ },
+ "ho-cpg0036-imtm-cv8000": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "a01_mito_mean": {
+    "how": "pooled mean of every plane file of well A01 in the channel whose .mes target is 'Mitotracker deep red'",
+    "reader": "tifffile 2026.9.20",
+    "value": 3348.1334
+   }
+  },
+  "file": "heldout/ho-cpg0036-imtm-cv8000/Bioactives_2_plate_1"
+ },
+ "ho-cpg0036-medina-harmony5": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "brightest_field_mito_a01": {
+    "how": "field (counting from 1) of well A01 with the highest mean in the MitoTracker Deep Red channel",
+    "reader": "tifffile 2026.9.20 (planes named by Index.idx.xml)",
+    "value": 9
+   }
+  },
+  "file": "heldout/ho-cpg0036-medina-harmony5/20231013_EU-OS-000033_Copy-1__2023-10-13T09_16_52-Measurement-1"
+ },
+ "ho-figshare12613811-abf-steps": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "last_sweep_ap_count": {
+    "cross_check": "neo 0.14.5 AxonRawIO + numpy: agrees",
+    "how": "upward crossings of 0 mV in the last sweep (the largest step)",
+    "reader": "pyabf 2.3.8 + numpy (crossings of 0.0 mV)",
+    "value": 5
+   },
+   "rheobase_pa": {
+    "cross_check": "the depositor's index spreadsheet: agrees",
+    "how": "smallest current step (pA) whose step window holds an upward crossing of 0 mV",
+    "reader": "pyabf 2.3.8 + numpy (step epoch levels; crossings of 0.0 mV)",
+    "value": 220.0
+   }
+  },
+  "file": "heldout/ho-figshare12613811-abf-steps/19n26010.abf"
+ },
+ "ho-figshare21348210-cdf-serum": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "tic_apex_min": {
+    "cross_check": "scipy 1.18.1 netcdf_file (sum of intensity_values per scan): agrees",
+    "how": "scan time (min) of the largest total ion current",
+    "reader": "scipy 1.18.1 netcdf_file (total_intensity)",
+    "value": 11.379
+   }
+  },
+  "file": "heldout/ho-figshare21348210-cdf-serum/Serum #23.CDF"
+ },
+ "ho-figshare21681689-gpr-copper": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "empty_nctrl_count": {
+    "how": "number of features named Empty_NCTRL",
+    "reader": "pandas 2.3.3",
+    "value": 1588
+   }
+  },
+  "file": "heldout/ho-figshare21681689-gpr-copper/A02154_1_3v60.gpr"
+ },
+ "ho-figshare25897444-dad1a": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "apex_min": {
+    "how": "retention time (min) of the highest DAD1A value",
+    "reader": "rainbow-api 1.5.2 (black box)",
+    "value": 1.1272833
+   },
+   "signal_nm": {
+    "how": "the `Sig=` wavelength of the signal description rainbow-api reads from the file header",
+    "reader": "rainbow-api 1.5.2 (black box): 'DAD1A, Sig=215,4  Ref=off'",
+    "value": 215.0
+   }
+  },
+  "file": "heldout/ho-figshare25897444-dad1a/DAD1A.ch"
+ },
+ "ho-figshare26337268-ncs-hpc": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "signal_std_uv": {
+    "cross_check": "numpy on the NCS record layout: agrees",
+    "how": "standard deviation of every sample of the channel, in µV",
+    "reader": "neo 0.14.5 NeuralynxRawIO",
+    "value": 365.20808
+   }
+  },
+  "file": "heldout/ho-figshare26337268-ncs-hpc/HPC_a.ncs"
+ },
+ "ho-figshare26362456-viia7-eds": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "cb1_undetermined": {
+    "cross_check": "xlrd on the vendor's .xls export (CT = Undetermined): agrees",
+    "how": "number of CB1 wells (the no-template control included) whose Ct is Undetermined",
+    "reader": "the vendor's analysis_result.txt inside the .eds (no Ct below the last cycle)",
+    "value": 9
+   },
+   "rq_cb1_ssc9_high": {
+    "cross_check": "xlrd on the vendor's .xls export (Results sheet, RQ): agrees",
+    "how": "vendor RQ (2^-ddCt; reference gene S18, calibrator sample 'SHSY5Y (S4A)') of CB1 in sample 'SSC-9 high'",
+    "reader": "the vendor's analysis_result.txt inside the .eds (RQ)",
+    "value": 0.33390155
+   }
+  },
+  "file": "heldout/ho-figshare26362456-viia7-eds/2019-08-08 Raj OKF6 and SCC9.eds"
+ },
+ "ho-figshare28050092-yucca-gcms": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "tic_apex_min": {
+    "cross_check": "rainbow-api 1.5.2 (black box): agrees",
+    "how": "retention time (min) of the scan with the largest total ion current",
+    "reader": "aston 0.7.2",
+    "value": 8.5400333
+   }
+  },
+  "file": "heldout/ho-figshare28050092-yucca-gcms/data.ms"
+ },
+ "ho-figshare28560599-gcms-abronia": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "tic_apex_min": {
+    "cross_check": "rainbow-api 1.5.2 (black box): agrees",
+    "how": "retention time (min) of the largest value of the total ion chromatogram",
+    "reader": "the depositor's TIC export M97_split.D_tic_front.csv",
+    "value": 9.598
+   }
+  },
+  "file": "heldout/ho-figshare28560599-gcms-abronia/M97_split.D/data.ms"
+ },
+ "ho-figshare29205017-ax-nsparc": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "brightest_channel": {
+    "how": "name of the channel with the highest mean over its 1024×1024 plane",
+    "reader": "nd2 0.11.3",
+    "value": "AF488"
+   }
+  },
+  "file": "heldout/ho-figshare29205017-ax-nsparc/SL F2 GREEN - SR.nd2"
+ },
+ "ho-figshare29988259-101f0101": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "apex_min": {
+    "cross_check": "numpy on the depositor's .xy export: agrees",
+    "how": "retention time (min) of the highest FID1A value",
+    "reader": "rainbow-api 1.5.2 (black box)",
+    "value": 1.4066641
+   }
+  },
+  "file": "ho-figshare29988259-gcfid/2_GCFID quantification_enzyme_yields/LAJ_170625EZSSAMPLES10UMEZS_1UMZFPS 2002-09-22 22-53-53/101F0101.D"
+ },
+ "ho-figshare32881001-qs6flex-eds": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "highest_mean_ct_target": {
+    "cross_check": "xlrd on the vendor's .xls export (Results sheet, CT): agrees",
+    "how": "target with the highest mean Ct over its wells that have a Ct (vendor results)",
+    "reader": "the vendor's analysis_result.txt inside the .eds (oracle/qpcr.py)",
+    "value": "3-Sphk1"
+   },
+   "tm_a10": {
+    "cross_check": "xlrd on the vendor's .xls export (Results sheet, Tm1): agrees",
+    "how": "melting temperature (Tm1, deg C) the software reported for well A10 (target 3-Sphk1)",
+    "reader": "the vendor's meltcuve_result.txt inside the .eds (oracle/qpcr.py)",
+    "value": 87.746284
+   }
+  },
+  "file": "heldout/ho-figshare32881001-qs6flex-eds/2025-01-21 XZY.eds"
+ },
+ "ho-figshare5627425-gpr-prairie": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "median_f532_median": {
+    "how": "median over all features of the F532 Median column",
+    "reader": "pandas 2.3.3",
+    "value": 895.5
+   }
+  },
+  "file": "heldout/ho-figshare5627425-gpr-prairie/MSMI_13512650_5-23-08.gpr"
+ },
+ "ho-gh-actolonen-lcd-std25": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "rid_tallest_rt": {
+    "cross_check": "argmax of the export's chromatogram points: agrees",
+    "how": "retention time (min) of the tallest peak of the refractive-index detector (Detector B)",
+    "reader": "the vendor's peak table (LabSolutions ASCII export)",
+    "value": 11.395
+   },
+   "uv2_second_area_rt": {
+    "how": "retention time (min) of the second-largest peak by area in UV channel 2 (Detector A-Ch2), vendor integration",
+    "reader": "the vendor's peak table (LabSolutions ASCII export)",
+    "value": 18.017
+   }
+  },
+  "file": "heldout/ho-gh-actolonen-lcd-std25/STD_25.lcd"
+ },
+ "ho-gh-cellhts2-envision": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "top_well_raw": {
+    "how": "well with the highest raw luminescence (the measured block, not the crosstalk-corrected one)",
+    "reader": "Python on the export text",
+    "value": "K7"
+   }
+  },
+  "file": "heldout/ho-gh-cellhts2-envision/XXX_1500.csv"
+ },
+ "ho-gh-kaiaragaki-mop-gen5-bca": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "spl3_conc": {
+    "cross_check": "NumPy linear fit of the blank-subtracted standards (duplicates), back-calculated: agrees",
+    "how": "mean concentration of sample SPL3 (wells A9, B9) from the linear standard curve",
+    "reader": "the vendor's Conc block (Gen5 export)",
+    "value": 81.478
+   }
+  },
+  "file": "heldout/ho-gh-kaiaragaki-mop-gen5-bca/bca-assay-all-export.txt"
+ },
+ "ho-gh-lennonlab-gen5-ecoplate": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "lowest_well_590": {
+    "how": "well with the lowest absorbance at 590 nm",
+    "reader": "pandas 2.3.3",
+    "value": "E12"
+   }
+  },
+  "file": "heldout/ho-gh-lennonlab-gen5-ecoplate/72_RTLC_S4_1.5.txt"
+ },
+ "ho-gh-maxlindberg-clariostar-scan": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "a01_peak_excitation_nm": {
+    "how": "excitation wavelength (nm) with the highest raw signal in well A01",
+    "reader": "Python csv on the export text",
+    "value": 347.0
+   }
+  },
+  "file": "heldout/ho-gh-maxlindberg-clariostar-scan/OPA-ex-scan.CSV"
+ },
+ "ho-gh-pwiz-mzmlb-narrow": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "first_precursor_mz": {
+    "how": "selected-ion m/z of the first spectrum's precursor",
+    "reader": "pyteomics 5.0.1 + h5py 3.16.0 (pyteomics.mzmlb)",
+    "value": 716.9161
+   }
+  },
+  "file": "heldout/ho-gh-pwiz-mzmlb-narrow/narrow_scan_windows.mzMLb"
+ },
+ "ho-gh-ramiromagno-rdml-rpa": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "highest_mean_cq_target": {
+    "cross_check": "ElementTree over the RDML XML: agrees",
+    "how": "target with the highest mean Cq over its reactions that have one",
+    "reader": "rdmlpython (the RDML consortium's reader, via oracle/qpcr.py): Cq values the CFX Manager export stores",
+    "value": "HoxB5P1"
+   }
+  },
+  "file": "heldout/ho-gh-ramiromagno-rdml-rpa/rpa.rdml"
+ },
+ "ho-minikel-softmax-elisa021": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "top_well_450": {
+    "how": "well with the highest absorbance at 450 nm",
+    "reader": "allotropy 0.1.146",
+    "value": "A3"
+   }
+  },
+  "file": "heldout/ho-minikel-softmax-elisa021/2020-10-22_csELISA-021.txt"
+ },
+ "ho-nmrxiv-p7-caripyrin-1d": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "tallest_ppm_0_6": {
+    "cross_check": "numpy on pdata/1/1r and procs: agrees",
+    "how": "chemical shift of the highest point of TopSpin's pdata/1/1r between 0 and 6 ppm",
+    "reader": "nmrglue 0.12",
+    "value": 4.01
+   }
+  },
+  "file": "ho-nmrxiv-p7-caripyrin-zip/data/1314534-36-5/1"
+ },
+ "ho-pxd036704-tsq-srm-c10": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "distinct_precursors": {
+    "how": "number of distinct SRM precursor m/z values (rounded to 0.01) over all scans",
+    "reader": "pyteomics 5.0.1 on the depositor's mzXML",
+    "value": 50
+   }
+  },
+  "file": "heldout/ho-pxd036704-tsq-srm-c10/Control10_PermNGlycans_MRM_05192021.raw"
+ },
+ "ho-pxd042958-ltq-orbitrap-mzmlgz": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "ms1_tic_apex_min": {
+    "cross_check": "pyteomics 5.0.1 on the decompressed mzML (`total ion current` cvParams): agrees",
+    "how": "retention time (min) of the MS1 spectrum with the largest summed intensity",
+    "reader": "pyteomics 5.0.1 on the decompressed mzML (summed intensity arrays)",
+    "value": 59.538
+   }
+  },
+  "file": "heldout/ho-pxd042958-ltq-orbitrap-mzmlgz/20141001_H37Rv-MtbiunH_20140909_5ug-03ug_120min_target_1.mzML.gz"
+ },
+ "ho-pxd065795-qehf-prm": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "distinct_precursors": {
+    "how": "number of distinct PRM precursor m/z values (rounded to 0.01) over all MS2 scans",
+    "reader": "pyteomics 5.0.1 on the depositor's mzXML",
+    "value": 16
+   }
+  },
+  "file": "heldout/ho-pxd065795-qehf-prm/241205_WJC_SELIKS_CPTATMi2_ATMiCPT_R1_20pct_PRM.raw"
+ },
+ "ho-zenodo10837519-imod-tomo": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "mean_voxel": {
+    "cross_check": "numpy on the MRC2014 layout: agrees",
+    "how": "mean of every int16 voxel of the tomogram",
+    "reader": "mrcfile 1.5.4",
+    "value": 7190.0312
+   }
+  },
+  "file": "heldout/ho-zenodo10837519-imod-tomo/TS_004_dose-filt_lp50_bin8.rec"
+ },
+ "ho-zenodo11284462-exploris-wash3": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "tic_apex_min": {
+    "cross_check": "pyteomics 5.0.1 (`total ion current` cvParams): agrees",
+    "how": "retention time (min) of the MS1 scan with the largest summed intensity, depositor's mzML",
+    "reader": "pyteomics 5.0.1 (summed intensity arrays)",
+    "value": 14.2683
+   }
+  },
+  "file": "heldout/ho-zenodo11284462-exploris-wash3/Wash3.raw"
+ },
+ "ho-zenodo12734440-dsfi3-rgb": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "mean_red": {
+    "cross_check": "nd2 0.11.3: agrees",
+    "how": "mean of the red sample of the 2048×2880 RGB image, as NIS-Elements' own OME-TIFF export orders the samples (R, G, B); the nd2 package returns the samples in stored order (B, G, R): its third sample is the same array",
+    "reader": "tifffile 2026.9.20 on the depositor's OME-TIFF export",
+    "value": 163.61544
+   }
+  },
+  "file": "heldout/ho-zenodo12734440-dsfi3-rgb/HE_002.nd2"
+ },
+ "ho-zenodo13353392-wdf-single": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "tallest_band": {
+    "cross_check": "the vendor's text export Fluorite inclusion vapour.txt: agrees",
+    "how": "Raman shift (cm-1) of the tallest point of the spectrum",
+    "reader": "renishawWiRE 0.1.16",
+    "value": 945.48242
+   }
+  },
+  "file": "heldout/ho-zenodo13353392-wdf-single/Fluorite inclusion vapour.wdf"
+ },
+ "ho-zenodo13752773-pesp-frontier": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "min_t": {
+    "cross_check": "the vendor's text export Pigment_1.csv: agrees",
+    "how": "wavenumber (cm-1) of the lowest %T of the spectrum (600-4000 cm-1)",
+    "reader": "specio 0.1.0",
+    "value": 1004.0
+   }
+  },
+  "file": "heldout/ho-zenodo13752773-pesp-frontier/Pigment_1.sp"
+ },
+ "ho-zenodo13891904-emd-beacon": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "stack_images": {
+    "how": "number of images in the file's aberration stack (Berkeley EMD data group)",
+    "reader": "h5py 3.16.0",
+    "value": 7
+   }
+  },
+  "file": "heldout/ho-zenodo13891904-emd-beacon/AberrationStack_HfO2_C1.emd"
+ },
+ "ho-zenodo13928180-opus-alpha": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "min_result_600_1800": {
+    "cross_check": "the vendor's text export ATRIR_Cu(trop3)Cl.0.dpt: agrees",
+    "how": "wavenumber (cm-1) of the lowest point of the result (ARIT) spectrum between 600 and 1800 cm-1",
+    "reader": "brukeropus 1.4.3 (block `arit`)",
+    "value": 797.43635
+   }
+  },
+  "file": "heldout/ho-zenodo13928180-opus-alpha/Cu(trop3)Cl.0"
+ },
+ "ho-zenodo14988141-1h-d2o": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "tallest_ppm_6_10": {
+    "cross_check": "numpy on pdata/1/1r and procs: agrees",
+    "how": "chemical shift of the highest point of TopSpin's processed pdata/1/1r between 6 and 10 ppm",
+    "reader": "nmrglue 0.12",
+    "value": 7.9381
+   }
+  },
+  "file": "ho-zenodo14988141-nmr-zip/toArchive/YL3_liquid_D2O/1"
+ },
+ "ho-zenodo15350040-novocyte-penteon": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "median_b525_a": {
+    "cross_check": "fcsparser 0.2.4: agrees",
+    "how": "median of B525-A (AF488 - Puromycin-A) over all events, values as stored",
+    "reader": "flowio 1.4.0",
+    "value": 126139.0
+   }
+  },
+  "file": "heldout/ho-zenodo15350040-novocyte-penteon/Scenith_05062024_Compensation Specimen_A1_B525 AF488 - Puromycin_20240521.fcs"
+ },
+ "ho-zenodo15755070-cryosparc-map": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "max_density": {
+    "cross_check": "numpy on the MRC2014 layout: agrees",
+    "how": "maximum voxel value of the float32 map",
+    "reader": "mrcfile 1.5.4",
+    "value": 1.5053701
+   }
+  },
+  "file": "heldout/ho-zenodo15755070-cryosparc-map/cryosparc_P74_J2653_006_volume_map.mrc"
+ },
+ "ho-zenodo16316945-sp5-resonant-tl": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "dimmest_t": {
+    "cross_check": "readlif 0.6.6 (black box): agrees",
+    "how": "frame (counting from 1) with the lowest mean of the 1500-frame 128×128 xyt series",
+    "reader": "liffile 2026.7.14",
+    "value": 331
+   }
+  },
+  "file": "heldout/ho-zenodo16316945-sp5-resonant-tl/GFP.lif"
+ },
+ "ho-zenodo17362964-svs-jp2k": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "level0_mean": {
+    "cross_check": "openslide-python 1.4.6 + openslide-bin 4.0.1.2 (black box): agrees",
+    "how": "mean of every R, G, B sample of the full-resolution level (JPEG 2000 tiles)",
+    "reader": "tifffile 2026.9.20 + imagecodecs 2026.8.16",
+    "value": 234.52555
+   },
+   "region_red_mean": {
+    "cross_check": "openslide-python 1.4.6 (OpenSlide, black box): agrees",
+    "how": "mean of the red sample of the full-resolution region x 2000-2511, y 2000-2511",
+    "reader": "tifffile 2026.9.20 + imagecodecs 2026.8.16",
+    "value": 204.68275
+   }
+  },
+  "file": "heldout/ho-zenodo17362964-svs-jp2k/4438-082-67.svs"
+ },
+ "ho-zenodo17691644-omnic-spa": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "min_t": {
+    "cross_check": "the vendor's text export ecoflex-1.CSV: agrees",
+    "how": "wavenumber (cm-1) of the lowest %T of the spectrum (450-4000 cm-1)",
+    "reader": "spectrochempy 1.0.0",
+    "value": 1007.64
+   }
+  },
+  "file": "heldout/ho-zenodo17691644-omnic-spa/ecoflex-1.SPA"
+ },
+ "ho-zenodo17950195-opus-caco2": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "amide_band": {
+    "how": "wavenumber of the highest absorbance between 1500 and 1800 cm-1 (block AB)",
+    "reader": "brukeropus 1.4.3 (block `a`)",
+    "value": 1622.9109
+   }
+  },
+  "file": "heldout/ho-zenodo17950195-opus-caco2/1-NS-2.0"
+ },
+ "ho-zenodo18414818-mrc-vault": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "map_std": {
+    "cross_check": "numpy on the MRC2014 layout: agrees",
+    "how": "standard deviation of every voxel value of the map",
+    "reader": "mrcfile 1.5.4",
+    "value": 0.053987655
+   }
+  },
+  "file": "heldout/ho-zenodo18414818-mrc-vault/map_combined_cyto_vault_masked.mrc"
+ },
+ "ho-zenodo18481720-mzml-cems": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "tic_apex_min": {
+    "cross_check": "pyteomics 5.0.1 (`total ion current` cvParams): agrees",
+    "how": "migration time (min) of the spectrum with the largest summed intensity",
+    "reader": "pyteomics 5.0.1 (summed intensity arrays)",
+    "value": 6.91
+   }
+  },
+  "file": "heldout/ho-zenodo18481720-mzml-cems/CEMS_10ppm.mzML"
+ },
+ "ho-zenodo18494294-mzml-fticr": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "base_peak_mz": {
+    "how": "m/z of the most intense point of the file's one spectrum",
+    "reader": "pyteomics 5.0.1",
+    "value": 437.2375
+   }
+  },
+  "file": "heldout/ho-zenodo18494294-mzml-fticr/HAM004_641fE_14-11-07--Exp1.extracted.mzML"
+ },
+ "ho-zenodo18592075-aso-uv": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "largest_peak_min": {
+    "how": "retention time (min) of the peak with the largest area in the file's own peak table",
+    "reader": "scipy 1.18.1 netcdf_file (the vendor's peak table)",
+    "value": 14.0594
+   }
+  },
+  "file": "heldout/ho-zenodo18592075-aso-uv/ASO_sample_UV.cdf"
+ },
+ "ho-zenodo18849615-wdf-otolith": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "carbonate_band": {
+    "cross_check": "spectrochempy 1.0.0 read_wdf: agrees",
+    "how": "Raman shift of the tallest point between 1000 and 1200 cm-1 of the mean of every spectrum of the map",
+    "reader": "renishawWiRE 0.1.16",
+    "value": 1090.3613
+   }
+  },
+  "file": "heldout/ho-zenodo18849615-wdf-otolith/asteriscus-map3-2_exp0_5-lp25-acc30-532nm-09012026.wdf"
+ },
+ "ho-zenodo18851060-sp8-bio407": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "brightest_series_c1": {
+    "cross_check": "readlif 0.6.6 (black box): agrees",
+    "how": "series name with the highest mean in channel index 0 (DAPI)",
+    "reader": "liffile 2026.7.14",
+    "value": "T8_63x_DMSO_1"
+   }
+  },
+  "file": "heldout/ho-zenodo18851060-sp8-bio407/BIO407_260303_Group3_SP8_65536.lif"
+ },
+ "ho-zenodo20345272-mzxml-microbiome": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "tic_apex_min": {
+    "cross_check": "pyteomics 5.0.1 (`totIonCurrent` attributes): agrees",
+    "how": "retention time (min) of the spectrum with the largest summed intensity",
+    "reader": "pyteomics 5.0.1 (summed intensity arrays)",
+    "value": 0.1341
+   }
+  },
+  "file": "heldout/ho-zenodo20345272-mzxml-microbiome/29_Ecoli_HSS_neg_141218_RC6_01_13650.mzXML"
+ },
+ "ho-zenodo20729183-tt5600-mzr": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "tic_apex_min": {
+    "cross_check": "pyteomics 5.0.1 (`total ion current` cvParams): agrees",
+    "how": "retention time (min) of the spectrum with the largest summed intensity",
+    "reader": "pyteomics 5.0.1 (summed intensity arrays)",
+    "value": 3.3807
+   }
+  },
+  "file": "heldout/ho-zenodo20729183-tt5600-mzr/20171016_POOL_POS_1_105-134.mzML"
+ },
+ "ho-zenodo20758248-abf1-gapfree-vc": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "min_pa": {
+    "cross_check": "neo 0.14.5 AxonRawIO: agrees",
+    "how": "most negative current (pA) of the whole 90 s gap-free recording",
+    "reader": "pyabf 2.3.8",
+    "value": -28.320311
+   }
+  },
+  "file": "heldout/ho-zenodo20758248-abf1-gapfree-vc/21402019_ipscs_568_female_ko_10w_2.abf"
+ },
+ "ho-zenodo21018471-wdf-map": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "mean_spectrum_band": {
+    "cross_check": "spectrochempy 1.0.0 read_wdf: agrees",
+    "how": "Raman shift (cm-1) of the tallest point of the mean of all 2601 map spectra",
+    "reader": "renishawWiRE 0.1.16",
+    "value": 576.9668
+   }
+  },
+  "file": "heldout/ho-zenodo21018471-wdf-map/CPGO3-mapping-50x50micron-100x-5p-60s.wdf"
+ },
+ "ho-zenodo21396092-spa-dust": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "strongest_absorption_600_4000": {
+    "how": "wavenumber of the lowest transmittance between 600 and 4000 cm-1",
+    "reader": "spectrochempy 1.0.0",
+    "value": 1085.745
+   }
+  },
+  "file": "heldout/ho-zenodo21396092-spa-dust/sample_a_8e10.SPA"
+ },
+ "ho-zenodo22673699-1h": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "tallest_ppm": {
+    "cross_check": "numpy on pdata/1/1r and procs: agrees",
+    "how": "chemical shift of the highest point of pdata/1/1r (ppm = OFFSET - i·SW_p/SF/SI)",
+    "reader": "nmrglue 0.12",
+    "value": 7.1913
+   }
+  },
+  "file": "ho-zenodo22673699-bn-nmr/1-NMR/1-1H"
+ },
+ "ho-zenodo22808976-fcs-uvcomp": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "median_u450": {
+    "cross_check": "fcsparser 0.2.4: agrees",
+    "how": "median of the stored U 450/50-A values over all events",
+    "reader": "flowio 1.4.0",
+    "value": 1641.6901
+   }
+  },
+  "file": "heldout/ho-zenodo22808976-fcs-uvcomp/Compensation Controls_U 450,2f,50 Stained Control.fcs"
+ },
+ "ho-zenodo3746000-maldiquant": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "base_peak_mz": {
+    "how": "m/z of the most intense point of the only spectrum (profile)",
+    "reader": "pyteomics 5.0.1",
+    "value": 1453.7849
+   }
+  },
+  "file": "heldout/ho-zenodo3746000-maldiquant/KKX908.mzML"
+ },
+ "ho-zenodo377035-fcs-histone": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "median_fitc_a": {
+    "cross_check": "fcsparser 0.2.4: agrees",
+    "how": "median of the stored FITC-A values over all events",
+    "reader": "flowio 1.4.0",
+    "value": 16.0
+   }
+  },
+  "file": "heldout/ho-zenodo377035-fcs-histone/WT_Tube_001.fcs"
+ },
+ "ho-zenodo3986032-opus-vertex70": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "t_at_1000": {
+    "cross_check": "the vendor's text export 12SA18_4.dpt: agrees",
+    "how": "transmittance of the transmittance block at 1000 cm-1 (linear interpolation between the two nearest points)",
+    "reader": "brukeropus 1.4.3 (block `t`, linear interpolation)",
+    "value": 0.24743152
+   }
+  },
+  "file": "heldout/ho-zenodo3986032-opus-vertex70/12SA18_4.0"
+ },
+ "ho-zenodo4903631-nd2-septin": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "brightest_frame": {
+    "how": "time point (counting from 1) with the highest mean intensity",
+    "reader": "nd2 0.11.3",
+    "value": 3
+   }
+  },
+  "file": "heldout/ho-zenodo4903631-nd2-septin/wt_100_pM_2nd_cs_013.nd2"
+ },
+ "ho-zenodo4988993-abf2-vc-episodic": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "most_negative_sweep": {
+    "cross_check": "neo 0.14.5 AxonRawIO: agrees",
+    "how": "sweep (counting from 1) whose minimum current is the most negative",
+    "reader": "pyabf 2.3.8",
+    "value": 11
+   }
+  },
+  "file": "heldout/ho-zenodo4988993-abf2-vc-episodic/S5G_dhbe_cell5.abf"
+ },
+ "ho-zenodo5139650-abf-stns": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "ch0_min": {
+    "cross_check": "neo 0.14.5 AxonRawIO: agrees",
+    "how": "minimum of the first channel (I_MTest 2, mV) over the recording",
+    "reader": "pyabf 2.3.8",
+    "value": -48.553467
+   }
+  },
+  "file": "heldout/ho-zenodo5139650-abf-stns/857_016_0049.abf"
+ },
+ "ho-zenodo5174952-facsmelody": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "median_ssc_a": {
+    "cross_check": "fcsparser 0.2.4: agrees",
+    "how": "median of SSC-A over all events, values as stored",
+    "reader": "flowio 1.4.0",
+    "value": 148.53403
+   }
+  },
+  "file": "heldout/ho-zenodo5174952-facsmelody/210324_PBS1.fcs"
+ },
+ "ho-zenodo5235706-fcs-multiangle": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "median_fsc_a": {
+    "cross_check": "fcsparser 0.2.4: agrees",
+    "how": "median of the stored FSC-A values over all events",
+    "reader": "flowio 1.4.0",
+    "value": 36948.201
+   }
+  },
+  "file": "heldout/ho-zenodo5235706-fcs-multiangle/200722-04_HEK, S.fcs"
+ },
+ "ho-zenodo6754439-rotorgene-rex": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "earliest_gene": {
+    "how": "tube name (gene) with the lowest mean Ct in Cycling A.Green, 18s RNA left out (vendor analysed-data export)",
+    "reader": "the Rotor-Gene Q software's analysed-data CSV export (Ct, threshold 0.1)",
+    "value": "SAMHD1"
+   },
+   "latest_gene": {
+    "how": "tube name (gene) with the highest mean Ct in Cycling A.Green (vendor export; NTCs have none)",
+    "reader": "the Rotor-Gene Q software's analysed-data CSV export (Ct, threshold 0.1)",
+    "value": "A3A"
+   }
+  },
+  "file": "heldout/ho-zenodo6754439-rotorgene-rex/UBER pathway mRNA expression in AM 05082019.rex"
+ },
+ "ho-zenodo6948449-raw-germicidin": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "ms1_tic_apex_min": {
+    "cross_check": "pyteomics 5.0.1 (`total ion current` cvParams): agrees",
+    "how": "retention time (min) of the MS1 spectrum with the largest summed intensity (depositor's mzML)",
+    "reader": "pyteomics 5.0.1 (summed intensity arrays)",
+    "value": 7.3044
+   }
+  },
+  "file": "heldout/ho-zenodo6948449-raw-germicidin/20220426_UMETAB266_POS_GermicidinA.mzML"
+ },
+ "ho-zenodo7352402-attune-nxt": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "median_bl1_a": {
+    "cross_check": "fcsparser 0.2.4: agrees",
+    "how": "median of BL1-A ($P4N, CX3CR1-FITC-A) over all events, values as stored",
+    "reader": "flowio 1.4.0",
+    "value": 289.0
+   }
+  },
+  "file": "heldout/ho-zenodo7352402-attune-nxt/Tmem119 x IAB AAV NJG 1.6.22_Experimental_E1.fcs"
+ },
+ "ho-zenodo7777291-omnic-spg": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "max_amide1_spectrum": {
+    "how": "spectrum of the group with the highest absorbance maximum between 1600 and 1700 cm-1",
+    "reader": "spectrochempy 1.0.0",
+    "value": 8
+   }
+  },
+  "file": "heldout/ho-zenodo7777291-omnic-spg/d-BAX to 9_1 POPC_TOCL_ATR_FTIR_Data.SPG"
+ },
+ "ho-zenodo8123395-abf-nanopore": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "peak_current_sweep": {
+    "cross_check": "neo 0.14.5 AxonRawIO: agrees",
+    "how": "sweep (counting from 1) with the largest current",
+    "reader": "pyabf 2.3.8",
+    "value": 10
+   }
+  },
+  "file": "heldout/ho-zenodo8123395-abf-nanopore/main_F2D_CytK K128D K155D Q145D S151D_1 M KCl 15 mM HEPES pH 7 5_IV_0000.abf"
+ },
+ "ho-zenodo8356786-abf2-iclamp": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "peak_mv": {
+    "cross_check": "neo 0.14.5 AxonRawIO: agrees",
+    "how": "maximum of channel 0 (IN 0, mV) in the only sweep",
+    "reader": "pyabf 2.3.8",
+    "value": 4.6081543
+   }
+  },
+  "file": "heldout/ho-zenodo8356786-abf2-iclamp/Figure4_WT_N3_n1.abf"
+ },
+ "ho-zenodo8747-abf-ca1": {
+  "extractor": "evals/heldout.py",
+  "facts": {
+   "vm_peak_sweep": {
+    "cross_check": "neo 0.14.5 AxonRawIO: agrees",
+    "how": "sweep (counting from 1) whose Vm channel reaches the highest value",
+    "reader": "pyabf 2.3.8",
+    "value": 13
+   }
+  },
+  "file": "heldout/ho-zenodo8747-abf-ca1/PYR2.abf"
+ }
+}

@@ -1,0 +1,1156 @@
+{
+ "id": "ho-figshare22557340-seahorse-perm",
+ "format": "agilent-seahorse-asyr",
+ "independent": false,
+ "reader": "Python standard library (gzip, xml.etree): a second implementation of docs/formats/agilent-seahorse.md",
+ "name": "2024-03-13 d21 KOLF2.1J_perm_2",
+ "serial": "00411493",
+ "sw_version": "2.6.3.8",
+ "rows": 8,
+ "cols": 12,
+ "wells": [
+  "A1",
+  "A2",
+  "A3",
+  "A4",
+  "A5",
+  "A6",
+  "A7",
+  "A8",
+  "A9",
+  "A10",
+  "A11",
+  "A12",
+  "B1",
+  "B2",
+  "B3",
+  "B4",
+  "B5",
+  "B6",
+  "B7",
+  "B8",
+  "B9",
+  "B10",
+  "B11",
+  "B12",
+  "C1",
+  "C2",
+  "C3",
+  "C4",
+  "C5",
+  "C6",
+  "C7",
+  "C8",
+  "C9",
+  "C10",
+  "C11",
+  "C12",
+  "D1",
+  "D2",
+  "D3",
+  "D4",
+  "D5",
+  "D6",
+  "D7",
+  "D8",
+  "D9",
+  "D10",
+  "D11",
+  "D12",
+  "E1",
+  "E2",
+  "E3",
+  "E4",
+  "E5",
+  "E6",
+  "E7",
+  "E8",
+  "E9",
+  "E10",
+  "E11",
+  "E12",
+  "F1",
+  "F2",
+  "F3",
+  "F4",
+  "F5",
+  "F6",
+  "F7",
+  "F8",
+  "F9",
+  "F10",
+  "F11",
+  "F12",
+  "G1",
+  "G2",
+  "G3",
+  "G4",
+  "G5",
+  "G6",
+  "G7",
+  "G8",
+  "G9",
+  "G10",
+  "G11",
+  "G12",
+  "H1",
+  "H2",
+  "H3",
+  "H4",
+  "H5",
+  "H6",
+  "H7",
+  "H8",
+  "H9",
+  "H10",
+  "H11",
+  "H12"
+ ],
+ "groups": [
+  "excl",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "Background",
+  "pyr mal-control",
+  "pyr mal-control",
+  "pyr mal-R495x",
+  "pyr mal-R495x",
+  "pyr mal-TARDBP",
+  "pyr mal-TARDBP",
+  "pyr mal-control",
+  "pyr mal-control",
+  "pyr mal-R495x",
+  "pyr mal-R495x",
+  "pyr mal-TARDBP",
+  "pyr mal-TARDBP",
+  "succ R-control",
+  "succ R-control",
+  "succ R-R495x",
+  "succ R-R495x",
+  "succ R-TARDBP",
+  "succ R-TARDBP",
+  "succ R-control",
+  "succ R-control",
+  "succ R-R495x",
+  "succ R-R495x",
+  "succ R-TARDBP",
+  "succ R-TARDBP",
+  "TMPD Asc AA-control",
+  "TMPD Asc AA-control",
+  "TMPD Asc AA-R495x",
+  "TMPD Asc AA-R495x",
+  "TMPD Asc AA-TARDBP",
+  "TMPD Asc AA-TARDBP",
+  "TMPD Asc AA-control",
+  "TMPD Asc AA-control",
+  "TMPD Asc AA-R495x",
+  "TMPD Asc AA-R495x",
+  "TMPD Asc AA-TARDBP",
+  "TMPD Asc AA-TARDBP",
+  "pyr mal-control",
+  "pyr mal-control",
+  "pyr mal-R495x",
+  "pyr mal-R495x",
+  "pyr mal-TARDBP",
+  "pyr mal-TARDBP",
+  "pyr mal-control",
+  "pyr mal-control",
+  "pyr mal-R495x",
+  "pyr mal-R495x",
+  "pyr mal-TARDBP",
+  "pyr mal-TARDBP",
+  "succ R-control",
+  "succ R-control",
+  "succ R-R495x",
+  "succ R-R495x",
+  "succ R-TARDBP",
+  "succ R-TARDBP",
+  "succ R-control",
+  "succ R-control",
+  "succ R-R495x",
+  "succ R-R495x",
+  "succ R-TARDBP",
+  "succ R-TARDBP",
+  "TMPD Asc AA-control",
+  "TMPD Asc AA-control",
+  "TMPD Asc AA-R495x",
+  "TMPD Asc AA-R495x",
+  "TMPD Asc AA-TARDBP",
+  "TMPD Asc AA-TARDBP",
+  "TMPD Asc AA-control",
+  "TMPD Asc AA-control",
+  "TMPD Asc AA-R495x",
+  "TMPD Asc AA-R495x",
+  "TMPD Asc AA-TARDBP",
+  "TMPD Asc AA-TARDBP",
+  "Background",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "no dig",
+  "Background"
+ ],
+ "background": [
+  "A12",
+  "H1",
+  "H12"
+ ],
+ "injections": [
+  {
+   "group": "pyr mal-control",
+   "port": "A",
+   "reagent": "ADP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "pyr mal-control",
+   "port": "B",
+   "reagent": "oligo",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "pyr mal-control",
+   "port": "C",
+   "reagent": "DNP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "pyr mal-control",
+   "port": "D",
+   "reagent": "R&AA",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "pyr mal-R495x",
+   "port": "A",
+   "reagent": "ADP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "pyr mal-R495x",
+   "port": "B",
+   "reagent": "oligo",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "pyr mal-R495x",
+   "port": "C",
+   "reagent": "DNP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "pyr mal-R495x",
+   "port": "D",
+   "reagent": "R&AA",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "pyr mal-TARDBP",
+   "port": "A",
+   "reagent": "ADP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "pyr mal-TARDBP",
+   "port": "B",
+   "reagent": "oligo",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "pyr mal-TARDBP",
+   "port": "C",
+   "reagent": "DNP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "pyr mal-TARDBP",
+   "port": "D",
+   "reagent": "R&AA",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-control",
+   "port": "A",
+   "reagent": "ADP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-control",
+   "port": "B",
+   "reagent": "oligo",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-control",
+   "port": "C",
+   "reagent": "DNP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-control",
+   "port": "D",
+   "reagent": "R&AA",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-R495x",
+   "port": "A",
+   "reagent": "ADP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-R495x",
+   "port": "B",
+   "reagent": "oligo",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-R495x",
+   "port": "C",
+   "reagent": "DNP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-R495x",
+   "port": "D",
+   "reagent": "R&AA",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-TARDBP",
+   "port": "A",
+   "reagent": "ADP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-TARDBP",
+   "port": "B",
+   "reagent": "oligo",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-TARDBP",
+   "port": "C",
+   "reagent": "DNP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "succ R-TARDBP",
+   "port": "D",
+   "reagent": "R&AA",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-control",
+   "port": "A",
+   "reagent": "ADP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-control",
+   "port": "B",
+   "reagent": "oligo",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-control",
+   "port": "C",
+   "reagent": "DNP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-control",
+   "port": "D",
+   "reagent": "R&AA",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-R495x",
+   "port": "A",
+   "reagent": "ADP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-R495x",
+   "port": "B",
+   "reagent": "oligo",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-R495x",
+   "port": "C",
+   "reagent": "DNP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-R495x",
+   "port": "D",
+   "reagent": "R&AA",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-TARDBP",
+   "port": "A",
+   "reagent": "ADP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-TARDBP",
+   "port": "B",
+   "reagent": "oligo",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-TARDBP",
+   "port": "C",
+   "reagent": "DNP",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "TMPD Asc AA-TARDBP",
+   "port": "D",
+   "reagent": "R&AA",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  }
+ ],
+ "readings": 104,
+ "measurements": 13,
+ "measure_commands": 13,
+ "analytes": [
+  "O2",
+  "pH"
+ ],
+ "samples": {
+  "O2": [
+   [
+    0,
+    0,
+    12520.211880261928
+   ],
+   [
+    0,
+    14,
+    12713.611431567908
+   ],
+   [
+    0,
+    27,
+    12578.025261546312
+   ],
+   [
+    0,
+    41,
+    14052.226049515608
+   ],
+   [
+    0,
+    54,
+    12775.029217719131
+   ],
+   [
+    0,
+    68,
+    12956.207880981103
+   ],
+   [
+    0,
+    81,
+    14036.864454976303
+   ],
+   [
+    0,
+    95,
+    12394.054733492441
+   ],
+   [
+    15,
+    0,
+    12587.368568755846
+   ],
+   [
+    15,
+    14,
+    12958.906086044071
+   ],
+   [
+    15,
+    27,
+    12724.30466955856
+   ],
+   [
+    15,
+    41,
+    13893.249999999998
+   ],
+   [
+    15,
+    54,
+    12989.677601809955
+   ],
+   [
+    15,
+    68,
+    13235.915526950925
+   ],
+   [
+    15,
+    81,
+    14062.100489808816
+   ],
+   [
+    15,
+    95,
+    12439.040413683373
+   ],
+   [
+    29,
+    0,
+    12650.580579800499
+   ],
+   [
+    29,
+    14,
+    12959.167220570229
+   ],
+   [
+    29,
+    27,
+    12679.83437539875
+   ],
+   [
+    29,
+    41,
+    13767.337214316514
+   ],
+   [
+    29,
+    54,
+    12859.952856873468
+   ],
+   [
+    29,
+    68,
+    13255.289362557813
+   ],
+   [
+    29,
+    81,
+    13807.719747235386
+   ],
+   [
+    29,
+    95,
+    12486.025457438345
+   ],
+   [
+    44,
+    0,
+    12683.647443890273
+   ],
+   [
+    44,
+    14,
+    12984.974291710387
+   ],
+   [
+    44,
+    27,
+    12698.254911967339
+   ],
+   [
+    44,
+    41,
+    13920.385942216471
+   ],
+   [
+    44,
+    54,
+    12882.556561085972
+   ],
+   [
+    44,
+    68,
+    13320.067578439259
+   ],
+   [
+    44,
+    81,
+    13875.762717219588
+   ],
+   [
+    44,
+    95,
+    12554.00381861575
+   ],
+   [
+    59,
+    0,
+    12721.724438902742
+   ],
+   [
+    59,
+    14,
+    12895.740818467995
+   ],
+   [
+    59,
+    27,
+    12689.85479137425
+   ],
+   [
+    59,
+    41,
+    13896.244880362146
+   ],
+   [
+    59,
+    54,
+    12860.531674208145
+   ],
+   [
+    59,
+    68,
+    13249.279710436358
+   ],
+   [
+    59,
+    81,
+    13844.743127962085
+   ],
+   [
+    59,
+    95,
+    12578.995863166268
+   ],
+   [
+    74,
+    0,
+    12753.78927680798
+   ],
+   [
+    74,
+    14,
+    12890.727701993703
+   ],
+   [
+    74,
+    27,
+    12675.826209008548
+   ],
+   [
+    74,
+    41,
+    13847.889176369124
+   ],
+   [
+    74,
+    54,
+    12790.452488687783
+   ],
+   [
+    74,
+    68,
+    13256.290971244724
+   ],
+   [
+    74,
+    81,
+    13856.562944242616
+   ],
+   [
+    74,
+    95,
+    12584.993953858393
+   ],
+   [
+    88,
+    0,
+    12819.923004987531
+   ],
+   [
+    88,
+    14,
+    12853.630640083944
+   ],
+   [
+    88,
+    27,
+    12639.142000510334
+   ],
+   [
+    88,
+    41,
+    13746.249191636127
+   ],
+   [
+    88,
+    54,
+    12720.978322337416
+   ],
+   [
+    88,
+    68,
+    13175.160667605069
+   ],
+   [
+    88,
+    81,
+    13864.377763739736
+   ],
+   [
+    88,
+    95,
+    12601.977095594082
+   ],
+   [
+    103,
+    0,
+    13343.906965871904
+   ],
+   [
+    103,
+    14,
+    12887.471236230109
+   ],
+   [
+    103,
+    27,
+    12725.928288886053
+   ],
+   [
+    103,
+    41,
+    13859.971970677016
+   ],
+   [
+    103,
+    54,
+    12880.554298642533
+   ],
+   [
+    103,
+    68,
+    13345.112831858407
+   ],
+   [
+    103,
+    81,
+    13979.621228873795
+   ],
+   [
+    103,
+    95,
+    12603.981864460706
+   ]
+  ],
+  "pH": [
+   [
+    0,
+    0,
+    27829.493377483443
+   ],
+   [
+    0,
+    14,
+    24253.758945386067
+   ],
+   [
+    0,
+    27,
+    27296.2855505526
+   ],
+   [
+    0,
+    41,
+    26495.89223535392
+   ],
+   [
+    0,
+    54,
+    23730.54376657825
+   ],
+   [
+    0,
+    68,
+    28578.22455896411
+   ],
+   [
+    0,
+    81,
+    26692.01331987891
+   ],
+   [
+    0,
+    95,
+    28448.374738493723
+   ],
+   [
+    15,
+    0,
+    27587.585185185184
+   ],
+   [
+    15,
+    14,
+    24227.870544090056
+   ],
+   [
+    15,
+    27,
+    27149.328960314855
+   ],
+   [
+    15,
+    41,
+    26381.769436997318
+   ],
+   [
+    15,
+    54,
+    23602.972909305063
+   ],
+   [
+    15,
+    68,
+    28373.777233353747
+   ],
+   [
+    15,
+    81,
+    26496.024655032466
+   ],
+   [
+    15,
+    95,
+    28340.08405568689
+   ],
+   [
+    29,
+    0,
+    28012.339677891654
+   ],
+   [
+    29,
+    14,
+    24861.443731413365
+   ],
+   [
+    29,
+    27,
+    28018.947783251228
+   ],
+   [
+    29,
+    41,
+    27247.76076677316
+   ],
+   [
+    29,
+    54,
+    24759.829375688005
+   ],
+   [
+    29,
+    68,
+    29031.51314636284
+   ],
+   [
+    29,
+    81,
+    27365.65915092423
+   ],
+   [
+    29,
+    95,
+    28778.833742546474
+   ],
+   [
+    44,
+    0,
+    27819.95715462785
+   ],
+   [
+    44,
+    14,
+    24499.96742875039
+   ],
+   [
+    44,
+    27,
+    27786.231167337548
+   ],
+   [
+    44,
+    41,
+    26875.947321314412
+   ],
+   [
+    44,
+    54,
+    24205.57006845542
+   ],
+   [
+    44,
+    68,
+    28840.447036127676
+   ],
+   [
+    44,
+    81,
+    27096.09794757163
+   ],
+   [
+    44,
+    95,
+    28622.4269544617
+   ],
+   [
+    59,
+    0,
+    27784.515112657995
+   ],
+   [
+    59,
+    14,
+    24676.875587590097
+   ],
+   [
+    59,
+    27,
+    27859.881656804733
+   ],
+   [
+    59,
+    41,
+    27026.483569875978
+   ],
+   [
+    59,
+    54,
+    24417.55704169945
+   ],
+   [
+    59,
+    68,
+    28860.97842862154
+   ],
+   [
+    59,
+    81,
+    27139.104033323176
+   ],
+   [
+    59,
+    95,
+    28628.462922334358
+   ],
+   [
+    74,
+    0,
+    27825.85297891842
+   ],
+   [
+    74,
+    14,
+    24760.867356538103
+   ],
+   [
+    74,
+    27,
+    27668.330154554424
+   ],
+   [
+    74,
+    41,
+    27018.847353618
+   ],
+   [
+    74,
+    54,
+    24394.454931571498
+   ],
+   [
+    74,
+    68,
+    28117.531252739547
+   ],
+   [
+    74,
+    81,
+    27187.47364144236
+   ],
+   [
+    74,
+    95,
+    28178.443917851502
+   ],
+   [
+    88,
+    0,
+    27522.04464859899
+   ],
+   [
+    88,
+    14,
+    25141.84383346426
+   ],
+   [
+    88,
+    27,
+    27913.567145790552
+   ],
+   [
+    88,
+    41,
+    27520.925434116445
+   ],
+   [
+    88,
+    54,
+    25186.03786926461
+   ],
+   [
+    88,
+    68,
+    28649.345796847636
+   ],
+   [
+    88,
+    81,
+    27242.60245610474
+   ],
+   [
+    88,
+    95,
+    28534.85301860302
+   ],
+   [
+    103,
+    0,
+    27191.360043907796
+   ],
+   [
+    103,
+    14,
+    24884.575453976206
+   ],
+   [
+    103,
+    27,
+    27613.0966469428
+   ],
+   [
+    103,
+    41,
+    27357.952655150355
+   ],
+   [
+    103,
+    54,
+    24876.556369652564
+   ],
+   [
+    103,
+    68,
+    28384.00131706032
+   ],
+   [
+    103,
+    81,
+    26999.76863622496
+   ],
+   [
+    103,
+    95,
+    28488.461133069828
+   ]
+  ]
+ },
+ "background_ratio": 0.09700275639207682
+}

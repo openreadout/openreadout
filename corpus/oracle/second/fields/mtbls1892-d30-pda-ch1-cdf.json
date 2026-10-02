@@ -1,0 +1,32 @@
+{
+ "id": "mtbls1892-d30-pda-ch1-cdf",
+ "file": "mtbls1892-d30-PDA-Ch1.CDF",
+ "format": "andi-chrom",
+ "family": "chromatography",
+ "readers": [
+  "scipy 1.18.1 netcdf_file: the file's global attributes (ANDI, ASTM E1947)"
+ ],
+ "checks": [
+  {
+   "field": "injection_date_time_stamp",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2013-11-23T20:11:15+09:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "operator_name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "System Administrator",
+   "cmp": "text"
+  }
+ ]
+}

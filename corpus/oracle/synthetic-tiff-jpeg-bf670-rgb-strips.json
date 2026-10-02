@@ -1,0 +1,47 @@
+{
+ "id": "synthetic-tiff-jpeg-bf670-rgb-strips",
+ "file": "synthetic-tiff-jpeg-bf670-rgb-strips.ome.tif",
+ "size": 1390828,
+ "sha256": "1c4650df9bd3cf9b880bee6c9354ab704f9a8bd24d96e1d36549768f0c93fb59",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "source.png",
+   "kind": "ome",
+   "axes": "YXS",
+   "shape": [
+    1000,
+    1300,
+    3
+   ],
+   "size_x": 1300,
+   "size_y": 1000,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": true,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5b7d44c35537fe4e5ada7a64bce2539a",
+     "mean": 221.25223717948717
+    }
+   ]
+  }
+ ]
+}

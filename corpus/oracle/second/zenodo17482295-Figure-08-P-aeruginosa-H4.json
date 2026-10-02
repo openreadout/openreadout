@@ -1,0 +1,38 @@
+{
+ "id": "zenodo17482295-Figure-08-P-aeruginosa-H4",
+ "file": "zenodo17482295-Figure-08-P-aeruginosa-H4.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 416,
+   "size_y": 416,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d8c2e86991653d4626bc6796b0fb0156"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c0e36d7ce5d99678f4170f85ec3e116c"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5d3b07f9b1ef950c8e5179cc0b6e30cf"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e98298b9375416b7136ca587023e701"
+    }
+   ]
+  }
+ ]
+}

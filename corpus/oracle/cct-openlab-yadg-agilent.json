@@ -1,0 +1,594 @@
+{
+ "id": "cct-openlab-yadg-agilent",
+ "file": "agilent.dx",
+ "size": 6739148,
+ "sha256": "7c9ac55f91212697627b3f3ea3beebcc25874d8327953e198f4ad98cf3912abd",
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) + chromConverter 0.9.0 (black box)",
+ "oracle_note": "detector signals: rainbow-api parse_file on the extracted .CH parts, equal to chromConverter 0.9.0 (max |difference| 0); instrument curves: chromConverter 0.9.0 read_agilent_dx(what = 'instrument')",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "RID1A"
+   ],
+   "channel_units": [
+    "nRIU"
+   ],
+   "sample_rate_hz": 4.629311332645813,
+   "x_first_min": 0.001125,
+   "x_last_min": 35.99999999999999,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10000,
+     "channels": [
+      {
+       "xxh3": "3daab689f4aa8ee3a11dc61eb924a156",
+       "first": [
+        0.39,
+        0.59,
+        0.68,
+        0.66,
+        0.52,
+        0.27,
+        -0.06,
+        -0.45
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "RID1A,Refractive Index Signal",
+   "parameters": {
+    "extra": {
+     "sample_name": "STD_1_1mM-1MKHCO3",
+     "operator": "SYSTEM",
+     "method_path": "C:\\CDSProjects\\CO2 Reduction\\Results\\Online HPLC-2021-11-12 11-38-52+01-00.rslt\\CO2RR_FTI_0.7mL_40uL_45dgr_36min.amx"
+    }
+   }
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "RID1G"
+   ],
+   "channel_units": [
+    "\u00b0C"
+   ],
+   "sample_rate_hz": 9.259259259261631,
+   "x_first_min": 0.001125,
+   "x_last_min": 35.99932499999078,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "853436ad1091de5180eb79b01890d0d0",
+       "first": [
+        23.7,
+        23.7,
+        23.7,
+        23.7,
+        23.7,
+        23.7,
+        23.7,
+        23.7
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "RID1G,Board Temperature"
+  },
+  {
+   "index": 2,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "RID1F"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "sample_rate_hz": 4.62962962963075,
+   "x_first_min": 0.001125,
+   "x_last_min": 35.99752499999129,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10000,
+     "channels": [
+      {
+       "xxh3": "917f3d20f7fd9c727e06cb89a2645361",
+       "first": [
+        51491.51,
+        51491.5,
+        51491.5,
+        51491.5,
+        51491.5,
+        51491.51,
+        51491.53,
+        51491.55
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "RID1F,Diode 2"
+  },
+  {
+   "index": 3,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "RID1E"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "sample_rate_hz": 4.62962962963075,
+   "x_first_min": 0.001125,
+   "x_last_min": 35.99752499999129,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10000,
+     "channels": [
+      {
+       "xxh3": "120ec396acf6c275d31e1157cfcbb36c",
+       "first": [
+        52721.700000000004,
+        52721.700000000004,
+        52721.700000000004,
+        52721.69,
+        52721.68,
+        52721.67,
+        52721.65,
+        52721.64
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "RID1E,Diode 1"
+  },
+  {
+   "index": 4,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "RID1D"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 4.62962962963075,
+   "x_first_min": 0.001125,
+   "x_last_min": 35.99752499999129,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10000,
+     "channels": [
+      {
+       "xxh3": "45b5f6de55f88f01515f2a971407ccfa",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "RID1D,Polarity"
+  },
+  {
+   "index": 5,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "RID1C"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 4.62962962963075,
+   "x_first_min": 0.001125,
+   "x_last_min": 35.99752499999129,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10000,
+     "channels": [
+      {
+       "xxh3": "b8559d883e2b0a593ee0297d7aa77a67",
+       "first": [
+        -0.011800999999999999,
+        -0.011800999999999999,
+        -0.011803,
+        -0.011800999999999999,
+        -0.011800999999999999,
+        -0.011802,
+        -0.011803,
+        -0.011804
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "RID1C,Diode Balance"
+  },
+  {
+   "index": 6,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "RID1B"
+   ],
+   "channel_units": [
+    "\u00b0C"
+   ],
+   "sample_rate_hz": 9.259259259261631,
+   "x_first_min": 0.001125,
+   "x_last_min": 35.99932499999078,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "ddc591fdbed8dfc9540e027abe2fc2d6",
+       "first": [
+        44.999,
+        44.999,
+        44.999,
+        44.999,
+        44.999,
+        44.999,
+        44.999,
+        44.999
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "RID1B,Optical Unit Temperature"
+  },
+  {
+   "index": 7,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "THM1B"
+   ],
+   "channel_units": [
+    "\u00b0C"
+   ],
+   "sample_rate_hz": 1.0,
+   "x_first_min": 0.016666666666666666,
+   "x_last_min": 36.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2160,
+     "channels": [
+      {
+       "xxh3": "2cfe8058248a34dd2e95a4c28282fc6a",
+       "first": [
+        45.0,
+        45.0,
+        45.0,
+        45.0,
+        45.0,
+        45.001,
+        45.0,
+        45.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "THM1B,Right Temperature"
+  },
+  {
+   "index": 8,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "THM1A"
+   ],
+   "channel_units": [
+    "\u00b0C"
+   ],
+   "sample_rate_hz": 1.0,
+   "x_first_min": 0.016666666666666666,
+   "x_last_min": 36.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2160,
+     "channels": [
+      {
+       "xxh3": "78dc1e1579350d221776fd5e56e5774a",
+       "first": [
+        45.0,
+        45.0,
+        45.0,
+        45.0,
+        45.0,
+        45.0,
+        45.0,
+        45.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "THM1A,Left Temperature"
+  },
+  {
+   "index": 9,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1G"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 10.012135922326058,
+   "x_first_min": 8.323232323232324e-05,
+   "x_last_min": 35.99972767678221,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 21627,
+     "channels": [
+      {
+       "xxh3": "b21fe539e1d03881c2a1f0f30bd7a505",
+       "first": [
+        0.05231,
+        0.05231,
+        0.05231,
+        0.05231,
+        0.05231,
+        0.05231,
+        0.05231,
+        0.05231
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1G,Tuning"
+  },
+  {
+   "index": 10,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1F"
+   ],
+   "channel_units": [
+    "%"
+   ],
+   "sample_rate_hz": 20.02427184464702,
+   "x_first_min": 8.323232323232324e-05,
+   "x_last_min": 35.99972767679136,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 43253,
+     "channels": [
+      {
+       "xxh3": "b3d749ee01e1c3b0031a9fbdfa2985ec",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1F,Solvent Ratio D"
+  },
+  {
+   "index": 11,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1E"
+   ],
+   "channel_units": [
+    "%"
+   ],
+   "sample_rate_hz": 20.02427184464702,
+   "x_first_min": 8.323232323232324e-05,
+   "x_last_min": 35.99972767679136,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 43253,
+     "channels": [
+      {
+       "xxh3": "b3d749ee01e1c3b0031a9fbdfa2985ec",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1E,Solvent Ratio C"
+  },
+  {
+   "index": 12,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1D"
+   ],
+   "channel_units": [
+    "%"
+   ],
+   "sample_rate_hz": 20.02427184464702,
+   "x_first_min": 8.323232323232324e-05,
+   "x_last_min": 35.99972767679136,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 43253,
+     "channels": [
+      {
+       "xxh3": "b3d749ee01e1c3b0031a9fbdfa2985ec",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1D,Solvent Ratio B"
+  },
+  {
+   "index": 13,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1C"
+   ],
+   "channel_units": [
+    "%"
+   ],
+   "sample_rate_hz": 20.02427184464702,
+   "x_first_min": 8.323232323232324e-05,
+   "x_last_min": 35.99972767679136,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 43253,
+     "channels": [
+      {
+       "xxh3": "d311e63e602116b95a70101efd05bc7f",
+       "first": [
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1C,Solvent Ratio A"
+  },
+  {
+   "index": 14,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1B"
+   ],
+   "channel_units": [
+    "mL/min"
+   ],
+   "sample_rate_hz": 20.02427184464702,
+   "x_first_min": 8.323232323232324e-05,
+   "x_last_min": 35.99972767679136,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 43253,
+     "channels": [
+      {
+       "xxh3": "c4e7b1f7418f5ac1c6155d2fb5a995ba",
+       "first": [
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1B,Flow"
+  },
+  {
+   "index": 15,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1A"
+   ],
+   "channel_units": [
+    "bar"
+   ],
+   "sample_rate_hz": 40.048543689307884,
+   "x_first_min": 0.0002496969696969697,
+   "x_last_min": 35.999894141425386,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 86505,
+     "channels": [
+      {
+       "xxh3": "16afc848178854d6d7194b6b6aa393c4",
+       "first": [
+        33.145,
+        33.11,
+        33.13,
+        25.5,
+        27.560000000000002,
+        31.165,
+        33.34,
+        34.910000000000004
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1A,Pressure"
+  }
+ ]
+}

@@ -1,0 +1,64 @@
+{
+ "id": "zenodo7015307-S-3-CH-2",
+ "file": "zenodo7015307-S-3-CH-2.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 256,
+   "size_y": 256,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5fa8f8e73711990dfd9b0ff31a558bde"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "979726c236cce98bea7efda1f4654cdc"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 256,
+   "size_y": 256,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0fc79380bc92985bb5fb0143cb9e7fd6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "284a9b4670558ecac803065290bd8648"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "size_x": 256,
+   "size_y": 256,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fea31d437d716e1551b640f4a2bb1443"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "36c02c8b5821bf906bff030df8f99620"
+    }
+   ]
+  }
+ ]
+}

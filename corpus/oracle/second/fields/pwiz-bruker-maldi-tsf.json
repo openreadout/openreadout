@@ -1,0 +1,118 @@
+{
+ "id": "pwiz-bruker-maldi-tsf",
+ "file": "pwiz-bruker/20percLaser_100fold_1_0_H6_MS.d/analysis.tsf",
+ "format": "bruker-tdf",
+ "family": "mass-spectrometry",
+ "readers": [
+  "Python sqlite3 (SQLite 3.50.4) on analysis.tsf"
+ ],
+ "checks": [
+  {
+   "field": "instrument model",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "timsTOF fleX MALDI 2",
+   "cmp": "text"
+  },
+  {
+   "field": "instrument serial number",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "1877407.00563",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition software version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/software_version",
+   "theirs": "3.0.22",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-07-29T13:16:09.176-07:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "operator",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "Admin",
+   "cmp": "text"
+  },
+  {
+   "field": "sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "20percLaser_100fold_1",
+   "cmp": "text"
+  },
+  {
+   "field": "m/z acquisition range",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/spectra/0/extra/mz_acquisition_range",
+   "theirs": [
+    150.0,
+    2500.0
+   ],
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "frame count",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/spectra/0/extra/frame_count",
+   "theirs": 1,
+   "cmp": "exact"
+  },
+  {
+   "field": "MS1 frames",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/spectra/0/extra/ms1_frames",
+   "theirs": 1,
+   "cmp": "exact"
+  },
+  {
+   "field": "polarities",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/parameters/polarity/value",
+   "theirs": [
+    "positive"
+   ],
+   "cmp": "set"
+  }
+ ]
+}

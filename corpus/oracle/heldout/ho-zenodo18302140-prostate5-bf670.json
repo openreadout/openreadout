@@ -1,0 +1,47 @@
+{
+ "id": "ho-zenodo18302140-prostate5-bf670",
+ "file": "prostate_5.ome.tif",
+ "size": 14773310,
+ "sha256": "c58a31dfc92c7376f174a81637181575f3082ef56d15bf36ea2a9521fa31e7ad",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "ome",
+   "axes": "YXS",
+   "shape": [
+    10000,
+    10000,
+    3
+   ],
+   "size_x": 10000,
+   "size_y": 10000,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 3,
+   "lossy": true,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "edcfdba50f8c8c71e448d1ea5e425b48",
+     "mean": 197.36095949666668
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,50 @@
+{
+ "id": "figshare10732844-zvi-figure-s2-kferq-cherry",
+ "file": "Figure S2 KFERQ-Cherry.zvi",
+ "size": 8754176,
+ "sha256": "983f7987e107471ca82de2cd01041c4cdc6a005e03e60d172f71cbd72984d63a",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Figure S2 KFERQ-Cherry.zvi",
+   "size_x": 1384,
+   "size_y": 1036,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.10238095238095238,
+    "y": 0.10238095238095238
+   },
+   "channel_names": [
+    "mRFP1",
+    "eGFP",
+    "DAPI"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bd0b79e15c79edb335e6bc3f2f4f9257"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e604be2743d3ae543add53a0117e0910"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e1bf78317a45e7dcd699d36e47ffcbd2"
+    }
+   ]
+  }
+ ]
+}

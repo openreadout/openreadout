@@ -1,0 +1,25 @@
+{
+ "id": "gen5-abs-spectrum",
+ "file": "gen5-abs-spectrum.txt",
+ "size": 3779,
+ "sha256": "0a00ba8b211ce3347bbafb94c7305aa36e358a83adab74d05fc549516ed60189",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (AGILENT_GEN5)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 287,
+    "errors": 2,
+    "wavelengths": [],
+    "value_xxh3": "b78c0d24daaf86e2cfe528b6d82233ca"
+   }
+  ],
+  "header": {
+   "model": "Synergy H1",
+   "software_version": "3.12.08"
+  },
+  "documents": 96
+ }
+}

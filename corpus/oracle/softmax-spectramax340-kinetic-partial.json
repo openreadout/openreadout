@@ -1,0 +1,24 @@
+{
+ "id": "softmax-spectramax340-kinetic-partial",
+ "file": "softmax-spectramax340-kinetic-partial.txt",
+ "size": 2434,
+ "sha256": "8c89095e0c7562a80e34b4c4065c4986ddcc063b1543ec5467b3dc6d09fdd276",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (MOLDEV_SOFTMAX_PRO)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 72,
+    "values": 216,
+    "errors": 0,
+    "wavelengths": [
+     405.0
+    ],
+    "value_xxh3": "99d8d21df86e6c18d281a4cf6f4b472f"
+   }
+  ],
+  "header": {},
+  "documents": 72
+ }
+}

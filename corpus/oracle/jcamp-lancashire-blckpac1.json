@@ -1,0 +1,165 @@
+{
+ "id": "jcamp-lancashire-blckpac1",
+ "file": "jcamp-lancashire-blckpac1.jdx",
+ "size": 13437,
+ "sha256": "c45f01a26ffb85651cdbff4ce9f18bd77d596e2baa81fbf0e7426132a0fd89a0",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "Aquation of trans-[Co(en)2Cl2]+ (t1)",
+   "kind": "xydata",
+   "data_type": "UV/VIS SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 176,
+     "channels": [
+      {
+       "xxh3": "21db1e62fee43a88fb1e7ab33c96f42d",
+       "first": [
+        -0.006136059761047299,
+        -0.0051720142364501415,
+        -0.0041460990905761285,
+        -0.0029881000518798516,
+        -0.0017420053482055482,
+        -0.0001400709152221665,
+        0.0014899969100951992,
+        0.0030120611190795586
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 176,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  },
+  {
+   "index": 1,
+   "name": "Aquation of trans-[Co(en)2Cl2]+ (t2)",
+   "kind": "xydata",
+   "data_type": "UV/VIS SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 176,
+     "channels": [
+      {
+       "xxh3": "6e1f2a0e9e61e81dffc15cb1cfe14de6",
+       "first": [
+        -0.007982015609741128,
+        -0.0070030689239501225,
+        -0.006138086318969662,
+        -0.004997014999389596,
+        -0.0037770271301269137,
+        -0.0026850700378417687,
+        -0.0013890266418456886,
+        -0.0001680850982665998
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 176,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  },
+  {
+   "index": 2,
+   "name": "Aquation of trans-[Co(en)2Cl2]+ (t3)",
+   "kind": "xydata",
+   "data_type": "UV/VIS SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 176,
+     "channels": [
+      {
+       "xxh3": "b08c74bdf15b74089fe134cae447c543",
+       "first": [
+        -0.008604049682617097,
+        -0.007727026939392009,
+        -0.00674903392791741,
+        -0.005774021148681581,
+        -0.004716038703918408,
+        -0.0035750865936278924,
+        -0.0025219917297363017,
+        -0.0012019872665405148
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 176,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  },
+  {
+   "index": 3,
+   "name": "Aquation of trans-[Co(en)2Cl2]+ (t4)",
+   "kind": "xydata",
+   "data_type": "UV/VIS SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 176,
+     "channels": [
+      {
+       "xxh3": "d074ac32f931bc8dd49780dc8545fd23",
+       "first": [
+        -0.008921027183532621,
+        -0.007974982261657632,
+        -0.007224082946777268,
+        -0.00618803501129144,
+        -0.00512599945068354,
+        -0.004233002662658647,
+        -0.0029929876327514336,
+        -0.0018659830093383594
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 176,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  },
+  {
+   "index": 4,
+   "name": "Aquation of trans-[Co(en)2Cl2]+ (t5)",
+   "kind": "xydata",
+   "data_type": "UV/VIS SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 176,
+     "channels": [
+      {
+       "xxh3": "a20e4b871afbad4801876f5fd48080e3",
+       "first": [
+        -0.009105086326599026,
+        -0.008338093757629308,
+        -0.007476091384887617,
+        -0.006524085998535089,
+        -0.005546092987060489,
+        -0.004536986351013136,
+        -0.0034329891204833624,
+        -0.0023390054702758546
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 176,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  }
+ ]
+}

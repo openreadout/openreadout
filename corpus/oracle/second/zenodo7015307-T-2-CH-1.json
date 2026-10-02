@@ -1,0 +1,26 @@
+{
+ "id": "zenodo7015307-T-2-CH-1",
+ "file": "zenodo7015307-T-2-CH-1.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 256,
+   "size_y": 256,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ea5de9f53ee92bf06a5a8d8fefe056b6"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "a062c0e88e8f3015b3fbe6945677c5e6"
+    }
+   ]
+  }
+ ]
+}

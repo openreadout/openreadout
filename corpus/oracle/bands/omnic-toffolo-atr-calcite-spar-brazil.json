@@ -1,0 +1,153 @@
+{
+ "id": "omnic-toffolo-atr-calcite-spar-brazil",
+ "trace": 0,
+ "reader": "spectrochempy 1.0.0 read_omnic",
+ "tolerance": {
+  "x": 0.0006,
+  "area_rel": 5e-05,
+  "why": "SpectroChemPy rounds the wavenumber axis to 3 decimals (steps of 0.48 cm-1)"
+ },
+ "points": 7468,
+ "bands_are_minima": false,
+ "prominent_bands": [
+  404.496,
+  712.086,
+  871.667,
+  1393.317,
+  1794.921
+ ],
+ "median_step": 0.4819999999999709,
+ "regions": [
+  {
+   "range": [
+    1300,
+    1550
+   ],
+   "linear": {
+    "points": 518,
+    "x_first": 1300.269,
+    "x_last": 1549.523,
+    "area": 54.67342730201037,
+    "area_no_baseline": 86.71233913329243,
+    "max_x": 1393.8,
+    "max_height": 0.5407480299682348,
+    "centroid": 1408.9836000920427
+   },
+   "none": {
+    "points": 518,
+    "x_first": 1300.269,
+    "x_last": 1549.523,
+    "area": 86.71233913329243,
+    "area_no_baseline": 86.71233913329243,
+    "max_x": 1393.317,
+    "max_height": 0.6885029673576355,
+    "centroid": 1405.7992550843703
+   }
+  },
+  {
+   "range": [
+    860,
+    890
+   ],
+   "linear": {
+    "points": 63,
+    "x_first": 860.096,
+    "x_last": 889.988,
+    "area": 4.874478069557808,
+    "area_no_baseline": 7.870770318272529,
+    "max_x": 872.149,
+    "max_height": 0.35162544520968125,
+    "centroid": 873.2452303199556
+   },
+   "none": {
+    "points": 63,
+    "x_first": 860.096,
+    "x_last": 889.988,
+    "area": 7.870770318272529,
+    "area_no_baseline": 7.870770318272529,
+    "max_x": 871.667,
+    "max_height": 0.46748781204223633,
+    "centroid": 872.5969066371657
+   }
+  },
+  {
+   "range": [
+    700,
+    720
+   ],
+   "linear": {
+    "points": 42,
+    "x_first": 700.034,
+    "x_last": 719.8,
+    "area": 1.0997139325737963,
+    "area_no_baseline": 1.8421139411702745,
+    "max_x": 712.086,
+    "max_height": 0.15321239943502163,
+    "centroid": 711.3832091664052
+   },
+   "none": {
+    "points": 42,
+    "x_first": 700.034,
+    "x_last": 719.8,
+    "area": 1.8421139411702745,
+    "area_no_baseline": 1.8421139411702745,
+    "max_x": 712.086,
+    "max_height": 0.1905324012041092,
+    "centroid": 710.7536927388
+   }
+  }
+ ],
+ "export": {
+  "source": "the vendor's export Calcite spar_Brazil.CSV",
+  "regions": [
+   {
+    "range": [
+     1300,
+     1550
+    ],
+    "linear": {
+     "points": 518,
+     "x_first": 1300.269,
+     "x_last": 1549.523,
+     "area": 54.673440599535006,
+     "area_no_baseline": 86.71235284887499,
+     "max_x": 1393.8,
+     "max_height": 0.5407480411739832,
+     "centroid": 1408.9836059346192
+    }
+   },
+   {
+    "range": [
+     860,
+     890
+    ],
+    "linear": {
+     "points": 63,
+     "x_first": 860.0963,
+     "x_last": 889.9875,
+     "area": 4.874483391762003,
+     "area_no_baseline": 7.8706952284179925,
+     "max_x": 872.1492,
+     "max_height": 0.35162645980960927,
+     "centroid": 873.2452681978148
+    }
+   },
+   {
+    "range": [
+     700,
+     720
+    ],
+    "linear": {
+     "points": 42,
+     "x_first": 700.0336,
+     "x_last": 719.8003,
+     "area": 1.0997114265440027,
+     "area_no_baseline": 1.8421377080255028,
+     "max_x": 712.0864,
+     "max_height": 0.1532124410230843,
+     "centroid": 711.3831739450266
+    }
+   }
+  ]
+ }
+}

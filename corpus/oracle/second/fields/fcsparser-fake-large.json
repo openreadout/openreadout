@@ -1,0 +1,280 @@
+{
+ "id": "fcsparser-fake-large",
+ "file": "fcsparser-fake-large.fcs",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 11585,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 11,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "FITC-A",
+    "PerCP-Cy5-5-A",
+    "AmCyan-A",
+    "PE-Texas Red-A",
+    "Time"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-A": 262144.0,
+    "FSC-H": 262144.0,
+    "FSC-W": 262144.0,
+    "SSC-A": 262144.0,
+    "SSC-H": 262144.0,
+    "SSC-W": 262144.0,
+    "FITC-A": 262144.0,
+    "PerCP-Cy5-5-A": 262144.0,
+    "AmCyan-A": 262144.0,
+    "PE-Texas Red-A": 262144.0,
+    "Time": 262144.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-A": 32,
+    "FSC-H": 32,
+    "FSC-W": 32,
+    "SSC-A": 32,
+    "SSC-H": 32,
+    "SSC-W": 32,
+    "FITC-A": 32,
+    "PerCP-Cy5-5-A": 32,
+    "AmCyan-A": 32,
+    "PE-Texas Red-A": 32,
+    "Time": 32
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "F",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "big-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS3.0",
+   "cmp": "text"
+  },
+  {
+   "field": "time step ($TIMESTEP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/timestep_s",
+   "theirs": 0.01,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "file name ($FIL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/file_name",
+   "theirs": "Specimen_001_A1_A01.fcs",
+   "cmp": "text"
+  },
+  {
+   "field": "source ($SRC)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/source",
+   "theirs": "Specimen_001",
+   "cmp": "text"
+  },
+  {
+   "field": "system ($SYS)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/system",
+   "theirs": "Windows XP 5.1",
+   "cmp": "text"
+  },
+  {
+   "field": "operator ($OP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "EugeneYurtsev",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "LSRII",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2013-02-28T15:19:53.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2013-02-28T15:20:03.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "spillover parameters (SPILL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/parameters",
+   "theirs": [
+    "FITC-A",
+    "PerCP-Cy5-5-A",
+    "AmCyan-A",
+    "PE-Texas Red-A"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "spillover matrix (SPILL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/matrix",
+   "theirs": [
+    [
+     1.0,
+     0.0,
+     0.15999999430400005,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.015000003206999964,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0030000039808999713,
+     0.0,
+     0.014999998701599989,
+     1.0
+    ]
+   ],
+   "cmp": "num",
+   "rel": 1e-12
+  }
+ ],
+ "notes": [
+  "FlowKit could not compensate: ValueError: invalid literal for int() with base 10: b'        '"
+ ]
+}

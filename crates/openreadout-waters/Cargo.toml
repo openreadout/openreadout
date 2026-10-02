@@ -1,0 +1,26 @@
+[package]
+name = "openreadout-waters"
+description = "Reader for Waters MassLynx .raw mass-spectrometry directories, part of OpenReadout"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["mass-spectrometry", "waters", "masslynx", "metabolomics", "synapt"]
+categories.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-waters"
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+[dependencies]
+openreadout-core = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+
+[lints]
+workspace = true

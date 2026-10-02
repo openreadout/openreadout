@@ -1,0 +1,51 @@
+{
+ "id": "ho-zenodo21456008-sp-aeb",
+ "file": "AEB-FTIR-3931.sp",
+ "size": 42659,
+ "sha256": "48bcc4796ee80e1c2dc8c7c04721620fb0ec8f05df33e6c96b3dd0a178f0ed19",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 5051,
+   "x_first": 5500.0,
+   "x_last": 450.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5051,
+     "channels": [
+      {
+       "xxh3": "2437178fccb806bde3e6a4f2613927b9",
+       "first": [
+        0.006354777718781568,
+        0.006610100283601428,
+        0.006869013246581623,
+        0.0071688515934877906,
+        0.007619799472760258,
+        0.008190467345682295,
+        0.00865118911225804,
+        0.008806319712474808
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Spectrum Two",
+     "instrument_serial": "115797",
+     "scans": 16,
+     "detector": "LiTa03",
+     "source": "MIR",
+     "beamsplitter": "OptKBr",
+     "apodization": "Strong"
+    }
+   }
+  }
+ ]
+}

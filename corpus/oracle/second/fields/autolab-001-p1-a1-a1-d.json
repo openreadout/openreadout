@@ -1,0 +1,245 @@
+{
+ "id": "autolab-001-p1-a1-a1-d",
+ "file": "autolab-001-P1-A1-A1.D",
+ "format": "chemstation",
+ "family": "chromatography",
+ "readers": [
+  "chromConverter 0.9.0 (GPL-3.0, R, run as a black box with its own parsers)"
+ ],
+ "checks": [
+  {
+   "field": "VWD1A.ch: sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=VWD1A.ch]/extra/sample_name",
+   "theirs": "A1",
+   "cmp": "text"
+  },
+  {
+   "field": "VWD1A.ch: operator",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=VWD1A.ch]/extra/operator",
+   "theirs": "SYSTEM",
+   "cmp": "text"
+  },
+  {
+   "field": "VWD1A.ch: method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=VWD1A.ch]/extra/method",
+   "theirs": "2021-12-14.MUC.J.M",
+   "cmp": "text"
+  },
+  {
+   "field": "VWD1A.ch: file version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=VWD1A.ch]/extra/format_version",
+   "theirs": "130",
+   "cmp": "text"
+  },
+  {
+   "field": "VWD1A.ch: file type",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=VWD1A.ch]/extra/file_type",
+   "theirs": "LC DATA FILE",
+   "cmp": "text"
+  },
+  {
+   "field": "VWD1A.ch: acquisition time (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=VWD1A.ch]/extra/acquired_at",
+   "theirs": "2022-03-10T09:36:10",
+   "cmp": "wallclock"
+  },
+  {
+   "field": "acquisition start (first signal file's header)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-03-10T09:36:10",
+   "cmp": "time_or_utc",
+   "abs": 1.0
+  },
+  {
+   "field": "VWD1A.ch: signal",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=VWD1A.ch]/extra/signal",
+   "theirs": "VWD1A, Wavelength=257 nm",
+   "cmp": "text"
+  },
+  {
+   "field": "VWD1A.ch: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=VWD1A.ch]/channels/0/unit",
+   "theirs": "mAU",
+   "cmp": "text"
+  },
+  {
+   "field": "VWD1A.ch: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=VWD1A.ch]/extra/axis/first",
+   "theirs": 0.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "VWD1A.ch: last time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=VWD1A.ch]/extra/x_end_min",
+   "theirs": 0.6940333333333333,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "VWD1A.ch: signal: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=VWD1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    -0.04118680953979492,
+    -0.040411949157714844,
+    -0.0393986701965332,
+    -0.031888484954833984,
+    0.03552436828613281,
+    0.40650367736816406,
+    1.7859339714050293,
+    5.598604679107666,
+    13.978898525238037,
+    29.343247413635254,
+    53.61741781234741,
+    87.33105659484863,
+    128.87251377105713,
+    174.29029941558838,
+    217.91034936904907,
+    253.63242626190186,
+    276.4197587966919,
+    283.474326133728,
+    274.7747302055359,
+    252.84039974212646,
+    221.8380570411682,
+    186.4137053489685,
+    150.69568157196045,
+    117.71988868713379,
+    89.27953243255615,
+    66.06972217559814,
+    47.98060655593872,
+    34.41578149795532,
+    24.563133716583252,
+    17.586112022399902,
+    12.735962867736816,
+    9.401023387908936
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.83474326133728e-10
+  },
+  {
+   "field": "VWD1A.ch: signal: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=VWD1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 144,
+   "cmp": "exact"
+  },
+  {
+   "field": "VWD1A.ch: signal: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=VWD1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -0.04118680953979492,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.83474326133728e-10
+  },
+  {
+   "field": "VWD1A.ch: signal: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=VWD1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 283.474326133728,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.83474326133728e-10
+  },
+  {
+   "field": "VWD1A.ch: signal: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=VWD1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 21.568649344974094,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.8347432613372803e-07
+  }
+ ]
+}

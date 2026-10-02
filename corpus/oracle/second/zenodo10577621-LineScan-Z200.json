@@ -1,0 +1,20 @@
+{
+ "id": "zenodo10577621-LineScan-Z200",
+ "file": "zenodo10577621-LineScan-Z200.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 1,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4b7a85f803ffa4ca645e389360a34ff8"
+    }
+   ]
+  }
+ ]
+}

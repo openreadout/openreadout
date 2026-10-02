@@ -1,0 +1,26 @@
+{
+ "id": "envision-abs-a450",
+ "file": "envision-abs-a450.csv",
+ "size": 6027,
+ "sha256": "e40bf85ca3bf6ba13afc917f0ea3cdc674bce262dca48995de8569505ab4e0b3",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (PERKIN_ELMER_ENVISION)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 192,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "525c6f9549680c63637ad74a0dc33203"
+   }
+  ],
+  "header": {
+   "model": "EnVision",
+   "serial_number": "1050242",
+   "software_version": "1.14.3049.1642"
+  },
+  "documents": 192
+ }
+}

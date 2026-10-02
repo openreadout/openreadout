@@ -1,0 +1,19 @@
+{
+ "generator": "flowkit 1.3.2 (flowutils 1.2.2)",
+ "gating": "flowkit-line-ellipse",
+ "format": "flowjo-wsp",
+ "samples": [
+  {
+   "fcs": "flowkit-line",
+   "sample": "data_set_simple_line_100.fcs",
+   "event_count": 100,
+   "populations": [
+    {
+     "path": "/ellipse1",
+     "count": 51,
+     "flowjo_count": 51
+    }
+   ]
+  }
+ ]
+}

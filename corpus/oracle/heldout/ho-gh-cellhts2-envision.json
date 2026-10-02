@@ -1,0 +1,21 @@
+{
+ "id": "ho-gh-cellhts2-envision",
+ "file": "XXX_1500.csv",
+ "size": 16204,
+ "sha256": "a4a86aa983b90b8ff82a80085350a6c38cbd95a3092c2caa44be8a1a48cddd8f",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py envision_csv_summary (independent reader of the export text; allotropy cannot parse this export)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "luminescence",
+    "wells": 384,
+    "values": 384,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "f5d911327f8b7832686358990d83633f"
+   }
+  ],
+  "header": {}
+ }
+}

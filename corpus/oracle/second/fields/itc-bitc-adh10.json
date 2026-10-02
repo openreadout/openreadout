@@ -1,0 +1,21 @@
+{
+ "id": "itc-bitc-adh10",
+ "file": "itc-bitc-adh10.itc",
+ "format": "microcal-itc",
+ "family": "bench",
+ "readers": [
+  "the .itc file's first `%` line, read as text"
+ ],
+ "checks": [
+  {
+   "field": "first `%` line (instrument before the firmware version)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "VPITC",
+   "cmp": "loose"
+  }
+ ]
+}

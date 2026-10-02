@@ -1,0 +1,56 @@
+{
+ "id": "ho-zenodo17294324-opus-silica",
+ "file": "7Br10U2.0",
+ "size": 40456,
+ "sha256": "6ec929938bcaaf638462b208da0ce20831c9c3f311f61db642aae3873692b606",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 6801,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6801,
+     "channels": [
+      {
+       "xxh3": "d49f5998bc43f885533ca26b235f80e9",
+       "first": [
+        0.002596851671114564,
+        0.002596851671114564,
+        0.002596851671114564,
+        0.002596851671114564,
+        0.002596851671114564,
+        0.002596851671114564,
+        0.002596851671114564,
+        0.002596851671114564
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4000.0,
+   "x_last": 600.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 2.0,
+     "apodization": "U2",
+     "beamsplitter": "OptKBr",
+     "source": "MIR",
+     "detector": "LiTa03",
+     "instrument": "Spectrum 100/400",
+     "sample_name": "\u00c9chantillon 034 Par Faure Date mardi, novembre 19 2024"
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

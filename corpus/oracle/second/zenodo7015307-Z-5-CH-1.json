@@ -1,0 +1,44 @@
+{
+ "id": "zenodo7015307-Z-5-CH-1",
+ "file": "zenodo7015307-Z-5-CH-1.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 256,
+   "size_y": 256,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dc1d6723abb8874d580569725e537969"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "41352f3601dd3ea69ce60351a21d283d"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "e20e066090d73ea7ca21cb22c08752fa"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "586477b5d9de7beb6e88b7d9ec0560d4"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "5dbbb24a4bd28b1aa584f86607852477"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,121 @@
+nextflow_process {
+
+    name "Test Process OPENREADOUT_BATCH"
+    script "../main.nf"
+    process "OPENREADOUT_BATCH"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "openreadout"
+    tag "openreadout/batch"
+
+    test("fcs - table - sample sheet - summary") {
+
+        when {
+            params {
+                batch_args  = '--where parameter=FITC-A'
+                batch_args2 = '--by condition --value median'
+            }
+            process {
+                """
+                input[0] = [
+                    [ id:'tubes' ],
+                    [
+                        file("${moduleDir}/../../../../test-data/tube_a.fcs", checkIfExists: true),
+                        file("${moduleDir}/../../../../test-data/tube_b.fcs", checkIfExists: true)
+                    ]
+                ]
+                input[1] = file("${moduleDir}/../../../../test-data/samples.csv", checkIfExists: true)
+                input[2] = 'table'
+                """
+            }
+        }
+
+        then {
+            // rows of a simple CSV (no quoted fields) as maps, without the nft-csv plugin
+            def csvRows = { f ->
+                def lines = f.readLines()
+                def header = lines[0].split(',', -1) as List
+                lines.drop(1).collect { line -> [header, line.split(',', -1) as List].transpose().collectEntries() }
+            }
+            def rows = csvRows(path(process.out.table[0][1]))
+            def summary = csvRows(path(process.out.summary[0][1]))
+            assertAll(
+                { assert process.success },
+                { assert rows.size() == 2 },
+                { assert rows.collect { it.parameter } == ['FITC-A', 'FITC-A'] },
+                { assert rows.find { it.condition == 'control' }.median as double == 104.5d },
+                { assert rows.find { it.condition == 'treated' }.median as double == 204.5d },
+                { assert summary.collect { it.condition }.sort() == ['control', 'treated'] },
+                { assert snapshot(process.out.versions).match("versions") }
+            )
+        }
+    }
+
+    test("images - info - no sample sheet") {
+
+        when {
+            params {
+                batch_args  = ''
+                batch_args2 = ''
+            }
+            process {
+                """
+                input[0] = [
+                    [ id:'images' ],
+                    [
+                        file("${moduleDir}/../../../../test-data/mini.czi", checkIfExists: true),
+                        file("${moduleDir}/../../../../test-data/mini.lif", checkIfExists: true)
+                    ]
+                ]
+                input[1] = []
+                input[2] = 'info'
+                """
+            }
+        }
+
+        then {
+            // rows of a simple CSV (no quoted fields) as maps, without the nft-csv plugin
+            def csvRows = { f ->
+                def lines = f.readLines()
+                def header = lines[0].split(',', -1) as List
+                lines.drop(1).collect { line -> [header, line.split(',', -1) as List].transpose().collectEntries() }
+            }
+            def rows = csvRows(path(process.out.table[0][1]))
+            assertAll(
+                { assert process.success },
+                { assert rows.collect { it.format }.sort() == ['czi', 'lif'] },
+                { assert process.out.summary.size() == 0 }
+            )
+        }
+    }
+
+    test("fcs - table - stub") {
+
+        options "-stub"
+
+        when {
+            params {
+                batch_args  = ''
+                batch_args2 = ''
+            }
+            process {
+                """
+                input[0] = [
+                    [ id:'tubes' ],
+                    [ file("${moduleDir}/../../../../test-data/tube_a.fcs", checkIfExists: true) ]
+                ]
+                input[1] = []
+                input[2] = 'table'
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

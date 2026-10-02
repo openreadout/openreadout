@@ -1,0 +1,25 @@
+name: openreadout batch
+description: >
+  One tidy table over many raw instrument files without vendor software: per-image pixel
+  statistics (`stats`), per-sweep signal statistics (`trace`), per-parameter FCS event summaries or
+  per-well plate reads (`table`), FlowJo/Gating-ML population counts (`gate`) or header metadata
+  (`info`), joined to a sample sheet or plate layout (the key is chosen from the data and
+  reported), and optionally summarized by group (n, mean, sd, sem, median, min, max, CV %, Welch or
+  Mann-Whitney tests against a control).
+url: https://openreadout.github.io/openreadout/guides/batch.html
+authors:
+  - Richard Zimring
+input:
+  - files: the raw instrument files (or unnamed inputs)
+  - sample_sheet: optional; CSV, TSV or XLSX sample sheet or plate layout
+output:
+  - table: the tidy table (first or `table=` named output); `.csv`, `.tsv`, `.jsonl`, `.json` or `.parquet` by extension
+  - summary: optional; the group summary (needs `params.summarize`)
+params:
+  - measure: `stats`, `trace`, `table` (default), `gate` or `info`
+  - extra: optional; measure options, e.g. `--where parameter=FITC-A`, `--per image`, `--workspace analysis.wsp`
+  - summarize: `openreadout batch summarize` options for `output.summary`, e.g. `--by condition --value median --test welch --control DMSO`
+notes: |
+  * The binary must be on PATH (bioconda recipe pending, see book/src/guides/pipelines.md), or use
+    `--software-deployment-method conda` once the recipe is available.
+  * Unreadable inputs become rows with an `error`; nothing is dropped silently.

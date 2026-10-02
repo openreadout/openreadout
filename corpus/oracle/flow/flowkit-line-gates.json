@@ -1,0 +1,22 @@
+{
+ "generator": "flowkit 1.3.2 (flowutils 1.2.2)",
+ "gating": "flowkit-line-gates",
+ "format": "flowjo-wsp",
+ "samples": [
+  {
+   "fcs": "flowkit-line",
+   "sample": "data_set_simple_line_100.fcs",
+   "event_count": 100,
+   "populations": [
+    {
+     "path": "/poly1",
+     "count": 0
+    },
+    {
+     "path": "/rect1",
+     "count": 0
+    }
+   ]
+  }
+ ]
+}

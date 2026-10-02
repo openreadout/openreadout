@@ -1,0 +1,61 @@
+{
+ "id": "rsciio-tia-128x128x5-diffraction-preview-1",
+ "file": "rsciio-tia-128x128x5-diffraction_preview_1.ser",
+ "size": 328122,
+ "sha256": "a605aae2e51ba2507e4c5e3af409677e4a178b1139016077c45d42646c224f27",
+ "max_planes_hashed": 64,
+ "reader": "ncempy.io.ser (GPL, black box)",
+ "series_version": 544,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 5,
+   "pixel_type": "int32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "963600aacba45394678a52e4c5a17915"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "807512450916538224f903dd95bc6fee"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "b8331b486aafa90f1f61be92e1c8ae9d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "123b1494d4cfe655a10d14b706092e3f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "f0ac5eb0c634b7d3f370f0a094821208"
+    }
+   ]
+  }
+ ],
+ "emi": {
+  "AcceleratingVoltage": 200000,
+  "Microscope []": "Microscope TalosF200X 200 kV D6308 XTwin"
+ }
+}

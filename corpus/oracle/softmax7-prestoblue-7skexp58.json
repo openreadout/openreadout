@@ -1,0 +1,24 @@
+{
+ "id": "softmax7-prestoblue-7skexp58",
+ "file": "softmax7-prestoblue-7skexp58.sda",
+ "size": 78251,
+ "sha256": "14f7ab353889bcf2d22022155c4aa5a5abc8e50f578b0551233dd28fdd4291ed",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (MOLDEV_SOFTMAX_PRO) on the depositor's export softmax7-prestoblue-7skexp58.txt",
+ "plate": {
+  "groups": [
+   {
+    "mode": "fluorescence",
+    "wells": 96,
+    "values": 288,
+    "errors": 0,
+    "wavelengths": [
+     585.0
+    ],
+    "value_xxh3": "3f078332d48c5314908c9e79d1fcd897"
+   }
+  ],
+  "header": {},
+  "documents": 288
+ }
+}

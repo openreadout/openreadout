@@ -1,0 +1,39 @@
+{
+ "id": "gen5-multiple-read-modes",
+ "file": "gen5-multiple-read-modes.txt",
+ "size": 2694,
+ "sha256": "805767d88b79fe97a3daab75ce485f51f48f5507513aa42a9826463dc88c4e17",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (AGILENT_GEN5)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 96,
+    "errors": 0,
+    "wavelengths": [
+     600.0
+    ],
+    "value_xxh3": "2aa25f5e609b584290135ae29fc4dff1"
+   },
+   {
+    "mode": "fluorescence",
+    "wells": 96,
+    "values": 192,
+    "errors": 0,
+    "wavelengths": [
+     520.0,
+     616.0
+    ],
+    "value_xxh3": "07997f3fbcd204e31df76716f130121f"
+   }
+  ],
+  "header": {
+   "model": "Synergy H1",
+   "serial_number": "12345678",
+   "software_version": "3.15.15"
+  },
+  "documents": 96
+ }
+}

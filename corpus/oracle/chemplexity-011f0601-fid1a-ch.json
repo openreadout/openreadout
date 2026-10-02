@@ -1,0 +1,44 @@
+{
+ "id": "chemplexity-011f0601-fid1a-ch",
+ "file": "chemplexity-011F0601-FID1A.CH",
+ "size": 92286,
+ "sha256": "cdb0bf817689c9b4770f557a95be965146b341fda273b5476c6591ade2074b4c",
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) / Aston (BSD-3) for version 81",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "chemplexity-011F0601-FID1A"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": null,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 45256,
+     "channels": [
+      {
+       "xxh3": "ba401d19fad97c32cbcc772a0f42d1b9",
+       "first": [
+        3.4140626780572347,
+        3.4140626780572347,
+        3.415364761458477,
+        3.413021011336241,
+        3.413541844696738,
+        3.411328302914626,
+        3.413021011336241,
+        3.4138022613769863
+       ]
+      }
+     ]
+    }
+   ],
+   "oracle_note": "Aston AgilentFID.total_trace with the escape multiplier 65536 (Aston: 65534); Aston's time axis is a fixed 0.2 s step, so rate and x range are not compared"
+  }
+ ]
+}

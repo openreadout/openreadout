@@ -1,0 +1,65 @@
+{
+ "id": "ome-imaris-convallaria-3c-1t",
+ "file": "Convallaria_3C_1T_confocal.ims",
+ "size": 7390551,
+ "sha256": "6f2e5be6bdf7a13e68916b0ed835c651857accaba2fdbf8ba62eeb227c6793ba",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 1.2059570312500014,
+    "y": 1.2059374999999999,
+    "z": null
+   },
+   "channel_names": [
+    "Red",
+    "Green",
+    "Blue"
+   ],
+   "filters": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ed62a75a68fe48de15cadee834b84348"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e444f3d1cca9e17298ab855aac78a7dd"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8631c9a884ec9672f164e3ad2314419e"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 1024,
+   "height": 1024,
+   "size_z": 1,
+   "size_t": 1,
+   "size_c": 3,
+   "pixel_type": "uint16",
+   "thumbnail": "false"
+  }
+ ]
+}

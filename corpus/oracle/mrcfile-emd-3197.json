@@ -1,0 +1,167 @@
+{
+ "id": "mrcfile-emd-3197",
+ "file": "mrcfile-emd-3197.map",
+ "size": 33024,
+ "sha256": "351d5090d4c56eb5fc41796842ad64abecc238b8da6181f8857be5844dbbc262",
+ "max_planes_hashed": 64,
+ "reader": "mrcfile 1.5.4",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 20,
+   "size_y": 20,
+   "size_z": 20,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "layout": "volume",
+   "physical_size_um": {
+    "x": 0.0011400000000000002,
+    "y": 0.0011400000000000002,
+    "z": 0.0011400000000000002
+   },
+   "mrcfile_voxel_size_angstrom": [
+    11.399999618530273,
+    11.399999618530273,
+    11.399999618530273
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9eccc34681713bc5695e9888f89cba40"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "ccb2cd5ed7fe67b29e570feae10623aa"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "ecdd87e1a8a6f262aee655325c7bda6b"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "7bb0a1a8febb2b523ec99358102764bf"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "4b9d6142ee1a894c3bb3dea90ce45396"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "6210c451f15dc92436d2e2d2f98e19af"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "db81f919ea0644d86abb05d15bc8ec15"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "a89f7decd058476df57b98ef155e7095"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "4637c8811ce5ca62b46985b464f8b92a"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "f64eba97c521f610d1dcf954aa3f9253"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "8d405006d151464218ead8ee3b036e21"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "4e2b8ef3eb2613cfd6d1a2e55b38fa3f"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "18d7446aa383f7859f765acac7a13030"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "1232240fffd3a4cd8e92af5137b6e50a"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "30deeb69330e42572c5f019a46a708b7"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "262e3864cb006f6953330e0b95b34d92"
+    },
+    {
+     "c": 0,
+     "z": 16,
+     "t": 0,
+     "xxh3": "b641b083b93ed216de865e2abcb02441"
+    },
+    {
+     "c": 0,
+     "z": 17,
+     "t": 0,
+     "xxh3": "524974f2919a7d73f2c4566a3b08c563"
+    },
+    {
+     "c": 0,
+     "z": 18,
+     "t": 0,
+     "xxh3": "f5e490c6133bbba6b013e9212ef72351"
+    },
+    {
+     "c": 0,
+     "z": 19,
+     "t": 0,
+     "xxh3": "0e12925f1a1a7bdbe8d68386547e22ca"
+    }
+   ]
+  }
+ ],
+ "header": {
+  "mode": 2,
+  "ispg": 1,
+  "nsymbt": 0,
+  "exttyp": "\u0000\u0000\u0000\u0000",
+  "nversion": 0,
+  "mapcrs": [
+   1,
+   2,
+   3
+  ],
+  "imod_stamp": false,
+  "imod_flags": 0
+ },
+ "fei_first_block": null
+}

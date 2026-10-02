@@ -1,0 +1,83 @@
+{
+ "id": "dandi000067-ee-044",
+ "file": "dandi-nwb/dandi000067-sub-EE_ses-EE-044_ecephys.nwb",
+ "format": "nwb",
+ "family": "electrophysiology",
+ "readers": [
+  "pynwb 4.2.0 (BSD-3)"
+ ],
+ "checks": [
+  {
+   "field": "session start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2008-06-22T00:00:00-04:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "session description",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/comment",
+   "theirs": "Although short-term plasticity is believed to play a fundamental role in cortical computation, empirical evidence bearing on its role during behavior is scarce. Here we looked for the signature of short-term plasticity in the fine-timescale spiking relationships of a simultaneously recorded population of physiologically identified pyramidal cells and interneurons, in the medial prefrontal cortex of the rat, in a working memory task. On broader timescales, sequentially organized and transiently active neurons reliably differentiated between different trajectories of the rat in the maze. On finer timescales, putative monosynaptic interactions reflected short-term plasticity in their dynamic and predictable modulation across various aspects of the task, beyond a statistical accounting for the effect of the neurons' co-varying firing rates. Seeking potential mechanisms for such effects, we found evidence for both firing pattern-dependent facilitation and depression, as well as for a supralinear effect of presynaptic coincidence on the firing of postsynaptic targets.",
+   "cmp": "text"
+  },
+  {
+   "field": "experimenter (all, joined)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "Shigeyoshi Fujisawa",
+   "cmp": "text"
+  },
+  {
+   "field": "subject id",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "EE",
+   "cmp": "text"
+  },
+  {
+   "field": "ElectricalSeries: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=ElectricalSeries]/sample_count",
+   "theirs": 26000,
+   "cmp": "exact"
+  },
+  {
+   "field": "ElectricalSeries: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=ElectricalSeries]/sample_rate_hz",
+   "theirs": 20000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "ElectricalSeries: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=ElectricalSeries]/channels/[name=ElectricalSeries]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  }
+ ]
+}

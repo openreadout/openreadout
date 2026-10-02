@@ -1,0 +1,286 @@
+{
+ "id": "nmrxiv-s846-50",
+ "file": "nmrxiv-s846/50",
+ "format": "bruker-nmr",
+ "family": "nmr",
+ "readers": [
+  "nmrglue 0.12 (BSD-3) bruker.read_jcamp on acqus and procs"
+ ],
+ "checks": [
+  {
+   "field": "acqus SFO1",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectrometer_frequency_mhz",
+   "theirs": 400.152471084,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus BF1",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/base_frequency_mhz",
+   "theirs": 400.15,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus SW_h",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectral_width_hz",
+   "theirs": 12019.2307692308,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus SW",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectral_width_ppm",
+   "theirs": 30.0366276301356,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus O1",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/carrier_offset_hz",
+   "theirs": 2471.084,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus TE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/temperature_k",
+   "theirs": 298.1602,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus TD",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/time_domain_size",
+   "theirs": 131072,
+   "cmp": "exact"
+  },
+  {
+   "field": "acqus NS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/scans",
+   "theirs": 16,
+   "cmp": "exact"
+  },
+  {
+   "field": "acqus DS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/dummy_scans",
+   "theirs": 0,
+   "cmp": "exact"
+  },
+  {
+   "field": "acqus DECIM",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/decimation",
+   "theirs": 1664,
+   "cmp": "exact"
+  },
+  {
+   "field": "acqus DSPFVS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/dsp_firmware",
+   "theirs": 21,
+   "cmp": "exact"
+  },
+  {
+   "field": "acqus RG",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/receiver_gain",
+   "theirs": 135.47,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus GRPDLY",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/group_delay_points",
+   "theirs": 76.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "acqus PULPROG",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/pulse_program",
+   "theirs": "zg30",
+   "cmp": "text"
+  },
+  {
+   "field": "acqus SOLVENT",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/solvent",
+   "theirs": "CDCl3",
+   "cmp": "text"
+  },
+  {
+   "field": "acqus INSTRUM",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/instrument",
+   "theirs": "spect",
+   "cmp": "text"
+  },
+  {
+   "field": "acqus NUC1",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/nucleus",
+   "theirs": "1H",
+   "cmp": "text"
+  },
+  {
+   "field": "acqus DATE (seconds since 1970)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2019-07-08T11:40:45Z",
+   "cmp": "time",
+   "abs": 1.0
+  },
+  {
+   "field": "pdata/1 procs SF",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=pdata~11]/extra/spectrometer_frequency_mhz",
+   "theirs": 400.15,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "pdata/1 procs SW_p",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=pdata~11]/extra/spectral_width_hz",
+   "theirs": 12019.2307692287,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "pdata/1 procs LB",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=pdata~11]/extra/line_broadening_hz",
+   "theirs": 0.1,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "pdata/1 procs PHC0",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=pdata~11]/extra/phase0_deg",
+   "theirs": 245.94,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "pdata/1 procs PHC1",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=pdata~11]/extra/phase1_deg",
+   "theirs": 0.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "pdata/1 procs OFFSET (first ppm)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=pdata~11]/extra/axis/first",
+   "theirs": 21.1938,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "pdata/1 procs NC_proc",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=pdata~11]/extra/normalization_exponent",
+   "theirs": -5,
+   "cmp": "exact"
+  },
+  {
+   "field": "pdata/1 procs SI",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=pdata~11]/sample_count",
+   "theirs": 131072,
+   "cmp": "exact"
+  }
+ ]
+}

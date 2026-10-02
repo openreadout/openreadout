@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WellStatsOutput",
+  "description": "Output of `stats --per well` and MCP `openreadout_stats` with `per: \"well\"`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input file.",
+      "type": "string"
+    },
+    "plate": {
+      "description": "Plate id or barcode, when recorded.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "level": {
+      "description": "Pyramid level read (0 = full resolution); omitted when 0.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "select": {
+      "description": "The selection as given; empty = every plane.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "per_field": {
+      "description": "True when rows are per field of view.",
+      "type": "boolean"
+    },
+    "columns": {
+      "description": "Column names of `rows`, in order (for tables and CSV).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rows": {
+      "description": "One row per (well, channel), or per (well, field, channel) with `per_field`, in plate\norder (row by row, then field, then channel).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/WellStatsRow"
+      }
+    },
+    "wells_without_data": {
+      "description": "Selected wells without a single readable plane (every file missing).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "description": "Things to know when reading the rows (absent planes left out, missing files skipped).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "select",
+    "per_field",
+    "columns",
+    "rows"
+  ],
+  "$defs": {
+    "WellStatsRow": {
+      "description": "One tidy row of [`WellStatsOutput`]: the statistics of one channel over the selected planes\nof one well (or one field of it).",
+      "type": "object",
+      "properties": {
+        "plate": {
+          "description": "Plate id or barcode, when recorded (the same on every row).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "well": {
+          "description": "Well name (`C05`).",
+          "type": "string"
+        },
+        "row": {
+          "description": "Row letters.",
+          "type": "string"
+        },
+        "column": {
+          "description": "Column number, 1-based.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "image": {
+          "description": "Per-field rows only: the image index of the field.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "field": {
+          "description": "Per-field rows only: the field number as the acquisition software counts it.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "c": {
+          "description": "Channel index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "channel": {
+          "description": "Channel name, if recorded.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fields": {
+          "description": "Fields of view whose planes were read into this row.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "planes": {
+          "description": "Planes aggregated.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "planes_missing": {
+          "description": "Selected planes whose files are missing (skipped).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "count": {
+          "description": "Finite samples.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "mean": {
+          "description": "Mean intensity (absent when no plane was read).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "std": {
+          "description": "Population standard deviation.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "min": {
+          "description": "Smallest sample.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "max": {
+          "description": "Largest sample.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "p1": {
+          "description": "1st percentile (NumPy `linear` interpolation).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "median": {
+          "description": "Median.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "p99": {
+          "description": "99th percentile.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "zero_fraction": {
+          "description": "Fraction of samples equal to 0.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "saturated_fraction": {
+          "description": "Integer data: fraction of samples at the type's maximum (detector saturation).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "well",
+        "row",
+        "column",
+        "c",
+        "fields",
+        "planes",
+        "planes_missing",
+        "count"
+      ]
+    }
+  }
+}

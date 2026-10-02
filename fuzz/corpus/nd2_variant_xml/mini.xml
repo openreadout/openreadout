@@ -1,0 +1,1 @@
+<?xml version="1.0"?><variant version="1.0"><no_name runtype="CLxListVariant"><uiWidth runtype="lx_uint32" value="696"/><d runtype="double" value="0.5"/><b runtype="bool" value="true"/><s runtype="CLxStringW" value="hi"/><L runtype="CLxListVariant"><_00 runtype="lx_int32" value="-1"/></L><a runtype="CLxByteArray" value="AAEC"/></no_name></variant>

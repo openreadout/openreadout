@@ -1,0 +1,6 @@
+{
+ "id": "gdal-jxl-rgbsmall-tiled-separate",
+ "file": "gdal-rgbsmall_JXL_tiled_separate.tif",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": []
+}

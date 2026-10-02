@@ -1,0 +1,20 @@
+{
+ "id": "zenodo8398370-NF-0001",
+ "file": "zenodo8398370-NF-0001.dm4",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b1d4ff8c72714d7f193e2e2033d1b95d"
+    }
+   ]
+  }
+ ]
+}

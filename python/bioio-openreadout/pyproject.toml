@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bioio-openreadout"
+version = "0.1.0"
+description = "bioio reader plugin that reads microscopy files with OpenReadout"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+license-files = ["LICENSE-MIT", "LICENSE-APACHE"]
+requires-python = ">=3.10"
+authors = [{ name = "The OpenReadout Authors", email = "openreadout@gmail.com" }]
+keywords = ["bioio", "microscopy", "czi", "nd2", "lif", "imaging"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Topic :: Scientific/Engineering :: Image Processing",
+  "Typing :: Typed",
+]
+# Exactly one `bioio-base` requirement: bioio reads it to check plugin compatibility.
+# Deliberately no dependency on the GPL-licensed bioio-czi / bioio-lif.
+dependencies = [
+  "bioio-base>=3.4,<4",
+  "openreadout[xarray]>=0.1.0,<0.2",
+  "dask[array]>=2022.2",
+  "fsspec>=2022.8.0",
+  "numpy>=1.22",
+  "ome-types>=0.4",
+  "xarray>=2022.6",
+]
+
+[project.optional-dependencies]
+# Oracles for the tests (all permissively licensed).
+test = ["pytest>=7", "bioio>=3", "bioio-nd2", "czifile", "liffile"]
+
+[project.entry-points."bioio.readers"]
+# bioio uses the entry point name as the distribution name, so they must match.
+bioio-openreadout = "bioio_openreadout"
+
+[project.urls]
+Homepage = "https://github.com/openreadout/openreadout"
+Repository = "https://github.com/openreadout/openreadout"
+Documentation = "https://openreadout.github.io/openreadout/guides/python.html"
+
+[tool.hatch.build.targets.wheel]
+packages = ["bioio_openreadout"]
+
+[tool.hatch.build.targets.sdist]
+include = ["bioio_openreadout", "tests", "README.md", "LICENSE-MIT", "LICENSE-APACHE"]
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib"

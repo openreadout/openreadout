@@ -1,0 +1,1716 @@
+{
+ "id": "dandi000043-sub-m19-01-001-ses-20190228t222559-icephys",
+ "file": "dandi-nwb/dandi000043-sub-M19-01-001-ses-20190228T222559_icephys.nwb",
+ "format": "nwb",
+ "family": "electrophysiology",
+ "readers": [
+  "pynwb 4.2.0 (BSD-3)"
+ ],
+ "checks": [
+  {
+   "field": "session start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2019-02-28T22:25:59.920000+00:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "session description",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/comment",
+   "theirs": "PLACEHOLDER",
+   "cmp": "text"
+  },
+  {
+   "field": "subject id",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "M19.01.001",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00000_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00000_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00000_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00000_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00000_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00000_AD0]/channels/[name=data_00000_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00001_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00001_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00001_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00001_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00001_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00001_AD0]/channels/[name=data_00001_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00002_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00002_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00002_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00002_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00002_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00002_AD0]/channels/[name=data_00002_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00003_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00003_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00003_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00003_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00003_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00003_AD0]/channels/[name=data_00003_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00004_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00004_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00004_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00004_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00004_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00004_AD0]/channels/[name=data_00004_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00005_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00005_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00005_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00005_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00005_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00005_AD0]/channels/[name=data_00005_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00006_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00006_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00006_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00006_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00006_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00006_AD0]/channels/[name=data_00006_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00007_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00007_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00007_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00007_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00007_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00007_AD0]/channels/[name=data_00007_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00008_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00008_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00008_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00008_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00008_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00008_AD0]/channels/[name=data_00008_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00009_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00009_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00009_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00009_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00009_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00009_AD0]/channels/[name=data_00009_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00010_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00010_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00010_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00010_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00010_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00010_AD0]/channels/[name=data_00010_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00011_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00011_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00011_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00011_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00011_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00011_AD0]/channels/[name=data_00011_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00012_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00012_AD0]/sample_count",
+   "theirs": 177500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00012_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00012_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00012_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00012_AD0]/channels/[name=data_00012_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00013_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00013_AD0]/sample_count",
+   "theirs": 1027500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00013_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00013_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00013_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00013_AD0]/channels/[name=data_00013_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00014_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00014_AD0]/sample_count",
+   "theirs": 1027500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00014_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00014_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00014_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00014_AD0]/channels/[name=data_00014_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00015_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00015_AD0]/sample_count",
+   "theirs": 1027500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00015_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00015_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00015_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00015_AD0]/channels/[name=data_00015_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00016_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00016_AD0]/sample_count",
+   "theirs": 1027500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00016_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00016_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00016_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00016_AD0]/channels/[name=data_00016_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00017_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00017_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00017_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00017_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00017_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00017_AD0]/channels/[name=data_00017_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00018_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00018_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00018_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00018_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00018_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00018_AD0]/channels/[name=data_00018_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00019_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00019_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00019_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00019_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00019_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00019_AD0]/channels/[name=data_00019_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00020_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00020_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00020_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00020_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00020_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00020_AD0]/channels/[name=data_00020_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00021_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00021_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00021_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00021_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00021_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00021_AD0]/channels/[name=data_00021_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00022_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00022_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00022_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00022_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00022_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00022_AD0]/channels/[name=data_00022_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00023_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00023_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00023_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00023_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00023_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00023_AD0]/channels/[name=data_00023_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00024_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00024_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00024_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00024_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00024_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00024_AD0]/channels/[name=data_00024_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00025_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00025_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00025_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00025_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00025_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00025_AD0]/channels/[name=data_00025_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00026_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00026_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00026_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00026_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00026_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00026_AD0]/channels/[name=data_00026_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00027_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00027_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00027_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00027_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00027_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00027_AD0]/channels/[name=data_00027_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00028_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00028_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00028_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00028_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00028_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00028_AD0]/channels/[name=data_00028_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00029_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00029_AD0]/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00029_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00029_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00029_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00029_AD0]/channels/[name=data_00029_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00030_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00030_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00030_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00030_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00030_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00030_AD0]/channels/[name=data_00030_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00031_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00031_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00031_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00031_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00031_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00031_AD0]/channels/[name=data_00031_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00032_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00032_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00032_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00032_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00032_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00032_AD0]/channels/[name=data_00032_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00033_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00033_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00033_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00033_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00033_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00033_AD0]/channels/[name=data_00033_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00034_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00034_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00034_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00034_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00034_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00034_AD0]/channels/[name=data_00034_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00035_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00035_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00035_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00035_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00035_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00035_AD0]/channels/[name=data_00035_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00036_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00036_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00036_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00036_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00036_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00036_AD0]/channels/[name=data_00036_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00037_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00037_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00037_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00037_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00037_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00037_AD0]/channels/[name=data_00037_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00038_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00038_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00038_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00038_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00038_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00038_AD0]/channels/[name=data_00038_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00039_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00039_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00039_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00039_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00039_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00039_AD0]/channels/[name=data_00039_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00040_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00040_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00040_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00040_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00040_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00040_AD0]/channels/[name=data_00040_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00041_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00041_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00041_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00041_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00041_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00041_AD0]/channels/[name=data_00041_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00042_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00042_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00042_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00042_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00042_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00042_AD0]/channels/[name=data_00042_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00043_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00043_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00043_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00043_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00043_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00043_AD0]/channels/[name=data_00043_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00044_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00044_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00044_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00044_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00044_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00044_AD0]/channels/[name=data_00044_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00045_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00045_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00045_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00045_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00045_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00045_AD0]/channels/[name=data_00045_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00046_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00046_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00046_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00046_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00046_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00046_AD0]/channels/[name=data_00046_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00047_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00047_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00047_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00047_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00047_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00047_AD0]/channels/[name=data_00047_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00048_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00048_AD0]/sample_count",
+   "theirs": 52650,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00048_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00048_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00048_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00048_AD0]/channels/[name=data_00048_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00049_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00049_AD0]/sample_count",
+   "theirs": 552500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00049_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00049_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00049_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00049_AD0]/channels/[name=data_00049_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00050_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00050_AD0]/sample_count",
+   "theirs": 552500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00050_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00050_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00050_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00050_AD0]/channels/[name=data_00050_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00051_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00051_AD0]/sample_count",
+   "theirs": 552500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00051_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00051_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00051_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00051_AD0]/channels/[name=data_00051_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00052_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00052_AD0]/sample_count",
+   "theirs": 552500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00052_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00052_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00052_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00052_AD0]/channels/[name=data_00052_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "data_00053_AD0: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00053_AD0]/sample_count",
+   "theirs": 552500,
+   "cmp": "exact"
+  },
+  {
+   "field": "data_00053_AD0: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00053_AD0]/sample_rate_hz",
+   "theirs": 50000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "data_00053_AD0: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=data_00053_AD0]/channels/[name=data_00053_AD0]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "id": "zenodo17463176-Fig_b2_1",
+ "file": "zenodo17463176-Fig_b2_1.ser",
+ "size": 8388754,
+ "sha256": "1a5c4454e934e147bc20f9e171f9f94cb6da36b2f51fcaacabdbaffd6ba02ea6",
+ "max_planes_hashed": 64,
+ "reader": "ncempy.io.ser (GPL, black box)",
+ "series_version": 544,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 7.580698839393138e-05,
+    "y": 7.580698839393138e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4442212a26e505e9cc37fcbd313a4398"
+    }
+   ]
+  }
+ ],
+ "emi": {
+  "AcceleratingVoltage": 200000,
+  "Microscope []": "Microscope TecnaiOsiris 200 kV D675 AnalyticalTwin",
+  "Magnification [x]": 630000
+ }
+}

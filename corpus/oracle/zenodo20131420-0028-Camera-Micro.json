@@ -1,0 +1,36 @@
+{
+ "id": "zenodo20131420-0028-Camera-Micro",
+ "file": "zenodo20131420-0028-Camera-Micro.emd",
+ "size": 33833416,
+ "sha256": "65c442800533619bd9f7f2373211ace9f55fc1f67d025bee59a978df9a1b320c",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "d1b55752980d4701aa137ab01cd857bb",
+   "size_x": 4096,
+   "size_y": 4096,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int16",
+   "physical_size_um": {
+    "x": 0.00041184538521018904,
+    "y": 0.00041184538521018904,
+    "z": null
+   },
+   "detector": "BM-Ceta",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5a2b9446c01d69ddaa2a36d6073602d8"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"10\",\n    \"format\": \"Velox\"\n}\n"
+}

@@ -1,0 +1,110 @@
+Method name: x,,,,,
+Application: SparkControl,,,,V2.3,
+Device: Spark,,,,Serial number: x,
+Firmware:,,,,LUM:V5.2.3|ABS:V4.3.2|ABS_MEX:V5.0.7|MTP:V13.1.5|FLUOR:V5.1.3|FLUOR_BOTTOM:V5.0.2|FLUOR_MEM:V5.0.7|FLUOR_MEX:V5.0.7,
+,,,,,
+Date:,,,,06/02/2020,
+Time:,,,,10:01 AM,
+System,,,,x,
+User,,,,x\x,
+Plate,,,,[GRE96ft] - Greiner 96 Flat Transparent Cat. No.: 655101/655161/655192,
+Lid lifter,,,,Removable lid,
+Humidity Cassette,,,,No humidity cassette,
+Smooth mode,,,,Not selected,
+,,,,,
+List of actions in this measurement script:,,,,,
+Plate,,,,,
+,Temperature,,,,
+,Kinetic,,,,
+,,Absorbance,,,
+,,Absorbance,,,
+,,Fluorescence Top Reading,,,
+,,Fluorescence Top Reading,,,
+,,Shaking,,,
+,,,,,
+Name,,,,GRE96ft,
+Plate layout,,,,,
+Plate area,,,,A1-H12,
+,,,,,
+Start Time,,,,05/02/2020 09:14,
+Temperature control,,,,On,
+Target temperature,,,,37,°C
+Wait minimum,,,,35,°C
+Wait maximum,,,,37.5,°C
+,,,,,
+Mode,Kinetic,,,,
+Kinetic duration,,,,23:59:59,hh:mm:ss
+Interval time,,,,00:20:00,hh:mm:ss
+,,,,,
+Mode,Absorbance,,,,
+Name,OD600,,,,
+Measurement wavelength,,,,600,nm
+Number of flashes,,,,10,
+Settle time,,,,50,ms
+Part of Plate,,,,A1-H12,
+,,,,,
+Mode,Absorbance,,,,
+Name,OD700,,,,
+Measurement wavelength,,,,700,nm
+Number of flashes,,,,10,
+Settle time,,,,50,ms
+Part of Plate,,,,A1-H12,
+,,,,,
+Mode,Fluorescence Top Reading,,,,
+Name,GFP,,,,
+Excitation,,,,Monochromator,
+Excitation wavelength,,,,485,nm
+Excitation bandwidth,,,,20,nm
+Emission,,,,Monochromator,
+Emission wavelength,,,,535,nm
+Emission bandwidth,,,,20,nm
+Gain,,,,125,Manual
+Mirror,,,,Automatic (Dichroic 510),
+Number of flashes,,,,30,
+Integration time,,,,40,µs
+Lag time,,,,0,µs
+Settle time,,,,0,ms
+Z-Position,,,,20000,µm
+Z-Position mode,,,,Manual,
+Part of Plate,,,,A1-H12,
+,,,,,
+Mode,Fluorescence Top Reading,,,,
+Name,mCherry,,,,
+Excitation,,,,Monochromator,
+Excitation wavelength,,,,561,nm
+Excitation bandwidth,,,,20,nm
+Emission,,,,Monochromator,
+Emission wavelength,,,,620,nm
+Emission bandwidth,,,,20,nm
+Gain,,,,170,Manual
+Mirror,,,,Automatic (50% Mirror),
+Number of flashes,,,,30,
+Integration time,,,,40,µs
+Lag time,,,,0,µs
+Settle time,,,,0,ms
+Z-Position,,,,20000,µm
+Z-Position mode,,,,Manual,
+Part of Plate,,,,A1-H12,
+,,,,,
+Shaking (Double Orbital) Duration,,,,Continuous,
+Shaking (Double Orbital) Position,,,,Current,
+Shaking (Double Orbital) Amplitude,,,,2,mm
+Shaking (Double Orbital) Frequency,,,,150,rpm
+,,,,,
+Start Time,,,,05/02/2020 09:14,
+,,,,,
+OD600,,,,,
+Cycle Nr.,1,2,3,4,5
+Time [s],0,1193.795,2393.724,3897.165,5090.796
+Temp. [°C],35.5,37,37,37.3,37
+A1,0.0438,0.0436,0.0438,0.0456,0.0437
+A2,0.0438,0.0437,0.0438,0.0459,0.0437
+A3,0.0437,0.0439,0.0438,0.0458,0.0439
+,,,,,
+OD700,,,,,
+Cycle Nr.,1,2,3,4,5
+Time [s],0,1193.795,2393.724,3897.165,5090.796
+Temp. [°C],36.1,37.1,37.1,37.4,37.3
+A1,0.0414,0.0412,0.0413,0.0415,0.0413
+A2,0.0415,0.0414,0.0413,0.0414,0.0413
+A3,0.0412,0.0414,0.0414,0.0416,0.0413

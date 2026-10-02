@@ -1,0 +1,1285 @@
+{
+ "id": "seahorse-zenodo15310495-spheroid-1",
+ "format": "agilent-seahorse-asyr",
+ "independent": false,
+ "reader": "Python standard library (gzip, xml.etree): a second implementation of docs/formats/agilent-seahorse.md",
+ "name": "20240903_Thomas_spheroid1 ISOFAGeFAG",
+ "serial": "411183",
+ "sw_version": "2.6.3.8",
+ "rows": 8,
+ "cols": 12,
+ "wells": [
+  "A1",
+  "A2",
+  "A3",
+  "A4",
+  "A5",
+  "A6",
+  "A7",
+  "A8",
+  "A9",
+  "A10",
+  "A11",
+  "A12",
+  "B1",
+  "B2",
+  "B3",
+  "B4",
+  "B5",
+  "B6",
+  "B7",
+  "B8",
+  "B9",
+  "B10",
+  "B11",
+  "B12",
+  "C1",
+  "C2",
+  "C3",
+  "C4",
+  "C5",
+  "C6",
+  "C7",
+  "C8",
+  "C9",
+  "C10",
+  "C11",
+  "C12",
+  "D1",
+  "D2",
+  "D3",
+  "D4",
+  "D5",
+  "D6",
+  "D7",
+  "D8",
+  "D9",
+  "D10",
+  "D11",
+  "D12",
+  "E1",
+  "E2",
+  "E3",
+  "E4",
+  "E5",
+  "E6",
+  "E7",
+  "E8",
+  "E9",
+  "E10",
+  "E11",
+  "E12",
+  "F1",
+  "F2",
+  "F3",
+  "F4",
+  "F5",
+  "F6",
+  "F7",
+  "F8",
+  "F9",
+  "F10",
+  "F11",
+  "F12",
+  "G1",
+  "G2",
+  "G3",
+  "G4",
+  "G5",
+  "G6",
+  "G7",
+  "G8",
+  "G9",
+  "G10",
+  "G11",
+  "G12",
+  "H1",
+  "H2",
+  "H3",
+  "H4",
+  "H5",
+  "H6",
+  "H7",
+  "H8",
+  "H9",
+  "H10",
+  "H11",
+  "H12"
+ ],
+ "groups": [
+  "Background",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "Background",
+  "Isofag 50",
+  "Isofag 50",
+  "Isofag 50",
+  "Isofag 50",
+  "Isofag 50",
+  "untreated",
+  "untreated",
+  "Fag 50",
+  "Fag 50",
+  "Fag 50",
+  "Fag 50",
+  "Fag 50",
+  "Isofag 25",
+  "Isofag 25",
+  "Isofag 25",
+  "Isofag 25",
+  "Isofag 25",
+  "untreated",
+  "untreated",
+  "Fag 25",
+  "Fag 25",
+  "Fag 25",
+  "Fag 25",
+  "Fag 25",
+  "Isofag 12",
+  "Isofag 12",
+  "Isofag 12",
+  "Isofag 12",
+  "Isofag 12",
+  "untreated",
+  "untreated",
+  "Fag 12",
+  "Fag 12",
+  "Fag 12",
+  "Fag 12",
+  "Fag 12",
+  "Isofag 6",
+  "Isofag 6",
+  "Isofag 6",
+  "Isofag 6",
+  "Isofag 6",
+  "untreated",
+  "untreated",
+  "Fag 6",
+  "Fag 6",
+  "Fag 6",
+  "Fag 6",
+  "Fag 6",
+  "Isofag 3",
+  "Isofag 3",
+  "Isofag 3",
+  "Isofag 3",
+  "Isofag 3",
+  "untreated",
+  "untreated",
+  "Fag 3",
+  "Fag 3",
+  "Fag 3",
+  "Fag 3",
+  "Fag 3",
+  "Isofag 1,5",
+  "Isofag 1,5",
+  "Isofag 1,5",
+  "Isofag 1,5",
+  "Isofag 1,5",
+  "untreated",
+  "untreated",
+  "Fag 1,5",
+  "Fag 1,5",
+  "Fag 1,5",
+  "Fag 1,5",
+  "Fag 1,5",
+  "Background",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "untreated",
+  "Background"
+ ],
+ "background": [
+  "A1",
+  "A12",
+  "H1",
+  "H12"
+ ],
+ "injections": [
+  {
+   "group": "untreated",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "untreated",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "untreated",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "untreated",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 50",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 50",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 50",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 50",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 50",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 50",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 50",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 50",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 25",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 25",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 25",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 25",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 25",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 25",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 25",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 25",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 12",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 12",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 12",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 12",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 12",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 12",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 12",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 12",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 6",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 6",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 6",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 6",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 6",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 6",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 6",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 6",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 3",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 3",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 3",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 3",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 3",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 3",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 3",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 3",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 1,5",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 1,5",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 1,5",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Isofag 1,5",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 1,5",
+   "port": "A",
+   "reagent": "Oligomycin",
+   "concentration": 1.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 1,5",
+   "port": "B",
+   "reagent": "FCCP",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 1,5",
+   "port": "C",
+   "reagent": "Rotenone + Antimycin A",
+   "concentration": 0.5,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "Fag 1,5",
+   "port": "D",
+   "reagent": "",
+   "concentration": null,
+   "unit": "",
+   "volume": 25.0
+  }
+ ],
+ "readings": 228,
+ "measurements": 19,
+ "measure_commands": 19,
+ "analytes": [
+  "O2",
+  "pH"
+ ],
+ "samples": {
+  "O2": [
+   [
+    0,
+    0,
+    11565.588473205258
+   ],
+   [
+    0,
+    14,
+    11633.345295165045
+   ],
+   [
+    0,
+    27,
+    11746.141657423545
+   ],
+   [
+    0,
+    41,
+    11460.703527168733
+   ],
+   [
+    0,
+    54,
+    11425.579412237033
+   ],
+   [
+    0,
+    68,
+    11618.358920618288
+   ],
+   [
+    0,
+    81,
+    11591.964386407479
+   ],
+   [
+    0,
+    95,
+    11540.014894592117
+   ],
+   [
+    32,
+    0,
+    11622.424862993943
+   ],
+   [
+    32,
+    14,
+    12017.603995621235
+   ],
+   [
+    32,
+    27,
+    12436.46443846032
+   ],
+   [
+    32,
+    41,
+    12286.998473864938
+   ],
+   [
+    32,
+    54,
+    12754.040662166506
+   ],
+   [
+    32,
+    68,
+    12306.411695293038
+   ],
+   [
+    32,
+    81,
+    12262.484019622418
+   ],
+   [
+    32,
+    95,
+    11693.784435261707
+   ],
+   [
+    65,
+    0,
+    11741.716613787135
+   ],
+   [
+    65,
+    14,
+    12019.97345738131
+   ],
+   [
+    65,
+    27,
+    12352.02724105163
+   ],
+   [
+    65,
+    41,
+    12240.78786722625
+   ],
+   [
+    65,
+    54,
+    12576.342710175211
+   ],
+   [
+    65,
+    68,
+    12292.149429807316
+   ],
+   [
+    65,
+    81,
+    12304.36817843866
+   ],
+   [
+    65,
+    95,
+    11925.970594991959
+   ],
+   [
+    97,
+    0,
+    11805.268753606462
+   ],
+   [
+    97,
+    14,
+    11981.744319737201
+   ],
+   [
+    97,
+    27,
+    12176.952320608269
+   ],
+   [
+    97,
+    41,
+    12036.57142857143
+   ],
+   [
+    97,
+    54,
+    12241.991481838637
+   ],
+   [
+    97,
+    68,
+    12150.511859520377
+   ],
+   [
+    97,
+    81,
+    12205.558596073766
+   ],
+   [
+    97,
+    95,
+    11968.18286239375
+   ],
+   [
+    130,
+    0,
+    11830.125108100317
+   ],
+   [
+    130,
+    14,
+    12936.570099849541
+   ],
+   [
+    130,
+    27,
+    13613.893286890436
+   ],
+   [
+    130,
+    41,
+    14221.816482258682
+   ],
+   [
+    130,
+    54,
+    14993.804340836014
+   ],
+   [
+    130,
+    68,
+    13518.15388648578
+   ],
+   [
+    130,
+    81,
+    12694.416840226122
+   ],
+   [
+    130,
+    95,
+    12043.06481268674
+   ],
+   [
+    162,
+    0,
+    11837.842583249241
+   ],
+   [
+    162,
+    14,
+    12834.5
+   ],
+   [
+    162,
+    27,
+    13488.095615007123
+   ],
+   [
+    162,
+    41,
+    14053.38012588213
+   ],
+   [
+    162,
+    54,
+    15061.095176848876
+   ],
+   [
+    162,
+    68,
+    13409.799973784246
+   ],
+   [
+    162,
+    81,
+    12639.31484235574
+   ],
+   [
+    162,
+    95,
+    12082.519531250002
+   ],
+   [
+    195,
+    0,
+    11873.622837370242
+   ],
+   [
+    195,
+    14,
+    12336.369904240766
+   ],
+   [
+    195,
+    27,
+    12569.300189993666
+   ],
+   [
+    195,
+    41,
+    12511.646385657068
+   ],
+   [
+    195,
+    54,
+    12900.627290260365
+   ],
+   [
+    195,
+    68,
+    12567.76569256978
+   ],
+   [
+    195,
+    81,
+    12457.477549806721
+   ],
+   [
+    195,
+    95,
+    12081.753962784285
+   ],
+   [
+    227,
+    0,
+    12015.743623000431
+   ],
+   [
+    227,
+    14,
+    12568.273995077934
+   ],
+   [
+    227,
+    27,
+    12718.088305111569
+   ],
+   [
+    227,
+    41,
+    12684.994660564455
+   ],
+   [
+    227,
+    54,
+    12984.039543481755
+   ],
+   [
+    227,
+    68,
+    12753.991612057667
+   ],
+   [
+    227,
+    81,
+    12776.184562760262
+   ],
+   [
+    227,
+    95,
+    12237.333409926472
+   ]
+  ],
+  "pH": [
+   [
+    0,
+    0,
+    27231.402895656516
+   ],
+   [
+    0,
+    14,
+    31630.49597855228
+   ],
+   [
+    0,
+    27,
+    30363.473219340958
+   ],
+   [
+    0,
+    41,
+    29295.28341096381
+   ],
+   [
+    0,
+    54,
+    29756.705392896143
+   ],
+   [
+    0,
+    68,
+    29239.535675082323
+   ],
+   [
+    0,
+    81,
+    29482.81803634701
+   ],
+   [
+    0,
+    95,
+    25846.050964515358
+   ],
+   [
+    32,
+    0,
+    27529.882470617657
+   ],
+   [
+    32,
+    14,
+    29864.081711065573
+   ],
+   [
+    32,
+    27,
+    29392.553048048907
+   ],
+   [
+    32,
+    41,
+    29628.233922390235
+   ],
+   [
+    32,
+    54,
+    30213.406974294143
+   ],
+   [
+    32,
+    68,
+    28938.711449896775
+   ],
+   [
+    32,
+    81,
+    28622.1981513576
+   ],
+   [
+    32,
+    95,
+    25940.62016497157
+   ],
+   [
+    65,
+    0,
+    27550.03752814611
+   ],
+   [
+    65,
+    14,
+    30117.43389461553
+   ],
+   [
+    65,
+    27,
+    29578.59722460168
+   ],
+   [
+    65,
+    41,
+    29266.912667334487
+   ],
+   [
+    65,
+    54,
+    29389.575680944105
+   ],
+   [
+    65,
+    68,
+    29306.89466158246
+   ],
+   [
+    65,
+    81,
+    29459.901341660883
+   ],
+   [
+    65,
+    95,
+    25637.61655039692
+   ],
+   [
+    97,
+    0,
+    27636.710921843685
+   ],
+   [
+    97,
+    14,
+    31161.219527800884
+   ],
+   [
+    97,
+    27,
+    30643.142027003927
+   ],
+   [
+    97,
+    41,
+    29951.24603534209
+   ],
+   [
+    97,
+    54,
+    30115.111898760766
+   ],
+   [
+    97,
+    68,
+    30268.6590062604
+   ],
+   [
+    97,
+    81,
+    30496.107177917653
+   ],
+   [
+    97,
+    95,
+    25881.47920173119
+   ],
+   [
+    130,
+    0,
+    26832.08955223881
+   ],
+   [
+    130,
+    14,
+    28571.49628490904
+   ],
+   [
+    130,
+    27,
+    27663.262495710856
+   ],
+   [
+    130,
+    41,
+    26597.70311500868
+   ],
+   [
+    130,
+    54,
+    27169.216084913132
+   ],
+   [
+    130,
+    68,
+    27583.118171683385
+   ],
+   [
+    130,
+    81,
+    28446.43367908675
+   ],
+   [
+    130,
+    95,
+    25268.08479884365
+   ],
+   [
+    162,
+    0,
+    26802.625
+   ],
+   [
+    162,
+    14,
+    28923.828874952003
+   ],
+   [
+    162,
+    27,
+    28321.354042941985
+   ],
+   [
+    162,
+    41,
+    27098.71380410023
+   ],
+   [
+    162,
+    54,
+    27628.749960470144
+   ],
+   [
+    162,
+    68,
+    28432.658769279697
+   ],
+   [
+    162,
+    81,
+    29066.492158111003
+   ],
+   [
+    162,
+    95,
+    25483.792395315257
+   ],
+   [
+    195,
+    0,
+    26822.702274810432
+   ],
+   [
+    195,
+    14,
+    29590.22128421591
+   ],
+   [
+    195,
+    27,
+    28588.367118914608
+   ],
+   [
+    195,
+    41,
+    27560.973022072852
+   ],
+   [
+    195,
+    54,
+    27985.432553247436
+   ],
+   [
+    195,
+    68,
+    28649.941279162038
+   ],
+   [
+    195,
+    81,
+    29008.334990174546
+   ],
+   [
+    195,
+    95,
+    25531.006091696057
+   ],
+   [
+    227,
+    0,
+    26498.50037490627
+   ],
+   [
+    227,
+    14,
+    28209.02746654715
+   ],
+   [
+    227,
+    27,
+    26970.205430122893
+   ],
+   [
+    227,
+    41,
+    25606.874680306908
+   ],
+   [
+    227,
+    54,
+    26121.527482971644
+   ],
+   [
+    227,
+    68,
+    27201.989966555182
+   ],
+   [
+    227,
+    81,
+    27408.321761808173
+   ],
+   [
+    227,
+    95,
+    25226.016219688456
+   ]
+  ]
+ },
+ "background_ratio": 0.0996125372817231
+}

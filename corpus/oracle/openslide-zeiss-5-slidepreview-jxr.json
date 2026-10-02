@@ -1,0 +1,53 @@
+{
+ "id": "openslide-zeiss-5-slidepreview-jxr",
+ "file": "openslide-zeiss-5-slidepreview-jxr.czi",
+ "size": 1767968,
+ "sha256": "f15d2ac93d97516feb44d072710e1ede49a8fe13e5ff4b81e661f14757906062",
+ "max_planes_hashed": 32,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1260,
+   "size_y": 615,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint16",
+   "dims": "YXS",
+   "shape": [
+    615,
+    1260,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 0' (Y: 615, X: 1260, S: 3) bgr48 jpegxr>"
+   ],
+   "physical_size_um": {
+    "x": 35.89085388183594,
+    "y": 35.83403015136719,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "02adfd64cddeb137f0a5dcd5dff4c1d5"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 35.89085388183594,
+  "y": 35.83403015136719,
+  "z": null
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  4
+ ]
+}

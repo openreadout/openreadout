@@ -1,0 +1,20 @@
+{
+ "id": "aics-tiff-s-1-t-1-c-1-z-1-ome-tiff-tiles",
+ "file": "aics-s_1_t_1_c_1_z_1_ome_tiff_tiles.ome.tif",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 475,
+   "size_y": 325,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "586a20205e66e95ced13ce1d7901696d"
+    }
+   ]
+  }
+ ]
+}

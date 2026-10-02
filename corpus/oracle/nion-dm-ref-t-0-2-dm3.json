@@ -1,0 +1,52 @@
+{
+ "id": "nion-dm-ref-t-0-2-dm3",
+ "file": "nion-dm-ref-t-0-2-dm3.dm3",
+ "size": 1637,
+ "sha256": "e69a003777c0d72b38cd1acbe049083f6d15b0c49ce076ef3bd947d1cc5dc534",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 0,
+   "name": null,
+   "size_x": 5,
+   "size_y": 4,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 3,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e6a380ccaa4db49a12e3abaf0d3e1f48"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "e48cc90b6585ba6bc14b5996d1ee4aad"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "d6db2a8ca7b70002e7bee465a39c6485"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.DataType'"
+ ]
+}

@@ -1,0 +1,44 @@
+{
+ "id": "gdal-tif-webp",
+ "file": "gdal-tif-webp.tif",
+ "size": 1774,
+ "sha256": "c7e1c4f12bf4e6a8d8a4bcebb31c0d0597545f39e768f80d218c53f91037c9c5",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "geotiff",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "geotiff",
+   "axes": "YXS",
+   "shape": [
+    50,
+    50,
+    3
+   ],
+   "size_x": 50,
+   "size_y": 50,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "432d68aabd3e7c051da947d76312e622"
+    }
+   ]
+  }
+ ]
+}

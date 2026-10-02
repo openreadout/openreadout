@@ -1,0 +1,20 @@
+{
+ "id": "mrcfile-fei-extended",
+ "file": "mrcfile-fei-extended.mrc",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 3710,
+   "size_y": 3838,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1909cea8351c64b65e24aa64b60a1d93"
+    }
+   ]
+  }
+ ]
+}

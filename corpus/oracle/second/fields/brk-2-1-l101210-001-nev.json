@@ -1,0 +1,22 @@
+{
+ "id": "brk-2-1-l101210-001-nev",
+ "file": "brk-2-1-l101210-001.nev",
+ "format": "blackrock",
+ "family": "electrophysiology",
+ "readers": [
+  "Neo 0.14.5 (BSD-3) BlackrockRawIO: the block's rec_datetime"
+ ],
+ "checks": [
+  {
+   "field": "recording start (rec_datetime)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2010-12-10T10:50:10.156000",
+   "cmp": "time_or_utc",
+   "abs": 0.002
+  }
+ ]
+}

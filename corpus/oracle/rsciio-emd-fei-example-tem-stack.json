@@ -1,0 +1,42 @@
+{
+ "id": "rsciio-emd-fei-example-tem-stack",
+ "file": "rsciio-emd-fei-example-tem-stack.emd",
+ "size": 196872,
+ "sha256": "397d5076b0133db608abd985985fad275bf6594823393f72a069020e47c21a1e",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "26f60320a61d4f66a73efd8cde34ffa9",
+   "size_x": 3,
+   "size_y": 3,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 2,
+   "pixel_type": "int16",
+   "physical_size_um": {
+    "x": 8.17288319229785e-06,
+    "y": 8.17288319229785e-06,
+    "z": null
+   },
+   "detector": "BM-Ceta",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "80120976ff9cc969ae76cff5212e80a6"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "be85ebaeb290672bc0dae0feb22dcf4a"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"8\",\n    \"format\": \"Velox\"\n}\n"
+}

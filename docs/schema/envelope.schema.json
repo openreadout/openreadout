@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Envelope",
+  "description": "Success or failure wrapper.",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "description": "True on success (`data` present), false on failure (`error` present).",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "description": "[`SCHEMA_VERSION`] at the time of writing.",
+      "type": "string"
+    },
+    "tool": {
+      "description": "The producing tool.",
+      "$ref": "#/$defs/ToolId"
+    },
+    "path": {
+      "description": "The input this envelope answers for, in batch mode (`--jsonl`, JSON arrays, MCP\n`openreadout_batch`); absent for single-file commands.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "data": {
+      "description": "The command's output, on success."
+    },
+    "error": {
+      "description": "What went wrong, on failure.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ErrorBody"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "schema_version",
+    "tool"
+  ],
+  "$defs": {
+    "ToolId": {
+      "description": "Identifies the producing tool so consumers can reason about compatibility.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Always `openreadout`.",
+          "type": "string"
+        },
+        "version": {
+          "description": "The tool's version (`CARGO_PKG_VERSION`).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ]
+    },
+    "ErrorBody": {
+      "description": "Structured error body. `hint` is meant to be actionable by an agent.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Stable code: `unknown_format`, `unsupported_feature`, `corrupt_file`, `usage`, `io`, `error`,\n`internal_panic` (a bug: the tool panicked; please report it).",
+          "type": "string"
+        },
+        "message": {
+          "description": "Human-readable description of the failure.",
+          "type": "string"
+        },
+        "hint": {
+          "description": "What to try next, when the tool knows.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "exit_code": {
+          "description": "The process exit code for this error (see the crate docs).",
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "exit_code"
+      ]
+    }
+  }
+}

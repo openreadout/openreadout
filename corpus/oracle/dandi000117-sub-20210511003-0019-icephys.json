@@ -1,0 +1,102 @@
+{
+ "id": "dandi000117-sub-20210511003-0019-icephys",
+ "file": "dandi000117-sub-20210511003-0019_icephys.nwb",
+ "size": 210462,
+ "sha256": "f77068739cc3d7a3815c998483bea961bd75f01601f6625ecd80f45199e3c3b0",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.3.0",
+ "session": {
+  "session_description": "PLACEHOLDER",
+  "identifier": "30a1e1de5a2fae19d7acab48c4e15ecb79dbde6b3c58b6bae5073c4e71a64c31",
+  "session_start_time": "2021-05-11T17:33:29.556000-07:00"
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "index_0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "index_0"
+   ],
+   "sample_rate_hz": 10000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 18000,
+     "channels": [
+      {
+       "xxh3": "6adfe86240cd84e346e2834a37097ad5",
+       "first": [
+        -0.074493408203125,
+        -0.07452392578125,
+        -0.074462890625,
+        -0.074493408203125,
+        -0.074462890625,
+        -0.074462890625,
+        -0.074493408203125,
+        -0.074493408203125
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 0
+  },
+  {
+   "index": 1,
+   "name": "index_1",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "index_1"
+   ],
+   "sample_rate_hz": 10000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 18000,
+     "channels": [
+      {
+       "xxh3": "06bc89ebc424e6cfbb6dcc726cc4acba",
+       "first": [
+        -0.02777099609375,
+        -0.02777099609375,
+        -0.0274658203125,
+        -0.02777099609375,
+        -0.0274658203125,
+        -0.02777099609375,
+        -0.02777099609375,
+        -0.02777099609375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 0
+  }
+ ],
+ "pynwb_version": "4.2.0",
+ "pynwb_series_checked": 2,
+ "pynwb_values_agree": true,
+ "tables": [
+  {
+   "index": 0,
+   "name": "general/intracellular_ephys/sweep_table",
+   "event_count": 2,
+   "parameter_names": [
+    "id",
+    "series_count",
+    "sweep_number"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "117f627aa058ede2fba430a78bffd779",
+    "series_count": "99a4d6792566364eab5818513a61cbed",
+    "sweep_number": "e5189a9599e3f86205ea23ef06e28b2d"
+   }
+  }
+ ]
+}

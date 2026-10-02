@@ -1,0 +1,32 @@
+{
+ "id": "ngb-pyngb-02-messung-probe-e-300-grad-ar",
+ "file": "ngb-pyngb-02-messung-probe-e-300-grad-ar.ngb-ds3",
+ "format": "netzsch-ngb",
+ "family": "bench",
+ "readers": [
+  "pyNGB 0.6.0 (MIT) metadata"
+ ],
+ "checks": [
+  {
+   "field": "date_performed",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2026-08-04T12:23:04+00:00",
+   "cmp": "time",
+   "abs": 1.0
+  },
+  {
+   "field": "instrument (model code before the serial)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "STA449F3",
+   "cmp": "contains"
+  }
+ ]
+}

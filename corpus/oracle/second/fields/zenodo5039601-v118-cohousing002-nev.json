@@ -1,0 +1,22 @@
+{
+ "id": "zenodo5039601-v118-cohousing002-nev",
+ "file": "zenodo5039601-v118-cohousing002.nev",
+ "format": "blackrock",
+ "family": "electrophysiology",
+ "readers": [
+  "Neo 0.14.5 (BSD-3) BlackrockRawIO: the block's rec_datetime"
+ ],
+ "checks": [
+  {
+   "field": "recording start (rec_datetime)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-03-24T18:28:42.811000",
+   "cmp": "time_or_utc",
+   "abs": 0.002
+  }
+ ]
+}

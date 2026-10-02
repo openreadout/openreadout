@@ -1,0 +1,34 @@
+[package]
+name = "openreadout-assay"
+description = "Plate-reader assay analysis for OpenReadout: plate layouts, standard curves, dose-response fits and assay quality"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["plate-reader", "elisa", "4pl", "ic50", "z-factor"]
+categories = ["science", "mathematics"]
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-assay"
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+[dependencies]
+openreadout-core = { workspace = true }
+openreadout-preview = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+schemars = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+# the oracle harness (tests/oracle.rs) opens plate-reader exports
+openreadout-plate = { workspace = true }
+
+[lints]
+workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-unknown-linux-gnu"]

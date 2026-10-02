@@ -1,0 +1,109 @@
+{
+ "id": "ho-zenodo21396092-spa-dust",
+ "file": "sample_a_8e10.SPA",
+ "size": 355476,
+ "sha256": "98401bdca69d25d36249a1ef7e788e588fa7a91c24565e823d9cdad4e00a54d1",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 22609,
+   "x_first": 6000.041,
+   "x_last": 550.104,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 22609,
+     "channels": [
+      {
+       "xxh3": "15178d730a01fca1a62c1b433da3eea3",
+       "first": [
+        104.09599304199219,
+        103.31177520751953,
+        102.57990264892578,
+        101.98445129394531,
+        101.58740234375,
+        101.44697570800781,
+        101.60740661621094,
+        102.10539245605469
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 128,
+     "background_scans": 256,
+     "laser_wavenumber_cm1": 15798.259765625
+    }
+   },
+   "x_tolerance": 0.0005
+  },
+  {
+   "index": 1,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 32768,
+   "x_first": 0.0,
+   "x_last": 32767.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 32768,
+     "channels": [
+      {
+       "xxh3": "2127e9d120a8f66a1e7f2bec3dbc8ec0",
+       "first": [
+        -0.0002452657208777964,
+        0.00030290274298749864,
+        0.0007776774582453072,
+        0.0010201430413872004,
+        0.001452589058317244,
+        0.001591191627085209,
+        0.0015008754562586546,
+        0.0013776906998828053
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 32768,
+   "x_first": 0.0,
+   "x_last": 32767.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 32768,
+     "channels": [
+      {
+       "xxh3": "9280225438c2c7c1241c7df770f2f0a9",
+       "first": [
+        -0.00019148951105307788,
+        0.00011096840898972005,
+        0.00042551092337816954,
+        0.0007696481188759208,
+        0.000984790502116084,
+        0.0011253671254962683,
+        0.0010798206785693765,
+        0.0008865600102581084
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "acquisition_date": "2024-02-29 02:43:19-08:00"
+}

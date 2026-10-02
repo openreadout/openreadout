@@ -1,0 +1,44 @@
+{
+ "id": "zenodo20218285-001-backing-pristine-1",
+ "file": "zenodo20218285-001-backing-pristine-1.spc",
+ "size": 28344,
+ "sha256": "8777aa00aa9b3419f5e0ab505e669de712b69a65c729dbffbcf1c9a4d90f29e2",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_spc",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 6950,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6950,
+     "channels": [
+      {
+       "xxh3": "4b7ced37108bfb73e5de2b2201c68f18",
+       "first": [
+        0.022065503522753716,
+        0.02205595187842846,
+        0.022052710875868797,
+        0.022058183327317238,
+        0.02207149937748909,
+        0.022089209407567978,
+        0.022106606513261795,
+        0.02211895026266575
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4000.1884765625,
+   "x_last": 649.9039916992188
+  }
+ ],
+ "second_opinion": {
+  "reader": "spc-io 0.2.1 (MIT)",
+  "values_agree": true
+ }
+}

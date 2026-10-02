@@ -1,0 +1,44 @@
+{
+ "id": "zenodo4421962-bead12-50x",
+ "file": "50x.oif",
+ "size": 52682,
+ "sha256": "c328ea206ca492d6848fdf7f7b3bd497d9193d8631239c9db4210cff9d54faa8",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box); planes cross-checked with oiffile 2026.2.8",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series 1",
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.016,
+    "y": 0.016
+   },
+   "channel_names": [
+    "CH2",
+    "TD1"
+   ],
+   "oiffile_agrees": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6e6354954451954b907aa84c0fd94606"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3e95ec445a51afd2fea67c22e5195ed3"
+    }
+   ]
+  }
+ ]
+}

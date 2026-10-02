@@ -1,0 +1,248 @@
+{
+ "id": "figshare12133278-ex4-vas-yfp",
+ "file": "figshare12133278-Ex4_panel_h_-_vas_yfp.zvi",
+ "size": 104247296,
+ "sha256": "3d30e8ef9b519fc7f7854ac7dfe205240bfc56fa3279a519c42a165626cf1e8e",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "figshare12133278-Ex4_panel_h_-_vas_yfp.zvi",
+   "size_x": 1388,
+   "size_y": 1040,
+   "size_z": 18,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 1.023809523809524,
+    "y": 1.023809523809524,
+    "z": 4.0396363636363635
+   },
+   "channel_names": [
+    "Alexa 546",
+    "DAPI"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9e187bee98c45783bafc31175f0bdbc7"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "88eed4fa86d833ead07e8115b6140030"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "68cd7680160fad5c50562d0cdd886048"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "b41ff920384c4d4a22f8bfe50390a1ad"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "50fe4496adee4bf73547542126bc0b98"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "938d6bac0a9cc23cb909664fb207710c"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "ad979736beaa19bf4cea3b3dbfd1bd03"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "ad891c913e3a5ad774ee441741673757"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "3849cc2383ff6bf7c688db8f94ab47db"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "576243637a9f2bea3bf7d974315ccf42"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "df8582b5512a75d90b0418c55ef2fb18"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "6c63b746f0d4f4302517cef7195a8a28"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "ddb2a7881e10b009bfb47d5c91f302ed"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "1fd390cea6ffbdb19deb268e32dfe685"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "6b2e9503c7ddf2a2fd3a5771a47e3b81"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "1ff8c7a939e6beeb6bbc3318eed1e228"
+    },
+    {
+     "c": 0,
+     "z": 16,
+     "t": 0,
+     "xxh3": "dfe508c572609d85d5ab2d06c1ce639e"
+    },
+    {
+     "c": 0,
+     "z": 17,
+     "t": 0,
+     "xxh3": "d1d39823449a0d744cab948031e637be"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "76c77fcefc8890c65b5173ebcc9e466a"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "5690db93cfdbf8a98d13c57740155dec"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "6e1239272943c1045a52d929eac84469"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "fc036a7500dab2308ca3607ced4d383b"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "12ced28396da09be27eb4b2c945972eb"
+    },
+    {
+     "c": 1,
+     "z": 5,
+     "t": 0,
+     "xxh3": "33a944e2ebf2bb179713dc412c29f02f"
+    },
+    {
+     "c": 1,
+     "z": 6,
+     "t": 0,
+     "xxh3": "5c03ef8f972caa782934e20c6d2f4d7e"
+    },
+    {
+     "c": 1,
+     "z": 7,
+     "t": 0,
+     "xxh3": "8c63535cbcd2aff0120d9b014c6afd89"
+    },
+    {
+     "c": 1,
+     "z": 8,
+     "t": 0,
+     "xxh3": "b95cc4d43bdfc5bc9296e0d0bd6a572d"
+    },
+    {
+     "c": 1,
+     "z": 9,
+     "t": 0,
+     "xxh3": "ede33009d2cd38b108ca2cc9cb29f793"
+    },
+    {
+     "c": 1,
+     "z": 10,
+     "t": 0,
+     "xxh3": "27fbb4926ea965683fc3bc0adf961698"
+    },
+    {
+     "c": 1,
+     "z": 11,
+     "t": 0,
+     "xxh3": "7965c94ab3a332a924dcecad34c4df93"
+    },
+    {
+     "c": 1,
+     "z": 12,
+     "t": 0,
+     "xxh3": "7e93738d65bb6ab56002c5ac24fb6093"
+    },
+    {
+     "c": 1,
+     "z": 13,
+     "t": 0,
+     "xxh3": "9f9c433582c0f2737d80fa3880ba6ccd"
+    },
+    {
+     "c": 1,
+     "z": 14,
+     "t": 0,
+     "xxh3": "c7eaa32083ff06f81e84133722c9adbb"
+    },
+    {
+     "c": 1,
+     "z": 15,
+     "t": 0,
+     "xxh3": "5f2d5853dc854fc661a5d174b87ff908"
+    },
+    {
+     "c": 1,
+     "z": 16,
+     "t": 0,
+     "xxh3": "0eefa9e102cdd025021cd8916efaa5e7"
+    },
+    {
+     "c": 1,
+     "z": 17,
+     "t": 0,
+     "xxh3": "ab050a25e67299dc4271d42a4df583c8"
+    }
+   ]
+  }
+ ]
+}

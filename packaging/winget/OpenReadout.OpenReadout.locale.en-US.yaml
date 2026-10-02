@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.9.0.schema.json
+# TEMPLATE: rendered by `cargo xtask winget-manifest`; see packaging/winget/README.md.
+PackageIdentifier: OpenReadout.OpenReadout
+PackageVersion: "{{version}}"
+PackageLocale: en-US
+Publisher: OpenReadout
+PublisherUrl: https://github.com/openreadout
+PublisherSupportUrl: https://github.com/openreadout/openreadout/issues
+Author: The OpenReadout Authors
+PackageName: OpenReadout
+PackageUrl: https://github.com/openreadout/openreadout
+License: MIT OR Apache-2.0
+LicenseUrl: https://github.com/openreadout/openreadout/blob/main/LICENSE-MIT
+Copyright: Copyright (c) 2026 The OpenReadout Authors
+ShortDescription: Read raw lab-instrument files without the vendor software.
+Description: |-
+  One binary that reads raw files from microscopes, mass spectrometers, chromatographs, flow
+  cytometers, plate readers and other lab instruments. It prints what is in them as text or JSON,
+  checks them for damage, exports them to open formats such as OME-TIFF and mzML, and runs as an
+  MCP server for AI agents. It works offline and never modifies the source file.
+Moniker: openreadout
+Tags:
+  - microscopy
+  - czi
+  - nd2
+  - lif
+  - ome-tiff
+  - ome-zarr
+  - mcp
+  - science
+ReleaseNotesUrl: https://github.com/openreadout/openreadout/releases/tag/v{{version}}
+ManifestType: defaultLocale
+ManifestVersion: 1.9.0

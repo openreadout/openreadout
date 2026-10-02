@@ -1,0 +1,230 @@
+{
+ "id": "zenodo13305156-cardio-mip",
+ "file": "zenodo13305156-cardio-cycle1_mip.zarr.zip",
+ "size": 16397635,
+ "sha256": "9064b751969ee7f1e90f99a8fee7738427c04e4931d1023cc953042fa707727d",
+ "max_planes_hashed": 64,
+ "reader": "zarr-python 3.4.0 (NGFF metadata interpreted in gen.py)",
+ "kind": "plate",
+ "ngff_version": "0.4",
+ "zarr_format": 2,
+ "labels": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "B/03/0",
+   "size_x": 5120,
+   "size_y": 2160,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "axes": [
+    "c",
+    "z",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.1625,
+    "y": 0.1625,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [
+    "DAPI"
+   ],
+   "level_sizes": [
+    [
+     5120,
+     2160
+    ],
+    [
+     2560,
+     1080
+    ],
+    [
+     1280,
+     540
+    ],
+    [
+     640,
+     270
+    ],
+    [
+     320,
+     135
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d4d8c8eadf018711c4cb8b37af679417"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 2560,
+     "size_y": 1080,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "04d62564e2533c33cb828e3480dd88f8"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 1280,
+     "size_y": 540,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "558c1ff25f5586f88ffa3eeaa4d1cfc8"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 640,
+     "size_y": 270,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "84cf2fa2bb2b6cd3c1517c71fdeb57b0"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 320,
+     "size_y": 135,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "c7f2745bc111bbda7f004d09515c1124"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "B/03/0/labels/nuclei",
+   "size_x": 1280,
+   "size_y": 540,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint32",
+   "axes": [
+    "z",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.65,
+    "y": 0.65,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     1280,
+     540
+    ],
+    [
+     640,
+     270
+    ],
+    [
+     320,
+     135
+    ],
+    [
+     160,
+     67
+    ],
+    [
+     80,
+     33
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "92cecbdd5c7584c59854b2522684d838"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 640,
+     "size_y": 270,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "0d51c5263f9b872884a2297e2b927178"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 320,
+     "size_y": 135,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "95997cac67bdb829a9441149fc34c40a"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 160,
+     "size_y": 67,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "d0b96ad4e821bd5b29d248bc4d8ac5f8"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 80,
+     "size_y": 33,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "b6484ca604e34dc1cedbed823670d44a"
+      }
+     ]
+    }
+   ],
+   "label_of": 0
+  }
+ ]
+}

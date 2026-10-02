@@ -1,0 +1,58 @@
+{
+ "id": "figshare14312828-data-s3-quartz-wdf",
+ "file": "Data_S3-Quartz.wdf",
+ "size": 11752,
+ "sha256": "ad2f92e87f3d10b70ee21ab7e9cc96e6315d85916a31e34d7f07cfe71dfb1306",
+ "max_planes_hashed": 64,
+ "reader": "renishawWiRE (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "renishawWiRE",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sample_count": 461,
+   "x_first": 997.185546875,
+   "x_last": 147.095703125,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 461,
+     "channels": [
+      {
+       "xxh3": "bb8a22ecf842453e33830e57c733c7a4",
+       "first": [
+        997.185546875,
+        995.427734375,
+        993.669921875,
+        991.91015625,
+        990.15234375,
+        988.392578125,
+        986.6328125,
+        984.87109375
+       ]
+      },
+      {
+       "xxh3": "7ba562d5a78c7d37dc03967752d1029d",
+       "first": [
+        7.337590217590332,
+        23.307676315307617,
+        -13.716399192810059,
+        8.24183177947998,
+        25.521438598632812,
+        -12.411391258239746,
+        10.114946365356445,
+        -2.0827431678771973
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "accumulations": 1
+    }
+   }
+  }
+ ]
+}

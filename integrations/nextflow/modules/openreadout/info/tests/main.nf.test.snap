@@ -1,0 +1,47 @@
+{
+    "versions": {
+        "content": [
+            [
+                "versions.yml:md5,44c85d42be6684e5b2eb05ba2349c4ae"
+            ]
+        ],
+        "timestamp": "2026-09-24T15:00:22.725273",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "czi - mini - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "mini_czi"
+                        },
+                        "mini_czi.info.json:md5,b0bf52617e726895a0dfbff5dd891f35"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,44c85d42be6684e5b2eb05ba2349c4ae"
+                ],
+                "json": [
+                    [
+                        {
+                            "id": "mini_czi"
+                        },
+                        "mini_czi.info.json:md5,b0bf52617e726895a0dfbff5dd891f35"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,44c85d42be6684e5b2eb05ba2349c4ae"
+                ]
+            }
+        ],
+        "timestamp": "2026-09-24T15:00:28.130139",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

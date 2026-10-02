@@ -1,0 +1,44 @@
+{
+ "id": "ome-artificial-z-series-tiff",
+ "file": "ome-artificial-z-series.ome.tiff",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 439,
+   "size_y": 167,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d3d30130fdf8ce54d4ab494ebf073002"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "94650b20d3894e6c24470f69c511d35a"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "af93ae1e934a154ebdd335ac81ed10e1"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "a1eb5610640fff19c40a56877bf218c7"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "551d1e2d11891ef4d58594f340047122"
+    }
+   ]
+  }
+ ]
+}

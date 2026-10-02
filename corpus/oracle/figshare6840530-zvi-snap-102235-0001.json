@@ -1,0 +1,33 @@
+{
+ "id": "figshare6840530-zvi-snap-102235-0001",
+ "file": "SNAP-102235-0001.zvi",
+ "size": 8781824,
+ "sha256": "4a5f00eb110282f747b3a8026248e3cb0b4155316a6d6894910501d19e79bdf3",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "SNAP-102235-0001.zvi",
+   "size_x": 1388,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint16",
+   "physical_size_um": {},
+   "channel_names": [
+    null
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dccc0959245bf128f1dac7f833856bc2"
+    }
+   ]
+  }
+ ]
+}

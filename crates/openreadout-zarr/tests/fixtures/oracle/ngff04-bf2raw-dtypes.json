@@ -1,0 +1,230 @@
+{
+ "id": "ngff04-bf2raw-dtypes",
+ "file": "ngff04-bf2raw-dtypes.zip",
+ "size": 15416,
+ "sha256": "f3f617ed87e61d5fbc23922f8d9b0b8d50460f761bf2ac1cfc1edbe61bfca592",
+ "max_planes_hashed": 64,
+ "reader": "zarr-python 3.4.0 (NGFF metadata interpreted in gen.py)",
+ "kind": "bioformats2raw",
+ "ngff_version": null,
+ "zarr_format": 2,
+ "labels": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "0",
+   "size_x": 26,
+   "size_y": 18,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int64",
+   "axes": [
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.5,
+    "y": 1.0,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     26,
+     18
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "966fa1cf0547f971fbca66ad8d805907"
+    }
+   ],
+   "levels": []
+  },
+  {
+   "index": 1,
+   "name": "1",
+   "size_x": 26,
+   "size_y": 18,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint64",
+   "axes": [
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.25,
+    "y": 0.5,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     26,
+     18
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a3fbe656ce969d9d141d074a26a47f29"
+    }
+   ],
+   "levels": []
+  },
+  {
+   "index": 2,
+   "name": "2",
+   "size_x": 26,
+   "size_y": 18,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "axes": [
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.25,
+    "y": 0.5,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     26,
+     18
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6e6db0ff050a9e008b626035628c2db2"
+    }
+   ],
+   "levels": []
+  },
+  {
+   "index": 3,
+   "name": "3",
+   "size_x": 26,
+   "size_y": 18,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "axes": [
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.25,
+    "y": 0.5,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     26,
+     18
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9e26f01c5bd4f1730615603b0604fdff"
+    }
+   ],
+   "levels": []
+  },
+  {
+   "index": 4,
+   "name": "4",
+   "size_x": 26,
+   "size_y": 18,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "complex",
+   "axes": [
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.25,
+    "y": 0.5,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     26,
+     18
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e6438ccad2978380ed5599bd7f4587ec"
+    }
+   ],
+   "levels": []
+  },
+  {
+   "index": 5,
+   "name": "5",
+   "size_x": 26,
+   "size_y": 18,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "double-complex",
+   "axes": [
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.25,
+    "y": 0.5,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     26,
+     18
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6437f15f21cb17c32a87d376af172807"
+    }
+   ],
+   "levels": []
+  }
+ ]
+}

@@ -1,0 +1,764 @@
+{
+ "id": "ome-karl-sample-image",
+ "file": "ome-karl-sample-image.nd2",
+ "size": 218652672,
+ "sha256": "8dfeb530bf2c748f602e4e61b0092b1eed802c975ceb5cbcec33bccff6f2d969",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1019,
+   "size_y": 1019,
+   "size_z": 21,
+   "size_c": 5,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Z': 21, 'C': 5, 'Y': 1019, 'X': 1019}",
+   "physical_size_um": {
+    "x": 1.0153102411107793,
+    "y": 1.0153102411107793,
+    "z": 5.0
+   },
+   "channel_names": [
+    "CSU far red RNA",
+    "CSU red RNA",
+    "CSU green RNA",
+    "CSU blue RNA",
+    "CSU BF"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "645d320c4dfe001825c822110a2f0fd1"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "c8b9887936e90e0ff01b771bde8f8470"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "abe454b5852efe190a62102077e8c7cd"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "aeaf35d830cfb97e380b36a0e4cd2761"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "7c253a9999e8b4096eb25190f4cd3ecd"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "a6a81b5f037267b38db6dd2a15e696ac"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "840b49b7664e09b4eadcc2c5f8745822"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "91d537f44ef13b176c63f95a02061491"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "ff62d77ced65e1ad918a4e813186ff2c"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "3b10994fedc1e66ef598e7943ed5d39d"
+    },
+    {
+     "c": 0,
+     "z": 17,
+     "t": 0,
+     "xxh3": "91780664fb570d79c6e1645fc5c0fbbf"
+    },
+    {
+     "c": 0,
+     "z": 18,
+     "t": 0,
+     "xxh3": "495f29f34c50f999c7a3a62d69efc4bf"
+    },
+    {
+     "c": 0,
+     "z": 20,
+     "t": 0,
+     "xxh3": "90fd1d1a751b2bd7d3f34798dfe64107"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "09ecc1ef1216d1dfa26ab955319c9c4e"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1452cb8dec4d62d5df7e755d92270530"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "3e0d9133289abe87fa06ac806150f3e2"
+    },
+    {
+     "c": 1,
+     "z": 5,
+     "t": 0,
+     "xxh3": "f1df227df126be40cbaf4d8d5a2e3962"
+    },
+    {
+     "c": 1,
+     "z": 7,
+     "t": 0,
+     "xxh3": "e3d4ec4ab8f25bf1745b3eb46f4d850e"
+    },
+    {
+     "c": 1,
+     "z": 9,
+     "t": 0,
+     "xxh3": "e00170fdc6480c811f08e4f9682f0f12"
+    },
+    {
+     "c": 1,
+     "z": 10,
+     "t": 0,
+     "xxh3": "5be0b702e584300bc565b084702afd23"
+    },
+    {
+     "c": 1,
+     "z": 12,
+     "t": 0,
+     "xxh3": "097f0fd501a816f72c65206f3cc46e40"
+    },
+    {
+     "c": 1,
+     "z": 14,
+     "t": 0,
+     "xxh3": "8f92b3712c21b1154009e7870ddcec55"
+    },
+    {
+     "c": 1,
+     "z": 15,
+     "t": 0,
+     "xxh3": "0bee56b6443bbef61b3e238d5a4768ee"
+    },
+    {
+     "c": 1,
+     "z": 17,
+     "t": 0,
+     "xxh3": "f4408dc85339fe95fd987549a537d2d1"
+    },
+    {
+     "c": 1,
+     "z": 19,
+     "t": 0,
+     "xxh3": "fec3b924ac4e593a8eb25ac8b0aa096c"
+    },
+    {
+     "c": 1,
+     "z": 20,
+     "t": 0,
+     "xxh3": "afaa9f7eac610612517f35bfefd6f12a"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "086469076b837f19d8c759fcd932ab77"
+    },
+    {
+     "c": 2,
+     "z": 3,
+     "t": 0,
+     "xxh3": "8fa9e84b7db0871892c12aa11dd0ad76"
+    },
+    {
+     "c": 2,
+     "z": 4,
+     "t": 0,
+     "xxh3": "0a20184cda60e910f0d325f835e29053"
+    },
+    {
+     "c": 2,
+     "z": 6,
+     "t": 0,
+     "xxh3": "78b29ac81910f2b87d3dd71fd97f41d3"
+    },
+    {
+     "c": 2,
+     "z": 8,
+     "t": 0,
+     "xxh3": "d351da9502173a25bf5b76ff9c258eb9"
+    },
+    {
+     "c": 2,
+     "z": 9,
+     "t": 0,
+     "xxh3": "5ef82ec33db2dbe97407c1415ab4b1ed"
+    },
+    {
+     "c": 2,
+     "z": 11,
+     "t": 0,
+     "xxh3": "2e4be1d9293484e8745ad905208a5a68"
+    },
+    {
+     "c": 2,
+     "z": 12,
+     "t": 0,
+     "xxh3": "5ab03dfbeb547d7ce8fdefe464b7867e"
+    },
+    {
+     "c": 2,
+     "z": 14,
+     "t": 0,
+     "xxh3": "0b6d6f956df98a7578cbe8fb4c010df7"
+    },
+    {
+     "c": 2,
+     "z": 16,
+     "t": 0,
+     "xxh3": "ad357ab80a9c0edded821016ec28842d"
+    },
+    {
+     "c": 2,
+     "z": 17,
+     "t": 0,
+     "xxh3": "0124a6edd1074c197ee887520f6f7cd4"
+    },
+    {
+     "c": 2,
+     "z": 19,
+     "t": 0,
+     "xxh3": "cee2f689b8f3285dbeabb505376cf235"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cf850abdc8fba0d9b6e5b09b4ffc6285"
+    },
+    {
+     "c": 3,
+     "z": 1,
+     "t": 0,
+     "xxh3": "6cbcdf8bfd50489c4b80d64e92089350"
+    },
+    {
+     "c": 3,
+     "z": 3,
+     "t": 0,
+     "xxh3": "96a424ce605b260402dd14d60e3c27da"
+    },
+    {
+     "c": 3,
+     "z": 5,
+     "t": 0,
+     "xxh3": "cb92bffcedde557e610b0b224c494dbe"
+    },
+    {
+     "c": 3,
+     "z": 6,
+     "t": 0,
+     "xxh3": "2a1107ed04d9908b1a16f781d009a0ab"
+    },
+    {
+     "c": 3,
+     "z": 8,
+     "t": 0,
+     "xxh3": "954047f29df4ee8411eb908b1362dbfa"
+    },
+    {
+     "c": 3,
+     "z": 10,
+     "t": 0,
+     "xxh3": "7325b65b6c4297d04d74090c309edf24"
+    },
+    {
+     "c": 3,
+     "z": 11,
+     "t": 0,
+     "xxh3": "6220f275339abe4a52310b9a93bd7064"
+    },
+    {
+     "c": 3,
+     "z": 13,
+     "t": 0,
+     "xxh3": "d9b9be2f28a891249b70e5f11bec2193"
+    },
+    {
+     "c": 3,
+     "z": 15,
+     "t": 0,
+     "xxh3": "39e09b26da80cffaf14ea9838d8ddaa5"
+    },
+    {
+     "c": 3,
+     "z": 16,
+     "t": 0,
+     "xxh3": "bd8a99614e818bdba7ff516720d6e0b1"
+    },
+    {
+     "c": 3,
+     "z": 18,
+     "t": 0,
+     "xxh3": "6c228ef8c2a81a2c9ac01896f5ef0192"
+    },
+    {
+     "c": 3,
+     "z": 20,
+     "t": 0,
+     "xxh3": "564d08ff0f861ed30c57e14beed07a62"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1379a1d483d8b9ae064377afd23467c3"
+    },
+    {
+     "c": 4,
+     "z": 2,
+     "t": 0,
+     "xxh3": "d1fb5aa8c6842f80fc726ed3f5132771"
+    },
+    {
+     "c": 4,
+     "z": 3,
+     "t": 0,
+     "xxh3": "570059e7c52acfb336fabf80d1bf0580"
+    },
+    {
+     "c": 4,
+     "z": 5,
+     "t": 0,
+     "xxh3": "fe228b50a23accf6f325951d09642049"
+    },
+    {
+     "c": 4,
+     "z": 7,
+     "t": 0,
+     "xxh3": "23f3f91ac9d827ed959deaad44d8e090"
+    },
+    {
+     "c": 4,
+     "z": 8,
+     "t": 0,
+     "xxh3": "4484d591b92011d5514e6b3838dc2f41"
+    },
+    {
+     "c": 4,
+     "z": 10,
+     "t": 0,
+     "xxh3": "6e40c8a135aaf5e6ea692a43318accab"
+    },
+    {
+     "c": 4,
+     "z": 12,
+     "t": 0,
+     "xxh3": "f6309a01cac759ca64d8a74e9632e0f1"
+    },
+    {
+     "c": 4,
+     "z": 13,
+     "t": 0,
+     "xxh3": "a0fec7244122e6615febcee4397eeab5"
+    },
+    {
+     "c": 4,
+     "z": 15,
+     "t": 0,
+     "xxh3": "dac32de21f572c5f41ccfc91e05e998f"
+    },
+    {
+     "c": 4,
+     "z": 17,
+     "t": 0,
+     "xxh3": "1a0f7dcd18aac4efc42ec3866f6a3633"
+    },
+    {
+     "c": 4,
+     "z": 18,
+     "t": 0,
+     "xxh3": "6dc99baff416c02a77d1dfc0404dc6fd"
+    },
+    {
+     "c": 4,
+     "z": 20,
+     "t": 0,
+     "xxh3": "226dcba3654646d42801207eefc60202"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "CSU far red RNA",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "CSU red RNA",
+    "color": "#FF0000",
+    "excitation_nm": null,
+    "emission_nm": 607.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "CSU green RNA",
+    "color": "#00FF00",
+    "excitation_nm": null,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "CSU blue RNA",
+    "color": "#0000FF",
+    "excitation_nm": null,
+    "emission_nm": 405.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "CSU BF",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "brightfield",
+     "spinningDiskConfocal"
+    ]
+   }
+  ],
+  "frame_count": 21,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 3235.0359136322513,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.5,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 3336.795915768482,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.5,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 3438.5559179047123,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.5,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 3540.3159200409427,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.5,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 4,
+    "time_ms": 3642.075922177173,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.5,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 3743.8359243134037,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.5,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 6,
+    "time_ms": 3845.595926449634,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.5,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 3947.3559285858646,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.5,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 8,
+    "time_ms": 4049.1159307220955,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 9,
+    "time_ms": 4150.8759328583255,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 10,
+    "time_ms": 4252.635934994556,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 11,
+    "time_ms": 4354.3959371307865,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 12,
+    "time_ms": 4456.155939267017,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 13,
+    "time_ms": 4557.915941403247,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 14,
+    "time_ms": 4659.675943539478,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 15,
+    "time_ms": 4761.435945675708,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 16,
+    "time_ms": 4863.195947811939,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 17,
+    "time_ms": 4964.955949948169,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 18,
+    "time_ms": 5066.7159520844,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 0,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 19,
+    "time_ms": 5168.47595422063,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 3,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   },
+   {
+    "index": 20,
+    "time_ms": 5270.235956356861,
+    "tags": {
+     "CameraTemp1": -69.51200103759766,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 9872,
+     "PFS_STATUS": 3,
+     "X": 2783.6000000000004,
+     "Y": -3519.6000000000004,
+     "Z2": 5139.225
+    }
+   }
+  ],
+  "acquired_at": "2017-06-06T09:15:06.980Z",
+  "acquired_at_unix_ms": 1496740506980
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: XY(1) x \u03bb(5) x Z(21)\r\nCamera Name: Andor DU-897 X-3655\r\nNumerical Aperture: 0.75\r\nRefractive Index: 1\r\nNumber of Picture Planes: 5\r\nPlane #1:\r\n Name: CSU far red RNA\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Andor DU-897\r\n  Binning: 1x1\r\n  Exposure: 100 ms\r\n  Multiplier: 100\r\n  Readout Speed: 5 MHz\r\n  Conversion Gain: 5.1x\r\n  Vertical Shift Speed: 3.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -69.5\u00b0C\r\n Microscope Settings:   Sutter Lambda 10-3, FilterChanger(EM CSU): 10 (685/40)\r\n  Sutter Lambda 10-3, Shutter(BF): Closed\r\n  Sutter Lambda 10-3, Shutter(BF) mode: Fast\r\n  CSU, Fiber Output: EPI\r\n  CSU, RPM: 10000\r\n  ALC, Shutter(Lasers): Active\r\n  ALC, MultiLaser(ALC):\r\n     Line:1; ExW:405; Power:  0.0; Off\r\n     Line:2; ExW:488; Power:  0.0; Off\r\n     Line:3; ExW:561; Power:  0.0; Off\r\n     Line:4; ExW:640; Power: 77.0; On\r\n  \r\n  ALC Switcher:\r\n     Port 1: On  (CSU)\r\n     Port 2: Off  (TIRF)\r\n     Port 3: Off  (TIRF)\r\n  \r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch On\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 3.0\r\n  LightPath: L100\r\n  PFS-S, state: Off\r\n  PFS-S, offset: 9872\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: CSU red RNA\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Microscope Settings:   Sutter Lambda 10-3, FilterChanger(EM CSU): 9 (607/36)\r\n  Sutter Lambda 10-3, Shutter(BF): Closed\r\n  Sutter Lambda 10-3, Shutter(BF) mode: Fast\r\n  CSU Fiber Output:\r\n     Port 1: On \r\n  \r\n  ALC, Shutter(Lasers): Active\r\n  ALC, MultiLaser(ALC):\r\n     Line:1; ExW:405; Power:  0.0; Off\r\n     Line:2; ExW:488; Power:  0.0; Off\r\n     Line:3; ExW:561; Power: 81.0; On\r\n     Line:4; ExW:640; Power:  0.0; Off\r\n  \r\n  ALC Switcher:\r\n     Port 1: On \r\n     Port 2: Off \r\n     Port 3: Off \r\n  \r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch On\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 3.0\r\n  LightPath: L100\r\n  PFS-S, state: Off\r\n  PFS-S, offset: 5682\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\nPlane #3:\r\n Name: CSU green RNA\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Microscope Settings:   Sutter Lambda 10-3, FilterChanger(EM CSU): 8 (525/30)\r\n  Sutter Lambda 10-3, Shutter(BF): Closed\r\n  Sutter Lambda 10-3, Shutter(BF) mode: Fast\r\n  CSU Fiber Output:\r\n     Port 1: On \r\n  \r\n  ALC, Shutter(Lasers): Active\r\n  ALC, MultiLaser(ALC):\r\n     Line:1; ExW:405; Power:  0.0; Off\r\n     Line:2; ExW:488; Power:100.0; On\r\n     Line:3; ExW:561; Power:  0.0; Off\r\n     Line:4; ExW:640; Power:  0.0; Off\r\n  \r\n  ALC Switcher:\r\n     Port 1: On \r\n     Port 2: Off \r\n     Port 3: Off \r\n  \r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch On\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 3.0\r\n  LightPath: L100\r\n  PFS-S, state: Off\r\n  PFS-S, offset: 7910\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\nPlane #4:\r\n Name: CSU blue RNA\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Microscope Settings:   Sutter Lambda 10-3, FilterChanger(EM CSU): 7 (447/60)\r\n  Sutter Lambda 10-3, Shutter(BF): Closed\r\n  Sutter Lambda 10-3, Shutter(BF) mode: Fast\r\n  CSU Fiber Output:\r\n     Port 1: On \r\n  \r\n  ALC, Shutter(Lasers): Active\r\n  ALC, MultiLaser(ALC):\r\n     Line:1; ExW:405; Power: 31.0; On\r\n     Line:2; ExW:488; Power:  0.0; Off\r\n     Line:3; ExW:561; Power:  0.0; Off\r\n     Line:4; ExW:640; Power:  0.0; Off\r\n  \r\n  ALC Switcher:\r\n     Port 1: On \r\n     Port 2: Off \r\n     Port 3: Off \r\n  \r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch On\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 3.0\r\n  LightPath: L100\r\n  PFS-S, state: Off\r\n  PFS-S, offset: 7428\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\nPlane #5:\r\n Name: CSU BF\r\n Component Count: 1\r\n Modality: Brightfield, Spinning Disk Confocal\r\n Microscope Settings:   Sutter Lambda 10-3, FilterChanger(EM CSU): 5 (Empty)\r\n  Sutter Lambda 10-3, Shutter(BF): Active\r\n  Sutter Lambda 10-3, Shutter(BF) mode: Fast\r\n  CSU Fiber Output:\r\n     Port 1: On \r\n  \r\n  ALC, Shutter(Lasers): Closed\r\n  ALC, MultiLaser(ALC):\r\n     Line:1; ExW:405; Power:  0.0; Off\r\n     Line:2; ExW:488; Power:  0.0; Off\r\n     Line:3; ExW:561; Power:  0.0; Off\r\n     Line:4; ExW:640; Power:  0.0; Off\r\n  \r\n  ALC Switcher:\r\n     Port 1: Off \r\n     Port 2: On \r\n     Port 3: Off \r\n  \r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch On\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 3.0\r\n  LightPath: L100\r\n  PFS-S, state: On\r\n  PFS-S, offset: 9375\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\nZ Stack Loop: 21\r\n- Step: 5 \u00b5m\r\n- Device: NIDAQ Piezo Z (name: NanoScan-Z)",
+  "capturing": "Andor DU-897 X-3655\r\nSample 1:\r\n  \r\n  Camera Type: Andor DU-897\r\n  Binning: 1x1\r\n  Exposure: 100 ms\r\n  Multiplier: 100\r\n  Readout Speed: 5 MHz\r\n  Conversion Gain: 5.1x\r\n  Vertical Shift Speed: 3.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -69.5\u00b0C",
+  "date": "06/06/2017  11:15:06",
+  "optics": "Plan Apo \u03bb 20x"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=14, componentCount=5, heightPx=1019, pixelDataType='unsigned', sequenceCount=21, widthBytes=10192, widthPx=1019, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=5)"
+}

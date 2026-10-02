@@ -1,0 +1,8 @@
+{
+ "id": "fcsparser-corrupted",
+ "file": "fcsparser-corrupted.fcs",
+ "size": 10,
+ "sha256": "20f17232f1485cb999fb594671ab502d37ae44f88fc7eaeb5b3ffa6288c6c96d",
+ "max_planes_hashed": 64,
+ "error": "RuntimeError: flowio (events): ValueError: invalid literal for int() with base 10: b''; flowio (text only): ValueError: invalid literal for int() with base 10: b''; fcsparser: ValueError: The FCS file \"fcsparser-corrupted.fcs\" seems corrupted. (Parser cannot locate information about the \"text start\" segment.)"
+}

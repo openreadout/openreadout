@@ -1,0 +1,801 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QpcrReport",
+  "description": "Output of `qpcr_report`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id.",
+      "type": "string"
+    },
+    "dialect": {
+      "description": "Dialect (`rdml`, `eds-sds`, `eds-7500`, `eds-json`, `rex`).",
+      "type": "string"
+    },
+    "experiment": {
+      "description": "Experiment or run name.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "instrument": {
+      "description": "Instrument model.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "acquisition_temperature_c": {
+      "description": "Temperature of the step that reads fluorescence during cycling (the annealing /\nextension temperature of a two-step PCR), °C.",
+      "type": [
+        "number",
+        "null"
+      ],
+      "format": "double"
+    },
+    "cycles": {
+      "description": "Number of PCR cycles in the program.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint32",
+      "minimum": 0
+    },
+    "reference_targets": {
+      "description": "Reference targets used or recorded (endogenous controls).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "control_sample": {
+      "description": "Control (calibrator) sample used or recorded.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "record_count": {
+      "description": "Records matching the filters.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "truncated": {
+      "description": "True when `max_records` cut the list.",
+      "type": "boolean"
+    },
+    "records": {
+      "description": "The records.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/QpcrAssayRecord"
+      }
+    },
+    "cq_counts": {
+      "description": "Cq statuses over every record that matches the filters (not cut by `max_records`).",
+      "$ref": "#/$defs/CqCounts"
+    },
+    "targets": {
+      "description": "Per target: counts by Cq status and the mean Cq without the undetermined results.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TargetCqSummary"
+      }
+    },
+    "undetermined_cq": {
+      "description": "Cq used for undetermined results in the aggregates, when the request gave one.",
+      "type": [
+        "number",
+        "null"
+      ],
+      "format": "double"
+    },
+    "cq_comparison": {
+      "description": "Our Cq against the vendor's (with `compute_cq`).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CqComparison"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "relative_quantities": {
+      "description": "ΔΔCq results (with `relative`).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RelativeQuantity"
+      }
+    },
+    "standard_curves": {
+      "description": "Standard curves (with `standard_curve`).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/StandardCurveFit"
+      }
+    },
+    "notes": {
+      "description": "What to keep in mind.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "dialect",
+    "reference_targets",
+    "record_count",
+    "truncated",
+    "records",
+    "cq_counts",
+    "targets",
+    "relative_quantities",
+    "standard_curves",
+    "notes"
+  ],
+  "$defs": {
+    "QpcrAssayRecord": {
+      "description": "One well × target, with names resolved.",
+      "type": "object",
+      "properties": {
+        "run": {
+          "description": "Run (plate) name.",
+          "type": "string"
+        },
+        "well": {
+          "description": "Well name (`A1`).",
+          "type": "string"
+        },
+        "row": {
+          "description": "Plate row, 1-based.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "col": {
+          "description": "Plate column, 1-based.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "sample": {
+          "description": "Sample name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "target": {
+          "description": "Target (assay, detector, gene).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dye": {
+          "description": "Reporter dye.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "task": {
+          "description": "Role of the well for this target: `unknown`, `standard`, `ntc`, `nac`, `ntp`, `nrt`,\n`positive`, ...",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quantity": {
+          "description": "Given quantity (standards).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "cq": {
+          "description": "Cq (Ct) as the vendor software or RDML file reports it.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "cq_undetermined": {
+          "description": "True when the file says there is no Cq (Undetermined, `-1`, `NaN`, or an SDS/7500 `Ct`\nequal to the cycle count).",
+          "type": "boolean"
+        },
+        "cq_status": {
+          "description": "`determined` (a Cq), `undetermined` (no amplification: `cq` is null) or `no result`.",
+          "type": "string"
+        },
+        "cq_stored": {
+          "description": "The number the file stores for an undetermined result (SDS/7500 `.eds`: the cycle\ncount, e.g. 40), kept for reference; never a Cq.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "cq_mean": {
+          "description": "Mean Cq of the replicate group (vendor).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "cq_sd": {
+          "description": "Standard deviation of the replicate group's Cq (vendor).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "tm": {
+          "description": "Melting temperatures of the product, °C (vendor; several when the curve has several\npeaks).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "threshold": {
+          "description": "Threshold the Cq was called at (vendor).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "auto_threshold": {
+          "description": "Whether the vendor threshold was set automatically.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "baseline_start": {
+          "description": "First cycle of the baseline window (vendor).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "baseline_end": {
+          "description": "Last cycle of the baseline window (vendor).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "amp_status": {
+          "description": "Amplification status (vendor).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cq_confidence": {
+          "description": "Cq confidence (vendor).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "calculated_quantity": {
+          "description": "Quantity calculated by the vendor software from a standard curve.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "efficiency": {
+          "description": "Amplification efficiency of this reaction (fold per cycle), when the file has one.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "excluded": {
+          "description": "Why the result is excluded (omitted wells, RDML `excl`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "description": "Vendor QC flags.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "vendor_delta_cq": {
+          "description": "ΔCq to the reference target as the vendor computed it (ΔΔCt experiments).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "vendor_rq": {
+          "description": "Relative quantity as the vendor computed it.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "computed_cq": {
+          "description": "Our threshold Cq (with `compute_cq`).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "computed_threshold": {
+          "description": "Threshold our Cq used.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "computed_cq_status": {
+          "description": "`determined` or `undetermined` for our Cq (with `compute_cq`; a curve that never crosses\nthe threshold, or crosses it only at the last read, is undetermined).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cycles": {
+          "description": "Number of cycles in the amplification curve.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "run",
+        "well",
+        "row",
+        "col",
+        "cq_undetermined",
+        "cq_status",
+        "tm",
+        "flags",
+        "cycles"
+      ]
+    },
+    "CqCounts": {
+      "description": "Cq statuses of a set of records.",
+      "type": "object",
+      "properties": {
+        "records": {
+          "description": "Records (well × target).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "determined": {
+          "description": "With a Cq.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "undetermined": {
+          "description": "Without a Cq because nothing amplified (\"Undetermined\").",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "no_result": {
+          "description": "Without any result (not analysed, setup only).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "excluded": {
+          "description": "Excluded or omitted in the file (counted in the other fields too).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "records",
+        "determined",
+        "undetermined",
+        "no_result",
+        "excluded"
+      ]
+    },
+    "TargetCqSummary": {
+      "description": "Per-target Cq summary over the records that match the filters.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "description": "Target.",
+          "type": "string"
+        },
+        "counts": {
+          "description": "Record counts by status (every task, excluded records included in the counts).",
+          "$ref": "#/$defs/CqCounts"
+        },
+        "averaged": {
+          "description": "Records averaged: not excluded, with a Cq (plus the undetermined ones when\n`undetermined_cq` is given).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "cq_mean": {
+          "description": "Mean Cq of those records; undetermined results are left out unless `undetermined_cq`\nis given.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "cq_sd": {
+          "description": "Sample standard deviation of those Cqs.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "cq_min": {
+          "description": "Smallest Cq.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "cq_max": {
+          "description": "Largest Cq.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "target",
+        "counts",
+        "averaged"
+      ]
+    },
+    "CqComparison": {
+      "description": "Our threshold Cq against the vendor's, over every curve with a vendor result.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "description": "How our Cq was computed.",
+          "type": "string"
+        },
+        "curves": {
+          "description": "Curves compared.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "both_cq": {
+          "description": "Both give a Cq.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "both_undetermined": {
+          "description": "Both say there is no Cq.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "only_vendor": {
+          "description": "Only the vendor gives a Cq.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "only_ours": {
+          "description": "Only we give a Cq.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "vendor_threshold_used": {
+          "description": "Curves where the threshold came from the file (the vendor's own).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "mean_difference": {
+          "description": "Mean of (ours − vendor), cycles.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "mean_abs_difference": {
+          "description": "Mean absolute difference, cycles.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "median_abs_difference": {
+          "description": "Median absolute difference, cycles.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "max_abs_difference": {
+          "description": "Largest absolute difference, cycles.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "within_0_1": {
+          "description": "Fraction of `both_cq` within 0.1 cycles.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "within_0_5": {
+          "description": "Fraction of `both_cq` within 0.5 cycles.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "pearson_r": {
+          "description": "Pearson correlation of the two Cq lists.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "method",
+        "curves",
+        "both_cq",
+        "both_undetermined",
+        "only_vendor",
+        "only_ours",
+        "vendor_threshold_used"
+      ]
+    },
+    "RelativeQuantity": {
+      "description": "ΔΔCq relative quantification of one sample × target.",
+      "type": "object",
+      "properties": {
+        "sample": {
+          "description": "Sample.",
+          "type": "string"
+        },
+        "target": {
+          "description": "Target of interest.",
+          "type": "string"
+        },
+        "replicates": {
+          "description": "Replicate wells averaged: those with a Cq (plus the undetermined ones when\n`undetermined_cq` is given).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "undetermined": {
+          "description": "Replicate wells of this sample × target without a Cq (undetermined): left out of the\nmean, or counted at `undetermined_cq` when the request gives one.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "cq_mean": {
+          "description": "Mean Cq of the target in this sample.",
+          "type": "number",
+          "format": "double"
+        },
+        "cq_sd": {
+          "description": "Standard deviation of those Cqs.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "reference_cq_mean": {
+          "description": "Mean Cq of the reference target(s) in this sample (arithmetic mean over references).",
+          "type": "number",
+          "format": "double"
+        },
+        "delta_cq": {
+          "description": "ΔCq = target − reference.",
+          "type": "number",
+          "format": "double"
+        },
+        "delta_cq_sd": {
+          "description": "SD of ΔCq (target and reference SDs combined in quadrature).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "delta_delta_cq": {
+          "description": "ΔΔCq = ΔCq(sample) − ΔCq(control sample); `None` without a control.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rq": {
+          "description": "2^−ΔΔCq.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rq_min": {
+          "description": "2^−(ΔΔCq + SD).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rq_max": {
+          "description": "2^−(ΔΔCq − SD).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "efficiency_corrected_rq": {
+          "description": "Efficiency-corrected ratio (Pfaffl) when every efficiency involved is known.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "vendor_delta_cq": {
+          "description": "ΔCq the vendor software computed for these wells, when stored.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "vendor_rq": {
+          "description": "Relative quantity the vendor software computed, when stored.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "sample",
+        "target",
+        "replicates",
+        "undetermined",
+        "cq_mean",
+        "reference_cq_mean",
+        "delta_cq"
+      ]
+    },
+    "StandardCurveFit": {
+      "description": "A standard curve fitted to the standard wells of one target.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "description": "Target.",
+          "type": "string"
+        },
+        "points": {
+          "description": "Standard wells used.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "levels": {
+          "description": "Distinct quantities.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "slope": {
+          "description": "Slope of Cq against log10(quantity).",
+          "type": "number",
+          "format": "double"
+        },
+        "intercept": {
+          "description": "Cq at quantity 1.",
+          "type": "number",
+          "format": "double"
+        },
+        "r2": {
+          "description": "Coefficient of determination.",
+          "type": "number",
+          "format": "double"
+        },
+        "efficiency_percent": {
+          "description": "Efficiency, percent: (10^(−1/slope) − 1) × 100.",
+          "type": "number",
+          "format": "double"
+        },
+        "vendor_slope": {
+          "description": "The vendor's slope for this target, when the file stores its standard curve.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "vendor_efficiency_percent": {
+          "description": "The vendor's efficiency, percent.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "vendor_r2": {
+          "description": "The vendor's r².",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "target",
+        "points",
+        "levels",
+        "slope",
+        "intercept",
+        "r2",
+        "efficiency_percent"
+      ]
+    }
+  }
+}

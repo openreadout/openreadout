@@ -1,0 +1,39 @@
+{
+ "id": "zenodo14541027-SAED1-TEM-0003",
+ "file": "zenodo14541027-SAED1-TEM-0003.dm3",
+ "size": 9244602,
+ "sha256": "503b769d10510a05b325ddf9e6a53b9f83b3fb552237ef8d65f49c640747b8e2",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "SAED1-TEM_0003",
+   "size_x": 2048,
+   "size_y": 2115,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 10,
+   "physical_size_um": {
+    "x": 3.861003741621971e-05,
+    "y": 3.861003741621971e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "44a40ee6f2ad61d69b4b4d503628342d"
+    }
+   ],
+   "pixel_type": "uint16"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "id": "zenodo11375101-1-mip",
+ "file": "1_MIP.zvi",
+ "size": 7156736,
+ "sha256": "8b7fb8ea468db78be523b0c95ad5ac644f7833d28b212e8b715376b4979e0a27",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "1_MIP.zvi",
+   "size_x": 1513,
+   "size_y": 1165,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.065,
+    "y": 0.065
+   },
+   "channel_names": [
+    "eGFP",
+    "BFP"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "07cd77dab1a654cb52f88e2125adc6f5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "003078ee4c533d62cffbac320b29f9ea"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,31 @@
+{
+ "id": "echem-yadg-coc-issue-185-mpt",
+ "file": "echem-yadg-coc-issue-185.mpt",
+ "format": "biologic-mpt",
+ "family": "bench",
+ "readers": [
+  "the file's text header, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "Acquisition started on",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-10-09T13:36:20.501000",
+   "cmp": "time"
+  },
+  {
+   "field": "Device",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "SP-150",
+   "cmp": "loose"
+  }
+ ]
+}

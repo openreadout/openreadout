@@ -1,0 +1,111 @@
+{
+ "id": "zenodo15473381-o-1-1-200-scans-proton-jdf",
+ "file": "O-1-1-200-scans_Proton-1-1.jdf",
+ "size": 279936,
+ "sha256": "4f7ce8f3142500db63f822b4d681333a25681d572e14396a3e883a6c8cb4e687",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 15368,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 jeol.read",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 15368,
+     "channels": [
+      {
+       "xxh3": "5f6ea42bd03f2f993562781f67ee4766",
+       "first": [
+        -7.914312533398835e-06,
+        0.0008580954571609448,
+        -0.03258819916262866,
+        -0.029877215406465287,
+        0.05273908570278692,
+        -0.07544618590211014,
+        0.1239407479669563,
+        -0.16765726568303593
+       ]
+      },
+      {
+       "xxh3": "93fc86cea132f37a136d45a89eb430b6",
+       "first": [
+        6.727270815761119e-07,
+        -8.565648312008802e-05,
+        0.00031452824897956614,
+        -0.012862387390682772,
+        0.013141328688119623,
+        0.031476560214817186,
+        0.02339393545957554,
+        0.04161062340272604
+       ]
+      }
+     ]
+    }
+   ],
+   "sample_rate_hz": 7507.507507507507,
+   "parameters": {
+    "extra": {
+     "spectrometer_frequency_mhz": 399.78219837825003,
+     "spectral_width_hz": 7507.507507507507,
+     "scans": 200,
+     "time_domain_size": 15368,
+     "nucleus": "1H",
+     "solvent": "TETRACHLOROETHAN",
+     "pulse_program": "proton.jxp"
+    }
+   }
+  }
+ ],
+ "header": {
+  "major_version": 1,
+  "minor_version": 2,
+  "data_format": "one_d",
+  "data_axis_type": [
+   "complex",
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+  "data_points": [
+   15368,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "data_offset_start": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "data_offset_stop": [
+   15367,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "endian": "little_endian",
+  "data_type": "float64"
+ }
+}

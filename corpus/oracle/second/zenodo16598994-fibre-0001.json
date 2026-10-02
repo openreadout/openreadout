@@ -1,0 +1,26 @@
+{
+ "id": "zenodo16598994-fibre-0001",
+ "file": "zenodo16598994-fibre-0001.oir",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0b1872c9ad099a28faa8c9cab35a163a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e63ff6f889d332420212f2dd756070b5"
+    }
+   ]
+  }
+ ]
+}

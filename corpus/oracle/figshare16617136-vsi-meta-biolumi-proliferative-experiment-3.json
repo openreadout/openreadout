@@ -1,0 +1,10 @@
+{
+ "id": "figshare16617136-vsi-meta-biolumi-proliferative-experiment-3",
+ "file": "BioLumi_Proliferative_Experiment_3.vsi",
+ "size": 914560,
+ "sha256": "679a1d4c020fb5b7c4b80352f401b9b97b28c62193241d23667e449152fc535c",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [],
+ "independent": false
+}

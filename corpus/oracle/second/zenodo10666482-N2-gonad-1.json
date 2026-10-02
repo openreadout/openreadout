@@ -1,0 +1,20 @@
+{
+ "id": "zenodo10666482-N2-gonad-1",
+ "file": "zenodo10666482-N2-gonad-1.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1388,
+   "size_y": 1040,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f3d391fd023d0e9abfc785b6472a6162"
+    }
+   ]
+  }
+ ]
+}

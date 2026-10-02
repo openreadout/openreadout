@@ -1,0 +1,163 @@
+{
+ "id": "pyabf-sine-sweep-magnitude-20-atf",
+ "file": "pyabf-sine-sweep-magnitude-20.atf",
+ "format": "atf",
+ "family": "electrophysiology",
+ "readers": [
+  "Python csv module on the ATF text (Axon Text File layout)"
+ ],
+ "checks": [
+  {
+   "field": "samples per sweep",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "sample rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_rate_hz",
+   "theirs": 10000.000000023307,
+   "cmp": "num",
+   "rel": 1e-06
+  },
+  {
+   "field": "sweep count",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sweep_count",
+   "theirs": 1,
+   "cmp": "exact"
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    0.0,
+    2e-06,
+    8e-06,
+    1.8e-05,
+    3.2e-05,
+    5e-05,
+    7.2e-05,
+    9.8e-05,
+    0.000128,
+    0.000162,
+    0.0002,
+    0.000242,
+    0.000288,
+    0.000338,
+    0.000392,
+    0.00045,
+    0.000512,
+    0.000578,
+    0.000648,
+    0.000722,
+    0.0008,
+    0.000882,
+    0.000968,
+    0.001058,
+    0.001152,
+    0.00125,
+    0.001352,
+    0.001458,
+    0.001568,
+    0.001682,
+    0.0018,
+    0.001922
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2e-11
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 100000,
+   "cmp": "exact"
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -20.0,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2e-11
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 20.0,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2e-11
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 0.3906222082992001,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2e-08
+  }
+ ]
+}

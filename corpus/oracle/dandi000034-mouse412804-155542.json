@@ -1,0 +1,49 @@
+{
+ "id": "dandi000034-mouse412804-155542",
+ "file": "dandi000034-sub-mouse412804_ses-20200824T155542.nwb",
+ "size": 9693752,
+ "sha256": "c921874e73b63e24b7a26a3dabd3d7c05fcd7e521882848c7b7b524926acc285",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.2.5",
+ "session": {
+  "session_description": "No description",
+  "identifier": "2bddd311-a20a-4f69-aa12-14bcf21bca46",
+  "session_start_time": "2020-08-24T15:55:42.004284+02:00"
+ },
+ "traces": [],
+ "tables": [
+  {
+   "index": 0,
+   "name": "units",
+   "event_count": 258,
+   "parameter_names": [
+    "id",
+    "spike_times_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "6681fb8cfcd84ab93ef6c527994d6019",
+    "spike_times_count": "26bc162a9c7aa241dde443bab27f65ae"
+   }
+  },
+  {
+   "index": 1,
+   "name": "units/spike_times",
+   "event_count": 1190752,
+   "parameter_names": [
+    "unit_row",
+    "unit_id",
+    "spike_time"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "unit_row": "0b53c219c05f57b834d084c8bc9a966c",
+    "unit_id": "0f22044ba168046d9a6aa32de3d84d4c",
+    "spike_time": "cf53469cda4a9a55cd51ceb7489ef050"
+   }
+  }
+ ]
+}

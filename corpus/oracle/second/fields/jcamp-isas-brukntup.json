@@ -1,0 +1,82 @@
+{
+ "id": "jcamp-isas-brukntup",
+ "file": "jcamp-isas-brukntup.dx",
+ "format": "jcamp-dx",
+ "family": "nmr",
+ "readers": [
+  "jcamp 1.3.2 (MIT)"
+ ],
+ "checks": [
+  {
+   "field": "##TITLE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/title",
+   "theirs": "testntup",
+   "cmp": "text"
+  },
+  {
+   "field": "##DATA TYPE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/data_type",
+   "theirs": "NMR Spectrum",
+   "cmp": "text"
+  },
+  {
+   "field": "##ORIGIN",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/origin",
+   "theirs": "uk",
+   "cmp": "text"
+  },
+  {
+   "field": "##OWNER",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/owner",
+   "theirs": "uk",
+   "cmp": "text"
+  },
+  {
+   "field": "##.OBSERVE FREQUENCY",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/observe_frequency_mhz",
+   "theirs": 100.4,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "##.OBSERVE NUCLEUS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/nucleus",
+   "theirs": "^13C",
+   "cmp": "text"
+  },
+  {
+   "field": "##SPECTROMETER/DATA SYSTEM",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "JEOL GX 400",
+   "cmp": "loose"
+  }
+ ]
+}

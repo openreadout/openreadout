@@ -1,0 +1,32 @@
+{
+ "id": "tecan-sparkcontrol-csv-endpoint-flopr",
+ "file": "tecan-sparkcontrol-csv-endpoint-flopr.csv",
+ "size": 26953,
+ "sha256": "c1f724017a163528ac82d33aadd843d13a042e1b49f3e37e6668d073d29faef1",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py tecan_csv_summary (independent pandas reader of the CSV text; allotropy has no i-control or SparkControl parser)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 192,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "0003e73edea0ea4d3e7af7e84d714461"
+   },
+   {
+    "mode": "fluorescence",
+    "wells": 96,
+    "values": 760,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "6d84f5e4a79c9680c4db65025b8e076a"
+   }
+  ],
+  "header": {
+   "software_version": "2.3",
+   "model": "Spark"
+  }
+ }
+}

@@ -1,0 +1,32 @@
+{
+ "id": "scn-zenodo20836084-cbb",
+ "file": "scn-zenodo20836084-cbb.scn",
+ "size": 764144,
+ "sha256": "63ef4c748c3dbb5a96fb0469a3ce14ce60361f4bacb1733c9ec33ae6954d79eb",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 687,
+   "size_y": 550,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 166.72343522561863,
+    "y": 166.7229090909091
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "623fb3388a9f6d273c38880a62b8c4f6"
+    }
+   ]
+  }
+ ]
+}

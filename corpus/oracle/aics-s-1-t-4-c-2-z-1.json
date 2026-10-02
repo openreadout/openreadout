@@ -1,0 +1,88 @@
+{
+ "id": "aics-s-1-t-4-c-2-z-1",
+ "file": "aics-s-1-t-4-c-2-z-1.lif",
+ "size": 6083157,
+ "sha256": "7cea3e600476492e3224101d4929781f4ab4a26218c57e10b0fc1aaf5190ddba",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "b2_001_Crop001_Resize001",
+   "path": "b2_001_Crop001_Resize001",
+   "size_x": 614,
+   "size_y": 614,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 4,
+   "dims": "TCYX",
+   "shape": [
+    4,
+    2,
+    614,
+    614
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.33914910277324634,
+    "y": 0.33914910277324634,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "38825955a2e793f367b61a4f41d2911a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "9e446fbe7571160a9fd76d5676aeb779"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "0616bbc801363a673d8ef1f981d8eb9e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "80fe6305965b0dab5229bde2192389f6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "474fbaa71a75ec35d44f6528b4543f8e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "15efc88d58b85293f083243909fc38b0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "ebaf8a8d738b034bcc04a460386e80ba"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 3,
+     "xxh3": "32cd53dc2c0323f6f1d2712b80de059b"
+    }
+   ]
+  }
+ ]
+}

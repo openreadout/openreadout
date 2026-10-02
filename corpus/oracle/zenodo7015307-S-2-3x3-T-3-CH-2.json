@@ -1,0 +1,235 @@
+{
+ "id": "zenodo7015307-S-2-3x3-T-3-CH-2",
+ "file": "zenodo7015307-S-2-3x3-T-3-CH-2.czi",
+ "size": 55323264,
+ "sha256": "2e64f85ebdc49b266bc8d4beb6a40096a3755a20f599a32881c075fb79f3bb32",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1792,
+   "size_y": 1792,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "TCYX",
+   "shape": [
+    3,
+    2,
+    1792,
+    1792
+   ],
+   "other_dims": {},
+   "pyramid_levels": 2,
+   "physical_size_um": {
+    "x": 0.09999999999999999,
+    "y": 0.09999999999999999,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5ec291318071d0228b0031b95ffc012d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "4a78490bb8285241a8dae8895945a937"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "57aab9b79e7127aa0e4bb078fb55c2a0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c41b047ffb9f16a4d308d67b8553bb1e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "5be70da4d6903231907a33c9655ec9a7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "db74cffa23fb4e18bf60082371058e74"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 896,
+     "size_y": 896,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "bd2110333732c6d7cd5596ec9d3fc0cf"
+      },
+      {
+       "c": 0,
+       "z": 0,
+       "t": 1,
+       "xxh3": "a1cd66736cbe4a799e571387021312f3"
+      },
+      {
+       "c": 0,
+       "z": 0,
+       "t": 2,
+       "xxh3": "d0b309de285b1f56b7f17515e3b5a4d6"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "3b93e23b93d1be181ef945daf744e571"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 1,
+       "xxh3": "96e9a457c7c14781b733fc3f66fcc302"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 2,
+       "xxh3": "233039b6c17c53a9476a616b61ba837c"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Scene 1",
+   "size_x": 1792,
+   "size_y": 1792,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "TCYX",
+   "shape": [
+    3,
+    2,
+    1792,
+    1792
+   ],
+   "other_dims": {},
+   "pyramid_levels": 2,
+   "physical_size_um": {
+    "x": 0.09999999999999999,
+    "y": 0.09999999999999999,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "096e8b3bb527feed667ecc06e18489f9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "6f1beb8a4e268de85a5fb246505a83a4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "7495ecfad4dbbf123d37719b751eb450"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ddb1ad9defd00a406c200daa42fa3e31"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "3bca9a2d6d21c55b713e73a7e841b4cb"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "380daedf36d1f5d252503efd5d3479ab"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 896,
+     "size_y": 896,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "1eb8d9744304e85cefb06c329050ff9f"
+      },
+      {
+       "c": 0,
+       "z": 0,
+       "t": 1,
+       "xxh3": "fd0a6dd18fb55df81a6346a5712ab612"
+      },
+      {
+       "c": 0,
+       "z": 0,
+       "t": 2,
+       "xxh3": "8594a28725e72eb64c14c7de399d3b8b"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 0,
+       "xxh3": "f83315a1d9d4c08539090186c3addbb4"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 1,
+       "xxh3": "d8071154eeb7aa1f5d937b64f62c83d8"
+      },
+      {
+       "c": 1,
+       "z": 0,
+       "t": 2,
+       "xxh3": "20b35b72a970de1cbe6f99df23075d31"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.09999999999999999,
+  "y": 0.09999999999999999,
+  "z": null
+ },
+ "subblock_count": 120,
+ "compression_ids": [
+  0
+ ]
+}

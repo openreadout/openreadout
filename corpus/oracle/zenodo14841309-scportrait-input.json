@@ -1,0 +1,136 @@
+{
+ "id": "zenodo14841309-scportrait-input",
+ "file": "zenodo14841309-scportrait-input.zarr.zip",
+ "size": 52372428,
+ "sha256": "62c454ae17e9e49f93f104a6ec0b3b57ea1f9ff7995be23a5011f4921de9e57c",
+ "max_planes_hashed": 64,
+ "reader": "zarr-python 3.4.0 (NGFF metadata interpreted in gen.py)",
+ "kind": "image",
+ "ngff_version": "0.4",
+ "zarr_format": 2,
+ "labels": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "/",
+   "size_x": 3038,
+   "size_y": 3040,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "axes": [
+    "c",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [
+    "Channel0",
+    "Channel1",
+    "Channel2"
+   ],
+   "level_sizes": [
+    [
+     3038,
+     3040
+    ],
+    [
+     1519,
+     1520
+    ],
+    [
+     759,
+     760
+    ],
+    [
+     379,
+     380
+    ],
+    [
+     189,
+     190
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "875dba5db6aa2f9757ea54f6046431eb"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b0c541b73fd134244e698d37a43df1e4"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "88881fdd2076cf8b166e879ca7e9aa7d"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 1519,
+     "size_y": 1520,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "e7fa45a6848aaeec008927c6ae4bb4c5"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 759,
+     "size_y": 760,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "761524e23a6a7db2fcac60253c772a06"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 379,
+     "size_y": 380,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "321a168d322b5df29b66291045049ad5"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 189,
+     "size_y": 190,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "34a0e9f57752c57537fc364b6435e34f"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

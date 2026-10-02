@@ -1,0 +1,530 @@
+{
+ "gcms_reaction": {
+  "value": 8,
+  "runs": [
+   {
+    "run": "RAU-R505-00",
+    "time_h": 0,
+    "ratio": -0.0014504721,
+    "source": "Aston TIC window",
+    "aston_ratio": -0.0014504721
+   },
+   {
+    "run": "RAU-R505-01",
+    "time_h": 1,
+    "ratio": 0.06298846,
+    "source": "RESULTS.CSV",
+    "aston_ratio": 0.04797808
+   },
+   {
+    "run": "RAU-R505-03",
+    "time_h": 3,
+    "ratio": 0.39189708,
+    "source": "RESULTS.CSV",
+    "aston_ratio": 0.33502241
+   },
+   {
+    "run": "RAU-R505-05",
+    "time_h": 5,
+    "ratio": 0.77679051,
+    "source": "RESULTS.CSV",
+    "aston_ratio": 0.74604625
+   },
+   {
+    "run": "RAU-R505-08",
+    "time_h": 8,
+    "ratio": 1.3059436,
+    "source": "RESULTS.CSV",
+    "aston_ratio": 1.3111305
+   },
+   {
+    "run": "RAU-R505-12",
+    "time_h": 12,
+    "ratio": 3.3975809,
+    "source": "RESULTS.CSV",
+    "aston_ratio": 3.5091022
+   }
+  ],
+  "reader": "MSD ChemStation RESULTS.CSV + aston 0.7.2",
+  "method": "product/IS TIC area ratio per run; first time point above 1.0"
+ },
+ "hplc_is_ratio": {
+  "value": 1.3463351,
+  "value_if_is_pair_merged": 1.3611734,
+  "samples": [
+   {
+    "sample": "B01",
+    "genotype": "MicroTom",
+    "stage": "DAF-2",
+    "analyte_area": 199065.03,
+    "is_area": 319338.53,
+    "ratio": 0.62336678,
+    "ratio_merged_is": 0.36545457
+   },
+   {
+    "sample": "B07",
+    "genotype": "MicroTom",
+    "stage": "DAF0",
+    "analyte_area": 131125.03,
+    "is_area": 326078.09,
+    "ratio": 0.40212769,
+    "ratio_merged_is": 0.24120884
+   },
+   {
+    "sample": "B13",
+    "genotype": "MicroTom",
+    "stage": "DAF2P",
+    "analyte_area": 77959.523,
+    "is_area": 329802.31,
+    "ratio": 0.23638259,
+    "ratio_merged_is": 0.14275238
+   },
+   {
+    "sample": "B20",
+    "genotype": "MicroTom",
+    "stage": "DAF4P",
+    "analyte_area": 63291.27,
+    "is_area": 325550.12,
+    "ratio": 0.19441329,
+    "ratio_merged_is": 0.11564542
+   },
+   {
+    "sample": "B25",
+    "genotype": "MicroTom",
+    "stage": "DAF2E",
+    "analyte_area": 131842.42,
+    "is_area": 318150.47,
+    "ratio": 0.41440273,
+    "ratio_merged_is": 0.24039205
+   },
+   {
+    "sample": "B31",
+    "genotype": "MicroTom",
+    "stage": "DAF4E",
+    "analyte_area": 115408.7,
+    "is_area": 323569.78,
+    "ratio": 0.3566733,
+    "ratio_merged_is": 0.2113811
+   },
+   {
+    "sample": "B36",
+    "genotype": "MicroTom",
+    "stage": "DAF4E",
+    "analyte_area": 129716.29,
+    "is_area": 321638.28,
+    "ratio": 0.40329866,
+    "ratio_merged_is": 0.23769316
+   },
+   {
+    "sample": "d07",
+    "genotype": "della",
+    "stage": "DAF0",
+    "analyte_area": 122045.19,
+    "is_area": 316294.41,
+    "ratio": 0.38585946,
+    "ratio_merged_is": 0.22525587
+   },
+   {
+    "sample": "d19",
+    "genotype": "della",
+    "stage": "DAF4P",
+    "analyte_area": 66467.867,
+    "is_area": 319982.78,
+    "ratio": 0.20772326,
+    "ratio_merged_is": 0.12136338
+   },
+   {
+    "sample": "d30",
+    "genotype": "della",
+    "stage": "DAF2E",
+    "analyte_area": 78188.086,
+    "is_area": 320676.38,
+    "ratio": 0.24382241,
+    "ratio_merged_is": 0.14283056
+   }
+  ],
+  "reader": "scipy 1.18.1 netcdf_file (LabSolutions peak table: peak_retention_time, peak_area)",
+  "method": "per sample analyte/IS area ratio; mean per genotype; MicroTom mean / della mean"
+ },
+ "lcms_carryover": {
+  "value": 13.613946,
+  "blank": "run_04.raw",
+  "percent_of_qc": {
+   "run_02.raw": 0.16036862,
+   "run_04.raw": 13.613946
+  },
+  "percent_of_qc_single_point": {
+   "run_02.raw": 0.17008609,
+   "run_04.raw": 15.129588
+  },
+  "apex": {
+   "run_01.raw": 134405240.0,
+   "run_02.raw": 215543.83,
+   "run_03.raw": 81351165.0,
+   "run_04.raw": 18297856.0
+  },
+  "reader": "pyteomics 5.0.1 on the depositor's mzML",
+  "method": "XIC (sum within ±10 ppm per MS1 scan) apex in 5.5-6.1 min; blank / QC x 100"
+ },
+ "flow_ics": {
+  "value": 2.6019557,
+  "pool": "peptide pool A",
+  "background_subtracted": {
+   "peptide pool A": 2.6019557,
+   "peptide pool B": 0.74340706
+  },
+  "tubes": {
+   "unstimulated": {
+    "sample": "101_DEN084Y5_15_E01_008_clean.fcs",
+    "cd8": 47165,
+    "ifng": 2,
+    "percent": 0.0042404325
+   },
+   "peptide pool A": {
+    "sample": "101_DEN084Y5_15_E03_009_clean.fcs",
+    "cd8": 46965,
+    "ifng": 1224,
+    "percent": 2.6061961
+   },
+   "peptide pool B": {
+    "sample": "101_DEN084Y5_15_E05_010_clean.fcs",
+    "cd8": 46546,
+    "ifng": 348,
+    "percent": 0.74764749
+   }
+  },
+  "reader": "flowkit 1.3.2",
+  "method": "workspace gates; % IFNg+ of CD8+ minus the unstimulated tube"
+ },
+ "ephys_rheobase": {
+  "value": 85.0,
+  "cells": {
+   "cell_01.abf": {
+    "type": "pyramidal",
+    "rheobase_pa": 50.0
+   },
+   "cell_02.abf": {
+    "type": "fast-spiking interneuron",
+    "rheobase_pa": 25.0
+   },
+   "cell_03.abf": {
+    "type": "pyramidal",
+    "rheobase_pa": 120.0
+   }
+  },
+  "reader": "pyabf 2.3.8 + numpy (step epoch levels; crossings of 0.0 mV)",
+  "method": "smallest positive step level whose step window holds an upward 0 mV crossing; mean"
+ },
+ "plate_ic50": {
+  "value": 15.98081,
+  "compound": "cmpd-A",
+  "compounds": {
+   "cmpd-A": {
+    "ic50_nm": 15.98081,
+    "ic50_nm_fit_on_means": 15.980857,
+    "ic50_nm_normalised": 15.980978,
+    "ic50_nm_geomean_of_row_fits": 15.721466
+   },
+   "cmpd-B": {
+    "ic50_nm": 4.5471947,
+    "ic50_nm_fit_on_means": 4.5472044,
+    "ic50_nm_normalised": 4.5477011,
+    "ic50_nm_geomean_of_row_fits": 4.5545658
+   },
+   "cmpd-C": {
+    "ic50_nm": 1.7830713,
+    "ic50_nm_fit_on_means": 1.7830677,
+    "ic50_nm_normalised": 1.7909741,
+    "ic50_nm_geomean_of_row_fits": 1.7941666
+   }
+  },
+  "method_spread": 0.016228439,
+  "reader": "allotropy 0.1.146 + scipy 1.18.1",
+  "method": "4PL (bottom, top, log IC50, Hill) on log10 concentration"
+ },
+ "plate_screen": {
+  "value": [
+   "KX-1154",
+   "KX-1245",
+   "KX-1336",
+   "KX-1476",
+   "KX-1504"
+  ],
+  "activity_percent": {
+   "KX-1007": 34.111,
+   "KX-1014": 107.927,
+   "KX-1021": 80.85,
+   "KX-1028": 33.511,
+   "KX-1035": 91.005,
+   "KX-1042": 38.134,
+   "KX-1049": 102.797,
+   "KX-1056": 78.997,
+   "KX-1063": 38.678,
+   "KX-1070": 95.79,
+   "KX-1077": 63.605,
+   "KX-1084": 52.097,
+   "KX-1091": 31.543,
+   "KX-1098": 72.217,
+   "KX-1105": 21.567,
+   "KX-1112": 79.989,
+   "KX-1119": 62.947,
+   "KX-1126": 40.897,
+   "KX-1133": 69.679,
+   "KX-1140": 74.66,
+   "KX-1147": 27.945,
+   "KX-1154": 3.461,
+   "KX-1161": 47.577,
+   "KX-1168": 104.788,
+   "KX-1175": 31.918,
+   "KX-1182": 13.815,
+   "KX-1189": 44.758,
+   "KX-1196": 65.345,
+   "KX-1203": 34.78,
+   "KX-1210": 35.626,
+   "KX-1217": 67.452,
+   "KX-1224": 10.863,
+   "KX-1231": 11.843,
+   "KX-1238": 100.317,
+   "KX-1245": 6.758,
+   "KX-1252": 71.623,
+   "KX-1259": 80.16,
+   "KX-1266": 36.864,
+   "KX-1273": 61.007,
+   "KX-1280": 63.522,
+   "KX-1287": 30.02,
+   "KX-1294": 50.379,
+   "KX-1301": 84.76,
+   "KX-1308": 84.45,
+   "KX-1315": 65.537,
+   "KX-1322": 73.413,
+   "KX-1329": 79.338,
+   "KX-1336": 8.31,
+   "KX-1343": 64.973,
+   "KX-1350": 107.09,
+   "KX-1357": 84.485,
+   "KX-1364": 72.018,
+   "KX-1371": 35.296,
+   "KX-1378": 79.492,
+   "KX-1385": 33.038,
+   "KX-1392": 68.953,
+   "KX-1399": 92.372,
+   "KX-1406": 48.485,
+   "KX-1413": 94.694,
+   "KX-1420": 21.188,
+   "KX-1427": 38.976,
+   "KX-1434": 81.705,
+   "KX-1441": 52.321,
+   "KX-1448": 24.845,
+   "KX-1455": 88.651,
+   "KX-1462": 71.363,
+   "KX-1469": 76.824,
+   "KX-1476": 4.991,
+   "KX-1483": 53.697,
+   "KX-1490": 48.251,
+   "KX-1497": 91.311,
+   "KX-1504": 5.901,
+   "KX-1511": 105.684,
+   "KX-1518": 58.732,
+   "KX-1525": 87.142,
+   "KX-1532": 69.574,
+   "KX-1539": 22.296,
+   "KX-1546": 59.862,
+   "KX-1553": 48.985,
+   "KX-1560": 80.498
+  },
+  "closest_to_cutoff": [
+   5.901,
+   6.758,
+   8.31,
+   10.863,
+   11.843,
+   13.815
+  ],
+  "reader": "Gen5 NormLum rows (vendor), recomputed from LUM and the layout",
+  "method": "activity % = (x - mean NEGCON) / (mean POSCON - mean NEGCON) x 100; hits below 10 %"
+ },
+ "hcs_dapi": {
+  "value": -17.129216,
+  "well_means": {
+   "A01": 166.1508,
+   "C07": 137.69047
+  },
+  "fields": {
+   "A01": 2,
+   "C07": 5
+  },
+  "reader": "tifffile 2026.9.20",
+  "method": "mean of all DAPI field planes per well; (C07 - A01) / A01 x 100"
+ },
+ "hcs_incomplete": {
+  "value": [
+   "A02"
+  ],
+  "wells_with_images": {
+   "A01": [
+    1,
+    2
+   ],
+   "A02": [
+    1
+   ]
+  },
+  "wavelengths": 2,
+  "reader": "HTD text + directory listing (Python standard library)",
+  "method": "wells with at least one image but fewer than NWavelengths"
+ },
+ "bleaching": {
+  "value": "run_b.nd2",
+  "drop_percent": {
+   "run_a.nd2": 13.937366,
+   "run_b.nd2": 18.58587,
+   "run_c.nd2": 15.155462
+  },
+  "reader": "nd2 0.11.3",
+  "method": "mean raw intensity of the first and last time point; (first - last) / first x 100"
+ },
+ "zarr_export": {
+  "value": 2.5,
+  "stacks": {
+   "stack_a": {
+    "SizeX": 696,
+    "SizeY": 520,
+    "SizeZ": 5,
+    "SizeC": 1,
+    "SizeT": 4,
+    "PhysicalSizeX": 0.12863494,
+    "PhysicalSizeY": 0.12863494,
+    "PhysicalSizeZ": 0.5
+   },
+   "stack_b": {
+    "SizeX": 82,
+    "SizeY": 372,
+    "SizeZ": 16,
+    "SizeC": 1,
+    "SizeT": 9,
+    "PhysicalSizeX": 0.1,
+    "PhysicalSizeY": 0.1,
+    "PhysicalSizeZ": 2.5
+   }
+  },
+  "reader": "corpus/oracle (nd2)",
+  "method": "physical pixel sizes and dimensions recorded in the ND2 metadata"
+ },
+ "qpcr_rdml": {
+  "value": 1.8955429,
+  "variants": {
+   "pooled_reactions": 1.5028721,
+   "excluded_kept": 1.7387561
+  },
+  "excluded_reactions": 1,
+  "reader": "xml.etree on the RDML (LinRegPCR Cq values and <excl> flags)",
+  "method": "ΔCq = Cq(HAC1u) - mean(Cq ACT1, Cq TFC1) per biological sample (technical means); ΔΔCq = mean ΔCq treated - mean ΔCq control; fold = 2^-ΔΔCq; excluded reactions dropped"
+ },
+ "qpcr_eds": {
+  "value": 0.80883537,
+  "delta_cq": {
+   "ABHD17C OE": 14.092076,
+   "Lenvatinib/ABHD17C OE": 14.398157
+  },
+  "ddcq": 0.306082,
+  "reader": "zipfile + analysis_result.txt (vendor Ct)",
+  "method": "ΔCq = mean Ct(ABHD17C) - mean Ct(18s) per sample; fold = 2^-(ΔCq treated - ΔCq control)"
+ },
+ "bitumen": {
+  "value": "1h_180C",
+  "indices": {
+   "Unaged.2": {
+    "index_baseline": 0.025691108,
+    "index_raw": 0.2202155
+   },
+   "1h_180C.2": {
+    "index_baseline": 0.032180462,
+    "index_raw": 0.23432931
+   },
+   "5h_120C.3": {
+    "index_baseline": 0.025838326,
+    "index_raw": 0.22287533
+   }
+  },
+  "reader": "brukeropus 1.4.3",
+  "method": "trapezoid area 980-1060 over 1350-1525 cm-1 (with and without a local linear baseline)"
+ },
+ "damaged": {
+  "value": [
+   "sample_data/instrument_pc_1/file_04.fcs",
+   "sample_data/instrument_pc_1/file_10.mzML",
+   "sample_data/instrument_pc_3/file_06.raw",
+   "sample_data/instrument_pc_3/file_09.abf"
+  ],
+  "reader": "corpus/manifest.toml (role = corrupt) + harness truncation",
+  "method": "files the manifest records as corrupt, and the copies truncated to 60%"
+ },
+ "reconcile": {
+  "value": [
+   "D7",
+   "C05"
+  ],
+  "recorded_names": {
+   "fcsparser-fortessa-a01": "A1",
+   "fcsparser-hts-lsr-ii-d06": "D6",
+   "zenodo18439538-cytoflex": "D10",
+   "zenodo7971252-sony-sa3800": "C04",
+   "fcsparser-facs-diva": "KM1"
+  },
+  "reader": "flowio 1.4.0 (TEXT $SMNO, TUBE NAME)",
+  "method": "sheet names with no FCS file recording that sample name"
+ },
+ "gcfid": {
+  "value": 2.0868653,
+  "areas": {
+   "0101": 45713.7,
+   "0102": 17187.1,
+   "0103": 20515.5,
+   "0104": 19536.4
+  },
+  "concentration_percent": {
+   "0102": 1.8798631,
+   "0103": 2.2439116,
+   "0104": 2.1368211
+  },
+  "reader": "ChemStation Report.TXT (vendor integration)",
+  "method": "single-point external standard: 5.00 % x area / area of the standard; mean of 3 samples"
+ },
+ "nmr": {
+  "value": 10.19528,
+  "regions": [
+   [
+    1,
+    8.239,
+    8.178,
+    2.0
+   ],
+   [
+    2,
+    7.901,
+    7.814,
+    4.03523
+   ],
+   [
+    3,
+    7.589,
+    7.526,
+    2.02334
+   ],
+   [
+    4,
+    7.358,
+    7.303,
+    2.12986
+   ],
+   [
+    5,
+    7.239,
+    7.168,
+    2.00685
+   ]
+  ],
+  "reader": "TopSpin pdata/1/integrals.txt (vendor-computed integrals)",
+  "method": "sum of regions 2-5, scaled so that region 1 = 2 H"
+ }
+}

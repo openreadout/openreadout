@@ -1,0 +1,233 @@
+{
+ "id": "synthetic-ecephys",
+ "file": "synthetic-ecephys.nwb",
+ "size": 35360,
+ "sha256": "11acdb1fd980e8106ea28c7365a3186e2ab55fc5eb827cb9d6472fac043f7301",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.7.0",
+ "session": {
+  "session_description": "synthetic extracellular session for openreadout tests",
+  "identifier": "synthetic-ecephys-0001",
+  "session_start_time": "2026-01-02T03:04:05.000000+01:00"
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "raw",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "raw[0]",
+    "raw[1]",
+    "raw[2]"
+   ],
+   "sample_rate_hz": 30000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 300,
+     "channels": [
+      {
+       "xxh3": "880c2df57fcf783a65a84113a56786ae",
+       "first": [
+        -0.002,
+        -0.0018889999999999998,
+        -0.0017779999999999998,
+        -0.0016669999999999999,
+        -0.0015559999999999999,
+        -0.0014449999999999999,
+        -0.001334,
+        -0.001223
+       ]
+      },
+      {
+       "xxh3": "dac9290a3743e202b9322ea36b0bd018",
+       "first": [
+        -0.0009815,
+        -0.000926,
+        -0.0008705,
+        -0.000815,
+        -0.0007595,
+        -0.000704,
+        -0.0006485,
+        -0.000593
+       ]
+      },
+      {
+       "xxh3": "c5085ad5d76b684642a7fa48a3419e54",
+       "first": [
+        -0.003852,
+        -0.00363,
+        -0.003408,
+        -0.003186,
+        -0.002964,
+        -0.002742,
+        -0.0025199999999999997,
+        -0.0022979999999999997
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "LFP",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "LFP[0]",
+    "LFP[1]"
+   ],
+   "sample_rate_hz": 1000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 40,
+     "channels": [
+      {
+       "xxh3": "ac3a5b27d823dfd60977493eac73bae5",
+       "first": [
+        -0.001,
+        -0.000949367105960846,
+        -0.0008987341523170471,
+        -0.0008481012582778931,
+        -0.0007974683642387391,
+        -0.0007468354701995849,
+        -0.0006962025165557861,
+        -0.0006455696225166321
+       ]
+      },
+      {
+       "xxh3": "175ebe30c9189911997a0757730fda34",
+       "first": [
+        -0.0009746835231781006,
+        -0.0009240506291389466,
+        -0.0008734177350997925,
+        -0.0008227847814559937,
+        -0.0007721518874168397,
+        -0.0007215189933776855,
+        -0.0006708860993385315,
+        -0.0006202531456947327
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "name": "units",
+   "event_count": 3,
+   "parameter_names": [
+    "id",
+    "spike_times_count",
+    "electrodes_count",
+    "waveform_mean[0]",
+    "waveform_mean[1]",
+    "waveform_mean[2]",
+    "waveform_mean[3]",
+    "waveform_mean[4]",
+    "quality"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "02fa5d3bf653cf2cd1fc32c5741ad6ea",
+    "spike_times_count": "2b36bc3cb22ce46a72626b4df2e7b192",
+    "electrodes_count": "ea9ff79745aaed22c15c07e4e3a91656",
+    "waveform_mean[0]": "ac5f19fbf4acbc70702dd42e84bc4f90",
+    "waveform_mean[1]": "3aa88a1e1940018edbc051d42b83a8fc",
+    "waveform_mean[2]": "fc8d6a540b39073640e0d0d00145acc9",
+    "waveform_mean[3]": "daa7ca8286bea287f7c7fe9ef2e1a048",
+    "waveform_mean[4]": "7ca383e5d845883d437e04bbab07cc43",
+    "quality": "b1ad8c23996f707942b5c224afc4e026"
+   }
+  },
+  {
+   "index": 1,
+   "name": "units/spike_times",
+   "event_count": 6,
+   "parameter_names": [
+    "unit_row",
+    "unit_id",
+    "spike_time"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "unit_row": "7393a1070f4b44d24d26a0a58c739610",
+    "unit_id": "dc44eec5b9b2485538c2905e89f0dbc5",
+    "spike_time": "8d0b911901806396a5e281c72dfec2ba"
+   }
+  },
+  {
+   "index": 2,
+   "name": "intervals/trials",
+   "event_count": 2,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "outcome"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "117f627aa058ede2fba430a78bffd779",
+    "start_time": "117f627aa058ede2fba430a78bffd779",
+    "stop_time": "17d4190bf6b0e97455c86cba009bd344",
+    "outcome": "117f627aa058ede2fba430a78bffd779"
+   }
+  },
+  {
+   "index": 3,
+   "name": "general/extracellular_ephys/electrodes",
+   "event_count": 4,
+   "parameter_names": [
+    "id",
+    "x",
+    "location",
+    "good",
+    "group_name"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "1349cce5036fa491d91125130a6e4ee5",
+    "x": "1583564a6199740af27c875b75ab83eb",
+    "location": "dbf008e3d5c5c45456b7c3d8198cc798",
+    "good": "504ec355cc55e8e3373d72cd4059546c",
+    "group_name": "9a026d96b3c0f0fca057271c9071c99d"
+   }
+  },
+  {
+   "index": 4,
+   "name": "processing/ecephys/spikes",
+   "event_count": 4,
+   "parameter_names": [
+    "time_s",
+    "c0_w0",
+    "c0_w1",
+    "c0_w2",
+    "c1_w0",
+    "c1_w1",
+    "c1_w2"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "time_s": "bc9c9881ba9f3983b1e60ee0c63e967f",
+    "c0_w0": "184cc2a7d9cd5575edbc1bc3175fe06f",
+    "c0_w1": "cc9407a4b542d325183080831d0bc07f",
+    "c0_w2": "3b49d5ddc76d9bacc223c2d6bef940c7",
+    "c1_w0": "3547ea45abe587740f1ab2b55cf96605",
+    "c1_w1": "c013214b0696e97ff828d0ec58d84018",
+    "c1_w2": "de5cdcd0a74db38ebe9a2f6754910cae"
+   }
+  }
+ ]
+}

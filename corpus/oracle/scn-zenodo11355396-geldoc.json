@@ -1,0 +1,32 @@
+{
+ "id": "scn-zenodo11355396-geldoc",
+ "file": "scn-zenodo11355396-geldoc.scn",
+ "size": 1478581,
+ "sha256": "aba1a013e60bb9b600335798d81499bd9d55e7e3a2dfaf193d9161e6c7d9b4dc",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1046,
+   "size_y": 702,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 81.17820267686425,
+    "y": 81.17820512820514
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "209b523bf3b1d73252894be42a6937fa"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,9 @@
+{
+ "id": "echem-impedancepy-eis-abort",
+ "file": "echem-impedancepy-eis-abort.DTA",
+ "format": "gamry-dta",
+ "family": "bench",
+ "readers": [],
+ "checks": [],
+ "error": "ParserError: Could not construct index. Requested to use 1 number of columns, but 3 left to parse."
+}

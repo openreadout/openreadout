@@ -1,0 +1,75 @@
+{
+ "id": "flowkit-8c-e01",
+ "file": "flowkit-8c-e01.fcs",
+ "size": 17412282,
+ "sha256": "55e2e1231e6a2b310856ef0722b59bb938277c446fe392f53dc007983ecead6d",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.1",
+   "parameter_count": 15,
+   "event_count": 290172,
+   "parameter_names": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "TNFa FITC FLR-A",
+    "CD8 PerCP-Cy55 FLR-A",
+    "IL2 BV421 FLR-A",
+    "Aqua Amine FLR-A",
+    "IFNg APC FLR-A",
+    "CD3 APC-H7 FLR-A",
+    "CD107a PE FLR-A",
+    "CD4 PE-Cy7 FLR-A",
+    "Time"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "ebf216dbc192a4ab999d179cb59b0df1",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 290172,
+  "xxh3": "ebf216dbc192a4ab999d179cb59b0df1",
+  "agrees_with_flowio": true
+ }
+}

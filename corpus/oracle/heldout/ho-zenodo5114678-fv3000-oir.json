@@ -1,0 +1,81 @@
+{
+ "id": "ho-zenodo5114678-fv3000-oir",
+ "file": "cortex_24h_60x.oir",
+ "size": 15228590,
+ "sha256": "537711c5e5644267408e8cdf487d68de62181533c0b2469be5f04ae058a8d2e9",
+ "max_planes_hashed": 64,
+ "reader": "oirfile 2026.9.6",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.207160189800746,
+    "y": 0.207160189800746,
+    "z": null
+   },
+   "time_increment_s": null,
+   "lambda_nm": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "44fd57a65509ab38d1b3fefa1ccb0cf1"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3f39c416c2908e7809d9dd131d7bbf29"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "kind": "reference",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.207160189800746,
+    "y": 0.207160189800746
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "35200620d5d2c83ace265875f1e9ce9d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9552605bba2979b85d222929740590aa"
+    }
+   ]
+  }
+ ],
+ "reader_sizes": {
+  "C": 2,
+  "Y": 1024,
+  "X": 1024
+ },
+ "datetime": "2020-11-08T10:35:29.608Z",
+ "companion_files": [],
+ "channel_names": [
+  "CH1",
+  "CH1",
+  "Alexa Fluor 488",
+  "CH3"
+ ]
+}

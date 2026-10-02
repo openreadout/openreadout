@@ -1,0 +1,407 @@
+{
+ "generator": "flowkit 1.3.2 + numpy 2.5.3",
+ "gating": "flowkit-8c-ics",
+ "parameters": [
+  "FSC-A",
+  "Comp-CD4 PE-Cy7 FLR-A",
+  "Comp-CD8 PerCP-Cy55 FLR-A"
+ ],
+ "samples": [
+  {
+   "fcs": "flowkit-8c-e01",
+   "sample": "101_DEN084Y5_15_E01_008_clean.fcs",
+   "populations": [
+    {
+     "path": "/Time",
+     "count": 290166,
+     "medians": {
+      "FSC-A": 129434.785156,
+      "Comp-CD4 PE-Cy7 FLR-A": 628.512710753,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 443.007274153
+     }
+    },
+    {
+     "path": "/Time/Singlets",
+     "count": 239001,
+     "medians": {
+      "FSC-A": 130583.054688,
+      "Comp-CD4 PE-Cy7 FLR-A": 644.4855973,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 395.206274585
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-",
+     "count": 164655,
+     "medians": {
+      "FSC-A": 131734.078125,
+      "Comp-CD4 PE-Cy7 FLR-A": 1694.80439268,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 332.711174336
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+",
+     "count": 133670,
+     "medians": {
+      "FSC-A": 134000.992188,
+      "Comp-CD4 PE-Cy7 FLR-A": 2889.7113366,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 332.723757046
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+",
+     "count": 82484,
+     "medians": {
+      "FSC-A": 131406.632812,
+      "Comp-CD4 PE-Cy7 FLR-A": 4027.63040957,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 218.869101028
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/CD107a+",
+     "count": 68,
+     "medians": {
+      "FSC-A": 140128.226562,
+      "Comp-CD4 PE-Cy7 FLR-A": 3689.42501666,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 384.664357641
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IFNg+",
+     "count": 4,
+     "medians": {
+      "FSC-A": 147981.226562,
+      "Comp-CD4 PE-Cy7 FLR-A": 3819.52730137,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 240.840666748
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IL2+",
+     "count": 6,
+     "medians": {
+      "FSC-A": 132835.738281,
+      "Comp-CD4 PE-Cy7 FLR-A": 4352.56818814,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 174.286168496
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/TNFa+",
+     "count": 21,
+     "medians": {
+      "FSC-A": 124605.125,
+      "Comp-CD4 PE-Cy7 FLR-A": 4442.34432297,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 260.503602258
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+",
+     "count": 47165,
+     "medians": {
+      "FSC-A": 138464.09375,
+      "Comp-CD4 PE-Cy7 FLR-A": 333.463141815,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 4751.13034998
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/CD107a+",
+     "count": 73,
+     "medians": {
+      "FSC-A": 139566.140625,
+      "Comp-CD4 PE-Cy7 FLR-A": 394.26175362,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 4645.72455865
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IFNg+",
+     "count": 2,
+     "medians": {
+      "FSC-A": 124073.453125,
+      "Comp-CD4 PE-Cy7 FLR-A": 443.765144485,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 4176.65969443
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IL2+",
+     "count": 10,
+     "medians": {
+      "FSC-A": 114590.691406,
+      "Comp-CD4 PE-Cy7 FLR-A": 615.087013376,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 5560.46294706
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/TNFa+",
+     "count": 8,
+     "medians": {
+      "FSC-A": 130186.078125,
+      "Comp-CD4 PE-Cy7 FLR-A": 458.676016315,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 4252.52062167
+     }
+    }
+   ]
+  },
+  {
+   "fcs": "flowkit-8c-e03",
+   "sample": "101_DEN084Y5_15_E03_009_clean.fcs",
+   "populations": [
+    {
+     "path": "/Time",
+     "count": 283968,
+     "medians": {
+      "FSC-A": 131370.289062,
+      "Comp-CD4 PE-Cy7 FLR-A": 723.189312967,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 462.225510851
+     }
+    },
+    {
+     "path": "/Time/Singlets",
+     "count": 236780,
+     "medians": {
+      "FSC-A": 132183.195312,
+      "Comp-CD4 PE-Cy7 FLR-A": 749.22109539,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 421.293669678
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-",
+     "count": 161823,
+     "medians": {
+      "FSC-A": 133081.03125,
+      "Comp-CD4 PE-Cy7 FLR-A": 2275.93599086,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 361.877223461
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+",
+     "count": 132200,
+     "medians": {
+      "FSC-A": 135198.234375,
+      "Comp-CD4 PE-Cy7 FLR-A": 3874.49421075,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 365.429567797
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+",
+     "count": 81855,
+     "medians": {
+      "FSC-A": 132584.125,
+      "Comp-CD4 PE-Cy7 FLR-A": 5272.98426637,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 245.009334069
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/CD107a+",
+     "count": 59,
+     "medians": {
+      "FSC-A": 136325.5625,
+      "Comp-CD4 PE-Cy7 FLR-A": 4678.8662749,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 433.578445693
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IFNg+",
+     "count": 598,
+     "medians": {
+      "FSC-A": 134646.023438,
+      "Comp-CD4 PE-Cy7 FLR-A": 5067.77327093,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 404.997173693
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IL2+",
+     "count": 64,
+     "medians": {
+      "FSC-A": 133768.726562,
+      "Comp-CD4 PE-Cy7 FLR-A": 4819.30329406,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 336.700124402
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/TNFa+",
+     "count": 288,
+     "medians": {
+      "FSC-A": 136282.117188,
+      "Comp-CD4 PE-Cy7 FLR-A": 4658.58364627,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 343.433285733
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+",
+     "count": 46965,
+     "medians": {
+      "FSC-A": 140199.71875,
+      "Comp-CD4 PE-Cy7 FLR-A": 403.920879761,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 5287.52646094
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/CD107a+",
+     "count": 814,
+     "medians": {
+      "FSC-A": 130410.832031,
+      "Comp-CD4 PE-Cy7 FLR-A": 631.236030166,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 7676.26762463
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IFNg+",
+     "count": 1224,
+     "medians": {
+      "FSC-A": 131423.21875,
+      "Comp-CD4 PE-Cy7 FLR-A": 649.736413093,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 6763.37646422
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IL2+",
+     "count": 127,
+     "medians": {
+      "FSC-A": 126204.875,
+      "Comp-CD4 PE-Cy7 FLR-A": 709.51545934,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 6823.08750103
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/TNFa+",
+     "count": 821,
+     "medians": {
+      "FSC-A": 130548.296875,
+      "Comp-CD4 PE-Cy7 FLR-A": 658.765536662,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 7201.34976928
+     }
+    }
+   ]
+  },
+  {
+   "fcs": "flowkit-8c-e05",
+   "sample": "101_DEN084Y5_15_E05_010_clean.fcs",
+   "populations": [
+    {
+     "path": "/Time",
+     "count": 284846,
+     "medians": {
+      "FSC-A": 129354.601562,
+      "Comp-CD4 PE-Cy7 FLR-A": 762.087603694,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 469.080494627
+     }
+    },
+    {
+     "path": "/Time/Singlets",
+     "count": 235331,
+     "medians": {
+      "FSC-A": 130520.640625,
+      "Comp-CD4 PE-Cy7 FLR-A": 781.831983889,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 423.56940904
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-",
+     "count": 160955,
+     "medians": {
+      "FSC-A": 131967.921875,
+      "Comp-CD4 PE-Cy7 FLR-A": 2390.14827654,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 361.212449537
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+",
+     "count": 131305,
+     "medians": {
+      "FSC-A": 134397.171875,
+      "Comp-CD4 PE-Cy7 FLR-A": 4023.54397425,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 365.631037969
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+",
+     "count": 81135,
+     "medians": {
+      "FSC-A": 131660.609375,
+      "Comp-CD4 PE-Cy7 FLR-A": 5590.08620298,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 243.599355525
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/CD107a+",
+     "count": 70,
+     "medians": {
+      "FSC-A": 143252.28125,
+      "Comp-CD4 PE-Cy7 FLR-A": 5075.96951321,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 384.034187597
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IFNg+",
+     "count": 9,
+     "medians": {
+      "FSC-A": 134658.65625,
+      "Comp-CD4 PE-Cy7 FLR-A": 4997.31129818,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 276.458378965
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IL2+",
+     "count": 8,
+     "medians": {
+      "FSC-A": 121146.109375,
+      "Comp-CD4 PE-Cy7 FLR-A": 6661.09009947,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 245.077557239
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/TNFa+",
+     "count": 28,
+     "medians": {
+      "FSC-A": 134468.273438,
+      "Comp-CD4 PE-Cy7 FLR-A": 5303.52803182,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 318.729312434
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+",
+     "count": 46546,
+     "medians": {
+      "FSC-A": 139187.734375,
+      "Comp-CD4 PE-Cy7 FLR-A": 385.523012447,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 5358.38016645
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/CD107a+",
+     "count": 306,
+     "medians": {
+      "FSC-A": 130801.882812,
+      "Comp-CD4 PE-Cy7 FLR-A": 512.483533486,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 2828.5547227
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IFNg+",
+     "count": 348,
+     "medians": {
+      "FSC-A": 128259.269531,
+      "Comp-CD4 PE-Cy7 FLR-A": 537.58784352,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 2501.4090413
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IL2+",
+     "count": 65,
+     "medians": {
+      "FSC-A": 126892.171875,
+      "Comp-CD4 PE-Cy7 FLR-A": 561.195811936,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 3141.5672484
+     }
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/TNFa+",
+     "count": 336,
+     "medians": {
+      "FSC-A": 128259.269531,
+      "Comp-CD4 PE-Cy7 FLR-A": 536.591059173,
+      "Comp-CD8 PerCP-Cy55 FLR-A": 2480.34348236
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,182 @@
+{
+ "id": "rsciio-tia-16x16-diffraction-imagel-5x5x256x256-eds-2",
+ "file": "rsciio-tia-16x16-diffraction_imagel_5x5x256x256_EDS_2.ser",
+ "size": 6555976,
+ "sha256": "9db7b1a7bdecfa22cd5d6020d88a3961bc6ba9e91ea28f9f6fa6a5e8b0d7797a",
+ "max_planes_hashed": 64,
+ "reader": "ncempy.io.ser (GPL, black box)",
+ "series_version": 544,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 25,
+   "pixel_type": "int32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6e9b44545d8a3b1084230b32de970aa8"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "88a084c124d2e1225a1b24438a235b8c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "a2143ac0d3c9e66a77cd6a71021b3ff4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "471080abe3ce51fe926d5a196d9e7f24"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "09a3c262c7606635661404e1dd31eb39"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "4d6eca3b4110ae7867cdcb6dce562f43"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "bc9f3248ba2ff0a0ce149b2fb620e8a5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "cdce0401815a15984ad828d35d3500eb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "9dc1bf7b998fab07dd7c2dad96e3916f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "4bf846cace536d5b2546db34d10f7f71"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 10,
+     "xxh3": "f9f2de4927d66cc835a89064acf712cf"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 11,
+     "xxh3": "116b376d992e0130030df96c1bf4889d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 12,
+     "xxh3": "496b1b192016c192888a30c218b521bb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 13,
+     "xxh3": "7b77612860dbb9fb34d0809b15db6e64"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 14,
+     "xxh3": "a706988d8492fc64de18d309492db33e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 15,
+     "xxh3": "b577c0eee4a1ac9dd56b24356eba0abd"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 16,
+     "xxh3": "278940be988cd7a47806c0be230824f2"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 17,
+     "xxh3": "14eaa969c9a60fcd1b556315dddcfcd9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 18,
+     "xxh3": "a5f710bb0cee7efd8866e3e07a34c207"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 19,
+     "xxh3": "63870e63878ab71ca515be8bb9668e18"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 20,
+     "xxh3": "9e1069df2a3cf01133db8ff9a341ccc0"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 21,
+     "xxh3": "f98f24620c6d0c0b7f73fa7ccb90037a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 22,
+     "xxh3": "1ab2b520f43cf2a2b0b29126843d5d2b"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 23,
+     "xxh3": "4ecd0da0fa3deba45e4fd7818c32e072"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 24,
+     "xxh3": "1072c9d0168a0ccd4c73bd4cbb090d10"
+    }
+   ]
+  }
+ ],
+ "emi": {
+  "AcceleratingVoltage": 200000,
+  "Microscope []": "Microscope TalosF200X 200 kV D6308 XTwin",
+  "Magnification [x]": 115000
+ }
+}

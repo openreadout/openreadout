@@ -1,0 +1,50 @@
+{
+ "id": "figshare31813711-zvi-rc21-cc-epha2-647-eda-fn1-100-546-dapi",
+ "file": "RC21-CC_EphA2-647_EDA-FN1-100-546_DAPI.zvi",
+ "size": 8806912,
+ "sha256": "2b9df2b1ef958a890710872b4f91756e7a17875dffc4cca871b20c169d6e7181",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "RC21-CC_EphA2-647_EDA-FN1-100-546_DAPI.zvi",
+   "size_x": 1388,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.3225,
+    "y": 0.3225
+   },
+   "channel_names": [
+    "Alexa 647",
+    "Alexa 546",
+    "DAPI"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ad02ca3a3de92a80313f2c18be7dddf6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7353dc75b026e4217e555507938ca55a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fe017054227192a953c756c1853e103d"
+    }
+   ]
+  }
+ ]
+}

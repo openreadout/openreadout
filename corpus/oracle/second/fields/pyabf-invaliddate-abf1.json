@@ -1,0 +1,11 @@
+{
+ "id": "pyabf-invaliddate-abf1",
+ "file": "pyabf-invaliddate-abf1.abf",
+ "format": "abf",
+ "family": "electrophysiology",
+ "readers": [
+  "Neo 0.14.5 AxonRawIO (BSD-3)"
+ ],
+ "checks": [],
+ "error": "ValueError: second must be in 0..59"
+}

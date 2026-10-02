@@ -1,0 +1,93 @@
+{
+ "id": "figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2",
+ "file": "20x_DM123_0_degrees_rotation_zoom2.oir",
+ "size": 10770043,
+ "sha256": "aeb1d4825d835d343d3568cfddda9338d6b4f509f5e307d1f060fd984857d0ec",
+ "max_planes_hashed": 64,
+ "reader": "oirfile 2026.9.6",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.621480569402239,
+    "y": 0.621480569402239,
+    "z": null
+   },
+   "time_increment_s": null,
+   "lambda_nm": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "227df4c46ea1027e195cdbc0ff13a061"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2df631d178f03eac6992df1ab535a4e7"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f576470e95edb9366e0793253aa68811"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "kind": "reference",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.621480569402239,
+    "y": 0.621480569402239
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f82f5619183465b7ea6dc857fd7bf700"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9032af568ed2fa21a6412c4a57147945"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f9f9a6e24c4c5839d73699ee3ab18b85"
+    }
+   ]
+  }
+ ],
+ "reader_sizes": {
+  "C": 3,
+  "Y": 512,
+  "X": 512
+ },
+ "datetime": "2019-07-25T14:48:28.121+01:00",
+ "companion_files": [],
+ "channel_names": [
+  "CH1",
+  "CH1",
+  "CH2",
+  "CH3"
+ ]
+}

@@ -1,0 +1,208 @@
+{
+ "id": "zenodo4437568-fig1-rec-f-control-smr",
+ "file": "zenodo4437568-fig1-rec-f-control.smr",
+ "size": 2118656,
+ "sha256": "5115c76bbeb0b0ab0f41b9faab4d70195c89067291d1712b8cd06749704908dd",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 Spike2RawIO (try_signal_grouping=False)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LFP8"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 10101.010101010103,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 171717,
+     "channels": [
+      {
+       "xxh3": "e2eead18d7c673914e71c52fb42755d5",
+       "first": [
+        11.444091796875,
+        22.735595703125,
+        20.599365234375,
+        12.8173828125,
+        13.275146484375,
+        17.08984375,
+        27.008056640625,
+        17.7001953125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LFP6"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 10101.010101010103,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 171717,
+     "channels": [
+      {
+       "xxh3": "652fce771d99194563e773b6322d6038",
+       "first": [
+        -5.18798828125,
+        5.645751953125,
+        2.44140625,
+        -10.986328125,
+        -14.801025390625,
+        -3.204345703125,
+        2.288818359375,
+        4.425048828125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LFP4"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 10101.010101010103,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 171718,
+     "channels": [
+      {
+       "xxh3": "312fcf3b9c54db2399362e0976cb565e",
+       "first": [
+        -8.697509765625,
+        -7.32421875,
+        -2.44140625,
+        2.899169921875,
+        2.593994140625,
+        4.730224609375,
+        -1.983642578125,
+        -2.74658203125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LFP14"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 10101.010101010103,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 171717,
+     "channels": [
+      {
+       "xxh3": "302684f3295c21d5287841b72e3cc86b",
+       "first": [
+        25.0244140625,
+        16.937255859375,
+        22.735595703125,
+        36.0107421875,
+        21.820068359375,
+        24.566650390625,
+        31.1279296875,
+        31.890869140625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LFP13"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 10101.010101010103,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 171717,
+     "channels": [
+      {
+       "xxh3": "0997f3dc2f90de702828b98ad564f278",
+       "first": [
+        3.0517578125,
+        1.678466796875,
+        -3.35693359375,
+        4.730224609375,
+        -0.152587890625,
+        7.32421875,
+        0.762939453125,
+        -0.91552734375
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LFP10"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 10101.010101010103,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 171717,
+     "channels": [
+      {
+       "xxh3": "8b908247e085b0f7805a73a83f9e7897",
+       "first": [
+        8.697509765625,
+        -0.6103515625,
+        -2.13623046875,
+        5.4931640625,
+        3.662109375,
+        7.781982421875,
+        0.91552734375,
+        5.340576171875
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

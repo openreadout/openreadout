@@ -1,0 +1,34 @@
+{
+ "id": "ncem-emd-pt-saed-d910mm-single",
+ "file": "ncem-emd-pt-saed-d910mm-single.emd",
+ "size": 16825980,
+ "sha256": "e94f10c391165db2012ae75d4f510db5c542db71181b8e73a33535f5d53d6f07",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 (Berkeley EMD groups)",
+ "images": [
+  {
+   "index": 0,
+   "emd_group": "data/im01_1.ser",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f7cc7ca1e2a593fc6c8086ca9007571b"
+    }
+   ]
+  }
+ ],
+ "version": "0.2"
+}

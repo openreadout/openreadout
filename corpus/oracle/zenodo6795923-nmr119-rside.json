@@ -1,0 +1,37 @@
+{
+ "id": "zenodo6795923-nmr119-rside",
+ "file": "zenodo6795923-NMR1.1.9_Rside_maybe_LSO_10x_1zoom_Nissl_.oib",
+ "size": 1671168,
+ "sha256": "2eaffb144a6a3d6af7167b556aa9bd7014fccb6631d3ab71531b8c0b025e7f71",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box); planes cross-checked with oiffile 2026.2.8",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series 1",
+   "size_x": 800,
+   "size_y": 800,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 1.59,
+    "y": 1.59
+   },
+   "channel_names": [
+    "CH3"
+   ],
+   "oiffile_agrees": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2afc578ecc3b908a1882967d6d3bac11"
+    }
+   ]
+  }
+ ]
+}

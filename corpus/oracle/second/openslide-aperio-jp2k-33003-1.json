@@ -1,0 +1,20 @@
+{
+ "id": "openslide-aperio-jp2k-33003-1",
+ "file": "openslide-aperio-JP2K-33003-1.svs",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 15374,
+   "size_y": 17497,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "145511c1668bb46a73ee06889c7e97c5"
+    }
+   ]
+  }
+ ]
+}

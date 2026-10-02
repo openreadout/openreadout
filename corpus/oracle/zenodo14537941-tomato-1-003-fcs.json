@@ -1,0 +1,60 @@
+{
+ "id": "zenodo14537941-tomato-1-003-fcs",
+ "file": "Specimen_001_tomato+ 1_003.fcs",
+ "size": 402471,
+ "sha256": "48bea39d53cee798bd8d8d8a31145ad4926720d189968f0be378484044730ec8",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 10,
+   "event_count": 10000,
+   "parameter_names": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "780/60 Red-A",
+    "450/50 Violet-A",
+    "582/15 Green-A",
+    "Time"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Kit",
+    "dapi",
+    "Tomato",
+    null
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "58af0cf63b2ed47cae55d2a9bd8ef52d",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 10000,
+  "xxh3": "58af0cf63b2ed47cae55d2a9bd8ef52d",
+  "agrees_with_flowio": true
+ }
+}

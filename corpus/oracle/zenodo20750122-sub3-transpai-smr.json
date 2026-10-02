@@ -1,0 +1,43 @@
+{
+ "id": "zenodo20750122-sub3-transpai-smr",
+ "file": "zenodo20750122-sub3-transpai.smr",
+ "size": 1611776,
+ "sha256": "9feda7e0fd93696aba550c5699e32ecde0de713151a64ed9f3df06a2b5318dde",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 Spike2RawIO (try_signal_grouping=False)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LFP3"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 4960.317460317461,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 793651,
+     "channels": [
+      {
+       "xxh3": "d169b7af15bf21843e9789f1749e1338",
+       "first": [
+        2.13623046875,
+        -6.103515625,
+        2.13623046875,
+        -4.2724609375,
+        -5.4931640625,
+        -20.599365234375,
+        -51.727294921875,
+        -38.4521484375
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

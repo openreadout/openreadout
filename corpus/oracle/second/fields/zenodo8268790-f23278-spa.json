@@ -1,0 +1,22 @@
+{
+ "id": "zenodo8268790-f23278-spa",
+ "file": "omnic-zenodo/8268790/F23278.SPA",
+ "format": "thermo-omnic",
+ "family": "vibrational-spectroscopy",
+ "readers": [
+  "SpectroChemPy 1.0.0 (CeCILL-B, run as a black box) read_omnic"
+ ],
+ "checks": [
+  {
+   "field": "acquisition_date",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-08-05T19:12:31-07:00",
+   "cmp": "time",
+   "abs": 1.0
+  }
+ ]
+}

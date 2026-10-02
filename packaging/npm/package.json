@@ -1,0 +1,65 @@
+{
+  "name": "openreadout",
+  "version": "0.1.0",
+  "mcpName": "io.github.openreadout/openreadout",
+  "description": "Read raw lab-instrument files without vendor software. Installs the prebuilt OpenReadout binary for your platform.",
+  "license": "MIT OR Apache-2.0",
+  "author": "The OpenReadout Authors <openreadout@gmail.com>",
+  "homepage": "https://github.com/openreadout/openreadout",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openreadout/openreadout.git",
+    "directory": "packaging/npm"
+  },
+  "bugs": {
+    "url": "https://github.com/openreadout/openreadout/issues"
+  },
+  "keywords": [
+    "microscopy",
+    "czi",
+    "nd2",
+    "lif",
+    "ome-tiff",
+    "ome-zarr",
+    "mcp",
+    "mcp-server",
+    "cli",
+    "science"
+  ],
+  "bin": {
+    "openreadout": "openreadout.js"
+  },
+  "main": "lib/binary.js",
+  "exports": {
+    ".": "./lib/binary.js"
+  },
+  "scripts": {
+    "postinstall": "node install.js",
+    "prepack": "node scripts/prepack.js",
+    "test": "node --test test/archive.test.js"
+  },
+  "files": [
+    "openreadout.js",
+    "install.js",
+    "lib/binary.js",
+    "lib/archive.js",
+    "README.md",
+    "LICENSE-MIT",
+    "LICENSE-APACHE"
+  ],
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

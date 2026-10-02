@@ -1,0 +1,91 @@
+{
+ "id": "aics-OverViewScan",
+ "file": "aics-OverViewScan.czi",
+ "size": 82106592,
+ "sha256": "bff62579396bce3e702abb58aa59c68112ecc970136a4406d548c80d3102143f",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 7398,
+   "size_y": 3212,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "YX",
+   "shape": [
+    3212,
+    7398
+   ],
+   "other_dims": {},
+   "pyramid_levels": 4,
+   "physical_size_um": {
+    "x": 4.5743626119409,
+    "y": 4.5743626119409,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "709d9a71107e7b2fa26105cfe3210232"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 3699,
+     "size_y": 1606,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "4d7a7d340076ac9536c69143e8968115"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 1849,
+     "size_y": 803,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "82c5a6252f7256ec4fc640a2d87219d0"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 924,
+     "size_y": 401,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "a3dcdf36b94cc2a085213222cdba71dc"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 4.5743626119409,
+  "y": 4.5743626119409,
+  "z": null
+ },
+ "subblock_count": 131,
+ "compression_ids": [
+  0
+ ]
+}

@@ -1,0 +1,26 @@
+{
+ "id": "envision-lum-384",
+ "file": "envision-lum-384.csv",
+ "size": 10045,
+ "sha256": "42fed34fa8cc89a1effb0d31055c4ff1366196048d98419216049eb23856e806",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (PERKIN_ELMER_ENVISION)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "luminescence",
+    "wells": 96,
+    "values": 192,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "e7be80861ebd880d6f8da5610ea6ccb4"
+   }
+  ],
+  "header": {
+   "model": "EnVision",
+   "serial_number": "1051017",
+   "software_version": "1.14.3049.1193"
+  },
+  "documents": 192
+ }
+}

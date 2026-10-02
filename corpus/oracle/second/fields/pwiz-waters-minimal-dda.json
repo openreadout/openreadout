@@ -1,0 +1,203 @@
+{
+ "id": "pwiz-waters-minimal-dda",
+ "file": "pwiz-waters/Minimal_DDA.raw",
+ "format": "waters-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "the .raw's _HEADER.TXT (MassLynx text header), read as text",
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (Minimal_DDA.mzML)",
+  "the vendor-library conversion (Minimal_DDA.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}#len",
+   "theirs": 9,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "MS1 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/1",
+   "theirs": 3,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "MS2 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/2",
+   "theirs": 6,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "first retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#min",
+   "theirs": 60.0,
+   "cmp": "num",
+   "abs": 0.001,
+   "reader": 1
+  },
+  {
+   "field": "last retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#max",
+   "theirs": 210.0,
+   "cmp": "num",
+   "abs": 0.001,
+   "reader": 1
+  },
+  {
+   "field": "polarities",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/parameters/polarity/value",
+   "theirs": [
+    "positive"
+   ],
+   "cmp": "set",
+   "reader": 1
+  },
+  {
+   "field": "scan MS level",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=1 process=0 scan=1": 1,
+    "function=1 process=0 scan=2": 1,
+    "function=2 process=0 scan=1": 2,
+    "function=3 process=0 scan=1": 2,
+    "function=2 process=0 scan=2": 2,
+    "function=3 process=0 scan=2": 2,
+    "function=1 process=0 scan=3": 1,
+    "function=2 process=0 scan=3": 2,
+    "function=3 process=0 scan=3": 2
+   },
+   "cmp": "exact",
+   "by": "/native_id",
+   "each": "/ms_level",
+   "reader": 1
+  },
+  {
+   "field": "scan retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=1 process=0 scan=1": 60.0,
+    "function=1 process=0 scan=2": 120.0,
+    "function=2 process=0 scan=1": 144.00000572202,
+    "function=3 process=0 scan=1": 150.0,
+    "function=2 process=0 scan=2": 162.00000286104,
+    "function=3 process=0 scan=2": 167.99999713896,
+    "function=1 process=0 scan=3": 180.0,
+    "function=2 process=0 scan=3": 204.00000572202,
+    "function=3 process=0 scan=3": 210.0
+   },
+   "cmp": "num",
+   "abs": 0.001,
+   "by": "/native_id",
+   "each": "/rt_s",
+   "reader": 1
+  },
+  {
+   "field": "scan polarity",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=1 process=0 scan=1": "positive",
+    "function=1 process=0 scan=2": "positive",
+    "function=2 process=0 scan=1": "positive",
+    "function=3 process=0 scan=1": "positive",
+    "function=2 process=0 scan=2": "positive",
+    "function=3 process=0 scan=2": "positive",
+    "function=1 process=0 scan=3": "positive",
+    "function=2 process=0 scan=3": "positive",
+    "function=3 process=0 scan=3": "positive"
+   },
+   "cmp": "text",
+   "by": "/native_id",
+   "each": "/polarity",
+   "reader": 1
+  },
+  {
+   "field": "scan precursor m/z",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=2 process=0 scan=1": 2.0,
+    "function=3 process=0 scan=1": 1.0,
+    "function=2 process=0 scan=2": 2.0,
+    "function=3 process=0 scan=2": 1.0,
+    "function=2 process=0 scan=3": 4.0,
+    "function=3 process=0 scan=3": 1.0
+   },
+   "cmp": "num",
+   "rel": 1e-06,
+   "by": "/native_id",
+   "each": "/precursor_mz",
+   "reader": 1
+  },
+  {
+   "field": "acquisition software version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/software_version",
+   "theirs": "4.1",
+   "cmp": "prefix",
+   "reader": 2
+  }
+ ]
+}

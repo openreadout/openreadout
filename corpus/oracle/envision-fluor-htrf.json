@@ -1,0 +1,29 @@
+{
+ "id": "envision-fluor-htrf",
+ "file": "envision-fluor-htrf.csv",
+ "size": 8618,
+ "sha256": "4f85f82c48ad93bc6712de18035d3f7e043783a0b6acd78d5dc6e91e0755e8e5",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (PERKIN_ELMER_ENVISION)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "fluorescence",
+    "wells": 48,
+    "values": 96,
+    "errors": 0,
+    "wavelengths": [
+     620.0,
+     665.0
+    ],
+    "value_xxh3": "65f91dde5678d31fb67c5243d2fc18a4"
+   }
+  ],
+  "header": {
+   "model": "EnVision",
+   "serial_number": "1050209",
+   "software_version": "1.14.3049.1193"
+  },
+  "documents": 48
+ }
+}

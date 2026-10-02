@@ -1,0 +1,89 @@
+{
+ "id": "cheminfo-agilent-hplc-cdf",
+ "file": "cheminfo-agilent-hplc.cdf",
+ "size": 21508,
+ "sha256": "4140333a3e870136cf9f97bb7ddc97e489726a469405997475ba5f080b4fd739",
+ "max_planes_hashed": 64,
+ "reader": "scipy.io.netcdf_file (scipy 1.18.1)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DAD1 A, Sig=254,4 Ref=360,100"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 2.4999999627470975,
+   "sample_rate_tolerance_hz": 1e-06,
+   "x_first_min": 0.0002000000017384688,
+   "x_last_min": 31.000200461937734,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4651,
+     "channels": [
+      {
+       "xxh3": "6b138cb65f3b844183482b186cd1b124",
+       "first": [
+        -0.07588416337966919,
+        -0.07525086402893066,
+        -0.074043869972229,
+        -0.07206946611404419,
+        -0.06943941116333008,
+        -0.06686896085739136,
+        -0.06511062383651733,
+        -0.06383657455444336
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 8,
+   "parameter_names": [
+    "peak_retention_time",
+    "peak_start_time",
+    "peak_end_time",
+    "peak_width",
+    "peak_area",
+    "peak_area_percent",
+    "peak_height",
+    "peak_height_percent",
+    "peak_asymmetry",
+    "baseline_start_time",
+    "baseline_start_value",
+    "baseline_stop_time",
+    "baseline_stop_value",
+    "migration_time",
+    "peak_area_square_root",
+    "manually_reintegrated_peaks"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "int16"
+   ],
+   "xxh3": "4348e46bc18a680dd2e9210084b90e33"
+  }
+ ]
+}

@@ -1,0 +1,77 @@
+{
+ "id": "bsst749-2a-ishi-hf-fshr-dmso",
+ "file": "bsst749-2a-ishi-hf-fshr-dmso.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series003",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a6d58f84778d71d85b93758418445808"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Series005",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bee6c3dd6f24aefa7ca4d72515cbfaef"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Series007",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5acd1b4bb38aa8dbf92865917ffe3046"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Series009",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "69646e7dda282c0e85aeea8e76b465b6"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Series011",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "89415a7733efd3bd891fe5a7d11925a4"
+    }
+   ]
+  }
+ ]
+}

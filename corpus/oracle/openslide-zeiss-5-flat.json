@@ -1,0 +1,87 @@
+{
+ "id": "openslide-zeiss-5-flat",
+ "file": "openslide-zeiss-5-flat.czi",
+ "size": 52281408,
+ "sha256": "99fb7fba0b289933d765c7051b07998783029b155a9795c0eae81a5250ee3c1e",
+ "max_planes_hashed": 32,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 11320,
+   "size_y": 11336,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "dims": "YXS",
+   "shape": [
+    11336,
+    11320,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 0' (Y: 11336, X: 11320, S: 3) bgr24 jpegxr>"
+   ],
+   "physical_size_um": {
+    "x": 0.34591494502960335,
+    "y": 0.34591494502960335,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ad6f64c767f870d58c4a2a91ffbddad0"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Scene 1",
+   "size_x": 11312,
+   "size_y": 11337,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "dims": "YXS",
+   "shape": [
+    11337,
+    11312,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 1' (Y: 11337, X: 11312, S: 3) bgr24 jpegxr>"
+   ],
+   "physical_size_um": {
+    "x": 0.34591494502960335,
+    "y": 0.34591494502960335,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "61aef5cabea62ccfd5fc31d702114b8f"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.34591494502960335,
+  "y": 0.34591494502960335,
+  "z": null
+ },
+ "subblock_count": 52,
+ "compression_ids": [
+  4
+ ]
+}

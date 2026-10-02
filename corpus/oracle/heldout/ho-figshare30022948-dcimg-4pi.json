@@ -1,0 +1,8 @@
+{
+ "id": "ho-figshare30022948-dcimg-4pi",
+ "file": "Cell02_561_000_000.dcimg",
+ "size": 929280,
+ "sha256": "c1c97106393b749758b8b85372d8d18a12ad9604ef0d971a6a176c6a9b859f16",
+ "max_planes_hashed": 64,
+ "error": "RuntimeError: Bio-Formats could not open the file (its DCIMG reader fails during initialization), and no other permissive reader is run without it"
+}

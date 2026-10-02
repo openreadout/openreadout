@@ -1,0 +1,198 @@
+{
+ "id": "ngff04-v2-plate",
+ "file": "ngff04-v2-plate.zip",
+ "size": 7989,
+ "sha256": "3be0ca273c0898c82b078ed5839837e983a450e04394909d293aac61247f4a22",
+ "max_planes_hashed": 64,
+ "reader": "zarr-python 3.4.0 (NGFF metadata interpreted in gen.py)",
+ "kind": "plate",
+ "ngff_version": "0.4",
+ "zarr_format": 2,
+ "labels": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "A/1/0",
+   "size_x": 30,
+   "size_y": 24,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "axes": [
+    "c",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.65,
+    "y": 0.65,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [
+    "DAPI",
+    "Actin"
+   ],
+   "level_sizes": [
+    [
+     30,
+     24
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "06e555f87338e4802ddeb87520b5c61a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fb95f3376c8590ef08451ee636495e48"
+    }
+   ],
+   "levels": []
+  },
+  {
+   "index": 1,
+   "name": "A/1/1",
+   "size_x": 30,
+   "size_y": 24,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "axes": [
+    "c",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.65,
+    "y": 0.65,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [
+    "DAPI",
+    "Actin"
+   ],
+   "level_sizes": [
+    [
+     30,
+     24
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "538ac832c0edf6327589c5363136367c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a24c437fb5fe0c8be9b3b987dc37a919"
+    }
+   ],
+   "levels": []
+  },
+  {
+   "index": 2,
+   "name": "A/2/0",
+   "size_x": 30,
+   "size_y": 24,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "axes": [
+    "c",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.65,
+    "y": 0.65,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [
+    "DAPI",
+    "Actin"
+   ],
+   "level_sizes": [
+    [
+     30,
+     24
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "22fc55f13a934d71dcaf4b44c2803622"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d77c8fd1a9f04345bfe8d6a070d4b223"
+    }
+   ],
+   "levels": []
+  },
+  {
+   "index": 3,
+   "name": "A/2/1",
+   "size_x": 30,
+   "size_y": 24,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "axes": [
+    "c",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.65,
+    "y": 0.65,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [
+    "DAPI",
+    "Actin"
+   ],
+   "level_sizes": [
+    [
+     30,
+     24
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "313821219401c168c42a8e3d540d7d4e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "59172a4ed59a3b1bc1ff3cf6edd2d55c"
+    }
+   ],
+   "levels": []
+  }
+ ]
+}

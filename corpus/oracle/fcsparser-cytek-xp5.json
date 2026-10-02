@@ -1,0 +1,53 @@
+{
+ "id": "fcsparser-cytek-xp5",
+ "file": "fcsparser-cytek-xp5.fcs",
+ "size": 1043904,
+ "sha256": "dd6aaa9a034c40ab5f3a2ce1ea4c8eab7d00a053426917e07a09f8d8d76ca51a",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 8,
+   "event_count": 23126,
+   "parameter_names": [
+    "TIME",
+    "FSC",
+    "SSC",
+    "FL1",
+    "FL2",
+    "FL3",
+    "FL4 red",
+    "FL5 red"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "dtypes": [
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32"
+   ],
+   "xxh3": "6b60cb0f5e422a7f1fda099d6546fb87",
+   "xxh3_reader": "fcsparser"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 23126,
+  "xxh3": "6b60cb0f5e422a7f1fda099d6546fb87"
+ }
+}

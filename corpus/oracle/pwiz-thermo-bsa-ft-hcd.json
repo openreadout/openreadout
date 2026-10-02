@@ -1,0 +1,99 @@
+{
+ "id": "pwiz-thermo-bsa-ft-hcd",
+ "file": "BSA-FT-HCD.raw",
+ "size": 351135,
+ "sha256": "45dbaea253856f3fe02c71ebf4abc747874f3fe6e3214ef0521809062164e381",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 on the depositor's mzML (BSA-FT-HCD.mzML)",
+ "paired_export": "BSA-FT-HCD.mzML",
+ "export_software": [
+  [
+   "Xcalibur",
+   ""
+  ],
+  [
+   "pwiz",
+   "3.0.23188"
+  ]
+ ],
+ "peak_picking_in_export": false,
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "controllerType=0 controllerNumber=1 scan=1",
+    "ms_level": 2,
+    "rt_s": 963.637533936,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": "FTMS + p NSI d Full ms2 722.32@hcd30.00 [120.00-1455.00]",
+    "precursor_mz": 722.32421875,
+    "precursor_charge": 2,
+    "isolation_target_mz": 722.32421875,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 30.0,
+    "total_ion_current": 1975586.25,
+    "base_peak_mz": 1167.493408203125,
+    "n_peaks": 1077,
+    "n_nonzero": 509,
+    "mz_bits": 32,
+    "xxh3_mz": "54459c62678302e6ab301dfb937d7740",
+    "xxh3_intensity": "8a079da2ce4a00558699e803dd422b47",
+    "xxh3_mz_nonzero": "238fe3a3263f125064e1b4f2e1e52d60",
+    "xxh3_intensity_nonzero": "03a5f16f2d723522e69e3335bbea1022",
+    "sum_intensity": 7344958.346599579,
+    "mz_min": 118.80529022216797,
+    "mz_max": 1469.87109375,
+    "first_peaks": [
+     [
+      118.80529022216797,
+      0.0
+     ],
+     [
+      118.80667877197266,
+      0.0
+     ],
+     [
+      118.80806732177734,
+      0.0
+     ],
+     [
+      118.80945587158203,
+      0.0
+     ],
+     [
+      129.09214782714844,
+      0.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      129.0984344482422,
+      1818.637451171875
+     ],
+     [
+      129.1000213623047,
+      3368.285400390625
+     ],
+     [
+      129.10159301757812,
+      4136.9091796875
+     ],
+     [
+      129.10316467285156,
+      3496.469970703125
+     ],
+     [
+      129.104736328125,
+      1900.677490234375
+     ]
+    ]
+   }
+  ]
+ }
+}

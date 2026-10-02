@@ -1,0 +1,74 @@
+{
+ "id": "zenodo5683588-varian-1",
+ "file": "zenodo5683588-varian-1",
+ "size": 155488,
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 10000,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 varian.read(as_2d=True)",
+   "nmrglue_dtype": "complex64",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10000,
+     "channels": [
+      {
+       "xxh3": "97985c23d0b5545df41b910ba3d60467",
+       "first": [
+        13778.8408203125,
+        43613.37109375,
+        36099.69140625,
+        24562.521484375,
+        13945.3408203125,
+        14501.41015625,
+        9324.8583984375,
+        2471.8994140625
+       ]
+      },
+      {
+       "xxh3": "0e85d44e66607c05df33de87fdeeb38b",
+       "first": [
+        -24655.353515625,
+        -35443.00390625,
+        2621.445068359375,
+        10326.6650390625,
+        11920.60546875,
+        9238.2060546875,
+        17024.896484375,
+        20644.560546875
+       ]
+      }
+     ]
+    }
+   ],
+   "sample_rate_hz": 10000.0,
+   "parameters": {
+    "extra": {
+     "nucleus": "1H",
+     "spectrometer_frequency_mhz": 599.8309405,
+     "spectral_width_hz": 10000.0,
+     "scans": 512,
+     "time_domain_size": 20000,
+     "pulse_program": "press",
+     "solvent": "none"
+    }
+   }
+  }
+ ],
+ "file_header": {
+  "nblocks": 1,
+  "ntraces": 1,
+  "np": 20000,
+  "ebytes": 4,
+  "tbytes": 80000,
+  "bbytes": 80028,
+  "status": 201,
+  "nbheaders": 1
+ }
+}

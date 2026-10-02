@@ -1,0 +1,21 @@
+{
+ "id": "epr-zenodo10463869-asympol",
+ "file": "epr-zenodo10463869-asympol.DSC",
+ "format": "bruker-bes3t",
+ "family": "bench",
+ "readers": [
+  "DeerLab deerload (MIT, vendored): the .DSC parameters"
+ ],
+ "checks": [
+  {
+   "field": "DATE TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-12-08T11:54:11",
+   "cmp": "time"
+  }
+ ]
+}

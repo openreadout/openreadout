@@ -1,0 +1,111 @@
+{
+ "id": "zenodo7015307-S-2-T-3-CH-1",
+ "file": "zenodo7015307-S-2-T-3-CH-1.czi",
+ "size": 2087456,
+ "sha256": "ec998a0739b5e663769397fd482baad96be3a1dbad1ccd97fb8f74b8badf4d52",
+ "max_planes_hashed": 32,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "TYX",
+   "shape": [
+    3,
+    256,
+    256
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 0' (T: 3, Y: 256, X: 256) gray16 uncompressed>"
+   ],
+   "physical_size_um": {
+    "x": 0.09999999999999999,
+    "y": 0.09999999999999999,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5977468e4f8c8501a36ca52218d07663"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "836cb21b2ee2ea4bcc22ce14afc740ad"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "2645fae0c4e70742972f2cb5974660ef"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Scene 1",
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "TYX",
+   "shape": [
+    3,
+    256,
+    256
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 1' (T: 3, Y: 256, X: 256) gray16 uncompressed>"
+   ],
+   "physical_size_um": {
+    "x": 0.09999999999999999,
+    "y": 0.09999999999999999,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "240e552b6092f49cdc212fe0b9f9a21a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "d9256804425e2b69963c8e02846a38e6"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "328c38417b8ce7957736bd24b73eff96"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.09999999999999999,
+  "y": 0.09999999999999999,
+  "z": null
+ },
+ "subblock_count": 6,
+ "compression_ids": [
+  0
+ ]
+}

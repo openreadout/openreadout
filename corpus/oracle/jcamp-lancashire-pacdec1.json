@@ -1,0 +1,41 @@
+{
+ "id": "jcamp-lancashire-pacdec1",
+ "file": "jcamp-lancashire-pacdec1.jdx",
+ "size": 21561,
+ "sha256": "60d760d5a78a6b32c1975f6ad361d19e4d6caecb94cbb1c038f8b63eec08eab9",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "pacdec1.jdx",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3301,
+     "channels": [
+      {
+       "xxh3": "b1f1a7dab9cce86d9f499b14bb1828a1",
+       "first": [
+        101.60000000000001,
+        101.59,
+        101.59,
+        101.58,
+        101.58,
+        101.57000000000001,
+        101.57000000000001,
+        101.56
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 3301,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  }
+ ]
+}

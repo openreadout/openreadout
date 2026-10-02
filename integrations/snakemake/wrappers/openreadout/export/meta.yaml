@@ -1,0 +1,24 @@
+name: openreadout export
+description: >
+  Convert a raw laboratory instrument file to an open format without vendor software: images
+  (CZI, ND2, LIF, OIR, VSI, whole-slide TIFF, ...) to OME-TIFF or OME-Zarr, mass spectra (Thermo
+  RAW, Bruker timsTOF, mzXML, ...) to indexed mzML, tables (FCS events, plate reads) and traces
+  (electrophysiology, chromatograms, NMR, IR/Raman spectra) to CSV, Parquet or Arrow, qPCR runs to
+  RDML. Every output is read back and verified before it is renamed into place.
+url: https://github.com/openreadout/openreadout
+authors:
+  - Richard Zimring
+input:
+  - the raw instrument file (or a data-set directory: Bruker `.d`, Agilent `.D`, Waters `.raw`)
+output:
+  - output: the converted file (first or `output=` named output); declare OME-Zarr stores with `directory()`
+  - report: optional; the JSON export report (`verified`, sizes, planes or rows written)
+params:
+  - format: optional; `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `parquet`, `arrow`, `nwb`, `jcamp`, `rdml` or `asm`. Default from the output extension.
+  - extra: optional; further `openreadout export` options, e.g. `--image 1 --compression lzw`, `--pyramid mean`, `--table 0`, `--trace 0 --sweep 2`
+notes: |
+  * The binary must be on PATH (bioconda recipe pending, see book/src/guides/pipelines.md), or use
+    `--software-deployment-method conda` once the recipe is available.
+  * Indices in `extra` (image, table, trace, sweep) start at 0, as in `openreadout info`.
+  * An existing output is never overwritten by openreadout itself; Snakemake removes stale
+    outputs before running the job.

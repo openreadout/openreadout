@@ -1,0 +1,46 @@
+{
+ "id": "appia-empower-results1844",
+ "file": "results1844.arw",
+ "size": 117457,
+ "sha256": "eedbc500d4f54e2f913745cb794825db008e38c8ade78a7ccc87b6cc90b80c7a",
+ "reader": "Appia (MIT) processed output (processed-tests/*-wide.csv)",
+ "oracle_note": "values from Appia's wide CSV column; Appia's times are the exported ones in single precision (within 2e-6 min)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "2475ChA ex280/em350"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 2.0,
+   "x_first_min": 0.0,
+   "x_last_min": 55.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6601,
+     "channels": [
+      {
+       "xxh3": "510f63d86510f6aa38238696584b3063",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.1827927,
+        0.454277
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "SEC_08 / 2475ChA ex280/em350"
+  }
+ ]
+}

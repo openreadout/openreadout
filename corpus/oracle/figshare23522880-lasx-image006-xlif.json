@@ -1,0 +1,57 @@
+{
+ "id": "figshare23522880-lasx-image006-xlif",
+ "file": "Image006_Overlay001.xlif",
+ "size": 11892,
+ "sha256": "fd76960a9347699193468d40875cc366d091f088dfdc6a3826907a04453d6436",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Image006_Overlay001",
+   "path": "Image006_Overlay001",
+   "size_x": 1920,
+   "size_y": 1378,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "YXS",
+   "shape": [
+    1378,
+    1920,
+    3
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.3242187597707139,
+    "y": 0.3242196804647785,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a3681312083017729f66f96410d9ceab"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "84c606501b23eaebe217c9fdb7d5b757"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "56d5bf5ab6ae021c9cff0164fd1f69bb"
+    }
+   ]
+  }
+ ]
+}

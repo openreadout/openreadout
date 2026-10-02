@@ -1,0 +1,213 @@
+{
+ "id": "zenodo14976703-Convalaria-LambdaScan",
+ "file": "zenodo14976703-Convalaria-LambdaScan.lif",
+ "size": 15334315,
+ "sha256": "27f1282cf02f87e11f8c7d3064066a4517ad4c9c769c796b32e459774f18c62a",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Series001",
+   "path": "Series001",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 29,
+   "size_t": 1,
+   "dims": "\u03bbYX",
+   "shape": [
+    29,
+    512,
+    512
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 2.2749510763209395,
+    "y": 2.2749510763209395,
+    "z": null
+   },
+   "lambda": 29,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "34b3fa74365976e19c8078f139fec1e1"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "996e5653f650fff942545472a870730e"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eb150fc3edc1a8381b3734a13cab390a"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dd8d77d81dbdd18b7ddb181a0b0913fc"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "584defd7ecb8c23978504789398c10ed"
+    },
+    {
+     "c": 5,
+     "z": 0,
+     "t": 0,
+     "xxh3": "02c09a9970ed51f21975a96168a1f687"
+    },
+    {
+     "c": 6,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7d5d4772d8bd1db60180d68d8026a97b"
+    },
+    {
+     "c": 7,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4ce7e92dd5bf271a2eb3f2913e7f073a"
+    },
+    {
+     "c": 8,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4d3d35089ab31ca589bd8763c2fdd96d"
+    },
+    {
+     "c": 9,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3455c39320d22f0560dfdd77fa4ceeb3"
+    },
+    {
+     "c": 10,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ad5117d7b5368b4c65a77895af08892d"
+    },
+    {
+     "c": 11,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5648fbe254888a6d1162ea27e44685f8"
+    },
+    {
+     "c": 12,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1d52ed4079c9084d4ac572b286931111"
+    },
+    {
+     "c": 13,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4f4d0f3bbfe9b427d9fa957bc7042cad"
+    },
+    {
+     "c": 14,
+     "z": 0,
+     "t": 0,
+     "xxh3": "13e80c750d62aea9a902b5fea751b031"
+    },
+    {
+     "c": 15,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ee383caf97aff28cfaa2950307a09fc8"
+    },
+    {
+     "c": 16,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4fa5ea3fd395fe4d20bc5855667e8621"
+    },
+    {
+     "c": 17,
+     "z": 0,
+     "t": 0,
+     "xxh3": "26c0a0093178ca3bd80e8ffbfba19c4b"
+    },
+    {
+     "c": 18,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6035addf49b04023ddc85b4b774a3b44"
+    },
+    {
+     "c": 19,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f1f7cda2cdd865ec04ddd9fd4b7742a2"
+    },
+    {
+     "c": 20,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9cbbf1c69d019ead616dc39613bea1a7"
+    },
+    {
+     "c": 21,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0ba632eb1ad7ed88dac42e37fb8cb564"
+    },
+    {
+     "c": 22,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3731a8634a29c4b80d0e6d9c77a73c18"
+    },
+    {
+     "c": 23,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3b2d8b84c15299b4e7eb7089c768d120"
+    },
+    {
+     "c": 24,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1898a5c19f03e526ffc001f601b36420"
+    },
+    {
+     "c": 25,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f486fd8d1bb441b114a663082f489aae"
+    },
+    {
+     "c": 26,
+     "z": 0,
+     "t": 0,
+     "xxh3": "041427d18a041eb453d2c77201f3b49b"
+    },
+    {
+     "c": 27,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f0c2c046560047f6984fc3dd80ffb6ef"
+    },
+    {
+     "c": 28,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d6a838b7551cea736e42f1a2de95eb6b"
+    }
+   ]
+  }
+ ]
+}

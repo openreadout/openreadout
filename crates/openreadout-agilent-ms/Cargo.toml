@@ -1,0 +1,24 @@
+[package]
+name = "openreadout-agilent-ms"
+description = "Reader for Agilent MassHunter .d mass-spectrometry directories, part of OpenReadout"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["mass-spectrometry", "agilent", "masshunter", "metabolomics", "qtof"]
+categories.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-agilent-ms"
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+[dependencies]
+openreadout-core = { workspace = true }
+openreadout-codecs = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

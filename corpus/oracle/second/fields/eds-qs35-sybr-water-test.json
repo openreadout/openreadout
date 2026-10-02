@@ -1,0 +1,70 @@
+{
+ "id": "eds-qs35-sybr-water-test",
+ "file": "eds-qs35-sybr-water-test.eds",
+ "format": "applied-biosystems-eds",
+ "family": "qpcr",
+ "readers": [
+  "qslib 0.15.3 (EUPL-1.2, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "run start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-08-28T15:12:44.418000+00:00",
+   "cmp": "time",
+   "abs": 1.0
+  },
+  {
+   "field": "run end",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2018-08-28T16:52:12.025000+00:00",
+   "cmp": "time",
+   "abs": 1.0
+  },
+  {
+   "field": "well samples (amplification channels)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels",
+   "theirs": {
+    "G1": "DEPC Sedat",
+    "G2": "DEPC Sedat",
+    "G3": "DEPC HY 27",
+    "G4": "DEPC HY 27",
+    "G5": "DEPC HY28",
+    "G6": "DEPC HY28",
+    "G7": "DEPC Grace",
+    "G8": "DEPC Grace",
+    "G9": "MilliQ",
+    "G10": "MilliQ",
+    "G11": "New DEPC",
+    "G12": "New DEPC",
+    "H1": "DEPC Sedat",
+    "H2": "DEPC Sedat",
+    "H3": "DEPC HY 27",
+    "H4": "DEPC HY 27",
+    "H5": "DEPC HY28",
+    "H6": "DEPC HY28",
+    "H7": "DEPC Grace",
+    "H8": "DEPC Grace",
+    "H9": "MilliQ",
+    "H10": "MilliQ",
+    "H11": "New DEPC",
+    "H12": "New DEPC"
+   },
+   "cmp": "text",
+   "by": "/extra/well",
+   "each": "/extra/sample"
+  }
+ ]
+}

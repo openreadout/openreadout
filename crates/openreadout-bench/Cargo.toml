@@ -1,0 +1,64 @@
+[package]
+name = "openreadout-bench"
+description = "Benchmarks and memory-ceiling tests for OpenReadout (not published)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+openreadout-core = { workspace = true }
+openreadout-codecs = { workspace = true }
+openreadout-czi = { workspace = true }
+openreadout-nd2 = { workspace = true }
+openreadout-lif = { workspace = true }
+openreadout-tiff = { workspace = true }
+openreadout-fcs = { workspace = true }
+openreadout-abf = { workspace = true }
+openreadout-thermo = { workspace = true }
+openreadout-agilent-ms = { workspace = true }
+openreadout-sciex = { workspace = true }
+openreadout-spectro = { workspace = true }
+openreadout-biophys = { workspace = true }
+openreadout-gel = { workspace = true }
+openreadout-thermal = { workspace = true }
+openreadout-echem = { workspace = true }
+openreadout-xrd = { workspace = true }
+openreadout-epr = { workspace = true }
+openreadout-fplc = { workspace = true }
+openreadout-waters = { workspace = true }
+openreadout-mzml = { workspace = true }
+openreadout-oir = { workspace = true }
+openreadout-vsi = { workspace = true }
+openreadout-wsi = { workspace = true }
+openreadout-zvi = { workspace = true }
+openreadout-dcimg = { workspace = true }
+openreadout-zarr = { workspace = true }
+openreadout-hdf5 = { workspace = true }
+openreadout-spikeglx = { workspace = true }
+openreadout-ometiff = { workspace = true }
+openreadout-omezarr = { workspace = true }
+openreadout-mzml-writer = { workspace = true }
+openreadout-preview = { workspace = true }
+serde_json = { workspace = true }
+rayon = { workspace = true }
+tempfile = { workspace = true }
+# Encoders for the synthetic codec inputs (openreadout-codecs only decodes).
+ruzstd = { workspace = true }
+flate2 = { workspace = true }
+weezl = { workspace = true }
+dicom-toolkit-jpeg2000 = { workspace = true }
+
+[dev-dependencies]
+criterion = { version = "0.8", default-features = false, features = ["cargo_bench_support"] }
+# Heap high-water mark for the export memory-ceiling test (a safe wrapper around the system
+# allocator; the crate itself holds the `unsafe impl GlobalAlloc`).
+peak_alloc = "0.3"
+
+[[bench]]
+name = "suite"
+harness = false
+
+[lints]
+workspace = true

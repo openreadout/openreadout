@@ -1,0 +1,8 @@
+{
+ "id": "synthetic-jxr-mismatch-bgr24-as-gray8",
+ "file": "synthetic-jxr-mismatch-bgr24-as-gray8.czi",
+ "size": 51072,
+ "sha256": "017d5923586414c99279d4f6102796584436fcdef0881174ca62b8f7578382a0",
+ "max_planes_hashed": 64,
+ "error": "ValueError: could not broadcast input array from shape (3,1,1,96,128,1) into shape (1,1,1,96,128,1)"
+}

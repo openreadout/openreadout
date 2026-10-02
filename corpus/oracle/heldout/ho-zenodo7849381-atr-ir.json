@@ -1,0 +1,41 @@
+{
+ "id": "ho-zenodo7849381-atr-ir",
+ "file": "ATR-IR Comp (1).dx",
+ "size": 20846,
+ "sha256": "8713dd6b72bb8fb636e040546ea60b7573608ebeb0c93fe6117a4bb5045d9ea3",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3476,
+     "channels": [
+      {
+       "xxh3": "1ab74f70042b77b286520fd903ab6a84",
+       "first": [
+        0.9478000000000001,
+        0.9476,
+        0.9477000000000001,
+        0.9476,
+        0.9472,
+        0.9461,
+        0.9447000000000001,
+        0.9432
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 3476,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  }
+ ]
+}

@@ -1,0 +1,45 @@
+{
+ "id": "jcamp-isas-bruksqz",
+ "file": "jcamp-isas-bruksqz.dx",
+ "size": 131248,
+ "sha256": "abdf14a8944f14af9037115c8bf62cd9c31ab083284820bd53de2537c6732246",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "test32",
+   "kind": "xydata",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "b35227369572c3916846052080c472f4",
+       "first": [
+        2259260.0,
+        -5242968.0,
+        -7176216.0,
+        -1616072.0,
+        10650432.0,
+        4373926.0,
+        -3660824.0,
+        2136488.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 16384,
+   "channel_count": 1,
+   "reader": "nmrglue 0.12 jcampdx.read",
+   "second_opinion": {
+    "reader": "jcamp 1.2.2",
+    "agrees": true
+   }
+  }
+ ]
+}

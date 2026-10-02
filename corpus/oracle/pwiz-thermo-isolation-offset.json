@@ -1,0 +1,99 @@
+{
+ "id": "pwiz-thermo-isolation-offset",
+ "file": "IsolationMzOffset-ReportedMassOffset.raw",
+ "size": 99353,
+ "sha256": "e211d5c55995b5c3538798dc59d81454d00536561d8be66626c35f69414d80cb",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 on the depositor's mzML (IsolationMzOffset-ReportedMassOffset.mzML)",
+ "paired_export": "IsolationMzOffset-ReportedMassOffset.mzML",
+ "export_software": [
+  [
+   "Xcalibur",
+   ""
+  ],
+  [
+   "pwiz",
+   "3.0.23188"
+  ]
+ ],
+ "peak_picking_in_export": false,
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "controllerType=0 controllerNumber=1 scan=1",
+    "ms_level": 2,
+    "rt_s": 408.00731269266,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": "FTMS + p NSI d Full ms2 379.71@hcd27.00 [150.00-1700.00]",
+    "precursor_mz": 379.711334228516,
+    "precursor_charge": 2,
+    "isolation_target_mz": 379.711334228516,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 27.0,
+    "total_ion_current": 99695936.0,
+    "base_peak_mz": 517.2729184,
+    "n_peaks": 3704,
+    "n_nonzero": 1920,
+    "mz_bits": 32,
+    "xxh3_mz": "26d0e3561adcf01473f1ed7e4a6e0a79",
+    "xxh3_intensity": "1d1cac59a40eb50bcbccfb07d4ce8ec0",
+    "xxh3_mz_nonzero": "2515a619c3f58c94c1734d0a6dd510f8",
+    "xxh3_intensity_nonzero": "a5c75b29caf21fc0ce67c87ab4002bc5",
+    "sum_intensity": 385839727.5298691,
+    "mz_min": 148.50628662109375,
+    "mz_max": 1717.157958984375,
+    "first_peaks": [
+     [
+      148.50628662109375,
+      0.0
+     ],
+     [
+      148.50682067871094,
+      0.0
+     ],
+     [
+      148.5073699951172,
+      0.0
+     ],
+     [
+      148.50791931152344,
+      0.0
+     ],
+     [
+      155.07720947265625,
+      0.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      155.07952880859375,
+      17007.9296875
+     ],
+     [
+      155.08010864257812,
+      60923.08984375
+     ],
+     [
+      155.0806884765625,
+      125455.8046875
+     ],
+     [
+      155.08126831054688,
+      193471.515625
+     ],
+     [
+      155.08184814453125,
+      208824.4375
+     ]
+    ]
+   }
+  ]
+ }
+}

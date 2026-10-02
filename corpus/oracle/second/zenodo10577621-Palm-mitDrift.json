@@ -1,0 +1,26 @@
+{
+ "id": "zenodo10577621-Palm-mitDrift",
+ "file": "zenodo10577621-Palm-mitDrift.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 256,
+   "size_y": 256,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9d461480179a33c4e7488e240cc78ea7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9d461480179a33c4e7488e240cc78ea7"
+    }
+   ]
+  }
+ ]
+}

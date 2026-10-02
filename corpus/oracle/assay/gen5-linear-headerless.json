@@ -1,0 +1,716 @@
+{
+ "case": "gen5-linear-headerless",
+ "about": "Gen5 BCA-style linear standard curve from the export's own layout; vs numpy and Gen5's results (the export without its file header: the layout embedded after it must still be found)",
+ "input": {
+  "corpus": "synthetic-gen5-headerless-stdcurve-linear"
+ },
+ "request": {
+  "analysis": "curve",
+  "model": "linear"
+ },
+ "checks": [
+  {
+   "path": "curve.fit.parameters[name=slope].value",
+   "expect": 0.0016847234699548452,
+   "source": "numpy 2.5.3 polyfit",
+   "rel": 1e-09
+  },
+  {
+   "path": "curve.fit.parameters[name=intercept].value",
+   "expect": -0.000884855331508194,
+   "source": "numpy 2.5.3 polyfit",
+   "rel": 1e-07,
+   "abs": 1e-12
+  },
+  {
+   "path": "curve.fit.r_squared",
+   "expect": 0.9999289816959128,
+   "source": "numpy 2.5.3 polyfit",
+   "rel": 1e-09
+  },
+  {
+   "path": "curve.fit.parameters[name=slope].value",
+   "expect": 0.00168,
+   "source": "Gen5 3.12 StdCurve fit (vendor-computed, 3 significant digits in the file)",
+   "rel": 0.003
+  },
+  {
+   "path": "curve.fit.parameters[name=intercept].value",
+   "expect": -0.000723,
+   "source": "Gen5 3.12 StdCurve fit (vendor-computed, 3 significant digits in the file)",
+   "abs": 0.0002
+  },
+  {
+   "path": "wells[well=A1].back_calculated",
+   "expect": 1980.423,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=A2].back_calculated",
+   "expect": 2014.56,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=A3].back_calculated",
+   "expect": 2005.017,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=A4].back_calculated",
+   "expect": 1185.551,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=A5].back_calculated",
+   "expect": 1200.645,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=A6].back_calculated",
+   "expect": 1232.046,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=A7].back_calculated",
+   "expect": 1281.551,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=A8].back_calculated",
+   "expect": 1238.887,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=A9].back_calculated",
+   "expect": 1247.166,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=A10].back_calculated",
+   "expect": 1843.22,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=A11].back_calculated",
+   "expect": 1796.302,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=A12].back_calculated",
+   "expect": 1792.346,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B1].back_calculated",
+   "expect": 660.139,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B2].back_calculated",
+   "expect": 671.522,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B3].back_calculated",
+   "expect": 668.341,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B4].back_calculated",
+   "expect": 592.775,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B5].back_calculated",
+   "expect": 600.323,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B6].back_calculated",
+   "expect": 616.023,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B7].back_calculated",
+   "expect": 640.775,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B8].back_calculated",
+   "expect": 619.443,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B9].back_calculated",
+   "expect": 623.583,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B10].back_calculated",
+   "expect": 921.61,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B11].back_calculated",
+   "expect": 898.151,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=B12].back_calculated",
+   "expect": 896.173,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C1].back_calculated",
+   "expect": 220.048,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C2].back_calculated",
+   "expect": 223.84,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C3].back_calculated",
+   "expect": 222.778,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C4].back_calculated",
+   "expect": 296.387,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C5].back_calculated",
+   "expect": 300.161,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C6].back_calculated",
+   "expect": 308.011,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C7].back_calculated",
+   "expect": 320.388,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C8].back_calculated",
+   "expect": 309.721,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C9].back_calculated",
+   "expect": 311.791,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C10].back_calculated",
+   "expect": 460.805,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C11].back_calculated",
+   "expect": 449.075,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=C12].back_calculated",
+   "expect": 448.086,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D1].back_calculated",
+   "expect": 73.349,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D2].back_calculated",
+   "expect": 74.613,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D3].back_calculated",
+   "expect": 74.257,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D4].back_calculated",
+   "expect": 148.194,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D5].back_calculated",
+   "expect": 150.08,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D6].back_calculated",
+   "expect": 154.005,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D7].back_calculated",
+   "expect": 160.194,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D8].back_calculated",
+   "expect": 154.861,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D9].back_calculated",
+   "expect": 155.896,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D10].back_calculated",
+   "expect": 230.402,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D11].back_calculated",
+   "expect": 224.537,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=D12].back_calculated",
+   "expect": 224.043,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E1].back_calculated",
+   "expect": 24.452,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E2].back_calculated",
+   "expect": 24.873,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E3].back_calculated",
+   "expect": 24.754,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E4].back_calculated",
+   "expect": 843.746,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E5].back_calculated",
+   "expect": 826.593,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E6].back_calculated",
+   "expect": 841.331,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E7].back_calculated",
+   "expect": 1628.811,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E8].back_calculated",
+   "expect": 1624.635,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E9].back_calculated",
+   "expect": 1662.932,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E10].back_calculated",
+   "expect": 918.645,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E11].back_calculated",
+   "expect": 926.412,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=E12].back_calculated",
+   "expect": 921.473,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F1].back_calculated",
+   "expect": 8.148,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F2].back_calculated",
+   "expect": 8.291,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F3].back_calculated",
+   "expect": 8.249,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F4].back_calculated",
+   "expect": 421.873,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F5].back_calculated",
+   "expect": 413.297,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F6].back_calculated",
+   "expect": 420.666,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F7].back_calculated",
+   "expect": 814.405,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F8].back_calculated",
+   "expect": 812.317,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F9].back_calculated",
+   "expect": 831.466,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F10].back_calculated",
+   "expect": 459.322,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F11].back_calculated",
+   "expect": 463.206,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=F12].back_calculated",
+   "expect": 460.737,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G1].back_calculated",
+   "expect": 2.718,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G2].back_calculated",
+   "expect": 2.765,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G3].back_calculated",
+   "expect": 2.748,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G4].back_calculated",
+   "expect": 210.936,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G5].back_calculated",
+   "expect": 206.648,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G6].back_calculated",
+   "expect": 210.333,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G7].back_calculated",
+   "expect": 407.202,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G8].back_calculated",
+   "expect": 406.158,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G9].back_calculated",
+   "expect": 415.733,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G10].back_calculated",
+   "expect": 229.661,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G11].back_calculated",
+   "expect": 231.603,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=G12].back_calculated",
+   "expect": 230.368,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H1].back_calculated",
+   "expect": 0.302,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H2].back_calculated",
+   "expect": 0.558,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H3].back_calculated",
+   "expect": 0.427,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H4].back_calculated",
+   "expect": 105.468,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H5].back_calculated",
+   "expect": 103.324,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H6].back_calculated",
+   "expect": 105.166,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H7].back_calculated",
+   "expect": 203.601,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H8].back_calculated",
+   "expect": 203.079,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H9].back_calculated",
+   "expect": 207.866,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H10].back_calculated",
+   "expect": 114.83,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H11].back_calculated",
+   "expect": 115.801,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  },
+  {
+   "path": "wells[well=H12].back_calculated",
+   "expect": 115.184,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed from unrounded ODs; the export rounds ODs to 0.001)",
+   "rel": 0.005,
+   "abs": 0.3571428571428571
+  }
+ ]
+}

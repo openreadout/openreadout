@@ -1,0 +1,20 @@
+{
+ "id": "eds-qs7-snv-genotyping",
+ "file": "eds-qs7-snv-genotyping.eds",
+ "size": 4529905,
+ "sha256": "05b5469c011620cd7cbacefe93a277526f210a8461e97788861b21e4fbf85c22",
+ "reader": "Python stdlib (zipfile, ElementTree, json) over the vendor's own result files",
+ "format": "applied-biosystems-eds",
+ "rows": 16,
+ "columns": 24,
+ "genotyping": true,
+ "records": [],
+ "cycles": 40,
+ "acquisition_temperatures_c": [
+  60.0
+ ],
+ "acquisition_temperature_c": 60.0,
+ "qslib_multicomponent": {
+  "error": "ValueError: missing field `Property`"
+ }
+}

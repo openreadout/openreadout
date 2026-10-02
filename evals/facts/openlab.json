@@ -1,0 +1,97 @@
+{
+ "zenodo14316687-polyarc-a1-f": {
+  "extractor": "evals/openlab_facts.py",
+  "facts": {
+   "peak_near_5_3": {
+    "how": "the vendor's peak nearest 5.3 min",
+    "reader": "OpenLab CDS peak-table export <injection>_1.csv (vendor integration of this injection), read with csv",
+    "value": {
+     "area_pa_s": 1032.74,
+     "height_pa": 768.85,
+     "rt_min": 5.277
+    }
+   }
+  },
+  "file": "zenodo14316687-polyarc/Measurements/FKB-FA-035-A1-F.dx"
+ },
+ "zenodo14316687-polyarc-b2-f2": {
+  "extractor": "evals/openlab_facts.py",
+  "facts": {
+   "sample": {
+    "how": "sample name and autosampler location printed in the vendor's export",
+    "reader": "OpenLab CDS peak-table export <injection>_1.csv (vendor integration of this injection), read with csv",
+    "value": {
+     "sample_name": "FKB-FA-035-B2-F2",
+     "vial": "75"
+    }
+   }
+  },
+  "file": "zenodo14316687-polyarc/Measurements/FKB-FA-035-B2-F2.dx"
+ },
+ "zenodo14316687-polyarc-c3-f3": {
+  "extractor": "evals/openlab_facts.py",
+  "facts": {
+   "main_peak_area_percent": {
+    "how": "area % of the largest peak in the vendor's results",
+    "reader": "OpenLab CDS peak-table export <injection>_1.csv (vendor integration of this injection), read with csv",
+    "value": {
+     "area_percent": 47.14,
+     "rt_min": 5.272
+    }
+   }
+  },
+  "file": "zenodo14316687-polyarc/Measurements/FKB-FA-035-C3-F3.dx"
+ },
+ "zenodo14316687-polyarc-d1-f": {
+  "extractor": "evals/openlab_facts.py",
+  "facts": {
+   "area_ratio_4_1_to_5_3": {
+    "how": "ratio of the vendor's areas of the peaks nearest 4.1 min (on the solvent tail) and 5.3 min",
+    "reader": "OpenLab CDS peak-table export <injection>_1.csv (vendor integration of this injection), read with csv",
+    "value": {
+     "ratio": 0.7930665264067475,
+     "rt_a": 4.094,
+     "rt_b": 5.272
+    }
+   },
+   "vendor_peak_count": {
+    "how": "number of peaks in the vendor's integration results",
+    "reader": "OpenLab CDS peak-table export <injection>_1.csv (vendor integration of this injection), read with csv",
+    "value": {
+     "count": 6
+    }
+   }
+  },
+  "file": "zenodo14316687-polyarc/Measurements/FKB-FA-035-D1-F.dx"
+ },
+ "zenodo14316687-polyarc-e2-f2": {
+  "extractor": "evals/openlab_facts.py",
+  "facts": {
+   "peak_near_9_85": {
+    "how": "the vendor's peak nearest 9.85 min",
+    "reader": "OpenLab CDS peak-table export <injection>_1.csv (vendor integration of this injection), read with csv",
+    "value": {
+     "area_pa_s": 939.43,
+     "height_pa": 563.75,
+     "rt_min": 9.846
+    }
+   }
+  },
+  "file": "zenodo14316687-polyarc/Measurements/FKB-FA-035-E2-F2.dx"
+ },
+ "zenodo14316687-polyarc-f3-f3": {
+  "extractor": "evals/openlab_facts.py",
+  "facts": {
+   "peak_near_4_1": {
+    "how": "the vendor's peak nearest 4.1 min (on the solvent tail)",
+    "reader": "OpenLab CDS peak-table export <injection>_1.csv (vendor integration of this injection), read with csv",
+    "value": {
+     "area_pa_s": 871.53,
+     "height_pa": 492.8,
+     "rt_min": 4.094
+    }
+   }
+  },
+  "file": "zenodo14316687-polyarc/Measurements/FKB-FA-035-F3-F3.dx"
+ }
+}

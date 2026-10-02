@@ -1,0 +1,304 @@
+{
+ "id": "lcd-streamfind-adc-uv",
+ "file": "lcd-streamfind-adc-uv.lcd",
+ "format": "shimadzu",
+ "family": "chromatography",
+ "readers": [
+  "chromConverter 0.9.0 (GPL-3.0, R, run as a black box with its own parsers)"
+ ],
+ "checks": [
+  {
+   "field": "operator",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "Admin",
+   "cmp": "text"
+  },
+  {
+   "field": "sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/name",
+   "theirs": "ADC",
+   "cmp": "text"
+  },
+  {
+   "field": "method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/name",
+   "theirs": "260116_Aangepasst35min",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition time",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2026-01-16T13:03:05",
+   "cmp": "time_mod_zone",
+   "abs": 1.0
+  },
+  {
+   "field": "Chromatogram Ch1: points",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.stream$=Chromatogram Ch1]/sample_count",
+   "theirs": 4200,
+   "cmp": "exact"
+  },
+  {
+   "field": "Chromatogram Ch1: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.stream$=Chromatogram Ch1]/extra/axis/first",
+   "theirs": 0.0,
+   "cmp": "num",
+   "abs": 1e-09
+  },
+  {
+   "field": "Chromatogram Ch1: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.stream$=Chromatogram Ch1]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    64.0,
+    -272.0,
+    -64.0,
+    -150.0,
+    -224.0,
+    -99.0,
+    83.0,
+    69.0,
+    30.0,
+    504.0,
+    -104.0,
+    98.0,
+    59.0,
+    -20.0,
+    450.0,
+    963.0,
+    906.0,
+    442.0,
+    104.0,
+    194.0,
+    227.0,
+    -75.0,
+    -699.0,
+    -606.0,
+    -421.0,
+    -218.0,
+    237.0,
+    -78.0,
+    -528.0,
+    -301.0,
+    -142.0,
+    -469.0
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.6844822e-05
+  },
+  {
+   "field": "Chromatogram Ch1: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.stream$=Chromatogram Ch1]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -1691359.0,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.6844822e-05
+  },
+  {
+   "field": "Chromatogram Ch1: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.stream$=Chromatogram Ch1]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 26844822.0,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.6844822e-05
+  },
+  {
+   "field": "Chromatogram Ch1: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.stream$=Chromatogram Ch1]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 387772.2930952381,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 0.026844822
+  },
+  {
+   "field": "Chromatogram Ch5: points",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.stream$=Chromatogram Ch5]/sample_count",
+   "theirs": 4200,
+   "cmp": "exact"
+  },
+  {
+   "field": "Chromatogram Ch5: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.stream$=Chromatogram Ch5]/extra/axis/first",
+   "theirs": 0.00833333333333333,
+   "cmp": "num",
+   "abs": 1e-09
+  },
+  {
+   "field": "Chromatogram Ch5: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.stream$=Chromatogram Ch5]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    16.0,
+    -285.0,
+    79.0,
+    -216.0,
+    -97.0,
+    -4.0,
+    162.0,
+    -34.0,
+    364.0,
+    258.0,
+    -112.0,
+    117.0,
+    -81.0,
+    211.0,
+    554.0,
+    1093.0,
+    649.0,
+    292.0,
+    59.0,
+    391.0,
+    -23.0,
+    -399.0,
+    -566.0,
+    -578.0,
+    -497.0,
+    126.0,
+    19.0,
+    -118.0,
+    -549.0,
+    -129.0,
+    -339.0,
+    -507.0
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.6848617e-05
+  },
+  {
+   "field": "Chromatogram Ch5: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.stream$=Chromatogram Ch5]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -1691281.0,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.6848617e-05
+  },
+  {
+   "field": "Chromatogram Ch5: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.stream$=Chromatogram Ch5]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 26848617.0,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.6848617e-05
+  },
+  {
+   "field": "Chromatogram Ch5: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.stream$=Chromatogram Ch5]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 387856.9116666667,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 0.026848617
+  }
+ ]
+}

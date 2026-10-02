@@ -1,0 +1,661 @@
+{
+ "id": "gc2asm-three-channels-d",
+ "file": "gc2asm-THREE-CHANNELS.D",
+ "format": "chemstation",
+ "family": "chromatography",
+ "readers": [
+  "chromConverter 0.9.0 (GPL-3.0, R, run as a black box with its own parsers)"
+ ],
+ "checks": [
+  {
+   "field": "FID1A.ch: sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/sample_name",
+   "theirs": "U187",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/method",
+   "theirs": "FCCGC2U1.M",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: file version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/format_version",
+   "theirs": "179",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: file type",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/file_type",
+   "theirs": "GC DATA FILE",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: acquisition time (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/acquired_at",
+   "theirs": "2025-09-11T13:13:22",
+   "cmp": "wallclock"
+  },
+  {
+   "field": "acquisition start (first signal file's header)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-09-11T13:13:22",
+   "cmp": "time_or_utc",
+   "abs": 1.0
+  },
+  {
+   "field": "FID1A.ch: signal",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/signal",
+   "theirs": "FID1A, Front Signal",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/channels/0/unit",
+   "theirs": "pA",
+   "cmp": "text"
+  },
+  {
+   "field": "FID1A.ch: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/axis/first",
+   "theirs": 0.0008255333582560221,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "FID1A.ch: last time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=FID1A.ch]/extra/x_end_min",
+   "theirs": 44.999158333333334,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "FID1A.ch: signal: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    0.0008986512819925944,
+    0.0008986433347066244,
+    0.0008987228075663248,
+    0.0008987267812093099,
+    0.0008987307548522949,
+    0.0008986830711364746,
+    0.0008987347284952799,
+    0.0008988459904988607,
+    0.000898901621500651,
+    0.0008987307548522949,
+    0.0008985996246337891,
+    0.0008985718091328939,
+    0.0008986751238505045,
+    0.0008986671765645345,
+    0.0008987267812093099,
+    0.0008987665176391601,
+    0.000898738702138265,
+    0.0008986512819925944,
+    0.0008985996246337891,
+    0.0008985519409179687,
+    0.0008984486262003581,
+    0.0008984406789143881,
+    0.0008985877037048339,
+    0.00089874267578125,
+    0.0008987824122111002,
+    0.0008987466494242351,
+    0.0008987824122111002,
+    0.0008988777796427408,
+    0.0008989175160725912,
+    0.0008987545967102051,
+    0.0008986790974934896,
+    0.0008987466494242351
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.9580071568489076e-15
+  },
+  {
+   "field": "FID1A.ch: signal: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 53999,
+   "cmp": "exact"
+  },
+  {
+   "field": "FID1A.ch: signal: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": 0.0008981943130493163,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.9580071568489076e-15
+  },
+  {
+   "field": "FID1A.ch: signal: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 0.0029580071568489075,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.9580071568489076e-15
+  },
+  {
+   "field": "FID1A.ch: signal: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=FID1A.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 0.0009933502489535605,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.958007156848908e-12
+  },
+  {
+   "field": "TCD2B.ch: sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/sample_name",
+   "theirs": "U187",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/method",
+   "theirs": "FCCGC2U1.M",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: file version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/format_version",
+   "theirs": "179",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: file type",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/file_type",
+   "theirs": "GC DATA FILE",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: acquisition time (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/acquired_at",
+   "theirs": "2025-09-11T13:13:22",
+   "cmp": "wallclock"
+  },
+  {
+   "field": "TCD2B.ch: signal",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/signal",
+   "theirs": "TCD2B, Back Signal",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/channels/0/unit",
+   "theirs": "25 µV",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD2B.ch: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/axis/first",
+   "theirs": 0.0033255332946777343,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "TCD2B.ch: last time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD2B.ch]/extra/x_end_min",
+   "theirs": 44.996658333333336,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "TCD2B.ch: signal: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD2B.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    0.0008071502049763998,
+    0.0008073965708414714,
+    0.0008074283599853515,
+    0.000807809829711914,
+    0.0008078893025716146,
+    0.0008079131444295247,
+    0.0008072376251220702,
+    0.0008064349492390951,
+    0.0008062998453776042,
+    0.0008066415786743163,
+    0.0008075952529907226,
+    0.0008074204126993815,
+    0.0008069992065429687,
+    0.0008062601089477539,
+    0.0008058945337931315,
+    0.0008058547973632812,
+    0.0008062442143758138,
+    0.0008069038391113281,
+    0.0008070707321166992,
+    0.0008069515228271484,
+    0.0008068958918253581,
+    0.000806419054667155,
+    0.0008056004842122396,
+    0.0008052746454874674,
+    0.0008056561152140299,
+    0.0008060614267985026,
+    0.0008059899012247721,
+    0.0008064111073811849,
+    0.0008072773615519206,
+    0.0008079210917154948,
+    0.0008075396219889323,
+    0.0008076032002766927
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.0871286590894063e-15
+  },
+  {
+   "field": "TCD2B.ch: signal: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD2B.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 13499,
+   "cmp": "exact"
+  },
+  {
+   "field": "TCD2B.ch: signal: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD2B.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -0.0013934850692749023,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.0871286590894063e-15
+  },
+  {
+   "field": "TCD2B.ch: signal: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD2B.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 0.0020871286590894065,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.0871286590894063e-15
+  },
+  {
+   "field": "TCD2B.ch: signal: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD2B.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 0.0008761766841532309,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.0871286590894066e-12
+  },
+  {
+   "field": "TCD3C.ch: sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD3C.ch]/extra/sample_name",
+   "theirs": "U187",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD3C.ch: method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD3C.ch]/extra/method",
+   "theirs": "FCCGC2U1.M",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD3C.ch: file version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD3C.ch]/extra/format_version",
+   "theirs": "179",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD3C.ch: file type",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD3C.ch]/extra/file_type",
+   "theirs": "GC DATA FILE",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD3C.ch: acquisition time (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD3C.ch]/extra/acquired_at",
+   "theirs": "2025-09-11T13:13:22",
+   "cmp": "wallclock"
+  },
+  {
+   "field": "TCD3C.ch: signal",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD3C.ch]/extra/signal",
+   "theirs": "TCD3C, Aux Signal",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD3C.ch: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD3C.ch]/channels/0/unit",
+   "theirs": "25 µV",
+   "cmp": "text"
+  },
+  {
+   "field": "TCD3C.ch: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD3C.ch]/extra/axis/first",
+   "theirs": 0.0033255332946777343,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "TCD3C.ch: last time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=TCD3C.ch]/extra/x_end_min",
+   "theirs": 44.996658333333336,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "TCD3C.ch: signal: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD3C.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    -0.0009732266267140706,
+    -0.0009732147057851156,
+    -0.0009732564290364583,
+    -0.0009733021259307861,
+    -0.0009733219941457113,
+    -0.0009732405344645182,
+    -0.0009732027848561605,
+    -0.0009732306003570557,
+    -0.0009733041127522787,
+    -0.0009734312693277995,
+    -0.000973433256149292,
+    -0.0009733319282531738,
+    -0.0009731511274973551,
+    -0.0009730497996012369,
+    -0.0009731014569600423,
+    -0.0009732623895009359,
+    -0.0009734034538269043,
+    -0.0009734809398651123,
+    -0.0009734153747558593,
+    -0.0009733895460764567,
+    -0.0009733855724334716,
+    -0.0009733398755391438,
+    -0.0009732544422149658,
+    -0.0009732842445373535,
+    -0.0009733577569325765,
+    -0.0009732882181803385,
+    -0.0009731789429982503,
+    -0.0009732067584991454,
+    -0.0009733875592549642,
+    -0.0009734769662221273,
+    -0.0009734690189361572,
+    -0.0009735226631164551
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1.880640536546707e-15
+  },
+  {
+   "field": "TCD3C.ch: signal: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD3C.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 13499,
+   "cmp": "exact"
+  },
+  {
+   "field": "TCD3C.ch: signal: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD3C.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -0.0009740571180979411,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1.880640536546707e-15
+  },
+  {
+   "field": "TCD3C.ch: signal: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD3C.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 0.001880640536546707,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1.880640536546707e-15
+  },
+  {
+   "field": "TCD3C.ch: signal: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=TCD3C.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": -0.0008761546502620357,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1.8806405365467073e-12
+  }
+ ]
+}

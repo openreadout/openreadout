@@ -1,0 +1,29 @@
+[package]
+name = "openreadout-signal"
+description = "Signal processing for OpenReadout: NMR processing and peak picking, and electrophysiology feature and spike analysis"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["nmr", "electrophysiology", "fft", "peak-picking", "action-potential"]
+categories = ["science", "algorithms"]
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-signal"
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+[dependencies]
+openreadout-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+schemars = { workspace = true }
+
+[lints]
+workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-unknown-linux-gnu"]

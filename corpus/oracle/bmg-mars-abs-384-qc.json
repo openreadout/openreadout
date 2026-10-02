@@ -1,0 +1,24 @@
+{
+ "id": "bmg-mars-abs-384-qc",
+ "file": "bmg-mars-abs-384-qc.csv",
+ "size": 1364,
+ "sha256": "ac67a2b71ebf6a2e1e1e93786c4f9006df56e35924321559bbd9412d3163a372",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (BMG_MARS)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 99,
+    "values": 99,
+    "errors": 0,
+    "wavelengths": [
+     484.0
+    ],
+    "value_xxh3": "6103c3a7a5e99678e5c82133fab3b2f5"
+   }
+  ],
+  "header": {},
+  "documents": 99
+ }
+}

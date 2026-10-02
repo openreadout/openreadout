@@ -1,0 +1,52 @@
+[package]
+name = "openreadout-codecs"
+description = "Pure-Rust image and data decoders used by the OpenReadout format readers"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["jpeg-xr", "zstd", "lzw", "microscopy", "decoder"]
+categories = ["compression", "multimedia::images", "science"]
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-codecs"
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+[features]
+default = ["zstd", "jpeg", "jpegxr", "jpeg2000", "jpegxl", "webp", "lzw", "deflate", "lz4"]
+zstd = ["dep:ruzstd"]
+jpeg = ["dep:jpeg-decoder"]
+jpegxr = ["dep:openreadout-jpegxr"]
+jpeg2000 = ["dep:rust-j2k", "dep:dicom-toolkit-jpeg2000"]
+jpegxl = ["dep:jxl-oxide"]
+webp = ["dep:image-webp"]
+# Off by default: lerc-rs 0.5 panics on malformed blobs (index out of bounds, overflow; SECURITY.md).
+# Enable only for trusted files.
+lerc = ["dep:lerc-rs"]
+lzw = ["dep:weezl"]
+deflate = ["dep:flate2"]
+lz4 = ["dep:lz4_flex"]
+
+[dependencies]
+ruzstd = { workspace = true, optional = true }
+jpeg-decoder = { workspace = true, optional = true }
+openreadout-jpegxr = { workspace = true, optional = true }
+dicom-toolkit-jpeg2000 = { workspace = true, optional = true }
+rust-j2k = { workspace = true, optional = true }
+weezl = { workspace = true, optional = true }
+jxl-oxide = { workspace = true, optional = true }
+image-webp = { workspace = true, optional = true }
+lerc-rs = { workspace = true, optional = true }
+flate2 = { workspace = true, optional = true }
+lz4_flex = { version = "0.14", default-features = false, features = ["std", "safe-decode", "checked-decode"], optional = true }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-unknown-linux-gnu"]

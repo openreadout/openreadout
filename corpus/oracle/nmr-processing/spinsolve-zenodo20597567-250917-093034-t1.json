@@ -1,0 +1,53 @@
+{
+ "id": "spinsolve-zenodo20597567-250917-093034-t1",
+ "path": "spinsolve-zenodo20597567/VitaminB1_T1+TLLS/250917-093034 T1ieTime (vitb1100mM)",
+ "kind": "spinsolve",
+ "vendor_spectra": [
+  {
+   "file": "T1ieTimeIR-Spectra.pt1",
+   "points": 16384,
+   "axis_offsets": [
+    1676,
+    198863,
+    396050,
+    593237,
+    790424,
+    987611,
+    1184798,
+    1381985,
+    1579172,
+    1776359,
+    1973546,
+    2170733,
+    2367920,
+    2565107,
+    2762294,
+    2959481,
+    3156668,
+    3353855
+   ],
+   "axis_first_ppm": -76.9179438283472,
+   "axis_step_ppm": 0.009785422836168785
+  }
+ ],
+ "script_phase_deg": [
+  303.673,
+  0.0
+ ],
+ "acqu": {
+  "bandwidth": 10,
+  "b1Freq": 62.37355019999999,
+  "lowestFrequency": -4797.645230658194,
+  "nrPnts": 16384,
+  "zf": 1,
+  "filter": "no",
+  "filterType": "exp:0.5"
+ },
+ "proc": {
+  "f1PPMOffset": "3.24424",
+  "plotStart": "-124.747",
+  "plotStart2": "0.1",
+  "plotWidth": "997.977",
+  "plotWidth2": "29.9"
+ }
+}

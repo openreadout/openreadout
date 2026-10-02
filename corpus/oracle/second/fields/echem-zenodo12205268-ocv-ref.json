@@ -1,0 +1,22 @@
+{
+ "id": "echem-zenodo12205268-ocv-ref",
+ "file": "echem-zenodo12205268-ocv-ref.mpr",
+ "format": "biologic-mpr",
+ "family": "bench",
+ "readers": [
+  "galvani 0.5.0 (GPL-3.0, run as a black box): the log module's timestamp"
+ ],
+ "checks": [
+  {
+   "field": "log module timestamp",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-03-06T17:54:55.289000",
+   "cmp": "time",
+   "abs": 0.001
+  }
+ ]
+}

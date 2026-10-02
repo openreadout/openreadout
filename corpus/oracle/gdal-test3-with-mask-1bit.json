@@ -1,0 +1,74 @@
+{
+ "id": "gdal-test3-with-mask-1bit",
+ "file": "gdal-test3-with-mask-1bit.tif",
+ "size": 1704,
+ "sha256": "85b2e424de1304f0947ce4b271bf6ddd243cb1ad8568a7d0f3f20fbef5a3bf8b",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "generic",
+ "flags": [],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "generic",
+   "axes": "YXS",
+   "shape": [
+    20,
+    20,
+    3
+   ],
+   "size_x": 20,
+   "size_y": 20,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d23580e8e4cd10160efdf9164e60a1ee"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "",
+   "kind": "generic",
+   "axes": "YXS",
+   "shape": [
+    20,
+    20,
+    3
+   ],
+   "size_x": 20,
+   "size_y": 20,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fa72c2a2b8b77f28e13547fdcaeab42b"
+    }
+   ]
+  }
+ ]
+}

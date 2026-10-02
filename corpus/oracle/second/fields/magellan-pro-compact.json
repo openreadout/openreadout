@@ -1,0 +1,47 @@
+{
+ "id": "magellan-pro-compact",
+ "file": "magellan-pro-compact.xlsx",
+ "format": "plate",
+ "family": "plate-reader",
+ "readers": [
+  "allotropy 0.1.146 (MIT) ASM `measurement time`",
+  "an independent plate-grid scanner (oracle/second_fields/plate.py; no vendor layout)"
+ ],
+ "checks": [
+  {
+   "field": "ASM measurement time (wall clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-01-01T10:00:00+00:00",
+   "cmp": "wallclock",
+   "abs": 1.0
+  },
+  {
+   "field": "first grid: values by well (read 1)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--table",
+    "0",
+    "--max-rows",
+    "1000000"
+   ],
+   "ours": "/rows/{3=1}",
+   "theirs": {
+    "0": 0.1,
+    "1": 0.3,
+    "12": 0.2,
+    "13": 0.4
+   },
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1e-12,
+   "by": "/0",
+   "each": "/6",
+   "reader": 1
+  }
+ ]
+}

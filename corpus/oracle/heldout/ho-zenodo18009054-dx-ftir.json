@@ -1,0 +1,41 @@
+{
+ "id": "ho-zenodo18009054-dx-ftir",
+ "file": "P3.3.dx",
+ "size": 9425,
+ "sha256": "455b0f8fead93287308899f38dac8ab56da68f321815c5125aeaec7f9ac385af",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "ATR Correction",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3734,
+     "channels": [
+      {
+       "xxh3": "7f5309c50da276fd9abe1ad09f4acc9c",
+       "first": [
+        0.2680365674574893,
+        0.2724233209666907,
+        0.2704670660233982,
+        0.27091166941960104,
+        0.26525038617461816,
+        0.25668436074110995,
+        0.2563583182505612,
+        0.2595891029296352
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 3734,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  }
+ ]
+}

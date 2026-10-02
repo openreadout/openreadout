@@ -1,0 +1,1837 @@
+{
+ "id": "ho-zenodo15105505-lif-aphid",
+ "file": "Figure5D.lif",
+ "size": 27122176,
+ "sha256": "a839a98b30d213d38b7bd6daa6f8b6d52f12e9e3cd905cd39c81e4a7748ebeeb",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "CathB6-GFP+mCherry_Image4",
+   "path": "CathB6-GFP+mCherry_Image4",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.11073216031280528,
+    "y": 0.11073216031280528,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6b913000731a0cb7c541778ce7cbb2e1"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "183f1a1fb72f94a0f91b430c70f50e73"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a0ac7025a7e67a6c82ff16c5da5d9bb3"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "CathB6-GFP+mCherry_FLIM4",
+   "path": "CathB6-GFP+mCherry_FLIM4",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    128,
+    128
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.8919606299212596,
+    "y": 0.8919606299212596,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "da1f886439d6997265f952cb876a3fd0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "06c4c76c365bc089bd9fa31c98f512f1"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "FLIM Compressed",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed",
+   "flim": true,
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YXH",
+   "shape": [
+    128,
+    128,
+    528
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.8919606299,
+    "y": 0.8919606299,
+    "z": null
+   },
+   "planes": []
+  },
+  {
+   "index": 3,
+   "name": "Intensity",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed/Intensity",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.8919606299212598,
+    "y": 0.8919606299212598,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "221b17305ffe91003a5a3a80dced474f"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Fast Flim",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed/Fast Flim",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.8919606299212598,
+    "y": 0.8919606299212598,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7edbc2f2fc1b3f1674bc3c905693a1ca"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "Standard Deviation",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed/Standard Deviation",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.8919606299212598,
+    "y": 0.8919606299212598,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0616231fc2731ad63ecf884a5a99b3b7"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "Phasor Real",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed/Phasor Real",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.8919606299212598,
+    "y": 0.8919606299212598,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e8c9bf1404ac12fe654fdc8cdbceb79d"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "Phasor Imaginary",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed/Phasor Imaginary",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.8919606299212598,
+    "y": 0.8919606299212598,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "26ccf3b940ad09292a7145d0ee766191"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "Phasor Intensity",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed/Phasor Intensity",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.8919606299212598,
+    "y": 0.8919606299212598,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9a00a8318b8a78e9400195590d36bddd"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "Phasor Mask",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed/Phasor Mask",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "uint32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5801a33646c21987cb1935485ccc809e"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "Phasor Plot",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    300,
+    512
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3a3c9b763d40c60c2b2494bdd8517f1f"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "Pattern Matching Scatter Plot Channel 1",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    100,
+    100
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "afe6c7d35b60d33d468859fbc686921e"
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "name": "Phasor Plot Region 1",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed/Phasor Plot Region 1",
+   "size_x": 512,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    300,
+    512
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2927c51d1ffdf7e6bc9f1ecdb0cbb617"
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "name": "Phasor Plot Region 2",
+   "path": "CathB6-GFP+mCherry_FLIM4/FLIM Compressed/Phasor Plot Region 2",
+   "size_x": 512,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    300,
+    512
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "92f4815bcd4ec067ecc65a2d1b3515ae"
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "name": "CathB6-GFP+EDS1-mCherry_Image12",
+   "path": "CathB6-GFP+EDS1-mCherry_Image12",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.0739859042033262,
+    "y": 0.07398590420332281,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "23992e92e55975e07740a52aa5b0903d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "19d0ce510bd47efca16170f7616d0199"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4d7e261599fe2695b5b010420193122d"
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "name": "CathB6-GFP+EDS1-mCherry_FLIM12",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    128,
+    128
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.5959651968503925,
+    "y": 0.5959651968503925,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "76c90a1d4b65cdde31b61563c04ceef3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "75d28e52b36ae31b5ae06d4e709bd87c"
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "name": "FLIM Compressed",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed",
+   "flim": true,
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YXH",
+   "shape": [
+    128,
+    128,
+    528
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.5959651968999999,
+    "y": 0.5959651968999999,
+    "z": null
+   },
+   "planes": []
+  },
+  {
+   "index": 17,
+   "name": "Intensity",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed/Intensity",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5959651968503937,
+    "y": 0.5959651968503937,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "65e0179a79e0064d3b206eb39f50b772"
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "name": "Fast Flim",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed/Fast Flim",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5959651968503937,
+    "y": 0.5959651968503937,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7a818a4969209689e25535e40c90551a"
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "name": "Standard Deviation",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed/Standard Deviation",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5959651968503937,
+    "y": 0.5959651968503937,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7b7a2b130c2aff826ca390450be209ff"
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "name": "Phasor Real",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed/Phasor Real",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5959651968503937,
+    "y": 0.5959651968503937,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bdc62add92a7f63b4edef0167da9dc70"
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "name": "Phasor Imaginary",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed/Phasor Imaginary",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5959651968503937,
+    "y": 0.5959651968503937,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0cee9fd6db81bd1be9e2b092daa62bfe"
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "name": "Phasor Intensity",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed/Phasor Intensity",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5959651968503937,
+    "y": 0.5959651968503937,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a5510e0d712005d920cf58bee96f5b8a"
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "name": "Phasor Mask",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed/Phasor Mask",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "uint32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1c7cd7784065ca1a586fc1822f37b92d"
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "name": "Phasor Plot",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    300,
+    512
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "072adeab072d4ae5499fe2e5299d733b"
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "name": "Pattern Matching Scatter Plot Channel 1",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    100,
+    100
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b7c2b1d031278cfcc84cbc8466305303"
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "name": "Phasor Plot Region 1",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed/Phasor Plot Region 1",
+   "size_x": 512,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    300,
+    512
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3b4ba76558ad71f4cfb569fd0f1715b9"
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "name": "Phasor Plot Region 2",
+   "path": "CathB6-GFP+EDS1-mCherry_FLIM12/FLIM Compressed/Phasor Plot Region 2",
+   "size_x": 512,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    300,
+    512
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c78baccfeb80afe3d296f7e1e578654a"
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "name": "CathB6-GFP+Acd28.9-mCherry_FLIM11",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    128,
+    128
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 1.2598929133858248,
+    "y": 1.259892913385828,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "259fcb7ceb43957eb88f67a5d233abc8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bed1ed46ef3e7fc5ae14e59767b1bd15"
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "name": "FLIM Compressed",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11/FLIM Compressed",
+   "flim": true,
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YXH",
+   "shape": [
+    128,
+    128,
+    528
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 1.259892913,
+    "y": 1.259892913,
+    "z": null
+   },
+   "planes": []
+  },
+  {
+   "index": 30,
+   "name": "Intensity",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11/FLIM Compressed/Intensity",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 1.2598929133858268,
+    "y": 1.2598929133858268,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0c710978c126ddcfa3cc48d6d677fa84"
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "name": "Fast Flim",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11/FLIM Compressed/Fast Flim",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 1.2598929133858268,
+    "y": 1.2598929133858268,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31abd192a05d032ab41583ff68d58ec3"
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "name": "Standard Deviation",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11/FLIM Compressed/Standard Deviation",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 1.2598929133858268,
+    "y": 1.2598929133858268,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a0dfb4481a962de9a7dac49945690277"
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "name": "Phasor Real",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11/FLIM Compressed/Phasor Real",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 1.2598929133858268,
+    "y": 1.2598929133858268,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ca5198e9ab5608b2436583ce369acff0"
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "name": "Phasor Imaginary",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11/FLIM Compressed/Phasor Imaginary",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 1.2598929133858268,
+    "y": 1.2598929133858268,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "079d2ea9c942f179b6ccb70afd56a29e"
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "name": "Phasor Intensity",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11/FLIM Compressed/Phasor Intensity",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 1.2598929133858268,
+    "y": 1.2598929133858268,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1368b3c4a1cca93e6f650d0193c03943"
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "name": "Phasor Mask",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11/FLIM Compressed/Phasor Mask",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "uint32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f7868fef340432308d02b158fd90ea4"
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "name": "Phasor Plot",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    300,
+    512
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "37f6ace1f626b2cf9b64ef5ba36bb4a9"
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "name": "Pattern Matching Scatter Plot Channel 1",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    100,
+    100
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1260b6dc3aa39d8337f632ff51f7daf5"
+    }
+   ]
+  },
+  {
+   "index": 39,
+   "name": "Phasor Plot Region 1",
+   "path": "CathB6-GFP+Acd28.9-mCherry_FLIM11/FLIM Compressed/Phasor Plot Region 1",
+   "size_x": 512,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    300,
+    512
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "93a3790f7efe274a1433353cb415d0bd"
+    }
+   ]
+  },
+  {
+   "index": 40,
+   "name": "CathB6-GFP+Acd28.9-mCherry_Image11",
+   "path": "CathB6-GFP+Acd28.9-mCherry_Image11",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.15640899315737852,
+    "y": 0.1564089931573819,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "83297c657db92d5116a7c52bd52510c2"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0359c3c82905da74e2a15d114678ec36"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "88bb9373fd8d8aa1e6cc18e16e40ff9d"
+    }
+   ]
+  },
+  {
+   "index": 41,
+   "name": "CathB6-GFP+VCS-mCherry_Image12",
+   "path": "CathB6-GFP+VCS-mCherry_Image12",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.06637004887585546,
+    "y": 0.06637004887585546,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "18b62c64805801f65894ab08b33e7034"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41ec61da766ef27619a89edb3d1a7b5e"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e728a8e0db6c16e9bd0cb13ad51c55aa"
+    }
+   ]
+  },
+  {
+   "index": 42,
+   "name": "CathB6-GFP+VCS-mCherry_FLIM12",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    128,
+    128
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.5346185826771653,
+    "y": 0.5346185826771653,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "17602532b80ce0f4ee41278c49051892"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "813cf0dabb297ce3c1571a6f8e50fd9c"
+    }
+   ]
+  },
+  {
+   "index": 43,
+   "name": "FLIM Compressed",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12/FLIM Compressed",
+   "flim": true,
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YXH",
+   "shape": [
+    128,
+    128,
+    528
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.5346185827,
+    "y": 0.5346185827,
+    "z": null
+   },
+   "planes": []
+  },
+  {
+   "index": 44,
+   "name": "Intensity",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12/FLIM Compressed/Intensity",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5346185826771653,
+    "y": 0.5346185826771653,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3f5366c09f694720490e5f0fcf93e209"
+    }
+   ]
+  },
+  {
+   "index": 45,
+   "name": "Fast Flim",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12/FLIM Compressed/Fast Flim",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5346185826771653,
+    "y": 0.5346185826771653,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3c63a6bfc388df6209d06ff965addb6f"
+    }
+   ]
+  },
+  {
+   "index": 46,
+   "name": "Standard Deviation",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12/FLIM Compressed/Standard Deviation",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5346185826771653,
+    "y": 0.5346185826771653,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "372f716f7d6f5f8ab3ed04b7b4b43664"
+    }
+   ]
+  },
+  {
+   "index": 47,
+   "name": "Phasor Real",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12/FLIM Compressed/Phasor Real",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5346185826771653,
+    "y": 0.5346185826771653,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a8414b30eef31bb56b6dbd2d0a5f0dbd"
+    }
+   ]
+  },
+  {
+   "index": 48,
+   "name": "Phasor Imaginary",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12/FLIM Compressed/Phasor Imaginary",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5346185826771653,
+    "y": 0.5346185826771653,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e61698f21edfb1ff714c2695aa76790d"
+    }
+   ]
+  },
+  {
+   "index": 49,
+   "name": "Phasor Intensity",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12/FLIM Compressed/Phasor Intensity",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5346185826771653,
+    "y": 0.5346185826771653,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b66b9804733a1754123c329924780ee4"
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "name": "Phasor Mask",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12/FLIM Compressed/Phasor Mask",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "pixel_type": "uint32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "873f836d9bf0636a2058e394f03e810c"
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "name": "Phasor Plot",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    300,
+    512
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d885cdecd26e0aeebdd502b329612e81"
+    }
+   ]
+  },
+  {
+   "index": 52,
+   "name": "Pattern Matching Scatter Plot Channel 1",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    100,
+    100
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d391f1eb0c7aff17bdef020449e375e0"
+    }
+   ]
+  },
+  {
+   "index": 53,
+   "name": "Phasor Plot Region 1",
+   "path": "CathB6-GFP+VCS-mCherry_FLIM12/FLIM Compressed/Phasor Plot Region 1",
+   "size_x": 512,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    300,
+    512
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "76f4a319289cc78353cf2ed3f2feb8a4"
+    }
+   ]
+  }
+ ]
+}

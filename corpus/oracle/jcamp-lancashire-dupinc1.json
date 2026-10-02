@@ -1,0 +1,41 @@
+{
+ "id": "jcamp-lancashire-dupinc1",
+ "file": "jcamp-lancashire-dupinc1.jdx",
+ "size": 1711,
+ "sha256": "8606b398ecf1e96595380790ee3b6e1d11c92e6147275aa67d9af7c9d803f9e8",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "dupinc1.jdx",
+   "kind": "xydata",
+   "data_type": "UV-VISIBLE SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 440,
+     "channels": [
+      {
+       "xxh3": "e923057ece729e1515d4c5846398f11e",
+       "first": [
+        1.1663000000000001,
+        1.1295,
+        1.1035000000000001,
+        1.0546,
+        1.0221,
+        0.9877,
+        0.9623,
+        0.93
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 440,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  }
+ ]
+}

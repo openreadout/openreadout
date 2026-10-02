@@ -1,0 +1,23 @@
+{
+ "id": "softmax5-kinetic-phage-120308b",
+ "file": "softmax5-kinetic-phage-120308b.pda",
+ "size": 1137688,
+ "sha256": "853d02dd7fbaf9a8f1f5daf77ef4d07e449d497b73d8ffe1b0c7dc8a1c129355",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py softmax_text_summary on the depositor's export softmax5-kinetic-phage-120308b.txt (independent reader of the text; allotropy 0.1.146 failed: error documents for measured cells)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 53664,
+    "errors": 0,
+    "wavelengths": [
+     600.0
+    ],
+    "value_xxh3": "864ae18739d408136341fb1fb7c25f9b"
+   }
+  ],
+  "header": {}
+ }
+}

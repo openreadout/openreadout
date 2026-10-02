@@ -1,0 +1,2382 @@
+{
+ "id": "aics-tiled",
+ "file": "aics-tiled.lif",
+ "size": 173187255,
+ "sha256": "162ed564f240f67e88045556a3a38d5f510302bc95582dca3180acc1654664ae",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "TileScan_002",
+   "path": "TileScan_002",
+   "size_x": 7666,
+   "size_y": 5622,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "dims": "MCYX",
+   "shape": [
+    165,
+    4,
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.200613111539516,
+    "y": 0.2006131115464549,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a24b1e07b7e54b64cf9727ba15931b65"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bb85aa3ba31ef146b0c84159c6ddb387"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e0383f3939a80776e402aec45920647b"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f9b1da1087b8e5624ffc900377ac8a84"
+    }
+   ],
+   "mosaic": {
+    "tile_count": 165,
+    "tile_width": 512,
+    "tile_height": 512,
+    "method": "stage_position",
+    "tiles": [
+     {
+      "index": 0,
+      "x_px": 7154,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c5e5f1496081d84f5f658a64d673bbca",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "154ec08d6fc0ca20bb16e729305a1005"
+     },
+     {
+      "index": 1,
+      "x_px": 6643,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "fc3b4de8ea34c41af8bccdfbb73cf854",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "d91e6cd29004bdb049808759ee9f389b"
+     },
+     {
+      "index": 2,
+      "x_px": 6132,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "53dca2e6165073d949a58c9cb0838da5",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "f2e959076bb358824968b3cd4072b50f"
+     },
+     {
+      "index": 3,
+      "x_px": 5621,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "632cc8008fbbcdd6aa838287b5f3e042",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "f3bb30b0fca34a574296d612e74f36f3"
+     },
+     {
+      "index": 4,
+      "x_px": 5110,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "b11360041e3c2ef2e80c37639ab867c9",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "c9ec916040b99c1ebcbffd2494422704"
+     },
+     {
+      "index": 5,
+      "x_px": 4599,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "1fe25060fae1858e9abada9237506ff7",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "523af96a5593510b63ef2a63be8ded62"
+     },
+     {
+      "index": 6,
+      "x_px": 4088,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "72c11511f978a6fb20706b3f103754cf",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "45d308980b20462d75ccc6bf8c5fb7c8"
+     },
+     {
+      "index": 7,
+      "x_px": 3577,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "5c6be2a320bd64a96f6640489212918e",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "10d48d502983499eac4ea0703033970a"
+     },
+     {
+      "index": 8,
+      "x_px": 3066,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "2667d2685438b1acd967e31613debf01",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "f4380971c9db330fa79f7ba43382fd04"
+     },
+     {
+      "index": 9,
+      "x_px": 2555,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "06da074f7f0daea5f354adf68969a170",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "a12f6cd5c636cdc2ee5b4865e0a81176"
+     },
+     {
+      "index": 10,
+      "x_px": 2044,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "8d01d388f5415edde1e1429e57228b60",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "e7a69f8fbca3a959467d385604b55817"
+     },
+     {
+      "index": 11,
+      "x_px": 1533,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "18714708b9a6c86a9c6ed3df1199b91c",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "42119ca9354f493b6f3508c0364c8101"
+     },
+     {
+      "index": 12,
+      "x_px": 1022,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "de68b27ded34c87541231871b815fa8d",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "6e057024e36e24ab7e83de3e0ad2d2c6"
+     },
+     {
+      "index": 13,
+      "x_px": 511,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "82bbea12c95032057df84132c61155b8",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "8a5f5ed57ae741fe771f6cd0408b8508"
+     },
+     {
+      "index": 14,
+      "x_px": 0,
+      "y_px": 5110,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "4cf24d2ce170076727336f9e84c1d199",
+      "visible": [
+       0,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "42e6aae0a9cb0866deb8ca73c680564a"
+     },
+     {
+      "index": 15,
+      "x_px": 7154,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "5061680865c89c53fcb65fff83117359",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "ef20c7ce74c1b8237d50896d73279c13"
+     },
+     {
+      "index": 16,
+      "x_px": 6643,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "07293369a715a6931e32d971b2247d31",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "8cc9135c88a35bdfa92ceb837b1d8570"
+     },
+     {
+      "index": 17,
+      "x_px": 6132,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c3fd1e91a5211e3c080f2aeae2cc3383",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "befc7c883e2a592b184ab4d1fb0677ec"
+     },
+     {
+      "index": 18,
+      "x_px": 5621,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "1deddf6ad01933b0d18a21659ca1aa79",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "851e5899eedcd2a3a98c7ba0632932f2"
+     },
+     {
+      "index": 19,
+      "x_px": 5110,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "1774db3b949b83610d791cd646e14cf7",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "7a8639b6280052e3fa61d7c7e457acd6"
+     },
+     {
+      "index": 20,
+      "x_px": 4599,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c52a48927a8bcbd7c7762096d34b004e",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "e76a5bac9c55e053dce90f3f736eaede"
+     },
+     {
+      "index": 21,
+      "x_px": 4088,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "90ca46794c46693f8863a03e9bdf1683",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "374d5d3e70d6531c0c1b31f0703ae62c"
+     },
+     {
+      "index": 22,
+      "x_px": 3577,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "699e5b0c83e13d863e0f0029dfb7955d",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "9dfb8818a4e90e78f4badd2afe23aa72"
+     },
+     {
+      "index": 23,
+      "x_px": 3066,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "2db6b9d513b8a499fe1e2cabc5620ab4",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "c43c54ad803184e6adf264d47d25696c"
+     },
+     {
+      "index": 24,
+      "x_px": 2555,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c0d7792254d546d09fffe3c886486b54",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "d2bd8681cdecb3798063eba40bba90fb"
+     },
+     {
+      "index": 25,
+      "x_px": 2044,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "510ffa6f7b98139a47ec265b7ff9e7d6",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "65d34163d0a56dcc04c2eaa643fe3dc4"
+     },
+     {
+      "index": 26,
+      "x_px": 1533,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "99b0b90c9ef3a1693b83ae2f3f8ba353",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "6d618af35c5637386d4efa1ffbaca82a"
+     },
+     {
+      "index": 27,
+      "x_px": 1022,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "9326dc503dc122e56b2f434531425b5b",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "276ea04cc5462b4996cd0f8e2d8ce0d5"
+     },
+     {
+      "index": 28,
+      "x_px": 511,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "ea5f4bc71bee0b29518aad4b7e894e69",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "f5e9e02de7735f4abf034fc84b995fda"
+     },
+     {
+      "index": 29,
+      "x_px": 0,
+      "y_px": 4599,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "044195c15f5518d975725230cb959298",
+      "visible": [
+       0,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "d08537877cafbc06fffe20edd62bfbe6"
+     },
+     {
+      "index": 30,
+      "x_px": 7154,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "5a32320edb6204fc1ac582f6dedd9060",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "b2fe69e164a9403c94d3efa6b23ddc33"
+     },
+     {
+      "index": 31,
+      "x_px": 6643,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "a16ddedd23279c90197fb8785b9357a8",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "b0acf43954855c88fb9f9bc87ec4ec4f"
+     },
+     {
+      "index": 32,
+      "x_px": 6132,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "a5a628c4cfdfbfbdd8b323e8ffac46b2",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "db897c09da1221a163a07d008efb8d6f"
+     },
+     {
+      "index": 33,
+      "x_px": 5621,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "da4072cb7eb4163899dedf4c79941669",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "b3a7d53bbf6528b833fb47744c3a8500"
+     },
+     {
+      "index": 34,
+      "x_px": 5110,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "645a40f99ab816edbbc1b2dbee4cc251",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "97071535406972b1ad8da6776a537c1d"
+     },
+     {
+      "index": 35,
+      "x_px": 4599,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "3aa750d2c5fe49a9abab7a508ea3e881",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "39bbeb3178e0fe0e298bfc9a6979b2af"
+     },
+     {
+      "index": 36,
+      "x_px": 4088,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "cad100a8c6f045cb2741f49ae627549f",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "70c689086ab292263835a841a11313ec"
+     },
+     {
+      "index": 37,
+      "x_px": 3577,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "db48ad1e828b8c7d3f0e633f2319200c",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "9b3b64d1dd5cd4e86ce118268fd154a7"
+     },
+     {
+      "index": 38,
+      "x_px": 3066,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "2a281768ba5c0a192f397974f5e6cbbb",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "d82546a6f09bfcff198125131df65b25"
+     },
+     {
+      "index": 39,
+      "x_px": 2555,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "5166f7084dc0c731ffc8114dcc1958a1",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "5345154b84a7fd049c6aacd7feef7678"
+     },
+     {
+      "index": 40,
+      "x_px": 2044,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "21f9f5add092cf1a5dc7ea293cda0cf4",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "02755ee3c1380fa8b8897e60933ee1dd"
+     },
+     {
+      "index": 41,
+      "x_px": 1533,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c09f0452b7aa67fec6547f1442a6fab4",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "db708ec8c8596257cc160e5265f341a1"
+     },
+     {
+      "index": 42,
+      "x_px": 1022,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "3c6fee214a24a4b539c48b00dce1152f",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "0af2052d6c492fbf60a7a0299a7145b9"
+     },
+     {
+      "index": 43,
+      "x_px": 511,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "96ff4adef05f51d7a38ebfa74121ba5e",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "216b60fba0eb9b2393a9ad5dc954b8d4"
+     },
+     {
+      "index": 44,
+      "x_px": 0,
+      "y_px": 4088,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "ce9c50c266e8ae3c7f5e2ffa4efe49ca",
+      "visible": [
+       0,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "e4d22c6c26744bfc2d93f6f79a08676f"
+     },
+     {
+      "index": 45,
+      "x_px": 7154,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "74c1eed13b5d23ad0ed3d05d54d66a12",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "92284e0ed530585928cbb57989b9aa98"
+     },
+     {
+      "index": 46,
+      "x_px": 6643,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "3216f9e6a0bd9a3756f7e93d92a81f43",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "bb6ab2b84a704b957ee54b52bc62550d"
+     },
+     {
+      "index": 47,
+      "x_px": 6132,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "5de3ed68edfb95ad5479f35ec271af36",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "4fdc15cdc1b3c7abeb8515869e87f139"
+     },
+     {
+      "index": 48,
+      "x_px": 5621,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "33a9e2701b66093855c402009e51d953",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "8a9c8df75201e174be5f0664b5a39bf9"
+     },
+     {
+      "index": 49,
+      "x_px": 5110,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "6e191f39af1ddca06ddbcdf3f2a711ca",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "4c7912bf008d9b2892021baee745ce7f"
+     },
+     {
+      "index": 50,
+      "x_px": 4599,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "5109eb995fe06a39f8d3916153501bf0",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "cbf89724167675ca1c717f52db0f99d7"
+     },
+     {
+      "index": 51,
+      "x_px": 4088,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "a6da0a11cf8c5e60e4710f2cbf957aa0",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "5a489aa8ff0c82329e3990a66609ca3f"
+     },
+     {
+      "index": 52,
+      "x_px": 3577,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c91f0d2760fa6bf081275af45f4ab0f0",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "ef0327b31da730f08da306596e1fa182"
+     },
+     {
+      "index": 53,
+      "x_px": 3066,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "99a9686261e97c2749c4b5ed1e1c528c",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "e94b49a0fcabf21578ea0405d9b88118"
+     },
+     {
+      "index": 54,
+      "x_px": 2555,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "9c400a901e55ba2f3edc8ead8c119899",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "3a8187fc5b0f3de3faae922d1e5a725e"
+     },
+     {
+      "index": 55,
+      "x_px": 2044,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "eb6399c54295b06fdb651196d09734a0",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "c094f371e53b1e0f24339f473f911021"
+     },
+     {
+      "index": 56,
+      "x_px": 1533,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "2baf7c0f89e83271ead6308e6acc1a08",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "7970032f3d1c24db8bbcae763facb2d8"
+     },
+     {
+      "index": 57,
+      "x_px": 1022,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "97e02cf2070ad5cbf9ce9ddfba01b1ff",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "1b30e8a3f376bf149be24dfea6731e0b"
+     },
+     {
+      "index": 58,
+      "x_px": 511,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "f052657d482bcf7df49cc655bdfd0928",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "3e766efb7bfe88f5feabe3dab23c9aa5"
+     },
+     {
+      "index": 59,
+      "x_px": 0,
+      "y_px": 3577,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "368149c9359e0e468c6bb7cd65e1c54a",
+      "visible": [
+       0,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "0ae4d3f45b8282aa4f2d2585e8ba6135"
+     },
+     {
+      "index": 60,
+      "x_px": 7154,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "56d97d1c8d3e353acb036b23b45dba61",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "9e7f7c4447065f9f80bd22307c7128f0"
+     },
+     {
+      "index": 61,
+      "x_px": 6643,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c8758fe4625adcf2e8e463cbbbda40c3",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "6ea54ee456e241c02006b309a5e28eea"
+     },
+     {
+      "index": 62,
+      "x_px": 6132,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "091ecfed8b15259c9a8102c77d8a47cb",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "f5a33d5154f3d4d7fba5535451955d64"
+     },
+     {
+      "index": 63,
+      "x_px": 5621,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "5620e2c2da6ce010bda29eb0408ec7c3",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "92cdc997f271e29f59517c3b844b715e"
+     },
+     {
+      "index": 64,
+      "x_px": 5110,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "8e531042bd0ac2fd24ee724c242e4192",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "031861fa35b45bf6750bb11c5a265419"
+     },
+     {
+      "index": 65,
+      "x_px": 4599,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "406e516d46d41e784603f27c5fb34792",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "c97d47123a1939b3947cb1089b71f1e8"
+     },
+     {
+      "index": 66,
+      "x_px": 4088,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "4b5b4802e597583d986ef0eab689749f",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "fb9f1d88be45afaf048d3566b95918b1"
+     },
+     {
+      "index": 67,
+      "x_px": 3577,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "9fdaa4ef127c6be7e1b20f420c5b1ab8",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "299739777ecdbd53cd721f553f76de14"
+     },
+     {
+      "index": 68,
+      "x_px": 3066,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "f50d8fa0527fbbfbff48675c483ea921",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "6d11ff393e681b8f0e2b994297c52310"
+     },
+     {
+      "index": 69,
+      "x_px": 2555,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "7cdf1af06ca8ee81120c2bdd9a3f2ca3",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "86250916007b34b0dc07df40a14aeb64"
+     },
+     {
+      "index": 70,
+      "x_px": 2044,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c6948ebe26e87e1fe22279d665a5bb2f",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "d255fb1161d4b91763ad37425c4d7de1"
+     },
+     {
+      "index": 71,
+      "x_px": 1533,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "612dc27a9648be0bb8d8de032eba8065",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "22a2493477747d5a7372e20c4ac03c39"
+     },
+     {
+      "index": 72,
+      "x_px": 1022,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "a8238c448e45b272d4574fb1b682d3ce",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "46d12d107e5fafc390b4c6eed1c92e48"
+     },
+     {
+      "index": 73,
+      "x_px": 511,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "6e6f10a75ce5b7948bde0eb1e2b5e3e8",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "a00bb086d06f12ed87801a1d6b5707c1"
+     },
+     {
+      "index": 74,
+      "x_px": 0,
+      "y_px": 3066,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "bed4528a95feec050836e4eebf218d0f",
+      "visible": [
+       0,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "2e177fe1c914dec0fef7e1ac7d0514f3"
+     },
+     {
+      "index": 75,
+      "x_px": 7154,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "96b5b891bbdaff358ee5143c9ad01634",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "3fcf4387988cf70a93b28b23795eff73"
+     },
+     {
+      "index": 76,
+      "x_px": 6643,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "3b045129ed37bf32643cd5fd3c6c286c",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "21fdcb467a2ef71ac829114b4081ba21"
+     },
+     {
+      "index": 77,
+      "x_px": 6132,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "1f4659de94476290f6344c536caa7661",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "3c86a91f06daf95232f209d90c864243"
+     },
+     {
+      "index": 78,
+      "x_px": 5621,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "4cb5ba90dbcade859564a28601058bad",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "687fa7339d2c499a250edc3cebfbab00"
+     },
+     {
+      "index": 79,
+      "x_px": 5110,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "00d3f3525ace9e2c9e8561ca442b8832",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "64381a69cb705fef356bb46ff27d725f"
+     },
+     {
+      "index": 80,
+      "x_px": 4599,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "a122c1af60e425b7e505f49f209ff849",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "7d3a8a42115f09db76d026995be5859d"
+     },
+     {
+      "index": 81,
+      "x_px": 4088,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "50f2fd5da2e7f26407d5073db0a6ac03",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "bd39d58d600bae7f42de0ad8db6f53c2"
+     },
+     {
+      "index": 82,
+      "x_px": 3577,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "bf7662a2b03314cf7674fe80fce24916",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "a1489fe67d380a01dc27d21ea3135bc9"
+     },
+     {
+      "index": 83,
+      "x_px": 3066,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "14b13bb2739bd657e9880fc1d2043db5",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "f7d1f28036c8bbf93491902cab4ad716"
+     },
+     {
+      "index": 84,
+      "x_px": 2555,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "085d26264542d07736b5a209455b5186",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "b4ef092ec518b5650734efe4f3995675"
+     },
+     {
+      "index": 85,
+      "x_px": 2044,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "db4253d8d8b3f3df48e2a29dca315e3d",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "2f04d4fdfa6c7e342e18b2e66d2cff7d"
+     },
+     {
+      "index": 86,
+      "x_px": 1533,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "fcb697e01dd66cab0061caca8a4b803d",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "91276cb70a6aa770e1249aeba25aeb1c"
+     },
+     {
+      "index": 87,
+      "x_px": 1022,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "29146667337fadf2f5eb4456f791210a",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "d0d96d8322d50e7fe28c36df07b491cc"
+     },
+     {
+      "index": 88,
+      "x_px": 511,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c96dfa7b19a1325614c80a20639d48c8",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "e67c48954c6c7af4aa8558b04bf94790"
+     },
+     {
+      "index": 89,
+      "x_px": 0,
+      "y_px": 2555,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c1cf842459131f9bc32e2d689f93801c",
+      "visible": [
+       0,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "434684dea7ba3ce19fae457b0362dc25"
+     },
+     {
+      "index": 90,
+      "x_px": 7154,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "e65bab829d0dcab4a1e334e1ba9c371d",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "64fa59349567cf1d7267ff03bba20665"
+     },
+     {
+      "index": 91,
+      "x_px": 6643,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "62c665eb549c0831addb71a45adee658",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "83ed8f4c7fbd65b3098285691b0e66ca"
+     },
+     {
+      "index": 92,
+      "x_px": 6132,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "29b91feefa9867b99f0ce2c743f97d2d",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "7fd960a6cbf746431ef32b1a4918f0a9"
+     },
+     {
+      "index": 93,
+      "x_px": 5621,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "fbf6cadf9b2e90dfeecdffefded84737",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "fea96f51d5183d3eff6d5fbed822274d"
+     },
+     {
+      "index": 94,
+      "x_px": 5110,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "4a86131bd8288f1c39236ec8eb29abec",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "8fbd682b3f2fb18ac8868c358ee3a79a"
+     },
+     {
+      "index": 95,
+      "x_px": 4599,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "00d8468b2485c7df8ae57e71bf3cd14f",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "9ad3269b863dfd306e9682d175d38099"
+     },
+     {
+      "index": 96,
+      "x_px": 4088,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "d7e351bd3bfa4e3882758d6d214495cd",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "c35c07e06699665636a015c1a250c5c7"
+     },
+     {
+      "index": 97,
+      "x_px": 3577,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c9682e1f8669470eaf1d5895042ba1e3",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "ddf7bf7bbcb8dea1ecab7dfc6160b481"
+     },
+     {
+      "index": 98,
+      "x_px": 3066,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "bb0076f3a14f8bf2d786774ab9cbe278",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "4ed0394a281a1d2060797e8288eeabdd"
+     },
+     {
+      "index": 99,
+      "x_px": 2555,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c4bdd0eccf75b46bd7ef4ed81fb036a0",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "64f1813443cf1bf7aa0b9f44975f7348"
+     },
+     {
+      "index": 100,
+      "x_px": 2044,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "67de91d0e52e977a4fad0a855cc1de64",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "6cb65113dceca150da7c13f24608520a"
+     },
+     {
+      "index": 101,
+      "x_px": 1533,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "5ae6655d7a5eb3b6e2d7951c8dce11cb",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "89305c344346bcd1c96a42709f97df3c"
+     },
+     {
+      "index": 102,
+      "x_px": 1022,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "593220a2454f3077414ab6eacf40f064",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "aefce591ac6381523933c7e13325b89d"
+     },
+     {
+      "index": 103,
+      "x_px": 511,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "38d14c8f41ff5237425dcf504570c1dc",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "2c9963c755d10aeaddde12bb63d0b8ce"
+     },
+     {
+      "index": 104,
+      "x_px": 0,
+      "y_px": 2044,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "85e584a50f14488ef8810a779781f633",
+      "visible": [
+       0,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "b34abebb0864cd11d343598b927024d2"
+     },
+     {
+      "index": 105,
+      "x_px": 7154,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "40fc0d8f5aaa0e40b8bb1fbc242cc0e9",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "7a5bed094c398129ec532f6f90097c3b"
+     },
+     {
+      "index": 106,
+      "x_px": 6643,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "4192eaa195e1c0fc382654384bdead7a",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "c29edf90f1b6c60bc1c8c8f1c06d5cdf"
+     },
+     {
+      "index": 107,
+      "x_px": 6132,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "22eb3a4bea5c9d525524cac5c0f28d84",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "0d8443dc410ef7a4d344c5231396de3b"
+     },
+     {
+      "index": 108,
+      "x_px": 5621,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "fd50b49a318dbadf32fd2be5d3cdded6",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "48723df89c34fcbd8e2805799563da97"
+     },
+     {
+      "index": 109,
+      "x_px": 5110,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "a67aefe467d1e0c0d66f723e5a8b0ed6",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "57e49ccb3f652380424324fd5d44a26d"
+     },
+     {
+      "index": 110,
+      "x_px": 4599,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "2808a4a48fab9eefb930806a3acaa4dc",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "328750631e652103c20b645243cc206d"
+     },
+     {
+      "index": 111,
+      "x_px": 4088,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "3b972d3a138a543570b2c5bbc7e327ce",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "560fb9f303eb57cde865e6c01d40657b"
+     },
+     {
+      "index": 112,
+      "x_px": 3577,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "dded3e0173002a39c2d4a0809e511f6b",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "a16822a84cd0bdc9b170ccb81f884661"
+     },
+     {
+      "index": 113,
+      "x_px": 3066,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "f6fe0a989e04e5eae113fbd056e2c481",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "baa9f8cb2fe4aba95e10323b69d02da6"
+     },
+     {
+      "index": 114,
+      "x_px": 2555,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "2cd0ed8cc34dc374462acf7a0303e4a7",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "7bd71072aaf9c27abb243c97d19f0ef9"
+     },
+     {
+      "index": 115,
+      "x_px": 2044,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "dbd244f77bd846567cee8dfdb525d883",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "ff39c5d23dfd8aa5fee986cb77d44429"
+     },
+     {
+      "index": 116,
+      "x_px": 1533,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "9257532e34797d65891228e6999c90f3",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "f51e42ce9b6fd97272ade648e9863f45"
+     },
+     {
+      "index": 117,
+      "x_px": 1022,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "622c3840bb34150d296f4754ddb01cfb",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "6f6c8ec2d1e83583b35b904ad0c414a8"
+     },
+     {
+      "index": 118,
+      "x_px": 511,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "d06c79983ad7bcb41c19b922b6881467",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "3efa41dd5a95595741c722a1acb7e9f2"
+     },
+     {
+      "index": 119,
+      "x_px": 0,
+      "y_px": 1533,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "ac3f294cbcbfef6d6c135b864238da4f",
+      "visible": [
+       0,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "48cf94a6fe702d95580e24baa002e98a"
+     },
+     {
+      "index": 120,
+      "x_px": 7154,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "1238b1209df9c237cc9642fde4f1a87b",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "4bc1f03f077bd93d3c7c7eaf89c8d545"
+     },
+     {
+      "index": 121,
+      "x_px": 6643,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "f3e8c94e7a39dd0ce7a79e0112717286",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "8df0b4c3e88a7e779146db6f0aef0112"
+     },
+     {
+      "index": 122,
+      "x_px": 6132,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "b036566b725a40b893b288bab02fbc01",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "bfdb6b6b6a53176177d2c896d068f952"
+     },
+     {
+      "index": 123,
+      "x_px": 5621,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "f30001ca5a09abd9a113260e80420ab4",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "230b2b5412900cd8a6cdc74061476ae9"
+     },
+     {
+      "index": 124,
+      "x_px": 5110,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "9c9df6872c73950c348d63d6ac8442ad",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "2758c3a114df84c7ea8a7403d3871662"
+     },
+     {
+      "index": 125,
+      "x_px": 4599,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "391b75f68d5f0a2f1ae9d1cbd7db8ab8",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "471b3dff8b324d1216dd42dce59990b6"
+     },
+     {
+      "index": 126,
+      "x_px": 4088,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "891294c8346d36cfff8ad398f2b8ebf5",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "d7df3684bdee4a540b3f090665b95508"
+     },
+     {
+      "index": 127,
+      "x_px": 3577,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "2d56c3e926b487f6a3b67df8ea1531b4",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "fd3539a62a097611d8ae46f6c5ae5bd7"
+     },
+     {
+      "index": 128,
+      "x_px": 3066,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "4a6a15653d0d0034ad427443b41db8a1",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "1bb7f1ed37a4e6e78cd7f95f4b98a170"
+     },
+     {
+      "index": 129,
+      "x_px": 2555,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "49b8a2fcddbf33fa9346ef4e99c361c6",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "824724fb4d7eec7414ef7f288d70135e"
+     },
+     {
+      "index": 130,
+      "x_px": 2044,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c71372a309571609a4185831c58e91d9",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "af465b86b456d809029b82ca1f6377d1"
+     },
+     {
+      "index": 131,
+      "x_px": 1533,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "a4256ad48a82d3b86c4297f38463d2be",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "41d6309e01012e0dc2ac016d273e5f16"
+     },
+     {
+      "index": 132,
+      "x_px": 1022,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "10660b40d3179ccc5119eebeee775b77",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "5b52034cb2a1e23334afb7db1cb3c860"
+     },
+     {
+      "index": 133,
+      "x_px": 511,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "d2db77c2b5564ca2cf4abe9ec869ed1d",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "144a0661bd120b45c8dc974a2eabf601"
+     },
+     {
+      "index": 134,
+      "x_px": 0,
+      "y_px": 1022,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "7141aead4300e93b9e09604b0a648c83",
+      "visible": [
+       0,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "7f5d5a4985da78830151c0c25fe8adf6"
+     },
+     {
+      "index": 135,
+      "x_px": 7154,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "93045f364ffad302045eeedf5d1df4fc",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "acc4f8954209237b403de1c30106a3e4"
+     },
+     {
+      "index": 136,
+      "x_px": 6643,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "e69330ede71f0a94a0722cb5f06a7c5e",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "9e3e48958f3cac563982d3fd3836a054"
+     },
+     {
+      "index": 137,
+      "x_px": 6132,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "4e974a551c988094de39d2dc2226fb88",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "d4f611f4e4d79cfcf569b04fb99b0b61"
+     },
+     {
+      "index": 138,
+      "x_px": 5621,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "3b3b52150a1d88ebc8c07db3ce7f6069",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "496da9fa554bbb0fa34719b829b5f609"
+     },
+     {
+      "index": 139,
+      "x_px": 5110,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "ddeb50a3900178359abf2bd122c93489",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "aeccb379f40ebf81e30d0f1f6b6715fe"
+     },
+     {
+      "index": 140,
+      "x_px": 4599,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "089a33b20a4403749a645286df907480",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "ecad6ecde1732737ad1a80d04fc7747c"
+     },
+     {
+      "index": 141,
+      "x_px": 4088,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "54ac943035bb0de53b4fb7c93b8d6e0a",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "c286444bcaba6940525889bb65e2cf4c"
+     },
+     {
+      "index": 142,
+      "x_px": 3577,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "0e4b2213a83ae9cc827835b865cc67b0",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "2d850ec01933108a08ce85c5885d6d51"
+     },
+     {
+      "index": 143,
+      "x_px": 3066,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "cf13fd049dfe12f13544167058281340",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "ee9855ae78917edc31ba635b0d54b7a1"
+     },
+     {
+      "index": 144,
+      "x_px": 2555,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c670d652ae622a5b44f6c7d82ab6d4c4",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "1ac8fb050bbf9fc1c19519bfac8c2926"
+     },
+     {
+      "index": 145,
+      "x_px": 2044,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "332dc358c7dc71f71c79202e1d8805e1",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "2af6d090c63cc83ad620de99039ac7be"
+     },
+     {
+      "index": 146,
+      "x_px": 1533,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "7f8bcc9110dc43a19a18f444c1f6cc9a",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "19c8b136f2d70bb51f8eecd384be450f"
+     },
+     {
+      "index": 147,
+      "x_px": 1022,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "b0367d7967c8c3c5642148cfc87e10f6",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "759f9ec8464bc333cbbe1eb02cc7a19b"
+     },
+     {
+      "index": 148,
+      "x_px": 511,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "f76f886137aedc811f8f66ec77e0cb9b",
+      "visible": [
+       1,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "c3ffbfa221f67da01c86eaceb78c27b6"
+     },
+     {
+      "index": 149,
+      "x_px": 0,
+      "y_px": 511,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "90e861335155607719504a151a411d9b",
+      "visible": [
+       0,
+       1,
+       511,
+       511
+      ],
+      "xxh3_visible": "d4ff1a87403b3c4ff05d7bfae20d5e91"
+     },
+     {
+      "index": 150,
+      "x_px": 7154,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "62c64d68378b6b492abf708652299229",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "6bb9ba5d70fd7a728ae5f2d48fd7699d"
+     },
+     {
+      "index": 151,
+      "x_px": 6643,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "8021d98dfc037a60e64eb7a12ff3b605",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "6573a779405c5b0c1422aab992dd88d0"
+     },
+     {
+      "index": 152,
+      "x_px": 6132,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "d38f036cb67b69929cc94626762571c6",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "ab3a929f92e2e764663645bc88466565"
+     },
+     {
+      "index": 153,
+      "x_px": 5621,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "a6d84c65284d7b403002903325fe743f",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "4e375f5fa919ea7b433575f325367102"
+     },
+     {
+      "index": 154,
+      "x_px": 5110,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "d012c0472e7b16c02afbe82895fd289a",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "34182ee99f08ea90cae2be25591fff38"
+     },
+     {
+      "index": 155,
+      "x_px": 4599,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "bb9be5bd9e3d458584156a23c23a09f3",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "0f200e0c8388666e79f8c1fa65b1db2e"
+     },
+     {
+      "index": 156,
+      "x_px": 4088,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "73afaf1f13831d8574724f245925cafd",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "cc05826ad3ab6c01a4b9ddf4eeb8d05d"
+     },
+     {
+      "index": 157,
+      "x_px": 3577,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "e9e3fb03af7d507c60b24fda06a6ffbb",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "0a3ef033b752296c3aaa2eab448ad2ce"
+     },
+     {
+      "index": 158,
+      "x_px": 3066,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "469c939d59974f2c3e6a6704d9ae6a64",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "7e8af1a5def8a1849efaadf7b73649ed"
+     },
+     {
+      "index": 159,
+      "x_px": 2555,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c8fbda0e67d705dd7bfae8e57c527a4b",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "785e8ad97eda2bba2c6e3efd126a2d63"
+     },
+     {
+      "index": 160,
+      "x_px": 2044,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "139da1164cc6ebdbf15176bc052aa736",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "097eabe3be3523268ffb5dffaecfd39e"
+     },
+     {
+      "index": 161,
+      "x_px": 1533,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "3f5afc4ec145213952277596ebfbe0ca",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "b54820939234a9485dd27b7ebcaa8922"
+     },
+     {
+      "index": 162,
+      "x_px": 1022,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "bd7e6e3626a2edb7b66056399e4aa88e",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "f2cb5130fc9ce1659a5641eb5201a464"
+     },
+     {
+      "index": 163,
+      "x_px": 511,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "c658477d304a475d2f2ba01af29b22b7",
+      "visible": [
+       1,
+       0,
+       511,
+       512
+      ],
+      "xxh3_visible": "b8f605db7a62bb178eef59de5686296d"
+     },
+     {
+      "index": 164,
+      "x_px": 0,
+      "y_px": 0,
+      "fully_visible": true,
+      "xxh3_c0z0t0": "137d25ed76debd0df11da8b66a3bbd43",
+      "visible": [
+       0,
+       0,
+       512,
+       512
+      ],
+      "xxh3_visible": "137d25ed76debd0df11da8b66a3bbd43"
+     }
+    ]
+   }
+  }
+ ]
+}

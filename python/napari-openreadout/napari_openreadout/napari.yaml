@@ -1,0 +1,44 @@
+name: napari-openreadout
+display_name: OpenReadout
+visibility: public
+categories: ["IO"]
+contributions:
+  commands:
+    - id: napari-openreadout.get_reader
+      python_name: napari_openreadout._reader:get_reader
+      title: Open a microscopy file with OpenReadout
+  readers:
+    - command: napari-openreadout.get_reader
+      accepts_directories: true
+      filename_patterns:
+        - "*.czi"
+        - "*.nd2"
+        - "*.lif"
+        - "*.lof"
+        - "*.xlef"
+        - "*.oir"
+        - "*.vsi"
+        - "*.ets"
+        - "*.zvi"
+        - "*.oib"
+        - "*.oif"
+        - "*.dcimg"
+        - "*.tif"
+        - "*.tiff"
+        - "*.ome.tif"
+        - "*.ome.tiff"
+        - "*.btf"
+        - "*.svs"
+        - "*.ndpi"
+        - "*.qptiff"
+        - "*.lsm"
+        - "*.stk"
+        - "*.nd"
+        - "*.ims"
+        - "*.zarr"
+        - "*.mrc"
+        - "*.map"
+        - "*.dm3"
+        - "*.dm4"
+        - "*.ser"
+        - "*.emd"

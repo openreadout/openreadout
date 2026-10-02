@@ -1,0 +1,39 @@
+{
+ "id": "rsciio-dm-fei-haadf-de-location-dm3",
+ "file": "rsciio-dm-fei-haadf-de-location-dm3.dm3",
+ "size": 50570,
+ "sha256": "7a35359858a07501e993c696ab6ab4ff6222c89be36754d1b6fd542e6a8fcd8c",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "Fei HAADF-DE_location",
+   "size_x": 16,
+   "size_y": 4,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 10,
+   "physical_size_um": {
+    "x": 0.005506073124706745,
+    "y": 0.005506073124706745,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "177d786ca7e07349e5adfe20eef5c1f3"
+    }
+   ],
+   "pixel_type": "uint16"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

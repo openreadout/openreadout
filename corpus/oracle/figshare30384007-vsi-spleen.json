@@ -1,0 +1,122 @@
+{
+ "id": "figshare30384007-vsi-spleen",
+ "file": "MBF_EXP_spleen_prussian_717.vsi",
+ "size": 305273,
+ "sha256": "a613405d461a5a8c4039cd67f9956150be5ec5a7d76cbc56d8fef192108e08d3",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "BF",
+   "size_x": 8630,
+   "size_y": 6411,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.3492063492063493,
+    "y": 0.3492063492063493
+   },
+   "channel_names": [
+    "BF"
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2023-11-17T12:13:23",
+   "resolutions": 6,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5f3a2427d43a3fd4f44588a960ccc692"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 4315,
+     "size_y": 3206,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "79a404d0be53642f4e05d4d9f1fce76c"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 2158,
+     "size_y": 1603,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "e9b6db473076ecc4e59eda4fe3464b78"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 1079,
+     "size_y": 802,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "27c1b32778fc97258569204eff6cccb7"
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 270,
+     "size_y": 201,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "2188df320bfda4cf36254c501293855c"
+      }
+     ]
+    }
+   ],
+   "level_sizes": [
+    [
+     8630,
+     6411
+    ],
+    [
+     4315,
+     3206
+    ],
+    [
+     2158,
+     1603
+    ],
+    [
+     1079,
+     802
+    ],
+    [
+     540,
+     401
+    ],
+    [
+     270,
+     201
+    ]
+   ],
+   "bf_wrong": "the tile-grid offset (-42 px) is divided by 16 rounding toward zero (-2); the nearest pixel (-3) matches the block-averaged level 0 better"
+  }
+ ]
+}

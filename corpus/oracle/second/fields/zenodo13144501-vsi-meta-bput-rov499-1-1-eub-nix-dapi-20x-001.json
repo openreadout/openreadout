@@ -1,0 +1,31 @@
+{
+ "id": "zenodo13144501-vsi-meta-bput-rov499-1-1-eub-nix-dapi-20x-001",
+ "file": "vsi-survey/zenodo13144501/Bput_ROV499-1-1_EUB_NIX_DAPI_20X_001.vsi",
+ "format": "vsi",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 512,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 207,
+   "cmp": "exact"
+  }
+ ]
+}

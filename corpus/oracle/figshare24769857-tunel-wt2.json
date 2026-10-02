@@ -1,0 +1,43 @@
+{
+ "id": "figshare24769857-tunel-wt2",
+ "file": "figshare24769857-TUNEL_WT2-L-G_B.zvi",
+ "size": 5889024,
+ "sha256": "2339f28fad05d51341724846a8fb525c494e53d106f9ada6045ac1f0dfcf34d8",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "figshare24769857-TUNEL_WT2-L-G_B.zvi",
+   "size_x": 1388,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.2535403907277998,
+    "y": 0.2535403907277998
+   },
+   "channel_names": [
+    "GFP",
+    "DAPI"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "89c2b79a3497e188afca2405803ab998"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "70f08042f878bf854722a0b01f917798"
+    }
+   ]
+  }
+ ]
+}

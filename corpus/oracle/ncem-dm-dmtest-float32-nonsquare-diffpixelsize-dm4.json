@@ -1,0 +1,39 @@
+{
+ "id": "ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm4",
+ "file": "ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm4.dm4",
+ "size": 78026,
+ "sha256": "340533262146bfb4ce52b53a936a1f4cf10439abd849b8741f03cb8b7d600f6d",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "dmTest_float32_nonSquare_diffPixelSize",
+   "size_x": 128,
+   "size_y": 64,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.001,
+    "y": 0.0002,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2ed312c3faff1fc36b252b6b48a933ee"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

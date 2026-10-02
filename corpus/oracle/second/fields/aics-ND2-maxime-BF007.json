@@ -1,0 +1,45 @@
+{
+ "id": "aics-ND2-maxime-BF007",
+ "file": "aics-ND2-maxime-BF007.nd2",
+ "format": "nd2",
+ "family": "imaging",
+ "readers": [
+  "nd2 0.11.3 (BSD-3) text_info date",
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "text info date (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2017-07-19T13:44:22",
+   "cmp": "time_mod_zone",
+   "abs": 180.0
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 164,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 156,
+   "cmp": "exact",
+   "reader": 1
+  }
+ ]
+}

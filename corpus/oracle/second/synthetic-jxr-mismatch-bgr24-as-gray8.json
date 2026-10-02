@@ -1,0 +1,5 @@
+{
+ "id": "synthetic-jxr-mismatch-bgr24-as-gray8",
+ "file": "synthetic-jxr-mismatch-bgr24-as-gray8.czi",
+ "error": "RuntimeError: Unsupported pixel format: {6FDDC324-4E03-4BFE-B185-3D77768DC9D}"
+}

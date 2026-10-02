@@ -1,0 +1,227 @@
+{
+ "id": "ome-imaris-convallaria-3c-10t",
+ "file": "Convallaria_3C_10T_confocal.ims",
+ "size": 64193570,
+ "sha256": "cbc220098ceb864c3a3e73152abb52c8645debb648fa3f81755a12b6d48bb851",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 10,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 1.2059570312500014,
+    "y": 1.2059374999999999,
+    "z": null
+   },
+   "channel_names": [
+    "Red",
+    "Green",
+    "Blue"
+   ],
+   "filters": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "df475bd960e3b969b1245697a83011ec"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "8dd1156a9090698c4fd17b4dcfc5a488"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "ae7adfcf2737204a230dbe62b16077c0"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "522f0d187afcd60a78dffeb5c5d0f33a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "3fe0e88711407749621138c2392d013f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "b8d1994a3919441e80c985ea76d2642e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "cc6e3f52f12c3bc173e4710c8f0a7c06"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "0ae69eb71681d357b5493d0e7c9e0adb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "ec492247b54424fcf3288a5d9911773a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "e78d5fd36d152421ec96a8db3c7d6885"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0750472e4cd1436c938ae576f19348f6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "77bec4aa5997265ddbf2658e64d4dab5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "ad1b07ee6ec7e2f46a13392ef21c2502"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 3,
+     "xxh3": "887030c5521d7452adbb9b0c865a0112"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 4,
+     "xxh3": "41b377db6c94fd04b8ed0fa146306826"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 5,
+     "xxh3": "788d8bb663e902e41f304e000027e6ab"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 6,
+     "xxh3": "1e1caedbab85e7ec672230a71d2b5984"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 7,
+     "xxh3": "5d446f94906ddc66816f02559889ed17"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 8,
+     "xxh3": "65e467e594b16e02fe55d85d66fbf547"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 9,
+     "xxh3": "a98a98f9e5f2824d34aaa23325304973"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4dbe38f501d21bec4f81d8f039abaeb1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 1,
+     "xxh3": "d912ac1a1ad162e49ad9d8c667de4449"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 2,
+     "xxh3": "e978956d2a053921fe9da8c3f1fcfb96"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 3,
+     "xxh3": "580a4f0c74cedfbeec956f3f69560815"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 4,
+     "xxh3": "739ad00ef55807a24adc24df12d6092a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 5,
+     "xxh3": "203bb0f12f2d5618108ed1aa0fa0e0e5"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 6,
+     "xxh3": "113aa7e0cf6eaa0e5aab527b29e22977"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 7,
+     "xxh3": "707b00c836387cac18e4383263aee2f0"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 8,
+     "xxh3": "2381fc3e47799b98abb334f438ac4db9"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 9,
+     "xxh3": "da446cd8f3cc8a08322b9cb34a1a5149"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 1024,
+   "height": 1024,
+   "size_z": 1,
+   "size_t": 10,
+   "size_c": 3,
+   "pixel_type": "uint16",
+   "thumbnail": "false"
+  }
+ ]
+}

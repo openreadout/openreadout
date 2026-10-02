@@ -1,0 +1,70 @@
+{
+ "id": "ome-artificial-z-series-tiff",
+ "file": "ome-artificial-z-series.ome.tiff",
+ "size": 376529,
+ "sha256": "1c4d2d5d89ca4d985cb4172e7a7946641b21408c2a5b6c4094382d3757f6d10c",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 5,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "z-series.ome.tiff",
+   "kind": "ome",
+   "axes": "ZYX",
+   "shape": [
+    5,
+    167,
+    439
+   ],
+   "size_x": 439,
+   "size_y": 167,
+   "size_z": 5,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "int8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d3d30130fdf8ce54d4ab494ebf073002"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "94650b20d3894e6c24470f69c511d35a"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "af93ae1e934a154ebdd335ac81ed10e1"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "a1eb5610640fff19c40a56877bf218c7"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "551d1e2d11891ef4d58594f340047122"
+    }
+   ]
+  }
+ ]
+}

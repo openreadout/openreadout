@@ -1,0 +1,36 @@
+{
+ "id": "zenodo12592034-snap-093334-0023",
+ "file": "SNAP-093334-0023.zvi",
+ "size": 30113792,
+ "sha256": "80ebd9dd2fc4b6fe823d25ee1a2a7789e4a99c062efeb8a3c64b96952dec63ec",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "SNAP-093334-0023.zvi",
+   "size_x": 2584,
+   "size_y": 1936,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.10621348911311737,
+    "y": 0.10621348911311737
+   },
+   "channel_names": [
+    null
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "58c778a95e087a5511d07ef9049e0981"
+    }
+   ]
+  }
+ ]
+}

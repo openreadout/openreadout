@@ -1,0 +1,20 @@
+{
+ "id": "openslide-aperio-cmu-1-small-region",
+ "file": "openslide-aperio-CMU-1-Small-Region.svs",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2220,
+   "size_y": 2967,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "836763667002458220f45bb6790c8d20"
+    }
+   ]
+  }
+ ]
+}

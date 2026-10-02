@@ -1,0 +1,122 @@
+{
+ "id": "ngff04-bf2raw-collection",
+ "file": "ngff04-bf2raw-collection.zip",
+ "size": 10415,
+ "sha256": "24b313b856cdcf9bef34da279884c8ac4a3b2d159234fb023aeb7147c26751a2",
+ "max_planes_hashed": 64,
+ "reader": "zarr-python 3.4.0 (NGFF metadata interpreted in gen.py)",
+ "kind": "bioformats2raw",
+ "ngff_version": null,
+ "zarr_format": 2,
+ "labels": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "0",
+   "size_x": 32,
+   "size_y": 20,
+   "size_z": 2,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "axes": [
+    "t",
+    "c",
+    "z",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.325,
+    "y": 0.325,
+    "z": 1.0
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     32,
+     20
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9c2c83370a9d32d0b9b7fc74eadf9fce"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "dd6cd75ab716f94740f8bfcdf1bca4b8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b20af61a351e8325d29f472466d1441f"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "e93f50c43c39ede24613ad8630062666"
+    }
+   ],
+   "levels": []
+  },
+  {
+   "index": 1,
+   "name": "1",
+   "size_x": 16,
+   "size_y": 12,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 3,
+   "pixel_type": "uint8",
+   "axes": [
+    "t",
+    "c",
+    "z",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 1.3,
+    "y": 1.3,
+    "z": null
+   },
+   "time_increment_s": 30.0,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     16,
+     12
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "88b762c29b285cb473b425839f7d77c2"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "f9a64ea2b68ad61343dcb771af47da57"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "c809f1b19542f6974105ca85e4e19f01"
+    }
+   ],
+   "levels": []
+  }
+ ]
+}

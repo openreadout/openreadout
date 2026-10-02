@@ -1,0 +1,10 @@
+{
+ "id": "zenodo13144501-vsi-meta-bput-rov499-1-1-eub-nix-dapi-20x-001",
+ "file": "Bput_ROV499-1-1_EUB_NIX_DAPI_20X_001.vsi",
+ "size": 230351,
+ "sha256": "fe52b4f0fb29ab8d116bcb7789974505ea372817df20c7225682af629e6c793c",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [],
+ "independent": false
+}

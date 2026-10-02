@@ -1,0 +1,141 @@
+{
+ "generator": "flowkit 1.3.2 (flowutils 1.2.2)",
+ "gating": "zenodo14780093-20221214-wsp",
+ "format": "flowjo-wsp",
+ "samples": [
+  {
+   "fcs": "zenodo14780093-msc-kit-90-fcs",
+   "sample": "MSC kit_90.fcs",
+   "event_count": 11431,
+   "populations": [
+    {
+     "path": "/Lymphocytes",
+     "count": 6515,
+     "flowjo_count": 6472
+    },
+    {
+     "path": "/Lymphocytes/Single Cells",
+     "count": 4771,
+     "flowjo_count": 4732
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-APC-A+",
+     "count": 64,
+     "flowjo_count": 64
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-APC-A-",
+     "count": 4707,
+     "flowjo_count": 4668
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-APC-H7-A+",
+     "count": 23,
+     "flowjo_count": 22
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-APC-H7-A-",
+     "count": 4748,
+     "flowjo_count": 4710
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-DAPI-A+",
+     "count": 94,
+     "flowjo_count": 95
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-DAPI-A-",
+     "count": 4677,
+     "flowjo_count": 4637
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-FITC-A+",
+     "count": 3767,
+     "flowjo_count": 3758
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-FITC-A-",
+     "count": 1004,
+     "flowjo_count": 974
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-PE-A+",
+     "count": 53,
+     "flowjo_count": 54
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-PE-A-",
+     "count": 4718,
+     "flowjo_count": 4678
+    }
+   ]
+  },
+  {
+   "fcs": "zenodo14780093-msc-kit-nm-fcs",
+   "sample": "MSC kit_NM.fcs",
+   "event_count": 11799,
+   "populations": [
+    {
+     "path": "/Lymphocytes",
+     "count": 7032,
+     "flowjo_count": 6986
+    },
+    {
+     "path": "/Lymphocytes/Single Cells",
+     "count": 5111,
+     "flowjo_count": 5076
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-APC-A+",
+     "count": 93,
+     "flowjo_count": 93
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-APC-A-",
+     "count": 5018,
+     "flowjo_count": 4983
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-APC-H7-A+",
+     "count": 21,
+     "flowjo_count": 20
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-APC-H7-A-",
+     "count": 5090,
+     "flowjo_count": 5056
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-DAPI-A+",
+     "count": 80,
+     "flowjo_count": 82
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-DAPI-A-",
+     "count": 5031,
+     "flowjo_count": 4994
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-FITC-A+",
+     "count": 73,
+     "flowjo_count": 74
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-FITC-A-",
+     "count": 5038,
+     "flowjo_count": 5002
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-PE-A+",
+     "count": 52,
+     "flowjo_count": 53
+    },
+    {
+     "path": "/Lymphocytes/Single Cells/Comp-PE-A-",
+     "count": 5059,
+     "flowjo_count": 5023
+    }
+   ]
+  }
+ ]
+}

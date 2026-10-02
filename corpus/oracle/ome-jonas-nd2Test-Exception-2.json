@@ -1,0 +1,363 @@
+{
+ "id": "ome-jonas-nd2Test-Exception-2",
+ "file": "ome-jonas-nd2Test-Exception-2.nd2",
+ "size": 7665545,
+ "sha256": "2f7f8e0f06b1f398a24758bbaf14795f6a0f765421f0e03c85037737931cf947",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "2.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 696,
+   "size_y": 520,
+   "size_z": 31,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Z': 31, 'Y': 520, 'X': 696}",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": 1.0
+   },
+   "channel_names": [
+    "PSM_GFP"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "efbc703a74f871760184fb800889b83f"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "57969af717dc8f51ed37aff14ce98c2f"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "8de91c2d8f823ffc0dcd2f0a1c35e209"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "81a7fee94bb88ed3011f61d70938ed5c"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "68d49545b19d2f6920f7e2d7b575c6d7"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "dc7b9d65e3494dd83675cb8026c11675"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "45a720193def61426a7d9267cbbe4051"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "a67f04841387757585d06feb9525f881"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "7b01e54d35d376d02a3273741641986f"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "ba9d7dfa8e657f8689bf9551bc70fd4a"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "b201c41a32b3494d8cdc33322cda168a"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "60c9039b68846e9d961082124f856bd7"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "38dde77f4706d390bfea04fb27ee4337"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "13bad3354b2ce3fc7517cca1ee6f117c"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "438efca78f77ca4873f362ed1d21c493"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "673cbdc008a668cdcf8a615110b162ad"
+    },
+    {
+     "c": 0,
+     "z": 16,
+     "t": 0,
+     "xxh3": "85648ed41c03f087b087537e8ee8c528"
+    },
+    {
+     "c": 0,
+     "z": 17,
+     "t": 0,
+     "xxh3": "5fd64f70fcf0ef51ee46ab6e38a72bdf"
+    },
+    {
+     "c": 0,
+     "z": 18,
+     "t": 0,
+     "xxh3": "6d8d614c85326105b98503610310a3fd"
+    },
+    {
+     "c": 0,
+     "z": 19,
+     "t": 0,
+     "xxh3": "d60f62cfb331b9f8f296cfb28bd1bdd6"
+    },
+    {
+     "c": 0,
+     "z": 20,
+     "t": 0,
+     "xxh3": "6967c8fbf001c69f9fd5b8334f3e697f"
+    },
+    {
+     "c": 0,
+     "z": 21,
+     "t": 0,
+     "xxh3": "d7be15fffb46eded49664199e313e282"
+    },
+    {
+     "c": 0,
+     "z": 22,
+     "t": 0,
+     "xxh3": "9bb89b371e3cc281bd30f00fd139a290"
+    },
+    {
+     "c": 0,
+     "z": 23,
+     "t": 0,
+     "xxh3": "651452979a634f48691968bcd0811417"
+    },
+    {
+     "c": 0,
+     "z": 24,
+     "t": 0,
+     "xxh3": "098fa0b88c44ef5158926b9a193c3e58"
+    },
+    {
+     "c": 0,
+     "z": 25,
+     "t": 0,
+     "xxh3": "1588ba4db7d82d7d92a0a838ae3e500b"
+    },
+    {
+     "c": 0,
+     "z": 26,
+     "t": 0,
+     "xxh3": "c38c613bc583d1644ce76a96b51f69bc"
+    },
+    {
+     "c": 0,
+     "z": 27,
+     "t": 0,
+     "xxh3": "a9c4f58cae30beec6af9b4b68590c717"
+    },
+    {
+     "c": 0,
+     "z": 28,
+     "t": 0,
+     "xxh3": "120bb44296f5807767a70f1a760de3f6"
+    },
+    {
+     "c": 0,
+     "z": 29,
+     "t": 0,
+     "xxh3": "aaf26b60a8e661e90a887db7e8fb668c"
+    },
+    {
+     "c": 0,
+     "z": 30,
+     "t": 0,
+     "xxh3": "447818df2b028946fedbc790c16b8025"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "PSM_GFP",
+    "color": "#38FF00",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "camera"
+    ]
+   }
+  ],
+  "frame_count": 31,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 227.9739382788539,
+    "tags": {}
+   },
+   {
+    "index": 1,
+    "time_ms": 1636.3148672543466,
+    "tags": {}
+   },
+   {
+    "index": 3,
+    "time_ms": 4471.028387825936,
+    "tags": {}
+   },
+   {
+    "index": 4,
+    "time_ms": 5878.354936759919,
+    "tags": {}
+   },
+   {
+    "index": 5,
+    "time_ms": 7305.105516027659,
+    "tags": {}
+   },
+   {
+    "index": 7,
+    "time_ms": 10134.174770008773,
+    "tags": {}
+   },
+   {
+    "index": 8,
+    "time_ms": 11541.348070371896,
+    "tags": {}
+   },
+   {
+    "index": 9,
+    "time_ms": 12966.791691035032,
+    "tags": {}
+   },
+   {
+    "index": 10,
+    "time_ms": 14373.282963689417,
+    "tags": {}
+   },
+   {
+    "index": 12,
+    "time_ms": 17193.598905280232,
+    "tags": {}
+   },
+   {
+    "index": 13,
+    "time_ms": 18600.881827872247,
+    "tags": {}
+   },
+   {
+    "index": 14,
+    "time_ms": 20019.687766950577,
+    "tags": {}
+   },
+   {
+    "index": 16,
+    "time_ms": 22834.09178326279,
+    "tags": {}
+   },
+   {
+    "index": 17,
+    "time_ms": 24241.35045964271,
+    "tags": {}
+   },
+   {
+    "index": 18,
+    "time_ms": 25648.522346492857,
+    "tags": {}
+   },
+   {
+    "index": 20,
+    "time_ms": 28469.798831429332,
+    "tags": {}
+   },
+   {
+    "index": 21,
+    "time_ms": 29878.925813436508,
+    "tags": {}
+   },
+   {
+    "index": 22,
+    "time_ms": 31292.01631718874,
+    "tags": {}
+   },
+   {
+    "index": 23,
+    "time_ms": 32699.204868424687,
+    "tags": {}
+   },
+   {
+    "index": 25,
+    "time_ms": 35533.09383435547,
+    "tags": {}
+   },
+   {
+    "index": 26,
+    "time_ms": 36954.08100014925,
+    "tags": {}
+   },
+   {
+    "index": 27,
+    "time_ms": 38361.24061653018,
+    "tags": {}
+   },
+   {
+    "index": 29,
+    "time_ms": 41177.570904411376,
+    "tags": {}
+   },
+   {
+    "index": 30,
+    "time_ms": 42584.98898264021,
+    "tags": {}
+   }
+  ],
+  "acquired_at": "2008-04-02T19:22:06.430Z",
+  "acquired_at_unix_ms": 1207164126430
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(1) x Z(31)\r\nNumerical Aperture: 1.2\r\nRefractive Index: 1\r\n Name: PSM_GFP\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Emission Wavelength: 520 nm\r\nZ Stack Loop: 31\r\n- Step 1 \u00b5m"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=14, componentCount=1, heightPx=520, pixelDataType='unsigned', sequenceCount=31, widthBytes=1392, widthPx=696, compressionLevel=1.0, compressionType='lossless', tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

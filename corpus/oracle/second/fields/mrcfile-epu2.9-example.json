@@ -1,0 +1,31 @@
+{
+ "id": "mrcfile-epu2.9-example",
+ "file": "mrcfile-epu2.9-example.mrc",
+ "format": "mrc",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 4096,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 4096,
+   "cmp": "exact"
+  }
+ ]
+}

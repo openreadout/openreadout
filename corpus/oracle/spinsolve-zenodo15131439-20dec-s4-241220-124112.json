@@ -1,0 +1,65 @@
+{
+ "reader": "nmrglue 0.12 (parameters, header, 504 single-row data); numpy (501/503 layout)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "data.1d",
+   "sample_count": 4096,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "real",
+    "imag"
+   ],
+   "reader": "numpy (documented layout)",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4096,
+     "channels": [
+      {
+       "xxh3": "b492366fc63de38c57e0f9b2a01be14d",
+       "first": [
+        0.0,
+        -4.952441692352295,
+        -4.95189094543457,
+        -4.960474014282227,
+        -4.984699726104736,
+        -5.016646385192871,
+        -5.022218227386475,
+        -4.97183895111084
+       ]
+      },
+      {
+       "xxh3": "88688e6b04c0155c88a4f8f22c107c96",
+       "first": [
+        0.0,
+        -0.9923430681228638,
+        -0.9678269028663635,
+        -0.9431887865066528,
+        -0.883523166179657,
+        -0.9270234107971191,
+        -0.9131306409835815,
+        -0.8501561284065247
+       ]
+      }
+     ]
+    }
+   ],
+   "sample_rate_hz": 5000.0,
+   "parameters": {
+    "extra": {
+     "spectral_width_hz": 5000.0,
+     "reference_frequency_mhz": 43.45168,
+     "carrier_offset_hz": 205.0919204834745,
+     "nucleus": "1H",
+     "scans": 1,
+     "time_domain_size": 4096,
+     "pulse_program": "T1_mincodeSAVE",
+     "instrument": "C43",
+     "instrument_serial": "SPA712"
+    }
+   }
+  }
+ ]
+}

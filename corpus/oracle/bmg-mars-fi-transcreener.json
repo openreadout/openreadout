@@ -1,0 +1,24 @@
+{
+ "id": "bmg-mars-fi-transcreener",
+ "file": "bmg-mars-fi-transcreener.csv",
+ "size": 2396,
+ "sha256": "c093d559dcc4bc63d2e4a5a9f1e87f1663a6fc51938c37ed3abb90a081214029",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (BMG_MARS)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "fluorescence",
+    "wells": 302,
+    "values": 302,
+    "errors": 0,
+    "wavelengths": [
+     620.0
+    ],
+    "value_xxh3": "5cd90f93637ce9b6ee9cc07f9ee3deec"
+   }
+  ],
+  "header": {},
+  "documents": 302
+ }
+}

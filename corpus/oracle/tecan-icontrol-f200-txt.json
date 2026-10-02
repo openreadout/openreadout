@@ -1,0 +1,24 @@
+{
+ "id": "tecan-icontrol-f200-txt",
+ "file": "tecan-icontrol-f200-txt.txt",
+ "size": 2847,
+ "sha256": "ae1e9be45eccb55c9cad1d22a934cdce1468ba19d2afe9002ef285dc79514963",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py icontrol_summary (independent reader; allotropy has no i-control parser)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "fluorescence",
+    "wells": 96,
+    "values": 96,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "6e48ae41b19f3ebdbafd3fa3cbc04012"
+   }
+  ],
+  "header": {
+   "software_version": "1.9.17.0",
+   "model": "infinite 200Pro"
+  }
+ }
+}

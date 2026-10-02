@@ -1,0 +1,32 @@
+{
+ "id": "xrd-zenodo10891027-brml-eptachori",
+ "file": "xrd-zenodo10891027-brml-eptachori.brml",
+ "format": "bruker-brml",
+ "family": "bench",
+ "readers": [
+  "the .brml XML members, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "RawData TimeStampStarted",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-03-12T15:02:00.2168912+02:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "InstrumentDescription DeviceTypeDesc",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "Bruker AXS D8 with DAVINCI Diffractometer",
+   "cmp": "text"
+  }
+ ]
+}

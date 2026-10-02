@@ -1,0 +1,3 @@
+Afile	Row	Column	condition	donor
+run_001.fcs	A	1	treated	1
+run_002	H	12	control	2

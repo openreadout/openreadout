@@ -1,0 +1,104 @@
+{
+ "id": "ome-artificial-multi-channel-z-series-tiff",
+ "file": "ome-artificial-multi-channel-z-series.ome.tiff",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 439,
+   "size_y": 167,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "666bb4134059afc14383fb9f5c48c826"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "b7325863af141c248061f8379cc82c55"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "4a2ce2000c95aeb8e6b63bd7beb3663f"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "a5ed42c901fc627034f40ce7f32fc59c"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "960df76fa60a9bbf92d0279cdfb47083"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "28164486bbffcfaef11e576284c4ac08"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "138e92bec8b70b8bd6c987252316bbbf"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "f91c386507c4fa09e85390a0f3955645"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "19183b9fd40a313af0db3a4502d02717"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "7823c1e52d72febdebeeb5860b1e0323"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31d9ade3b318da7cbabf62a4ccbb287d"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "bc57abaedaeeb13e8a43113e15e1f1c0"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "5d421884b0f1e184ae65280bdceb1076"
+    },
+    {
+     "c": 2,
+     "z": 3,
+     "t": 0,
+     "xxh3": "3f242babb41b4ea6f5db71b9c8145437"
+    },
+    {
+     "c": 2,
+     "z": 4,
+     "t": 0,
+     "xxh3": "b279ab45ade0d4025069fb882e1a92d6"
+    }
+   ]
+  }
+ ]
+}

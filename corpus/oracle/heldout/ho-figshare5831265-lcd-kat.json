@@ -1,0 +1,50 @@
+{
+ "id": "ho-figshare5831265-lcd-kat",
+ "file": "2mM JN02 - 1.lcd",
+ "reader": "chromConverter 0.9.0 read_chroms(format_in='shimadzu_lcd') via Rscript (GPL-3.0, run as a black box)",
+ "chromatogram": {
+  "name": "PDA max plot",
+  "n": 565,
+  "xxh3": "0321c27dd6126a6a02dc63e4f5c81e1d",
+  "first": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "last_rt_min": 6.0,
+  "unit": "mAU"
+ },
+ "peak_table": [
+  {
+   "rt_min": 2.64,
+   "area": 47243407.5776,
+   "height": 3657649.7727491
+  },
+  {
+   "rt_min": 2.19305,
+   "area": 633336.2752,
+   "height": 55077.1437889096
+  },
+  {
+   "rt_min": 0.338866666666667,
+   "area": 25888.1376,
+   "height": 1136.20502582213
+  },
+  {
+   "rt_min": 4.68405,
+   "area": 12504.32,
+   "height": 878.424637681159
+  },
+  {
+   "rt_min": 3.52908333333333,
+   "area": 3703.10399999999,
+   "height": 604.304214634144
+  }
+ ],
+ "peak_count": 5
+}

@@ -1,0 +1,79 @@
+{
+ "generator": "flowkit 1.3.2 (flowutils 1.2.2)",
+ "gating": "flowkit-8c-quad",
+ "format": "flowjo-wsp",
+ "samples": [
+  {
+   "fcs": "flowkit-8c-e01",
+   "sample": "101_DEN084Y5_15_E01_008_clean.fcs",
+   "event_count": 290172,
+   "populations": [
+    {
+     "path": "/good cells",
+     "count": 180693,
+     "flowjo_count": 180693
+    },
+    {
+     "path": "/good cells/cd4+",
+     "count": 116865,
+     "flowjo_count": 116865
+    },
+    {
+     "path": "/good cells/cd4+/Q1: CD107a-, IL2+",
+     "count": 3317,
+     "flowjo_count": 3317
+    },
+    {
+     "path": "/good cells/cd4+/Q2: CD107a+, IL2+",
+     "count": 3704,
+     "flowjo_count": 3704
+    },
+    {
+     "path": "/good cells/cd4+/Q2: CD107a+, IL2+/some_child_gate",
+     "count": 558,
+     "flowjo_count": 558
+    },
+    {
+     "path": "/good cells/cd4+/Q3: CD107a+, IL2-",
+     "count": 2605,
+     "flowjo_count": 2605
+    },
+    {
+     "path": "/good cells/cd4+/Q4: CD107a-, IL2-",
+     "count": 107239,
+     "flowjo_count": 107239
+    },
+    {
+     "path": "/good cells/cd8+",
+     "count": 48231,
+     "flowjo_count": 48231
+    },
+    {
+     "path": "/good cells/cd8+/Q1: CD107a-, IL2+",
+     "count": 440,
+     "flowjo_count": 440
+    },
+    {
+     "path": "/good cells/cd8+/Q2: CD107a+, IL2+",
+     "count": 1385,
+     "flowjo_count": 1385
+    },
+    {
+     "path": "/good cells/cd8+/Q2: CD107a+, IL2+/some_child_gate",
+     "count": 299,
+     "flowjo_count": 299
+    },
+    {
+     "path": "/good cells/cd8+/Q3: CD107a+, IL2-",
+     "count": 883,
+     "flowjo_count": 883
+    },
+    {
+     "path": "/good cells/cd8+/Q4: CD107a-, IL2-",
+     "count": 45523,
+     "flowjo_count": 45523
+    }
+   ]
+  }
+ ]
+}

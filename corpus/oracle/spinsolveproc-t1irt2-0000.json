@@ -1,0 +1,51 @@
+{
+ "reader": "nmrglue 0.12 (parameters, header, 504 single-row data); numpy (501/503 layout)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "data.1d",
+   "sample_count": 2000,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "real",
+    "imag"
+   ],
+   "reader": "numpy (documented layout)",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2000,
+     "channels": [
+      {
+       "xxh3": "1603c2965503fba998a357e8429eb575",
+       "first": [
+        -13220.1259765625,
+        -13167.3125,
+        -13155.4541015625,
+        -13165.7822265625,
+        -13148.283203125,
+        -13152.7470703125,
+        -13142.7392578125,
+        -13127.8671875
+       ]
+      },
+      {
+       "xxh3": "19fe930dd3c0679ffe33a67c685415cb",
+       "first": [
+        585.5703125,
+        -796.4765625,
+        460.40966796875,
+        -571.91552734375,
+        573.4287109375,
+        -418.4111328125,
+        164.9541015625,
+        -281.05615234375
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,599 @@
+{
+ "case": "gen5-lum-normalised",
+ "about": "Gen5 screening plate: POSCON/NEGCON Well IDs read as positive/negative controls; percent effect vs Gen5's NormLum",
+ "input": {
+  "corpus": "gen5-lum-endpoint"
+ },
+ "request": {
+  "analysis": "wells",
+  "normalize": "controls"
+ },
+ "checks": [
+  {
+   "path": "layout.roles.positive",
+   "expect": 8,
+   "source": "Gen5 3.x embedded layout (Well ID POSCON / NEGCON)"
+  },
+  {
+   "path": "layout.roles.negative",
+   "expect": 8,
+   "source": "Gen5 3.x embedded layout (Well ID POSCON / NEGCON)"
+  },
+  {
+   "path": "wells[well=A1].percent_effect",
+   "expect": 99.846,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=A2].percent_effect",
+   "expect": 34.111,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=A3].percent_effect",
+   "expect": 38.678,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=A4].percent_effect",
+   "expect": 62.947,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=A5].percent_effect",
+   "expect": 31.918,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=A6].percent_effect",
+   "expect": 11.843,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=A7].percent_effect",
+   "expect": 30.02,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=A8].percent_effect",
+   "expect": 64.973,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=A9].percent_effect",
+   "expect": 92.372,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=A10].percent_effect",
+   "expect": 88.651,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=A11].percent_effect",
+   "expect": 105.684,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=A12].percent_effect",
+   "expect": -0.02,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B1].percent_effect",
+   "expect": 100.601,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B2].percent_effect",
+   "expect": 107.927,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B3].percent_effect",
+   "expect": 95.79,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B4].percent_effect",
+   "expect": 40.897,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B5].percent_effect",
+   "expect": 13.815,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B6].percent_effect",
+   "expect": 100.317,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B7].percent_effect",
+   "expect": 50.379,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B8].percent_effect",
+   "expect": 107.09,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B9].percent_effect",
+   "expect": 48.485,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B10].percent_effect",
+   "expect": 71.363,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B11].percent_effect",
+   "expect": 58.732,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=B12].percent_effect",
+   "expect": 0.015,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C1].percent_effect",
+   "expect": 100.187,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C2].percent_effect",
+   "expect": 80.85,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C3].percent_effect",
+   "expect": 63.605,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C4].percent_effect",
+   "expect": 69.679,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C5].percent_effect",
+   "expect": 44.758,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C6].percent_effect",
+   "expect": 6.758,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C7].percent_effect",
+   "expect": 84.76,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C8].percent_effect",
+   "expect": 84.485,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C9].percent_effect",
+   "expect": 94.694,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C10].percent_effect",
+   "expect": 76.824,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C11].percent_effect",
+   "expect": 87.142,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=C12].percent_effect",
+   "expect": -0.034,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D1].percent_effect",
+   "expect": 102.043,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D2].percent_effect",
+   "expect": 33.511,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D3].percent_effect",
+   "expect": 52.097,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D4].percent_effect",
+   "expect": 74.66,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D5].percent_effect",
+   "expect": 65.345,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D6].percent_effect",
+   "expect": 71.623,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D7].percent_effect",
+   "expect": 84.45,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D8].percent_effect",
+   "expect": 72.018,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D9].percent_effect",
+   "expect": 21.188,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D10].percent_effect",
+   "expect": 4.991,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D11].percent_effect",
+   "expect": 69.574,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=D12].percent_effect",
+   "expect": -0.012,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E1].percent_effect",
+   "expect": 0.036,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E2].percent_effect",
+   "expect": 91.005,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E3].percent_effect",
+   "expect": 31.543,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E4].percent_effect",
+   "expect": 27.945,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E5].percent_effect",
+   "expect": 34.78,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E6].percent_effect",
+   "expect": 80.16,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E7].percent_effect",
+   "expect": 65.537,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E8].percent_effect",
+   "expect": 35.296,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E9].percent_effect",
+   "expect": 38.976,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E10].percent_effect",
+   "expect": 53.697,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E11].percent_effect",
+   "expect": 22.296,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=E12].percent_effect",
+   "expect": 101.123,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F1].percent_effect",
+   "expect": 0.072,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F2].percent_effect",
+   "expect": 38.134,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F3].percent_effect",
+   "expect": 72.217,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F4].percent_effect",
+   "expect": 3.461,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F5].percent_effect",
+   "expect": 35.626,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F6].percent_effect",
+   "expect": 36.864,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F7].percent_effect",
+   "expect": 73.413,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F8].percent_effect",
+   "expect": 79.492,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F9].percent_effect",
+   "expect": 81.705,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F10].percent_effect",
+   "expect": 48.251,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F11].percent_effect",
+   "expect": 59.862,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=F12].percent_effect",
+   "expect": 99.83,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G1].percent_effect",
+   "expect": -0.027,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G2].percent_effect",
+   "expect": 102.797,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G3].percent_effect",
+   "expect": 21.567,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G4].percent_effect",
+   "expect": 47.577,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G5].percent_effect",
+   "expect": 67.452,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G6].percent_effect",
+   "expect": 61.007,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G7].percent_effect",
+   "expect": 79.338,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G8].percent_effect",
+   "expect": 33.038,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G9].percent_effect",
+   "expect": 52.321,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G10].percent_effect",
+   "expect": 91.311,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G11].percent_effect",
+   "expect": 48.985,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=G12].percent_effect",
+   "expect": 99.202,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H1].percent_effect",
+   "expect": -0.03,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H2].percent_effect",
+   "expect": 78.997,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H3].percent_effect",
+   "expect": 79.989,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H4].percent_effect",
+   "expect": 104.788,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H5].percent_effect",
+   "expect": 10.863,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H6].percent_effect",
+   "expect": 63.522,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H7].percent_effect",
+   "expect": 8.31,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H8].percent_effect",
+   "expect": 68.953,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H9].percent_effect",
+   "expect": 24.845,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H10].percent_effect",
+   "expect": 5.901,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H11].percent_effect",
+   "expect": 80.498,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  },
+  {
+   "path": "wells[well=H12].percent_effect",
+   "expect": 97.17,
+   "source": "Gen5 3.x NormLum (vendor-computed, 3 decimals in the file)",
+   "abs": 0.012
+  }
+ ]
+}

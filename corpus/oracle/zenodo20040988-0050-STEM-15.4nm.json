@@ -1,0 +1,36 @@
+{
+ "id": "zenodo20040988-0050-STEM-15.4nm",
+ "file": "zenodo20040988-0050-STEM-15.4nm.emd",
+ "size": 727830,
+ "sha256": "ac0654429d1be116a01decb3fe693da147efa9b7e33a47cc29fcac214759027b",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "ce115d36d9f84bc1b9dad1c72b357570",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 3.0044446608014167e-05,
+    "y": 3.0044446608014167e-05,
+    "z": null
+   },
+   "detector": "HAADF",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "02921d39d0cd9ade26aa05c74d4981e3"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"10\",\n    \"format\": \"Velox\"\n}\n"
+}

@@ -1,0 +1,45 @@
+{
+ "id": "gdal-bigtiff-two-strip-long8",
+ "file": "gdal-bigtiff-two-strip-long8.tif",
+ "size": 286,
+ "sha256": "e9a69b6b7f166f22da448afa019e33064c1fdffa70a5e3650dcb1430da5d8e30",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [
+  "bigtiff"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YX",
+   "shape": [
+    2,
+    1
+   ],
+   "size_x": 1,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9121fa323cd87220a9dffba0dc64898d"
+    }
+   ]
+  }
+ ]
+}

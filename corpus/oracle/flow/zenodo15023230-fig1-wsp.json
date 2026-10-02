@@ -1,0 +1,141 @@
+{
+ "generator": "flowkit 1.3.2 (flowutils 1.2.2)",
+ "gating": "zenodo15023230-fig1-wsp",
+ "format": "flowjo-wsp",
+ "samples": [
+  {
+   "fcs": "zenodo15023230-media-059-fcs",
+   "sample": "06042020_media_059.fcs",
+   "event_count": 348,
+   "populations": [
+    {
+     "path": "/Singlets",
+     "count": 71,
+     "flowjo_count": 72
+    },
+    {
+     "path": "/Singlets/Lymphocytes",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD4+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD4+/CFSE-",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD4+/CFSE- CD25+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD8+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD8+/CFSE-",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD8+/CFSE- CD25+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CFSE-",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CFSE- CD25+",
+     "count": 0,
+     "flowjo_count": 0
+    }
+   ]
+  },
+  {
+   "fcs": "zenodo15023230-combo-only-049-fcs",
+   "sample": "06042020_COMBO ONLY_049.fcs",
+   "event_count": 2336,
+   "populations": [
+    {
+     "path": "/Singlets",
+     "count": 1024,
+     "flowjo_count": 1035
+    },
+    {
+     "path": "/Singlets/Lymphocytes",
+     "count": 299,
+     "flowjo_count": 303
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE",
+     "count": 80,
+     "flowjo_count": 80
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD4+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD4+/CFSE-",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD4+/CFSE- CD25+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD8+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD8+/CFSE-",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CD8+/CFSE- CD25+",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CFSE-",
+     "count": 0,
+     "flowjo_count": 0
+    },
+    {
+     "path": "/Singlets/Lymphocytes/ALIVE/CD3+/CFSE- CD25+",
+     "count": 0,
+     "flowjo_count": 0
+    }
+   ]
+  }
+ ]
+}

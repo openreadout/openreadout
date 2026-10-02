@@ -1,0 +1,26 @@
+{
+ "id": "ome-tubhiswt-2d-tubhiswt-c1",
+ "file": "tubhiswt-2D/tubhiswt_C1.ome.tif",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b9923bd5f0df72d9665fde5875d7c13b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "925b55203d8b163229d18b27a54c050f"
+    }
+   ]
+  }
+ ]
+}

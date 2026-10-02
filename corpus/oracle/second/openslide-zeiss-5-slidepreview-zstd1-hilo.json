@@ -1,0 +1,20 @@
+{
+ "id": "openslide-zeiss-5-slidepreview-zstd1-hilo",
+ "file": "openslide-zeiss-5-slidepreview-zstd1-hilo.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1260,
+   "size_y": 615,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a5cd4e0c6ab5d6035b55e8d49d615253"
+    }
+   ]
+  }
+ ]
+}

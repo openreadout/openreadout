@@ -1,0 +1,343 @@
+{
+ "id": "pwiz-sciex-enolase",
+ "file": "Enolase_repeats_AQv1.4.2.wiff",
+ "size": 2801664,
+ "sha256": "c8bf5e3ce4dc323446aaa862d93afae5600db07a13c8846715fed13a3f390ea3",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 on the depositor's mzML (Enolase_repeats_AQv1.4.2.mzML)",
+ "paired_export": "Enolase_repeats_AQv1.4.2.mzML",
+ "export_software": [
+  [
+   "Analyst",
+   "unknown"
+  ],
+  [
+   "pwiz_Reader_ABI",
+   "3.0.22236"
+  ]
+ ],
+ "peak_picking_in_export": false,
+ "images": [],
+ "chromatograms": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "kind": "tic",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 4762,
+   "xxh3_time_min": "01d665f624695aa73a022d26fa318bc3",
+   "xxh3_intensity": "e46ae6957dc4eee4d8a17a23cbdaa1b0",
+   "sum_intensity": 53780.0,
+   "first_points": [
+    [
+     1.6666666851961054e-05,
+     20.0
+    ],
+    [
+     0.010533333756029606,
+     0.0
+    ],
+    [
+     0.021016666665673256,
+     10.0
+    ],
+    [
+     0.03153333440423012,
+     0.0
+    ],
+    [
+     0.04203333333134651,
+     20.0
+    ]
+   ],
+   "n_nonzero": 2651,
+   "xxh3_time_min_nonzero": "a52e0c2c429bd0025868c592fa1f584b",
+   "xxh3_intensity_nonzero": "d06ebce56940c69cb93917e509edff14"
+  },
+  {
+   "index": 1,
+   "id": "BPC",
+   "kind": "bpc",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 4762,
+   "xxh3_time_min": "01d665f624695aa73a022d26fa318bc3",
+   "xxh3_intensity": "d4c46b9e7dc971f295615726d25a6840",
+   "sum_intensity": 51380.0,
+   "first_points": [
+    [
+     1.6666666851961054e-05,
+     20.0
+    ],
+    [
+     0.010533333756029606,
+     0.0
+    ],
+    [
+     0.021016666665673256,
+     10.0
+    ],
+    [
+     0.03153333440423012,
+     0.0
+    ],
+    [
+     0.04203333333134651,
+     20.0
+    ]
+   ],
+   "n_nonzero": 2651,
+   "xxh3_time_min_nonzero": "a52e0c2c429bd0025868c592fa1f584b",
+   "xxh3_intensity_nonzero": "c109c7d8a0caea85131ece13ffd349f1"
+  },
+  {
+   "index": 2,
+   "id": "SRM SIC Q1=580.31 Q3=674.41 sample=1 period=1 experiment=1 transition=0 start=100 end=100 ce=30 name=580.3 / 674.4",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 580.31,
+   "product_mz": 674.41,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 30.0,
+   "n_points": 4707,
+   "xxh3_time_min": "afb23a77e959886c8ac8a9057c686549",
+   "xxh3_intensity": "f3d6b44ce5f6cbad9e22aee6c4fe406a",
+   "sum_intensity": 2160.0,
+   "first_points": [
+    [
+     0.5778166651725769,
+     10.0
+    ],
+    [
+     0.5883333086967468,
+     0.0
+    ],
+    [
+     0.5988333225250244,
+     0.0
+    ],
+    [
+     0.609333336353302,
+     0.0
+    ],
+    [
+     0.6198333501815796,
+     0.0
+    ]
+   ],
+   "n_nonzero": 169,
+   "xxh3_time_min_nonzero": "8eef2746919b6ff5330eea065878a635",
+   "xxh3_intensity_nonzero": "c354252de428a430c51e6a7aadb78777"
+  },
+  {
+   "index": 3,
+   "id": "SRM SIC Q1=643.86 Q3=561.37 sample=1 period=1 experiment=1 transition=1 start=100 end=100 ce=30 name=643.9 / 561.4",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 643.86,
+   "product_mz": 561.37,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 30.0,
+   "n_points": 4755,
+   "xxh3_time_min": "2d8bf55d0767fe71353888663f85346b",
+   "xxh3_intensity": "35854e88cbe746ed64233ff4a0c76551",
+   "sum_intensity": 49220.0,
+   "first_points": [
+    [
+     1.6666666851961054e-05,
+     20.0
+    ],
+    [
+     0.010533333756029606,
+     0.0
+    ],
+    [
+     0.021016666665673256,
+     10.0
+    ],
+    [
+     0.03153333440423012,
+     0.0
+    ],
+    [
+     0.04203333333134651,
+     20.0
+    ]
+   ],
+   "n_nonzero": 2507,
+   "xxh3_time_min_nonzero": "d0245d832d3b942aa50a0cc46faa961d",
+   "xxh3_intensity_nonzero": "e852db6ca5bd387cfc7a9eb54a1e7f54"
+  },
+  {
+   "index": 4,
+   "id": "SRM SIC Q1=644.86 Q3=834.53 sample=1 period=1 experiment=1 transition=2 start=100 end=100 ce=30 name=644.9 / 834.5",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 644.86,
+   "product_mz": 834.53,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 30.0,
+   "n_points": 4648,
+   "xxh3_time_min": "b887b6a6b60cb8d287c216668da2fabe",
+   "xxh3_intensity": "1fc5176970bfec4fcf18f7c708db948f",
+   "sum_intensity": 640.0,
+   "first_points": [
+    [
+     1.1976499557495117,
+     10.0
+    ],
+    [
+     1.208150029182434,
+     0.0
+    ],
+    [
+     1.218666672706604,
+     0.0
+    ],
+    [
+     1.2291666269302368,
+     0.0
+    ],
+    [
+     1.2396667003631592,
+     0.0
+    ]
+   ],
+   "n_nonzero": 53,
+   "xxh3_time_min_nonzero": "bbd18c8c0cd2f0daeb563afd282ff71e",
+   "xxh3_intensity_nonzero": "7acca043fb3b6bcfc29f1f603fc31eac"
+  },
+  {
+   "index": 5,
+   "id": "SRM SIC Q1=708.97 Q3=948.57 sample=1 period=1 experiment=1 transition=3 start=100 end=100 ce=30 name=709.0 / 948.6",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 708.97,
+   "product_mz": 948.57,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 30.0,
+   "n_points": 4350,
+   "xxh3_time_min": "79a80d36490ef068714c76a9aba06b2f",
+   "xxh3_intensity": "6d73ec311bd17e63646c07a1129acfe1",
+   "sum_intensity": 860.0,
+   "first_points": [
+    [
+     4.328350067138672,
+     10.0
+    ],
+    [
+     4.338850021362305,
+     0.0
+    ],
+    [
+     4.3493499755859375,
+     0.0
+    ],
+    [
+     4.35984992980957,
+     0.0
+    ],
+    [
+     4.37036657333374,
+     0.0
+    ]
+   ],
+   "n_nonzero": 65,
+   "xxh3_time_min_nonzero": "f9338dd66dbca3e24c9513e983020a43",
+   "xxh3_intensity_nonzero": "91b27701b75b833e4d40a0a2c866ce70"
+  },
+  {
+   "index": 6,
+   "id": "SRM SIC Q1=789.9 Q3=805.46 sample=1 period=1 experiment=1 transition=4 start=100 end=100 ce=30 name=789.9 / 805.5",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 789.9,
+   "product_mz": 805.46,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 30.0,
+   "n_points": 4607,
+   "xxh3_time_min": "38b8664542de35bf998653b3f90e4483",
+   "xxh3_intensity": "84ac3f59c307628c40efe51c50dc58df",
+   "sum_intensity": 660.0,
+   "first_points": [
+    [
+     1.6283832788467407,
+     10.0
+    ],
+    [
+     1.6389000415802002,
+     0.0
+    ],
+    [
+     1.649383306503296,
+     0.0
+    ],
+    [
+     1.6598999500274658,
+     0.0
+    ],
+    [
+     1.6704000234603882,
+     0.0
+    ]
+   ],
+   "n_nonzero": 52,
+   "xxh3_time_min_nonzero": "a4f98080253dab56bc46d527e0684674",
+   "xxh3_intensity_nonzero": "0e7a71c60baa40cef0e6bdaec06d9291"
+  },
+  {
+   "index": 7,
+   "id": "SRM SIC Q1=878.49 Q3=1172.71 sample=1 period=1 experiment=1 transition=5 start=100 end=100 ce=30 name=878.5 / 1172.7",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 878.49,
+   "product_mz": 1172.71,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": 30.0,
+   "n_points": 4682,
+   "xxh3_time_min": "2e0abe19a31e8e2c2b665736b1bc6bf9",
+   "xxh3_intensity": "6ab4f6521168875dbd891ea707698106",
+   "sum_intensity": 240.0,
+   "first_points": [
+    [
+     0.8404666781425476,
+     10.0
+    ],
+    [
+     0.8509666919708252,
+     0.0
+    ],
+    [
+     0.861466646194458,
+     0.0
+    ],
+    [
+     0.8719666600227356,
+     0.0
+    ],
+    [
+     0.8824833035469055,
+     0.0
+    ]
+   ],
+   "n_nonzero": 20,
+   "xxh3_time_min_nonzero": "2877dfd5e64783e91438eff7649b820a",
+   "xxh3_intensity_nonzero": "8d5a8fa778dae6e682f5ffb31379ce61"
+  }
+ ]
+}

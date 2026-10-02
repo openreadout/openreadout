@@ -1,0 +1,27 @@
+{
+ "id": "openslide-zeiss-5-cropped",
+ "file": "openslide-zeiss-5-cropped.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 20563,
+   "size_y": 20164,
+   "planes": [],
+   "skip": "larger than ORACLE_MAX_PIXELS"
+  },
+  {
+   "index": 1,
+   "size_x": 3899,
+   "size_y": 4676,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "06b65fcca614189545ec7d4ffd27b4d5"
+    }
+   ]
+  }
+ ]
+}

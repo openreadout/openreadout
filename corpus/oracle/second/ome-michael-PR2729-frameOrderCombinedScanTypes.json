@@ -1,0 +1,15 @@
+{
+ "id": "ome-michael-PR2729-frameOrderCombinedScanTypes",
+ "file": "ome-michael-PR2729-frameOrderCombinedScanTypes.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "TileScan_001",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "mosaic: readlif returns tiles"
+  }
+ ]
+}

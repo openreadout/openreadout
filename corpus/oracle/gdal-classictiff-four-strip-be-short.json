@@ -1,0 +1,43 @@
+{
+ "id": "gdal-classictiff-four-strip-be-short",
+ "file": "gdal-classictiff-four-strip-be-short.tif",
+ "size": 182,
+ "sha256": "ba799284e965a0835f25255d83265b13423ba27b6b1bc7e6769d8a8afac7ef3f",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YX",
+   "shape": [
+    4,
+    1
+   ],
+   "size_x": 1,
+   "size_y": 4,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f57b8b90f9d7b61aaf62089b8f3d7243"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,81 @@
+{
+ "id": "chromhandler-001f0101-d",
+ "file": "chromhandler-001F0101.D",
+ "size": 70128,
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) / Aston (BSD-3) for version 81",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FID1A"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 5.0,
+   "x_first_min": 0.0,
+   "x_last_min": 11.996666666666666,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3600,
+     "channels": [
+      {
+       "xxh3": "41b6b6da9669d9ed83b784ddbc299fe3",
+       "first": [
+        5.034895833333334,
+        5.012109375,
+        4.892838541666666,
+        4.882421875,
+        4.933723958333333,
+        5.069270833333333,
+        5.078645833333333,
+        5.05078125
+       ]
+      }
+     ]
+    }
+   ],
+   "oracle_note": "rainbow returns n+1 values for n time labels (the final 0x0000 word as a sample); the oracle keeps the first n"
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "TCD2B"
+   ],
+   "channel_units": [
+    "25 uV"
+   ],
+   "sample_rate_hz": 5.0,
+   "x_first_min": 0.0,
+   "x_last_min": 11.996666666666666,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3600,
+     "channels": [
+      {
+       "xxh3": "89eb048e2f7add546369daf6dc694eb5",
+       "first": [
+        22.526302083333334,
+        22.523177083333334,
+        22.511979166666666,
+        22.507421875,
+        22.504427083333333,
+        22.510416666666668,
+        22.513932291666666,
+        22.516276041666668
+       ]
+      }
+     ]
+    }
+   ],
+   "oracle_note": "rainbow returns n+1 values for n time labels (the final 0x0000 word as a sample); the oracle keeps the first n"
+  }
+ ]
+}

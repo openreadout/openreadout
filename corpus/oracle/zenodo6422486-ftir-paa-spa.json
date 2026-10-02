@@ -1,0 +1,109 @@
+{
+ "id": "zenodo6422486-ftir-paa-spa",
+ "file": "FTIR_PAA.SPA",
+ "size": 163904,
+ "sha256": "7aca4c687f50b36765deaf7d27ffaa9f281937d16157a52ccfac8b0ef8ff2d50",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 7468,
+   "x_first": 4000.188,
+   "x_last": 400.164,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7468,
+     "channels": [
+      {
+       "xxh3": "1b4346bd90c478c3ec15a8a460266168",
+       "first": [
+        97.77530670166016,
+        97.77224731445312,
+        97.76979064941406,
+        97.76834869384766,
+        97.76803588867188,
+        97.76885986328125,
+        97.77074432373047,
+        97.77348327636719
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 16,
+     "background_scans": 16,
+     "laser_wavenumber_cm1": 15798.259765625
+    }
+   },
+   "x_tolerance": 0.002
+  },
+  {
+   "index": 1,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 16384,
+   "x_first": 0.0,
+   "x_last": 16383.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "d543cd822ae711656f358b4004052b58",
+       "first": [
+        0.0022918700706213713,
+        0.002316670259460807,
+        0.0023344173096120358,
+        0.0024255516473203897,
+        0.0025304672308266163,
+        0.0023060033563524485,
+        0.0015322687104344368,
+        0.0001606376317795366
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 16384,
+   "x_first": 0.0,
+   "x_last": 16383.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "ea2ce32aab9327e261e02ebf95fcfe9c",
+       "first": [
+        0.0029383522924035788,
+        0.0030813298653811216,
+        0.0031325595919042826,
+        0.003183507127687335,
+        0.0031928597018122673,
+        0.0027611595578491688,
+        0.001729875453747809,
+        9.22764593269676e-05
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "acquisition_date": "2021-03-12 08:51:16-08:00"
+}

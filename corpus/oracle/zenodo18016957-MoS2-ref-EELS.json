@@ -1,0 +1,79 @@
+{
+ "id": "zenodo18016957-MoS2-ref-EELS",
+ "file": "zenodo18016957-MoS2-ref-EELS.dm3",
+ "size": 365646,
+ "sha256": "674e28af818bb5ed7e2770418196d22ecd060139c87844124022c0b9ed058a46",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "EELS ref EELS MOS2",
+   "size_x": 1249,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4925e1059e55d1ccbea790bf60932404"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "EELS ref EELS MOS2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "ppm_first": -0.22229113889178365,
+   "ppm_last": 6.44298386859456,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1249,
+     "channels": [
+      {
+       "xxh3": "7b74a8740f207a09adcd0a8ed0ee54f7",
+       "first": [
+        333137.9375,
+        361198.34375,
+        391011.25,
+        424609.6875,
+        463318.1875,
+        505441.15625,
+        554062.25,
+        611247.875
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}

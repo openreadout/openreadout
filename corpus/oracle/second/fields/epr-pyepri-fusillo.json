@@ -1,0 +1,21 @@
+{
+ "id": "epr-pyepri-fusillo",
+ "file": "epr-pyepri-fusillo.DSC",
+ "format": "bruker-bes3t",
+ "family": "bench",
+ "readers": [
+  "DeerLab deerload (MIT, vendored): the .DSC parameters"
+ ],
+ "checks": [
+  {
+   "field": "DATE TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2009-10-02T17:08:00",
+   "cmp": "time"
+  }
+ ]
+}

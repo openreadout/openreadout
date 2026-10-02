@@ -1,0 +1,112 @@
+{
+ "id": "pyteomics-tiny-pwiz",
+ "file": "pyteomics-tiny-pwiz.mzML",
+ "size": 25072,
+ "sha256": "711ac14b666f14817c208bd4d39b738e96ac827574c4639d8f8f6eebbfde9c83",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "tic",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 15,
+     "channels": [
+      {
+       "xxh3": "b36ecebeb5fa3f96275802bb82e19602",
+       "first": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        7.0
+       ]
+      },
+      {
+       "xxh3": "0567ecf3cdcae36ee972d8c4438fdd4d",
+       "first": [
+        15.0,
+        14.0,
+        13.0,
+        12.0,
+        11.0,
+        10.0,
+        9.0,
+        8.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "id": "sic",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "a0a7cd8792a48c71ab5802eff85f6d46",
+       "first": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        7.0
+       ]
+      },
+      {
+       "xxh3": "0dcfb5aa3976fc088670777c9465acbc",
+       "first": [
+        10.0,
+        9.0,
+        8.0,
+        7.0,
+        6.0,
+        5.0,
+        4.0,
+        3.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 4,
+  "by_index": true
+ ,
+  "scans": [
+{"index":0,"scan_number":19,"ms_level":1,"rt_s":353.43,"polarity":"positive","centroided":true,"filter":"+ c NSI Full ms [ 400.00-1800.00]","precursor_mz":null,"precursor_charge":null,"isolation_target_mz":null,"activation":null,"collision_energy":null,"total_ion_current":16675500.0,"n_peaks":15,"n_nonzero":15,"mz_bits":64,"xxh3_mz":"b36ecebeb5fa3f96275802bb82e19602","xxh3_intensity":"13336fa0c59d9f7eae8a10a54acb795b","xxh3_mz_nonzero":"b36ecebeb5fa3f96275802bb82e19602","xxh3_intensity_nonzero":"13336fa0c59d9f7eae8a10a54acb795b","sum_intensity":120.0,"mz_min":0.0,"mz_max":14.0,"first_peaks":[[0.0,15.0],[1.0,14.0],[2.0,13.0],[3.0,12.0],[4.0,11.0]],"first_nonzero_peaks":[[0.0,15.0],[1.0,14.0],[2.0,13.0],[3.0,12.0],[4.0,11.0]]},
+{"index":1,"scan_number":20,"ms_level":2,"rt_s":359.43,"polarity":"positive","centroided":false,"filter":"+ c d Full ms2  445.35@cid35.00 [ 110.00-905.00]","precursor_mz":445.34,"precursor_charge":2,"isolation_target_mz":445.3,"activation":["collision-induced dissociation"],"collision_energy":35.0,"total_ion_current":16675500.0,"n_peaks":10,"n_nonzero":10,"mz_bits":64,"xxh3_mz":"a3250b15b9c2fdbae53b39fe9f95f1e5","xxh3_intensity":"f0da30e5d1be5a057cae4fa2184e7d29","xxh3_mz_nonzero":"a3250b15b9c2fdbae53b39fe9f95f1e5","xxh3_intensity_nonzero":"f0da30e5d1be5a057cae4fa2184e7d29","sum_intensity":110.0,"mz_min":0.0,"mz_max":18.0,"first_peaks":[[0.0,20.0],[2.0,18.0],[4.0,16.0],[6.0,14.0],[8.0,12.0]],"first_nonzero_peaks":[[0.0,20.0],[2.0,18.0],[4.0,16.0],[6.0,14.0],[8.0,12.0]]},
+{"index":2,"scan_number":21,"ms_level":1,"rt_s":null,"polarity":"positive","centroided":true,"filter":null,"precursor_mz":null,"precursor_charge":null,"isolation_target_mz":null,"activation":null,"collision_energy":null,"total_ion_current":null,"n_peaks":0,"n_nonzero":0,"mz_bits":null,"xxh3_mz":"99aa06d3014798d86001c324468d497f","xxh3_intensity":"99aa06d3014798d86001c324468d497f","xxh3_mz_nonzero":"99aa06d3014798d86001c324468d497f","xxh3_intensity_nonzero":"99aa06d3014798d86001c324468d497f","sum_intensity":0.0,"mz_min":null,"mz_max":null,"first_peaks":[],"first_nonzero_peaks":[]},
+{"index":3,"scan_number":4,"ms_level":1,"rt_s":42.05,"polarity":"positive","centroided":true,"filter":"+ c MALDI Full ms [100.00-1000.00]","precursor_mz":null,"precursor_charge":null,"isolation_target_mz":null,"activation":null,"collision_energy":null,"total_ion_current":4200.0,"n_peaks":15,"n_nonzero":15,"mz_bits":64,"xxh3_mz":"b36ecebeb5fa3f96275802bb82e19602","xxh3_intensity":"13336fa0c59d9f7eae8a10a54acb795b","xxh3_mz_nonzero":"b36ecebeb5fa3f96275802bb82e19602","xxh3_intensity_nonzero":"13336fa0c59d9f7eae8a10a54acb795b","sum_intensity":120.0,"mz_min":0.0,"mz_max":14.0,"first_peaks":[[0.0,15.0],[1.0,14.0],[2.0,13.0],[3.0,12.0],[4.0,11.0]],"first_nonzero_peaks":[[0.0,15.0],[1.0,14.0],[2.0,13.0],[3.0,12.0],[4.0,11.0]]}
+ ]
+ }
+}

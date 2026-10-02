@@ -1,0 +1,52 @@
+{
+ "id": "dandi000059-ms10-170314",
+ "file": "dandi-nwb/dandi000059-sub-MS10_ses-Peter-MS10-170314-163038_desc-processed_behavior+ecephys.nwb",
+ "format": "nwb",
+ "family": "electrophysiology",
+ "readers": [
+  "pynwb 4.2.0 (BSD-3)"
+ ],
+ "checks": [
+  {
+   "field": "session start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2017-03-14T16:30:38-04:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "session description",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/comment",
+   "theirs": "Petersen et al. demonstrate that cooling of the medial septum slows theta oscillation and increases choice errors without affecting spatial features of pyramidal neurons. Cooling affects distance-time, but not distance-theta phase, compression. The findings reveal that cell assemblies are organized by theta phase and not by external (clock) time.",
+   "cmp": "text"
+  },
+  {
+   "field": "experimenter (all, joined)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "Peter Petersen",
+   "cmp": "text"
+  },
+  {
+   "field": "subject id",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "MS10",
+   "cmp": "text"
+  }
+ ]
+}

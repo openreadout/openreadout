@@ -1,0 +1,57 @@
+{
+ "id": "figshare30597152-lasx-d6-xlif",
+ "file": "D6 20X 1.1.xlif",
+ "size": 11145,
+ "sha256": "190da03b2385c2a894b8762e72b09d6e5c21d522a39d1613dafd7ede8b4e63a6",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "D6 20X 1.1",
+   "path": "D6 20X 1.1",
+   "size_x": 4000,
+   "size_y": 3000,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "YXS",
+   "shape": [
+    3000,
+    4000,
+    3
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.15500000000000003,
+    "y": 0.155,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "93b2995274bfa561275e7be4975a20cf"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "669ecd6163f153474c60cd105a6123a4"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "33606c2faaff7895cd8085e08569d038"
+    }
+   ]
+  }
+ ]
+}

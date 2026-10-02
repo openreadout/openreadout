@@ -1,0 +1,79 @@
+{
+ "id": "ho-zenodo12734440-dsfi3-rgb",
+ "file": "HE_002.nd2",
+ "size": 17850368,
+ "sha256": "d5d9b0b742cf8802ec26f32d405074020341c2384ae43807347fc707d3d542db",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2880,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "sizes": "{'Y': 2048, 'X': 2880, 'S': 3}",
+   "physical_size_um": {
+    "x": 0.6,
+    "y": 0.6,
+    "z": null
+   },
+   "channel_names": [
+    "Brightfield"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "88b3752b321a06de669cf24d11e7239c"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Brightfield",
+    "color": "#FFFFFF",
+    "excitation_nm": 420.0,
+    "emission_nm": 420.0,
+    "component_count": 3,
+    "modality": [
+     "brightfield",
+     "camera"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 4504348.867100716,
+    "tags": {
+     "Camera_ExposureTime1": 50.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 4484.3,
+     "Y": 3168.4,
+     "Z": 2773.125,
+     "Z1": 2773.125
+    }
+   }
+  ],
+  "acquired_at": "2024-07-12T16:01:09.510Z",
+  "acquired_at_unix_ms": 1720800069510
+ },
+ "text_info": {
+  "description": "Camera Name: Color Camera Nikon DS-Fi3\r\nNumerical Aperture: 0.13\r\nRefractive Index: 1\r\n Camera Settings: \r\nCamera Type: Nikon DS-Fi3\r\nBinning: 1.0x1.0\r\nExposure: 50 ms\r\nGain: 1.0x\r\nSharpness: Medium\r\nBrightness: 0.00\r\nHue: 0.00\r\nSaturation: 0.00\r\nWB Red: 0.88\r\nWB Blue: 6.33\r\nScene Mode: Neutral\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1 (ANALY)\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch On\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 3.0\r\n  LightPath: L100\r\n  Analyzer: Inserted\r\n  Condenser: 1 (A)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  Sutter Lambda SC, Shutter(DIA): Active\r\n  Sutter Lambda SC, Shutter(DIA) mode: Fast\r\n",
+  "capturing": "Color Camera Nikon DS-Fi3\r\n\r\nCamera Type: Nikon DS-Fi3\r\nBinning: 1.0x1.0\r\nExposure: 50 ms\r\nGain: 1.0x\r\nSharpness: Medium\r\nBrightness: 0.00\r\nHue: 0.00\r\nSaturation: 0.00\r\nWB Red: 0.88\r\nWB Blue: 6.33\r\nScene Mode: Neutral",
+  "date": "7/12/2024  11:01:09 AM",
+  "optics": "Plan Fluor 4x PhL DL"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=8, bitsPerComponentSignificant=8, componentCount=3, heightPx=2048, pixelDataType='unsigned', sequenceCount=1, widthBytes=8640, widthPx=2880, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

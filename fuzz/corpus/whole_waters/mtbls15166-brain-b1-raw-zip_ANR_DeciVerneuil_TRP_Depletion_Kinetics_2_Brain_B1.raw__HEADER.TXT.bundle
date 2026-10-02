@@ -1,0 +1,418 @@
+$$ Version: 01.00
+$$ Acquired Name: 240123_Dosage TRP_Cerveaux_B1
+$$ Acquired Date: 25-Jan-2023
+$$ Acquired Time: 13:06:48
+$$ Job Code: 240123_Dosage TRP_Cerveaux_Verneuil_Depletion_Kine
+$$ Task Code: 
+$$ User Name: 
+$$ Instrument: XEVO-TQXS#WBA0286
+$$ Conditions: 
+$$ Laboratory Name: 
+$$ Sample Description: 
+$$ Solvent Delay: 0.0000
+$$ Submitter: 
+$$ SampleID: 
+$$ Bottle Number: 2:A,8
+$$ Plate Desc: 01TL,YX,LN,1: 8,2:12,3: 90.0,4: 90.0,5:  0.0,6:  0.0,7:O,8:O,9:1280.0,10:860.0,11:113.0,12: 70.0,13:144.0,14:112.0
+$$ Cal MS1 Static: 6.076728341714712e-3,9.999231000880192e-1,-1.029934934537682e-7,1.264646791607382e-10,-1.824437372120029e-14,T0
+$$ Cal MS2 Static: 2.143502605923765e-1,9.999738381087399e-1,-3.372078496872686e-7,1.332896513097197e-10,-8.208231201290275e-16,T0
+$$ Associated Datafile: 
+$$ Cal MS1 Static Params: 72,2020,0.00,5.00,2.7,14.3,0.5,ESI Calibration TQ ResCal,STATMS1
+$$ Cal MS1 Dynamic Params: 2,2048,20.4600,0.00,2.7,14.3,0.5,ESI Calibration TQ ResCal,SCNMS1
+$$ Cal MS1 Fast Params: 2,2048,1.0230,0.00,2.7,14.3,0.5,ESI Calibration TQ ResCal,FASTMS1
+$$ Cal MS2 Static Params: 72,2020,0.00,5.00,2.9,13.9,1.0,ESI Calibration TQ ResCal,STATMS2
+$$ Cal MS2 Dynamic Params: 2,2048,20.4600,0.00,2.9,13.9,1.0,ESI Calibration TQ ResCal,SCNMS2
+$$ Cal MS2 Fast Params: 2,2048,0.2046,0.00,2.9,13.9,1.0,ESI Calibration TQ ResCal,FASTMS2
+$$ Cal Time: 15:29
+$$ Cal Date: 07/19/22
+$$ Analog Channel 1 Offset: 0.000
+$$ Analog Channel 2 Offset: 0.000
+$$ Analog Channel 3 Offset: 0.000
+$$ Analog Channel 4 Offset: 0.000
+$$ Mux Stream: 0
+$$ Cal Temperature: 0.0000000
+$$ Inlet Method: E:\Projet en cours\Dosage TRP 2023.pro\ACQUDB\TRYCAT_inlet55
+$$ Inlet Prerun Method: 
+$$ Inlet Postrun Method: 
+$$ Inlet Switch Method: 
+$$ HPLC Method: 
+$$ MS Method: E:\Projet en cours\Dosage TRP 2023.pro\ACQUDB\TRYCAT Cerveaux US.EXP
+$$ Tune Method: E:\Projet en cours\Dosage TRP 2023.pro\ACQUDB\Unispay_TRYCAT_2022.IPR
+$$ FractionLynx Method: 
+$$ Spare1: 
+$$ Spare2: 
+$$ Spare3: 
+$$ Spare4: 
+$$ Spare5: 
+$$ Reinjections: 0
+$$ PIC MRM Function:  
+$$ PIC Scan Function: 0,0
+$$ ScanWave Func List: 
+$$ Calibration File: C:\MassLynx\IntelliStart\Results\Unit Mass Resolution\Calibration_20220719.cal
+$$ Cal Function 1: 0.000000000000000e0,1.000000000000000e0,T0
+$$ Cal Function 2: 0.000000000000000e0,1.000000000000000e0,T0
+$$ Cal Function 3: 0.000000000000000e0,1.000000000000000e0,T0
+$$ Cal Function 4: 0.000000000000000e0,1.000000000000000e0,T0
+$$ Cal Function 5: 0.000000000000000e0,1.000000000000000e0,T0
+$$ Cal Function 6: 0.000000000000000e0,1.000000000000000e0,T0
+$$ Cal StdDev Function 1: 0.000000000000000e0
+$$ Cal StdDev Function 2: 0.000000000000000e0
+$$ Cal StdDev Function 3: 0.000000000000000e0
+$$ Cal StdDev Function 4: 0.000000000000000e0
+$$ Cal StdDev Function 5: 0.000000000000000e0
+$$ Cal StdDev Function 6: 0.000000000000000e0
+$$ Cal CoVar 1: 0.000000000000000e0,0.000000000000000e0,0.000000000000000e0
+$$ Cal CoVar 2: 0.000000000000000e0,0.000000000000000e0,0.000000000000000e0
+$$ Cal CoVar 3: 0.000000000000000e0,0.000000000000000e0,0.000000000000000e0
+$$ Cal CoVar 4: 0.000000000000000e0,0.000000000000000e0,0.000000000000000e0
+$$ Cal CoVar 5: 0.000000000000000e0,0.000000000000000e0,0.000000000000000e0
+$$ Cal CoVar 6: 0.000000000000000e0,0.000000000000000e0,0.000000000000000e0
+
+=====FUZZ-NEXT-FILE=====
+
+Parameters for E:\Projet en cours\Dosage TRP 2023.pro\ACQUDB\TRYCAT Cerveaux US.EXP
+
+Data Processing:
+SIR / MRM Chromatogram Spike Removal	ON
+SIR / MRM Smoothing		OFF
+Smoothing window size (scans)	3
+Number of smooths		2
+
+
+Prescan Statistics:
+Initial Average Intensity	3705.7360
+Initial Average Std Dev		4.0022
+Bunch Zero Level		235.6611
+Bunch Std Dev			33.8843
+Bunch Threshold			271.0743
+Spike Removal Std Dev		0.0000
+
+
+Method Events:
+Initial Stop Flow:	No Change
+Initial Switch 2:	No Change
+Initial Switch 3:	No Change
+Initial Switch 4:	No Change
+Initial Infusion:	No Change
+Initial Flow State:	Waste
+Initial Flow Rate:	5
+Initial Reservoir:	No Action
+API Probe Delay Temp:	20
+Initial Refill:		No Action
+Timed Events Enabled
+Event	Time(Sec)	Name		Action
+1	45.00		Flow State	LC
+2	516.00		Flow State	Waste
+
+
+Source Information:
+Type - UniSpray
+Status - Option Connector Disconnected
+
+ScanWave Optimisation File:
+ScanWave File is not loaded
+
+Ion Count Threshold:	40.0000
+Ion Count Threshold (adjusted for gain):	40.0000
+
+Instrument Parameters - Function 1:
+Parameter File - E:\Projet en cours\Dosage TRP 2023.pro\ACQUDB\Unispay_TRYCAT_2022.IPR
+Polarity	US+
+Calibration	Static 2
+Soft Ionization Mode Disabled
+Impactor (kV)	3.00	3.08
+Cone (V)	15.00	67.48
+Source Offset (V)	30.0
+Source Temperature (°C)	150	150
+Desolvation Temperature (°C)	600	600
+Cone Gas Flow (L/Hr)	250	251
+Desolvation Gas Flow (L/Hr)	1000	998
+Collision Gas Flow (mL/Min)	0.15	0.14
+Nebuliser Gas Flow (Bar)	7.00	6.81
+LM 1 Resolution	2.7
+HM 1 Resolution	14.3
+Ion Energy 1	1.5
+MS Mode Collision Energy	0.00
+MSMS Mode Collision Energy	0.00
+MS Mode Entrance	1.00
+MS Mode Exit	1.00
+Gas On MS Mode Entrance	1.00
+Gas On MS Mode Exit	1.00
+Gas On MSMS Mode Entrance	1.00
+Gas On MSMS Mode Exit	1.00
+Gas Off MS Mode Entrance	1.00
+Gas Off MS Mode Exit	1.00
+Gas Off MSMS Mode Entrance	30.00
+Gas Off MSMS Mode Exit	30.00
+ScanWave MS Mode Entrance	1.00
+ScanWave MS Mode Exit	1.00
+ScanWave MSMS Mode Entrance	1.00
+ScanWave MSMS Mode Exit	1.00
+LM 2 Resolution	2.9
+HM 2 Resolution	13.9
+Ion Energy 2	1.0
+Gain	1.00
+Multiplier	544.32
+Active Reservoir	Wash
+Cone Energy Ramp :Disabled
+Probe Temperature Ramp :Disabled
+Collision Energy Ramp :Disabled
+
+Instrument Parameters - Function 2:
+Parameter File - E:\Projet en cours\Dosage TRP 2023.pro\ACQUDB\Unispay_TRYCAT_2022.IPR
+Polarity	US+
+Calibration	Static 2
+Soft Ionization Mode Disabled
+Impactor (kV)	3.00	3.08
+Cone (V)	15.00	67.48
+Source Offset (V)	30.0
+Source Temperature (°C)	150	150
+Desolvation Temperature (°C)	600	600
+Cone Gas Flow (L/Hr)	250	251
+Desolvation Gas Flow (L/Hr)	1000	998
+Collision Gas Flow (mL/Min)	0.15	0.14
+Nebuliser Gas Flow (Bar)	7.00	6.81
+LM 1 Resolution	2.7
+HM 1 Resolution	14.3
+Ion Energy 1	1.5
+MS Mode Collision Energy	0.00
+MSMS Mode Collision Energy	0.00
+MS Mode Entrance	1.00
+MS Mode Exit	1.00
+Gas On MS Mode Entrance	1.00
+Gas On MS Mode Exit	1.00
+Gas On MSMS Mode Entrance	1.00
+Gas On MSMS Mode Exit	1.00
+Gas Off MS Mode Entrance	1.00
+Gas Off MS Mode Exit	1.00
+Gas Off MSMS Mode Entrance	30.00
+Gas Off MSMS Mode Exit	30.00
+ScanWave MS Mode Entrance	1.00
+ScanWave MS Mode Exit	1.00
+ScanWave MSMS Mode Entrance	1.00
+ScanWave MSMS Mode Exit	1.00
+LM 2 Resolution	2.9
+HM 2 Resolution	13.9
+Ion Energy 2	1.0
+Gain	1.00
+Multiplier	544.32
+Active Reservoir	Wash
+Cone Energy Ramp :Disabled
+Probe Temperature Ramp :Disabled
+Collision Energy Ramp :Disabled
+
+Instrument Parameters - Function 3:
+Parameter File - E:\Projet en cours\Dosage TRP 2023.pro\ACQUDB\Unispay_TRYCAT_2022.IPR
+Polarity	US+
+Calibration	Static 2
+Soft Ionization Mode Disabled
+Impactor (kV)	3.00	3.08
+Cone (V)	15.00	67.48
+Source Offset (V)	30.0
+Source Temperature (°C)	150	150
+Desolvation Temperature (°C)	600	600
+Cone Gas Flow (L/Hr)	250	251
+Desolvation Gas Flow (L/Hr)	1000	998
+Collision Gas Flow (mL/Min)	0.15	0.14
+Nebuliser Gas Flow (Bar)	7.00	6.81
+LM 1 Resolution	2.7
+HM 1 Resolution	14.3
+Ion Energy 1	1.5
+MS Mode Collision Energy	0.00
+MSMS Mode Collision Energy	0.00
+MS Mode Entrance	1.00
+MS Mode Exit	1.00
+Gas On MS Mode Entrance	1.00
+Gas On MS Mode Exit	1.00
+Gas On MSMS Mode Entrance	1.00
+Gas On MSMS Mode Exit	1.00
+Gas Off MS Mode Entrance	1.00
+Gas Off MS Mode Exit	1.00
+Gas Off MSMS Mode Entrance	30.00
+Gas Off MSMS Mode Exit	30.00
+ScanWave MS Mode Entrance	1.00
+ScanWave MS Mode Exit	1.00
+ScanWave MSMS Mode Entrance	1.00
+ScanWave MSMS Mode Exit	1.00
+LM 2 Resolution	2.9
+HM 2 Resolution	13.9
+Ion Energy 2	1.0
+Gain	1.00
+Multiplier	544.32
+Active Reservoir	Wash
+Cone Energy Ramp :Disabled
+Probe Temperature Ramp :Disabled
+Collision Energy Ramp :Disabled
+
+Instrument Parameters - Function 4:
+Parameter File - E:\Projet en cours\Dosage TRP 2023.pro\ACQUDB\Unispay_TRYCAT_2022.IPR
+Polarity	US-
+Calibration	Static 2
+Soft Ionization Mode Disabled
+Impactor (kV)	3.00	3.08
+Cone (V)	2.00	67.48
+Source Offset (V)	30.0
+Source Temperature (°C)	150	150
+Desolvation Temperature (°C)	600	600
+Cone Gas Flow (L/Hr)	250	251
+Desolvation Gas Flow (L/Hr)	1000	998
+Collision Gas Flow (mL/Min)	0.15	0.14
+Nebuliser Gas Flow (Bar)	7.00	6.81
+LM 1 Resolution	2.6
+HM 1 Resolution	14.1
+Ion Energy 1	1.5
+MS Mode Collision Energy	4.00
+MSMS Mode Collision Energy	0.00
+MS Mode Entrance	1.00
+MS Mode Exit	1.00
+Gas On MS Mode Entrance	1.00
+Gas On MS Mode Exit	1.00
+Gas On MSMS Mode Entrance	1.00
+Gas On MSMS Mode Exit	1.00
+Gas Off MS Mode Entrance	30.00
+Gas Off MS Mode Exit	30.00
+Gas Off MSMS Mode Entrance	30.00
+Gas Off MSMS Mode Exit	30.00
+ScanWave MS Mode Entrance	1.00
+ScanWave MS Mode Exit	1.00
+ScanWave MSMS Mode Entrance	1.00
+ScanWave MSMS Mode Exit	1.00
+LM 2 Resolution	2.9
+HM 2 Resolution	13.8
+Ion Energy 2	1.0
+Gain	1.00
+Multiplier	544.32
+Active Reservoir	Wash
+Cone Energy Ramp :Disabled
+Probe Temperature Ramp :Disabled
+Collision Energy Ramp :Disabled
+
+Instrument Parameters - Function 5:
+Parameter File - E:\Projet en cours\Dosage TRP 2023.pro\ACQUDB\Unispay_TRYCAT_2022.IPR
+Polarity	US-
+Calibration	Static 2
+Soft Ionization Mode Disabled
+Impactor (kV)	3.00	3.08
+Cone (V)	2.00	67.48
+Source Offset (V)	30.0
+Source Temperature (°C)	150	150
+Desolvation Temperature (°C)	600	600
+Cone Gas Flow (L/Hr)	250	251
+Desolvation Gas Flow (L/Hr)	1000	998
+Collision Gas Flow (mL/Min)	0.15	0.14
+Nebuliser Gas Flow (Bar)	7.00	6.81
+LM 1 Resolution	2.6
+HM 1 Resolution	14.1
+Ion Energy 1	1.5
+MS Mode Collision Energy	4.00
+MSMS Mode Collision Energy	0.00
+MS Mode Entrance	1.00
+MS Mode Exit	1.00
+Gas On MS Mode Entrance	1.00
+Gas On MS Mode Exit	1.00
+Gas On MSMS Mode Entrance	1.00
+Gas On MSMS Mode Exit	1.00
+Gas Off MS Mode Entrance	30.00
+Gas Off MS Mode Exit	30.00
+Gas Off MSMS Mode Entrance	30.00
+Gas Off MSMS Mode Exit	30.00
+ScanWave MS Mode Entrance	1.00
+ScanWave MS Mode Exit	1.00
+ScanWave MSMS Mode Entrance	1.00
+ScanWave MSMS Mode Exit	1.00
+LM 2 Resolution	2.9
+HM 2 Resolution	13.8
+Ion Energy 2	1.0
+Gain	1.00
+Multiplier	544.32
+Active Reservoir	Wash
+Cone Energy Ramp :Disabled
+Probe Temperature Ramp :Disabled
+Collision Energy Ramp :Disabled
+
+Instrument Parameters - Function 6:
+Parameter File - E:\Projet en cours\Dosage TRP 2023.pro\ACQUDB\Unispay_TRYCAT_2022.IPR
+Polarity	US-
+Calibration	Static 2
+Soft Ionization Mode Disabled
+Impactor (kV)	3.00	3.08
+Cone (V)	2.00	67.48
+Source Offset (V)	30.0
+Source Temperature (°C)	150	150
+Desolvation Temperature (°C)	600	600
+Cone Gas Flow (L/Hr)	250	251
+Desolvation Gas Flow (L/Hr)	1000	998
+Collision Gas Flow (mL/Min)	0.15	0.14
+Nebuliser Gas Flow (Bar)	7.00	6.81
+LM 1 Resolution	2.6
+HM 1 Resolution	14.1
+Ion Energy 1	1.5
+MS Mode Collision Energy	4.00
+MSMS Mode Collision Energy	0.00
+MS Mode Entrance	1.00
+MS Mode Exit	1.00
+Gas On MS Mode Entrance	1.00
+Gas On MS Mode Exit	1.00
+Gas On MSMS Mode Entrance	1.00
+Gas On MSMS Mode Exit	1.00
+Gas Off MS Mode Entrance	30.00
+Gas Off MS Mode Exit	30.00
+Gas Off MSMS Mode Entrance	30.00
+Gas Off MSMS Mode Exit	30.00
+ScanWave MS Mode Entrance	1.00
+ScanWave MS Mode Exit	1.00
+ScanWave MSMS Mode Entrance	1.00
+ScanWave MSMS Mode Exit	1.00
+LM 2 Resolution	2.9
+HM 2 Resolut
+=====FUZZ-NEXT-FILE=====
+É,B`%?¦›D;  @?š™i@    <š™™>¦›D;)\=)\=)\=)\=)\=)\=)\=)\=)\=)\=)\=)\=)\=)\=)\=)\=)\=                                                            33øB33úB33C33!C  %Cš1Cš5CšMCšQCšRCšUCš]CšaC33aC33aCšdCšdC                                                            ffLB{BšCšC  C33 C  $Cš<C33¼BšAC  ÄBš"Cš%C33ÜBšPC33ÜBšRC                                                            É,Ï÷Ó>¦›D;ÍÌÌ@š™	A    š™™>¦›D;+‡=+‡=+‡=+‡=+‡=+‡=                                                                                                        šC33"Cš0C  4C33iC  mC                                                                                                        33ìB33CšC  Cš.C  2C                                                                                                        É,Ûù?¦›D;ffF@ffÖ@    	š™™>¦›D;+‡=+‡=+‡=+‡=+‡=+‡=+‡=+‡=+‡=                                                                                            š/C  4Cš>C33@C  CC  ECšNC  RC33[C                                                                                            šC  CšC  C  C  Cš CšC33 C                                                                                            é,ã¥>¦›D;  @?š™i@    š™™>¦›D;)\=)\=)\=)\=                                                                                                                š&C  )CšKCšPC                                                                                                                  œB  úB33èB33òB                                                                                                                é,ßO=¦›D;ÍÌÌ@š™	A    š™™>¦›D;+‡=                                                                                                                              LC                                                                                                                            š:C                                                                                                                            é,ßO>¦›D;ffF@ffÖ@    
+š™™>¦›D;+‡=+‡=                                                                                                                        fæSC  ZC                                                                                                                           B   B                                                                                                                        
+=====FUZZ-NEXT-FILE=====
+      ÆP1H¢ÙB?1DA  ĞD     ÛãIffF?ÌoB  Ğˆ     ‹OmJòI?Y#  €Ì     ª<˜J×~M?‹p#  €    ±s¡J›Q?''$  €T    áŠJ_˜T?($  €˜    L
+ˆJ#%X?+$  €Ü    1ĞJĞ°[?«0$  €     YD„J”=_?×-$  €d    3¡|JXÊb?n)$  €¨    ,ç…JWf?Â,$  €ì    ìˆJàãi?Í-$  €0    'ÿŒJ¤pm?i0$  €t    ŒËJPüp?)M$  €¸    È,ÎK‰t?Ò\%  €ü    ¹°ğKØx?0m%  €@    Lè§Kœ¢{?J%  €„    räiKa/?Î2%  €È    yx9K†]? '%  €    X(Ké#ƒ?ğ}$  €P    ü_ëJKê„?—\$  €”    äWàJ­°†?X$  €Ø    0%Kwˆ?™U$  €    7ô˜Kq=Š?†P$  €`    pÈKGŒ?M$  €¤    ÕbEK©É?J$  €è    :BK?ˆI$  €,    eÓJmV‘?4D$  €p    İ9ÀJÏ“?šA$  €´    0şºJ¥â”?º@$  €ø    ÊµJ©–??$  €<    ÷ã§Jio˜?9$  €€    ™$¯JË5š?İ<$  €Ä    q€°J-ü›?>$  €	     p­JÂ?P<$  €L	    k¤JfˆŸ?`8$  €	    s­JÈN¡?ú9$  €Ô	    9™3K*£?AC4  à
+    ŸqKŒÛ¤?¨M4  à\
+    õúmKî¡¦?X4  à 
+    %&KPh¨?26$  €ä
+    W0ÚJ&.ª?ò5$  €(    <y»Jˆô«?²5$  €l    Ò±Jêº­?š6$  €°    ÙÕ­JL¯?·6$  €ô    ät«J®G±?G7$  €8    P~¥J„³?x4$  €|    :š¤JæÓ´?5$  €À    ­cJHš¶?.3$  €    À´Jª`¸?ö2$  €H    yv¢J'º?E5$  €Œ    [åJní»?ï2$  €Ğ    üû÷JE³½?×3$  €    òL§y¿?y;F  ĞX     M	@Á?ŠXF  Ğœ    ¢ËLkÃ?'F  Ğà    U)LÍÌÄ?]E  À$    0»K£’Æ?=wD  Àh    Å!KYÈ?š1$  €¬    •SÿJgÊ?83$  €ğ    (*ŞJÉåË?È1$  €4    y-ÏJ+¬Í?63$  €x    ¨*¿JrÏ?î1$  €¼    :D·Jc8Ñ?¸1$  €      ±JÅşÒ?Ü1$  €D    ë¬­J'ÅÔ?±2$  €ˆ    Ü¤J‰‹Ö?B0$  €Ì    '¦JìQØ?0$  €    uÖşJÂÚ?A2$  €T    TĞ'K$ŞÛ?$RD  °˜    G–‹K†¤İ?N$E  Ü    )<ÙKèjß?kRE       §KÒKJ1á?ëRE  d    ?™K¬÷â?©8E  ¨    ·pCK‚½ä?‹tD  ì    ¼«úJäƒæ?:1$  €0    …ğÄJFJè?"0$  €t    E¯J¨ê?
+/$  €¸    óR¨J
+×ë?(.$  €ü    k×¥Jàœí?0$  €@    ²ªJBcï?3$  €„    '¦J¥)ñ?3$  €È    ¦¤Jğò? 2$  €    [ş£Ji¶ô?–3$  €P    ÿŸJË|ö?Ì0$  €”    ­J¡Bø?!0$  €Ø    "šJ	ú?ß/$  €    è§JeÏû?>0$  €`    ı¶˜JÇ•ı?–.$  €¤    Îñ•J)\ÿ?W.$  €è    +)”JE‘ @i-$  €,    ÓxšJ1t@Ü/$  €p    Z`§JbW@/0$  €´    ÙŸ+K“:@‚i$  Àø    ÇÜLÄ@kw%  À<    ÚjLõ @]6&  À€    ¬†KLàã@©.&  ÀÄ    ×æKÇ@Rb%  À    ÒoqKBª@`+%  ÀL    «Ks@›R$  À    @cŞJ¤p	@¡.$  ÀÔ    p‰ÁJÕS
+@ş,$  €    @±JÀ6@.$  €\    ‚§Jñ@,-$  €     + J"ı@ñ,$  €ä    ê:™JSà@Ü+$  €(    mb—J„Ã@­+$  €l    Ù•Jo¦@*$  €°    k–J ‰@x+$  €ô    ·ÊšJÑl@½-$  €8    U3–JP@-$  €|    ¶•J33@-$  €À    ş\—Jd@¼-$  €    µ•JOù@ø-$  €H    •nJ€Ü@m+$  €Œ    é”J±¿@¬-$  €Ğ    œJâ¢@*,$  €    ôJ†@ü+$  €X    ÊSJşh@-$  €œ    îŠJ0L@*$  €à    rŸJa/@,$  €$     Æì’J’@€.$  €h     >÷JÃõ@Ã-$  €¬     ï£JôØ@h-$  €ğ     ÍŠJß»@Í*$  €4!    ålJŸ@\-$  €x!    {˜„JA‚ @($  €¼!    ¤ …Jre!@Ò($  € "    <hJ£H"@,$  €D"    rC‰JÔ+#@°*$  €ˆ"    v*‰J¿$@#*$  €Ì"    ?¸†Jğñ$@–)$  €#    ¾Ì‰J!Õ%@À*$  €T#    ¡÷ƒJR¸&@R($  €˜#    ˜¨ˆJƒ›'@7*$  €Ü#    Ë‡Jn~(@6*$  € $    ò×‰JŸa)@<+$  €d$    †¾…JĞD*@Y)$  €¨$    UÄˆJ(+@Õ*$  €ì$    Œ€J2,@='$  €0%    Ì‹†Jcî,@­)$  €t%    ½Ø…JNÑ-@b)$  €¸%    -½€J´.@¼&$  €ü%    D`‡J°—/@*$  €@&    Ræ…Jáz0@±)$  €„&    0w„J^1@×($  €È&    1†Jı@2@Ï'$  €'    X‡J.$3@*$  €P'    “™J_4@¾)$  €”'    ÇwKê4@b\4   Ø'    È»¦KÁÍ5@ŞB5   (    œµKò°6@‰I5   `(    »ÓoKŞ“7@ƒ(5   ¤(    cY!Kw8@´D4   è(    TúğJ@Z9@Q&$  €,)    nsÃJq=:@¨($  €p)    Õ©§J¢ ;@($  €´)    èŠJ<@~'$  €ø)    ¡t™J¾æ<@B)$  €<*    Gê“JïÉ=@Ô($  €€*    -U‘J ­>@($  €Ä*    <TJQ?@($  €+    ÓÍˆJ‚s@@Ä&$  €L+     ‹JmVA@ò'$  €+    ÃÃŒJ9B@«($  €Ô+    îJÏC@ë($  €,    IÀJ  D@O)$  €\,    YÙšJ1ãD@4'$  € ,    µ¸KÆE@i7D  ä,    S@“KM©F@í2E  (-    pLjKÀ[H@V"E  l-    øxªK3J@V1E  €°-    ÕªtK`ÀK@7)E  €ô-     ÎNKÓrM@!E  €8.    åáÍJF%O@K&$  €|.    ·Á©Js×P@c($  €À.    ¼3œJæ‰R@)$  €/    ÑÌJY<T@´%$  €H/    cõŒJ†îU@ş&$  €Œ/    K<‹Jù W@;'$  €Ğ/    ´“‡JlSY@ß&$  €0    Ãf…J™[@„&$  €X0    ĞX‚J¸\@i&$  €œ0    rJ9j^@O&$  €à0    ‡¤J¬`@)&$  €$1    ıbJÏa@1&$  €h1  
+=====FUZZ-NEXT-FILE=====
+mX§bÆÙ#3©öÎŞ•ˆ j@œ¿ñÂùÒâ+Ô%Q*¥Ñ$[Ÿ@c†Ñg9­ÖºÕ[ûR£]xÓûú‘'f—ÚNC]ZèòÛ7óS¥Ah‘’5ôÈTAVü´Q7X\$-óåIªW^ë¡WÊ]ydR€{f§XÁM·Ó^LW™ÙFQ¯"\ÌµrW»¡ÀVR—İ„<¥”ŒÌ©Zz¢ZÀQsòY E—5ùR¿““…‰9[ÓÑ©“ZÄ‘Sµª^ğLÁ\Ájº¨À­X@>W;(ÙŠXë‘ƒ(T•?”33ÜW*üÃiş½Wä™D’“]fŞóÂ×MöšWŠRİx_\]ˆ4Ç•˜Ş	áS[BŞ3†Ç	Xp?Ùæ‘^Ô¾ò bÙ?V¾_àÊQDU˜"Pİ•LTIyÙ’óPQ QHW&Ü<*Y”öÜ$i9~ÚÆW àÜÕyYr^ÁüU`ë–rXŞ@¤PÉİKØé,- TğÑˆ[–ıĞ»`Û²ßLSÕ×è$X@GYØ!Y0·”Ë¸Ü/UÿßğßPië^ Q{,İŠÔ\˜‹Ü¼—¢ÑkŠmÜäÒ[H˜["úT3a–ş«ÜdëUH`ßµÇÖÙ§sQ2ÜÛ“ ^wŞYX÷eœPDíÓ0õZ™%Y4²S]æ–=¸İvUI"û>%œıQ}ê×—Äß¡»µˆäÔÑZhXqÑZÀŸŠ4˜•ÇŞ+èSg
+Óm^ÁÜTÏÌØs(‘Æ>Ûâ˜üÿp¤4Ö…ÛUJ}\Å(VOJÓíÖßUÛOSıô&ç»W"¯Ù½ _ÜÙƒtª†ÙğQğ©ÓQÙ&‘qÊP4WdØŞÍ9Ršhß¢Ü^ÒmY]Û©
+]À°Ø´ÜÈl¦ Ó>xVF²˜;ËUçK[õüÚ/V•²wJ¸Æ’V®hÛÓ`Z“dØ«_íBÏ¡\ÔAnX ¤–¹¯m£RêçİÎVèÀŞª˜ZQ8Y@tÛı¶WgØ
+’è"eÔDdZn–¨±ß-g‚Ü©3V!º9/½‡ıØQ·»Ú{HW©‡Ùm²à™Õ4*¨ÓeIVù°6Øê‰ïÜ:ÆVÙÂßâa¾U”CXkß¡¢YøÜáb-VÊZÕ²ºV³à_
+YÒ|ßs[ÜËXW<<ßÂ¬«Qxj€#VÖ]S¦Y4\ãÀÈ-¢JÕKKVúp_òè–Ù%×ÇıÚ5UmfÙ^*XsR\È]?‘Î^\ö²¾ØŞ Q[¢á×ãÛUœO]ì“D#Ö'+ÙìST3/Ò`YË”É»ZÁŞ‘êKÜWUZÙß²Lš¥XÛó›èı]Î:fÕªİWnİd7!l)TÛéØ%|_*ÕÙÈÿP'~ İ6zÕÜ9n…	^“!ÔMÈİL“UlJËR_•P¸ù]8Hï\ñÀÔDQ™‚C•B@šVı”¢ĞCiYcÓ
+CİÌ€Uªß9†Zp «Uğ:ª•éÀÒ¾y™¥fœ±º– ‚ĞP,X‰‡ÒíËİLnUÙ¶³‹UÑ€l¨a–¨– ûÕ*!¥ßëW7ÔYÌàTáù]ñbUbÒ•XŞÿV»•’[UòQ¬l]û}¨¿RO¯×cÀÃ¿ö›ÀÚßÛrzÇSæÑg	Ş²»VÎ,Ü)€SBHeæUÖßy
+z,ŞÕF#v—››¤–˜Õ¦¤P…fĞ9ºİÉRxë;£ÿQâTe+Š\^·İ/®5X1XöV^whTDÍşâQ.Ğ>$Ş aTëİÎm¢ÆòFæ,Td%ÃŠÅF˜¡R¬oT±FS´i—,Õ˜ŠŸBŞh—TG8ÙboUA.,’1µ!_İ.ÙcŠDUÖ»¶HRÇÕg•‹¦Pµœzİ
+ZV3ÃÛ•ÏV&v]lVÊÏ G_º|İ$ĞrÒ†AáTP.CW”Ï¢nXIŞ‰MW¢ÓŞJFQ¼MÖÇ’«ßŠm_rWÜæ Oj:ŞÊhs®ßC`•øDnŸñPÜAX¥ÔÜÅ$°w|[=mİ“î’dÜ‚‚- ÔÓÜ}±“½İ-S“ªk(”ùİ]ºXĞkÜØgFÁUËêß—štÙr$ã“Y^ÔŸ;";ÖH©”ë†90œp8ÜchT8g1Q	‡P˜WÅİİ\¯ÁÛƒİùjO	ÚÕï›uÜZ°’|¨íüœ|İùT]8UÔv­S”tV`¹ß ÄŞ.§ú_¤¾Ür ØPS’îÜİ.œ4+Û_X  Ö^äV@ĞĞ2¦‘ü[ò“ä¡–y„%rÙéAX÷;Ôc“¿r}›•Ü§PúCßw‘	jÓå—“Fê)D—ˆîøQ0ŸU\ƒÚÓÅ“pbÙã›¸ßz<«óªC‘ÒÖQ’Ù0ïl“SHÛiP¯eTÛÄloĞt¸’1SÌ›Æ˜ßM(÷EĞİy‘»y]¼˜jü¹-Y¥ÄQÂúØNŸğ`ÙFçÑ"°’®£Öçøš.ÕŞ²#ÔG[\É
+Îàà÷‘2åÊ”ù€‘©Ñ&HÑ·)—ÈO˜Ï§’7ØÙš¡NŞi*˜âÕPv6Ñ£zÙ­¯‘™Í!µ_ÃòğÈ¯Ä¥!™!Ñ7š¶’şÀL›÷Êİ>|‘İ[Pw ’A™Ğâ”ìç²¬]‰¶Âé—İô›$ÄV§ÖÑ“’½YİW[›eß1-[ëdî[ñœãv”c"››^«ªÙÔ¿>ÑG÷”„ÎS¸O›Fs’âˆÓ¾£›böÜRh[ªS›Zq•â:‘¦>uÓvÒ-˜MLT|–ğR’ºÉŞ9<šå5ŞÓ„[»œÜ.U+’x.[T9Ş®œ‘©I.6áÄï’Í¢P•‰Ê”²™Ùªˆš-cŞ¾\!9=+g^ÜU¯N·‘Èdg£ÖÙä
+˜|g~%škF•œ>Ô2—™ÃÜ
+øWœøäÄÿv[¢(‘´G¿”† “´vÒ9˜i:3üšÚW”è4×üz™ÊİeY©s;5üWÑUõ¶Å¤_4®¾ÅJU«“&«/œHZ“”Ö¢š}Ü1WfÌpÅq8WiT6& ^‘Ï†ÂÁ™Z””B›…šy”Â7Ùsw™—¸ÜWÀ‘
+[ÌW‚I\óŞÉ$è­İ¯ÁøíøJ’«ÊZ*˜3·“K-Ñuë™±àÜåıVs`XPSêVÓ†9‘É]Û¸|2"–,BÑˆòÇš—€”î¤Ğ­Ş™¢4Û‰ùZnö<^ÊQéSïE3”ŠÔİå@Ô¡¼¸HÖ@ZáÓ>n˜ĞæÑ™ÙİZrqü¤bQü\ãS±İ_í’Ş¿sP”"Ö@CÖ©¾RöÆÕ¶ªœºÜĞ)ù˜Ä7Ú MY®÷á€±öÖ”_cd.Í_,±ŞcÛS>Ï“É=ÖzKßµ9œè³š0Ó‡™ÇãÛõ7Wé}ûÒv4ô¢‘âtKjÏŞCWlgìE"I’Hˆ’0—ÙÒ€#š[àÛkäX`ÑëİI9D‘Ît2ŒJ Ïİª‹Ô@š$kË”ŞF•<{›)Í˜NµÛƒáXÓMæGÔŸĞ•m<Ş×§”Á”«ö—y’Y£ß1w‘›x–Ç[Ô œ™ÌÇÛÛCYœãE×ÓÀP§’\Ì É]i¾µUD‘–nÕlo‘yg•Æ‹™æã˜KÚÛÇÈY
+=====FUZZ-NEXT-FILE=====
+€  U                              Flags                                       Description               Q                  System Pressure $CC$,1.000000,3,0,0,bar                                          
+=====FUZZ-NEXT-FILE=====
+€                                Time                                        Intensity                                tÚ:¹?	DtZ;¹?	D
+×£;›@	DtÚ;Ô@	Dˆˆ<A	D
+×#<EA	DŒ%?<}A	DtZ<%U	DÂu<uX	D‰ˆˆ<WY	DÊ/–<c	D×£<t	DL~±<ÌŒ	D%¿<™¬	DÎÌÌ<Ó	DtÚ<Üÿ	DPè<62
+D‘Âõ<W
+Dé´=-‘
+D‰ˆ=qÑ
+D)\=¡DÉ/=×CDi=wD	×#=8§D©ª*=ğÔDI~1=ª DéQ8=Ø*D‰%?=CSD)ùE=t{DÉÌL=Ã¢Di S=ÛÉD	tZ=¹ğD©Ga=	DIh=>Déîn=cD‰Âu=9ˆD)–|=Ç«Då´=ÎDµ…=²îD…ˆˆ=¸DUò‹=.D%\=¬KDõÅ’=¹gDÅ/–=ÄƒD•™™=îDe=ª·D5m =.ĞD×£=—çDÕ@§=şD¥ªª=3Du®=(DE~±=ô;Dè´=*ODåQ¸=GaDµ»»=¹rD…%¿=òƒDUÂ=”D%ùÅ=ù£DõbÉ=ß³DÅÌÌ=:ÂD•6Ğ=wÑDe Ó=ğŞD5
+×=íDtÚ=©ùDÕİİ=ÏD¥Gá=JDu±ä=şDEè=z(D…ë=j2Dåîî=“<DµXò=FD…Âõ=;PDU,ù=YD%–ü=­aDõÿÿ=jDã´>èrDËi>{D³>Î‚D›Ó>ß‰Dƒˆ>Dk=
+>”•DSò>İœD;§>Ğ¤D#\>¦­D>¶DóÅ>Æ½DÛz>¹ÅDÃ/>äÍD«ä>IÖD“™>TáD{N>ƒçDc>yíDK¸>rñD3m >mõD"">õøD×#>+ûDë‹%>ïüDÓ@'>˜ıD»õ(>ìşD£ª*>–ÿD‹_,>x Ds.>? D[É/>!DC~1>!D+33>ËDè4>­Dûœ6>WDãQ8>ÇDË:>ÇD³»;>D›p=>ÇDƒ%?>ãDkÚ@>©DSB>ãD;DD>D#ùE>9D®G>ÇDóbI>ÇDÛK>DÃÌL>ÇD«N>WD“6P><D{ëQ>ZDc S>° DKUU>° D3
+W>–ÿD¿X>zşDtZ>ïüDë(\>üDÓİ]>úD»’_>-ùD£Ga>i÷D‹üb>ùöDs±d>4õD[ff>¨óDCh>UòD+Ği>:ñD…k>çïDû9m>²íDãîn>íëDË£p>›êD³Xr>¸éD›t>ôçDƒÂu>ÙæDkww>MåDS,y>ÜäD;áz>úãD#–|>ÂãDK~>ãDóÿ>nâDnÚ€>áDâ´>ßDV‚>ËİDÊiƒ>¯ÜD>D„>•ÛD²…>`ÙD&ù…>€ÖDšÓ†>¼ÔD®‡>øÒD‚ˆˆ>mÑDöb‰>áÏDj=Š>7ÏDŞ‹>ÇÎDRò‹>sÍDÆÌŒ>‘ÌD:§>>ËD®>¯ËD"\>\ÊD–6>AÉD
+‘>îÇD~ë‘>DÇDòÅ’>ñÅDf “>ÄDÚz”>ÃDNU•>†ÁDÂ/–>¤ÀD6
+—>à¾Dªä—>½D¿˜>:¼D’™™>»Dtš>Z¹DzN›>]·Dî(œ>³¶Db>aµDÖİ>d³DJ¸>.±D¾’Ÿ>¢¯D2m >ˆ®D¦G¡>m­D"¢>S¬Dü¢>¬D×£>¬Dv±¤>ÿªDê‹¥>VªD^f¦>ªDÒ@§>ÿªDF¨>9«Dºõ¨>ªD.Ğ©>VªD¢ªª>å©D…«>;©DŠ_¬>!¨Dş9­>Y¨Dr®>;©Dæî®>’¨DZÉ¯>è§DÎ£°>w§DB~±>°§D¶X²>°§D*3³>è§D´>’¨Dè´>t©D†Âµ>t©Dúœ¶>Ê¨Dnw·>t©DâQ¸>VªDV,¹>ªDÊº>ÿªD>áº>q«D²»»>á«D&–¼>S¬Dšp½>ı¬DK¾>ˆ®D‚%¿>°Döÿ¿> ±DjÚÀ>,³DŞ´Á>ğ´DRÂ>{¶DÆiÃ>Ï·D:DÄ>é¸D®Å>=ºD"ùÅ>È»D–ÓÆ>È»D
+®Ç>:¼D~ˆÈ>ã¼DòbÉ>Œ½Df=Ê>6¾DÚË>¿DNòË>lÀDÂÌÌ>ÁD6§Í>÷ÁDªÎ>iÂD\Ï>õÃD’6Ğ>GÅDÑ>ñÅDzëÑ>ÓÆDîÅÒ>_ÈDb Ó>$ÊDÖzÔ>>ËDJUÕ>sÍD¾/Ö>ÇÎD2
+×>‹ĞD¦ä×>5ÑD¿Ø>ÀÒD™Ù>½ÔDtÚ>ŸÕDvNÛ>ºÖDê(Ü>Ô×D^İ>`ÙDÒİİ>³ÚDF¸Ş>ÜDº’ß>!İD.mà><ŞD¢Gá>ßD"â>qàDŠüâ>nâDşÖã>úãDr±ä>†åDæ‹å>/æDZfæ>,èDÎ@ç>éDBè>ëD¶õè>^ìD*Ğé>”îDªê>çïD…ë>¬ñD†_ì>òDú9í>ôDnî>ŞõDâîî>‡öDVÉï>£÷DÊ£ğ>gùD>~ñ>+ûD²Xò>+ûD&3ó>EüDšô>(ıDèô>BşD‚Âõ>´şDöœö>ÎÿDjw÷>!DŞQø>DR,ù>DÆú>ıD:áú>ÁD®»û>M	D"–ü> 
+D–pı>D
+Kş>CD~%ÿ>yDòÿÿ>uD3m ?DmÚ ?ÆD§G?¨Dá´?¤D"?¡DU?Dü?¹DÉi?¶ D×?"D=D?ê"Dw±?$D±?>$Dë‹?&D%ù?Ç'D_f?á(D™Ó?+DÓ@?-D®?Ø.DG?ò/Dˆ?ğ1D»õ?{3Dõb	?!6D/Ğ	?­7Di=
+?8D£ª
+?ã9Dİ?:D…?n;DQò?à;D‹_?2=DÅÌ?>Dÿ9?¡?D9§?eADs?¹BD­?&EDçî?\GD!\?vHD[É?XID•6?KDÏ£?‹MD	?¿ODC~?KQD}ë?ŸRD·X?òSDñÅ?œTD+3?˜VDe ?ÎXDŸ?YZDÙz?;[Dè? ]DMU?Œ^D‡Â?`DÁ/?bDûœ?dD5
+?ÕeDow?fD©ä?hDãQ?ÏiD¿?ZkDW,?<lD‘™?nDË?ToDt?ÅoD?á?QqDyN?lrD³»?itDí(?¼uD'–?HwDa?›xD›p?'zDÕİ?
+{DK?}DI¸?Ê~Dƒ%?€D½’?‹‚D÷ÿ?§ƒD1m ?2…DkÚ ?ö†D¥G!?œ‰Dß´!?š‹D""?%DS"?yDü"?çDÇi#?«’D×#?“D;D$?Š•Du±$?¿—D¯%?õ™Dé‹%?G›D#ù%?cœD]f&?ÓœD—Ó&?îDÑ@'?	ŸD®'?zŸDE(?X¢Dˆ(?:£D¹õ(?ÿ¤Dób)?8¥D-Ğ)?¦Dg=*?O¨D¡ª*?.«DÛ+?ò¬D…+?~®DOò+?´°D‰_,?–±DÃÌ,?é²Dı9-?=´D7§-?9¶Dq.?ı·D«.?‰¹Dåî.?¾»D\/?ô½DYÉ/?ñ¿D“60?%ÂDÍ£0?êÃD1? ÆDA~1?äÇD{ë1?ÊDµX2?¥ËDïÅ2?‡ÌD)33?ÛÍDc 3?õÎD4?ĞD×z4?EÒDè4?²ÔDKU5?°ÖD…Â5?’×D¿/6?ÇÙDùœ6?ÄÛD3
+7?2ŞDmw7?¾ßD§ä7?ºáDáQ8?ãD¿8?aäDU,9?CåD™9?]æDÉ:?[èDt:?=éD=á:?ÈêDwN;?TìD±»;?níDë(<?ŠîD%–<?¿ğD_=?KòD™p=?-óDÓİ=?€ôDK>?öDG¸>?}öD%??øD»’??²øDõÿ??úD/m@?YûDiÚ@?üD£GA?¬üDİ´A?7şD"B?Ş DQB?LD‹üB?FDÅiC?±DÿÖC?¦D9DD?·Ds±D?s D­E?)Dç‹E?93D!ùE?a=D[fF?ÂGD•ÓF?ÎRDÏ@G?¾\D	®G?fDCH?epD}ˆH?ÆzD·õH?ğ„DñbI?‰D+ĞI?—˜De=J?¿¢DŸªJ?w¬DÙK?.¶D…K?ÈÀDMòK?€ÊD‡_L?ÓDÁÌL?‚ÛDû9M?<ãD5§M?¾êDoN?yòD©N?ùDãîN?HÿD\O?DWÉO?S
+D‘6P? DË£P?íDQ?D?~Q?ŠDyëQ?õ!D³XR?˜&DíÅR?Ê*D'3S?5/Da S?¾2D

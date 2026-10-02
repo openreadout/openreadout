@@ -1,0 +1,32 @@
+{
+ "id": "xrd-zenodo6362954-brml-opa",
+ "file": "xrd-zenodo6362954-brml-opa.brml",
+ "format": "bruker-brml",
+ "family": "bench",
+ "readers": [
+  "the .brml XML members, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "RawData TimeStampStarted",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-01-20T15:10:47.312684+01:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "InstrumentDescription DeviceTypeDesc",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "Bruker AXS D8 with DAVINCI Diffractometer",
+   "cmp": "text"
+  }
+ ]
+}

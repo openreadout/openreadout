@@ -1,0 +1,31 @@
+{
+ "id": "zenodo13144501-vsi-meta-bchi-n9-eub-nix-dapi-slidei-002",
+ "file": "vsi-survey/zenodo13144501/Bchi_N9_EUB_NIX_DAPI_SlideI_002.vsi",
+ "format": "vsi",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 512,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 399,
+   "cmp": "exact"
+  }
+ ]
+}

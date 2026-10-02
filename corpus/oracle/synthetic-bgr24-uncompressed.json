@@ -1,0 +1,52 @@
+{
+ "id": "synthetic-bgr24-uncompressed",
+ "file": "synthetic-bgr24-uncompressed.czi",
+ "size": 76576,
+ "sha256": "f6c2bf39a168fe4b335a2f707c902f961345d5b95637a929f4ec49e7782cb1a4",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 256,
+   "size_y": 96,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "dims": "YXS",
+   "shape": [
+    96,
+    256,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.5,
+    "y": 0.5,
+    "z": 2.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7408cd51b22c3e4fa40d823250e01ef6"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.5,
+  "y": 0.5,
+  "z": 2.0
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

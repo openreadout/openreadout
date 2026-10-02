@@ -1,0 +1,68 @@
+{
+ "id": "nion-dm-ref-f-0-1-dm5",
+ "file": "nion-dm-ref-f-0-1-dm5.dm5",
+ "size": 17268,
+ "sha256": "4d0c094aca76fc67c5e5e788f5d446f13a0acd9ad6e37ffc8bfb95425d56168c",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 (DM5 groups and attributes)",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 0,
+   "name": "/",
+   "size_x": 3,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e4e8b64d2ffcf806c3ca633d67782175"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "thumbnails": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "/",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "six"
+   ],
+   "ppm_first": 1.0,
+   "ppm_last": 5.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3,
+     "channels": [
+      {
+       "xxh3": "eb04e7d859156de249bcbcb7671c6bd4",
+       "first": [
+        0.0,
+        1.0,
+        2.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

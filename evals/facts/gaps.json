@@ -1,0 +1,165 @@
+{
+ "gen5-lum-endpoint": {
+  "extractor": "evals/gaps_facts.py",
+  "facts": {
+   "actives_below_50": {
+    "how": "sample (SPL) wells whose NormLum is below 50 %; nearest value to the cut-off 0.379 % away",
+    "nearest_to_cutoff": 0.379,
+    "reader": "Gen5 NormLum (vendor-computed, in the export)",
+    "value": 32,
+    "wells": [
+     "A2",
+     "A3",
+     "A5",
+     "A6",
+     "A7",
+     "B4",
+     "B5",
+     "B9",
+     "C5",
+     "C6",
+     "D10",
+     "D2",
+     "D9",
+     "E11",
+     "E3",
+     "E4",
+     "E5",
+     "E8",
+     "E9",
+     "F10",
+     "F2",
+     "F4",
+     "F5",
+     "F6",
+     "G11",
+     "G3",
+     "G4",
+     "G8",
+     "H10",
+     "H5",
+     "H7",
+     "H9"
+    ]
+   },
+   "z_prime": {
+    "how": "1 - 3 (SD POSCON + SD NEGCON) / |mean POSCON - mean NEGCON| with sample SDs",
+    "reader": "Gen5 LUM reads and layout, plain arithmetic",
+    "value": 0.95571916
+   },
+   "z_prime_population_sd": {
+    "how": "the same with population SDs",
+    "reader": "Gen5 LUM reads and layout, plain arithmetic",
+    "value": 0.95857907
+   }
+  },
+  "file": "gen5-lum-endpoint.txt"
+ },
+ "jcamp-lancashire-dupinc1": {
+  "extractor": "evals/gaps_facts.py",
+  "facts": {
+   "uv_area_300_350": {
+    "how": "trapezoid of absorbance over 300-350 nm (no baseline)",
+    "reader": "jcamp 1.3.2 + numpy",
+    "value": 6.685275,
+    "ways": [
+     6.685275,
+     6.685275
+    ]
+   },
+   "uv_area_300_350_spread": {
+    "how": "largest relative distance of a way from their mean",
+    "reader": "the ways above",
+    "value": 1.3285593e-16
+   }
+  },
+  "file": "jcamp-lancashire-dupinc1.jdx"
+ },
+ "omnic-toffolo-atr-calcite-spar-brazil": {
+  "extractor": "evals/gaps_facts.py",
+  "facts": {
+   "carbonate_band_area": {
+    "how": "trapezoid of absorbance over 1300-1550 cm-1 above the straight line between the band limits; SpectroChemPy and OMNIC's CSV export, samples inside or ends interpolated",
+    "reader": "spectrochempy 1.0.0 + numpy",
+    "value": 54.673427,
+    "ways": [
+     54.673427,
+     54.862104,
+     54.673441,
+     54.862119
+    ]
+   },
+   "carbonate_band_area_spread": {
+    "how": "largest relative distance of a way from their mean (the tolerance covers twice it)",
+    "reader": "the ways above",
+    "value": 0.0017226575
+   }
+  },
+  "file": "omnic-toffolo-library-zip/ATR/Calcite spar_Brazil.SPA"
+ },
+ "opus-bitumen-5h-120c-3": {
+  "extractor": "evals/gaps_facts.py",
+  "facts": {
+   "aromaticity_index": {
+    "how": "area 1535-1670 over area 1350-1525 cm-1, each above its local straight baseline; samples inside or ends interpolated",
+    "reader": "brukeropus 1.4.3 + numpy",
+    "value": 0.18492782,
+    "ways": [
+     0.18492782,
+     0.18381305
+    ]
+   },
+   "aromaticity_index_spread": {
+    "how": "largest relative distance of a way from their mean",
+    "reader": "the ways above",
+    "value": 0.0030231705
+   }
+  },
+  "file": "opus-bitumen-ageing-zip/5h_120C.3"
+ },
+ "opus-bitumen-unaged-2": {
+  "extractor": "evals/gaps_facts.py",
+  "facts": {
+   "largest_ch_stretch_treatment": {
+    "areas": {
+     "RTFOT 1 h 180 C": {
+      "linear": 21.491637,
+      "linear_interpolated": 21.563679,
+      "none": 25.723893
+     },
+     "oven 5 h 120 C": {
+      "linear": 23.185602,
+      "linear_interpolated": 23.269006,
+      "none": 27.639573
+     },
+     "unaged": {
+      "linear": 24.265452,
+      "linear_interpolated": 24.302942,
+      "none": 28.893942
+     }
+    },
+    "how": "trapezoid 2800-3000 cm-1 above the straight line between the band limits per spectrum, the sheet's treatment of the largest",
+    "margin": 0.046574127,
+    "reader": "brukeropus 1.4.3 + numpy",
+    "value": "unaged"
+   }
+  },
+  "file": "opus-bitumen-ageing-zip/Unaged.2"
+ },
+ "wdf-pywdf-sp": {
+  "extractor": "evals/gaps_facts.py",
+  "facts": {
+   "band_max_in_window_cm1": {
+    "how": "Raman shift of the highest point between 1550 and 1650 cm-1",
+    "reader": "renishawWiRE 0.1.16",
+    "value": 1587.0448
+   },
+   "raman_step_cm1": {
+    "how": "median spacing of the Raman-shift list",
+    "reader": "renishawWiRE 0.1.16",
+    "value": 1.5350952
+   }
+  },
+  "file": "wdf-py-wdf-reader-examples-zip/sp.wdf"
+ }
+}

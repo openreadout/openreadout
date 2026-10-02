@@ -1,0 +1,124 @@
+{
+ "id": "zenodo5683588-varian-1",
+ "file": "zenodo5683588-varian-1",
+ "format": "varian-nmr",
+ "family": "nmr",
+ "readers": [
+  "nmrglue 0.12 (BSD-3) varian.read_procpar"
+ ],
+ "checks": [
+  {
+   "field": "procpar sfrq",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectrometer_frequency_mhz",
+   "theirs": 599.8309405,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "procpar sw",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectral_width_hz",
+   "theirs": 10000.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "procpar np",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/time_domain_size",
+   "theirs": 20000,
+   "cmp": "exact"
+  },
+  {
+   "field": "procpar nt",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/scans",
+   "theirs": 512,
+   "cmp": "exact"
+  },
+  {
+   "field": "procpar tn (nucleus)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/nucleus",
+   "theirs": "1H",
+   "cmp": "text"
+  },
+  {
+   "field": "procpar solvent",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/solvent",
+   "theirs": "none",
+   "cmp": "text"
+  },
+  {
+   "field": "procpar seqfil",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/pulse_program",
+   "theirs": "press",
+   "cmp": "text"
+  },
+  {
+   "field": "procpar console",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/console",
+   "theirs": "vnmrs",
+   "cmp": "text"
+  },
+  {
+   "field": "procpar pslabel",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/name",
+   "theirs": "press_brain_OVS-1HMRS_Metab_2x2x2",
+   "cmp": "text"
+  },
+  {
+   "field": "procpar temp (°C)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/temperature_c",
+   "theirs": 30.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "procpar time_run",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-11-14T15:25:00",
+   "cmp": "time"
+  }
+ ]
+}

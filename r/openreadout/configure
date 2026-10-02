@@ -1,0 +1,85 @@
+#!/bin/sh
+# Writes src/Makevars (src/Makevars.win on Windows) for the Rust build. POSIX sh.
+#
+# Environment:
+#   OPENREADOUT_R_PROFILE  cargo profile: release-r (default; optimized, panics become R errors)
+#                            or dev (fast rebuilds while developing the bindings)
+#   OPENREADOUT_SOURCE_DIR an OpenReadout checkout to build from when the package has no
+#                            vendored sources (default: the checkout this package sits in)
+#   OPENREADOUT_R_JOBS     parallel cargo jobs (default 2, as CRAN asks)
+
+PROFILE="${OPENREADOUT_R_PROFILE:-release-r}"
+JOBS="${OPENREADOUT_R_JOBS:-2}"
+TARGET_OS="${OPENREADOUT_TARGET_OS:-unix}"
+
+# --- cargo and rustc -----------------------------------------------------------------------------
+if ! command -v cargo >/dev/null 2>&1; then
+  if [ -x "$HOME/.cargo/bin/cargo" ]; then
+    PATH="$PATH:$HOME/.cargo/bin"
+    export PATH
+  else
+    echo "------------------------------------------------------------------------------"
+    echo "ERROR: 'cargo' was not found. The openreadout package is written in Rust and"
+    echo "needs the Rust toolchain (rustc >= 1.91) to be built from source:"
+    echo "  https://www.rust-lang.org/tools/install   (rustup, all platforms)"
+    echo "  brew install rust                          (macOS)"
+    echo "  apt install cargo  /  dnf install cargo    (Linux; check rustc --version >= 1.91)"
+    echo "------------------------------------------------------------------------------"
+    exit 1
+  fi
+fi
+echo "cargo: $(cargo --version)"
+echo "rustc: $(rustc --version)"
+RUSTC_MINOR=$(rustc --version | sed -n 's/^rustc 1\.\([0-9]*\).*/\1/p')
+if [ -n "$RUSTC_MINOR" ] && [ "$RUSTC_MINOR" -lt 91 ]; then
+  echo "ERROR: rustc $(rustc --version | cut -d' ' -f2) is too old; openreadout needs rustc >= 1.91 (rustup update)."
+  exit 1
+fi
+
+# --- sources: vendored tarball, or a repository checkout -----------------------------------------
+if [ -f src/rust/Cargo.toml ]; then
+  MODE=vendored
+  MANIFEST="./rust/Cargo.toml"
+  TARGET_DIR="./rust/target"
+  CARGO_FLAGS="--offline --locked"
+else
+  SRC="${OPENREADOUT_SOURCE_DIR:-../..}"
+  if [ ! -f "$SRC/crates/openreadout-r/Cargo.toml" ]; then
+    echo "ERROR: no Rust sources: src/rust/ is missing and $SRC is not an OpenReadout checkout."
+    echo "Install from a source tarball made with 'cargo xtask r-vendor' (see https://openreadout.github.io/openreadout/guides/r.html), or set"
+    echo "OPENREADOUT_SOURCE_DIR to a checkout of https://github.com/openreadout/openreadout."
+    exit 1
+  fi
+  SRC=$(cd "$SRC" && pwd)
+  MODE=repository
+  MANIFEST="$SRC/crates/openreadout-r/Cargo.toml"
+  TARGET_DIR="$SRC/target"
+  CARGO_FLAGS=""
+fi
+
+if [ "$PROFILE" = "dev" ]; then PROFILE_DIR=debug; else PROFILE_DIR="$PROFILE"; fi
+
+if [ "$TARGET_OS" = "windows" ]; then
+  TRIPLE="${OPENREADOUT_R_TARGET:-x86_64-pc-windows-gnu}"
+  CARGO_FLAGS="$CARGO_FLAGS --target $TRIPLE"
+  PROFILE_DIR="$TRIPLE/$PROFILE_DIR"
+  NATIVE_LIBS="-lws2_32 -ladvapi32 -luserenv -lbcrypt -lntdll"
+  OUT=src/Makevars.win
+else
+  case "$(uname -s)" in
+    Darwin) NATIVE_LIBS="-framework CoreFoundation -framework Security -liconv" ;;
+    *) NATIVE_LIBS="-lpthread -ldl -lm" ;;
+  esac
+  OUT=src/Makevars
+fi
+
+echo "openreadout: building the Rust library ($MODE sources, profile $PROFILE)"
+sed -e "s|@TARGET_DIR@|$TARGET_DIR|g" \
+    -e "s|@PROFILE_DIR@|$PROFILE_DIR|g" \
+    -e "s|@PROFILE@|$PROFILE|g" \
+    -e "s|@MANIFEST@|$MANIFEST|g" \
+    -e "s|@CARGO_FLAGS@|$CARGO_FLAGS|g" \
+    -e "s|@NATIVE_LIBS@|$NATIVE_LIBS|g" \
+    -e "s|@MODE@|$MODE|g" \
+    -e "s|@JOBS@|$JOBS|g" \
+    src/Makevars.in > "$OUT"

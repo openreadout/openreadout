@@ -1,0 +1,140 @@
+{
+ "id": "dandi000221-hi198-060619",
+ "file": "dandi000221-sub-HI198_ses-HI198-060619_ecephys+ogen.nwb",
+ "size": 407104,
+ "sha256": "4aaa1f3c5a110af47bc09dd6b15a595a02dd68340d08c11d1128e7a57ed6e4f4",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.4.0",
+ "session": {
+  "session_description": "Animal `HI198` on Session `HI198_060619`",
+  "identifier": "HI198_060619",
+  "session_start_time": "2019-06-06T00:00:00.000000-04:00"
+ },
+ "traces": [],
+ "tables": [
+  {
+   "index": 0,
+   "name": "units",
+   "event_count": 1,
+   "parameter_names": [
+    "id",
+    "spike_times_count",
+    "trialsID_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "1d85e13540b8f55dacbcf3ae8a39cd07",
+    "spike_times_count": "7611560dbfebdf6872e0375c285629a2",
+    "trialsID_count": "7611560dbfebdf6872e0375c285629a2"
+   }
+  },
+  {
+   "index": 1,
+   "name": "units/spike_times",
+   "event_count": 11161,
+   "parameter_names": [
+    "unit_row",
+    "unit_id",
+    "spike_time"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "unit_row": "cd2ffac5a8b666f8e95cedb0a310c67a",
+    "unit_id": "a1c3617a8672593ea788ec16e0eec565",
+    "spike_time": "94043611d4ac01d1a6943ca3689d84e3"
+   }
+  },
+  {
+   "index": 2,
+   "name": "analysis/unit1",
+   "event_count": 35,
+   "parameter_names": [
+    "time_s",
+    "value"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "time_s": "566eacbf11462af3998084f50c6e216f",
+    "value": "0d9b7c239374cf783b90ed81790313d9"
+   }
+  },
+  {
+   "index": 3,
+   "name": "intervals/trials",
+   "event_count": 392,
+   "parameter_names": [
+    "id",
+    "HitR",
+    "HitL",
+    "ErrR",
+    "ErrL",
+    "NoLickR",
+    "NoLickL",
+    "LickEarly",
+    "StimTrials",
+    "SampleOnset",
+    "DelayOnset",
+    "CueTime",
+    "FirstLick",
+    "GoodTrials",
+    "PhotostimulationType",
+    "start_time",
+    "stop_time"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "20de4346fb28597ff5dea83ca2e7ff4a",
+    "HitR": "98e2ba4130e14a4d830f3fbd594c7158",
+    "HitL": "b148eb5e1dfc91efed3593741ecf8ba0",
+    "ErrR": "233889e9d05733f457d419a87bc9931f",
+    "ErrL": "c522251e59ff6190ee6fd08d7eea3e87",
+    "NoLickR": "bd79160873b81dc8c60d38b07176bf61",
+    "NoLickL": "bd79160873b81dc8c60d38b07176bf61",
+    "LickEarly": "290319c930753a88184a4fde4037ff6c",
+    "StimTrials": "dc68f3b5dd677fc789348fb70eefa9de",
+    "SampleOnset": "f2f32ee31371da1472a4a8b7e4ce4a6c",
+    "DelayOnset": "f58396de9c005a7698eba1ab9dab3a9c",
+    "CueTime": "52fb4c843d23d31a2acc03ced8cb42dc",
+    "FirstLick": "88323aea89f18935e0e2cd25ddc02768",
+    "GoodTrials": "d0b0698b74bc638d4bf8feaa5bd66929",
+    "PhotostimulationType": "e5c6d8505045b3e3cd94c3e06ff87a40",
+    "start_time": "bd79160873b81dc8c60d38b07176bf61",
+    "stop_time": "bd79160873b81dc8c60d38b07176bf61"
+   }
+  },
+  {
+   "index": 4,
+   "name": "general/extracellular_ephys/electrodes",
+   "event_count": 1,
+   "parameter_names": [
+    "id",
+    "x",
+    "y",
+    "z",
+    "imp",
+    "location",
+    "filtering",
+    "group_name",
+    "unit_name"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "2c0a8a99dc147d5445c3b49d035665b2",
+    "x": "de65b66b79a9bc9829922be751fe947c",
+    "y": "8e19d0c57481c05d6d22fe9c07fa4107",
+    "z": "218dcf1fec79e1c48edd7de09f7917a5",
+    "imp": "2c0a8a99dc147d5445c3b49d035665b2",
+    "location": "2c0a8a99dc147d5445c3b49d035665b2",
+    "filtering": "2c0a8a99dc147d5445c3b49d035665b2",
+    "group_name": "2c0a8a99dc147d5445c3b49d035665b2",
+    "unit_name": "1d85e13540b8f55dacbcf3ae8a39cd07"
+   }
+  }
+ ]
+}

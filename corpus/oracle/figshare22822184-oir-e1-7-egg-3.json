@@ -1,0 +1,47 @@
+{
+ "id": "figshare22822184-oir-e1-7-egg-3",
+ "file": "E1.7_egg_3.oir",
+ "size": 6486439,
+ "sha256": "88b65b6207b2c437421d56b33dbe7886214170569643431570d49bf065e560cc",
+ "max_planes_hashed": 64,
+ "reader": "oirfile 2026.9.6",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.118377251314712,
+    "y": 0.118377251314712,
+    "z": null
+   },
+   "time_increment_s": null,
+   "lambda_nm": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8514c2f88a0ebb3227ce8cf985eed180"
+    }
+   ]
+  }
+ ],
+ "reader_sizes": {
+  "C": 1,
+  "Y": 1024,
+  "X": 1024
+ },
+ "datetime": "2023-05-11T14:54:27.250+01:00",
+ "companion_files": [],
+ "channel_names": [
+  "CH1",
+  "CH1",
+  "Red",
+  "CH3"
+ ]
+}

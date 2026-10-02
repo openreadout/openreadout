@@ -1,0 +1,10 @@
+{
+ "id": "figshare16617136-vsi-meta-bf-proliferative-experiment-3",
+ "file": "BF_Proliferative_Experiment_3.vsi",
+ "size": 914912,
+ "sha256": "ec6ee4a99c96febed4ec0c771d101320726d44a543ef31b3f46aba2d9d596069",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [],
+ "independent": false
+}

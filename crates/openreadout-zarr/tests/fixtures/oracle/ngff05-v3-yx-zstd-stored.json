@@ -1,0 +1,50 @@
+{
+ "id": "ngff05-v3-yx-zstd-stored",
+ "file": "ngff05-v3-yx-zstd-stored.zip",
+ "size": 3793,
+ "sha256": "82b21f947a58459aba071cf71c76c2220a8298acff46320a52f18f09702eeb09",
+ "max_planes_hashed": 64,
+ "reader": "zarr-python 3.4.0 (NGFF metadata interpreted in gen.py)",
+ "kind": "image",
+ "ngff_version": "0.5",
+ "zarr_format": 3,
+ "labels": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "yx-v3",
+   "size_x": 70,
+   "size_y": 50,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "axes": [
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.5,
+    "y": 0.5,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     70,
+     50
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b776c14735cfeb9e34fdb89d0bd1edcd"
+    }
+   ],
+   "levels": []
+  }
+ ]
+}

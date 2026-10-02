@@ -1,0 +1,21 @@
+{
+ "id": "zenodo14976703-Convalaria-LambdaScan",
+ "file": "zenodo14976703-Convalaria-LambdaScan.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series001",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "34b3fa74365976e19c8078f139fec1e1"
+    }
+   ]
+  }
+ ]
+}

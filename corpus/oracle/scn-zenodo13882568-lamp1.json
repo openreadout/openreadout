@@ -1,0 +1,32 @@
+{
+ "id": "scn-zenodo13882568-lamp1",
+ "file": "scn-zenodo13882568-lamp1.scn",
+ "size": 3033081,
+ "sha256": "ec67fb6eb928be011d3c9638d8cb540fdbbd3c28ddb901c8fbb53a23c7801c75",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1375,
+   "size_y": 1100,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 130.9090909090909,
+    "y": 130.9090909090909
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a6fecf8f4dd8c824afdc29233bc21884"
+    }
+   ]
+  }
+ ]
+}

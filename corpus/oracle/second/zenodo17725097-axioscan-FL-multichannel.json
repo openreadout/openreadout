@@ -1,0 +1,14 @@
+{
+ "id": "zenodo17725097-axioscan-FL-multichannel",
+ "file": "zenodo17725097-axioscan-FL-multichannel.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 11255,
+   "size_y": 11246,
+   "planes": [],
+   "skip": "larger than ORACLE_MAX_PIXELS"
+  }
+ ]
+}

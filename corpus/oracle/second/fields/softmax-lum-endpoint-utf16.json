@@ -1,0 +1,35 @@
+{
+ "id": "softmax-lum-endpoint-utf16",
+ "file": "softmax-lum-endpoint-utf16.txt",
+ "format": "plate",
+ "family": "plate-reader",
+ "readers": [
+  "allotropy 0.1.146 (MIT) ASM `measurement time`",
+  "the SoftMax Pro text export's footer (Date Last Saved), read as text"
+ ],
+ "checks": [
+  {
+   "field": "ASM measurement time (wall clock) against the save time",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/saved_at",
+   "theirs": "2023-12-05T11:23:17+00:00",
+   "cmp": "wallclock",
+   "abs": 1.0
+  },
+  {
+   "field": "Date Last Saved (footer)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/saved_at",
+   "theirs": "2023-12-05T11:23:17",
+   "cmp": "wallclock",
+   "abs": 1.0,
+   "reader": 1
+  }
+ ]
+}

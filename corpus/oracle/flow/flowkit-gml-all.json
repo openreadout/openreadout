@@ -1,0 +1,210 @@
+{
+ "generator": "flowkit 1.3.2 (flowutils 1.2.2)",
+ "gating": "flowkit-gml-all",
+ "format": "gating-ml",
+ "samples": [
+  {
+   "fcs": "flowkit-gml-events",
+   "sample": null,
+   "event_count": 13367,
+   "populations": [
+    {
+     "path": "/And1",
+     "count": 561
+    },
+    {
+     "path": "/And2",
+     "count": 12
+    },
+    {
+     "path": "/And3",
+     "count": 120
+    },
+    {
+     "path": "/And4",
+     "count": 120
+    },
+    {
+     "path": "/Ellipse1",
+     "count": 203
+    },
+    {
+     "path": "/Not1",
+     "count": 13164
+    },
+    {
+     "path": "/Or1",
+     "count": 1983
+    },
+    {
+     "path": "/Or2",
+     "count": 8283
+    },
+    {
+     "path": "/Polygon1",
+     "count": 1582
+    },
+    {
+     "path": "/Polygon1/ParAnd2",
+     "count": 12
+    },
+    {
+     "path": "/Polygon2",
+     "count": 183
+    },
+    {
+     "path": "/Polygon3NS",
+     "count": 1325
+    },
+    {
+     "path": "/Polygon4",
+     "count": 716
+    },
+    {
+     "path": "/Quadrant1/FL2N-FL4N",
+     "count": 5148
+    },
+    {
+     "path": "/Quadrant1/FL2N-FL4P",
+     "count": 238
+    },
+    {
+     "path": "/Quadrant1/FL2P-FL4N",
+     "count": 7361
+    },
+    {
+     "path": "/Quadrant1/FL2P-FL4P",
+     "count": 620
+    },
+    {
+     "path": "/Quadrant2/FSCD-FL1P",
+     "count": 2978
+    },
+    {
+     "path": "/Quadrant2/FSCD-SSCN-FL1N",
+     "count": 755
+    },
+    {
+     "path": "/Quadrant2/FSCN-SSCN",
+     "count": 398
+    },
+    {
+     "path": "/Quadrant2/FSCN-SSCP-FL1P",
+     "count": 59
+    },
+    {
+     "path": "/Quadrant2/FSCP-SSCN-FL1N",
+     "count": 96
+    },
+    {
+     "path": "/Range1",
+     "count": 440
+    },
+    {
+     "path": "/Range1/ParAnd3",
+     "count": 120
+    },
+    {
+     "path": "/Range2",
+     "count": 4710
+    },
+    {
+     "path": "/RatRange1",
+     "count": 7679
+    },
+    {
+     "path": "/RatRange1a",
+     "count": 7865
+    },
+    {
+     "path": "/RatRange2",
+     "count": 3398
+    },
+    {
+     "path": "/Rectangle1",
+     "count": 252
+    },
+    {
+     "path": "/Rectangle2",
+     "count": 252
+    },
+    {
+     "path": "/Rectangle3",
+     "count": 6446
+    },
+    {
+     "path": "/Rectangle4",
+     "count": 1275
+    },
+    {
+     "path": "/Rectangle5",
+     "count": 1303
+    },
+    {
+     "path": "/ScaleRange1",
+     "count": 8425
+    },
+    {
+     "path": "/ScaleRange1c",
+     "count": 6916
+    },
+    {
+     "path": "/ScaleRange2",
+     "count": 850
+    },
+    {
+     "path": "/ScaleRange2c",
+     "count": 789
+    },
+    {
+     "path": "/ScaleRange3",
+     "count": 3181
+    },
+    {
+     "path": "/ScaleRange3c",
+     "count": 2309
+    },
+    {
+     "path": "/ScaleRange4",
+     "count": 2509
+    },
+    {
+     "path": "/ScaleRange4c",
+     "count": 1873
+    },
+    {
+     "path": "/ScaleRange5",
+     "count": 1840
+    },
+    {
+     "path": "/ScaleRange5c",
+     "count": 1436
+    },
+    {
+     "path": "/ScaleRange6",
+     "count": 8351
+    },
+    {
+     "path": "/ScaleRange6c",
+     "count": 4113
+    },
+    {
+     "path": "/ScaleRange7c",
+     "count": 12478
+    },
+    {
+     "path": "/ScaleRange8c",
+     "count": 6263
+    },
+    {
+     "path": "/ScaleRect1",
+     "count": 809
+    },
+    {
+     "path": "/ScaleRect1/ScalePar1",
+     "count": 558
+    }
+   ]
+  }
+ ]
+}

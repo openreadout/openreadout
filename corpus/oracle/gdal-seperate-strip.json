@@ -1,0 +1,56 @@
+{
+ "id": "gdal-seperate-strip",
+ "file": "gdal-seperate-strip.tif",
+ "size": 4160,
+ "sha256": "6b8c72b44ea71d63c176b2d6391a4c489347a721e79ef4f7a0938894b7115194",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "SYX",
+   "shape": [
+    3,
+    37,
+    35
+   ],
+   "size_x": 35,
+   "size_y": 37,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "00cf26ba46404d4737fd0422b720ca04"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "00cf26ba46404d4737fd0422b720ca04"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "00cf26ba46404d4737fd0422b720ca04"
+    }
+   ]
+  }
+ ]
+}

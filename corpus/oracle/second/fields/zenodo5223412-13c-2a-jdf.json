@@ -1,0 +1,169 @@
+{
+ "id": "zenodo5223412-13c-2a-jdf",
+ "file": "jeol-zenodo/5223412/13C_2a-1.jdf",
+ "format": "jeol-jdf",
+ "family": "nmr",
+ "readers": [
+  "nmrglue 0.12 (BSD-3) jeol.read header and parameters",
+  "the .jdf context section (at nmrglue's context_start), read as text with a regular expression"
+ ],
+ "checks": [
+  {
+   "field": "header title",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/title",
+   "theirs": "LMV_AdOxiraneCH2OPhOH-meta",
+   "cmp": "text"
+  },
+  {
+   "field": "header site",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/site",
+   "theirs": "ECX 400",
+   "cmp": "text"
+  },
+  {
+   "field": "header comment",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/comment",
+   "theirs": "single pulse decoupled gated NOE",
+   "cmp": "text"
+  },
+  {
+   "field": "x_freq (MHz)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectrometer_frequency_mhz",
+   "theirs": 100.52530332516541,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "x_sweep (Hz)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectral_width_hz",
+   "theirs": 31407.035175879395,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "x_offset (ppm)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/carrier_offset_ppm",
+   "theirs": 120.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "scans",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/scans",
+   "theirs": 330,
+   "cmp": "exact"
+  },
+  {
+   "field": "total_scans",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/total_scans",
+   "theirs": 330,
+   "cmp": "exact"
+  },
+  {
+   "field": "solvent",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/solvent",
+   "theirs": "CHLOROFORM-D",
+   "cmp": "text"
+  },
+  {
+   "field": "experiment",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/pulse_program",
+   "theirs": "single_pulse_dec",
+   "cmp": "text"
+  },
+  {
+   "field": "x_domain",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/domain",
+   "theirs": "13C",
+   "cmp": "text"
+  },
+  {
+   "field": "sample_id (context text)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/sample_id",
+   "theirs": "LMV_AdOxiraneCH2OPhOH-meta",
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "sample id (context text)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "LMV_AdOxiraneCH2OPhOH-meta",
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "temp_get (°C)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/temperature_c",
+   "theirs": 0.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "field_strength (T)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/field_strength_t",
+   "theirs": 9.389766,
+   "cmp": "num",
+   "rel": 1e-12
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+{
+ "id": "jcamp-lancashire-mactab2",
+ "file": "jcamp-lancashire-mactab2.jdx",
+ "size": 916,
+ "sha256": "4160ef41b4d514544978393a89bf7a311b1d297022ad1262f4c603d5b893de5b",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "cholesterol (mactab2.jdx)",
+   "kind": "peak_table",
+   "data_type": "MASS SPECTRUM"
+  }
+ ],
+ "notes": [
+  "jcamp decoded 0 tables, the block walk found 1"
+ ]
+}

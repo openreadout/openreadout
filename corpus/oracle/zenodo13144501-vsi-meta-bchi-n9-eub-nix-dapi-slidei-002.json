@@ -1,0 +1,10 @@
+{
+ "id": "zenodo13144501-vsi-meta-bchi-n9-eub-nix-dapi-slidei-002",
+ "file": "Bchi_N9_EUB_NIX_DAPI_SlideI_002.vsi",
+ "size": 447623,
+ "sha256": "3e03783f30da3ea6774d2fb266146c30855e72ba367d3b680682c7d3071432e9",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [],
+ "independent": false
+}

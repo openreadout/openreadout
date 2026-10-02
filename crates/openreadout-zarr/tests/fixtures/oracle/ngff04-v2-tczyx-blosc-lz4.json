@@ -1,0 +1,213 @@
+{
+ "id": "ngff04-v2-tczyx-blosc-lz4",
+ "file": "ngff04-v2-tczyx-blosc-lz4.zip",
+ "size": 46464,
+ "sha256": "2d6c90fcd9259175c4f710d5459f5625ffaac0e572b6574566a9609cf8a7489a",
+ "max_planes_hashed": 64,
+ "reader": "zarr-python 3.4.0 (NGFF metadata interpreted in gen.py)",
+ "kind": "image",
+ "ngff_version": "0.4",
+ "zarr_format": 2,
+ "labels": [
+  "cells",
+  "cells"
+ ],
+ "images": [
+  {
+   "index": 0,
+   "name": "tczyx",
+   "size_x": 64,
+   "size_y": 48,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 2,
+   "pixel_type": "uint16",
+   "axes": [
+    "t",
+    "c",
+    "z",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.25,
+    "y": 0.25,
+    "z": 1.5
+   },
+   "time_increment_s": 2.5,
+   "channel_names": [
+    "DAPI",
+    "GFP"
+   ],
+   "level_sizes": [
+    [
+     64,
+     48
+    ],
+    [
+     32,
+     24
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "de9a77f2e9fcc042ab90e37e3d07f2c8"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "4bf24c337b49a64b6753f8ff9e978a88"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "422390376a6ffc36336b08e2e295e144"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "50759f039e63189cf0d0c3834c847829"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "fd41e49182276b2754d126b11d4ac6d6"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "1dccd4a3d445670ce32a7cd542ac10c9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9e0ef1ca6e3be402d378667b06b208e0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "bd2852da05d52a3af0edb44bf72862c1"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "a424011156db42ff7b1f565d2f77c3ad"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 1,
+     "xxh3": "d60e7deace8bd615660f5610eb25e69d"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "16f6dad58dbfcd04ff2a8314ddfee3b3"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 1,
+     "xxh3": "449881d01b45e40af99b2cc05d5ac5df"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 32,
+     "size_y": 24,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "0a8b1582f5cf7482e24e417a9bdbb3a5"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "labels/cells",
+   "size_x": 64,
+   "size_y": 48,
+   "size_z": 3,
+   "size_c": 1,
+   "size_t": 2,
+   "pixel_type": "uint32",
+   "axes": [
+    "t",
+    "c",
+    "z",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.25,
+    "y": 0.25,
+    "z": 1.5
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     64,
+     48
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0ca3f7423c199f09fb9289ba14122aba"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "38ae196b123a42af5d568ecb502329d6"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "6e2aaa5522e122f7f4dc8467b94d0b4a"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "0ca3f7423c199f09fb9289ba14122aba"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "226233249898b5f66c0c3d45157e34b0"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "6e2aaa5522e122f7f4dc8467b94d0b4a"
+    }
+   ],
+   "levels": [],
+   "label_of": 0
+  }
+ ]
+}

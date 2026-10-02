@@ -1,0 +1,58 @@
+{
+ "id": "ho-zenodo17587777-czi-organoid",
+ "file": "Figure3_HCO_EBOV_Infected_Day3_Inclusion_Rep2.czi",
+ "size": 4296064,
+ "sha256": "62395c8cf3f8a2a3ebc82c92c2c4b1ba37efa3ca6f5e1566dabc2ce553ce454b",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.13178822816695077,
+    "y": 0.13178822816695077,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6a4e3fcc3837d8ee3b5ae4683a452282"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7ede7c687271364e5876030c43d38c6c"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.13178822816695077,
+  "y": 0.13178822816695077,
+  "z": 0.0
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

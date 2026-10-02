@@ -1,0 +1,194 @@
+{
+ "id": "nlx-cheetah-v5-4-0-csc5-trunc-ncs",
+ "file": "nlx-cheetah-v5-4-0-csc5-trunc.ncs",
+ "format": "neuralynx",
+ "family": "electrophysiology",
+ "readers": [
+  "Neo 0.14.5 (BSD-3) NlxHeader: `## Time Opened` / `-TimeCreated`",
+  "nept 0.1.0 (MIT) load_lfp / load_neuralynx_header"
+ ],
+ "checks": [
+  {
+   "field": "header time opened",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2001-01-01T00:00:00",
+   "cmp": "time_or_utc",
+   "abs": 0.002
+  },
+  {
+   "field": "sample rate (-SamplingFrequency)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_rate_hz",
+   "theirs": 1017.375,
+   "cmp": "num",
+   "rel": 1e-09,
+   "reader": 1
+  },
+  {
+   "field": "channel name (-AcqEntName)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels/0/name",
+   "theirs": "CSC5",
+   "cmp": "text",
+   "reader": 1
+  },
+  {
+   "field": "channel unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels/0/unit",
+   "theirs": "µV",
+   "cmp": "loose",
+   "reader": 1
+  },
+  {
+   "field": "segments (time-stamp gaps)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sweep_count",
+   "theirs": 1,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    -58.58370000000001,
+    -40.3461,
+    -20.272500000000004,
+    4.8501,
+    18.6048,
+    21.5577,
+    27.540000000000003,
+    37.3626,
+    34.5474,
+    32.6043,
+    35.572500000000005,
+    40.22370000000001,
+    52.00470000000001,
+    72.2466,
+    90.54540000000001,
+    101.745,
+    104.60610000000001,
+    109.9458,
+    120.07440000000001,
+    130.34070000000003,
+    149.37390000000002,
+    165.1176,
+    152.9694,
+    124.97040000000001,
+    78.2748,
+    40.9887,
+    34.6392,
+    31.716900000000003,
+    18.6813,
+    9.8838,
+    -2.4174,
+    -4.2381
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.013351e-10,
+   "reader": 1
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 3584,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -501.3351,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.013351e-10,
+   "reader": 1
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 418.63860000000005,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.013351e-10,
+   "reader": 1
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 3.5953420479910725,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.013351e-07,
+   "reader": 1
+  }
+ ]
+}

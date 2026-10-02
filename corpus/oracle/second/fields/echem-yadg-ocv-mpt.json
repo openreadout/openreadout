@@ -1,0 +1,31 @@
+{
+ "id": "echem-yadg-ocv-mpt",
+ "file": "echem-yadg-ocv.mpt",
+ "format": "biologic-mpt",
+ "family": "bench",
+ "readers": [
+  "the file's text header, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "Acquisition started on",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2020-01-16T14:13:34",
+   "cmp": "time"
+  },
+  {
+   "field": "Device",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "VMP3",
+   "cmp": "loose"
+  }
+ ]
+}

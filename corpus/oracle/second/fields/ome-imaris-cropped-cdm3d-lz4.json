@@ -1,0 +1,45 @@
+{
+ "id": "ome-imaris-cropped-cdm3d-lz4",
+ "file": "ome-imaris/croppedCDM3DLz4.ims",
+ "format": "ims",
+ "family": "imaging",
+ "readers": [
+  "h5py 3.16.0 (BSD-3): DataSetInfo/Image RecordingDate",
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "RecordingDate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2011-01-14T01:14:50.181",
+   "cmp": "time",
+   "abs": 0.001
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 154,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 146,
+   "cmp": "exact",
+   "reader": 1
+  }
+ ]
+}

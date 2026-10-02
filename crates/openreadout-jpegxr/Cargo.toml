@@ -1,0 +1,21 @@
+[package]
+name = "openreadout-jpegxr"
+description = "Memory-safe JPEG XR decoder in Rust, bit-exact with jxrlib"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+# A port of jxrlib (Copyright Microsoft Corp., BSD 2-clause); the port keeps that licence.
+license = "BSD-2-Clause"
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["jpeg-xr", "jxr", "hd-photo", "czi", "decoder"]
+categories = ["multimedia::images", "compression", "parser-implementations"]
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-jpegxr"
+include = ["/src", "/README.md", "/LICENSE"]
+
+[dependencies]
+
+[lints]
+workspace = true

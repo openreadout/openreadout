@@ -1,0 +1,41 @@
+{
+ "id": "jcamp-isas-specfile",
+ "file": "jcamp-isas-specfile.dx",
+ "size": 6460,
+ "sha256": "29d5d78f35e7b256045586f3e0350421c3a0df536e821166060e32af4f633bab",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "POLYETHYLENE",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1801,
+     "channels": [
+      {
+       "xxh3": "aeac36f08e8006a58b28f699c4f61f6c",
+       "first": [
+        97.73718724,
+        97.73718724,
+        97.40906328999999,
+        97.30593861999999,
+        97.17468903999999,
+        97.62468759999999,
+        97.42156324999999,
+        97.24343882
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 1801,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  }
+ ]
+}

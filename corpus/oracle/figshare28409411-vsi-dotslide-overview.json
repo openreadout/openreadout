@@ -1,0 +1,144 @@
+{
+ "id": "figshare28409411-vsi-dotslide-overview",
+ "file": "144105_13_Image_Overview.vsi",
+ "size": 528502,
+ "sha256": "bb2dea9f10bd59df4570c7e622078497bd45ea9469a79ab032bb28610e651d99",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "overview",
+   "size_x": 7685,
+   "size_y": 16421,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 3.2495351739611413,
+    "y": 3.2496620649395767
+   },
+   "channel_names": [
+    null
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2023-03-16T14:06:45",
+   "resolutions": 7,
+   "planes": [],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 3843,
+     "size_y": 8211,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "17923f754eb014833832de1d0467948f"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 1922,
+     "size_y": 4106,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "6201f5e0218966c3acd9fe95f0617426"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 961,
+     "size_y": 2053,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "2a2a34a744808c5a7edcdbb76dd8059e"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 481,
+     "size_y": 1027,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "fc2dc818a2bb5830219461d4f78e8e9a"
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 241,
+     "size_y": 514,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "e0553f872e7f3894b341592bacead342"
+      }
+     ]
+    },
+    {
+     "level": 6,
+     "size_x": 121,
+     "size_y": 257,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "7d84d2828ddf606e360e4bc00f12aa19"
+      }
+     ]
+    }
+   ],
+   "level_sizes": [
+    [
+     7685,
+     16421
+    ],
+    [
+     3843,
+     8211
+    ],
+    [
+     1922,
+     4106
+    ],
+    [
+     961,
+     2053
+    ],
+    [
+     481,
+     1027
+    ],
+    [
+     241,
+     514
+    ],
+    [
+     121,
+     257
+    ]
+   ]
+  }
+ ]
+}

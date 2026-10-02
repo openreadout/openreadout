@@ -1,0 +1,31 @@
+{
+ "id": "echem-yadg-cp-mpt",
+ "file": "echem-yadg-cp.mpt",
+ "format": "biologic-mpt",
+ "family": "bench",
+ "readers": [
+  "the file's text header, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "Acquisition started on",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-03-02T16:17:59",
+   "cmp": "time"
+  },
+  {
+   "field": "Device",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "SP-240",
+   "cmp": "loose"
+  }
+ ]
+}

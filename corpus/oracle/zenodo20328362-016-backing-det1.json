@@ -1,0 +1,44 @@
+{
+ "id": "zenodo20328362-016-backing-det1",
+ "file": "zenodo20328362-016-backing-det1.spc",
+ "size": 28656,
+ "sha256": "bec52a750e32869b25440f66adb3f242ea231912c4ea4888a6071fd858ef4f7c",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_spc",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 6950,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6950,
+     "channels": [
+      {
+       "xxh3": "deba6fabedf253be7f925937a87944b6",
+       "first": [
+        0.16613900661468506,
+        0.16465461254119873,
+        0.16297930479049683,
+        0.161124587059021,
+        0.1591150015592575,
+        0.1569828987121582,
+        0.15476223826408386,
+        0.15248173475265503
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 649.904,
+   "x_last": 4000.188
+  }
+ ],
+ "second_opinion": {
+  "reader": "spc-io 0.2.1 (MIT)",
+  "values_agree": true
+ }
+}

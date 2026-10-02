@@ -1,0 +1,44 @@
+{
+ "id": "zenodo7482510-water-2020-02-27",
+ "file": "zenodo7482510-water-2020-02-27.spc",
+ "size": 7954,
+ "sha256": "2bc76ceaf614242ea94f852589830b385bc4a57bd0d97a2463c5d2ea154a9155",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_spc",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1803,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1803,
+     "channels": [
+      {
+       "xxh3": "5ed3b0aeed19fdb655887e9bcc2db339",
+       "first": [
+        0.005491605494171381,
+        0.00566181680187583,
+        0.005911858752369881,
+        0.006015452090650797,
+        0.006045225542038679,
+        0.0059307292103767395,
+        0.005913137923926115,
+        0.005851407535374165
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4000.539763212204,
+   "x_last": 649.0880415439606
+  }
+ ],
+ "second_opinion": {
+  "reader": "spc-io 0.2.1 (MIT)",
+  "values_agree": true
+ }
+}

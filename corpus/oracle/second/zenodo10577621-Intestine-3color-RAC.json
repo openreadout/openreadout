@@ -1,0 +1,38 @@
+{
+ "id": "zenodo10577621-Intestine-3color-RAC",
+ "file": "zenodo10577621-Intestine-3color-RAC.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 7626,
+   "size_y": 7612,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e2694903cb17f1237191a91177990b10"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4bf2430b550e4277ea5ef5f8922fb15c"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bd044ce415e81385207e48cc67717400"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5c6ce6baa819e172bd745a21f211dddd"
+    }
+   ]
+  }
+ ]
+}

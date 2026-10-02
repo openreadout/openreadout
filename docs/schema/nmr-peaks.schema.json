@@ -1,0 +1,620 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NmrReport",
+  "description": "Output of `analyze nmr-peaks`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input path.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id.",
+      "type": "string"
+    },
+    "source": {
+      "description": "`processed` (a spectrum the vendor software stored) or `fid` (processed here).",
+      "type": "string"
+    },
+    "trace": {
+      "description": "Trace used (see `info` → `traces[]`).",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "trace_name": {
+      "description": "Its name.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sweep": {
+      "description": "Sweep (row) used.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "nucleus": {
+      "description": "Observed nucleus, when known.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "processing": {
+      "description": "How the FID was processed (`source` = `fid` only).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ProcessingRecord"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "axis": {
+      "description": "The chemical-shift axis of the spectrum.",
+      "$ref": "#/$defs/PpmAxis"
+    },
+    "noise_sd": {
+      "description": "Robust noise standard deviation (same units as `height`).",
+      "type": "number",
+      "format": "double"
+    },
+    "peak_options": {
+      "description": "Thresholds used.",
+      "$ref": "#/$defs/PeakOptions"
+    },
+    "peak_count": {
+      "description": "Number of peaks found.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "main_peak": {
+      "description": "The tallest positive peak (named like `analyze peaks` → `main_peak` for chromatograms).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Peak"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "peaks": {
+      "description": "Peaks, high shift first.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Peak"
+      }
+    },
+    "integrals": {
+      "description": "Integrals of the requested regions.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Integral"
+      }
+    },
+    "notes": {
+      "description": "Remarks.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "source",
+    "trace",
+    "sweep",
+    "axis",
+    "noise_sd",
+    "peak_options",
+    "peak_count",
+    "peaks"
+  ],
+  "$defs": {
+    "ProcessingRecord": {
+      "description": "What was done, with the values actually used.",
+      "type": "object",
+      "properties": {
+        "steps": {
+          "description": "Steps in order, e.g. `zero_fill`, `group_delay`, `apodization`, `fft`, `phase`, `baseline`.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fid_points": {
+          "description": "Complex points in the FID.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "size": {
+          "description": "Transform size, complex points.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "apodization": {
+          "description": "Window applied.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Apodization"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "apodization_source": {
+          "description": "Where the window width came from: `stored`, `default`, `option`.",
+          "type": "string"
+        },
+        "group_delay_points": {
+          "description": "Group delay removed, points.",
+          "type": "number",
+          "format": "double"
+        },
+        "phase_mode": {
+          "description": "Phase mode actually used: `stored`, `auto`, `manual`, `magnitude`, `none`.",
+          "type": "string"
+        },
+        "phase0_deg": {
+          "description": "Zero-order phase applied, degrees.",
+          "type": "number",
+          "format": "double"
+        },
+        "phase1_deg": {
+          "description": "First-order phase applied, degrees.",
+          "type": "number",
+          "format": "double"
+        },
+        "baseline": {
+          "description": "Baseline correction applied.",
+          "$ref": "#/$defs/BaselineMode"
+        },
+        "parameters": {
+          "description": "Parameters used.",
+          "$ref": "#/$defs/FidParameters"
+        },
+        "stored": {
+          "description": "Stored processing values found (may be unused).",
+          "$ref": "#/$defs/StoredProcessing"
+        },
+        "notes": {
+          "description": "Remarks (fallbacks, clamping).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "steps",
+        "fid_points",
+        "size",
+        "apodization_source",
+        "group_delay_points",
+        "phase_mode",
+        "phase0_deg",
+        "phase1_deg",
+        "baseline",
+        "parameters",
+        "stored"
+      ]
+    },
+    "Apodization": {
+      "description": "Window function applied to the FID.",
+      "oneOf": [
+        {
+          "description": "No window.",
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "none"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "description": "`e^{−π·LB·t}`: Lorentzian lines broadened by `line_broadening_hz`.",
+          "type": "object",
+          "properties": {
+            "line_broadening_hz": {
+              "description": "Added Lorentzian full width at half height, Hz.",
+              "type": "number",
+              "format": "double"
+            },
+            "kind": {
+              "type": "string",
+              "const": "exponential"
+            }
+          },
+          "required": [
+            "kind",
+            "line_broadening_hz"
+          ]
+        },
+        {
+          "description": "`e^{−(π·GB·t)²/(4 ln 2)}`: multiplies each line by a Gaussian of `line_broadening_hz`\nfull width at half height.",
+          "type": "object",
+          "properties": {
+            "line_broadening_hz": {
+              "description": "Gaussian full width at half height, Hz.",
+              "type": "number",
+              "format": "double"
+            },
+            "kind": {
+              "type": "string",
+              "const": "gaussian"
+            }
+          },
+          "required": [
+            "kind",
+            "line_broadening_hz"
+          ]
+        }
+      ]
+    },
+    "BaselineMode": {
+      "description": "Baseline correction choice.",
+      "oneOf": [
+        {
+          "description": "No correction.",
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "none"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "description": "Polynomial through automatically recognised baseline blocks (module docs).",
+          "type": "object",
+          "properties": {
+            "order": {
+              "description": "Polynomial order (0 = constant offset); at most 8.",
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0
+            },
+            "kind": {
+              "type": "string",
+              "const": "polynomial"
+            }
+          },
+          "required": [
+            "kind",
+            "order"
+          ]
+        },
+        {
+          "description": "The default: polynomial of order 1 (offset and tilt).",
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "default"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        }
+      ]
+    },
+    "FidParameters": {
+      "description": "What the processing needs to know about an acquisition.",
+      "type": "object",
+      "properties": {
+        "spectral_width_hz": {
+          "description": "Spectral width (Hz): the complex sampling rate.",
+          "type": "number",
+          "format": "double"
+        },
+        "carrier_frequency_mhz": {
+          "description": "Carrier (transmitter) frequency, MHz: the centre of the spectrum.",
+          "type": "number",
+          "format": "double"
+        },
+        "reference_frequency_mhz": {
+          "description": "Frequency of 0 ppm, MHz (the referencing frequency).",
+          "type": "number",
+          "format": "double"
+        },
+        "group_delay_points": {
+          "description": "Digital-filter group delay in points (0 when the data carry none).",
+          "type": "number",
+          "format": "double"
+        },
+        "conjugate": {
+          "description": "Complex-conjugate the FID before the transform (reverses the frequency axis).",
+          "type": "boolean"
+        },
+        "nucleus": {
+          "description": "Observed nucleus, e.g. `1H`, `13C`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "spectral_width_hz",
+        "carrier_frequency_mhz",
+        "reference_frequency_mhz",
+        "group_delay_points",
+        "conjugate"
+      ]
+    },
+    "StoredProcessing": {
+      "description": "Processing parameters the vendor software stored with the data, in this crate's conventions.",
+      "type": "object",
+      "properties": {
+        "source": {
+          "description": "Where they came from, e.g. `pdata/1/procs` or `procpar`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "size": {
+          "description": "Transform size in complex points.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0
+        },
+        "line_broadening_hz": {
+          "description": "Exponential line broadening, Hz.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "phase0_deg": {
+          "description": "Zero-order phase, degrees (`φ0` of the module docs).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "phase1_deg": {
+          "description": "First-order phase across the whole spectrum, degrees (`φ1`).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "spectrum_stored": {
+          "description": "True when the vendor software also stored a processed spectrum made with these values.",
+          "type": "boolean",
+          "default": false
+        },
+        "first_point_factor": {
+          "description": "Factor applied to the first FID point (Bruker `FCOR`); `None`: 0.5.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "time_domain_points": {
+          "description": "Complex FID points the vendor processing used (Bruker `TDeff` / 2); `None`: all.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0
+        }
+      }
+    },
+    "PpmAxis": {
+      "description": "A regular chemical-shift axis: point `k` is at `first_ppm + k · step_ppm`.",
+      "type": "object",
+      "properties": {
+        "first_ppm": {
+          "description": "Chemical shift of point 0 (the left, high-frequency edge), ppm.",
+          "type": "number",
+          "format": "double"
+        },
+        "step_ppm": {
+          "description": "Increment per point, ppm (negative: shifts decrease left to right).",
+          "type": "number",
+          "format": "double"
+        },
+        "size": {
+          "description": "Number of points.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "reference_frequency_mhz": {
+          "description": "Frequency of 0 ppm, MHz (converts ppm to Hz).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "first_ppm",
+        "step_ppm",
+        "size",
+        "reference_frequency_mhz"
+      ]
+    },
+    "PeakOptions": {
+      "description": "Peak-picking thresholds.",
+      "type": "object",
+      "properties": {
+        "min_snr": {
+          "description": "Minimum height as a multiple of the noise SD.",
+          "type": "number",
+          "format": "double"
+        },
+        "min_height_fraction": {
+          "description": "Minimum height as a fraction of the tallest point in the searched range (0 = off).",
+          "type": "number",
+          "format": "double"
+        },
+        "min_prominence_snr": {
+          "description": "Minimum prominence as a multiple of the noise SD.",
+          "type": "number",
+          "format": "double"
+        },
+        "include_negative": {
+          "description": "Also report negative peaks.",
+          "type": "boolean"
+        },
+        "range_ppm": {
+          "description": "Only search between these shifts (ppm, either order).",
+          "type": [
+            "array",
+            "null"
+          ],
+          "prefixItems": [
+            {
+              "type": "number",
+              "format": "double"
+            },
+            {
+              "type": "number",
+              "format": "double"
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "max_peaks": {
+          "description": "Keep at most this many peaks (the tallest).",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "min_snr",
+        "min_height_fraction",
+        "min_prominence_snr",
+        "include_negative",
+        "max_peaks"
+      ]
+    },
+    "Peak": {
+      "description": "One picked peak.",
+      "type": "object",
+      "properties": {
+        "ppm": {
+          "description": "Chemical shift, ppm (parabolic interpolation).",
+          "type": "number",
+          "format": "double"
+        },
+        "hz": {
+          "description": "Frequency relative to 0 ppm, Hz.",
+          "type": "number",
+          "format": "double"
+        },
+        "index": {
+          "description": "Index of the maximum point.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "height": {
+          "description": "Interpolated height (negative for negative peaks).",
+          "type": "number",
+          "format": "double"
+        },
+        "width_hz": {
+          "description": "Full width at half height, Hz (`None` when overlapping lines hide the half-height point).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "width_ppm": {
+          "description": "Full width at half height, ppm.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "snr": {
+          "description": "|height| / noise SD (`None` when the noise SD is 0).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "ppm",
+        "hz",
+        "index",
+        "height"
+      ]
+    },
+    "Integral": {
+      "description": "One integral.",
+      "type": "object",
+      "properties": {
+        "from_ppm": {
+          "description": "High-shift end of the region, ppm.",
+          "type": "number",
+          "format": "double"
+        },
+        "to_ppm": {
+          "description": "Low-shift end of the region, ppm.",
+          "type": "number",
+          "format": "double"
+        },
+        "value": {
+          "description": "Sum of the points × point spacing (intensity·ppm).",
+          "type": "number",
+          "format": "double"
+        },
+        "normalized": {
+          "description": "`value` rescaled so the reference region has the reference value (`None` when the\nreference integral is 0 or missing).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "points": {
+          "description": "Points summed.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "from_ppm",
+        "to_ppm",
+        "value",
+        "points"
+      ]
+    }
+  }
+}

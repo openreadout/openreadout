@@ -1,0 +1,28 @@
+{
+ "id": "gen5-fluor-filter-step-label",
+ "file": "gen5-fluor-filter-step-label.txt",
+ "size": 2644,
+ "sha256": "6e4c770fdcb021dbd68216e8b223bf3e58a35d108a0788a2b6735781a9cbe683",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (AGILENT_GEN5)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "fluorescence",
+    "wells": 96,
+    "values": 192,
+    "errors": 0,
+    "wavelengths": [
+     460.0,
+     528.0
+    ],
+    "value_xxh3": "b132180ec90eb98892213961a8b45133"
+   }
+  ],
+  "header": {
+   "model": "Synergy H1",
+   "software_version": "3.12.08"
+  },
+  "documents": 96
+ }
+}

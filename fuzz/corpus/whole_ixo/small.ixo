@@ -1,0 +1,23 @@
+<objectstream signature="IXOS" version="1">
+<obj name="root" class="HTCExperiment" version="5"><prop name="name">T</prop><prop name="SWVersion">LCS480 1.5.1.62</prop>
+<obj name="run" class="HTCRun" version="1"><prop name="name">Run</prop><prop name="StartTime">2023-06-26T09:20:12.455</prop><prop name="InstrumentName">LightCycler 480</prop>
+<prop name="AcquisitionStore">eJzdlE9PgzAYh78KabwPEG9A8ooYPZiwjHjwVrHBmv7BtnOZn96yDelitxNOMw4kb3jf9vk9oU3l81sgMCcZUlIaFDQMa52hu7qA5n1JNTVUioWRiqDggyhtqwxFKE87JbvdZPGKhSCskEthUB6ls/7bXscC846RXUM8NDCqzbDEumFE2+37lgwldoOR7N4Q/k1Wb1oPw1RKtgpzlIc+DtJycghyu/A45+A5LkbI6Aik9XfLpDPmAF/uA9eEdyi/SMLkJnQeH+DWsz/aI2b0xR/MklSSCqNRDlBAtQKQJWRD58yGsO8+7lD8lfvonN1/NuuH3v3qf7r3Hcuzcc87/tS7L8vyN917777BfTzBnRNP7P4qPMWdcw1zAGh//PfTJklOkAQ2SebHT7BbfAHxyHDT</prop>
+<obj name="Protocol" class="HTCProtocol" version="1"><obj name="Programs" class="HTCRunProgramList" version="1"><list name="emlist" count="2">
+<obj name="item" class="HTCRunProgram" version="1"><prop name="name">Cycling</prop><prop name="Cycles">3</prop><prop name="AnalysisMode">Quantification</prop><obj name="Segments" class="TEMRunSegmentList" version="1"><list name="emlist" count="2">
+<obj name="item" class="HTCRunSegment" version="2"><prop name="Hold">5</prop><prop name="Target">95</prop><prop name="AcquisitionMode">0</prop></obj>
+<obj name="item" class="HTCRunSegment" version="2"><prop name="Hold">15</prop><prop name="Target">58</prop><prop name="AcquisitionMode">1</prop></obj></list></obj></obj>
+<obj name="item" class="HTCRunProgram" version="1"><prop name="name">Melting</prop><prop name="Cycles">1</prop><prop name="AnalysisMode">Melting Curves</prop><obj name="Segments" class="TEMRunSegmentList" version="1"><list name="emlist" count="2">
+<obj name="item" class="HTCRunSegment" version="2"><prop name="Target">65</prop><prop name="AcquisitionMode">0</prop></obj>
+<obj name="item" class="HTCRunSegment" version="2"><prop name="Target">97</prop><prop name="AcquisitionMode">2</prop></obj></list></obj></obj>
+</list>
+<obj name="Container" class="HTCBlockType" version="1"><prop name="RowCount">1</prop><prop name="ColCount">2</prop></obj>
+<obj name="DetectionFormats" class="DetectionFormats" version="2"><list name="emlist" count="1"><obj name="item" class="HTCDetectionFormat" version="1"><list name="emlist" count="1">
+<obj name="item" class="HTCChannel" version="1"><prop name="name">498-640</prop><prop name="EmissionWL">640</prop><prop name="ExcitationWL">498</prop></obj></list><prop name="name">F</prop></obj></list><prop name="DefFormatName">F</prop></obj>
+</obj></obj></obj>
+<obj name="analyses" class="AnalysisList" version="1"><list name="emlist" count="1"><obj name="item" class="Legacy Absolute Quantification Analysis" version="1"><prop name="name">Abs Quant/2nd Derivative Max</prop>
+<obj name="AnaSamples" class="TAnalysisSampleList" version="1"><list name="emlist" count="2"><obj name="item" class="QuantSampleB" version="2"><prop name="IsIncluded">1</prop><prop name="Pos">0</prop><prop name="Call">0</prop><prop name="CrossingPoint">0</prop></obj><obj name="item" class="QuantSampleB" version="2"><prop name="IsIncluded">1</prop><prop name="Pos">1</prop><prop name="Call">2</prop><prop name="CrossingPoint">2.5</prop></obj></list></obj>
+<obj name="ProgramInfo" class="ProgramInfo" version="1"><prop name="SelectedProgram">0</prop></obj>
+<obj name="ChannelRatio" class="ChannelRatio" version="1"><prop name="NumeratorEWL">640</prop><prop name="NumeratorXWL">498</prop><prop name="DenominatorEWL">0</prop></obj></obj></list></obj>
+</obj>
+</objectstream>
+$18E8ABDB-DA8A33BB-77973CA2-E2C7AE51

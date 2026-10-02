@@ -1,0 +1,72 @@
+{
+ "id": "wdf-zenodo8102788-ooid",
+ "file": "wdf-zenodo8102788-ooid.wdf",
+ "size": 78503,
+ "sha256": "f68a55d2778d70cd4e962b0c06c727c3a7d4c772a8f83fee425c45426edda95f",
+ "max_planes_hashed": 64,
+ "reader": "renishawWiRE (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "renishawWiRE",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sample_count": 1015,
+   "x_first": 1314.7861328125,
+   "x_last": 104.3447265625,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1015,
+     "channels": [
+      {
+       "xxh3": "882c35d383305fc0b1fc052b1695fe26",
+       "first": [
+        1314.7861328125,
+        1313.716796875,
+        1312.646484375,
+        1311.5771484375,
+        1310.5068359375,
+        1309.435546875,
+        1308.365234375,
+        1307.2939453125
+       ]
+      },
+      {
+       "xxh3": "97e1d82aef588f8895c464988e999e85",
+       "first": [
+        15166.8408203125,
+        15129.44921875,
+        15091.6015625,
+        15093.478515625,
+        15207.4658203125,
+        15204.6474609375,
+        15089.7578125,
+        15061.28125
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "accumulations": 32,
+     "laser_wavelength_nm": 785.391714117416
+    }
+   }
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 1,
+   "parameter_names": [],
+   "column_hashes": {},
+   "approx_columns": {
+    "time_s": [
+     0.0
+    ]
+   }
+  }
+ ]
+}

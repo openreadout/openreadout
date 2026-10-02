@@ -1,0 +1,26 @@
+{
+ "id": "nlx-bml-unfilledsplit-ncs",
+ "file": "nlx-bml-unfilledsplit.ncs",
+ "format": "neuralynx",
+ "family": "electrophysiology",
+ "readers": [
+  "Neo 0.14.5 (BSD-3) NlxHeader: `## Time Opened` / `-TimeCreated`",
+  "nept 0.1.0 (MIT) load_lfp / load_neuralynx_header"
+ ],
+ "checks": [
+  {
+   "field": "header time opened",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2006-10-20T17:35:12",
+   "cmp": "time_or_utc",
+   "abs": 0.002
+  }
+ ],
+ "notes": [
+  "nept: IndexError: list index out of range"
+ ]
+}

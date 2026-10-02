@@ -1,0 +1,205 @@
+{
+ "id": "zenodo14925254-abeta5-spectral",
+ "file": "zenodo14925254-230724 A-beta5 1 spectral 420-550.oib",
+ "size": 21200896,
+ "sha256": "61ced9b5a9508750ad07b56aec15360598b4820cce51bc285bb91e1b622aa1d4",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box); planes cross-checked with oiffile 2026.2.8",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series 1",
+   "size_x": 640,
+   "size_y": 640,
+   "size_z": 1,
+   "size_c": 25,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.994,
+    "y": 0.994
+   },
+   "channel_names": [
+    "CHS1",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "oiffile_agrees": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f2fdad5d81cddf03b0fb76a95e3b733"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "958d1c2f0eb4aa29cd45eeda3093e8d7"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "09e90e54ffaab90606cbb9b86440bb16"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "44206e354ab15ea384ba2a2750ac0e0c"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d6940f74072aba091797cd6ae61a57a2"
+    },
+    {
+     "c": 5,
+     "z": 0,
+     "t": 0,
+     "xxh3": "83b763abfcbf7356f14e73a972e4c122"
+    },
+    {
+     "c": 6,
+     "z": 0,
+     "t": 0,
+     "xxh3": "83ad157fc78ea1f09212da7e50af2937"
+    },
+    {
+     "c": 7,
+     "z": 0,
+     "t": 0,
+     "xxh3": "454e75d5466057c05474f3fa75208b12"
+    },
+    {
+     "c": 8,
+     "z": 0,
+     "t": 0,
+     "xxh3": "48d66594d867dc179c6c7d659af698ea"
+    },
+    {
+     "c": 9,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c0c3dc933f6da20690178c1b50d9bcff"
+    },
+    {
+     "c": 10,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b17c2cdbc7b78d4c8d58ea1e9734d09d"
+    },
+    {
+     "c": 11,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cc3e3c40c0487b42cc11951c1d91a583"
+    },
+    {
+     "c": 12,
+     "z": 0,
+     "t": 0,
+     "xxh3": "62128b1cdb393b7adf21fc077187d829"
+    },
+    {
+     "c": 13,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2fbd6c0b44ed776c886be1bb380279e4"
+    },
+    {
+     "c": 14,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b9036318313434cfac61a853ccdb458e"
+    },
+    {
+     "c": 15,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9a5cb0314812590ac0e4195b2f75feaf"
+    },
+    {
+     "c": 16,
+     "z": 0,
+     "t": 0,
+     "xxh3": "00d821912456fa0ef6acafe10cb1ae60"
+    },
+    {
+     "c": 17,
+     "z": 0,
+     "t": 0,
+     "xxh3": "84a6ff99e2ae9533ac29fa4adef95f61"
+    },
+    {
+     "c": 18,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b659e51595719e430c48e42f1df5ed02"
+    },
+    {
+     "c": 19,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c4b1633a14468bb4bb88e22ac1802c0d"
+    },
+    {
+     "c": 20,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2d55bf3c758d337ec399651b21c5c935"
+    },
+    {
+     "c": 21,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f6bc6df1b99bb18ebc90bd49ec96da1"
+    },
+    {
+     "c": 22,
+     "z": 0,
+     "t": 0,
+     "xxh3": "885d96121bdb362f1b6e73d29b0ab1b0"
+    },
+    {
+     "c": 23,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ee52fffb9763597e5552d2a538c453fb"
+    },
+    {
+     "c": 24,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e4b33866343b4b0cbbfc8bcf233e69c5"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1191 @@
+{
+ "case": "skanit-elisa",
+ "about": "SkanIt ELISA with its own layout: blank subtraction, 4PL, back-calculated and dilution-corrected concentrations vs SkanIt's results",
+ "input": {
+  "corpus": "skanit-elisa-steps"
+ },
+ "request": {
+  "analysis": "curve"
+ },
+ "checks": [
+  {
+   "path": "curve.fit.parameters[name=a].value",
+   "expect": -0.0677913094509971,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05,
+   "abs": 1e-07
+  },
+  {
+   "path": "curve.fit.parameters[name=a].se",
+   "expect": 0.1341580995888578,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.001
+  },
+  {
+   "path": "curve.fit.parameters[name=b].value",
+   "expect": 0.7898840427320049,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05,
+   "abs": 1e-07
+  },
+  {
+   "path": "curve.fit.parameters[name=b].se",
+   "expect": 0.28266224377054927,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.001
+  },
+  {
+   "path": "curve.fit.parameters[name=c].value",
+   "expect": 0.7488041233721262,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05,
+   "abs": 1e-07
+  },
+  {
+   "path": "curve.fit.parameters[name=c].se",
+   "expect": 0.7682235169985411,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.001
+  },
+  {
+   "path": "curve.fit.parameters[name=d].value",
+   "expect": 2.8973836033776412,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05,
+   "abs": 1e-07
+  },
+  {
+   "path": "curve.fit.parameters[name=d].se",
+   "expect": 1.2932061788521698,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.001
+  },
+  {
+   "path": "curve.fit.parameters[name=a].value",
+   "expect": -0.0678141,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.001,
+   "abs": 0.0001
+  },
+  {
+   "path": "curve.fit.parameters[name=b].value",
+   "expect": 0.78981,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.001,
+   "abs": 0.0001
+  },
+  {
+   "path": "curve.fit.parameters[name=c].value",
+   "expect": 0.748878,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.001,
+   "abs": 0.0001
+  },
+  {
+   "path": "curve.fit.parameters[name=d].value",
+   "expect": 2.89758,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.001,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=A1].flag",
+   "expect": "above_range",
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (> Max)"
+  },
+  {
+   "path": "wells[well=A2].back_calculated",
+   "expect": 0.9022,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=A3].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=A4].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=A5].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=A6].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=A7].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=A8].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=A9].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=A10].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=A11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=A12].back_calculated",
+   "expect": 0.01887,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=B1].back_calculated",
+   "expect": 0.5857,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=B2].back_calculated",
+   "expect": 0.391,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=B3].back_calculated",
+   "expect": 0.0634,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=B4].back_calculated",
+   "expect": 0.08134,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=B5].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=B6].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=B7].back_calculated",
+   "expect": 0.215,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=B8].back_calculated",
+   "expect": 0.2458,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=B9].back_calculated",
+   "expect": 0.03461,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=B10].back_calculated",
+   "expect": 0.03548,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=B11].back_calculated",
+   "expect": 0.1334,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=B12].back_calculated",
+   "expect": 0.1749,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=C1].back_calculated",
+   "expect": 0.2627,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=C2].back_calculated",
+   "expect": 0.2777,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=C3].back_calculated",
+   "expect": 0.03869,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=C4].back_calculated",
+   "expect": 0.03546,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=C5].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=C6].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=C7].back_calculated",
+   "expect": 0.06664,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=C8].back_calculated",
+   "expect": 0.09565,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=C9].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=C10].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=C11].back_calculated",
+   "expect": 0.04696,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=C12].back_calculated",
+   "expect": 0.06122,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=D1].back_calculated",
+   "expect": 0.115,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=D2].back_calculated",
+   "expect": 0.116,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=D3].back_calculated",
+   "expect": 0.256,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=D4].back_calculated",
+   "expect": 0.2712,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=D5].back_calculated",
+   "expect": 0.08038,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=D6].back_calculated",
+   "expect": 0.07451,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=D7].back_calculated",
+   "expect": 0.0361,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=D8].back_calculated",
+   "expect": 0.04314,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=D9].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=D10].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=D11].back_calculated",
+   "expect": 0.02107,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=D12].back_calculated",
+   "expect": 0.03431,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E1].back_calculated",
+   "expect": 0.06518,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E2].back_calculated",
+   "expect": 0.06541,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E3].back_calculated",
+   "expect": 0.1217,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E4].back_calculated",
+   "expect": 0.1078,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E5].back_calculated",
+   "expect": 0.03172,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E6].back_calculated",
+   "expect": 0.03875,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E7].back_calculated",
+   "expect": 0.2504,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E8].back_calculated",
+   "expect": 0.2839,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E9].back_calculated",
+   "expect": 0.06084,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E10].back_calculated",
+   "expect": 0.06666,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E11].back_calculated",
+   "expect": 0.03327,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=E12].back_calculated",
+   "expect": 0.02911,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=F1].back_calculated",
+   "expect": 0.0301,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=F2].back_calculated",
+   "expect": 0.03001,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=F3].back_calculated",
+   "expect": 0.05246,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=F4].back_calculated",
+   "expect": 0.04946,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=F5].back_calculated",
+   "expect": 0.01683,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=F6].back_calculated",
+   "expect": 0.01796,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=F7].back_calculated",
+   "expect": 0.0834,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=F8].back_calculated",
+   "expect": 0.07923,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=F9].back_calculated",
+   "expect": 0.0234,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=F10].back_calculated",
+   "expect": 0.02043,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=F11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=F12].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=G1].back_calculated",
+   "expect": 0.01739,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=G2].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=G3].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=G4].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=G5].back_calculated",
+   "expect": 0.02332,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=G6].back_calculated",
+   "expect": 0.02217,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=G7].back_calculated",
+   "expect": 0.03361,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=G8].back_calculated",
+   "expect": 0.03987,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=G9].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=G10].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=G11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=G12].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=H3].back_calculated",
+   "expect": 0.07176,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=H4].back_calculated",
+   "expect": 0.07171,
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file)",
+   "rel": 0.0015,
+   "abs": 2e-05
+  },
+  {
+   "path": "wells[well=H5].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=H6].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=H7].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=H8].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=H9].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=H10].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=H11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=H12].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "SkanIt 7.0 Standard Curve step (vendor-computed, in the file) (< Min)"
+  },
+  {
+   "path": "wells[well=A12].final_concentration",
+   "expect": 0.03774,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=B3].final_concentration",
+   "expect": 1.585,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=B4].final_concentration",
+   "expect": 2.033,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=B7].final_concentration",
+   "expect": 2.15,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=B8].final_concentration",
+   "expect": 2.458,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=B9].final_concentration",
+   "expect": 0.3461,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=B10].final_concentration",
+   "expect": 0.3548,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=B11].final_concentration",
+   "expect": 1.334,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=B12].final_concentration",
+   "expect": 1.749,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=C3].final_concentration",
+   "expect": 1.935,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=C4].final_concentration",
+   "expect": 1.773,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=C7].final_concentration",
+   "expect": 1.666,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=C8].final_concentration",
+   "expect": 2.391,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=C11].final_concentration",
+   "expect": 1.174,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=C12].final_concentration",
+   "expect": 1.531,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=D3].final_concentration",
+   "expect": 64.0,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=D4].final_concentration",
+   "expect": 67.8,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=D5].final_concentration",
+   "expect": 20.1,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=D6].final_concentration",
+   "expect": 18.63,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=D7].final_concentration",
+   "expect": 1.805,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=D8].final_concentration",
+   "expect": 2.157,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=D11].final_concentration",
+   "expect": 1.054,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=D12].final_concentration",
+   "expect": 1.715,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=E3].final_concentration",
+   "expect": 60.87,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=E4].final_concentration",
+   "expect": 53.91,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=E5].final_concentration",
+   "expect": 15.86,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=E6].final_concentration",
+   "expect": 19.38,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=E7].final_concentration",
+   "expect": 62.61,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=E8].final_concentration",
+   "expect": 70.97,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=E9].final_concentration",
+   "expect": 15.21,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=E10].final_concentration",
+   "expect": 16.67,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=E11].final_concentration",
+   "expect": 8.317,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=E12].final_concentration",
+   "expect": 7.277,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=F3].final_concentration",
+   "expect": 52.46,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=F4].final_concentration",
+   "expect": 49.46,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=F5].final_concentration",
+   "expect": 16.83,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=F6].final_concentration",
+   "expect": 17.96,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=F7].final_concentration",
+   "expect": 41.7,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=F8].final_concentration",
+   "expect": 39.62,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=F9].final_concentration",
+   "expect": 11.7,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=F10].final_concentration",
+   "expect": 10.21,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=G5].final_concentration",
+   "expect": 0.583,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=G6].final_concentration",
+   "expect": 0.5542,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=G7].final_concentration",
+   "expect": 33.61,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=G8].final_concentration",
+   "expect": 39.87,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=H3].final_concentration",
+   "expect": 0.7176,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "wells[well=H4].final_concentration",
+   "expect": 0.7171,
+   "source": "SkanIt 7.0 Dilution Factor step (vendor-computed)",
+   "rel": 0.0015,
+   "abs": 0.0001
+  },
+  {
+   "path": "curve.fit.parameters[name=a].value",
+   "expect": -0.0676339520617127,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.4 (stops early in a flat valley)",
+   "rel": 0.005,
+   "abs": 1e-05
+  },
+  {
+   "path": "curve.fit.parameters[name=b].value",
+   "expect": 0.79024012081155,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.4 (stops early in a flat valley)",
+   "rel": 0.005,
+   "abs": 1e-05
+  },
+  {
+   "path": "curve.fit.parameters[name=c].value",
+   "expect": 0.747873090272937,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.4 (stops early in a flat valley)",
+   "rel": 0.005,
+   "abs": 1e-05
+  },
+  {
+   "path": "curve.fit.parameters[name=d].value",
+   "expect": 2.89580184274172,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) LL.4 (stops early in a flat valley)",
+   "rel": 0.005,
+   "abs": 1e-05
+  },
+  {
+   "path": "curve.fit.parameters[name=a].value",
+   "expect": -0.0677913094448057,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28))",
+   "rel": 1e-06,
+   "abs": 1e-08
+  },
+  {
+   "path": "curve.fit.parameters[name=a].se",
+   "expect": 0.134158035373301,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28)) vcov (Gauss–Newton)",
+   "rel": 0.0001
+  },
+  {
+   "path": "curve.fit.parameters[name=b].value",
+   "expect": 0.789884042746517,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28))",
+   "rel": 1e-06,
+   "abs": 1e-08
+  },
+  {
+   "path": "curve.fit.parameters[name=b].se",
+   "expect": 0.282662099993146,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28)) vcov (Gauss–Newton)",
+   "rel": 0.0001
+  },
+  {
+   "path": "curve.fit.parameters[name=c].value",
+   "expect": 0.748804123332011,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28))",
+   "rel": 1e-06,
+   "abs": 1e-08
+  },
+  {
+   "path": "curve.fit.parameters[name=c].se",
+   "expect": 0.768223124194639,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28)) vcov (Gauss–Newton)",
+   "rel": 0.0001
+  },
+  {
+   "path": "curve.fit.parameters[name=d].value",
+   "expect": 2.89738360330982,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28))",
+   "rel": 1e-06,
+   "abs": 1e-08
+  },
+  {
+   "path": "curve.fit.parameters[name=d].se",
+   "expect": 1.29320546171874,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28)) vcov (Gauss–Newton)",
+   "rel": 0.0001
+  }
+ ]
+}

@@ -1,0 +1,143 @@
+{
+ "id": "bsst749-2a-ishi-hf-fshr-dyngo",
+ "file": "bsst749-2a-ishi-hf-fshr-dyngo.lif",
+ "size": 1245835,
+ "sha256": "049b7bddcf70bfe8012ef1c9f22c3f571e5a6c13be7b897f4d5d68f662a49e5d",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Series002",
+   "path": "Series002",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.12312829745596734,
+    "y": 0.12312829745596904,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "93382e93099f4f5cc3dc912c0c01a853"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Series004",
+   "path": "Series004",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.06664757338551859,
+    "y": 0.06664757338551859,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c51be9a972fd333d7fc35936e9cfd58a"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Series006",
+   "path": "Series006",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.06791395303326798,
+    "y": 0.06791395303326798,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "89a2b69de6946775b5e849d28493a43d"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Series008",
+   "path": "Series008",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.08721639921721787,
+    "y": 0.08721639921722125,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a688166848393b1ed6bf47ad5f3d2a69"
+    }
+   ]
+  }
+ ]
+}

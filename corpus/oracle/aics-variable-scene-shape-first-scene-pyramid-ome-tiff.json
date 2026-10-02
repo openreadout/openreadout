@@ -1,0 +1,93 @@
+{
+ "id": "aics-variable-scene-shape-first-scene-pyramid-ome-tiff",
+ "file": "aics-variable-scene-shape-first-scene-pyramid.ome.tiff",
+ "size": 448662211,
+ "sha256": "5932a7fbed368ad9d45ecb3b10263aa8a77a25173f8ed7c9afd46473170f60e2",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 4,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "ome",
+   "axes": "CYX",
+   "shape": [
+    3,
+    6184,
+    7712
+   ],
+   "size_x": 7712,
+   "size_y": 6184,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 4,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.9082107048835328,
+    "y": 0.9082107048835328
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dc53968362ff47584bdec56a49e3488d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "197d1c765f51fe1804458d20b6322770"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "073643ec316f13056376015d9a4ae116"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "label image",
+   "kind": "ome",
+   "axes": "YX",
+   "shape": [
+    2030,
+    422
+   ],
+   "size_x": 422,
+   "size_y": 2030,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.908210704883533,
+    "y": 0.9082107048835328
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2c3cdb60916225555d2725fa6ade82cc"
+    }
+   ]
+  }
+ ]
+}

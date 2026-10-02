@@ -1,0 +1,764 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BatchOutput",
+  "description": "Output of a batch command in table mode.",
+  "type": "object",
+  "properties": {
+    "measure": {
+      "description": "Measure (`stats`, `trace`, `table`, `gate`, `info`, …).",
+      "type": "string"
+    },
+    "grain": {
+      "description": "Columns that identify a row within its data set.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "inputs": {
+      "description": "How the inputs became data sets.",
+      "$ref": "#/$defs/InputReport"
+    },
+    "joins": {
+      "description": "Sample sheets and layouts joined, in order.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/JoinReport"
+      }
+    },
+    "columns": {
+      "description": "Columns of `rows`, with type, unit and role (`id`, `key`, `metadata`, `annotation`,\n`value`, `error`).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Column"
+      }
+    },
+    "total_rows": {
+      "description": "Rows in the whole table.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "offset": {
+      "description": "Index of the first row in `rows`.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "returned_rows": {
+      "description": "Rows returned here.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "truncated": {
+      "description": "True when the table has rows after the last one returned (page with `offset`, or read\nthe full table from `output`).",
+      "type": "boolean"
+    },
+    "rows": {
+      "description": "Rows as arrays in column order.",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/Value"
+        }
+      }
+    },
+    "summary": {
+      "description": "The group summary (`--by`).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SummaryOutput"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "output": {
+      "description": "The file the full table was written to (`-o`).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WrittenFile"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "warnings": {
+      "description": "Things to check: skipped inputs, grouping, join results.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "measure",
+    "grain",
+    "inputs",
+    "columns",
+    "total_rows",
+    "offset",
+    "returned_rows",
+    "truncated",
+    "rows"
+  ],
+  "$defs": {
+    "InputReport": {
+      "description": "How the inputs turned into data sets.",
+      "type": "object",
+      "properties": {
+        "datasets": {
+          "description": "Data sets measured (rows come from these), including those that failed.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "ok": {
+          "description": "Data sets measured without error.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "failed": {
+          "description": "Data sets that failed (their rows carry `error`).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "skipped_unknown": {
+          "description": "Files found by walking a directory that no reader recognises (not in the table).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "skipped_format": {
+          "description": "Data sets of other formats left out by the format filter.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "skipped_sheets": {
+          "description": "Sample sheets and layouts found among the inputs (never measured).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "grouped_members": {
+          "description": "Files that belong to another input's multi-file data set (measured once, with it).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "skipped_examples": {
+          "description": "A few of the skipped paths, with why.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reused": {
+          "description": "Data sets whose rows were reused from the journal of an interrupted run.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "datasets",
+        "ok",
+        "failed",
+        "skipped_unknown",
+        "skipped_format",
+        "skipped_sheets",
+        "grouped_members"
+      ]
+    },
+    "JoinReport": {
+      "description": "What a join did.",
+      "type": "object",
+      "properties": {
+        "sheet": {
+          "description": "The sheet read.",
+          "$ref": "#/$defs/SampleSheet"
+        },
+        "key": {
+          "description": "The key used: one or more (sheet column, field) pairs, all of which must agree.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/KeyCandidate"
+          }
+        },
+        "auto": {
+          "description": "True when the key was chosen from the data (no `--key`).",
+          "type": "boolean"
+        },
+        "alternatives": {
+          "description": "The next best keys (auto only), to judge how clear the choice was.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/KeyCandidate"
+          }
+        },
+        "annotations": {
+          "description": "Columns added to the table.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "matched_rows": {
+          "description": "Table rows that got annotations.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "rows": {
+          "description": "Rows in the table.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "matched_datasets": {
+          "description": "Data sets with at least one annotated row.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "datasets": {
+          "description": "Data sets in the table.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "unmatched_datasets": {
+          "description": "Data sets no sheet row matched (first 20).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unmatched_datasets_count": {
+          "description": "How many data sets no sheet row matched.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "unmatched_sheet_rows": {
+          "description": "Sheet rows that matched no table row, by their key values (first 20).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unmatched_sheet_rows_count": {
+          "description": "How many sheet rows matched nothing.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "ambiguous": {
+          "description": "Table rows that matched several sheet rows that disagree (first 20); left without\nannotations.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ambiguous_count": {
+          "description": "How many rows were ambiguous.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "warnings": {
+          "description": "Things to check.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "sheet",
+        "key",
+        "auto",
+        "annotations",
+        "matched_rows",
+        "rows",
+        "matched_datasets",
+        "datasets",
+        "unmatched_datasets",
+        "unmatched_datasets_count",
+        "unmatched_sheet_rows",
+        "unmatched_sheet_rows_count",
+        "ambiguous",
+        "ambiguous_count"
+      ]
+    },
+    "SampleSheet": {
+      "description": "A sample sheet or plate layout in long form.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "The file.",
+          "type": "string"
+        },
+        "worksheet": {
+          "description": "Worksheet read (workbooks only).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "description": "Table or plate layout.",
+          "$ref": "#/$defs/SheetKind"
+        },
+        "columns": {
+          "description": "Column names (a layout: `well`, then one per grid).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "plate_wells": {
+          "description": "Plate format of a layout (96, 384, 1536, …).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "notes": {
+          "description": "What was assumed while reading.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "path",
+        "kind",
+        "columns"
+      ]
+    },
+    "SheetKind": {
+      "description": "How the sheet was laid out.",
+      "oneOf": [
+        {
+          "description": "A header row, one row per sample.",
+          "type": "string",
+          "const": "table"
+        },
+        {
+          "description": "Plate-shaped grids, one per annotation, turned into one row per well.",
+          "type": "string",
+          "const": "plate_layout"
+        }
+      ]
+    },
+    "KeyCandidate": {
+      "description": "One key pair tried.",
+      "type": "object",
+      "properties": {
+        "sheet_column": {
+          "description": "Sheet column.",
+          "type": "string"
+        },
+        "field": {
+          "description": "Table key.",
+          "$ref": "#/$defs/KeyField"
+        },
+        "matched_rows": {
+          "description": "Table rows it matches.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "matched_datasets": {
+          "description": "Data sets it matches.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "sheet_column",
+        "field",
+        "matched_rows",
+        "matched_datasets"
+      ]
+    },
+    "KeyField": {
+      "description": "A key of the table's rows a sheet column can match.",
+      "oneOf": [
+        {
+          "description": "The data set's path relative to its input (or any trailing part of it).",
+          "type": "string",
+          "const": "path"
+        },
+        {
+          "description": "The file name with its extension.",
+          "type": "string",
+          "const": "file"
+        },
+        {
+          "description": "The file name without its extension(s) (or with them: `a` and `a.fcs` both match).",
+          "type": "string",
+          "const": "stem"
+        },
+        {
+          "description": "`experiment.sample.id`.",
+          "type": "string",
+          "const": "sample_id"
+        },
+        {
+          "description": "`experiment.sample.name`.",
+          "type": "string",
+          "const": "sample_name"
+        },
+        {
+          "description": "`experiment.sample.barcode` (plate or tube barcode).",
+          "type": "string",
+          "const": "barcode"
+        },
+        {
+          "description": "The row's plate well (`well` column, else `experiment.sample.well`).",
+          "type": "string",
+          "const": "well"
+        },
+        {
+          "description": "`experiment.sample.sequence_position` (vial, autosampler position).",
+          "type": "string",
+          "const": "position"
+        },
+        {
+          "description": "1-based rank of the data set's acquisition start time.",
+          "type": "string",
+          "const": "run_order"
+        },
+        {
+          "description": "Any column of the table (`column:<name>` on the command line).",
+          "type": "object",
+          "properties": {
+            "column": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "column"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Column": {
+      "description": "One column.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name (stable; units that never change are part of it, e.g. `sample_rate_hz`).",
+          "type": "string"
+        },
+        "type": {
+          "description": "Inferred type.",
+          "$ref": "#/$defs/ColumnType"
+        },
+        "unit": {
+          "description": "Unit of every value in the column, when fixed.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "role": {
+          "description": "What the column holds.",
+          "$ref": "#/$defs/Role"
+        },
+        "description": {
+          "description": "One line on its meaning.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "role"
+      ]
+    },
+    "ColumnType": {
+      "description": "Column type, inferred from the cells.",
+      "oneOf": [
+        {
+          "description": "Text.",
+          "type": "string",
+          "const": "string"
+        },
+        {
+          "description": "Whole numbers.",
+          "type": "string",
+          "const": "integer"
+        },
+        {
+          "description": "Real numbers (a column mixing integers and reals is `float`).",
+          "type": "string",
+          "const": "float"
+        },
+        {
+          "description": "`true`/`false`.",
+          "type": "string",
+          "const": "boolean"
+        }
+      ]
+    },
+    "Role": {
+      "description": "What a column holds.",
+      "oneOf": [
+        {
+          "description": "Which data set a row comes from: `path`, `format`, `files`.",
+          "type": "string",
+          "const": "id"
+        },
+        {
+          "description": "The row's position within its data set (the measure's grain): `channel`, `population`,\n`well`, `parameter`, …",
+          "type": "string",
+          "const": "key"
+        },
+        {
+          "description": "Joined from a sample sheet or plate layout.",
+          "type": "string",
+          "const": "annotation"
+        },
+        {
+          "description": "Recorded in the file's own metadata (sample id, well, instrument).",
+          "type": "string",
+          "const": "metadata"
+        },
+        {
+          "description": "A measured or computed value.",
+          "type": "string",
+          "const": "value"
+        },
+        {
+          "description": "`error`, `error_code`.",
+          "type": "string",
+          "const": "error"
+        }
+      ]
+    },
+    "Value": {
+      "description": "One cell.",
+      "anyOf": [
+        {
+          "description": "No value (JSON `null`, an empty CSV field).",
+          "type": "null"
+        },
+        {
+          "description": "`true` / `false`.",
+          "type": "boolean"
+        },
+        {
+          "description": "A whole number.",
+          "type": "integer",
+          "format": "int64"
+        },
+        {
+          "description": "A real number (NaN and infinities are written as `null`).",
+          "type": "number",
+          "format": "double"
+        },
+        {
+          "description": "Text.",
+          "type": "string"
+        }
+      ]
+    },
+    "SummaryOutput": {
+      "description": "A summary: one row per group and value column.",
+      "type": "object",
+      "properties": {
+        "group_by": {
+          "description": "Columns that define a group: `by` plus the measurement dimensions added.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "added_dimensions": {
+          "description": "Dimensions added automatically.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "values": {
+          "description": "Value columns summarized.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "replicate": {
+          "description": "Replicate column, if any.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "test": {
+          "description": "Test and control, if any.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "control": {
+          "description": "The control group (value of the first `by` column).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rows_used": {
+          "description": "Table rows used / left out (errors, filters, missing values).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "rows_excluded": {
+          "description": "Rows left out by filters or errors.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "table": {
+          "description": "The summary table.",
+          "$ref": "#/$defs/Table"
+        },
+        "notes": {
+          "description": "Things to know.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "group_by",
+        "values",
+        "rows_used",
+        "rows_excluded",
+        "table"
+      ]
+    },
+    "Table": {
+      "description": "A table: columns and rows of cells in column order.",
+      "type": "object",
+      "properties": {
+        "columns": {
+          "description": "Columns.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Column"
+          }
+        },
+        "rows": {
+          "description": "Rows; each has one cell per column.",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Value"
+            }
+          }
+        }
+      },
+      "required": [
+        "columns",
+        "rows"
+      ]
+    },
+    "WrittenFile": {
+      "description": "What was written.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "The file.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Its format.",
+          "$ref": "#/$defs/TableFormat"
+        },
+        "rows": {
+          "description": "Data rows.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "columns": {
+          "description": "Columns.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes": {
+          "description": "Size in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "Read back and checked before it was renamed into place.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "format",
+        "rows",
+        "columns",
+        "bytes",
+        "verified"
+      ]
+    },
+    "TableFormat": {
+      "description": "A table file format.",
+      "oneOf": [
+        {
+          "description": "Comma-separated values with a header row.",
+          "type": "string",
+          "const": "csv"
+        },
+        {
+          "description": "Tab-separated values with a header row.",
+          "type": "string",
+          "const": "tsv"
+        },
+        {
+          "description": "One JSON object per row and line.",
+          "type": "string",
+          "const": "jsonl"
+        },
+        {
+          "description": "`{\"columns\": [...], \"rows\": [[...], ...]}`.",
+          "type": "string",
+          "const": "json"
+        },
+        {
+          "description": "Apache Parquet (Snappy), with column metadata.",
+          "type": "string",
+          "const": "parquet"
+        }
+      ]
+    }
+  }
+}

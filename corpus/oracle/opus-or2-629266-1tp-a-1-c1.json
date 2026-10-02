@@ -1,0 +1,302 @@
+{
+ "id": "opus-or2-629266-1tp-a-1-c1",
+ "file": "opus-or2-629266-1tp-a-1-c1.0",
+ "size": 304152,
+ "sha256": "d583fb749202b45ccb3f6a520f57032f12294f8fb96ad7aa533b6809e6d60150",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3578,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3578,
+     "channels": [
+      {
+       "xxh3": "1449aa6ec754c5f533a08048d7955366",
+       "first": [
+        0.2152404934167862,
+        0.22247722744941711,
+        0.2243129312992096,
+        0.21782097220420837,
+        0.2079194188117981,
+        0.20774058997631073,
+        0.22053933143615723,
+        0.2316170334815979
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7497.969434666015,
+   "x_last": 599.7604151700439,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.190743,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT LN-MCT Mid [Microplate reader]",
+     "instrument": "VERTEX 70",
+     "instrument_serial": "1401",
+     "sample_name": "629266\u00921TP A-1;;;soil;soil",
+     "operator": "Default",
+     "aperture": "1.5 mm",
+     "accessory": "TRANS *15668C45",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "a_2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3578,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3578,
+     "channels": [
+      {
+       "xxh3": "8235dd90493661f4719c9602b435ac05",
+       "first": [
+        0.21602845191955566,
+        0.22275811433792114,
+        0.22445648908615112,
+        0.21888338029384613,
+        0.2099403738975525,
+        0.209670290350914,
+        0.2219676971435547,
+        0.23212683200836182
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7497.969434666015,
+   "x_last": 599.7604151700439,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.190743,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT LN-MCT Mid [Microplate reader]",
+     "instrument": "VERTEX 70",
+     "instrument_serial": "1401",
+     "sample_name": "629266\u00921TP A-1;;;soil;soil",
+     "operator": "Default",
+     "aperture": "1.5 mm",
+     "accessory": "TRANS *15668C45",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3578,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3578,
+     "channels": [
+      {
+       "xxh3": "a33654eb3d7a673b528100d629af4ad3",
+       "first": [
+        0.0015326130669564009,
+        0.0015410329215228558,
+        0.0015535075217485428,
+        0.0015529480297118425,
+        0.0015439073322340846,
+        0.0015463769668713212,
+        0.0015588614623993635,
+        0.0015668572159484029
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7497.969434666015,
+   "x_last": 599.7604151700439,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.190743,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT LN-MCT Mid [Microplate reader]",
+     "instrument": "VERTEX 70",
+     "instrument_serial": "1401",
+     "sample_name": "629266\u00921TP A-1;;;soil;soil",
+     "operator": "Default",
+     "aperture": "1.5 mm",
+     "accessory": "TRANS *15668C45",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 3,
+   "reader": "brukeropus",
+   "brukeropus_key": "igsm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 29460,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 29460,
+     "channels": [
+      {
+       "xxh3": "3e93881a39ea6498a0d66b36a801658c",
+       "first": [
+        -0.0002512154169380665,
+        -0.00030940136639401317,
+        -0.00029316075961105525,
+        -0.00020735480939038098,
+        -0.00010045226372312754,
+        -2.5780344003578648e-05,
+        -1.1529235052876174e-05,
+        -5.545146996155381e-05
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 29459.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.190743,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT LN-MCT Mid [Microplate reader]",
+     "instrument": "VERTEX 70",
+     "instrument_serial": "1401",
+     "sample_name": "629266\u00921TP A-1;;;soil;soil",
+     "operator": "Default",
+     "aperture": "1.5 mm",
+     "accessory": "TRANS *15668C45",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 4,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3584,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3584,
+     "channels": [
+      {
+       "xxh3": "34419063b7583b5f71abe51dc66c3e31",
+       "first": [
+        0.0025073853321373463,
+        0.0024734579492360353,
+        0.0024874242953956127,
+        0.0024971063248813152,
+        0.0025203507393598557,
+        0.002573771635070443,
+        0.0026047728024423122,
+        0.0025706342421472073
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7505.683394989746,
+   "x_last": 595.9034350081783,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.190743,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT LN-MCT Mid [Microplate reader]",
+     "instrument": "VERTEX 70",
+     "instrument_serial": "1401",
+     "sample_name": "629266\u00921TP A-1;;;soil;soil",
+     "operator": "Default",
+     "aperture": "1.5 mm",
+     "accessory": "TRANS *15668C45",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 5,
+   "reader": "brukeropus",
+   "brukeropus_key": "igrf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 29460,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 29460,
+     "channels": [
+      {
+       "xxh3": "2f0eae0c2362b18826b35b99a7b95a5f",
+       "first": [
+        -0.0006841541035100818,
+        -0.0008993123192340136,
+        -0.0008912221528589725,
+        -0.0006699145887978375,
+        -0.0003316014481242746,
+        4.788979026670859e-07,
+        0.00024204312649089843,
+        0.00037325857556425035
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 29459.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.190743,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT LN-MCT Mid [Microplate reader]",
+     "instrument": "VERTEX 70",
+     "instrument_serial": "1401",
+     "sample_name": "629266\u00921TP A-1;;;soil;soil",
+     "operator": "Default",
+     "aperture": "1.5 mm",
+     "accessory": "TRANS *15668C45",
+     "scans": 32
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

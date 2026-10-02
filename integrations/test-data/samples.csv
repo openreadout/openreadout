@@ -1,0 +1,3 @@
+file,condition,donor
+tube_a.fcs,control,D1
+tube_b.fcs,treated,D2

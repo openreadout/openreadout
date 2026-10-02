@@ -1,0 +1,343 @@
+{
+ "id": "opus-or2-mmp-2107-test1",
+ "file": "opus-or2-mmp-2107-test1.001",
+ "size": 191128,
+ "sha256": "9a0367f64b2c5cf7596b21a8994bc0e67545b2ae53188b0efd21c080df3aaaa6",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1899,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1899,
+     "channels": [
+      {
+       "xxh3": "7fc5c968282321ad1eb17e2b48d0c259",
+       "first": [
+        0.07139988243579865,
+        0.07208262383937836,
+        0.0723884105682373,
+        0.07191639393568039,
+        0.0709381029009819,
+        0.07061351090669632,
+        0.07143838703632355,
+        0.0722702294588089
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 11540.0,
+   "x_last": 3948.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 8.0,
+     "laser_wavenumber_cm1": 11610.541551,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "TE-InGaAs [Internal Pos.1]",
+     "instrument": "Tango",
+     "instrument_serial": "200265",
+     "sample_name": "Sample_Milchpulver_MMP 2107.0",
+     "operator": "Admin",
+     "accessory": "Integrating Sphere Unit #42317843",
+     "scans": 16
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "match_2ch",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1862,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1862,
+     "channels": [
+      {
+       "xxh3": "79cbb2ce09ddb9afe8af133e533d1c7b",
+       "first": [
+        0.0026469319127500057,
+        0.0026492576580494642,
+        0.0026507829315960407,
+        0.0026509580202400684,
+        0.0026492332108318806,
+        0.002645655767992139,
+        0.002640770049765706,
+        0.002634770469740033
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 11543.418107658283,
+   "x_last": 3947.130590560664,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 8.0,
+     "laser_wavenumber_cm1": 11610.541551,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "TE-InGaAs [Internal Pos.1]",
+     "instrument": "Tango",
+     "instrument_serial": "200265",
+     "sample_name": "Sample_Milchpulver_MMP 2107.0",
+     "operator": "Admin",
+     "accessory": "Integrating Sphere Unit #42317843",
+     "scans": 16
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "match",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1862,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1862,
+     "channels": [
+      {
+       "xxh3": "713f93836190f05e7927fc245d230bd1",
+       "first": [
+        0.6497072577476501,
+        0.6497763991355896,
+        0.649841845035553,
+        0.6499032378196716,
+        0.6499598622322083,
+        0.6500109434127808,
+        0.6500566601753235,
+        0.6500979661941528
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 11543.418107658283,
+   "x_last": 3947.130590560664,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 8.0,
+     "laser_wavenumber_cm1": 11610.541551,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "TE-InGaAs [Internal Pos.1]",
+     "instrument": "Tango",
+     "instrument_serial": "200265",
+     "sample_name": "Sample_Milchpulver_MMP 2107.0",
+     "operator": "Admin",
+     "accessory": "Integrating Sphere Unit #42317843",
+     "scans": 16
+    }
+   }
+  },
+  {
+   "index": 3,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1862,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1862,
+     "channels": [
+      {
+       "xxh3": "fc6bbfcafa699d3418a45a2e36ae5d23",
+       "first": [
+        0.0012131386902183294,
+        0.0012138593010604382,
+        0.001213093288242817,
+        0.0012148832902312279,
+        0.001219267724081874,
+        0.0012230733409523964,
+        0.0012246789410710335,
+        0.0012246781261637807
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 11543.418107658283,
+   "x_last": 3947.130590560664,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 8.0,
+     "laser_wavenumber_cm1": 11610.541551,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "TE-InGaAs [Internal Pos.1]",
+     "instrument": "Tango",
+     "instrument_serial": "200265",
+     "sample_name": "Sample_Milchpulver_MMP 2107.0",
+     "operator": "Admin",
+     "accessory": "Integrating Sphere Unit #42317843",
+     "scans": 16
+    }
+   }
+  },
+  {
+   "index": 4,
+   "reader": "brukeropus",
+   "brukeropus_key": "igsm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 15044,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 15044,
+     "channels": [
+      {
+       "xxh3": "ada6f27f85ab0a943e7783d9f140ca68",
+       "first": [
+        0.0003771832853090018,
+        0.00038609656621702015,
+        0.0003916785935871303,
+        0.00039056516834534705,
+        0.0003850314242299646,
+        0.0003749144379980862,
+        0.0003676347841974348,
+        0.00037415101542137563
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 15043.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 8.0,
+     "laser_wavenumber_cm1": 11610.541551,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "TE-InGaAs [Internal Pos.1]",
+     "instrument": "Tango",
+     "instrument_serial": "200265",
+     "sample_name": "Sample_Milchpulver_MMP 2107.0",
+     "operator": "Admin",
+     "accessory": "Integrating Sphere Unit #42317843",
+     "scans": 16
+    }
+   }
+  },
+  {
+   "index": 5,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1868,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1868,
+     "channels": [
+      {
+       "xxh3": "be6c1c984c677e0de7e75511cb8c9b9a",
+       "first": [
+        0.0022063860669732094,
+        0.0022152764722704887,
+        0.002223019953817129,
+        0.0022289413027465343,
+        0.0022343455348163843,
+        0.0022383318282663822,
+        0.0022405399940907955,
+        0.002244682051241398
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 11559.745431714375,
+   "x_last": 3938.9669285326163,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 8.0,
+     "laser_wavenumber_cm1": 11610.541551,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "TE-InGaAs [Internal Pos.1]",
+     "instrument": "Tango",
+     "instrument_serial": "200265",
+     "sample_name": "Sample_Milchpulver_MMP 2107.0",
+     "operator": "Admin",
+     "accessory": "Integrating Sphere Unit #42317843",
+     "scans": 16
+    }
+   }
+  },
+  {
+   "index": 6,
+   "reader": "brukeropus",
+   "brukeropus_key": "igrf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 15044,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 15044,
+     "channels": [
+      {
+       "xxh3": "775e566b1086a29f98c495acfaffdc80",
+       "first": [
+        0.001801754580810666,
+        0.0018278311472386122,
+        0.0018465429311618209,
+        0.0018416160019114614,
+        0.00181260344106704,
+        0.0017741345800459385,
+        0.0017702470067888498,
+        0.0017999067204073071
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 15043.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 8.0,
+     "laser_wavenumber_cm1": 11610.541551,
+     "apodization": "B3",
+     "beamsplitter": "Quartz",
+     "source": "NIR",
+     "detector": "TE-InGaAs [Internal Pos.1]",
+     "instrument": "Tango",
+     "instrument_serial": "200265",
+     "sample_name": "Sample_Milchpulver_MMP 2107.0",
+     "operator": "Admin",
+     "accessory": "Integrating Sphere Unit #42317843",
+     "scans": 16
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": false
+ }
+}

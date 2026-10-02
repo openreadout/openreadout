@@ -1,0 +1,20 @@
+{
+ "id": "zenodo14541027-SAED1-TEM-0003",
+ "file": "zenodo14541027-SAED1-TEM-0003.dm3",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2115,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "44a40ee6f2ad61d69b4b4d503628342d"
+    }
+   ]
+  }
+ ]
+}

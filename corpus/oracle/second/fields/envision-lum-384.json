@@ -1,0 +1,22 @@
+{
+ "id": "envision-lum-384",
+ "file": "envision-lum-384.csv",
+ "format": "plate",
+ "family": "plate-reader",
+ "readers": [
+  "allotropy 0.1.146 (MIT) ASM `measurement time`"
+ ],
+ "checks": [
+  {
+   "field": "ASM measurement time (wall clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-08-22T12:16:31+00:00",
+   "cmp": "wallclock",
+   "abs": 1.0
+  }
+ ]
+}

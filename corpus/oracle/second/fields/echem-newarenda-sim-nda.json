@@ -1,0 +1,22 @@
+{
+ "id": "echem-newarenda-sim-nda",
+ "file": "echem-newarenda-sim-nda.nda",
+ "format": "neware-nda",
+ "family": "bench",
+ "readers": [
+  "NewareNDA 2026.6.11 (BSD-3): the first record's Timestamp"
+ ],
+ "checks": [
+  {
+   "field": "first record Timestamp",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-09-10T17:52:00",
+   "cmp": "time_or_utc",
+   "abs": 1.0
+  }
+ ]
+}

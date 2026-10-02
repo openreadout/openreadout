@@ -1,0 +1,49 @@
+{
+ "id": "ho-zenodo10222721-zen-export",
+ "file": "642_11-OME TIFF-Export-41.ome.tif",
+ "size": 526278,
+ "sha256": "c203f6bc340fcefc7b31e7ade4b0f01358a43327a701cf2abb833bde9d250e7b",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome",
+  "bigtiff"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "642_11",
+   "kind": "ome",
+   "axes": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.06097275,
+    "y": 0.06097275
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "688b4e69e0bb4f44eb8a492706518b9c"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,82 @@
+{
+ "id": "nmrglue-bruker-1d",
+ "file": "bruker_1d",
+ "size": 34416,
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 2048,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sample_rate_hz": 10000.0,
+   "nmrglue_shape": [
+    2048
+   ],
+   "nmrglue_dtype": "complex128",
+   "reader": "nmrglue 0.12 bruker.read",
+   "parameters": {
+    "acqus": {
+     "TD": 4096,
+     "NS": 512,
+     "DS": 2,
+     "NUC1": "1H",
+     "SFO1": 600.132820611,
+     "BF1": 600.13,
+     "SW_h": 10000,
+     "SW": 16.6629780217968,
+     "DTYPA": 0,
+     "BYTORDA": 1,
+     "NC": -2,
+     "AQ_mod": 3,
+     "DECIM": 16,
+     "DSPFVS": 12,
+     "PULPROG": "oneone.cpj",
+     "SOLVENT": "DMSO",
+     "TE": 298,
+     "DATE": 1187888166,
+     "INSTRUM": "spect",
+     "PROBHD": "5 mm TXI (13C/15N) Z-grad Z8323/0115\n",
+     "FnMODE": 0,
+     "RG": 16384
+    }
+   },
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2048,
+     "channels": [
+      {
+       "xxh3": "9780080e0687b2638af13591a5d9cf93",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "75da5b4c602a128386430d6228516779",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

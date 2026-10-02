@@ -1,0 +1,78 @@
+{
+ "id": "ho-zenodo7352402-attune-nxt",
+ "file": "Tmem119 x IAB AAV NJG 1.6.22_Experimental_E1.fcs",
+ "size": 8001088,
+ "sha256": "b9368d1d45b2b9a4c06208913bba6fd5fc94be2cca6c59e8259445cd66a7c991",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.1",
+   "parameter_count": 16,
+   "event_count": 124889,
+   "parameter_names": [
+    "Time",
+    "FSC-A",
+    "SSC-A",
+    "BL1-A",
+    "BL3-A",
+    "YL4-A",
+    "YL1-A",
+    "RL1-A",
+    "RL3-A",
+    "VL4-A",
+    "VL3-A",
+    "VL1-A",
+    "FSC-H",
+    "SSC-H",
+    "FSC-W",
+    "SSC-W"
+   ],
+   "parameter_labels": [
+    "Time",
+    "FSC-A",
+    "SSC-A",
+    "CX3CR1-FITC-A",
+    "CD8-PerCP-Cy5.5-A",
+    "CD38-PE-Cy7-A",
+    "MHCII-PE-A",
+    "Ly6C-APC-A",
+    "LiveDead-Fixable Near IR-A",
+    "CD4-BV711-A",
+    "CD11b-BV605-A",
+    "CD45-eFluor\u2122 450-A",
+    "FSC-H",
+    "SSC-H",
+    "FSC-W",
+    "SSC-W"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "d99b5669fe9285e00578bb06359125a2",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 124889,
+  "xxh3": "d99b5669fe9285e00578bb06359125a2",
+  "agrees_with_flowio": true
+ }
+}

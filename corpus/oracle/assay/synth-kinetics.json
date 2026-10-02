@@ -1,0 +1,1020 @@
+{
+ "case": "synth-kinetics",
+ "about": "max slope (Vmax), lag, mean slope, AUC, time to max per well",
+ "input": {
+  "fixture": "assay-synth-kinetics.csv"
+ },
+ "request": {
+  "analysis": "kinetics"
+ },
+ "checks": [
+  {
+   "path": "kinetics[well=A1].max_slope_per_min",
+   "expect": 0.020179999999999997,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A1].lag_time_s",
+   "expect": 64.75718533201186,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A1].mean_slope_per_min",
+   "expect": 0.015793830645161298,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A1].auc",
+   "expect": 522.852,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A1].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A1].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A2].max_slope_per_min",
+   "expect": 0.022679999999999992,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A2].lag_time_s",
+   "expect": 111.26984126984121,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A2].mean_slope_per_min",
+   "expect": 0.01841040322580646,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A2].auc",
+   "expect": 566.793,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A2].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A2].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A3].max_slope_per_min",
+   "expect": 0.027710000000000005,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A3].lag_time_s",
+   "expect": 179.17719234933236,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A3].mean_slope_per_min",
+   "expect": 0.02088270161290323,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A3].auc",
+   "expect": 597.54,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A3].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A3].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A4].max_slope_per_min",
+   "expect": 0.030820000000000004,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A4].lag_time_s",
+   "expect": 237.89746917585984,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A4].mean_slope_per_min",
+   "expect": 0.022350887096774203,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A4].auc",
+   "expect": 612.4949999999999,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A4].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A4].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A5].max_slope_per_min",
+   "expect": 0.0338,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A5].lag_time_s",
+   "expect": 55.49112426035502,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A5].mean_slope_per_min",
+   "expect": 0.02434870967741936,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A5].auc",
+   "expect": 790.65,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A5].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A5].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A6].max_slope_per_min",
+   "expect": 0.038,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A6].lag_time_s",
+   "expect": 117.66315789473684,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A6].mean_slope_per_min",
+   "expect": 0.026668629032258074,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A6].auc",
+   "expect": 810.2819999999999,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A6].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=A6].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B1].max_slope_per_min",
+   "expect": 0.04186000000000001,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B1].lag_time_s",
+   "expect": 175.04061156235076,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B1].mean_slope_per_min",
+   "expect": 0.027601290322580654,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B1].auc",
+   "expect": 800.31,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B1].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B1].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B2].max_slope_per_min",
+   "expect": 0.04558000000000001,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B2].lag_time_s",
+   "expect": 237.6042123738482,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B2].mean_slope_per_min",
+   "expect": 0.029787177419354844,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B2].auc",
+   "expect": 806.379,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B2].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B2].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B3].max_slope_per_min",
+   "expect": 0.04785,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B3].lag_time_s",
+   "expect": 56.38871473354234,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B3].mean_slope_per_min",
+   "expect": 0.0305322177419355,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B3].auc",
+   "expect": 1011.819,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B3].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B3].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B4].max_slope_per_min",
+   "expect": 0.05046999999999998,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B4].lag_time_s",
+   "expect": 109.11036259163856,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B4].mean_slope_per_min",
+   "expect": 0.031096935483870984,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B4].auc",
+   "expect": 980.319,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B4].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B4].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B5].max_slope_per_min",
+   "expect": 0.05416000000000001,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B5].lag_time_s",
+   "expect": 175.83456425406203,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B5].mean_slope_per_min",
+   "expect": 0.03339701612903227,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B5].auc",
+   "expect": 978.81,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B5].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B5].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B6].max_slope_per_min",
+   "expect": 0.056810000000000006,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B6].lag_time_s",
+   "expect": 230.91709206125685,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B6].mean_slope_per_min",
+   "expect": 0.03554786290322582,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B6].auc",
+   "expect": 974.508,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B6].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=B6].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C1].max_slope_per_min",
+   "expect": 0.05935,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C1].lag_time_s",
+   "expect": 53.55012636899744,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C1].mean_slope_per_min",
+   "expect": 0.03276084677419356,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C1].auc",
+   "expect": 1153.122,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C1].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C1].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C2].max_slope_per_min",
+   "expect": 0.06502999999999998,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C2].lag_time_s",
+   "expect": 117.41657696447791,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C2].mean_slope_per_min",
+   "expect": 0.035493104838709696,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C2].auc",
+   "expect": 1146.726,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C2].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C2].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C3].max_slope_per_min",
+   "expect": 0.06701000000000001,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C3].lag_time_s",
+   "expect": 174.30532756305035,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C3].mean_slope_per_min",
+   "expect": 0.03800229838709679,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C3].auc",
+   "expect": 1135.818,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C3].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C3].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C4].max_slope_per_min",
+   "expect": 0.07032000000000001,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C4].lag_time_s",
+   "expect": 234.3344709897611,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C4].mean_slope_per_min",
+   "expect": 0.037640040322580656,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C4].auc",
+   "expect": 1072.8990000000001,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C4].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C4].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C5].max_slope_per_min",
+   "expect": 0.07302,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C5].lag_time_s",
+   "expect": 54.87263763352506,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C5].mean_slope_per_min",
+   "expect": 0.03598604838709679,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C5].auc",
+   "expect": 1306.4939999999997,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C5].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C5].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C6].max_slope_per_min",
+   "expect": 0.07841999999999998,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C6].lag_time_s",
+   "expect": 116.89364957918895,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C6].mean_slope_per_min",
+   "expect": 0.03896342741935486,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C6].auc",
+   "expect": 1294.0499999999997,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C6].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=C6].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D1].max_slope_per_min",
+   "expect": 0.07813,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D1].lag_time_s",
+   "expect": 172.59695379495713,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D1].mean_slope_per_min",
+   "expect": 0.038558991935483886,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D1].auc",
+   "expect": 1212.8280000000002,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D1].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D1].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D2].max_slope_per_min",
+   "expect": 0.08272,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D2].lag_time_s",
+   "expect": 234.2988394584139,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D2].mean_slope_per_min",
+   "expect": 0.04124411290322582,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D2].auc",
+   "expect": 1196.349,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D2].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D2].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D3].max_slope_per_min",
+   "expect": 0.08672,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D3].lag_time_s",
+   "expect": 55.19833948339485,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D3].mean_slope_per_min",
+   "expect": 0.03846935483870969,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D3].auc",
+   "expect": 1445.7510000000002,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D3].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D3].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D4].max_slope_per_min",
+   "expect": 0.08670999999999995,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D4].lag_time_s",
+   "expect": 112.76208049821238,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D4].mean_slope_per_min",
+   "expect": 0.038178669354838726,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D4].auc",
+   "expect": 1348.7160000000003,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D4].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D4].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D5].max_slope_per_min",
+   "expect": 0.09129999999999999,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D5].lag_time_s",
+   "expect": 175.0054764512596,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D5].mean_slope_per_min",
+   "expect": 0.041431491935483886,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D5].auc",
+   "expect": 1329.897,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D5].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D5].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D6].max_slope_per_min",
+   "expect": 0.09461,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D6].lag_time_s",
+   "expect": 231.9966176936899,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D6].mean_slope_per_min",
+   "expect": 0.04442310483870969,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D6].auc",
+   "expect": 1307.1210000000003,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D6].time_to_max_s",
+   "expect": 1800.0,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "path": "kinetics[well=D6].window",
+   "expect": 5,
+   "source": "numpy re-implementation of the documented definitions",
+   "rel": 1e-09,
+   "abs": 1e-09
+  }
+ ]
+}

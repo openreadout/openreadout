@@ -1,0 +1,63 @@
+{
+ "id": "bsst749-2a-ishi-hf-fshr-dyngo",
+ "file": "bsst749-2a-ishi-hf-fshr-dyngo.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series002",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "93382e93099f4f5cc3dc912c0c01a853"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Series004",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c51be9a972fd333d7fc35936e9cfd58a"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Series006",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "89a2b69de6946775b5e849d28493a43d"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Series008",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a688166848393b1ed6bf47ad5f3d2a69"
+    }
+   ]
+  }
+ ]
+}

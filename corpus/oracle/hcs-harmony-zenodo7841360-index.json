@@ -1,0 +1,103 @@
+{
+ "id": "hcs-harmony-zenodo7841360-index",
+ "file": "Index.idx.xml",
+ "size": 2616,
+ "sha256": "8ebc36561628bfeb14468d99457d41ca7b42d468449c9660ef528c829ccfdf4b",
+ "max_planes_hashed": 64,
+ "reader": "Python stdlib index parse + tifffile 2026.9.20; Bio-Formats 8.5.0 showinf/bfconvert (GPL, black box)",
+ "hcs": {
+  "format": "opera-harmony",
+  "plate": {
+   "id": "Hoechst",
+   "rows": 8,
+   "columns": 12,
+   "wells_imaged": 1,
+   "fields": 1,
+   "planes_expected": 1,
+   "planes_missing": 0,
+   "planes_absent": 0,
+   "planes_not_recorded": 0,
+   "planes_present": 1
+  },
+  "channels": [
+   "HOECHST 33342"
+  ],
+  "size_c": 1,
+  "size_z": 1,
+  "size_t": 1,
+  "size": [
+   1080,
+   1080
+  ],
+  "pixel_type": "uint16",
+  "pixel_size_um": [
+   1.1959521619135234,
+   1.1959521619135234
+  ],
+  "wells": [
+   {
+    "well": "C07",
+    "images": [
+     0
+    ]
+   }
+  ],
+  "images": [
+   {
+    "index": 0,
+    "well": "C07",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "r03c07f01p01-ch1sk1fk1fl1.tiff",
+      "xxh3": "ec96b2970973048af833bd5e378c913b",
+      "dtype": "uint16",
+      "shape": [
+       1080,
+       1080
+      ]
+     }
+    ]
+   }
+  ],
+  "bioformats": {
+   "series": 1,
+   "size_c": [
+    1
+   ],
+   "size_z": [
+    1
+   ],
+   "size_t": [
+    1
+   ],
+   "sizes": [
+    [
+     1080,
+     1080
+    ]
+   ],
+   "types": [
+    "uint16"
+   ],
+   "physical_size_um": [
+    1.1959521619135234,
+    1.1959521619135234
+   ],
+   "channels": [
+    "HOECHST 33342"
+   ],
+   "fields_mapped": 1,
+   "planes_compared": 1,
+   "planes_agree": 1,
+   "planes_disagree": 0,
+   "absent_planes_blank": 0,
+   "absent_planes_repeated": 0,
+   "problems": []
+  }
+ }
+}

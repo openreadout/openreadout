@@ -1,0 +1,92 @@
+{
+ "id": "aics-ND2-maxime-BF007",
+ "file": "aics-ND2-maxime-BF007.nd2",
+ "size": 270336,
+ "sha256": "e3f449796ac2ce82d5734a607d8899a3ec5a9a575161a3eded2e22eedc1dce92",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 164,
+   "size_y": 156,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Y': 156, 'X': 164}",
+   "physical_size_um": {
+    "x": 0.158389678930686,
+    "y": 0.158389678930686,
+    "z": null
+   },
+   "channel_names": [
+    "405/488/561/633nm"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2462a9dd80982352fc5aa32b6f60383c"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "405/488/561/633nm",
+    "color": "#001EFF",
+    "excitation_nm": 405.0,
+    "emission_nm": 446.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 14368067.872893453,
+    "tags": {
+     "1-AO0-Op": 0,
+     "1-AO1-Op": 0,
+     "1-AO2-Op": 0,
+     "1-AO3-Op": 0,
+     "2-AO0-Op": 0,
+     "2-AO1-Op": 0,
+     "2-AO2-Op": 0,
+     "2-AO3-Op": 0,
+     "Blanking": 0,
+     "CameraTemp1": -70.0,
+     "CameraTemp2": -70.11000061035156,
+     "Camera_ExposureTime1": 50.0,
+     "Camera_ExposureTime2": 20.0,
+     "PFS_OFFSET": 14366,
+     "PFS_STATUS": 1,
+     "Relay": 0,
+     "X": 4565.5,
+     "Y": -2877.2000000000003,
+     "Z": 6153.35,
+     "Z1": 50.0,
+     "Z2": 6203.35
+    }
+   }
+  ],
+  "acquired_at": "2017-07-19T20:44:22.872Z",
+  "acquired_at_unix_ms": 1500497062872
+ },
+ "text_info": {
+  "description": "Numerical Aperture: 1.45\r\nRefractive Index: 1.515\r\n Name: 405/488/561/633nm\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Andor DU-897\r\n  Binning: 1x1\r\n  Exposure: 50 ms\r\n  Multiplier: 300\r\n  Readout Speed: 17 MHz\r\n  Conversion Gain: Gain 3\r\n  Vertical Shift Speed: 3.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -70.0\u00b0C\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Sutter Lambda 10-3, FilterChanger(Filter A): 1 (Empty)\r\n  Sutter Lambda 10-3, FilterChanger(Filter B): 7 (542 nm)\r\n  Nikon Ti, FilterChanger(Turret1): 1 (405/488/561/633nm)\r\n  Nikon Ti, FilterChanger(Turret2): 5\r\n  NIDAQ, Shutter(AOTF1): Closed\r\n  NIDAQ, Shutter(AOTF2): Closed\r\n  NIDAQ, Shutter(DIA): Opened\r\n  Sutter Lambda 10-3, Shutter(EPI): Closed\r\n  LightPath: R100\r\n  PFS, state: On\r\n  PFS, offset: 14366\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  NIDAQ, MultiLaser(AOTF1):\r\n     Line:1; ExW:405; Power: 96.0; Active\r\n     Line:2; ExW:457; Power:100.0; Active\r\n     Line:3; ExW:477; Power:100.0; Active\r\n     Line:4; ExW:488; Power: 96.0; Active\r\n  \r\n  NIDAQ, MultiLaser(AOTF2):\r\n     Line:1; ExW:514; Power:100.0; Active\r\n     Line:2; ExW:543; Power:100.0; Active\r\n     Line:3; ExW:638; Power:100.0; Active\r\n     Line:4; ExW:654; Power:100.0; Active\r\n  \r\n  TIRFMirror State: On\r\n  TIRFPosition Position: 4175.0\r\n",
+  "capturing": "Andor DU-897 X-7244\r\n\r\nCamera Type: Andor DU-897\r\nBinning: 1x1\r\nExposure: 50 ms\r\nMultiplier: 300\r\nReadout Speed: 17 MHz\r\nConversion Gain: Gain 3\r\nVertical Shift Speed: 3.3 \u00b5s\r\nVertical Clock Voltage Amplitude: Normal\r\nTrigger Mode: Internal\r\nTemperature: -70.0\u00b0C",
+  "date": "7/19/2017  1:44:22 PM",
+  "optics": "Plan Apo TIRF 100x Oil DIC H N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=1, heightPx=156, pixelDataType='unsigned', sequenceCount=1, widthBytes=328, widthPx=164, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

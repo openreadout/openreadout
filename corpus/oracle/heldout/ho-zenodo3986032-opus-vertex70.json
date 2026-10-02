@@ -1,0 +1,150 @@
+{
+ "id": "ho-zenodo3986032-opus-vertex70",
+ "file": "12SA18_4.0",
+ "size": 58104,
+ "sha256": "ae2d50264ad225f1dfc985719dc0434c8fd7d7665489082634c5ae1d7d5aeaee",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "t",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3698,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3698,
+     "channels": [
+      {
+       "xxh3": "cf0d06598cfb7d9345b2fb9fccf32836",
+       "first": [
+        0.38893988728523254,
+        0.38841211795806885,
+        0.3910406231880188,
+        0.39553797245025635,
+        0.3997598886489868,
+        0.4008931815624237,
+        0.39849576354026794,
+        0.3950413465499878
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7497.814018249512,
+   "x_last": 368.3339705467224,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.863124,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.1]",
+     "instrument": "VERTEX 70",
+     "sample_name": "12SA18_4",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "accessory": "Baseplate per Trasmissione *08C49A9C",
+     "scans": 16
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3698,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3698,
+     "channels": [
+      {
+       "xxh3": "c3830db2aaeee1b9893af380c6ad4d87",
+       "first": [
+        0.0003547723754309118,
+        0.0003570739645510912,
+        0.00036217569140717387,
+        0.00036714301677420735,
+        0.00036909314803779125,
+        0.00036849750904366374,
+        0.0003684774856083095,
+        0.00036941852886229753
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7497.814018249512,
+   "x_last": 368.3339705467224,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.863124,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.1]",
+     "instrument": "VERTEX 70",
+     "sample_name": "12SA18_4",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "accessory": "Baseplate per Trasmissione *08C49A9C",
+     "scans": 16
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3698,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3698,
+     "channels": [
+      {
+       "xxh3": "aa3e310234ba7d0ad7327d7f37992553",
+       "first": [
+        0.0009121521725319326,
+        0.0009193172445520759,
+        0.0009261842933483422,
+        0.000928211840800941,
+        0.0009232870652340353,
+        0.0009191912831738591,
+        0.0009246710105799139,
+        0.0009351389016956091
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7497.814018249512,
+   "x_last": 368.3339705467224,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.863124,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.1]",
+     "instrument": "VERTEX 70",
+     "sample_name": "12SA18_4",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "accessory": "Baseplate per Trasmissione *08C49A9C"
+    }
+   }
+  }
+ ]
+}

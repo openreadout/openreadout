@@ -1,0 +1,42 @@
+{
+ "id": "openslide-hamamatsu-cmu-1",
+ "file": "openslide-hamamatsu-CMU-1.ndpi",
+ "size": 198030965,
+ "sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ndpi",
+ "flags": [
+  "ndpi"
+ ],
+ "page_count": 5,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "ndpi",
+   "axes": "YXS",
+   "shape": [
+    38144,
+    51200,
+    3
+   ],
+   "size_x": 51200,
+   "size_y": 38144,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 4,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.4564125969876768,
+    "y": 0.4550625711035267
+   },
+   "planes_skipped": "series is 5858918400 bytes (> ORACLE_TIFF_MAX_BYTES)",
+   "planes": []
+  }
+ ]
+}

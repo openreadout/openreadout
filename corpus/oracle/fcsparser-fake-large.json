@@ -1,0 +1,66 @@
+{
+ "id": "fcsparser-fake-large",
+ "file": "fcsparser-fake-large.fcs",
+ "size": 512211,
+ "sha256": "45234ff32577dc15fb06af813cc103bbd3ceb44a66ba0be5db14a2434a200341",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": null,
+   "parameter_count": 11,
+   "event_count": 11585,
+   "parameter_names": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "FITC-A",
+    "PerCP-Cy5-5-A",
+    "AmCyan-A",
+    "PE-Texas Red-A",
+    "Time"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "c4fa7c3ec238f6787aaa8513a5e43f38",
+   "xxh3_reader": "fcsparser"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 11585,
+  "xxh3": "c4fa7c3ec238f6787aaa8513a5e43f38"
+ },
+ "notes": [
+  "flowio (events): ValueError: invalid literal for int() with base 10: b'        '",
+  "flowio (text only): ValueError: invalid literal for int() with base 10: b'        '"
+ ]
+}

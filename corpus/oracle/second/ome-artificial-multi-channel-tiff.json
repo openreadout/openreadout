@@ -1,0 +1,32 @@
+{
+ "id": "ome-artificial-multi-channel-tiff",
+ "file": "ome-artificial-multi-channel.ome.tiff",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 439,
+   "size_y": 167,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0529287b58d969b33c4df69d5b03651c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3c7fc43e3237eca32d1c671218e7a126"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "de962f51c1e71f21d2f9e8681b9a499d"
+    }
+   ]
+  }
+ ]
+}

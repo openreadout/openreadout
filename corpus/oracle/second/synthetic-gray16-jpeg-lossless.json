@@ -1,0 +1,5 @@
+{
+ "id": "synthetic-gray16-jpeg-lossless",
+ "file": "synthetic-gray16-jpeg-lossless.czi",
+ "error": "RuntimeError: The method or operation is not implemented."
+}

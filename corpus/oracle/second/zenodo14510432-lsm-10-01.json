@@ -1,0 +1,38 @@
+{
+ "id": "zenodo14510432-lsm-10-01",
+ "file": "zenodo14510432-10-01.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8701680a4b972469fe66252e5d991a2e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ddd9805fbab6bd408d28d4b25ecc4909"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f45f842bfca2715acfa837da66e2c236"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eeda89dba0de7142bcb7d942d4d4c867"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,39 @@
+{
+ "id": "ho-zenodo4496929-dm3-tomo",
+ "file": "BV_1-100_Zone_5_0002.dm3",
+ "size": 3084177,
+ "sha256": "b3c255cb302e5c8a16f67f583173b01bdd3e195aa1e4100b757d17be35e8583b",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "BV_1-100_0016",
+   "size_x": 1002,
+   "size_y": 668,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.003256895113736391,
+    "y": 0.003256895113736391,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fdb05a0eaff051f1f068f61cd97e0146"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

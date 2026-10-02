@@ -1,0 +1,134 @@
+{
+ "id": "nmrpy-test2-fid",
+ "file": "nmrpy-test2.fid",
+ "format": "varian-nmr",
+ "family": "nmr",
+ "readers": [
+  "nmrglue 0.12 (BSD-3) varian.read_procpar"
+ ],
+ "checks": [
+  {
+   "field": "procpar sfrq",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectrometer_frequency_mhz",
+   "theirs": 242.8758083,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "procpar sw",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectral_width_hz",
+   "theirs": 12143.2908318,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "procpar np",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/time_domain_size",
+   "theirs": 32768,
+   "cmp": "exact"
+  },
+  {
+   "field": "procpar nt",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/scans",
+   "theirs": 1000,
+   "cmp": "exact"
+  },
+  {
+   "field": "procpar tn (nucleus)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/nucleus",
+   "theirs": "31P",
+   "cmp": "text"
+  },
+  {
+   "field": "procpar solvent",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/solvent",
+   "theirs": "cdcl3",
+   "cmp": "text"
+  },
+  {
+   "field": "procpar seqfil",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/pulse_program",
+   "theirs": "s2pul",
+   "cmp": "text"
+  },
+  {
+   "field": "procpar console",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/console",
+   "theirs": "inova",
+   "cmp": "text"
+  },
+  {
+   "field": "procpar probe_",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/probe",
+   "theirs": "BB_5mm",
+   "cmp": "text"
+  },
+  {
+   "field": "procpar pslabel",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/name",
+   "theirs": "PHOSPHORUS",
+   "cmp": "text"
+  },
+  {
+   "field": "procpar temp (°C)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/temperature_c",
+   "theirs": 25.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "procpar time_run",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2016-04-05T15:57:39",
+   "cmp": "time"
+  }
+ ]
+}

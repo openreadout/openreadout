@@ -1,0 +1,50 @@
+{
+ "id": "aics-ND2-dims-t3c2y32x32",
+ "file": "aics-ND2-dims-t3c2y32x32.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 32,
+   "size_y": 32,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ad7674e904a1b51abc9100b0044d1d1e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "366ad924fff2dc9a31174201ba971229"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "325bb009ea2414e30d3715db03eb627b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aa001ecaca2070c82daf3bb52ccfdb62"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "eed79a46c7520f26016e76c0703bf08d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "b3ffde7509e07711459910148618be6e"
+    }
+   ]
+  }
+ ]
+}

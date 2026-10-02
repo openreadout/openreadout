@@ -1,0 +1,14 @@
+{
+ "id": "zenodo10577621-Image-5-PALM-verrechnet",
+ "file": "zenodo10577621-Image-5-PALM-verrechnet.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 0,
+   "size_y": 0,
+   "planes": [],
+   "skip": "pylibCZIrw reports an empty bounding rectangle (-1 x -1)"
+  }
+ ]
+}

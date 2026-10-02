@@ -1,0 +1,39 @@
+{
+ "id": "zenodo11471263-wte2-HRTEM",
+ "file": "zenodo11471263-wte2-HRTEM.dm4",
+ "size": 4807594,
+ "sha256": "6ee13da3f1f6209bbddcd002d6b0b785b9e49d50ec1f4335d0de8985a3aab08e",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "wte2-a3",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 7,
+   "physical_size_um": {
+    "x": 3.0385365709662438e-05,
+    "y": 3.0385365709662438e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3d901ac3643f5157bdbdaa31673ee375"
+    }
+   ],
+   "pixel_type": "int32"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

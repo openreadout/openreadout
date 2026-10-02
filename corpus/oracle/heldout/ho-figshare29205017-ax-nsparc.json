@@ -1,0 +1,145 @@
+{
+ "id": "ho-figshare29205017-ax-nsparc",
+ "file": "SL F2 GREEN - SR.nd2",
+ "size": 8626176,
+ "sha256": "5c609389fba377aa60f149d48e233761cc455ba4a1af9714e1e9e12c29266e13",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 4, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.03000000000000001,
+    "y": 0.03000000000000001,
+    "z": null
+   },
+   "channel_names": [
+    "DAPI",
+    "AF488",
+    "AF555",
+    "AF647"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ff84bbc956b2ccb82ad98852d49ae316"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3bdca4df945b0711506fa4a445e7395a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dfbbc621f3d61682e2c136ccf0ca1df1"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "97870aa00e31a0013699bf9ecbefdb38"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "DAPI",
+    "color": "#001EFF",
+    "excitation_nm": 405.0,
+    "emission_nm": 430.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ]
+   },
+   {
+    "name": "AF488",
+    "color": "#33FF00",
+    "excitation_nm": 488.0,
+    "emission_nm": 503.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ]
+   },
+   {
+    "name": "AF555",
+    "color": "#FFAA00",
+    "excitation_nm": 561.0,
+    "emission_nm": 582.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ]
+   },
+   {
+    "name": "AF647",
+    "color": "#E10000",
+    "excitation_nm": 638.0,
+    "emission_nm": 663.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 6317034.541000068,
+    "tags": {
+     "Camera_000_DAPI_Gain": 0.0,
+     "Camera_001_DAPI_LP": 3.0,
+     "Camera_002_AF488_Gain": 0.0,
+     "Camera_003_AF488_LP": 3.0,
+     "Camera_004_AF555_Gain": 0.0,
+     "Camera_005_AF555_LP": 3.0,
+     "Camera_006_AF647_Gain": 0.0,
+     "Camera_007_AF647_LP": 6.0,
+     "PFS_OFFSET": 12092,
+     "PFS_STATUS": 0,
+     "X": 37625.700000000004,
+     "Y": 11575.400000000001,
+     "Z": 5257.22,
+     "Z1": 5257.22,
+     "Z2": 0.0
+    }
+   }
+  ],
+  "acquired_at": "2025-02-05T18:32:26.237Z",
+  "acquired_at_unix_ms": 1738780346237
+ },
+ "text_info": {
+  "description": "Camera Name: AX\r\nNumerical Aperture: 1.45\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 4\r\nPlane #1:\r\n Name: DAPI\r\n Component Count: 1\r\n Relay Lens Magnification: 1x\r\n Modality: Widefield Fluorescence, Laser Scan Confocal, \r\n           NSPARC\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: NSPARC\r\n  \tScanner: Galvano Unidirectional\r\n  \tScan Mode: Band\r\n  \tLine Integrating: 4x\r\n  \tResolution: 1024 x 1024\r\n  \tDwell Time: 1.6 usec\r\n  \tNSPARC Mode: SR\r\n  \r\n  Components:\r\n  Component DAPI:\r\n  \tDetector: 1\r\n  \tEmission Range: 430 nm - 463 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 405 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF488:\r\n  \tDetector: 1\r\n  \tEmission Range: 503 nm - 545 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF555:\r\n  \tDetector: 1\r\n  \tEmission Range: 582 nm - 618 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 561 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF647:\r\n  \tDetector: 1\r\n  \tEmission Range: 663 nm - 691 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 638 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 6.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Scan Area:\r\n  \tZoom: 5.75\r\n  \tOffset X: 0.00\r\n  \tOffset Y: 0.00\r\n  \tRotation: 0.00\r\n  \r\n  Misc:\r\n  \tProjection Zoom AU: 1.00\r\n  \tDetector Port: Standard\r\n  \tImage Mode: Normal\r\n  \tIR Filter Position: Out\r\n  \tNSPARC Ineffective Area: X: 2 px, Y: 3 px\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 2 (Empty)\r\n  LightPath: L100\r\n  Condenser: 1 ()\r\n  PFS, offset: 12092\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Nikon AX, Shutter(AX LUDS Mechanical): Open\r\nPlane #2:\r\n Name: AF488\r\n Component Count: 1\r\n Relay Lens Magnification: 1x\r\n Modality: Widefield Fluorescence, Laser Scan Confocal, \r\n           NSPARC\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: NSPARC\r\n  \tScanner: Galvano Unidirectional\r\n  \tScan Mode: Band\r\n  \tLine Integrating: 4x\r\n  \tResolution: 1024 x 1024\r\n  \tDwell Time: 1.6 usec\r\n  \tNSPARC Mode: SR\r\n  \r\n  Components:\r\n  Component DAPI:\r\n  \tDetector: 1\r\n  \tEmission Range: 430 nm - 463 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 405 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF488:\r\n  \tDetector: 1\r\n  \tEmission Range: 503 nm - 545 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF555:\r\n  \tDetector: 1\r\n  \tEmission Range: 582 nm - 618 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 561 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF647:\r\n  \tDetector: 1\r\n  \tEmission Range: 663 nm - 691 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 638 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 6.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Scan Area:\r\n  \tZoom: 5.75\r\n  \tOffset X: 0.00\r\n  \tOffset Y: 0.00\r\n  \tRotation: 0.00\r\n  \r\n  Misc:\r\n  \tProjection Zoom AU: 1.00\r\n  \tDetector Port: Standard\r\n  \tImage Mode: Normal\r\n  \tIR Filter Position: Out\r\n  \tNSPARC Ineffective Area: X: 2 px, Y: 3 px\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 2 (Empty)\r\n  LightPath: L100\r\n  Condenser: 1 ()\r\n  PFS, offset: 12092\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Nikon AX, Shutter(AX LUDS Mechanical): Open\r\nPlane #3:\r\n Name: AF555\r\n Component Count: 1\r\n Relay Lens Magnification: 1x\r\n Modality: Widefield Fluorescence, Laser Scan Confocal, \r\n           NSPARC\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: NSPARC\r\n  \tScanner: Galvano Unidirectional\r\n  \tScan Mode: Band\r\n  \tLine Integrating: 4x\r\n  \tResolution: 1024 x 1024\r\n  \tDwell Time: 1.6 usec\r\n  \tNSPARC Mode: SR\r\n  \r\n  Components:\r\n  Component DAPI:\r\n  \tDetector: 1\r\n  \tEmission Range: 430 nm - 463 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 405 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF488:\r\n  \tDetector: 1\r\n  \tEmission Range: 503 nm - 545 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF555:\r\n  \tDetector: 1\r\n  \tEmission Range: 582 nm - 618 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 561 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF647:\r\n  \tDetector: 1\r\n  \tEmission Range: 663 nm - 691 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 638 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 6.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Scan Area:\r\n  \tZoom: 5.75\r\n  \tOffset X: 0.00\r\n  \tOffset Y: 0.00\r\n  \tRotation: 0.00\r\n  \r\n  Misc:\r\n  \tProjection Zoom AU: 1.00\r\n  \tDetector Port: Standard\r\n  \tImage Mode: Normal\r\n  \tIR Filter Position: Out\r\n  \tNSPARC Ineffective Area: X: 2 px, Y: 3 px\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 2 (Empty)\r\n  LightPath: L100\r\n  Condenser: 1 ()\r\n  PFS, offset: 12092\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Nikon AX, Shutter(AX LUDS Mechanical): Open\r\nPlane #4:\r\n Name: AF647\r\n Component Count: 1\r\n Relay Lens Magnification: 1x\r\n Modality: Widefield Fluorescence, Laser Scan Confocal, \r\n           NSPARC\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: NSPARC\r\n  \tScanner: Galvano Unidirectional\r\n  \tScan Mode: Band\r\n  \tLine Integrating: 4x\r\n  \tResolution: 1024 x 1024\r\n  \tDwell Time: 1.6 usec\r\n  \tNSPARC Mode: SR\r\n  \r\n  Components:\r\n  Component DAPI:\r\n  \tDetector: 1\r\n  \tEmission Range: 430 nm - 463 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 405 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF488:\r\n  \tDetector: 1\r\n  \tEmission Range: 503 nm - 545 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF555:\r\n  \tDetector: 1\r\n  \tEmission Range: 582 nm - 618 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 561 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component AF647:\r\n  \tDetector: 1\r\n  \tEmission Range: 663 nm - 691 nm\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 638 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 6.0\r\n  \t\tLaser Port: Standard\r\n  \r\n  Scan Area:\r\n  \tZoom: 5.75\r\n  \tOffset X: 0.00\r\n  \tOffset Y: 0.00\r\n  \tRotation: 0.00\r\n  \r\n  Misc:\r\n  \tProjection Zoom AU: 1.00\r\n  \tDetector Port: Standard\r\n  \tImage Mode: Normal\r\n  \tIR Filter Position: Out\r\n  \tNSPARC Ineffective Area: X: 2 px, Y: 3 px\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 2 (Empty)\r\n  LightPath: L100\r\n  Condenser: 1 ()\r\n  PFS, offset: 12092\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Nikon AX, Shutter(AX LUDS Mechanical): Open\r\n",
+  "capturing": "AX\r\nConfiguration:\r\n\tDetector mode: NSPARC\r\n\tScanner: Galvano Unidirectional\r\n\tScan Mode: Band\r\n\tLine Integrating: 4x\r\n\tResolution: 1024 x 1024\r\n\tDwell Time: 1.6 usec\r\n\tNSPARC Mode: SR\r\n\r\nComponents:\r\nComponent DAPI:\r\n\tDetector: 1\r\n\tEmission Range: 430 nm - 463 nm\r\n\tFirst DM: 405/488/561/640 (Position 1)\r\n\tLaser 405 nm:\r\n\t\tEnabled\r\n\t\tPower: 3.0\r\n\t\tLaser Port: Standard\r\n\r\nComponent AF488:\r\n\tDetector: 1\r\n\tEmission Range: 503 nm - 545 nm\r\n\tFirst DM: 405/488/561/640 (Position 1)\r\n\tLaser 488 nm:\r\n\t\tEnabled\r\n\t\tPower: 3.0\r\n\t\tLaser Port: Standard\r\n\r\nComponent AF555:\r\n\tDetector: 1\r\n\tEmission Range: 582 nm - 618 nm\r\n\tFirst DM: 405/488/561/640 (Position 1)\r\n\tLaser 561 nm:\r\n\t\tEnabled\r\n\t\tPower: 3.0\r\n\t\tLaser Port: Standard\r\n\r\nComponent AF647:\r\n\tDetector: 1\r\n\tEmission Range: 663 nm - 691 nm\r\n\tFirst DM: 405/488/561/640 (Position 1)\r\n\tLaser 638 nm:\r\n\t\tEnabled\r\n\t\tPower: 6.0\r\n\t\tLaser Port: Standard\r\n\r\nScan Area:\r\n\tZoom: 5.75\r\n\tOffset X: 0.00\r\n\tOffset Y: 0.00\r\n\tRotation: 0.00\r\n\r\nMisc:\r\n\tProjection Zoom AU: 1.00\r\n\tDetector Port: Standard\r\n\tImage Mode: Normal\r\n\tIR Filter Position: Out\r\n\tNSPARC Ineffective Area: X: 2 px, Y: 3 px\r\n",
+  "date": "2/5/2025  11:32:26 AM",
+  "optics": "PLAN APO \u03bbD 100x OIL OFN25 DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=4, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=8192, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=4)"
+}

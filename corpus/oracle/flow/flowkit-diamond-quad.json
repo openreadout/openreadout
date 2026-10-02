@@ -1,0 +1,34 @@
+{
+ "generator": "flowkit 1.3.2 (flowutils 1.2.2)",
+ "gating": "flowkit-diamond-quad",
+ "format": "flowjo-wsp",
+ "samples": [
+  {
+   "fcs": "flowkit-diamond",
+   "sample": "test_data_diamond_01.fcs",
+   "event_count": 200000,
+   "populations": [
+    {
+     "path": "/Q1: channel_A- , channel_B+",
+     "count": 49671,
+     "flowjo_count": 49671
+    },
+    {
+     "path": "/Q2: channel_A+ , channel_B+",
+     "count": 50596,
+     "flowjo_count": 50596
+    },
+    {
+     "path": "/Q3: channel_A+ , channel_B-",
+     "count": 50330,
+     "flowjo_count": 50330
+    },
+    {
+     "path": "/Q4: channel_A- , channel_B-",
+     "count": 49403,
+     "flowjo_count": 49403
+    }
+   ]
+  }
+ ]
+}

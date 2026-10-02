@@ -1,0 +1,21 @@
+{
+ "id": "epr-zenodo18969515-eseem",
+ "file": "epr-zenodo18969515-eseem.DSC",
+ "format": "bruker-bes3t",
+ "family": "bench",
+ "readers": [
+  "DeerLab deerload (MIT, vendored): the .DSC parameters"
+ ],
+ "checks": [
+  {
+   "field": "DATE TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-06-14T23:09:20",
+   "cmp": "time"
+  }
+ ]
+}

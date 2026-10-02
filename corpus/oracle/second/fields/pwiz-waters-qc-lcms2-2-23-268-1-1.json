@@ -1,0 +1,76 @@
+{
+ "id": "pwiz-waters-qc-lcms2-2-23-268-1-1",
+ "file": "pwiz-waters/QC_LCMS2-2_23_268-1-1.raw",
+ "format": "waters-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "the .raw's _HEADER.TXT (MassLynx text header), read as text",
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (QC_LCMS2-2_23_268-1-1.mzML)",
+  "the vendor-library conversion (QC_LCMS2-2_23_268-1-1.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "acquisition start (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-09-10T05:00:15",
+   "cmp": "time"
+  },
+  {
+   "field": "instrument (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "ACQ-SQD",
+   "cmp": "text"
+  },
+  {
+   "field": "operator (_HEADER.TXT User Name)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "CPRAnalytics",
+   "cmp": "text"
+  },
+  {
+   "field": "acquired name (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "QC_LCMS2-2_23_268-1-1",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition software version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/software_version",
+   "theirs": "4.1",
+   "cmp": "prefix",
+   "reader": 2
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-09-10T05:00:15Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 2
+  }
+ ]
+}

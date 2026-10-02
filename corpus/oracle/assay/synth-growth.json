@@ -1,0 +1,408 @@
+{
+ "case": "synth-growth",
+ "about": "growth rate and doubling time (ln-scale window) and logistic fit after per-time-point blank subtraction",
+ "input": {
+  "fixture": "assay-synth-growth.csv"
+ },
+ "request": {
+  "analysis": "growth"
+ },
+ "checks": [
+  {
+   "path": "growth[well=A1].growth_rate_per_h",
+   "expect": 0.5452896251315532,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A1].doubling_time_h",
+   "expect": 1.271154169479606,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A1].logistic_r_per_h",
+   "expect": 0.5965395118305935,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=A1].logistic_k",
+   "expect": 0.8004721628157471,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=A2].growth_rate_per_h",
+   "expect": 0.6034494077849804,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A2].doubling_time_h",
+   "expect": 1.1486417446397195,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A2].logistic_r_per_h",
+   "expect": 0.7031066931567288,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=A2].logistic_k",
+   "expect": 0.8501977101527148,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=A3].growth_rate_per_h",
+   "expect": 0.6945079613598122,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A3].doubling_time_h",
+   "expect": 0.9980406548584374,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A3].logistic_r_per_h",
+   "expect": 0.8027215867525409,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=A3].logistic_k",
+   "expect": 0.8998724167798232,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=A3].logistic_r_per_h",
+   "expect": 0.802721586902485,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) SummarizeGrowth(bg_correct = \"none\")",
+   "rel": 0.002
+  },
+  {
+   "path": "growth[well=A3].logistic_k",
+   "expect": 0.899872416775104,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28))",
+   "rel": 0.001
+  },
+  {
+   "path": "growth[well=A3].logistic_doubling_time_h",
+   "expect": 0.863496375168678,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) t_gen",
+   "rel": 0.002
+  },
+  {
+   "path": "growth[well=A4].growth_rate_per_h",
+   "expect": 0.7780371682438026,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A4].doubling_time_h",
+   "expect": 0.8908921178207048,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A4].logistic_r_per_h",
+   "expect": 0.8975965043263033,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=A4].logistic_k",
+   "expect": 0.9501145441740246,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=A5].growth_rate_per_h",
+   "expect": 0.8592189491188643,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A5].doubling_time_h",
+   "expect": 0.8067177536887112,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A5].logistic_r_per_h",
+   "expect": 0.9971447063648157,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=A5].logistic_k",
+   "expect": 1.0000567727070089,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=A5].logistic_r_per_h",
+   "expect": 0.99714470885907,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) SummarizeGrowth(bg_correct = \"none\")",
+   "rel": 0.002
+  },
+  {
+   "path": "growth[well=A5].logistic_k",
+   "expect": 1.00005677263545,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28))",
+   "rel": 0.001
+  },
+  {
+   "path": "growth[well=A5].logistic_doubling_time_h",
+   "expect": 0.695131984757802,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) t_gen",
+   "rel": 0.002
+  },
+  {
+   "path": "growth[well=A6].growth_rate_per_h",
+   "expect": 0.844954192022527,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A6].doubling_time_h",
+   "expect": 0.8203369923531495,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=A6].logistic_r_per_h",
+   "expect": 1.0974846021854494,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=A6].logistic_k",
+   "expect": 0.8003007950372538,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=A6].logistic_r_per_h",
+   "expect": 1.09748460291168,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) SummarizeGrowth(bg_correct = \"none\")",
+   "rel": 0.002
+  },
+  {
+   "path": "growth[well=A6].logistic_k",
+   "expect": 0.800300795043809,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28))",
+   "rel": 0.001
+  },
+  {
+   "path": "growth[well=A6].logistic_doubling_time_h",
+   "expect": 0.631578045578948,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) t_gen",
+   "rel": 0.002
+  },
+  {
+   "path": "growth[well=B1].growth_rate_per_h",
+   "expect": 0.6111126959387077,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B1].doubling_time_h",
+   "expect": 1.1342378994355984,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B1].logistic_r_per_h",
+   "expect": 0.6972890951266983,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=B1].logistic_k",
+   "expect": 0.900358320648699,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=B2].growth_rate_per_h",
+   "expect": 0.6971736650236058,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B2].doubling_time_h",
+   "expect": 0.9942245602987253,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B2].logistic_r_per_h",
+   "expect": 0.8049728386791007,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=B2].logistic_k",
+   "expect": 0.9501157595164939,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=B2].logistic_r_per_h",
+   "expect": 0.804972833168425,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) SummarizeGrowth(bg_correct = \"none\")",
+   "rel": 0.002
+  },
+  {
+   "path": "growth[well=B2].logistic_k",
+   "expect": 0.950115759754344,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28))",
+   "rel": 0.001
+  },
+  {
+   "path": "growth[well=B2].logistic_doubling_time_h",
+   "expect": 0.861081457658234,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) t_gen",
+   "rel": 0.002
+  },
+  {
+   "path": "growth[well=B3].growth_rate_per_h",
+   "expect": 0.7824034449788098,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B3].doubling_time_h",
+   "expect": 0.8859204097429788,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B3].logistic_r_per_h",
+   "expect": 0.9039918572673006,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=B3].logistic_k",
+   "expect": 1.000019077926325,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=B4].growth_rate_per_h",
+   "expect": 0.7854318267096279,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B4].doubling_time_h",
+   "expect": 0.882504575175816,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B4].logistic_r_per_h",
+   "expect": 0.9992675388871417,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=B4].logistic_k",
+   "expect": 0.8000505853412636,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=B5].growth_rate_per_h",
+   "expect": 0.8986228436636503,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B5].doubling_time_h",
+   "expect": 0.7713438239940699,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B5].logistic_r_per_h",
+   "expect": 1.099090797943114,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=B5].logistic_k",
+   "expect": 0.8498040671429996,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=B5].logistic_r_per_h",
+   "expect": 1.09909079979029,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) SummarizeGrowth(bg_correct = \"none\")",
+   "rel": 0.002
+  },
+  {
+   "path": "growth[well=B5].logistic_k",
+   "expect": 0.849804067114445,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28))",
+   "rel": 0.001
+  },
+  {
+   "path": "growth[well=B5].logistic_doubling_time_h",
+   "expect": 0.630655065707222,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) t_gen",
+   "rel": 0.002
+  },
+  {
+   "path": "growth[well=B6].growth_rate_per_h",
+   "expect": 0.5220971141676322,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B6].doubling_time_h",
+   "expect": 1.327621168075243,
+   "source": "numpy re-implementation of the documented µmax definition",
+   "rel": 1e-09
+  },
+  {
+   "path": "growth[well=B6].logistic_r_per_h",
+   "expect": 0.5966584172291995,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 0.0001
+  },
+  {
+   "path": "growth[well=B6].logistic_k",
+   "expect": 0.9003361134526567,
+   "source": "scipy 1.18.1 curve_fit logistic",
+   "rel": 1e-05
+  },
+  {
+   "path": "growth[well=B6].logistic_r_per_h",
+   "expect": 0.596658416105018,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) SummarizeGrowth(bg_correct = \"none\")",
+   "rel": 0.002
+  },
+  {
+   "path": "growth[well=B6].logistic_k",
+   "expect": 0.900336113567729,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28))",
+   "rel": 0.001
+  },
+  {
+   "path": "growth[well=B6].logistic_doubling_time_h",
+   "expect": 1.16171524921211,
+   "source": "R growthcurver 0.3.1 (R version 4.4.3 (2025-02-28)) t_gen",
+   "rel": 0.002
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "id": "softmax-lum-endpoint-utf16",
+ "file": "softmax-lum-endpoint-utf16.txt",
+ "size": 6372,
+ "sha256": "81a681b1468c524a14d5a691b8bf53042bbab3ebaeddb71924a5501d5484e450",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (MOLDEV_SOFTMAX_PRO)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "luminescence",
+    "wells": 48,
+    "values": 96,
+    "errors": 96,
+    "wavelengths": [
+     0.0
+    ],
+    "value_xxh3": "b2ddfede09137f081e8bb9aac53fa49f"
+   }
+  ],
+  "header": {},
+  "documents": 192
+ }
+}

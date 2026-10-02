@@ -1,0 +1,251 @@
+{
+ "id": "ome-imagesc105684-interval-freerun",
+ "file": "ome-imagesc105684-interval-freerun.oir",
+ "size": 25005532,
+ "sha256": "7eaf751363f5040c6f216744b2d4671a075622d0b2842792a3f7582a19fb5dde",
+ "max_planes_hashed": 64,
+ "reader": "oirfile 2026.9.6",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 15,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 2.485922277608956,
+    "y": 2.485922277608956,
+    "z": null
+   },
+   "time_increment_s": 2.166912,
+   "lambda_nm": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "49c298dad479f7eb70a11174e19f3c09"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "026a631f9f7b1d632ef818b656fe008d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "cbe7979b1a3055fbc82ba74570275b5b"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "7cddce939781325c6c372bef6e93da09"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "66703d9a634ad2bfa6287310ef1d0422"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "13c080e316b4262bc16a5b31b1aa41af"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "34487249af1c231f6437c0a283bf6384"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "b0c34a55d11903a664c8bdc039977913"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "1127b13ec786ebbd9aa499bef8c19eeb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "c1627ae2d2fe0e9bb7db8d603a3a2e26"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 10,
+     "xxh3": "1f95f17a34cda0c77ec1d968e07f0e83"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 11,
+     "xxh3": "123a59436f044818885a4b16eb76642b"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 12,
+     "xxh3": "ef5e2bd356276c01ee8043355a352f5f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 13,
+     "xxh3": "c23d7129303863244613cabed1988350"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 14,
+     "xxh3": "c6d443cd26d3df2eda0ccd48404a195c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0179b0f074d6a3dbfffbd160066e0028"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "8c344696077548c4aede5fbbd12a55ec"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "cbdade31efbdea0dd3197adfbb4773e9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 3,
+     "xxh3": "e464da4586e1fa13e0f1b540cd936ffe"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 4,
+     "xxh3": "166611d2a341726d0e4c29e7f7e25644"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 5,
+     "xxh3": "df354b9887c014ad2e755c7a01d0eaec"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 6,
+     "xxh3": "80160e7ad4c6a95e24d4e3b332ba913b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 7,
+     "xxh3": "c05327abdb4d3d7bbc262772f29beb7d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 8,
+     "xxh3": "7a9f6dd4cc4394676f67f9e8692d5180"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 9,
+     "xxh3": "7adb950b1bc241b58b3d2b27d8c5f8c5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 10,
+     "xxh3": "c849f5a98497a77dc253ecf3eb7f63d0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 11,
+     "xxh3": "61bee26ac2a98d2f61fa3037e3084ded"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 12,
+     "xxh3": "505c550c59b5cf41566333762aaf4146"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 13,
+     "xxh3": "33e07ab5116d16a284d660b7a000cbb4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 14,
+     "xxh3": "a4ffbe7a8a26e90c11a2c4d15f6aba38"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "kind": "reference",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 2.485922277608956,
+    "y": 2.485922277608956
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "792c34147fecb6032d31c8a532542a1a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d9bed00bb579829738c76fa5fcdcbdba"
+    }
+   ]
+  }
+ ],
+ "reader_sizes": {
+  "T": 15,
+  "C": 2,
+  "Y": 512,
+  "X": 512
+ },
+ "datetime": "2024-12-02T09:31:42.562+08:00",
+ "companion_files": [],
+ "channel_names": [
+  "CH1",
+  "DAPI",
+  "CH2",
+  "CH3",
+  "Cy5"
+ ]
+}

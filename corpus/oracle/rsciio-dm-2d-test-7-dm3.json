@@ -1,0 +1,39 @@
+{
+ "id": "rsciio-dm-2d-test-7-dm3",
+ "file": "rsciio-dm-2d-test-7-dm3.dm3",
+ "size": 33361,
+ "sha256": "ae59c7a95df6d02a9e3b46f58a887f34ca88d1f215f76b31172ca474d2a99828",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "test",
+   "size_x": 2,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 7,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "903ce79ac359c3eb2de5421794dd19f0"
+    }
+   ],
+   "pixel_type": "int32"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

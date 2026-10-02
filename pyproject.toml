@@ -1,0 +1,75 @@
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "openreadout"
+description = "Read raw lab-instrument files without vendor software, from Python"
+readme = "crates/openreadout-py/README.md"
+license = "MIT OR Apache-2.0"
+requires-python = ">=3.10"
+dynamic = ["version"]
+authors = [{ name = "The OpenReadout Authors", email = "openreadout@gmail.com" }]
+keywords = ["microscopy", "czi", "nd2", "lif", "ome-tiff", "bioimaging", "mass-spectrometry", "thermo-raw", "mzml"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Rust",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Topic :: Scientific/Engineering :: Image Processing",
+  "Typing :: Typed",
+]
+dependencies = ["numpy>=1.22"]
+
+[project.optional-dependencies]
+# Lazy arrays (File.to_dask, File.get_image_dask_data).
+dask = ["dask[array]>=2022.2"]
+# Labelled arrays (File.to_xarray); implies dask.
+xarray = ["dask[array]>=2022.2", "xarray>=2022.3"]
+# Arrow tables (File.to_arrow).
+arrow = ["pyarrow>=14"]
+all = ["dask[array]>=2022.2", "xarray>=2022.3", "pyarrow>=14"]
+test = ["pytest>=7", "dask[array]>=2022.2", "xarray>=2022.3", "tifffile>=2022.2", "pyarrow>=14"]
+
+[project.urls]
+Homepage = "https://github.com/openreadout/openreadout"
+Repository = "https://github.com/openreadout/openreadout"
+Documentation = "https://openreadout.github.io/openreadout/guides/python.html"
+Changelog = "https://github.com/openreadout/openreadout/blob/main/CHANGELOG.md"
+
+[tool.maturin]
+manifest-path = "crates/openreadout-py/Cargo.toml"
+python-source = "crates/openreadout-py/python"
+module-name = "openreadout._native"
+features = ["pyo3/extension-module"]
+# Release build that unwinds on panic (see [profile.release-py] in Cargo.toml).
+profile = "release-py"
+# License texts go into the wheel's .dist-info and the sdist.
+include = [
+  { path = "LICENSE-MIT", format = "sdist" },
+  { path = "LICENSE-APACHE", format = "sdist" },
+  { path = "NOTICE", format = "sdist" },
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["oracle", "*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "RUF"]
+ignore = ["UP006", "UP007", "UP035", "UP045", "B006", "RUF001", "RUF002", "RUF003"]
+
+[tool.mypy]
+strict = true
+files = ["crates/openreadout-py/python/openreadout", "python/bioio-openreadout/bioio_openreadout"]
+
+[tool.pytest.ini_options]
+testpaths = ["crates/openreadout-py/tests", "python/bioio-openreadout/tests"]
+addopts = "--import-mode=importlib"

@@ -1,0 +1,74 @@
+{
+ "id": "nmrxiv-s325-1h",
+ "file": "3b_HEE315_20140224_14.1H.fid",
+ "size": 161974,
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 16384,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 varian.read(as_2d=True)",
+   "nmrglue_dtype": "complex64",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "2954f44be1b1d925eedd37c8bcce77d9",
+       "first": [
+        60545.7890625,
+        -619143.375,
+        428968.3125,
+        184441.28125,
+        -578621.125,
+        308881.53125,
+        306908.28125,
+        -511251.5
+       ]
+      },
+      {
+       "xxh3": "98d86988dc6f354bacb9d26977281225",
+       "first": [
+        709072.75,
+        -164967.578125,
+        -401444.0,
+        595881.4375,
+        -51222.52734375,
+        -457726.9375,
+        480096.03125,
+        95904.265625
+       ]
+      }
+     ]
+    }
+   ],
+   "sample_rate_hz": 7183.90804598,
+   "parameters": {
+    "extra": {
+     "nucleus": "1H",
+     "spectrometer_frequency_mhz": 399.8146759,
+     "spectral_width_hz": 7183.90804598,
+     "scans": 40,
+     "time_domain_size": 32768,
+     "pulse_program": "s2pul",
+     "solvent": "cdcl3"
+    }
+   }
+  }
+ ],
+ "file_header": {
+  "nblocks": 1,
+  "ntraces": 1,
+  "np": 32768,
+  "ebytes": 4,
+  "tbytes": 131072,
+  "bbytes": 131100,
+  "status": 201,
+  "nbheaders": 1
+ }
+}

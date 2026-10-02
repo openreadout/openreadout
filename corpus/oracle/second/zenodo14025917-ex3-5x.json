@@ -1,0 +1,59 @@
+{
+ "id": "zenodo14025917-ex3-5x",
+ "file": "zenodo14025917-ex3-5x.ome.tif",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 20811,
+   "size_y": 18362,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "79fc8d8cec5423bc7451903ea8d158a2"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 5202,
+   "size_y": 4590,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7a314e9fe72ad92c033ce39f81a073da"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "size_x": 1300,
+   "size_y": 1147,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e23e5d6bda96a63d97d94548535205e"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "size_x": 325,
+   "size_y": 286,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9f789567a7eb33d0967990d2aad7157a"
+    }
+   ]
+  }
+ ]
+}

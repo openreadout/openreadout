@@ -1,0 +1,39 @@
+{
+ "id": "ho-zenodo22115991-dm4-haadf",
+ "file": "R0ORJ670_sample2_004_HAADF.dm4",
+ "size": 4801996,
+ "sha256": "1eb9a89bcfbc84abb4c80706d3365ecbdedd5b9cb69613e99bf6d1333349d77f",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "R0ORJ670_sample2_004_HAADF",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 11,
+   "physical_size_um": {
+    "x": 1.5792682766914367e-05,
+    "y": 1.5792682766914367e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "913d6c5938c9d4dbef88b697affe9047"
+    }
+   ],
+   "pixel_type": "uint32"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

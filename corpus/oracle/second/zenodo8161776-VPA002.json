@@ -1,0 +1,38 @@
+{
+ "id": "zenodo8161776-VPA002",
+ "file": "zenodo8161776-VPA002.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1608,
+   "size_y": 1608,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2cab2ab52267574c9a12ef8dc156f186"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f8864d4a7272e501885c6d31962b0f8f"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1a762d7661d22e361b4a66436c174264"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a5c31c1d25423d25d02a610d940ac6db"
+    }
+   ]
+  }
+ ]
+}

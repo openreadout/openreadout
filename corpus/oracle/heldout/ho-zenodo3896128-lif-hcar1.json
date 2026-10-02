@@ -1,0 +1,247 @@
+{
+ "id": "ho-zenodo3896128-lif-hcar1",
+ "file": "f01_c_013_Series004.lif",
+ "size": 7090387,
+ "sha256": "5b203c81aa6e4cefcb931b646447e2b672570b4b547af605ef050d937bb1bd32",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Series001",
+   "path": "Series001",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.7583170254403131,
+    "y": 0.7583170254403131,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4d8cc770e6d831e6d269ac0266120b2d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "382693ef3073e28c8291a80ae1978d0a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b29adf55b6203227bbbf51e2e886e954"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Series004",
+   "path": "Series004",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.7583170254403131,
+    "y": 0.7583170254403131,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1fee3ebc32c8982b171211af7d4d8bfc"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e343f8c0c76da24d58a55f95649cc439"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "258fe1c5b7f955e47609dc21cd4296af"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Image005",
+   "path": "Image005",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.7583170254403131,
+    "y": 0.7583170254403131,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7b714db25c3ed907109168f43f7341d4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5bf30eabcc166ca9d8c9a02b01b4cb59"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5671d5bec5ced9d32becaeda659968e8"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Series009",
+   "path": "Series009",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.7583170254403131,
+    "y": 0.7583170254403131,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b597c6b52ffc9adce99cce85862577e2"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7d5fc6d2c170acece333094397723e47"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a469e542115592838f881c9074e7ccf0"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Image010",
+   "path": "Image010",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.7583170254403131,
+    "y": 0.7583170254403131,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c852c6bf4d4db0d57b12ac6257ef55a4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "914226ee7803a88faf27920a6e2c14b4"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "faad31dba58f3ab5000068df72692598"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "Image010Snapshot All1",
+   "path": "Image010Snapshot All1",
+   "skip": "ValueError: stride=2730 % dim.bytes_inc=2732 == 2 != 0"
+  }
+ ]
+}

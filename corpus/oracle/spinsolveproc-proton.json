@@ -1,0 +1,65 @@
+{
+ "reader": "nmrglue 0.12 (parameters, header, 504 single-row data); numpy (501/503 layout)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "data.1d",
+   "sample_count": 8192,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "real",
+    "imag"
+   ],
+   "reader": "nmrglue 0.12 spinsolve.read (values equal; signed zeros as stored)",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8192,
+     "channels": [
+      {
+       "xxh3": "a85b8262f3f4b3e6e5b13d7e78f17596",
+       "first": [
+        121.51131439208984,
+        120.55723571777344,
+        118.62281799316406,
+        115.79478454589844,
+        112.58369445800781,
+        108.92778015136719,
+        105.39244079589844,
+        102.03204345703125
+       ]
+      },
+      {
+       "xxh3": "a3b74d46c492dbd07d49f6de29438595",
+       "first": [
+        0.0,
+        3.407398223876953,
+        5.937767028808594,
+        7.780860900878906,
+        8.79935073852539,
+        9.322765350341797,
+        9.224117279052734,
+        8.617517471313477
+       ]
+      }
+     ]
+    }
+   ],
+   "sample_rate_hz": 5000.0,
+   "parameters": {
+    "extra": {
+     "spectral_width_hz": 5000.0,
+     "reference_frequency_mhz": 80.48784939999999,
+     "carrier_offset_hz": 386.341692471839,
+     "nucleus": "1H",
+     "scans": 1,
+     "time_domain_size": 8192,
+     "pulse_program": "Proton",
+     "instrument": "C80Ultra",
+     "instrument_serial": "SPA3402"
+    }
+   }
+  }
+ ]
+}

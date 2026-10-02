@@ -1,0 +1,70 @@
+{
+ "id": "mm-thomas-test2-stack",
+ "file": "MMStack_Pos0.ome.tif",
+ "size": 2792690,
+ "sha256": "87cccf98fe4c17188a8ce59a0f2312ba71597d8c91974035a39ea0ec24e47db8",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome",
+  "imagej",
+  "micromanager"
+ ],
+ "page_count": 4,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "MMStack_Pos0",
+   "kind": "ome",
+   "axes": "TCYX",
+   "shape": [
+    2,
+    2,
+    128,
+    128
+   ],
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 2,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 1.0,
+    "y": 1.0
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ce9455dd4d428e0a2640e340d3093463"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "64b3364ea718f74aba416ee2f925c59b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "35a5a9cf70390164452a7b1926db4a69"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "f72ef1d104017ca9fa711f4e379af822"
+    }
+   ]
+  }
+ ]
+}

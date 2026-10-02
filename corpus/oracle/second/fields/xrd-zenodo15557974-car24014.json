@@ -1,0 +1,32 @@
+{
+ "id": "xrd-zenodo15557974-car24014",
+ "file": "xrd-zenodo15557974-car24014.xrdml",
+ "format": "panalytical-xrdml",
+ "family": "bench",
+ "readers": [
+  "the .xrdml XML, read with ElementTree"
+ ],
+ "checks": [
+  {
+   "field": "scan/header/startTimeStamp",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-09-19T15:10:10+02:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "comment `Diffractometer system=`",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "EMPYREAN",
+   "cmp": "text"
+  }
+ ]
+}

@@ -1,0 +1,204 @@
+{
+ "id": "appia-empower-results1849",
+ "file": "empower-appia/test-files/results1849.arw",
+ "format": "empower-arw",
+ "family": "chromatography",
+ "readers": [
+  "chromConverter 0.9.0 (GPL-3.0, R, run as a black box with its own parsers)"
+ ],
+ "checks": [
+  {
+   "field": "sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/sample_name",
+   "theirs": "SEC_09",
+   "cmp": "text"
+  },
+  {
+   "field": "instrument method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/instrument_method",
+   "theirs": "Sup6Inc_10_300_TrpGFP_LineA",
+   "cmp": "text"
+  },
+  {
+   "field": "sample set",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/sample_set",
+   "theirs": "Exp105_ENaC_SEC",
+   "cmp": "text"
+  },
+  {
+   "field": "channel",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/channel",
+   "theirs": "2475ChB ex488/em509",
+   "cmp": "text"
+  },
+  {
+   "field": "points",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 6601,
+   "cmp": "exact"
+  },
+  {
+   "field": "first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/x_start_min",
+   "theirs": 0.0,
+   "cmp": "num",
+   "abs": 1e-09
+  },
+  {
+   "field": "last time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/x_end_min",
+   "theirs": 55.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.2675018,
+    0.6698456,
+    1.448166,
+    2.783127,
+    4.757736,
+    7.34465,
+    10.41399,
+    13.74895,
+    17.08879,
+    20.17473,
+    22.78703,
+    24.78703,
+    26.14543,
+    26.94524,
+    27.35832,
+    27.63274,
+    27.63176,
+    27.62883,
+    27.62883,
+    27.62883,
+    27.63274,
+    27.63957,
+    27.64348,
+    27.64348,
+    27.6425,
+    27.63664
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.76552e-11
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 6601,
+   "cmp": "exact"
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -2.218735,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.76552e-11
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 27.6552,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.76552e-11
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": -1.2105512300227237,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 2.7655200000000003e-08
+  }
+ ]
+}

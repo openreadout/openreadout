@@ -1,0 +1,65 @@
+# Test of the openreadout batch wrapper. Run from this directory:
+#   snakemake --cores 1 all        (openreadout on PATH)
+
+from pathlib import Path
+
+WRAPPER = f"file://{Path(workflow.basedir).parent}"
+DATA = Path(workflow.basedir).parents[4] / "test-data"
+
+
+rule all:
+    input:
+        "results/checked",
+
+
+# Medians of FITC-A: 100..109 -> 104.5 (control), 200..209 -> 204.5 (treated).
+rule check:
+    input:
+        table="results/fcs.table.csv",
+        summary="results/fcs.summary.csv",
+        images="results/images.parquet",
+    output:
+        touch("results/checked"),
+    run:
+        import csv
+
+        rows = list(csv.DictReader(open(input.table)))
+        assert [r["parameter"] for r in rows] == ["FITC-A", "FITC-A"], rows
+        by = {r["condition"]: float(r["median"]) for r in rows}
+        assert by == {"control": 104.5, "treated": 204.5}, by
+        summary = list(csv.DictReader(open(input.summary)))
+        assert sorted(r["condition"] for r in summary) == ["control", "treated"], summary
+        data = Path(input.images).read_bytes()
+        assert data[:4] == b"PAR1", "not Parquet"
+
+
+rule fcs_table:
+    input:
+        files=[DATA / "tube_a.fcs", DATA / "tube_b.fcs"],
+        sample_sheet=DATA / "samples.csv",
+    output:
+        table="results/fcs.table.csv",
+        summary="results/fcs.summary.csv",
+    log:
+        "logs/fcs_table.log",
+    params:
+        measure="table",
+        extra="--where parameter=FITC-A",
+        summarize="--by condition --value median",
+    wrapper:
+        WRAPPER
+
+
+rule image_stats:
+    input:
+        DATA / "mini.czi",
+        DATA / "mini.lif",
+    output:
+        "results/images.parquet",
+    log:
+        "logs/image_stats.log",
+    params:
+        measure="stats",
+        extra="--per image",
+    wrapper:
+        WRAPPER

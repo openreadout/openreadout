@@ -1,0 +1,109 @@
+{
+ "id": "omnic-toffolo-atr-beeswax-burgos-spain",
+ "file": "Beeswax_Burgos_Spain.SPA",
+ "size": 137792,
+ "sha256": "2f7a9964eae66df0031363381c03aa6b14b7f938a4834aabadd936e2fc0b0aa4",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 7468,
+   "x_first": 4000.123,
+   "x_last": 400.157,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7468,
+     "channels": [
+      {
+       "xxh3": "f8db9a2cd9fa98cc9e0925be94ab8b54",
+       "first": [
+        0.0046197110787034035,
+        0.004612310323864222,
+        0.004601895809173584,
+        0.004590476863086224,
+        0.004579728003591299,
+        0.004570921417325735,
+        0.004565496928989887,
+        0.004564224276691675
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 32,
+     "background_scans": 32,
+     "laser_wavenumber_cm1": 15798.0
+    }
+   },
+   "x_tolerance": 0.002
+  },
+  {
+   "index": 1,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 12200,
+   "x_first": 0.0,
+   "x_last": 12199.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12200,
+     "channels": [
+      {
+       "xxh3": "ff283570cf8a81dc0d7e3621f2dc9611",
+       "first": [
+        -0.0008069693576544523,
+        -0.0011228739749640226,
+        -0.0017213046085089445,
+        -0.0014518916141241789,
+        -0.00128648872487247,
+        -0.0003062903415411711,
+        0.00025190715678036213,
+        0.001257139490917325
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 12200,
+   "x_first": 0.0,
+   "x_last": 12199.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12200,
+     "channels": [
+      {
+       "xxh3": "b7f1c2cedea308c48494116dc8b0b13a",
+       "first": [
+        -0.0009219793137162924,
+        -0.0013198403175920248,
+        -0.0019439009483903646,
+        -0.001648857956752181,
+        -0.0014223603066056967,
+        -0.0003476885613054037,
+        0.00033359252847731113,
+        0.0014490934554487467
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "acquisition_date": "2023-09-11 01:33:52-07:00"
+}

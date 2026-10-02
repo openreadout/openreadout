@@ -1,0 +1,43 @@
+{
+ "id": "figshare12132993-zvi-ex7-panel-za-a-rudis",
+ "file": "Ex7 panel za - a rudis.zvi",
+ "size": 5878784,
+ "sha256": "4ef55e073cfcf3eda4dadb848a348d5b891e4e61239d43d0457531d52c90a512",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Ex7 panel za - a rudis.zvi",
+   "size_x": 1388,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.511904761904762,
+    "y": 0.511904761904762
+   },
+   "channel_names": [
+    "DAPI",
+    "Cy5"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7b66945e23214559a362abaa2acc78e9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "deff37fda9c12a4bcb6afb1dec99f1c0"
+    }
+   ]
+  }
+ ]
+}

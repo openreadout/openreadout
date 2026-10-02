@@ -1,0 +1,213 @@
+<tool id="openreadout_export" name="OpenReadout export" version="@TOOL_VERSION@+galaxy@VERSION_SUFFIX@" profile="@PROFILE@" license="MIT">
+    <description>raw instrument files to OME-TIFF, OME-Zarr, mzML, CSV or Parquet</description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="creator"/>
+    <expand macro="requirements">
+        <requirement type="package" version="3.0">zip</requirement>
+    </expand>
+    <expand macro="version_command"/>
+    <command detect_errors="exit_code"><![CDATA[
+@LINK_INPUT@
+openreadout export '$input_name'
+    --to '$target.to'
+#if $target.to == 'ome-tiff'
+    -o out.ome.tiff
+    --compression '$target.compression'
+    --pyramid '$target.pyramid'
+    #if str($target.image) != ''
+        --image $target.image
+    #end if
+#elif $target.to == 'ome-zarr'
+    -o out.ome.zarr
+    --pyramid '$target.pyramid'
+    #if str($target.image) != ''
+        --image $target.image
+    #end if
+#elif $target.to == 'mzml'
+    -o out.mzML
+    $target.centroid
+#elif $target.to == 'csv'
+    -o out.csv
+    #if str($target.table) != ''
+        --table $target.table
+    #end if
+    #if str($target.trace) != ''
+        --trace $target.trace
+    #end if
+    #if str($target.sweep) != ''
+        --sweep $target.sweep
+    #end if
+    $target.labels
+#elif $target.to == 'parquet'
+    -o out.parquet
+    #if str($target.table) != ''
+        --table $target.table
+    #end if
+    #if str($target.trace) != ''
+        --trace $target.trace
+    #end if
+    $target.spectra
+#end if
+    --json > '$report'
+#if $target.to == 'ome-tiff'
+    && mv out.ome.tiff '$ome_tiff'
+#elif $target.to == 'ome-zarr'
+    && zip -q -r -X out.ome.zarr.zip out.ome.zarr && mv out.ome.zarr.zip '$ome_zarr'
+#elif $target.to == 'mzml'
+    && mv out.mzML '$mzml'
+#elif $target.to == 'csv'
+    && mv out.csv '$csv'
+#elif $target.to == 'parquet'
+    && mv out.parquet '$parquet'
+#end if
+    ]]></command>
+    <inputs>
+        <param name="input" type="data" format="data" label="Instrument file"/>
+        <conditional name="target">
+            <param name="to" type="select" label="Export to">
+                <option value="ome-tiff" selected="true">OME-TIFF (images)</option>
+                <option value="ome-zarr">OME-Zarr, zipped (images)</option>
+                <option value="mzml">mzML (mass spectra)</option>
+                <option value="csv">CSV (a table or one trace sweep)</option>
+                <option value="parquet">Parquet (a table, a trace or mass spectra)</option>
+            </param>
+            <when value="ome-tiff">
+                <param name="image" type="integer" min="0" optional="true" label="Only this image (0 = the first)" help="Default: every image of the file"/>
+                <param name="compression" type="select" label="Compression">
+                    <option value="deflate" selected="true">deflate</option>
+                    <option value="lzw">LZW</option>
+                    <option value="none">none</option>
+                </param>
+                <expand macro="pyramid"/>
+            </when>
+            <when value="ome-zarr">
+                <param name="image" type="integer" min="0" optional="true" label="Only this image (0 = the first)"/>
+                <expand macro="pyramid"/>
+            </when>
+            <when value="mzml">
+                <param name="centroid" type="boolean" truevalue="--centroid" falsevalue="" checked="false" label="Write the instrument's centroid lists where scans store both"/>
+            </when>
+            <when value="csv">
+                <param name="table" type="integer" min="0" optional="true" label="Table (0 = the first)" help="FCS data set, plate read, event table"/>
+                <param name="trace" type="integer" min="0" optional="true" label="Trace (0 = the first)" help="Electrophysiology recording, chromatogram, NMR spectrum"/>
+                <param name="sweep" type="integer" min="0" optional="true" label="Sweep of the trace (0 = the first)"/>
+                <param name="labels" type="boolean" truevalue="--labels" falsevalue="" checked="false" label="Add a second header line with the column labels (FCS $PnS)"/>
+            </when>
+            <when value="parquet">
+                <param name="table" type="integer" min="0" optional="true" label="Table (0 = the first)"/>
+                <param name="trace" type="integer" min="0" optional="true" label="Trace (0 = the first)"/>
+                <param name="spectra" type="boolean" truevalue="--spectra" falsevalue="" checked="false" label="Mass spectra (one row per point)"/>
+            </when>
+        </conditional>
+    </inputs>
+    <outputs>
+        <data name="report" format="json" label="${tool.name} on ${on_string}: report"/>
+        <data name="ome_tiff" format="ome.tiff" label="${tool.name} on ${on_string}: OME-TIFF">
+            <filter>target['to'] == 'ome-tiff'</filter>
+        </data>
+        <data name="ome_zarr" format="zip" label="${tool.name} on ${on_string}: OME-Zarr (zip)">
+            <filter>target['to'] == 'ome-zarr'</filter>
+        </data>
+        <data name="mzml" format="mzml" label="${tool.name} on ${on_string}: mzML">
+            <filter>target['to'] == 'mzml'</filter>
+        </data>
+        <data name="csv" format="csv" label="${tool.name} on ${on_string}: CSV">
+            <filter>target['to'] == 'csv'</filter>
+        </data>
+        <data name="parquet" format="parquet" label="${tool.name} on ${on_string}: Parquet">
+            <filter>target['to'] == 'parquet'</filter>
+        </data>
+    </outputs>
+    <tests>
+        <test expect_num_outputs="2">
+            <param name="input" value="mini.czi"/>
+            <conditional name="target">
+                <param name="to" value="ome-tiff"/>
+            </conditional>
+            <output name="report">
+                <assert_contents>
+                    <has_text text="&quot;verified&quot;: true"/>
+                </assert_contents>
+            </output>
+            <output name="ome_tiff" ftype="ome.tiff">
+                <assert_contents>
+                    <has_size size="1000" delta="100000"/>
+                </assert_contents>
+            </output>
+        </test>
+        <test expect_num_outputs="2">
+            <param name="input" value="mini.lif"/>
+            <conditional name="target">
+                <param name="to" value="ome-zarr"/>
+            </conditional>
+            <output name="report">
+                <assert_contents>
+                    <has_text text="&quot;ome-zarr&quot;"/>
+                    <has_text text="&quot;verified&quot;: true"/>
+                </assert_contents>
+            </output>
+            <output name="ome_zarr" ftype="zip">
+                <assert_contents>
+                    <has_archive_member path="out.ome.zarr/zarr.json"/>
+                </assert_contents>
+            </output>
+        </test>
+        <test expect_num_outputs="2">
+            <param name="input" value="tube_a.fcs"/>
+            <conditional name="target">
+                <param name="to" value="csv"/>
+                <param name="labels" value="true"/>
+            </conditional>
+            <output name="csv" ftype="csv">
+                <assert_contents>
+                    <has_n_lines n="12"/>
+                    <has_line line="FSC-A,SSC-A,FITC-A"/>
+                    <has_line line=",,CD4"/>
+                    <has_line line="1000,500,100"/>
+                    <has_line line="1090,545,109"/>
+                </assert_contents>
+            </output>
+        </test>
+        <test expect_num_outputs="2">
+            <param name="input" value="tube_b.fcs"/>
+            <conditional name="target">
+                <param name="to" value="parquet"/>
+            </conditional>
+            <output name="report">
+                <assert_contents>
+                    <has_text text="&quot;rows_written&quot;: 10"/>
+                </assert_contents>
+            </output>
+            <output name="parquet" ftype="parquet">
+                <assert_contents>
+                    <!-- mostly metadata: units, labels, provenance and the source's info JSON -->
+                    <has_size size="20000" delta="15000"/>
+                </assert_contents>
+            </output>
+        </test>
+    </tests>
+    <help><![CDATA[
+**What it does**
+
+Converts a raw instrument file to an open format, without the vendor's software:
+
+- **OME-TIFF**: images (CZI, ND2, LIF, OIR, VSI, whole-slide TIFF, ...) as BigTIFF with OME-XML
+  metadata; pyramidal and tiled when the source has a pyramid.
+- **OME-Zarr**: OME-NGFF 0.5 (Zarr v3) with a multiscale pyramid, delivered as a zip archive of
+  the ``.ome.zarr`` directory.
+- **mzML**: every mass spectrum (Thermo RAW, Bruker timsTOF, mzXML, ...) as indexed mzML 1.1.
+- **CSV**: one table (FCS events, plate reads) or one sweep of a trace (electrophysiology,
+  chromatograms, NMR and IR spectra) in physical units.
+- **Parquet**: a table, a trace or the mass spectra, with units and labels in the column metadata.
+
+Every output is written under a temporary name, read back and compared with the source, and only
+then delivered; the report says ``"verified": true``.
+
+Indices (image, table, trace, sweep) start at 0, as in the OpenReadout metadata.
+
+@HELP_FOOTER@
+    ]]></help>
+    <expand macro="citations"/>
+</tool>

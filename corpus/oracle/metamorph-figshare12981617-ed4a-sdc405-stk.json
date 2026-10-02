@@ -1,0 +1,108 @@
+{
+ "id": "metamorph-figshare12981617-ed4a-sdc405-stk",
+ "file": "Extended Data Figure 4a sdc405.stk",
+ "size": 23072685,
+ "sha256": "63292321941c26707b608b4dd50bae906d2a87f34bb67c86c7fafd6e10c5bac8",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "stk",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "stk",
+   "axes": "ZYX",
+   "shape": [
+    11,
+    1024,
+    1024
+   ],
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 11,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.13,
+    "y": 0.13,
+    "z": 0.5
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c61eecb2ad6f91a4630227d471040406"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "512051bc7f46d70f7b3672f04643f8e0"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "ec1caf09797cd40cf45c90338429d625"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "f937358d3d2fa09a00a3f1660ddd8fb2"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "05e2981ca4f6bd06f4e265afc08bd2de"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "f9dfca300ce74b1ebf4fe39d307597a8"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "95daf74f7f1cb6633beb354cf768617f"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "296c73f1b8e63acad194bb006b73e7e1"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "f043cef10c834d3b2eac365d61fcfd41"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "1709cf69e137a53ec8e574643431cbc5"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "6f38c4ff8b51a011f851a7cb1e74dd03"
+    }
+   ]
+  }
+ ]
+}

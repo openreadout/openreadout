@@ -1,0 +1,238 @@
+{
+ "generator": "flowkit 1.3.2 (flowutils 1.2.2)",
+ "gating": "flowkit-8c-ics",
+ "format": "flowjo-wsp",
+ "samples": [
+  {
+   "fcs": "flowkit-8c-e01",
+   "sample": "101_DEN084Y5_15_E01_008_clean.fcs",
+   "event_count": 290172,
+   "populations": [
+    {
+     "path": "/Time",
+     "count": 290166,
+     "flowjo_count": 290172
+    },
+    {
+     "path": "/Time/Singlets",
+     "count": 239001,
+     "flowjo_count": 239691
+    },
+    {
+     "path": "/Time/Singlets/aAmine-",
+     "count": 164655,
+     "flowjo_count": 164942
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+",
+     "count": 133670,
+     "flowjo_count": 133860
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+",
+     "count": 82484,
+     "flowjo_count": 82636
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/CD107a+",
+     "count": 68,
+     "flowjo_count": 71
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IFNg+",
+     "count": 4,
+     "flowjo_count": 4
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IL2+",
+     "count": 6,
+     "flowjo_count": 6
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/TNFa+",
+     "count": 21,
+     "flowjo_count": 21
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+",
+     "count": 47165,
+     "flowjo_count": 47241
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/CD107a+",
+     "count": 73,
+     "flowjo_count": 72
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IFNg+",
+     "count": 2,
+     "flowjo_count": 2
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IL2+",
+     "count": 10,
+     "flowjo_count": 11
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/TNFa+",
+     "count": 8,
+     "flowjo_count": 8
+    }
+   ]
+  },
+  {
+   "fcs": "flowkit-8c-e03",
+   "sample": "101_DEN084Y5_15_E03_009_clean.fcs",
+   "event_count": 283969,
+   "populations": [
+    {
+     "path": "/Time",
+     "count": 283968,
+     "flowjo_count": 283968
+    },
+    {
+     "path": "/Time/Singlets",
+     "count": 236780,
+     "flowjo_count": 237375
+    },
+    {
+     "path": "/Time/Singlets/aAmine-",
+     "count": 161823,
+     "flowjo_count": 162117
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+",
+     "count": 132200,
+     "flowjo_count": 132388
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+",
+     "count": 81855,
+     "flowjo_count": 81990
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/CD107a+",
+     "count": 59,
+     "flowjo_count": 62
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IFNg+",
+     "count": 598,
+     "flowjo_count": 607
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IL2+",
+     "count": 64,
+     "flowjo_count": 74
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/TNFa+",
+     "count": 288,
+     "flowjo_count": 298
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+",
+     "count": 46965,
+     "flowjo_count": 47046
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/CD107a+",
+     "count": 814,
+     "flowjo_count": 817
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IFNg+",
+     "count": 1224,
+     "flowjo_count": 1229
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IL2+",
+     "count": 127,
+     "flowjo_count": 129
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/TNFa+",
+     "count": 821,
+     "flowjo_count": 827
+    }
+   ]
+  },
+  {
+   "fcs": "flowkit-8c-e05",
+   "sample": "101_DEN084Y5_15_E05_010_clean.fcs",
+   "event_count": 285290,
+   "populations": [
+    {
+     "path": "/Time",
+     "count": 284846,
+     "flowjo_count": 284933
+    },
+    {
+     "path": "/Time/Singlets",
+     "count": 235331,
+     "flowjo_count": 236035
+    },
+    {
+     "path": "/Time/Singlets/aAmine-",
+     "count": 160955,
+     "flowjo_count": 161247
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+",
+     "count": 131305,
+     "flowjo_count": 131510
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+",
+     "count": 81135,
+     "flowjo_count": 81268
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/CD107a+",
+     "count": 70,
+     "flowjo_count": 70
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IFNg+",
+     "count": 9,
+     "flowjo_count": 10
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/IL2+",
+     "count": 8,
+     "flowjo_count": 7
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD4+/TNFa+",
+     "count": 28,
+     "flowjo_count": 29
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+",
+     "count": 46546,
+     "flowjo_count": 46627
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/CD107a+",
+     "count": 306,
+     "flowjo_count": 308
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IFNg+",
+     "count": 348,
+     "flowjo_count": 350
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/IL2+",
+     "count": 65,
+     "flowjo_count": 65
+    },
+    {
+     "path": "/Time/Singlets/aAmine-/CD3+/CD8+/TNFa+",
+     "count": 336,
+     "flowjo_count": 337
+    }
+   ]
+  }
+ ]
+}

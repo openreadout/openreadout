@@ -1,0 +1,22 @@
+{
+ "id": "bmg-mars-lum-1536",
+ "file": "bmg-mars-lum-1536.csv",
+ "size": 2485,
+ "sha256": "ffd5c7d32f1062817ec7395ca6a7af18a8838e2dbd9a8c920ed9adda75784c2a",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (BMG_MARS)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "luminescence",
+    "wells": 288,
+    "values": 288,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "a2058122ef20c01bb5fe25248d9284ab"
+   }
+  ],
+  "header": {},
+  "documents": 288
+ }
+}

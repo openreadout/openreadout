@@ -1,0 +1,51 @@
+{
+ "id": "pesp-zenodo8161216-ts-black-gallus-untreated-02-01",
+ "file": "pesp-zenodo8161216-ts-black-gallus-untreated-02-01.sp",
+ "size": 30448,
+ "sha256": "1917fff437a1f38e63b1a7d0f5df1355769324f7f262ee6a667d246d897fc96f",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3551,
+   "x_first": 4000.0,
+   "x_last": 450.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3551,
+     "channels": [
+      {
+       "xxh3": "43a39068b911d7c937f09723e7c7b09b",
+       "first": [
+        99.66142003520176,
+        99.64370436752235,
+        99.62772433277324,
+        99.62242923734902,
+        99.62951269460065,
+        99.64300168090999,
+        99.65540708930956,
+        99.66347151194589
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Frontier FT-IR/NIR",
+     "instrument_serial": "112168",
+     "scans": 4,
+     "detector": "MIR TGS",
+     "source": "MIR",
+     "beamsplitter": "OptKBr",
+     "apodization": "Strong"
+    }
+   }
+  }
+ ]
+}

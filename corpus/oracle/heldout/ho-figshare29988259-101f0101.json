@@ -1,0 +1,44 @@
+{
+ "id": "ho-figshare29988259-101f0101",
+ "file": "101F0101.D",
+ "size": 365145,
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) / Aston (BSD-3) for version 81",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FID1A"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 19.99999942593214,
+   "x_first_min": 0.0008307333628336589,
+   "x_last_min": 17.99999791666667,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 21600,
+     "channels": [
+      {
+       "xxh3": "f0e6dd49025d162099afdc7635ccaa40",
+       "first": [
+        18.255859374999954,
+        18.255208333333286,
+        18.249218749999955,
+        18.24479166666662,
+        18.24440104166662,
+        18.242578124999955,
+        18.243098958333288,
+        18.238802083333287
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

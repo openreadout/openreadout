@@ -1,0 +1,302 @@
+# Where OpenReadout and a second-opinion reader (oracle/second_opinion.py) disagree, and who is
+# right. Read by the corpus test `second_opinions_agree` (crates/openreadout-corpus-tests/tests/
+# second_opinion.rs): a disagreement without an entry here fails it. Investigated 2026-09-26.
+# `right`: openreadout | second | neither.
+
+[file.openslide-zeiss-5-slidepreview-zstd1-hilo]
+right = "openreadout"
+why = "the same SlidePreview is in the corpus as zstd0 (lossless) and JPEG XR: our zstd1-HiLo plane is bit-identical to our and czifile's zstd0 plane, and czifile agrees with ours on this file; pylibCZIrw 6.1's zstd1-HiLo decode of this bgr48 image differs from its own zstd0 decode (mean 16620 against 49677), so the second reader is wrong on HiLo-packed 48-bit RGB"
+
+[file.aics-variable-per-scene-dims]
+right = "openreadout"
+why = "the two scenes have different T extents; the oracle script asked pylibCZIrw for the file-wide T range in every scene, so it read time points scene 1 does not have (blank canvas); ours reports them out of range, as czifile's per-scene sizes do (script artefact, not a reader difference)"
+
+[file.zenodo10577621-PALM-OnlineVerrechnet]
+right = "openreadout"
+why = "PALM rendering: channel 0's subblock stores 1206 x 1206 pixels for a 512 x 512 logical extent, channel 1 is the 512 x 512 widefield image. pylibCZIrw and czifile's default read resample the rendering to the 512 grid (the super-resolved pixels are lost). Since 2026-09-25 (docs/provenance/czi.md) OpenReadout exposes one image per stored-to-logical ratio: the widefield channel at 512 x 512 (0.1587 um, equal to pylibCZIrw's plane) and the rendering at 1206 x 1206 with the pixel size divided by the ratio (0.06739 um), its pixels equal to czifile's asarray(storedsize=True, C=0) (corpus/oracle). The remaining difference with pylibCZIrw is its resampled rendering. (Before the fix both channels shared the 1206 canvas and the logical pixel size.)"
+
+[file.zenodo10577621-Palm-mitDrift]
+right = "openreadout"
+why = "as zenodo10577621-PALM-OnlineVerrechnet: a 2560 x 2560 stored rendering of a 256 x 256 logical extent is its own image at 0.01 um per pixel, the widefield channel another at 0.1 um; see that entry"
+
+[file.zenodo13752242-FLIM250523]
+right = "openreadout"
+why = "the FLIM-derived images (Fast Flim, Standard Deviation, phasor maps) store 16-bit IEEE half floats; readlif 0.6.6 returns their raw bits as uint16 (Fast Flim mean 7446, max 21085), liffile and ours decode half floats (mean 1.361, max 16.0; Standard Deviation mean 0.955); the decoded values are plausible lifetimes in ns, readlif's are not"
+
+# Second opinions recorded inside the primary oracle JSONs (`*_agrees`, `agrees_with_*`,
+# `planes_disagree`), keyed by the oracle file's stem: checked by `recorded_second_opinions`.
+
+[recorded.flowio-data-start-offset-discrepancy]
+right = "openreadout"
+why = "a deliberately inconsistent FlowIO test file: HEADER says DATA is 5555-6188 (634 bytes), TEXT says 6081-6188 (108 bytes = 2 events of 54 bytes, matching $TOT). FlowIO and OpenReadout take the TEXT offsets, which fit $TOT and $PAR exactly; fcsparser takes the HEADER offsets and reads 634 bytes of TEXT and DATA as events. `check` reports offset_discrepancy (docs/formats/fcs.md)"
+
+[recorded.zenodo19221995-facsdiscover-zam36-yfp]
+right = "openreadout"
+why = "FCS 3.2 with per-measurement $PnDATATYPE (mixed I and F columns); fcsparser 0.2 ignores $PnDATATYPE and decodes every column with $DATATYPE, so its floats are integers reinterpreted. The oracle re-reads DATA with a NumPy record type built from the $PnDATATYPE values (docs/formats/fcs.md, FCS 3.2)"
+
+[recorded.opus-or2-issue81-a1-1]
+right = "openreadout"
+why = "brukeropusreader 1.3 (GPL, black box) returns an AB block of denormals and 3.4e38 values (690 points against the 1866 the AB data-parameter block declares): it misreads this OPUS 8 file (the file is the opusreader2 issue-81 example of exactly that); brukeropus (MIT) and OpenReadout agree on 1866 plausible absorbances"
+
+[recorded.opus-or2-issue82-opus-test]
+right = "openreadout"
+why = "brukeropusreader returns 1154 points of another block as AB; the AB data-parameter block declares 1112, which brukeropus and OpenReadout read identically (opusreader2 issue-82 example)"
+
+[recorded.opus-or2-mmp-2107-test1]
+right = "openreadout"
+why = "brukeropusreader returns 1510 garbage values (denormals, 3.4e38, zeros) as AB; brukeropus and OpenReadout agree on the 1899 points the AB data-parameter block declares"
+
+[file.aics-ND2-dims-rgb]
+right = "openreadout"
+why = "a colour-camera ND2 (3 interleaved samples per pixel): Bio-Formats splits the samples into three channels in stored order (B, G, R: its channel 0 mean 145.40 is our blue sample, channel 2 mean 135.24 our red); OpenReadout returns one RGB channel in R, G, B order, as the nd2 library does after reordering and as NIS-Elements' own OME-TIFF export orders them (held-out finding M1, fixed on development fixtures). Same values, different arrangement"
+
+[file.aics-ND2-dims-rgb-t3p2c2z3x64y64]
+right = "openreadout"
+why = "as aics-ND2-dims-rgb: Bio-Formats exposes the colour samples as separate channels in stored B, G, R order"
+
+[file.ome-aryeh-Time-sequence-24]
+right = "openreadout"
+why = "a JPEG 2000 (legacy) RGB time series of a blue-green image: OpenReadout's planes are bit-identical to the nd2 library's (per-sample means 0.0008, 137.73, 220.61 on t=0); Bio-Formats returns three planar samples of nearly equal mean (119.7, 119.5, 119.4), the interleaved samples read as planes"
+
+[file.zenodo8161776-VPA002]
+right = "openreadout"
+why = "four RGB picture planes (DAPI, GFP, Texas Red, DIC) from a DS-Ri2 colour camera: OpenReadout equals the nd2 library with samples in R, G, B order (DAPI plane: blue mean 22.02, red 0.02); Bio-Formats reports one sample per pixel for these planes and returns values that match no single colour sample (DAPI 22.33)"
+
+[file.mrcfile-emd-3001]
+right = "openreadout"
+why = "convention: Bio-Formats flips the rows of MRC sections (its planes equal ours upside down, exactly); OpenReadout, like mrcfile (BSD-3, the primary oracle), returns sections in file order (docs/formats/mrc.md, axis order)"
+
+[file.mrcfile-emd-3197]
+right = "openreadout"
+why = "as mrcfile-emd-3001: Bio-Formats' planes are ours flipped vertically, exactly"
+
+[file."mrcfile-epu2.9-example"]
+right = "openreadout"
+why = "as mrcfile-emd-3001: Bio-Formats' plane is ours flipped vertically, exactly"
+
+[file.mrcfile-fei-extended]
+right = "openreadout"
+why = "as mrcfile-emd-3001: Bio-Formats' plane is ours flipped vertically, exactly"
+
+[file.zenodo10526574-IPPK-TS08-rec]
+right = "openreadout"
+why = "as mrcfile-emd-3001: a tomogram whose Bio-Formats sections are ours flipped vertically, exactly"
+
+[file.empiar10045-class2d-it025]
+right = "openreadout"
+why = "convention: an ISPG 0 image stack (2-D class averages) that OpenReadout exposes as T, Bio-Formats as Z; section 0 is ours flipped vertically, exactly (docs/formats/mrc.md)"
+
+[file.zenodo2578866-HAADF-aligned]
+right = "openreadout"
+why = "as empiar10045-class2d-it025: an image stack exposed as T by us and Z by Bio-Formats; section 0 is ours flipped vertically, exactly"
+
+[file.zenodo16462008-8RRH-molmap-30A]
+right = "openreadout"
+why = "convention: this .mrc declares ISPG 0 (an image stack), which OpenReadout exposes as T and Bio-Formats as Z; the planes compared on both sides agree"
+
+[file.openslide-aperio-cmu-1-small-region]
+right = "openreadout"
+why = "lossy JPEG tiles: Bio-Formats' Java JPEG decoder differs from ours by at most 1 grey level (mean absolute difference 0.004); OpenReadout matches tifffile/libjpeg-turbo within the lossy tolerance the manifest sets"
+
+[file.openslide-aperio-jp2k-33003-1]
+right = "openreadout"
+why = "irreversible (9/7) JPEG 2000 tiles: Bio-Formats' Java JPEG 2000 decoder differs from ours by up to 14 grey levels (mean absolute 1.15, 4.5% of samples by more than 2, image mean 226.12 against our 226.68); OpenReadout agrees with OpenJPEG (tifffile/imagecodecs, the primary oracle) within the lossy tolerance, and OpenSlide agrees with OpenJPEG"
+
+[file.metamorph-figshare7583960-w1-t1-stk]
+right = "openreadout"
+why = "convention: Bio-Formats groups the whole MetaMorph file set whose names this file matches (2 wavelengths x 24 time points of 14-plane stacks) into one series; OpenReadout reads the file opened (14 planes as Z) and the set when the .nd is opened; the planes both expose (t = 0, c = 0) agree"
+
+[recorded.zenodo16108826-sample-45-21]
+right = "openreadout"
+why = "single-subfile Galactic SPC written by OMNIC with a main exponent of 2 and a subfile exponent of 0; the format's layout notes (as quoted by SpectroChemPy) say the subfile exponent is ignored unless the file is a multifile. spc-io 0.2.1 scales by the subfile exponent and returns values 4x smaller. The writer's choice confirms the main exponent: fixed-point fractions are below 1, and this spectrum peaks at 1.536 absorbance, which only exponent 2 can hold. SpectroChemPy and OpenReadout agree"
+
+# ======================================================================================
+# Field second opinions (oracle/second_fields/, corpus/oracle/second/fields/): checked by
+# `second_opinion_fields_agree` (crates/openreadout-corpus-tests/tests/second_fields.rs).
+# `ids` and `fields` are glob patterns over corpus ids and field names. Investigated 2026-09-26;
+# docs/benchmark/second-opinions.md lists them per family.
+# ======================================================================================
+
+# ---- mass spectrometry --------------------------------------------------------------------
+
+[[field]]
+ids = ["pwiz-thermo-ltqvelos"]
+fields = ["spectrum count", "MS1 spectrum count"]
+right = "openreadout"
+why = "the reference conversion leaves out 14 of the 99 scans: scans 7, 14, ..., 97, every one the three-range SIM scan `ITMS + c NSI SIM ms [428.00-438.00, 646.50-651.50, 669.50-684.50]`; its fileContent lists `selected ion monitoring chromatogram` (MS:1001472): ProteoWizard wrote them as SIM chromatograms, not spectra. The other 85 agree scan by scan"
+
+[[field]]
+ids = ["mtbls797-dotsha05"]
+fields = ["spectrum count", "MS1 spectrum count", "polarities", "last retention time"]
+right = "openreadout"
+why = "a polarity-switching run (filters `FTMS {1,1}  + p ESI Full lock ms` 619 scans, `FTMS {2,1}  - p ESI ...` 485 + 134): the depositor's mzML holds only the 619 positive scans (its 619 spectra all carry that filter string and `positive scan`), which agree with ours scan by scan"
+
+[[field]]
+ids = ["mtbls1820-lumos-uplc-31"]
+fields = ["spectrum count", "last retention time"]
+right = "openreadout"
+why = "the depositor's mzML holds only the 1,030 MS1 spectra (every one `ms level 1`), which equal our 1,030 MS1 scans scan by scan; the run's 4,594 MS2 scans were not exported, so the export ends at the last MS1 scan (599.68 s) and ours at the last MS2 scan (600.16 s)"
+
+[[field]]
+ids = ["mtbls13880-bcells-lipidomics-pos-cko-ab", "mtbls14308-mwy251008a-mix01", "mtbls1820-lumos-uplc-31", "mtbls1822-tsq-74", "mtbls755-hilic-dpoly", "mtbls797-dotsha05", "mtbls805-imaging-732", "mtbls805-msms-869"]
+fields = ["instrument model"]
+right = "openreadout"
+why = "ours is the model string the raw file's instrument id holds (`Q Exactive HF Orbitrap`, `TSQ Vantage Standard`, `Orbitrap Fusion Lumos`, `Thermo Exactive Orbitrap`, `Q Exactive Plus Orbitrap`); the conversion writes the nearest PSI-MS instrument term its converter knew (`Q Exactive HF`, `TSQ Vantage`, `Orbitrap Fusion`, `Exactive`, older converters `Q Exactive` for an HF and a Plus): the same instrument, the term less specific"
+
+[[field]]
+ids = ["mtbls755-hilic-dpoly"]
+fields = ["acquisition start (up to a zone offset)"]
+right = "openreadout"
+why = "ours is the file-info block's UTC time (16:43:35.432Z; docs/formats/thermo-raw.md); the conversion's 16:45:04 is 89 s later, the audit stamp that the format note records as differing from the UTC time by a further 90 s in this one file (MTBLS755): two acquisition times the file holds, not a misreading"
+
+[[field]]
+ids = ["pwiz-agilent-gfb-4scan-timesegs", "pwiz-agilent-thyrxox-ts-diff-scan"]
+fields = ["spectrum count", "MS2 spectrum count", "last retention time"]
+right = "openreadout"
+why = "the ProteoWizard reference (3.0.18264 unit-test data) holds only the first 182 (233) spectra, which agree with ours by position; the .d's own MSTS.xml declares 63 + 60 + 59 + 428 = 610 (and 804) scans in its time segments, which our count equals (check `scans in the time segments (MSTS.xml)`)"
+
+[[field]]
+ids = ["pwiz-sciex-enolase", "mtbls6084-sl-st-blank2", "pxd069939-dda-pbqc-hf75"]
+fields = ["instrument model"]
+right = "openreadout"
+why = "ours is the `Component ID` the .wiff's Log stream holds (`4000 Q TRAP`, `QTRAP 6500+`, `TripleTOF 5600+`, UTF-16 in the file); the conversion writes the PSI-MS term (`4000 QTRAP`, `QTRAP 6500`, `TripleTOF 5600`), which has no `+` models"
+
+[[field]]
+ids = ["mtbls11360-col-0-3-n", "pxd069939-dda-pbqc-hf75"]
+fields = ["spectrum count", "MS1 spectrum count", "last retention time"]
+right = "openreadout"
+why = "the index holds one record beyond the declared cycle count (1,082 and 3,766 cycles): the TOF MS scan of a last cycle the run stopped in (cycle 1083 at 839.695 s, 0.28 s after the previous one, TIC 2.13e6; its product-ion experiments are absent). The vendor library reports only whole declared cycles and leaves it out; the spectrum is stored and ours returns it. Every earlier spectrum agrees"
+
+[[field]]
+ids = ["pwiz-waters-mse-short", "pxd059722-mth2-alicine-td-1-raw"]
+fields = ["acquisition software version"]
+right = "openreadout"
+why = "_extern.inf says `Created by 4.2 SCN983` (and SCN1028): ours reports it; ProteoWizard writes `4.1` for every MassLynx file (the four files whose _extern.inf gives no version, and these two)"
+
+[[field]]
+ids = ["mtbls7290-scfa240-001-neg-blank-raw"]
+fields = ["spectrum count", "MS1 spectrum count", "last retention time"]
+right = "openreadout"
+why = "the depositor's mzML covers 0.018-0.873 min, the first 247 of the run's 2,873 scans (manifest note), which agree with ours scan by scan"
+
+# ---- electrophysiology ---------------------------------------------------------------------
+
+[[field]]
+ids = ["pyabf-130618-1-12"]
+fields = ["sweep count", "samples per sweep", "trace 0 sweep 0 channel 0: *"]
+right = "openreadout"
+why = "an ABF 1 episodic file (nOperationMode 5) whose header says lActualEpisodes = 3 (offset 16) and 150,000 samples: three sweeps of 50,000 as pyABF also reads it; Neo reads one 150,000-sample segment, so its sweep 0 statistics cover all three"
+
+# ---- NMR -----------------------------------------------------------------------------------
+
+[[field]]
+ids = ["jcamp-lancashire-mactab2"]
+fields = ["##TITLE"]
+right = "openreadout"
+why = "the file's lines end in CR only; the jcamp package splits on LF and reads the whole CR-separated header as the title (`cholesterol (mactab2.jdx)\\r$$ file sent to MAC and Back again\\r##JCAMP-DX= 4.24 ...`); ours is the ##TITLE= line, `cholesterol (mactab2.jdx)`"
+
+[[field]]
+ids = ["nmrxiv-s200-qhnmr-jdf"]
+fields = ["title (JCAMP-DX twin)"]
+right = "openreadout"
+why = "the depositor's JCAMP-DX export writes a two-line ##TITLE: the .jdf's title and, on the second line, its comment (`Limonene_7020ug200uL_CDCl3_1H_nospin_IND_skim592`, our `extra.comment`); ours is the .jdf title"
+
+# ---- vibrational spectroscopy --------------------------------------------------------------
+
+[[field]]
+ids = ["opus-orange-peach-juice", "opus-or2-test-spectra"]
+fields = ["result spectrum block"]
+right = "openreadout"
+why = "brukeropusreader names every result spectrum `AB`; the block's data-type code says reflectance, and brukeropus (MIT, a third reader) lists the block as `r` (reflectance), as ours does (`RFL`). (On opus-or2-test-spectra brukeropusreader's `AB` values are also garbage: recorded opinion adjudicated above)"
+
+# ---- chromatography ------------------------------------------------------------------------
+
+[[field]]
+ids = ["chromhandler-001f0101-d", "chromhandler-001f0102-d", "chromhandler-001f0103-d", "chromhandler-001f0104-d", "gc2asm-v181-d"]
+fields = ["*.ch: signal: sample count", "*.ch: signal: mean", "*.ch: last time (min)"]
+right = "openreadout"
+why = "chromConverter 0.9 returns one value more than the header declares (3,601 for 3,600; 5,914 for 5,913): the last stored value repeated at a time it spreads over the header's range with a slightly smaller step (0.0033324 min for the header's 0.0033333); its first 3,600 values equal ours exactly (maximum difference 0), so only the count and mean differ. rainbow-api and Aston, the primary oracles, read the declared count"
+
+[[field]]
+ids = ["gc2asm-three-channels-d", "entab-test-179-fid-ch"]
+fields = ["*.ch: signal: *", "*_fid.ch: signal: *"]
+right = "openreadout"
+why = "on these version-179 files chromConverter's values are ours divided by a constant (about 4,281 and 8,030: 3.8470 against 0.00089865, 7.7457 against 0.00096454), a scale it misapplies; rainbow-api (a third reader, the primary oracle of entab-test-179) returns ours exactly (3.84700521, 7.74570312 pA, `unit: pA` in its metadata)"
+
+[[field]]
+ids = ["lcd-streamfind-adc-uv", "zenodo17868549-gp070190p-hplc", "gcd-cct-fs19-214"]
+fields = ["Chromatogram Ch*"]
+right = "openreadout"
+why = "chromConverter 0.9 returns the stored integers unscaled (64 where ours is 64 × 4.768e-6 mV) and, for the two-channel .lcd, a long table whose Ch1/Ch5 rows interleave samples of both channels; the depositors' LabSolutions ASCII exports, the vendor software's own values, equal ours point for point (corpus test, oracle/shimadzu_export.py). On the .gcd (f64 values, no scaling) its values are ours from the second point on: ours starts with LabSolutions' t = 0 point, the first stored reading repeated (the convention the vendor's ASCII exports of LC runs show, docs/formats/shimadzu.md § Points), chromConverter at the first stored reading (0.000667 min)"
+
+[[field]]
+ids = ["lcd-streamfind-adc-uv", "zenodo17868549-gp070190p-hplc", "gcd-cct-fs19-214"]
+fields = ["acquisition time"]
+right = "openreadout"
+why = "ours is `File Property`'s generated FILETIME (UTC; docs/formats/shimadzu.md: 07:29:29 UTC for a batch named 15:29 local, UTC+8); chromConverter reports a time 19-22 s later without a zone (another event of the run): not the same field"
+
+[[field]]
+ids = ["zhulong-001-1-sm-d"]
+fields = ["DAD1.UV: *"]
+right = "openreadout"
+why = "chromConverter writes these DAD values to seven significant digits (-888.0587 for our -888.05866241, the stored integer times 0.000476837 mAU)"
+
+# ---- plate readers and qPCR ----------------------------------------------------------------
+
+[[field]]
+ids = ["synthetic-gen5-headerless-kinetic-meanv-4pl"]
+fields = ["first grid: values by well*"]
+right = "openreadout"
+why = "a Gen5 kinetic export without its header (the synthetic twin of gen5-abs-kinetic-meanv-4pl, which the scanner skips as kinetic): its first grid is the derived `Mean V` result, not a read; our read 1 is the first kinetic read (0.992 in A1) and our read 2 holds exactly the grid's values (31.303 in A1, 34.192 in A2, ...)"
+
+[[field]]
+ids = ["rdml-lc96-bactxy"]
+fields = ["first run: instrument"]
+right = "openreadout"
+why = "the run's <instrument> holds the instrument's id with its serial number (`LC96SN11301`); ours reports the model LightCycler 96, marked `inferred` in provenance from the data-collection software (`LightCycler 96 software` 1.1.0.1320), and keeps the run's own text in tables[0].extra.runs[0].instrument"
+
+# ---- images: Bio-Formats (OME-XML) on acquisition date, microscope model, first image size ---
+
+[[field]]
+ids = ["aics-tiled", "ome-michael-PR2729-frameOrderCombinedScanTypes"]
+fields = ["image 0 size_*"]
+right = "openreadout"
+why = "a Leica tile scan: ours is the stitched mosaic from the tile positions (7666 × 5622 from 512 × 512 tiles; 97 × 97 from 64 × 64 tiles), Bio-Formats lists every tile as its own series; the same pixels, another arrangement (the primary oracle, liffile, checks ours tile by tile)"
+
+[[field]]
+ids = ["ome-imagesc-110520-AMR1-lifext"]
+fields = ["image 0 size_*"]
+right = "openreadout"
+why = "a LIF extension file holding a pyramid: ours lists the full resolution first (1433 × 972, then its 716 × 486 ... levels), Bio-Formats' first series is a 512 × 512 tile"
+
+[[field]]
+ids = ["zenodo20131420-SI-nanoFe"]
+fields = ["image 0 size_*"]
+right = "openreadout"
+why = "a DM4 spectrum image holding three images: ours keeps the file's order (the 512 × 512 HAADF survey first, then the 21 × 8 HAADF and the 21 × 8 × 2048 EELS spectrum image), Bio-Formats puts the 21 × 8 spectrum image first; both sizes are in ours"
+
+[[field]]
+ids = ["autolab-001-p1-a1-a1-d", "entab-carotenoid-extract-d"]
+fields = ["acquisition start (first signal file's header)"]
+right = "openreadout"
+why = "LC-MS directories: ours is the MSD `data.ms` header's start, which the file stores to the minute with its UTC offset (09:36 −06:00, 10:59 −05:00); chromConverter reads the `.ch`/`.uv` header's local clock to the second (09:36:10, 10:59:23). Same run, same wall clock, 10 and 23 s apart: the MS header's minute truncation"
+
+[[field]]
+ids = ["softmax-fl-kinetic-plates", "softmax-spectramax340-kinetic-partial"]
+fields = ["ASM measurement time (wall clock) against the save time"]
+right = "openreadout"
+why = "the only time in these SoftMax Pro text exports is the footer's `Date Last Saved: 1/6/2023 3:33:58 PM`; ours reports it as the save time (`acquisition.saved_at`, no start: finding PLATE-1, fixed), which the footer read as text confirms. allotropy's measurement time is 5 min and 1 min later: the save time moved by the kinetic run's length, a value the file does not hold. On the endpoint exports allotropy gives the save time itself"
+
+# ---- electrophysiology: header times and record validity -----------------------------------
+
+[[field]]
+ids = ["brk-filespec2-3001-ns5", "brk-file-spec-3-0-ns6"]
+fields = ["recording start (rec_datetime)"]
+right = "openreadout"
+why = "Neo's block rec_datetime is the companion .nev's time (it opens every file of the session); ours is the continuous file's own header. The .ns5 header's SYSTEMTIME (offset 294) reads 2014-01-01 (Wed) 20:23:05.559 and the .nev's 13:23:05.555, bytes in the files; the .ns6 (3.0) header says 04:03:59.443, the .nev 04:03:59.441"
+
+[[field]]
+ids = ["figshare25325560-csc12-ncs", "figshare25325560-csc37-ncs"]
+fields = ["trace 0 sweep 0 channel 0: *"]
+right = "openreadout"
+why = "the last of the 1,779 records says NumValidSamples 342 (offset 16 of the record): ours keeps those 342 of its 512 samples, nept takes all 512 (170 more samples, and a mean over them); every other record says 512"

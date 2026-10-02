@@ -1,0 +1,105 @@
+{
+ "id": "zenodo12509122-PSR-LXR-KO-WT-1054",
+ "file": "zenodo12509122-PSR-LXR-KO-WT-1054.czi",
+ "size": 102389248,
+ "sha256": "9add793f65b5596a66ff446b4100306e39231d009a6cf8809d75679c0607b7ad",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 36193,
+   "size_y": 17456,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "dims": "YXS",
+   "shape": [
+    17456,
+    36193,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": 5,
+   "physical_size_um": {
+    "x": 0.2196617209497374,
+    "y": 0.2196617209497374,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "189c270c8b5590e880b6bb2ff4585f7e"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 12064,
+     "size_y": 5818,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "f2fd112fc0fe0792f33a371c1223d49a"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 4021,
+     "size_y": 1939,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "75ba6ae5b89a40f3f82ce546372f4dc3"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 1340,
+     "size_y": 646,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "1765e3af5a0788a25b961a59ad69c809"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 446,
+     "size_y": 215,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "45918bb9ce97fce33ede4bbbd62cdd0d"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.2196617209497374,
+  "y": 0.2196617209497374,
+  "z": null
+ },
+ "subblock_count": 293,
+ "compression_ids": [
+  4
+ ]
+}

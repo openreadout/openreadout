@@ -1,0 +1,32 @@
+{
+ "id": "ngb-zenodo18902844-pef-200um",
+ "file": "ngb-zenodo18902844-pef-200um.ngb-sd7",
+ "format": "netzsch-ngb",
+ "family": "bench",
+ "readers": [
+  "pyNGB 0.6.0 (MIT) metadata"
+ ],
+ "checks": [
+  {
+   "field": "date_performed",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-12-08T09:03:17+00:00",
+   "cmp": "time",
+   "abs": 1.0
+  },
+  {
+   "field": "instrument (model code before the serial)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "DSC204F1",
+   "cmp": "contains"
+  }
+ ]
+}

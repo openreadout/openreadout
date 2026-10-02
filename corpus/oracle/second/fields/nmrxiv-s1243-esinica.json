@@ -1,0 +1,180 @@
+{
+ "id": "nmrxiv-s1243-esinica",
+ "file": "nmrxiv-s1243/E sinica-higher concentration-500 MHz.jdf",
+ "format": "jeol-jdf",
+ "family": "nmr",
+ "readers": [
+  "nmrglue 0.12 (BSD-3) jeol.read header and parameters",
+  "the .jdf context section (at nmrglue's context_start), read as text with a regular expression"
+ ],
+ "checks": [
+  {
+   "field": "header title",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/title",
+   "theirs": "20230816 Zheng Rui Qi MHSWJ-15.81",
+   "cmp": "text"
+  },
+  {
+   "field": "header comment",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/comment",
+   "theirs": "single_pulse",
+   "cmp": "text"
+  },
+  {
+   "field": "x_freq (MHz)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectrometer_frequency_mhz",
+   "theirs": 500.15991520961256,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "x_sweep (Hz)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectral_width_hz",
+   "theirs": 11281.58844765343,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "x_offset (ppm)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/carrier_offset_ppm",
+   "theirs": 6.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "scans",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/scans",
+   "theirs": 128,
+   "cmp": "exact"
+  },
+  {
+   "field": "total_scans",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/total_scans",
+   "theirs": 128,
+   "cmp": "exact"
+  },
+  {
+   "field": "solvent",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/solvent",
+   "theirs": "METHANOL-D4",
+   "cmp": "text"
+  },
+  {
+   "field": "experiment",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/pulse_program",
+   "theirs": "proton.jxp",
+   "cmp": "text"
+  },
+  {
+   "field": "x_domain",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/domain",
+   "theirs": "Proton",
+   "cmp": "text"
+  },
+  {
+   "field": "sample_id parameter (16 bytes)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/sample_id",
+   "theirs": "20230816ZhengR",
+   "cmp": "contains"
+  },
+  {
+   "field": "sample_id (context text)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/sample_id",
+   "theirs": "20230816 Zheng Rui Qi MHSWJ-15.81",
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "sample id (context text)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "20230816 Zheng Rui Qi MHSWJ-15.81",
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "temp_get (°C)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/temperature_c",
+   "theirs": 25.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "field_strength (T)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/field_strength_t",
+   "theirs": 11.7473579,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "actual_start_time (s since 1990, UTC)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-08-16T09:01:39Z",
+   "cmp": "time",
+   "abs": 1.0
+  }
+ ]
+}

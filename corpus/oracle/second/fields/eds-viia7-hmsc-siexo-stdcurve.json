@@ -1,0 +1,33 @@
+{
+ "id": "eds-viia7-hmsc-siexo-stdcurve",
+ "file": "eds-viia7-hmsc-siexo-stdcurve.eds",
+ "format": "applied-biosystems-eds",
+ "family": "qpcr",
+ "readers": [
+  "qslib 0.15.3 (EUPL-1.2, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "run start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-12-11T09:03:06.508000+00:00",
+   "cmp": "time",
+   "abs": 1.0
+  },
+  {
+   "field": "run end",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2018-12-11T10:33:45.195000+00:00",
+   "cmp": "time",
+   "abs": 1.0
+  }
+ ]
+}

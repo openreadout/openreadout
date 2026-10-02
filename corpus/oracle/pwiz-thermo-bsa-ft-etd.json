@@ -1,0 +1,99 @@
+{
+ "id": "pwiz-thermo-bsa-ft-etd",
+ "file": "BSA-FT-ETD.raw",
+ "size": 348555,
+ "sha256": "d63a86285709d16115b7cc13453652b72589d6d428adc912df9b0ba6063190b3",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 on the depositor's mzML (BSA-FT-ETD.mzML)",
+ "paired_export": "BSA-FT-ETD.mzML",
+ "export_software": [
+  [
+   "Xcalibur",
+   ""
+  ],
+  [
+   "pwiz",
+   "3.0.23188"
+  ]
+ ],
+ "peak_picking_in_export": false,
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "controllerType=0 controllerNumber=1 scan=1",
+    "ms_level": 2,
+    "rt_s": 963.71728417602,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": "FTMS + p NSI d Full ms2 722.32@etd111.39 [120.00-1455.00]",
+    "precursor_mz": 722.32421875,
+    "precursor_charge": 2,
+    "isolation_target_mz": 722.32421875,
+    "activation": [
+     "electron transfer dissociation"
+    ],
+    "collision_energy": null,
+    "total_ion_current": 1008970.3125,
+    "base_peak_mz": 1444.64697265625,
+    "n_peaks": 426,
+    "n_nonzero": 200,
+    "mz_bits": 32,
+    "xxh3_mz": "9dfca18d0de3e8143f506fd7848e186b",
+    "xxh3_intensity": "34329e905bcc624f893f63657641453b",
+    "xxh3_mz_nonzero": "b9411c4479ef91936b05b65d10f7aea7",
+    "xxh3_intensity_nonzero": "ffd06e5c9fe51fbb3472501ac26bcb28",
+    "sum_intensity": 3683394.6918411255,
+    "mz_min": 118.80529022216797,
+    "mz_max": 1469.870361328125,
+    "first_peaks": [
+     [
+      118.80529022216797,
+      0.0
+     ],
+     [
+      118.80667877197266,
+      0.0
+     ],
+     [
+      118.80806732177734,
+      0.0
+     ],
+     [
+      118.80946350097656,
+      0.0
+     ],
+     [
+      129.89410400390625,
+      0.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      129.9004669189453,
+      1054.317138671875
+     ],
+     [
+      129.9020538330078,
+      1996.96630859375
+     ],
+     [
+      129.9036407470703,
+      2523.68017578125
+     ],
+     [
+      129.9052276611328,
+      2204.655029296875
+     ],
+     [
+      129.9068145751953,
+      1228.3701171875
+     ]
+    ]
+   }
+  ]
+ }
+}

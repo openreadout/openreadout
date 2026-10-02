@@ -1,0 +1,103 @@
+{
+ "id": "mtbls15166-brain-b1-raw",
+ "file": "ANR_DeciVerneuil_TRP_Depletion_Kinetics_2_Brain_B1.raw",
+ "size": 406510,
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box)",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 189,
+   "parameter_names": [],
+   "column_hashes": {
+    "rt_min": "7dff9ce5ca1a1fb2144656cb93d32cc3",
+    "124.1 > 51.1": "465c03cd5768360334bf4bf2938a6f3c",
+    "125.1 > 79.04": "cf7f388a9eee841f3389cf2b4ed4abe7",
+    "154.2 > 136.1": "fb9131c83885e78b4e731e5b3947888d",
+    "161.2 > 144.1": "e3258e84cd0a6992f17deae2fe32b5a7",
+    "165 > 148": "0a7cb4637a550a70bc2cc8f062ce58ee",
+    "177.1 > 160.2": "4e3be68d2f0ee8cb8d81307fd49d85a4",
+    "181.1 > 164": "e2ef381ab14e35298332d8bb1d6a78f6",
+    "205.1 > 188.1": "8229b6103ae69d115d5bbc6f415deb72",
+    "209.1 > 94.1": "030da95b827c9b2f21f9fd712c6410e0",
+    "210.1 > 193.1": "78691c49804d6dbaead5de746559dbad",
+    "213.1 > 98": "61a9a34c13e8d197b1a4ec5243207ec0",
+    "221.1 > 162.1": "d4a8ba0a74b2968672e51a87da5dcef5",
+    "225.1 > 165.1": "4cb0c315593688095521127548d4c0d2",
+    "225.2 > 110.1": "e50cf0c026bbaee2f9f6b0c0a846aac2",
+    "225.2 > 208.1": "14d96bd57219b3316e62f117fbaf250d",
+    "228.1 > 110.1": "f7c12be670d738ddb9cff108c0066788",
+    "228.1 > 210.1": "1063d4403a91e48fc3ce289db23377c1"
+   },
+   "polarity": "+"
+  },
+  {
+   "index": 1,
+   "event_count": 233,
+   "parameter_names": [],
+   "column_hashes": {
+    "rt_min": "9ca7ca656cb5506da388c931eeb17684",
+    "146.1 > 118.1": "5a7b6bc5c21037723152b5ae3e0a99e1",
+    "162.2 > 144.2": "e02419f694c32f3089990547ec6f435b",
+    "176.1 > 130.1": "6f8ce3061f79e7edcdc58444325f4099",
+    "180 > 133": "dcf96a02067304cc1c2899be50fb3268",
+    "233.2 > 174.1": "34f4527cf9ed5449b411d7bd29c3ed9c",
+    "237 > 178": "1c4678993e3a99fd37de2b9e510d191a"
+   },
+   "polarity": "+"
+  },
+  {
+   "index": 2,
+   "event_count": 242,
+   "parameter_names": [],
+   "column_hashes": {
+    "rt_min": "7bfc99970497dee75ec2ef993df5bc8f",
+    "175.1 > 130.1": "6e5a7f1e04acdb624b61ef7799b25d47",
+    "180 > 134": "e9dad651b8904ce1525fb5c0460cc90b",
+    "190.1 > 144.1": "ad57478d6e0daf3c47499922fe05ef2d",
+    "192.2 > 146": "c1b39e39391a7a555a102175d0a38466",
+    "195 > 149": "ae3bbaab295b80a3f5f38baeabf557ab",
+    "197 > 150": "fbb8cc80cddad4ebb1c5ee8cad208da7",
+    "206.1 > 160.1": "8137150afb18b24ed9a923640ac5c3a7",
+    "210 > 136.1": "4aa2d8fa17df7da84851ab0ab649fd9b",
+    "219.2 > 160.2": "921772ae4b7b134cf93b6e6ad09c2884"
+   },
+   "polarity": "+"
+  },
+  {
+   "index": 3,
+   "event_count": 189,
+   "parameter_names": [],
+   "column_hashes": {
+    "rt_min": "ee39d1ea401a3f43eef6a78370d8cd9d",
+    "166.1 > 78": "dcb7e1851c7b4eeb9040d27c036c735a",
+    "169 > 125": "85985838e52cc3b2da5e304f990aa2d5",
+    "203.1 > 116.1": "2c73b64a2fa21a22e60530a9e64e61fc",
+    "208.1 > 121.1": "19199572ca69d54261e23d00f9e3d954"
+   },
+   "polarity": "-"
+  },
+  {
+   "index": 4,
+   "event_count": 233,
+   "parameter_names": [],
+   "column_hashes": {
+    "rt_min": "286be911c642f3e290c9545b67018aad",
+    "204 > 186.1": "8a178495da9add13265dea98ec2b6d2b"
+   },
+   "polarity": "-"
+  },
+  {
+   "index": 5,
+   "event_count": 243,
+   "parameter_names": [],
+   "column_hashes": {
+    "rt_min": "4870cf584e2c96ecf2841cc874f48546",
+    "211.9 > 80": "fefce010a9de0dfb570b40db64850302",
+    "218 > 80": "897d6f11d0d7b9b3db0a1a597b675c32"
+   },
+   "polarity": "-"
+  }
+ ],
+ "oracle_note": "values = rainbow / 2 (see waters() in oracle/gen.py)"
+}

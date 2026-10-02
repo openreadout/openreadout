@@ -1,0 +1,95 @@
+{
+ "id": "jcamp-lancashire-dupinc1",
+ "file": "jcamp-lancashire-dupinc1.jdx",
+ "format": "jcamp-dx",
+ "family": "nmr",
+ "readers": [
+  "jcamp 1.3.2 (MIT)"
+ ],
+ "checks": [
+  {
+   "field": "##TITLE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/title",
+   "theirs": "dupinc1.jdx",
+   "cmp": "text"
+  },
+  {
+   "field": "##ORIGIN",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/origin",
+   "theirs": "Perkin Elmer",
+   "cmp": "text"
+  },
+  {
+   "field": "##OWNER",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/owner",
+   "theirs": "Public Domain",
+   "cmp": "text"
+  },
+  {
+   "field": "##JCAMP-DX version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/jcamp_version",
+   "theirs": "4.24",
+   "cmp": "text"
+  },
+  {
+   "field": "##NPOINTS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 440,
+   "cmp": "exact"
+  },
+  {
+   "field": "##FIRSTX",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/first",
+   "theirs": 250.0,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "field": "##LASTX",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/last",
+   "theirs": 469.5,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "field": "##XUNITS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/unit",
+   "theirs": "NANOMETERS",
+   "cmp": "text"
+  }
+ ]
+}

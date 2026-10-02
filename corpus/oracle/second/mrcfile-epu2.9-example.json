@@ -1,0 +1,20 @@
+{
+ "id": "mrcfile-epu2.9-example",
+ "file": "mrcfile-epu2.9-example.mrc",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 4096,
+   "size_y": 4096,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "da3ef7386474d0dd5e201bd817f71350"
+    }
+   ]
+  }
+ ]
+}

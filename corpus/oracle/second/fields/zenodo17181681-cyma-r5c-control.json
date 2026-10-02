@@ -1,0 +1,297 @@
+{
+ "id": "zenodo17181681-cyma-r5c-control",
+ "file": "zenodo17181681-cyma-r5c-control.atf",
+ "format": "atf",
+ "family": "electrophysiology",
+ "readers": [
+  "Python csv module on the ATF text (Axon Text File layout)"
+ ],
+ "checks": [
+  {
+   "field": "samples per sweep",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 3000000,
+   "cmp": "exact"
+  },
+  {
+   "field": "sample rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_rate_hz",
+   "theirs": 50000.000001892884,
+   "cmp": "num",
+   "rel": 1e-06
+  },
+  {
+   "field": "sweep count",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sweep_count",
+   "theirs": 1,
+   "cmp": "exact"
+  },
+  {
+   "field": "channel units",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/channels/*/unit",
+   "theirs": [
+    "pA",
+    "mV"
+   ],
+   "cmp": "text"
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    57.251,
+    56.4575,
+    47.6379,
+    62.0422,
+    59.5398,
+    60.791,
+    57.7087,
+    58.0444,
+    55.603,
+    55.9998,
+    55.603,
+    64.6667,
+    52.6733,
+    60.8826,
+    48.1873,
+    60.1501,
+    58.9905,
+    62.8967,
+    61.0657,
+    55.0842,
+    60.2722,
+    54.5044,
+    58.1055,
+    56.2744,
+    55.7251,
+    54.9011,
+    60.791,
+    56.6711,
+    61.7981,
+    62.0728,
+    56.4575,
+    59.7839
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1.22772e-10
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 3000000,
+   "cmp": "exact"
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": -49.3164,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1.22772e-10
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 122.772,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1.22772e-10
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 56.0887801914464,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1.22772e-07
+  },
+  {
+   "field": "trace 0 sweep 0 channel 1: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=1]/samples",
+   "theirs": [
+    50.1099,
+    50.1404,
+    49.9573,
+    50.0488,
+    50.0793,
+    50.0793,
+    49.9878,
+    49.9878,
+    50.0488,
+    50.1099,
+    50.0793,
+    50.0793,
+    50.1099,
+    50.0183,
+    49.8962,
+    50.0793,
+    50.0793,
+    49.9878,
+    50.0183,
+    50.0488,
+    50.1099,
+    50.0793,
+    50.0488,
+    50.0793,
+    49.9878,
+    50.0793,
+    50.1404,
+    50.0793,
+    50.0183,
+    50.0488,
+    50.0793,
+    50.1099
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.06287e-11
+  },
+  {
+   "field": "trace 0 sweep 0 channel 1: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=1]/stats/count",
+   "theirs": 3000000,
+   "cmp": "exact"
+  },
+  {
+   "field": "trace 0 sweep 0 channel 1: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=1]/stats/min",
+   "theirs": 49.469,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.06287e-11
+  },
+  {
+   "field": "trace 0 sweep 0 channel 1: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=1]/stats/max",
+   "theirs": 50.6287,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.06287e-11
+  },
+  {
+   "field": "trace 0 sweep 0 channel 1: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=1]/stats/mean",
+   "theirs": 50.058580202099996,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 5.0628700000000007e-08
+  }
+ ]
+}

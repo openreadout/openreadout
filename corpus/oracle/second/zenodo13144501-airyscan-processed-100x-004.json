@@ -1,0 +1,32 @@
+{
+ "id": "zenodo13144501-airyscan-processed-100x-004",
+ "file": "zenodo13144501-airyscan-processed-100x-004.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1296,
+   "size_y": 1296,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ae36d20c1f96519a3ee8e89632e5e192"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "239a8fd527b336b03ce55de2cfa43935"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "23b765d2508df8f38d1642fdacd018b8"
+    }
+   ]
+  }
+ ]
+}

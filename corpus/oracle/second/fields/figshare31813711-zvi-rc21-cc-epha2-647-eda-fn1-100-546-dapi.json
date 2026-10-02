@@ -1,0 +1,42 @@
+{
+ "id": "figshare31813711-zvi-rc21-cc-epha2-647-eda-fn1-100-546-dapi",
+ "file": "zvi-depth/figshare31813711/RC21-CC_EphA2-647_EDA-FN1-100-546_DAPI.zvi",
+ "format": "zvi",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "acquisition date (earliest image)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2018-01-10T14:34:15.556",
+   "cmp": "time_or_utc",
+   "abs": 60.0
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 1388,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 1040,
+   "cmp": "exact"
+  }
+ ]
+}

@@ -1,0 +1,273 @@
+{
+ "id": "dandi000059-ms10-170314",
+ "file": "dandi000059-sub-MS10_ses-Peter-MS10-170314-163038_desc-processed_behavior+ecephys.nwb",
+ "size": 3022055,
+ "sha256": "d85b8a665dc1b4c2e2c20d476f9c52aa350bb92fa1289edad3de822a75f352a3",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.2.5",
+ "session": {
+  "session_description": "Petersen et al. demonstrate that cooling of the medial septum slows theta oscillation and increases choice errors without affecting spatial features of pyramidal neurons. Cooling affects distance-time, but not distance-theta phase, compression. The findings reveal that cell assemblies are organized by theta phase and not by external (clock) time.",
+  "identifier": "94f425cc-e68b-4d69-af52-21aeab8c1680",
+  "session_start_time": "2017-03-14T16:30:38-04:00"
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "Acceleration",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "Acceleration"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 67383,
+     "channels": [
+      {
+       "xxh3": "e325c3d546383a7e866b059de08dd0db",
+       "first": [
+        6.4849,
+        6.5099,
+        6.5349,
+        6.5599,
+        6.5849,
+        6.6099,
+        6.6349,
+        6.6599
+       ]
+      },
+      {
+       "xxh3": "5dfb374c4b2db35a2ffb89fec66aefad",
+       "first": [
+        0.0,
+        4854.748500342549,
+        14.927402805410825,
+        7.632530115337533,
+        5.473492274901997,
+        4.566133596293274,
+        9.730449070391794,
+        31.055852453012417
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "SubjectSpeed",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "SubjectSpeed"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 67383,
+     "channels": [
+      {
+       "xxh3": "e325c3d546383a7e866b059de08dd0db",
+       "first": [
+        6.4849,
+        6.5099,
+        6.5349,
+        6.5599,
+        6.5849,
+        6.6099,
+        6.6349,
+        6.6599
+       ]
+      },
+      {
+       "xxh3": "1f68035716534de4dafd0db6f6488ba2",
+       "first": [
+        0.0,
+        63.150289311098724,
+        63.150289311098724,
+        63.150289311098724,
+        59.02136700047368,
+        55.72580894166079,
+        54.516988120440246,
+        52.36447479534961
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Temperature",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "Temperature"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 67383,
+     "channels": [
+      {
+       "xxh3": "e325c3d546383a7e866b059de08dd0db",
+       "first": [
+        6.4849,
+        6.5099,
+        6.5349,
+        6.5599,
+        6.5849,
+        6.6099,
+        6.6349,
+        6.6599
+       ]
+      },
+      {
+       "xxh3": "efca54ab9c71131881e08751a6386169",
+       "first": [
+        37.0,
+        37.0,
+        37.0,
+        37.0,
+        37.0,
+        37.0,
+        37.0,
+        37.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "SpatialSeries",
+   "sweep_count": 1,
+   "channel_count": 4,
+   "channel_names": [
+    "time",
+    "SpatialSeries[0]",
+    "SpatialSeries[1]",
+    "SpatialSeries[2]"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 67383,
+     "channels": [
+      {
+       "xxh3": "e325c3d546383a7e866b059de08dd0db",
+       "first": [
+        6.4849,
+        6.5099,
+        6.5349,
+        6.5599,
+        6.5849,
+        6.6099,
+        6.6349,
+        6.6599
+       ]
+      },
+      {
+       "xxh3": "a4a1d2b3bea4df1db7e300d5983cb33e",
+       "first": [
+        -0.3574652200629375,
+        -0.23220491970852244,
+        -0.1413158068630834,
+        -0.0902146280289764,
+        -0.06514731535081394,
+        -0.05075506999012954,
+        -0.04410196826067245,
+        -0.039329243189552554
+       ]
+      },
+      {
+       "xxh3": "9d9d36927190e24039ed55896baae082",
+       "first": [
+        -0.0010067747253692863,
+        -0.2071569062867593,
+        -0.3548196800578006,
+        -0.4351945493460854,
+        -0.47173492990509625,
+        -0.4910940661060301,
+        -0.49973262245418076,
+        -0.5081724414507407
+       ]
+      },
+      {
+       "xxh3": "584f211d01e27050f6fcbec596bddfbe",
+       "first": [
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "name": "intervals/trials",
+   "event_count": 142,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "condition",
+    "error",
+    "cooling state"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "36036459345a766585e5738327b4c8d7",
+    "start_time": "7c985b42ce1c953835d9637bf2f575c2",
+    "stop_time": "7d7f3f45d1258db346c7b6b753fe8620",
+    "condition": "e086a08cf4f25b3fb722cb8511de8077",
+    "error": "e8915d25d0402ceacb0437bae3e64728",
+    "cooling state": "4b2fd5f5b7b5211154875960b2975f63"
+   }
+  },
+  {
+   "index": 1,
+   "name": "general/extracellular_ephys/electrodes",
+   "event_count": 47,
+   "parameter_names": [
+    "id",
+    "x",
+    "y",
+    "z",
+    "imp",
+    "location",
+    "filtering",
+    "group_name",
+    "shank_electrode_number",
+    "theta_reference"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "7e7f03fd6b2f8f833e317b011412aba1",
+    "x": "73e8dbaa546c7c94576f8526dd73ad44",
+    "y": "73e8dbaa546c7c94576f8526dd73ad44",
+    "z": "73e8dbaa546c7c94576f8526dd73ad44",
+    "imp": "4ed5ed658bd7fdc890b8c4a2fac52dc7",
+    "location": "9156454ab906d0f3b69e55a69a8000f0",
+    "filtering": "9156454ab906d0f3b69e55a69a8000f0",
+    "group_name": "9c9dd895eb869d1f8d51c872cc6796b8",
+    "shank_electrode_number": "ed0deaed4d2f0dddf49be687aa53ea85",
+    "theta_reference": "ceaad4880a53b4d6dc039d07edb59882"
+   }
+  }
+ ]
+}

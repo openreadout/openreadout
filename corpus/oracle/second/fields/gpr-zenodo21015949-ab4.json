@@ -1,0 +1,31 @@
+{
+ "id": "gpr-zenodo21015949-ab4",
+ "file": "gpr-zenodo21015949-ab4.gpr",
+ "format": "genepix-gpr",
+ "family": "bench",
+ "readers": [
+  "the .gpr ATF header records (`\"DateTime=...\"`, `\"Scanner=...\"`)"
+ ],
+ "checks": [
+  {
+   "field": "DateTime",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-05-17T17:07:54",
+   "cmp": "time"
+  },
+  {
+   "field": "Scanner",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "GenePix 4000",
+   "cmp": "text"
+  }
+ ]
+}

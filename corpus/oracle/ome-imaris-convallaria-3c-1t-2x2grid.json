@@ -1,0 +1,116 @@
+{
+ "id": "ome-imaris-convallaria-3c-1t-2x2grid",
+ "file": "Convallaria_3C_1T_2x2grid_confocal.ims",
+ "size": 24221260,
+ "sha256": "c8b66621198e286162e7a2a1b7bc11b2dd705f3d80fd85dc1daab00fe6f638a4",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1949,
+   "size_y": 1949,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 1.2060030785017959,
+    "y": 1.2059338122113905,
+    "z": null
+   },
+   "channel_names": [
+    "Red",
+    "Green",
+    "Blue"
+   ],
+   "filters": [
+    1
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0bfa768863f53ee2653b3ab59b6c2de0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b1427b2004dd33c071b37b970a1b785a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "40528fc4c6e4190d44f50dac19475ebc"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 974,
+     "size_y": 974,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "08a9592c2f21c96e6b29b9371e54bbc0"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 487,
+     "size_y": 487,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "44538bfca046c8dd8c4e6eedcdd7f41e"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 1949,
+   "height": 1949,
+   "size_z": 1,
+   "size_t": 1,
+   "size_c": 3,
+   "pixel_type": "uint16",
+   "thumbnail": "false"
+  },
+  {
+   "series": 1,
+   "samples": 1,
+   "width": 974,
+   "height": 974,
+   "size_z": 1,
+   "size_t": 1,
+   "size_c": 3,
+   "pixel_type": "uint16",
+   "thumbnail": "true"
+  },
+  {
+   "series": 2,
+   "samples": 1,
+   "width": 487,
+   "height": 487,
+   "size_z": 1,
+   "size_t": 1,
+   "size_c": 3,
+   "pixel_type": "uint16",
+   "thumbnail": "true"
+  }
+ ]
+}

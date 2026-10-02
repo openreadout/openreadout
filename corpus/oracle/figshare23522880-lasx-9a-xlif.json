@@ -1,0 +1,57 @@
+{
+ "id": "figshare23522880-lasx-9a-xlif",
+ "file": "9A.xlif",
+ "size": 11838,
+ "sha256": "0088627b1cb94cc98486afe08bc4849b08b4d3883cc8817f089aff1a4a822c89",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "9A",
+   "path": "9A",
+   "size_x": 1920,
+   "size_y": 1440,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "YXS",
+   "shape": [
+    1440,
+    1920,
+    3
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 1.2968749348619073,
+    "y": 1.296874913134121,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "56f33fdc93d52a930e2dabebf0b23f94"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4b65cb98b3456e92063c9a4a6ab94336"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f2e332f45c4defc22856893e796d8041"
+    }
+   ]
+  }
+ ]
+}

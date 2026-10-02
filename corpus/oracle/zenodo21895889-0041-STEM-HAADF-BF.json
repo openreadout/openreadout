@@ -1,0 +1,60 @@
+{
+ "id": "zenodo21895889-0041-STEM-HAADF-BF",
+ "file": "zenodo21895889-0041-STEM-HAADF-BF.emd",
+ "size": 17035122,
+ "sha256": "cf59739a810c0c4611d55f3e216c1b6519aaee425f33e2bc5e90bbe1e456f2f0",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "3a4decf6583640cc9568bce1b884f641",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.0007829654663489998,
+    "y": 0.0007829654663489998,
+    "z": null
+   },
+   "detector": "BF-S",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5d176503aff3e268358cdd1bd9665aca"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "velox_id": "7481e4a6b940429882f34c8b5100cc04",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.0007829654663489998,
+    "y": 0.0007829654663489998,
+    "z": null
+   },
+   "detector": "HAADF",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b2ae18d4c1c6837a4d6e1af8a3efc2a0"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"11\",\n    \"format\": \"Velox\"\n}\n"
+}

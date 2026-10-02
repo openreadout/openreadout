@@ -1,0 +1,48 @@
+{
+ "id": "mm-thomas-test-sep-fitc",
+ "file": "mm-thomas-img_000000000_FITC_000.tif",
+ "size": 40711,
+ "sha256": "8d4031e2832d8e72ff027b1899afed8f0d3ec98e60adbb6091e323848ae8e933",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "imagej",
+ "flags": [
+  "imagej"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "imagej",
+   "axes": "YX",
+   "shape": [
+    128,
+    128
+   ],
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 1.0,
+    "y": 1.0
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a98421620ac383924c4dcf5e564d6ae3"
+    }
+   ]
+  }
+ ]
+}

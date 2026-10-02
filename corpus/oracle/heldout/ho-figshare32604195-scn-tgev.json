@@ -1,0 +1,32 @@
+{
+ "id": "ho-figshare32604195-scn-tgev",
+ "file": "Beclin-1.scn",
+ "size": 188886,
+ "sha256": "280525532104dac6c8d7f9e9530c6ff583dd409bccee5c30d99f2c68b9d21374",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 348,
+   "size_y": 260,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 272.98850574712645,
+    "y": 272.9884615384616
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f0b21e7cb50c2b9a2239cf7ef585acb2"
+    }
+   ]
+  }
+ ]
+}

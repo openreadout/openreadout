@@ -1,0 +1,95 @@
+{
+ "id": "aics-ND2-dims-c2y32x32",
+ "file": "aics-ND2-dims-c2y32x32.nd2",
+ "size": 331776,
+ "sha256": "7319df4f83c16f33f7b2b2f1af21c8af4f3395d8ad29a345967daa28c9592739",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 32,
+   "size_y": 32,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 32, 'X': 32}",
+   "physical_size_um": {
+    "x": 0.652452890023035,
+    "y": 0.652452890023035,
+    "z": null
+   },
+   "channel_names": [
+    "Widefield Green",
+    "Widefield Red"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c02d77e32e93fccbf0615393e390ccfd"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a0718a1bde2a146b36d604f91f79c812"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Widefield Green",
+    "color": "#5BFF00",
+    "excitation_nm": null,
+    "emission_nm": 535.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "Widefield Red",
+    "color": "#FF5500",
+    "excitation_nm": null,
+    "emission_nm": 620.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 95.78866374492645,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 498.40000000000003,
+     "Z1": 498.40000000000003
+    }
+   }
+  ],
+  "acquired_at": "2021-09-28T13:34:47.695Z",
+  "acquired_at_unix_ms": 1632836087695
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(2)\r\nCamera Name: Flash4.0, SN:101412\r\nNumerical Aperture: 0.3\r\nRefractive Index: 1\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: Widefield Green\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n Microscope Settings:   Nikon Ti2, FilterChanger(Turret-Lo): 3 (FITC)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 3.0\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 1 (Shutter)\r\n  PFS, state: On\r\n  PFS, offset: 7959\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola, Shutter(Sola): Active\r\n  Sola, Illuminator(Sola) Voltage: 100.0\r\nPlane #2:\r\n Name: Widefield Red\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n Microscope Settings:   Nikon Ti2, FilterChanger(Turret-Lo): 4 (TRITC)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 1.5\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 1 (Shutter)\r\n  PFS, state: On\r\n  PFS, offset: 7959\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola, Shutter(Sola): Active\r\n  Sola, Illuminator(Sola) Voltage: 100.0",
+  "capturing": "Flash4.0, SN:101412 + Flash4.0, SN:000796\r\nSample 1:\r\n  Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\nSample 2:\r\n  Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast",
+  "date": "9/28/2021  9:34:47 AM",
+  "optics": "Plan Fluor 10x Ph1 DLL"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=2, heightPx=32, pixelDataType='unsigned', sequenceCount=1, widthBytes=128, widthPx=32, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

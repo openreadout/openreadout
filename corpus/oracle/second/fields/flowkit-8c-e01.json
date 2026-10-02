@@ -1,0 +1,582 @@
+{
+ "id": "flowkit-8c-e01",
+ "file": "flowkit-8c-e01.fcs",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0",
+  "FlowKit 1.3.2 (BSD-3) compensation with the file's spillover matrix"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 290172,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 15,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "TNFa FITC FLR-A",
+    "CD8 PerCP-Cy55 FLR-A",
+    "IL2 BV421 FLR-A",
+    "Aqua Amine FLR-A",
+    "IFNg APC FLR-A",
+    "CD3 APC-H7 FLR-A",
+    "CD107a PE FLR-A",
+    "CD4 PE-Cy7 FLR-A",
+    "Time"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-A": 262144.0,
+    "FSC-H": 262144.0,
+    "FSC-W": 262144.0,
+    "SSC-A": 262144.0,
+    "SSC-H": 262144.0,
+    "SSC-W": 262144.0,
+    "TNFa FITC FLR-A": 262144.0,
+    "CD8 PerCP-Cy55 FLR-A": 262144.0,
+    "IL2 BV421 FLR-A": 262144.0,
+    "Aqua Amine FLR-A": 262144.0,
+    "IFNg APC FLR-A": 262144.0,
+    "CD3 APC-H7 FLR-A": 262144.0,
+    "CD107a PE FLR-A": 262144.0,
+    "CD4 PE-Cy7 FLR-A": 262144.0,
+    "Time": 262144.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-A": 32,
+    "FSC-H": 32,
+    "FSC-W": 32,
+    "SSC-A": 32,
+    "SSC-H": 32,
+    "SSC-W": 32,
+    "TNFa FITC FLR-A": 32,
+    "CD8 PerCP-Cy55 FLR-A": 32,
+    "IL2 BV421 FLR-A": 32,
+    "Aqua Amine FLR-A": 32,
+    "IFNg APC FLR-A": 32,
+    "CD3 APC-H7 FLR-A": 32,
+    "CD107a PE FLR-A": 32,
+    "CD4 PE-Cy7 FLR-A": 32,
+    "Time": 32
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "F",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "little-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS3.1",
+   "cmp": "text"
+  },
+  {
+   "field": "time step ($TIMESTEP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/timestep_s",
+   "theirs": 0.01,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "LSRII",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2017-09-15T13:37:39.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2017-09-15T13:38:48.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "spillover parameters ($SPILLOVER)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/parameters",
+   "theirs": [
+    "TNFa FITC FLR-A",
+    "CD8 PerCP-Cy55 FLR-A",
+    "IL2 BV421 FLR-A",
+    "Aqua Amine FLR-A",
+    "IFNg APC FLR-A",
+    "CD3 APC-H7 FLR-A",
+    "CD107a PE FLR-A",
+    "CD4 PE-Cy7 FLR-A"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "spillover matrix ($SPILLOVER)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/matrix",
+   "theirs": [
+    [
+     1.0,
+     0.014138501283030267,
+     0.0,
+     0.0,
+     0.0004578709646506082,
+     0.0,
+     0.015545747212876168,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.02059633049942533,
+     0.08798175846613374,
+     0.0,
+     0.12701208842983025
+    ],
+    [
+     0.0042528775186040455,
+     0.00014010707581835598,
+     1.0,
+     0.0,
+     6.765107952448394e-05,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.007507675356536726,
+     0.0,
+     0.0,
+     1.0,
+     0.17882057060671003,
+     0.0,
+     0.02022627481499437
+    ],
+    [
+     0.0007449434706329762,
+     0.0,
+     0.0,
+     0.0,
+     0.010805523086790562,
+     1.0,
+     0.0,
+     0.12763995950190626
+    ],
+    [
+     0.0003424311505520866,
+     0.034256961615168384,
+     0.0,
+     0.0,
+     0.00045530516065459827,
+     0.00017436982098981908,
+     1.0,
+     0.0062914711301779915
+    ],
+    [
+     0.0,
+     0.017455631906902167,
+     0.0,
+     0.0,
+     0.00013358129086481782,
+     0.06000866605143335,
+     0.036800409846146055,
+     1.0
+    ]
+   ],
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "compensated events (TNFa FITC FLR-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/6",
+   "theirs": [
+    103.45855202123737,
+    88.47524835449609,
+    55.5823153929889,
+    77.38637602096306,
+    118.23471205468023,
+    99.46354078733926,
+    145.23488399866753,
+    82.09986107829256,
+    3704.589808968972,
+    146.85186563401837,
+    178.17143620614274,
+    179.58298402207157,
+    366.79025447025253,
+    1897.3280839898625,
+    82.4817696702686,
+    126.50069894163259
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (CD8 PerCP-Cy55 FLR-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/7",
+   "theirs": [
+    381.28322090842244,
+    1098.4208254139114,
+    7581.338926220956,
+    8129.508448664892,
+    1984.5058119379794,
+    4032.4022412824947,
+    -3.6697043525346467,
+    74.79057035408067,
+    541.9365671352348,
+    567.1150333825191,
+    374.8217706062934,
+    4281.547829485492,
+    758.4742597389112,
+    593.3301381567429,
+    177.32020056865204,
+    11207.151413274598
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (IL2 BV421 FLR-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/8",
+   "theirs": [
+    287.67999267578125,
+    292.6400146484375,
+    260.3999938964844,
+    243.04000854492188,
+    561.7200317382812,
+    135.16000366210938,
+    145.0800018310547,
+    564.2000122070312,
+    1058.9599609375,
+    512.1199951171875,
+    489.8000183105469,
+    64.4800033569336,
+    1665.320068359375,
+    1227.5999755859375,
+    97.95999908447266,
+    450.1199951171875
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (Aqua Amine FLR-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/9",
+   "theirs": [
+    116.55999755859375,
+    99.19999694824219,
+    111.5999984741211,
+    121.52000427246094,
+    167.39999389648438,
+    133.9199981689453,
+    126.4800033569336,
+    116.55999755859375,
+    426.55999755859375,
+    163.6800079345703,
+    189.72000122070312,
+    137.63999938964844,
+    766.3200073242188,
+    453.8399963378906,
+    76.87999725341797,
+    136.39999389648438
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (IFNg APC FLR-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/10",
+   "theirs": [
+    155.2804474877011,
+    122.5143359144359,
+    111.17267480456528,
+    121.0809571434095,
+    24.856287440002657,
+    55.597259280330164,
+    47.19370328457194,
+    81.55029564492285,
+    242.13666795701974,
+    237.0499942235829,
+    210.3799045501534,
+    57.8229116708061,
+    145.24156054716659,
+    166.70586821080553,
+    106.96816113078394,
+    21.330644275881646
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (CD3 APC-H7 FLR-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/11",
+   "theirs": [
+    3062.129949156092,
+    -73.77703039357603,
+    1811.3649176633385,
+    1409.5693592340824,
+    2126.5354220946206,
+    1068.5288033403729,
+    1258.8109623589946,
+    76.31250107515545,
+    96.32743896030355,
+    2356.9900303745167,
+    1611.361976858432,
+    755.697757540778,
+    -41.96036112885527,
+    127.03470028210188,
+    893.7243680617393,
+    1276.9392468110261
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (CD107a PE FLR-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/12",
+   "theirs": [
+    399.6860899090075,
+    277.84776565609684,
+    294.57088895962687,
+    262.68830524879394,
+    561.3001883906762,
+    425.31891080675126,
+    263.90822985112834,
+    303.16432059374716,
+    13592.892278064752,
+    509.0596262714528,
+    307.0056048049441,
+    349.9436220677974,
+    1456.0523593628004,
+    1975.2767514936852,
+    221.48600936438166,
+    507.3766858102685
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (CD4 PE-Cy7 FLR-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/13",
+   "theirs": [
+    4040.8672135979837,
+    94.47809738953418,
+    221.87384742232928,
+    62.73511432472801,
+    330.47872313782943,
+    267.2488262880664,
+    3468.2766903926317,
+    156.50336370783205,
+    402.65547447892726,
+    5145.525953280197,
+    6318.532207992789,
+    159.36323499916833,
+    123.52201804783522,
+    74.12596066516981,
+    2674.7463550869466,
+    267.8442590713727
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  }
+ ]
+}

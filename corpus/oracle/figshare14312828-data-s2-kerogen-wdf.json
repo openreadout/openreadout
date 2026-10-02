@@ -1,0 +1,74 @@
+{
+ "id": "figshare14312828-data-s2-kerogen-wdf",
+ "file": "Data_S2-Kerogen.wdf",
+ "size": 22572,
+ "sha256": "093288d1e1ef4e7eb03b8cdab3d3ba75606680e721b914cfc0edfbb4c05b8dc1",
+ "max_planes_hashed": 64,
+ "reader": "renishawWiRE (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "renishawWiRE",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sample_count": 983,
+   "x_first": 1865.09375,
+   "x_last": 145.15234375,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 983,
+     "channels": [
+      {
+       "xxh3": "ab8a863fb27dab85d71feed39f38522b",
+       "first": [
+        1865.09375,
+        1863.515625,
+        1861.935546875,
+        1860.357421875,
+        1858.77734375,
+        1857.197265625,
+        1855.615234375,
+        1854.03515625
+       ]
+      },
+      {
+       "xxh3": "885df935c637f6f20aa2197c2a695bf1",
+       "first": [
+        133.37454223632812,
+        72.55191040039062,
+        105.1819839477539,
+        95.06269836425781,
+        189.4157257080078,
+        87.56140899658203,
+        17.41092872619629,
+        32.688880920410156
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "accumulations": 1
+    }
+   }
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 1,
+   "parameter_names": [],
+   "column_hashes": {
+    "x_um": "312c708a4dded88cdd5ca2be520c4bb6",
+    "y_um": "34472c053d8cdd9877cc1bab54f756f5"
+   },
+   "approx_columns": {
+    "time_s": [
+     0.0
+    ]
+   }
+  }
+ ]
+}

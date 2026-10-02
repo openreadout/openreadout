@@ -1,0 +1,132 @@
+{
+ "omnic-toffolo-atr-paraffin": {
+  "extractor": "evals/spectroscopy.py",
+  "facts": {
+   "strongest_band_cm1": {
+    "cross_check": "the vendor's export omnic-toffolo-library-zip/ATR/Paraffin.CSV: agrees",
+    "how": "absorbance: wavenumber of the highest point",
+    "reader": "spectrochempy 1.0.0",
+    "value": 2915.36
+   }
+  },
+  "file": "omnic-toffolo-library-zip/ATR/Paraffin.SPA"
+ },
+ "opus-bitumen-unaged-2": {
+  "extractor": "evals/spectroscopy.py",
+  "facts": {
+   "apodization": {
+    "how": "Fourier-transform parameter APF",
+    "reader": "brukeropus 1.4.3",
+    "value": "B3"
+   },
+   "first_x": {
+    "how": "absorbance block: FXV",
+    "reader": "brukeropus 1.4.3",
+    "value": 3997.3476
+   },
+   "last_x": {
+    "how": "absorbance block: LXV",
+    "reader": "brukeropus 1.4.3",
+    "value": 598.36839
+   },
+   "max_y": {
+    "how": "absorbance block: highest value",
+    "reader": "brukeropus 1.4.3",
+    "value": 0.34734818
+   },
+   "points": {
+    "how": "absorbance block: NPT",
+    "reader": "brukeropus 1.4.3",
+    "value": 1654
+   },
+   "strongest_band_cm1": {
+    "cross_check": "brukeropusreader 1.3.4 (black box): agrees",
+    "how": "absorbance block (AB): wavenumber of the highest point",
+    "reader": "brukeropus 1.4.3",
+    "value": 2919.8733
+   }
+  },
+  "file": "opus-bitumen-ageing-zip/Unaged.2"
+ },
+ "opus-or2-mmp-2107-test1": {
+  "extractor": "evals/spectroscopy.py",
+  "facts": {
+   "resolution_cm1": {
+    "how": "acquisition parameter RES",
+    "reader": "brukeropus 1.4.3",
+    "value": 8.0
+   }
+  },
+  "file": "opus-or2-mmp-2107-test1.001"
+ },
+ "pesp-zenodo8161216-ts-black-gallus-untreated-01-01": {
+  "extractor": "evals/spectroscopy.py",
+  "facts": {
+   "instrument": {
+    "how": "instrument model text",
+    "reader": "specio 0.1.0",
+    "value": "Frontier FT-IR/NIR"
+   },
+   "scans": {
+    "how": "accumulations",
+    "reader": "specio 0.1.0",
+    "value": 4
+   }
+  },
+  "file": "pesp-zenodo8161216-ts-black-gallus-untreated-01-01.sp"
+ },
+ "wdf-pywdf-streamline": {
+  "extractor": "evals/spectroscopy.py",
+  "facts": {
+   "map_shape": {
+    "how": "map grid (columns, rows)",
+    "reader": "renishawWiRE 0.1.16",
+    "value": [
+     45,
+     49
+    ]
+   },
+   "spectra": {
+    "how": "spectra in the map (count)",
+    "reader": "renishawWiRE 0.1.16",
+    "value": 2205
+   }
+  },
+  "file": "wdf-py-wdf-reader-examples-zip/Streamline.wdf"
+ },
+ "wdf-zenodo10694741-streamline-livetrack": {
+  "extractor": "evals/spectroscopy.py",
+  "facts": {
+   "z_range_um": {
+    "cross_check": "struct: ORGN list of data type 5 (Spatial Z): agrees",
+    "how": "range of the LiveTrack Z stage position over the map, µm",
+    "reader": "renishawWiRE 0.1.16 zpos",
+    "value": 154.8858
+   }
+  },
+  "file": "wdf-zenodo10694741-streamline-livetrack.wdf"
+ },
+ "wdf-zenodo8102788-ooid": {
+  "extractor": "evals/spectroscopy.py",
+  "facts": {
+   "strongest_band_cm1": {
+    "cross_check": "the vendor's export wdf-zenodo8102788-ooid.txt: agrees",
+    "how": "Raman spectrum: Raman shift of the highest point",
+    "reader": "renishawWiRE 0.1.16",
+    "value": 1086.7041
+   }
+  },
+  "file": "wdf-zenodo8102788-ooid.wdf"
+ },
+ "wdf-zenodo8102788-specimen-a-9": {
+  "extractor": "evals/spectroscopy.py",
+  "facts": {
+   "laser_nm": {
+    "how": "laser wavelength (header wavenumber, 10^7 / cm-1)",
+    "reader": "renishawWiRE 0.1.16",
+    "value": 785.39171
+   }
+  },
+  "file": "wdf-zenodo8102788-specimen-a-9.wdf"
+ }
+}

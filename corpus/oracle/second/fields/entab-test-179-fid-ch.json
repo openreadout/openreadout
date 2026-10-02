@@ -1,0 +1,245 @@
+{
+ "id": "entab-test-179-fid-ch",
+ "file": "entab-test_179_fid.ch",
+ "format": "chemstation",
+ "family": "chromatography",
+ "readers": [
+  "chromConverter 0.9.0 (GPL-3.0, R, run as a black box with its own parsers)"
+ ],
+ "checks": [
+  {
+   "field": "entab-test_179_fid.ch: sample name",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=entab-test_179_fid.ch]/extra/sample_name",
+   "theirs": "BB7125_3-spiropyrollidine_cof",
+   "cmp": "text"
+  },
+  {
+   "field": "entab-test_179_fid.ch: operator",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=entab-test_179_fid.ch]/extra/operator",
+   "theirs": "SYSTEM",
+   "cmp": "text"
+  },
+  {
+   "field": "entab-test_179_fid.ch: method",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=entab-test_179_fid.ch]/extra/method",
+   "theirs": "BB-CHIRAL-160_200C__ramp4.M",
+   "cmp": "text"
+  },
+  {
+   "field": "entab-test_179_fid.ch: file version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=entab-test_179_fid.ch]/extra/format_version",
+   "theirs": "179",
+   "cmp": "text"
+  },
+  {
+   "field": "entab-test_179_fid.ch: file type",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=entab-test_179_fid.ch]/extra/file_type",
+   "theirs": "GC DATA FILE",
+   "cmp": "text"
+  },
+  {
+   "field": "entab-test_179_fid.ch: acquisition time (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=entab-test_179_fid.ch]/extra/acquired_at",
+   "theirs": "2022-10-13T08:52:05",
+   "cmp": "wallclock"
+  },
+  {
+   "field": "acquisition start (first signal file's header)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-10-13T08:52:05",
+   "cmp": "time_or_utc",
+   "abs": 1.0
+  },
+  {
+   "field": "entab-test_179_fid.ch: signal",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=entab-test_179_fid.ch]/extra/signal",
+   "theirs": "FID1A, Front Signal",
+   "cmp": "text"
+  },
+  {
+   "field": "entab-test_179_fid.ch: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=entab-test_179_fid.ch]/channels/0/unit",
+   "theirs": "pA",
+   "cmp": "text"
+  },
+  {
+   "field": "entab-test_179_fid.ch: first time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=entab-test_179_fid.ch]/extra/axis/first",
+   "theirs": 0.0008276166915893554,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "entab-test_179_fid.ch: last time (min)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[extra.file~=entab-test_179_fid.ch]/extra/x_end_min",
+   "theirs": 9.999994791666667,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "entab-test_179_fid.ch: signal: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=entab-test_179_fid.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    0.0009645442167917887,
+    0.0009645283222198487,
+    0.000964518388112386,
+    0.0009645422299702963,
+    0.0009645382563273112,
+    0.0009646336237589518,
+    0.0009645541508992513,
+    0.0009644806385040283,
+    0.0009644766648610433,
+    0.0009646117687225342,
+    0.000964812437693278,
+    0.0009647647539774576,
+    0.0009646594524383544,
+    0.000964440902074178,
+    0.0009643753369649251,
+    0.0009643932183583578,
+    0.0009644567966461181,
+    0.0009645005067189534,
+    0.0009643952051798503,
+    0.0009643495082855225,
+    0.0009644170602162679,
+    0.0009644865989685058,
+    0.0009644786516825358,
+    0.0009645362695058187,
+    0.0009645859400431315,
+    0.0009645263353983561,
+    0.0009644468625386556,
+    0.0009644468625386556,
+    0.0009644309679667155,
+    0.000964432954788208,
+    0.0009644190470377604,
+    0.0009644726912180582
+   ],
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 9.72376267115275e-16
+  },
+  {
+   "field": "entab-test_179_fid.ch: signal: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=entab-test_179_fid.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 12000,
+   "cmp": "exact"
+  },
+  {
+   "field": "entab-test_179_fid.ch: signal: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=entab-test_179_fid.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": 0.0009638905525207519,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 9.72376267115275e-16
+  },
+  {
+   "field": "entab-test_179_fid.ch: signal: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=entab-test_179_fid.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 0.000972376267115275,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 9.72376267115275e-16
+  },
+  {
+   "field": "entab-test_179_fid.ch: signal: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "@/traces/[extra.file~=entab-test_179_fid.ch]/index",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "32"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 0.0009662621431880526,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 9.72376267115275e-13
+  }
+ ]
+}

@@ -1,0 +1,102 @@
+{
+ "id": "zenodo14316687-polyarc-b1-f2",
+ "input": "zenodo14316687-polyarc/Measurements/FKB-FA-035-B1-F2.dx",
+ "source": "allotropy (MIT) extract_rx_file on the .rx; signal name and metadata from the vendor's _1.csv export; .rx values checked against the CSV to its printed precision",
+ "exact": true,
+ "signals": [
+  {
+   "signal": "FID2B",
+   "signal_source": "vendor CSV export",
+   "peaks": [
+    {
+     "rt_min": 4.093965555595985,
+     "start_min": 4.045673950000119,
+     "end_min": 4.276007283333663,
+     "area": 841.8212604177037,
+     "area_unit": "pA\u00b7s",
+     "height": 471.9839018756771,
+     "area_percent": 28.565663240144044,
+     "height_percent": 25.39584008223471,
+     "width_base_min": 0.23033333333354378,
+     "symmetry": 0.8538302804088422,
+     "baseline_start": 43.82213541666667,
+     "baseline_end": 37.65651041666666,
+     "code": "BB",
+     "type": "NormalPeak"
+    },
+    {
+     "rt_min": 5.271438801057911,
+     "start_min": 5.222673950000114,
+     "end_min": 5.502340616667055,
+     "area": 1070.498104167977,
+     "area_unit": "pA\u00b7s",
+     "height": 790.1215452756073,
+     "area_percent": 36.325393264244504,
+     "height_percent": 42.51373898475234,
+     "width_base_min": 0.27966666666694184,
+     "symmetry": 0.8793271930066645,
+     "baseline_start": 23.6890625,
+     "baseline_end": 22.081640625,
+     "code": "BB",
+     "type": "NormalPeak"
+    },
+    {
+     "rt_min": 9.418667679279661,
+     "start_min": 9.331673950000127,
+     "end_min": 9.862007283333982,
+     "area": 1034.649705730429,
+     "area_unit": "pA\u00b7s",
+     "height": 596.4032706046072,
+     "area_percent": 35.10894349561145,
+     "height_percent": 32.09042093301295,
+     "width_base_min": 0.5303333333338554,
+     "symmetry": 1.1019429016304583,
+     "baseline_start": 13.727473958333333,
+     "baseline_end": 13.5328125,
+     "code": "BB",
+     "type": "NormalPeak"
+    }
+   ]
+  }
+ ],
+ "csv": {
+  "sample_name": "FKB-FA-035-B1-F2",
+  "operator": "Admin",
+  "vial": "74",
+  "injection_volume_ul": 1.0,
+  "method": "Polyarc_90_2_30_280_3.amx",
+  "processing_method": "default_integration.pmx",
+  "injection_date": "2023-02-23 20:05:17+01:00",
+  "signal": "FID2B",
+  "sequence": "FKB-FA-035-09",
+  "peaks": [
+   {
+    "rt_min": 4.094,
+    "type": "BB",
+    "width_min": 0.23,
+    "area": 841.82,
+    "height": 471.98,
+    "area_percent": 28.57,
+    "name": null
+   },
+   {
+    "rt_min": 5.271,
+    "type": "BB",
+    "width_min": 0.28,
+    "area": 1070.5,
+    "height": 790.12,
+    "area_percent": 36.33,
+    "name": null
+   },
+   {
+    "rt_min": 9.419,
+    "type": "BB",
+    "width_min": 0.53,
+    "area": 1034.65,
+    "height": 596.4,
+    "area_percent": 35.11,
+    "name": null
+   }
+  ]
+ }
+}

@@ -1,0 +1,31 @@
+{
+ "id": "echem-zenodo7245929-rde-orr-dimethyl",
+ "file": "echem-zenodo7245929-rde-orr-dimethyl.DTA",
+ "format": "gamry-dta",
+ "family": "bench",
+ "readers": [
+  "gamry-parser 0.4.6 (MIT) header"
+ ],
+ "checks": [
+  {
+   "field": "DATE TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2020-06-05T17:03:48",
+   "cmp": "time"
+  },
+  {
+   "field": "PSTAT (potentiostat label)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "IFC1010-20030",
+   "cmp": "text"
+  }
+ ]
+}

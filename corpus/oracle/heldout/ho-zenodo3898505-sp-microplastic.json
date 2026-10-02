@@ -1,0 +1,51 @@
+{
+ "id": "ho-zenodo3898505-sp-microplastic",
+ "file": "4e.sp",
+ "size": 29722,
+ "sha256": "b6624da722f28e11623411f2f78b4a2198c820044aa38349bb10b9f5b658cc4c",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3351,
+   "x_first": 4000.0,
+   "x_last": 650.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3351,
+     "channels": [
+      {
+       "xxh3": "c973be8a44c838869995c8741dc7e13d",
+       "first": [
+        -0.0006854783106216011,
+        -0.0006870754933343548,
+        -0.0006886810583810465,
+        -0.0006902710887679575,
+        -0.0006919077671883045,
+        -0.0006884818449699459,
+        -0.0006818753073400963,
+        -0.0006769529661316831
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Frontier FT-IR/NIR",
+     "instrument_serial": "88363",
+     "scans": 16,
+     "detector": "MIR TGS",
+     "source": "MIR",
+     "beamsplitter": "OptKBr",
+     "apodization": "Strong"
+    }
+   }
+  }
+ ]
+}

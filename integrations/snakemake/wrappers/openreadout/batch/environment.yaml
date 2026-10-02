@@ -1,0 +1,7 @@
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  # bioconda recipe: integrations/bioconda (not yet submitted)
+  - openreadout =0.1.0

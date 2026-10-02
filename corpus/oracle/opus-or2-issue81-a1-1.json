@@ -1,0 +1,157 @@
+{
+ "id": "opus-or2-issue81-a1-1",
+ "file": "opus-or2-issue81-a1-1.0",
+ "size": 35364,
+ "sha256": "b1382d0ed243ecbdedc0f870fa1a673d95dd77a2ac3cae33c00cf400bee7c0f4",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1866,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1866,
+     "channels": [
+      {
+       "xxh3": "22f9d5f8cf23c44e87108cf3b9644e22",
+       "first": [
+        0.0431477427482605,
+        0.04273252934217453,
+        0.04219537228345871,
+        0.042240362614393234,
+        0.04292868450284004,
+        0.043435849249362946,
+        0.0431356206536293,
+        0.04240138828754425
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3996.5766162382815,
+   "x_last": 399.27189168017577,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15801.136892,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT DLaTGS [External]",
+     "instrument": "Tensor 27",
+     "instrument_serial": "T27.1091.05",
+     "sample_name": "5_19;;test bruker;test",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "accessory": "TRANS *08BF154B",
+     "scans": 256
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1866,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1866,
+     "channels": [
+      {
+       "xxh3": "460280fa761a05df95fc17455809f2e0",
+       "first": [
+        0.025048483163118362,
+        0.02495817095041275,
+        0.024951595813035965,
+        0.02501939982175827,
+        0.02522997185587883,
+        0.0254545658826828,
+        0.02549247071146965,
+        0.025426503270864487
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3996.5766162382815,
+   "x_last": 399.27189168017577,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15801.136892,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT DLaTGS [External]",
+     "instrument": "Tensor 27",
+     "instrument_serial": "T27.1091.05",
+     "sample_name": "5_19;;test bruker;test",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "accessory": "TRANS *08BF154B",
+     "scans": 256
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1866,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1866,
+     "channels": [
+      {
+       "xxh3": "e80e6acba87584ab21cf9b5166c1c1d6",
+       "first": [
+        0.027664903551340103,
+        0.02753881737589836,
+        0.027497529983520508,
+        0.027575109153985977,
+        0.027851298451423645,
+        0.028132060542702675,
+        0.028154483065009117,
+        0.028034191578626633
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3996.5766162382815,
+   "x_last": 399.27189168017577,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15801.136892,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "HTS-XT DLaTGS [External]",
+     "instrument": "Tensor 27",
+     "instrument_serial": "T27.1091.05",
+     "sample_name": "5_19;;test bruker;test",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "accessory": "TRANS *08BF154B"
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": false
+ }
+}

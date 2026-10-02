@@ -1,0 +1,2505 @@
+{
+ "id": "hcs-imagexpress-idr0081-folder",
+ "file": "imagexpress-idr0081",
+ "size": 25202434,
+ "max_planes_hashed": 64,
+ "reader": "Python stdlib index parse + tifffile 2026.9.20; Bio-Formats 8.5.0 showinf/bfconvert (GPL, black box)",
+ "hcs": {
+  "format": "imagexpress",
+  "plate": {
+   "id": "BSF018292-1A",
+   "rows": 16,
+   "columns": 24,
+   "wells_imaged": 384,
+   "fields": 384,
+   "planes_expected": 768,
+   "planes_missing": 765,
+   "planes_absent": 0,
+   "planes_not_recorded": 0,
+   "planes_present": 3
+  },
+  "channels": [
+   "DAPI",
+   "FITC"
+  ],
+  "size_c": 2,
+  "size_z": 1,
+  "size_t": 1,
+  "size": [
+   2048,
+   2048
+  ],
+  "pixel_type": "uint16",
+  "pixel_size_um": [
+   1.72,
+   1.72
+  ],
+  "wells": [
+   {
+    "well": "A01",
+    "images": [
+     0
+    ]
+   },
+   {
+    "well": "A02",
+    "images": [
+     1
+    ]
+   },
+   {
+    "well": "A03",
+    "images": [
+     2
+    ]
+   },
+   {
+    "well": "A04",
+    "images": [
+     3
+    ]
+   },
+   {
+    "well": "A05",
+    "images": [
+     4
+    ]
+   },
+   {
+    "well": "A06",
+    "images": [
+     5
+    ]
+   },
+   {
+    "well": "A07",
+    "images": [
+     6
+    ]
+   },
+   {
+    "well": "A08",
+    "images": [
+     7
+    ]
+   },
+   {
+    "well": "A09",
+    "images": [
+     8
+    ]
+   },
+   {
+    "well": "A10",
+    "images": [
+     9
+    ]
+   },
+   {
+    "well": "A11",
+    "images": [
+     10
+    ]
+   },
+   {
+    "well": "A12",
+    "images": [
+     11
+    ]
+   },
+   {
+    "well": "A13",
+    "images": [
+     12
+    ]
+   },
+   {
+    "well": "A14",
+    "images": [
+     13
+    ]
+   },
+   {
+    "well": "A15",
+    "images": [
+     14
+    ]
+   },
+   {
+    "well": "A16",
+    "images": [
+     15
+    ]
+   },
+   {
+    "well": "A17",
+    "images": [
+     16
+    ]
+   },
+   {
+    "well": "A18",
+    "images": [
+     17
+    ]
+   },
+   {
+    "well": "A19",
+    "images": [
+     18
+    ]
+   },
+   {
+    "well": "A20",
+    "images": [
+     19
+    ]
+   },
+   {
+    "well": "A21",
+    "images": [
+     20
+    ]
+   },
+   {
+    "well": "A22",
+    "images": [
+     21
+    ]
+   },
+   {
+    "well": "A23",
+    "images": [
+     22
+    ]
+   },
+   {
+    "well": "A24",
+    "images": [
+     23
+    ]
+   },
+   {
+    "well": "B01",
+    "images": [
+     24
+    ]
+   },
+   {
+    "well": "B02",
+    "images": [
+     25
+    ]
+   },
+   {
+    "well": "B03",
+    "images": [
+     26
+    ]
+   },
+   {
+    "well": "B04",
+    "images": [
+     27
+    ]
+   },
+   {
+    "well": "B05",
+    "images": [
+     28
+    ]
+   },
+   {
+    "well": "B06",
+    "images": [
+     29
+    ]
+   },
+   {
+    "well": "B07",
+    "images": [
+     30
+    ]
+   },
+   {
+    "well": "B08",
+    "images": [
+     31
+    ]
+   },
+   {
+    "well": "B09",
+    "images": [
+     32
+    ]
+   },
+   {
+    "well": "B10",
+    "images": [
+     33
+    ]
+   },
+   {
+    "well": "B11",
+    "images": [
+     34
+    ]
+   },
+   {
+    "well": "B12",
+    "images": [
+     35
+    ]
+   },
+   {
+    "well": "B13",
+    "images": [
+     36
+    ]
+   },
+   {
+    "well": "B14",
+    "images": [
+     37
+    ]
+   },
+   {
+    "well": "B15",
+    "images": [
+     38
+    ]
+   },
+   {
+    "well": "B16",
+    "images": [
+     39
+    ]
+   },
+   {
+    "well": "B17",
+    "images": [
+     40
+    ]
+   },
+   {
+    "well": "B18",
+    "images": [
+     41
+    ]
+   },
+   {
+    "well": "B19",
+    "images": [
+     42
+    ]
+   },
+   {
+    "well": "B20",
+    "images": [
+     43
+    ]
+   },
+   {
+    "well": "B21",
+    "images": [
+     44
+    ]
+   },
+   {
+    "well": "B22",
+    "images": [
+     45
+    ]
+   },
+   {
+    "well": "B23",
+    "images": [
+     46
+    ]
+   },
+   {
+    "well": "B24",
+    "images": [
+     47
+    ]
+   },
+   {
+    "well": "C01",
+    "images": [
+     48
+    ]
+   },
+   {
+    "well": "C02",
+    "images": [
+     49
+    ]
+   },
+   {
+    "well": "C03",
+    "images": [
+     50
+    ]
+   },
+   {
+    "well": "C04",
+    "images": [
+     51
+    ]
+   },
+   {
+    "well": "C05",
+    "images": [
+     52
+    ]
+   },
+   {
+    "well": "C06",
+    "images": [
+     53
+    ]
+   },
+   {
+    "well": "C07",
+    "images": [
+     54
+    ]
+   },
+   {
+    "well": "C08",
+    "images": [
+     55
+    ]
+   },
+   {
+    "well": "C09",
+    "images": [
+     56
+    ]
+   },
+   {
+    "well": "C10",
+    "images": [
+     57
+    ]
+   },
+   {
+    "well": "C11",
+    "images": [
+     58
+    ]
+   },
+   {
+    "well": "C12",
+    "images": [
+     59
+    ]
+   },
+   {
+    "well": "C13",
+    "images": [
+     60
+    ]
+   },
+   {
+    "well": "C14",
+    "images": [
+     61
+    ]
+   },
+   {
+    "well": "C15",
+    "images": [
+     62
+    ]
+   },
+   {
+    "well": "C16",
+    "images": [
+     63
+    ]
+   },
+   {
+    "well": "C17",
+    "images": [
+     64
+    ]
+   },
+   {
+    "well": "C18",
+    "images": [
+     65
+    ]
+   },
+   {
+    "well": "C19",
+    "images": [
+     66
+    ]
+   },
+   {
+    "well": "C20",
+    "images": [
+     67
+    ]
+   },
+   {
+    "well": "C21",
+    "images": [
+     68
+    ]
+   },
+   {
+    "well": "C22",
+    "images": [
+     69
+    ]
+   },
+   {
+    "well": "C23",
+    "images": [
+     70
+    ]
+   },
+   {
+    "well": "C24",
+    "images": [
+     71
+    ]
+   },
+   {
+    "well": "D01",
+    "images": [
+     72
+    ]
+   },
+   {
+    "well": "D02",
+    "images": [
+     73
+    ]
+   },
+   {
+    "well": "D03",
+    "images": [
+     74
+    ]
+   },
+   {
+    "well": "D04",
+    "images": [
+     75
+    ]
+   },
+   {
+    "well": "D05",
+    "images": [
+     76
+    ]
+   },
+   {
+    "well": "D06",
+    "images": [
+     77
+    ]
+   },
+   {
+    "well": "D07",
+    "images": [
+     78
+    ]
+   },
+   {
+    "well": "D08",
+    "images": [
+     79
+    ]
+   },
+   {
+    "well": "D09",
+    "images": [
+     80
+    ]
+   },
+   {
+    "well": "D10",
+    "images": [
+     81
+    ]
+   },
+   {
+    "well": "D11",
+    "images": [
+     82
+    ]
+   },
+   {
+    "well": "D12",
+    "images": [
+     83
+    ]
+   },
+   {
+    "well": "D13",
+    "images": [
+     84
+    ]
+   },
+   {
+    "well": "D14",
+    "images": [
+     85
+    ]
+   },
+   {
+    "well": "D15",
+    "images": [
+     86
+    ]
+   },
+   {
+    "well": "D16",
+    "images": [
+     87
+    ]
+   },
+   {
+    "well": "D17",
+    "images": [
+     88
+    ]
+   },
+   {
+    "well": "D18",
+    "images": [
+     89
+    ]
+   },
+   {
+    "well": "D19",
+    "images": [
+     90
+    ]
+   },
+   {
+    "well": "D20",
+    "images": [
+     91
+    ]
+   },
+   {
+    "well": "D21",
+    "images": [
+     92
+    ]
+   },
+   {
+    "well": "D22",
+    "images": [
+     93
+    ]
+   },
+   {
+    "well": "D23",
+    "images": [
+     94
+    ]
+   },
+   {
+    "well": "D24",
+    "images": [
+     95
+    ]
+   },
+   {
+    "well": "E01",
+    "images": [
+     96
+    ]
+   },
+   {
+    "well": "E02",
+    "images": [
+     97
+    ]
+   },
+   {
+    "well": "E03",
+    "images": [
+     98
+    ]
+   },
+   {
+    "well": "E04",
+    "images": [
+     99
+    ]
+   },
+   {
+    "well": "E05",
+    "images": [
+     100
+    ]
+   },
+   {
+    "well": "E06",
+    "images": [
+     101
+    ]
+   },
+   {
+    "well": "E07",
+    "images": [
+     102
+    ]
+   },
+   {
+    "well": "E08",
+    "images": [
+     103
+    ]
+   },
+   {
+    "well": "E09",
+    "images": [
+     104
+    ]
+   },
+   {
+    "well": "E10",
+    "images": [
+     105
+    ]
+   },
+   {
+    "well": "E11",
+    "images": [
+     106
+    ]
+   },
+   {
+    "well": "E12",
+    "images": [
+     107
+    ]
+   },
+   {
+    "well": "E13",
+    "images": [
+     108
+    ]
+   },
+   {
+    "well": "E14",
+    "images": [
+     109
+    ]
+   },
+   {
+    "well": "E15",
+    "images": [
+     110
+    ]
+   },
+   {
+    "well": "E16",
+    "images": [
+     111
+    ]
+   },
+   {
+    "well": "E17",
+    "images": [
+     112
+    ]
+   },
+   {
+    "well": "E18",
+    "images": [
+     113
+    ]
+   },
+   {
+    "well": "E19",
+    "images": [
+     114
+    ]
+   },
+   {
+    "well": "E20",
+    "images": [
+     115
+    ]
+   },
+   {
+    "well": "E21",
+    "images": [
+     116
+    ]
+   },
+   {
+    "well": "E22",
+    "images": [
+     117
+    ]
+   },
+   {
+    "well": "E23",
+    "images": [
+     118
+    ]
+   },
+   {
+    "well": "E24",
+    "images": [
+     119
+    ]
+   },
+   {
+    "well": "F01",
+    "images": [
+     120
+    ]
+   },
+   {
+    "well": "F02",
+    "images": [
+     121
+    ]
+   },
+   {
+    "well": "F03",
+    "images": [
+     122
+    ]
+   },
+   {
+    "well": "F04",
+    "images": [
+     123
+    ]
+   },
+   {
+    "well": "F05",
+    "images": [
+     124
+    ]
+   },
+   {
+    "well": "F06",
+    "images": [
+     125
+    ]
+   },
+   {
+    "well": "F07",
+    "images": [
+     126
+    ]
+   },
+   {
+    "well": "F08",
+    "images": [
+     127
+    ]
+   },
+   {
+    "well": "F09",
+    "images": [
+     128
+    ]
+   },
+   {
+    "well": "F10",
+    "images": [
+     129
+    ]
+   },
+   {
+    "well": "F11",
+    "images": [
+     130
+    ]
+   },
+   {
+    "well": "F12",
+    "images": [
+     131
+    ]
+   },
+   {
+    "well": "F13",
+    "images": [
+     132
+    ]
+   },
+   {
+    "well": "F14",
+    "images": [
+     133
+    ]
+   },
+   {
+    "well": "F15",
+    "images": [
+     134
+    ]
+   },
+   {
+    "well": "F16",
+    "images": [
+     135
+    ]
+   },
+   {
+    "well": "F17",
+    "images": [
+     136
+    ]
+   },
+   {
+    "well": "F18",
+    "images": [
+     137
+    ]
+   },
+   {
+    "well": "F19",
+    "images": [
+     138
+    ]
+   },
+   {
+    "well": "F20",
+    "images": [
+     139
+    ]
+   },
+   {
+    "well": "F21",
+    "images": [
+     140
+    ]
+   },
+   {
+    "well": "F22",
+    "images": [
+     141
+    ]
+   },
+   {
+    "well": "F23",
+    "images": [
+     142
+    ]
+   },
+   {
+    "well": "F24",
+    "images": [
+     143
+    ]
+   },
+   {
+    "well": "G01",
+    "images": [
+     144
+    ]
+   },
+   {
+    "well": "G02",
+    "images": [
+     145
+    ]
+   },
+   {
+    "well": "G03",
+    "images": [
+     146
+    ]
+   },
+   {
+    "well": "G04",
+    "images": [
+     147
+    ]
+   },
+   {
+    "well": "G05",
+    "images": [
+     148
+    ]
+   },
+   {
+    "well": "G06",
+    "images": [
+     149
+    ]
+   },
+   {
+    "well": "G07",
+    "images": [
+     150
+    ]
+   },
+   {
+    "well": "G08",
+    "images": [
+     151
+    ]
+   },
+   {
+    "well": "G09",
+    "images": [
+     152
+    ]
+   },
+   {
+    "well": "G10",
+    "images": [
+     153
+    ]
+   },
+   {
+    "well": "G11",
+    "images": [
+     154
+    ]
+   },
+   {
+    "well": "G12",
+    "images": [
+     155
+    ]
+   },
+   {
+    "well": "G13",
+    "images": [
+     156
+    ]
+   },
+   {
+    "well": "G14",
+    "images": [
+     157
+    ]
+   },
+   {
+    "well": "G15",
+    "images": [
+     158
+    ]
+   },
+   {
+    "well": "G16",
+    "images": [
+     159
+    ]
+   },
+   {
+    "well": "G17",
+    "images": [
+     160
+    ]
+   },
+   {
+    "well": "G18",
+    "images": [
+     161
+    ]
+   },
+   {
+    "well": "G19",
+    "images": [
+     162
+    ]
+   },
+   {
+    "well": "G20",
+    "images": [
+     163
+    ]
+   },
+   {
+    "well": "G21",
+    "images": [
+     164
+    ]
+   },
+   {
+    "well": "G22",
+    "images": [
+     165
+    ]
+   },
+   {
+    "well": "G23",
+    "images": [
+     166
+    ]
+   },
+   {
+    "well": "G24",
+    "images": [
+     167
+    ]
+   },
+   {
+    "well": "H01",
+    "images": [
+     168
+    ]
+   },
+   {
+    "well": "H02",
+    "images": [
+     169
+    ]
+   },
+   {
+    "well": "H03",
+    "images": [
+     170
+    ]
+   },
+   {
+    "well": "H04",
+    "images": [
+     171
+    ]
+   },
+   {
+    "well": "H05",
+    "images": [
+     172
+    ]
+   },
+   {
+    "well": "H06",
+    "images": [
+     173
+    ]
+   },
+   {
+    "well": "H07",
+    "images": [
+     174
+    ]
+   },
+   {
+    "well": "H08",
+    "images": [
+     175
+    ]
+   },
+   {
+    "well": "H09",
+    "images": [
+     176
+    ]
+   },
+   {
+    "well": "H10",
+    "images": [
+     177
+    ]
+   },
+   {
+    "well": "H11",
+    "images": [
+     178
+    ]
+   },
+   {
+    "well": "H12",
+    "images": [
+     179
+    ]
+   },
+   {
+    "well": "H13",
+    "images": [
+     180
+    ]
+   },
+   {
+    "well": "H14",
+    "images": [
+     181
+    ]
+   },
+   {
+    "well": "H15",
+    "images": [
+     182
+    ]
+   },
+   {
+    "well": "H16",
+    "images": [
+     183
+    ]
+   },
+   {
+    "well": "H17",
+    "images": [
+     184
+    ]
+   },
+   {
+    "well": "H18",
+    "images": [
+     185
+    ]
+   },
+   {
+    "well": "H19",
+    "images": [
+     186
+    ]
+   },
+   {
+    "well": "H20",
+    "images": [
+     187
+    ]
+   },
+   {
+    "well": "H21",
+    "images": [
+     188
+    ]
+   },
+   {
+    "well": "H22",
+    "images": [
+     189
+    ]
+   },
+   {
+    "well": "H23",
+    "images": [
+     190
+    ]
+   },
+   {
+    "well": "H24",
+    "images": [
+     191
+    ]
+   },
+   {
+    "well": "I01",
+    "images": [
+     192
+    ]
+   },
+   {
+    "well": "I02",
+    "images": [
+     193
+    ]
+   },
+   {
+    "well": "I03",
+    "images": [
+     194
+    ]
+   },
+   {
+    "well": "I04",
+    "images": [
+     195
+    ]
+   },
+   {
+    "well": "I05",
+    "images": [
+     196
+    ]
+   },
+   {
+    "well": "I06",
+    "images": [
+     197
+    ]
+   },
+   {
+    "well": "I07",
+    "images": [
+     198
+    ]
+   },
+   {
+    "well": "I08",
+    "images": [
+     199
+    ]
+   },
+   {
+    "well": "I09",
+    "images": [
+     200
+    ]
+   },
+   {
+    "well": "I10",
+    "images": [
+     201
+    ]
+   },
+   {
+    "well": "I11",
+    "images": [
+     202
+    ]
+   },
+   {
+    "well": "I12",
+    "images": [
+     203
+    ]
+   },
+   {
+    "well": "I13",
+    "images": [
+     204
+    ]
+   },
+   {
+    "well": "I14",
+    "images": [
+     205
+    ]
+   },
+   {
+    "well": "I15",
+    "images": [
+     206
+    ]
+   },
+   {
+    "well": "I16",
+    "images": [
+     207
+    ]
+   },
+   {
+    "well": "I17",
+    "images": [
+     208
+    ]
+   },
+   {
+    "well": "I18",
+    "images": [
+     209
+    ]
+   },
+   {
+    "well": "I19",
+    "images": [
+     210
+    ]
+   },
+   {
+    "well": "I20",
+    "images": [
+     211
+    ]
+   },
+   {
+    "well": "I21",
+    "images": [
+     212
+    ]
+   },
+   {
+    "well": "I22",
+    "images": [
+     213
+    ]
+   },
+   {
+    "well": "I23",
+    "images": [
+     214
+    ]
+   },
+   {
+    "well": "I24",
+    "images": [
+     215
+    ]
+   },
+   {
+    "well": "J01",
+    "images": [
+     216
+    ]
+   },
+   {
+    "well": "J02",
+    "images": [
+     217
+    ]
+   },
+   {
+    "well": "J03",
+    "images": [
+     218
+    ]
+   },
+   {
+    "well": "J04",
+    "images": [
+     219
+    ]
+   },
+   {
+    "well": "J05",
+    "images": [
+     220
+    ]
+   },
+   {
+    "well": "J06",
+    "images": [
+     221
+    ]
+   },
+   {
+    "well": "J07",
+    "images": [
+     222
+    ]
+   },
+   {
+    "well": "J08",
+    "images": [
+     223
+    ]
+   },
+   {
+    "well": "J09",
+    "images": [
+     224
+    ]
+   },
+   {
+    "well": "J10",
+    "images": [
+     225
+    ]
+   },
+   {
+    "well": "J11",
+    "images": [
+     226
+    ]
+   },
+   {
+    "well": "J12",
+    "images": [
+     227
+    ]
+   },
+   {
+    "well": "J13",
+    "images": [
+     228
+    ]
+   },
+   {
+    "well": "J14",
+    "images": [
+     229
+    ]
+   },
+   {
+    "well": "J15",
+    "images": [
+     230
+    ]
+   },
+   {
+    "well": "J16",
+    "images": [
+     231
+    ]
+   },
+   {
+    "well": "J17",
+    "images": [
+     232
+    ]
+   },
+   {
+    "well": "J18",
+    "images": [
+     233
+    ]
+   },
+   {
+    "well": "J19",
+    "images": [
+     234
+    ]
+   },
+   {
+    "well": "J20",
+    "images": [
+     235
+    ]
+   },
+   {
+    "well": "J21",
+    "images": [
+     236
+    ]
+   },
+   {
+    "well": "J22",
+    "images": [
+     237
+    ]
+   },
+   {
+    "well": "J23",
+    "images": [
+     238
+    ]
+   },
+   {
+    "well": "J24",
+    "images": [
+     239
+    ]
+   },
+   {
+    "well": "K01",
+    "images": [
+     240
+    ]
+   },
+   {
+    "well": "K02",
+    "images": [
+     241
+    ]
+   },
+   {
+    "well": "K03",
+    "images": [
+     242
+    ]
+   },
+   {
+    "well": "K04",
+    "images": [
+     243
+    ]
+   },
+   {
+    "well": "K05",
+    "images": [
+     244
+    ]
+   },
+   {
+    "well": "K06",
+    "images": [
+     245
+    ]
+   },
+   {
+    "well": "K07",
+    "images": [
+     246
+    ]
+   },
+   {
+    "well": "K08",
+    "images": [
+     247
+    ]
+   },
+   {
+    "well": "K09",
+    "images": [
+     248
+    ]
+   },
+   {
+    "well": "K10",
+    "images": [
+     249
+    ]
+   },
+   {
+    "well": "K11",
+    "images": [
+     250
+    ]
+   },
+   {
+    "well": "K12",
+    "images": [
+     251
+    ]
+   },
+   {
+    "well": "K13",
+    "images": [
+     252
+    ]
+   },
+   {
+    "well": "K14",
+    "images": [
+     253
+    ]
+   },
+   {
+    "well": "K15",
+    "images": [
+     254
+    ]
+   },
+   {
+    "well": "K16",
+    "images": [
+     255
+    ]
+   },
+   {
+    "well": "K17",
+    "images": [
+     256
+    ]
+   },
+   {
+    "well": "K18",
+    "images": [
+     257
+    ]
+   },
+   {
+    "well": "K19",
+    "images": [
+     258
+    ]
+   },
+   {
+    "well": "K20",
+    "images": [
+     259
+    ]
+   },
+   {
+    "well": "K21",
+    "images": [
+     260
+    ]
+   },
+   {
+    "well": "K22",
+    "images": [
+     261
+    ]
+   },
+   {
+    "well": "K23",
+    "images": [
+     262
+    ]
+   },
+   {
+    "well": "K24",
+    "images": [
+     263
+    ]
+   },
+   {
+    "well": "L01",
+    "images": [
+     264
+    ]
+   },
+   {
+    "well": "L02",
+    "images": [
+     265
+    ]
+   },
+   {
+    "well": "L03",
+    "images": [
+     266
+    ]
+   },
+   {
+    "well": "L04",
+    "images": [
+     267
+    ]
+   },
+   {
+    "well": "L05",
+    "images": [
+     268
+    ]
+   },
+   {
+    "well": "L06",
+    "images": [
+     269
+    ]
+   },
+   {
+    "well": "L07",
+    "images": [
+     270
+    ]
+   },
+   {
+    "well": "L08",
+    "images": [
+     271
+    ]
+   },
+   {
+    "well": "L09",
+    "images": [
+     272
+    ]
+   },
+   {
+    "well": "L10",
+    "images": [
+     273
+    ]
+   },
+   {
+    "well": "L11",
+    "images": [
+     274
+    ]
+   },
+   {
+    "well": "L12",
+    "images": [
+     275
+    ]
+   },
+   {
+    "well": "L13",
+    "images": [
+     276
+    ]
+   },
+   {
+    "well": "L14",
+    "images": [
+     277
+    ]
+   },
+   {
+    "well": "L15",
+    "images": [
+     278
+    ]
+   },
+   {
+    "well": "L16",
+    "images": [
+     279
+    ]
+   },
+   {
+    "well": "L17",
+    "images": [
+     280
+    ]
+   },
+   {
+    "well": "L18",
+    "images": [
+     281
+    ]
+   },
+   {
+    "well": "L19",
+    "images": [
+     282
+    ]
+   },
+   {
+    "well": "L20",
+    "images": [
+     283
+    ]
+   },
+   {
+    "well": "L21",
+    "images": [
+     284
+    ]
+   },
+   {
+    "well": "L22",
+    "images": [
+     285
+    ]
+   },
+   {
+    "well": "L23",
+    "images": [
+     286
+    ]
+   },
+   {
+    "well": "L24",
+    "images": [
+     287
+    ]
+   },
+   {
+    "well": "M01",
+    "images": [
+     288
+    ]
+   },
+   {
+    "well": "M02",
+    "images": [
+     289
+    ]
+   },
+   {
+    "well": "M03",
+    "images": [
+     290
+    ]
+   },
+   {
+    "well": "M04",
+    "images": [
+     291
+    ]
+   },
+   {
+    "well": "M05",
+    "images": [
+     292
+    ]
+   },
+   {
+    "well": "M06",
+    "images": [
+     293
+    ]
+   },
+   {
+    "well": "M07",
+    "images": [
+     294
+    ]
+   },
+   {
+    "well": "M08",
+    "images": [
+     295
+    ]
+   },
+   {
+    "well": "M09",
+    "images": [
+     296
+    ]
+   },
+   {
+    "well": "M10",
+    "images": [
+     297
+    ]
+   },
+   {
+    "well": "M11",
+    "images": [
+     298
+    ]
+   },
+   {
+    "well": "M12",
+    "images": [
+     299
+    ]
+   },
+   {
+    "well": "M13",
+    "images": [
+     300
+    ]
+   },
+   {
+    "well": "M14",
+    "images": [
+     301
+    ]
+   },
+   {
+    "well": "M15",
+    "images": [
+     302
+    ]
+   },
+   {
+    "well": "M16",
+    "images": [
+     303
+    ]
+   },
+   {
+    "well": "M17",
+    "images": [
+     304
+    ]
+   },
+   {
+    "well": "M18",
+    "images": [
+     305
+    ]
+   },
+   {
+    "well": "M19",
+    "images": [
+     306
+    ]
+   },
+   {
+    "well": "M20",
+    "images": [
+     307
+    ]
+   },
+   {
+    "well": "M21",
+    "images": [
+     308
+    ]
+   },
+   {
+    "well": "M22",
+    "images": [
+     309
+    ]
+   },
+   {
+    "well": "M23",
+    "images": [
+     310
+    ]
+   },
+   {
+    "well": "M24",
+    "images": [
+     311
+    ]
+   },
+   {
+    "well": "N01",
+    "images": [
+     312
+    ]
+   },
+   {
+    "well": "N02",
+    "images": [
+     313
+    ]
+   },
+   {
+    "well": "N03",
+    "images": [
+     314
+    ]
+   },
+   {
+    "well": "N04",
+    "images": [
+     315
+    ]
+   },
+   {
+    "well": "N05",
+    "images": [
+     316
+    ]
+   },
+   {
+    "well": "N06",
+    "images": [
+     317
+    ]
+   },
+   {
+    "well": "N07",
+    "images": [
+     318
+    ]
+   },
+   {
+    "well": "N08",
+    "images": [
+     319
+    ]
+   },
+   {
+    "well": "N09",
+    "images": [
+     320
+    ]
+   },
+   {
+    "well": "N10",
+    "images": [
+     321
+    ]
+   },
+   {
+    "well": "N11",
+    "images": [
+     322
+    ]
+   },
+   {
+    "well": "N12",
+    "images": [
+     323
+    ]
+   },
+   {
+    "well": "N13",
+    "images": [
+     324
+    ]
+   },
+   {
+    "well": "N14",
+    "images": [
+     325
+    ]
+   },
+   {
+    "well": "N15",
+    "images": [
+     326
+    ]
+   },
+   {
+    "well": "N16",
+    "images": [
+     327
+    ]
+   },
+   {
+    "well": "N17",
+    "images": [
+     328
+    ]
+   },
+   {
+    "well": "N18",
+    "images": [
+     329
+    ]
+   },
+   {
+    "well": "N19",
+    "images": [
+     330
+    ]
+   },
+   {
+    "well": "N20",
+    "images": [
+     331
+    ]
+   },
+   {
+    "well": "N21",
+    "images": [
+     332
+    ]
+   },
+   {
+    "well": "N22",
+    "images": [
+     333
+    ]
+   },
+   {
+    "well": "N23",
+    "images": [
+     334
+    ]
+   },
+   {
+    "well": "N24",
+    "images": [
+     335
+    ]
+   },
+   {
+    "well": "O01",
+    "images": [
+     336
+    ]
+   },
+   {
+    "well": "O02",
+    "images": [
+     337
+    ]
+   },
+   {
+    "well": "O03",
+    "images": [
+     338
+    ]
+   },
+   {
+    "well": "O04",
+    "images": [
+     339
+    ]
+   },
+   {
+    "well": "O05",
+    "images": [
+     340
+    ]
+   },
+   {
+    "well": "O06",
+    "images": [
+     341
+    ]
+   },
+   {
+    "well": "O07",
+    "images": [
+     342
+    ]
+   },
+   {
+    "well": "O08",
+    "images": [
+     343
+    ]
+   },
+   {
+    "well": "O09",
+    "images": [
+     344
+    ]
+   },
+   {
+    "well": "O10",
+    "images": [
+     345
+    ]
+   },
+   {
+    "well": "O11",
+    "images": [
+     346
+    ]
+   },
+   {
+    "well": "O12",
+    "images": [
+     347
+    ]
+   },
+   {
+    "well": "O13",
+    "images": [
+     348
+    ]
+   },
+   {
+    "well": "O14",
+    "images": [
+     349
+    ]
+   },
+   {
+    "well": "O15",
+    "images": [
+     350
+    ]
+   },
+   {
+    "well": "O16",
+    "images": [
+     351
+    ]
+   },
+   {
+    "well": "O17",
+    "images": [
+     352
+    ]
+   },
+   {
+    "well": "O18",
+    "images": [
+     353
+    ]
+   },
+   {
+    "well": "O19",
+    "images": [
+     354
+    ]
+   },
+   {
+    "well": "O20",
+    "images": [
+     355
+    ]
+   },
+   {
+    "well": "O21",
+    "images": [
+     356
+    ]
+   },
+   {
+    "well": "O22",
+    "images": [
+     357
+    ]
+   },
+   {
+    "well": "O23",
+    "images": [
+     358
+    ]
+   },
+   {
+    "well": "O24",
+    "images": [
+     359
+    ]
+   },
+   {
+    "well": "P01",
+    "images": [
+     360
+    ]
+   },
+   {
+    "well": "P02",
+    "images": [
+     361
+    ]
+   },
+   {
+    "well": "P03",
+    "images": [
+     362
+    ]
+   },
+   {
+    "well": "P04",
+    "images": [
+     363
+    ]
+   },
+   {
+    "well": "P05",
+    "images": [
+     364
+    ]
+   },
+   {
+    "well": "P06",
+    "images": [
+     365
+    ]
+   },
+   {
+    "well": "P07",
+    "images": [
+     366
+    ]
+   },
+   {
+    "well": "P08",
+    "images": [
+     367
+    ]
+   },
+   {
+    "well": "P09",
+    "images": [
+     368
+    ]
+   },
+   {
+    "well": "P10",
+    "images": [
+     369
+    ]
+   },
+   {
+    "well": "P11",
+    "images": [
+     370
+    ]
+   },
+   {
+    "well": "P12",
+    "images": [
+     371
+    ]
+   },
+   {
+    "well": "P13",
+    "images": [
+     372
+    ]
+   },
+   {
+    "well": "P14",
+    "images": [
+     373
+    ]
+   },
+   {
+    "well": "P15",
+    "images": [
+     374
+    ]
+   },
+   {
+    "well": "P16",
+    "images": [
+     375
+    ]
+   },
+   {
+    "well": "P17",
+    "images": [
+     376
+    ]
+   },
+   {
+    "well": "P18",
+    "images": [
+     377
+    ]
+   },
+   {
+    "well": "P19",
+    "images": [
+     378
+    ]
+   },
+   {
+    "well": "P20",
+    "images": [
+     379
+    ]
+   },
+   {
+    "well": "P21",
+    "images": [
+     380
+    ]
+   },
+   {
+    "well": "P22",
+    "images": [
+     381
+    ]
+   },
+   {
+    "well": "P23",
+    "images": [
+     382
+    ]
+   },
+   {
+    "well": "P24",
+    "images": [
+     383
+    ]
+   }
+  ],
+  "images": [
+   {
+    "index": 0,
+    "well": "A01",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "BSF018292-1A_A01_w1.TIF",
+      "xxh3": "906405016307f2b2c685b78349ba1229",
+      "dtype": "uint16",
+      "shape": [
+       2048,
+       2048
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "BSF018292-1A_A01_w2.TIF",
+      "xxh3": "d162c5de061ed235ba7f765fdbd19520",
+      "dtype": "uint16",
+      "shape": [
+       2048,
+       2048
+      ]
+     }
+    ]
+   },
+   {
+    "index": 1,
+    "well": "A02",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "BSF018292-1A_A02_w1.TIF",
+      "xxh3": "81a95bb5357ad21a03702688b2c859c4",
+      "dtype": "uint16",
+      "shape": [
+       2048,
+       2048
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "missing",
+      "file": null
+     }
+    ]
+   },
+   {
+    "index": 2,
+    "well": "A03",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "missing",
+      "file": null
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "missing",
+      "file": null
+     }
+    ]
+   },
+   {
+    "index": 3,
+    "well": "A04",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "missing",
+      "file": null
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "missing",
+      "file": null
+     }
+    ]
+   },
+   {
+    "index": 4,
+    "well": "A05",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "missing",
+      "file": null
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "missing",
+      "file": null
+     }
+    ]
+   }
+  ],
+  "bioformats": {
+   "series": 384,
+   "size_c": [
+    2
+   ],
+   "size_z": [
+    1
+   ],
+   "size_t": [
+    1
+   ],
+   "sizes": [
+    [
+     2048,
+     2048
+    ]
+   ],
+   "types": [
+    "uint16"
+   ],
+   "physical_size_um": [
+    1.72,
+    1.72
+   ],
+   "channels": [
+    "DAPI",
+    "FITC"
+   ],
+   "fields_mapped": 384,
+   "planes_compared": 3,
+   "planes_agree": 3,
+   "planes_disagree": 0,
+   "absent_planes_blank": 0,
+   "absent_planes_repeated": 0,
+   "problems": []
+  }
+ }
+}

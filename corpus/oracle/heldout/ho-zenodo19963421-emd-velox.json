@@ -1,0 +1,36 @@
+{
+ "id": "ho-zenodo19963421-emd-velox",
+ "file": "0006 - STEM Nano HAADF 0918.emd",
+ "size": 2400387,
+ "sha256": "967c2152229b66c374d54afe152e59c228511fb041ea583e5e8961f9828c85dc",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "ceeae6f8b6d54f1ca9f4c398267766e0",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 3.202543241544471e-05,
+    "y": 3.202543241544471e-05,
+    "z": null
+   },
+   "detector": "HAADF",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e70b067c99815421a05290cf9a4ce50"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"10\",\n    \"format\": \"Velox\"\n}\n"
+}

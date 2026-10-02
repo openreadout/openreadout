@@ -1,0 +1,375 @@
+{
+ "id": "zenodo18016957-hBN-spectra-overlaid",
+ "file": "zenodo18016957-hBN-spectra-overlaid.dm5",
+ "size": 728136,
+ "sha256": "697a6ef9bfd115efce1a670e919971e8209b2533286ae13636f623f8176fda6b",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 (DM5 groups and attributes)",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "Hbn_spectra_overlaid",
+   "size_x": 832,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "af0aa9ba4472e7bbcc0df08abf4eb82d"
+    }
+   ],
+   "pixel_type": "float"
+  },
+  {
+   "index": 1,
+   "image_list_index": 2,
+   "name": "Hbn",
+   "size_x": 832,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6b665e854f0d74bf0199e4c7bcd02745"
+    }
+   ],
+   "pixel_type": "float"
+  },
+  {
+   "index": 2,
+   "image_list_index": 3,
+   "name": "",
+   "size_x": 832,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "11f2bfdd8aa5e333f1e8296f2e9ecef7"
+    }
+   ],
+   "pixel_type": "float"
+  },
+  {
+   "index": 3,
+   "image_list_index": 4,
+   "name": "",
+   "size_x": 716,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "10fe303c25eca04fe9baeb9689814b06"
+    }
+   ],
+   "pixel_type": "float"
+  },
+  {
+   "index": 4,
+   "image_list_index": 5,
+   "name": "",
+   "size_x": 716,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e796531fe0b6f82b3238ce793391e147"
+    }
+   ],
+   "pixel_type": "float"
+  },
+  {
+   "index": 5,
+   "image_list_index": 6,
+   "name": "",
+   "size_x": 716,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0923a0da0ce455cbbcc2ad8724824e81"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "Hbn_spectra_overlaid",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "ppm_first": -1.1793283019202363,
+   "ppm_last": 42.03267258964604,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 832,
+     "channels": [
+      {
+       "xxh3": "a77546cafcf41e2886c39c9d3781a114",
+       "first": [
+        12210.2744140625,
+        13435.1923828125,
+        14921.017578125,
+        16766.705078125,
+        19016.986328125,
+        21581.525390625,
+        24580.771484375,
+        28367.83984375
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Hbn",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "ppm_first": -1.1793283019202363,
+   "ppm_last": 42.03267258964604,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 832,
+     "channels": [
+      {
+       "xxh3": "57a6da30d34ce61175728597d97a7eaa",
+       "first": [
+        86.5758285522461,
+        88.33625030517578,
+        92.5458755493164,
+        99.97988891601562,
+        107.85281372070312,
+        111.49980926513672,
+        110.0922622680664,
+        110.22528839111328
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "ppm_first": -1.1793283019202363,
+   "ppm_last": 42.03267258964604,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 832,
+     "channels": [
+      {
+       "xxh3": "34fb7f862ce94f90d784c407c9bc9129",
+       "first": [
+        134.2234344482422,
+        136.69058227539062,
+        140.7055206298828,
+        144.6313018798828,
+        153.8857421875,
+        163.47865295410156,
+        173.5242156982422,
+        181.98004150390625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "ppm_first": -0.675565546622849,
+   "ppm_last": 36.50443522048893,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 716,
+     "channels": [
+      {
+       "xxh3": "7fbe68d85ac5b3a2178708c5172be3f9",
+       "first": [
+        40260.68359375,
+        49360.41796875,
+        61609.60546875,
+        78695.2578125,
+        104504.7734375,
+        146866.9375,
+        240657.390625,
+        695844.4375
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "ppm_first": -0.675565546622849,
+   "ppm_last": 36.50443522048893,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 716,
+     "channels": [
+      {
+       "xxh3": "f5f452e85e11894c6d1c40dcb2b5124d",
+       "first": [
+        210.25677490234375,
+        435.5861511230469,
+        788.8579711914062,
+        1122.1676025390625,
+        1309.83203125,
+        1367.7247314453125,
+        1427.288330078125,
+        1502.6322021484375
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "ppm_first": -0.675565546622849,
+   "ppm_last": 36.50443522048893,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 716,
+     "channels": [
+      {
+       "xxh3": "36cf840e908bf026e023245c8fb0f6f5",
+       "first": [
+        221.7732696533203,
+        330.756591796875,
+        637.9027099609375,
+        1143.2962646484375,
+        1629.6942138671875,
+        1927.831787109375,
+        2077.147216796875,
+        2403.416015625
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

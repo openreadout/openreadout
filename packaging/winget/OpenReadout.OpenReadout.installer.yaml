@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.9.0.schema.json
+# TEMPLATE: rendered by `cargo xtask winget-manifest`; see packaging/winget/README.md.
+PackageIdentifier: OpenReadout.OpenReadout
+PackageVersion: "{{version}}"
+InstallerType: zip
+NestedInstallerType: portable
+NestedInstallerFiles:
+  - RelativeFilePath: openreadout.exe
+    PortableCommandAlias: openreadout
+Commands:
+  - openreadout
+FileExtensions:
+  - czi
+  - nd2
+  - lif
+Installers:
+  - Architecture: x64
+    InstallerUrl: https://github.com/openreadout/openreadout/releases/download/v{{version}}/openreadout-x86_64-pc-windows-msvc.zip
+    InstallerSha256: "{{sha256:openreadout-x86_64-pc-windows-msvc.zip}}"
+ManifestType: installer
+ManifestVersion: 1.9.0

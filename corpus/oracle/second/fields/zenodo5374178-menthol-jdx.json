@@ -1,0 +1,156 @@
+{
+ "id": "zenodo5374178-menthol-jdx",
+ "file": "jcamp-zenodo/5374178/menthol.jdx",
+ "format": "jcamp-dx",
+ "family": "nmr",
+ "readers": [
+  "jcamp 1.3.2 (MIT)"
+ ],
+ "checks": [
+  {
+   "field": "##TITLE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/title",
+   "theirs": "AN-menthol.10.fid",
+   "cmp": "text"
+  },
+  {
+   "field": "##DATA TYPE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/data_type",
+   "theirs": "NMR SPECTRUM",
+   "cmp": "text"
+  },
+  {
+   "field": "##ORIGIN",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/origin",
+   "theirs": "Bruker BioSpin GmbH",
+   "cmp": "text"
+  },
+  {
+   "field": "##OWNER",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/owner",
+   "theirs": "nmr",
+   "cmp": "text"
+  },
+  {
+   "field": "##JCAMP-DX version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/jcamp_version",
+   "theirs": "6.0",
+   "cmp": "text"
+  },
+  {
+   "field": "##.OBSERVE FREQUENCY",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/observe_frequency_mhz",
+   "theirs": 500.133088507,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "##.OBSERVE NUCLEUS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/nucleus",
+   "theirs": "^1H",
+   "cmp": "text"
+  },
+  {
+   "field": "##.SOLVENT NAME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/solvent",
+   "theirs": "CDCl3",
+   "cmp": "text"
+  },
+  {
+   "field": "##.PULSE SEQUENCE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/pulse_sequence",
+   "theirs": "zg30",
+   "cmp": "text"
+  },
+  {
+   "field": "##NPOINTS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 32768,
+   "cmp": "exact"
+  },
+  {
+   "field": "##FIRSTX",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/first",
+   "theirs": 7595.71853849104,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "field": "##LASTX",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/last",
+   "theirs": -1418.4294400715582,
+   "cmp": "num",
+   "rel": 1e-09,
+   "abs": 1e-09
+  },
+  {
+   "field": "##XUNITS",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/unit",
+   "theirs": "HZ",
+   "cmp": "text"
+  },
+  {
+   "field": "##LONG DATE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2017-10-19T11:50:00",
+   "cmp": "time"
+  }
+ ]
+}

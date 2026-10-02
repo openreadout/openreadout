@@ -1,0 +1,180 @@
+{
+ "id": "zenodo15473381-o-1-1-200-scans-proton-jdf",
+ "file": "jeol-zenodo/15473381/O-1-1-200-scans_Proton-1-1.jdf",
+ "format": "jeol-jdf",
+ "family": "nmr",
+ "readers": [
+  "nmrglue 0.12 (BSD-3) jeol.read header and parameters",
+  "the .jdf context section (at nmrglue's context_start), read as text with a regular expression"
+ ],
+ "checks": [
+  {
+   "field": "header title",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/title",
+   "theirs": "O-1-1-200-scans",
+   "cmp": "text"
+  },
+  {
+   "field": "header site",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/site",
+   "theirs": "JNM-ECZL400G",
+   "cmp": "text"
+  },
+  {
+   "field": "x_freq (MHz)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectrometer_frequency_mhz",
+   "theirs": 399.78219837825003,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "x_sweep (Hz)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectral_width_hz",
+   "theirs": 7507.507507507507,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "x_offset (ppm)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/carrier_offset_ppm",
+   "theirs": 5.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "scans",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/scans",
+   "theirs": 200,
+   "cmp": "exact"
+  },
+  {
+   "field": "total_scans",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/total_scans",
+   "theirs": 200,
+   "cmp": "exact"
+  },
+  {
+   "field": "solvent",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/solvent",
+   "theirs": "TETRACHLOROETHAN",
+   "cmp": "text"
+  },
+  {
+   "field": "experiment",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/pulse_program",
+   "theirs": "proton.jxp",
+   "cmp": "text"
+  },
+  {
+   "field": "x_domain",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/domain",
+   "theirs": "Proton",
+   "cmp": "text"
+  },
+  {
+   "field": "sample_id parameter (16 bytes)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/sample_id",
+   "theirs": "O-1-1-200-scans",
+   "cmp": "contains"
+  },
+  {
+   "field": "sample_id (context text)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/sample_id",
+   "theirs": "O-1-1-200-scans",
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "sample id (context text)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "O-1-1-200-scans",
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "temp_get (°C)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/temperature_c",
+   "theirs": 19.5,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "field_strength (T)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/field_strength_t",
+   "theirs": 9.389766,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "actual_start_time (s since 1990, UTC)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-04-28T09:16:03Z",
+   "cmp": "time",
+   "abs": 1.0
+  }
+ ]
+}

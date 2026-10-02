@@ -1,0 +1,56 @@
+{
+ "id": "gdal-md-dg",
+ "file": "gdal-md-dg.tif",
+ "size": 5544,
+ "sha256": "526158dc544dbee2378c8e096ff32d3f8a3b4e6dc8b0d841688535d71611cbe2",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "geotiff",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "geotiff",
+   "axes": "SYX",
+   "shape": [
+    3,
+    50,
+    50
+   ],
+   "size_x": 50,
+   "size_y": 50,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a27871fb7b679b1a0b61c7f6f01d8696"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "40c76317c057a7ebf88af84d058e902c"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "39a092feb35ebd8b75e6ee97542409c1"
+    }
+   ]
+  }
+ ]
+}

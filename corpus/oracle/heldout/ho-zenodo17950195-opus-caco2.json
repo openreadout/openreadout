@@ -1,0 +1,155 @@
+{
+ "id": "ho-zenodo17950195-opus-caco2",
+ "file": "1-NS-2.0",
+ "size": 35900,
+ "sha256": "e387196e5adf09f21775211fa91620096a7631dc9b5c3ec3b65bb4bb43d98c48",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1750,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1750,
+     "channels": [
+      {
+       "xxh3": "3156c8c92d6ea37bfebef08fdee639e9",
+       "first": [
+        0.0033063883893191814,
+        0.003244626335799694,
+        0.0031999796628952026,
+        0.003260535653680563,
+        0.0032959028612822294,
+        0.0032118710223585367,
+        0.003146028844639659,
+        0.0031609435100108385
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3996.598068177715,
+   "x_last": 399.04273043050785,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11701.596677,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha II",
+     "instrument_serial": "110871",
+     "sample_name": "1-NS-2",
+     "operator": "Admin",
+     "accessory": "ATR platinum Diamond 1 Refl #24C782502D",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1750,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1750,
+     "channels": [
+      {
+       "xxh3": "d0095588bd80cb9ff3a69ae3a5fd1d13",
+       "first": [
+        0.03961987793445587,
+        0.039542026817798615,
+        0.03953330218791962,
+        0.03958478942513466,
+        0.03977464884519577,
+        0.039970606565475464,
+        0.039989352226257324,
+        0.03995933383703232
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3996.598068177715,
+   "x_last": 399.04273043050785,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11701.596677,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha II",
+     "instrument_serial": "110871",
+     "sample_name": "1-NS-2",
+     "operator": "Admin",
+     "accessory": "ATR platinum Diamond 1 Refl #24C782502D",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1756,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1756,
+     "channels": [
+      {
+       "xxh3": "39a36f98232c45269eed0ed958b26fdf",
+       "first": [
+        0.039755165576934814,
+        0.039879895746707916,
+        0.039961107075214386,
+        0.0399990975856781,
+        0.0399232916533947,
+        0.039840564131736755,
+        0.0398268923163414,
+        0.03988522291183472
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4004.8257533412325,
+   "x_last": 394.9288878487496,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11701.596677,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha II",
+     "instrument_serial": "110871",
+     "sample_name": "1-NS-2",
+     "operator": "Admin",
+     "accessory": "ATR platinum Diamond 1 Refl #24C782502D",
+     "scans": 32
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

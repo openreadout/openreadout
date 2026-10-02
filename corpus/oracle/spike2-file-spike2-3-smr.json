@@ -1,0 +1,43 @@
+{
+ "id": "spike2-file-spike2-3-smr",
+ "file": "spike2-file-spike2-3.smr",
+ "size": 1052672,
+ "sha256": "2a918d7df050e902b356544ba94ab63748ac0720765f2d88ac37c912155f0067",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 Spike2RawIO (try_signal_grouping=False)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Song"
+   ],
+   "channel_units": [
+    "volt"
+   ],
+   "sample_rate_hz": 25000.000000000004,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 523446,
+     "channels": [
+      {
+       "xxh3": "10b402cdbb29dc45586c5596abc42e8f",
+       "first": [
+        -0.05126953125,
+        -0.0341796875,
+        -0.0048828125,
+        0.0,
+        -0.03662109375,
+        -0.02685546875,
+        -0.029296875,
+        -0.0439453125
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1098 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PeaksOutput",
+  "description": "Output of `analyze peaks`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input file.",
+      "type": "string"
+    },
+    "chromatograms": {
+      "description": "One entry per analysed chromatogram.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ChromatogramPeaks"
+      }
+    },
+    "compounds": {
+      "description": "One row per compound of the compound list.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CompoundResult"
+      }
+    },
+    "spectra": {
+      "description": "Spectra (traces whose axis is not time: wavenumber, wavelength, ppm, …): bands and\nintegrated regions, one entry per analysed spectrum.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SpectrumBands"
+      }
+    },
+    "outputs": {
+      "description": "Files written (`-o`, `--plot`).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "description": "Anything the caller should know.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "chromatograms"
+  ],
+  "$defs": {
+    "ChromatogramPeaks": {
+      "description": "Peaks of one chromatogram.",
+      "type": "object",
+      "properties": {
+        "label": {
+          "description": "Chromatogram label (see `analyze chromatogram`).",
+          "type": "string"
+        },
+        "kind": {
+          "description": "`tic`, `bpc`, `xic`, `srm` or `trace`.",
+          "type": "string"
+        },
+        "source": {
+          "description": "`spectra`, `trace N` or `table N`.",
+          "type": "string"
+        },
+        "mz": {
+          "description": "XIC m/z.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "mz_window": {
+          "description": "XIC window.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "precursor_mz": {
+          "description": "SRM precursor matched.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "product_mz": {
+          "description": "SRM product matched.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "intensity_unit": {
+          "description": "Signal unit.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "area_unit": {
+          "description": "Unit of peak areas, e.g. `mAU·min`.",
+          "type": "string"
+        },
+        "points": {
+          "description": "Samples in the chromatogram.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "method": {
+          "description": "How the peaks were found.",
+          "$ref": "#/$defs/PeakMethod"
+        },
+        "peak_count": {
+          "description": "Peaks found.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "total_area": {
+          "description": "Summed area.",
+          "type": "number",
+          "format": "double"
+        },
+        "main_peak": {
+          "description": "Number of the largest peak.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "main_peak_area_percent": {
+          "description": "Its area % (purity by area normalization).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "peaks": {
+          "description": "The peak table.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Peak"
+          }
+        },
+        "picked": {
+          "description": "The expected peak (`--rt`).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PickedPeak"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "manual": {
+          "description": "Manual integrations (`--integrate`), in request order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Peak"
+          }
+        },
+        "notes": {
+          "description": "Anything the caller should know.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "label",
+        "kind",
+        "source",
+        "area_unit",
+        "points",
+        "method",
+        "peak_count",
+        "total_area",
+        "peaks"
+      ]
+    },
+    "PeakMethod": {
+      "description": "The method that produced a peak table, with every parameter actually used.",
+      "type": "object",
+      "properties": {
+        "smoothing": {
+          "description": "`savitzky_golay_quadratic` or `none`.",
+          "type": "string"
+        },
+        "smooth_window_points": {
+          "description": "Smoothing window in points (1 = none).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "smooth_auto": {
+          "description": "True when the window was chosen automatically.",
+          "type": "boolean"
+        },
+        "characteristic_width_points": {
+          "description": "Median width at half height of the most prominent maxima, points (drives the automatic\nsmoothing and baseline windows).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "noise": {
+          "description": "Noise σ, signal units.",
+          "type": "number",
+          "format": "double"
+        },
+        "noise_method": {
+          "description": "`segment_rms`, `segment_rms_nonzero`, `mad_first_difference`, `user` or `none`.",
+          "type": "string"
+        },
+        "min_snr": {
+          "description": "Detection threshold, S/N.",
+          "type": "number",
+          "format": "double"
+        },
+        "min_height": {
+          "description": "Detection threshold, signal units.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "min_width_min": {
+          "description": "Smallest width at half height, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "min_points": {
+          "description": "Fewest samples per peak.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "baseline": {
+          "description": "`drop`, `valley` or `tangent`.",
+          "type": "string"
+        },
+        "skim_ratio": {
+          "description": "`tangent` skim ratio.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "baseline_window_points": {
+          "description": "Window of the running baseline, points.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "slope_noise": {
+          "description": "`auto`: noise of the smoothed signal's derivative, signal units per minute (flanks end\nbelow [`AUTO_END_SLOPE_NOISE`] times it).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "look_ahead_points": {
+          "description": "`auto`: how far a flat stretch must go on without a valley to end a peak, points.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "rt_range_min": {
+          "description": "Retention-time range searched, minutes.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "integration": {
+          "description": "`trapezoid`.",
+          "type": "string"
+        },
+        "area_time_unit": {
+          "description": "Time unit of `area`: `min` or `s`.",
+          "type": "string"
+        },
+        "points": {
+          "description": "Samples analysed.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "smoothing",
+        "smooth_window_points",
+        "smooth_auto",
+        "noise",
+        "noise_method",
+        "min_snr",
+        "min_points",
+        "baseline",
+        "baseline_window_points",
+        "integration",
+        "area_time_unit",
+        "points"
+      ]
+    },
+    "Peak": {
+      "description": "One integrated peak (a flat record: one row of a peak table).",
+      "type": "object",
+      "properties": {
+        "number": {
+          "description": "1-based peak number in retention-time order.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "rt_min": {
+          "description": "Retention time of the apex, minutes.",
+          "type": "number",
+          "format": "double"
+        },
+        "start_min": {
+          "description": "Peak start (integration start), minutes.",
+          "type": "number",
+          "format": "double"
+        },
+        "end_min": {
+          "description": "Peak end (integration end), minutes.",
+          "type": "number",
+          "format": "double"
+        },
+        "height": {
+          "description": "Height of the apex above the baseline, signal units.",
+          "type": "number",
+          "format": "double"
+        },
+        "area": {
+          "description": "Area above the baseline between start and end, signal units × `area_time_unit`.",
+          "type": "number",
+          "format": "double"
+        },
+        "area_percent": {
+          "description": "Share of the summed area of all peaks in the table, %.",
+          "type": "number",
+          "format": "double"
+        },
+        "width_half_min": {
+          "description": "Width at half height, minutes (absent when the signal does not fall to half height\nbefore a drop line).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "width_10pct_min": {
+          "description": "Width at 10 % height, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "width_5pct_min": {
+          "description": "Width at 5 % height, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "width_base_min": {
+          "description": "End − start, minutes.",
+          "type": "number",
+          "format": "double"
+        },
+        "tailing_factor": {
+          "description": "USP tailing factor `W₀.₀₅ / 2f` (f: apex to the leading edge at 5 % height).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "asymmetry_factor": {
+          "description": "Asymmetry factor `b/a` at 10 % height (a: leading half-width, b: trailing half-width).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "plates": {
+          "description": "Theoretical plates, half-height method `5.54 (t_R / W½)²` (t_R from time zero).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "resolution": {
+          "description": "Resolution to the previous peak, `1.18 (t₂ − t₁) / (W½₁ + W½₂)`.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "snr": {
+          "description": "Height / noise σ (absent when the noise is 0).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "points": {
+          "description": "Samples from start to end.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "baseline_code": {
+          "description": "How each end meets the baseline: `B` baseline, `V` valley (drop line), `T` tangent skim,\n`M` manual (given boundaries); e.g. `BB`, `BV`, `VB`, `TT`.",
+          "type": "string"
+        },
+        "baseline_start": {
+          "description": "Baseline value at the start, signal units.",
+          "type": "number",
+          "format": "double"
+        },
+        "baseline_end": {
+          "description": "Baseline value at the end, signal units.",
+          "type": "number",
+          "format": "double"
+        },
+        "baseline_reason": {
+          "description": "`auto` baseline: why the baseline was drawn this way — `sloped_background` (an end was\nplaced where the peak meets a sloped or drifting background), `drop_line` (fused with a\nneighbour: common baseline, vertical drop line at the valley), `baseline_penetration`\n(split from a neighbour where the signal dips below their common baseline), `isolated`\n(both ends on the baseline). The first that applies.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "number",
+        "rt_min",
+        "start_min",
+        "end_min",
+        "height",
+        "area",
+        "area_percent",
+        "width_base_min",
+        "points",
+        "baseline_code",
+        "baseline_start",
+        "baseline_end"
+      ]
+    },
+    "PickedPeak": {
+      "description": "The expected peak of a chromatogram (`--rt`/`--window`).",
+      "type": "object",
+      "properties": {
+        "expected_rt_min": {
+          "description": "Expected retention time, minutes.",
+          "type": "number",
+          "format": "double"
+        },
+        "rt_window_min": {
+          "description": "Window half-width, minutes.",
+          "type": "number",
+          "format": "double"
+        },
+        "rule": {
+          "description": "`largest` or `nearest`.",
+          "type": "string"
+        },
+        "peak": {
+          "description": "The peak, when one has its apex in the window.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Peak"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "expected_rt_min",
+        "rt_window_min",
+        "rule"
+      ]
+    },
+    "CompoundResult": {
+      "description": "One result row: a compound in one file.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "The input file.",
+          "type": "string"
+        },
+        "compound": {
+          "description": "Compound name.",
+          "type": "string"
+        },
+        "chromatogram": {
+          "description": "Label of the chromatogram it was measured on.",
+          "type": "string"
+        },
+        "expected_rt_min": {
+          "description": "Expected retention time, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rt_window_min": {
+          "description": "Window half-width, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "found": {
+          "description": "True when a peak was found in the window.",
+          "type": "boolean"
+        },
+        "rt_min": {
+          "description": "Apex retention time, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rt_shift_min": {
+          "description": "Apex − expected retention time, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "area": {
+          "description": "Peak area (signal × `area_time_unit` of the method).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "height": {
+          "description": "Peak height above the baseline.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "snr": {
+          "description": "Height / noise σ.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "width_half_min": {
+          "description": "Width at half height, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "tailing_factor": {
+          "description": "USP tailing factor.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "start_min": {
+          "description": "Integration start, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "end_min": {
+          "description": "Integration end, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "baseline_code": {
+          "description": "Baseline code of the peak (`BB`, `BV`, …).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "area_percent": {
+          "description": "Area % of the peak within its chromatogram.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "area_unit": {
+          "description": "Unit of `area`, e.g. `counts·min`, `mAU·s`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "note": {
+          "description": "Why nothing was found, or anything else worth knowing.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "path",
+        "compound",
+        "chromatogram",
+        "found"
+      ]
+    },
+    "SpectrumBands": {
+      "description": "Bands and regions of one spectrum.",
+      "type": "object",
+      "properties": {
+        "label": {
+          "description": "Label (trace name).",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Always `spectrum`.",
+          "type": "string"
+        },
+        "source": {
+          "description": "`trace N sweep S`.",
+          "type": "string"
+        },
+        "trace": {
+          "description": "Trace index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "sweep": {
+          "description": "Sweep index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "channel": {
+          "description": "Channel of the signal.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "x_quantity": {
+          "description": "Axis quantity: `wavenumber`, `raman_shift`, `wavelength`, `chemical_shift`, `points`, ….",
+          "type": "string"
+        },
+        "x_unit": {
+          "description": "Axis unit (`1/cm`, `nm`, `ppm`, …).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "y_quantity": {
+          "description": "Signal quantity (`absorbance`, `intensity`, `transmittance`, …).",
+          "type": "string"
+        },
+        "intensity_unit": {
+          "description": "Signal unit.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "area_unit": {
+          "description": "Unit of areas: signal unit (or quantity) × axis unit.",
+          "type": "string"
+        },
+        "points": {
+          "description": "Samples in the spectrum.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "x_min": {
+          "description": "Smallest axis value.",
+          "type": "number",
+          "format": "double"
+        },
+        "x_max": {
+          "description": "Largest axis value.",
+          "type": "number",
+          "format": "double"
+        },
+        "bands_are_minima": {
+          "description": "Bands are minima (transmittance, reflectance): detected on the negated signal.",
+          "type": "boolean"
+        },
+        "method": {
+          "description": "How bands were found.",
+          "$ref": "#/$defs/BandMethod"
+        },
+        "peak_count": {
+          "description": "Bands listed.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "peaks": {
+          "description": "Detected bands (with regions: only those with the apex in one), in order of x.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Band"
+          }
+        },
+        "regions": {
+          "description": "Integrated regions, in request order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Region"
+          }
+        },
+        "notes": {
+          "description": "Anything the caller should know.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "label",
+        "kind",
+        "source",
+        "trace",
+        "sweep",
+        "channel",
+        "x_quantity",
+        "y_quantity",
+        "area_unit",
+        "points",
+        "x_min",
+        "x_max",
+        "method",
+        "peak_count",
+        "peaks"
+      ]
+    },
+    "BandMethod": {
+      "description": "How the bands were found.",
+      "type": "object",
+      "properties": {
+        "smoothing": {
+          "description": "`savitzky_golay_quadratic` or `none`.",
+          "type": "string"
+        },
+        "smooth_window_points": {
+          "description": "Smoothing window, points (1 = none).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "noise": {
+          "description": "Noise σ, signal units.",
+          "type": "number",
+          "format": "double"
+        },
+        "noise_method": {
+          "description": "How the noise was estimated.",
+          "type": "string"
+        },
+        "min_snr": {
+          "description": "Detection threshold, S/N.",
+          "type": "number",
+          "format": "double"
+        },
+        "min_height": {
+          "description": "Detection threshold, signal units.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "min_width": {
+          "description": "Smallest width at half height, axis units.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "baseline": {
+          "description": "Baseline under detected bands: `auto`, `drop`, `valley` or `tangent`.",
+          "type": "string"
+        },
+        "region_baseline": {
+          "description": "Baseline under regions: `linear` or `none`.",
+          "type": "string"
+        },
+        "integration": {
+          "description": "`trapezoid`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "smoothing",
+        "smooth_window_points",
+        "noise",
+        "noise_method",
+        "min_snr",
+        "baseline",
+        "region_baseline",
+        "integration"
+      ]
+    },
+    "Band": {
+      "description": "One detected band.",
+      "type": "object",
+      "properties": {
+        "number": {
+          "description": "1-based band number in order of increasing x.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "x": {
+          "description": "Apex position (vertex of the parabola through the three highest smoothed points), axis\nunits.",
+          "type": "number",
+          "format": "double"
+        },
+        "start": {
+          "description": "Band start, axis units.",
+          "type": "number",
+          "format": "double"
+        },
+        "end": {
+          "description": "Band end, axis units.",
+          "type": "number",
+          "format": "double"
+        },
+        "height": {
+          "description": "Height above the baseline (depth below it when bands are minima), signal units.",
+          "type": "number",
+          "format": "double"
+        },
+        "area": {
+          "description": "Area above the baseline (below it when bands are minima), signal units × axis units.",
+          "type": "number",
+          "format": "double"
+        },
+        "area_percent": {
+          "description": "Share of the summed area of all bands of the spectrum, %.",
+          "type": "number",
+          "format": "double"
+        },
+        "centroid": {
+          "description": "(signal − baseline)-weighted mean position.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "width_half": {
+          "description": "Full width at half height, axis units.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "snr": {
+          "description": "Height / noise σ.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "points": {
+          "description": "Samples from start to end.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "baseline_code": {
+          "description": "How each end meets the baseline (as `analyze peaks`: `B`, `V`, `T`).",
+          "type": "string"
+        },
+        "baseline_start": {
+          "description": "Baseline at the start, signal units.",
+          "type": "number",
+          "format": "double"
+        },
+        "baseline_end": {
+          "description": "Baseline at the end, signal units.",
+          "type": "number",
+          "format": "double"
+        },
+        "baseline_reason": {
+          "description": "`auto` baseline: why the baseline was drawn this way (as `analyze peaks`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "number",
+        "x",
+        "start",
+        "end",
+        "height",
+        "area",
+        "area_percent",
+        "points",
+        "baseline_code",
+        "baseline_start",
+        "baseline_end"
+      ]
+    },
+    "Region": {
+      "description": "One integrated region of a spectrum.",
+      "type": "object",
+      "properties": {
+        "number": {
+          "description": "1-based region number in request order.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "from": {
+          "description": "Lower end asked for, axis units.",
+          "type": "number",
+          "format": "double"
+        },
+        "to": {
+          "description": "Upper end asked for, axis units.",
+          "type": "number",
+          "format": "double"
+        },
+        "x_first": {
+          "description": "Axis value of the first sample used.",
+          "type": "number",
+          "format": "double"
+        },
+        "x_last": {
+          "description": "Axis value of the last sample used.",
+          "type": "number",
+          "format": "double"
+        },
+        "points": {
+          "description": "Samples used.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "baseline": {
+          "description": "`linear` or `none`.",
+          "type": "string"
+        },
+        "baseline_start": {
+          "description": "Baseline at `x_first`, signal units.",
+          "type": "number",
+          "format": "double"
+        },
+        "baseline_end": {
+          "description": "Baseline at `x_last`, signal units.",
+          "type": "number",
+          "format": "double"
+        },
+        "area": {
+          "description": "Trapezoidal integral of (signal − baseline), signal units × axis units.",
+          "type": "number",
+          "format": "double"
+        },
+        "area_no_baseline": {
+          "description": "Trapezoidal integral of the signal itself.",
+          "type": "number",
+          "format": "double"
+        },
+        "max_x": {
+          "description": "Axis value of the region maximum (the sample of largest signal − baseline; of largest\nbaseline − signal when bands are minima).",
+          "type": "number",
+          "format": "double"
+        },
+        "max_height": {
+          "description": "Height of the maximum above the baseline (depth below it when bands are minima).",
+          "type": "number",
+          "format": "double"
+        },
+        "max_value": {
+          "description": "Signal at the maximum.",
+          "type": "number",
+          "format": "double"
+        },
+        "centroid": {
+          "description": "(signal − baseline)-weighted mean axis value (absent when that integral is not positive).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "peaks": {
+          "description": "Numbers of the detected bands whose apex lies in the region.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        },
+        "peaks_area": {
+          "description": "Summed area of those bands (each above its own detection baseline).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "number",
+        "from",
+        "to",
+        "x_first",
+        "x_last",
+        "points",
+        "baseline",
+        "baseline_start",
+        "baseline_end",
+        "area",
+        "area_no_baseline",
+        "max_x",
+        "max_height",
+        "max_value",
+        "peaks_area"
+      ]
+    }
+  }
+}

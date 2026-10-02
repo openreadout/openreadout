@@ -1,0 +1,22 @@
+{
+ "id": "echem-navani-ocv",
+ "file": "echem-navani-ocv.mpr",
+ "format": "biologic-mpr",
+ "family": "bench",
+ "readers": [
+  "galvani 0.5.0 (GPL-3.0, run as a black box): the log module's timestamp"
+ ],
+ "checks": [
+  {
+   "field": "log module timestamp",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-12-07T14:22:24.183000",
+   "cmp": "time",
+   "abs": 0.001
+  }
+ ]
+}

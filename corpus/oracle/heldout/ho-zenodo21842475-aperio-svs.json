@@ -1,0 +1,50 @@
+{
+ "id": "ho-zenodo21842475-aperio-svs",
+ "file": "VE0DF95000287D_424791.svs",
+ "size": 7767809,
+ "sha256": "cc09a0256f518a0070718823652276c514d61d012cd6daa43c03f7e1f122e691",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "svs",
+ "flags": [
+  "svs"
+ ],
+ "page_count": 5,
+ "series_count": 4,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "svs",
+   "axes": "YXS",
+   "shape": [
+    6949,
+    7968,
+    3
+   ],
+   "size_x": 7968,
+   "size_y": 6949,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 2,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.5037,
+    "y": 0.5037
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3ea1f0f4eaea42719c2b1b04f5448120",
+     "mean": 239.00147872874913
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,69 @@
+{
+ "id": "zenodo7971252-sony-sa3800-c04",
+ "file": "zenodo7971252-sony-sa3800-c04.fcs",
+ "size": 2601594,
+ "sha256": "3d7290837859e9420d0988129575db137a4a316efb8cc34bd35c972b02c5a925",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.1",
+   "parameter_count": 13,
+   "event_count": 50000,
+   "parameter_names": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "PE-A",
+    "PE-H",
+    "PE-W",
+    "JC-1-A",
+    "JC-1-H",
+    "JC-1-W",
+    "TIME"
+   ],
+   "parameter_labels": [
+    "FSC - Area",
+    "FSC - Height",
+    "FSC - Width",
+    "SSC - Area",
+    "SSC - Height",
+    "SSC - Width",
+    "PE - Area",
+    "PE - Height",
+    "PE - Width",
+    "JC-1 - Area",
+    "JC-1 - Height",
+    "JC-1 - Width",
+    "Time Stamp"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "635c70eed2d600767ad18306b85939a5",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 50000,
+  "xxh3": "635c70eed2d600767ad18306b85939a5",
+  "agrees_with_flowio": true
+ }
+}

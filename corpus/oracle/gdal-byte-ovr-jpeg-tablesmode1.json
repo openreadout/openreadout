@@ -1,0 +1,44 @@
+{
+ "id": "gdal-byte-ovr-jpeg-tablesmode1",
+ "file": "gdal-byte-ovr-jpeg-tablesmode1.tif",
+ "size": 1479,
+ "sha256": "9645ae9f0039e01b7696c0da47cd93dba467d71caf3c81a0c3e15e00e3797d6c",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "geotiff",
+ "flags": [],
+ "page_count": 2,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "geotiff",
+   "axes": "YX",
+   "shape": [
+    20,
+    20
+   ],
+   "size_x": 20,
+   "size_y": 20,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 2,
+   "lossy": true,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "92b2ff8ca40dc7b4b7197609e0bd621a",
+     "mean": 126.79
+    }
+   ]
+  }
+ ]
+}

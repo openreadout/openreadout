@@ -1,0 +1,39 @@
+{
+ "id": "zenodo2580185-Gatan-STEM-Image",
+ "file": "zenodo2580185-Gatan-STEM-Image.dm3",
+ "size": 243659,
+ "sha256": "e946d5921dee14570b2a3ca9dae238a0b476bcd6915c34103be03c32a11390bb",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "Gatan STEM Image",
+   "size_x": 228,
+   "size_y": 146,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.00020120763778686525,
+    "y": 0.00020120763778686525,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0a3e4a20e9aed2429a0d9f8fec6647ee"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SpikesReport",
+  "description": "Output of `analyze spikes`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "Input path.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id.",
+      "type": "string"
+    },
+    "trace": {
+      "description": "Trace analysed.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "sample_rate_hz": {
+      "description": "Sampling rate, Hz.",
+      "type": "number",
+      "format": "double"
+    },
+    "settings": {
+      "description": "Settings used (the high edge after clamping to 0.45 × the sampling rate).",
+      "$ref": "#/$defs/DetectSettings"
+    },
+    "sweeps": {
+      "description": "Sweeps analysed.",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "uint32",
+        "minimum": 0
+      }
+    },
+    "channels": {
+      "description": "One entry per channel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ChannelSpikes"
+      }
+    },
+    "spike_count_total": {
+      "description": "Spikes on all channels.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "notes": {
+      "description": "Remarks.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "trace",
+    "sample_rate_hz",
+    "settings",
+    "sweeps",
+    "channels",
+    "spike_count_total"
+  ],
+  "$defs": {
+    "DetectSettings": {
+      "description": "Detection settings.",
+      "type": "object",
+      "properties": {
+        "low_hz": {
+          "description": "Band-pass low edge, Hz.",
+          "type": "number",
+          "format": "double"
+        },
+        "high_hz": {
+          "description": "Band-pass high edge, Hz (clamped to 0.45 × the sampling rate).",
+          "type": "number",
+          "format": "double"
+        },
+        "order": {
+          "description": "Butterworth order.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "threshold": {
+          "description": "Threshold in noise units.",
+          "type": "number",
+          "format": "double"
+        },
+        "sign": {
+          "description": "Direction.",
+          "$ref": "#/$defs/PeakSign"
+        },
+        "exclude_ms": {
+          "description": "Exclusion half-window, ms.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "low_hz",
+        "high_hz",
+        "order",
+        "threshold",
+        "sign",
+        "exclude_ms"
+      ]
+    },
+    "PeakSign": {
+      "description": "Which deflections count.",
+      "oneOf": [
+        {
+          "description": "Negative-going (the usual extracellular spike).",
+          "type": "string",
+          "const": "neg"
+        },
+        {
+          "description": "Positive-going.",
+          "type": "string",
+          "const": "pos"
+        },
+        {
+          "description": "Either.",
+          "type": "string",
+          "const": "both"
+        }
+      ]
+    },
+    "ChannelSpikes": {
+      "description": "Detection results of one channel.",
+      "type": "object",
+      "properties": {
+        "channel": {
+          "description": "Channel index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "Channel name.",
+          "type": "string"
+        },
+        "unit": {
+          "description": "Unit of `noise` and `threshold`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "noise": {
+          "description": "Noise (MAD / 0.6745 of the filtered signal; the first sweep analysed).",
+          "type": "number",
+          "format": "double"
+        },
+        "threshold": {
+          "description": "Detection threshold (`threshold × noise`).",
+          "type": "number",
+          "format": "double"
+        },
+        "spike_count": {
+          "description": "Spikes detected, all sweeps.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "rate_hz": {
+          "description": "Spikes per second of analysed signal.",
+          "type": "number",
+          "format": "double"
+        },
+        "duration_s": {
+          "description": "Seconds analysed.",
+          "type": "number",
+          "format": "double"
+        },
+        "times": {
+          "description": "Spike times, s from each sweep's start, with the sweep (at most `max_times`).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SpikeTime"
+          }
+        },
+        "times_truncated": {
+          "description": "True when `times` was cut.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "channel",
+        "name",
+        "noise",
+        "threshold",
+        "spike_count",
+        "rate_hz",
+        "duration_s",
+        "times",
+        "times_truncated"
+      ]
+    },
+    "SpikeTime": {
+      "description": "One spike time.",
+      "type": "object",
+      "properties": {
+        "sweep": {
+          "description": "Sweep/segment.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "sample": {
+          "description": "Sample within the sweep.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "time_s": {
+          "description": "Seconds from the sweep start.",
+          "type": "number",
+          "format": "double"
+        },
+        "amplitude": {
+          "description": "Filtered amplitude at the peak (in the channel unit).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "sweep",
+        "sample",
+        "time_s",
+        "amplitude"
+      ]
+    }
+  }
+}

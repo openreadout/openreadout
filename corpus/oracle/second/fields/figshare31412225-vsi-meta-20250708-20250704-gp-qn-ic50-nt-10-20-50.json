@@ -1,0 +1,31 @@
+{
+ "id": "figshare31412225-vsi-meta-20250708-20250704-gp-qn-ic50-nt-10-20-50",
+ "file": "vsi-survey/figshare31412225/20250708_20250704_GP_QN-IC50_NT_10_20_50-PhpC_2.vsi",
+ "format": "vsi",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 512,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 356,
+   "cmp": "exact"
+  }
+ ]
+}

@@ -1,0 +1,58 @@
+# Waters Empower ASCII exports (`.arw`)
+
+Waters Empower keeps raw data and results inside its own database, so data leaves Empower only through exports. The ASCII raw-data export, saved with the `.arw` extension, holds one chromatogram as text. OpenReadout returns it as one trace with the sample, method and injection fields the export includes. The AIA/ANDI netCDF export (`.cdf`) is read by the `andi-chrom` reader. Sony `.ARW` camera files share the extension but are TIFF and never start with a quote.
+
+Format id `empower-arw`. Code: `crates/openreadout-chrom/src/empower_arw.rs`. How each fact was
+established: `docs/provenance/empower-arw.md`.
+
+## Layout
+
+Text (ANSI/UTF-8), rows separated by CR, LF or CRLF, cells by tabs:
+
+1. the names of the fields the export method includes, each in double quotes
+   (`"SampleName"`, `"Channel"`, `"Sample Set Name"`, `"Instrument Method Name"`, …);
+2. their values, in double quotes, as many as names;
+3. one row per point: retention time (minutes) and the detector value, unquoted decimal
+   numbers.
+
+The value's unit is not in the export (it is the detector's: mV, AU, EU for fluorescence, …).
+Times are printed to 7 significant digits, so an evenly sampled run shows steps that differ in
+the last digit; points within 10⁻⁶ of the grid (relative to the time) are a regular trace.
+
+Detection: a first line of tab-separated, double-quoted cells (with or without the `.arw`
+extension). Rows of more than two columns (a multi-wavelength PDA export) are refused (exit 6);
+a header whose value count differs from its name count, or a data row that is not two numbers,
+is corrupt (exit 4).
+
+## Mapping to the data model
+
+- One trace named `<SampleName> / <Channel>` (or the channel alone), one channel named after
+  `Channel` (else `value`), `dtype` `float64`, no unit. Evenly spaced times: `sample_rate_hz`,
+  `start_s` and `extra.axis` (retention time, minutes); otherwise `sample_rate_hz` 0 and a first
+  channel `time` (minutes).
+- `extra`: `fields` (every exported name and value), and from them `sample_name`, `channel`,
+  `sample_set`, `instrument_method`, `processing_method`, `vial`, `injection`,
+  `injection_volume`, `acquired_by`, `acquired_at` when exported; `line_ending`, `x_start_min`,
+  `x_end_min`, `time_channel`.
+- `check`: `time_not_increasing` (warning), `irregular_times`, `no_channel_field` (info).
+
+## Validation
+
+- Six exports of Appia's test data (MIT, two fluorescence channels of three samples, 6,601
+  points each): every value equal to Appia's own reading (`processed-tests/…hplc-wide.csv`, an
+  independent reader) and the times within Appia's single-precision rounding (2·10⁻⁶ min).
+
+## Known gaps
+
+- Multi-column (3D PDA) exports: no licensed public example; refused.
+- Empower's native data (database) and its report exports are not read; AIA/netCDF exports are
+  read by `andi-chrom`.
+
+## Vocabulary (every public identifier in `empower_*.rs` must appear here)
+
+| identifier | meaning |
+| --- | --- |
+| `EmpowerArwReader`, `EmpowerArwDataset`, `EMPOWER_ARW_ID`, `open`, `export` | reader, opened export, the id `empower-arw`, open by path, the parsed export |
+| `MAX_ARW_BYTES` | largest export read (512 MiB) |
+| `ArwExport`, `fields`, `times`, `values`, `line_ending`, `field`, `regular_step` | a parsed export: header names and values, points, line ending; a named field's value; the step of an evenly spaced export |
+| `ArwError` { `Corrupt`, `Unsupported` }, `parse_arw`, `looks_like_arw` | why an export was not read; the parser; detection |

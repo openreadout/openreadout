@@ -1,0 +1,22 @@
+{
+ "id": "pxd070374-excid-classi-ke6-rep2",
+ "file": "pxd070374-excid-classi-ke6-rep2.wiff",
+ "format": "sciex-wiff",
+ "family": "mass-spectrometry",
+ "readers": [
+  "olefile 0.47 (BSD-2): the .wiff storages' creation times (UTC)"
+ ],
+ "checks": [
+  {
+   "field": "acquisition start (compound-file creation time, UTC)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2026-03-11T20:29:22Z",
+   "cmp": "time",
+   "abs": 5.0
+  }
+ ]
+}

@@ -1,0 +1,90 @@
+name: New file variant (refused, failed, or not validated)
+description: A file from a supported format is refused, fails, or comes back `unvalidated` / `partially_validated` — often a new vendor software version, codec or layout.
+labels: ["new-variant", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. A new variant becomes a validated one in three steps: we see its **structure** (the report below), we get **ground truth** for it (the vendor software's own export of the same file), and ideally a **public copy** of a file with the same variant joins the test corpus. The whole process is in [docs/maintaining.md](https://github.com/openreadout/openreadout/blob/main/docs/maintaining.md).
+
+        **Privacy.** `openreadout report` writes a local file and sends nothing. By default it contains no pixel, spectral or trace values, no sample, image or channel names, no comments, no serial numbers and no paths; open it and read it before you attach it. Never attach patient-identifiable data. Do not attach or link vendor SDKs, headers, DLLs or specifications obtained under NDA ([clean-room policy](https://github.com/openreadout/openreadout/blob/main/docs/legal/clean-room-policy.md)); issues that do are closed.
+
+  - type: textarea
+    id: report
+    attributes:
+      label: Diagnostic bundle
+      description: |
+        Run `openreadout report FILE` (add `--include-text` only if the names in the file are not sensitive) and attach the `openreadout-report-*.json` it writes by dragging it here. It holds the assurance fingerprint, every decode stage with its error, and the structure map.
+      placeholder: Drag openreadout-report-<hash>.json here.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: symptom
+    attributes:
+      label: What happened?
+      options:
+        - Refused (exit 3 unknown format, 4 corrupt, or 6 unsupported feature)
+        - A command failed or crashed
+        - Read, but assurance is `unvalidated` (or `--strict` refused it)
+        - Read, but assurance is `partially_validated`
+        - Read and validated, but values differ from the vendor software
+    validations:
+      required: true
+
+  - type: input
+    id: software
+    attributes:
+      label: Instrument and acquisition software, with exact versions
+      description: As shown in the vendor software's About box. A new version is the most common cause of a new variant.
+      placeholder: Orbitrap Exploris 480, Xcalibur 4.6 / Tune 4.2
+    validations:
+      required: true
+
+  - type: textarea
+    id: export
+    attributes:
+      label: Vendor export of the same file (the ground truth)
+      description: |
+        The vendor software's own export of the **same acquisition** lets us check every value, not only that the file opens. Pick what the software offers:
+        images → OME-TIFF (or a TIFF per channel with the pixel sizes written down); mass spectrometry → mzML (ProteoWizard msConvert or the vendor exporter, no filters); chromatography, spectroscopy, electrophysiology → CSV/ASCII/AIA export of the traces; plate readers and qPCR → the software's table export.
+        Attach it (zip if needed) or link it, and say which software version and settings produced it. If the export contains the same sensitive names as the file, say so and we will arrange a private transfer.
+
+  - type: dropdown
+    id: public
+    attributes:
+      label: Can a file with this variant be shared publicly?
+      description: A public file (Zenodo, BioImage Archive, MetaboLights/PRIDE, figshare) under an open licence (CC0 or CC-BY 4.0) lets the variant join the test corpus, so it stays validated in every future release.
+      options:
+        - "Yes: I deposited it (link below)"
+        - "Yes: I can deposit one (a test acquisition without sensitive content)"
+        - "Only privately, with written permission for the maintainers to use it as a test file"
+        - "No"
+    validations:
+      required: true
+
+  - type: textarea
+    id: deposit
+    attributes:
+      label: Deposit link and licence
+      description: |
+        How to deposit (about ten minutes): acquire or pick a file with no sensitive content (a bead slide, a blank, a standard), upload it together with its vendor export to https://zenodo.org/uploads/new, choose licence **CC0-1.0** or **CC-BY-4.0**, and in the description name the instrument, the software version and "test file for OpenReadout". Paste the record link here. Files must not come from patients or contain anything identifying.
+      placeholder: https://zenodo.org/records/1234567 (CC-BY-4.0)
+
+  - type: input
+    id: version
+    attributes:
+      label: Output of `openreadout --version`
+      placeholder: openreadout 0.1.0
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Before submitting
+      options:
+        - label: I read the report file before attaching it, and it contains nothing I may not share.
+          required: true
+        - label: I did not attach or link any vendor SDK, header, DLL or non-public specification.
+          required: true

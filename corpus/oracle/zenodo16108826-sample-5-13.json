@@ -1,0 +1,44 @@
+{
+ "id": "zenodo16108826-sample-5-13",
+ "file": "zenodo16108826-sample-5-13.spc",
+ "size": 59452,
+ "sha256": "c8256f1f7e97337233cab52e8a0f9866f0626841c35e0eaa69875568da7b70f0",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_spc",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 14727,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 14727,
+     "channels": [
+      {
+       "xxh3": "52b36a476def8bc63ac75e665b590a3a",
+       "first": [
+        0.0011314451694488525,
+        0.0011464357376098633,
+        0.0011472254991531372,
+        0.0011336654424667358,
+        0.0011080056428909302,
+        0.0010743886232376099,
+        0.001038387417793274,
+        0.0010051429271697998
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3999.881103515625,
+   "x_last": 450.0559387207031
+  }
+ ],
+ "second_opinion": {
+  "reader": "spc-io 0.2.1 (MIT)",
+  "values_agree": true
+ }
+}

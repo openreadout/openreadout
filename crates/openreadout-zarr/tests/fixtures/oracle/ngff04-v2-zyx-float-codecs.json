@@ -1,0 +1,110 @@
+{
+ "id": "ngff04-v2-zyx-float-codecs",
+ "file": "ngff04-v2-zyx-float-codecs.zip",
+ "size": 23076,
+ "sha256": "c47b633b9b16181d180211277e7ae220c734e9763b2b91f4e0006f39af740525",
+ "max_planes_hashed": 64,
+ "reader": "zarr-python 3.4.0 (NGFF metadata interpreted in gen.py)",
+ "kind": "image",
+ "ngff_version": "0.4",
+ "zarr_format": 2,
+ "labels": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "zyx-float",
+   "size_x": 36,
+   "size_y": 40,
+   "size_z": 5,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "axes": [
+    "z",
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 0.11,
+    "y": 0.11,
+    "z": 2.0
+   },
+   "time_increment_s": null,
+   "channel_names": [],
+   "level_sizes": [
+    [
+     36,
+     40
+    ],
+    [
+     18,
+     20
+    ],
+    [
+     9,
+     10
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ef36136a2d37296c3727e25c1ccc8d9d"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "e8207906735873ee1b0292b5d71ef813"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1df1483f4ec3a951904c5480d628fa28"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "d1227b0fdb5ea1fb83e119ea38f379e0"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "bc5adab5515900c77e273075459fab3c"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 18,
+     "size_y": 20,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "71fd2bc6aff8d9bcf0cfa03eea9e0eb7"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 9,
+     "size_y": 10,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "cdf3c70833e72a5993a917146c79c3bb"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

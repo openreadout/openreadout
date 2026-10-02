@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ChromatogramOutput",
+  "description": "Output of `analyze chromatogram`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input file.",
+      "type": "string"
+    },
+    "run": {
+      "description": "Spectra run used, when any chromatogram was computed from spectra.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint32",
+      "minimum": 0
+    },
+    "spectra_read": {
+      "description": "Spectra decoded.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "chromatograms": {
+      "description": "One entry per requested chromatogram.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Chromatogram"
+      }
+    },
+    "output": {
+      "description": "File written (`-o`), when any.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "notes": {
+      "description": "Anything the caller should know.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "spectra_read",
+    "chromatograms"
+  ],
+  "$defs": {
+    "Chromatogram": {
+      "description": "One chromatogram: retention times (minutes) and intensities, with how they were obtained\nand a summary.",
+      "type": "object",
+      "properties": {
+        "label": {
+          "description": "Short label, e.g. `TIC`, `XIC 301.1410 ±10 ppm`, `SRM 279.2 > 179.2`, `DAD1 A`.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "`tic`, `bpc`, `xic`, `srm` or `trace`.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Where the points come from: `spectra` (computed from the mass spectra), `trace N`\n(a stored chromatogram or detector signal) or `table N` (an MRM table column).",
+          "type": "string"
+        },
+        "mz": {
+          "description": "XIC target m/z.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "mz_window": {
+          "description": "XIC window `[low, high]` m/z.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "mz_range": {
+          "description": "TIC/BPC m/z range.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "precursor_mz": {
+          "description": "SRM: the precursor (Q1) m/z matched in the file.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "product_mz": {
+          "description": "SRM: the product (Q3) m/z matched in the file.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "ms_level": {
+          "description": "MS level of the scans used.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "polarity": {
+          "description": "Polarity filter applied.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scan_filter": {
+          "description": "Scan-filter text required.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "aggregation": {
+          "description": "`sum` or `max` (XIC).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "centroid_scans": {
+          "description": "Scans read as centroids.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "profile_scans": {
+          "description": "Scans read as profiles (their points inside the window are summed).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "intensity_source": {
+          "description": "TIC/BPC: points from the scan's recorded value (`recorded`), from its points\n(`computed`), or both (`mixed`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "intensity_unit": {
+          "description": "Unit of `intensity` (`counts` for mass spectra, the detector's unit for traces).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "points": {
+          "description": "Points in the chromatogram.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "apex_rt_min": {
+          "description": "Retention time of the most intense point, minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "apex_intensity": {
+          "description": "Intensity of the most intense point.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "integral": {
+          "description": "Trapezoidal integral of the whole chromatogram (no baseline), intensity × minutes.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rt_min": {
+          "description": "Retention times, minutes (ascending).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "intensity": {
+          "description": "Intensities.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "decimated": {
+          "description": "True when `rt_min`/`intensity` were thinned to `max_points` (the most intense point of\neach of `max_points` equal slices is kept); the summary covers every point.",
+          "type": "boolean",
+          "default": false
+        },
+        "notes": {
+          "description": "Anything the caller should know.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "label",
+        "kind",
+        "source",
+        "points",
+        "rt_min",
+        "intensity"
+      ]
+    }
+  }
+}

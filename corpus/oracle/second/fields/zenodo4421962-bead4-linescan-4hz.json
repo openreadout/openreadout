@@ -1,0 +1,55 @@
+{
+ "id": "zenodo4421962-bead4-linescan-4hz",
+ "file": "olympus-fv/zenodo4421962-oif/Bead4/linescan-4hz.oif",
+ "format": "oif",
+ "family": "imaging",
+ "readers": [
+  "oiffile 2026.2.8 (BSD-3) main settings",
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "ImageCaputreDate (+MilliSec)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2020-02-13T13:05:30.875",
+   "cmp": "time",
+   "abs": 0.001
+  },
+  {
+   "field": "Version Info SystemName",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "FLUOVIEW FV1000",
+   "cmp": "text"
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 228,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 10000,
+   "cmp": "exact",
+   "reader": 1
+  }
+ ]
+}

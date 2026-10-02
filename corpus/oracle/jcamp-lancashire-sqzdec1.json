@@ -1,0 +1,45 @@
+{
+ "id": "jcamp-lancashire-sqzdec1",
+ "file": "jcamp-lancashire-sqzdec1.jdx",
+ "size": 131301,
+ "sha256": "c9a5efc69d698d7525873b1fbc8a2c9a8f96f3cba4a8d9010987b2a69666efbd",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "sqzdec1.jdx",
+   "kind": "xydata",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "8fc97bd10f929091ba865599d0a4f594",
+       "first": [
+        2259260.0,
+        5242968.0,
+        -7176216.0,
+        -1616072.0,
+        10650432.0,
+        4373926.0,
+        -3660824.0,
+        2136488.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 16384,
+   "channel_count": 1,
+   "reader": "nmrglue 0.12 jcampdx.read",
+   "second_opinion": {
+    "reader": "jcamp 1.2.2",
+    "agrees": true
+   }
+  }
+ ]
+}

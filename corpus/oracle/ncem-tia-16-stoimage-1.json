@@ -1,0 +1,38 @@
+{
+ "id": "ncem-tia-16-stoimage-1",
+ "file": "ncem-tia-16_STOimage_1.ser",
+ "size": 2101248,
+ "sha256": "fff04a8cea794061b371c264ec9a65b5efde01d358415c4f782d77fe6c6f67dd",
+ "max_planes_hashed": 64,
+ "reader": "ncempy.io.ser (GPL, black box)",
+ "series_version": 528,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 1.0012704240403383e-05,
+    "y": 1.0012704240403383e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2abc019018a1444c7f462b21f324361b"
+    }
+   ]
+  }
+ ],
+ "emi": {
+  "AcceleratingVoltage": 80000.0,
+  "Microscope []": "TitanCubed D3147 S-Twin",
+  "Magnification [x]": 13500000
+ }
+}

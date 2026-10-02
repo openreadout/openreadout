@@ -1,0 +1,153 @@
+{
+ "id": "omnic-toffolo-atr-paraffin",
+ "trace": 0,
+ "reader": "spectrochempy 1.0.0 read_omnic",
+ "tolerance": {
+  "x": 0.0006,
+  "area_rel": 5e-05,
+  "why": "SpectroChemPy rounds the wavenumber axis to 3 decimals (steps of 0.48 cm-1)"
+ },
+ "points": 7468,
+ "bands_are_minima": false,
+ "prominent_bands": [
+  719.318,
+  1464.189,
+  2847.864,
+  2915.36,
+  2956.34
+ ],
+ "median_step": 0.4819999999999709,
+ "regions": [
+  {
+   "range": [
+    2800,
+    3000
+   ],
+   "linear": {
+    "points": 415,
+    "x_first": 2800.134,
+    "x_last": 2999.731,
+    "area": 20.52232664890959,
+    "area_no_baseline": 23.756690400904045,
+    "max_x": 2915.36,
+    "max_height": 0.4463930282687529,
+    "centroid": 2895.8692664952887
+   },
+   "none": {
+    "points": 415,
+    "x_first": 2800.134,
+    "x_last": 2999.731,
+    "area": 23.756690400904045,
+    "area_no_baseline": 23.756690400904045,
+    "max_x": 2915.36,
+    "max_height": 0.46192705631256104,
+    "centroid": 2895.210279983743
+   }
+  },
+  {
+   "range": [
+    1400,
+    1500
+   ],
+   "linear": {
+    "points": 208,
+    "x_first": 1400.067,
+    "x_last": 1499.865,
+    "area": 2.3415138120814216,
+    "area_no_baseline": 3.26765880504297,
+    "max_x": 1464.189,
+    "max_height": 0.11920046608637275,
+    "centroid": 1463.3974502376032
+   },
+   "none": {
+    "points": 208,
+    "x_first": 1400.067,
+    "x_last": 1499.865,
+    "area": 3.26765880504297,
+    "area_no_baseline": 3.26765880504297,
+    "max_x": 1464.189,
+    "max_height": 0.12852121889591217,
+    "centroid": 1459.6628891367382
+   }
+  },
+  {
+   "range": [
+    700,
+    740
+   ],
+   "linear": {
+    "points": 83,
+    "x_first": 700.034,
+    "x_last": 739.567,
+    "area": 1.4364022996029808,
+    "area_no_baseline": 1.983771899034734,
+    "max_x": 719.318,
+    "max_height": 0.11790881155816041,
+    "centroid": 722.0207164600815
+   },
+   "none": {
+    "points": 83,
+    "x_first": 700.034,
+    "x_last": 739.567,
+    "area": 1.983771899034734,
+    "area_no_baseline": 1.983771899034734,
+    "max_x": 719.318,
+    "max_height": 0.1317070722579956,
+    "centroid": 721.664388924912
+   }
+  }
+ ],
+ "export": {
+  "source": "the vendor's export Paraffin.CSV",
+  "regions": [
+   {
+    "range": [
+     2800,
+     3000
+    ],
+    "linear": {
+     "points": 415,
+     "x_first": 2800.134,
+     "x_last": 2999.731,
+     "area": 20.522360628710004,
+     "area_no_baseline": 23.756724227300005,
+     "max_x": 2915.36,
+     "max_height": 0.4463930731607188,
+     "centroid": 2895.8692193905367
+    }
+   },
+   {
+    "range": [
+     1400,
+     1500
+    ],
+    "linear": {
+     "points": 208,
+     "x_first": 1400.067,
+     "x_last": 1499.865,
+     "area": 2.341514637484498,
+     "area_no_baseline": 3.267659637892499,
+     "max_x": 1464.189,
+     "max_height": 0.11920044711507245,
+     "centroid": 1463.3975039965626
+    }
+   },
+   {
+    "range": [
+     700,
+     740
+    ],
+    "linear": {
+     "points": 83,
+     "x_first": 700.0336,
+     "x_last": 739.5671,
+     "area": 1.4364062953909973,
+     "area_no_baseline": 1.9837827877059977,
+     "max_x": 719.3182,
+     "max_height": 0.11790880483412801,
+     "centroid": 722.020699492526
+    }
+   }
+  ]
+ }
+}

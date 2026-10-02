@@ -1,0 +1,39 @@
+{
+ "id": "rsciio-dm-2d-test-fft-packed-complex8-dm4",
+ "file": "rsciio-dm-2d-test-fft-packed-complex8-dm4.dm4",
+ "size": 81730,
+ "sha256": "ef7c9bd2c8afafa9c17583d70b07dad883c5c3f006857ed8544c0c727cc84267",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "FFT of untitled2",
+   "size_x": 3,
+   "size_y": 5,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 27,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6a770dd4226ca9ca70e74e758f7a74ad"
+    }
+   ],
+   "pixel_type": "complex"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

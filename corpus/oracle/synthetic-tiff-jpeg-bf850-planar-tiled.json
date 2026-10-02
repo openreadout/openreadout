@@ -1,0 +1,8 @@
+{
+ "id": "synthetic-tiff-jpeg-bf850-planar-tiled",
+ "file": "synthetic-tiff-jpeg-bf850-planar-tiled.ome.tif",
+ "size": 284078,
+ "sha256": "542850873b97521ec6c2460609c77483b7e5965c529718eaa6c6a827059a6078",
+ "max_planes_hashed": 64,
+ "error": "NotImplementedError: chroma subsampling not supported with <COMPRESSION.JPEG: 7>"
+}

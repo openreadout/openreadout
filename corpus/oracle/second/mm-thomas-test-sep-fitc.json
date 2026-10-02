@@ -1,0 +1,20 @@
+{
+ "id": "mm-thomas-test-sep-fitc",
+ "file": "mm-thomas-img_000000000_FITC_000.tif",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a98421620ac383924c4dcf5e564d6ae3"
+    }
+   ]
+  }
+ ]
+}

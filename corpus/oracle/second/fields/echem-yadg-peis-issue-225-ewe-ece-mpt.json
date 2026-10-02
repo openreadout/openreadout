@@ -1,0 +1,31 @@
+{
+ "id": "echem-yadg-peis-issue-225-ewe-ece-mpt",
+ "file": "echem-yadg-peis-issue-225-ewe-ece.mpt",
+ "format": "biologic-mpt",
+ "family": "bench",
+ "readers": [
+  "the file's text header, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "Acquisition started on",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-08-01T11:43:59.820000",
+   "cmp": "time"
+  },
+  {
+   "field": "Device",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "VMP3",
+   "cmp": "loose"
+  }
+ ]
+}

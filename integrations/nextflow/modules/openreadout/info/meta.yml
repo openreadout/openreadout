@@ -1,0 +1,54 @@
+name: "openreadout_info"
+description: |
+  Reads the metadata of a raw laboratory instrument file (microscopy, flow cytometry, mass
+  spectrometry, chromatography, plate readers, qPCR, electrophysiology, NMR) without vendor
+  software, and writes the normalized summary of `openreadout info --json`: dimensions, pixel
+  type, physical sizes, channels, instrument, acquisition time, tables, traces, spectra runs and
+  the experiment (sample, method, operator).
+keywords:
+  - microscopy
+  - flow cytometry
+  - mass spectrometry
+  - metadata
+  - ome
+  - czi
+  - nd2
+  - fcs
+tools:
+  - "openreadout":
+      description: "Reads raw lab-instrument files without vendor software: metadata as JSON, exports to open formats (OME-TIFF, OME-Zarr, mzML, Parquet), validation."
+      homepage: "https://github.com/openreadout/openreadout"
+      documentation: "https://openreadout.github.io/openreadout/reference/commands/index.html"
+      tool_dev_url: "https://github.com/openreadout/openreadout"
+      licence: ["MIT", "Apache-2.0"]
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - input:
+        type: file
+        description: Raw instrument file, or a data-set directory (Bruker `.d`, Agilent `.D`, Waters `.raw`, Bruker NMR experiment)
+        pattern: "*"
+output:
+  - json:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.info.json":
+          type: file
+          description: The JSON envelope of `openreadout info --json` (schema docs/schema/info.schema.json)
+          pattern: "*.info.json"
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
+authors:
+  - "@richardzimring"
+maintainers:
+  - "@richardzimring"

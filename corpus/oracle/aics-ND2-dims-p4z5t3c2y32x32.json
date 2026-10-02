@@ -1,0 +1,1168 @@
+{
+ "id": "aics-ND2-dims-p4z5t3c2y32x32",
+ "file": "aics-ND2-dims-p4z5t3c2y32x32.nd2",
+ "size": 839680,
+ "sha256": "8ede83cef47dc302464fcc6bc489805436b0e54a4b0acfd77d22ae02decb6f55",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 32,
+   "size_y": 32,
+   "size_z": 5,
+   "size_c": 2,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 3, 'P': 4, 'Z': 5, 'C': 2, 'Y': 32, 'X': 32}",
+   "physical_size_um": {
+    "x": 0.652452890023035,
+    "y": 0.652452890023035,
+    "z": 1.0
+   },
+   "channel_names": [
+    "Widefield Green",
+    "Widefield Red"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e1cae14c1fa01b006efaed26bb53f5d0"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "17d12467e228456e522cd130bcdd306c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "4bff38b0207a41bf0f3f8b598eb4511e"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "40592a7dedcf101341bc3bf7f2ffa310"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "6f536a069801bda6ad08264c8add669a"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 2,
+     "xxh3": "d970fe37f7f61f892200415df241f7b2"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "ab1e259d5429757eef32839439c0533b"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "be4dc958be689d6177288b39259c7d49"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 2,
+     "xxh3": "90b64f9a4ab2769fcf2c42c792ec0693"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "80b952c28926f88427a0ff5a11525c14"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 1,
+     "xxh3": "a8ee9de8892ab103c74ff28f43b94b76"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 2,
+     "xxh3": "4564b714a75c55e039e3b9111e56fc80"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "924fd64dd0f0da36ecde0a9d094422c1"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 1,
+     "xxh3": "ee10fd4d00b73d10d3980de0e74b43dc"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 2,
+     "xxh3": "110555aaf84b7433e9a15d40f44e8b83"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "080062ba995c1c7bd6a6ccd2f5cfdcd7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "985ac3d2c78c1036a9ab9050e0f12696"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "99534d8d67cedd787a7a9e0f5c9363a2"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "0bc8e921e37780c6552d8f07c6bf770e"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 1,
+     "xxh3": "18e5c7cd86e910705701ec29940b32b7"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 2,
+     "xxh3": "a2cbd15b9b9419c47599735ffad54d8a"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "349d22ec463127d2d208108ea1f46d66"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 1,
+     "xxh3": "62c99721b0b57caaaf1ab52c975966c8"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 2,
+     "xxh3": "224a62c8aeaa87307ce65e76386cf9a3"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "2527ecf3a6a0ad381144114140aed15b"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 1,
+     "xxh3": "4578108aa001eb2bbc228959b55ff700"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 2,
+     "xxh3": "bdfe86390daac5af921a0d77378b71d9"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "4e3e63d0f6b040ca223ad776d97e718a"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 1,
+     "xxh3": "40379031dce10ddbea7e4f7a624c07d3"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 2,
+     "xxh3": "5a2b2fc419e326c20d27841d4f486606"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 32,
+   "size_y": 32,
+   "size_z": 5,
+   "size_c": 2,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 3, 'P': 4, 'Z': 5, 'C': 2, 'Y': 32, 'X': 32}",
+   "physical_size_um": {
+    "x": 0.652452890023035,
+    "y": 0.652452890023035,
+    "z": 1.0
+   },
+   "channel_names": [
+    "Widefield Green",
+    "Widefield Red"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "47d318d0dc41628ea213f2e0f234ab68"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "52dd245d4211871bc8c504defc78bda4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "4ed6b4353f6f6ff0d60865feac42e233"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "a8440b50af6ea52718b093dfa2e7ae2e"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "d5c6aff99e7e684973e385a63a9f8e28"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 2,
+     "xxh3": "ca6c9cc991116837425c669f33f44782"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "5aed2be934a61760a07acc4202b1baf2"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "1db8613a917daa9b2115bdb7c047062c"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 2,
+     "xxh3": "1fd612510d0214ecf88e246907d61936"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "305a475957655b7d4a9c0507625f350a"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 1,
+     "xxh3": "0fdf62259660e8e18f5a654a0b44dbca"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 2,
+     "xxh3": "707c71ae7d446eab208f4a29b67ec13d"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "e47ea046b232c2769df0923411e98bb9"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 1,
+     "xxh3": "b1ec816532e37e1bd3da293eca8edc2e"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 2,
+     "xxh3": "23378395e12f9817dc323acfcdb9aaea"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9c34ed1c797fbf3dcab94184f010774d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "17651f2b0155ff70941498950165bea9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "8e17f69081959240cbb05dbdf1ca1ddf"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "16a95444a6d3ae3a16824968a4e0990f"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 1,
+     "xxh3": "c681ea76b414bd63205a5d9f4ab8cea5"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 2,
+     "xxh3": "5d2a3185d599a464f780b303cf188957"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "2a49358e5842f3f10ed678d969d5941e"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 1,
+     "xxh3": "1037ccef30ec2f538760298c9e6acc94"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 2,
+     "xxh3": "f0befdf140f86c9c63454dc26d9f70a2"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "ac4a0ae77d65d8c62c19e42b6696a0e7"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 1,
+     "xxh3": "32961a151cb1e7b8c751f51a43564d2f"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 2,
+     "xxh3": "0f494305ea287a55bc6794484f963df1"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "eba77d0a341c1fc01ea397bf1976d63f"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 1,
+     "xxh3": "05e936b8842488c693dcfe085a84f5c2"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 2,
+     "xxh3": "61aa24d6d63fa58bdaca4b2f6e0b7ba8"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "size_x": 32,
+   "size_y": 32,
+   "size_z": 5,
+   "size_c": 2,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 3, 'P': 4, 'Z': 5, 'C': 2, 'Y': 32, 'X': 32}",
+   "physical_size_um": {
+    "x": 0.652452890023035,
+    "y": 0.652452890023035,
+    "z": 1.0
+   },
+   "channel_names": [
+    "Widefield Green",
+    "Widefield Red"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aabe56d4f15d515243eff468efa14ace"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "c7134907690ce0f821471fb98ccd2117"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "9257b82144ad4d0565353c4a2c71d1fb"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "3f0b8252c57a48ea636b4bbeeea44ecf"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "d1aa00d20418364453e893d970d3876a"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 2,
+     "xxh3": "5f0efb4ff594e6b2f561b2197395dec3"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "091afc42b2aa887c6ec4f49061d11322"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "3315cb6f746b84eb19113f0efa3e3da6"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 2,
+     "xxh3": "111b49126d8a83f1bc369583d2408a03"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "dd89c358eebed58a471ffde0ceef5800"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 1,
+     "xxh3": "e0f63b2a0dae0f359de6edac37d340b8"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 2,
+     "xxh3": "f62ce4708460ce5df48c8c5a472e1a71"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "9210bd9d0b628e60141fe32b38b121e5"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 1,
+     "xxh3": "1c39d3ae97fdc944f22ef7729b4e69db"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 2,
+     "xxh3": "29493d56377911556f4121a1656095c0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c5b6cf11aabe10b5231f66adde9fdd2a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "841171125a79af92e406b3b7b672be8f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "a1141102770161d8bc990e10b4b5022a"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "13dd9cf66745e91da87399fd10ecd001"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 1,
+     "xxh3": "01ba1af3c415bb2bda40b396430d7871"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 2,
+     "xxh3": "5aa326d6ea2b94d5ad7646a783ffee94"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "2bbbe9930a89e970c400a21e6f1f4254"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 1,
+     "xxh3": "93f0baba45431860b1b6ccdd4f560669"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 2,
+     "xxh3": "5354eb421c40f25bd4832ae3a85f9412"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "ba101f7f5a8a712d19d233d89c69c718"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 1,
+     "xxh3": "dfef5edcb575ded0ef186066a4766882"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 2,
+     "xxh3": "6a949789b14d4a091684772f4e88a0a4"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "6d8119165b4b713abd85c40d818052b0"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 1,
+     "xxh3": "94d8f7836fcce4f1925b36ce63336cf6"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 2,
+     "xxh3": "185afc84701b72c61065b4a77b588273"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "size_x": 32,
+   "size_y": 32,
+   "size_z": 5,
+   "size_c": 2,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 3, 'P': 4, 'Z': 5, 'C': 2, 'Y': 32, 'X': 32}",
+   "physical_size_um": {
+    "x": 0.652452890023035,
+    "y": 0.652452890023035,
+    "z": 1.0
+   },
+   "channel_names": [
+    "Widefield Green",
+    "Widefield Red"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f96ca856b2b63a3f92d9c680061408d1"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "5df7af3e9c8e89c745450edebdd796ef"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "1840c19fa0b318022b061f9b8b6a2215"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "ba25bf99921be256608d421f038c1e18"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "7ebf91422ef5acb87bc63c4ccef333f0"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 2,
+     "xxh3": "28ed1d60e3bf20e42720ecdd267daf8e"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "b167be2ebfceee2fc4e3562e0c0933ba"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "019ccfda4e37625eb6d4f55a8b76d557"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 2,
+     "xxh3": "cc2de8d2797c3dad93d82b4146542eb8"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "10415e840d578a45d5160bf4c4ea22f8"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 1,
+     "xxh3": "6bc3e0969565029562334f0233abea28"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 2,
+     "xxh3": "8a489c7e9d53f0d12a70461622330783"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "b883675891d8d4b0055bffb2cda8d512"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 1,
+     "xxh3": "38973906ba1cf1fcbc227ce05af49b04"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 2,
+     "xxh3": "2669bbfc9c7fbb05f49892d926d47637"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f8c02315f25535c3a809eb5f587d63ae"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "39f9f09b2213ae0d3fc9fc0772219080"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "8934671b3adeed9d9b784fdfd2ae4c55"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "fdae0e7cbfc3e0e6881391452d92e5e0"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 1,
+     "xxh3": "ebee46442d9aa17faa0555ea95554d95"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 2,
+     "xxh3": "223d9af902fc67e1a960f38eb5f27c4b"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "d38cc5d943b087a4a521bf22e4648aaa"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 1,
+     "xxh3": "aa5537cdf0ca769f7029da7bc2c843ed"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 2,
+     "xxh3": "097533f3045bbb6180a7aaa18c229ac7"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "24ecf3aead02ac390536dd595e731064"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 1,
+     "xxh3": "6c34d5e62d874962ad0b9b5c3a700a08"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 2,
+     "xxh3": "6bbef566dc939a42d527d01c602197d9"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "391d823690d413e14dae3dc79c351f32"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 1,
+     "xxh3": "8694d8f26bd541ea145d0b7aeb1e8562"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 2,
+     "xxh3": "6a0c57e66de08618d8094247322eabd4"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Widefield Green",
+    "color": "#5BFF00",
+    "excitation_nm": null,
+    "emission_nm": 535.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "Widefield Red",
+    "color": "#FF5500",
+    "excitation_nm": null,
+    "emission_nm": 620.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 60,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 956.9380025863647,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 496.48,
+     "Z1": 496.48
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 1817.0278463363647,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 499.48,
+     "Z1": 499.48
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 5014.167983055115,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 31452.2,
+     "Y": -1801.6000000000001,
+     "Z": 668.6800000000001,
+     "Z1": 668.6800000000001
+    }
+   },
+   {
+    "index": 8,
+    "time_ms": 5873.21803188324,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 31452.2,
+     "Y": -1801.6000000000001,
+     "Z": 671.7,
+     "Z1": 671.7
+    }
+   },
+   {
+    "index": 10,
+    "time_ms": 8907.417983055115,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 35234.3,
+     "Y": 2116.4,
+     "Z": 662.08,
+     "Z1": 662.08
+    }
+   },
+   {
+    "index": 13,
+    "time_ms": 9835.458022117615,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 35234.3,
+     "Y": 2116.4,
+     "Z": 665.0600000000001,
+     "Z1": 665.0600000000001
+    }
+   },
+   {
+    "index": 15,
+    "time_ms": 12952.61793422699,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 40642.9,
+     "Y": -3585.1000000000004,
+     "Z": 553.12,
+     "Z1": 553.12
+    }
+   },
+   {
+    "index": 18,
+    "time_ms": 13743.63795375824,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 40642.9,
+     "Y": -3585.1000000000004,
+     "Z": 556.12,
+     "Z1": 556.12
+    }
+   },
+   {
+    "index": 21,
+    "time_ms": 17705.82789516449,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 497.42,
+     "Z1": 497.42
+    }
+   },
+   {
+    "index": 23,
+    "time_ms": 18324.90797328949,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 499.42,
+     "Z1": 499.42
+    }
+   },
+   {
+    "index": 26,
+    "time_ms": 21965.05787563324,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 31452.2,
+     "Y": -1801.6000000000001,
+     "Z": 669.7,
+     "Z1": 669.7
+    }
+   },
+   {
+    "index": 28,
+    "time_ms": 22486.087904930115,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 31452.2,
+     "Y": -1801.6000000000001,
+     "Z": 671.7,
+     "Z1": 671.7
+    }
+   },
+   {
+    "index": 31,
+    "time_ms": 25824.24781703949,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 35234.3,
+     "Y": 2116.4,
+     "Z": 663.08,
+     "Z1": 663.08
+    }
+   },
+   {
+    "index": 33,
+    "time_ms": 26448.32789516449,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 35234.3,
+     "Y": 2116.4,
+     "Z": 665.08,
+     "Z1": 665.08
+    }
+   },
+   {
+    "index": 36,
+    "time_ms": 29718.46803188324,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 40642.9,
+     "Y": -3585.1000000000004,
+     "Z": 554.16,
+     "Z1": 554.16
+    }
+   },
+   {
+    "index": 38,
+    "time_ms": 30221.438002586365,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 40642.9,
+     "Y": -3585.1000000000004,
+     "Z": 556.16,
+     "Z1": 556.16
+    }
+   },
+   {
+    "index": 41,
+    "time_ms": 33837.63795375824,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 497.48,
+     "Z1": 497.48
+    }
+   },
+   {
+    "index": 44,
+    "time_ms": 35025.728041648865,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 500.5,
+     "Z1": 500.5
+    }
+   },
+   {
+    "index": 46,
+    "time_ms": 38541.917983055115,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 31452.2,
+     "Y": -1801.6000000000001,
+     "Z": 669.7,
+     "Z1": 669.7
+    }
+   },
+   {
+    "index": 49,
+    "time_ms": 39261.917983055115,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 31452.2,
+     "Y": -1801.6000000000001,
+     "Z": 672.7,
+     "Z1": 672.7
+    }
+   },
+   {
+    "index": 51,
+    "time_ms": 42299.11793422699,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 35234.3,
+     "Y": 2116.4,
+     "Z": 663.08,
+     "Z1": 663.08
+    }
+   },
+   {
+    "index": 54,
+    "time_ms": 43213.188002586365,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 35234.3,
+     "Y": 2116.4,
+     "Z": 666.08,
+     "Z1": 666.08
+    }
+   },
+   {
+    "index": 56,
+    "time_ms": 46451.30787563324,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 40642.9,
+     "Y": -3585.1000000000004,
+     "Z": 554.12,
+     "Z1": 554.12
+    }
+   },
+   {
+    "index": 59,
+    "time_ms": 47410.40797328949,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 40642.9,
+     "Y": -3585.1000000000004,
+     "Z": 557.12,
+     "Z1": 557.12
+    }
+   }
+  ],
+  "acquired_at": "2021-09-28T13:41:27.544Z",
+  "acquired_at_unix_ms": 1632836487544
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T(3) x XY(4) x \u03bb(2) x Z(5)\r\nCamera Name: Flash4.0, SN:101412\r\nNumerical Aperture: 0.3\r\nRefractive Index: 1\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: Widefield Green\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n Microscope Settings:   Nikon Ti2, FilterChanger(Turret-Lo): 3 (FITC)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 3.0\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 1 (Shutter)\r\n  PFS, state: On\r\n  PFS, offset: 7959\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola, Shutter(Sola): Active\r\n  Sola, Illuminator(Sola) Voltage: 100.0\r\nPlane #2:\r\n Name: Widefield Red\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n Microscope Settings:   Nikon Ti2, FilterChanger(Turret-Lo): 4 (TRITC)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 1.5\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 1 (Shutter)\r\n  PFS, state: On\r\n  PFS, offset: 7959\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola, Shutter(Sola): Active\r\n  Sola, Illuminator(Sola) Voltage: 100.0\r\nTime Loop: 3\r\n- Equidistant (Period 1 ms)\r\nZ Stack Loop: 5\r\n- Step: 1 \u00b5m\r\n- Device: Ti2 ZDrive",
+  "capturing": "Flash4.0, SN:101412\r\nSample 1:\r\n  Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\nSample 2:\r\n  Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast",
+  "date": "9/28/2021  9:41:27 AM",
+  "optics": "Plan Fluor 10x Ph1 DLL"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=2, heightPx=32, pixelDataType='unsigned', sequenceCount=60, widthBytes=128, widthPx=32, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

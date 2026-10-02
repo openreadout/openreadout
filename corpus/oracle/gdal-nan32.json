@@ -1,0 +1,43 @@
+{
+ "id": "gdal-nan32",
+ "file": "gdal-nan32.tif",
+ "size": 684,
+ "sha256": "07211a2be383709ddb011f96f35a83a093e67597fd156674629ced3631560cdd",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YX",
+   "shape": [
+    10,
+    10
+   ],
+   "size_x": 10,
+   "size_y": 10,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fe4eaf737292987e8dcc521b3f0f1325"
+    }
+   ]
+  }
+ ]
+}

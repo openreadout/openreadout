@@ -1,0 +1,102 @@
+{
+ "id": "aics-ND2-aryeh-but3-cont200-1",
+ "file": "aics-ND2-aryeh-but3-cont200-1.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1392,
+   "size_y": 1040,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bd70e6ecd61dc8e2a589ce26036acf36"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e4900568a1bd2ec2ff277c7499294115"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 1392,
+   "size_y": 1040,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6f2c2d9ef9cd823bab1ff7158dd5481f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a7fa3961c00172b184531aa915f1a356"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "size_x": 1392,
+   "size_y": 1040,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c23d9cb8d730d3770f709e51b4e0560b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31cdcd90d9f9ce01a78461aa2b6b737f"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "size_x": 1392,
+   "size_y": 1040,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8a10aec51a67c4a2b89a08a05f6146fe"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "14a32178671364c820fb2ddb62512a95"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "size_x": 1392,
+   "size_y": 1040,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b738db58e0f2474f698d33c2682010b0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "39154f503db8cfe2fe1ff4acc5da318d"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,80 @@
+{
+ "id": "figshare33412420-oir-50-fold-bovine-milk-supernatant-0018",
+ "file": "50-fold Bovine milk supernatant_0018.oir",
+ "size": 10964358,
+ "sha256": "9e127e09623a42d2f5d42562099e435e1784ec64979069ed39c6ffa8c7dd717f",
+ "max_planes_hashed": 64,
+ "reader": "oirfile 2026.9.6",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 600,
+   "size_y": 421,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.124296113880447,
+    "y": 0.124296113880447,
+    "z": null
+   },
+   "time_increment_s": null,
+   "lambda_nm": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "09b4ebb913911b996ea6f23e937fee66"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8f6fc35a224cc463dec797ce2371f28f"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "kind": "reference",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.124296113880447,
+    "y": 0.124296113880447
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e13fc658676b719c4d9585dfe80e6251"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ce4729903d2e3cf0f1ee6c503d12e479"
+    }
+   ]
+  }
+ ],
+ "reader_sizes": {
+  "C": 2,
+  "Y": 421,
+  "X": 600
+ },
+ "datetime": "2026-07-21T12:43:32.419+10:00",
+ "companion_files": [],
+ "channel_names": [
+  "CH1",
+  "CH1",
+  "CH2"
+ ]
+}

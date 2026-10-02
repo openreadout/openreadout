@@ -1,0 +1,6 @@
+{
+ "id": "gdal-webp-rgbsmall-tiled",
+ "file": "gdal-rgbsmall_WEBP_tiled.tif",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": []
+}

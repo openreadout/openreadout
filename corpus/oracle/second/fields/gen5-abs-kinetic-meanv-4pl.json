@@ -1,0 +1,22 @@
+{
+ "id": "gen5-abs-kinetic-meanv-4pl",
+ "file": "gen5-abs-kinetic-meanv-4pl.txt",
+ "format": "plate",
+ "family": "plate-reader",
+ "readers": [
+  "allotropy 0.1.146 (MIT) ASM `measurement time`"
+ ],
+ "checks": [
+  {
+   "field": "ASM measurement time (wall clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2006-02-09T06:14:21+00:00",
+   "cmp": "wallclock",
+   "abs": 1.0
+  }
+ ]
+}

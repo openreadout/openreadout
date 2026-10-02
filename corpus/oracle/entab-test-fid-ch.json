@@ -1,0 +1,44 @@
+{
+ "id": "entab-test-fid-ch",
+ "file": "entab-test_fid.ch",
+ "size": 6434,
+ "sha256": "737148d3f8beb8f41824f6477f75e18ba391967a445175fd27d41cd2d285eb0f",
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) / Aston (BSD-3) for version 81",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "entab-test_fid"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": null,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2699,
+     "channels": [
+      {
+       "xxh3": "15a880eedb6455dbabe06dae16fb75db",
+       "first": [
+        17.50078216273687,
+        17.50052174605662,
+        17.505339454641216,
+        17.499740496015875,
+        17.50234466281836,
+        17.504688412940595,
+        17.508464454804198,
+        17.509245704844943
+       ]
+      }
+     ]
+    }
+   ],
+   "oracle_note": "Aston AgilentFID.total_trace with the escape multiplier 65536 (Aston: 65534); Aston's time axis is a fixed 0.2 s step, so rate and x range are not compared"
+  }
+ ]
+}

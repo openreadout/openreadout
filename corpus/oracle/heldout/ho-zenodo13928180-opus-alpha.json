@@ -1,0 +1,151 @@
+{
+ "id": "ho-zenodo13928180-opus-alpha",
+ "file": "Cu(trop3)Cl.0",
+ "size": 46936,
+ "sha256": "05b7b6178417c2a8dadec5e9cf4583a3dc2d084621aeb3d667841060783360ad",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "arit",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1765,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1765,
+     "channels": [
+      {
+       "xxh3": "b0ab7e98b4c48206871b8eb97106c1be",
+       "first": [
+        0.7046049237251282,
+        0.7055833339691162,
+        0.7068707942962646,
+        0.7063503265380859,
+        0.705298662185669,
+        0.7059037685394287,
+        0.7070877552032471,
+        0.7073190212249756
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3997.3791300187495,
+   "x_last": 399.737913001875,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11602.370264,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha",
+     "instrument_serial": "1 03452",
+     "sample_name": "Cu(trop3)Cl",
+     "operator": "Administrator",
+     "accessory": "ATR platinum Diamond 1 Refl #DA836452D",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1765,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1765,
+     "channels": [
+      {
+       "xxh3": "7f36b89e576a967165da6f0ad1ebf568",
+       "first": [
+        0.024258937686681747,
+        0.02429792657494545,
+        0.024337932467460632,
+        0.02437453530728817,
+        0.02441166713833809,
+        0.024453148245811462,
+        0.024492617696523666,
+        0.024525079876184464
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3997.3791300187495,
+   "x_last": 399.737913001875,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11602.370264,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha",
+     "instrument_serial": "1 03452",
+     "sample_name": "Cu(trop3)Cl",
+     "operator": "Administrator",
+     "accessory": "ATR platinum Diamond 1 Refl #DA836452D",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1771,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1771,
+     "channels": [
+      {
+       "xxh3": "88d006a3d2c70da5727fe984b4ab3736",
+       "first": [
+        0.026296282187104225,
+        0.026338346302509308,
+        0.026384446769952774,
+        0.026433749124407768,
+        0.026479531079530716,
+        0.026514064520597458,
+        0.02654678001999855,
+        0.026592792943120003
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4005.5370466106233,
+   "x_last": 395.6589547059357,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11602.370264,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha",
+     "instrument_serial": "1 03452",
+     "sample_name": "Cu(trop3)Cl",
+     "operator": "Administrator",
+     "accessory": "ATR platinum Diamond 1 Refl #DA836452D",
+     "scans": 32
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "id": "ho-zenodo4321274-ser-tem",
+ "file": "MG016_1__0001_1.ser",
+ "size": 10709570,
+ "sha256": "513cc7e9c432e7d69b9dfb1a842233df5c92ad8545c3981f43b961deaebfbb30",
+ "max_planes_hashed": 64,
+ "reader": "ncempy.io.ser (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2004,
+   "size_y": 1336,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.00015563664032373618,
+    "y": 0.00015563664032373618,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b56dcdaa588c7071b164d80b098524a6"
+    }
+   ]
+  }
+ ],
+ "series_version": 544,
+ "emi": {
+  "AcceleratingVoltage": 200000,
+  "Microscope []": "Microscope TecnaiOsiris 200 kV D613 AnalyticalTwin",
+  "Magnification [x]": 88000
+ }
+}

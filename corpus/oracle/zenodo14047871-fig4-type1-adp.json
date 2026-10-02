@@ -1,0 +1,67 @@
+{
+ "id": "zenodo14047871-fig4-type1-adp",
+ "file": "zenodo14047871-fig4-type1-adp.abf",
+ "size": 142336,
+ "sha256": "8bd75a96b4dba3ecc12ef22bf8d78bfeba2e443ac5144d525b47037ec24a6b4c",
+ "max_planes_hashed": 64,
+ "reader": "pyabf 2.3.8",
+ "traces": [
+  {
+   "index": 0,
+   "abf_version": "2.9.0.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "IN 0"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 50000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sample_count": 30987,
+   "data_format": "float32",
+   "gain": [
+    0.03051757667549289
+   ],
+   "offset": [
+    -1.5
+   ],
+   "protocol": "gapfree",
+   "created": "2020-05-19T10:00:46.598",
+   "tag_comments": [],
+   "f32_max_abs_diff": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 30987,
+     "channels": [
+      {
+       "xxh3": "620fb340f43683d2c554a71aa363d371",
+       "first": [
+        -467.1982116699219,
+        -460.0265808105469,
+        -468.3883972167969,
+        -465.5807800292969,
+        -475.1327819824219,
+        -470.1584167480469,
+        -462.5290222167969,
+        -463.2919616699219
+       ],
+       "first_f32_pyabf": [
+        -467.1982116699219,
+        -460.0265808105469,
+        -468.3883972167969,
+        -465.5807800292969,
+        -475.1327819824219,
+        -470.1584167480469,
+        -462.5290222167969,
+        -463.2919616699219
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

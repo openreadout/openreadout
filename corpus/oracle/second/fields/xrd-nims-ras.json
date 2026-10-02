@@ -1,0 +1,21 @@
+{
+ "id": "xrd-nims-ras",
+ "file": "xrd-nims-ras.ras",
+ "format": "rigaku-ras",
+ "family": "bench",
+ "readers": [
+  "the .ras text header (`*KEY \"value\"` lines)"
+ ],
+ "checks": [
+  {
+   "field": "MEAS_SCAN_START_TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2017-11-21T08:32:31",
+   "cmp": "time_or_utc"
+  }
+ ]
+}

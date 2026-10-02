@@ -1,0 +1,879 @@
+{
+ "id": "echem-yadg-zir",
+ "format": "biologic-mpr",
+ "independent": true,
+ "traces": [
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "freq/Hz",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     10019.531
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Re(Z)/Ohm",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     104070.59
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "-Im(Z)/Ohm",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     93853.563
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|Z|/Ohm",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     140139.86
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Phase(Z)/deg",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     -42.04496
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "time/s",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     43202.98865059699
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "<Ewe>/V",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     2.2599726
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "<I>/mA",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     -1.6291319e-08
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "I Range",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     14.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|Ewe|/V",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.020285232
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|I|/A",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     1.447499e-07
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Re(Y)/Ohm-1",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     5.2991313e-06
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Im(Y)/Ohm-1",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     4.778894e-06
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|Y|/Ohm-1",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     7.1357285e-06
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Phase(Y)/deg",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     42.04496
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Re(C)/nF",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.075910196
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Im(C)/nF",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.084173888
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|C|/nF",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.11334726
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Phase(C)/deg",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     -47.95504
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Re(M)",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Im(M)",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|M|",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Phase(M)/deg",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     47.95504
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Re(Permittivity)",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Im(Permittivity)",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|Permittivity|",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Phase(Permittivity)/deg",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     -47.95504
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Re(Resistivity)/Ohm.cm",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Im(Resistivity)/Ohm.cm",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|Resistivity|/Ohm.cm",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Phase(Resistivity)/deg",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     -42.04496
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Re(Conductivity)/mS/cm",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Im(Conductivity)/mS/cm",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|Conductivity|/mS/cm",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Phase(Conductivity)/deg",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     42.04496
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Tan(Delta)",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     1.1088614
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Loss Angle(Delta)/deg",
+   "optional": true,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     42.04496
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "EC-Lab export echem-yadg-zir.mpt"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "freq/Hz",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     10019.53125
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Re(Z)/Ohm",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     104070.59375
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "-Im(Z)/Ohm",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     93853.5625
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|Z|/Ohm",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     140139.859375
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Phase(Z)/deg",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     -42.044960021972656
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "time/s",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     43202.98865059699
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "<Ewe>/V",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     2.25997257232666
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "<I>/mA",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     -1.629131851643706e-08
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "I Range",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     14.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|Ewe|/V",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.02028523199260235
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|I|/A",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     1.4474990450707992e-07
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  }
+ ],
+ "facts": [
+  {
+   "path": "acquisition.started_at",
+   "value": "2018-03-26T12:10:53",
+   "prefix": true,
+   "source": "galvani"
+  }
+ ]
+}

@@ -1,0 +1,198 @@
+# Real-time PCR (qPCR)
+
+OpenReadout reads RDML files, which most qPCR software can export, and the native files of several instruments: Applied Biosystems `.eds`, Rotor-Gene `.rex` and LightCycler 480 `.ixo`. It returns the plate setup, the cycling program, the amplification and melt curves, and the vendor's results where the file stores them. `analyze qpcr` computes its own Cq values from the curves (see "Analysis" below). Bio-Rad `.pcrd` files are encrypted and refused. The table below lists each format.
+
+Derived from public files, the RDML schema and change logs (MIT) and the RDML R package (MIT) read as prior art. rdmlpython (MIT) is the reference reader and validator for RDML, and qslib (EUPL-1.2) is run as a black box. Provenance: `docs/provenance/qpcr.md`. Crate: `openreadout-qpcr`.
+
+| format id | files | reads | confidence |
+| --- | --- | --- | --- |
+| `rdml` | `.rdml`, `.rdm` (zip), bare RDML `.xml` | everything but digital-PCR partitions; written by `export --to rdml` | high |
+| `applied-biosystems-eds` | `.eds` (QuantStudio 1-7 Pro, 12K Flex, ViiA 7, StepOne(Plus), 7500) | setup, program, per-dye multicomponent signal, Rn/ΔRn, melt, vendor results | medium |
+| `bio-rad-pcrd` | `.pcrd` (CFX Maestro / CFX Manager) | detected and refused, exit 6: the container is encrypted with a key only the vendor software has; export RDML from CFX Maestro | — |
+| `rotor-gene-rex` | `.rex` (Rotor-Gene Q Series Software) | samples, raw cycling and melt readings, profile; no results are stored | low |
+| `roche-lightcycler-ixo` | `.ixo` (LightCycler 480 software 1.5) | run, protocol, channels, samples, raw fluorescence per cycle and melt readings, the vendor's absolute-quantification Cp and calls | medium |
+
+LightCycler 96 experiment files (`.lc96p`) are RDML zips with the LightCycler 96 software's own analysis next to the RDML document; they are read as `rdml` with that analysis attached (see "LightCycler 96 `.lc96p`" below). LightCycler 480 `.lc` files (older software) have no public sample and are not read.
+
+## The model
+
+Every dialect is parsed into one model. A **file** holds shared definitions — samples, targets (genes/assays/detectors), dyes, thermal programs, experimenters — and one or more **runs** (plates; RDML files often hold one run per target or per plate). A run holds **reactions** (wells, by zero-based row-major position); a reaction holds one **assay** per target measured in it: the vendor's result, the amplification curve and the melt curve of that target's reporter dye. `.eds` reactions also keep every dye's **multicomponent signal** (including the passive reference, ROX).
+
+Names are ours; each dialect maps into them below. Tasks (the role of a well for a target) use one vocabulary: `unknown`, `standard`, `ntc`, `nac`, `ntp`, `nrt`, `positive`, `negative`, `optical calibrator`, `blocked ipc`, `none`.
+
+### Table 0 `results` (one row per well × target)
+
+| column | dtype | meaning |
+| --- | --- | --- |
+| `well` | uint32 | well name as a code into the column's `extra.categories` (`A1`, `P24`; rotor tubes `1`…`72`); CSV/Parquet exports write the name |
+| `row`, `col` | uint16 | plate row and column, 1-based |
+| `cq` | float64 | quantification cycle (Cq, Ct, Crt) as the vendor software or the RDML file reports it; NaN = no Cq (`extra.undetermined` counts the wells where the file says "undetermined") |
+| `target`, `sample`, `dye`, `task` | uint32 | codes into `extra.categories` |
+| `quantity` | float64 | given quantity (standards) |
+| `cq_mean`, `cq_sd` | float64 | replicate-group mean and SD (vendor) |
+| `tm`, `tm2` | float64 | melting temperature of the first and a second melt peak, °C (vendor) |
+| `threshold` | float64 | threshold the Cq was called at: per well (`.eds` JSON layout `ctThreshold`, RDML `quantFluor`) or the analysis setting (`.eds` SDS layout `Threshold`; with `AutoCt` it is not the threshold used) |
+| `baseline_start`, `baseline_end` | float64 | baseline window in cycles |
+| `amp_status` | uint32 | amplification status (vendor), code into `extra.categories` |
+| `calculated_quantity` | float64 | quantity the vendor computed from its standard curve |
+| `efficiency` | float64 | amplification efficiency of the reaction as a fold per cycle (RDML `ampEff`) |
+| `excluded` | uint8 | 1 when the well is omitted or the result excluded |
+| `cq_confidence` | float64 | Cq confidence (vendor) |
+| `run` | uint32 | run (plate), code into `extra.categories` |
+| `cq_status` | uint8 | `determined` (a Cq), `undetermined` (no amplification: `cq` is NaN), `no result` (not analysed); code into `extra.categories` (`CQ_STATUSES`) |
+
+`cq` is the first column that is not a position, so `preview` draws a Cq heat map of table 0 by default (`preview --table 0 --column tm` for Tm).
+
+Table 0 `extra`: `dialect` (`rdml`, `eds-sds`, `eds-7500`, `eds-json`, `rex`, `ixo`), `instrument {manufacturer, model, serial_number, software, software_version, firmware_version}`, `experiment_name`, `description`, `experiment_type`, `chemistry`, `operator`, `run_state`, `created_at`, `acquired_at`, `ended_at` (ISO-8601; `.eds` times are Unix milliseconds, UTC), `passive_reference`, `reference_targets` (endogenous controls), `calibrator_sample`, `experimenters [{id, first_name, last_name, email, lab}]`, `targets [{name, kind (reference / of interest), dye, quencher, efficiency, efficiency_se, efficiency_method, melting_temperature_c, description, sequences}]`, `samples [{name, kind, quantity, quantity_unit, per_target [{target, kind, quantity}], annotations}]`, `dyes`, `programs [{name, description, lid_temperature_c, sample_volume_ul, run_mode, cycles, acquisition_temperature_c, stages [{kind, repeats, steps [{kind, temperature_c, high_temperature_c, low_temperature_c, hold_s, ramp_c_per_s, measure, goto, repeat}]}]}]`, `runs [{name, experiment, description, instrument, software, started_at, cq_method, background_method, rows, columns, wells_used, program}]`, `plate_rows`, `plate_columns`, `rows_by_task`, `rows_with_cq`, `undetermined`, `vendor_standard_curves [{target, dye, slope, intercept, r2, efficiency_percent}]`.
+
+`acquisition_temperature_c` is the temperature of the step that reads fluorescence during cycling — the annealing/extension temperature of a two-step PCR, the extension read of a three-step one. `cycles` is the repeat count of the cycling stage (RDML: the loop's `repeat` + 1).
+
+### Table 1 `amplification` and table 2 `melt` (long form)
+
+`amplification`: `well, row, col, target, dye, cycle, fluorescence, corrected, run` — one row per well × target × cycle. `fluorescence` is what the file stores: `Rn` (reporter / passive reference) where the vendor analysis stored it, the reporter's multicomponent signal for unanalysed `.eds` files, RDML `adp/fluor`, Rotor-Gene raw readings. `corrected` is the vendor's baseline-corrected ΔRn (NaN when not stored). `melt`: `well, row, col, target, dye, temperature, fluorescence, run`. A table that would be empty is left out (the melt table is then table 1 or absent).
+
+### Traces
+
+Per run and dye, one trace per kind, one channel per well × target (channel name `A1 GAPDH`, channel `extra {well, sample, target}`): `amplification <dye>`, `amplification <dye> baseline-corrected` (vendor ΔRn), `melt <dye>`, `melt <dye> -dF/dT`, `multicomponent <dye>` (every dye, `.eds`). Trace `extra`: `kind`, `dye`, `run`, `quantity` (`Rn`, `fluorescence`, `multicomponent`, `ΔRn`), `plot: overlay` (previews draw all channels in one panel), `axis` (`cycle` from 1 in steps of 1; melt traces: `temperature` with the mean first and last temperatures — each well has its own temperatures, which table `melt` keeps), and for derivative traces `derivative: vendor | computed | mixed` (per channel in channel `extra.derivative`). `sample_rate_hz` is 0: the abscissa is not time. With several runs the trace names start with `<run>: `.
+
+The −dF/dT trace is the vendor's derivative where the file stores it (`.eds` `meltcuve_result.txt` "Delta Rn values" on its own uniform temperature grid); otherwise we compute it by central differences on the melt fluorescence (`Source::Inferred`).
+
+## RDML
+
+A zip holding `rdml_data.xml` (any `.xml` member with an `<rdml>` root is accepted: Bio-Rad writes `BioRad_qPCR_melt.xml`; LightCycler 96 adds `calculated_data.xml`, `app_data.xml`, `module_data.xml`, `instrument_data.xml`), or bare XML. Bio-Rad zips start with a `PK\x07\x08` split-archive marker before the first local header. Versions 1.0-1.4 are read; elements are matched by local name (namespace-agnostic).
+
+| RDML | ours |
+| --- | --- |
+| `rdml@version`, `dateMade` | `format_version`, `created_at` |
+| `experimenter` (`firstName`, `lastName`, `email`, `labName`) | `experimenters` |
+| `dye@id`, `dyeChemistry` | `dyes` |
+| `sample@id`, `type` (with or without `targetId`), `quantity/value`, `quantity/unit`, `annotation/property+value`, `description` | `samples`: `kind` via the task vocabulary (`unkn` → `unknown`, `std` → `standard`, `pos` → `positive`, `opt` → `optical calibrator`); an absent type is `unknown` (the standard's default) |
+| `target@id`, `type` (`ref`/`toi`), `amplificationEfficiency`, `amplificationEfficiencySE`, `amplificationEfficiencyMethod`, `meltingTemperature`, `dyeId@id` (text in RDML 1.0), `sequences/*/sequence` | `targets` (`kind` `reference` / `of interest`; an efficiency above 10 is read as a percentage, StepOne writes `93.9`) |
+| `thermalCyclingConditions`: `lidTemperature`, `step/nr` with `temperature` (`temperature`, `duration`, `ramp`, `measure`), `gradient` (`highTemperature`, `lowTemperature`, `duration`, `measure`), `loop` (`goto`, `repeat`), `pause`, `lidOpen` | `programs`: one stage of kind `program` whose steps keep the RDML order; `measure` `real time` / `meltcurve` → `real time` / `melt` |
+| `experiment@id` → `run@id`, `description`, `instrument`, `dataCollectionSoftware` (`name`, `version`), `backgroundDeterminationMethod`, `cqDetectionMethod`, `thermalCyclingConditions@id`, `runDate`, `pcrFormat` (`rows`, `columns`, `rowLabel`, `columnLabel`; RDML 1.0: `96-well plate; A1-H12`, `free format`, …) | `runs` |
+| `react@id` (1-based row-major position; RDML 1.0 labels `A1`) → `sample@id`, `data`: `tar@id`, `cq` (−1 = not available), `N0`, `ampEff`, `ampEffSE`, `meltTemp`, `excl`, `note`, `adp` (`cyc`, `fluor`), `mdp` (`tmp`, `fluor`), `bgFluor`, `bgFluorSlp`, `quantFluor` | reactions and assays: `cq`, `efficiency`, `tm`, `excluded`, amplification and melt curves; `quantFluor` → `threshold`, `bgFluor`/`bgFluorSlp` → the background line our Cq uses; RDML 1.0 `data/quantity` → `calculated_quantity` |
+
+Digital-PCR `partitions` are counted in a note, not read. `vendor` (`info --view full`) holds the whole RDML tree with the data points counted (`adp_count`, `mdp_count`), not copied.
+
+**GUID sample ids.** When a sample's `id` is a GUID (`8-4-4-4-12` hexadecimal digits, as the LightCycler 96 writes them) and its `description` is not empty, the description is the sample name (`sample` in table 0 and `analyze qpcr`), provided every sample name stays unique; the GUID is kept as `samples[].id`. Otherwise nothing is renamed (a note says so).
+
+### LightCycler 96 `.lc96p` (2026-09-26)
+
+A zip with `rdml_data.xml` (RDML 1.1, read as above) and Roche members: `app_data.xml` (`rocheLC96AppExtension@softwareVersion`; per `experiment/run/react@id` one `factGraph` per target: `@id`, `@targetId`, `@isExcluded`), `calculated_data.xml` (`rocheLC96CalculatedData`: per `react/factGraph` the software's `call`; in the analysis instance `relQuantDataSource` (`graphId`, `cq`, `epf`) and `relQuantStatisticalRow` (`graphIds/guid`, `cqMean`, `cqError`), or for an absolute-quantification analysis `absQuantDataSource` (`graphId`, `call`, `editedCall`, `cq`, `epf`, `slope`, `standard`, `failureType`, `concentration`) and `absQuantStatisticalRow` (the same Cq mean and error, and concentrations)), `module_data.xml` (display settings), `instrument_data.xml`, `manifest.xml`. What we attach to the RDML reactions:
+
+| member | ours |
+| --- | --- |
+| `factGraph/call` `Positive` / `Negative` / other | `amp_status` `amplified` / `not amplified` / the text lower-cased |
+| a call other than `Positive` | the RDML `cq` of that reaction is **not a Cq**: the software shows none. The corpus holds 100, 1.56 and 72.55 of 50 cycles under such calls, but also plausible numbers (`rdml-lc96-bactxy`: 203 of 258 Negative calls between 1 and 50 cycles, e.g. A1 FAM 33.56); the software's own absolute-quantification analysis in that file lists no Cq for 8 of 8 Negative graphs it includes (stored 29.57, 37.88, 40.33, 40.9, 42.08 and 100) and the stored Cq for 56 of 56 Positive ones, and the Negative curves rise a median 20 % over their baseline against 104 % for Positive ones. So `cq` is null, the number kept as `cq_stored`; `Negative` → `undetermined` with flag `lc96_negative_call`, other calls → `no result` with flag `lc96_call_not_positive`. A Cq that an analysis does list for such a graph is kept (no corpus case). rdmlpython reads the stored numbers as Cqs; the corpus test counts these per file (`LC96_WITHHELD`) |
+| `isExcluded="true"` | `excluded` |
+| `relQuantStatisticalRow` / `absQuantStatisticalRow` `cqMean`, `cqError` | `cq_mean`, `cq_sd` of every reaction of the group (only when the group's reactions share one sample and one target); `cqError` is the sample standard deviation (absolute quantification: 36 of 36 groups of `rdml-lc96-bactxy` equal the mean and SD of their members' Cqs) |
+| `softwareVersion` | instrument `software_version`; manufacturer Roche, model LightCycler 96 |
+
+`vendor.lightcycler96` counts graphs, calls and replicate groups. A member that does not parse leaves the RDML data as it is, with a note. Checked against the depositors' table of the LightCycler 96 software's results for three files: every exported Cq, Cq mean and Cq error (108 wells, 36 groups), and no other reaction with a Cq.
+
+### Writing RDML (`export --to rdml`)
+
+RDML 1.3 (REC), `rdml_data.xml` deflated in a zip. Every sample, target and dye is defined; a target without a dye refers to a dye `unknown`. Sample ids are the sample names; wells without one get `NTC`, `standard <quantity>` or `unnamed`, and a name used with conflicting types or quantities is split into `name (2)`, … . Tasks become RDML sample types (`type targetId=…` when they differ by target), quantities RDML quantities (unit `other` unless the source is RDML). Programs are flattened into RDML steps (a cycling stage ends in a `loop` back to its first step, `repeat` = repeats − 1; melt reads become `gradient` steps with `measure` `meltcurve`; RDML needs a positive `duration`, so a missing hold is written as 1 s and noted). Runs keep their plate format; reactions their position (`react@id` = row × columns + column + 1). Data: `tar`, `cq` (`-1` for "undetermined"), `N0`, `ampEff`, `ampEffSE`, `meltTemp` (first Tm), `excl`, `note`, `adp`, `mdp`, `bgFluor`; points with a repeated cycle or temperature are dropped (RDML requires them unique) and counted in the report notes. The file is written next to the output, read back with our RDML reader and compared (runs, reactions, data elements, every Cq bit for bit, point counts) before it is renamed into place; `oracle/qpcr.py --validate-rdml` validates it against the RDML schema with rdmlpython.
+
+## Applied Biosystems `.eds`
+
+A zip in one of three layouts (`dialect` in table 0 `extra`):
+
+- **`eds-sds`** — `apldbio/sds/` XML (QuantStudio 3/5/6/7/12K Flex, ViiA 7; "Experiment Document Specification" 1.x in `Manifest.mf`).
+- **`eds-7500`** — the same with `multicomponent_data.txt` instead of `multicomponentdata.xml` (7500 / 7500 Fast / StepOne Software v2.x).
+- **`eds-json`** — `setup/`, `run/`, `primary/`, `extensions/` JSON (Design & Analysis 2, QuantStudio 1/3/5/6 Pro/7 Pro; specification 2.0.0). Files set up in Design & Analysis 2 and run on older firmware keep JSON setup and `apldbio/sds/` run data side by side; both are read, JSON first.
+
+| member | what we read |
+| --- | --- |
+| `Manifest.mf`, `apldbio/sds/Manifest.mf` | `Specification-Version` → `format_version`; `Implementation-Title/Version` → software; `Content-Type` (experiment type id) |
+| `apldbio/sds/experiment.xml` | `Name`, `Description`, `Operator`, `RunState`, `CreatedTime`/`RunStartTime`/`RunEndTime` (Unix ms), `Type/Name` → `experiment_type`, `ChemistryType` → `chemistry`, `InstrumentTypeId` → instrument `model` (the vendor's internal id: `appletini`, `paragon`, `sds7500`, `steponeplus`, …), `ExperimentProperty type="RunInfo"` (`softwareVersion`, `instrumentSerialNumber`, `userId`), `Samples/Sample/Name`, `Detectors/Detector` (`Name`, `Reporter`, `Quencher`) → targets. The plot-appearance properties are dropped from the vendor tree. |
+| `summary.json`, `run/run_summary.json` | `name`, `instrumentType` (`QS7PRO` → `QuantStudio 7 Pro`), `runStatus`, `createdTime`; `instrumentSerialNumber`, `firmwareVersion`, `operator`, `startTime`, `endTime` |
+| `apldbio/sds/plate_setup.xml` | `Rows`, `Columns` (or `PlateKind/Type` `TYPE_16X24`), `PassiveReferenceDye` (`NULL` = none), feature map `sample` (`Index` → `Sample/Name`), feature map `detector-task` (`Index` → `DetectorTask`: `Task`, `Concentration` → `quantity`, `Detector/Name`, `Reporter`, `Quencher`), `Wells/Well/IsOmit` → `excluded` |
+| `setup/plate_setup.json` | `blockType` (`BLOCK_384W` → 16 × 24), `passiveReference`, `samples` (`name`, `type`, `quantity`, `biogroup` → annotation), `targets` (`name`, `reporter`, `quencher`), `wells` (`index`, `sampleName`, `targetAssignments` `targetName`, `task`, `quantity`) |
+| `apldbio/sds/tcprotocol.xml` | `SampleVolume`, `CoverTemperature`, `RunMode`, `TCStage` (`StageFlag` `PRE_CYCLING`/`CYCLING`/`DISSOCIATION`/… → `hold`/`cycling`/`melt`/…, `NumOfRepetitions`, `TCStep`: first `Temperature` of the block zones, `HoldTime` s, `RampRate`, `CollectionFlag` 1 = read at the step, 2 = read during the ramp) |
+| `setup/run_method.json` | `sampleVolume`, `coverTemperature`, `runMode`, `stages` (`repeat`, `steps` `ramp{temperature, rate}`, `hold{duration, collectionProfile{processing}}`) |
+| `apldbio/sds/analysis_protocol.xml` | name/typed-value settings: `IDetectorSettings` (`ObjectName` = target, or the defaults) `Threshold`, `AutoCt`, `BaselineStart`, `BaselineStop`, `AutoBaseline`; `IWellSettings` (`WellIndex`) override them unless `UseDetectorDefaults`; `IDDCtAnalysisSettings` `EndogenousControl` → `reference_targets`, `Calibrator` → `calibrator_sample`; `IDataSelectSettings` `StageNum` / `MeltStageNum` choose the amplification and melt collection points |
+| `primary/analysis_setting.json`, `extensions/am.rq/relative_quantification_setting.json` | `defaultCtSetting` (`autoThreshold`, `autoBaseline`, …); reference targets and sample |
+| `apldbio/sds/multicomponentdata.xml` | `WellCount`, `CycleCount`, `CollectionPoints` `[Stg:s Cyc:c Stp:p Pt:n]`, `SampleTemperatures` (well-major), `DyeData@WellIndex/DyeList` `[FAM, ROX, VIC]`, `SignalData@WellIndex/CycleData` (one list per dye, in `DyeList` order) → multicomponent signals of the amplification stage (the stage with the most distinct cycles unless `StageNum` says otherwise); melt-stage points give the melt curve when no melt result is stored |
+| `apldbio/sds/multicomponent_data.txt` | records `WELL CYCLE DYE MSE SIGNAL` (zero-based well and point) with pure-dye coefficients on continuation lines; the first `cycles` points are the amplification reads |
+| `primary/multicomponent_data.json` | `collectionPoints` (`stage`, `cycle`, `step`, `point`), `wellData` (`wellIndex`, `dyeData` `dyeName` + `fluorescences`, `temperatures`) |
+| `apldbio/sds/analysis_result.txt` | tab-separated; header `Well, Sample Name, Detector, Task, Ct, Avg Ct, Ct SD, Delta Ct, Qty, Avg Qty, Qty SD, Amp Status, Cq Conf` (columns found by name); after each result line: `Rn values`, `Delta Rn values` (one value per cycle → curve and ΔRn), `DDCT Values` (well, –, sample, target, task, Ct, –, ΔCt, ΔCt SD, ΔCt SE, –, RQ, RQ min, RQ max, outlier, ΔΔCt → `vendor_delta_cq`, `vendor_rq`). `Ct` `Undetermined` → no Cq, `undetermined`. **A `Ct` ≥ the cycling stage's repeat count is the vendor's "Undetermined"**: QuantStudio 3/5/6/7/12K Flex and ViiA 7 software write it as `40.0` for 40 cycles, and their Results exports show "Undetermined" for exactly those wells (five exports, `docs/provenance/qpcr.md` 2026-09-24). It becomes `cq` null, `cq_status` `undetermined`, `cq_stored` the number and flag `ct_at_cycle_count`. Without a program the number is kept. `Amp Status` 1/0/−1 → `amplified`/`inconclusive`/`not amplified` (paired with the export's Amp / Inconclusive / No Amp). A genotyping header (`Call`, `Marker Name`, `RnX`, `RnY`, `Ref`, `Confidence`, `Method`) gives the table `genotypes` (below; the rows stay in the vendor tree as `genotype_calls` too). |
+| `apldbio/sds/meltcuve_result.txt` (the vendor's spelling) | `Tm` (comma-separated peaks), `Sample Temperatures` + `Rn values` → melt curve, `Delta Rn Sample Temperatures` + `Delta Rn values` → the vendor's −dF/dT |
+| `primary/analysis_result.json` | `wellResults` (`wellIndex`, `sampleName`, `reactionResults` `targetName`, `task`, `quantity`, `amplificationResult` `{rn, deltaRn, cq (−1 = none), cqConf, ctThreshold, ctBaselineStart, ctBaselineEnd, ampStatus, flags}`, `meltResult`, `omitted`), `replicateGroupResults` (`cqMean`, `cqSD`). The files contain bare `NaN` tokens (not JSON); they are read as null. |
+| `extensions/am.sc/standard_curve_result.json` | `standardCurves` (`targetName`, `dye`, `slope`, `yIntercept`, `r2`, `efficiency` %) → `vendor_standard_curves`; `reactions` (`wellIndex`, `targetName`, `quantity`) → `calculated_quantity` |
+
+Files that keep only raw optical images (`apldbio/sds/images/*.tiff`, `quant/*.quant`) have no curves; a run that was set up but never run has setup only. Both are said in `info` notes.
+
+**Genotyping (table `genotypes`).** A genotyping run's `analysis_result.txt` rows become the last table, `genotypes`: `well`, `row`, `col`, `sample`, `marker`, `task` (codes into `extra.categories`), `call`, `genotype`, `call_code`, `rn_x` (allele-1 reporter signal), `rn_y` (allele-2), `reference`, `confidence`, `method` (`Auto`/`Manual`); `extra.markers` gives each marker's allele names from `plate_setup.xml` (`Marker/Allele1/Name`, `Allele2/Name`), `extra.source` `vendor`. Call codes: 1 → `allele 1/allele 1`, 2 → `allele 1/allele 2`, 3 → `allele 2/allele 2`, 0 → `negative control`, −1 → `undetermined`, others `code <n>`; `genotype` writes the three genotype codes in allele names (`A/A`, `A/T`, `T/T`). The mapping is inferred from the signal clusters and checked against 1000 Genomes genotypes of four reference samples at two markers (`docs/provenance/qpcr.md`, 2026-09-26). The calls are the vendor's as stored; we do not re-call.
+
+**Automatic baseline windows (SDS/7500 layouts).** `analysis_protocol.xml` stores one baseline setting (`BaselineStart`/`BaselineStop`); with `AutoBaseline` true the software picks a window per well and does not store it. `baseline_start`/`baseline_end` of such a well are the window (two or more cycles) whose least-squares line through the stored Rn equals the vendor's baseline line `Rn − ΔRn` (intercept and slope within 1e-6 of the Rn scale), when exactly one window does; otherwise they are empty and a note counts the wells. They are never the setting. Checked against StepOne Software Results exports (8 StepOnePlus runs, 574 wells): 572 windows equal the exported `Baseline Start`/`Baseline End`, 2 left empty (a two-point window, a flat undetermined well). With `AutoBaseline` false the setting is the window used.
+
+## Bio-Rad `.pcrd`
+
+Every public `.pcrd` is a zip (after a `PK\x07\x08` marker) whose single member `datafile.pcrd` has general-purpose flag bit 0 (encryption) set. Reading it would need the vendor's key; the clean-room policy (rule 4) keeps us from circumventing it. `info --view format` names the format; every other command exits 6 with a hint to export RDML from CFX Maestro (File > Export > RDML File), which `openreadout` reads. A truncated `.pcrd` is corrupt (exit 4).
+
+## Rotor-Gene `.rex`
+
+XML: `RexHeader` (`REX 3.15` → `format_version`), `Operator`, `RunId`, `StartTime`, `FinishTime`, `Samples/Page/Sample` (`ID`, `Name`, `Type` — 1 standard, 3 NTC, 5 positive, others unknown, per the RDML R package —, `GivenConc`, `TubePosition`), `Samples/Groups/Group` (`Name`, `Tube` → sample `ID`: the target), `RawChannels/RawChannel` (`Name` `Cycling A.Green` / `Melt A.Green`, `StartX`, `StepX`, one `Reading` per tube with space-separated values), `Profile` (`HoldCycle`, `Cycle` `RepeatCount` + `NormalCyclePoint` `Temperature`, `RemainFor`, `AcquireTo`; `MeltCycle` `StartTemp`, `EndTemp`, `HoldFor`), `Record/Field` `Rotor Type` (`72-Well Rotor` → 72 positions). The run is a plate of one column; wells are tube numbers. The channel colour (`Green`) stands in for the dye. No Cq, threshold or Tm is stored.
+
+## Roche LightCycler 480 `.ixo` (2026-09-26)
+
+XML (`<objectstream signature="IXOS" version="1">`, CRLF) of `<obj name class version>`, `<prop name>` and `<list name count>` elements, then one line `$` + four groups of 8 hexadecimal digits (a checksum; kept as `vendor.trailer`, not verified). The file is parsed up to `</objectstream>`.
+
+| object (class) | ours |
+| --- | --- |
+| `root` (`HTCExperiment`): `name`, `Created`, `CreatedByName`, `SWVersion` (`LCS480 1.5.1.62`) | `experiment_name`, `created_at`, `operator` (when the run has no `Technician`), instrument `software_version` (`1.5.1.62`) |
+| `run` (`HTCRun`): `StartTime`, `EndTime`, `InstrumentName`, `InstrumentID`, `Technician` | `acquired_at`, `ended_at`, instrument `model`, `serial_number`, `operator` |
+| `run/Protocol/Programs` (`HTCRunProgramList`): `emlist` of `HTCRunProgram` (`name`, `Cycles`, `AnalysisMode` `Quantification` / `Melting Curves` / `None`; `Segments` of `HTCRunSegment`: `Target` °C, `Hold` s, `Slope` °C/s, `AcquisitionMode` 0 none, 1 single, 2 continuous) | one program `LightCycler 480 protocol` with one stage per LightCycler program (`cycling` / `melt` / `hold`, `repeats` = `Cycles`); a segment with `AcquisitionMode` 1 reads `real time` (the acquisition temperature), 2 is a `gradient` from the previous segment's target with `measure` `melt` |
+| `Programs/Container` (`HTCBlockType`): `RowCount`, `ColCount`; `Programs/SampleVolume`, `PlateID` | plate size; `sample_volume_ul`; `vendor.plate_id` |
+| `Programs/DetectionFormats`: the `HTCDetectionFormat` named by `DefFormatName` (or the only one), its `HTCChannel` items (`name` `465-510`, `ExcitationWL`, `EmissionWL`) | the channels, by index; a channel is the `dye` of its readings. Several formats and none named: refused (exit 6) |
+| `run` `AcquisitionStore`: base64 of a zlib stream holding `HTCAcquisitionStore` (`SampleCount`, `Cycles`: `TCycle` with `Program` (index into the program list), `Cycle` (zero-based), `Acquisitions`: `THTCFloAcquisition` `Time` ms, `Temp` (`$` + 16 hex digits of a big-endian f64, °C), `Channel`, `Valid`, `FloPoints` = base64 of one little-endian f32 per plate position) | amplification curves of the `Quantification` program (cycle = `Cycle` + 1; each cycle must hold exactly one reading per channel, consecutive cycles, else the program is not read, with a note); melt curves of each `Melting Curves` program (temperature = `Temp` of each reading). `Valid` ≠ 1 → NaN readings, noted. Readings of the wrong length, bad base64 or zlib, or a channel outside the detection format: corrupt (exit 4) |
+| `AnlsAndSampleInfo/SampleInfoList` (`SamplePropInfo`: `ContainerPosition`; `SampleProperties` `GenSampleEditName` `name`; per channel (`ChannelIdx`) `TargetName` `name`, `QuantSampleTypeProperty` `SampleType`, `QuantConcProperty` `Concentration`) | `sample`; per channel `target` (a channel without a target name is measured under the channel's own name, e.g. `498-640`), `task` (`qsUnknown` → `unknown`, `qsStandard` → `standard`, `qsNegative` → `negative`, `qsPositive` → `positive`, others as written), `quantity` (standards) |
+| `analyses` (`AnalysisList`): `Legacy Absolute Quantification Analysis` (`name`, `ProgramInfo/SelectedProgram`, `ChannelRatio` `NumeratorXWL`/`NumeratorEWL` (the channel; `DenominatorEWL` 0 = no ratio), `AnaSamples`: `QuantSampleB` `Pos`, `IsIncluded`, `Call`, `CrossingPoint`, `CalcConc`, `ConcStatus`) | for the analysed channel: `Call` 2 → `cq` = `CrossingPoint`, `amp_status` `amplified`; `Call` 0 → `undetermined`, `not amplified`; any other call → no Cq, `cq_stored` = the Cp, flag `lc480_call_<n>` (no such call in the corpus); `IsIncluded` 0 → `excluded`. `CalcConc`/`ConcStatus` stay in the file (not mapped). Other analysis classes, ratio analyses and a second analysis of the same channel are listed in `vendor.analyses` with `read: false` and a note |
+
+Layout: one run (the LightCycler run's `name`, `Run`) of wells in row-major position order (`Pos` k = `FloPoints` index k), each with one assay per channel holding the amplification curve and, when the file has exactly one melting program, its melt curve. With several melting programs (the QC runs have `Melting A` and `Melting B`) each melting program is a run of its own, named after the program, holding only melt curves. `vendor`: `experiment`, `software_version`, `macro`, `instrument_id`, `plate_id`, `detection_format`, `channels` (`name`, `excitation_nm`, `emission_nm`), `programs` (`name`, `analysis_mode`), `analyses` (`class`, `name`, `positions`, `channel`, `program`, `read`), `calculators` (`class`, `version`), `trailer`. The calculators' binary result arrays (`DARZ`, `LARZ`, `FORM`, `BAR1` properties: smoothed melt curves, the temperature log) are not decoded; −dF/dT is computed from the raw melt readings. Fluorescence is the instrument's stored value (no color compensation applied).
+
+Validated on four LightCycler 480 QC runs (two instruments, software 1.5.0.39 and 1.5.1.62) against a Python standard-library reading of the same files (sample names, calls, Cps, count and sum of every program × channel's readings) and against the vendor's own calls: every position called positive rises 1.74–1.97× in the analysed channel, every one called negative stays within 0.92–1.05×.
+
+## Analysis (`openreadout analyze qpcr`)
+
+Our own computations, reported next to the vendor's (never replacing them):
+
+- **Cq** (`--cq`): per curve, subtract a baseline — the file's background line (RDML `bgFluor` + `bgFluorSlp`·cycle), else the file's baseline window when it records the one used (JSON-layout `.eds` per well; SDS/7500 layout only with `AutoBaseline` false), else a least-squares line through cycles 3-15, re-fitted with the window ending three cycles before the resulting Cq (up to three times) so early curves do not leak into their baseline — then find the first cycle where the corrected curve rises through the threshold and stays above it at the next cycle, interpolating linearly. Threshold: `--threshold`, else the file's (JSON-layout `ctThreshold` per well, RDML `quantFluor`, SDS/7500 `Threshold` when `AutoCt` is false), else for SDS/7500 files the vendor's automatic threshold recovered per target as the median of the vendor's ΔRn at the vendor's Cq, else 10 standard deviations of the baseline residuals. With that automatic threshold a crossing counts only when the stored fluorescence rises above its baseline-window level by at least the threshold after it: decaying, photobleaching negative curves otherwise cross it once their baseline line is removed. `cq_comparison` reports how our Cq agrees with the vendor's: curves compared, both/neither/only-one with a Cq, mean and median differences, maximum, fraction within 0.1 and 0.5 cycles, Pearson r.
+- **Undetermined results** (no amplification): `cq` null, `cq_status` `undetermined` (`cq_undetermined` true), whatever the file writes (text, RDML `-1`, JSON `NaN`/`-1`, SDS/7500 `Ct` = cycle count). They are never averaged as a number. `cq_counts` and `targets[]` count them. `targets[].cq_mean`/`cq_sd` and ΔΔCq leave them out (the vendor's replicate means do too), and `relative_quantities[].undetermined` counts them per sample × target. `--undetermined-as CQ` (`undetermined_cq`) counts them at a fixed Cq instead, e.g. the cycle count. Our own Cq follows the same rule: a curve that never crosses the threshold, or crosses it only at or after the last cycle, is `computed_cq_status` `undetermined`.
+- **ΔΔCq** (`--ddcq`, `--reference TARGET`, `--control SAMPLE`; defaults: the file's endogenous control / reference-type targets and calibrator): per sample and target, the mean Cq of the usable wells (a Cq, not omitted or excluded, not NTC/NAC/NTP/NRT, not standards); the reference Cq of a sample is the mean over reference targets of their mean Cq; ΔCq = target − reference; ΔΔCq = ΔCq − ΔCq(control); RQ = 2^−ΔΔCq with RQ min/max at ±1 SD of ΔCq (target and reference SDs in quadrature). When every efficiency involved is known (RDML `amplificationEfficiency` as a fold, 1-2.5), the efficiency-corrected ratio (Pfaffl; the geometric mean over reference targets) is also given. The vendor's own ΔCt and RQ are carried next to ours when the file stores them.
+- **Standard curve** (`--standard-curve`): per target, a least-squares line of Cq against log10(quantity) over the usable standard wells (≥ 2 quantities): `slope`, `intercept`, `r2`, `efficiency_percent` = (10^(−1/slope) − 1) × 100; the vendor's slope, efficiency and r² are carried next to it when the file stores its fit.
+
+## Vocabulary
+
+Public identifiers of `crates/openreadout-qpcr` (checked by `cargo xtask vocab-check`):
+
+| identifier | meaning |
+| --- | --- |
+| `RdmlReader`, `EdsReader`, `PcrdReader`, `RexReader`, `IxoReader` | the five format readers |
+| `RDML_FORMAT_ID`, `EDS_FORMAT_ID`, `PCRD_FORMAT_ID`, `REX_FORMAT_ID`, `IXO_FORMAT_ID` | their format ids (`rdml`, `applied-biosystems-eds`, `bio-rad-pcrd`, `rotor-gene-rex`, `roche-lightcycler-ixo`) |
+| `ixo` (dialect), `lc96_negative_call`, `lc96_call_not_positive`, `lc480_call_<n>` (flags), `samples[].id` | the LightCycler 480 dialect id; flags of results whose stored number is not a Cq; the file's GUID of a sample renamed to its description |
+| `QpcrDataset`, `open`, `format_id`, `path` | an opened qPCR file; open with detection of the dialect; its format id; the path opened |
+| `open_qpcr` | open a qPCR file through a registry (a `.pcrd` gets its exit-6 refusal, other formats a hint) |
+| `RESULT_COLUMNS` | the column names of table 0 |
+| `CQ_STATUSES`, `CQ_DETERMINED`, `CQ_UNDETERMINED`, `CQ_NO_RESULT` | the `cq_status` values (`determined`, `undetermined`, `no result`) and their order as table 0 codes |
+| `export_rdml`, `default_rdml_output`, `RDML_WRITE_VERSION` | RDML writer, its default output name (`name.rdml`, `name.export.rdml` for RDML input), the RDML version written (`1.3`) |
+| `RdmlExportReport` | what the writer reports: `input`, `output`, `format`, `rdml_version`, `runs`, `reactions`, `data_elements`, `cq_values`, `amplification_points`, `melt_points`, `samples`, `targets`, `dyes`, `bytes_written`, `verified`, `notes` |
+| `qpcr_report`, `QpcrReportRequest` | the `analyze qpcr` computation and its request: `well`, `target`, `sample`, `run` (filters), `compute_cq`, `threshold`, `baseline`, `reference_targets`, `control_sample`, `relative`, `standard_curve`, `max_records`, `undetermined_cq` (a Cq to count undetermined results at in means and ΔΔCq) |
+| `QpcrReport` | `path`, `format`, `dialect`, `experiment`, `instrument`, `acquisition_temperature_c`, `cycles`, `reference_targets`, `control_sample`, `record_count`, `truncated`, `records`, `cq_counts`, `targets`, `undetermined_cq`, `cq_comparison`, `relative_quantities`, `standard_curves`, `notes` |
+| `QpcrAssayRecord` | one well × target: `run`, `well`, `row`, `col`, `sample`, `target`, `dye`, `task`, `quantity`, `cq`, `cq_undetermined`, `cq_status`, `cq_stored` (the number an SDS/7500 file stores for an undetermined result), `cq_mean`, `cq_sd`, `tm`, `threshold`, `auto_threshold`, `baseline_start`, `baseline_end`, `amp_status`, `cq_confidence`, `calculated_quantity`, `efficiency`, `excluded`, `flags`, `vendor_delta_cq`, `vendor_rq`, `computed_cq`, `computed_threshold`, `computed_cq_status`, `cycles` |
+| `CqCounts` | `records`, `determined`, `undetermined`, `no_result`, `excluded` |
+| `TargetCqSummary` | per target: `target`, `counts` (a `CqCounts`), `averaged`, `cq_mean`, `cq_sd`, `cq_min`, `cq_max` (over non-excluded records with a Cq, plus undetermined ones at `undetermined_cq`) |
+| `CqComparison` | `method`, `curves`, `both_cq`, `both_undetermined`, `only_vendor`, `only_ours`, `vendor_threshold_used`, `mean_difference`, `mean_abs_difference`, `median_abs_difference`, `max_abs_difference`, `within_0_1`, `within_0_5`, `pearson_r` |
+| `RelativeQuantity` | `sample`, `target`, `replicates`, `undetermined`, `cq_mean`, `cq_sd`, `reference_cq_mean`, `delta_cq`, `delta_cq_sd`, `delta_delta_cq`, `rq`, `rq_min`, `rq_max`, `efficiency_corrected_rq`, `vendor_delta_cq`, `vendor_rq` |
+| `StandardCurveFit` | `target`, `points`, `levels`, `slope`, `intercept`, `r2`, `efficiency_percent`, `vendor_slope`, `vendor_efficiency_percent`, `vendor_r2` |
+
+## Validation
+
+`cargo test -p openreadout-corpus-tests --features corpus --test qpcr` compares every corpus file with `corpus/oracle/qpcr/<id>.json` (`oracle/qpcr.py`): RDML against rdmlpython (every reaction's sample, target, dye, task, Cq, excluded flag, Tm and the count and sum of its amplification and melt points), `.eds` against the vendor's own result files read with the Python standard library (Cq, undetermined calls, Tm list, Rn and ΔRn sums, melt sums, sample, target and task per well, program cycles and read temperature) and, where qslib opens the file, the per-dye multicomponent signal against qslib's; `.rex` against ElementTree sums of the raw readings. The same test exports every readable file to RDML, validates it with rdmlpython's schema check (when the oracle venv is present) and re-reads it. Results and agreement statistics of our analyses are in `docs/provenance/qpcr.md` (2026-09-24 entry).
+
+`tests/qpcr_exports.rs` compares 8 StepOnePlus runs (7500 layout) with the StepOne Software Results export of each (`oracle/qpcr_exports.py`, xlrd): every Ct and "Undetermined" (574 wells, 76 Undetermined), Ct Mean and SD, threshold, baseline window and Tm1–Tm3 (780 values).
+
+Our Cq agrees with the vendor's (median |d| 0.01–0.03 cycles, max 0.13, r ≥ 0.9999) only where the file records the vendor's threshold and baseline, or they can be recovered: JSON-layout `.eds` per well, RDML with `quantFluor`/`bgFluor`, and SDS/7500 `.eds` from Rn − ΔRn and the ΔRn at the vendor's Ct. For files that record neither (Bio-Rad CFX, LightCycler 96, StepOne RDML), our automatic 10 SD threshold is a different method. The comparison there (`cq_comparison.vendor_threshold_used` = 0) shows method differences of one to several cycles, not reader errors.
+
+Measured 2026-09-26 (`tests/qpcr_roche.rs`): LightCycler 480 (vendor "2nd Derivative Max" Cp, 4 runs): 160 of 160 vendor Cqs also ours, ours later by a median 0.83–1.14 cycles (max 1.66), 1 Cq of ours on 224 vendor-negative wells; LightCycler 96 (3 runs): 104 of 108 vendor Cqs also ours, median |d| 2.3–4.2 cycles, ours earlier. Use the vendor `cq` of these files; ours is a cross-check that the curves amplify.

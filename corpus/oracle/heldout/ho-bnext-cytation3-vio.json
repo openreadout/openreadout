@@ -1,0 +1,26 @@
+{
+ "id": "ho-bnext-cytation3-vio",
+ "file": "cytation3_vio.txt",
+ "size": 101356,
+ "sha256": "4f6fb347b9544be055e798b70e9383a44abbcffe4177c71144f7a6dc10fa6e83",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (AGILENT_GEN5)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 60,
+    "values": 5280,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "d6f51cff625bd60509e24659a240fc18"
+   }
+  ],
+  "header": {
+   "model": "Cytation3",
+   "serial_number": "130723A",
+   "software_version": "3.16.10"
+  },
+  "documents": 60
+ }
+}

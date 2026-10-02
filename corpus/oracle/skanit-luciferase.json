@@ -1,0 +1,22 @@
+{
+ "id": "skanit-luciferase",
+ "file": "skanit-luciferase.xlsx",
+ "size": 9679,
+ "sha256": "300949f58d62b3a9f893dbd865be43e473836d048eafd5f5dd0d6919716d5c59",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (THERMO_SKANIT)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "luminescence",
+    "wells": 96,
+    "values": 96,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "093d614b5b0538eaf688440bdd5121d0"
+   }
+  ],
+  "header": {},
+  "documents": 96
+ }
+}

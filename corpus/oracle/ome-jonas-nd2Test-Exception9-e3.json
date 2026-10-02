@@ -1,0 +1,561 @@
+{
+ "id": "ome-jonas-nd2Test-Exception9-e3",
+ "file": "ome-jonas-nd2Test-Exception9-e3.nd2",
+ "size": 8933376,
+ "sha256": "6b3319a42c11406f4807da828ec5d634e3ae5ef4c0516db10666555782c75f20",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "2.1",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 82,
+   "size_y": 372,
+   "size_z": 16,
+   "size_c": 1,
+   "size_t": 9,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 9, 'Z': 16, 'Y': 372, 'X': 82}",
+   "physical_size_um": {
+    "x": 0.1,
+    "y": 0.1,
+    "z": 2.5
+   },
+   "channel_names": [
+    "Mono"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0e0c1d9fa7dfc17ddfa6e99334e3d463"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "510297d0112393cd5dcf63b537cf2a81"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "751918839d548a7306cae948b60fd1b8"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "ec7e074c9af482e2faa538970066855b"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "76e7a6f10b57b4209e7b6ec0a9579042"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 2,
+     "xxh3": "9a07291f15fbc294e7b37b5c928c50d3"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 5,
+     "xxh3": "06e7e26d68cf9c0c1333c549e2a2cd7e"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 7,
+     "xxh3": "b39b97c8b838f1fc7e705892255af6da"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1c41a424a211ff4e30d1e94ff15ba2db"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 2,
+     "xxh3": "5a5d43e78babc67c002bd9f3b9e829f5"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 5,
+     "xxh3": "e17661583cbb286e643b2a39dd9b1c14"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 7,
+     "xxh3": "8fe35a4a995952ab5d25bee98071a426"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "926f62cb6d6d90851d3259195dfb609c"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 3,
+     "xxh3": "ace183536b4b1e6371928e7405ab0926"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 5,
+     "xxh3": "ec8e113949836254aabffc3bcd669433"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 7,
+     "xxh3": "9646d39044b9ccd225ac925e09615515"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "fddfcee9b9379f45bafe841862632b53"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 3,
+     "xxh3": "180f7fb76ec3980c974de003f246eea4"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 5,
+     "xxh3": "05c6e4e5921d2e28719e3b288fb7e487"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 7,
+     "xxh3": "e587ef99e97da3646e00031b4c599875"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "2dad0feef374ecb108c3f9599ccb4a3c"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 3,
+     "xxh3": "9dca5a0ea3400a4c91b39c82965cb400"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 5,
+     "xxh3": "ef4e2aea4d395723d8c17757226ed42b"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 7,
+     "xxh3": "6c86ae691a4bffc70d174b2c893b0eb3"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "72f8fe6e41695dfa62714ad985e201dc"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 3,
+     "xxh3": "1165b40658c72c07c00e323567a34466"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 5,
+     "xxh3": "e45c00011e3555d346be0efacf41c0bd"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 7,
+     "xxh3": "9f097d74a1c1dbf03d7e61cb59790808"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 1,
+     "xxh3": "179f8ae891483ed6c76fb24d879e1597"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 3,
+     "xxh3": "02e4471970f35f66f5f8235ea4be2ec7"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 5,
+     "xxh3": "31d398e5d637ff3a35d6013e6e9a1450"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 7,
+     "xxh3": "54fe58ef6b85973b3b7e66b2ebe55b80"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 1,
+     "xxh3": "366ef6375b64ed674e99327d2f4da515"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 3,
+     "xxh3": "8f4a9a02a4e68c407a66f0fd6e45a1cd"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 5,
+     "xxh3": "b4d734d7eecd6e191a1e8180f3a93e73"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 7,
+     "xxh3": "9f7ca067136f42b1998ac9fedccebc6e"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 1,
+     "xxh3": "dbde53b9bd15541d6f2863e05165958c"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 3,
+     "xxh3": "906af8173caadbe042f33a9802fde0aa"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 5,
+     "xxh3": "b81c8b32375c9f8498950434c58dfdfe"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 8,
+     "xxh3": "55af036936c44518bc121c3c66f59df8"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 1,
+     "xxh3": "c2bae798d8b179fe8cb98eccbc5b2a04"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 3,
+     "xxh3": "14f6bfeb317c75a65eb95189e4195fe2"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 5,
+     "xxh3": "7d371b56a36e96e9abbd66df4141f34d"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 8,
+     "xxh3": "c85ba4d799aad5aeaa46ada2794ec04f"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 1,
+     "xxh3": "d21a76dd12ef171b25f35cc4ab03187e"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 3,
+     "xxh3": "4f3d3760496428eb01e5a1ef2304fa73"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 5,
+     "xxh3": "23a9d0e13220aef7cb5f43453b970352"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 8,
+     "xxh3": "ea4b25be7c67f14f7cf573ff12931816"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 1,
+     "xxh3": "2da07cd9c85829da57188661869b08e7"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 3,
+     "xxh3": "37e9d86c677ac11c5435029edbfe1d8b"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 5,
+     "xxh3": "622f3cc8a6d8e5cd0758010b66c7a07d"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 8,
+     "xxh3": "c24927ccfcf7c91f49c6ddb1bfd607d6"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 1,
+     "xxh3": "e14ed58ac35c7f11b333127fb7e5f85c"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 3,
+     "xxh3": "2811b3c255bd2fbd780317862155c225"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 6,
+     "xxh3": "49743c2186fc401d885141f54d44e698"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 8,
+     "xxh3": "f0242628b2aaed7c5a9e5a0b3c39f734"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 1,
+     "xxh3": "ce6eca3a244dd6d3d58ce68801a2d274"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 3,
+     "xxh3": "92d20e19ad8dce0b556b44babfb7ef10"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 6,
+     "xxh3": "5ea84b162328e183d9d5de0e9dcea90e"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 8,
+     "xxh3": "b689863c038e7cf4df7ccd2f0382f621"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 1,
+     "xxh3": "ed183b3a602989cd97370aa176a5655c"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 3,
+     "xxh3": "77a459e9e0405f0b233011849adbec5f"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 6,
+     "xxh3": "4ad73e80825b3cfebe009751438d9bb7"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 8,
+     "xxh3": "c2d55e9db89620be3b0fb3863298975f"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Mono",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "camera"
+    ]
+   }
+  ],
+  "frame_count": 144,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 0.0,
+    "tags": {}
+   },
+   {
+    "index": 6,
+    "time_ms": 11.25,
+    "tags": {}
+   },
+   {
+    "index": 12,
+    "time_ms": 22.5,
+    "tags": {}
+   },
+   {
+    "index": 19,
+    "time_ms": 35.625,
+    "tags": {}
+   },
+   {
+    "index": 25,
+    "time_ms": 46.875,
+    "tags": {}
+   },
+   {
+    "index": 31,
+    "time_ms": 58.125,
+    "tags": {}
+   },
+   {
+    "index": 37,
+    "time_ms": 69.375,
+    "tags": {}
+   },
+   {
+    "index": 44,
+    "time_ms": 82.5,
+    "tags": {}
+   },
+   {
+    "index": 50,
+    "time_ms": 93.75,
+    "tags": {}
+   },
+   {
+    "index": 56,
+    "time_ms": 105.0,
+    "tags": {}
+   },
+   {
+    "index": 62,
+    "time_ms": 116.25,
+    "tags": {}
+   },
+   {
+    "index": 68,
+    "time_ms": 127.5,
+    "tags": {}
+   },
+   {
+    "index": 75,
+    "time_ms": 140.625,
+    "tags": {}
+   },
+   {
+    "index": 81,
+    "time_ms": 151.875,
+    "tags": {}
+   },
+   {
+    "index": 87,
+    "time_ms": 163.125,
+    "tags": {}
+   },
+   {
+    "index": 93,
+    "time_ms": 174.375,
+    "tags": {}
+   },
+   {
+    "index": 99,
+    "time_ms": 185.625,
+    "tags": {}
+   },
+   {
+    "index": 106,
+    "time_ms": 198.75,
+    "tags": {}
+   },
+   {
+    "index": 112,
+    "time_ms": 210.0,
+    "tags": {}
+   },
+   {
+    "index": 118,
+    "time_ms": 221.25,
+    "tags": {}
+   },
+   {
+    "index": 124,
+    "time_ms": 232.5,
+    "tags": {}
+   },
+   {
+    "index": 131,
+    "time_ms": 245.625,
+    "tags": {}
+   },
+   {
+    "index": 137,
+    "time_ms": 256.875,
+    "tags": {}
+   },
+   {
+    "index": 143,
+    "time_ms": 268.125,
+    "tags": {}
+   }
+  ]
+ },
+ "text_info": {
+  "description": "Dimensions: T(9) x Z(16)\r\n Name: Mono\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Emission Wavelength: N/A\r\nTime Loop: 9\r\n- Equidistant (Period 30 ms)\r\nZ Stack Loop: 16\r\n- Step 2.5 \u00b5m\r\n",
+  "capturing": "\r\n",
+  "date": "04/12/2007  10:51:38 AM"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=1, heightPx=372, pixelDataType='unsigned', sequenceCount=144, widthBytes=164, widthPx=82, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

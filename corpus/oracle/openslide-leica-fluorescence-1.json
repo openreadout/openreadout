@@ -1,0 +1,124 @@
+{
+ "id": "openslide-leica-fluorescence-1",
+ "file": "openslide-Leica-Fluorescence-1.scn",
+ "size": 21740518,
+ "sha256": "a9037f7d683dc0a95e2e5f33bceee71f0449042e70e6d1421ca580bcd97a023a",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "scn",
+ "flags": [
+  "bigtiff",
+  "scn"
+ ],
+ "page_count": 18,
+ "series_count": 3,
+ "images": [
+  {
+   "index": 0,
+   "name": "image_0000000586",
+   "kind": "scn",
+   "axes": "YXS",
+   "shape": [
+    4668,
+    1616,
+    3
+   ],
+   "size_x": 1616,
+   "size_y": 4668,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 3,
+   "lossy": true,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b3276fce16a2dc65008f05c7aa3e845a",
+     "mean": 169.57709510507607
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "image_0000000590",
+   "kind": "scn",
+   "axes": "YXS",
+   "shape": [
+    4668,
+    1616,
+    3
+   ],
+   "size_x": 1616,
+   "size_y": 4668,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 3,
+   "lossy": true,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "416c8e5b7b0e474787f29a930e812c0f",
+     "mean": 146.55452685371364
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "image_0000000591",
+   "kind": "scn",
+   "axes": "CYX",
+   "shape": [
+    3,
+    6338,
+    4737
+   ],
+   "size_x": 4737,
+   "size_y": 6338,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 4,
+   "lossy": true,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fde6a31def23f4b7e65755ea00c93884",
+     "mean": 36.11186863877442
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "26d37c134667ab32cf79746e4533386a",
+     "mean": 5.963045762153989
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "52829619ca1f71446505c6f4a1148afa",
+     "mean": 12.494349751821147
+    }
+   ]
+  }
+ ]
+}

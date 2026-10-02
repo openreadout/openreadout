@@ -1,0 +1,109 @@
+{
+ "id": "ho-zenodo8379272-nwb-acc",
+ "file": "DT009.nwb",
+ "size": 1678840,
+ "sha256": "1c6f487a3bc9b18a0e484a5869a2bbda26368c0efe192f172258b106a4d71354",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.4.0",
+ "session": {
+  "session_description": "context set shifting task",
+  "identifier": "DT009",
+  "session_start_time": "2020-12-15T12:00:00+01:00"
+ },
+ "traces": [],
+ "tables": [
+  {
+   "index": 0,
+   "name": "units",
+   "event_count": 4,
+   "parameter_names": [
+    "id",
+    "spike_times_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "41afcc404e38cff7758db573cee94282",
+    "spike_times_count": "0350d6b2d6ea47197426830676fd9982"
+   }
+  },
+  {
+   "index": 1,
+   "name": "units/spike_times",
+   "event_count": 181758,
+   "parameter_names": [
+    "unit_row",
+    "unit_id",
+    "spike_time"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "unit_row": "57eeaafe415a9820661bd03e282c600b",
+    "unit_id": "50e5bd4d3b1745124e328237b2c71559",
+    "spike_time": "908cb787d074ecdd220bb3d0ce56f1e7"
+   }
+  },
+  {
+   "index": 2,
+   "name": "intervals/trials",
+   "event_count": 183,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "degree",
+    "freq",
+    "block",
+    "context",
+    "difficulty",
+    "water",
+    "action",
+    "success"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "155ffbc75de9fe92a1f848de45044d42",
+    "start_time": "a50c022004ce4952f579042d329d9e6a",
+    "stop_time": "870044dde7dbb2a626488821f369cacb",
+    "degree": "037a4f8a91785af7d913e48a23c9d8d8",
+    "freq": "1738fc99ed8f880010a3685ee9ca0c9f",
+    "block": "c695ad1a455d0bb1abedabe669099b63",
+    "context": "c0e829acf7d8ad5ef5d8bf063cf50010",
+    "difficulty": "181f30a72b133b5595886be31c7585c2",
+    "water": "0bb60d1a6d06601f5877a652d685816a",
+    "action": "aeed9efe5750eeeec09ae8a9f34254c9",
+    "success": "9f1ec136fe94295f9c1e0132d1f67f3e"
+   }
+  },
+  {
+   "index": 3,
+   "name": "general/extracellular_ephys/electrodes",
+   "event_count": 1,
+   "parameter_names": [
+    "id",
+    "x",
+    "y",
+    "z",
+    "imp",
+    "location",
+    "filtering",
+    "group_name"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "2c0a8a99dc147d5445c3b49d035665b2",
+    "x": "2c0a8a99dc147d5445c3b49d035665b2",
+    "y": "2c0a8a99dc147d5445c3b49d035665b2",
+    "z": "2c0a8a99dc147d5445c3b49d035665b2",
+    "imp": "1d85e13540b8f55dacbcf3ae8a39cd07",
+    "location": "2c0a8a99dc147d5445c3b49d035665b2",
+    "filtering": "2c0a8a99dc147d5445c3b49d035665b2",
+    "group_name": "2c0a8a99dc147d5445c3b49d035665b2"
+   }
+  }
+ ]
+}

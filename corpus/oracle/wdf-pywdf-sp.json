@@ -1,0 +1,72 @@
+{
+ "id": "wdf-pywdf-sp",
+ "file": "sp.wdf",
+ "size": 74855,
+ "sha256": "5ca8c55848b4bdbe73fa2ca44f3e211613b52c65bf2aaaf5b14e8858f4e3f565",
+ "max_planes_hashed": 64,
+ "reader": "renishawWiRE (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "renishawWiRE",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sample_count": 1015,
+   "x_first": 2787.514404296875,
+   "x_last": 1226.2752685546875,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1015,
+     "channels": [
+      {
+       "xxh3": "1225d2087850ec245b8b41ce496c5096",
+       "first": [
+        2787.514404296875,
+        2786.134521484375,
+        2784.753662109375,
+        2783.372802734375,
+        2781.991943359375,
+        2780.611083984375,
+        2779.229248046875,
+        2777.847412109375
+       ]
+      },
+      {
+       "xxh3": "feac7c3a99731931fcce28042c2e33be",
+       "first": [
+        47.092708587646484,
+        63.39402770996094,
+        54.32671356201172,
+        48.884124755859375,
+        52.4945182800293,
+        61.53281021118164,
+        57.90148162841797,
+        54.27162551879883
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "accumulations": 3,
+     "laser_wavelength_nm": 532.2500935076091
+    }
+   }
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 1,
+   "parameter_names": [],
+   "column_hashes": {},
+   "approx_columns": {
+    "time_s": [
+     0.0
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "id": "scn-zenodo10419859-paf1",
+ "file": "scn-zenodo10419859-paf1.scn",
+ "size": 2212034,
+ "sha256": "d347c63fc782f15987a18140d5de663e8d241523c1dbe89f94e12cac31fd682a",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1050,
+   "size_y": 1050,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fb63fc7d0c9ef5871841ca15c6e182dd"
+    }
+   ]
+  }
+ ]
+}

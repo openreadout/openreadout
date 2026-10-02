@@ -1,0 +1,36 @@
+{
+ "id": "rsciio-emd-fei-example-complex-fft",
+ "file": "rsciio-emd-fei-example-complex-fft.emd",
+ "size": 144240,
+ "sha256": "eec20bd422428dc498334143e2a721aa793e79f399bfe16c21cb8b0313ff0c07",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "127c4de271cd4bbe93cf30a3ba2a9989",
+   "size_x": 4,
+   "size_y": 3,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "complex",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "detector": "BM-Ceta",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5c9c14feeceff90053e9809481a339cc"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"8\",\n    \"format\": \"Velox\"\n}\n"
+}

@@ -1,0 +1,743 @@
+{
+ "id": "eds-stepone-taec-mu-11-3-6h-b",
+ "reader": "xlrd 2.0.2",
+ "export": "eds-stepone-taec-mu-11-3-6h-b.xls",
+ "header": {
+  "Block Type": "96well",
+  "Chemistry": "SYBR_GREEN",
+  "Experiment Run End Time": "Not Started",
+  "Instrument Type": "steponeplus",
+  "Passive Reference": "ROX"
+ },
+ "records": [
+  {
+   "well": "A1",
+   "sample": "11.3 6h A",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.1584529876709,
+   "ct_mean": 19.11186408996582,
+   "ct_sd": 0.07120535522699356,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 11.0,
+   "tm": [
+    88.69690704345703
+   ]
+  },
+  {
+   "well": "A2",
+   "sample": "11.3 6h B",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.644933700561523,
+   "ct_mean": 19.741661071777344,
+   "ct_sd": 0.16954155266284943,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 11.0,
+   "tm": [
+    88.39862823486328
+   ]
+  },
+  {
+   "well": "A3",
+   "sample": "11.3 6h C",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.017404556274414,
+   "ct_mean": 19.011566162109375,
+   "ct_sd": 0.03600969910621643,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 11.0,
+   "tm": [
+    88.54997253417969
+   ]
+  },
+  {
+   "well": "A4",
+   "sample": "11.3 6h D",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.95541000366211,
+   "ct_mean": 19.990711212158203,
+   "ct_sd": 0.03779973089694977,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 12.0,
+   "tm": [
+    88.54997253417969
+   ]
+  },
+  {
+   "well": "A5",
+   "sample": "11.3 6h Oxa",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.754392623901367,
+   "ct_mean": 19.748567581176758,
+   "ct_sd": 0.0055037932470440865,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 11.0,
+   "tm": [
+    88.55261993408203
+   ]
+  },
+  {
+   "well": "A6",
+   "sample": "11.3 6h DMSO",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.313705444335938,
+   "ct_mean": 19.383331298828125,
+   "ct_sd": 0.06138484552502632,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 11.0,
+   "tm": [
+    88.55261993408203
+   ]
+  },
+  {
+   "well": "B1",
+   "sample": "11.3 6h A",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.14724349975586,
+   "ct_mean": 19.11186408996582,
+   "ct_sd": 0.07120535522699356,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 11.0,
+   "tm": [
+    88.54776763916016
+   ]
+  },
+  {
+   "well": "B2",
+   "sample": "11.3 6h B",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.93742561340332,
+   "ct_mean": 19.741661071777344,
+   "ct_sd": 0.16954155266284943,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 12.0,
+   "tm": [
+    88.39862823486328
+   ]
+  },
+  {
+   "well": "B3",
+   "sample": "11.3 6h C",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 18.97299575805664,
+   "ct_mean": 19.011566162109375,
+   "ct_sd": 0.03600969910621643,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 11.0,
+   "tm": [
+    88.40083312988281
+   ]
+  },
+  {
+   "well": "B4",
+   "sample": "11.3 6h D",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.986129760742188,
+   "ct_mean": 19.990711212158203,
+   "ct_sd": 0.03779973089694977,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 12.0,
+   "tm": [
+    88.40083312988281
+   ]
+  },
+  {
+   "well": "B5",
+   "sample": "11.3 6h Oxa",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.74785804748535,
+   "ct_mean": 19.748567581176758,
+   "ct_sd": 0.0055037932470440865,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 12.0,
+   "tm": [
+    88.40345001220703
+   ]
+  },
+  {
+   "well": "B6",
+   "sample": "11.3 6h DMSO",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.406639099121094,
+   "ct_mean": 19.383331298828125,
+   "ct_sd": 0.06138484552502632,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 11.0,
+   "tm": [
+    88.40345001220703
+   ]
+  },
+  {
+   "well": "C1",
+   "sample": "11.3 6h A",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.02989959716797,
+   "ct_mean": 19.11186408996582,
+   "ct_sd": 0.07120535522699356,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 10.0,
+   "tm": [
+    88.54776763916016
+   ]
+  },
+  {
+   "well": "C2",
+   "sample": "11.3 6h B",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.642621994018555,
+   "ct_mean": 19.741661071777344,
+   "ct_sd": 0.16954155266284943,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 11.0,
+   "tm": [
+    88.39862823486328
+   ]
+  },
+  {
+   "well": "C3",
+   "sample": "11.3 6h C",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.044301986694336,
+   "ct_mean": 19.011566162109375,
+   "ct_sd": 0.03600969910621643,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 11.0,
+   "tm": [
+    88.25169372558594
+   ]
+  },
+  {
+   "well": "C4",
+   "sample": "11.3 6h D",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 20.03059196472168,
+   "ct_mean": 19.990711212158203,
+   "ct_sd": 0.03779973089694977,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 12.0,
+   "tm": [
+    88.40083312988281
+   ]
+  },
+  {
+   "well": "C5",
+   "sample": "11.3 6h Oxa",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.743453979492188,
+   "ct_mean": 19.748567581176758,
+   "ct_sd": 0.0055037932470440865,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 12.0,
+   "tm": [
+    88.40345001220703
+   ]
+  },
+  {
+   "well": "C6",
+   "sample": "11.3 6h DMSO",
+   "target": "GAPDH",
+   "task": "UNKNOWN",
+   "ct": 19.42964744567871,
+   "ct_mean": 19.383331298828125,
+   "ct_sd": 0.06138484552502632,
+   "automatic_ct": "1",
+   "threshold": 1.3388249960812655,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 11.0,
+   "tm": [
+    88.40345001220703
+   ]
+  },
+  {
+   "well": "D1",
+   "sample": "11.3 6h A",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 33.11558532714844,
+   "ct_mean": 33.53477096557617,
+   "ct_sd": 0.387555330991745,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 25.0,
+   "tm": [
+    78.85364532470703,
+    84.52098083496094
+   ]
+  },
+  {
+   "well": "D2",
+   "sample": "11.3 6h B",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 33.87924575805664,
+   "ct_mean": 34.19998550415039,
+   "ct_sd": 0.6337066292762756,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 26.0,
+   "tm": [
+    78.85364532470703
+   ]
+  },
+  {
+   "well": "D3",
+   "sample": "11.3 6h C",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 33.957298278808594,
+   "ct_mean": 34.01409149169922,
+   "ct_sd": 0.22724337875843048,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 26.0,
+   "tm": [
+    79.00528717041016,
+    84.52330780029297
+   ]
+  },
+  {
+   "well": "D4",
+   "sample": "11.3 6h D",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 33.7614631652832,
+   "ct_mean": 33.3094482421875,
+   "ct_sd": 0.42326483130455017,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 26.0,
+   "tm": [
+    84.3741683959961,
+    78.40874481201172
+   ]
+  },
+  {
+   "well": "D5",
+   "sample": "11.3 6h Oxa",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 33.22627258300781,
+   "ct_mean": 33.91518020629883,
+   "ct_sd": 0.8491261601448059,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 25.0,
+   "tm": [
+    81.69071960449219,
+    78.70729064941406,
+    69.4586410522461
+   ]
+  },
+  {
+   "well": "D6",
+   "sample": "11.3 6h DMSO",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 32.882808685302734,
+   "ct_mean": 33.85453796386719,
+   "ct_sd": 0.8438445925712585,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 25.0,
+   "tm": [
+    81.69071960449219
+   ]
+  },
+  {
+   "well": "E1",
+   "sample": "11.3 6h A",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 33.60866928100586,
+   "ct_mean": 33.53477096557617,
+   "ct_sd": 0.387555330991745,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 26.0,
+   "tm": [
+    78.85364532470703
+   ]
+  },
+  {
+   "well": "E2",
+   "sample": "11.3 6h B",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 33.790771484375,
+   "ct_mean": 34.19998550415039,
+   "ct_sd": 0.6337066292762756,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 26.0,
+   "tm": [
+    78.55536651611328,
+    84.52098083496094
+   ]
+  },
+  {
+   "well": "E3",
+   "sample": "11.3 6h C",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 33.82062911987305,
+   "ct_mean": 34.01409149169922,
+   "ct_sd": 0.22724337875843048,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 26.0,
+   "tm": [
+    82.58454132080078,
+    78.40874481201172
+   ]
+  },
+  {
+   "well": "E4",
+   "sample": "11.3 6h D",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 32.92245864868164,
+   "ct_mean": 33.3094482421875,
+   "ct_sd": 0.42326483130455017,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 25.0,
+   "tm": [
+    84.3741683959961,
+    78.40874481201172
+   ]
+  },
+  {
+   "well": "E5",
+   "sample": "11.3 6h Oxa",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 34.86384582519531,
+   "ct_mean": 33.91518020629883,
+   "ct_sd": 0.8491261601448059,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 27.0,
+   "tm": [
+    80.79569244384766,
+    84.52498626708984
+   ]
+  },
+  {
+   "well": "E6",
+   "sample": "11.3 6h DMSO",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 34.40269470214844,
+   "ct_mean": 33.85453796386719,
+   "ct_sd": 0.8438445925712585,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 27.0,
+   "tm": [
+    78.70729064941406
+   ]
+  },
+  {
+   "well": "F1",
+   "sample": "11.3 6h A",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 33.88005447387695,
+   "ct_mean": 33.53477096557617,
+   "ct_sd": 0.387555330991745,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 26.0,
+   "tm": [
+    78.85364532470703,
+    84.52098083496094
+   ]
+  },
+  {
+   "well": "F2",
+   "sample": "11.3 6h B",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 34.9299430847168,
+   "ct_mean": 34.19998550415039,
+   "ct_sd": 0.6337066292762756,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 27.0,
+   "tm": [
+    78.70450592041016,
+    84.52098083496094
+   ]
+  },
+  {
+   "well": "F3",
+   "sample": "11.3 6h C",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 34.26434326171875,
+   "ct_mean": 34.01409149169922,
+   "ct_sd": 0.22724337875843048,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 27.0,
+   "tm": [
+    84.52330780029297,
+    80.79491424560547
+   ]
+  },
+  {
+   "well": "F4",
+   "sample": "11.3 6h D",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 33.24442672729492,
+   "ct_mean": 33.3094482421875,
+   "ct_sd": 0.42326483130455017,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 25.0,
+   "tm": [
+    84.52330780029297,
+    78.85615539550781
+   ]
+  },
+  {
+   "well": "F5",
+   "sample": "11.3 6h Oxa",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 33.65542984008789,
+   "ct_mean": 33.91518020629883,
+   "ct_sd": 0.8491261601448059,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 26.0,
+   "tm": [
+    84.52498626708984,
+    68.71278381347656,
+    80.49734497070312
+   ]
+  },
+  {
+   "well": "F6",
+   "sample": "11.3 6h DMSO",
+   "target": "E-Selectin",
+   "task": "UNKNOWN",
+   "ct": 34.27811050415039,
+   "ct_mean": 33.85453796386719,
+   "ct_sd": 0.8438445925712585,
+   "automatic_ct": "1",
+   "threshold": 1.2546041288041314,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 27.0,
+   "tm": [
+    78.40894317626953
+   ]
+  },
+  {
+   "well": "G1",
+   "sample": "11.3 6h A",
+   "target": "H2O",
+   "task": "UNKNOWN",
+   "ct": "Undetermined",
+   "ct_mean": null,
+   "ct_sd": null,
+   "automatic_ct": "1",
+   "threshold": 0.2,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 39.0,
+   "tm": [
+    69.30866241455078
+   ]
+  },
+  {
+   "well": "G2",
+   "sample": "11.3 6h B",
+   "target": "H2O",
+   "task": "UNKNOWN",
+   "ct": "Undetermined",
+   "ct_mean": null,
+   "ct_sd": null,
+   "automatic_ct": "1",
+   "threshold": 0.2,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 39.0,
+   "tm": [
+    67.0715560913086
+   ]
+  },
+  {
+   "well": "G3",
+   "sample": "11.3 6h C",
+   "target": "H2O",
+   "task": "UNKNOWN",
+   "ct": "Undetermined",
+   "ct_mean": null,
+   "ct_sd": null,
+   "automatic_ct": "1",
+   "threshold": 0.2,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 39.0,
+   "tm": [
+    68.41665649414062
+   ]
+  },
+  {
+   "well": "G4",
+   "sample": "11.3 6h D",
+   "target": "H2O",
+   "task": "UNKNOWN",
+   "ct": "Undetermined",
+   "ct_mean": null,
+   "ct_sd": null,
+   "automatic_ct": "1",
+   "threshold": 0.2,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 39.0,
+   "tm": [
+    68.86406707763672
+   ]
+  },
+  {
+   "well": "G5",
+   "sample": "11.3 6h Oxa",
+   "target": "H2O",
+   "task": "UNKNOWN",
+   "ct": "Undetermined",
+   "ct_mean": null,
+   "ct_sd": null,
+   "automatic_ct": "1",
+   "threshold": 0.2,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 39.0,
+   "tm": [
+    67.5194091796875
+   ]
+  },
+  {
+   "well": "G6",
+   "sample": "11.3 6h DMSO",
+   "target": "H2O",
+   "task": "UNKNOWN",
+   "ct": "Undetermined",
+   "ct_mean": null,
+   "ct_sd": null,
+   "automatic_ct": "1",
+   "threshold": 0.2,
+   "automatic_baseline": "1",
+   "baseline_start": 3.0,
+   "baseline_end": 39.0,
+   "tm": [
+    68.86195373535156
+   ]
+  }
+ ]
+}

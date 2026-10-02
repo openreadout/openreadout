@@ -1,0 +1,28 @@
+{
+ "id": "figshare25325560-vt1-nvt",
+ "file": "VT1.nvt",
+ "size": 97969764,
+ "sha256": "095015b777a75146fb8dc2429c170cee9bccf810d86e44fed9b78a464083e0f8",
+ "max_planes_hashed": 64,
+ "reader": "nept 0.1.0 load_nvt",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 53585,
+   "parameter_names": [
+    "timestamp_us",
+    "x",
+    "y",
+    "angle",
+    "target_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "timestamp_us": "18b80c79d2aef9e95fa4008cfced775e",
+    "x": "b09de14ccd63c3187c8ea8ef01fe5c71",
+    "y": "c1c3193c671ac79c3f1e7ccc06d78574"
+   }
+  }
+ ]
+}

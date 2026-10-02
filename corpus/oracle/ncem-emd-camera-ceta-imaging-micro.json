@@ -1,0 +1,36 @@
+{
+ "id": "ncem-emd-camera-ceta-imaging-micro",
+ "file": "ncem-emd-camera-ceta-imaging-micro.emd",
+ "size": 756835,
+ "sha256": "1865bf4ebc563898c98a9666fe4acff8739f13f1507befde623b5a3a1fb809cd",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "b936b39acdb84cd2971d755b7ba267bf",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int16",
+   "physical_size_um": {
+    "x": 0.003138837054449552,
+    "y": 0.003138837054449552,
+    "z": null
+   },
+   "detector": "BM-Ceta",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "42ebc70703fcfb6b2bcece0f4a1a6564"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"8\",\n    \"format\": \"Velox\"\n}\n"
+}

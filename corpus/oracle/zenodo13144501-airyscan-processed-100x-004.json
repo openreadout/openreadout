@@ -1,0 +1,64 @@
+{
+ "id": "zenodo13144501-airyscan-processed-100x-004",
+ "file": "zenodo13144501-airyscan-processed-100x-004.czi",
+ "size": 10170976,
+ "sha256": "fb9570cf109caf3dd58ba71d710f96dcad84d776e49d1ddcfd6ded6cb64299e2",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1296,
+   "size_y": 1296,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    3,
+    1296,
+    1296
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.033899210552909544,
+    "y": 0.033899210552909544,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ae36d20c1f96519a3ee8e89632e5e192"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "239a8fd527b336b03ce55de2cfa43935"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "23b765d2508df8f38d1642fdacd018b8"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.033899210552909544,
+  "y": 0.033899210552909544,
+  "z": 0.0
+ },
+ "subblock_count": 3,
+ "compression_ids": [
+  0
+ ]
+}

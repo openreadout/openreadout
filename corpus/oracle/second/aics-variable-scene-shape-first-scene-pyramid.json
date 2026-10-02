@@ -1,0 +1,32 @@
+{
+ "id": "aics-variable-scene-shape-first-scene-pyramid",
+ "file": "aics-variable-scene-shape-first-scene-pyramid.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 7705,
+   "size_y": 6183,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c8ccaa4a0769984f6382e631ad2b6f6a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7d6c6c274f7f78e2be98e84b2e42219a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bac2e83d901f4dbabd8f430c5b734888"
+    }
+   ]
+  }
+ ]
+}

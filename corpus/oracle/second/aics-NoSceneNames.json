@@ -1,0 +1,215 @@
+{
+ "id": "aics-NoSceneNames",
+ "file": "aics-NoSceneNames.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b93bf6a30fc6bee5e5ee41a01ef612b0"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3c4bdcf69972834fe9961f9a9b8f0328"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "29efb198632efb5900d1a64fbc05006a"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "568a3fc3c7f5d9d89961e987e1723aa7"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e69fd928918c7a5cfc0897f224562d13"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "273d33acac61193dd9a461483e923b21"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d5ffc46584b6860e45713e318db71336"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dd649cebce2199de0f5b4b64582b78d9"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f6733990987482d4f09adb4890123042"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4f5cc468a1244ef2c77ad38147c5f701"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "44545e0e18f63d42bcdef722af2a9683"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e99a0c8547a61d0da49a767658c5a46"
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "58ab802991410801c06dac038c34e68c"
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "22477a6ec9ba9654a15d766c7b9b4b7f"
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3712509f1c482b7e6ca14a73589ddea2"
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "639d00f30e39c637739fdb769510c629"
+    }
+   ]
+  }
+ ]
+}

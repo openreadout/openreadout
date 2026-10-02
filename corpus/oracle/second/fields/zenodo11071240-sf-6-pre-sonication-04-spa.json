@@ -1,0 +1,22 @@
+{
+ "id": "zenodo11071240-sf-6-pre-sonication-04-spa",
+ "file": "omnic-zenodo/11071240/SF_6pct_pre-sonication_04.SPA",
+ "format": "thermo-omnic",
+ "family": "vibrational-spectroscopy",
+ "readers": [
+  "SpectroChemPy 1.0.0 (CeCILL-B, run as a black box) read_omnic"
+ ],
+ "checks": [
+  {
+   "field": "acquisition_date",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-05-19T03:02:02-07:00",
+   "cmp": "time",
+   "abs": 1.0
+  }
+ ]
+}

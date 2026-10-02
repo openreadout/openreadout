@@ -1,0 +1,172 @@
+{
+ "id": "zenodo20131712-0002-Spectrum-Micro",
+ "file": "zenodo20131712-0002-Spectrum-Micro.emd",
+ "size": 7265576,
+ "sha256": "9ad6bad6d166f1d92bad6007c8d6c1ec9b0db6f844e90fe610384f63b9c3201e",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "counts"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4096,
+     "channels": [
+      {
+       "xxh3": "0c902156572d5f7f6641104a8749eeea",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        3.0,
+        3.0,
+        4.0,
+        4.0,
+        8.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "counts"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4096,
+     "channels": [
+      {
+       "xxh3": "fd5bfa511d2573c0b64b89192ae4f472",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        2.0,
+        6.0,
+        5.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "counts"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4096,
+     "channels": [
+      {
+       "xxh3": "5f65a926f147ab4c7e7460aa1239c8ec",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        4.0,
+        3.0,
+        7.0,
+        10.0,
+        15.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "counts"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4096,
+     "channels": [
+      {
+       "xxh3": "e1e403db40530b10b7ae7de7b76cfb3c",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        2.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "counts"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4096,
+     "channels": [
+      {
+       "xxh3": "c2f7c6ce1c69ce9d29ab30616cf013d8",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "version": "{\n    \"version\": \"10\",\n    \"format\": \"Velox\"\n}\n"
+}

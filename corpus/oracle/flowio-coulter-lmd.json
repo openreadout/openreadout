@@ -1,0 +1,92 @@
+{
+ "id": "flowio-coulter-lmd",
+ "file": "flowio-coulter-lmd.lmd",
+ "size": 944166,
+ "sha256": "3182e8522907b09e3d2ef4e50983502b86db52ea55aaf8528a10d6b408e3e46a",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "2.0",
+   "parameter_count": 8,
+   "event_count": 18110,
+   "parameter_names": [
+    "FS Lin",
+    "SS Lin",
+    "FL1 Log",
+    "FL2 Log",
+    "FL1 Lin",
+    "FL2 Lin",
+    "FL3 Lin",
+    "FL3 Log"
+   ],
+   "parameter_labels": [
+    "FS Lin",
+    "SS Lin",
+    "FL1 Log",
+    "FL2 Log",
+    "FL1 Lin",
+    "FL2 Lin",
+    "FL3 Lin",
+    "FL3 Log"
+   ],
+   "dtypes": [
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16"
+   ],
+   "xxh3": "a7686c3295b80cd973f4663e1e6b4a25",
+   "xxh3_reader": "flowio 1.4.0"
+  },
+  {
+   "index": 1,
+   "version": "3.0",
+   "parameter_count": 8,
+   "event_count": 18110,
+   "parameter_names": [
+    "FS",
+    "SS",
+    "FL1",
+    "FL2",
+    "FL3",
+    "FL4",
+    "FL5",
+    "TIME"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "dtypes": [
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32"
+   ],
+   "xxh3": "c45880954ad4a7006eaa59ce3d138d6e",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 18110,
+  "xxh3": "a7686c3295b80cd973f4663e1e6b4a25",
+  "agrees_with_flowio": true
+ }
+}

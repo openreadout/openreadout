@@ -1,0 +1,109 @@
+{
+ "id": "omnic-toffolo-transmission-calcite-spar-brazil",
+ "file": "Calcite spar_Brazil.SPA",
+ "size": 132684,
+ "sha256": "6344e597b733dec1fb3e3d7a71eef289d87e4530b2140f1a6edcc11c82698913",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 7468,
+   "x_first": 4000.123,
+   "x_last": 400.157,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7468,
+     "channels": [
+      {
+       "xxh3": "340183744d4b4ab9965557d3cfd81c3a",
+       "first": [
+        0.17799526453018188,
+        0.1779879778623581,
+        0.1779789924621582,
+        0.17796990275382996,
+        0.177962064743042,
+        0.17795713245868683,
+        0.17795558273792267,
+        0.1779567301273346
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 32,
+     "background_scans": 32,
+     "laser_wavenumber_cm1": 15798.0
+    }
+   },
+   "x_tolerance": 0.002
+  },
+  {
+   "index": 1,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 12200,
+   "x_first": 0.0,
+   "x_last": 12199.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12200,
+     "channels": [
+      {
+       "xxh3": "ed7605e600b3d5200ff0be05597c071f",
+       "first": [
+        0.0012578684836626053,
+        0.0006448347121477127,
+        -0.0010145585983991623,
+        -0.0018275659531354904,
+        -0.0028181951493024826,
+        -0.002250758931040764,
+        -0.0017703454941511154,
+        -0.00023314173449762166
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 12200,
+   "x_first": 0.0,
+   "x_last": 12199.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12200,
+     "channels": [
+      {
+       "xxh3": "1c2f429fd71502cb4ccf60039123261c",
+       "first": [
+        -0.00024259839847218245,
+        -0.0017145350575447083,
+        -0.0038871243596076965,
+        -0.00453919917345047,
+        -0.004811592400074005,
+        -0.002982325851917267,
+        -0.001112230122089386,
+        0.001875452697277069
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "acquisition_date": "2023-04-18 07:28:24-07:00"
+}

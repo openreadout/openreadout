@@ -1,0 +1,24 @@
+{
+ "id": "softmax-fl-kinetic-plates",
+ "file": "softmax-fl-kinetic-plates.txt",
+ "size": 1575,
+ "sha256": "560c3df60e2608b76d4c3b15d614dbf22579a501e22242292695ef73e82df0ab",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (MOLDEV_SOFTMAX_PRO)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "fluorescence",
+    "wells": 6,
+    "values": 48,
+    "errors": 0,
+    "wavelengths": [
+     525.0
+    ],
+    "value_xxh3": "82b9fc02ee8f93d2de0041f0ecda0cfd"
+   }
+  ],
+  "header": {},
+  "documents": 6
+ }
+}

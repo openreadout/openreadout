@@ -1,0 +1,45 @@
+{
+ "id": "ho-figshare25897444-dad1a",
+ "file": "DAD1A.ch",
+ "size": 64614,
+ "sha256": "9b4b847c7c8954460740c47f07c713cec1aa9ad6c45127b5f45835ee123f41a3",
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) / Aston (BSD-3) for version 81",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DAD1A"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 40.0,
+   "x_first_min": 0.0002,
+   "x_last_min": 11.999783333333333,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 28800,
+     "channels": [
+      {
+       "xxh3": "15ab22b2bb819679ddd1bd2547b2bb9d",
+       "first": [
+        -0.10585784912109375,
+        -0.19168853759765625,
+        -0.28324127197265625,
+        -0.3657341003417969,
+        -0.42819976806640625,
+        -0.4620552062988281,
+        -0.46062469482421875,
+        -0.4248619079589844
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

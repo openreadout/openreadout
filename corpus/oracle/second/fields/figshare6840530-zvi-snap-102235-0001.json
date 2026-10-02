@@ -1,0 +1,31 @@
+{
+ "id": "figshare6840530-zvi-snap-102235-0001",
+ "file": "zvi-depth/figshare6840530/SNAP-102235-0001.zvi",
+ "format": "zvi",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 1388,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 1040,
+   "cmp": "exact"
+  }
+ ]
+}

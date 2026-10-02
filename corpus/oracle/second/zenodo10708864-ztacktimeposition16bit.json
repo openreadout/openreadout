@@ -1,0 +1,100 @@
+{
+ "id": "zenodo10708864-ztacktimeposition16bit",
+ "file": "zenodo10708864-ztacktimeposition16bit.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ad199171b537989865ccb9eb25c478b0"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "74b6faad3b683e195b6e46a6d1e1ec43"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "338256ea90c44f8f63a2c24d955a6763"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "9a77e0a9ec2367c7c7528ceedb08f0e6"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1e5e5f1e2190337b2182c5dbb8c13189"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "a1b0920243235ec8473db93cff5a6e20"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "83991573a50e073ea30a1eec8e770ade"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "af52ea55ddaeba4bd69b747084f19727"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ec6830ed229b611544489e11467503dd"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "2690449ddf9d5ba237d6e1c03a658673"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "a54cdff8ebf3c7e599cc44964b5cb46e"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "15e9717afd022026be92832dcfe3986d"
+    }
+   ]
+  }
+ ]
+}

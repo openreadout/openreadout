@@ -1,0 +1,11 @@
+{
+ "id": "ho-zenodo13891904-emd-beacon",
+ "file": "AberrationStack_HfO2_C1.emd",
+ "size": 14683640,
+ "sha256": "d268f886e0444e07c4e6ad230f56ea7040e2a54af3258c14cade7262b275654d",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [],
+ "traces": [],
+ "version": null
+}

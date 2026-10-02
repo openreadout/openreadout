@@ -1,0 +1,985 @@
+{
+ "id": "flowkit-comp-example",
+ "file": "flowkit-comp-example.fcs",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0",
+  "FlowKit 1.3.2 (BSD-3) compensation with the file's spillover matrix"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 10703,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 18,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "FSC-A",
+    "FSC-W",
+    "SSC-A",
+    "Ax488-A",
+    "PE-A",
+    "PE-TR-A",
+    "PerCP-Cy55-A",
+    "PE-Cy7-A",
+    "Ax647-A",
+    "Ax700-A",
+    "Ax750-A",
+    "PacBlu-A",
+    "Qdot525-A",
+    "PacOrange-A",
+    "Qdot605-A",
+    "Qdot655-A",
+    "Qdot705-A",
+    "Time"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-A": 262144.0,
+    "FSC-W": 262144.0,
+    "SSC-A": 262144.0,
+    "Ax488-A": 262144.0,
+    "PE-A": 262144.0,
+    "PE-TR-A": 262144.0,
+    "PerCP-Cy55-A": 262144.0,
+    "PE-Cy7-A": 262144.0,
+    "Ax647-A": 262144.0,
+    "Ax700-A": 262144.0,
+    "Ax750-A": 262144.0,
+    "PacBlu-A": 262144.0,
+    "Qdot525-A": 262144.0,
+    "PacOrange-A": 262144.0,
+    "Qdot605-A": 262144.0,
+    "Qdot655-A": 262144.0,
+    "Qdot705-A": 262144.0,
+    "Time": 262144.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-A": 32,
+    "FSC-W": 32,
+    "SSC-A": 32,
+    "Ax488-A": 32,
+    "PE-A": 32,
+    "PE-TR-A": 32,
+    "PerCP-Cy55-A": 32,
+    "PE-Cy7-A": 32,
+    "Ax647-A": 32,
+    "Ax700-A": 32,
+    "Ax750-A": 32,
+    "PacBlu-A": 32,
+    "Qdot525-A": 32,
+    "PacOrange-A": 32,
+    "Qdot605-A": 32,
+    "Qdot655-A": 32,
+    "Qdot705-A": 32,
+    "Time": 32
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "F",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "big-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS3.0",
+   "cmp": "text"
+  },
+  {
+   "field": "time step ($TIMESTEP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/timestep_s",
+   "theirs": 0.01,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "file name ($FIL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/file_name",
+   "theirs": "PBMC_LRS005_IL10.fcs",
+   "cmp": "text"
+  },
+  {
+   "field": "source ($SRC)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/source",
+   "theirs": "PBMC_LRS005",
+   "cmp": "text"
+  },
+  {
+   "field": "system ($SYS)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/system",
+   "theirs": "Windows XP 5.1",
+   "cmp": "text"
+  },
+  {
+   "field": "operator ($OP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "Angelica",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "LSRII",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2009-09-02T16:21:15.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2009-09-02T16:23:00.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "spillover parameters (SPILL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/parameters",
+   "theirs": [
+    "Ax488-A",
+    "PE-A",
+    "PE-TR-A",
+    "PerCP-Cy55-A",
+    "PE-Cy7-A",
+    "Ax647-A",
+    "Ax700-A",
+    "Ax750-A",
+    "PacBlu-A",
+    "Qdot525-A",
+    "PacOrange-A",
+    "Qdot605-A",
+    "Qdot655-A",
+    "Qdot705-A"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "spillover matrix (SPILL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/matrix",
+   "theirs": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "compensated events (Ax488-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/3",
+   "theirs": [
+    347.0,
+    1013.0,
+    474.0,
+    467.0,
+    435.0,
+    397.0,
+    1529.0,
+    712.0,
+    1171.0,
+    228.0,
+    371.0,
+    292.0,
+    648.0,
+    119.0,
+    709.0,
+    465.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PE-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/4",
+   "theirs": [
+    11.0,
+    6949.0,
+    264.0,
+    381.0,
+    249.0,
+    206.0,
+    6337.0,
+    5987.0,
+    8107.0,
+    255.0,
+    309.0,
+    7025.0,
+    131.0,
+    69.0,
+    327.0,
+    321.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PE-TR-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/5",
+   "theirs": [
+    -26.0,
+    1311.0,
+    74.0,
+    -9.0,
+    8.0,
+    63.0,
+    1070.0,
+    1263.0,
+    1605.0,
+    60.0,
+    91.0,
+    1558.0,
+    65.0,
+    21.0,
+    69.0,
+    -5.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PerCP-Cy55-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/6",
+   "theirs": [
+    1305.0,
+    527.0,
+    57.0,
+    79.0,
+    145.0,
+    82.0,
+    487.0,
+    277.0,
+    511.0,
+    2635.0,
+    80.0,
+    746.0,
+    20.0,
+    12.0,
+    16.0,
+    124.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PE-Cy7-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/7",
+   "theirs": [
+    172.0,
+    80.0,
+    1483.0,
+    2015.0,
+    1629.0,
+    1721.0,
+    636.0,
+    97.0,
+    289.0,
+    351.0,
+    1900.0,
+    244.0,
+    1020.0,
+    217.0,
+    1356.0,
+    1488.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (Ax647-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/8",
+   "theirs": [
+    58.5,
+    292.5,
+    321.29998779296875,
+    63.0,
+    107.0999984741211,
+    19.799999237060547,
+    271.79998779296875,
+    352.79998779296875,
+    244.79998779296875,
+    119.69999694824219,
+    27.0,
+    1374.2999267578125,
+    54.89999771118164,
+    -31.5,
+    251.09999084472656,
+    108.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (Ax700-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/9",
+   "theirs": [
+    469.79998779296875,
+    153.89999389648438,
+    75.5999984741211,
+    45.0,
+    203.39999389648438,
+    36.89999771118164,
+    46.79999923706055,
+    136.8000030517578,
+    70.19999694824219,
+    1260.9000244140625,
+    -27.899999618530273,
+    401.3999938964844,
+    -31.5,
+    13.5,
+    73.79999542236328,
+    215.09999084472656
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (Ax750-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/10",
+   "theirs": [
+    95.39999389648438,
+    -60.29999923706055,
+    506.6999816894531,
+    337.5,
+    362.6999816894531,
+    342.8999938964844,
+    76.5,
+    135.89999389648438,
+    263.6999816894531,
+    427.5,
+    262.79998779296875,
+    239.39999389648438,
+    207.89999389648438,
+    -59.39999771118164,
+    213.29998779296875,
+    350.0999755859375
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PacBlu-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/11",
+   "theirs": [
+    79.20000457763672,
+    650.4000244140625,
+    2402.400146484375,
+    2624.0,
+    2764.800048828125,
+    2528.800048828125,
+    874.4000244140625,
+    557.6000366210938,
+    856.7999877929688,
+    87.20000457763672,
+    81.5999984741211,
+    348.0,
+    132.8000030517578,
+    394.3999938964844,
+    2663.199951171875,
+    2402.400146484375
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (Qdot525-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/12",
+   "theirs": [
+    164.8000030517578,
+    466.3999938964844,
+    1084.800048828125,
+    1181.5999755859375,
+    1230.4000244140625,
+    1111.2000732421875,
+    417.6000061035156,
+    219.1999969482422,
+    555.2000122070312,
+    140.0,
+    163.1999969482422,
+    191.1999969482422,
+    106.4000015258789,
+    338.3999938964844,
+    1049.5999755859375,
+    1003.2000122070312
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (PacOrange-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/13",
+   "theirs": [
+    35.20000076293945,
+    820.0,
+    400.8000183105469,
+    314.3999938964844,
+    352.0,
+    263.20001220703125,
+    871.2000122070312,
+    801.6000366210938,
+    1116.0,
+    -3.200000047683716,
+    32.79999923706055,
+    1196.800048828125,
+    9.600000381469727,
+    101.5999984741211,
+    274.3999938964844,
+    396.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (Qdot605-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/14",
+   "theirs": [
+    10.40000057220459,
+    596.7999877929688,
+    160.0,
+    195.1999969482422,
+    122.4000015258789,
+    239.1999969482422,
+    466.3999938964844,
+    600.0,
+    765.6000366210938,
+    -22.399999618530273,
+    227.1999969482422,
+    417.6000061035156,
+    41.60000228881836,
+    134.40000915527344,
+    239.1999969482422,
+    48.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (Qdot655-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/15",
+   "theirs": [
+    -14.40000057220459,
+    260.8000183105469,
+    21.600000381469727,
+    81.5999984741211,
+    43.20000076293945,
+    78.4000015258789,
+    142.40000915527344,
+    196.8000030517578,
+    212.0,
+    172.0,
+    -23.200000762939453,
+    294.3999938964844,
+    -3.200000047683716,
+    60.79999923706055,
+    87.20000457763672,
+    107.20000457763672
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (Qdot705-A)",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/16",
+   "theirs": [
+    864.7999877929688,
+    -12.0,
+    102.4000015258789,
+    160.8000030517578,
+    46.400001525878906,
+    100.0,
+    265.6000061035156,
+    107.20000457763672,
+    55.20000076293945,
+    1929.5999755859375,
+    39.20000076293945,
+    72.80000305175781,
+    10.40000057220459,
+    98.4000015258789,
+    52.79999923706055,
+    143.1999969482422
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  }
+ ]
+}

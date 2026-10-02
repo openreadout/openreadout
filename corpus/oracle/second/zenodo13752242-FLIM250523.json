@@ -1,0 +1,5319 @@
+{
+ "id": "zenodo13752242-FLIM250523",
+ "file": "zenodo13752242-FLIM250523.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "IRF-erythrosin",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9cf34ea6a266d9d5cb865187a5301922"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "IRF-erythrosin/FLIM Compressed/Intensity",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 2,
+   "name": "IRF-erythrosin/FLIM Compressed/Fast Flim",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "66e9314c657f91c7b910fb5e5d31025a"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "IRF-erythrosin/FLIM Compressed/Standard Deviation",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "be7af2195308015a281970376c46099f"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "IRF-erythrosin/FLIM Compressed/Phasor Real",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "40ff3adabf64fd77c88d3cf9d82859fc"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "IRF-erythrosin/FLIM Compressed/Phasor Imaginary",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f813e81b4f3b4ef0d51244b76ec29b8d"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "IRF-erythrosin/FLIM Compressed/Phasor Intensity",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fec7f68650cf413ddc4f65b8381805d8"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "IRF-erythrosin/FLIM Compressed/Phasor Mask",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 8,
+   "name": "IRF-erythrosin/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 9,
+   "name": "IRF-erythrosin/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 10,
+   "name": "D001",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aac3a2138d9d22f6c20ea5de4aa0771f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41fba3b664c9d5e0b9e83f2677e41404"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a8c229ff9eb909512f49c8e3e317821d"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7c256bba816d3114e68cae2741453097"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "Ds001",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "55101bf9b8906c91acde5e8937159df1"
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "name": "Ds001/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 13,
+   "name": "Ds001/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 14,
+   "name": "Ds001/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 15,
+   "name": "Ds001/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cdb5f95ecc876d1353386e544f9a43f4"
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "name": "Ds001/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a603192b4360027fdb0470afc68975cb"
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "name": "Ds001/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1a189b1dbfd879ed6fc7bf9b590e466f"
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "name": "Ds001/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6b450875c3d4a477d890055fee966128"
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "name": "Ds001/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "44192a1408eab0ca8f927eebc7f5d4bc"
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "name": "Ds001/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 21,
+   "name": "Ds001/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "name": "Ds001/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "name": "Ds001/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "820a6244f6f7090785a37c845b3cef36"
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "name": "Ds001/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "51f52c955b40b983b7271187f5eb5375"
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "name": "Ds001/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 26,
+   "name": "Ds001/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 27,
+   "name": "Ds001/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 28,
+   "name": "Ds001/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 29,
+   "name": "Ds001/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c6a1870084d64db1a7d58f8bb81462c6"
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "name": "Ds001/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d04fbdd578f1822f837ab407b0e392d7"
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "name": "Ds001/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 32,
+   "name": "Ds001/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 33,
+   "name": "Ds001/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 34,
+   "name": "Ds001/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 35,
+   "name": "Ds001/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 36,
+   "name": "Ds001/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e7c24b488dee53d0546ab1ec058d716a"
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "name": "Ds001/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dff119f6f022cfdd8965b905f796d574"
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "name": "Ds001/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 39,
+   "name": "Ds001/FLIM Compressed/Phasor Plot Region 1",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 40,
+   "name": "Ds001/FLIM Compressed/Phasor Plot Region 2",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 41,
+   "name": "D002",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "762ceb7500f2a2df75abf1712921b5e3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41fba3b664c9d5e0b9e83f2677e41404"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c46d82790492be23fd67e7358d13bd9e"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e446251e9013741dc11fd25859dbd95e"
+    }
+   ]
+  },
+  {
+   "index": 42,
+   "name": "Ds002",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4c73ab7d532e570ab79d008ba0363503"
+    }
+   ]
+  },
+  {
+   "index": 43,
+   "name": "Ds002/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 44,
+   "name": "Ds002/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 45,
+   "name": "Ds002/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 46,
+   "name": "Ds002/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ad2f6086aa28a903f7641a47cf82d404"
+    }
+   ]
+  },
+  {
+   "index": 47,
+   "name": "Ds002/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "527d6985ae3751688e8b9c7095470ea8"
+    }
+   ]
+  },
+  {
+   "index": 48,
+   "name": "Ds002/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0faee811794d86159ae7164bff256c72"
+    }
+   ]
+  },
+  {
+   "index": 49,
+   "name": "Ds002/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eb5433cd3866bd0b88e6fece09e4fe52"
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "name": "Ds002/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8fbb42d7beae0bdd4aff3fc39b604f1a"
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "name": "Ds002/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 52,
+   "name": "Ds002/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 53,
+   "name": "Ds002/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 54,
+   "name": "Ds002/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f6d96cecd282e5a8902382ee3f84a9f8"
+    }
+   ]
+  },
+  {
+   "index": 55,
+   "name": "Ds002/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1d5e38b5bf434867e3789447d5ef3ed4"
+    }
+   ]
+  },
+  {
+   "index": 56,
+   "name": "Ds002/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 57,
+   "name": "Ds002/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 58,
+   "name": "Ds002/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 59,
+   "name": "Ds002/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 60,
+   "name": "Ds002/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6196f5295874be81da06a52e98836840"
+    }
+   ]
+  },
+  {
+   "index": 61,
+   "name": "Ds002/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a70b00433fc3ebffb52b99bad3d6a656"
+    }
+   ]
+  },
+  {
+   "index": 62,
+   "name": "Ds002/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 63,
+   "name": "Ds002/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 64,
+   "name": "Ds002/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 65,
+   "name": "Ds002/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 66,
+   "name": "Ds002/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 67,
+   "name": "Ds002/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f1f3fe662a6aa71f58784702b18c1a63"
+    }
+   ]
+  },
+  {
+   "index": 68,
+   "name": "Ds002/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "66000b89e4ecd9baa89b0b1e93983b86"
+    }
+   ]
+  },
+  {
+   "index": 69,
+   "name": "Ds002/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 70,
+   "name": "Ds002/FLIM Compressed/Phasor Plot Region 1",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 71,
+   "name": "Ds002/FLIM Compressed/Phasor Plot Region 2",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 72,
+   "name": "D003",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "75dde9bbb3c8755e3ae4c0a369af483e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41fba3b664c9d5e0b9e83f2677e41404"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6eb47a67b274a2088441d011aa304c11"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ce1d416cd3f8e5e813c96b386e52fe9e"
+    }
+   ]
+  },
+  {
+   "index": 73,
+   "name": "Ds003",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "14e1a2036dfea597092c301e9d724e7c"
+    }
+   ]
+  },
+  {
+   "index": 74,
+   "name": "Ds003/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 75,
+   "name": "Ds003/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 76,
+   "name": "Ds003/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 77,
+   "name": "Ds003/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7f0fd2a8f11fcb89453b4b0231d3a4aa"
+    }
+   ]
+  },
+  {
+   "index": 78,
+   "name": "Ds003/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2e89cc93b3077c9efa236e2e890faa79"
+    }
+   ]
+  },
+  {
+   "index": 79,
+   "name": "Ds003/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ca66d6d56bb4f7906eb0633a4feb3ba0"
+    }
+   ]
+  },
+  {
+   "index": 80,
+   "name": "Ds003/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f94222391ff81bedad16f4276ea664e1"
+    }
+   ]
+  },
+  {
+   "index": 81,
+   "name": "Ds003/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8cd731600285f8ffcfaa04865a329255"
+    }
+   ]
+  },
+  {
+   "index": 82,
+   "name": "Ds003/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 83,
+   "name": "Ds003/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 84,
+   "name": "Ds003/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 85,
+   "name": "Ds003/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ccf9a3f99e6ab577cdcc92dbd9e89210"
+    }
+   ]
+  },
+  {
+   "index": 86,
+   "name": "Ds003/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0be1e438d95939ddef24b18fa7bf7681"
+    }
+   ]
+  },
+  {
+   "index": 87,
+   "name": "Ds003/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 88,
+   "name": "Ds003/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 89,
+   "name": "Ds003/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 90,
+   "name": "Ds003/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 91,
+   "name": "Ds003/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "80c5ce12a5adb3c77f1c3defd2151ad2"
+    }
+   ]
+  },
+  {
+   "index": 92,
+   "name": "Ds003/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d7b2149c9011f80bb5f96da7935eed15"
+    }
+   ]
+  },
+  {
+   "index": 93,
+   "name": "Ds003/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 94,
+   "name": "Ds003/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 95,
+   "name": "Ds003/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 96,
+   "name": "Ds003/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 97,
+   "name": "Ds003/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 98,
+   "name": "Ds003/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0dd4e60e3152ef1e2cab93252615c162"
+    }
+   ]
+  },
+  {
+   "index": 99,
+   "name": "Ds003/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4f9d86191b9d334b84717ffee5d6f1f9"
+    }
+   ]
+  },
+  {
+   "index": 100,
+   "name": "Ds003/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 101,
+   "name": "D004",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d7e225ca703da36ac4b52326436965c2"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41fba3b664c9d5e0b9e83f2677e41404"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b803da26679f03c486b4287d535590d8"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cd5ef6cf9f081b75dfefe5ae3bfaf53c"
+    }
+   ]
+  },
+  {
+   "index": 102,
+   "name": "Ds004",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8904248501498adec04f7b0f2b7ee530"
+    }
+   ]
+  },
+  {
+   "index": 103,
+   "name": "Ds004/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 104,
+   "name": "Ds004/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 105,
+   "name": "Ds004/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 106,
+   "name": "Ds004/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "48748d89f3113a9c6c55203ec6243602"
+    }
+   ]
+  },
+  {
+   "index": 107,
+   "name": "Ds004/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "80c786a662c2cc28562001ec42380e8b"
+    }
+   ]
+  },
+  {
+   "index": 108,
+   "name": "Ds004/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9224c3f5954d7a3e5727f8374c19091e"
+    }
+   ]
+  },
+  {
+   "index": 109,
+   "name": "Ds004/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4d0309f4b9daca6c331037ab23d3d81f"
+    }
+   ]
+  },
+  {
+   "index": 110,
+   "name": "Ds004/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f7876730dadd4db1209f533cfd536b54"
+    }
+   ]
+  },
+  {
+   "index": 111,
+   "name": "Ds004/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 112,
+   "name": "Ds004/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 113,
+   "name": "Ds004/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 114,
+   "name": "Ds004/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "72242408835806d4aebae80d7bed3a1b"
+    }
+   ]
+  },
+  {
+   "index": 115,
+   "name": "Ds004/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f6c2349ef18eaa8fc1fc750bfff00710"
+    }
+   ]
+  },
+  {
+   "index": 116,
+   "name": "Ds004/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 117,
+   "name": "Ds004/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 118,
+   "name": "Ds004/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 119,
+   "name": "Ds004/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 120,
+   "name": "Ds004/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "77c78668efda4efe8c27f45598e8cbb7"
+    }
+   ]
+  },
+  {
+   "index": 121,
+   "name": "Ds004/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "178058383636698628634533e13cfb70"
+    }
+   ]
+  },
+  {
+   "index": 122,
+   "name": "Ds004/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 123,
+   "name": "Ds004/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 124,
+   "name": "Ds004/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 125,
+   "name": "Ds004/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 126,
+   "name": "Ds004/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 127,
+   "name": "Ds004/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "35435234edf2866dd416d5545f5aed06"
+    }
+   ]
+  },
+  {
+   "index": 128,
+   "name": "Ds004/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "012d84fa920f1fd3f474f7db505a511c"
+    }
+   ]
+  },
+  {
+   "index": 129,
+   "name": "Ds004/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 130,
+   "name": "D005",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "797f54839b3821de5b0db83d622362f9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41fba3b664c9d5e0b9e83f2677e41404"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "53a5c0473d14e054f043721d8c66c1ad"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9ac51dc67ff54914d5fe1665d247515a"
+    }
+   ]
+  },
+  {
+   "index": 131,
+   "name": "Ds005",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cc2f77104226afb421a04f9809d34936"
+    }
+   ]
+  },
+  {
+   "index": 132,
+   "name": "Ds005/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 133,
+   "name": "Ds005/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 134,
+   "name": "Ds005/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 135,
+   "name": "Ds005/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2f8b62f4ee56f07d2a5c1fbb1905702f"
+    }
+   ]
+  },
+  {
+   "index": 136,
+   "name": "Ds005/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "86a018145201839d412db88254d7056b"
+    }
+   ]
+  },
+  {
+   "index": 137,
+   "name": "Ds005/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f49a977dfda8659ff4423402d1ab16f6"
+    }
+   ]
+  },
+  {
+   "index": 138,
+   "name": "Ds005/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "32afb6a0c9c6899e636ecd935240eb42"
+    }
+   ]
+  },
+  {
+   "index": 139,
+   "name": "Ds005/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d20e3b0bb75a4a1e06d271e3b5bb99df"
+    }
+   ]
+  },
+  {
+   "index": 140,
+   "name": "Ds005/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 141,
+   "name": "Ds005/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 142,
+   "name": "Ds005/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 143,
+   "name": "Ds005/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2f7538b0826953ddac39550d9876e226"
+    }
+   ]
+  },
+  {
+   "index": 144,
+   "name": "Ds005/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7bddb399faccaa02cb3c956ddb40b01b"
+    }
+   ]
+  },
+  {
+   "index": 145,
+   "name": "Ds005/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 146,
+   "name": "Ds005/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 147,
+   "name": "Ds005/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 148,
+   "name": "Ds005/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 149,
+   "name": "Ds005/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "94556198e5549ea2f39a7242c4a97138"
+    }
+   ]
+  },
+  {
+   "index": 150,
+   "name": "Ds005/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2b45695d018cdcd8b998193b5a7cf484"
+    }
+   ]
+  },
+  {
+   "index": 151,
+   "name": "Ds005/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 152,
+   "name": "Ds005/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 153,
+   "name": "Ds005/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 154,
+   "name": "Ds005/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 155,
+   "name": "Ds005/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 156,
+   "name": "Ds005/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f1288c2f91908a77ea14e779150d952"
+    }
+   ]
+  },
+  {
+   "index": 157,
+   "name": "Ds005/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4261fe7de673fc91fbe84ef9ce15deaf"
+    }
+   ]
+  },
+  {
+   "index": 158,
+   "name": "Ds005/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 159,
+   "name": "E001",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "79679113747759ed71fbd0fbf665c397"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41fba3b664c9d5e0b9e83f2677e41404"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "24871c1c7e9257f4c9776cedb0b592a2"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bbf74b46b68c6a16d6cee0623bd3552c"
+    }
+   ]
+  },
+  {
+   "index": 160,
+   "name": "Es001",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "59b8b87c29469c005bc3fb803b7e52f7"
+    }
+   ]
+  },
+  {
+   "index": 161,
+   "name": "Es001/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 162,
+   "name": "Es001/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 163,
+   "name": "Es001/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 164,
+   "name": "Es001/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "83d247423030ad248ecb6c7c1d830d62"
+    }
+   ]
+  },
+  {
+   "index": 165,
+   "name": "Es001/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8f37d3704d113c71598f631320fa933c"
+    }
+   ]
+  },
+  {
+   "index": 166,
+   "name": "Es001/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "53b2916f6be223268e826c8bd1a03016"
+    }
+   ]
+  },
+  {
+   "index": 167,
+   "name": "Es001/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8a1db26ca5e864645538c136bf13e397"
+    }
+   ]
+  },
+  {
+   "index": 168,
+   "name": "Es001/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d88e166423d0513a13a5fe73d60399ee"
+    }
+   ]
+  },
+  {
+   "index": 169,
+   "name": "Es001/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 170,
+   "name": "Es001/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 171,
+   "name": "Es001/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 172,
+   "name": "Es001/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b09173a21d8f5eb2f8d8022c1479699d"
+    }
+   ]
+  },
+  {
+   "index": 173,
+   "name": "Es001/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a5324a397d0708f97762226f82b09c6d"
+    }
+   ]
+  },
+  {
+   "index": 174,
+   "name": "Es001/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 175,
+   "name": "Es001/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 176,
+   "name": "Es001/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 177,
+   "name": "Es001/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 178,
+   "name": "Es001/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 179,
+   "name": "Es001/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "453ea6e8fe7d3c936578fe2047e428c0"
+    }
+   ]
+  },
+  {
+   "index": 180,
+   "name": "Es001/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 181,
+   "name": "Es001/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 182,
+   "name": "Es001/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 183,
+   "name": "Es001/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 184,
+   "name": "Es001/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 185,
+   "name": "Es001/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "774c4582ac0f20b16771faba647d20c9"
+    }
+   ]
+  },
+  {
+   "index": 186,
+   "name": "Es001/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7c6cd6b705afd1ab9ad03928120c2a37"
+    }
+   ]
+  },
+  {
+   "index": 187,
+   "name": "Es001/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 188,
+   "name": "E002",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "192e358026eb228017052eea6ae3e076"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "edf7f98068a588eda8900cc7e0a2c313"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5196b4349ef17fe93ae634d6e4adafb1"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "30cd6422c1b7e9b2a459231ea6560a24"
+    }
+   ]
+  },
+  {
+   "index": 189,
+   "name": "Es002",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f973e82a9802c3de0033442ee93cc6aa"
+    }
+   ]
+  },
+  {
+   "index": 190,
+   "name": "Es002/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 191,
+   "name": "Es002/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 192,
+   "name": "Es002/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 193,
+   "name": "Es002/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a5d1719c33804f46d2338c8f412c3878"
+    }
+   ]
+  },
+  {
+   "index": 194,
+   "name": "Es002/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d12561b4ccca3c96c77e9a63de6b8c04"
+    }
+   ]
+  },
+  {
+   "index": 195,
+   "name": "Es002/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e430024d41f6e24e8b402b769024c669"
+    }
+   ]
+  },
+  {
+   "index": 196,
+   "name": "Es002/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d7b933cab64459e0a6da7640f3517771"
+    }
+   ]
+  },
+  {
+   "index": 197,
+   "name": "Es002/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1ec85a3365b518ac3815050eee70d25f"
+    }
+   ]
+  },
+  {
+   "index": 198,
+   "name": "Es002/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 199,
+   "name": "Es002/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 200,
+   "name": "Es002/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 201,
+   "name": "Es002/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "24a61a769ddb497426134ec5094b1b0a"
+    }
+   ]
+  },
+  {
+   "index": 202,
+   "name": "Es002/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3381ee7da2ec230ce8dd0d1f4e350b3d"
+    }
+   ]
+  },
+  {
+   "index": 203,
+   "name": "Es002/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 204,
+   "name": "Es002/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 205,
+   "name": "Es002/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 206,
+   "name": "Es002/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 207,
+   "name": "Es002/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "477781984eeccf24666b5af9ae99e168"
+    }
+   ]
+  },
+  {
+   "index": 208,
+   "name": "Es002/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3d1e30529282c5cb2deb990d85712c6c"
+    }
+   ]
+  },
+  {
+   "index": 209,
+   "name": "Es002/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 210,
+   "name": "Es002/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 211,
+   "name": "Es002/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 212,
+   "name": "Es002/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 213,
+   "name": "Es002/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 214,
+   "name": "Es002/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5430f858649b20232da2f4c1e8c3f43d"
+    }
+   ]
+  },
+  {
+   "index": 215,
+   "name": "Es002/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d21fdfbc55b43e809b06713e7a141d35"
+    }
+   ]
+  },
+  {
+   "index": 216,
+   "name": "Es002/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 217,
+   "name": "E003",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "61b5bd104d21378b69b905d8d1f29215"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41fba3b664c9d5e0b9e83f2677e41404"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5f5b99dfbf6a52ecf15585f5df065c5e"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e74686963df46dcede5e047b157c037"
+    }
+   ]
+  },
+  {
+   "index": 218,
+   "name": "Es003",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "87d4c034877d5a9ce077e134275cebc2"
+    }
+   ]
+  },
+  {
+   "index": 219,
+   "name": "Es003/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 220,
+   "name": "Es003/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 221,
+   "name": "Es003/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 222,
+   "name": "Es003/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "da73340afbc601968d224d0b8d4f5e47"
+    }
+   ]
+  },
+  {
+   "index": 223,
+   "name": "Es003/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "57a6dec72b8ecda135d87fb359619a70"
+    }
+   ]
+  },
+  {
+   "index": 224,
+   "name": "Es003/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2d33ff915b95514d753e524333fbc86d"
+    }
+   ]
+  },
+  {
+   "index": 225,
+   "name": "Es003/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f6b0db8c85908845cbfdc79680064e6c"
+    }
+   ]
+  },
+  {
+   "index": 226,
+   "name": "Es003/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5612fd2cf1eaba4a34d0e15657d9145b"
+    }
+   ]
+  },
+  {
+   "index": 227,
+   "name": "Es003/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 228,
+   "name": "Es003/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 229,
+   "name": "Es003/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 230,
+   "name": "Es003/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8d925d4c4b1ca9f4bea644b89ab676b2"
+    }
+   ]
+  },
+  {
+   "index": 231,
+   "name": "Es003/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "72b88af5075346060864801f11a5b962"
+    }
+   ]
+  },
+  {
+   "index": 232,
+   "name": "Es003/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 233,
+   "name": "Es003/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 234,
+   "name": "Es003/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 235,
+   "name": "Es003/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 236,
+   "name": "Es003/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3633efbb3297688492f9f43aadf3f9bb"
+    }
+   ]
+  },
+  {
+   "index": 237,
+   "name": "Es003/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e98973a34b8d168742f5e890302f7323"
+    }
+   ]
+  },
+  {
+   "index": 238,
+   "name": "Es003/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 239,
+   "name": "Es003/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 240,
+   "name": "Es003/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 241,
+   "name": "Es003/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 242,
+   "name": "Es003/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 243,
+   "name": "Es003/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2e6d316149bcb1498d607ade1e957ee4"
+    }
+   ]
+  },
+  {
+   "index": 244,
+   "name": "Es003/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "42d0b491fbc5136b879936c5664663c5"
+    }
+   ]
+  },
+  {
+   "index": 245,
+   "name": "Es003/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 246,
+   "name": "Es003/FLIM Compressed/Phasor Plot Region 1",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 247,
+   "name": "Es003/FLIM Compressed/Phasor Plot Region 2",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 248,
+   "name": "E004",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a0dfe821a632482407912f1651334c47"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "db184abe4143b002a487d06da72490e0"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0c2be028313e86fbfd258b867ed066b5"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d987561235d980ef862e77cfcd4d23b4"
+    }
+   ]
+  },
+  {
+   "index": 249,
+   "name": "Es004",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c8e9c1b7cc96c276e0765f0581992267"
+    }
+   ]
+  },
+  {
+   "index": 250,
+   "name": "Es004/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 251,
+   "name": "Es004/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 252,
+   "name": "Es004/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 253,
+   "name": "Es004/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8743c006dff3622006c28b673db08db9"
+    }
+   ]
+  },
+  {
+   "index": 254,
+   "name": "Es004/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "637e8fc97f3a12ae0d165bbc2613bb9c"
+    }
+   ]
+  },
+  {
+   "index": 255,
+   "name": "Es004/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "75faac93b1e723119837a66193c032a6"
+    }
+   ]
+  },
+  {
+   "index": 256,
+   "name": "Es004/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a7c8cbb1f6268ab38312d0884032f049"
+    }
+   ]
+  },
+  {
+   "index": 257,
+   "name": "Es004/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "21738d44844dbbcae2e7b0d847e43d93"
+    }
+   ]
+  },
+  {
+   "index": 258,
+   "name": "Es004/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 259,
+   "name": "Es004/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 260,
+   "name": "Es004/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 261,
+   "name": "Es004/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c90b7d918021d0025dcbff3fc5643296"
+    }
+   ]
+  },
+  {
+   "index": 262,
+   "name": "Es004/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "08f61ee61f04373aafdcd12a99a365aa"
+    }
+   ]
+  },
+  {
+   "index": 263,
+   "name": "Es004/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 264,
+   "name": "Es004/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 265,
+   "name": "Es004/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 266,
+   "name": "Es004/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 267,
+   "name": "Es004/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d66298861bf5a97503e740bd76051e3c"
+    }
+   ]
+  },
+  {
+   "index": 268,
+   "name": "Es004/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "85e6e4ea22c21fc1d5423edf8cfec74e"
+    }
+   ]
+  },
+  {
+   "index": 269,
+   "name": "Es004/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 270,
+   "name": "Es004/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 271,
+   "name": "Es004/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 272,
+   "name": "Es004/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 273,
+   "name": "Es004/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 274,
+   "name": "Es004/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e4e48e4235d35ca4f3025617a47662ac"
+    }
+   ]
+  },
+  {
+   "index": 275,
+   "name": "Es004/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1a6bb241497f0ec9ae3d6daea608ba10"
+    }
+   ]
+  },
+  {
+   "index": 276,
+   "name": "Es004/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 277,
+   "name": "Es004/FLIM Compressed/Phasor Plot Region 1",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 278,
+   "name": "Es004/FLIM Compressed/Phasor Plot Region 2",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 279,
+   "name": "E005",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cbe516851d0c895c5aa167c03e78d88a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41fba3b664c9d5e0b9e83f2677e41404"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8152d9ea3112a672ac2ac514cbbaf603"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ac4c1b8433788a169ad4d8441f384ed5"
+    }
+   ]
+  },
+  {
+   "index": 280,
+   "name": "Es005",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dc45e40d99858117e4b71e0f6177b6c1"
+    }
+   ]
+  },
+  {
+   "index": 281,
+   "name": "Es005/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 282,
+   "name": "Es005/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 283,
+   "name": "Es005/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 284,
+   "name": "Es005/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5d8f6e629be7a3edbca84fe457695b72"
+    }
+   ]
+  },
+  {
+   "index": 285,
+   "name": "Es005/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31e009ba543651dcd24ee94a4dc428f3"
+    }
+   ]
+  },
+  {
+   "index": 286,
+   "name": "Es005/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b415b9b8c8eab6814298e7275294c542"
+    }
+   ]
+  },
+  {
+   "index": 287,
+   "name": "Es005/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "17b9cabeea881fb41d556ebb4d1421b3"
+    }
+   ]
+  },
+  {
+   "index": 288,
+   "name": "Es005/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "97150791ce063a2965c2d13ade0708c5"
+    }
+   ]
+  },
+  {
+   "index": 289,
+   "name": "Es005/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 290,
+   "name": "Es005/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 291,
+   "name": "Es005/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 292,
+   "name": "Es005/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "09267626674cf3dd59f76965deb7f832"
+    }
+   ]
+  },
+  {
+   "index": 293,
+   "name": "Es005/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "34df128abd8dd63a65c1fde1ed134229"
+    }
+   ]
+  },
+  {
+   "index": 294,
+   "name": "Es005/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 295,
+   "name": "Es005/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 296,
+   "name": "Es005/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 297,
+   "name": "Es005/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 298,
+   "name": "Es005/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9dc899820054e287756b8b0ee8a9109d"
+    }
+   ]
+  },
+  {
+   "index": 299,
+   "name": "Es005/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "565c2b576cb6758a28bd18ebc1ee8db3"
+    }
+   ]
+  },
+  {
+   "index": 300,
+   "name": "Es005/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 301,
+   "name": "Es005/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 302,
+   "name": "Es005/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 303,
+   "name": "Es005/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 304,
+   "name": "Es005/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 305,
+   "name": "Es005/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e83ac4472b02f63ff79d254e2cd6319d"
+    }
+   ]
+  },
+  {
+   "index": 306,
+   "name": "Es005/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8f33ee83c5195a79d9e70f1ca45ad629"
+    }
+   ]
+  },
+  {
+   "index": 307,
+   "name": "Es005/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 308,
+   "name": "B001",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "548435614a09428589c49f4857aa7cd9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41fba3b664c9d5e0b9e83f2677e41404"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0cd55fc2f569956dad42fdf53fd7c5bf"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e3e49f7f0467212313aa37796dc75fc9"
+    }
+   ]
+  },
+  {
+   "index": 309,
+   "name": "Bs001",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "df8f12f0a1e7d147f8da67e378e69cd8"
+    }
+   ]
+  },
+  {
+   "index": 310,
+   "name": "Bs001/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 311,
+   "name": "Bs001/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 312,
+   "name": "Bs001/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 313,
+   "name": "Bs001/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "126bc9dc83fb1ce81035ea1d877aa04d"
+    }
+   ]
+  },
+  {
+   "index": 314,
+   "name": "Bs001/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6eb5bd580035a2769faaf5645617c7c0"
+    }
+   ]
+  },
+  {
+   "index": 315,
+   "name": "Bs001/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a28cae0e6bca4995a8d44c55a5bd473d"
+    }
+   ]
+  },
+  {
+   "index": 316,
+   "name": "Bs001/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3fb54eb007f202edbdcd5e8248d40ef6"
+    }
+   ]
+  },
+  {
+   "index": 317,
+   "name": "Bs001/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "47c84199570633b7bd7b40adbd8f8491"
+    }
+   ]
+  },
+  {
+   "index": 318,
+   "name": "Bs001/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 319,
+   "name": "Bs001/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 320,
+   "name": "Bs001/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 321,
+   "name": "Bs001/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "afbcb14eecfda58f6d13e61c67b15500"
+    }
+   ]
+  },
+  {
+   "index": 322,
+   "name": "Bs001/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ea627dbbd1152fea1abe37d461aecfe8"
+    }
+   ]
+  },
+  {
+   "index": 323,
+   "name": "Bs001/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 324,
+   "name": "Bs001/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 325,
+   "name": "Bs001/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 326,
+   "name": "Bs001/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 327,
+   "name": "Bs001/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "06cd446d4bd2619ade197b6cd3441498"
+    }
+   ]
+  },
+  {
+   "index": 328,
+   "name": "Bs001/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9272d15dd899b7878e73612212c91f1c"
+    }
+   ]
+  },
+  {
+   "index": 329,
+   "name": "Bs001/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 330,
+   "name": "Bs001/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 331,
+   "name": "Bs001/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 332,
+   "name": "Bs001/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 333,
+   "name": "Bs001/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 334,
+   "name": "Bs001/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ee1736e3dd46c967e841a22521e845cd"
+    }
+   ]
+  },
+  {
+   "index": 335,
+   "name": "Bs001/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "209a9647693f2421774c6be7d6496883"
+    }
+   ]
+  },
+  {
+   "index": 336,
+   "name": "Bs001/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 337,
+   "name": "Bs001/FLIM Compressed/Phasor Plot Region 1",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 338,
+   "name": "Bs001/FLIM Compressed/Phasor Plot Region 2",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 339,
+   "name": "B002",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4861009950ff12d8388545840d7cdba4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "962146704ab72dc369fe3784cde8fa7b"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4c46bff19b050dcf1f97b6bf8d39ad6c"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7302eccd07db20948561ff16f41ac0fb"
+    }
+   ]
+  },
+  {
+   "index": 340,
+   "name": "Bs002",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7bfd96d96feef2f992b4ede444cc63c5"
+    }
+   ]
+  },
+  {
+   "index": 341,
+   "name": "Bs002/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 342,
+   "name": "Bs002/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 343,
+   "name": "Bs002/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 344,
+   "name": "Bs002/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "38ac910a01fbd8c80f59ee474c766ab6"
+    }
+   ]
+  },
+  {
+   "index": 345,
+   "name": "Bs002/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5dc07dfbbcb9581bf739acad3f59c451"
+    }
+   ]
+  },
+  {
+   "index": 346,
+   "name": "Bs002/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a8ad22f2f7c5d3fda024c85d80c79a6e"
+    }
+   ]
+  },
+  {
+   "index": 347,
+   "name": "Bs002/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fdc0f9d624464cf918b88fb753499ead"
+    }
+   ]
+  },
+  {
+   "index": 348,
+   "name": "Bs002/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "46ef67831da481399807e115cd94179f"
+    }
+   ]
+  },
+  {
+   "index": 349,
+   "name": "Bs002/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 350,
+   "name": "Bs002/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 351,
+   "name": "Bs002/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 352,
+   "name": "Bs002/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4808e892fead69f76f8e58453021b9fb"
+    }
+   ]
+  },
+  {
+   "index": 353,
+   "name": "Bs002/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fd3e03ae4e0d900cfad18da139a5b692"
+    }
+   ]
+  },
+  {
+   "index": 354,
+   "name": "Bs002/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 355,
+   "name": "Bs002/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 356,
+   "name": "Bs002/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 357,
+   "name": "Bs002/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 358,
+   "name": "Bs002/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 359,
+   "name": "Bs002/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1a76d5f884942bd49378bc689e0d5fab"
+    }
+   ]
+  },
+  {
+   "index": 360,
+   "name": "Bs002/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 361,
+   "name": "Bs002/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 362,
+   "name": "Bs002/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 363,
+   "name": "Bs002/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 364,
+   "name": "Bs002/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 365,
+   "name": "Bs002/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1d68e5a07b976b85f822d6e2004fecea"
+    }
+   ]
+  },
+  {
+   "index": 366,
+   "name": "Bs002/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d0852e75aeb3388bbfe29a0a6d75547"
+    }
+   ]
+  },
+  {
+   "index": 367,
+   "name": "Bs002/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 368,
+   "name": "Bs002/FLIM Compressed/Phasor Plot Region 1",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 369,
+   "name": "Bs002/FLIM Compressed/Phasor Plot Region 2",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 370,
+   "name": "B003",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c199e0417617d146aa773be0ec4583d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1497151df09b0a2100a7cc00ee9e646f"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "06eb56c6cbfc4a5896ad53c2e583df8a"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d46378cdb158e43119bae228242c68ba"
+    }
+   ]
+  },
+  {
+   "index": 371,
+   "name": "Bs003",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "67b2818b791dba531ffd16c9171a17ad"
+    }
+   ]
+  },
+  {
+   "index": 372,
+   "name": "Bs003/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 373,
+   "name": "Bs003/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 374,
+   "name": "Bs003/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 375,
+   "name": "Bs003/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "804d3a26d748003c6c9fe5b1ae309772"
+    }
+   ]
+  },
+  {
+   "index": 376,
+   "name": "Bs003/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8f4c2ef8bcd10cda0dc0db5727c1e508"
+    }
+   ]
+  },
+  {
+   "index": 377,
+   "name": "Bs003/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f7b11f1f4fef0a43d0e32bbd43cf48ff"
+    }
+   ]
+  },
+  {
+   "index": 378,
+   "name": "Bs003/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "48e55bd493df32327c68c7482cff9ad7"
+    }
+   ]
+  },
+  {
+   "index": 379,
+   "name": "Bs003/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "add310ca5d961b4da3b46654ba97490c"
+    }
+   ]
+  },
+  {
+   "index": 380,
+   "name": "Bs003/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 381,
+   "name": "Bs003/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 382,
+   "name": "Bs003/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 383,
+   "name": "Bs003/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3a16a511138c1c7e37fbb18aa3c44ae3"
+    }
+   ]
+  },
+  {
+   "index": 384,
+   "name": "Bs003/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "56e8061b5ff8dbfaa6d2351f9de6c723"
+    }
+   ]
+  },
+  {
+   "index": 385,
+   "name": "Bs003/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 386,
+   "name": "Bs003/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 387,
+   "name": "Bs003/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 388,
+   "name": "Bs003/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 389,
+   "name": "Bs003/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 390,
+   "name": "Bs003/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d10df1d6948fdf8721fff8c698bcbc6b"
+    }
+   ]
+  },
+  {
+   "index": 391,
+   "name": "Bs003/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 392,
+   "name": "Bs003/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 393,
+   "name": "Bs003/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 394,
+   "name": "Bs003/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 395,
+   "name": "Bs003/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 396,
+   "name": "Bs003/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "680684fb99499423a0fd2f0a926cdd10"
+    }
+   ]
+  },
+  {
+   "index": 397,
+   "name": "Bs003/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3e4c8adda9e2e8f9c51f9a2b0f24f8a8"
+    }
+   ]
+  },
+  {
+   "index": 398,
+   "name": "Bs003/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 399,
+   "name": "B004",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e4773fd3600c154b626099485ef161a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41fba3b664c9d5e0b9e83f2677e41404"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1fbdf20491230a82390e5cba3a2675dc"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "180e61e240e65ca146ab3efd29fa9b18"
+    }
+   ]
+  },
+  {
+   "index": 400,
+   "name": "Bs004",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5c574a409a17c1389ff9394b54ad681e"
+    }
+   ]
+  },
+  {
+   "index": 401,
+   "name": "Bs004/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 402,
+   "name": "Bs004/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 403,
+   "name": "Bs004/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 404,
+   "name": "Bs004/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e78f46ca173da9939e0dc57e63bda730"
+    }
+   ]
+  },
+  {
+   "index": 405,
+   "name": "Bs004/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "35912d9ac8503eba234ccacb55467686"
+    }
+   ]
+  },
+  {
+   "index": 406,
+   "name": "Bs004/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "59593e875554b9532d11f3fb9406b5c3"
+    }
+   ]
+  },
+  {
+   "index": 407,
+   "name": "Bs004/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b5ac6ea708cd62b2835e9ee0a58e0654"
+    }
+   ]
+  },
+  {
+   "index": 408,
+   "name": "Bs004/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4d07ac32adde4f0ec06561d8ed748c8e"
+    }
+   ]
+  },
+  {
+   "index": 409,
+   "name": "Bs004/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 410,
+   "name": "Bs004/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 411,
+   "name": "Bs004/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 412,
+   "name": "Bs004/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8c36a02ba0e80f6ff569556e6aa4612f"
+    }
+   ]
+  },
+  {
+   "index": 413,
+   "name": "Bs004/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ac007a031f49d04c2fb79db142180bcf"
+    }
+   ]
+  },
+  {
+   "index": 414,
+   "name": "Bs004/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 415,
+   "name": "Bs004/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 416,
+   "name": "Bs004/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 417,
+   "name": "Bs004/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 418,
+   "name": "Bs004/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aecc87bb33f2f643b9c4b93c3ac83692"
+    }
+   ]
+  },
+  {
+   "index": 419,
+   "name": "Bs004/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9197b257b38d9a5decdf5d874e9e01ac"
+    }
+   ]
+  },
+  {
+   "index": 420,
+   "name": "Bs004/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 421,
+   "name": "Bs004/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 422,
+   "name": "Bs004/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 423,
+   "name": "Bs004/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 424,
+   "name": "Bs004/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 425,
+   "name": "Bs004/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9fc2bef7a3ded40fc735b66620676c70"
+    }
+   ]
+  },
+  {
+   "index": 426,
+   "name": "Bs004/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2080ae31e344bcb8a1cea5e7d85b54cb"
+    }
+   ]
+  },
+  {
+   "index": 427,
+   "name": "Bs004/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 428,
+   "name": "B005",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "00d33e3979816f9a2c6c03054c4d0fcc"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41fba3b664c9d5e0b9e83f2677e41404"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aa04c9d2db4e3a29bc2135b9d105caa1"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b30b03962a4d618300da5e879112d58d"
+    }
+   ]
+  },
+  {
+   "index": 429,
+   "name": "Bs005",
+   "size_x": 128,
+   "size_y": 128,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bb5ed83e082e454d1551cb06a525f711"
+    }
+   ]
+  },
+  {
+   "index": 430,
+   "name": "Bs005/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 431,
+   "name": "Bs005/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 432,
+   "name": "Bs005/FLIM Compressed/Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 433,
+   "name": "Bs005/FLIM Compressed/Fast Flim",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7a9670b968b798af28f625db86b2490b"
+    }
+   ]
+  },
+  {
+   "index": 434,
+   "name": "Bs005/FLIM Compressed/Standard Deviation",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "024d5b9865eb41de9cfdefa3ad8c8f70"
+    }
+   ]
+  },
+  {
+   "index": 435,
+   "name": "Bs005/FLIM Compressed/Phasor Real",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "92e0f11bd32a670bf327bb5f7f8569e2"
+    }
+   ]
+  },
+  {
+   "index": 436,
+   "name": "Bs005/FLIM Compressed/Phasor Imaginary",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0ae46079152f7ec1208c85c269a5f12c"
+    }
+   ]
+  },
+  {
+   "index": 437,
+   "name": "Bs005/FLIM Compressed/Phasor Intensity",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5a2e8e2733b38279f896b6ed8e2d8ac8"
+    }
+   ]
+  },
+  {
+   "index": 438,
+   "name": "Bs005/FLIM Compressed/Phasor Mask",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 439,
+   "name": "Bs005/FLIM Compressed/FretForsterDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c8a36bd5451c725620797930ab0991a"
+    }
+   ]
+  },
+  {
+   "index": 440,
+   "name": "Bs005/FLIM Compressed/FretDonorLifetime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a237c68741a0fec0c2bf1c6279e1f700"
+    }
+   ]
+  },
+  {
+   "index": 441,
+   "name": "Bs005/FLIM Compressed/FlimDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9b95624a5070ac0cd35e76435618c9e6"
+    }
+   ]
+  },
+  {
+   "index": 442,
+   "name": "Bs005/FLIM Compressed/FlimDecayTime 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9dc71f2e6c6d3a4ccc82f4d852cb9042"
+    }
+   ]
+  },
+  {
+   "index": 443,
+   "name": "Bs005/FLIM Compressed/FlimAmplitude 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 444,
+   "name": "Bs005/FLIM Compressed/FlimAmplitude 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 445,
+   "name": "Bs005/FLIM Compressed/FlimTailOffset 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 446,
+   "name": "Bs005/FLIM Compressed/FlimInstrumentResponseFunctionBackground 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 447,
+   "name": "Bs005/FLIM Compressed/FlimInstrumentResponseFunctionShift 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3e763a744f3a2048b046e3b5d5433315"
+    }
+   ]
+  },
+  {
+   "index": 448,
+   "name": "Bs005/FLIM Compressed/FretEfficiencyPercentage 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1f116e80d5cd43d5b833c4eaf76e10a0"
+    }
+   ]
+  },
+  {
+   "index": 449,
+   "name": "Bs005/FLIM Compressed/FretDonorAcceptorDistance 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 450,
+   "name": "Bs005/FLIM Compressed/FlimIntensity 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 451,
+   "name": "Bs005/FLIM Compressed/FlimIntensity 2 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 452,
+   "name": "Bs005/FLIM Compressed/FlimAmplitudeSum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 453,
+   "name": "Bs005/FLIM Compressed/FlimIntensitySum 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 454,
+   "name": "Bs005/FLIM Compressed/FlimMeanPhotonArivalTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "47e9d50cdd4980fe2f188710c73bbc81"
+    }
+   ]
+  },
+  {
+   "index": 455,
+   "name": "Bs005/FLIM Compressed/FlimMeanDecayTime 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "681e679be935801e4cb15e9376ebdab9"
+    }
+   ]
+  },
+  {
+   "index": 456,
+   "name": "Bs005/FLIM Compressed/ChiSquare 1 ch1",
+   "size_x": 64,
+   "size_y": 64,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  }
+ ]
+}

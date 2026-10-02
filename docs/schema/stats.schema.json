@@ -1,0 +1,625 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StatsOutput",
+  "description": "Output of `stats`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input file.",
+      "type": "string"
+    },
+    "level": {
+      "description": "Pyramid level the planes were read at (0 = full resolution); omitted when 0.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "region": {
+      "description": "The rectangle of each plane the statistics cover (level pixel coordinates), when a\nregion was asked for; absent = whole planes.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Region"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "select": {
+      "description": "The selection as given (`c=0`, …); empty = every plane.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "bins": {
+      "description": "Requested histogram bins (0 = none). Integer data with fewer distinct values in its\nrange uses fewer, one per value.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "planes": {
+      "description": "Per-plane statistics (omitted with `--no-planes`).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PlaneStats"
+      }
+    },
+    "channels": {
+      "description": "One aggregate per image and channel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ChannelStats"
+      }
+    },
+    "images": {
+      "description": "One aggregate per image over all its selected planes.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ImageStats"
+      }
+    },
+    "mip": {
+      "description": "Set with `--mip`: the statistics are of maximum-intensity projections along this axis\n(per pixel, the largest value over the selected planes); `planes[]` entries are the\nprojections, with the projected axis's index reported as 0.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Projection"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "select",
+    "bins",
+    "channels",
+    "images"
+  ],
+  "$defs": {
+    "Region": {
+      "description": "A rectangle of a plane, in the pixel coordinates of the resolution level it is read at.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "description": "Left edge (column of the first pixel).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "y": {
+          "description": "Top edge (row of the first pixel).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "width": {
+          "description": "Width in pixels (at least 1).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "height": {
+          "description": "Height in pixels (at least 1).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ]
+    },
+    "PlaneStats": {
+      "description": "Statistics of one plane.",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "Image index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "level": {
+          "description": "Pyramid level (0 = full resolution); omitted when 0.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "c": {
+          "description": "Channel index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "z": {
+          "description": "Z index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "t": {
+          "description": "Time index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "width": {
+          "description": "Plane width in pixels.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "height": {
+          "description": "Plane height in pixels.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "pixel_type": {
+          "description": "Sample type.",
+          "$ref": "#/$defs/PixelType"
+        },
+        "stats": {
+          "description": "Statistics of the plane's samples.",
+          "$ref": "#/$defs/SampleStats"
+        },
+        "components": {
+          "description": "Multi-sample (RGB) pixels: the statistics of each colour component on its own.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ComponentStats"
+          }
+        }
+      },
+      "required": [
+        "image",
+        "c",
+        "z",
+        "t",
+        "width",
+        "height",
+        "pixel_type",
+        "stats"
+      ]
+    },
+    "PixelType": {
+      "description": "Sample type of one channel value. Names follow OME-XML `PixelType` values.",
+      "oneOf": [
+        {
+          "description": "Signed 8-bit integer.",
+          "type": "string",
+          "const": "int8"
+        },
+        {
+          "description": "Signed 16-bit integer.",
+          "type": "string",
+          "const": "int16"
+        },
+        {
+          "description": "Signed 32-bit integer.",
+          "type": "string",
+          "const": "int32"
+        },
+        {
+          "description": "Unsigned 8-bit integer.",
+          "type": "string",
+          "const": "uint8"
+        },
+        {
+          "description": "Unsigned 16-bit integer (the usual microscope camera output).",
+          "type": "string",
+          "const": "uint16"
+        },
+        {
+          "description": "Unsigned 32-bit integer.",
+          "type": "string",
+          "const": "uint32"
+        },
+        {
+          "description": "32-bit IEEE 754 floating point.",
+          "type": "string",
+          "const": "float"
+        },
+        {
+          "description": "64-bit IEEE 754 floating point.",
+          "type": "string",
+          "const": "double"
+        },
+        {
+          "description": "Signed 64-bit integer.",
+          "type": "string",
+          "const": "int64"
+        },
+        {
+          "description": "Unsigned 64-bit integer.",
+          "type": "string",
+          "const": "uint64"
+        },
+        {
+          "description": "Complex number of two 32-bit floats (real, then imaginary): OME `complex`.",
+          "type": "string",
+          "const": "complex"
+        },
+        {
+          "description": "Complex number of two 64-bit floats (real, then imaginary): OME `double-complex`.",
+          "type": "string",
+          "const": "double-complex"
+        }
+      ]
+    },
+    "SampleStats": {
+      "description": "Summary statistics of a set of samples.",
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "Finite samples.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "non_finite": {
+          "description": "NaN and infinite samples (excluded from everything else).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "min": {
+          "description": "Absent when there are no finite samples (as are mean, std, percentiles).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "max": {
+          "description": "Largest finite sample.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "mean": {
+          "description": "Mean of the finite samples.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "std": {
+          "description": "Population standard deviation.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "percentiles": {
+          "description": "1st, 5th, 50th, 95th and 99th percentiles.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Percentiles"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "exact": {
+          "description": "True when the percentiles and histogram are exact (see the module documentation).",
+          "type": "boolean"
+        },
+        "zero_fraction": {
+          "description": "Fraction of finite samples equal to 0.",
+          "type": "number",
+          "format": "double"
+        },
+        "saturated_fraction": {
+          "description": "Integer pixel types: fraction of samples at the saturation level\n(`saturation_level`): the detector's ceiling 2^bits − 1 when the file records its\nsignificant bits (16383 for 14-bit data stored as uint16), else the type's maximum (255\nfor uint8, 65535 for uint16, …), i.e. clipped by the detector or the digitizer.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "saturated_count": {
+          "description": "Integer pixel types: the number of samples at `saturation_level` (exact; use it for\n\"how many pixels are saturated\").",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "saturation_level": {
+          "description": "The value a sample must equal to count as saturated (integer pixel types).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "saturation_basis": {
+          "description": "Why that level: `significant_bits` (2^bits − 1 from the bit depth the file records;\n`saturation_source` names the field) or `pixel_type` (the type's maximum: no bit depth\nrecorded, channels of different depths merged, or values above the recorded depth).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "saturation_source": {
+          "description": "For `significant_bits`: the `info` field the bit depth came from, e.g.\n`images[].extra.component_bit_count` (CZI) or `images[].extra.bits_significant`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "histogram": {
+          "description": "Present when histograms were requested (`bins` > 0).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Histogram"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "count",
+        "non_finite",
+        "exact",
+        "zero_fraction"
+      ]
+    },
+    "Percentiles": {
+      "description": "NumPy-style percentiles of the finite samples.",
+      "type": "object",
+      "properties": {
+        "p1": {
+          "description": "1st percentile.",
+          "type": "number",
+          "format": "double"
+        },
+        "p5": {
+          "description": "5th percentile.",
+          "type": "number",
+          "format": "double"
+        },
+        "p50": {
+          "description": "Median.",
+          "type": "number",
+          "format": "double"
+        },
+        "p95": {
+          "description": "95th percentile.",
+          "type": "number",
+          "format": "double"
+        },
+        "p99": {
+          "description": "99th percentile.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "p1",
+        "p5",
+        "p50",
+        "p95",
+        "p99"
+      ]
+    },
+    "Histogram": {
+      "description": "A histogram of the finite samples.",
+      "type": "object",
+      "properties": {
+        "scale": {
+          "description": "Linear or logarithmic bin spacing.",
+          "$ref": "#/$defs/HistogramScale"
+        },
+        "edges": {
+          "description": "`bins + 1` bin edges; bin `i` is `[edges[i], edges[i+1])`, the last bin includes its\nupper edge.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "counts": {
+          "description": "Samples per bin (`bins` entries).",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint64",
+            "minimum": 0
+          }
+        },
+        "nonpositive": {
+          "description": "Log scale only: samples ≤ 0, which have no place on a log axis.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "scale",
+        "edges",
+        "counts"
+      ]
+    },
+    "HistogramScale": {
+      "description": "Spacing of histogram bin edges.",
+      "oneOf": [
+        {
+          "description": "Equal-width bins from `min` to `max` (integer data: to `max + 1`, so each bin holds\nwhole values).",
+          "type": "string",
+          "const": "linear"
+        },
+        {
+          "description": "Geometrically spaced bins from the smallest positive value to `max`; values ≤ 0 are\ncounted in `nonpositive`. Suited to data spanning decades (photon counts, spectra).",
+          "type": "string",
+          "const": "log"
+        }
+      ]
+    },
+    "ComponentStats": {
+      "description": "Statistics of one colour component of interleaved multi-sample (RGB) pixels.",
+      "type": "object",
+      "properties": {
+        "sample": {
+          "description": "Sample index within a pixel: for RGB 0 = red, 1 = green, 2 = blue (every reader returns\nR, G, B order; CZI's stored B, G, R is swapped on read).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "`red`, `green`, `blue` (and `alpha`) for 3- and 4-sample pixels.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stats": {
+          "description": "Statistics of that component's samples only.",
+          "$ref": "#/$defs/SampleStats"
+        }
+      },
+      "required": [
+        "sample",
+        "stats"
+      ]
+    },
+    "ChannelStats": {
+      "description": "Statistics of every selected plane of one channel.",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "Image index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "c": {
+          "description": "Channel index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "Channel name, if recorded.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "image_name": {
+          "description": "Name of the image (scene, series, position) the channel belongs to, if recorded.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "planes": {
+          "description": "Number of planes aggregated.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "stats": {
+          "description": "Statistics over those planes (RGB: every colour sample pooled).",
+          "$ref": "#/$defs/SampleStats"
+        },
+        "components": {
+          "description": "Multi-sample (RGB) pixels: the statistics of each colour component on its own\n(`components[0]` = red, `[1]` = green, `[2]` = blue).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ComponentStats"
+          }
+        }
+      },
+      "required": [
+        "image",
+        "c",
+        "planes",
+        "stats"
+      ]
+    },
+    "ImageStats": {
+      "description": "Statistics of every selected plane of one image (the selection aggregate).",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "Image index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "Image (scene, series, position) name, if recorded (`info` → `images[].name`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pixel_type": {
+          "description": "Sample type.",
+          "$ref": "#/$defs/PixelType"
+        },
+        "planes": {
+          "description": "Number of planes aggregated.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "stats": {
+          "description": "Statistics over those planes.",
+          "$ref": "#/$defs/SampleStats"
+        },
+        "components": {
+          "description": "Multi-sample (RGB) pixels: the statistics of each colour component over those planes\n(`components[0]` = red, `[1]` = green, `[2]` = blue).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ComponentStats"
+          }
+        }
+      },
+      "required": [
+        "image",
+        "pixel_type",
+        "planes",
+        "stats"
+      ]
+    },
+    "Projection": {
+      "description": "The axis of a maximum-intensity projection (`stats --mip z`).",
+      "oneOf": [
+        {
+          "description": "Along z: one projected plane per image, channel and time point.",
+          "type": "string",
+          "const": "z"
+        },
+        {
+          "description": "Along t: one projected plane per image, channel and z.",
+          "type": "string",
+          "const": "t"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+ "id": "jcamp-isas-testntup",
+ "file": "jcamp-isas-testntup.dx",
+ "size": 102151,
+ "sha256": "058dd102f709cee402c0057225123416d8dbfed5a24c619470bea64620a36c6d",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "ETHYLBENZOL/CDCL3",
+   "kind": "ntuples",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "5f21b4e18947fc8702295a1d34c9f1ee",
+       "first": [
+        2254931.40228,
+        -5251616.55531,
+        -7180176.30726,
+        -1602188.10162,
+        10651583.86077,
+        4361512.05441,
+        -3649428.45369,
+        2136250.80216
+       ]
+      },
+      {
+       "xxh3": "ad0213c1a8d87b1a95f8d80dbf152ebb",
+       "first": [
+        -6966283.35568,
+        -7618714.72736,
+        2230894.3676799997,
+        10670409.85296,
+        3009602.77904,
+        -7955453.49984,
+        -4398650.21552,
+        5535143.57264
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 16384,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 jcampdx.read"
+  }
+ ]
+}

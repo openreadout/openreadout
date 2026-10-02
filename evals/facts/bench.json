@@ -1,0 +1,190 @@
+{
+ "biacore-allotropy-ed-fig1a-b2": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "software_version": {
+    "how": "Environment Version",
+    "reader": "olefile 0.47",
+    "value": "2.0.1"
+   }
+  },
+  "file": "biacore-allotropy-ed-fig1a-b2.blr"
+ },
+ "biacore-zenodo5011513-strep1": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "chip": {
+    "how": "Chip stream Name",
+    "reader": "olefile 0.47",
+    "value": "CM5"
+   },
+   "cycles": {
+    "how": "_Cycle storages",
+    "reader": "olefile 0.47",
+    "value": 14
+   }
+  },
+  "file": "biacore-zenodo5011513-strep1.blr"
+ },
+ "echem-yadg-cv": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "max_current_ma": {
+    "how": "EC-Lab export: largest <I>/mA",
+    "reader": "EC-Lab .mpt export",
+    "value": 61.335988
+   }
+  },
+  "file": "echem-yadg-cv.mpr"
+ },
+ "echem-zenodo21631502-sintef-nda": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "max_voltage": {
+    "how": "NewareNDA: largest Voltage",
+    "reader": "NewareNDA 2026.6.11",
+    "value": 4.2001567
+   }
+  },
+  "file": "echem-zenodo21631502-sintef-nda.nda"
+ },
+ "gpr-zenodo22128078-s1": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "brightest_f532": {
+    "how": "Name of the feature with the highest F532 Median",
+    "reader": "pandas 2.3.3",
+    "value": "MDM2 (Ab-166)"
+   },
+   "features": {
+    "how": "rows of the feature table",
+    "reader": "pandas 2.3.3",
+    "value": 1488
+   }
+  },
+  "file": "gpr-zenodo22128078-s1.gpr"
+ },
+ "itc-bitc-caii-050611a": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "cell_concentration_uM": {
+    "how": "Origin integrated heats: Mt (mM) × 1000",
+    "reader": "Origin heats export",
+    "value": 9.95
+   },
+   "injection_volume_ul": {
+    "how": "Origin integrated heats: INJV",
+    "reader": "Origin heats export",
+    "value": 10.0
+   },
+   "injections": {
+    "how": "Origin integrated heats: rows",
+    "reader": "Origin heats export",
+    "value": 10
+   }
+  },
+  "file": "itc-bitc-caii-050611a.itc"
+ },
+ "jws-zenodo13347737-da-ba": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "accessory": {
+    "how": "export footer Accessory",
+    "reader": "JASCO Spectra Manager text export",
+    "value": "ATR PRO ONE"
+   },
+   "accumulations": {
+    "how": "export footer Accumulation",
+    "reader": "JASCO Spectra Manager text export",
+    "value": "50"
+   },
+   "resolution": {
+    "how": "export footer Resolution",
+    "reader": "JASCO Spectra Manager text export",
+    "value": "0.5 cm-1"
+   }
+  },
+  "file": "jws-zenodo13347737-da-ba.jws"
+ },
+ "ngb-zenodo18902844-pla-fw": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "sample_mass": {
+    "how": "pyNGB metadata sample_mass",
+    "reader": "pyngb 0.6.0",
+    "value": 9.96
+   }
+  },
+  "file": "ngb-zenodo18902844-pla-fw.ngb-sd7"
+ },
+ "scn-zenodo7977915-ncbp2": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "exposure": {
+    "how": "scan attribute Exposure Time (sec)",
+    "reader": "Image Lab ImageHeader XML",
+    "value": "20.349"
+   },
+   "imager": {
+    "how": "scan attribute Imager",
+    "reader": "Image Lab ImageHeader XML",
+    "value": "ChemiDoc™ MP"
+   }
+  },
+  "file": "scn-zenodo7977915-ncbp2.scn"
+ },
+ "seahorse-zenodo10435506-mst-1": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "measurements": {
+    "how": "measurement cycles",
+    "reader": "Seahorse assay XML: rate spans (= Measure commands)",
+    "value": 12
+   },
+   "port_a": {
+    "how": "reagent of injection port A",
+    "reader": "Seahorse assay XML (gzip + ElementTree)",
+    "value": "Oligomycin"
+   }
+  },
+  "file": "seahorse-zenodo10435506-mst-1.asyr"
+ },
+ "ta-dscq20-data-079": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "sample_size": {
+    "how": "Universal Analysis export: Size",
+    "reader": "Universal Analysis export",
+    "value": "2.70000"
+   }
+  },
+  "file": "ta-dscq20-data-079.001"
+ },
+ "unicorn-zip-fs-sample": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "largest_peak_area": {
+    "how": "UNICORN peak table: largest Area",
+    "reader": "UNICORN peak table (result export XML)",
+    "value": 3.3915
+   },
+   "peaks": {
+    "how": "UNICORN peak table: peak count",
+    "reader": "UNICORN peak table (result export XML)",
+    "value": 20
+   }
+  },
+  "file": "unicorn-zip-fs-sample.zip"
+ },
+ "xrd-zenodo15557974-car24014": {
+  "extractor": "evals/bench.py",
+  "facts": {
+   "two_theta_strongest_above_10": {
+    "how": "export [Scan points]: Angle of the largest Intensity above 10° 2θ",
+    "reader": "Data Collector CSV export",
+    "value": 43.063124
+   }
+  },
+  "file": "xrd-zenodo15557974-car24014.xrdml"
+ }
+}

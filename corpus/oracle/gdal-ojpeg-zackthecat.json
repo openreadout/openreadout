@@ -1,0 +1,8 @@
+{
+ "id": "gdal-ojpeg-zackthecat",
+ "file": "gdal-zackthecat.tif",
+ "size": 8258,
+ "sha256": "0d31f2acb25bfbde4d79975572369c3e4bea8e978fc1935075a545e3f8321b6e",
+ "max_planes_hashed": 64,
+ "error": "Jpeg8Error: Not a JPEG file: starts with 0xb6 0xe4"
+}

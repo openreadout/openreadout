@@ -1,0 +1,39 @@
+{
+ "id": "rsciio-dm-2d-test-diffraction-pattern-dm3",
+ "file": "rsciio-dm-2d-test-diffraction-pattern-dm3.dm3",
+ "size": 192708,
+ "sha256": "ebd6c192ce39e6bd5e67e2c6d53a36809307723023b16c9e149c7afbc3ef601a",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "test_diffraction_pattern",
+   "size_x": 87,
+   "size_y": 87,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 7,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4856d227ee4eb1dfc3453897768e3fd8"
+    }
+   ],
+   "pixel_type": "int32"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

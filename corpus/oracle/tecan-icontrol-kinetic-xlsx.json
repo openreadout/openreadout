@@ -1,0 +1,24 @@
+{
+ "id": "tecan-icontrol-kinetic-xlsx",
+ "file": "tecan-icontrol-kinetic-xlsx.xlsx",
+ "size": 693476,
+ "sha256": "366b3a9901a90551a9219aff99afafe8b595ad426e15092983d28c8e51305397",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py icontrol_summary (independent reader; allotropy has no i-control parser)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 60768,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "db328833213729f6be15ab6cbd3a4a89"
+   }
+  ],
+  "header": {
+   "software_version": "2.0.10.0",
+   "model": "infinite 200Pro"
+  }
+ }
+}

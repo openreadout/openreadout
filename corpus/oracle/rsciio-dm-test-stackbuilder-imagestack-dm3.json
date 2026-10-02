@@ -1,0 +1,51 @@
+{
+ "id": "rsciio-dm-test-stackbuilder-imagestack-dm3",
+ "file": "rsciio-dm-test-stackbuilder-imagestack-dm3.dm3",
+ "size": 32192,
+ "sha256": "41070d0fd25a838a504f705e1431735192b7a97ca7dd15d9328af5e939fe74a2",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "stackbuilder_test4_16x2",
+   "size_x": 16,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 3,
+   "data_type": 11,
+   "physical_size_um": {
+    "x": 0.05998290330171585,
+    "y": 0.05998290330171585,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a9bc1840d59620fe8c6d5c56c328ec41"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "e051275bde45e68696e1f4e1f31085d0"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "aba531bdca800dc749775c0bf666c202"
+    }
+   ],
+   "pixel_type": "uint32"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

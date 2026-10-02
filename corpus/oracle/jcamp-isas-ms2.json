@@ -1,0 +1,19 @@
+{
+ "id": "jcamp-isas-ms2",
+ "file": "jcamp-isas-ms2.dx",
+ "size": 1563,
+ "sha256": "1a8b05a20cfb978c2b86f00a0c5289f8fb39d236bb3288fab5f2f98a389360e7",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "PFK",
+   "kind": "xydata",
+   "data_type": "CONTINUOUS MASS SPECTRUM"
+  }
+ ],
+ "notes": [
+  "jcamp: Exception: Unknown character ($) encountered while parsing data"
+ ]
+}

@@ -1,0 +1,78 @@
+{
+ "reader": "flowio 1.4.0 + NumPy 2.5.3",
+ "jobs": [
+  {
+   "id": "flowio-3fitc-4pe-004",
+   "values": "raw",
+   "cofactor": null,
+   "conditions": [
+    "FL1-H > 100"
+   ],
+   "matched": 92782,
+   "total": 94569
+  },
+  {
+   "id": "flowio-3fitc-4pe-004",
+   "values": "raw",
+   "cofactor": null,
+   "conditions": [
+    "FL1-H > 100",
+    "FL2-H <= 50"
+   ],
+   "matched": 329,
+   "total": 94569
+  },
+  {
+   "id": "flowio-3fitc-4pe-004",
+   "values": "raw",
+   "cofactor": null,
+   "conditions": [
+    "SSC-H >= 200",
+    "FSC-H < 400"
+   ],
+   "matched": 1191,
+   "total": 94569
+  },
+  {
+   "id": "flowkit-8c-e01",
+   "values": "raw",
+   "cofactor": null,
+   "conditions": [
+    "TNFa FITC FLR-A > 1000"
+   ],
+   "matched": 22928,
+   "total": 290172
+  },
+  {
+   "id": "flowkit-8c-e01",
+   "values": "compensated",
+   "cofactor": null,
+   "conditions": [
+    "TNFa FITC FLR-A > 1000"
+   ],
+   "matched": 22703,
+   "total": 290172
+  },
+  {
+   "id": "flowkit-8c-e01",
+   "values": "compensated",
+   "cofactor": null,
+   "conditions": [
+    "CD4 PE-Cy7 FLR-A > 2000",
+    "CD8 PerCP-Cy55 FLR-A < 500"
+   ],
+   "matched": 99523,
+   "total": 290172
+  },
+  {
+   "id": "flowkit-8c-e01",
+   "values": "arcsinh",
+   "cofactor": 150.0,
+   "conditions": [
+    "CD3 APC-H7 FLR-A > 2.5"
+   ],
+   "matched": 154817,
+   "total": 290172
+  }
+ ]
+}

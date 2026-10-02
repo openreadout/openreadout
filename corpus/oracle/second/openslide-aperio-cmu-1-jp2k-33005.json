@@ -1,0 +1,20 @@
+{
+ "id": "openslide-aperio-cmu-1-jp2k-33005",
+ "file": "openslide-aperio-CMU-1-JP2K-33005.svs",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 46000,
+   "size_y": 32893,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "064f8f80f82d23d7aa846cdd01e91ce1"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,816 @@
+{
+ "case": "gen5-meanv-4pl-headerless",
+ "about": "Gen5 4PL standard curve on the Mean V results (a vendor-calculated read) vs SciPy, drc and Gen5's curve fit (the export without its file header: the layout embedded after it must still be found)",
+ "input": {
+  "corpus": "synthetic-gen5-headerless-kinetic-meanv-4pl"
+ },
+ "request": {
+  "analysis": "curve",
+  "read": "Mean V [420]"
+ },
+ "checks": [
+  {
+   "path": "curve.fit.parameters[name=a].value",
+   "expect": 1.2309976525585897,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.parameters[name=a].se",
+   "expect": 0.368159705525627,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.001
+  },
+  {
+   "path": "curve.fit.parameters[name=b].value",
+   "expect": 3.5239161893941406,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.parameters[name=b].se",
+   "expect": 0.26945810073829674,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.001
+  },
+  {
+   "path": "curve.fit.parameters[name=c].value",
+   "expect": 14.815932155625338,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.parameters[name=c].se",
+   "expect": 0.3381387587349876,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.001
+  },
+  {
+   "path": "curve.fit.parameters[name=d].value",
+   "expect": 34.869776406077044,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "curve.fit.parameters[name=d].se",
+   "expect": 0.7188506511091666,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.001
+  },
+  {
+   "path": "curve.fit.r_squared",
+   "expect": 0.9952960520362184,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-07
+  },
+  {
+   "path": "curve.fit.parameters[name=a].value",
+   "expect": 1.23,
+   "source": "Gen5 3.12 Curve Fitting Results (vendor-computed, 3 significant digits in the file)",
+   "rel": 0.005
+  },
+  {
+   "path": "curve.fit.parameters[name=b].value",
+   "expect": 3.52,
+   "source": "Gen5 3.12 Curve Fitting Results (vendor-computed, 3 significant digits in the file)",
+   "rel": 0.005
+  },
+  {
+   "path": "curve.fit.parameters[name=c].value",
+   "expect": 14.8,
+   "source": "Gen5 3.12 Curve Fitting Results (vendor-computed, 3 significant digits in the file)",
+   "rel": 0.005
+  },
+  {
+   "path": "curve.fit.parameters[name=d].value",
+   "expect": 34.9,
+   "source": "Gen5 3.12 Curve Fitting Results (vendor-computed, 3 significant digits in the file)",
+   "rel": 0.005
+  },
+  {
+   "path": "curve.fit.r_squared",
+   "expect": 0.995,
+   "source": "Gen5 3.12 Curve Fitting Results (vendor-computed, 3 significant digits in the file)",
+   "abs": 0.0006
+  },
+  {
+   "path": "wells[well=A1].back_calculated",
+   "expect": 27.131,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.16243980091083612
+  },
+  {
+   "path": "wells[well=A2].flag",
+   "expect": [
+    "above_range",
+    "above_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (>40.000)"
+  },
+  {
+   "path": "wells[well=A3].back_calculated",
+   "expect": 33.958,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.39793092576530104
+  },
+  {
+   "path": "wells[well=A4].back_calculated",
+   "expect": 26.49,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.14851687967857252
+  },
+  {
+   "path": "wells[well=A5].back_calculated",
+   "expect": 20.105,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.0601701051860483
+  },
+  {
+   "path": "wells[well=A6].back_calculated",
+   "expect": 15.72,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.03607768752824417
+  },
+  {
+   "path": "wells[well=A7].back_calculated",
+   "expect": 11.782,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.03134912524189375
+  },
+  {
+   "path": "wells[well=A8].back_calculated",
+   "expect": 8.655,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.043219840959476265
+  },
+  {
+   "path": "wells[well=A9].back_calculated",
+   "expect": 6.051,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.0876062725522938
+  },
+  {
+   "path": "wells[well=A10].back_calculated",
+   "expect": 2.242,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.9901442367073543
+  },
+  {
+   "path": "wells[well=A11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=A12].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=B1].back_calculated",
+   "expect": 30.893,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.2699727011970496
+  },
+  {
+   "path": "wells[well=B2].flag",
+   "expect": [
+    "above_range",
+    "above_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (>40.000)"
+  },
+  {
+   "path": "wells[well=B3].back_calculated",
+   "expect": 35.605,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.48530912520588004
+  },
+  {
+   "path": "wells[well=B4].back_calculated",
+   "expect": 26.274,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.14407577301226948
+  },
+  {
+   "path": "wells[well=B5].back_calculated",
+   "expect": 19.853,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.058154250823745895
+  },
+  {
+   "path": "wells[well=B6].back_calculated",
+   "expect": 15.626,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.035787184552167936
+  },
+  {
+   "path": "wells[well=B7].back_calculated",
+   "expect": 11.853,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.03128625319775803
+  },
+  {
+   "path": "wells[well=B8].back_calculated",
+   "expect": 8.779,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.042258017673692735
+  },
+  {
+   "path": "wells[well=B9].back_calculated",
+   "expect": 6.05,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.08763865312273869
+  },
+  {
+   "path": "wells[well=B10].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=B11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=B12].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=C1].back_calculated",
+   "expect": 29.907,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.23708455510536447
+  },
+  {
+   "path": "wells[well=C2].flag",
+   "expect": [
+    "above_range",
+    "above_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (>40.000)"
+  },
+  {
+   "path": "wells[well=C3].back_calculated",
+   "expect": 36.734,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.5538628900496985
+  },
+  {
+   "path": "wells[well=C4].back_calculated",
+   "expect": 26.387,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.14638373608380467
+  },
+  {
+   "path": "wells[well=C5].back_calculated",
+   "expect": 20.317,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.06193500243985752
+  },
+  {
+   "path": "wells[well=C6].back_calculated",
+   "expect": 15.712,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.03605263071470283
+  },
+  {
+   "path": "wells[well=C7].back_calculated",
+   "expect": 11.938,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.031219479284214282
+  },
+  {
+   "path": "wells[well=C8].back_calculated",
+   "expect": 8.825,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.04191625552201535
+  },
+  {
+   "path": "wells[well=C9].back_calculated",
+   "expect": 6.123,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.08532559204991061
+  },
+  {
+   "path": "wells[well=C10].back_calculated",
+   "expect": 1.463,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 2.9022894939538926
+  },
+  {
+   "path": "wells[well=C11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=C12].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=D1].back_calculated",
+   "expect": 26.905,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.15740151701541966
+  },
+  {
+   "path": "wells[well=D2].flag",
+   "expect": [
+    "above_range",
+    "above_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (>40.000)"
+  },
+  {
+   "path": "wells[well=D3].back_calculated",
+   "expect": 38.01,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.6406545130099741
+  },
+  {
+   "path": "wells[well=D4].back_calculated",
+   "expect": 26.908,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.15746746190306496
+  },
+  {
+   "path": "wells[well=D5].back_calculated",
+   "expect": 20.439,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.06297982938211816
+  },
+  {
+   "path": "wells[well=D6].back_calculated",
+   "expect": 15.784,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.036280378078397284
+  },
+  {
+   "path": "wells[well=D7].back_calculated",
+   "expect": 11.998,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.031177832271484525
+  },
+  {
+   "path": "wells[well=D8].back_calculated",
+   "expect": 8.868,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.04160389637020768
+  },
+  {
+   "path": "wells[well=D9].back_calculated",
+   "expect": 6.255,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.08139156596750519
+  },
+  {
+   "path": "wells[well=D10].back_calculated",
+   "expect": 2.776,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.5791273943232452
+  },
+  {
+   "path": "wells[well=D11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=D12].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=E1].back_calculated",
+   "expect": 29.369,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.2206380238690046
+  },
+  {
+   "path": "wells[well=E2].flag",
+   "expect": [
+    "above_range",
+    "above_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (>40.000)"
+  },
+  {
+   "path": "wells[well=E3].back_calculated",
+   "expect": 37.102,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.5778450445452347
+  },
+  {
+   "path": "wells[well=E4].back_calculated",
+   "expect": 26.741,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.15383435369474277
+  },
+  {
+   "path": "wells[well=E5].back_calculated",
+   "expect": 20.37,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.062386259768546774
+  },
+  {
+   "path": "wells[well=E6].back_calculated",
+   "expect": 15.918,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.03671767366019532
+  },
+  {
+   "path": "wells[well=E7].back_calculated",
+   "expect": 11.938,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.031219479284214282
+  },
+  {
+   "path": "wells[well=E8].back_calculated",
+   "expect": 8.901,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.04136875174078947
+  },
+  {
+   "path": "wells[well=E9].back_calculated",
+   "expect": 6.204,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.08287500166050205
+  },
+  {
+   "path": "wells[well=E10].back_calculated",
+   "expect": 2.571,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.7019447525144246
+  },
+  {
+   "path": "wells[well=E11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=E12].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=F1].back_calculated",
+   "expect": 29.064,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.21176067662086157
+  },
+  {
+   "path": "wells[well=F2].back_calculated",
+   "expect": 39.775,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.7785915807730279
+  },
+  {
+   "path": "wells[well=F3].back_calculated",
+   "expect": 34.202,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.4099861376797039
+  },
+  {
+   "path": "wells[well=F4].back_calculated",
+   "expect": 27.035,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.16028213544600076
+  },
+  {
+   "path": "wells[well=F5].back_calculated",
+   "expect": 20.366,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.06235206132355467
+  },
+  {
+   "path": "wells[well=F6].back_calculated",
+   "expect": 15.738,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.03613429231481446
+  },
+  {
+   "path": "wells[well=F7].back_calculated",
+   "expect": 11.986,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.031185801774389312
+  },
+  {
+   "path": "wells[well=F8].back_calculated",
+   "expect": 8.858,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.041675932249902355
+  },
+  {
+   "path": "wells[well=F9].back_calculated",
+   "expect": 6.291,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.0803710279832918
+  },
+  {
+   "path": "wells[well=F10].back_calculated",
+   "expect": 3.089,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.4433542222027779
+  },
+  {
+   "path": "wells[well=F11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=F12].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=G1].back_calculated",
+   "expect": 24.595,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.11353491767168926
+  },
+  {
+   "path": "wells[well=G2].back_calculated",
+   "expect": 28.231,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.18908469011720708
+  },
+  {
+   "path": "wells[well=G3].back_calculated",
+   "expect": 27.106,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.16187540327911354
+  },
+  {
+   "path": "wells[well=G4].back_calculated",
+   "expect": 23.459,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.09650317513497067
+  },
+  {
+   "path": "wells[well=G5].back_calculated",
+   "expect": 18.949,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.05162243265226421
+  },
+  {
+   "path": "wells[well=G6].back_calculated",
+   "expect": 15.525,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.0354845633260344
+  },
+  {
+   "path": "wells[well=G7].back_calculated",
+   "expect": 11.925,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.03122909831213266
+  },
+  {
+   "path": "wells[well=G8].back_calculated",
+   "expect": 8.86,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.04166149586517817
+  },
+  {
+   "path": "wells[well=G9].back_calculated",
+   "expect": 6.322,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.07950937566287444
+  },
+  {
+   "path": "wells[well=G10].back_calculated",
+   "expect": 3.122,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.4317522086710427
+  },
+  {
+   "path": "wells[well=G11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=G12].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=H1].back_calculated",
+   "expect": 27.849,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.17942118081388736
+  },
+  {
+   "path": "wells[well=H2].flag",
+   "expect": [
+    "above_range",
+    "above_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (>40.000)"
+  },
+  {
+   "path": "wells[well=H3].back_calculated",
+   "expect": 36.429,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.5346078417187361
+  },
+  {
+   "path": "wells[well=H4].back_calculated",
+   "expect": 27.759,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.1772091995693819
+  },
+  {
+   "path": "wells[well=H5].back_calculated",
+   "expect": 20.212,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.061052897176643556
+  },
+  {
+   "path": "wells[well=H6].back_calculated",
+   "expect": 15.617,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.03575981878446653
+  },
+  {
+   "path": "wells[well=H7].back_calculated",
+   "expect": 11.929,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.031226115910462312
+  },
+  {
+   "path": "wells[well=H8].back_calculated",
+   "expect": 8.842,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.04179195125319255
+  },
+  {
+   "path": "wells[well=H9].back_calculated",
+   "expect": 6.209,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.08272757516835266
+  },
+  {
+   "path": "wells[well=H10].back_calculated",
+   "expect": 2.436,
+   "source": "Gen5 3.12 [Concentration] (vendor-computed)",
+   "rel": 0.003,
+   "abs": 0.8037331633831657
+  },
+  {
+   "path": "wells[well=H11].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=H12].flag",
+   "expect": [
+    "below_range",
+    "below_curve"
+   ],
+   "source": "Gen5 3.12 [Concentration] (vendor-computed) (<0.000)"
+  },
+  {
+   "path": "wells[well=A1].back_calculated",
+   "expect": 27.131424147840065,
+   "source": "scipy 1.18.1 curve_fit inverse 4PL",
+   "rel": 1e-05
+  },
+  {
+   "path": "wells[well=A2].back_calculated",
+   "expect": 44.61011242807001,
+   "source": "scipy 1.18.1 curve_fit inverse 4PL",
+   "rel": 1e-05
+  },
+  {
+   "path": "wells[well=A3].back_calculated",
+   "expect": 33.95834463914428,
+   "source": "scipy 1.18.1 curve_fit inverse 4PL",
+   "rel": 1e-05
+  },
+  {
+   "path": "wells[well=A4].back_calculated",
+   "expect": 26.4897752587874,
+   "source": "scipy 1.18.1 curve_fit inverse 4PL",
+   "rel": 1e-05
+  }
+ ]
+}

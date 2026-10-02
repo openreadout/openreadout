@@ -1,0 +1,79 @@
+{
+ "id": "zenodo18016957-hBN-thickness-spectra",
+ "file": "zenodo18016957-hBN-thickness-spectra.dm3",
+ "size": 364794,
+ "sha256": "afa96ad531def801495672c7b70ea4e796df1094194a5e11aee1bc30c7b83d52",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "thin hBN thickness spectra",
+   "size_x": 1028,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "db8d0b0995589db7fb28d0a85adefa37"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "thin hBN thickness spectra",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "counts"
+   ],
+   "ppm_first": -47.57746993820865,
+   "ppm_last": 458.20926374871533,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1028,
+     "channels": [
+      {
+       "xxh3": "159a1419466ee91b7b17f8f72cdee831",
+       "first": [
+        7.720955848693848,
+        6.524897575378418,
+        6.257262229919434,
+        5.889005184173584,
+        5.612034797668457,
+        5.812241554260254,
+        5.746889591217041,
+        5.786308288574219
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}

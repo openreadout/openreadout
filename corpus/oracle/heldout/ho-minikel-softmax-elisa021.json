@@ -1,0 +1,25 @@
+{
+ "id": "ho-minikel-softmax-elisa021",
+ "file": "2020-10-22_csELISA-021.txt",
+ "size": 1632,
+ "sha256": "4f6b7b475b653262fe96d552a6349208058a1fe8e25a73552ff4d82b78cd1d79",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (MOLDEV_SOFTMAX_PRO)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 192,
+    "errors": 0,
+    "wavelengths": [
+     450.0,
+     630.0
+    ],
+    "value_xxh3": "982ebeb946b2e60aabe17bc161be7c92"
+   }
+  ],
+  "header": {},
+  "documents": 96
+ }
+}

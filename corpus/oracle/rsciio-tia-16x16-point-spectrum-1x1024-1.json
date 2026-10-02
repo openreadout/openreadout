@@ -1,0 +1,72 @@
+{
+ "id": "rsciio-tia-16x16-point-spectrum-1x1024-1",
+ "file": "rsciio-tia-16x16-point_spectrum-1x1024_1.ser",
+ "size": 4230,
+ "sha256": "118d531cfea1ac99e49a9cbdf17e8b6c254a6555a4772a58c9e7dca70d8954f8",
+ "max_planes_hashed": 64,
+ "reader": "ncempy.io.ser (GPL, black box)",
+ "series_version": 528,
+ "traces": [
+  {
+   "index": 0,
+   "name": "rsciio-tia-16x16-point_spectrum-1x1024_1",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "counts"
+   ],
+   "ppm_first": -20.0,
+   "ppm_last": 184.60000000000002,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1024,
+     "channels": [
+      {
+       "xxh3": "718cea173321abe59074567d73456492",
+       "first": [
+        -4.0,
+        -6.0,
+        10.0,
+        6.0,
+        -12.0,
+        14.0,
+        -16.0,
+        -6.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "87f057b24c5d26c87b3582193a8581ff"
+    }
+   ]
+  }
+ ],
+ "emi": {
+  "AcceleratingVoltage": 300000,
+  "Microscope []": "Microscope Tecnai 300 kV D248 SuperTwin",
+  "Magnification [x]": 1550000
+ }
+}

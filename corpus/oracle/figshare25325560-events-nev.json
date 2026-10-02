@@ -1,0 +1,22 @@
+{
+ "id": "figshare25325560-events-nev",
+ "file": "Events.nev",
+ "size": 80048,
+ "sha256": "79013a3af9ca78ba7503d127cba0aa83d75b44b6098e0aa079d974a259b34f44",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 NeuralynxRawIO",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 346,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "timestamp_us": "e440ced4b361a0e6555bc0530902df83",
+    "event_id": "5e4a3a7f0edeb912e19c2275e980e071",
+    "ttl": "cfcaba206c225d056d906097208ceca6"
+   }
+  }
+ ]
+}

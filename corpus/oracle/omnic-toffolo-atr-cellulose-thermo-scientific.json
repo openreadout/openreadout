@@ -1,0 +1,109 @@
+{
+ "id": "omnic-toffolo-atr-cellulose-thermo-scientific",
+ "file": "Cellulose_Thermo Scientific.SPA",
+ "size": 135640,
+ "sha256": "75a8f7d772a2ff1378a164862869320a33e170b444d2e51a45af9d7f5e03345c",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 7468,
+   "x_first": 4000.123,
+   "x_last": 400.157,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7468,
+     "channels": [
+      {
+       "xxh3": "17117159ee08ba29c1ee3e93b0e399e8",
+       "first": [
+        0.013395402580499649,
+        0.013411292806267738,
+        0.01342304889112711,
+        0.013427593745291233,
+        0.013423185795545578,
+        0.013410438783466816,
+        0.013392429798841476,
+        0.013373157009482384
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 32,
+     "background_scans": 32,
+     "laser_wavenumber_cm1": 15798.0
+    }
+   },
+   "x_tolerance": 0.002
+  },
+  {
+   "index": 1,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 12200,
+   "x_first": 0.0,
+   "x_last": 12199.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12200,
+     "channels": [
+      {
+       "xxh3": "bd4d083fcdb14fa3bb1f3fe262b1d730",
+       "first": [
+        -0.0009174120496027172,
+        -0.0012959014857187867,
+        -0.0018421780550852418,
+        -0.0015560757601633668,
+        -0.0012988817179575562,
+        -0.0002960336278192699,
+        0.00034084200160577893,
+        0.0013454783475026488
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 12200,
+   "x_first": 0.0,
+   "x_last": 12199.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12200,
+     "channels": [
+      {
+       "xxh3": "84fd142302873db99d510e2ead0f39e5",
+       "first": [
+        -0.0009175953455269337,
+        -0.0013109860010445118,
+        -0.0018840846605598927,
+        -0.001602154690772295,
+        -0.0013303575105965137,
+        -0.0002991971268784255,
+        0.0003749314055312425,
+        0.0014221849851310253
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "acquisition_date": "2023-10-06 01:19:32-07:00"
+}

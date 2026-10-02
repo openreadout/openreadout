@@ -1,0 +1,8 @@
+@condition,1,2,3,4,5,6
+A,ctrl,ctrl,drug,drug,,
+B,ctrl,"ctrl, x",drug,drug,,
+
+dose (uM)
+,1,2,3,4,5,6
+A,0,0,10,20,,
+B,0,0,10,20,,

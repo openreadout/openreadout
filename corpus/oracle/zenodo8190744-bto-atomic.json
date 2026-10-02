@@ -1,0 +1,39 @@
+{
+ "id": "zenodo8190744-bto-atomic",
+ "file": "zenodo8190744-bto-atomic.dm3",
+ "size": 4800475,
+ "sha256": "7899e62f2e284fe78beabf8e655ee9e87be53258350f5734373b497538c968cc",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "10_3D Stack2_LinearAlign_sum",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 2.44140625e-05,
+    "y": 2.44140625e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e221e0f922cc1ecdd9881e529f5e589d"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

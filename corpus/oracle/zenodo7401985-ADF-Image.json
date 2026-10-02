@@ -1,0 +1,39 @@
+{
+ "id": "zenodo7401985-ADF-Image",
+ "file": "zenodo7401985-ADF-Image.dm4",
+ "size": 725146,
+ "sha256": "2989081302be781adba69362626425da3e49d63fecea4642c493d58105966c71",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "ADF Image",
+   "size_x": 248,
+   "size_y": 210,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.000512497365474701,
+    "y": 0.000512497365474701,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "45ab7e084a69f91e5e854d0d8dc6ea04"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

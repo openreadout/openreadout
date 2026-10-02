@@ -1,0 +1,569 @@
+{
+ "id": "zenodo21162526-NDacquisition",
+ "file": "zenodo21162526-NDacquisition.nd2",
+ "size": 63234048,
+ "sha256": "d38f8a7bd8979a60d86fd877c28abd3fa564351409a4b1e0084f6af0661e01de",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "97781343ac0cf87e60fecaaa417fadae"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "f85c21bcb8a4b4e29a5ed738afaaa48b"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "138709099a5a5e428f38f7b0f5ef5825"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1e18d476ce7e7f5e6753c24e779b8514"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "96b6bc35c54965d4814ea85453c39540"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "d19f62f1c6fda0d2d729f6dc2d879ed1"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "437807ce07b9fa1d223cb6f80e0af79e"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "941975995633743d59bc6bc465738cad"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "9272300b6100ce0ca88f778ddb57bce6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "738ea4b2f9a9bb0929b6ea0d07d21699"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "0fe91e30449f57d83741c8de761e1938"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "2efd5e2d835bcd2b7f4d22c43af831cd"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "11e77f5ee41ee6f66c482ae4b6e4820b"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "33de4d857d0c7b383edf073b3052f0bb"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "cec59ffce1b4cd7f8b0d36de9a604933"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "50a58ab3d012ff1b3bad879c471a2f9d"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "708d167ece8688e168911361fbc2e435"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1468c6641f215851390655df41e2ea53"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "012976fb1c3f3bbf4ee31ba328295e14"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "d4b43f2011a87d48f7da1377d83dd325"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "2e2598b0db1d41089fa90cf22774bae6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3a98e1351a2bada406c95d2b1bc9ed63"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "331f210ab2740834a75929994a96b7d5"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "c34df966e88444fe28ca538f6dfbaecf"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 3,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'Z': 3, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.5394796609394434,
+    "y": 0.5394796609394434,
+    "z": 3.0
+   },
+   "channel_names": [
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9a09f6d82e406674217f84f44736774b"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "2c71837f059fa97e82c21752db1f57d2"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "63052a01c5127f5c027bef631f882f14"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "acf0a84ad08de469ccb1c92b93897599"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "b21a58198d1db010731427fbc103d6c8"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "bceba8078b05bcdf828724032e625dd5"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "GFP",
+    "color": "#3AFF00",
+    "excitation_nm": 488.0,
+    "emission_nm": 526.5,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ],
+    "emission_note": "band centre (adjudicated; nd2 reports the rising edge)"
+   },
+   {
+    "name": "TD",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "brightfield",
+     "laserScanConfocal",
+     "pmt",
+     "transmitDetector"
+    ]
+   }
+  ],
+  "frame_count": 15,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 3760.141199999489,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 47417.55,
+     "Y": 39119.45,
+     "Z": 478.74,
+     "Z1": 478.74
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 4154.521199999377,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 47417.6,
+     "Y": 39119.4,
+     "Z": 481.7,
+     "Z1": 481.7
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 4584.263199998997,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 47417.6,
+     "Y": 39119.4,
+     "Z": 484.74,
+     "Z1": 484.74
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 5597.184199999087,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 45267.9,
+     "Y": 36801.1,
+     "Z": 478.72,
+     "Z1": 478.72
+    }
+   },
+   {
+    "index": 4,
+    "time_ms": 5985.2551999995485,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 45267.95,
+     "Y": 36801.15,
+     "Z": 481.74,
+     "Z1": 481.74
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 6428.262199998833,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 45267.95,
+     "Y": 36801.15,
+     "Z": 484.74,
+     "Z1": 484.74
+    }
+   },
+   {
+    "index": 6,
+    "time_ms": 7399.394199999049,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 47501.85,
+     "Y": 36021.6,
+     "Z": 478.74,
+     "Z1": 478.74
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 7785.701199999079,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 47501.8,
+     "Y": 36021.5,
+     "Z": 481.74,
+     "Z1": 481.74
+    }
+   },
+   {
+    "index": 8,
+    "time_ms": 8230.227199999616,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 47501.8,
+     "Y": 36021.4,
+     "Z": 484.74,
+     "Z1": 484.74
+    }
+   },
+   {
+    "index": 9,
+    "time_ms": 12233.532199999318,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 73990.85,
+     "Y": 45723.75,
+     "Z": 478.72,
+     "Z1": 478.72
+    }
+   },
+   {
+    "index": 10,
+    "time_ms": 12621.490199998952,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 73990.85,
+     "Y": 45723.8,
+     "Z": 481.72,
+     "Z1": 481.72
+    }
+   },
+   {
+    "index": 11,
+    "time_ms": 13053.398199998774,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 73990.8,
+     "Y": 45723.8,
+     "Z": 484.72,
+     "Z1": 484.72
+    }
+   },
+   {
+    "index": 12,
+    "time_ms": 13857.354199999012,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 72852.7,
+     "Y": 46693.25,
+     "Z": 478.74,
+     "Z1": 478.74
+    }
+   },
+   {
+    "index": 13,
+    "time_ms": 14244.178199999034,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 72852.7,
+     "Y": 46693.2,
+     "Z": 481.74,
+     "Z1": 481.74
+    }
+   },
+   {
+    "index": 14,
+    "time_ms": 14689.349199999124,
+    "tags": {
+     "Camera_000_GFP_Gain": 21.8,
+     "Camera_001_GFP_LP": 3.682,
+     "Camera_002_TD_Gain": 28.400000000000002,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 72852.7,
+     "Y": 46693.2,
+     "Z": 484.72,
+     "Z1": 484.72
+    }
+   }
+  ],
+  "acquired_at": "2026-07-03T11:32:25.138Z",
+  "acquired_at_unix_ms": 1783078345138
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: XY(5) x Z(3)\r\nCamera Name: AX\r\nNumerical Aperture: 0,75\r\nRefractive Index: 1\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: GFP\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: Multi-Channel\r\n  \tScanner: Resonant Bidirectional\r\n  \tScan Mode: Band\r\n  \tLine Averaging: 2x\r\n  \tResolution: 1024 x 1024\r\n  \t\tGFP, TD\r\n  Components:\r\n  Component GFP:\r\n  \tDetector: 4\r\n  \tEmission Range: 499 nm - 554 nm\r\n  \tGain: 21.8\r\n  \tOffset: 0\r\n  \tPinhole Size: 27.0 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.7\r\n  \t\tLaser Port: Standard\r\n  \r\n  TD:\r\n  \tGain: 28.4\r\n  \tOffset: 0\r\n  \tPinhole Size: 27.0 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm\r\n  \tLaser Port: None\r\n  \t\tEnabled\r\n  \t\tPower: 3.7\r\n  \r\n  Scan Area:\r\n  \tZoom: 1.60\r\n  \tOffset Y: 3.00\r\n  \r\n  Misc:\r\n  \tDetector Port: Standard\r\n  \tImage Mode: Normal\r\n  \tIR Filter Position: Out\r\n  \tDenoise.ai: OFF\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (DAPI)\r\n  LightPath: L100\r\n  Condenser: 1 (Shutter)\r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: TD\r\n Component Count: 1\r\n Modality: Brightfield, Laser Scan Confocal\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: Multi-Channel\r\n  \tScanner: Resonant Bidirectional\r\n  \tScan Mode: Band\r\n  \tLine Averaging: 2x\r\n  \tResolution: 1024 x 1024\r\n  \t\tGFP, TD\r\n  Components:\r\n  Component GFP:\r\n  \tDetector: 4\r\n  \tEmission Range: 499 nm - 554 nm\r\n  \tGain: 21.8\r\n  \tOffset: 0\r\n  \tPinhole Size: 27.0 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 3.7\r\n  \t\tLaser Port: Standard\r\n  \r\n  TD:\r\n  \tGain: 28.4\r\n  \tOffset: 0\r\n  \tPinhole Size: 27.0 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm\r\n  \tLaser Port: None\r\n  \t\tEnabled\r\n  \t\tPower: 3.7\r\n  \r\n  Scan Area:\r\n  \tZoom: 1.60\r\n  \tOffset Y: 3.00\r\n  \r\n  Misc:\r\n  \tDetector Port: Standard\r\n  \tImage Mode: Normal\r\n  \tIR Filter Position: Out\r\n  \tDenoise.ai: OFF\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (DAPI)\r\n  LightPath: L100\r\n  Condenser: 1 (Shutter)\r\n  Zoom: 1.00x\r\nZ Stack Loop: 3\r\n- Step: 3 \u00b5m\r\n- Device: Ti2 ZDrive",
+  "capturing": "AX\r\nConfiguration:\r\n\tDetector mode: Multi-Channel\r\n\tScanner: Resonant Bidirectional\r\n\tScan Mode: Band\r\n\tLine Averaging: 2x\r\n\tResolution: 1024 x 1024\r\n\t\tGFP, TD\r\nComponents:\r\nComponent GFP:\r\n\tDetector: 4\r\n\tEmission Range: 499 nm - 554 nm\r\n\tGain: 21.8\r\n\tOffset: 0\r\n\tPinhole Size: 27.0 \u00b5m\r\n\tFirst DM: 405/488/561/640 (Position 1)\r\n\tLaser 488 nm:\r\n\t\tEnabled\r\n\t\tPower: 3.7\r\n\t\tLaser Port: Standard\r\n\r\nTD:\r\n\tGain: 28.4\r\n\tOffset: 0\r\n\tPinhole Size: 27.0 \u00b5m\r\n\tFirst DM: 405/488/561/640 (Position 1)\r\n\tLaser 488 nm\r\n\tLaser Port: None\r\n\t\tEnabled\r\n\t\tPower: 3.7\r\n\r\nScan Area:\r\n\tZoom: 1.60\r\n\tOffset Y: 3.00\r\n\r\nMisc:\r\n\tDetector Port: Standard\r\n\tImage Mode: Normal\r\n\tIR Filter Position: Out\r\n\tDenoise.ai: OFF\r\n",
+  "date": "3-7-2026  13:32:25",
+  "optics": "Plan Apo VC 20x DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=2, heightPx=1024, pixelDataType='unsigned', sequenceCount=15, widthBytes=4096, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mzML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://psi.hupo.org/ms/mzml http://psidev.info/files/ms/mzML/xsd/mzML1.1.0.xsd" xmlns="http://psi.hupo.org/ms/mzml" version="1.1">
+  <cvList count="4">
+    <cv URI="http://ontologies.berkeleybop.org/pato.obo" fullName="Phenotype And Trait Ontology" id="PATO" version="releases/2017-07-10"/>
+    <cv URI="http://ontologies.berkeleybop.org/uo.obo" fullName="Units of Measurement Ontology" id="UO" version="releases/2017-09-25"/>
+    <cv URI="https://raw.githubusercontent.com/hupo-psi/psi-ms-cv/master/psi-ms.obo" fullName="Proteomics Standards Initiative Mass Spectrometry Ontology" id="MS" version="4.1.0"/>
+    <cv URI="https://raw.githubusercontent.com/imzML/imzML/master/imagingMS.obo" fullName="Mass Spectrometry Imaging Ontology" id="IMS" version="1.1.0"/>
+  </cvList>
+  <fileDescription>
+    <fileContent>
+      <cvParam cvRef="MS" accession="MS:1000579" name="MS1 spectrum"/>
+      <cvParam cvRef="MS" accession="MS:1000128" name="profile spectrum"/>
+      <cvParam cvRef="IMS" accession="IMS:1000080" name="universally unique identifier" value="554a27fa79d247669a2c862e6d78b1f3"/>
+      <cvParam cvRef="IMS" accession="IMS:1000091" name="ibd SHA-1" value="a5be532d25997b71be6d20c76561ddc4d5307ddd"/>
+      <cvParam cvRef="IMS" accession="IMS:1000030" name="continuous"/>
+    </fileContent>
+    <sourceFileList count="1">
+      <sourceFile id="sf1" location="C:\Users\Thorsten Schramm\Documents\Promotion\imzML\Website\files\Beispiel-Dateien\Example images\" name="Example.raw">
+        <cvParam cvRef="MS" accession="MS:1000563" name="Thermo RAW format"/>
+        <cvParam cvRef="MS" accession="MS:1000768" name="Thermo nativeID format"/>
+        <cvParam cvRef="MS" accession="MS:1000569" name="SHA-1" value="7623BE263B25FF99FDF017154B86FAB742D4BB0B"/>
+      </sourceFile>
+    </sourceFileList>
+    <contact>
+      <cvParam cvRef="MS" accession="MS:1000586" name="contact name" value="Thorsten Schramm"/>
+      <cvParam cvRef="MS" accession="MS:1000590" name="contact affiliation" value="Institut für Anorganische und Analytische Chemie"/>
+      <cvParam cvRef="MS" accession="MS:1000587" name="contact address" value="Schubertstraße 60, Haus 16, Gießen, Germany"/>
+      <cvParam cvRef="MS" accession="MS:1000589" name="contact email" value="thorsten.schramm@anorg.chemie.uni-.giessen.de"/>
+    </contact>
+  </fileDescription>
+  <referenceableParamGroupList count="4">
+    <referenceableParamGroup id="mzArray">
+      <cvParam cvRef="MS" accession="MS:1000576" name="no compression"/>
+      <cvParam cvRef="MS" accession="MS:1000514" name="m/z array" unitCvRef="MS" unitAccession="MS:1000040" unitName="m/z"/>
+      <cvParam cvRef="IMS" accession="IMS:1000101" name="external data" value="true"/>
+      <cvParam cvRef="MS" accession="MS:1000521" name="32-bit float"/>
+    </referenceableParamGroup>
+    <referenceableParamGroup id="intensityArray">
+      <cvParam cvRef="MS" accession="MS:1000576" name="no compression"/>
+      <cvParam cvRef="MS" accession="MS:1000515" name="intensity array" unitCvRef="MS" unitAccession="MS:1000131" unitName="number of detector counts"/>
+      <cvParam cvRef="IMS" accession="IMS:1000101" name="external data" value="true"/>
+      <cvParam cvRef="MS" accession="MS:1000521" name="32-bit float"/>
+    </referenceableParamGroup>
+    <referenceableParamGroup id="scan1">
+      <cvParam cvRef="MS" accession="MS:1000093" name="increasing m/z scan"/>
+      <cvParam cvRef="MS" accession="MS:1000512" name="filter string" value="ITMS - p NSI Full ms [100,00-800,00]"/>
+    </referenceableParamGroup>
+    <referenceableParamGroup id="spectrum1">
+      <cvParam cvRef="MS" accession="MS:1000579" name="MS1 spectrum"/>
+      <cvParam cvRef="MS" accession="MS:1000511" name="ms level" value="0"/>
+      <cvParam cvRef="MS" accession="MS:1000128" name="profile spectrum"/>
+      <cvParam cvRef="MS" accession="MS:1000129" name="negative scan"/>
+    </referenceableParamGroup>
+  </referenceableParamGroupList>
+  <sampleList count="1">
+    <sample id="sample1" name="Sample1">
+      <cvParam cvRef="MS" accession="MS:1000001" name="sample number" value="1"/>
+    </sample>
+  </sampleList>
+  <softwareList count="2">
+    <software id="Xcalibur" version="2.2">
+      <cvParam cvRef="MS" accession="MS:1000532" name="Xcalibur"/>
+    </software>
+    <software id="TMC" version="1.1 beta">
+      <cvParam cvRef="MS" accession="MS:1000799" name="custom unreleased software tool" value=""/>
+    </software>
+  </softwareList>
+  <scanSettingsList count="1">
+    <scanSettings id="scansettings1">
+      <cvParam cvRef="IMS" accession="IMS:1000401" name="top down"/>
+      <cvParam cvRef="IMS" accession="IMS:1000413" name="flyback"/>
+      <cvParam cvRef="IMS" accession="IMS:1000480" name="horizontal line scan"/>
+      <cvParam cvRef="IMS" accession="IMS:1000491" name="linescan left right"/>
+      <cvParam cvRef="IMS" accession="IMS:1000042" name="max count of pixels x" value="3"/>
+      <cvParam cvRef="IMS" accession="IMS:1000043" name="max count of pixels y" value="3"/>
+      <cvParam cvRef="IMS" accession="IMS:1000044" name="max dimension x" value="300" unitCvRef="UO" unitAccession="UO:0000017" unitName="micrometer"/>
+      <cvParam cvRef="IMS" accession="IMS:1000045" name="max dimension y" value="300" unitCvRef="UO" unitAccession="UO:0000017" unitName="micrometer"/>
+      <cvParam cvRef="IMS" accession="IMS:1000046" name="pixel size (x)" value="100.0" unitCvRef="UO" unitAccession="UO:0000017" unitName="micrometer"/>
+      <cvParam cvRef="IMS" accession="IMS:1000047" name="pixel size y" value="100.0" unitCvRef="UO" unitAccession="UO:0000017" unitName="micrometer"/>
+    </scanSettings>
+  </scanSettingsList>
+  <instrumentConfigurationList count="1">
+    <instrumentConfiguration id="LTQFTUltra0">
+      <cvParam cvRef="MS" accession="MS:1000557" name="LTQ FT Ultra"/>
+      <cvParam cvRef="MS" accession="MS:1000529" name="instrument serial number" value="none"/>
+      <componentList count="3">
+        <source order="1">
+          <cvParam cvRef="MS" accession="MS:1000073" name="electrospray ionization"/>
+          <cvParam cvRef="MS" accession="MS:1000485" name="nanospray inlet"/>
+          <cvParam cvRef="MS" accession="MS:1000844" name="focus diameter x" value="10.0"/>
+          <cvParam cvRef="MS" accession="MS:1000845" name="focus diameter y" value="10.0"/>
+          <cvParam cvRef="MS" accession="MS:1000846" name="pulse energy" value="10.0"/>
+          <cvParam cvRef="MS" accession="MS:1000847" name="pulse duration" value="10.0"/>
+          <cvParam cvRef="MS" accession="MS:1000848" name="attenuation" value="50.0"/>
+          <cvParam cvRef="MS" accession="MS:1000850" name="gas laser"/>
+          <cvParam cvRef="MS" accession="MS:1000836" name="dried droplet MALDI matrix preparation"/>
+          <cvParam cvRef="MS" accession="MS:1000835" name="matrix solution concentration" value="10.0"/>
+          <cvParam cvRef="MS" accession="MS:1000834" name="matrix solution" value="DHB"/>
+        </source>
+        <analyzer order="2">
+          <cvParam cvRef="MS" accession="MS:1000264" name="ion trap"/>
+          <cvParam cvRef="MS" accession="MS:1000014" name="accuracy" value="0.0" unitCvRef="MS" unitAccession="MS:1000040" unitName="m/z"/>
+        </analyzer>
+        <detector order="3">
+          <cvParam cvRef="MS" accession="MS:1000253" name="electron multiplier"/>
+          <cvParam cvRef="MS" accession="MS:1000120" name="transient recorder"/>
+        </detector>
+      </componentList>
+      <softwareRef ref="Xcalibur"/>
+    </instrumentConfiguration>
+  </instrumentConfigurationList>
+  <dataProcessingList count="2">
+    <dataProcessing id="XcaliburProcessing">
+      <processingMethod softwareRef="Xcalibur" order="1">
+        <cvParam cvRef="MS" accession="MS:1000594" name="low intensity data point removal"/>
+      </processingMethod>
+    </dataProcessing>
+    <dataProcessing id="TMCConversion">
+      <processingMethod softwareRef="TMC" order="2">
+        <cvParam cvRef="MS" accession="MS:1000544" name="Conversion to mzML"/>
+      </processingMethod>
+    </dataProcessing>
+  </dataProcessingList>
+  <run defaultInstrumentConfigurationRef="LTQFTUltra0" defaultSourceFileRef="sf1" id="Experiment01" sampleRef="sample1" startTimeStamp="2009-08-11T15:59:44">
+    <spectrumList count="9" defaultDataProcessingRef="XcaliburProcessing">
+      <spectrum id="Scan=1" defaultArrayLength="0" dataProcessingRef="XcaliburProcessing" sourceFileRef="sf1" index="0">
+        <referenceableParamGroupRef ref="spectrum1"/>
+        <cvParam cvRef="MS" accession="MS:1000285" name="total ion current" value="121.85039039868471"/>
+        <scanList count="1">
+          <cvParam cvRef="MS" accession="MS:1000795" name="no combination"/>
+          <scan instrumentConfigurationRef="LTQFTUltra0">
+            <referenceableParamGroupRef ref="scan1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000050" name="position x" value="1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000051" name="position y" value="1"/>
+          </scan>
+        </scanList>
+        <binaryDataArrayList count="2">
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="mzArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="16"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="intensityArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="33612"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+        </binaryDataArrayList>
+      </spectrum>
+      <spectrum id="Scan=2" defaultArrayLength="0" dataProcessingRef="XcaliburProcessing" sourceFileRef="sf1" index="1">
+        <referenceableParamGroupRef ref="spectrum1"/>
+        <cvParam cvRef="MS" accession="MS:1000285" name="total ion current" value="182.31835420101888"/>
+        <scanList count="1">
+          <cvParam cvRef="MS" accession="MS:1000795" name="no combination"/>
+          <scan instrumentConfigurationRef="LTQFTUltra0">
+            <referenceableParamGroupRef ref="scan1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000050" name="position x" value="2"/>
+            <cvParam cvRef="IMS" accession="IMS:1000051" name="position y" value="1"/>
+          </scan>
+        </scanList>
+        <binaryDataArrayList count="2">
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="mzArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="16"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="intensityArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="67208"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+        </binaryDataArrayList>
+      </spectrum>
+      <spectrum id="Scan=3" defaultArrayLength="0" dataProcessingRef="XcaliburProcessing" sourceFileRef="sf1" index="2">
+        <referenceableParamGroupRef ref="spectrum1"/>
+        <cvParam cvRef="MS" accession="MS:1000285" name="total ion current" value="161.8091904482675"/>
+        <scanList count="1">
+          <cvParam cvRef="MS" accession="MS:1000795" name="no combination"/>
+          <scan instrumentConfigurationRef="LTQFTUltra0">
+            <referenceableParamGroupRef ref="scan1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000050" name="position x" value="3"/>
+            <cvParam cvRef="IMS" accession="IMS:1000051" name="position y" value="1"/>
+          </scan>
+        </scanList>
+        <binaryDataArrayList count="2">
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="mzArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="16"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="intensityArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="100804"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+        </binaryDataArrayList>
+      </spectrum>
+      <spectrum id="Scan=4" defaultArrayLength="0" dataProcessingRef="XcaliburProcessing" sourceFileRef="sf1" index="3">
+        <referenceableParamGroupRef ref="spectrum1"/>
+        <cvParam cvRef="MS" accession="MS:1000285" name="total ion current" value="200.9633277092539"/>
+        <scanList count="1">
+          <cvParam cvRef="MS" accession="MS:1000795" name="no combination"/>
+          <scan instrumentConfigurationRef="LTQFTUltra0">
+            <referenceableParamGroupRef ref="scan1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000050" name="position x" value="1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000051" name="position y" value="2"/>
+          </scan>
+        </scanList>
+        <binaryDataArrayList count="2">
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="mzArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="16"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="intensityArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="134400"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+        </binaryDataArrayList>
+      </spectrum>
+      <spectrum id="Scan=5" defaultArrayLength="0" dataProcessingRef="XcaliburProcessing" sourceFileRef="sf1" index="4">
+        <referenceableParamGroupRef ref="spectrum1"/>
+        <cvParam cvRef="MS" accession="MS:1000285" name="total ion current" value="135.30584173158496"/>
+        <scanList count="1">
+          <cvParam cvRef="MS" accession="MS:1000795" name="no combination"/>
+          <scan instrumentConfigurationRef="LTQFTUltra0">
+            <referenceableParamGroupRef ref="scan1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000050" name="position x" value="2"/>
+            <cvParam cvRef="IMS" accession="IMS:1000051" name="position y" value="2"/>
+          </scan>
+        </scanList>
+        <binaryDataArrayList count="2">
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="mzArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="16"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="intensityArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="167996"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+        </binaryDataArrayList>
+      </spectrum>
+      <spectrum id="Scan=6" defaultArrayLength="0" dataProcessingRef="XcaliburProcessing" sourceFileRef="sf1" index="5">
+        <referenceableParamGroupRef ref="spectrum1"/>
+        <cvParam cvRef="MS" accession="MS:1000285" name="total ion current" value="108.39597418421639"/>
+        <scanList count="1">
+          <cvParam cvRef="MS" accession="MS:1000795" name="no combination"/>
+          <scan instrumentConfigurationRef="LTQFTUltra0">
+            <referenceableParamGroupRef ref="scan1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000050" name="position x" value="3"/>
+            <cvParam cvRef="IMS" accession="IMS:1000051" name="position y" value="2"/>
+          </scan>
+        </scanList>
+        <binaryDataArrayList count="2">
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="mzArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="16"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="intensityArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="201592"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+        </binaryDataArrayList>
+      </spectrum>
+      <spectrum id="Scan=7" defaultArrayLength="0" dataProcessingRef="XcaliburProcessing" sourceFileRef="sf1" index="6">
+        <referenceableParamGroupRef ref="spectrum1"/>
+        <cvParam cvRef="MS" accession="MS:1000285" name="total ion current" value="127.84664447846832"/>
+        <scanList count="1">
+          <cvParam cvRef="MS" accession="MS:1000795" name="no combination"/>
+          <scan instrumentConfigurationRef="LTQFTUltra0">
+            <referenceableParamGroupRef ref="scan1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000050" name="position x" value="1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000051" name="position y" value="3"/>
+          </scan>
+        </scanList>
+        <binaryDataArrayList count="2">
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="mzArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="16"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="intensityArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="235188"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+        </binaryDataArrayList>
+      </spectrum>
+      <spectrum id="Scan=8" defaultArrayLength="0" dataProcessingRef="XcaliburProcessing" sourceFileRef="sf1" index="7">
+        <referenceableParamGroupRef ref="spectrum1"/>
+        <cvParam cvRef="MS" accession="MS:1000285" name="total ion current" value="168.27018147522492"/>
+        <scanList count="1">
+          <cvParam cvRef="MS" accession="MS:1000795" name="no combination"/>
+          <scan instrumentConfigurationRef="LTQFTUltra0">
+            <referenceableParamGroupRef ref="scan1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000050" name="position x" value="2"/>
+            <cvParam cvRef="IMS" accession="IMS:1000051" name="position y" value="3"/>
+          </scan>
+        </scanList>
+        <binaryDataArrayList count="2">
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="mzArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="16"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="intensityArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="268784"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+        </binaryDataArrayList>
+      </spectrum>
+      <spectrum id="Scan=9" defaultArrayLength="0" dataProcessingRef="XcaliburProcessing" sourceFileRef="sf1" index="8">
+        <referenceableParamGroupRef ref="spectrum1"/>
+        <cvParam cvRef="MS" accession="MS:1000285" name="total ion current" value="243.5395066031077"/>
+        <scanList count="1">
+          <cvParam cvRef="MS" accession="MS:1000795" name="no combination"/>
+          <scan instrumentConfigurationRef="LTQFTUltra0">
+            <referenceableParamGroupRef ref="scan1"/>
+            <cvParam cvRef="IMS" accession="IMS:1000050" name="position x" value="3"/>
+            <cvParam cvRef="IMS" accession="IMS:1000051" name="position y" value="3"/>
+          </scan>
+        </scanList>
+        <binaryDataArrayList count="2">
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="mzArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="16"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+          <binaryDataArray encodedLength="0">
+            <referenceableParamGroupRef ref="intensityArray"/>
+            <cvParam cvRef="IMS" accession="IMS:1000103" name="external array length" value="8399"/>
+            <cvParam cvRef="IMS" accession="IMS:1000102" name="external offset" value="302380"/>
+            <cvParam cvRef="IMS" accession="IMS:1000104" name="external encoded length" value="33596"/>
+            <binary />
+          </binaryDataArray>
+        </binaryDataArrayList>
+      </spectrum>
+    </spectrumList>
+  </run>
+</mzML>
+
+=====FUZZ-NEXT-FILE=====
+UJ'úyÒGfš,†.mx±ó«*ÈBUUÈB €ÈB«ªÈBUÕÈB  ÉB«*ÉBUUÉB €ÉB«ªÉBUÕÉB  ÊB«*ÊBUUÊB €ÊB«ªÊBUÕÊB  ËB«*ËBUUËB €ËB«ªËBUÕËB  ÌB«*ÌBUUÌB €ÌB«ªÌBUÕÌB  ÍB«*ÍBUUÍB €ÍB«ªÍBUÕÍB  ÎB«*ÎBUUÎB €ÎB«ªÎBUÕÎB  ÏB«*ÏBUUÏB €ÏB«ªÏBUÕÏB  ÐB«*ÐBUUÐB €ÐB«ªÐBUÕÐB  ÑB«*ÑBUUÑB €ÑB«ªÑBUÕÑB  ÒB«*ÒBUUÒB €ÒB«ªÒBUÕÒB  ÓB«*ÓBUUÓB €ÓB«ªÓBUÕÓB  ÔB«*ÔBUUÔB €ÔB«ªÔBUÕÔB  ÕB«*ÕBUUÕB €ÕB«ªÕBUÕÕB  ÖB«*ÖBUUÖB €ÖB«ªÖBUÕÖB  ×B«*×BUU×B €×B«ª×BUÕ×B  ØB«*ØBUUØB €ØB«ªØBUÕØB  ÙB«*ÙBUUÙB €ÙB«ªÙBUÕÙB  ÚB«*ÚBUUÚB €ÚB«ªÚBUÕÚB  ÛB«*ÛBUUÛB €ÛB«ªÛBUÕÛB  ÜB«*ÜBUUÜB €ÜB«ªÜBUÕÜB  ÝB«*ÝBUUÝB €ÝB«ªÝBUÕÝB  ÞB«*ÞBUUÞB €ÞB«ªÞBUÕÞB  ßB«*ßBUUßB €ßB«ªßBUÕßB  àB«*àBUUàB €àB«ªàBUÕàB  áB«*áBUUáB €áB«ªáBUÕáB  âB«*âBUUâB €âB«ªâBUÕâB  ãB«*ãBUUãB €ãB«ªãBUÕãB  äB«*äBUUäB €äB«ªäBUÕäB  åB«*åBUUåB €åB«ªåBUÕåB  æB«*æBUUæB €æB«ªæBUÕæB  çB«*çBUUçB €çB«ªçBUÕçB  èB«*èBUUèB €èB«ªèBUÕèB  éB«*éBUUéB €éB«ªéBUÕéB  êB«*êBUUêB €êB«ªêBUÕêB  ëB«*ëBUUëB €ëB«ªëBUÕëB  ìB«*ìBUUìB €ìB«ªìBUÕìB  íB«*íBUUíB €íB«ªíBUÕíB  îB«*îBUUîB €îB«ªîBUÕîB  ïB«*ïBUUïB €ïB«ªïBUÕïB  ðB«*ðBUUðB €ðB«ªðBUÕðB  ñB«*ñBUUñB €ñB«ªñBUÕñB  òB«*òBUUòB €òB«ªòBUÕòB  óB«*óBUUóB €óB«ªóBUÕóB  ôB«*ôBUUôB €ôB«ªôBUÕôB  õB«*õBUUõB €õB«ªõBUÕõB  öB«*öBUUöB €öB«ªöBUÕöB  ÷B«*÷BUU÷B €÷B«ª÷BUÕ÷B  øB«*øBUUøB €øB«ªøBUÕøB  ùB«*ùBUUùB €ùB«ªùBUÕùB  úB«*úBUUúB €úB«ªúBUÕúB  ûB«*ûBUUûB €ûB«ªûBUÕûB  üB«*üBUUüB €üB«ªüBUÕüB  ýB«*ýBUUýB €ýB«ªýBUÕýB  þB«*þBUUþB €þB«ªþBUÕþB  ÿB«*ÿBUUÿB €ÿB«ªÿBUÕÿB   CU C«* C @ CUU C«j C € CU• C«ª C À CUÕ C«ê C  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  	CU	C«*	C @	CUU	C«j	C €	CU•	C«ª	C À	CUÕ	C«ê	C  
+CU
+C«*
+C @
+CUU
+C«j
+C €
+CU•
+C«ª
+C À
+CUÕ
+C«ê
+C  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC  CUC«*C @CUUC«jC €CU•C«ªC ÀCUÕC«êC   CU C«* C @ CUU C«j C € CU• C«ª C À CUÕ C«ê C  !CU!C«*!C @!CUU!C«j!C €!CU•!C«ª!C À!CUÕ!C«ê!C  "CU"C«*"C @"CUU"C«j"C €"CU•"C«ª"C À"CUÕ"C«ê"C  #CU#C«*#C @#CUU#C«j#C €#CU•#C«ª#C À#CUÕ#C«ê#C  $CU$C«*$C @$CUU$C«j$C €$CU•$C«ª$C À$CUÕ$C«ê$C  %CU%C«*%C @%CUU%C«j%C €%CU•%C«ª%C À%CUÕ%C«ê%C  &CU&C«*&C @&CUU&C«j&C €&CU•&C«ª&C À&CUÕ&C«ê&C  'CU'C«*'C @'CUU'C«j'C €'CU•'C«ª'C À'CUÕ'C«ê'C  (CU(C«*(C @(CUU(C«j(C €(CU•(C«ª(C À(CUÕ(C«ê(C  )CU)C«*)C @)CUU)C«j)C €)CU•)C«ª)C À)CUÕ)C«ê)C  *CU*C«**C @*CUU*C«j*C €*CU•*C«ª*C À*CUÕ*C«ê*C  +CU+C«*+C @+CUU+C«j+C €+CU•+C«ª+C À+CUÕ+C«ê+C  ,CU,C«*,C @,CUU,C«j,C €,CU•,C«ª,C À,CUÕ,C«ê,C  -CU-C«*-C @-CUU-C«j-C €-CU•-C«ª-C À-CUÕ-C«ê-C  .CU.C«*.C @.CUU.C«j.C €.CU•.C«ª.C À.CUÕ.C«ê.C  /CU/C«*/C @/CUU/C«j/C €/CU•/C«ª/C À/CUÕ/C«ê/C  0CU0C«*0C @0CUU0C«j0C €0CU•0C«ª0C À0CUÕ0C«ê0C  1CU1C«*1C @1CUU1C«j1C €1CU•1C«ª1C À1CUÕ1C«ê1C  2CU2C«*2C @2CUU2C«j2C €2CU•2C«ª2C À2CUÕ2C«ê2C  3CU3C«*3C @3CUU3C«j3C €3CU•3C«ª3C À3CUÕ3C«ê3C  4CU4C«*4C @4CUU4C«j4C €4CU•4C«ª4C À4CUÕ4C«ê4C  5CU5C«*5C @5CUU5C«j5C €5CU•5C«ª5C À5CUÕ5C«ê5C  6CU6C«*6C @6CUU6C«j6C €6CU•6C«ª6C À6CUÕ6C«ê6C  7CU7C«*7C @7CUU7C«j7C €7CU•7C«ª7C À7CUÕ7C«ê7C  8CU8C«*8C @8CUU8C«j8C €8CU•8C«ª8C À8CUÕ8C«ê8C  9CU9C«*9C @9CVU9C«j9C €9CV•9C«ª9C À9CVÕ9C«ê9C  :CV:C«*:C @:CVU:C«j:C €:CV•:C«ª:C À:CVÕ:C«ê:C  ;CV;C«*;C @;CVU;C«j;C €;CV•;C«ª;C À;CVÕ;C«ê;C  <CV<C«*<C @<CVU<C«j<C €<CV•<C«ª<C À<CVÕ<C«ê<C  =CV=C«*=C @=CVU=C«j=C €=CV•=C«ª=C À=CVÕ=C«ê=C  >CV>C«*>C @>CVU>C«j>C €>CV•>C«ª>C À>CVÕ>C«ê>C  ?CV?C«*?C @?CVU?C«j?C €?CV•?C«ª?C À?CVÕ?C«ê?C  @CV@C«*@C @@CVU@C«j@C €@CV•@C«ª@C À@CVÕ@C«ê@C  ACVAC«*AC @ACVUAC«jAC €ACV•AC«ªAC ÀACVÕAC«êAC  BCVBC«*BC @BCVUBC«jBC €BCV•BC«ªBC ÀBCVÕBC«êBC  CCVCC«*CC @CCVUCC«jCC €CCV•CC«ªCC ÀCCVÕCC«êCC  DCVDC«*DC @DCVUDC«jDC €DCV•DC«ªDC ÀDCVÕDC«êDC  ECVEC«*EC @ECVUEC«jEC €ECV•EC«ªEC ÀECVÕEC«êEC  FCVFC«*FC @FCVUFC«jFC €FCV•FC«ªFC ÀFCVÕFC«êFC  GCVGC«*GC @GCVUGC«jGC €GCV•GC«ªGC ÀGCVÕGC«êGC  HCVHC«*HC @HCVUHC«jHC €HCV•HC«ªHC ÀHCVÕHC«êHC  ICVIC«*IC @ICVUIC«jIC €ICV•IC«ªIC ÀICVÕIC«êIC  JCVJC«*JC @JCVUJC«jJC €JCV•JC«ªJC ÀJCVÕJC«êJC  KCVKC«*KC @KCVUKC«jKC €KCV•KC«ªKC ÀKCVÕKC«êKC  LCVLC«*LC @LCVULC«jLC €LCV•LC«ªLC ÀLCVÕLC«êLC  MCVMC«*MC @MCVUMC«jMC €MCV•MC«ªMC ÀMCVÕMC«êMC  NCVNC«*NC @NCVUNC«jNC €NCV•NC«ªNC ÀNCVÕNC«êNC  OCVOC«*OC @OCVUOC«jOC €OCV•OC«ªOC ÀOCVÕOC«êOC  PCVPC«*PC @PCVUPC«jPC €PCV•PC«ªPC ÀPCVÕPC«êPC  QCVQC«*QC @QCVUQC«jQC €QCV•QC«ªQC ÀQCVÕQC«êQC  RCVRC«*RC @RCVURC«jRC €RCV•RC«ªRC ÀRCVÕRC«êRC  SCVSC«*SC @SCVUSC«jSC €SCV•SC«ªSC ÀSCVÕSC«êSC  TCVTC«*TC @TCVUTC«jTC €TCV•TC«ªTC ÀTCVÕTC«êTC  UCVUC«*UC @UCVUUC«jUC €UCV•UC«ªUC ÀUCVÕUC«êUC  VCVVC«*VC @VCVUVC«jVC €VCV•VC«ªVC ÀVCVÕVC«êVC  WCVWC«*WC @WCVUWC«jWC €WCV•WC«ªWC ÀWCVÕWC«êWC  XCVXC«*XC @XCVUXC«jXC €XCV•XC«ªXC ÀXCVÕXC«êXC  YCVYC«*YC @YCVUYC«jYC €YCV•YC«ªYC ÀYCVÕYC«êYC  ZCVZC«*ZC @ZCVUZC«jZC €ZCV•ZC«ªZC ÀZCVÕZC«êZC  [CV[C«*[C @[CVU[C«j[C €[CV•[C«ª[C À[CVÕ[C«ê[C  \CV\C«*\C @\CVU\C«j\C €\CV•\C«ª\C À\CVÕ\C«ê\C  ]CV]C«*]C @]CVU]C«j]C €]CV•]C«ª]C À]CVÕ]C«ê]C  ^CV^C«*^C @^CVU^C«j^C €^CV•^C«ª^C À^CVÕ^C«ê^C  _CV_C«*_C @_CVU_C«j_C €_CV•_C«ª_C À_CVÕ_C«ê_C  `CV`C«*`C @`CVU`C«j`C €`CV•`C«ª`C À`CVÕ`C«ê`C  aCVaC«*aC @aCVUaC«jaC €aCV•aC«ªaC ÀaCVÕaC«êaC  bCVbC«*bC @bCVUbC«jbC €bCV•bC«ªbC ÀbCVÕbC«êbC  cCVcC«*cC @cCVUcC«jcC €cCV•cC«ªcC ÀcCVÕcC«êcC  dCVdC«*dC @dCVUdC«jdC €dCV•dC«ªdC ÀdCVÕdC«êdC  eCVeC«*eC @eCVUeC«jeC €eCV•eC«ªeC ÀeCVÕeC«êeC  fCVfC«*fC @fCVUfC«jfC €fCV•fC«ªfC ÀfCVÕfC«êfC  gCVgC«*gC @gCVUgC«jgC €gCV•gC«ªgC ÀgCVÕgC«êgC  hCVhC«*hC @hCVUhC«jhC €hCV•hC«ªhC ÀhCVÕhC«êhC  iCViC«*iC @iCVUiC«jiC €iCV•iC«ªiC ÀiCVÕiC«êiC  jCVjC«*jC @jCVUjC«jjC €jCV•jC«ªjC ÀjCVÕjC«êjC  kCVkC«*kC @kCVUkC«jkC €kCV•kC«ªkC ÀkCVÕkC«êkC  lCVlC«*lC @lCVUlC«jlC €lCV•lC«ªlC ÀlCVÕlC«êlC  mCVmC«*mC @mCVUmC«jmC €mCV•mC«ªmC ÀmCVÕmC«êmC  nCVnC«*nC @nCVUnC«jnC €nCV•nC«ªnC ÀnCVÕnC«ênC  oCVoC«*oC @oCVUoC«joC €oCV•oC«ªoC ÀoCVÕoC«êoC  pCVpC«*pC @pCVUpC«jpC €pCV•pC«ªpC ÀpCVÕpC«êpC  qCVqC«*qC @qCVUqC«jqC €qCV•qC«ªqC ÀqCVÕqC«êqC  rCVrC«*rC @rCVUrC«jrC €rCV•rC«ªrC ÀrCVÕrC«êrC  sCVsC«*sC @sCVUsC«jsC €sCV•sC«ªsC ÀsCVÕsC«êsC  tCVtC«*tC @tCVUtC«jtC €tCV•tC«ªtC ÀtCVÕtC«êtC  uCVuC«*uC @uCVUuC«juC €uCV•uC«ªuC ÀuCVÕuC«êuC  vCVvC«*vC @vCVUvC«jvC €vCV•vC«ªvC ÀvCVÕvC«êvC  wCVwC«*wC @wCVUwC«jwC €wCV•wC«ªwC ÀwCVÕwC«êwC  xCVxC«*xC @xCVUxC«jxC €xCV•xC«ªxC ÀxCVÕxC«êxC  yCVyC«*yC @yCVUyC«jyC €yCV•yC«ªyC ÀyCVÕyC«êyC  zCVzC«*zC @zCVUzC«jzC €zCV•zC«ªzC ÀzCVÕzC«êzC  {CV{C«*{C @{CVU{C«j{C €{CV•{C«ª{C À{CVÕ{C«ê{C  |CV|C«*|C @|CVU|C«j|C €|CV•|C«ª|C À|CVÕ|C«ê|C  }CV}C«*}C @}CVU}C«j}C €}CV•}C«ª}C À}CVÕ}C«ê}C  ~CV~C«*~C @~CVU~C«j~C €~CV•~C«ª~C À~CVÕ~C«ê~C  CVC«*C @CVUC«jC €CV•C«ªC ÀCVÕC«êC  €C«
+€CU€C  €C«*€CU5€C @€C«J€CUU€C `€C«j€CUu€C €€C«Š€CU•€C  €C«ª€CUµ€C À€C«Ê€CUÕ€C à€C«ê€CUõ€C  C«
+CUC  C«*CU5C @C«JCUUC `C«jCUuC €C«ŠCU•C  C«ªCUµC ÀC«ÊCUÕC àC«êCUõC  ‚C«
+‚CU‚C  ‚C«*‚CU5‚C @‚C«J‚CUU‚C `‚C«j‚CUu‚C €‚C«Š‚CU•‚C  ‚C«ª‚CUµ‚C À‚C«Ê‚CUÕ‚C à‚C«ê‚CUõ‚C  ƒC«
+ƒCUƒC  ƒC«*ƒCU5ƒC @ƒC«JƒCUUƒC `ƒC«jƒCUuƒC €ƒC«ŠƒCU•ƒC  ƒC«ªƒCUµƒC ÀƒC«ÊƒCUÕƒC àƒC«êƒCUõƒC  „C«
+„CU„C  „C«*„CU5„C @„C«J„CUU„C `„C«j„CUu„C €„C«Š„CU•„C  „C«ª„CUµ„C À„C«Ê„CUÕ„C à„C«ê„CUõ„C  …C«
+…CU…C  …C«*…CU5…C @…C«J…CUU…C `…C«j…CUu…C €…C«Š…CU•…C  …C«ª…CUµ…C À…C«Ê…CUÕ…C à…C«ê…CUõ…C  †C«
+†CU†C  †C«*†CU5†C @†C«J†CUU†C `†C«j†CUu†C €†C«Š†CU•†C  †C«ª†CUµ†C À†C«Ê†CUÕ†C à†C«ê†CUõ†C  ‡C«
+‡CU‡C  ‡C«*‡CU5‡C @‡C«J‡CVU‡C `‡C«j‡CVu‡C €‡C«Š‡CV•‡C  ‡C«ª‡CVµ‡C À‡C«Ê‡CVÕ‡C à‡C«ê‡CVõ‡C  ˆC«
+ˆCVˆC  ˆC«*ˆCV5ˆC @ˆC«JˆCVUˆC `ˆC«jˆCVuˆC €ˆC«ŠˆCV•ˆC  ˆC«ªˆCVµˆC ÀˆC«ÊˆCVÕˆC àˆC«êˆCVõˆC  ‰C«
+‰CV‰C  ‰C«*‰CV5‰C @‰C«J‰CVU‰C `‰C«j‰CVu‰C €‰C«Š‰CV•‰C  ‰C«ª‰CVµ‰C À‰C«Ê‰CVÕ‰C à‰C«ê‰CVõ‰C  ŠC«
+ŠCVŠC  ŠC«*ŠCV5ŠC @ŠC«JŠCVUŠC `ŠC«jŠCVuŠC €ŠC«ŠŠCV•ŠC  ŠC«ªŠCVµŠC ÀŠC«ÊŠCVÕŠC àŠC«êŠCVõŠC  ‹C«
+‹CV‹C  ‹C«*‹CV5‹C @‹C«J‹CVU‹C `‹C«j‹CVu‹C €‹C«Š‹CV•‹C  ‹C«ª‹CVµ‹C À‹C«Ê‹CVÕ‹C à‹C«ê‹CVõ‹C  ŒC«
+ŒCVŒC  ŒC«*ŒCV5ŒC @ŒC«JŒCVUŒC `ŒC«jŒCVuŒC €ŒC«ŠŒCV•ŒC  ŒC«ªŒCVµŒC ÀŒC«ÊŒCVÕŒC àŒC«êŒCVõŒC  C«
+CVC  C«*CV5C @C«JCVUC `C«jCVuC €C«ŠCV•C  C«ªCVµC ÀC«ÊCVÕC àC«êCVõC  ŽC«
+ŽCVŽC  ŽC«*ŽCV5ŽC @ŽC«JŽCVUŽC `ŽC«jŽCVuŽC €ŽC«ŠŽCV•ŽC  ŽC«ªŽCVµŽC ÀŽC«ÊŽCVÕŽC àŽC«êŽCVõŽC  C«
+CVC  C«*CV5C @C«JCVUC `C«jCVuC €C«ŠCV•C  C«ªCVµC ÀC«ÊCVÕC àC«êCVõC  C«
+CVC  C«*CV5C @C«JCVUC `C«jCVuC €C«ŠCV•C  C«ªCVµC ÀC«ÊCVÕC àC«êCVõC  ‘C«
+‘CV‘C  ‘C«*‘CV5‘C @‘C«J‘CVU‘C `‘C«j‘CVu‘C €‘C«Š‘CV•‘C  ‘C«ª‘CVµ‘C À‘C«Ê‘CVÕ‘C à‘C«ê‘CVõ‘C  ’C«
+’CV’C  ’C«*’CV5’C @’C«J’CVU’C `’C«j’CVu’C €’C«Š’CV•’C  ’C«ª’CVµ’C À’C«Ê’CVÕ’C à’C«ê’CVõ’C  “C«
+“CV“C  “C«*“CV5“C @“C«J“CVU“C `“C«j“CVu“C €“C«Š“CV•“C  “C«ª“CVµ“C À“C«Ê“CVÕ“C à“C«ê“CVõ“C  ”C«
+”CV”C  ”C«*”CV5”C @”C«J”CVU”C `”C«j”CVu”C €”C«Š”CV•”C  ”C«ª”CVµ”C À”C«Ê”CVÕ”C à”C«ê”CVõ”C  •C«
+•CV•C  •C«*•CV5•C @•C«J•CVU•C `•C«j•CVu•C €•C«Š•CV••C  •C«ª•CVµ•C À•C«Ê•CVÕ•C à•C«ê•CVõ•C  –C«
+–CV–C  –C«*–CV5–C @–C«J–CVU–C `–C«j–CVu–C €–C«Š–CV•–C  –C«ª–CVµ–C À–C«Ê–CVÕ–C à–C«ê–CVõ–C  —C«
+—CV—C  —C«*—CV5—C @—C«J—CVU—C `—C«j—CVu—C €—C«Š—CV•—C  —C«ª—CVµ—C À—C«Ê—CVÕ—C à—C«ê—CVõ—C  ˜C«
+˜CV˜C  ˜C«*˜CV5˜C @˜C«J˜CVU˜C `˜C«j˜CVu˜C €˜C«Š˜CV•˜C  ˜C«ª˜CVµ˜C À˜C«Ê˜CVÕ˜C à˜C«ê˜CVõ˜C  ™C«
+™CV™C  ™C«*™CV5™C @™C«J™CVU™C `™C«j™CVu™C €™C«Š™CV•™C  ™C«ª™CVµ™C À™C«Ê™CVÕ™C à™C«ê™CVõ™C  šC«
+šCVšC  šC«*šCV5šC @šC«JšCVUšC `šC«jšCVušC €šC«ŠšCV•šC  šC«ªšCVµšC ÀšC«ÊšCVÕšC àšC«êšCVõšC  ›C«
+›CV›C  ›C«*›CV5›C @›C«J›CVU›C `›C«j›CVu›C €›C«Š›CV•›C  ›C«ª›CVµ›C À›C«Ê›CVÕ›C à›C«ê›CVõ›C  œC«
+œCVœC  œC«*œCV5œC @œC«JœCVUœC `œC«jœCVuœC €œC«ŠœCV•œC  œC«ªœCVµœC ÀœC«ÊœCVÕœC àœC«êœCVõœC  C«
+CVC  C«*CV5C @C«JCVUC `C«jCVuC €C«ŠCV•C  C«ªCVµC ÀC«ÊCVÕC àC«êCVõC  žC«
+žCVžC  žC«*žCV5žC @žC«JžCVUžC `žC«jžCVužC €žC«ŠžCV•žC  žC«ªžCVµžC ÀžC«ÊžCVÕžC àžC«êžCVõžC  ŸC«
+ŸCVŸC  ŸC«*ŸCV5ŸC @ŸC«JŸCVUŸC `ŸC«jŸCVuŸC €ŸC«ŠŸCV•ŸC  ŸC«ªŸCVµŸC ÀŸC«ÊŸCVÕŸC àŸC«êŸCVõŸC   C«
+ CV C   C«* CV5 C @ C«J CVU C ` C«j CVu C € C«Š CV• C   C«ª CVµ C À C«Ê CVÕ C à C«ê CVõ C  ¡C«
+¡CV¡C  ¡C«*¡CV5¡C @¡C«J¡CVU¡C `¡C«j¡CVu¡C €¡C«Š¡CV•¡C  ¡C«ª¡CVµ¡C À¡C«Ê¡CVÕ¡C à¡C«ê¡CVõ¡C  ¢C«
+¢CV¢C  ¢C«*¢CV5¢C @¢C«J¢CVU¢C `¢C«j¢CVu¢C €¢C«Š¢CV•¢C  ¢C«ª¢CVµ¢C À¢C«Ê¢CVÕ¢C à¢C«ê¢CVõ¢C  £C«
+£CV£C  £C«*£CV5£C @£C«J£CVU£C `£C«j£CVu£C €£C«Š£CV•£C  £C«ª£CVµ£C À£C«Ê£CVÕ£C à£C«ê£CVõ£C  ¤C«
+¤CV¤C  ¤C«*¤CV5¤C @¤C«J¤CVU¤C `¤C«j¤CVu¤C €¤C«Š¤CV•¤C  ¤C«ª¤CVµ¤C À¤C«Ê¤CVÕ¤C à¤C«ê¤CVõ¤C  ¥C«
+¥CV¥C  ¥C«*¥CV5¥C @¥C«J¥CVU¥C `¥C«j¥CVu¥C €¥C«Š¥CV•¥C  ¥C«ª¥CVµ¥C À¥C«Ê¥CVÕ¥C à¥C«ê¥CVõ¥C  ¦C«
+¦CV¦C  ¦C«*¦CV5¦C @¦C«J¦CVU¦C `¦C«j¦CVu¦C €¦C«Š¦CV•¦C  ¦C«ª¦CVµ¦C À¦C«Ê¦CVÕ¦C à¦C«ê¦CVõ¦C  §C«
+§CV§C  §C«*§CV5§C @§C«J§CVU§C `§C«j§CVu§C €§C«Š§CV•§C  §C«ª§CVµ§C À§C«Ê§CVÕ§C à§C«ê§CVõ§C  ¨C«
+¨CV¨C  ¨C«*¨CV5¨C @¨C«J¨CVU¨C `¨C«j¨CVu¨C €¨C«Š¨CV•¨C  ¨C«ª¨CVµ¨C À¨C«Ê¨CVÕ¨C à¨C«ê¨CVõ¨C  ©C«
+©CV©C  ©C«*©CV5©C @©C«J©CVU©C `©C«j©CVu©C €©C«Š©CV•©C  ©C«ª©CVµ©C À©C«Ê©CVÕ©C à©C«ê©CVõ©C  ªC«
+ªCVªC  ªC«*ªCV5ªC @ªC«JªCVUªC `ªC«jªCVuªC €ªC«ŠªCV•ªC  ªC«ªªCVµªC ÀªC«ÊªCVÕªC àªC«êªCVõªC  «C«
+«CV«C  «C«*«CV5«C @«C«J«CVU«C `«C«j«CVu«C €«C«Š«CV•«C  «C«ª«CVµ«C À«C«Ê«CVÕ«C à«C«ê«CVõ«C  ¬C«
+¬CV¬C  ¬C«*¬CV5¬C @¬C«J¬CVU¬C `¬C«j¬CVu¬C €¬C«Š¬CV•¬C  ¬C«ª¬CVµ¬C À¬C«Ê¬CVÕ¬C à¬C«ê¬CVõ¬C  ­C«
+­CV­C  ­C«*­CV5­C @­C«J­CVU­C `­C«j­CVu­C €­C«Š­CV•­C  ­C«ª­CVµ­C À­C«Ê­CVÕ­C à­C«ê­CVõ­C  ®C«
+®CV®C  ®C«*®CV5®C @®C«J®CVU®C `®C«j®CVu®C €®C«Š®CV•®C  ®C«ª®CVµ®C À®C«Ê®CVÕ®C à®C«ê®CVõ®C  ¯C«
+¯CV¯C  ¯C«*¯CV5¯C @¯C«J¯CVU¯C `¯C«j¯CVu¯C €¯C«Š¯CV•¯C  ¯C«ª¯CVµ¯C À¯C«Ê¯CVÕ¯C à¯C«ê¯CVõ¯C  °C«
+°CV°C  °C«*°CV5°C @°C«J°CVU°C `°C«j°CVu°C €°C«Š°CV•°C  °C«ª°CVµ°C À°C«Ê°CVÕ°C à°C«ê°CVõ°C  ±C«
+±CV±C  ±C«*±CV5±C @±C«J±CVU±C `±C«j±CVu±C €±C«Š±CV•±C  ±C«ª±CVµ±C À±C«Ê±CVÕ±C à±C«ê±CVõ±C  ²C«
+²CV²C  ²C«*²CV5²C @²C«J²CVU²C `²C«j²CVu²C €²C«Š²CV•²C  ²C«ª²CVµ²C À²C«Ê²CVÕ²C à²C«ê²CVõ²C  ³C«
+³CV³C  ³C«*³CV5³C @³C«J³CVU³C `³C«j³CVu³C €³C«Š³CV•³C  ³C«ª³CVµ³C À³C«Ê³CVÕ³C à³C«ê³CVõ³C  ´C«
+´CV´C  ´C«*´CV5´C @´C«J´CVU´C `´C«j´CVu´C €´C«Š´CV•´C  ´C«ª´CVµ´C À´C«Ê´CVÕ´C à´C«ê´CVõ´C  µC«
+µCVµC  µC«*µCV5µC @µC«JµCVUµC `µC«jµCVuµC €µC«ŠµCV•µC  µC«ªµCVµµC ÀµC«ÊµCVÕµC àµC«êµCVõµC  ¶C«
+¶CV¶C  ¶C«*¶CV5¶C @¶C«J¶CVU¶C `¶C«j¶CVu¶C €¶C«Š¶CV•¶C  ¶C«ª¶CVµ¶C À¶C«Ê¶CVÕ¶C à¶C«ê¶CVõ¶C  ·C«
+·CV·C  ·C«*·CV5·C @·C«J·CVU·C `·C«j·CVu·C €·C«Š·CV•·C  ·C«ª·CVµ·C À·C«Ê·CVÕ·C à·C«ê·CVõ·C  ¸C«
+¸CV¸C  ¸C«*¸CV5¸C @¸C«J¸CVU¸C `¸C«j¸CVu¸C €¸C«Š¸CV•¸C  ¸C«ª¸CVµ¸C À¸C«Ê¸CVÕ¸C à¸C«ê¸CVõ¸C  ¹C«
+¹CV¹C  ¹C«*¹CV5¹C @¹C«J¹CVU¹C `¹C«j¹CVu¹C €¹C«Š¹CV•¹C  ¹C«ª¹CVµ¹C À¹C«Ê¹CVÕ¹C à¹C«ê¹CVõ¹C  ºC«
+ºCVºC  ºC«*ºCV5ºC @ºC«JºCVUºC `ºC«jºCVuºC €ºC«ŠºCV•ºC  ºC«ªºCVµºC ÀºC«ÊºCVÕºC àºC«êºCVõºC  »C«
+»CV»C  »C«*»CV5»C @»C«J»CVU»C `»C«j»CVu»C €»C«Š»CV•»C  »C«ª»CVµ»C À»C«Ê»CVÕ»C à»C«ê»CVõ»C  ¼C«
+¼CV¼C  ¼C«*¼CV5¼C @¼C«J¼CVU¼C `¼C«j¼CVu¼C €¼C«Š¼CV•¼C  ¼C«ª¼CVµ¼C À¼C«Ê¼CVÕ¼C à¼C«ê¼CVõ¼C  ½C«
+½CV½C  ½C«*½CV5½C @½C«J½CVU½C `½C«j½CVu½C €½C«Š½CV•½C  ½C«ª½CVµ½C À½C«Ê½CVÕ½C à½C«ê½CVõ½C  ¾C«
+¾CV¾C  ¾C«*¾CV5¾C @¾C«J¾CVU¾C `¾C«j¾CVu¾C €¾C«Š¾CV•¾C  ¾C«ª¾CVµ¾C À¾C«Ê¾CVÕ¾C à¾C«ê¾CVõ¾C  ¿C«
+¿CV¿C  ¿C«*¿CV5¿C @¿C«J¿CVU¿C `¿C«j¿CVu¿C €¿C«Š¿CV•¿C  ¿C«ª¿CVµ¿C À¿C«Ê¿CVÕ¿C à¿C«ê¿CVõ¿C  ÀC«
+ÀCVÀC  ÀC«*ÀCV5ÀC @ÀC«JÀCVUÀC `ÀC«jÀCVuÀC €ÀC«ŠÀCV•ÀC  ÀC«ªÀCVµÀC ÀÀC«ÊÀCVÕÀC àÀC«êÀCVõÀC  ÁC«
+ÁCVÁC  ÁC«*ÁCV5ÁC @ÁC«JÁCVUÁC `ÁC«jÁCVuÁC €ÁC«ŠÁCV•ÁC  ÁC«ªÁCVµÁC ÀÁC«ÊÁCVÕÁC àÁC«êÁCVõÁC  ÂC«
+ÂCVÂC  ÂC«*ÂCV5ÂC @ÂC«JÂCVUÂC `ÂC«jÂCVuÂC €ÂC«ŠÂCV•ÂC  ÂC«ªÂCVµÂC ÀÂC«ÊÂCVÕÂC àÂC«êÂCVõÂC  ÃC«
+ÃCVÃC  ÃC«*ÃCV5ÃC @ÃC«JÃCVUÃC `ÃC«jÃCVuÃC €ÃC«ŠÃCV•ÃC  ÃC«ªÃCVµÃC ÀÃC«ÊÃCVÕÃC àÃC«êÃCVõÃC  ÄC«
+ÄCVÄC  ÄC«*ÄCV5ÄC @ÄC«JÄCVUÄC `ÄC«jÄCVuÄC €ÄC«ŠÄCV•ÄC  ÄC«ªÄCVµÄC ÀÄC«ÊÄCVÕÄC àÄC«êÄCVõÄC  ÅC«
+ÅCVÅC  ÅC«*ÅCV5ÅC @ÅC«JÅCVUÅC `ÅC«jÅCVuÅC €ÅC«ŠÅCV•ÅC  ÅC«ªÅCVµÅC ÀÅC«ÊÅCVÕÅC àÅC«êÅCVõÅC  ÆC«
+ÆCVÆC  ÆC«*ÆCV5ÆC @ÆC«JÆCVUÆC `ÆC«jÆCVuÆC €ÆC«ŠÆCV•ÆC  ÆC«ªÆCVµÆC ÀÆC«ÊÆCVÕÆC àÆC«êÆCVõÆC  ÇC«
+ÇCVÇC  ÇC«*ÇCV5ÇC @ÇC«JÇCVUÇC `ÇC«jÇCVuÇC €ÇC«ŠÇCV•ÇC  ÇC«ªÇCVµÇC ÀÇC«ÊÇCVÕÇC àÇC«êÇCVõÇC  ÈC«
+ÈCVÈC  ÈC«*ÈCV5ÈC @ÈC«JÈCVUÈC `ÈC«jÈCVuÈC €ÈC«ŠÈCV•ÈC  ÈC«ªÈCVµÈC ÀÈC«ÊÈCVÕÈC àÈC«êÈCVõÈC  ÉC«
+ÉCVÉC  ÉC«*ÉCV5ÉC @ÉC«JÉCVUÉC `ÉC«jÉCVuÉC €ÉC«ŠÉCV•ÉC  ÉC«ªÉCVµÉC ÀÉC«ÊÉCVÕÉC àÉC«êÉCVõÉC  ÊC«
+ÊCVÊC  ÊC«*ÊCV5ÊC @ÊC«JÊCVUÊC `ÊC«jÊCVuÊC €ÊC«ŠÊCV•ÊC  ÊC«ªÊCVµÊC ÀÊC«ÊÊCVÕÊC àÊC«êÊCVõÊC  ËC«
+ËCVËC  ËC«*ËCV5ËC @ËC«JËCVUËC `ËC«jËCVuËC €ËC«ŠËCV•ËC  ËC«ªËCVµËC ÀËC«ÊËCVÕËC àËC«êËCVõËC  ÌC«
+ÌCVÌC  ÌC«*ÌCV5ÌC @ÌC«JÌCVUÌC `ÌC«jÌCVuÌC €ÌC«ŠÌCV•ÌC  ÌC«ªÌCVµÌC ÀÌC«ÊÌCVÕÌC àÌC«êÌCVõÌC  ÍC«
+ÍCVÍC  ÍC«*ÍCV5ÍC @ÍC«JÍCVUÍC `ÍC«jÍCVuÍC €ÍC«ŠÍCV•ÍC  ÍC«ªÍCVµÍC ÀÍC«ÊÍCVÕÍC àÍC«êÍCVõÍC  ÎC«
+ÎCVÎC  ÎC«*ÎCV5ÎC @ÎC«JÎCVUÎC `ÎC«jÎCVuÎC €ÎC«ŠÎCV•ÎC  ÎC«ªÎCVµÎC ÀÎC«ÊÎCVÕÎC àÎC«êÎCVõÎC  ÏC«
+ÏCVÏC  ÏC«*ÏCV5ÏC @ÏC«JÏCVUÏC `ÏC«jÏCVuÏC €ÏC«ŠÏCV•ÏC  ÏC«ªÏCVµÏC ÀÏC«ÊÏCVÕÏC àÏC«êÏCVõÏC  ÐC«
+ÐCVÐC  ÐC«*ÐCV5ÐC @ÐC«JÐCVUÐC `ÐC«jÐCVuÐC €ÐC«ŠÐCV•ÐC  ÐC«ªÐCVµÐC ÀÐC«ÊÐCVÕÐC àÐC«êÐCVõÐC  ÑC«
+ÑCVÑC  ÑC«*ÑCV5ÑC @ÑC«JÑCVUÑC `ÑC«jÑCVuÑC €ÑC«ŠÑCV•ÑC  ÑC«ªÑCVµÑC ÀÑC«ÊÑCVÕÑC àÑC«êÑCVõÑC  ÒC«
+ÒCVÒC  ÒC«*ÒCV5ÒC @ÒC«JÒCVUÒC `ÒC«jÒCVuÒC €ÒC«ŠÒCV•ÒC  ÒC«ªÒCVµÒC ÀÒC«ÊÒCVÕÒC àÒC«êÒCVõÒC  ÓC«
+ÓCVÓC  ÓC«*ÓCV5ÓC @ÓC«JÓCVUÓC `ÓC«jÓCVuÓC €ÓC«ŠÓCV•ÓC  ÓC«ªÓCVµÓC ÀÓC«ÊÓCVÕÓC àÓC«êÓCVõÓC  ÔC«
+ÔCVÔC  ÔC«*ÔCV5ÔC @ÔC«JÔCVUÔC `ÔC«jÔCVuÔC €ÔC«ŠÔCV•ÔC  ÔC«ªÔCVµÔC ÀÔC«ÊÔCVÕÔC àÔC«êÔCVõÔC  ÕC«
+ÕCVÕC  ÕC«*ÕCV5ÕC @ÕC«JÕCVUÕC `ÕC«jÕCVuÕC €ÕC«ŠÕCV•ÕC  ÕC«ªÕCVµÕC ÀÕC«ÊÕCVÕÕC àÕC«êÕCVõÕC  ÖC«
+ÖCVÖC  ÖC«*ÖCV5ÖC @ÖC«JÖCVUÖC `ÖC«jÖCVuÖC €ÖC«ŠÖCV•ÖC  ÖC«ªÖCVµÖC ÀÖC«ÊÖCVÕÖC àÖC«êÖCVõÖC  ×C«
+×CV×C  ×C«*×CV5×C @×C«J×CVU×C `×C«j×CVu×C €×C«Š×CV•×C  ×C«ª×CVµ×C À×C«Ê×CVÕ×C à×C«ê×CVõ×C  ØC«
+ØCVØC  ØC«*ØCV5ØC @ØC«JØCVUØC `ØC«jØCVuØC €ØC«ŠØCV•ØC  ØC«ªØCVµØC ÀØC«ÊØCVÕØC àØC«êØCVõØC  ÙC«
+ÙCVÙC  ÙC«*ÙCV5ÙC @ÙC«JÙCVUÙC `ÙC«jÙCVuÙC €ÙC«ŠÙCV•ÙC  ÙC«ªÙCVµÙC ÀÙC«ÊÙCVÕÙC àÙC«êÙCVõÙC  ÚC«
+ÚCVÚC  ÚC«*ÚCV5ÚC @ÚC«JÚCVUÚC `ÚC«jÚCVuÚC €ÚC«ŠÚCV•ÚC  ÚC«ªÚCVµÚC ÀÚC«ÊÚCVÕÚC àÚC«êÚCVõÚC  ÛC«
+ÛCVÛC  ÛC«*ÛCV5ÛC @ÛC«JÛCVUÛC `ÛC«jÛCVuÛC €ÛC«ŠÛCV•ÛC  ÛC«ªÛCVµÛC ÀÛC«ÊÛCVÕÛC àÛC«êÛCVõÛC  ÜC«
+ÜCVÜC  ÜC«*ÜCV5ÜC @ÜC«JÜCVUÜC `ÜC«jÜCVuÜC €ÜC

@@ -1,0 +1,50 @@
+{
+ "id": "openslide-aperio-jp2k-33003-1",
+ "file": "openslide-aperio-JP2K-33003-1.svs",
+ "size": 63847265,
+ "sha256": "6205ccf75a8fa6c32df7c5c04b7377398971a490fb6b320d50d91f7ba6a0e6fd",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "svs",
+ "flags": [
+  "svs"
+ ],
+ "page_count": 6,
+ "series_count": 4,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "svs",
+   "axes": "YXS",
+   "shape": [
+    17497,
+    15374,
+    3
+   ],
+   "size_x": 15374,
+   "size_y": 17497,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 3,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.24980000000000002,
+    "y": 0.24980000000000002
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eff6427170d07982fa654a9555487e0f",
+     "mean": 226.67683189865696
+    }
+   ]
+  }
+ ]
+}

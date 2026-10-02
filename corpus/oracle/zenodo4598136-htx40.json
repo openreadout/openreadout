@@ -1,0 +1,44 @@
+{
+ "id": "zenodo4598136-htx40",
+ "file": "zenodo4598136-Htx40.oib",
+ "size": 1835008,
+ "sha256": "c5aa2a964b8f58f77bf61fc8e4fb197bc98ca5fcd6ad331421fc40a36cc05984",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box); planes cross-checked with oiffile 2026.2.8",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series 1",
+   "size_x": 640,
+   "size_y": 640,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.994,
+    "y": 0.994
+   },
+   "channel_names": [
+    "CHS1",
+    "CHS2"
+   ],
+   "oiffile_agrees": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eda1b277dc6c187030b4d2a5b748b557"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aae62fa16861473d68c0d40aa351eb65"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+# zizmor (GitHub Actions security linter) configuration, used by the `zizmor` job in ci.yml.
+#
+# Policy: every action is pinned to a full commit SHA with the version in a trailing comment
+# (`uses: owner/repo@<sha> # vX.Y.Z`); Dependabot (.github/dependabot.yml) bumps SHA and comment
+# together.
+#
+# Baseline: none. The earlier artipacked / excessive-permissions / template-injection entries
+# for ci.yml, dco.yml and release.yml were fixed (per-job permissions, persist-credentials: false,
+# values passed through env). New findings must be fixed, not added here.
+rules:
+  unpinned-uses:
+    config:
+      policies:
+        "*": hash-pin

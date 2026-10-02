@@ -1,0 +1,31 @@
+{
+ "id": "aics-tiff-s-1-t-1-c-2-z-1-rgb",
+ "file": "aics-s_1_t_1_c_2_z_1_RGB.tiff",
+ "format": "tiff",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 32,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 32,
+   "cmp": "exact"
+  }
+ ]
+}

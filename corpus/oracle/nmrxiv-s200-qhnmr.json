@@ -1,0 +1,45 @@
+{
+ "id": "nmrxiv-s200-qhnmr",
+ "file": "Limonene_7020ug200uL_CDCl3_qHNMR_400MHz_JDX.jdx",
+ "size": 314650,
+ "sha256": "c71b29000310f0ce9f51fa847ccd0722c667a0639da2127fef4caf3564d88f96",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "Limonene_7020ug200uL_CDCl3_nospin_IND_skim592",
+   "kind": "xydata",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 104858,
+     "channels": [
+      {
+       "xxh3": "3dd71e1bf501416d10521d2486f27512",
+       "first": [
+        -0.0006423551217386974,
+        -0.0006617830490884516,
+        -0.0006364959055538509,
+        -0.0006335662974614277,
+        -0.0006304824994694031,
+        -0.000647597578325139,
+        -0.0006645584672812736,
+        -0.0006378836146502619
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 104858,
+   "channel_count": 1,
+   "reader": "nmrglue 0.12 jcampdx.read",
+   "second_opinion": {
+    "reader": "jcamp 1.2.2",
+    "agrees": true
+   }
+  }
+ ]
+}

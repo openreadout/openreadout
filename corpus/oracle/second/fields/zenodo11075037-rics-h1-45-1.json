@@ -1,0 +1,55 @@
+{
+ "id": "zenodo11075037-rics-h1-45-1",
+ "file": "olympus-fv/zenodo11075037-220618-h1-45-1.oib",
+ "format": "oib",
+ "family": "imaging",
+ "readers": [
+  "oiffile 2026.2.8 (BSD-3) main settings",
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "ImageCaputreDate (+MilliSec)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-06-18T11:10:23.362",
+   "cmp": "time",
+   "abs": 0.001
+  },
+  {
+   "field": "Version Info SystemName",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "FLUOVIEW FV1000",
+   "cmp": "text"
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 64,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 64,
+   "cmp": "exact",
+   "reader": 1
+  }
+ ]
+}

@@ -1,0 +1,127 @@
+{
+ "id": "mzdata-diapasef",
+ "file": "mzdata-diapasef.mzML",
+ "size": 3176788,
+ "sha256": "67652af39e65bf4cacd331dcb4ad041d0a930dae4ae248b93527b61c98f2a2ee",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5,
+     "channels": [
+      {
+       "xxh3": "c5b41413008b5593859dce81fd89c774",
+       "first": [
+        3866.2913197535813,
+        3866.398298894222,
+        3866.502396867405,
+        3866.60744701878,
+        3866.71217019797
+       ]
+      },
+      {
+       "xxh3": "9dd6b259f03d0f0f6d696421f3dfe978",
+       "first": [
+        17889880.0,
+        571024.0,
+        679707.0,
+        719638.0,
+        6675081.0
+       ]
+      },
+      {
+       "xxh3": "5fd5795f6d51f86cc04674165ad959ab",
+       "first": [
+        1.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "id": "BPC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5,
+     "channels": [
+      {
+       "xxh3": "c5b41413008b5593859dce81fd89c774",
+       "first": [
+        3866.2913197535813,
+        3866.398298894222,
+        3866.502396867405,
+        3866.60744701878,
+        3866.71217019797
+       ]
+      },
+      {
+       "xxh3": "b6fa593d7dc00a6e4b635645a1ed0a67",
+       "first": [
+        18556.0,
+        328.0,
+        1154.0,
+        944.0,
+        9090.0
+       ]
+      },
+      {
+       "xxh3": "5fd5795f6d51f86cc04674165ad959ab",
+       "first": [
+        1.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 9,
+  "by_index": true
+ ,
+  "scans": [
+{"index":0,"scan_number":1,"ms_level":1,"rt_s":3866.291319753581,"polarity":"positive","centroided":true,"filter":null,"precursor_mz":null,"precursor_charge":null,"isolation_target_mz":null,"activation":null,"collision_energy":null,"total_ion_current":17889880.0,"n_peaks":205921,"n_nonzero":205921,"mz_bits":64,"xxh3_mz":"6e7393244a8b861cb61073d0584c6bb9","xxh3_intensity":"37e5e0bac8191565448de3e4510f3105","xxh3_mz_nonzero":"6e7393244a8b861cb61073d0584c6bb9","xxh3_intensity_nonzero":"37e5e0bac8191565448de3e4510f3105","sum_intensity":17891116.0,"mz_min":95.09149703493198,"mz_max":1704.9769009717998,"first_peaks":[[1644.9060643863652,9.0],[101.74913118166417,9.0],[111.98573003872966,9.0],[697.9672261048249,9.0],[859.6685157720086,9.0]],"first_nonzero_peaks":[[1644.9060643863652,9.0],[101.74913118166417,9.0],[111.98573003872966,9.0],[697.9672261048249,9.0],[859.6685157720086,9.0]]},
+{"index":1,"scan_number":2,"ms_level":2,"rt_s":3866.398298894222,"polarity":"positive","centroided":true,"filter":null,"precursor_mz":813.0,"precursor_charge":null,"isolation_target_mz":813.0,"activation":["collision-induced dissociation"],"collision_energy":41.572228443449,"total_ion_current":571024.0,"n_peaks":8377,"n_nonzero":8377,"mz_bits":64,"xxh3_mz":"277d80904dcd8db18d3711d481a91445","xxh3_intensity":"201c3dd95455b01b605199c551479377","xxh3_mz_nonzero":"277d80904dcd8db18d3711d481a91445","xxh3_intensity_nonzero":"201c3dd95455b01b605199c551479377","sum_intensity":525567.0,"mz_min":95.10854594090115,"mz_max":1703.9464397733248,"first_peaks":[[933.3585247789281,9.0],[983.1679095332925,9.0],[169.18291659798712,9.0],[228.7281602844149,9.0],[859.598598179264,9.0]],"first_nonzero_peaks":[[933.3585247789281,9.0],[983.1679095332925,9.0],[169.18291659798712,9.0],[228.7281602844149,9.0],[859.598598179264,9.0]]},
+{"index":2,"scan_number":3,"ms_level":2,"rt_s":3866.398298894222,"polarity":"positive","centroided":true,"filter":null,"precursor_mz":413.0,"precursor_charge":null,"isolation_target_mz":413.0,"activation":["collision-induced dissociation"],"collision_energy":24.945128779395,"total_ion_current":571024.0,"n_peaks":960,"n_nonzero":960,"mz_bits":64,"xxh3_mz":"ab199acec2c453e08255d6a2dc1918c6","xxh3_intensity":"c32adde11b968c5508e917a64632867b","xxh3_mz_nonzero":"ab199acec2c453e08255d6a2dc1918c6","xxh3_intensity_nonzero":"c32adde11b968c5508e917a64632867b","sum_intensity":43778.0,"mz_min":97.10912594295903,"mz_max":1703.500222039738,"first_peaks":[[595.1532524453539,69.0],[636.2599318991181,89.0],[647.3152063971327,61.0],[661.2590121730182,64.0],[674.6120878227866,77.0]],"first_nonzero_peaks":[[595.1532524453539,69.0],[636.2599318991181,89.0],[647.3152063971327,61.0],[661.2590121730182,64.0],[674.6120878227866,77.0]]},
+{"index":3,"scan_number":4,"ms_level":2,"rt_s":3866.502396867405,"polarity":"positive","centroided":true,"filter":null,"precursor_mz":838.0,"precursor_charge":null,"isolation_target_mz":838.0,"activation":["collision-induced dissociation"],"collision_energy":41.823068309071,"total_ion_current":679707.0,"n_peaks":9186,"n_nonzero":9186,"mz_bits":64,"xxh3_mz":"97d301c846503b16bec5264100cb936c","xxh3_intensity":"578b9f1017e4a4b5b73649b89a653a64","xxh3_mz_nonzero":"97d301c846503b16bec5264100cb936c","xxh3_intensity_nonzero":"578b9f1017e4a4b5b73649b89a653a64","sum_intensity":605903.0,"mz_min":95.43742361004573,"mz_max":1701.0405121164956,"first_peaks":[[299.7559074104877,9.0],[1393.6308825231395,9.0],[322.367238649341,9.0],[598.5788871958401,9.0],[769.2175615887866,9.0]],"first_nonzero_peaks":[[299.7559074104877,9.0],[1393.6308825231395,9.0],[322.367238649341,9.0],[598.5788871958401,9.0],[769.2175615887866,9.0]]},
+{"index":4,"scan_number":5,"ms_level":2,"rt_s":3866.502396867405,"polarity":"positive","centroided":true,"filter":null,"precursor_mz":438.0,"precursor_charge":null,"isolation_target_mz":438.0,"activation":["collision-induced dissociation"],"collision_energy":25.195968645017,"total_ion_current":679707.0,"n_peaks":1362,"n_nonzero":1362,"mz_bits":64,"xxh3_mz":"800090b31b0f552bf7e5c4b82cf63a2c","xxh3_intensity":"3f1c64b25d2693869c255762bebff553","xxh3_mz_nonzero":"800090b31b0f552bf7e5c4b82cf63a2c","xxh3_intensity_nonzero":"3f1c64b25d2693869c255762bebff553","sum_intensity":72396.0,"mz_min":95.14729914189232,"mz_max":1688.9842193425256,"first_peaks":[[598.8395129249607,58.0],[640.2481691896485,94.0],[671.5228806909664,75.0],[674.2528974326744,64.0],[697.8748281294276,75.0]],"first_nonzero_peaks":[[598.8395129249607,58.0],[640.2481691896485,94.0],[671.5228806909664,75.0],[674.2528974326744,64.0],[697.8748281294276,75.0]]},
+{"index":5,"scan_number":6,"ms_level":2,"rt_s":3866.60744701878,"polarity":"positive","centroided":true,"filter":null,"precursor_mz":863.0,"precursor_charge":null,"isolation_target_mz":863.0,"activation":["collision-induced dissociation"],"collision_energy":42.109742441209,"total_ion_current":719638.0,"n_peaks":6160,"n_nonzero":6160,"mz_bits":64,"xxh3_mz":"3bf33b1cb0accad8a1d3c1155df49d3f","xxh3_intensity":"c78abaa04afc7d61e3c0d6ee33316cd9","xxh3_mz_nonzero":"3bf33b1cb0accad8a1d3c1155df49d3f","xxh3_intensity_nonzero":"c78abaa04afc7d61e3c0d6ee33316cd9","sum_intensity":383941.0,"mz_min":96.07507217495555,"mz_max":1703.4936604502097,"first_peaks":[[380.8871664572449,9.0],[983.262624176024,9.0],[871.7741976701211,9.0],[134.2480821013241,9.0],[179.2017235124208,9.0]],"first_nonzero_peaks":[[380.8871664572449,9.0],[983.262624176024,9.0],[871.7741976701211,9.0],[134.2480821013241,9.0],[179.2017235124208,9.0]]},
+{"index":6,"scan_number":7,"ms_level":2,"rt_s":3866.60744701878,"polarity":"positive","centroided":true,"filter":null,"precursor_mz":463.0,"precursor_charge":null,"isolation_target_mz":463.0,"activation":["collision-induced dissociation"],"collision_energy":25.482642777156,"total_ion_current":719638.0,"n_peaks":4735,"n_nonzero":4735,"mz_bits":64,"xxh3_mz":"046079a9f10836212265c4849eb491e2","xxh3_intensity":"0c148871096a5df290d76d4a737bc6c0","xxh3_mz_nonzero":"046079a9f10836212265c4849eb491e2","xxh3_intensity_nonzero":"0c148871096a5df290d76d4a737bc6c0","sum_intensity":334984.0,"mz_min":97.30499945423335,"mz_max":1685.4840355733436,"first_peaks":[[234.15002055740462,115.0],[649.1852377895394,23.0],[649.8010759395748,75.0],[654.1892418609132,25.0],[689.3419439050439,53.0]],"first_nonzero_peaks":[[234.15002055740462,115.0],[649.1852377895394,23.0],[649.8010759395748,75.0],[654.1892418609132,25.0],[689.3419439050439,53.0]]},
+{"index":7,"scan_number":8,"ms_level":2,"rt_s":3866.71217019797,"polarity":"positive","centroided":true,"filter":null,"precursor_mz":888.0,"precursor_charge":null,"isolation_target_mz":888.0,"activation":["collision-induced dissociation"],"collision_energy":42.360582306831,"total_ion_current":6675081.0,"n_peaks":51559,"n_nonzero":51559,"mz_bits":64,"xxh3_mz":"1026b63551b5f9cc56524e244ea4c423","xxh3_intensity":"66a8a42022062a07f347c772e0183e6d","xxh3_mz_nonzero":"1026b63551b5f9cc56524e244ea4c423","xxh3_intensity_nonzero":"66a8a42022062a07f347c772e0183e6d","sum_intensity":6469990.0,"mz_min":95.04345834591787,"mz_max":1703.9858147316381,"first_peaks":[[295.13345977673066,9.0],[578.080807777732,9.0],[1301.895716097684,9.0],[1529.8299829197094,9.0],[520.5123831476644,9.0]],"first_nonzero_peaks":[[295.13345977673066,9.0],[578.080807777732,9.0],[1301.895716097684,9.0],[1529.8299829197094,9.0],[520.5123831476644,9.0]]},
+{"index":8,"scan_number":9,"ms_level":2,"rt_s":3866.71217019797,"polarity":"positive","centroided":true,"filter":null,"precursor_mz":488.0,"precursor_charge":null,"isolation_target_mz":488.0,"activation":["collision-induced dissociation"],"collision_energy":25.733482642777,"total_ion_current":6675081.0,"n_peaks":3193,"n_nonzero":3193,"mz_bits":64,"xxh3_mz":"4f48fc63856ca92fca5d81c94fc34cb9","xxh3_intensity":"d357bae5d220f7901669797237f8ffbb","xxh3_mz_nonzero":"4f48fc63856ca92fca5d81c94fc34cb9","xxh3_intensity_nonzero":"d357bae5d220f7901669797237f8ffbb","sum_intensity":204288.0,"mz_min":96.24651008657314,"mz_max":1697.4623517553614,"first_peaks":[[547.5345157059618,9.0],[577.0568770906574,24.0],[577.4923187616431,10.0],[643.3332086337172,37.0],[646.7531057759054,45.0]],"first_nonzero_peaks":[[547.5345157059618,9.0],[577.0568770906574,24.0],[577.4923187616431,10.0],[643.3332086337172,37.0],[646.7531057759054,45.0]]}
+ ]
+ }
+}

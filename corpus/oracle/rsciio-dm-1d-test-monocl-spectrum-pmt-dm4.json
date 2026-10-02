@@ -1,0 +1,76 @@
+{
+ "id": "rsciio-dm-1d-test-monocl-spectrum-pmt-dm4",
+ "file": "rsciio-dm-1d-test-monocl-spectrum-pmt-dm4.dm4",
+ "size": 309164,
+ "sha256": "1af41146cf4c7a02f30f03d1870c6ed83d66def3b1339e7032b75c2e0f6f0b35",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "test-CL_spectrum-pmt",
+   "size_x": 320,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d06be2f5293ccbf65749f6e7e78e6565"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "test-CL_spectrum-pmt",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "Counts"
+   ],
+   "ppm_first": 166.233642578125,
+   "ppm_last": 325.733642578125,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 320,
+     "channels": [
+      {
+       "xxh3": "becf0b1186db090a51230cd76975728c",
+       "first": [
+        9131.0,
+        9178.0,
+        9422.0,
+        9581.0,
+        9662.0,
+        9687.0,
+        10103.0,
+        9987.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

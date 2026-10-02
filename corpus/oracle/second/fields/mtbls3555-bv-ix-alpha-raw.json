@@ -1,0 +1,41 @@
+{
+ "id": "mtbls3555-bv-ix-alpha-raw",
+ "file": "mtbls3555-bv-ix-alpha-raw-zip/BV IX alpha QM - Lizzy SS-06-17-2021.raw",
+ "format": "waters-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "the .raw's _HEADER.TXT (MassLynx text header), read as text"
+ ],
+ "checks": [
+  {
+   "field": "acquisition start (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-06-16T22:01:20",
+   "cmp": "time"
+  },
+  {
+   "field": "instrument (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "XEVO-TQXS",
+   "cmp": "text"
+  },
+  {
+   "field": "acquired name (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "BV IX alpha QM - Lizzy SS-06-17-2021",
+   "cmp": "text"
+  }
+ ]
+}

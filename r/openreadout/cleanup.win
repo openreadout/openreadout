@@ -1,0 +1,5 @@
+#!/bin/sh
+# Remove what configure and the build leave in src/ (the repository layout's cargo output stays in
+# the workspace target/ directory).
+rm -f src/Makevars src/Makevars.win src/*.o src/*.so src/*.dll
+rm -rf src/.cargo src/vendor src/rust/target

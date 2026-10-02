@@ -1,0 +1,32 @@
+{
+ "id": "rdml-stepone-std",
+ "file": "rdml-stepone-std.rdml",
+ "format": "rdml",
+ "family": "qpcr",
+ "readers": [
+  "the RDML XML read with Python's ElementTree"
+ ],
+ "checks": [
+  {
+   "field": "first run: runDate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2006-11-10T09:24:39.265",
+   "cmp": "time",
+   "abs": 1.0
+  },
+  {
+   "field": "first run: instrument",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "Applied Biosystems StepOne™ Instrument",
+   "cmp": "text"
+  }
+ ]
+}

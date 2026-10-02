@@ -1,0 +1,58 @@
+{
+ "id": "sglx-np2-with-sync-nidq-bin",
+ "file": "sglx-np2-with-sync.nidq.bin",
+ "size": 4000,
+ "sha256": "bcbae6c343790dbc8032254096ea8e999558d16546fc94bd07fe39b05ab61d35",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 SpikeGLXRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "XA0",
+    "XD0"
+   ],
+   "channel_units": [
+    "V",
+    ""
+   ],
+   "sample_rate_hz": 25000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1000,
+     "channels": [
+      {
+       "xxh3": "cffb36e1a4402983c1f45db2ab6cc951",
+       "first": [
+        2.64190673828125,
+        2.6422119140625,
+        2.64190673828125,
+        2.64190673828125,
+        2.6422119140625,
+        2.64312744140625,
+        2.6422119140625,
+        2.642822265625
+       ]
+      },
+      {
+       "xxh3": "2aa800e97e41e522c5198a3b7431649f",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1000 @@
+{
+ "id": "hcs-flex-idr0001-meas01",
+ "file": "Meas_01(2011-03-31_11-53-03)",
+ "size": 183302618,
+ "max_planes_hashed": 64,
+ "reader": "Python stdlib index parse + tifffile 2026.9.20; Bio-Formats 8.5.0 showinf/bfconvert (GPL, black box)",
+ "hcs": {
+  "format": "opera-harmony",
+  "plate": {
+   "id": "X_110331_S13",
+   "rows": 8,
+   "columns": 12,
+   "wells_imaged": 2,
+   "fields": 2,
+   "planes_expected": 64,
+   "planes_missing": 0,
+   "planes_absent": 0,
+   "planes_not_recorded": 0,
+   "planes_present": 64
+  },
+  "channels": [
+   "Exp1Cam1",
+   "Exp2Cam1"
+  ],
+  "size_c": 2,
+  "size_z": 16,
+  "size_t": 1,
+  "size": [
+   1376,
+   1040
+  ],
+  "pixel_type": "uint16",
+  "pixel_size_um": [
+   0.1076,
+   0.1076
+  ],
+  "wells": [
+   {
+    "well": "A01",
+    "images": [
+     0
+    ]
+   },
+   {
+    "well": "A02",
+    "images": [
+     1
+    ]
+   }
+  ],
+  "images": [
+   {
+    "index": 0,
+    "well": "A01",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 0,
+      "xxh3": "56b8a63797dcf52ea183c7c0d2954ee5",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 2,
+      "xxh3": "002741ce058b6399a22e376ecbef016e",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 2,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 4,
+      "xxh3": "3dfa3e2a5f0fa2b65ded0b0499851682",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 3,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 6,
+      "xxh3": "439358c1d4a3c45863b0503c967a6d8a",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 4,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 8,
+      "xxh3": "2641afce4c8d31f5242e3007b844961c",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 5,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 10,
+      "xxh3": "135df00455e9a7ed8adca4df88b22e20",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 6,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 12,
+      "xxh3": "c7c89476f7ecfecd6d504a0e47b95fa8",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 7,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 14,
+      "xxh3": "a68e5853d1b10d18bd5f84e99209f8e5",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 8,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 16,
+      "xxh3": "170cf8a4ad378a476f4f249ab1ee202b",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 9,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 18,
+      "xxh3": "24121749bdbccab70e1f736dff04346a",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 10,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 20,
+      "xxh3": "b5ea0213699084707e8e975220023895",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 11,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 22,
+      "xxh3": "e9e1fbc5de10a1ff8704d4f6d80bc202",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 12,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 24,
+      "xxh3": "8f7de23ff49f89d0a5315274a7056e6b",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 13,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 26,
+      "xxh3": "6e4c82256f6e92f9e0c5d100e806949d",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 14,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 28,
+      "xxh3": "bd105c9a934e2d6fe3b022be2e645c44",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 15,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 30,
+      "xxh3": "76b6763ca2a0a3dc2c62510ff7e6f28b",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 1,
+      "xxh3": "d191c3fee331c2df5d1cbc5cb46d446a",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 3,
+      "xxh3": "7250462e792d332b34f932bee2b8a9f1",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 2,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 5,
+      "xxh3": "829fab8e142485c52e7be8a870438f15",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 3,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 7,
+      "xxh3": "64f88a915476089923dcf076c7a25a6c",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 4,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 9,
+      "xxh3": "6e7c6a0a6fe5b4359af143a149429558",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 5,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 11,
+      "xxh3": "485d3a10f34cc5ae59d19f7512273994",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 6,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 13,
+      "xxh3": "7b4ed0c225b674052a42f389d1d8631d",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 7,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 15,
+      "xxh3": "9cdb6e2cf2761ca3d250ad0c01febe02",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 8,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 17,
+      "xxh3": "24a3a8e73c8c022f2ae0c405be07726f",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 9,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 19,
+      "xxh3": "8cb82c9e56c4f5ce0f62e03262aa923b",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 10,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 21,
+      "xxh3": "108d66d79892220ed3a7724ec9959465",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 11,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 23,
+      "xxh3": "036c27c949c06514d74d3e824ae8aae4",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 12,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 25,
+      "xxh3": "d555d557c00c40158b967924947cc52d",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 13,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 27,
+      "xxh3": "e062e85d30fff281264a96171779a8b9",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 14,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 29,
+      "xxh3": "980cc5d7685aa13496e7ecde5cbba714",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 15,
+      "t": 0,
+      "state": "present",
+      "file": "001001000.flex",
+      "page": 31,
+      "xxh3": "3836f7346f3d72776d945ac9ef39f0b7",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     }
+    ]
+   },
+   {
+    "index": 1,
+    "well": "A02",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 0,
+      "xxh3": "3048cc035d150a4cf9b89351373c2603",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 2,
+      "xxh3": "b00cb1b34d1a095a2897f8dcf8423929",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 2,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 4,
+      "xxh3": "3c0bef44d5338da08f5a845366bce871",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 3,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 6,
+      "xxh3": "5e42464536ca525f77b54eefa19a6c9a",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 4,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 8,
+      "xxh3": "e3195b07fd68bfba23619a8b0be15256",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 5,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 10,
+      "xxh3": "5c021a66bdb9a40fe240c18c9ac3df0d",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 6,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 12,
+      "xxh3": "96ca2fb908422d69f8d4d5a5124fd484",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 7,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 14,
+      "xxh3": "30c21802d2ead08d0852af627ffcbc4c",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 8,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 16,
+      "xxh3": "b352d4409b123c0e1fc6f5ac568ba5a5",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 9,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 18,
+      "xxh3": "ed6b90fe059ac9fecda01b79427847f8",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 10,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 20,
+      "xxh3": "f5a84b8f318a01f3dd693c707f0e2020",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 11,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 22,
+      "xxh3": "253bc56874674ef47a0dafa237ebb0bb",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 12,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 24,
+      "xxh3": "3dc0b8c740c6b605647af928d701fa60",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 13,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 26,
+      "xxh3": "da83006007203d08ac0434dc599a8c71",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 14,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 28,
+      "xxh3": "b54931880b11d92b01c31f85b6fabc76",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 0,
+      "z": 15,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 30,
+      "xxh3": "bc1758983bc0c2c6b27cca8172ddc0d9",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 1,
+      "xxh3": "d74ec790027fe63276e647577a846554",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 3,
+      "xxh3": "487c12956636458d7eefcc74d01528da",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 2,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 5,
+      "xxh3": "800501f7988b6353d9a1e9ca840f887c",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 3,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 7,
+      "xxh3": "19c22553ae9cd0bda4dc62bbc769eb29",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 4,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 9,
+      "xxh3": "01240fb04e853caa564d3e913fa4c115",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 5,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 11,
+      "xxh3": "36c6c2024a8ead89418bd410d9de0e34",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 6,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 13,
+      "xxh3": "a652ab8f24edcd3c9c057dc9d27b902c",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 7,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 15,
+      "xxh3": "2346471aa9617017bb5075faa82e1378",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 8,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 17,
+      "xxh3": "ec2cc442ebaba93123a65d3db7db3449",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 9,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 19,
+      "xxh3": "8397eb354c0ad0c64d3be60d7b600704",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 10,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 21,
+      "xxh3": "ef1af5b58528754cbece1238ebc58599",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 11,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 23,
+      "xxh3": "162ae0bdbe17d89b000cfceba5d32024",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 12,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 25,
+      "xxh3": "eaa2dcfbc658d9e3fdddc8ba3c085d9f",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 13,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 27,
+      "xxh3": "0caabbec8923012234a8ebfc463dc48a",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 14,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 29,
+      "xxh3": "2e4b27c18a2063d48520549b9a9c3471",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     },
+     {
+      "c": 1,
+      "z": 15,
+      "t": 0,
+      "state": "present",
+      "file": "001002000.flex",
+      "page": 31,
+      "xxh3": "4bdc161bfcb42f13d49836206e8c082d",
+      "dtype": "uint16",
+      "shape": [
+       1040,
+       1376
+      ]
+     }
+    ]
+   }
+  ],
+  "bioformats": {
+   "series": 2,
+   "size_c": [
+    2
+   ],
+   "size_z": [
+    16
+   ],
+   "size_t": [
+    1
+   ],
+   "sizes": [
+    [
+     1376,
+     1040
+    ]
+   ],
+   "types": [
+    "uint16"
+   ],
+   "physical_size_um": [
+    0.1076,
+    0.1076
+   ],
+   "channels": [
+    "Exp1Cam1",
+    "Exp2Cam1"
+   ],
+   "fields_mapped": 2,
+   "planes_compared": 64,
+   "planes_agree": 64,
+   "planes_disagree": 0,
+   "absent_planes_blank": 0,
+   "absent_planes_repeated": 0,
+   "problems": []
+  }
+ }
+}

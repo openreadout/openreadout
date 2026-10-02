@@ -1,0 +1,82 @@
+{
+ "id": "dandi000006-anm372907-20170613",
+ "file": "dandi-nwb/dandi000006-sub-anm372907_ses-20170613.nwb",
+ "format": "nwb",
+ "family": "electrophysiology",
+ "readers": [
+  "pynwb 4.2.0 (BSD-3)"
+ ],
+ "checks": [
+  {
+   "field": "session start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2017-06-13T00:00:00-05:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "experimenter (all, joined)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "Mike Economo",
+   "cmp": "text"
+  },
+  {
+   "field": "subject id",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "anm372907",
+   "cmp": "text"
+  },
+  {
+   "field": "lick_left_times: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=lick_left_times]/sample_count",
+   "theirs": 470,
+   "cmp": "exact"
+  },
+  {
+   "field": "lick_left_times: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=lick_left_times]/channels/[name=lick_left_times]/unit",
+   "theirs": "a.u.",
+   "cmp": "text"
+  },
+  {
+   "field": "lick_right_times: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=lick_right_times]/sample_count",
+   "theirs": 872,
+   "cmp": "exact"
+  },
+  {
+   "field": "lick_right_times: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=lick_right_times]/channels/[name=lick_right_times]/unit",
+   "theirs": "a.u.",
+   "cmp": "text"
+  }
+ ]
+}

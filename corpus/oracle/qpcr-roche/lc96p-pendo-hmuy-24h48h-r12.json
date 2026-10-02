@@ -1,0 +1,297 @@
+{
+ "id": "lc96p-pendo-hmuy-24h48h-r12",
+ "kind": "lc96",
+ "reader": "openpyxl 3.1.5",
+ "export": "lc96p-pendo-hmuy-cq.xlsx",
+ "sheet": "Hm vs DIP 24 h vs DIP 48 h",
+ "records": [
+  {
+   "replicate": 1,
+   "sample": "Hm_1",
+   "gene": "hmuYPe",
+   "cq": "19.85",
+   "cq_mean": "19.73",
+   "cq_error": "0.18"
+  },
+  {
+   "replicate": 1,
+   "sample": "Hm_1",
+   "gene": "hmuYPe",
+   "cq": "19.53",
+   "cq_mean": "19.73",
+   "cq_error": "0.18"
+  },
+  {
+   "replicate": 1,
+   "sample": "Hm_1",
+   "gene": "hmuYPe",
+   "cq": "19.82",
+   "cq_mean": "19.73",
+   "cq_error": "0.18"
+  },
+  {
+   "replicate": 1,
+   "sample": "Hm_1",
+   "gene": "16S rRNA",
+   "cq": "10.67",
+   "cq_mean": "10.69",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 1,
+   "sample": "Hm_1",
+   "gene": "16S rRNA",
+   "cq": "10.7",
+   "cq_mean": "10.69",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 1,
+   "sample": "Hm_1",
+   "gene": "16S rRNA",
+   "cq": "10.7",
+   "cq_mean": "10.69",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 24 h_1",
+   "gene": "hmuYPe",
+   "cq": "19.21",
+   "cq_mean": "19.2",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 24 h_1",
+   "gene": "hmuYPe",
+   "cq": "19.18",
+   "cq_mean": "19.2",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 24 h_1",
+   "gene": "hmuYPe",
+   "cq": "19.21",
+   "cq_mean": "19.2",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 24 h_1",
+   "gene": "16S rRNA",
+   "cq": "10.56",
+   "cq_mean": "10.58",
+   "cq_error": "0.03"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 24 h_1",
+   "gene": "16S rRNA",
+   "cq": "10.62",
+   "cq_mean": "10.58",
+   "cq_error": "0.03"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 24 h_1",
+   "gene": "16S rRNA",
+   "cq": "10.57",
+   "cq_mean": "10.58",
+   "cq_error": "0.03"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 48 h_1",
+   "gene": "hmuYPe",
+   "cq": "19.43",
+   "cq_mean": "19.44",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 48 h_1",
+   "gene": "hmuYPe",
+   "cq": "19.46",
+   "cq_mean": "19.44",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 48 h_1",
+   "gene": "hmuYPe",
+   "cq": "19.43",
+   "cq_mean": "19.44",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 48 h_1",
+   "gene": "16S rRNA",
+   "cq": "10.46",
+   "cq_mean": "10.52",
+   "cq_error": "0.06"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 48 h_1",
+   "gene": "16S rRNA",
+   "cq": "10.54",
+   "cq_mean": "10.52",
+   "cq_error": "0.06"
+  },
+  {
+   "replicate": 1,
+   "sample": "DIP 48 h_1",
+   "gene": "16S rRNA",
+   "cq": "10.57",
+   "cq_mean": "10.52",
+   "cq_error": "0.06"
+  },
+  {
+   "replicate": 2,
+   "sample": "Hm_2",
+   "gene": "hmuYPe",
+   "cq": "19.67",
+   "cq_mean": "19.68",
+   "cq_error": "0.01"
+  },
+  {
+   "replicate": 2,
+   "sample": "Hm_2",
+   "gene": "hmuYPe",
+   "cq": "19.69",
+   "cq_mean": "19.68",
+   "cq_error": "0.01"
+  },
+  {
+   "replicate": 2,
+   "sample": "Hm_2",
+   "gene": "hmuYPe",
+   "cq": "19.69",
+   "cq_mean": "19.68",
+   "cq_error": "0.01"
+  },
+  {
+   "replicate": 2,
+   "sample": "Hm_2",
+   "gene": "16S rRNA",
+   "cq": "10.26",
+   "cq_mean": "10.23",
+   "cq_error": "0.03"
+  },
+  {
+   "replicate": 2,
+   "sample": "Hm_2",
+   "gene": "16S rRNA",
+   "cq": "10.22",
+   "cq_mean": "10.23",
+   "cq_error": "0.03"
+  },
+  {
+   "replicate": 2,
+   "sample": "Hm_2",
+   "gene": "16S rRNA",
+   "cq": "10.2",
+   "cq_mean": "10.23",
+   "cq_error": "0.03"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 24 h_2",
+   "gene": "hmuYPe",
+   "cq": "19.19",
+   "cq_mean": "19.2",
+   "cq_error": "0.04"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 24 h_2",
+   "gene": "hmuYPe",
+   "cq": "19.24",
+   "cq_mean": "19.2",
+   "cq_error": "0.04"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 24 h_2",
+   "gene": "hmuYPe",
+   "cq": "19.17",
+   "cq_mean": "19.2",
+   "cq_error": "0.04"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 24 h_2",
+   "gene": "16S rRNA",
+   "cq": "10.36",
+   "cq_mean": "10.38",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 24 h_2",
+   "gene": "16S rRNA",
+   "cq": "10.38",
+   "cq_mean": "10.38",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 24 h_2",
+   "gene": "16S rRNA",
+   "cq": "10.39",
+   "cq_mean": "10.38",
+   "cq_error": "0.02"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 48 h_2",
+   "gene": "hmuYPe",
+   "cq": "19.65",
+   "cq_mean": "19.55",
+   "cq_error": "0.11"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 48 h_2",
+   "gene": "hmuYPe",
+   "cq": "19.56",
+   "cq_mean": "19.55",
+   "cq_error": "0.11"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 48 h_2",
+   "gene": "hmuYPe",
+   "cq": "19.43",
+   "cq_mean": "19.55",
+   "cq_error": "0.11"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 48 h_2",
+   "gene": "16S rRNA",
+   "cq": "10.51",
+   "cq_mean": "10.59",
+   "cq_error": "0.11"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 48 h_2",
+   "gene": "16S rRNA",
+   "cq": "10.54",
+   "cq_mean": "10.59",
+   "cq_error": "0.11"
+  },
+  {
+   "replicate": 2,
+   "sample": "DIP 48 h_2",
+   "gene": "16S rRNA",
+   "cq": "10.72",
+   "cq_mean": "10.59",
+   "cq_error": "0.11"
+  }
+ ]
+}

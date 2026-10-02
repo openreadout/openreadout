@@ -1,0 +1,9 @@
+{
+ "id": "zenodo2248038-nujol1",
+ "file": "zenodo2248038-nujol1.spc",
+ "format": "galactic-spc",
+ "family": "vibrational-spectroscopy",
+ "readers": [],
+ "checks": [],
+ "error": "NotImplementedError: only LSB format is supproted"
+}

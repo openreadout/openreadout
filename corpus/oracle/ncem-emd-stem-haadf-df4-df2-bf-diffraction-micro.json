@@ -1,0 +1,108 @@
+{
+ "id": "ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro",
+ "file": "ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro.emd",
+ "size": 504943,
+ "sha256": "4f70cd61918193bd7d94b7fdec540d1563bbe64094ef0b1037daaebef5683571",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "5066a54f76b24b3db6addc18f250cba0",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.08737079614225583,
+    "y": 0.08737079614225583,
+    "z": null
+   },
+   "detector": "HAADF",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8fd1cec3f89a319a6e3d2b6fcedf1c18"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "velox_id": "6f67c06d9fb242eb9925df1d41aaf4d6",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.08737079614225583,
+    "y": 0.08737079614225583,
+    "z": null
+   },
+   "detector": "DF2",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c96c1d4b46f5839fbfe2ad64afaf0dd7"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "velox_id": "82954777582e427db15c977761373e18",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.08737079614225583,
+    "y": 0.08737079614225583,
+    "z": null
+   },
+   "detector": "BF",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c96c1d4b46f5839fbfe2ad64afaf0dd7"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "velox_id": "a8c6f51365f8497781bc263808c4f15f",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.08737079614225583,
+    "y": 0.08737079614225583,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c96c1d4b46f5839fbfe2ad64afaf0dd7"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"8\",\n    \"format\": \"Velox\"\n}\n"
+}

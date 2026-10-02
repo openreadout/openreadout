@@ -1,0 +1,42 @@
+{
+ "id": "openslide-aperio-cmu-1",
+ "file": "openslide-aperio-CMU-1.svs",
+ "size": 177552579,
+ "sha256": "00a3d54482cd707abf254fe69dccc8d06b8ff757a1663f1290c23418c480eb30",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "svs",
+ "flags": [
+  "svs"
+ ],
+ "page_count": 6,
+ "series_count": 4,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "svs",
+   "axes": "YXS",
+   "shape": [
+    32914,
+    46000,
+    3
+   ],
+   "size_x": 46000,
+   "size_y": 32914,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 3,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.499,
+    "y": 0.499
+   },
+   "planes_skipped": "series is 4542132000 bytes (> ORACLE_TIFF_MAX_BYTES)",
+   "planes": []
+  }
+ ]
+}

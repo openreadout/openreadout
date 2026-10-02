@@ -1,0 +1,46 @@
+{
+ "id": "nlx-cheetah-v6-4-1dev-csc1-truncated-ncs",
+ "file": "nlx-cheetah-v6-4-1dev-csc1-truncated.ncs",
+ "size": 48748,
+ "sha256": "aef013fe3d2be4879c4eebfc1f579757008742395a5f07971eb9b8b24ea4e552",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 NeuralynxRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CSC1"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 32000.0,
+   "neo_gain": [
+    -0.06103515625
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 15872,
+     "channels": [
+      {
+       "xxh3": "59dbab8d2da20611ae2176928c522f34",
+       "first": [
+        32.16552734375,
+        30.33447265625,
+        37.7197265625,
+        48.52294921875,
+        53.5888671875,
+        50.59814453125,
+        44.7998046875,
+        41.3818359375
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

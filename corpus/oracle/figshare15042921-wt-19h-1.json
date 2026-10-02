@@ -1,0 +1,43 @@
+{
+ "id": "figshare15042921-wt-19h-1",
+ "file": "figshare15042921-wt_19h_1.zvi",
+ "size": 5837312,
+ "sha256": "2ef93ffd5312c0fefbede97fb578a781240a257041bfa02a8621633e6af56718",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "figshare15042921-wt_19h_1.zvi",
+   "size_x": 1382,
+   "size_y": 1034,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.06329113924050633,
+    "y": 0.06329113924050633
+   },
+   "channel_names": [
+    "Texasred",
+    "YFP"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "26969c7966e3ab851914d0fae02aeb8e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5ce1d8766f7ee3f592b8cac1934ef908"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,41 @@
+{
+ "id": "imariswriter-minimal-ims",
+ "file": "Minimal_IMS_File.ims",
+ "size": 27009,
+ "sha256": "93a09371c3fd7866ac709937be1a3775b3a067fc70d4ed8fb9d39d52e503fe17",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.0546875,
+    "y": 0.0546875,
+    "z": null
+   },
+   "channel_names": [
+    null
+   ],
+   "filters": [
+    1
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c88bf7ace19ae24d491ca5d09e1181fe"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": []
+}

@@ -1,0 +1,39 @@
+{
+ "id": "zenodo8403583-apatite-HAADF",
+ "file": "zenodo8403583-apatite-HAADF.dm4",
+ "size": 4799117,
+ "sha256": "80bd3867ca9cd1e2d0cc6e7dc4a9fe3a4d2dc1754bf88b7c553cd15b41269713",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "HAADF-2997",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.0001220703125,
+    "y": 0.0001220703125,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5d0f8cacc643af3893a0702dcddde719"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

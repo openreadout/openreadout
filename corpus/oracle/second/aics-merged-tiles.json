@@ -1,0 +1,39 @@
+{
+ "id": "aics-merged-tiles",
+ "file": "aics-merged-tiles.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "TileScan_002_Merging",
+   "size_x": 7666,
+   "size_y": 5622,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a24b1e07b7e54b64cf9727ba15931b65"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bb85aa3ba31ef146b0c84159c6ddb387"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e0383f3939a80776e402aec45920647b"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f9b1da1087b8e5624ffc900377ac8a84"
+    }
+   ]
+  }
+ ]
+}

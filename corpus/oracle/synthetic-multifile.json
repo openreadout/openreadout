@@ -1,0 +1,65 @@
+{
+ "id": "synthetic-multifile",
+ "file": "synthetic-multifile.czi",
+ "size": 27232,
+ "sha256": "c679314d00fec2ed88a455e67d68b1a84f12d3d231423651869eadc9746b34c8",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 128,
+   "size_y": 96,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "TYX",
+   "shape": [
+    3,
+    96,
+    128
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.5,
+    "y": 0.5,
+    "z": 2.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1dc53dc2b9a94261964ecfaabb5458cb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "b7e89e6bfd7274a5fc1dd08838a663c1"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "3a1d9a53a40149c76ec70e5c2288590f"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.5,
+  "y": 0.5,
+  "z": 2.0
+ },
+ "subblock_count": 3,
+ "compression_ids": [
+  0
+ ],
+ "note": "oracle = czifile reading synthetic-multifile-source.czi (the unsplit twin); czifile does not follow file parts"
+}

@@ -1,0 +1,254 @@
+{
+ "id": "opus-or2-617262-1tp-c-1-a5",
+ "file": "opus-or2-617262-1tp-c-1-a5.0",
+ "size": 290712,
+ "sha256": "227a883fb9867aead90a6e71f05e77634bc87115520e0b3d23a1f75e80ecebb2",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3578,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3578,
+     "channels": [
+      {
+       "xxh3": "a160a58309b5643ce228186374fb79be",
+       "first": [
+        0.5524729490280151,
+        0.5807188153266907,
+        0.5908347964286804,
+        0.5672318339347839,
+        0.5316853523254395,
+        0.531299889087677,
+        0.5672495365142822,
+        0.5927561521530151
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7497.697861283203,
+   "x_last": 599.7386920933837,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.6181640625,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Mid [Microplate reader]",
+     "instrument": "INVENIO-R",
+     "instrument_serial": "445",
+     "sample_name": "617262\u00911TP C-1;;;soil;soil",
+     "operator": "Admin",
+     "aperture": "1.5 mm",
+     "accessory": "HTS - XT LN-MCT Mid #HTS-XT_02",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3578,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3578,
+     "channels": [
+      {
+       "xxh3": "1057de8e4987eda304a93cda6a79141a",
+       "first": [
+        0.0008620703592896461,
+        0.0008691627299413085,
+        0.0008743247017264366,
+        0.0008733816212043166,
+        0.00086858996655792,
+        0.0008691154653206468,
+        0.0008776219328865409,
+        0.0008855969063006341
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7497.697861283203,
+   "x_last": 599.7386920933837,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.6181640625,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Mid [Microplate reader]",
+     "instrument": "INVENIO-R",
+     "instrument_serial": "445",
+     "sample_name": "617262\u00911TP C-1;;;soil;soil",
+     "operator": "Admin",
+     "aperture": "1.5 mm",
+     "accessory": "HTS - XT LN-MCT Mid #HTS-XT_02",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "igsm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 29456,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 29456,
+     "channels": [
+      {
+       "xxh3": "8954e6e5f63811820b2ae7290d59d74f",
+       "first": [
+        -0.00014544771693181247,
+        -0.00012174111907370389,
+        -0.0001217668759636581,
+        -0.0001478593476349488,
+        -0.00018631067359820008,
+        -0.00021663555526174605,
+        -0.00022371360682882369,
+        -0.0002054546057479456
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 29455.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.6181640625,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Mid [Microplate reader]",
+     "instrument": "INVENIO-R",
+     "instrument_serial": "445",
+     "sample_name": "617262\u00911TP C-1;;;soil;soil",
+     "operator": "Admin",
+     "aperture": "1.5 mm",
+     "accessory": "HTS - XT LN-MCT Mid #HTS-XT_02",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 3,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3584,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3584,
+     "channels": [
+      {
+       "xxh3": "762925dab6b5ef2834011fb649e35f4b",
+       "first": [
+        0.0032579347025603056,
+        0.0032305989880114794,
+        0.003254480194300413,
+        0.00324746361002326,
+        0.0032703762408345938,
+        0.003363986499607563,
+        0.003421628614887595,
+        0.0033622044138610363
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7505.411542210448,
+   "x_last": 595.8818516297597,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.6181640625,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Mid [Microplate reader]",
+     "instrument": "INVENIO-R",
+     "instrument_serial": "445",
+     "sample_name": "617262\u00911TP C-1;;;soil;soil",
+     "operator": "Admin",
+     "aperture": "1.5 mm",
+     "accessory": "HTS - XT LN-MCT Mid #HTS-XT_02",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 4,
+   "reader": "brukeropus",
+   "brukeropus_key": "igrf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 29456,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 29456,
+     "channels": [
+      {
+       "xxh3": "a6d5c78f7c00906da671c3a0d893a2f2",
+       "first": [
+        7.455812738044187e-05,
+        8.305152005050331e-05,
+        8.514588444086257e-06,
+        -0.00013524660607799888,
+        -0.000301952357403934,
+        -0.00043535022996366024,
+        -0.0004951227456331253,
+        -0.0004761175368912518
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 29455.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.6181640625,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Mid [Microplate reader]",
+     "instrument": "INVENIO-R",
+     "instrument_serial": "445",
+     "sample_name": "617262\u00911TP C-1;;;soil;soil",
+     "operator": "Admin",
+     "aperture": "1.5 mm",
+     "accessory": "HTS - XT LN-MCT Mid #HTS-XT_02",
+     "scans": 32
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

@@ -1,0 +1,4 @@
+.venv/
+.ruff_cache/
+# Full agent transcripts (tool calls and outputs) stay local; the records and reports are committed.
+results/transcripts/

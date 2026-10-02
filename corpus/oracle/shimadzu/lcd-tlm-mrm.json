@@ -1,0 +1,2217 @@
+{
+ "id": "lcd-tlm-mrm",
+ "file": "lcd-tlm-mrm.lcd",
+ "size": 1138688,
+ "sha256": "b788c91f36ad59b508a2314c8d0989bb9b26ee287553564222f2ade6f065d262",
+ "reader": "ProteoWizard msconvert (vendor library), ground-truth slice by the test set's author; read with the Python standard library",
+ "ms_ground_truth": {
+  "source": "lcd-tlm-mrm_gt.csv.gz",
+  "spectra": [
+   {
+    "scan": 0,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      10.0
+     ]
+    ]
+   },
+   {
+    "scan": 1,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      10.0
+     ]
+    ]
+   },
+   {
+    "scan": 2,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 3,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 4,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 5,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 6,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      9.0
+     ]
+    ]
+   },
+   {
+    "scan": 7,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      17.0
+     ]
+    ]
+   },
+   {
+    "scan": 8,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      27.0
+     ]
+    ]
+   },
+   {
+    "scan": 9,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      32.0
+     ]
+    ]
+   },
+   {
+    "scan": 10,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      32.0
+     ]
+    ]
+   },
+   {
+    "scan": 11,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      27.0
+     ]
+    ]
+   },
+   {
+    "scan": 12,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      22.0
+     ]
+    ]
+   },
+   {
+    "scan": 13,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      20.0
+     ]
+    ]
+   },
+   {
+    "scan": 14,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      20.0
+     ],
+     [
+      397.3,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 15,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      19.0
+     ],
+     [
+      397.3,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 16,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      20.0
+     ],
+     [
+      397.3,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 17,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      20.0
+     ],
+     [
+      397.3,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 18,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      20.0
+     ],
+     [
+      397.3,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 19,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      13.0
+     ]
+    ]
+   },
+   {
+    "scan": 20,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      10.0
+     ]
+    ]
+   },
+   {
+    "scan": 21,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      11.0
+     ]
+    ]
+   },
+   {
+    "scan": 22,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      18.0
+     ]
+    ]
+   },
+   {
+    "scan": 23,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      20.0
+     ]
+    ]
+   },
+   {
+    "scan": 24,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      17.0
+     ]
+    ]
+   },
+   {
+    "scan": 25,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      11.0
+     ]
+    ]
+   },
+   {
+    "scan": 26,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 27,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 28,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      6.0
+     ]
+    ]
+   },
+   {
+    "scan": 29,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      9.0
+     ]
+    ]
+   },
+   {
+    "scan": 30,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      13.0
+     ]
+    ]
+   },
+   {
+    "scan": 31,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      9.0
+     ]
+    ]
+   },
+   {
+    "scan": 32,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      4.0
+     ]
+    ]
+   },
+   {
+    "scan": 33,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 34,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 35,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 36,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      6.0
+     ]
+    ]
+   },
+   {
+    "scan": 37,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      6.0
+     ]
+    ]
+   },
+   {
+    "scan": 38,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 39,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 40,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 41,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      11.0
+     ]
+    ]
+   },
+   {
+    "scan": 42,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      11.0
+     ]
+    ]
+   },
+   {
+    "scan": 43,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 44,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 45,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 46,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 47,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      9.0
+     ]
+    ]
+   },
+   {
+    "scan": 48,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      10.0
+     ]
+    ]
+   },
+   {
+    "scan": 49,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      10.0
+     ]
+    ]
+   },
+   {
+    "scan": 50,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      11.0
+     ]
+    ]
+   },
+   {
+    "scan": 51,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      12.0
+     ]
+    ]
+   },
+   {
+    "scan": 52,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      14.0
+     ]
+    ]
+   },
+   {
+    "scan": 53,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      16.0
+     ]
+    ]
+   },
+   {
+    "scan": 54,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      18.0
+     ]
+    ]
+   },
+   {
+    "scan": 55,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      19.0
+     ]
+    ]
+   },
+   {
+    "scan": 56,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      19.0
+     ]
+    ]
+   },
+   {
+    "scan": 57,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      17.0
+     ]
+    ]
+   },
+   {
+    "scan": 58,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      16.0
+     ]
+    ]
+   },
+   {
+    "scan": 59,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      18.0
+     ]
+    ]
+   },
+   {
+    "scan": 60,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      23.0
+     ]
+    ]
+   },
+   {
+    "scan": 61,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      28.0
+     ]
+    ]
+   },
+   {
+    "scan": 62,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      29.0
+     ]
+    ]
+   },
+   {
+    "scan": 63,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      27.0
+     ]
+    ]
+   },
+   {
+    "scan": 64,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      23.0
+     ]
+    ]
+   },
+   {
+    "scan": 65,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      19.0
+     ]
+    ]
+   },
+   {
+    "scan": 66,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      16.0
+     ]
+    ]
+   },
+   {
+    "scan": 67,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      11.0
+     ]
+    ]
+   },
+   {
+    "scan": 68,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      9.0
+     ]
+    ]
+   },
+   {
+    "scan": 69,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      4.0
+     ]
+    ]
+   },
+   {
+    "scan": 70,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 71,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 72,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 73,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 74,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 75,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 76,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 77,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 78,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 79,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 80,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 81,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 82,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 83,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 84,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 85,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 86,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 87,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 88,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 89,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 90,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 91,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      397.3,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 92,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      397.3,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 93,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      397.3,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 94,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      397.3,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 95,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      397.3,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 96,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 97,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 98,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 99,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      8.0
+     ]
+    ]
+   },
+   {
+    "scan": 100,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      14.0
+     ]
+    ]
+   },
+   {
+    "scan": 101,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      17.0
+     ]
+    ]
+   },
+   {
+    "scan": 102,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      19.0
+     ]
+    ]
+   },
+   {
+    "scan": 103,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      19.0
+     ]
+    ]
+   },
+   {
+    "scan": 104,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      18.0
+     ]
+    ]
+   },
+   {
+    "scan": 105,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      13.0
+     ]
+    ]
+   },
+   {
+    "scan": 106,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 107,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 108,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": []
+   },
+   {
+    "scan": 109,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 110,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      12.0
+     ]
+    ]
+   },
+   {
+    "scan": 111,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      24.0
+     ]
+    ]
+   },
+   {
+    "scan": 112,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      32.0
+     ]
+    ]
+   },
+   {
+    "scan": 113,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      24.0
+     ]
+    ]
+   },
+   {
+    "scan": 114,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      12.0
+     ]
+    ]
+   },
+   {
+    "scan": 115,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      4.0
+     ]
+    ]
+   },
+   {
+    "scan": 116,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      6.0
+     ]
+    ]
+   },
+   {
+    "scan": 117,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      11.0
+     ]
+    ]
+   },
+   {
+    "scan": 118,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      14.0
+     ]
+    ]
+   },
+   {
+    "scan": 119,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      18.0
+     ]
+    ]
+   },
+   {
+    "scan": 120,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      17.0
+     ]
+    ]
+   },
+   {
+    "scan": 121,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      13.0
+     ]
+    ]
+   },
+   {
+    "scan": 122,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 123,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 124,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 125,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      4.0
+     ]
+    ]
+   },
+   {
+    "scan": 126,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 127,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      4.0
+     ]
+    ]
+   },
+   {
+    "scan": 128,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 129,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 130,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      6.0
+     ]
+    ]
+   },
+   {
+    "scan": 131,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      10.0
+     ]
+    ]
+   },
+   {
+    "scan": 132,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      10.0
+     ]
+    ]
+   },
+   {
+    "scan": 133,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      8.0
+     ]
+    ]
+   },
+   {
+    "scan": 134,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      8.0
+     ]
+    ]
+   },
+   {
+    "scan": 135,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      14.0
+     ]
+    ]
+   },
+   {
+    "scan": 136,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      22.0
+     ]
+    ]
+   },
+   {
+    "scan": 137,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      22.0
+     ]
+    ]
+   },
+   {
+    "scan": 138,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      16.0
+     ],
+     [
+      397.3,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 139,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      11.0
+     ],
+     [
+      397.3,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 140,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      13.0
+     ],
+     [
+      397.3,
+      6.0
+     ]
+    ]
+   },
+   {
+    "scan": 141,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      19.0
+     ],
+     [
+      397.3,
+      6.0
+     ]
+    ]
+   },
+   {
+    "scan": 142,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      23.0
+     ],
+     [
+      397.3,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 143,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      26.0
+     ],
+     [
+      397.3,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 144,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      26.0
+     ]
+    ]
+   },
+   {
+    "scan": 145,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      24.0
+     ]
+    ]
+   },
+   {
+    "scan": 146,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      24.0
+     ],
+     [
+      397.3,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 147,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      23.0
+     ],
+     [
+      397.3,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 148,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      19.0
+     ],
+     [
+      397.3,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 149,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      10.0
+     ],
+     [
+      397.3,
+      8.0
+     ]
+    ]
+   },
+   {
+    "scan": 150,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      4.0
+     ],
+     [
+      397.3,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 151,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ],
+     [
+      397.3,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 152,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ],
+     [
+      397.3,
+      1.0
+     ]
+    ]
+   },
+   {
+    "scan": 153,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      8.0
+     ]
+    ]
+   },
+   {
+    "scan": 154,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 155,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      4.0
+     ]
+    ]
+   },
+   {
+    "scan": 156,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 157,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      13.0
+     ]
+    ]
+   },
+   {
+    "scan": 158,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      20.0
+     ]
+    ]
+   },
+   {
+    "scan": 159,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      21.0
+     ]
+    ]
+   },
+   {
+    "scan": 160,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      17.0
+     ]
+    ]
+   },
+   {
+    "scan": 161,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      11.0
+     ]
+    ]
+   },
+   {
+    "scan": 162,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 163,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      3.0
+     ]
+    ]
+   },
+   {
+    "scan": 164,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      10.0
+     ]
+    ]
+   },
+   {
+    "scan": 165,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      27.0
+     ]
+    ]
+   },
+   {
+    "scan": 166,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      51.0
+     ]
+    ]
+   },
+   {
+    "scan": 167,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      62.0
+     ]
+    ]
+   },
+   {
+    "scan": 168,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      58.0
+     ]
+    ]
+   },
+   {
+    "scan": 169,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      42.0
+     ]
+    ]
+   },
+   {
+    "scan": 170,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      29.0
+     ]
+    ]
+   },
+   {
+    "scan": 171,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      22.0
+     ]
+    ]
+   },
+   {
+    "scan": 172,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      19.0
+     ]
+    ]
+   },
+   {
+    "scan": 173,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      16.0
+     ]
+    ]
+   },
+   {
+    "scan": 174,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      10.0
+     ]
+    ]
+   },
+   {
+    "scan": 175,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      4.0
+     ]
+    ]
+   },
+   {
+    "scan": 176,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 177,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      17.0
+     ]
+    ]
+   },
+   {
+    "scan": 178,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      30.0
+     ]
+    ]
+   },
+   {
+    "scan": 179,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      34.0
+     ]
+    ]
+   },
+   {
+    "scan": 180,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      30.0
+     ]
+    ]
+   },
+   {
+    "scan": 181,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      23.0
+     ]
+    ]
+   },
+   {
+    "scan": 182,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      22.0
+     ]
+    ]
+   },
+   {
+    "scan": 183,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      24.0
+     ]
+    ]
+   },
+   {
+    "scan": 184,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      27.0
+     ],
+     [
+      397.3,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 185,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      24.0
+     ],
+     [
+      397.3,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 186,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      24.0
+     ],
+     [
+      397.3,
+      13.0
+     ]
+    ]
+   },
+   {
+    "scan": 187,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      27.0
+     ],
+     [
+      397.3,
+      16.0
+     ]
+    ]
+   },
+   {
+    "scan": 188,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      31.0
+     ],
+     [
+      397.3,
+      13.0
+     ]
+    ]
+   },
+   {
+    "scan": 189,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      30.0
+     ],
+     [
+      397.3,
+      7.0
+     ]
+    ]
+   },
+   {
+    "scan": 190,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      24.0
+     ],
+     [
+      397.3,
+      2.0
+     ]
+    ]
+   },
+   {
+    "scan": 191,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      18.0
+     ]
+    ]
+   },
+   {
+    "scan": 192,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      14.0
+     ]
+    ]
+   },
+   {
+    "scan": 193,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      12.0
+     ]
+    ]
+   },
+   {
+    "scan": 194,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      10.0
+     ]
+    ]
+   },
+   {
+    "scan": 195,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      9.0
+     ]
+    ]
+   },
+   {
+    "scan": 196,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      11.0
+     ]
+    ]
+   },
+   {
+    "scan": 197,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      20.0
+     ]
+    ]
+   },
+   {
+    "scan": 198,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      31.0
+     ]
+    ]
+   },
+   {
+    "scan": 199,
+    "ms_level": 2,
+    "n_points": 2,
+    "points": [
+     [
+      320.95,
+      41.0
+     ]
+    ]
+   }
+  ]
+ }
+}

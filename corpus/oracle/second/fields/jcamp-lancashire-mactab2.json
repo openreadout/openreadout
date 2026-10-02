@@ -1,0 +1,21 @@
+{
+ "id": "jcamp-lancashire-mactab2",
+ "file": "jcamp-lancashire-mactab2.jdx",
+ "format": "jcamp-dx",
+ "family": "nmr",
+ "readers": [
+  "jcamp 1.3.2 (MIT)"
+ ],
+ "checks": [
+  {
+   "field": "##TITLE",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/title",
+   "theirs": "cholesterol (mactab2.jdx)\r$$ file sent to MAC and Back again\r##JCAMP-DX= 4.24   $$home made\r##DATA TYPE= MASS SPECTRUM\r##ORIGIN= UWI, Mona, JAMAICA\r##OWNER= public domain\r##$URL= http://wwwchem.uwimona.edu.jm:1104/spectra/testdata/index.html\r##SPECTROMETER/DATA SYSTEM= Finnigan\r##.INSTRUMENT PARAMETERS= LOW RESOLUTION\r##.SPECTROMETER TYPE= TRAP\r##.INLET= GC\r##.IONIZATION MODE= EI+\r##XUNITS= MASS UNITS\r##YUNITS= ARBITRARY\r##XFACTOR= 1\r##YFACTOR= 1\r##FIRSTX= 0\r##LASTX= 386\r##NPOINTS= 46\r##FIRSTY= 0\r##MAXY= 1000\r##MINY= 0\r##PEAK TABLE= (XY..XY)\r0,0\r41,520 43,1000 55,630 67,417 69,404 79,544 81,906 91,685 95,772 105,801\r107,685 119,439 121,515 133,468 135,461 145,760 147,571 159,529 161,386\r173,249 185,150 187,149 199,216 213,454 215,130 228,122 229,187 231,150\r247,568 255,378 260,165 261,106 275,306 287,24 297,22 301,207 314,67\r325,65 328,20 339,19 353,354 368,791 369,262 371,140 386,324\r##END=",
+   "cmp": "text"
+  }
+ ]
+}

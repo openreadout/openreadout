@@ -1,0 +1,28 @@
+{
+ "id": "zenodo17723322-axioscan-3scenes-BF",
+ "file": "zenodo17723322-axioscan-3scenes-BF.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 17366,
+   "size_y": 9851,
+   "planes": [],
+   "skip": "larger than ORACLE_MAX_PIXELS"
+  },
+  {
+   "index": 1,
+   "size_x": 17373,
+   "size_y": 10905,
+   "planes": [],
+   "skip": "larger than ORACLE_MAX_PIXELS"
+  },
+  {
+   "index": 2,
+   "size_x": 17372,
+   "size_y": 11981,
+   "planes": [],
+   "skip": "larger than ORACLE_MAX_PIXELS"
+  }
+ ]
+}

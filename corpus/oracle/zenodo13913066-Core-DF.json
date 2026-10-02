@@ -1,0 +1,39 @@
+{
+ "id": "zenodo13913066-Core-DF",
+ "file": "zenodo13913066-Core-DF.dm3",
+ "size": 159966,
+ "sha256": "2b0517fb344dc1883c15cdc165c160afd36559aea716a22262249973e19a4dc7",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "SI8_DF",
+   "size_x": 44,
+   "size_y": 42,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.00020450404286384582,
+    "y": 0.00020450404286384582,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fd40e95b3b0c7c746906bb92b0f0c5fa"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

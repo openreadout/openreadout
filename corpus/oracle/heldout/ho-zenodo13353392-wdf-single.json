@@ -1,0 +1,72 @@
+{
+ "id": "ho-zenodo13353392-wdf-single",
+ "file": "Fluorite inclusion vapour.wdf",
+ "size": 97977,
+ "sha256": "33d87e0c995285fe88df947d3c922fdc951c43ef0eed40f2b437247c2045f728",
+ "max_planes_hashed": 64,
+ "reader": "renishawWiRE (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "renishawWiRE",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sample_count": 3302,
+   "x_first": 4501.142578125,
+   "x_last": 101.181640625,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3302,
+     "channels": [
+      {
+       "xxh3": "b87fa1949ae4f7549f18fb9003f114d0",
+       "first": [
+        4501.142578125,
+        4500.1455078125,
+        4499.1484375,
+        4498.1513671875,
+        4497.154296875,
+        4496.1572265625,
+        4495.1591796875,
+        4494.162109375
+       ]
+      },
+      {
+       "xxh3": "e8fb02077f7ed00548c6121177182725",
+       "first": [
+        4793.10546875,
+        4755.48291015625,
+        4752.228515625,
+        4834.22607421875,
+        4770.79296875,
+        4767.537109375,
+        4761.7763671875,
+        4688.3603515625
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "accumulations": 1,
+     "laser_wavelength_nm": 514.5011961147924
+    }
+   }
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 1,
+   "parameter_names": [],
+   "column_hashes": {},
+   "approx_columns": {
+    "time_s": [
+     0.0
+    ]
+   }
+  }
+ ]
+}

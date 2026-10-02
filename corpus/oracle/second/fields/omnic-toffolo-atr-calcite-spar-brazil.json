@@ -1,0 +1,220 @@
+{
+ "id": "omnic-toffolo-atr-calcite-spar-brazil",
+ "file": "omnic-toffolo-library-zip/ATR/Calcite spar_Brazil.SPA",
+ "format": "thermo-omnic",
+ "family": "vibrational-spectroscopy",
+ "readers": [
+  "SpectroChemPy 1.0.0 (CeCILL-B, run as a black box) read_omnic",
+  "OMNIC's CSV export of the same spectrum (Calcite spar_Brazil.CSV), read with Python's csv module"
+ ],
+ "checks": [
+  {
+   "field": "acquisition_date",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-11-02T08:48:23-07:00",
+   "cmp": "time",
+   "abs": 1.0
+  },
+  {
+   "field": "points",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/sample_count",
+   "theirs": 7468,
+   "cmp": "exact",
+   "required": true,
+   "reader": 1
+  },
+  {
+   "field": "first wavenumber",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/first",
+   "theirs": 4000.123,
+   "cmp": "num",
+   "abs": 0.0005,
+   "reader": 1
+  },
+  {
+   "field": "last wavenumber",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/axis/last",
+   "theirs": 400.1569,
+   "cmp": "num",
+   "abs": 0.0005,
+   "reader": 1
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: first samples",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "64"
+   ],
+   "ours": "/channels/[index=0]/samples",
+   "theirs": [
+    0.01674056,
+    0.01673612,
+    0.01673299,
+    0.01673154,
+    0.01673106,
+    0.0167303,
+    0.01672713,
+    0.0167207,
+    0.01671102,
+    0.01669983,
+    0.01668953,
+    0.01668306,
+    0.01668199,
+    0.01668712,
+    0.01669735,
+    0.01671095,
+    0.01672558,
+    0.01673901,
+    0.01674986,
+    0.01675744,
+    0.01676161,
+    0.01676295,
+    0.01676219,
+    0.01676033,
+    0.01675796,
+    0.01675585,
+    0.01675372,
+    0.0167511,
+    0.01674659,
+    0.01673874,
+    0.01672614,
+    0.01670826,
+    0.0166855,
+    0.01665951,
+    0.01663279,
+    0.01660821,
+    0.01658838,
+    0.01657585,
+    0.01657189,
+    0.0165772,
+    0.01659162,
+    0.01661451,
+    0.01664426,
+    0.01667872,
+    0.01671539,
+    0.01675134,
+    0.01678375,
+    0.01681034,
+    0.01682959,
+    0.01684068,
+    0.01684409,
+    0.01684061,
+    0.016832,
+    0.01681995,
+    0.01680645,
+    0.01679363,
+    0.01678272,
+    0.01677473,
+    0.01677032,
+    0.01676904,
+    0.0167708,
+    0.01677507,
+    0.01678182,
+    0.01679109
+   ],
+   "cmp": "num",
+   "rel": 6e-07,
+   "abs": 4.131018e-07,
+   "reader": 1
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: sample count",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "64"
+   ],
+   "ours": "/channels/[index=0]/stats/count",
+   "theirs": 7468,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: min",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "64"
+   ],
+   "ours": "/channels/[index=0]/stats/min",
+   "theirs": 0.007212234,
+   "cmp": "num",
+   "rel": 6e-07,
+   "abs": 4.131018e-07,
+   "reader": 1
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: max",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "64"
+   ],
+   "ours": "/channels/[index=0]/stats/max",
+   "theirs": 0.688503,
+   "cmp": "num",
+   "rel": 6e-07,
+   "abs": 4.131018e-07,
+   "reader": 1
+  },
+  {
+   "field": "trace 0 sweep 0 channel 0: mean",
+   "scope": "traces",
+   "cmd": [
+    "trace",
+    "--trace",
+    "0",
+    "--sweep",
+    "0",
+    "--max-samples",
+    "64"
+   ],
+   "ours": "/channels/[index=0]/stats/mean",
+   "theirs": 0.04857649304351901,
+   "cmp": "num",
+   "rel": 6e-07,
+   "abs": 4.131018e-07,
+   "reader": 1
+  }
+ ],
+ "notes": [
+  "the export's last row (one step below the spectrum, absorbance 0) is export padding; left out"
+ ]
+}

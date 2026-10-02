@@ -1,0 +1,88 @@
+name: Bug report
+description: A file is read wrongly, a command fails or crashes, or the output disagrees with another reader.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. The two things that make a bug fixable are the `check --json` output and the software that wrote the file.
+        **Never attach patient-identifiable data.** Security problems go to the address in SECURITY.md, not here.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+      description: If another reader (Bio-Formats/Fiji, bioio, czifile, nd2, liffile, the vendor viewer) shows something different, say which one and what it shows.
+    validations:
+      required: true
+
+  - type: input
+    id: command
+    attributes:
+      label: Command
+      placeholder: openreadout export run.czi -o run.ome.tiff --select c=0
+    validations:
+      required: true
+
+  - type: textarea
+    id: check
+    attributes:
+      label: Output of `openreadout check FILE --json`
+      description: Paste the full JSON. If `check` itself fails, paste its output and exit code.
+      render: json
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Output of the failing command (with `--json` if possible) and its exit code
+      render: text
+
+  - type: dropdown
+    id: format
+    attributes:
+      label: File format
+      options:
+        - Zeiss CZI
+        - Nikon ND2
+        - Leica LIF / LOF / XLEF
+        - FCS (flow cytometry)
+        - other / not detected
+    validations:
+      required: true
+
+  - type: input
+    id: writer
+    attributes:
+      label: Acquisition software and version that wrote the file
+      description: e.g. ZEN 3.6 (blue), NIS-Elements AR 5.21, LAS X 3.7. Also the instrument model if you know it.
+      placeholder: ZEN (blue edition) 3.6.095, Celldiscoverer 7
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: openreadout version and platform
+      description: Output of `openreadout --version`, and your OS / CPU (or the Python package version).
+      placeholder: openreadout 0.1.0, macOS 15 arm64
+    validations:
+      required: true
+
+  - type: dropdown
+    id: shareable
+    attributes:
+      label: Can the file be shared?
+      description: A public file under an open license can be added to the test corpus, which is the fastest route to a fix.
+      options:
+        - "Yes, publicly, under an open license (link below)"
+        - "Privately with the maintainer only"
+        - "No"
+    validations:
+      required: true
+
+  - type: input
+    id: link
+    attributes:
+      label: Link to the file (if shareable)

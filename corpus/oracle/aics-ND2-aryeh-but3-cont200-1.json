@@ -1,0 +1,246 @@
+{
+ "id": "aics-ND2-aryeh-but3-cont200-1",
+ "file": "aics-ND2-aryeh-but3-cont200-1.nd2",
+ "size": 16137019,
+ "sha256": "7e8dcd14c990aae7fe3d3a59be6b7db3f0e45e648948e47d5765ffe9f69003ce",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "1.0",
+ "is_legacy": true,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1392,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'C': 2, 'Y': 1040, 'X': 1392}",
+   "physical_size_um": {
+    "x": 50.0,
+    "y": 50.0,
+    "z": null
+   },
+   "channel_names": [
+    "20phase",
+    "20xDiO"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bd70e6ecd61dc8e2a589ce26036acf36"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e4900568a1bd2ec2ff277c7499294115"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 1392,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'C': 2, 'Y': 1040, 'X': 1392}",
+   "physical_size_um": {
+    "x": 50.0,
+    "y": 50.0,
+    "z": null
+   },
+   "channel_names": [
+    "20phase",
+    "20xDiO"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6f2c2d9ef9cd823bab1ff7158dd5481f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a7fa3961c00172b184531aa915f1a356"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "size_x": 1392,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'C': 2, 'Y': 1040, 'X': 1392}",
+   "physical_size_um": {
+    "x": 50.0,
+    "y": 50.0,
+    "z": null
+   },
+   "channel_names": [
+    "20phase",
+    "20xDiO"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c23d9cb8d730d3770f709e51b4e0560b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31cdcd90d9f9ce01a78461aa2b6b737f"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "size_x": 1392,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'C': 2, 'Y': 1040, 'X': 1392}",
+   "physical_size_um": {
+    "x": 50.0,
+    "y": 50.0,
+    "z": null
+   },
+   "channel_names": [
+    "20phase",
+    "20xDiO"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8a10aec51a67c4a2b89a08a05f6146fe"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "14a32178671364c820fb2ddb62512a95"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "size_x": 1392,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'C': 2, 'Y': 1040, 'X': 1392}",
+   "physical_size_um": {
+    "x": 50.0,
+    "y": 50.0,
+    "z": null
+   },
+   "channel_names": [
+    "20phase",
+    "20xDiO"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b738db58e0f2474f698d33c2682010b0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "39154f503db8cfe2fe1ff4acc5da318d"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "20phase",
+    "color": "#55FF00",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": []
+   },
+   {
+    "name": "20xDiO",
+    "color": "#FF0000",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": []
+   }
+  ],
+  "frame_count": 5,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 11519.087420374155,
+    "stage_x_um": 102719.2,
+    "stage_y_um": 85219.04000000001,
+    "stage_z_um": 4305.05
+   },
+   {
+    "index": 1,
+    "time_ms": 22262.878013938665,
+    "stage_x_um": 102719.2,
+    "stage_y_um": 81034.3,
+    "stage_z_um": 4304.35
+   },
+   {
+    "index": 2,
+    "time_ms": 33562.26945358515,
+    "stage_x_um": 99501.98,
+    "stage_y_um": 76155.72,
+    "stage_z_um": 4286.65
+   },
+   {
+    "index": 3,
+    "time_ms": 50066.62362015247,
+    "stage_x_um": 64183.62,
+    "stage_y_um": 76105.74,
+    "stage_z_um": 4229.45
+   },
+   {
+    "index": 4,
+    "time_ms": 60709.76199236512,
+    "stage_x_um": 62375.3,
+    "stage_y_um": 76678.08,
+    "stage_z_um": 4231.95
+   }
+  ],
+  "acquired_at": "2007-03-08T10:08:51.421Z",
+  "acquired_at_unix_ms": 1173348531421
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T'(1) x XY(5) x \u03bb(2)\r\nNumerical Aperture: .45\r\nRefractive Index: 1\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: 20phase\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Emission Wavelength: 525 nm\r\n Camera Settings:   Binning: 1x1\r\n  Exposure: 20 ms\r\n  Readout Speed: 10 MHz\r\n  Calibrated Gain: 4 x\r\n  Visual Gain: Off\r\n\r\n Microscope Settings:   Z Drive: 4304.900\r\n  Filter Blocks (Turret): 3 (GFP/fitc)\r\n  Shutter (EPI) state: Closed\r\n  Shutter (EPI) mode: Fast\r\n  Shutter Uniblitz (Aux2) state: Closed\r\n  Shutter Uniblitz (Aux2) mode: Fast\r\n  Light (EPI): On\r\n  Light (EPI) voltage: 85.0V\r\n  Light (EPI) Iris intensity: 100.0\r\n  Light (DIA): Off\r\n  Light (DIA) voltage: NA\r\n  LightPath: Left\r\nPlane #2:\r\n Name: 20xDiO\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Emission Wavelength: 525 nm\r\n Camera Settings:   Binning: 2x2\r\n  Exposure: 40 ms\r\n  Readout Speed: 10 MHz\r\n  Calibrated Gain: 4 x\r\n  Visual Gain: Off\r\n\r\n Microscope Settings:   Z Drive: 4305.000\r\n  Filter Blocks (Turret): 3 (GFP/fitc)\r\n  Shutter (EPI) state: Closed\r\n  Shutter (EPI) mode: Fast\r\n  Shutter Uniblitz (Aux2) state: Closed\r\n  Shutter Uniblitz (Aux2) mode: Fast\r\n  Light (EPI): On\r\n  Light (EPI) voltage: 85.0V\r\n  Light (EPI) Iris intensity: 100.0\r\n  Light (DIA): Off\r\n  Light (DIA) voltage: NA\r\n  LightPath: Left\r\nTime Loop: 1\r\n- Nonequidistant"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=2, heightPx=1040, pixelDataType='unsigned', sequenceCount=5, widthBytes=5568, widthPx=1392, compressionLevel=7, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

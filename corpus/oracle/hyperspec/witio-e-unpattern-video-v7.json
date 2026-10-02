@@ -1,0 +1,28 @@
+{
+ "id": "witio-e-unpattern-video-v7",
+ "format": "witec-project",
+ "file": "witio-e-unpattern-video-v7.wip",
+ "size": 4254060,
+ "sha256": "0bae11a7b61a89210adedde6adc313fd8a31393682afd7a3c5e437b7d1995796",
+ "reader": "witio 0.2.0 (MIT-0)",
+ "independent": true,
+ "version": 7,
+ "traces": [],
+ "trace_count": 0,
+ "images": [
+  {
+   "name": "7x5 Stitching Image_021 / Exfoliated graphene (Gr) on SiO2/Si-substrate",
+   "width": 1254,
+   "height": 836,
+   "rgb": true,
+   "xxh3_rgb8": "9acfc89d4de0074a05a0380775fe51dc",
+   "image": 0
+  }
+ ],
+ "facts": [
+  {
+   "path": "instrument.serial",
+   "value": "100-1400-454"
+  }
+ ]
+}

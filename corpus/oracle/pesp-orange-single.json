@@ -1,0 +1,51 @@
+{
+ "id": "pesp-orange-single",
+ "file": "pesp-orange-single.sp",
+ "size": 14259,
+ "sha256": "b5afea5f95667b1ae7df9e2033a4a3455f381433e39b4224fa887475058e7d97",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1626,
+   "x_first": 4000.0,
+   "x_last": 750.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1626,
+     "channels": [
+      {
+       "xxh3": "5c0e00cdeff64d0fb385d8797fa851ff",
+       "first": [
+        100.71570587158203,
+        100.69220733642578,
+        100.66743469238281,
+        100.64807891845703,
+        100.65028381347656,
+        100.63548278808594,
+        100.62870788574219,
+        100.6943359375
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Spotlight/Spectrum 3 FT-IR",
+     "instrument_serial": "122679",
+     "scans": 32,
+     "detector": "MCT Array",
+     "source": "MIR",
+     "beamsplitter": "OptKBr",
+     "apodization": "Filler"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,98 @@
+{
+ "id": "zenodo8343581-openephys",
+ "file": "zenodo8343581",
+ "size": 185011715,
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 OpenEphysRawIO record layout + NumPy",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "CH1",
+    "CH2",
+    "ADC1"
+   ],
+   "channel_units": [
+    "uV",
+    "uV",
+    "V"
+   ],
+   "sample_rate_hz": 20000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 30454784,
+     "channels": [
+      {
+       "xxh3": "a5f35e4993ffcc59ac1f7d764ba6be2e",
+       "first": [
+        -12.48,
+        -11.115,
+        -21.060000000000002,
+        -21.255,
+        -6.825,
+        -1.17,
+        10.14,
+        -6.825
+       ]
+      },
+      {
+       "xxh3": "2a4c5c9c2b697157967929fc0a81e697",
+       "first": [
+        -4.485,
+        -6.045,
+        0.0,
+        -4.29,
+        9.555,
+        12.09,
+        16.77,
+        6.4350000000000005
+       ]
+      },
+      {
+       "xxh3": "5a4e203b28e28037dfd6870049bf18db",
+       "first": [
+        4.590304804,
+        4.590304804,
+        4.590304804,
+        4.590304804,
+        4.590304804,
+        4.590304804,
+        4.590304804,
+        4.590304804
+       ]
+      }
+     ],
+     "hashed_samples": 16777216
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 302,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "file": "958d22835a4bcf1ee8bfbae5dc1fe997",
+    "timestamp": "797350761f102ab32edb87f48a92af88",
+    "time_s": "67b3f9d3c36b941686c540a8500b19c5",
+    "sample_position": "958d22835a4bcf1ee8bfbae5dc1fe997",
+    "event_type": "61238aaa63710d1ce34b68cf02f0bfc7",
+    "processor_id": "2ae907dd08d91c6a0f5625422ed989e0",
+    "event_id": "bf120f0a5fc30dee404c74597cad8797",
+    "channel": "3871e5dae2b7567290e76759133454ce",
+    "recording": "958d22835a4bcf1ee8bfbae5dc1fe997"
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "neo 0.14.5 OpenEphysRawIO API",
+  "channels_compared": 3,
+  "values_agree": true
+ }
+}

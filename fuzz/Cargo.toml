@@ -1,0 +1,1015 @@
+[package]
+name = "openreadout-fuzz"
+version = "0.0.0"
+publish = false
+# 2021 so the harness may set OPENREADOUT_MAX_PLANE_BYTES with `std::env::set_var` in `init`.
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "cargo-fuzz (libFuzzer) targets for every OpenReadout parser and codec"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+openreadout-core = { path = "../crates/openreadout-core" }
+openreadout-codecs = { path = "../crates/openreadout-codecs" }
+openreadout-czi = { path = "../crates/openreadout-czi", features = ["fuzzing"] }
+openreadout-nd2 = { path = "../crates/openreadout-nd2", features = ["fuzzing"] }
+openreadout-lif = { path = "../crates/openreadout-lif", features = ["fuzzing"] }
+openreadout-ometiff = { path = "../crates/openreadout-ometiff" }
+openreadout-abf = { path = "../crates/openreadout-abf" }
+openreadout-blackrock = { path = "../crates/openreadout-blackrock" }
+openreadout-em = { path = "../crates/openreadout-em" }
+openreadout-fcs = { path = "../crates/openreadout-fcs" }
+openreadout-intan = { path = "../crates/openreadout-intan" }
+openreadout-neuralynx = { path = "../crates/openreadout-neuralynx" }
+openreadout-nmr = { path = "../crates/openreadout-nmr" }
+openreadout-signal = { path = "../crates/openreadout-signal" }
+openreadout-spikeglx = { path = "../crates/openreadout-spikeglx" }
+openreadout-thermo = { path = "../crates/openreadout-thermo" }
+openreadout-tiff = { path = "../crates/openreadout-tiff" }
+openreadout-mzml = { path = "../crates/openreadout-mzml" }
+openreadout-bruker-tims = { path = "../crates/openreadout-bruker-tims" }
+openreadout-oir = { path = "../crates/openreadout-oir" }
+openreadout-vsi = { path = "../crates/openreadout-vsi" }
+openreadout-wsi = { path = "../crates/openreadout-wsi" }
+openreadout-chrom = { path = "../crates/openreadout-chrom" }
+openreadout-sciex = { path = "../crates/openreadout-sciex" }
+openreadout-agilent-ms = { path = "../crates/openreadout-agilent-ms" }
+openreadout-waters = { path = "../crates/openreadout-waters" }
+openreadout-plate = { path = "../crates/openreadout-plate" }
+openreadout-qpcr = { path = "../crates/openreadout-qpcr" }
+openreadout-assay = { path = "../crates/openreadout-assay" }
+openreadout-batch = { path = "../crates/openreadout-batch" }
+openreadout-zvi = { path = "../crates/openreadout-zvi" }
+openreadout-oif = { path = "../crates/openreadout-oif" }
+openreadout-plexon = { path = "../crates/openreadout-plexon" }
+openreadout-ephys = { path = "../crates/openreadout-ephys" }
+openreadout-dcimg = { path = "../crates/openreadout-dcimg" }
+openreadout-hcs = { path = "../crates/openreadout-hcs" }
+openreadout-spectro = { path = "../crates/openreadout-spectro" }
+openreadout-biophys = { path = "../crates/openreadout-biophys" }
+openreadout-gel = { path = "../crates/openreadout-gel" }
+openreadout-thermal = { path = "../crates/openreadout-thermal" }
+openreadout-echem = { path = "../crates/openreadout-echem" }
+openreadout-xrd = { path = "../crates/openreadout-xrd" }
+openreadout-epr = { path = "../crates/openreadout-epr" }
+openreadout-fplc = { path = "../crates/openreadout-fplc" }
+openreadout-zarr = { path = "../crates/openreadout-zarr" }
+openreadout-hdf5 = { path = "../crates/openreadout-hdf5" }
+openreadout-quant = { path = "../crates/openreadout-quant" }
+serde_json = { version = "1", features = ["preserve_order"] }
+roxmltree = "0.20"
+
+# Not a member of the main workspace: it needs nightly and libFuzzer instrumentation.
+[workspace]
+members = ["."]
+
+[profile.release]
+debug = 1
+
+# image-webp 0.2.4 adds Huffman code counts in u16 without overflow checks (a hostile lossless
+# stream overflows; found by fuzz target codec_webp, not fixed upstream as of 2026-09-24). Release
+# builds wrap and then reject the code as invalid; build it the same way everywhere so debug builds
+# and the fuzzer do not panic on it (reproducer: fuzz/known-upstream/image-webp-0.2.4-huffman-overflow.webp).
+[profile.release.package.image-webp]
+overflow-checks = false
+
+[[bin]]
+name = "czi_segment_walk"
+path = "fuzz_targets/czi_segment_walk.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "czi_subblock_header"
+path = "fuzz_targets/czi_subblock_header.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "czi_metadata_xml"
+path = "fuzz_targets/czi_metadata_xml.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_zstd0"
+path = "fuzz_targets/codec_zstd0.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_zstd1"
+path = "fuzz_targets/codec_zstd1.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_hilo"
+path = "fuzz_targets/codec_hilo.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_jpegxr"
+path = "fuzz_targets/codec_jpegxr.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_lzw"
+path = "fuzz_targets/codec_lzw.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "core_zip"
+path = "fuzz_targets/core_zip.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_zlib"
+path = "fuzz_targets/codec_zlib.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "nd2_chunk_map"
+path = "fuzz_targets/nd2_chunk_map.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "nd2_lv"
+path = "fuzz_targets/nd2_lv.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "nd2_variant_xml"
+path = "fuzz_targets/nd2_variant_xml.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "lif_container"
+path = "fuzz_targets/lif_container.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "lif_xml_model"
+path = "fuzz_targets/lif_xml_model.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "ome_xml"
+path = "fuzz_targets/ome_xml.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "selection"
+path = "fuzz_targets/selection.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_czi"
+path = "fuzz_targets/whole_czi.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_nd2"
+path = "fuzz_targets/whole_nd2.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_lif"
+path = "fuzz_targets/whole_lif.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_thermo"
+path = "fuzz_targets/whole_thermo.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_fcs"
+path = "fuzz_targets/whole_fcs.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_abf"
+path = "fuzz_targets/whole_abf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_neuralynx"
+path = "fuzz_targets/whole_neuralynx.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_blackrock"
+path = "fuzz_targets/whole_blackrock.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_intan"
+path = "fuzz_targets/whole_intan.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_tiff"
+path = "fuzz_targets/whole_tiff.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mrc"
+path = "fuzz_targets/whole_mrc.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_dm"
+path = "fuzz_targets/whole_dm.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_emd"
+path = "fuzz_targets/whole_emd.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_jcamp"
+path = "fuzz_targets/whole_jcamp.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_varian"
+path = "fuzz_targets/whole_varian.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_jeol"
+path = "fuzz_targets/whole_jeol.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_spikeglx"
+path = "fuzz_targets/whole_spikeglx.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_ser"
+path = "fuzz_targets/whole_ser.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_bruker"
+path = "fuzz_targets/whole_bruker.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_jpeg"
+path = "fuzz_targets/codec_jpeg.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_jpeg2000"
+path = "fuzz_targets/codec_jpeg2000.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_webp"
+path = "fuzz_targets/codec_webp.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_jpegxl"
+path = "fuzz_targets/codec_jpegxl.rs"
+test = false
+doc = false
+bench = false
+
+
+[[bin]]
+name = "codec_packbits"
+path = "fuzz_targets/codec_packbits.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_lzma2"
+path = "fuzz_targets/codec_lzma2.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mzml"
+path = "fuzz_targets/whole_mzml.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mzxml"
+path = "fuzz_targets/whole_mzxml.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_oir"
+path = "fuzz_targets/whole_oir.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_andi"
+path = "fuzz_targets/whole_andi.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_shimadzu"
+path = "fuzz_targets/whole_shimadzu.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_plate"
+path = "fuzz_targets/whole_plate.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_plate_xlsx"
+path = "fuzz_targets/whole_plate_xlsx.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_imzml"
+path = "fuzz_targets/whole_imzml.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_tims"
+path = "fuzz_targets/whole_tims.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_vsi"
+path = "fuzz_targets/whole_vsi.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mirax"
+path = "fuzz_targets/whole_mirax.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_chemstation"
+path = "fuzz_targets/whole_chemstation.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_openlab"
+path = "fuzz_targets/whole_openlab.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_waters"
+path = "fuzz_targets/whole_waters.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_sciex"
+path = "fuzz_targets/whole_sciex.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "chrom_netcdf"
+path = "fuzz_targets/chrom_netcdf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "chrom_cfb"
+path = "fuzz_targets/chrom_cfb.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "tims_sqlite"
+path = "fuzz_targets/tims_sqlite.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "tims_frame"
+path = "fuzz_targets/tims_frame.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "jcamp_asdf"
+path = "fuzz_targets/jcamp_asdf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "mzml_binary"
+path = "fuzz_targets/mzml_binary.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_zvi"
+path = "fuzz_targets/whole_zvi.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_dcimg"
+path = "fuzz_targets/whole_dcimg.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_zarr_zip"
+path = "fuzz_targets/whole_zarr_zip.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_ims"
+path = "fuzz_targets/whole_ims.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_nwb"
+path = "fuzz_targets/whole_nwb.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_hdf5"
+path = "fuzz_targets/whole_hdf5.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_zarr"
+path = "fuzz_targets/whole_zarr.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "batch_sheet"
+path = "fuzz_targets/batch_sheet.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "quant_peaks"
+path = "fuzz_targets/quant_peaks.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "quant_bands"
+path = "fuzz_targets/quant_bands.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_hcs_harmony"
+path = "fuzz_targets/whole_hcs_harmony.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "assay_input"
+path = "fuzz_targets/assay_input.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mzml_gz"
+path = "fuzz_targets/whole_mzml_gz.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_hcs_cellvoyager"
+path = "fuzz_targets/whole_hcs_cellvoyager.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mzmlb"
+path = "fuzz_targets/whole_mzmlb.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "signal_analysis"
+path = "fuzz_targets/signal_analysis.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_hcs_imagexpress"
+path = "fuzz_targets/whole_hcs_imagexpress.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_opus"
+path = "fuzz_targets/whole_opus.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_rdml"
+path = "fuzz_targets/whole_rdml.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_omnic"
+path = "fuzz_targets/whole_omnic.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_eds"
+path = "fuzz_targets/whole_eds.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_wdf"
+path = "fuzz_targets/whole_wdf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_pesp"
+path = "fuzz_targets/whole_pesp.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_rex"
+path = "fuzz_targets/whole_rex.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_ixo"
+path = "fuzz_targets/whole_ixo.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_chromeleon"
+path = "fuzz_targets/whole_chromeleon.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_empower_arw"
+path = "fuzz_targets/whole_empower_arw.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_atf"
+path = "fuzz_targets/whole_atf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_plexon"
+path = "fuzz_targets/whole_plexon.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_pl2"
+path = "fuzz_targets/whole_pl2.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_heka"
+path = "fuzz_targets/whole_heka.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_openephys"
+path = "fuzz_targets/whole_openephys.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_spc"
+path = "fuzz_targets/whole_spc.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_spike2"
+path = "fuzz_targets/whole_spike2.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_oib"
+path = "fuzz_targets/whole_oib.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_oif"
+path = "fuzz_targets/whole_oif.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_pcrd"
+path = "fuzz_targets/whole_pcrd.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_masshunter"
+path = "fuzz_targets/whole_masshunter.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_unicorn_res"
+path = "fuzz_targets/whole_unicorn_res.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_unicorn_zip"
+path = "fuzz_targets/whole_unicorn_zip.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_scn"
+path = "fuzz_targets/whole_scn.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_itc"
+path = "fuzz_targets/whole_itc.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_biacore"
+path = "fuzz_targets/whole_biacore.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_jws"
+path = "fuzz_targets/whole_jws.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_cary"
+path = "fuzz_targets/whole_cary.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_seahorse"
+path = "fuzz_targets/whole_seahorse.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_octet"
+path = "fuzz_targets/whole_octet.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_gpr"
+path = "fuzz_targets/whole_gpr.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_bes3t"
+path = "fuzz_targets/whole_bes3t.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_esp"
+path = "fuzz_targets/whole_esp.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_xrdml"
+path = "fuzz_targets/whole_xrdml.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_bruker_raw"
+path = "fuzz_targets/whole_bruker_raw.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_brml"
+path = "fuzz_targets/whole_brml.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_ras"
+path = "fuzz_targets/whole_ras.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_rasx"
+path = "fuzz_targets/whole_rasx.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mpr"
+path = "fuzz_targets/whole_mpr.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mpt"
+path = "fuzz_targets/whole_mpt.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_gamry"
+path = "fuzz_targets/whole_gamry.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_nda"
+path = "fuzz_targets/whole_nda.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_ndax"
+path = "fuzz_targets/whole_ndax.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_ngb"
+path = "fuzz_targets/whole_ngb.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_ta001"
+path = "fuzz_targets/whole_ta001.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_trios"
+path = "fuzz_targets/whole_trios.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_arbin"
+path = "fuzz_targets/whole_arbin.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_zetasizer"
+path = "fuzz_targets/whole_zetasizer.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_bme"
+path = "fuzz_targets/whole_bme.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_spinsolve"
+path = "fuzz_targets/whole_spinsolve.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_winwcp"
+path = "fuzz_targets/whole_winwcp.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_witec"
+path = "fuzz_targets/whole_witec.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_agilent_fpa"
+path = "fuzz_targets/whole_agilent_fpa.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_fsm"
+path = "fuzz_targets/whole_fsm.rs"
+test = false
+doc = false
+bench = false

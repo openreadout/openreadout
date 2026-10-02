@@ -1,0 +1,36 @@
+[package]
+name = "openreadout-mzml"
+description = "Streaming readers for the open mass-spectrometry formats mzML and mzXML, part of OpenReadout"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["mass-spectrometry", "mzml", "mzxml", "proteomics", "metabolomics"]
+categories.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-mzml"
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+[dependencies]
+openreadout-core = { workspace = true }
+openreadout-codecs = { workspace = true }
+quick-xml = { workspace = true }
+serde_json = { workspace = true }
+hdf5-pure = { workspace = true }
+openreadout-hdf5 = { workspace = true }
+sha1 = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+flate2 = { workspace = true }
+
+[lints]
+workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-unknown-linux-gnu"]

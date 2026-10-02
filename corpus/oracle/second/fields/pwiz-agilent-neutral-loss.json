@@ -1,0 +1,37 @@
+{
+ "id": "pwiz-agilent-neutral-loss",
+ "file": "Reader_Agilent_Test.data/RS080806_NL_448.2_001.d",
+ "format": "agilent-masshunter",
+ "family": "mass-spectrometry",
+ "readers": [
+  "the .d's AcqData XML (Contents.xml, Devices.xml, MSTS.xml), read with ElementTree",
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (RS080806_NL_448.2_001.mzML)",
+  "the vendor-library conversion (RS080806_NL_448.2_001.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "scans in the time segments (MSTS.xml)",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}#len",
+   "theirs": 134,
+   "cmp": "exact"
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2006-08-08T12:11:57Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 2
+  }
+ ]
+}

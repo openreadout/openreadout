@@ -1,0 +1,8 @@
+{
+ "id": "ho-gh-kaiaragaki-mop-gen5-bca",
+ "file": "bca-assay-all-export.txt",
+ "size": 13821,
+ "sha256": "343180bb154fe2395f7f405da3e6dca4ee23800277ba7315c1b4644219532e51",
+ "max_planes_hashed": 64,
+ "error": "AllotropeConversionError: No plate data found in file."
+}

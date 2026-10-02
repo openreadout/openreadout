@@ -1,0 +1,53 @@
+{
+ "id": "ho-zenodo19044980-mrc-bismuth",
+ "file": "2_0002.mrc",
+ "size": 10710400,
+ "sha256": "2bca52d659ef80181c14f194de1c191c9c13c7c3528487be04c7819b89054eec",
+ "max_planes_hashed": 64,
+ "reader": "mrcfile 1.5.4",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2004,
+   "size_y": 1336,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "layout": "image-stack",
+   "physical_size_um": {
+    "x": 0.0015856156826971057,
+    "y": 0.0015856155852357783,
+    "z": null
+   },
+   "mrcfile_voxel_size_angstrom": [
+    15.856157302856445,
+    15.856155395507812,
+    0.0
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c539c9de8e48cdc446046a5bf634f838"
+    }
+   ]
+  }
+ ],
+ "header": {
+  "mode": 2,
+  "ispg": 0,
+  "nsymbt": 0,
+  "exttyp": "\u0000\u0000\u0000\u0000",
+  "nversion": 0,
+  "mapcrs": [
+   1,
+   2,
+   3
+  ],
+  "imod_stamp": false,
+  "imod_flags": 0
+ },
+ "fei_first_block": null
+}

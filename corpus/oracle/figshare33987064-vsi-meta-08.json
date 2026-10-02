@@ -1,0 +1,10 @@
+{
+ "id": "figshare33987064-vsi-meta-08",
+ "file": "08.vsi",
+ "size": 1339818,
+ "sha256": "a606bb4cc9e147e3d2a57da3a13fc0a17122020e14875f8893d6fbbb9fe2e302",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [],
+ "independent": false
+}

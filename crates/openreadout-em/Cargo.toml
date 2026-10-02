@@ -1,0 +1,33 @@
+[package]
+name = "openreadout-em"
+description = "Readers for electron-microscopy files, part of OpenReadout"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["electron-microscopy", "mrc", "cryo-em", "dm3", "tem"]
+categories = ["parser-implementations", "science"]
+readme = "README.md"
+documentation = "https://docs.rs/openreadout-em"
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+
+[dependencies]
+openreadout-core = { workspace = true }
+hdf5-pure = { workspace = true }
+roxmltree = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+flate2 = { workspace = true }
+
+[lints]
+workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-unknown-linux-gnu"]

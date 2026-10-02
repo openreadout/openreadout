@@ -1,0 +1,26 @@
+{
+ "id": "zenodo17482295-Figure-08-E-coli",
+ "file": "zenodo17482295-Figure-08-E-coli.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 683,
+   "size_y": 683,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c4f9db4f367852bdb33f6bf3d872c6b8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "74d24eaefeda2600b8daa9109d79ee59"
+    }
+   ]
+  }
+ ]
+}

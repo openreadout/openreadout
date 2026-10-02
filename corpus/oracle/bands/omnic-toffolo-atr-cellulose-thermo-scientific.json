@@ -1,0 +1,111 @@
+{
+ "id": "omnic-toffolo-atr-cellulose-thermo-scientific",
+ "trace": 0,
+ "reader": "spectrochempy 1.0.0 read_omnic",
+ "tolerance": {
+  "x": 0.0006,
+  "area_rel": 5e-05,
+  "why": "SpectroChemPy rounds the wavenumber axis to 3 decimals (steps of 0.48 cm-1)"
+ },
+ "points": 7468,
+ "bands_are_minima": false,
+ "prominent_bands": [
+  435.834,
+  557.327,
+  1028.837,
+  1314.732,
+  3329.499
+ ],
+ "median_step": 0.4819999999999709,
+ "regions": [
+  {
+   "range": [
+    950,
+    1200
+   ],
+   "linear": {
+    "points": 519,
+    "x_first": 950.252,
+    "x_last": 1199.989,
+    "area": 12.488247469706462,
+    "area_no_baseline": 27.955416932597764,
+    "max_x": 1029.319,
+    "max_height": 0.11623874986199634,
+    "centroid": 1039.1666501193101
+   },
+   "none": {
+    "points": 519,
+    "x_first": 950.252,
+    "x_last": 1199.989,
+    "area": 27.955416932597764,
+    "area_no_baseline": 27.955416932597764,
+    "max_x": 1028.837,
+    "max_height": 0.1894199252128601,
+    "centroid": 1047.7254036747916
+   }
+  },
+  {
+   "range": [
+    3000,
+    3600
+   ],
+   "linear": {
+    "points": 1245,
+    "x_first": 3000.213,
+    "x_last": 3599.966,
+    "area": 11.76114619074855,
+    "area_no_baseline": 22.113306148382364,
+    "max_x": 3329.981,
+    "max_height": 0.04413764214961484,
+    "centroid": 3317.190926383551
+   },
+   "none": {
+    "points": 1245,
+    "x_first": 3000.213,
+    "x_last": 3599.966,
+    "area": 22.113306148382364,
+    "area_no_baseline": 22.113306148382364,
+    "max_x": 3329.499,
+    "max_height": 0.060945063829422,
+    "centroid": 3296.7685218531997
+   }
+  }
+ ],
+ "export": {
+  "source": "the vendor's export Cellulose_Thermo Scientific.CSV",
+  "regions": [
+   {
+    "range": [
+     950,
+     1200
+    ],
+    "linear": {
+     "points": 519,
+     "x_first": 950.2522,
+     "x_last": 1199.989,
+     "area": 12.488236567512997,
+     "area_no_baseline": 27.955394332141,
+     "max_x": 1029.319,
+     "max_height": 0.11623871794040763,
+     "centroid": 1039.1666328987214
+    }
+   },
+   {
+    "range": [
+     3000,
+     3600
+    ],
+    "linear": {
+     "points": 1245,
+     "x_first": 3000.213,
+     "x_last": 3599.966,
+     "area": 11.761146533749999,
+     "area_no_baseline": 22.113306139614995,
+     "max_x": 3329.981,
+     "max_height": 0.044137640026310834,
+     "centroid": 3317.1909281455332
+    }
+   }
+  ]
+ }
+}

@@ -1,0 +1,73 @@
+[project]
+name = "openreadout-evals-baseline"
+version = "0.1.0"
+description = "The `baseline` eval condition: the open-source reader stack a well-equipped computational scientist would install, preinstalled for the agent. Never imports or calls OpenReadout. Not shipped."
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    # So the agent can add anything else it wants.
+    "pip",
+    "numpy",
+    "scipy",
+    "pandas",
+    "pyarrow",
+    "lxml",
+    # Plotting and image files, so the agent can render a plane, a trace or a plate and look at the
+    # PNG (the `with` arm has `openreadout preview`): matplotlib (PSF-style), Pillow (MIT-CMU).
+    "matplotlib",
+    "pillow",
+    # Microscopy: bioio (BSD-3) with its format plugins, plus the single-format readers.
+    "bioio",
+    "bioio-czi",
+    "bioio-nd2",
+    "bioio-lif",
+    "bioio-ome-tiff",
+    "bioio-ome-zarr",
+    "bioio-tifffile",
+    "tifffile",
+    "imagecodecs",
+    "czifile",
+    "liffile",
+    "readlif",
+    "nd2",
+    "oirfile",
+    "oiffile",
+    "zarr",
+    "h5py",
+    "hdf5plugin",
+    "dcimg",
+    # Electron microscopy
+    "mrcfile",
+    "ncempy",
+    "dm4",
+    # Flow cytometry
+    "flowio",
+    "fcsparser",
+    "flowkit",
+    # Electrophysiology
+    "pyabf",
+    "neo",
+    "pynwb",
+    # NMR and JCAMP-DX
+    "nmrglue",
+    "jcamp",
+    # Mass spectrometry (open formats) and chromatography (Agilent ChemStation, Waters MassLynx)
+    "pyteomics",
+    "psims",
+    "pynumpress",
+    "pyimzml",
+    "rainbow-api>=1.5.2",
+    "olefile",
+    # Chromatographic peak picking and integration (pyOpenMS, BSD-3)
+    "pyopenms>=3.2",
+    # Vibrational spectroscopy: Bruker OPUS, Renishaw WiRE; OMNIC and others via SpectroChemPy (specio does not import on Python 3.12)
+    "brukeropus>=1.4",
+    "renishawWiRE>=0.1.16",
+    "spectrochempy>=1.0",
+    # qPCR: RDML (rdmlpython, MIT); Applied Biosystems .eds are zip archives (stdlib) with .xls exports (xlrd)
+    "rdmlpython>=1.7.2",
+    "xlrd",
+    "openpyxl",
+]
+
+[tool.uv]
+package = false

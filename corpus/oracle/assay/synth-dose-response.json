@@ -1,0 +1,281 @@
+{
+ "case": "synth-dose-response",
+ "about": "4PL per compound on raw RLU; IC50, SE, CI, Hill, plateaus; Z′ of the controls",
+ "input": {
+  "fixture": "assay-synth-dose-response.csv",
+  "corpus": "assay-synth-dose-response"
+ },
+ "request": {
+  "analysis": "dose-response",
+  "layout": "fixture:assay-synth-dose-response-layout.csv"
+ },
+ "checks": [
+  {
+   "path": "quality.z_prime",
+   "expect": 0.8891493617092783,
+   "source": "numpy (Zhang 1999 formula)",
+   "rel": 1e-09
+  },
+  {
+   "path": "quality.signal_to_background",
+   "expect": 51.93379567199641,
+   "source": "numpy",
+   "rel": 1e-09
+  },
+  {
+   "path": "compounds[compound=CPD-A].ec50",
+   "expect": 0.23514223447547764,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "compounds[compound=CPD-A].ec50_se",
+   "expect": 0.01855478764231127,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-A].ec50_ci_low",
+   "expect": 0.19993478871332523,
+   "source": "scipy 1.18.1 curve_fit + scipy.stats.t (log-scale Wald)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-A].ec50_ci_high",
+   "expect": 0.27654952292169754,
+   "source": "scipy 1.18.1 curve_fit + scipy.stats.t (log-scale Wald)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-A].top",
+   "expect": 100988.558550552,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "compounds[compound=CPD-A].bottom",
+   "expect": 1952.0587724292886,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05,
+   "abs": 0.001
+  },
+  {
+   "path": "compounds[compound=CPD-A].hill_slope",
+   "expect": -0.9644250115459297,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "compounds[compound=CPD-A].fit.r_squared",
+   "expect": 0.9939486429685446,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-08
+  },
+  {
+   "path": "compounds[compound=CPD-A].ec50",
+   "expect": 0.23514212441755,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) ED(…, 50)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-A].ec50_se",
+   "expect": 0.0185568446088761,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) ED(…, 50, interval = \"delta\"), Hessian-based SE",
+   "rel": 0.1
+  },
+  {
+   "path": "compounds[compound=CPD-A].hill_slope",
+   "expect": -0.964426796603855,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) coef b",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-A].top",
+   "expect": 100988.539477566,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28))",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-A].ec50",
+   "expect": 0.235142232330112,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28))",
+   "rel": 1e-06
+  },
+  {
+   "path": "compounds[compound=CPD-A].ec50_se",
+   "expect": 0.0185547899553035,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28)) vcov (Gauss–Newton)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-B].ec50",
+   "expect": 1.8251453300846199,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "compounds[compound=CPD-B].ec50_se",
+   "expect": 0.13544625252684944,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-B].ec50_ci_low",
+   "expect": 1.5669268483021617,
+   "source": "scipy 1.18.1 curve_fit + scipy.stats.t (log-scale Wald)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-B].ec50_ci_high",
+   "expect": 2.1259163945905697,
+   "source": "scipy 1.18.1 curve_fit + scipy.stats.t (log-scale Wald)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-B].top",
+   "expect": 99762.4099586928,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "compounds[compound=CPD-B].bottom",
+   "expect": 2172.856730686169,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05,
+   "abs": 0.001
+  },
+  {
+   "path": "compounds[compound=CPD-B].hill_slope",
+   "expect": -1.558539374058999,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "compounds[compound=CPD-B].fit.r_squared",
+   "expect": 0.9915590442538124,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-08
+  },
+  {
+   "path": "compounds[compound=CPD-B].ec50",
+   "expect": 1.82514515457074,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) ED(…, 50)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-B].ec50_se",
+   "expect": 0.13594479220492,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) ED(…, 50, interval = \"delta\"), Hessian-based SE",
+   "rel": 0.1
+  },
+  {
+   "path": "compounds[compound=CPD-B].hill_slope",
+   "expect": -1.55853980470188,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) coef b",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-B].top",
+   "expect": 99762.4089579299,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28))",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-B].ec50",
+   "expect": 1.82514534576956,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28))",
+   "rel": 1e-06
+  },
+  {
+   "path": "compounds[compound=CPD-B].ec50_se",
+   "expect": 0.135446230941658,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28)) vcov (Gauss–Newton)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-C].ec50",
+   "expect": 4.280509380816996,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "compounds[compound=CPD-C].ec50_se",
+   "expect": 4.499917959529463,
+   "source": "scipy 1.18.1 curve_fit (pcov)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-C].ec50_ci_low",
+   "expect": 0.4609367204777492,
+   "source": "scipy 1.18.1 curve_fit + scipy.stats.t (log-scale Wald)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-C].ec50_ci_high",
+   "expect": 39.751140981502246,
+   "source": "scipy 1.18.1 curve_fit + scipy.stats.t (log-scale Wald)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-C].top",
+   "expect": 100173.00625958283,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "compounds[compound=CPD-C].bottom",
+   "expect": 9587.951626833556,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05,
+   "abs": 0.001
+  },
+  {
+   "path": "compounds[compound=CPD-C].hill_slope",
+   "expect": -0.6957431272685529,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-05
+  },
+  {
+   "path": "compounds[compound=CPD-C].fit.r_squared",
+   "expect": 0.9664969218953562,
+   "source": "scipy 1.18.1 curve_fit",
+   "rel": 1e-08
+  },
+  {
+   "path": "compounds[compound=CPD-C].ec50",
+   "expect": 4.28036952229839,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) ED(…, 50)",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-C].ec50_se",
+   "expect": 4.13702430098889,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) ED(…, 50, interval = \"delta\"), Hessian-based SE",
+   "rel": 0.1
+  },
+  {
+   "path": "compounds[compound=CPD-C].hill_slope",
+   "expect": -0.695748737820298,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28)) coef b",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-C].top",
+   "expect": 100172.980683097,
+   "source": "R drc 3.0.1 (R version 4.4.3 (2025-02-28))",
+   "rel": 0.0001
+  },
+  {
+   "path": "compounds[compound=CPD-C].ec50",
+   "expect": 4.28050984468647,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28))",
+   "rel": 1e-06
+  },
+  {
+   "path": "compounds[compound=CPD-C].ec50_se",
+   "expect": 4.49991768321672,
+   "source": "R stats::nls (R version 4.4.3 (2025-02-28)) vcov (Gauss–Newton)",
+   "rel": 0.0001
+  }
+ ]
+}

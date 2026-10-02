@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Listing",
+  "description": "Output of `info --view structure`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input file.",
+      "type": "string"
+    },
+    "entries": {
+      "description": "Container elements in file order.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/LsEntry"
+      }
+    },
+    "acquisition": {
+      "description": "Present when the file is not finished: still being written (`in_progress`) or\nstopped before the end (`interrupted`). See `book/src/guides/lab-shares.md`.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Acquisition"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "entries"
+  ],
+  "$defs": {
+    "LsEntry": {
+      "description": "One row of `info --view structure`: a structural element of the container.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "`image`, `plane`, `segment`, `chunk`, `block`, `attachment`, `metadata`, `pyramid-level`, ...",
+          "type": "string"
+        },
+        "name": {
+          "description": "Element name (an id, a chunk name or a path inside the container).",
+          "type": "string"
+        },
+        "offset": {
+          "description": "Byte offset of the element in the file, when it has one.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "size": {
+          "description": "Size of the element in bytes, when known.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "image": {
+          "description": "Which image this element belongs to, if any.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "details": {
+          "description": "Format-specific details (JSON), omitted when empty."
+        }
+      },
+      "required": [
+        "kind",
+        "name"
+      ]
+    },
+    "Acquisition": {
+      "description": "`acquisition` in `info`, `info --view structure`, `check` and `check --planes`: present only for\nfiles that are not finished. See `book/src/guides/lab-shares.md`.",
+      "type": "object",
+      "properties": {
+        "state": {
+          "description": "`in_progress` or `interrupted`.",
+          "$ref": "#/$defs/AcquisitionState"
+        },
+        "complete_planes": {
+          "description": "Planes whose data is entirely on disk.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "expected_planes": {
+          "description": "Planes the finished file will hold, when the metadata written so far says so.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "modified_ago_s": {
+          "description": "Seconds since the file (or the newest member of a directory store) was modified.",
+          "type": "number",
+          "format": "double"
+        },
+        "window_s": {
+          "description": "The live window used for the decision, in seconds.",
+          "type": "number",
+          "format": "double"
+        },
+        "missing": {
+          "description": "Structures written at the end of an acquisition that are absent.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tail_bytes": {
+          "description": "Bytes after the last complete unit (a unit still being written).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "evidence": {
+          "description": "The observations behind the decision.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "state",
+        "complete_planes",
+        "modified_ago_s",
+        "window_s",
+        "missing",
+        "tail_bytes",
+        "evidence"
+      ]
+    },
+    "AcquisitionState": {
+      "description": "Whether an incomplete file is still being written.",
+      "oneOf": [
+        {
+          "description": "Recently modified and missing only what is written last: still acquiring.",
+          "type": "string",
+          "const": "in_progress"
+        },
+        {
+          "description": "Missing what is written last, but unchanged for longer than the live window: the\nacquisition (or a copy) stopped before the end.",
+          "type": "string",
+          "const": "interrupted"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+ "id": "ome-artificial-single-channel-tf8",
+ "file": "ome-artificial-tf8-single-channel.ome.tf8",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 439,
+   "size_y": 167,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a5448cfedaa2b261aa7c9dd7ffdda4f2"
+    }
+   ]
+  }
+ ]
+}

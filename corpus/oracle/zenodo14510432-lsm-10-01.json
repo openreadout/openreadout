@@ -1,0 +1,67 @@
+{
+ "id": "zenodo14510432-lsm-10-01",
+ "file": "zenodo14510432-10-01.lsm",
+ "size": 8632357,
+ "sha256": "345a055da8594a9cc75a8f83f004943cd556ea8c7ebe6061f2e77c8070dbd7e0",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "CYX",
+   "shape": [
+    4,
+    1024,
+    1024
+   ],
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.83026583745179,
+    "y": 0.83026583745179
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8701680a4b972469fe66252e5d991a2e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ddd9805fbab6bd408d28d4b25ecc4909"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f45f842bfca2715acfa837da66e2c236"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eeda89dba0de7142bcb7d942d4d4c867"
+    }
+   ]
+  }
+ ]
+}

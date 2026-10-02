@@ -1,0 +1,24 @@
+{
+ "id": "mtbls3555-bv-ix-alpha-raw",
+ "file": "BV IX alpha QM - Lizzy SS-06-17-2021.raw",
+ "size": 257618,
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box)",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 1232,
+   "parameter_names": [],
+   "column_hashes": {
+    "rt_min": "f41c883d95cc8e1b0c5a4e3ca62912c5",
+    "583.4 > 209.2": "6284586d154c3e0addfcf6b7eb822ada",
+    "583.4 > 296.6": "6fae93eb72c044c018e2b45c9ccea519",
+    "583.4 > 343.1": "c4e4153ad33477a9867007e88c021b4e",
+    "583.4 > 402.2": "86d1d2d9426369c1b2fa893e8a3cf54b",
+    "611.65 > 311.1": "4dad368ca7ea639287e352a411a8e253"
+   },
+   "polarity": "+"
+  }
+ ],
+ "oracle_note": "values = rainbow / 2 (see waters() in oracle/gen.py)"
+}

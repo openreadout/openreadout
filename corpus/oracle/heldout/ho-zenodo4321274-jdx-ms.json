@@ -1,0 +1,19 @@
+{
+ "id": "ho-zenodo4321274-jdx-ms",
+ "file": "Fig. S2_CD_MUS_MassSpec.jdx",
+ "size": 1888889,
+ "sha256": "aaca7bde61000c539d09dd6d19ab7d256c4d666502f449128e381872027ac2f0",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "LTQ_FT_Orbitrap - MG 041 - CD-MUS MG041",
+   "kind": "peak_table",
+   "data_type": "MASS SPECTRUM"
+  }
+ ],
+ "notes": [
+  "jcamp: ValueError: not enough values to unpack (expected 2, got 1)"
+ ]
+}

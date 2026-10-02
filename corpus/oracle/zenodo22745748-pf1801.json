@@ -1,0 +1,41 @@
+{
+ "id": "zenodo22745748-pf1801",
+ "file": "zenodo22745748-pf1801.spc",
+ "size": 2124,
+ "sha256": "020d56feeec8d7967804913776c5a0a97d1943d244fc5af97f184a1313227c9e",
+ "max_planes_hashed": 64,
+ "reader": "spc-io 0.2.1 (MIT)",
+ "oracle_note": "SpectroChemPy 1.0.0 cannot decode a text field ('utf-8' codec can't decode byte 0xf7 in position 5: invalid start byte); spc-io read the values",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spc-io 0.2.1",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 339,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 339,
+     "channels": [
+      {
+       "xxh3": "62e1ea7fc04eae0ff8e535781c0418c6",
+       "first": [
+        0.03981703147292137,
+        0.039489325135946274,
+        0.01871373876929283,
+        0.032494887709617615,
+        0.03232721984386444,
+        0.04119868576526642,
+        0.03709731623530388,
+        0.02862558513879776
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 48.2202865600586,
+   "x_last": 700.1585608520508
+  }
+ ]
+}

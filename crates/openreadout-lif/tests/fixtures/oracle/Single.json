@@ -1,0 +1,51 @@
+{
+ "id": "Single",
+ "file": "Single.lof",
+ "size": 1977,
+ "sha256": "a2ae183d33168b6c7515922e7f90e7e66555ab7d7d6e8ac96a7cfd69b3100399",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Single",
+   "path": "Single",
+   "size_x": 5,
+   "size_y": 3,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    3,
+    5
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 1.0,
+    "y": 1.0,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "01050214daebab9080645fccb4a98c39"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8f61dbe3b608359e5c3ae6dea11c4112"
+    }
+   ]
+  }
+ ]
+}

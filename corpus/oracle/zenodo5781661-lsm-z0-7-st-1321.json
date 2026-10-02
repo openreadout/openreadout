@@ -1,0 +1,48 @@
+{
+ "id": "zenodo5781661-lsm-z0-7-st-1321",
+ "file": "zenodo5781661-180829-3_z0.7_st_1321.lsm",
+ "size": 644884,
+ "sha256": "5d6ec5d284799b69f58a2f1ef4a207c568c829124f9023b2a912819a96c38256",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.6214805864803327,
+    "y": 0.6214805864803327
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b902febba13d9c444a4f15cc1ddd4c46"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "id": "softmax5-elisa-tnf",
+ "file": "softmax5-elisa-tnf.pda",
+ "size": 18569,
+ "sha256": "c83cdda62b3a3f2c2a237b0b0c50d3408d1f13591fbcd861480d65a5314c80fc",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (MOLDEV_SOFTMAX_PRO) on the depositor's export softmax5-elisa-tnf.txt",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 96,
+    "errors": 0,
+    "wavelengths": [
+     595.0
+    ],
+    "value_xxh3": "b961e7b62a02a2c2d3b0afef6ce2b328"
+   }
+  ],
+  "header": {},
+  "documents": 96
+ }
+}

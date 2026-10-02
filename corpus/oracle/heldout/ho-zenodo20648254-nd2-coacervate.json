@@ -1,0 +1,78 @@
+{
+ "id": "ho-zenodo20648254-nd2-coacervate",
+ "file": "Feng_Transcription_Coacervation_SI_Fig3B.nd2",
+ "size": 2248704,
+ "sha256": "5a0d01b7a6053fcb0a82ee9db3bd501e7c62defafd7b5c2f3a533560fdd5043c",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1022,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Y': 1022, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.164796433116495,
+    "y": 0.164796433116495,
+    "z": null
+   },
+   "channel_names": [
+    "DIC"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "18fa7c4072d7907cc4fbfcb5d7fdab1e"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "DIC",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": 457.5,
+    "component_count": 1,
+    "modality": [
+     "brightfield"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1039703.511548996,
+    "tags": {
+     "CameraTemp1": 10.0,
+     "Camera_ExposureTime1": 700.0,
+     "Pressure": -0.001883483083744599,
+     "X": 42756.9,
+     "Y": 29161.4,
+     "Z": 4346.74,
+     "Z1": 4346.74
+    }
+   }
+  ],
+  "acquired_at": "2025-06-24T01:22:39.134Z",
+  "acquired_at_unix_ms": 1750728159134
+ },
+ "text_info": {
+  "description": "Camera Name: pco.edge, SN:61004964\r\nNumerical Aperture: 0.6\r\nRefractive Index: 1\r\n Name: DIC\r\n Component Count: 1\r\n Modality: Brightfield\r\n Camera Settings:   \r\n  Camera Type: pco.edge\r\n  Exposure: 700 ms\r\n  Readout Mode: Rolling shutter at 16-bit\r\n  Readout Rate: 110 MHz\r\n  Noise Filter: Off\r\n  1.000000e+01mperature: 0.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Polarizer, position: In\r\n  DIC Prism, position: In\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (DAPI)\r\n  Nikon Ti2, FilterChanger(EM Wheel1): 1 (EM450)\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 99.9\r\n  LightPath: AUX\r\n  Analyzer Slider: Inserted\r\n  Condenser: 1 ()\r\n  Zoom: 1.00x\r\n  NIDAQ, Shutter(EPI): Closed\r\n",
+  "capturing": "pco.edge, SN:61004964\r\n\r\nCamera Type: pco.edge\r\nExposure: 700 ms\r\nReadout Mode: Rolling shutter at 16-bit\r\nReadout Rate: 110 MHz\r\nNoise Filter: Off\r\n1.000000e+01mperature: 0.0\u00b0C",
+  "date": "6/23/2025  8:22:39 PM",
+  "optics": "S Plan Fluor ELWD 40x DIC N1"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=1, heightPx=1022, pixelDataType='unsigned', sequenceCount=1, widthBytes=2048, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

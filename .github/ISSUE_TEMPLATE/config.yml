@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/openreadout/openreadout/blob/main/SECURITY.md
+    about: Report privately as described in SECURITY.md, not in a public issue.
+  - name: Documentation
+    url: https://openreadout.github.io/openreadout/
+    about: Getting started, tutorials, the command and JSON reference, FAQ.

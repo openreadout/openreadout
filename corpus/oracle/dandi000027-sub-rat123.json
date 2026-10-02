@@ -1,0 +1,15 @@
+{
+ "id": "dandi000027-sub-rat123",
+ "file": "dandi000027-sub-RAT123.nwb",
+ "size": 18792,
+ "sha256": "1a765509384ea96b7b12136353d9c5b94f23d764ad0431e049197f7875eb352c",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.0b",
+ "session": {
+  "session_description": "a file to test writing and reading a Subject",
+  "identifier": "TEST_Subject",
+  "session_start_time": "1971-01-01T12:00:00+00:00"
+ },
+ "traces": []
+}

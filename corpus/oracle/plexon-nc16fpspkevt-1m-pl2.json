@@ -1,0 +1,151 @@
+{
+ "id": "plexon-nc16fpspkevt-1m-pl2",
+ "file": "plexon-nc16fpspkevt-1m.pl2",
+ "size": 1831088,
+ "sha256": "1ffcfd4aceb9744fc14b18b97000d30a6b1d920cbc5e77c9fb9bbf0f00621184",
+ "max_planes_hashed": 64,
+ "reader": "second implementation of our own PL2 notes (NumPy); not an independent oracle",
+ "independent": false,
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 4,
+   "channel_names": [
+    "FP01",
+    "FP05",
+    "FP09",
+    "FP13"
+   ],
+   "channel_units": [
+    "V",
+    "V",
+    "V",
+    "V"
+   ],
+   "sample_rate_hz": 1000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 60055,
+     "channels": [
+      {
+       "xxh3": "e5ca9f317259aff231cd0a10c2fb69e8",
+       "first": [
+        0.0001243308738425926,
+        0.00010406377215038315,
+        6.21654369212963e-05,
+        4.852411847461686e-05,
+        5.690378552043423e-05,
+        2.2995365381545338e-05,
+        -1.987734973659004e-05,
+        -2.3385117337164752e-05
+       ]
+      },
+      {
+       "xxh3": "47293276b10baf7cc0e37a0c81fc61e0",
+       "first": [
+        0.00012199236210887612,
+        0.0001023098883500958,
+        5.787816540948276e-05,
+        4.6965110652139214e-05,
+        5.495502574233717e-05,
+        2.0461977670019157e-05,
+        -2.1046605603448277e-05,
+        -2.18261095146871e-05
+       ]
+      },
+      {
+       "xxh3": "1f2a5565dd6d66ea92f92f1493a33a8d",
+       "first": [
+        0.00011166393528496169,
+        9.354046934865901e-05,
+        5.4760149764527464e-05,
+        4.03393274066092e-05,
+        4.5211226851851856e-05,
+        1.0133550846104727e-05,
+        -3.0595528516123885e-05,
+        -3.215453633860153e-05
+       ]
+      },
+      {
+       "xxh3": "0ef0ae72cd73e7626b837264251c2880",
+       "first": [
+        0.0001305669051325032,
+        0.00011146905930715199,
+        7.17143598339719e-05,
+        5.534477769795658e-05,
+        5.7683289431673056e-05,
+        2.3774869292784165e-05,
+        -1.5395202246966794e-05,
+        -1.617470615820562e-05
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 16245,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "time_s": "aba798949344c62896a2babe77d0c5aa",
+    "timestamp": "df28f390497794290f9bd7ec2709777c",
+    "source": "765aa8ea70f82bd47b647b3adda3ad37",
+    "channel": "c2f1edaf0d6a17e93baf5d1671e6885d",
+    "unit": "fd869427a1f362886d32ea86306ff628",
+    "w0": "077f8c8f1a22c870a23156c558aa8f9e",
+    "w1": "164006405da3c83a6b38ecda4fd05068",
+    "w2": "b1e86f4c43bf47410d781750c53b168f",
+    "w3": "50fa5ebd6a0889d7ad19f5e5eccc14d3",
+    "w4": "77eb80e37dab615f0141a16b48dbedee",
+    "w5": "f516922e752a21e2fad1d43dc25dd8a6",
+    "w6": "4f3a459d21dd34df424b11a09ef3d14c",
+    "w7": "f94f9cc3a1f782757b73e1a51f7c0657",
+    "w8": "e3f4901a18d96bc10baa4a5eb73146eb",
+    "w9": "b818338a69111098eb594cbd79710318",
+    "w10": "69263f2dca8fa817b397d5f52efb41c2",
+    "w11": "6a81586a373f0723d53a2a09635488ae",
+    "w12": "c7f5838d17acf1b3b6640ccbc03796f5",
+    "w13": "1a140904987aab35412df3ebb4cee914",
+    "w14": "adcb7914134c515d7711b829f966b286",
+    "w15": "c7eef63409c2eca8a19a7377c263d846",
+    "w16": "28f40d1d87f9eec7c8be3bc5efc9c334",
+    "w17": "b2942033a892c28fead63c8218af6862",
+    "w18": "5f6da0bebfad285ec10e1e84cbb5a656",
+    "w19": "64731084717cca5d95f6966a18d22b81",
+    "w20": "e2252de1c90116bcb29a27bc03f4fe06",
+    "w21": "5f5e73510a8c0b99a7a4860adfeddda1",
+    "w22": "35a99fe3323c8ae8abf8fd26c987997d",
+    "w23": "65cfd364004d58a8dcfd1ee786df3788",
+    "w24": "68d77b1892d00dce34bbab25e69b37d6",
+    "w25": "6a51ead558c570ecca4d0362b5fc62f2",
+    "w26": "fd4e11e6242913f6741859c87cafd82a",
+    "w27": "20ec69cae084d02ac7eb3f0b14217465",
+    "w28": "547337e5d47c74325a549b0647a367f7",
+    "w29": "89091fdb9deaf6b2e1dfce764f26d52e",
+    "w30": "e07bdaf475579b0a35ec5f3850c6ba0b",
+    "w31": "c01751e7a90bbaee79294f336396b2a1"
+   }
+  },
+  {
+   "index": 1,
+   "event_count": 214,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "time_s": "0b18f6175594f3f357dc302302805905",
+    "timestamp": "3862006c9014f7d8468915e9087a1023",
+    "source": "e3640068b86f44b28783475e2af6a1a0",
+    "channel": "8414108f1d2c8325f2e15b68e9e591e9",
+    "value": "0d684b674a434c01c2ce6c6af2d348c9"
+   }
+  }
+ ]
+}

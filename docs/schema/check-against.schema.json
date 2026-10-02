@@ -1,0 +1,552 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CompareOutput",
+  "description": "Output of `check --against`.",
+  "type": "object",
+  "properties": {
+    "identical": {
+      "description": "Nothing compared differs: metadata (unless skipped), geometry, channel names,\nphysical sizes and planes (within the tolerance). The exit code is 0 when true, 1\nwhen false.",
+      "type": "boolean"
+    },
+    "ours": {
+      "description": "The first file.",
+      "$ref": "#/$defs/CompareSide"
+    },
+    "theirs": {
+      "description": "The second file.",
+      "$ref": "#/$defs/CompareSide"
+    },
+    "metadata": {
+      "description": "The normalized-metadata diff.",
+      "$ref": "#/$defs/MetadataComparison"
+    },
+    "images": {
+      "description": "Geometry, channel-name and physical-size comparison per image index.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ImageComparison"
+      }
+    },
+    "planes": {
+      "description": "The plane-by-plane comparison.",
+      "$ref": "#/$defs/PlaneComparison"
+    },
+    "notes": {
+      "description": "Caveats (e.g. formats that store different metadata for the same acquisition).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "identical",
+    "ours",
+    "theirs",
+    "metadata",
+    "images",
+    "planes",
+    "notes"
+  ],
+  "$defs": {
+    "CompareSide": {
+      "description": "One file of the pair.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "The file as given.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Its format id.",
+          "type": "string"
+        },
+        "images": {
+          "description": "Number of images.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "tables": {
+          "description": "Number of tables.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "traces": {
+          "description": "Number of traces.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "path",
+        "format",
+        "images",
+        "tables",
+        "traces"
+      ]
+    },
+    "MetadataComparison": {
+      "description": "The normalized-metadata diff.",
+      "type": "object",
+      "properties": {
+        "compared": {
+          "description": "False with `--no-metadata`.",
+          "type": "boolean"
+        },
+        "equal": {
+          "description": "True when no difference was found.",
+          "type": "boolean"
+        },
+        "ignored": {
+          "description": "Pointers left out (defaults plus `--ignore`); `extra` objects are also left out unless\n`include_extra`.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "include_extra": {
+          "description": "Whether `extra` objects were compared.",
+          "type": "boolean"
+        },
+        "difference_count": {
+          "description": "Total number of differences (the list holds at most 1000).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "differences": {
+          "description": "The differences, at most 1000.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Difference"
+          }
+        }
+      },
+      "required": [
+        "compared",
+        "equal",
+        "ignored",
+        "include_extra",
+        "difference_count",
+        "differences"
+      ]
+    },
+    "Difference": {
+      "description": "A value that differs, at an RFC 6901 JSON pointer into `info --json` `data`.",
+      "type": "object",
+      "properties": {
+        "pointer": {
+          "description": "RFC 6901 JSON pointer to the value, e.g. `/images/0/physical_size/x`.",
+          "type": "string"
+        },
+        "ours": {
+          "description": "Value in the first file; absent when the first file lacks the field."
+        },
+        "theirs": {
+          "description": "Value in the second file; absent when the second file lacks the field."
+        }
+      },
+      "required": [
+        "pointer"
+      ]
+    },
+    "ImageComparison": {
+      "description": "One image index present in either file.",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "Image index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "ours": {
+          "description": "Absent when the first file has no image with this index.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Geometry"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "theirs": {
+          "description": "Absent when the second file has no image with this index.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Geometry"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "geometry_equal": {
+          "description": "Both files have the image and their geometries agree.",
+          "type": "boolean"
+        },
+        "channel_names_equal": {
+          "description": "Channel names agree.",
+          "type": "boolean"
+        },
+        "ours_channels": {
+          "description": "Channel names of the first file (listed only when they differ).",
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "theirs_channels": {
+          "description": "Channel names of the second file (listed only when they differ).",
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "physical_size_equal": {
+          "description": "Physical sizes agree to a relative 1e-6 (both absent counts as equal).",
+          "type": "boolean"
+        },
+        "ours_physical_size": {
+          "description": "Physical pixel size in the first file (listed only when the sizes differ).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PhysicalSize"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "theirs_physical_size": {
+          "description": "Physical pixel size in the second file (listed only when the sizes differ).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PhysicalSize"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "image",
+        "geometry_equal",
+        "channel_names_equal",
+        "ours_channels",
+        "theirs_channels",
+        "physical_size_equal"
+      ]
+    },
+    "Geometry": {
+      "description": "Geometry of one image.",
+      "type": "object",
+      "properties": {
+        "size_x": {
+          "description": "Width in pixels.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "size_y": {
+          "description": "Height in pixels.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "size_z": {
+          "description": "Number of Z planes.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "size_c": {
+          "description": "Number of channels.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "size_t": {
+          "description": "Number of time points.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "pixel_type": {
+          "description": "Sample type.",
+          "$ref": "#/$defs/PixelType"
+        },
+        "samples_per_pixel": {
+          "description": "1 for grayscale, 3 for interleaved RGB.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "size_x",
+        "size_y",
+        "size_z",
+        "size_c",
+        "size_t",
+        "pixel_type",
+        "samples_per_pixel"
+      ]
+    },
+    "PixelType": {
+      "description": "Sample type of one channel value. Names follow OME-XML `PixelType` values.",
+      "oneOf": [
+        {
+          "description": "Signed 8-bit integer.",
+          "type": "string",
+          "const": "int8"
+        },
+        {
+          "description": "Signed 16-bit integer.",
+          "type": "string",
+          "const": "int16"
+        },
+        {
+          "description": "Signed 32-bit integer.",
+          "type": "string",
+          "const": "int32"
+        },
+        {
+          "description": "Unsigned 8-bit integer.",
+          "type": "string",
+          "const": "uint8"
+        },
+        {
+          "description": "Unsigned 16-bit integer (the usual microscope camera output).",
+          "type": "string",
+          "const": "uint16"
+        },
+        {
+          "description": "Unsigned 32-bit integer.",
+          "type": "string",
+          "const": "uint32"
+        },
+        {
+          "description": "32-bit IEEE 754 floating point.",
+          "type": "string",
+          "const": "float"
+        },
+        {
+          "description": "64-bit IEEE 754 floating point.",
+          "type": "string",
+          "const": "double"
+        },
+        {
+          "description": "Signed 64-bit integer.",
+          "type": "string",
+          "const": "int64"
+        },
+        {
+          "description": "Unsigned 64-bit integer.",
+          "type": "string",
+          "const": "uint64"
+        },
+        {
+          "description": "Complex number of two 32-bit floats (real, then imaginary): OME `complex`.",
+          "type": "string",
+          "const": "complex"
+        },
+        {
+          "description": "Complex number of two 64-bit floats (real, then imaginary): OME `double-complex`.",
+          "type": "string",
+          "const": "double-complex"
+        }
+      ]
+    },
+    "PhysicalSize": {
+      "description": "Physical pixel size in micrometres (the OME default unit). Every present value is > 0.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "description": "Pixel width in µm (the distance between neighbouring columns).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "y": {
+          "description": "Pixel height in µm (the distance between neighbouring rows).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "z": {
+          "description": "Spacing between Z planes (focal slices) in µm.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "unit": {
+          "description": "Always `µm` in this schema version.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "unit"
+      ]
+    },
+    "PlaneComparison": {
+      "description": "Plane-by-plane comparison.",
+      "type": "object",
+      "properties": {
+        "compared": {
+          "description": "False with `--no-pixels`.",
+          "type": "boolean"
+        },
+        "tolerance": {
+          "description": "The `--tolerance` used, if any.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "planes": {
+          "description": "Planes read from both files.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "identical": {
+          "description": "Planes with identical xxh3-128.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "within_tolerance": {
+          "description": "Planes that differ but within the tolerance.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "mismatched": {
+          "description": "Planes that differ beyond the tolerance (or at all, without one).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "skipped_images": {
+          "description": "Image indices not compared plane by plane (missing on one side or geometry differs).",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        },
+        "mismatches": {
+          "description": "At most 1000 entries, in plane order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PlaneMismatch"
+          }
+        }
+      },
+      "required": [
+        "compared",
+        "planes",
+        "identical",
+        "within_tolerance",
+        "mismatched",
+        "skipped_images",
+        "mismatches"
+      ]
+    },
+    "PlaneMismatch": {
+      "description": "A plane that differs.",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "Image index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "c": {
+          "description": "Channel index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "z": {
+          "description": "Z index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "t": {
+          "description": "Time index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "ours_xxh3": {
+          "description": "xxh3-128 of the plane in the first file.",
+          "type": "string"
+        },
+        "theirs_xxh3": {
+          "description": "xxh3-128 of the plane in the second file.",
+          "type": "string"
+        },
+        "differing_samples": {
+          "description": "Samples that differ (absent when the planes' shapes differ).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "max_abs_diff": {
+          "description": "Largest absolute difference between corresponding samples.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "within_tolerance": {
+          "description": "With a tolerance: whether `max_abs_diff` is within it (then the plane counts as equal).",
+          "type": "boolean"
+        },
+        "note": {
+          "description": "Why the samples could not be compared (e.g. the plane shapes differ).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "image",
+        "c",
+        "z",
+        "t",
+        "ours_xxh3",
+        "theirs_xxh3",
+        "within_tolerance"
+      ]
+    }
+  }
+}

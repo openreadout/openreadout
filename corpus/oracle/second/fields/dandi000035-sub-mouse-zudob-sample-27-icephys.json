@@ -1,0 +1,827 @@
+{
+ "id": "dandi000035-sub-mouse-zudob-sample-27-icephys",
+ "file": "dandi-nwb/dandi000035-sub-mouse-ZUDOB-sample-27_icephys.nwb",
+ "format": "nwb",
+ "family": "electrophysiology",
+ "readers": [
+  "pynwb 4.2.0 (BSD-3)"
+ ],
+ "checks": [
+  {
+   "field": "session start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2020-04-08T00:00:00-04:00",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "session description",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/comment",
+   "theirs": "Current clamp square",
+   "cmp": "text"
+  },
+  {
+   "field": "experimenter (all, joined)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "Federico Scala, Jesus Ramon Castro",
+   "cmp": "text"
+  },
+  {
+   "field": "subject id",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "mouse_ZUDOB",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries000: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries000]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries000: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries000]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries000: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries000]/channels/[name=CurrentClampSeries000]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries001: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries001]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries001: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries001]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries001: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries001]/channels/[name=CurrentClampSeries001]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries002: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries002]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries002: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries002]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries002: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries002]/channels/[name=CurrentClampSeries002]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries003: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries003]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries003: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries003]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries003: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries003]/channels/[name=CurrentClampSeries003]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries004: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries004]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries004: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries004]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries004: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries004]/channels/[name=CurrentClampSeries004]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries005: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries005]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries005: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries005]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries005: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries005]/channels/[name=CurrentClampSeries005]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries006: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries006]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries006: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries006]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries006: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries006]/channels/[name=CurrentClampSeries006]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries007: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries007]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries007: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries007]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries007: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries007]/channels/[name=CurrentClampSeries007]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries008: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries008]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries008: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries008]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries008: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries008]/channels/[name=CurrentClampSeries008]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries009: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries009]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries009: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries009]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries009: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries009]/channels/[name=CurrentClampSeries009]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries010: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries010]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries010: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries010]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries010: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries010]/channels/[name=CurrentClampSeries010]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries011: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries011]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries011: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries011]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries011: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries011]/channels/[name=CurrentClampSeries011]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries012: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries012]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries012: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries012]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries012: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries012]/channels/[name=CurrentClampSeries012]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries013: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries013]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries013: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries013]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries013: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries013]/channels/[name=CurrentClampSeries013]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries014: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries014]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries014: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries014]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries014: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries014]/channels/[name=CurrentClampSeries014]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries015: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries015]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries015: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries015]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries015: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries015]/channels/[name=CurrentClampSeries015]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries016: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries016]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries016: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries016]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries016: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries016]/channels/[name=CurrentClampSeries016]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries017: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries017]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries017: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries017]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries017: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries017]/channels/[name=CurrentClampSeries017]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries018: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries018]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries018: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries018]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries018: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries018]/channels/[name=CurrentClampSeries018]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries019: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries019]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries019: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries019]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries019: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries019]/channels/[name=CurrentClampSeries019]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries020: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries020]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries020: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries020]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries020: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries020]/channels/[name=CurrentClampSeries020]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries021: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries021]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries021: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries021]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries021: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries021]/channels/[name=CurrentClampSeries021]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries022: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries022]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries022: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries022]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries022: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries022]/channels/[name=CurrentClampSeries022]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries023: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries023]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries023: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries023]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries023: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries023]/channels/[name=CurrentClampSeries023]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  },
+  {
+   "field": "CurrentClampSeries024: samples",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries024]/sample_count",
+   "theirs": 25000,
+   "cmp": "exact"
+  },
+  {
+   "field": "CurrentClampSeries024: rate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries024]/sample_rate_hz",
+   "theirs": 25000.0,
+   "cmp": "num",
+   "rel": 1e-09
+  },
+  {
+   "field": "CurrentClampSeries024: unit",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/[name=CurrentClampSeries024]/channels/[name=CurrentClampSeries024]/unit",
+   "theirs": "volts",
+   "cmp": "text"
+  }
+ ]
+}

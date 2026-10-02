@@ -1,0 +1,84 @@
+{
+ "id": "zenodo7015307-T-3-CH-2",
+ "file": "zenodo7015307-T-3-CH-2.czi",
+ "size": 2110368,
+ "sha256": "abcaaaa3e44440e463383cb697e11ac180df510f4dd0d81a30feaaf6f2895a67",
+ "max_planes_hashed": 32,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "TCYX",
+   "shape": [
+    3,
+    2,
+    256,
+    256
+   ],
+   "other_dims": {},
+   "pyramid_levels": [
+    "<CziImage 'Scene 0' (T: 3, C: 2, Y: 256, X: 256) gray16 uncompressed>"
+   ],
+   "physical_size_um": {
+    "x": 0.09999999999999999,
+    "y": 0.09999999999999999,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "45bfaaa68e59494e66decd0d3e8feba1"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "2f0ffcd9e26ba76b823a2864fbdc3b5e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "f79d859dde371c00aeef399ac9bc3511"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e20f8b157fdccd56622c78496fad8083"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "ad643cb42e8d44bcadd6f298a06725fc"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "735a834223acf462c62a33335167aeb3"
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.09999999999999999,
+  "y": 0.09999999999999999,
+  "z": null
+ },
+ "subblock_count": 6,
+ "compression_ids": [
+  0
+ ]
+}

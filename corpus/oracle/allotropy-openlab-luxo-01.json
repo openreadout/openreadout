@@ -1,0 +1,626 @@
+{
+ "id": "allotropy-openlab-luxo-01",
+ "file": "2023-09-01 07-52-57-04-00-01.dx",
+ "size": 220162,
+ "sha256": "721ff579f6cfc24ae81df0fdf93dacc82ab555ce1446b49f884847282f61cdc7",
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) + chromConverter 0.9.0 (black box)",
+ "oracle_note": "detector signals: rainbow-api parse_file on the extracted .CH parts, equal to chromConverter 0.9.0 (max |difference| 0); instrument curves: chromConverter 0.9.0 read_agilent_dx(what = 'instrument')",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DAD1D"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 0.00714774994788099,
+   "x_first_min": 0.004791666666666666,
+   "x_last_min": 7.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4,
+     "channels": [
+      {
+       "xxh3": "d9f29eea7f41fac52bfea972aaf4a416",
+       "first": [
+        0.10151416063308716,
+        0.10190904140472412,
+        0.09726732969284058,
+        0.08635967969894409
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "DAD1D,Sig=228,4  Ref=360,100",
+   "parameters": {
+    "extra": {
+     "sample_name": "ACN",
+     "operator": "SYSTEM",
+     "method_path": "D:\\CDS Data\\Andrographolide\\Results\\Luxo HPLC-2023-09-01 07-52-44-04-00.rslt\\Andrographolide 38% ACN.amx"
+    }
+   }
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DAD1B"
+   ],
+   "channel_units": [
+    "mAU"
+   ],
+   "sample_rate_hz": 0.00714774994788099,
+   "x_first_min": 0.004791666666666666,
+   "x_last_min": 7.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4,
+     "channels": [
+      {
+       "xxh3": "183445a3e5d30ccbc8da256e7fa02e06",
+       "first": [
+        0.04544854164123535,
+        0.03028661012649536,
+        0.004880130290985107,
+        -0.03219395875930786
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "DAD1B,Sig=210,4  Ref=360,100",
+   "parameters": {
+    "extra": {
+     "sample_name": "ACN",
+     "operator": "SYSTEM",
+     "method_path": "D:\\CDS Data\\Andrographolide\\Results\\Luxo HPLC-2023-09-01 07-52-44-04-00.rslt\\Andrographolide 38% ACN.amx"
+    }
+   }
+  },
+  {
+   "index": 2,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FLD1E"
+   ],
+   "channel_units": [
+    "\u00b0C"
+   ],
+   "sample_rate_hz": 10.217113665390379,
+   "x_first_min": 0.00095625,
+   "x_last_min": 6.999018749999417,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4291,
+     "channels": [
+      {
+       "xxh3": "2bda748e113b0724c57f1a2d062b31eb",
+       "first": [
+        22.1,
+        22.1,
+        22.1,
+        22.1,
+        22.1,
+        22.1,
+        22.1,
+        22.1
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "FLD1E,Ambient Temperature"
+  },
+  {
+   "index": 3,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DAD1V"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 9.999999999999357,
+   "x_first_min": 0.00125,
+   "x_last_min": 6.999583333333783,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4200,
+     "channels": [
+      {
+       "xxh3": "66e3599551620a3edbc1dd45b3d22982",
+       "first": [
+        76.069593,
+        76.072062,
+        76.074531,
+        76.072062,
+        76.069593,
+        76.072062,
+        76.074531,
+        76.074531
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "DAD1V,UV Lamp Anode Voltage"
+  },
+  {
+   "index": 4,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DAD1U"
+   ],
+   "channel_units": [
+    "\u00b0C"
+   ],
+   "sample_rate_hz": 9.999999999999357,
+   "x_first_min": 0.0014583333333333334,
+   "x_last_min": 6.999791666667117,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4200,
+     "channels": [
+      {
+       "xxh3": "b7e9dbc720d465a19a18857bb9cd3c90",
+       "first": [
+        27.05,
+        27.04,
+        27.04,
+        27.05,
+        27.05,
+        27.05,
+        27.05,
+        27.060000000000002
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "DAD1U,Optical Unit Temperature"
+  },
+  {
+   "index": 5,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DAD1T"
+   ],
+   "channel_units": [
+    "\u00b0C"
+   ],
+   "sample_rate_hz": 9.999999999999357,
+   "x_first_min": 0.0014583333333333334,
+   "x_last_min": 6.999791666667117,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4200,
+     "channels": [
+      {
+       "xxh3": "6d73138ceec7c9e9916d0b488d4fc786",
+       "first": [
+        34.79,
+        34.79,
+        34.79,
+        34.79,
+        34.78,
+        34.79,
+        34.79,
+        34.79
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "DAD1T,Board Temperature"
+  },
+  {
+   "index": 6,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "THM1B"
+   ],
+   "channel_units": [
+    "\u00b0C"
+   ],
+   "sample_rate_hz": 1.0,
+   "x_first_min": 0.016666666666666666,
+   "x_last_min": 7.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 420,
+     "channels": [
+      {
+       "xxh3": "57a2a1f3fe68b43c75b8f17d773dd971",
+       "first": [
+        23.307000000000002,
+        23.307000000000002,
+        23.307000000000002,
+        23.307000000000002,
+        23.307000000000002,
+        23.307000000000002,
+        23.307000000000002,
+        23.307000000000002
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "THM1B,Right Temperature"
+  },
+  {
+   "index": 7,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "THM1A"
+   ],
+   "channel_units": [
+    "\u00b0C"
+   ],
+   "sample_rate_hz": 1.0,
+   "x_first_min": 0.016666666666666666,
+   "x_last_min": 7.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 420,
+     "channels": [
+      {
+       "xxh3": "179d2a3765b6cdf35746917b922e90c7",
+       "first": [
+        22.86,
+        22.86,
+        22.86,
+        22.86,
+        22.86,
+        22.86,
+        22.86,
+        22.86
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "THM1A,Left Temperature"
+  },
+  {
+   "index": 8,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "WPS1A"
+   ],
+   "channel_units": [
+    "\u00b0C"
+   ],
+   "sample_rate_hz": 9.999999999999357,
+   "x_first_min": 0.0011666666666666668,
+   "x_last_min": 6.99950000000045,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4200,
+     "channels": [
+      {
+       "xxh3": "bd730f47e1fe83bdee46c51b71aa490a",
+       "first": [
+        10.057,
+        10.057,
+        10.057,
+        10.057,
+        10.057,
+        10.057,
+        10.057,
+        10.057
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "WPS1A,Temperature"
+  },
+  {
+   "index": 9,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1G"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 16.666666666666096,
+   "x_first_min": 0.0008,
+   "x_last_min": 6.999800000000239,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7000,
+     "channels": [
+      {
+       "xxh3": "3b063e76da4f91f6f41a2125ae892df5",
+       "first": [
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1G,Direction of Piston A"
+  },
+  {
+   "index": 10,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1F"
+   ],
+   "channel_units": [
+    "%"
+   ],
+   "sample_rate_hz": 16.666666666666096,
+   "x_first_min": 0.0008,
+   "x_last_min": 6.999800000000239,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7000,
+     "channels": [
+      {
+       "xxh3": "bd966ea058b702ebbb8f01b30dceddcb",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1F,Solvent Ratio D"
+  },
+  {
+   "index": 11,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1E"
+   ],
+   "channel_units": [
+    "%"
+   ],
+   "sample_rate_hz": 16.666666666666096,
+   "x_first_min": 0.0008,
+   "x_last_min": 6.999800000000239,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7000,
+     "channels": [
+      {
+       "xxh3": "cc7299bbe2e443061f044abce3ce9483",
+       "first": [
+        38.0,
+        38.0,
+        38.0,
+        38.0,
+        38.0,
+        38.0,
+        38.0,
+        38.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1E,Solvent Ratio C"
+  },
+  {
+   "index": 12,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1D"
+   ],
+   "channel_units": [
+    "%"
+   ],
+   "sample_rate_hz": 16.666666666666096,
+   "x_first_min": 0.0008,
+   "x_last_min": 6.999800000000239,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7000,
+     "channels": [
+      {
+       "xxh3": "bd966ea058b702ebbb8f01b30dceddcb",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1D,Solvent Ratio B"
+  },
+  {
+   "index": 13,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1C"
+   ],
+   "channel_units": [
+    "%"
+   ],
+   "sample_rate_hz": 16.666666666666096,
+   "x_first_min": 0.0008,
+   "x_last_min": 6.999800000000239,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7000,
+     "channels": [
+      {
+       "xxh3": "86d36b65253f39cba40d6739f37ed4af",
+       "first": [
+        62.0,
+        62.0,
+        62.0,
+        62.0,
+        62.0,
+        62.0,
+        62.0,
+        62.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1C,Solvent Ratio A"
+  },
+  {
+   "index": 14,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1B"
+   ],
+   "channel_units": [
+    "mL/min"
+   ],
+   "sample_rate_hz": 16.666666666666096,
+   "x_first_min": 0.0008,
+   "x_last_min": 6.999800000000239,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7000,
+     "channels": [
+      {
+       "xxh3": "1d480835395b376fd3a495d2b79c6da3",
+       "first": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1B,Flow"
+  },
+  {
+   "index": 15,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PMP1A"
+   ],
+   "channel_units": [
+    "bar"
+   ],
+   "sample_rate_hz": 16.666666666666668,
+   "x_first_min": 0.0005333333333333334,
+   "x_last_min": 0.0015333333333333334,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "685a06e194f81b40d5c76ee7b241319c",
+       "first": [
+        124.411,
+        123.804
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMP1A,Pressure"
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 25,
+   "parameter_names": [],
+   "sorted_column_hashes": [
+    {
+     "column": "rt_min",
+     "xxh3": "b8f37d08ae6c9e15738fbd045b305c93",
+     "count": 25
+    },
+    {
+     "column": "start_min",
+     "xxh3": "c471d4b4858f2864a69638a1032b5ef4",
+     "count": 25
+    },
+    {
+     "column": "end_min",
+     "xxh3": "4df5c1985a4df5d7733504bbb5bc8b3b",
+     "count": 25
+    },
+    {
+     "column": "area",
+     "xxh3": "84c883d3af3365ef1c5fbc01db6fce2b",
+     "count": 25
+    },
+    {
+     "column": "height",
+     "xxh3": "02a5a8bad6c3d5c42c538a6580883178",
+     "count": 25
+    },
+    {
+     "column": "area_percent",
+     "xxh3": "fa6b78c60bc8e9cad91d36532a3914cb",
+     "count": 25
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,188 @@
+{
+ "id": "ho-nmrxiv-p7-caripyrin-1d",
+ "file": "1",
+ "size": 916585,
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 32768,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sample_rate_hz": 12335.5263157895,
+   "nmrglue_shape": [
+    32768
+   ],
+   "nmrglue_dtype": "complex128",
+   "reader": "nmrglue 0.12 bruker.read",
+   "parameters": {
+    "acqus": {
+     "TD": 65536,
+     "NS": 16,
+     "DS": 2,
+     "NUC1": "1H",
+     "SFO1": 600.133706048414,
+     "BF1": 600.13,
+     "SW_h": 12335.5263157895,
+     "SW": 20.5546300623787,
+     "DTYPA": 0,
+     "BYTORDA": 0,
+     "NC": -6,
+     "AQ_mod": 3,
+     "DECIM": 1621.33333333333,
+     "DSPFVS": 20,
+     "GRPDLY": 67.9869384765625,
+     "PULPROG": "zg30",
+     "SOLVENT": "CDCl3",
+     "TE": 294.0004,
+     "DATE": 1485446246,
+     "INSTRUM": "spect",
+     "PROBHD": "Z75812_0080 (CP TCI 600S3 H-C/N-D-05 Z)",
+     "FnTYPE": 0,
+     "FnMODE": 0,
+     "NusTD": 0,
+     "RG": 8
+    }
+   },
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 32768,
+     "channels": [
+      {
+       "xxh3": "01c3369ccb7fa649a66dba9512169146",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "c85d6ee75321c33b23ef8bc05d1c113a",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "pdata/1",
+   "sample_count": 65536,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 65536,
+     "channels": [
+      {
+       "xxh3": "567ee4917eade5c386bfcd05f7d25c44",
+       "first": [
+        6908.6875,
+        6903.75,
+        6928.5,
+        6908.875,
+        6842.1875,
+        6771.5,
+        6714.0,
+        6714.0625
+       ]
+      },
+      {
+       "xxh3": "eeed918bb9aa2e149b6a07e44a3b21fc",
+       "first": [
+        958.125,
+        975.03125,
+        963.1875,
+        913.71875,
+        894.9375,
+        920.0,
+        981.59375,
+        1079.71875
+       ]
+      }
+     ]
+    }
+   ],
+   "reader": "nmrglue 0.12 bruker.read_pdata(scale_data=True)",
+   "parameters": {
+    "procs": {
+     "SI": 65536,
+     "XDIM": 0,
+     "NC_proc": -5,
+     "OFFSET": 16.45279,
+     "SW_p": 12335.5263157895,
+     "SF": 600.13,
+     "AXNUC": "1H",
+     "BYTORDP": 0,
+     "DTYPP": 0,
+     "FTSIZE": 65536
+    }
+   },
+   "ppm_first": 16.45279,
+   "ppm_last": -4.101653354932221
+  },
+  {
+   "index": 2,
+   "name": "pdata/700",
+   "sample_count": 512,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 512,
+     "channels": [
+      {
+       "xxh3": "efad41f9a3589e0566d0693fd0c1240e",
+       "first": [
+        4520.0,
+        4492.0,
+        4467.0,
+        4451.0,
+        4423.0,
+        4391.0,
+        4831.0,
+        4805.0
+       ]
+      }
+     ]
+    }
+   ],
+   "reader": "nmrglue 0.12 bruker.read_pdata(scale_data=True)",
+   "parameters": {
+    "procs": {
+     "SI": 512,
+     "XDIM": 64,
+     "NC_proc": 0,
+     "OFFSET": 16662.95,
+     "SW_p": 20000000,
+     "SF": 600.133706048414,
+     "AXNUC": "1H",
+     "BYTORDP": 0,
+     "DTYPP": 0,
+     "FTSIZE": 0
+    }
+   },
+   "ppm_first": 16662.95,
+   "ppm_last": -16597.867212605805
+  }
+ ]
+}

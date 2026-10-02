@@ -1,0 +1,32 @@
+{
+ "id": "ho-zenodo16611302-scn-biochimlab",
+ "file": "biochimlab 2024-07-23 12h26m55s.scn",
+ "size": 12107954,
+ "sha256": "be69a86ba739787df80052305d6367e88a38478f9f0d36a0ab95f103239ad25d",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2750,
+   "size_y": 2200,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 32.72727272727273,
+    "y": 32.72727272727273
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "418d6a3657c3e778f92d841e2e849fae"
+    }
+   ]
+  }
+ ]
+}

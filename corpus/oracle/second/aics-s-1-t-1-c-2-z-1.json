@@ -1,0 +1,27 @@
+{
+ "id": "aics-s-1-t-1-c-2-z-1",
+ "file": "aics-s-1-t-1-c-2-z-1.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "PEI_laminin_35k",
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f4a1fe674a2b601d93cae09d27be18e0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "851d402060a1773b09e8f4c0daac5eee"
+    }
+   ]
+  }
+ ]
+}

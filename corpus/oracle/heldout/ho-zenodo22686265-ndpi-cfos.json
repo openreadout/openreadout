@@ -1,0 +1,42 @@
+{
+ "id": "ho-zenodo22686265-ndpi-cfos",
+ "file": "cFos Image_Rat7_Level1A.ndpi",
+ "size": 51540729,
+ "sha256": "b60c11122ad112be90b1e026c60b22227f5ad7a43b27ab6ba07fdc8e94959600",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ndpi",
+ "flags": [
+  "ndpi"
+ ],
+ "page_count": 8,
+ "series_count": 3,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "ndpi",
+   "axes": "YXS",
+   "shape": [
+    37632,
+    25088,
+    3
+   ],
+   "size_x": 25088,
+   "size_y": 37632,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 6,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.22048285745783266,
+    "y": 0.2204828574578327
+   },
+   "planes_skipped": "series is 2832334848 bytes (> ORACLE_TIFF_MAX_BYTES)",
+   "planes": []
+  }
+ ]
+}

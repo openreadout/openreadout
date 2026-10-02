@@ -1,0 +1,49 @@
+{
+ "id": "omnic-scp-7-cz0-100-pd-101",
+ "file": "omnic-scp-7_CZ0-100_Pd_101.SPA",
+ "size": 24792,
+ "sha256": "467f9b4fe9cbab915500386c9bc4ae0353ff9fbb8dff9ba888ad205566f687ab",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 5549,
+   "x_first": 5999.713,
+   "x_last": 649.921,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5549,
+     "channels": [
+      {
+       "xxh3": "c02610048449f0b51088ea7fc4471519",
+       "first": [
+        1.5435667037963867,
+        1.543227195739746,
+        1.5412274599075317,
+        1.539190411567688,
+        1.5379897356033325,
+        1.5375772714614868,
+        1.5377012491226196,
+        1.5378847122192383
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 64,
+     "background_scans": 64,
+     "laser_wavenumber_cm1": 15798.666015625
+    }
+   },
+   "x_tolerance": 0.002
+  }
+ ],
+ "acquisition_date": "2018-11-29 23:10:57-08:00"
+}

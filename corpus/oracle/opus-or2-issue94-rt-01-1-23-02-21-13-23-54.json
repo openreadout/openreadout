@@ -1,0 +1,155 @@
+{
+ "id": "opus-or2-issue94-rt-01-1-23-02-21-13-23-54",
+ "file": "opus-or2-issue94-rt-01-1-23-02-21-13-23-54.0",
+ "size": 93720,
+ "sha256": "4dfcf08f7a34acd8bdded66a83e55030a8143619cd655e847abc6f37ef515f45",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 6930,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6930,
+     "channels": [
+      {
+       "xxh3": "6a00654a0ac637813365463cea348fe6",
+       "first": [
+        1.1870025396347046,
+        1.1894935369491577,
+        1.1862162351608276,
+        1.1846071481704712,
+        1.1848191022872925,
+        1.1874133348464966,
+        1.1869224309921265,
+        1.1835402250289917
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7498.655983382256,
+   "x_last": 399.57314298662106,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 2.0,
+     "laser_wavenumber_cm1": 11657.062633,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha II",
+     "instrument_serial": "310222",
+     "sample_name": "RT_01_1",
+     "operator": "Sean Adam",
+     "accessory": "DRIFT #404142102D",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 6930,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6930,
+     "channels": [
+      {
+       "xxh3": "463072ef1e4b3e6500afe67f3196fe3d",
+       "first": [
+        0.0003800702397711575,
+        0.000377795600797981,
+        0.0003805871238000691,
+        0.00038158742245286703,
+        0.0003810262423940003,
+        0.0003794042859226465,
+        0.00038199126720428467,
+        0.00038789398968219757
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7498.655983382256,
+   "x_last": 399.57314298662106,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 2.0,
+     "laser_wavenumber_cm1": 11657.062633,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha II",
+     "instrument_serial": "310222",
+     "sample_name": "RT_01_1",
+     "operator": "Sean Adam",
+     "accessory": "DRIFT #404142102D",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 6936,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6936,
+     "channels": [
+      {
+       "xxh3": "2f4a19ddd082a838051e503b8e4c4ee1",
+       "first": [
+        0.005814827978610992,
+        0.00582561269402504,
+        0.005843328312039375,
+        0.005849746055901051,
+        0.00584610179066658,
+        0.005844540894031525,
+        0.0058434633538126945,
+        0.005837154109030962
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 7502.7541694641695,
+   "x_last": 397.52404994566314,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 2.0,
+     "laser_wavenumber_cm1": 11657.062633,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha II",
+     "instrument_serial": "310222",
+     "sample_name": "RT_01_1",
+     "operator": "Sean Adam",
+     "accessory": "DRIFT #404142102D",
+     "scans": 32
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

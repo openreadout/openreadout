@@ -1,0 +1,229 @@
+{
+ "id": "dandi000968-sub-na-icephys",
+ "file": "dandi000968-sub-NA_icephys.nwb",
+ "size": 6839205,
+ "sha256": "5f491435cc71c3fc8cd8386abffa4864c42b3649b02ddf1393499ea0d445683d",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.6.0",
+ "session": {
+  "session_description": "Intracellular electrophysiology experiment (HEK).",
+  "identifier": "ID18",
+  "session_start_time": "2023-05-18T15:37:47-04:00"
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "izero-response-01-ch-0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "izero-response-01-ch-0"
+   ],
+   "sample_rate_hz": 10000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3329536,
+     "channels": [
+      {
+       "xxh3": "6b21894a54f7619ea975bb15ce44fe1f",
+       "first": [
+        -3.4252928060573215e-09,
+        -3.427734212191361e-09,
+        -3.4240721029903017e-09,
+        -3.4271238606578512e-09,
+        -3.4265135091243413e-09,
+        -3.43139632139242e-09,
+        -3.4252928060573215e-09,
+        -3.4240721029903017e-09
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "izero-response-01-ch-1",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "izero-response-01-ch-1"
+   ],
+   "sample_rate_hz": 10000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3329536,
+     "channels": [
+      {
+       "xxh3": "6b8c50fa6cb387c40afef0f2d8893b58",
+       "first": [
+        -0.61126708984375,
+        -0.61065673828125,
+        -0.6103515625,
+        -0.61248779296875,
+        -0.6097412109375,
+        -0.61279296875,
+        -0.6103515625,
+        -0.61065673828125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "izero-response-02-ch-0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "izero-response-02-ch-0"
+   ],
+   "sample_rate_hz": 10000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 723968,
+     "channels": [
+      {
+       "xxh3": "ec07db803bd65baaec74701bec18ed3d",
+       "first": [
+        -4.597167750396249e-09,
+        -4.597167750396249e-09,
+        -4.58740212586009e-09,
+        -4.5965573988627384e-09,
+        -4.5965573988627384e-09,
+        -4.586791774326581e-09,
+        -4.59045388352764e-09,
+        -4.59106423506115e-09
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "izero-response-02-ch-1",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "izero-response-02-ch-1"
+   ],
+   "sample_rate_hz": 10000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 723968,
+     "channels": [
+      {
+       "xxh3": "2e96b9422d9742ad27a7cb89ff353a42",
+       "first": [
+        -0.60791015625,
+        -0.6109619140625,
+        -0.60821533203125,
+        -0.60821533203125,
+        -0.61004638671875,
+        -0.60791015625,
+        -0.60821533203125,
+        -0.6109619140625
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "pynwb_version": "4.2.0",
+ "pynwb_series_checked": 4,
+ "pynwb_values_agree": true,
+ "tables": [
+  {
+   "index": 0,
+   "name": "general/intracellular_ephys/intracellular_recordings",
+   "event_count": 4,
+   "parameter_names": [
+    "id"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "57f15fa385d05da2123910f79b2afbb2"
+   }
+  },
+  {
+   "index": 1,
+   "name": "general/intracellular_ephys/sequential_recordings",
+   "event_count": 2,
+   "parameter_names": [
+    "id",
+    "simultaneous_recordings_count",
+    "stimulus_type"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "117f627aa058ede2fba430a78bffd779",
+    "simultaneous_recordings_count": "99a4d6792566364eab5818513a61cbed",
+    "stimulus_type": "e5189a9599e3f86205ea23ef06e28b2d"
+   }
+  },
+  {
+   "index": 2,
+   "name": "general/intracellular_ephys/simultaneous_recordings",
+   "event_count": 2,
+   "parameter_names": [
+    "id",
+    "recordings_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "117f627aa058ede2fba430a78bffd779",
+    "recordings_count": "e2ee906f696d53084c6252bf2c991797"
+   }
+  },
+  {
+   "index": 3,
+   "name": "general/intracellular_ephys/intracellular_recordings/electrodes",
+   "event_count": 4,
+   "parameter_names": [
+    "id"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "57f15fa385d05da2123910f79b2afbb2"
+   }
+  },
+  {
+   "index": 4,
+   "name": "general/intracellular_ephys/intracellular_recordings/responses",
+   "event_count": 4,
+   "parameter_names": [
+    "id"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "57f15fa385d05da2123910f79b2afbb2"
+   }
+  },
+  {
+   "index": 5,
+   "name": "general/intracellular_ephys/intracellular_recordings/stimuli",
+   "event_count": 4,
+   "parameter_names": [
+    "id"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "57f15fa385d05da2123910f79b2afbb2"
+   }
+  }
+ ]
+}

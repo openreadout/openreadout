@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DoctorReport",
+  "description": "Output of `doctor`.",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "description": "True when every check passed (exit 0; otherwise exit 1).",
+      "type": "boolean"
+    },
+    "version": {
+      "type": "string"
+    },
+    "target": {
+      "description": "Target triple the binary was built for.",
+      "type": "string"
+    },
+    "profile": {
+      "description": "`release` or `debug`.",
+      "type": "string"
+    },
+    "features": {
+      "description": "Cargo features compiled in.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mcp": {
+      "description": "Whether `openreadout mcp` can serve (the `mcp` feature).",
+      "type": "boolean"
+    },
+    "mcp_tools": {
+      "description": "The MCP tools the server offers (empty without the `mcp` feature).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "threads": {
+      "description": "Worker threads for plane decoding (`--threads`).",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "formats": {
+      "description": "Registered format readers, in detection order.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "stdout_is_terminal": {
+      "type": "boolean"
+    },
+    "stderr_is_terminal": {
+      "type": "boolean"
+    },
+    "environment": {
+      "description": "Environment variables that change behaviour, when set.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DoctorCheck"
+      }
+    }
+  },
+  "required": [
+    "ok",
+    "version",
+    "target",
+    "profile",
+    "features",
+    "mcp",
+    "mcp_tools",
+    "threads",
+    "formats",
+    "stdout_is_terminal",
+    "stderr_is_terminal",
+    "environment",
+    "checks"
+  ],
+  "$defs": {
+    "DoctorCheck": {
+      "description": "One self-test step.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ok": {
+          "type": "boolean"
+        },
+        "detail": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "ok",
+        "detail"
+      ]
+    }
+  }
+}

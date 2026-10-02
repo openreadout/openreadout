@@ -1,0 +1,71 @@
+{
+ "id": "pesp-orange-single",
+ "trace": 0,
+ "reader": "specio 0.1.0",
+ "tolerance": {
+  "x": 1e-09,
+  "area_rel": 1e-06,
+  "why": "same samples"
+ },
+ "points": 1626,
+ "bands_are_minima": true,
+ "prominent_bands": [
+  2340.0,
+  2360.0,
+  3626.0,
+  3732.0,
+  3850.0
+ ],
+ "median_step": 2.0,
+ "regions": [
+  {
+   "range": [
+    1000,
+    1100
+   ],
+   "linear": {
+    "points": 51,
+    "x_first": 1000.0,
+    "x_last": 1100.0,
+    "area": 3.8743972778320312,
+    "area_no_baseline": 10085.964012145996,
+    "max_x": 1074.0,
+    "max_height": 0.03285079956054915
+   },
+   "none": {
+    "points": 51,
+    "x_first": 1000.0,
+    "x_last": 1100.0,
+    "area": 10085.964012145996,
+    "area_no_baseline": 10085.964012145996,
+    "max_x": 1074.0,
+    "max_height": -100.76972198486328
+   }
+  },
+  {
+   "range": [
+    2800,
+    3000
+   ],
+   "linear": {
+    "points": 101,
+    "x_first": 2800.0,
+    "x_last": 3000.0,
+    "area": -32.21614074707031,
+    "area_no_baseline": 20113.14060974121,
+    "max_x": 2924.0,
+    "max_height": 0.42021392822265113,
+    "centroid": 2911.454565088994
+   },
+   "none": {
+    "points": 101,
+    "x_first": 2800.0,
+    "x_last": 3000.0,
+    "area": 20113.14060974121,
+    "area_no_baseline": 20113.14060974121,
+    "max_x": 2924.0,
+    "max_height": -100.2999267578125
+   }
+  }
+ ]
+}

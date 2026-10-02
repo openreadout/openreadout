@@ -1,0 +1,32 @@
+{
+ "id": "scn-zenodo10391734-wbchemi",
+ "file": "scn-zenodo10391734-wbchemi.scn",
+ "size": 763942,
+ "sha256": "3a996a6d587be43f287e7f8259b4fb58e1ba87d5d6d00f4f9b59e5c86ed0a375",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 687,
+   "size_y": 550,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 138.28238719068415,
+    "y": 138.28236363636364
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1d37f615bf3ea9a1eed0a97f839072f4"
+    }
+   ]
+  }
+ ]
+}

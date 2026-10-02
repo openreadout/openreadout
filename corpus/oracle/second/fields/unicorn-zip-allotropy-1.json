@@ -1,0 +1,31 @@
+{
+ "id": "unicorn-zip-allotropy-1",
+ "file": "unicorn-zip-allotropy-1.zip",
+ "format": "cytiva-unicorn-zip",
+ "family": "bench",
+ "readers": [
+  "allotropy 0.1.146 (MIT) ASM"
+ ],
+ "checks": [
+  {
+   "field": "ASM injection time (wall clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-01-02T11:00:00+00:00",
+   "cmp": "wallclock"
+  },
+  {
+   "field": "ASM asset management identifier",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "AKTA avant",
+   "cmp": "text"
+  }
+ ]
+}

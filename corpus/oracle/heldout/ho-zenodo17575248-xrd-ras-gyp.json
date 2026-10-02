@@ -1,0 +1,5 @@
+{
+ "id": "ho-zenodo17575248-xrd-ras-gyp",
+ "format": "rigaku-ras",
+ "error": "ValueError: Parse error: RAS: invalid point count"
+}

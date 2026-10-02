@@ -1,0 +1,145 @@
+{
+ "id": "aics-ND2-dims-t3c2y32x32",
+ "file": "aics-ND2-dims-t3c2y32x32.nd2",
+ "size": 352256,
+ "sha256": "a137dc95688f43c678b132e6e416ed18bcdd4334f9393d6208b799bd2ad959d1",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 32,
+   "size_y": 32,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 3,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 3, 'C': 2, 'Y': 32, 'X': 32}",
+   "physical_size_um": {
+    "x": 0.652452890023035,
+    "y": 0.652452890023035,
+    "z": null
+   },
+   "channel_names": [
+    "Widefield Green",
+    "Widefield Red"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ad7674e904a1b51abc9100b0044d1d1e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "366ad924fff2dc9a31174201ba971229"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "325bb009ea2414e30d3715db03eb627b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aa001ecaca2070c82daf3bb52ccfdb62"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "eed79a46c7520f26016e76c0703bf08d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "b3ffde7509e07711459910148618be6e"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Widefield Green",
+    "color": "#5BFF00",
+    "excitation_nm": null,
+    "emission_nm": 535.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "Widefield Red",
+    "color": "#FF5500",
+    "excitation_nm": null,
+    "emission_nm": 620.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 3,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 440.0018414258957,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 498.38,
+     "Z1": 498.38
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 1374.1419781446457,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 498.36,
+     "Z1": 498.36
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 2307.1119488477707,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 26950.2,
+     "Y": -1801.6000000000001,
+     "Z": 498.32,
+     "Z1": 498.32
+    }
+   }
+  ],
+  "acquired_at": "2021-09-28T13:36:15.007Z",
+  "acquired_at_unix_ms": 1632836175007
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T(3) x \u03bb(2)\r\nCamera Name: Flash4.0, SN:101412\r\nNumerical Aperture: 0.3\r\nRefractive Index: 1\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: Widefield Green\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n Microscope Settings:   Nikon Ti2, FilterChanger(Turret-Lo): 3 (FITC)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 3.0\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 1 (Shutter)\r\n  PFS, state: On\r\n  PFS, offset: 7959\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola, Shutter(Sola): Active\r\n  Sola, Illuminator(Sola) Voltage: 100.0\r\nPlane #2:\r\n Name: Widefield Red\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n Microscope Settings:   Nikon Ti2, FilterChanger(Turret-Lo): 4 (TRITC)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 1.5\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 1 (Shutter)\r\n  PFS, state: On\r\n  PFS, offset: 7959\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola, Shutter(Sola): Active\r\n  Sola, Illuminator(Sola) Voltage: 100.0\r\nTime Loop: 3\r\n- Equidistant (Period 1 ms)",
+  "capturing": "Flash4.0, SN:101412\r\nSample 1:\r\n  Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\nSample 2:\r\n  Exposure: 100 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast",
+  "date": "9/28/2021  9:36:15 AM",
+  "optics": "Plan Fluor 10x Ph1 DLL"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=2, heightPx=32, pixelDataType='unsigned', sequenceCount=3, widthBytes=128, widthPx=32, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

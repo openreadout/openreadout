@@ -1,0 +1,109 @@
+{
+ "id": "zenodo17528768-longan-spa",
+ "file": "Longan.SPA",
+ "size": 167672,
+ "sha256": "9b95e94266140171f4d6d6d3b794c31344b5ef1c5639a49a2f786e7575e20382",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 7468,
+   "x_first": 4000.123,
+   "x_last": 400.157,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7468,
+     "channels": [
+      {
+       "xxh3": "1b5a577881b8518c6fa61b9db0e2ba5d",
+       "first": [
+        117.26870727539062,
+        117.25067138671875,
+        117.23079681396484,
+        117.21012878417969,
+        117.18988037109375,
+        117.17078399658203,
+        117.15253448486328,
+        117.134033203125
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 16,
+     "background_scans": 16,
+     "laser_wavenumber_cm1": 15798.0
+    }
+   },
+   "x_tolerance": 0.002
+  },
+  {
+   "index": 1,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 16384,
+   "x_first": 0.0,
+   "x_last": 16383.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "3d4f8e8cbfd13003ba13b0a2e2b35dc4",
+       "first": [
+        0.007883002981543541,
+        0.007513922639191151,
+        0.006637312471866608,
+        0.005571126472204924,
+        0.0042342557571828365,
+        0.002351009286940098,
+        -0.0003273030451964587,
+        -0.003474096767604351
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 16384,
+   "x_first": 0.0,
+   "x_last": 16383.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "3ec0a2314fa65c8fc8fb99e7c4fcbd87",
+       "first": [
+        0.009748853743076324,
+        0.009923538193106651,
+        0.009408940561115742,
+        0.008204913698136806,
+        0.006306459661573172,
+        0.0034705272410064936,
+        -0.0001597977097844705,
+        -0.0041790795512497425
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "acquisition_date": "2024-03-20 00:33:20-07:00"
+}

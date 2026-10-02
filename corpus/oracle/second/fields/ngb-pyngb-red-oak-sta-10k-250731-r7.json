@@ -1,0 +1,32 @@
+{
+ "id": "ngb-pyngb-red-oak-sta-10k-250731-r7",
+ "file": "ngb-pyngb-red-oak-sta-10k-250731-r7.ngb-ss3",
+ "format": "netzsch-ngb",
+ "family": "bench",
+ "readers": [
+  "pyNGB 0.6.0 (MIT) metadata"
+ ],
+ "checks": [
+  {
+   "field": "date_performed",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-07-31T15:58:37+00:00",
+   "cmp": "time",
+   "abs": 1.0
+  },
+  {
+   "field": "instrument (model code before the serial)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "STA449F3",
+   "cmp": "contains"
+  }
+ ]
+}

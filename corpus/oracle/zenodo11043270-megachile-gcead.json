@@ -1,0 +1,59 @@
+{
+ "id": "zenodo11043270-megachile-gcead",
+ "file": "zenodo11043270-megachile-gcead.atf",
+ "size": 1284284,
+ "sha256": "5127b1a65c81b12834c56eb6cd9e77d1b5a49533f324a4e08fd955f9339d8f54",
+ "max_planes_hashed": 64,
+ "reader": "pyabf 2.3.8 ATF (values re-read as float64)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "IN 0",
+    "IN 2"
+   ],
+   "channel_units": [
+    "A",
+    "V"
+   ],
+   "sample_rate_hz": 20.0,
+   "pyabf_rate_hz": 20,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 45000,
+     "channels": [
+      {
+       "xxh3": "409f35aab50532a1b92e1ea9c37fb5c3",
+       "first": [
+        -0.021752,
+        -0.0217399,
+        -0.0217356,
+        -0.0217396,
+        -0.0217523,
+        -0.021774,
+        -0.0218052,
+        -0.0218462
+       ]
+      },
+      {
+       "xxh3": "be543087386f1aca7fb13cfa54ea12bf",
+       "first": [
+        0.0587996,
+        0.0588017,
+        0.0588039,
+        0.0588062,
+        0.0588086,
+        0.0588112,
+        0.0588139,
+        0.0588168
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,190 @@
+{
+ "id": "nmrxiv-s908-aihe0",
+ "file": "nmrxiv-s908/29Si AIHE 0ppm.jdf",
+ "format": "jeol-jdf",
+ "family": "nmr",
+ "readers": [
+  "nmrglue 0.12 (BSD-3) jeol.read header and parameters",
+  "the .jdf context section (at nmrglue's context_start), read as text with a regular expression"
+ ],
+ "checks": [
+  {
+   "field": "header title",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/title",
+   "theirs": "29Si Test",
+   "cmp": "text"
+  },
+  {
+   "field": "header site",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/site",
+   "theirs": "Berea-ECZ500R",
+   "cmp": "text"
+  },
+  {
+   "field": "header comment",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/comment",
+   "theirs": "adiabatic inversion Hahn echo",
+   "cmp": "text"
+  },
+  {
+   "field": "x_freq (MHz)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectrometer_frequency_mhz",
+   "theirs": 99.36765115690487,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "x_sweep (Hz)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/spectral_width_hz",
+   "theirs": 31250.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "x_offset (ppm)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/carrier_offset_ppm",
+   "theirs": 0.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "scans",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/scans",
+   "theirs": 12000,
+   "cmp": "exact"
+  },
+  {
+   "field": "total_scans",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/total_scans",
+   "theirs": 12000,
+   "cmp": "exact"
+  },
+  {
+   "field": "solvent",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/solvent",
+   "theirs": "BENZENE-D6",
+   "cmp": "text"
+  },
+  {
+   "field": "experiment",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/pulse_program",
+   "theirs": "AIHE.jxp",
+   "cmp": "text"
+  },
+  {
+   "field": "x_domain",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/domain",
+   "theirs": "Silicon29",
+   "cmp": "text"
+  },
+  {
+   "field": "sample_id parameter (16 bytes)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/sample_id",
+   "theirs": "29SiTest",
+   "cmp": "contains"
+  },
+  {
+   "field": "sample_id (context text)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/sample_id",
+   "theirs": "29Si Test",
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "sample id (context text)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "29Si Test",
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "temp_get (°C)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/temperature_c",
+   "theirs": 30.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "field_strength (T)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/traces/0/extra/field_strength_t",
+   "theirs": 11.7473579,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "actual_start_time (s since 1990, UTC)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-01-19T11:57:09Z",
+   "cmp": "time",
+   "abs": 1.0
+  }
+ ]
+}

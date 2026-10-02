@@ -1,0 +1,27 @@
+{
+ "id": "gen5-abs450-non-numeric",
+ "file": "gen5-abs450-non-numeric.txt",
+ "size": 1258,
+ "sha256": "9a85f5fdbb8fd50884b3b54e05f67ef49ce3f1b48ce521608f21357f24c03a80",
+ "max_planes_hashed": 64,
+ "reader": "allotropy 0.1.146 (AGILENT_GEN5)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 83,
+    "values": 83,
+    "errors": 13,
+    "wavelengths": [
+     450.0
+    ],
+    "value_xxh3": "bb092834805471c8f96e0202312e5b2b"
+   }
+  ],
+  "header": {
+   "model": "Synergy H1",
+   "software_version": "3.12.08"
+  },
+  "documents": 96
+ }
+}

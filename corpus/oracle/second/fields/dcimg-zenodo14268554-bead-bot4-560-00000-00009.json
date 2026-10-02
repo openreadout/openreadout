@@ -1,0 +1,31 @@
+{
+ "id": "dcimg-zenodo14268554-bead-bot4-560-00000-00009",
+ "file": "dcimg/zenodo-14268554/bead_bot4__560_00000_00009.dcimg",
+ "format": "dcimg",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 2048,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 200,
+   "cmp": "exact"
+  }
+ ]
+}

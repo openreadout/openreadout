@@ -1,0 +1,51 @@
+{
+ "id": "ho-zenodo6848342-airyscan-lsm880",
+ "file": "Airyscan Lines Pattern.czi",
+ "size": 2040832,
+ "sha256": "9a374c089b7c06b64675edfdf357d6a6810df1e7958f6c61def54700f9d468f5",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1000,
+   "size_y": 1000,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "YX",
+   "shape": [
+    1000,
+    1000
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.04392940851660524,
+    "y": 0.04392940851660524,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d49090381a2ff62c68014dbc52023887"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.04392940851660524,
+  "y": 0.04392940851660524,
+  "z": 0.0
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

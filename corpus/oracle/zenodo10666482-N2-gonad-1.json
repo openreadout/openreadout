@@ -1,0 +1,51 @@
+{
+ "id": "zenodo10666482-N2-gonad-1",
+ "file": "zenodo10666482-N2-gonad-1.czi",
+ "size": 3002208,
+ "sha256": "ea3bde096094f27572efc898c3951a62b0199cb922d87264b587b97a5778424a",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1388,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "YX",
+   "shape": [
+    1040,
+    1388
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.10238095238095238,
+    "y": 0.10238095238095238,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f3d391fd023d0e9abfc785b6472a6162"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.10238095238095238,
+  "y": 0.10238095238095238,
+  "z": null
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

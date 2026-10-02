@@ -1,0 +1,22 @@
+{
+ "id": "zenodo6422486-ftir-paa-g-da-subtract-paa-spa",
+ "file": "omnic-zenodo/6422486/FTIR_PAA-g-DA_subtract_PAA.SPA",
+ "format": "thermo-omnic",
+ "family": "vibrational-spectroscopy",
+ "readers": [
+  "SpectroChemPy 1.0.0 (CeCILL-B, run as a black box) read_omnic"
+ ],
+ "checks": [
+  {
+   "field": "acquisition_date",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-03-12T08:58:34-08:00",
+   "cmp": "time",
+   "abs": 1.0
+  }
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "id": "zenodo5039601-v118-cohousing002-nev",
+ "file": "zenodo5039601-v118-cohousing002.nev",
+ "size": 14224,
+ "sha256": "bbde1f39add98d0ebf5b438c125df8a1f21eed88a75f2aaaf83faecff459b37a",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 BlackrockRawIO",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 0,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_column_hashes": [
+    {
+     "column": "time_s",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 0,
+     "xxh3": "99aa06d3014798d86001c324468d497f"
+    },
+    {
+     "column": "packet_id",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 0,
+     "xxh3": "99aa06d3014798d86001c324468d497f"
+    },
+    {
+     "column": "code",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 0,
+     "xxh3": "99aa06d3014798d86001c324468d497f"
+    },
+    {
+     "column": "w0",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 0,
+     "xxh3": "99aa06d3014798d86001c324468d497f"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "id": "bmg-smart-control-fi",
+ "file": "bmg-smart-control-fi.xlsx",
+ "format": "plate",
+ "family": "plate-reader",
+ "readers": [
+  "allotropy 0.1.146 (MIT) ASM `measurement time`"
+ ],
+ "checks": [
+  {
+   "field": "ASM measurement time (wall clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-11-12T13:06:28+00:00",
+   "cmp": "wallclock",
+   "abs": 1.0
+  }
+ ]
+}

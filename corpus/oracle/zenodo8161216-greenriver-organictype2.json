@@ -1,0 +1,44 @@
+{
+ "id": "zenodo8161216-greenriver-organictype2",
+ "file": "zenodo8161216-greenriver-organictype2.spc",
+ "size": 14429,
+ "sha256": "60899335c3d3fa6acb94f8a300ecfc6319308db1c02c7e1e140951e1f1219df1",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_spc",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3401,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3401,
+     "channels": [
+      {
+       "xxh3": "281164300f46b36e741a48e1c9ff4342",
+       "first": [
+        0.7732290625572205,
+        0.7730860710144043,
+        0.7729430794715881,
+        0.7727510929107666,
+        0.7726040482521057,
+        0.7725110650062561,
+        0.7724050879478455,
+        0.7722890973091125
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4000.0,
+   "x_last": 600.0
+  }
+ ],
+ "second_opinion": {
+  "reader": "spc-io 0.2.1 (MIT)",
+  "values_agree": true
+ }
+}

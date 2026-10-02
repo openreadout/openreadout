@@ -1,0 +1,42 @@
+{
+ "id": "dcimg-zenodo14287640-cell09-642-000-000",
+ "file": "Cell09_642_000_000.dcimg",
+ "size": 689232,
+ "sha256": "d99168761cadda9ae6778cc536c0044a44a42e1d4156c6e56cc9699ec130cebd",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box), rows flipped; dcimg 0.6.0.post1 (MIT) second opinion and frame records",
+ "dcimg_version": "0x1000000",
+ "images": [
+  {
+   "index": 0,
+   "name": "Cell09_642_000_000",
+   "size_x": 2048,
+   "size_y": 168,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {},
+   "bioformats_rows_flipped": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6f10807ea7ba8c7adc711d7d1a6ccbbe"
+    }
+   ],
+   "dcimg_raw_diff_pixels": [
+    4
+   ]
+  }
+ ],
+ "check_frames": [
+  {
+   "t": 0,
+   "frame": 0,
+   "acquired_at": "2024-09-05T16:53:17.563737Z"
+  }
+ ]
+}

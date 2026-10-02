@@ -1,0 +1,71 @@
+{
+ "id": "openslide-leica-1",
+ "file": "openslide-Leica-1.scn",
+ "size": 291812870,
+ "sha256": "63a3c00fef5215497a9725cf19092a93f7f5ff855ce8561af74b087631831a97",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "scn",
+ "flags": [
+  "bigtiff",
+  "scn"
+ ],
+ "page_count": 8,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "image_0000001819",
+   "kind": "scn",
+   "axes": "YXS",
+   "shape": [
+    4668,
+    1616,
+    3
+   ],
+   "size_x": 1616,
+   "size_y": 4668,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 3,
+   "lossy": true,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "53787437b8a301d51f818fc68b4992ca",
+     "mean": 174.9783270462329
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "image_0000001834",
+   "kind": "scn",
+   "axes": "YXS",
+   "shape": [
+    38432,
+    36832,
+    3
+   ],
+   "size_x": 36832,
+   "size_y": 38432,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 5,
+   "lossy": true,
+   "physical_size_um": {},
+   "planes_skipped": "series is 4246582272 bytes (> ORACLE_TIFF_MAX_BYTES)",
+   "planes": []
+  }
+ ]
+}

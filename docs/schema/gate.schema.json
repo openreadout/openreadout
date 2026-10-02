@@ -1,0 +1,499 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GateOutput",
+  "description": "Output of `analyze gate`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The FCS file gated; absent when only the gating file was described.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "gating_file": {
+      "description": "The gating file (FlowJo workspace or Gating-ML document).",
+      "type": "string"
+    },
+    "gating_format": {
+      "description": "`flowjo-wsp` or `gating-ml`.",
+      "type": "string"
+    },
+    "workspace": {
+      "description": "Workspace-level facts (FlowJo only).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WorkspaceSummary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sample": {
+      "description": "The workspace sample whose gates were used (FlowJo only).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SampleSummary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "table": {
+      "description": "FCS data set (table) gated.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint32",
+      "minimum": 0
+    },
+    "event_count": {
+      "description": "Events in the data set.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "compensation": {
+      "description": "Compensation matrices the gating file defines (and whether any gate used them).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CompensationSummary"
+      }
+    },
+    "transforms": {
+      "description": "Transforms by id (FlowJo: by parameter name).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TransformSummary"
+      }
+    },
+    "populations": {
+      "description": "One row per population, parents before children.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PopulationRow"
+      }
+    },
+    "tree": {
+      "description": "The same populations as a tree (quadrant gates appear as grouping nodes without a count).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PopulationNode"
+      }
+    },
+    "notes": {
+      "description": "Caveats: skipped populations, disagreements with counts stored in the workspace, scaling.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "gating_file",
+    "gating_format",
+    "compensation",
+    "transforms",
+    "populations",
+    "tree"
+  ],
+  "$defs": {
+    "WorkspaceSummary": {
+      "description": "Facts about a FlowJo workspace.",
+      "type": "object",
+      "properties": {
+        "version": {
+          "description": "Workspace format version (`20.0`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flowjo_version": {
+          "description": "FlowJo release that saved it.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "modified": {
+          "description": "Modification date as written.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "groups": {
+          "description": "Groups and their member sample names.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GroupSummary"
+          }
+        },
+        "samples": {
+          "description": "Every sample in the workspace.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SampleSummary"
+          }
+        }
+      },
+      "required": [
+        "groups",
+        "samples"
+      ]
+    },
+    "GroupSummary": {
+      "description": "A workspace group.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Group name.",
+          "type": "string"
+        },
+        "samples": {
+          "description": "Sample names in the group.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "samples"
+      ]
+    },
+    "SampleSummary": {
+      "description": "A workspace sample.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "FlowJo sample id.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Sample name.",
+          "type": "string"
+        },
+        "uri": {
+          "description": "Where FlowJo found the FCS file.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "event_count": {
+          "description": "Event count FlowJo stored.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "groups": {
+          "description": "Groups the sample belongs to.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "population_count": {
+          "description": "Populations in the sample's gate tree.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "compensation": {
+          "description": "Name of the sample's compensation matrix.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "keywords": {
+          "description": "Keywords FlowJo stored with the sample (FCS TEXT plus its own).",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "groups",
+        "population_count"
+      ]
+    },
+    "CompensationSummary": {
+      "description": "A compensation or unmixing matrix.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Matrix name or id; `$SPILLOVER`/`$SPILL`/`SPILL` for the FCS file's own.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Where it comes from: `workspace`, `gating-ml`, `fcs` or `command-line`.",
+          "type": "string"
+        },
+        "detectors": {
+          "description": "Detectors (columns), `$PnN`.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fluorochromes": {
+          "description": "Rows: fluorochromes, or the detectors that receive the unmixed values.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "matrix": {
+          "description": "Row-major coefficients (spillover fractions).",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "spectral": {
+          "description": "More detectors than rows: unmixed by ordinary least squares.",
+          "type": "boolean"
+        },
+        "used": {
+          "description": "Whether a gate (or the table) used it.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "source",
+        "detectors",
+        "fluorochromes",
+        "matrix",
+        "spectral",
+        "used"
+      ]
+    },
+    "TransformSummary": {
+      "description": "A parameter transform defined in the gating file.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Id (FlowJo: the parameter it applies to).",
+          "type": "string"
+        },
+        "kind": {
+          "description": "`linear`, `log`, `arcsinh`, `logicle`, `hyperlog`, `ratio`, `flowjo-log`, `flowjo-biex`,\n`arcsinh-cofactor`, or the element name of an unsupported FlowJo transform.",
+          "type": "string"
+        },
+        "parameters": {
+          "description": "Parameters (`T`, `W`, `M`, `A`, `offset`, `decades`, `neg`, `width`, `pos`, `maxRange`, …).",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "supported": {
+          "description": "False for transforms this reader does not evaluate.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "parameters",
+        "supported"
+      ]
+    },
+    "PopulationRow": {
+      "description": "One population.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "`/`-separated path from the root (`/Lymphocytes/Single Cells/CD3+`).",
+          "type": "string"
+        },
+        "name": {
+          "description": "Population name.",
+          "type": "string"
+        },
+        "parent": {
+          "description": "Parent path; absent for populations of all events.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "gate_type": {
+          "description": "`rectangle`, `polygon`, `ellipsoid`, `quadrant` or `boolean`.",
+          "type": "string"
+        },
+        "dimensions": {
+          "description": "Gate axes.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GateDimension"
+          }
+        },
+        "gate": {
+          "description": "Gate geometry as stored: `vertices`, `mean`/`covariance`/`distance_square`, `foci`/`edge`,\nor `op`/`operands` (paths, with `complement`)."
+        },
+        "complement": {
+          "description": "Events outside the gate form the population (FlowJo `eventsInside=\"0\"`).",
+          "type": "boolean"
+        },
+        "coordinates": {
+          "description": "Coordinates are stored before the transform (`untransformed`, FlowJo) or after it.",
+          "type": "string"
+        },
+        "count": {
+          "description": "Events in the population (absent when no FCS file was given).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "percent_of_parent": {
+          "description": "Percent of the parent population's events.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "percent_of_total": {
+          "description": "Percent of all events.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "stored_count": {
+          "description": "The count the gating software stored (FlowJo `count`), for comparison.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "medians": {
+          "description": "Median fluorescence (or scatter) of the population's events for each parameter asked for\n(`analyze gate --median`), keyed by the name as asked: scale values (after `$PnE`/`$PnG`),\ncompensated when the name carries the workspace's `Comp-` prefix. Absent for an empty\npopulation.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "required": [
+        "path",
+        "name",
+        "gate_type",
+        "dimensions",
+        "gate",
+        "complement",
+        "coordinates"
+      ]
+    },
+    "GateDimension": {
+      "description": "One gate axis.",
+      "type": "object",
+      "properties": {
+        "parameter": {
+          "description": "Parameter (`$PnN`, fluorochrome) or ratio id.",
+          "type": "string"
+        },
+        "compensation": {
+          "description": "`uncompensated`, `FCS` or a matrix name.",
+          "type": "string"
+        },
+        "transform": {
+          "description": "Transform id, if any.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "min": {
+          "description": "Lower bound (inclusive), as stored.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "max": {
+          "description": "Upper bound (exclusive), as stored.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "parameter",
+        "compensation"
+      ]
+    },
+    "PopulationNode": {
+      "description": "A node of the population tree.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Population name.",
+          "type": "string"
+        },
+        "path": {
+          "description": "`/`-separated path from the root (`/Lymphocytes/Single Cells/CD3+`).",
+          "type": "string"
+        },
+        "gate_type": {
+          "description": "Gate type, or `quadrant-gate` for the node grouping a quadrant gate's quadrants.",
+          "type": "string"
+        },
+        "count": {
+          "description": "Events (absent without an FCS file, and for quadrant-gate grouping nodes).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "children": {
+          "description": "Child populations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PopulationNode"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "path",
+        "gate_type"
+      ]
+    }
+  }
+}

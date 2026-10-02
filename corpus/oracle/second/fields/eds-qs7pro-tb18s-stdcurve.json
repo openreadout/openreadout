@@ -1,0 +1,33 @@
+{
+ "id": "eds-qs7pro-tb18s-stdcurve",
+ "file": "eds-qs7pro-tb18s-stdcurve.eds",
+ "format": "applied-biosystems-eds",
+ "family": "qpcr",
+ "readers": [
+  "qslib 0.15.3 (EUPL-1.2, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "run start",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-07-21T10:31:00.581000+00:00",
+   "cmp": "time",
+   "abs": 1.0
+  },
+  {
+   "field": "run end",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2025-07-21T12:02:37.522000+00:00",
+   "cmp": "time",
+   "abs": 1.0
+  }
+ ]
+}

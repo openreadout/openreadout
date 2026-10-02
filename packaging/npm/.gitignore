@@ -1,0 +1,5 @@
+/vendor/
+/LICENSE-MIT
+/LICENSE-APACHE
+/node_modules/
+*.tgz

@@ -1,0 +1,54 @@
+{
+ "id": "jcamp-isas-testfid",
+ "file": "jcamp-isas-testfid.dx",
+ "size": 158245,
+ "sha256": "140919dcbdaea2d3a30ef9408a261a2df605dd75ee393a9a7e8fcf827ae093d9",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "ETHYLBENZOL/CDCL3",
+   "kind": "ntuples",
+   "data_type": "NMR FID",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 16384,
+     "channels": [
+      {
+       "xxh3": "6f903e9498f2c5e2f067cafc233f8992",
+       "first": [
+        2979.8378247960004,
+        59149.520801448,
+        73414.259289084,
+        42258.572712552006,
+        -18596.684225952,
+        48525.072850212004,
+        12527.799860268,
+        -25653.647451516
+       ]
+      },
+      {
+       "xxh3": "6aaf6d7663cd73462a552d788b45a677",
+       "first": [
+        6214.555863824,
+        104800.010249032,
+        -47486.874108798,
+        -67633.737842656,
+        -161311.10549450302,
+        -165285.999991819,
+        -61686.528943753,
+        -54851.526350018
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 16384,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 jcampdx.read"
+  }
+ ]
+}

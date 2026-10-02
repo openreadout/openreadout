@@ -1,0 +1,51 @@
+{
+ "id": "zenodo7500539-pda-cmcsza-hec-sp",
+ "file": "PDA-CMCsZa-HEC.sp",
+ "size": 32431,
+ "sha256": "262cedb8280fe2f494f1f32550c73f85c5e037f7d22cc03c23d5dc6eaa82f48c",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3601,
+   "x_first": 4000.0,
+   "x_last": 400.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3601,
+     "channels": [
+      {
+       "xxh3": "739b672c725991de331414c0628cf556",
+       "first": [
+        99.54191924150071,
+        99.54182052347778,
+        99.54168710246455,
+        99.54126926581142,
+        99.54041997182978,
+        99.53935861528603,
+        99.53857329782097,
+        99.53832291597354
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Frontier FT-IR",
+     "instrument_serial": "114424",
+     "scans": 16,
+     "detector": "CSI TGS",
+     "source": "MIR",
+     "beamsplitter": "CsI",
+     "apodization": "Strong"
+    }
+   }
+  }
+ ]
+}

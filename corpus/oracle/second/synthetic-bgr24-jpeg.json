@@ -1,0 +1,5 @@
+{
+ "id": "synthetic-bgr24-jpeg",
+ "file": "synthetic-bgr24-jpeg.czi",
+ "error": "RuntimeError: The method or operation is not implemented."
+}

@@ -1,0 +1,205 @@
+{
+ "id": "echem-yadg-zir-mpt",
+ "format": "biologic-mpt",
+ "independent": true,
+ "traces": [
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "freq/Hz",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     10019.53125
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Re(Z)/Ohm",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     104070.59375
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "-Im(Z)/Ohm",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     93853.5625
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|Z|/Ohm",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     140139.859375
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "Phase(Z)/deg",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     -42.044960021972656
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "time/s",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     43202.98865059699
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "<Ewe>/V",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     2.25997257232666
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "<I>/mA",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     -1.629131851643706e-08
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "I Range",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     14.0
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|Ewe|/V",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     0.02028523199260235
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  },
+  {
+   "trace": 0,
+   "sweep": 0,
+   "label": "|I|/A",
+   "optional": false,
+   "n": 1,
+   "samples": [
+    [
+     0,
+     43202.98865059699,
+     1.4474990450707992e-07
+    ]
+   ],
+   "x_tol": 1e-09,
+   "y_tol_rel": 1e-07,
+   "y_tol_abs": 1e-30,
+   "source": "galvani echem-yadg-zir.mpr (GPL, black box)"
+  }
+ ]
+}

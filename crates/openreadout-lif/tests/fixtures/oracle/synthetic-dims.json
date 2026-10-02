@@ -1,0 +1,458 @@
+{
+ "id": "synthetic-dims",
+ "file": "synthetic-dims.lif",
+ "size": 13619,
+ "sha256": "4a5b93f676a26f6f9f244c2e03ddc3cc7c5b05cf1cdb4210125eaa46f47ae6c5",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Lambda2ch",
+   "path": "Lambda2ch",
+   "size_x": 8,
+   "size_y": 4,
+   "size_z": 1,
+   "size_c": 6,
+   "size_t": 1,
+   "dims": "C\u03bbYX",
+   "shape": [
+    2,
+    3,
+    4,
+    8
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 1.0,
+    "y": 1.0,
+    "z": null
+   },
+   "lambda": 3,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e4740a67d1b8035ea482a9ab21f40aa3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4985f7a0744866cf0d5e3ad89513b6be"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9329f70ced4df224de09aa4bf87257df"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4ec62849f9173d8132703078be05eea7"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "570c45ed3a1adc4d89e58a9c24af69ff"
+    },
+    {
+     "c": 5,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7783fb3d5cb273684a563c901837dd87"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Rotation",
+   "path": "Rotation",
+   "size_x": 6,
+   "size_y": 5,
+   "size_z": 2,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "AZYX",
+   "shape": [
+    3,
+    2,
+    5,
+    6
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 1.0,
+    "y": 1.0,
+    "z": 2.0
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": [
+    "A"
+   ],
+   "split": 0,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9b60cb681f56ec7f8d6ceed3dd698d53"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "4c5fc59186a01a6513dc06947fb26f1e"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Rotation",
+   "path": "Rotation",
+   "size_x": 6,
+   "size_y": 5,
+   "size_z": 2,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "AZYX",
+   "shape": [
+    3,
+    2,
+    5,
+    6
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 1.0,
+    "y": 1.0,
+    "z": 2.0
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": [
+    "A"
+   ],
+   "split": 1,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d5a26aa96a41fdd44edfd820a19e3443"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "cc1e009c0bed6c93903ed484e940bcbe"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Rotation",
+   "path": "Rotation",
+   "size_x": 6,
+   "size_y": 5,
+   "size_z": 2,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "AZYX",
+   "shape": [
+    3,
+    2,
+    5,
+    6
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 1.0,
+    "y": 1.0,
+    "z": 2.0
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": [
+    "A"
+   ],
+   "split": 2,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3efbf4112a811601cc209d18bb235711"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "7bfdc09ee493743c96a17d86adc70760"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Slices",
+   "path": "Slices",
+   "size_x": 4,
+   "size_y": 4,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 12,
+   "dims": "QNTYX",
+   "shape": [
+    3,
+    2,
+    2,
+    4,
+    4
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 1.0,
+    "y": 1.0,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": [
+    "N",
+    "Q"
+   ],
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "672c86f927faad18699272bed820cbd1"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "49dbaa8cfd046533659a4cb4c6ea92e8"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "6809cfd43d1a3899be78a67c945ac2ae"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "407299720b9d6c3c65a7cf5f81078da2"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "6609990e673eb356289c0cb81392e697"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "a00c4bb25eef057a4f5600ae530ba2ce"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "3f022b6d60a0142471aebd821d7b93fb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "55fff8fa8877db375c0eb6b18b73f5b3"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "b521bcfb4cf1d6a47a2b5ed9d01dd7d7"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "ddbbbd20ef1a691429c2ddd4a4c66528"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 10,
+     "xxh3": "da53e88762897861f7fa33a4466969d1"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 11,
+     "xxh3": "1c2a12a6439167c9543faa5ba588d0c5"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "TileScan",
+   "path": "TileScan",
+   "size_x": 14,
+   "size_y": 5,
+   "size_z": 2,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "MZYX",
+   "shape": [
+    3,
+    2,
+    4,
+    6
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 1.0000000000000002,
+    "y": 1.0,
+    "z": 1.0
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c594aa883063373122fec6f2fd6ae4ef"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "d389c58d7bc2848d869f3b22d9bcc54a"
+    }
+   ],
+   "mosaic": {
+    "tile_count": 3,
+    "tile_width": 6,
+    "tile_height": 4,
+    "method": "stage_position",
+    "tiles": [
+     {
+      "index": 0,
+      "x_px": 8,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "f094241a26a0aabff8c36270dcb4da64",
+      "visible": [
+       2,
+       0,
+       4,
+       4
+      ],
+      "xxh3_visible": "4e6be23e943950f2e979489d7b59dbd9"
+     },
+     {
+      "index": 1,
+      "x_px": 4,
+      "y_px": 1,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "f7c1aceb7ba1a7183e924c9a5a00930a",
+      "visible": [
+       2,
+       0,
+       4,
+       4
+      ],
+      "xxh3_visible": "a4ba55b8edd89d2eb091ee53aa22562d"
+     },
+     {
+      "index": 2,
+      "x_px": 0,
+      "y_px": 0,
+      "fully_visible": true,
+      "xxh3_c0z0t0": "66d0ec0acccfcf546183a4d01c344400",
+      "visible": [
+       0,
+       0,
+       6,
+       4
+      ],
+      "xxh3_visible": "66d0ec0acccfcf546183a4d01c344400"
+     }
+    ]
+   }
+  },
+  {
+   "index": 6,
+   "name": "Half",
+   "path": "Half",
+   "size_x": 4,
+   "size_y": 3,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    3,
+    4
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 1.0,
+    "y": 1.0,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ab4bf37626c95e46385a6758767c438a"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "FLIM Compressed",
+   "path": "FLIM Compressed",
+   "flim": true,
+   "size_x": 16,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YXH",
+   "shape": [
+    8,
+    16,
+    528
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.19999999999999998,
+    "y": 0.19999999999999998,
+    "z": null
+   },
+   "planes": []
+  }
+ ]
+}

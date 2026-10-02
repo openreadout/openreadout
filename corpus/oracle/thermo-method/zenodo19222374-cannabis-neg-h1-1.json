@@ -1,0 +1,33 @@
+{
+ "id": "zenodo19222374-cannabis-neg-h1-1",
+ "file": "zenodo19222374-cannabis-neg-h1-1.raw",
+ "reader": "olefile 0.47 on the embedded instrument-method compound file",
+ "facts": {
+  "uv_channel_wavelength_nm": {
+   "UV_VIS_1": 254.0,
+   "UV_VIS_2": 200.0,
+   "UV_VIS_3": 320.0,
+   "UV_VIS_4": 270.0,
+   "UV_VIS_5": 300.0,
+   "UV_VIS_6": 320.0,
+   "UV_VIS_7": 350.0,
+   "UV_VIS_8": 400.0,
+   "UV_VIS_9": 500.0,
+   "UV_VIS_10": 600.0
+  },
+  "acquired": [
+   "Pump_1_Pressure",
+   "UV_VIS_1",
+   "UV_VIS_2",
+   "UV_VIS_3",
+   "CAD_1",
+   "3DFIELD",
+   "UV_VIS_8"
+  ],
+  "cad_data_collection_rate_hz": 2.0,
+  "pda_minwavelength_nm": 200.0,
+  "pda_maxwavelength_nm": 500.0,
+  "pda_bunchwidth_nm": 4.0,
+  "uv_data_collection_rate_hz": 20.0
+ }
+}

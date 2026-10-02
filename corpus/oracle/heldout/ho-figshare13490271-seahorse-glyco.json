@@ -1,0 +1,1265 @@
+{
+ "id": "ho-figshare13490271-seahorse-glyco",
+ "format": "agilent-seahorse-asyr",
+ "independent": false,
+ "reader": "Python standard library (gzip, xml.etree): a second implementation of docs/formats/agilent-seahorse.md",
+ "name": "20171207_XF CRC Glyco Stress Test_metformin-48hrs_TT",
+ "serial": "410224",
+ "sw_version": "0.6.0.2926",
+ "rows": 8,
+ "cols": 12,
+ "wells": [
+  "A1",
+  "A2",
+  "A3",
+  "A4",
+  "A5",
+  "A6",
+  "A7",
+  "A8",
+  "A9",
+  "A10",
+  "A11",
+  "A12",
+  "B1",
+  "B2",
+  "B3",
+  "B4",
+  "B5",
+  "B6",
+  "B7",
+  "B8",
+  "B9",
+  "B10",
+  "B11",
+  "B12",
+  "C1",
+  "C2",
+  "C3",
+  "C4",
+  "C5",
+  "C6",
+  "C7",
+  "C8",
+  "C9",
+  "C10",
+  "C11",
+  "C12",
+  "D1",
+  "D2",
+  "D3",
+  "D4",
+  "D5",
+  "D6",
+  "D7",
+  "D8",
+  "D9",
+  "D10",
+  "D11",
+  "D12",
+  "E1",
+  "E2",
+  "E3",
+  "E4",
+  "E5",
+  "E6",
+  "E7",
+  "E8",
+  "E9",
+  "E10",
+  "E11",
+  "E12",
+  "F1",
+  "F2",
+  "F3",
+  "F4",
+  "F5",
+  "F6",
+  "F7",
+  "F8",
+  "F9",
+  "F10",
+  "F11",
+  "F12",
+  "G1",
+  "G2",
+  "G3",
+  "G4",
+  "G5",
+  "G6",
+  "G7",
+  "G8",
+  "G9",
+  "G10",
+  "G11",
+  "G12",
+  "H1",
+  "H2",
+  "H3",
+  "H4",
+  "H5",
+  "H6",
+  "H7",
+  "H8",
+  "H9",
+  "H10",
+  "H11",
+  "H12"
+ ],
+ "groups": [
+  "Background",
+  "1116 HG control",
+  "1116 HG 0.5 mM met",
+  "1116 HG 0.5 mM met",
+  "1116 HG 3.0 mM met",
+  "1116 HG 3.0 mM met",
+  "1116 LG 3.0 mM met",
+  "1116 LG 3.0 mM met",
+  "1116 LG 0.5 mM met",
+  "1116 LG 0.5 mM met",
+  "1116 LG control",
+  "Background",
+  "Background",
+  "1116 HG control",
+  "1116 HG 0.5 mM met",
+  "1116 HG 0.5 mM met",
+  "1116 HG 3.0 mM met",
+  "1116 HG 3.0 mM met",
+  "1116 LG 3.0 mM met",
+  "1116 LG 3.0 mM met",
+  "1116 LG 0.5 mM met",
+  "1116 LG 0.5 mM met",
+  "1116 LG control",
+  "Background",
+  "Background",
+  "1116 HG control",
+  "1116 HG 0.5 mM met",
+  "1116 HG 0.5 mM met",
+  "1116 HG 3.0 mM met",
+  "1116 HG 3.0 mM met",
+  "1116 LG 3.0 mM met",
+  "1116 LG 3.0 mM met",
+  "1116 LG 0.5 mM met",
+  "1116 LG 0.5 mM met",
+  "1116 LG control",
+  "Background",
+  "Background",
+  "1116 HG control",
+  "1116 HG 0.5 mM met",
+  "1116 HG 0.5 mM met",
+  "1116 HG 3.0 mM met",
+  "1116 HG 3.0 mM met",
+  "1116 LG 3.0 mM met",
+  "1116 LG 3.0 mM met",
+  "1116 LG 0.5 mM met",
+  "1116 LG 0.5 mM met",
+  "1116 LG control",
+  "Background",
+  "Background",
+  "948 HG control",
+  "948 HG 0.5 mM met",
+  "948 HG 0.5 mM met",
+  "948 HG 3.0 mM met",
+  "948 HG 3.0 mM met",
+  "948 LG 3.0 mM met",
+  "948 LG 3.0 mM met",
+  "948 LG 0.5 mM met",
+  "948 LG 0.5 mM met",
+  "948 LG control",
+  "Background",
+  "Background",
+  "948 HG control",
+  "948 HG 0.5 mM met",
+  "948 HG 0.5 mM met",
+  "948 HG 3.0 mM met",
+  "948 HG 3.0 mM met",
+  "948 LG 3.0 mM met",
+  "948 LG 3.0 mM met",
+  "948 LG 0.5 mM met",
+  "948 LG 0.5 mM met",
+  "948 LG control",
+  "Background",
+  "Background",
+  "948 HG control",
+  "948 HG 0.5 mM met",
+  "948 HG 0.5 mM met",
+  "948 HG 3.0 mM met",
+  "948 HG 3.0 mM met",
+  "948 LG 3.0 mM met",
+  "948 LG 3.0 mM met",
+  "948 LG 0.5 mM met",
+  "948 LG 0.5 mM met",
+  "948 LG control",
+  "Background",
+  "Background",
+  "948 HG control",
+  "948 HG 0.5 mM met",
+  "948 HG 0.5 mM met",
+  "948 HG 3.0 mM met",
+  "948 HG 3.0 mM met",
+  "948 LG 3.0 mM met",
+  "948 LG 3.0 mM met",
+  "948 LG 0.5 mM met",
+  "948 LG 0.5 mM met",
+  "948 LG control",
+  "Background"
+ ],
+ "background": [
+  "A1",
+  "A12",
+  "B1",
+  "B12",
+  "C1",
+  "C12",
+  "D1",
+  "D12",
+  "E1",
+  "E12",
+  "F1",
+  "F12",
+  "G1",
+  "G12",
+  "H1",
+  "H12"
+ ],
+ "injections": [
+  {
+   "group": "1116 HG control",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 HG control",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 HG control",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 HG control",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 HG 0.5 mM met",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 HG 0.5 mM met",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 HG 0.5 mM met",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 HG 0.5 mM met",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 HG 3.0 mM met",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 HG 3.0 mM met",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 HG 3.0 mM met",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 HG 3.0 mM met",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG 3.0 mM met",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG 3.0 mM met",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG 3.0 mM met",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG 3.0 mM met",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG 0.5 mM met",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG 0.5 mM met",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG 0.5 mM met",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG 0.5 mM met",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG control",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG control",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG control",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "1116 LG control",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG control",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG control",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG control",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG control",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG 0.5 mM met",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG 0.5 mM met",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG 0.5 mM met",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG 0.5 mM met",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG 3.0 mM met",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG 3.0 mM met",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG 3.0 mM met",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 HG 3.0 mM met",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG 3.0 mM met",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG 3.0 mM met",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG 3.0 mM met",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG 3.0 mM met",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG 0.5 mM met",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG 0.5 mM met",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG 0.5 mM met",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG 0.5 mM met",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG control",
+   "port": "A",
+   "reagent": "glucose",
+   "concentration": 10.0,
+   "unit": "mM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG control",
+   "port": "B",
+   "reagent": "oligomycin",
+   "concentration": 1.0,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG control",
+   "port": "C",
+   "reagent": "CCCP",
+   "concentration": 0.25,
+   "unit": "µM",
+   "volume": 25.0
+  },
+  {
+   "group": "948 LG control",
+   "port": "D",
+   "reagent": "2-DG (deoxy-D-glucose)",
+   "concentration": 100.0,
+   "unit": "mM",
+   "volume": 25.0
+  }
+ ],
+ "readings": 192,
+ "measurements": 16,
+ "measure_commands": 16,
+ "analytes": [
+  "O2",
+  "pH"
+ ],
+ "samples": {
+  "O2": [
+   [
+    0,
+    0,
+    13238.038297872341
+   ],
+   [
+    0,
+    14,
+    13247.861989017694
+   ],
+   [
+    0,
+    27,
+    13252.910754378086
+   ],
+   [
+    0,
+    41,
+    12764.26576402321
+   ],
+   [
+    0,
+    54,
+    13270.214369022626
+   ],
+   [
+    0,
+    68,
+    13460.688396883968
+   ],
+   [
+    0,
+    81,
+    12572.266367377479
+   ],
+   [
+    0,
+    95,
+    12854.796365579903
+   ],
+   [
+    27,
+    0,
+    13270.168693009118
+   ],
+   [
+    27,
+    14,
+    13472.007079213963
+   ],
+   [
+    27,
+    27,
+    13393.593304123133
+   ],
+   [
+    27,
+    41,
+    12848.751160990712
+   ],
+   [
+    27,
+    54,
+    13456.834150899322
+   ],
+   [
+    27,
+    68,
+    13600.874452954049
+   ],
+   [
+    27,
+    81,
+    12672.731460674157
+   ],
+   [
+    27,
+    95,
+    12903.978069002407
+   ],
+   [
+    55,
+    0,
+    13221.817808843642
+   ],
+   [
+    55,
+    14,
+    13541.223727572318
+   ],
+   [
+    55,
+    27,
+    13442.013597033374
+   ],
+   [
+    55,
+    41,
+    12850.544445877951
+   ],
+   [
+    55,
+    54,
+    13520.761943698166
+   ],
+   [
+    55,
+    68,
+    13440.451573187414
+   ],
+   [
+    55,
+    81,
+    12653.313846730372
+   ],
+   [
+    55,
+    95,
+    12875.929392885799
+   ],
+   [
+    82,
+    0,
+    13203.738033733474
+   ],
+   [
+    82,
+    14,
+    13326.828655113497
+   ],
+   [
+    82,
+    27,
+    13633.735700640522
+   ],
+   [
+    82,
+    41,
+    12835.72407120743
+   ],
+   [
+    82,
+    54,
+    13412.009579439253
+   ],
+   [
+    82,
+    68,
+    13257.022568732047
+   ],
+   [
+    82,
+    81,
+    12571.533533158487
+   ],
+   [
+    82,
+    95,
+    12871.910671302487
+   ],
+   [
+    109,
+    0,
+    13381.954697476436
+   ],
+   [
+    109,
+    14,
+    13224.995361328125
+   ],
+   [
+    109,
+    27,
+    13161.34393258427
+   ],
+   [
+    109,
+    41,
+    12841.731811145512
+   ],
+   [
+    109,
+    54,
+    13360.787340885205
+   ],
+   [
+    109,
+    68,
+    13164.800984817399
+   ],
+   [
+    109,
+    81,
+    12562.970593744147
+   ],
+   [
+    109,
+    95,
+    12900.968708210752
+   ],
+   [
+    136,
+    0,
+    13373.752393980849
+   ],
+   [
+    136,
+    14,
+    13517.141340168437
+   ],
+   [
+    136,
+    27,
+    13460.437752808988
+   ],
+   [
+    136,
+    41,
+    12904.85758513932
+   ],
+   [
+    136,
+    54,
+    13565.241532352255
+   ],
+   [
+    136,
+    68,
+    13312.202543763677
+   ],
+   [
+    136,
+    81,
+    12639.178497846038
+   ],
+   [
+    136,
+    95,
+    12889.948114469109
+   ],
+   [
+    164,
+    0,
+    13324.205287950159
+   ],
+   [
+    164,
+    14,
+    13604.63412252868
+   ],
+   [
+    164,
+    27,
+    13513.649101123596
+   ],
+   [
+    164,
+    41,
+    12923.686879112372
+   ],
+   [
+    164,
+    54,
+    13693.712450362065
+   ],
+   [
+    164,
+    68,
+    13762.260976610587
+   ],
+   [
+    164,
+    81,
+    12804.222929936306
+   ],
+   [
+    164,
+    95,
+    12826.14064171123
+   ],
+   [
+    191,
+    0,
+    13322.370212765958
+   ],
+   [
+    191,
+    14,
+    13760.895032344684
+   ],
+   [
+    191,
+    27,
+    13657.827396336666
+   ],
+   [
+    191,
+    41,
+    12961.971749226006
+   ],
+   [
+    191,
+    54,
+    13863.072538254877
+   ],
+   [
+    191,
+    68,
+    14140.252804377566
+   ],
+   [
+    191,
+    81,
+    12956.660547021356
+   ],
+   [
+    191,
+    95,
+    12825.521669341893
+   ]
+  ],
+  "pH": [
+   [
+    0,
+    0,
+    27369.391502276176
+   ],
+   [
+    0,
+    14,
+    26336.80947352542
+   ],
+   [
+    0,
+    27,
+    26275.85684746302
+   ],
+   [
+    0,
+    41,
+    26130.13548088779
+   ],
+   [
+    0,
+    54,
+    25759.926775045158
+   ],
+   [
+    0,
+    68,
+    25375.22023233301
+   ],
+   [
+    0,
+    81,
+    23529.304872663037
+   ],
+   [
+    0,
+    95,
+    27518.02866335186
+   ],
+   [
+    27,
+    0,
+    27291.02047005307
+   ],
+   [
+    27,
+    14,
+    25825.980935088515
+   ],
+   [
+    27,
+    27,
+    25739.93620440302
+   ],
+   [
+    27,
+    41,
+    25910.141764246684
+   ],
+   [
+    27,
+    54,
+    25762.704596412557
+   ],
+   [
+    27,
+    68,
+    25280.468963831867
+   ],
+   [
+    27,
+    81,
+    23632.409819044795
+   ],
+   [
+    27,
+    95,
+    27636.275562748273
+   ],
+   [
+    55,
+    0,
+    22985.40712661107
+   ],
+   [
+    55,
+    14,
+    20943.06360745116
+   ],
+   [
+    55,
+    27,
+    20915.80602545513
+   ],
+   [
+    55,
+    41,
+    21630.49145634112
+   ],
+   [
+    55,
+    54,
+    20409.10286677909
+   ],
+   [
+    55,
+    68,
+    18854.617856266865
+   ],
+   [
+    55,
+    81,
+    18415.56257431629
+   ],
+   [
+    55,
+    95,
+    23833.30925707547
+   ],
+   [
+    82,
+    0,
+    21091.361190070114
+   ],
+   [
+    82,
+    14,
+    18517.724628900334
+   ],
+   [
+    82,
+    27,
+    18611.211154094133
+   ],
+   [
+    82,
+    41,
+    19844.45400313972
+   ],
+   [
+    82,
+    54,
+    18124.339991559995
+   ],
+   [
+    82,
+    68,
+    16302.100908421311
+   ],
+   [
+    82,
+    81,
+    16785.97917596311
+   ],
+   [
+    82,
+    95,
+    21590.476106194692
+   ],
+   [
+    109,
+    0,
+    20611.68006827233
+   ],
+   [
+    109,
+    14,
+    19943.736197247013
+   ],
+   [
+    109,
+    27,
+    20091.10603144049
+   ],
+   [
+    109,
+    41,
+    20131.700873362446
+   ],
+   [
+    109,
+    54,
+    19809.456174740968
+   ],
+   [
+    109,
+    68,
+    18353.33675213675
+   ],
+   [
+    109,
+    81,
+    18232.479602432875
+   ],
+   [
+    109,
+    95,
+    21787.518398586988
+   ],
+   [
+    136,
+    0,
+    20902.702329104337
+   ],
+   [
+    136,
+    14,
+    18854.67291981846
+   ],
+   [
+    136,
+    27,
+    18922.40048231511
+   ],
+   [
+    136,
+    41,
+    19926.258876896605
+   ],
+   [
+    136,
+    54,
+    18433.53767363547
+   ],
+   [
+    136,
+    68,
+    16974.389473684212
+   ],
+   [
+    136,
+    81,
+    16897.242982325857
+   ],
+   [
+    136,
+    95,
+    21835.43387334315
+   ],
+   [
+    164,
+    0,
+    23530.901155084266
+   ],
+   [
+    164,
+    14,
+    21377.776566757493
+   ],
+   [
+    164,
+    27,
+    21797.75535512965
+   ],
+   [
+    164,
+    41,
+    22717.362652869237
+   ],
+   [
+    164,
+    54,
+    21803.047217537944
+   ],
+   [
+    164,
+    68,
+    20571.708363993133
+   ],
+   [
+    164,
+    81,
+    19670.579604578565
+   ],
+   [
+    164,
+    95,
+    24097.030213706705
+   ],
+   [
+    191,
+    0,
+    22485.76700132601
+   ],
+   [
+    191,
+    14,
+    20379.167777104783
+   ],
+   [
+    191,
+    27,
+    20716.53021756648
+   ],
+   [
+    191,
+    41,
+    21654.64840684351
+   ],
+   [
+    191,
+    54,
+    20516.235616823746
+   ],
+   [
+    191,
+    68,
+    19480.464522465012
+   ],
+   [
+    191,
+    81,
+    18701.560910307897
+   ],
+   [
+    191,
+    95,
+    23093.64592243032
+   ]
+  ]
+ },
+ "background_ratio": 0.12827384126645805
+}

@@ -1,0 +1,77 @@
+{
+ "id": "zenodo8161776-VPA002",
+ "file": "zenodo8161776-VPA002.nd2",
+ "size": 31506432,
+ "sha256": "3e00b5ff1216985850a48d8087252d854b3c10e241ecc1e0732cd45094e7787a",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1608,
+   "size_y": 1608,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "sizes": "{'C': 4, 'Y': 1608, 'X': 1608, 'S': 3}",
+   "physical_size_um": {},
+   "channel_names": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d13b92d9d9ddfc2a93b51614eaf9bf35"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "66154e712eaf88d5232a728dc5d79ef2"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "737218aeb74d7bf875ecdb65f19cc621"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "30300d4b03b7549a68ac406e53b90e27"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels_error": "IndexError: tuple index out of range",
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 3073.356200000271,
+    "tags": {
+     "Camera_ExposureTime1": 10.0,
+     "X": 58999.26171875,
+     "Y": 34585.19921875,
+     "Z": 7506.55,
+     "Z1": 7506.55
+    }
+   }
+  ],
+  "acquired_at": "2023-07-13T04:31:35.289Z",
+  "acquired_at_unix_ms": 1689222695289
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(4)\r\nCamera Name: Color Camera Nikon DS-Ri2\r\nNumerical Aperture: 0.7\r\nRefractive Index: 1\r\nNumber of Picture Planes: 4\r\nPlane #1:\r\n Name: Brightfield\r\n Component Count: 3\r\n Modality: Brightfield\r\n Camera Settings:   \r\n  Camera Type: Nikon DS-Ri2\r\n  Binning: 1.0x1.0\r\n  Exposure: 10 ms\r\n  Gain: 1.0x\r\n  Sharpness: Medium\r\n  Brightness: 0.00\r\n  Hue: 0.00\r\n  Saturation: 0.00\r\n  WB Red: 1.60\r\n  WB Blue: 1.98\r\n  Scene Mode: Neutral\r\n  Trigger Mode: Internal\r\n Microscope Settings:   Microscope: TE2000 Microscope\r\n  TE2000, FilterChanger(Filter Cube (Turret)): 1 (UV-2E/C)\r\n  TE2000, Shutter(EPI): Open\r\n  TE2000, Illuminator(Illuminator (DIA)): Remote Switch On\r\n  TE2000, Illuminator(Illuminator (DIA)): On\r\n  TE2000, Illuminator(Illuminator (DIA)) Voltage: 6.2\r\n  LightPath: Left\r\n  Condenser: 4 (N         )\r\n  Zoom: 1.00x\r\n  MAC6000, FilterChanger(FilterWheel (EPI)): 1 (Empty)\r\n  MAC6000, Shutter(EPI1): Active\r\nPlane #2:\r\n Name: Brightfield\r\n Component Count: 3\r\n Modality: Brightfield\r\n Camera Settings:   \r\n  Camera Type: Nikon DS-Ri2\r\n  Binning: 1.0x1.0\r\n  Exposure: 100 ms\r\n  Gain: 1.5x\r\n  Sharpness: Medium\r\n  Brightness: 0.00\r\n  Hue: 0.00\r\n  Saturation: 0.00\r\n  WB Red: 1.60\r\n  WB Blue: 1.98\r\n  Scene Mode: Neutral\r\n  Trigger Mode: Internal\r\n Microscope Settings:   Microscope: TE2000 Microscope\r\n  TE2000, FilterChanger(Filter Cube (Turret)): 5 (FGP(R)-LP)\r\n  TE2000, Shutter(EPI): Open\r\n  TE2000, Illuminator(Illuminator (DIA)): Remote Switch On\r\n  TE2000, Illuminator(Illuminator (DIA)): On\r\n  TE2000, Illuminator(Illuminator (DIA)) Voltage: 6.2\r\n  LightPath: Left\r\n  Condenser: 4 (N         )\r\n  Zoom: 1.00x\r\n  MAC6000, FilterChanger(FilterWheel (EPI)): 1 (Empty)\r\n  MAC6000, Shutter(EPI1): Active\r\nPlane #3:\r\n Name: Brightfield\r\n Component Count: 3\r\n Modality: Brightfield\r\n Camera Settings:   \r\n  Camera Type: Nikon DS-Ri2\r\n  Binning: 1.0x1.0\r\n  Exposure: 100 ms\r\n  Gain: 1.5x\r\n  Sharpness: Medium\r\n  Brightness: 0.00\r\n  Hue: 0.00\r\n  Saturation: 0.00\r\n  WB Red: 1.60\r\n  WB Blue: 1.98\r\n  Scene Mode: Neutral\r\n  Trigger Mode: Internal\r\n Microscope Settings:   Microscope: TE2000 Microscope\r\n  TE2000, FilterChanger(Filter Cube (Turret)): 3 (Texas Red HYQ)\r\n  TE2000, Shutter(EPI): Open\r\n  TE2000, Illuminator(Illuminator (DIA)): Remote Switch On\r\n  TE2000, Illuminator(Illuminator (DIA)): On\r\n  TE2000, Illuminator(Illuminator (DIA)) Voltage: 6.1\r\n  LightPath: Left\r\n  Condenser: 4 (N         )\r\n  Zoom: 1.00x\r\n  MAC6000, FilterChanger(FilterWheel (EPI)): 1 (Empty)\r\n  MAC6000, Shutter(EPI1): Active\r\nPlane #4:\r\n Name: Brightfield\r\n Component Count: 3\r\n Modality: Brightfield\r\n Camera Settings:   \r\n  Camera Type: Nikon DS-Ri2\r\n  Binning: 1.0x1.0\r\n  Exposure: 24 ms\r\n  Gain: 1.0x\r\n  Sharpness: Medium\r\n  Brightness: 0.00\r\n  Hue: 0.00\r\n  Saturation: 0.00\r\n  WB Red: 1.83\r\n  WB Blue: 1.69\r\n  Scene Mode: Neutral\r\n  Trigger Mode: Internal\r\n Microscope Settings:   Microscope: TE2000 Microscope\r\n  TE2000, FilterChanger(Filter Cube (Turret)): 6 (BV-1A)\r\n  TE2000, Shutter(EPI): Open\r\n  TE2000, Illuminator(Illuminator (DIA)): Remote Switch On\r\n  TE2000, Illuminator(Illuminator (DIA)): On\r\n  TE2000, Illuminator(Illuminator (DIA)) Voltage: 12.0\r\n  LightPath: Left\r\n  Condenser: 4 (N         )\r\n  Zoom: 1.00x\r\n  MAC6000, FilterChanger(FilterWheel (EPI)): 1 (Empty)\r\n  MAC6000, Shutter(EPI1): Open\r\n  MAC6000, Shutter(DIA1): Active",
+  "capturing": "Color Camera Nikon DS-Ri2\r\nSample 1:\r\n  \r\n  Camera Type: Nikon DS-Ri2\r\n  Binning: 1.0x1.0\r\n  Exposure: 10 ms\r\n  Gain: 1.0x\r\n  Sharpness: Medium\r\n  Brightness: 0.00\r\n  Hue: 0.00\r\n  Saturation: 0.00\r\n  WB Red: 1.60\r\n  WB Blue: 1.98\r\n  Scene Mode: Neutral\r\n  Trigger Mode: Internal\r\nSample 2:\r\n  \r\n  Camera Type: Nikon DS-Ri2\r\n  Binning: 1.0x1.0\r\n  Exposure: 100 ms\r\n  Gain: 1.5x\r\n  Sharpness: Medium\r\n  Brightness: 0.00\r\n  Hue: 0.00\r\n  Saturation: 0.00\r\n  WB Red: 1.60\r\n  WB Blue: 1.98\r\n  Scene Mode: Neutral\r\n  Trigger Mode: Internal\r\nSample 3:\r\n  \r\n  Camera Type: Nikon DS-Ri2\r\n  Binning: 1.0x1.0\r\n  Exposure: 100 ms\r\n  Gain: 1.5x\r\n  Sharpness: Medium\r\n  Brightness: 0.00\r\n  Hue: 0.00\r\n  Saturation: 0.00\r\n  WB Red: 1.60\r\n  WB Blue: 1.98\r\n  Scene Mode: Neutral\r\n  Trigger Mode: Internal\r\nSample 4:\r\n  \r\n  Camera Type: Nikon DS-Ri2\r\n  Binning: 1.0x1.0\r\n  Exposure: 24 ms\r\n  Gain: 1.0x\r\n  Sharpness: Medium\r\n  Brightness: 0.00\r\n  Hue: 0.00\r\n  Saturation: 0.00\r\n  WB Red: 1.83\r\n  WB Blue: 1.69\r\n  Scene Mode: Neutral\r\n  Trigger Mode: Internal",
+  "date": "13/07/2023  4:31:35 pm",
+  "optics": "Plan Fluor ELWD 60x DIC M N1"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=8, bitsPerComponentSignificant=8, componentCount=12, heightPx=1608, pixelDataType='unsigned', sequenceCount=1, widthBytes=19296, widthPx=1608, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=4)"
+}

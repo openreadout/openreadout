@@ -1,0 +1,251 @@
+{
+ "id": "pwiz-waters-atehlstlsek-profile",
+ "file": "pwiz-waters/ATEHLSTLSEK_profile.raw",
+ "format": "waters-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "the .raw's _HEADER.TXT (MassLynx text header), read as text",
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (ATEHLSTLSEK_profile.mzML)",
+  "the vendor-library conversion (ATEHLSTLSEK_profile.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "acquisition start (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2016-04-20T10:47:05",
+   "cmp": "time"
+  },
+  {
+   "field": "instrument (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "SYNAPTG2-Si",
+   "cmp": "text"
+  },
+  {
+   "field": "sample description (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/name",
+   "theirs": "ATE peptide",
+   "cmp": "text"
+  },
+  {
+   "field": "acquired name (_HEADER.TXT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/sample/id",
+   "theirs": "200416_004",
+   "cmp": "text"
+  },
+  {
+   "field": "spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}#len",
+   "theirs": 8,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "MS1 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/1",
+   "theirs": 3,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "MS2 spectrum count",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/ms_level_counts/2",
+   "theirs": 5,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "first retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#min",
+   "theirs": 1.57099999488,
+   "cmp": "num",
+   "abs": 0.001,
+   "reader": 1
+  },
+  {
+   "field": "last retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}/rt_s#max",
+   "theirs": 1350.13801574706,
+   "cmp": "num",
+   "abs": 0.001,
+   "reader": 1
+  },
+  {
+   "field": "polarities",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/method/parameters/polarity/value",
+   "theirs": [
+    "positive"
+   ],
+   "cmp": "set",
+   "reader": 1
+  },
+  {
+   "field": "scan MS level",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=3 process=0 scan=1": 1,
+    "function=1 process=0 scan=1": 1,
+    "function=2 process=0 scan=1": 2,
+    "function=2 process=0 scan=2": 2,
+    "function=3 process=0 scan=2": 1,
+    "function=2 process=0 scan=3": 2,
+    "function=2 process=0 scan=4": 2,
+    "function=2 process=0 scan=5": 2
+   },
+   "cmp": "exact",
+   "by": "/native_id",
+   "each": "/ms_level",
+   "reader": 1
+  },
+  {
+   "field": "scan retention time",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=3 process=0 scan=1": 1.57099999488,
+    "function=1 process=0 scan=1": 1344.1540145874,
+    "function=2 process=0 scan=1": 1345.20103454592,
+    "function=2 process=0 scan=2": 1346.22802734378,
+    "function=3 process=0 scan=2": 1346.9460296631,
+    "function=2 process=0 scan=3": 1348.0709838867,
+    "function=2 process=0 scan=4": 1349.1139984131,
+    "function=2 process=0 scan=5": 1350.13801574706
+   },
+   "cmp": "num",
+   "abs": 0.001,
+   "by": "/native_id",
+   "each": "/rt_s",
+   "reader": 1
+  },
+  {
+   "field": "scan polarity",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=3 process=0 scan=1": "positive",
+    "function=1 process=0 scan=1": "positive",
+    "function=2 process=0 scan=1": "positive",
+    "function=2 process=0 scan=2": "positive",
+    "function=3 process=0 scan=2": "positive",
+    "function=2 process=0 scan=3": "positive",
+    "function=2 process=0 scan=4": "positive",
+    "function=2 process=0 scan=5": "positive"
+   },
+   "cmp": "text",
+   "by": "/native_id",
+   "each": "/polarity",
+   "reader": 1
+  },
+  {
+   "field": "scan precursor m/z",
+   "scope": "spectra",
+   "cmd": [
+    "spectra",
+    "--limit",
+    "100000000"
+   ],
+   "ours": "/scans/{ms_level!=0}",
+   "theirs": {
+    "function=2 process=0 scan=1": 608.321,
+    "function=2 process=0 scan=2": 608.321,
+    "function=2 process=0 scan=3": 608.321,
+    "function=2 process=0 scan=4": 608.321,
+    "function=2 process=0 scan=5": 608.321
+   },
+   "cmp": "num",
+   "rel": 1e-05,
+   "by": "/native_id",
+   "each": "/precursor_mz",
+   "reader": 1
+  },
+  {
+   "field": "acquisition software version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/software_version",
+   "theirs": "4.1",
+   "cmp": "prefix",
+   "reader": 2
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2016-04-20T10:47:05Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 2
+  }
+ ]
+}

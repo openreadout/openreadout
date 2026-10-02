@@ -1,0 +1,43 @@
+{
+ "id": "gel-zenodo15688057-typhoon-fluorescence",
+ "file": "gel-zenodo15688057-typhoon-fluorescence.gel",
+ "size": 8327617,
+ "sha256": "0e1cc63433ff993cd31cc83f0c2fe23c0d8e1629f879afd52f6b8eefb3a621ca",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "mdgel",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "mdgel",
+   "axes": "YX",
+   "shape": [
+    2250,
+    1850
+   ],
+   "size_x": 1850,
+   "size_y": 2250,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6112eb1ddf78c433707ce8216c5a69b5"
+    }
+   ]
+  }
+ ]
+}

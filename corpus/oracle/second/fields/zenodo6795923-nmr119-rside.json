@@ -1,0 +1,55 @@
+{
+ "id": "zenodo6795923-nmr119-rside",
+ "file": "olympus-fv/zenodo6795923-NMR1.1.9_Rside_maybe_LSO_10x_1zoom_Nissl_.oib",
+ "format": "oib",
+ "family": "imaging",
+ "readers": [
+  "oiffile 2026.2.8 (BSD-3) main settings",
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "ImageCaputreDate (+MilliSec)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2020-01-09T11:14:26.168",
+   "cmp": "time",
+   "abs": 0.001
+  },
+  {
+   "field": "Version Info SystemName",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "FLUOVIEW FV1000",
+   "cmp": "text"
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 800,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 800,
+   "cmp": "exact",
+   "reader": 1
+  }
+ ]
+}

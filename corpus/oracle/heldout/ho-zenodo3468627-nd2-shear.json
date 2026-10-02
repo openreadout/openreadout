@@ -1,0 +1,76 @@
+{
+ "id": "ho-zenodo3468627-nd2-shear",
+ "file": "device 6 exposed to 40k max_2.nd2",
+ "size": 8536064,
+ "sha256": "b85612f0f57da4109125ab723ec792e01d840182c177026e230f11831179aa9c",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2044,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Y': 2044, 'X': 2048}",
+   "physical_size_um": {
+    "x": 0.065,
+    "y": 0.065,
+    "z": null
+   },
+   "channel_names": [
+    "488-TIRF Single"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "26d12cc84bf3ca31606c99c75c34a035"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "488-TIRF Single",
+    "color": "#5BFF00",
+    "excitation_nm": null,
+    "emission_nm": 535.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 4366250.664482832,
+    "tags": {
+     "Camera_ExposureTime1": 500.0,
+     "PFS_OFFSET": 5278,
+     "PFS_STATUS": 0,
+     "Z": 2088.275,
+     "Z1": 2088.275
+    }
+   }
+  ],
+  "acquired_at": "2019-04-23T22:37:14.014Z",
+  "acquired_at_unix_ms": 1556059034014
+ },
+ "text_info": {
+  "description": "Camera Name: Flash4.0, SN:101041\r\nNumerical Aperture: 1.45\r\nRefractive Index: 1.515\r\n Name: 488-TIRF Single\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 500 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 4 (FITC)\r\n  LightPath: R100\r\n  PFS-S, state: Off\r\n  PFS-S, offset: 5278\r\n  PFS-S, mirror: Inserted\r\n  PFS-S, mirror: Inserted\r\n  \r\n  Zoom: 1.00x\r\n  TIRFMirror State: On\r\n  TIRFPosition Position: 2500.0\r\n  NIDAQ, Shutter(TIRF): Closed\r\n  NIDAQ, Shutter(FRAP): Closed\r\n  NIDAQ, Shutter(DIA): Closed\r\n  NIDAQ, MultiLaser(TIRF):\r\n     Line:1; ExW:488; Power:  7.5; On\r\n     Line:2; ExW:561; Power: 15.0; Off\r\n     Line:3; ExW:640; Power:  6.5; Off\r\n  \r\n  NIDAQ, MultiLaser(FRAP):\r\n     Line:1; ExW:405; Power:  0.0; On\r\n  \r\n  Spectra/AuraII, Shutter(EPI): Closed\r\n  Spectra/AuraII, MultiLaser(Spectra):\r\n     Line:1; ExW:395; Power:  0.0; Off\r\n     Line:2; ExW:488; Power: 50.0; On\r\n     Line:3; ExW:561; Power:  0.0; Off\r\n     Line:4; ExW:640; Power:  0.0; Off\r\n\r\n",
+  "capturing": "Flash4.0, SN:101041\r\nExposure: 500 ms\r\nBinning: 1x1\r\nScan Mode: Fast",
+  "date": "4/23/2019  6:37:14 PM",
+  "optics": "Plan Apo TIRF 100x Oil DIC H N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=1, heightPx=2044, pixelDataType='unsigned', sequenceCount=1, widthBytes=4096, widthPx=2048, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

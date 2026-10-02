@@ -1,0 +1,43 @@
+{
+ "id": "empiar13509-falcon4i-gain",
+ "file": "empiar13509-EER_GainReference.gain",
+ "size": 28923191,
+ "sha256": "f746e37e1a5a70167c46a9dcae9defa08a516ca93b2725196a7334dc5f442bb1",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YX",
+   "shape": [
+    4096,
+    4096
+   ],
+   "size_x": 4096,
+   "size_y": 4096,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8384e42f716e37918a972b75127f575b"
+    }
+   ]
+  }
+ ]
+}

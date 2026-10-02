@@ -1,0 +1,32 @@
+{
+ "id": "scn-zenodo20836084-chemi",
+ "file": "scn-zenodo20836084-chemi.scn",
+ "size": 763910,
+ "sha256": "69d2fed6844e2d38b40206ce8213b4fd74e8cbb02cacf9c9692abd72d80d5f53",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 687,
+   "size_y": 550,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 166.72343522561863,
+    "y": 166.7229090909091
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b90660ee27fd8a99790f43726fbc9a92"
+    }
+   ]
+  }
+ ]
+}

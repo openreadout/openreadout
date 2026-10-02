@@ -1,0 +1,56 @@
+{
+ "id": "ome-artificial-time-series-tiff",
+ "file": "ome-artificial-time-series.ome.tiff",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 439,
+   "size_y": 167,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1a769a89bf22442714ce65c32a40d83f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "832c466e234c13d6013d39ab44f021ac"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "85d41a82dfad7dea74d7216147c9d07d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "63e31ecaec44d02231c394f731b13a6b"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "421f9836ae457cbabf9ca91ce6e4e748"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "a5044807983489368505c4ebb4a523ed"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "db095e440283c0853d2cf31f335244b7"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,87 @@
+{
+ "id": "ho-zenodo3746000-maldiquant",
+ "file": "KKX908.mzML",
+ "size": 1677570,
+ "sha256": "44059bc94f2b42954fbcf0c9da5bd349c580ba11aa14d87b043d3a4ed7c6d422",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "fea91e12-ec00-47f9-94ba-bcf01b442238",
+    "ms_level": 1,
+    "rt_s": null,
+    "polarity": "unknown",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "isolation_target_mz": null,
+    "activation": null,
+    "collision_energy": null,
+    "total_ion_current": 92402.240993578,
+    "base_peak_mz": null,
+    "n_peaks": 176981,
+    "n_nonzero": 176977,
+    "mz_bits": 64,
+    "xxh3_mz": "fe13c54b35ba590de81002d743bd50eb",
+    "xxh3_intensity": "380cfd92b7de52793528ed30b6ded608",
+    "xxh3_mz_nonzero": "152f9825b0e4a240e17a7c5bd7b2dfa8",
+    "xxh3_intensity_nonzero": "c2d720733c467d18a59002a9c8f0ab27",
+    "sum_intensity": 6180720.0,
+    "mz_min": 799.7477973372128,
+    "mz_max": 3496.48454415785,
+    "first_peaks": [
+     [
+      799.7477973372128,
+      21.0
+     ],
+     [
+      799.757643750528,
+      13.0
+     ],
+     [
+      799.767490224846,
+      25.0
+     ],
+     [
+      799.777336759648,
+      19.0
+     ],
+     [
+      799.7871833553229,
+      14.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      799.7477973372128,
+      21.0
+     ],
+     [
+      799.757643750528,
+      13.0
+     ],
+     [
+      799.767490224846,
+      25.0
+     ],
+     [
+      799.777336759648,
+      19.0
+     ],
+     [
+      799.7871833553229,
+      14.0
+     ]
+    ]
+   }
+  ]
+ }
+}

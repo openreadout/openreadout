@@ -1,0 +1,3500 @@
+{
+ "id": "dandi000043-sub-m19-01-001-ses-20190228t222559-icephys",
+ "file": "dandi000043-sub-M19-01-001-ses-20190228T222559_icephys.nwb",
+ "size": 14582394,
+ "sha256": "ad00c8d873996c52059228b0378055ad770ce3ddc95662f0b3ae81ac5a9e025d",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.2.4",
+ "session": {
+  "session_description": [
+   "PLACEHOLDER"
+  ],
+  "identifier": [
+   "c3d480bdc06d2f80689a36b5c7782fa195d0685af0d9316c5b966c56a6c4af20"
+  ],
+  "session_start_time": [
+   "2019-02-28T22:25:59.920Z"
+  ]
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "data_00000_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00000_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "64e14b82b72ebc7008e06c351a2ddbc2",
+       "first": [
+        -0.0483125,
+        -0.0483125,
+        -0.0483125,
+        -0.0483125,
+        -0.04821875,
+        -0.04828125,
+        -0.04825,
+        -0.04834375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 0
+  },
+  {
+   "index": 1,
+   "name": "data_00001_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00001_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "b2f38c0514fe486b9d89f8eb7428a782",
+       "first": [
+        -0.047718750000000004,
+        -0.047625,
+        -0.0476875,
+        -0.0476875,
+        -0.047656250000000004,
+        -0.047593750000000004,
+        -0.047593750000000004,
+        -0.047656250000000004
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 1
+  },
+  {
+   "index": 2,
+   "name": "data_00002_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00002_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "fd34bf29fe967583d13e6211a350f619",
+       "first": [
+        -0.047781250000000004,
+        -0.04775,
+        -0.0478125,
+        -0.047906250000000004,
+        -0.0478125,
+        -0.047781250000000004,
+        -0.047781250000000004,
+        -0.047781250000000004
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 2
+  },
+  {
+   "index": 3,
+   "name": "data_00003_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00003_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "e8bffe1ca47e6f87807a8b4283bdc3dc",
+       "first": [
+        -0.04821875,
+        -0.04815625,
+        -0.04821875,
+        -0.04815625,
+        -0.04815625,
+        -0.0481875,
+        -0.04828125,
+        -0.04821875
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 3
+  },
+  {
+   "index": 4,
+   "name": "data_00004_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00004_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "2d14cfa4155799d67f50dc4ffa00426e",
+       "first": [
+        -0.047718750000000004,
+        -0.047718750000000004,
+        -0.047781250000000004,
+        -0.0478125,
+        -0.04775,
+        -0.047781250000000004,
+        -0.04775,
+        -0.04775
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 4
+  },
+  {
+   "index": 5,
+   "name": "data_00005_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00005_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "20a838870e6b28973983c3b47d59b98f",
+       "first": [
+        -0.0481875,
+        -0.04821875,
+        -0.04821875,
+        -0.04821875,
+        -0.0481875,
+        -0.04815625,
+        -0.04821875,
+        -0.04815625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 5
+  },
+  {
+   "index": 6,
+   "name": "data_00006_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00006_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "7ed7cf27948a2825cec99f687e7a4f79",
+       "first": [
+        -0.0483125,
+        -0.04834375,
+        -0.04828125,
+        -0.0483125,
+        -0.04825,
+        -0.0483125,
+        -0.0483125,
+        -0.048375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 6
+  },
+  {
+   "index": 7,
+   "name": "data_00007_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00007_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "8a09678c237bd7b0542c1402421d466e",
+       "first": [
+        -0.04828125,
+        -0.0483125,
+        -0.04828125,
+        -0.04828125,
+        -0.04825,
+        -0.04828125,
+        -0.0483125,
+        -0.04828125
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 7
+  },
+  {
+   "index": 8,
+   "name": "data_00008_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00008_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "4780f7ce8dadb22cdd8dda4e5911258d",
+       "first": [
+        -0.04884375,
+        -0.0488125,
+        -0.04878125,
+        -0.0488125,
+        -0.04884375,
+        -0.04884375,
+        -0.04878125,
+        -0.04884375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 8
+  },
+  {
+   "index": 9,
+   "name": "data_00009_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00009_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "ce1267fca48a075f476f1a8ba24118a0",
+       "first": [
+        -0.04853125,
+        -0.04853125,
+        -0.0485,
+        -0.04853125,
+        -0.0485,
+        -0.0485625,
+        -0.0485,
+        -0.0485625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 9
+  },
+  {
+   "index": 10,
+   "name": "data_00010_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00010_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "2b74e65cf206e0ebb9e6517eac8b8627",
+       "first": [
+        -0.0485,
+        -0.04846875,
+        -0.0485,
+        -0.0484375,
+        -0.0485,
+        -0.0485,
+        -0.0484375,
+        -0.0485
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 10
+  },
+  {
+   "index": 11,
+   "name": "data_00011_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00011_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "1357bbc9cc69d373e40fb0426d7d201c",
+       "first": [
+        -0.04809375,
+        -0.04815625,
+        -0.04809375,
+        -0.04815625,
+        -0.0480625,
+        -0.04803125,
+        -0.04803125,
+        -0.04809375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 11
+  },
+  {
+   "index": 12,
+   "name": "data_00012_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00012_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "c966e9765cd606142fa95ff518ea2331",
+       "first": [
+        -0.0481875,
+        -0.0481875,
+        -0.04828125,
+        -0.04821875,
+        -0.04825,
+        -0.04821875,
+        -0.04821875,
+        -0.04815625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 12
+  },
+  {
+   "index": 13,
+   "name": "data_00013_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00013_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1027500,
+     "channels": [
+      {
+       "xxh3": "6295907d3e0609ce3af030acde8aea32",
+       "first": [
+        -0.05153125,
+        -0.05159375,
+        -0.05146875,
+        -0.051500000000000004,
+        -0.05159375,
+        -0.05146875,
+        -0.05146875,
+        -0.051437500000000004
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 13
+  },
+  {
+   "index": 14,
+   "name": "data_00014_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00014_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1027500,
+     "channels": [
+      {
+       "xxh3": "4a3870613f51be35096f5341fbf6a0a8",
+       "first": [
+        -0.0506875,
+        -0.05065625,
+        -0.05071875,
+        -0.05071875,
+        -0.05071875,
+        -0.05075,
+        -0.05065625,
+        -0.0506875
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 14
+  },
+  {
+   "index": 15,
+   "name": "data_00015_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00015_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1027500,
+     "channels": [
+      {
+       "xxh3": "8a4881067c25d18d1858f892b9155b04",
+       "first": [
+        -0.0496875,
+        -0.04965625,
+        -0.04971875,
+        -0.04971875,
+        -0.04971875,
+        -0.0496875,
+        -0.04971875,
+        -0.04965625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 15
+  },
+  {
+   "index": 16,
+   "name": "data_00016_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00016_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1027500,
+     "channels": [
+      {
+       "xxh3": "907600acac1265cc55969f7596f9b6a3",
+       "first": [
+        -0.04971875,
+        -0.0496875,
+        -0.04971875,
+        -0.0496875,
+        -0.049625,
+        -0.0496875,
+        -0.04965625,
+        -0.04965625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 16
+  },
+  {
+   "index": 17,
+   "name": "data_00017_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00017_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "28d38c6f1824f1f9c151cef204a8969d",
+       "first": [
+        -0.05225,
+        -0.05221875,
+        -0.05221875,
+        -0.05221875,
+        -0.05225,
+        -0.0521875,
+        -0.05221875,
+        -0.05225
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 17
+  },
+  {
+   "index": 18,
+   "name": "data_00018_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00018_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "c7fd04875bf840108b5f37090823afe1",
+       "first": [
+        -0.02140625,
+        -0.021375,
+        -0.02140625,
+        -0.02134375,
+        -0.02140625,
+        -0.02134375,
+        -0.021375,
+        -0.02140625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 18
+  },
+  {
+   "index": 19,
+   "name": "data_00019_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00019_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "ddfee096becf538ded37e7aa1181d705",
+       "first": [
+        -0.05896875,
+        -0.05896875,
+        -0.058812500000000004,
+        -0.05896875,
+        -0.05890625,
+        -0.05896875,
+        -0.058937500000000004,
+        -0.058875000000000004
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 19
+  },
+  {
+   "index": 20,
+   "name": "data_00020_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00020_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "d43951b419b2680b0f6048b70722fe1c",
+       "first": [
+        -0.0585,
+        -0.05853125,
+        -0.05846875,
+        -0.05846875,
+        -0.0585625,
+        -0.05846875,
+        -0.0585,
+        -0.0585625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 20
+  },
+  {
+   "index": 21,
+   "name": "data_00021_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00021_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "cf6464ccc6d660517b044b8893992538",
+       "first": [
+        -0.058625000000000003,
+        -0.05865625,
+        -0.05859375,
+        -0.05859375,
+        -0.0585625,
+        -0.05865625,
+        -0.05859375,
+        -0.05865625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 21
+  },
+  {
+   "index": 22,
+   "name": "data_00022_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00022_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "c878ea144a62863ade16b7a70cac4856",
+       "first": [
+        -0.05871875,
+        -0.058750000000000004,
+        -0.05871875,
+        -0.05871875,
+        -0.058750000000000004,
+        -0.05871875,
+        -0.05865625,
+        -0.058687500000000004
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 22
+  },
+  {
+   "index": 23,
+   "name": "data_00023_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00023_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "58e40cdc9fac0799f35fa5b8b9c16162",
+       "first": [
+        -0.058875000000000004,
+        -0.05890625,
+        -0.05890625,
+        -0.058937500000000004,
+        -0.058937500000000004,
+        -0.058875000000000004,
+        -0.058937500000000004,
+        -0.058937500000000004
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 23
+  },
+  {
+   "index": 24,
+   "name": "data_00024_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00024_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "f66cb7feca8c75a4ede35d00d6c9dbf9",
+       "first": [
+        -0.05890625,
+        -0.058875000000000004,
+        -0.058875000000000004,
+        -0.05884375,
+        -0.058875000000000004,
+        -0.058875000000000004,
+        -0.05890625,
+        -0.05884375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 24
+  },
+  {
+   "index": 25,
+   "name": "data_00025_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00025_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "675265a6cd998879695d69f65419517f",
+       "first": [
+        -0.0585,
+        -0.0585625,
+        -0.05853125,
+        -0.05853125,
+        -0.0585,
+        -0.05846875,
+        -0.05853125,
+        -0.05853125
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 25
+  },
+  {
+   "index": 26,
+   "name": "data_00026_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00026_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "540364bd20b5ddaf9e2d87acd5978d1a",
+       "first": [
+        -0.059437500000000004,
+        -0.05940625,
+        -0.059437500000000004,
+        -0.05940625,
+        -0.059437500000000004,
+        -0.059437500000000004,
+        -0.059437500000000004,
+        -0.05946875
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 26
+  },
+  {
+   "index": 27,
+   "name": "data_00027_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00027_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "26628331bd11314387f59b2dc1ef4490",
+       "first": [
+        -0.06025,
+        -0.06028125,
+        -0.06028125,
+        -0.06021875,
+        -0.06025,
+        -0.06021875,
+        -0.06025,
+        -0.0601875
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 27
+  },
+  {
+   "index": 28,
+   "name": "data_00028_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00028_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "ca616fdfee10179435a7163f63425316",
+       "first": [
+        -0.06009375,
+        -0.060125,
+        -0.0601875,
+        -0.060125,
+        -0.06015625,
+        -0.06015625,
+        -0.06015625,
+        -0.0601875
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 28
+  },
+  {
+   "index": 29,
+   "name": "data_00029_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00029_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "08c016dcc93e710a24956743ecfdadb8",
+       "first": [
+        -0.059625000000000004,
+        -0.05965625,
+        -0.05965625,
+        -0.05965625,
+        -0.05965625,
+        -0.05959375,
+        -0.05959375,
+        -0.05965625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 29
+  },
+  {
+   "index": 30,
+   "name": "data_00030_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00030_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "63fc667111fe31a750ffe674655c52f3",
+       "first": [
+        -0.06134375,
+        -0.0613125,
+        -0.06134375,
+        -0.06134375,
+        -0.06128125,
+        -0.0613125,
+        -0.0613125,
+        -0.06128125
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 30
+  },
+  {
+   "index": 31,
+   "name": "data_00031_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00031_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "7e25831782aa7b2e80e6657e02f5ef00",
+       "first": [
+        -0.059875000000000005,
+        -0.05984375,
+        -0.059937500000000005,
+        -0.05990625,
+        -0.05990625,
+        -0.059937500000000005,
+        -0.05996875,
+        -0.06
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 31
+  },
+  {
+   "index": 32,
+   "name": "data_00032_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00032_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "7ad8251a5520763dc817895fc4b78784",
+       "first": [
+        -0.05996875,
+        -0.059937500000000005,
+        -0.06,
+        -0.06,
+        -0.06,
+        -0.05996875,
+        -0.0600625,
+        -0.05996875
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 32
+  },
+  {
+   "index": 33,
+   "name": "data_00033_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00033_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "03c3816bc68008ae30f6d61a23aae1a9",
+       "first": [
+        -0.05965625,
+        -0.05965625,
+        -0.05965625,
+        -0.059625000000000004,
+        -0.05965625,
+        -0.05965625,
+        -0.05965625,
+        -0.05965625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 33
+  },
+  {
+   "index": 34,
+   "name": "data_00034_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00034_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "949647b3963fb4ce80ea01e8067ebc44",
+       "first": [
+        -0.05940625,
+        -0.059375000000000004,
+        -0.05940625,
+        -0.05940625,
+        -0.059375000000000004,
+        -0.059375000000000004,
+        -0.059312500000000004,
+        -0.059312500000000004
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 34
+  },
+  {
+   "index": 35,
+   "name": "data_00035_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00035_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "ad088715285a8a6019592df0e601d24c",
+       "first": [
+        -0.06184375,
+        -0.061875,
+        -0.0618125,
+        -0.06184375,
+        -0.0619375,
+        -0.06184375,
+        -0.06184375,
+        -0.06184375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 35
+  },
+  {
+   "index": 36,
+   "name": "data_00036_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00036_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "37f470e406d1737ce25c4275c66c4338",
+       "first": [
+        -0.06109375,
+        -0.06109375,
+        -0.0610625,
+        -0.0610625,
+        -0.06109375,
+        -0.0610625,
+        -0.0610625,
+        -0.06109375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 36
+  },
+  {
+   "index": 37,
+   "name": "data_00037_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00037_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "f659a881468cf5bc64c44a55fd02d2c3",
+       "first": [
+        -0.0611875,
+        -0.06109375,
+        -0.061125,
+        -0.06109375,
+        -0.06109375,
+        -0.06109375,
+        -0.06115625,
+        -0.06115625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 37
+  },
+  {
+   "index": 38,
+   "name": "data_00038_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00038_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "50e8421e8cce877eb62406577a943c87",
+       "first": [
+        -0.06178125,
+        -0.0616875,
+        -0.06165625,
+        -0.06165625,
+        -0.06175,
+        -0.061625,
+        -0.06175,
+        -0.06171875
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 38
+  },
+  {
+   "index": 39,
+   "name": "data_00039_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00039_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "7f8e3e63fc3073745070b433a371d137",
+       "first": [
+        -0.063,
+        -0.06296875,
+        -0.063,
+        -0.06293750000000001,
+        -0.06290625,
+        -0.06296875,
+        -0.06296875,
+        -0.063
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 39
+  },
+  {
+   "index": 40,
+   "name": "data_00040_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00040_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "4a9fb60bca0fe9b77b5db19e6430a60f",
+       "first": [
+        -0.063,
+        -0.063,
+        -0.06306250000000001,
+        -0.06303125,
+        -0.063,
+        -0.063,
+        -0.063,
+        -0.063
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 40
+  },
+  {
+   "index": 41,
+   "name": "data_00041_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00041_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "c33ba0a60c284a542451d9c31d4cc68f",
+       "first": [
+        -0.06303125,
+        -0.06309375,
+        -0.06306250000000001,
+        -0.06306250000000001,
+        -0.06306250000000001,
+        -0.06306250000000001,
+        -0.06306250000000001,
+        -0.06309375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 41
+  },
+  {
+   "index": 42,
+   "name": "data_00042_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00042_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "b62695a3b534bd1f85b60dfef9380110",
+       "first": [
+        -0.06281250000000001,
+        -0.06281250000000001,
+        -0.06281250000000001,
+        -0.06281250000000001,
+        -0.062875,
+        -0.06290625,
+        -0.06290625,
+        -0.062875
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 42
+  },
+  {
+   "index": 43,
+   "name": "data_00043_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00043_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "0ad493345e744b585b5002919ab99095",
+       "first": [
+        -0.06309375,
+        -0.06306250000000001,
+        -0.06318750000000001,
+        -0.06315625,
+        -0.06309375,
+        -0.063125,
+        -0.063125,
+        -0.063125
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 43
+  },
+  {
+   "index": 44,
+   "name": "data_00044_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00044_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "6279e1c24148a3f587e7bea636faf912",
+       "first": [
+        -0.06225,
+        -0.06225,
+        -0.0623125,
+        -0.06228125,
+        -0.06234375,
+        -0.06234375,
+        -0.062375,
+        -0.06234375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 44
+  },
+  {
+   "index": 45,
+   "name": "data_00045_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00045_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "b0ec19ba125582559b26941373a49ab0",
+       "first": [
+        -0.06234375,
+        -0.06234375,
+        -0.06234375,
+        -0.062375,
+        -0.062375,
+        -0.062375,
+        -0.06221875,
+        -0.0623125
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 45
+  },
+  {
+   "index": 46,
+   "name": "data_00046_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00046_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "4d1c219884572c26a6cf110cc76d3f71",
+       "first": [
+        -0.06246875,
+        -0.0625,
+        -0.06256250000000001,
+        -0.0625,
+        -0.0625,
+        -0.06259375,
+        -0.06253125,
+        -0.06259375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 46
+  },
+  {
+   "index": 47,
+   "name": "data_00047_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00047_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "4debdf67d0704f3dc3005b49f42e2982",
+       "first": [
+        -0.06268750000000001,
+        -0.06265625,
+        -0.06268750000000001,
+        -0.06271875,
+        -0.06275,
+        -0.06271875,
+        -0.06268750000000001,
+        -0.06271875
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 47
+  },
+  {
+   "index": 48,
+   "name": "data_00048_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00048_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "6b252478e5cbc1fe083f9b77724385fd",
+       "first": [
+        -0.06209375,
+        -0.06215625,
+        -0.0621875,
+        -0.062125,
+        -0.06215625,
+        -0.06215625,
+        -0.06215625,
+        -0.06215625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 48
+  },
+  {
+   "index": 49,
+   "name": "data_00049_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00049_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 552500,
+     "channels": [
+      {
+       "xxh3": "63c12d425b1b3540963aea4fe95a218a",
+       "first": [
+        -0.06303125,
+        -0.06306250000000001,
+        -0.06306250000000001,
+        -0.06315625,
+        -0.06315625,
+        -0.06306250000000001,
+        -0.06315625,
+        -0.06306250000000001
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 49
+  },
+  {
+   "index": 50,
+   "name": "data_00050_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00050_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 552500,
+     "channels": [
+      {
+       "xxh3": "edfc3e63cb88c6bce2771f5744d9bb26",
+       "first": [
+        -0.05915625,
+        -0.059187500000000004,
+        -0.059187500000000004,
+        -0.05915625,
+        -0.05915625,
+        -0.05921875,
+        -0.059187500000000004,
+        -0.05921875
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 50
+  },
+  {
+   "index": 51,
+   "name": "data_00051_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00051_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 552500,
+     "channels": [
+      {
+       "xxh3": "542a786168d5f0627bebb23a59c4f655",
+       "first": [
+        -0.059000000000000004,
+        -0.059000000000000004,
+        -0.05896875,
+        -0.05903125,
+        -0.059000000000000004,
+        -0.05896875,
+        -0.058937500000000004,
+        -0.05896875
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 51
+  },
+  {
+   "index": 52,
+   "name": "data_00052_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00052_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 552500,
+     "channels": [
+      {
+       "xxh3": "8bb99eb4b910ab0556094406ef8ba5f9",
+       "first": [
+        -0.05884375,
+        -0.058937500000000004,
+        -0.05890625,
+        -0.058812500000000004,
+        -0.05890625,
+        -0.05890625,
+        -0.05884375,
+        -0.05890625
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 52
+  },
+  {
+   "index": 53,
+   "name": "data_00053_AD0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00053_AD0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 552500,
+     "channels": [
+      {
+       "xxh3": "4a7008f71bcfd5544079f3ec12b550ad",
+       "first": [
+        -0.059937500000000005,
+        -0.059937500000000005,
+        -0.05996875,
+        -0.059937500000000005,
+        -0.05990625,
+        -0.05990625,
+        -0.05996875,
+        -0.059937500000000005
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 53
+  },
+  {
+   "index": 54,
+   "name": "data_00000_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00000_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "f678a1ee40b17d8020632805481754d8",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 0
+  },
+  {
+   "index": 55,
+   "name": "data_00001_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00001_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "1818061c6ba34c96e87be2253202d6c9",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 1
+  },
+  {
+   "index": 56,
+   "name": "data_00002_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00002_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "a0b1fed040f96e01e742d5655264d70d",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 2
+  },
+  {
+   "index": 57,
+   "name": "data_00003_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00003_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "b65490653dc63591c2ca316fcd70482f",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 3
+  },
+  {
+   "index": 58,
+   "name": "data_00004_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00004_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "d083132408e93cb1a0259ba5c2268ff8",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 4
+  },
+  {
+   "index": 59,
+   "name": "data_00005_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00005_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "6629d9ddf782f194d6383823f33c7e23",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 5
+  },
+  {
+   "index": 60,
+   "name": "data_00006_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00006_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "fa6b065b27d66658d965a6767014d6c3",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 6
+  },
+  {
+   "index": 61,
+   "name": "data_00007_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00007_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "13375aa642b1757978d2bd2351f699bc",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 7
+  },
+  {
+   "index": 62,
+   "name": "data_00008_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00008_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "52a8446010bfa03750599ace2ddf350a",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 8
+  },
+  {
+   "index": 63,
+   "name": "data_00009_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00009_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "f9ca2fbded4d26012f7651bbc9b9c959",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 9
+  },
+  {
+   "index": 64,
+   "name": "data_00010_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00010_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "1a2854c5e2ccf9a6640e352f6a6a24f2",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 10
+  },
+  {
+   "index": 65,
+   "name": "data_00011_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00011_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "960e0b1a0338806edf9acde8d1083557",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 11
+  },
+  {
+   "index": 66,
+   "name": "data_00012_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00012_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 177500,
+     "channels": [
+      {
+       "xxh3": "205b7b9d33cfe961b942dec979c75c6f",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 12
+  },
+  {
+   "index": 67,
+   "name": "data_00013_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00013_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1027500,
+     "channels": [
+      {
+       "xxh3": "d0ad418b779f8557f2e3f6221b468e01",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 13
+  },
+  {
+   "index": 68,
+   "name": "data_00014_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00014_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1027500,
+     "channels": [
+      {
+       "xxh3": "057d88b0f79e9863e1ed276d2aac46b9",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 14
+  },
+  {
+   "index": 69,
+   "name": "data_00015_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00015_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1027500,
+     "channels": [
+      {
+       "xxh3": "057d88b0f79e9863e1ed276d2aac46b9",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 15
+  },
+  {
+   "index": 70,
+   "name": "data_00016_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00016_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1027500,
+     "channels": [
+      {
+       "xxh3": "057d88b0f79e9863e1ed276d2aac46b9",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 16
+  },
+  {
+   "index": 71,
+   "name": "data_00017_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00017_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "92ba380d9855c3c44af8ac692a6f064d",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 17
+  },
+  {
+   "index": 72,
+   "name": "data_00018_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00018_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "92ba380d9855c3c44af8ac692a6f064d",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 18
+  },
+  {
+   "index": 73,
+   "name": "data_00019_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00019_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "dc3f2760b89ef592a28079606d20b938",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 19
+  },
+  {
+   "index": 74,
+   "name": "data_00020_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00020_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "c6937d5438385f69aa92962073f513a6",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 20
+  },
+  {
+   "index": 75,
+   "name": "data_00021_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00021_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "00e90c0ea9cc257ccaa7df18dd4fa559",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 21
+  },
+  {
+   "index": 76,
+   "name": "data_00022_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00022_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "81d96882503b274f4c9828b7aad08b28",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 22
+  },
+  {
+   "index": 77,
+   "name": "data_00023_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00023_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "8f970c69a54946a62df03fed6190915a",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 23
+  },
+  {
+   "index": 78,
+   "name": "data_00024_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00024_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "3e9cbb62b9c57fde7c3385347c7a83a3",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 24
+  },
+  {
+   "index": 79,
+   "name": "data_00025_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00025_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "447a87fcdb71484cc0eab1a638bd3f7e",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 25
+  },
+  {
+   "index": 80,
+   "name": "data_00026_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00026_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "b19f787ba40bc9a015840a741ec0e903",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 26
+  },
+  {
+   "index": 81,
+   "name": "data_00027_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00027_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "505b59902b230b2bce2bfe4b401fab46",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 27
+  },
+  {
+   "index": 82,
+   "name": "data_00028_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00028_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "77f3ce22c0a31e9dd36ebc4ae61f32d0",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 28
+  },
+  {
+   "index": 83,
+   "name": "data_00029_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00029_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100000,
+     "channels": [
+      {
+       "xxh3": "a4afc941fb3aae242667b0e129ae70d5",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 29
+  },
+  {
+   "index": 84,
+   "name": "data_00030_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00030_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "8fd842debf23752dbb7397825e722b74",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 30
+  },
+  {
+   "index": 85,
+   "name": "data_00031_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00031_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "fc0d48de282ceb039277dcc034e29961",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 31
+  },
+  {
+   "index": 86,
+   "name": "data_00032_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00032_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "0137ccf3d643cccd0d1b10275980c91f",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 32
+  },
+  {
+   "index": 87,
+   "name": "data_00033_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00033_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "fcbf9a2a9f4c0f330860d7a6744c2413",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 33
+  },
+  {
+   "index": 88,
+   "name": "data_00034_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00034_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "21b885737f169c62834e8a34d198031a",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 34
+  },
+  {
+   "index": 89,
+   "name": "data_00035_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00035_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "fcbf9a2a9f4c0f330860d7a6744c2413",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 35
+  },
+  {
+   "index": 90,
+   "name": "data_00036_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00036_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "c686f52faab533721e33746e99953d73",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 36
+  },
+  {
+   "index": 91,
+   "name": "data_00037_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00037_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "3920033988c4513b99709142735dc69c",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 37
+  },
+  {
+   "index": 92,
+   "name": "data_00038_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00038_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "4b1da958516885cf069f71c83b0d373f",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 38
+  },
+  {
+   "index": 93,
+   "name": "data_00039_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00039_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "7a1d692e1b1e45950d54f8b6f636d498",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 39
+  },
+  {
+   "index": 94,
+   "name": "data_00040_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00040_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "0c7f4c20bd598f268e5ec57f30ccc01a",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 40
+  },
+  {
+   "index": 95,
+   "name": "data_00041_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00041_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "2ee24f25f0b347bc9a22f556a39d4931",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 41
+  },
+  {
+   "index": 96,
+   "name": "data_00042_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00042_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "454350418f4bafb1405cb9be878f06a2",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 42
+  },
+  {
+   "index": 97,
+   "name": "data_00043_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00043_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "3447bfcfe893a178cfe472714e968c85",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 43
+  },
+  {
+   "index": 98,
+   "name": "data_00044_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00044_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "52f41817682875d2dbd854fa18f6825f",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 44
+  },
+  {
+   "index": 99,
+   "name": "data_00045_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00045_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "21b885737f169c62834e8a34d198031a",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 45
+  },
+  {
+   "index": 100,
+   "name": "data_00046_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00046_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "24edb3a6b994e3bf3f2da3bb816751bf",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 46
+  },
+  {
+   "index": 101,
+   "name": "data_00047_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00047_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "484d1e2f15fb858790a31798e363213e",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 47
+  },
+  {
+   "index": 102,
+   "name": "data_00048_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00048_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52650,
+     "channels": [
+      {
+       "xxh3": "7dd881e74b8454ec62abfccc8739865e",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 48
+  },
+  {
+   "index": 103,
+   "name": "data_00049_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00049_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 552500,
+     "channels": [
+      {
+       "xxh3": "a575dfe5a936817f0bb3bd39334790ee",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 49
+  },
+  {
+   "index": 104,
+   "name": "data_00050_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00050_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 552500,
+     "channels": [
+      {
+       "xxh3": "a575dfe5a936817f0bb3bd39334790ee",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 50
+  },
+  {
+   "index": 105,
+   "name": "data_00051_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00051_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 552500,
+     "channels": [
+      {
+       "xxh3": "3b248fc29478f0fe00a16da39371a02f",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 51
+  },
+  {
+   "index": 106,
+   "name": "data_00052_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00052_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 552500,
+     "channels": [
+      {
+       "xxh3": "493bc5f7b9869772037abbb8e00442c5",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 52
+  },
+  {
+   "index": 107,
+   "name": "data_00053_DA0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "data_00053_DA0"
+   ],
+   "sample_rate_hz": 50000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 552500,
+     "channels": [
+      {
+       "xxh3": "237b7b9e15c857e048c446eca83f4bbc",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 53
+  }
+ ],
+ "pynwb_version": "4.2.0",
+ "pynwb_series_checked": 108,
+ "pynwb_values_agree": true,
+ "tables": [
+  {
+   "index": 0,
+   "name": "general/intracellular_ephys/sweep_table",
+   "event_count": 108,
+   "parameter_names": [
+    "id",
+    "series_count",
+    "sweep_number"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "52a7981dceeceb61eb41a397ffac0ef8",
+    "series_count": "addabe071bcef4a1c5cd8698c70cd21e",
+    "sweep_number": "f095109b31ee444759c175132132f6cb"
+   }
+  }
+ ]
+}
