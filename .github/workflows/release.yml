@@ -3,7 +3,7 @@ name: Release
 # Tag push (v*) builds everything, creates the GitHub release and runs the publish jobs whose gate
 # is open. workflow_dispatch is a full dry run: every artifact is built and uploaded to the run,
 # nothing is released or published. Gates (Settings > Secrets and variables > Actions > Variables):
-#   PUBLISH_PYPI, PUBLISH_CRATES, PUBLISH_NPM, PUBLISH_DOCKER = 'true'
+#   PUBLISH_PYPI, PUBLISH_CRATES, PUBLISH_NPM, PUBLISH_DOCKER, PUBLISH_MCP_REGISTRY = 'true'
 # See docs/release-process.md.
 
 on:
@@ -587,3 +587,33 @@ jobs:
       - name: Publish (trusted publishing; no NODE_AUTH_TOKEN)
         working-directory: packaging/npm
         run: npm publish --provenance --access public
+
+  # MCP Registry entry io.github.openreadout/openreadout. Off until PUBLISH_MCP_REGISTRY == 'true'.
+  # GitHub OIDC login grants the io.github.openreadout namespace without a token. It publishes the
+  # release's server.json, which has the real .mcpb hashes, after npm and crates.io: the registry
+  # checks that the npm and cargo packages it names exist.
+  publish-mcp-registry:
+    name: publish to the MCP Registry
+    needs: [release, publish-npm, publish-crates]
+    if: vars.PUBLISH_MCP_REGISTRY == 'true' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # mcp-publisher login github-oidc
+    steps:
+      - name: Install mcp-publisher 1.8.1
+        run: |
+          set -e
+          curl -fsSL -o mcp-publisher.tar.gz \
+            https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz
+          echo "a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc  mcp-publisher.tar.gz" | sha256sum -c -
+          tar xzf mcp-publisher.tar.gz mcp-publisher
+      - name: Download the release's server.json
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern server.json
+      - name: Publish
+        run: |
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish server.json
