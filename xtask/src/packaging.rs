@@ -370,31 +370,10 @@ fn mcp_versions(c: &mut Checker, r: &Path, v: &str) -> Result<()> {
 /// The Claude Code plugin and marketplace, the Codex plugin, the Gemini CLI extension, the npm
 /// and WebAssembly packages, CITATION.cff.
 fn plugin_versions(c: &mut Checker, r: &Path) -> Result<()> {
-    // Claude Code plugin and marketplace.
-    c.expect(
-        ".claude-plugin/plugin.json version",
-        read_json(".claude-plugin/plugin.json")?["version"].as_str(),
-    );
-    let mk = read_json(".claude-plugin/marketplace.json")?;
-    c.expect(
-        ".claude-plugin/marketplace.json metadata.version",
-        mk["metadata"]["version"].as_str(),
-    );
-    for p in mk["plugins"].as_array().into_iter().flatten() {
-        c.expect(
-            &format!(
-                ".claude-plugin/marketplace.json plugins[{}] version",
-                p["name"].as_str().unwrap_or("?")
-            ),
-            p["version"].as_str(),
-        );
-    }
-    // Codex plugin and Gemini CLI extension.
-    for file in [".codex-plugin/plugin.json", "gemini-extension.json"] {
-        c.expect(
-            &format!("{file} version"),
-            read_json(file)?["version"].as_str(),
-        );
+    // Claude Code and Codex plugins and the Gemini CLI extension (the agent-plugins repository).
+    let dir = crate::agent_plugins::SOURCE;
+    for (label, version) in crate::agent_plugins::manifest_versions(&r.join(dir))? {
+        c.expect(&format!("{dir}/{label}"), version.as_deref());
     }
 
     // npm wrapper, and the WebAssembly package.
