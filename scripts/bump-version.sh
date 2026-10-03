@@ -6,6 +6,7 @@
 #
 # Files: Cargo.toml (workspace version + internal dependency requirements), Cargo.lock,
 # server.json, mcpb/manifest.json, .claude-plugin/{plugin,marketplace}.json,
+# .codex-plugin/plugin.json, gemini-extension.json,
 # python/bioio-openreadout/pyproject.toml and python/napari-openreadout/pyproject.toml
 # (version + openreadout requirement),
 # packaging/npm/package.json, packaging/wasm/package.json, CITATION.cff, THIRD-PARTY-NOTICES.md (our own crates' versions), CHANGELOG.md.
@@ -51,7 +52,7 @@ perl -pi -e '
 ' Cargo.toml
 
 # JSON manifests: every "version": "OLD" and release download URLs.
-for f in server.json mcpb/manifest.json .claude-plugin/plugin.json .claude-plugin/marketplace.json packaging/npm/package.json packaging/wasm/package.json packaging/wasm/package-lock.json; do
+for f in server.json mcpb/manifest.json .claude-plugin/plugin.json .claude-plugin/marketplace.json .codex-plugin/plugin.json gemini-extension.json packaging/npm/package.json packaging/wasm/package.json packaging/wasm/package-lock.json; do
   perl -pi -e 's/("version":\s*")\Q$ENV{OLD}\E(")/${1}$ENV{NEW}$2/g; s{/releases/download/v\Q$ENV{OLD}\E/}{/releases/download/v$ENV{NEW}/}g' "$f"
 done
 

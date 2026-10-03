@@ -7,16 +7,31 @@ There are two ways to let an AI agent use OpenReadout. You can use either or bot
 
 Both return the same JSON as the command line. Install the program first (see [Install](../getting-started/install.md)). The commands below assume `openreadout` is on your `PATH`.
 
-## Claude Code plugin
+## Plugins
 
-In Claude Code, the plugin installs the skill and the MCP server together:
+Claude Code, Codex and Gemini CLI can install the skill and the MCP server together as a plugin or extension.
+
+In Claude Code:
 
 ```text
 /plugin marketplace add openreadout/openreadout
 /plugin install openreadout@openreadout
 ```
 
-The plugin's MCP server runs `openreadout mcp`, so the program must be on your `PATH`.
+In Codex:
+
+```bash
+codex plugin marketplace add openreadout/openreadout
+codex plugin add openreadout@openreadout
+```
+
+In Gemini CLI:
+
+```bash
+gemini extensions install https://github.com/openreadout/openreadout
+```
+
+Each one's MCP server runs `openreadout mcp`, so the program must be on your `PATH`.
 
 ## The skill
 

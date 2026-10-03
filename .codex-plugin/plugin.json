@@ -1,0 +1,33 @@
+{
+  "name": "openreadout",
+  "version": "0.1.0",
+  "description": "Read raw lab-instrument files without the vendor software: metadata, integrity checks, analyses and open-format export, as a skill and an MCP server.",
+  "author": { "name": "OpenReadout", "email": "openreadout@gmail.com", "url": "https://github.com/openreadout" },
+  "homepage": "https://openreadout.github.io/openreadout/",
+  "repository": "https://github.com/openreadout/openreadout",
+  "license": "MIT OR Apache-2.0",
+  "keywords": [
+    "science", "lab", "microscopy", "mass-spectrometry", "chromatography", "flow-cytometry",
+    "electrophysiology", "nmr", "spectroscopy", "plate-reader", "qpcr", "ome-tiff", "ome-zarr", "mzml", "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "OpenReadout",
+    "shortDescription": "Read lab-instrument files",
+    "longDescription": "Read raw files from microscopes, mass spectrometers, chromatographs, flow cytometers, NMR and IR/Raman spectrometers, electrophysiology rigs, plate readers and qPCR machines without the vendor software. Get metadata, previews, integrity checks and the usual analyses, and export to OME-TIFF, OME-Zarr, mzML, Parquet, NWB and other open formats. Runs locally with the openreadout program on your PATH, makes no network connections, and never modifies the files it reads.",
+    "developerName": "OpenReadout",
+    "category": "Research",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://openreadout.github.io/openreadout/",
+    "supportURL": "https://github.com/openreadout/openreadout/issues",
+    "privacyPolicyURL": "https://github.com/openreadout/openreadout/blob/main/PRIVACY.md",
+    "defaultPrompt": [
+      "What is in this instrument file, and how was it acquired?",
+      "Check whether these files are intact.",
+      "Convert this image to OME-TIFF."
+    ],
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/icon.svg"
+  }
+}

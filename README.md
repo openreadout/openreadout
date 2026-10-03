@@ -272,6 +272,21 @@ Installs the MCP server and the skill together:
 /plugin install openreadout@openreadout
 ```
 
+### Gemini CLI Extension
+
+```bash
+gemini extensions install https://github.com/openreadout/openreadout
+```
+
+### Codex Plugin
+
+```bash
+codex plugin marketplace add openreadout/openreadout
+codex plugin add openreadout@openreadout
+```
+
+The Claude Code plugin, the Gemini CLI extension and the Codex plugin each add the skill and the MCP server. The server runs the `openreadout` binary from your `PATH`, so [install](#installation) it first.
+
 ### Agent Skill
 
 ```bash

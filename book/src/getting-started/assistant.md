@@ -42,6 +42,8 @@ configured openreadout in /home/you/.cursor/mcp.json (previous file saved as /ho
 /plugin install openreadout@openreadout
 ```
 
+Codex and Gemini CLI have the same kind of package. See [Plugins](../guides/agents.md#plugins).
+
 ## What to ask first
 
 Ask in plain words and give the path:
