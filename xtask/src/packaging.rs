@@ -9,6 +9,9 @@
 //! Rendering fails if a placeholder is unknown, an asset is missing from the checksums, or a
 //! checksum is not 64 hex digits, so a broken release can never produce a plausible-looking
 //! manifest.
+//!
+//! A template's leading `#` comment block describes the template. The rendered file starts with
+//! a short header of its own instead (see [`render_template`]).
 
 use std::collections::BTreeMap;
 use std::fs;
@@ -78,6 +81,52 @@ pub fn render(template: &str, version: &str, sums: &BTreeMap<String, String>) ->
     Ok(out)
 }
 
+/// The header a rendered file starts with in place of the template's leading comment block.
+/// JSON has no comments, so a JSON template gets none.
+fn rendered_header(template: &str, version: &str) -> Option<String> {
+    let src = format!("https://github.com/openreadout/openreadout/blob/main/packaging/{template}");
+    match Path::new(template).extension().and_then(|e| e.to_str()) {
+        Some("rb") => Some(format!(
+            "# OpenReadout {version}: installs the prebuilt, statically linked release binary.\n\
+             # Rendered from the template {src}\n"
+        )),
+        Some("yaml") => Some(format!(
+            "# OpenReadout {version}, rendered from the template {src}\n"
+        )),
+        _ => None,
+    }
+}
+
+/// Swap the leading `#` comment block of `text` for `header`. `# yaml-language-server:` lines
+/// in that block stay first, because editors read the schema from them.
+fn replace_header(text: &str, header: &str) -> String {
+    let mut lines = text.split_inclusive('\n').peekable();
+    let mut out = String::with_capacity(text.len());
+    while let Some(line) = lines.next_if(|l| l.starts_with('#')) {
+        if line.starts_with("# yaml-language-server:") {
+            out.push_str(line);
+        }
+    }
+    out.push_str(header);
+    out.extend(lines);
+    out
+}
+
+/// Render the template `packaging/<template>`, whose contents are `text`: fill in the
+/// placeholders and replace the template's header comment.
+pub fn render_template(
+    template: &str,
+    text: &str,
+    version: &str,
+    sums: &BTreeMap<String, String>,
+) -> Result<String> {
+    let rendered = render(text, version, sums)?;
+    Ok(match rendered_header(template, version) {
+        Some(header) => replace_header(&rendered, &header),
+        None => rendered,
+    })
+}
+
 /// The workspace version from the root `Cargo.toml`.
 pub fn cargo_version() -> Result<String> {
     let text = fs::read_to_string(root().join("Cargo.toml"))?;
@@ -111,7 +160,7 @@ pub fn render_file(template: &str, version: Option<String>, sums: &Path, out: &P
         parse_sums(&fs::read_to_string(sums).with_context(|| format!("read {}", sums.display()))?)?;
     let src = root().join("packaging").join(template);
     let text = fs::read_to_string(&src).with_context(|| format!("read {}", src.display()))?;
-    let rendered = render(&text, &version, &sums)?;
+    let rendered = render_template(template, &text, &version, &sums)?;
     if Path::new(template)
         .extension()
         .is_some_and(|e| e.eq_ignore_ascii_case("json"))
@@ -540,9 +589,39 @@ mod tests {
             "winget/OpenReadout.OpenReadout.locale.en-US.yaml",
         ] {
             let text = fs::read_to_string(root().join("packaging").join(t)).unwrap();
-            let out = render(&text, "9.8.7", &sums).unwrap();
+            let out = render_template(t, &text, "9.8.7", &sums).unwrap();
             assert!(!out.contains("{{"), "{t} still has placeholders");
             assert!(out.contains("9.8.7"), "{t} has no version");
+            assert!(
+                !out.contains("TEMPLATE"),
+                "{t} still has the template's header"
+            );
         }
+    }
+
+    #[test]
+    fn rendered_files_get_their_own_header() {
+        let sums = parse_sums(&format!("{A}  x.tar.gz\n")).unwrap();
+        let rb = "# Formula TEMPLATE.\n#\n# Do not install this file directly.\nclass X < Formula\n  # kept\nend\n";
+        let out = render_template("homebrew/openreadout.rb", rb, "1.2.3", &sums).unwrap();
+        assert_eq!(
+            out,
+            "# OpenReadout 1.2.3: installs the prebuilt, statically linked release binary.\n\
+             # Rendered from the template https://github.com/openreadout/openreadout/blob/main/packaging/homebrew/openreadout.rb\n\
+             class X < Formula\n  # kept\nend\n"
+        );
+
+        let yaml = "# yaml-language-server: $schema=s\n# TEMPLATE: rendered by xtask.\nA: \"{{version}}\"\n";
+        let out = render_template("winget/X.yaml", yaml, "1.2.3", &sums).unwrap();
+        assert_eq!(
+            out,
+            "# yaml-language-server: $schema=s\n\
+             # OpenReadout 1.2.3, rendered from the template https://github.com/openreadout/openreadout/blob/main/packaging/winget/X.yaml\n\
+             A: \"1.2.3\"\n"
+        );
+
+        let json = "{\"version\": \"{{version}}\"}\n";
+        let out = render_template("scoop/x.json", json, "1.2.3", &sums).unwrap();
+        assert_eq!(out, "{\"version\": \"1.2.3\"}\n");
     }
 }
