@@ -6,7 +6,11 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Added
 
-- A Codex plugin and marketplace (`codex plugin marketplace add openreadout/openreadout`) and a Gemini CLI extension (`gemini extensions install https://github.com/openreadout/openreadout`).
+- A Codex plugin and marketplace (`codex plugin marketplace add openreadout/agent-plugins`) and a Gemini CLI extension (`gemini extensions install https://github.com/openreadout/agent-plugins`).
+
+### Changed
+
+- The Claude Code plugin, the Codex plugin and the Gemini CLI extension install from their own repository, [openreadout/agent-plugins](https://github.com/openreadout/agent-plugins), which the release workflow updates. Add the Claude Code marketplace again with `/plugin marketplace add openreadout/agent-plugins`.
 - A privacy policy, `PRIVACY.md`, linked from the README, the docs site and the `.mcpb` manifest.
 
 ### Fixed

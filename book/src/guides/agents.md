@@ -9,26 +9,26 @@ Both return the same JSON as the command line. Install the program first (see [I
 
 ## Plugins
 
-Claude Code, Codex and Gemini CLI can install the skill and the MCP server together as a plugin or extension.
+Claude Code, Codex and Gemini CLI can install the skill and the MCP server together as a plugin or extension. These install from [openreadout/agent-plugins](https://github.com/openreadout/agent-plugins), a small repository that each release updates.
 
 In Claude Code:
 
 ```text
-/plugin marketplace add openreadout/openreadout
+/plugin marketplace add openreadout/agent-plugins
 /plugin install openreadout@openreadout
 ```
 
 In Codex:
 
 ```bash
-codex plugin marketplace add openreadout/openreadout
+codex plugin marketplace add openreadout/agent-plugins
 codex plugin add openreadout@openreadout
 ```
 
 In Gemini CLI:
 
 ```bash
-gemini extensions install https://github.com/openreadout/openreadout
+gemini extensions install https://github.com/openreadout/agent-plugins
 ```
 
 Each one's MCP server runs `openreadout mcp`, so the program must be on your `PATH`.

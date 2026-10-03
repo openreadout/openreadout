@@ -38,7 +38,7 @@ configured openreadout in /home/you/.cursor/mcp.json (previous file saved as /ho
 **The Claude Code plugin** installs the skill and the MCP server together (the program must be on your `PATH`):
 
 ```text
-/plugin marketplace add openreadout/openreadout
+/plugin marketplace add openreadout/agent-plugins
 /plugin install openreadout@openreadout
 ```
 

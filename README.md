@@ -268,24 +268,24 @@ Windsurf, Zed, Continue, and Cline are supported too. The server exposes 15 tool
 Installs the MCP server and the skill together:
 
 ```text
-/plugin marketplace add openreadout/openreadout
+/plugin marketplace add openreadout/agent-plugins
 /plugin install openreadout@openreadout
 ```
 
 ### Gemini CLI Extension
 
 ```bash
-gemini extensions install https://github.com/openreadout/openreadout
+gemini extensions install https://github.com/openreadout/agent-plugins
 ```
 
 ### Codex Plugin
 
 ```bash
-codex plugin marketplace add openreadout/openreadout
+codex plugin marketplace add openreadout/agent-plugins
 codex plugin add openreadout@openreadout
 ```
 
-The Claude Code plugin, the Gemini CLI extension and the Codex plugin each add the skill and the MCP server. The server runs the `openreadout` binary from your `PATH`, so [install](#installation) it first.
+The Claude Code plugin, the Gemini CLI extension and the Codex plugin each add the skill and the MCP server. They come from the small [openreadout/agent-plugins](https://github.com/openreadout/agent-plugins) repository, which each release updates. The server runs the `openreadout` binary from your `PATH`, so [install](#installation) it first.
 
 ### Agent Skill
 
