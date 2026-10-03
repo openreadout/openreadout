@@ -14,7 +14,8 @@
     "type": "git",
     "url": "https://github.com/openreadout/openreadout"
   },
-  "homepage": "https://github.com/openreadout/openreadout",
+  "homepage": "https://openreadout.github.io/openreadout/",
+  "icon": "icon.png",
   "license": "MIT OR Apache-2.0",
   "privacy_policies": [
     "https://github.com/openreadout/openreadout/blob/main/PRIVACY.md"
