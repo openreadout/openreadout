@@ -100,8 +100,8 @@ Your agent can now open, check, plot, and convert instrument files on your behal
 ## For Developers — See It Live in 30 Seconds
 
 ```bash
-# 1. Install (until the first release, build from source)
-cargo install --locked --git https://github.com/openreadout/openreadout openreadout
+# 1. Install (macOS / Linux; other ways below)
+curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/install.sh | sh
 
 # 2. See what is in a file — reads headers only, fast on any size
 openreadout info cells.lif
@@ -220,14 +220,6 @@ The [format list](https://openreadout.github.io/openreadout/formats.html) has al
 
 Ships as a single self-contained binary. No Java, no Python, no vendor DLLs -- nothing else to install.
 
-OpenReadout has not had its first release yet. Until then, build from source with Rust 1.91 or newer:
-
-```bash
-cargo install --locked --git https://github.com/openreadout/openreadout openreadout
-```
-
-**From the first release on:**
-
 ```bash
 # macOS / Linux
 curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/install.sh | sh
@@ -240,6 +232,9 @@ brew install openreadout/tap/openreadout
 
 # npm (all platforms — fetches the native binary for your platform)
 npm install -g openreadout
+
+# Rust toolchain
+cargo install openreadout --locked
 ```
 
 Docker, Nix, cargo-binstall, and the other channels are on the [install page](https://openreadout.github.io/openreadout/getting-started/install.html).
@@ -329,7 +324,7 @@ The agent follows the hint, lists the images, and picks the right index.
 
 ## Python and R
 
-**Python** — `pip install openreadout` returns metadata as dicts and pixels as NumPy, dask, or xarray arrays, with plugins for [bioio](https://github.com/bioio-devs/bioio) and napari. Until wheels are published, run `pip install .` in a checkout. See the [Python guide](https://openreadout.github.io/openreadout/guides/python.html).
+**Python** — `pip install openreadout` returns metadata as dicts and pixels as NumPy, dask, or xarray arrays, with plugins for [bioio](https://github.com/bioio-devs/bioio) and napari. See the [Python guide](https://openreadout.github.io/openreadout/guides/python.html).
 
 ```python
 import openreadout

@@ -4,7 +4,6 @@ import formats from "../data/formats.json";
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 const nFormats = formats.formats.length;
-const repo = "https://github.com/openreadout/openreadout";
 // Keep in step with the table in README.md.
 const areas = [
   ["Light microscopy", "Zeiss CZI, Nikon ND2, Leica LIF, Olympus OIR/VSI/OIB, Imaris, OME-TIFF and other TIFF variants, OME-Zarr, whole-slide images", "OME-TIFF, OME-Zarr"],
@@ -55,8 +54,8 @@ const areas = [
 <span class="p">$ </span>openreadout mcp --install claude-desktop   <span class="c"># or claude, cursor, codex, vscode, gemini …</span></code></pre>
           </div>
           <div role="tabpanel" id="i-cli" aria-labelledby="t-cli" hidden>
-            <pre><code><span class="c"># until the first release, build from source (Rust 1.91+)</span>
-<span class="p">$ </span>cargo install --locked --git {repo} openreadout
+            <pre><code><span class="c"># install (macOS, Linux; Windows, Homebrew, npm and more on the install page)</span>
+<span class="p">$ </span>curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/install.sh | sh
 <span class="c"># what is in it, is it intact, look at it, convert it</span>
 <span class="p">$ </span>openreadout info cells.lif
 <span class="p">$ </span>openreadout check plate7/
@@ -64,7 +63,7 @@ const areas = [
 <span class="p">$ </span>openreadout export cells.lif -o cells.ome.tiff</code></pre>
           </div>
           <div role="tabpanel" id="i-py" aria-labelledby="t-py" hidden>
-            <pre><code><span class="c"># until wheels are published: pip install . in a checkout</span>
+            <pre><code><span class="c"># wheels for Linux, macOS and Windows</span>
 <span class="p">$ </span>pip install openreadout
 <span class="p">&gt;&gt;&gt; </span>import openreadout
 <span class="p">&gt;&gt;&gt; </span>with openreadout.File("cells.lif") as f:
