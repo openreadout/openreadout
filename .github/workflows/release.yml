@@ -273,8 +273,8 @@ jobs:
         with:
           path: artifacts
           merge-multiple: true
-      - name: Drop run-only artifacts (winget manifest tree)
-        run: rm -rf artifacts/manifests
+      - name: Drop run-only artifacts (winget manifest tree, agent-plugins tree)
+        run: rm -rf artifacts/manifests artifacts/agent-plugins
       - name: Checksums
         run: |
           cd artifacts && sha256sum ./* | sed 's# \./# #' > SHA256SUMS && cat SHA256SUMS
@@ -307,6 +307,92 @@ jobs:
         with:
           name: release-dry-run
           path: artifacts/*
+
+  # The Claude Code and Codex plugins and the Gemini CLI extension are installed from their own
+  # small repository, openreadout/agent-plugins, so installing one doesn't clone this repository.
+  # Every run builds its contents (cargo xtask agent-plugins) and keeps them as an artifact; on a
+  # tag the agent-plugins job pushes them there.
+  agent-plugins-tree:
+    name: agent-plugins tree
+    needs: [version-check]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      # Built one level down so the artifact holds an agent-plugins/ directory, which the
+      # release job drops after merging every artifact.
+      - name: Build the tree
+        run: cargo xtask agent-plugins --out "$RUNNER_TEMP/agent-plugins-artifact/agent-plugins"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: agent-plugins
+          path: ${{ runner.temp }}/agent-plugins-artifact
+          include-hidden-files: true  # .claude-plugin/, .codex-plugin/, .agents/, .mcp.json
+
+  # Replaces the contents of openreadout/agent-plugins with the tree, commits it as
+  # "openreadout X.Y.Z" and tags it vX.Y.Z. The environment holds AGENT_PLUGINS_DEPLOY_KEY, the
+  # private half of a write deploy key on that repository. The key goes to a file that is deleted
+  # when the step ends, and ssh accepts only GitHub's published host keys (pinned below, from
+  # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints).
+  agent-plugins:
+    name: push openreadout/agent-plugins
+    needs: [release, agent-plugins-tree]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    environment:
+      name: agent-plugins
+      url: https://github.com/openreadout/agent-plugins
+    permissions: {}
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: agent-plugins
+          path: artifact
+      - name: Commit, tag and push
+        env:
+          DEPLOY_KEY: ${{ secrets.AGENT_PLUGINS_DEPLOY_KEY }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          version="${TAG#v}"
+          umask 077
+          ssh_dir="$(mktemp -d)"
+          trap 'rm -rf "$ssh_dir"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$ssh_dir/key"
+          cat > "$ssh_dir/known_hosts" <<'EOF'
+          github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+          github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=
+          github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=
+          EOF
+          export GIT_SSH_COMMAND="ssh -i $ssh_dir/key -o IdentitiesOnly=yes -o UserKnownHostsFile=$ssh_dir/known_hosts -o StrictHostKeyChecking=yes"
+
+          git clone git@github.com:openreadout/agent-plugins.git repo
+          cd repo
+          # A new, empty repository has no commits yet.
+          git rev-parse -q --verify HEAD >/dev/null || git symbolic-ref HEAD refs/heads/main
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a ../artifact/agent-plugins/. .
+          git add -A
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "nothing changed since the last release; tagging the current commit"
+          else
+            git commit -s -m "openreadout $version"
+          fi
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+            if [ "$(git rev-parse "$TAG^{commit}")" != "$(git rev-parse HEAD)" ]; then
+              echo "::error::$TAG already exists in openreadout/agent-plugins on another commit"
+              exit 1
+            fi
+          else
+            git tag -a "$TAG" -m "openreadout $version"
+          fi
+          git push --atomic origin HEAD:refs/heads/main "refs/tags/$TAG"
 
   # Container image: built and smoke-tested on every run; pushed to ghcr.io only on a tag with
   # PUBLISH_DOCKER == 'true'. The build stage cross-compiles, so both platforms build natively.

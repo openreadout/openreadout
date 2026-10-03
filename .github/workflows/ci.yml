@@ -367,9 +367,11 @@ jobs:
         run: |
           npm test
           npm pack --dry-run
-      # `claude plugin validate` misses some load errors (a marketplace entry that declares
-      # components next to plugin.json), so the plugin is also installed and loaded. None of
-      # these commands needs a login. 2.1.281 or later accepts the directory-listing fields.
+      # The plugins are published from their own repository, openreadout/agent-plugins, which
+      # `cargo xtask agent-plugins` builds. `claude plugin validate` misses some load errors (a
+      # marketplace entry that declares components next to plugin.json), so the plugin is also
+      # installed and loaded. None of these commands needs a login. 2.1.281 or later accepts the
+      # directory-listing fields.
       - name: Claude Code plugin validates and loads
         env:
           CLAUDE_CONFIG_DIR: ${{ runner.temp }}/claude
@@ -377,11 +379,13 @@ jobs:
           CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1"
         run: | # zizmor: ignore[adhoc-packages] (the Claude Code CLI at a pinned version, only to validate the plugin)
           set -e
+          tree="$RUNNER_TEMP/agent-plugins"
+          cargo xtask agent-plugins --out "$tree"
           npm install --prefix "$RUNNER_TEMP/claude-code" --no-audit --no-fund @anthropic-ai/claude-code@2.1.288
           claude="$RUNNER_TEMP/claude-code/node_modules/.bin/claude"
-          "$claude" plugin validate --strict .
-          "$claude" plugin validate --strict .claude-plugin/plugin.json
-          "$claude" plugin marketplace add "$PWD"
+          "$claude" plugin validate --strict "$tree"
+          "$claude" plugin validate --strict "$tree/.claude-plugin/plugin.json"
+          "$claude" plugin marketplace add "$tree"
           "$claude" plugin install openreadout@openreadout
           "$claude" plugin list
           "$claude" plugin details openreadout@openreadout
