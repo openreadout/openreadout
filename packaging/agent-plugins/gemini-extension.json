@@ -1,0 +1,11 @@
+{
+  "name": "openreadout",
+  "version": "0.1.0",
+  "description": "Read raw lab-instrument files without the vendor software: metadata, integrity checks, analyses and open-format export, as a skill and an MCP server.",
+  "mcpServers": {
+    "openreadout": {
+      "command": "openreadout",
+      "args": ["mcp"]
+    }
+  }
+}

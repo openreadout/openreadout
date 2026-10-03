@@ -1,0 +1,20 @@
+{
+  "name": "openreadout",
+  "displayName": "OpenReadout",
+  "version": "0.1.0",
+  "description": "Read raw lab-instrument files without the vendor software: metadata, integrity checks, analyses and open-format export, as a skill and an MCP server.",
+  "author": { "name": "OpenReadout", "email": "openreadout@gmail.com", "url": "https://github.com/openreadout" },
+  "homepage": "https://openreadout.github.io/openreadout/",
+  "repository": "https://github.com/openreadout/openreadout",
+  "license": "MIT OR Apache-2.0",
+  "keywords": [
+    "science", "lab", "microscopy", "mass-spectrometry", "chromatography", "flow-cytometry",
+    "electrophysiology", "nmr", "spectroscopy", "plate-reader", "qpcr", "ome-tiff", "ome-zarr", "mzml", "mcp"
+  ],
+  "icon": "./assets/icon.svg",
+  "documentationUrl": "https://openreadout.github.io/openreadout/guides/agents.html",
+  "supportUrl": "https://github.com/openreadout/openreadout/issues",
+  "privacyPolicyUrl": "https://github.com/openreadout/openreadout/blob/main/PRIVACY.md",
+  "skills": ["./skills/openreadout"],
+  "mcpServers": "./.mcp.json"
+}

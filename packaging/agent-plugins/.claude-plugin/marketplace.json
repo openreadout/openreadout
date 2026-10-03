@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "openreadout",
-  "owner": { "name": "OpenReadout", "email": "openreadout@gmail.com" },
+  "owner": { "name": "OpenReadout", "email": "openreadout@gmail.com", "url": "https://github.com/openreadout" },
   "metadata": {
     "description": "OpenReadout: read raw lab-instrument files without vendor software.",
     "version": "0.1.0"
@@ -12,12 +12,7 @@
       "source": "./",
       "description": "Read raw lab-instrument files without the vendor software: metadata, integrity checks, analyses and open-format export, as a skill and an MCP server.",
       "version": "0.1.0",
-      "category": "science",
-      "keywords": ["microscopy", "czi", "nd2", "lif", "ome-tiff", "ome-zarr", "lab", "mcp"],
-      "homepage": "https://github.com/openreadout/openreadout",
-      "license": "MIT OR Apache-2.0",
-      "strict": false,
-      "skills": ["./skills/openreadout"]
+      "category": "science"
     }
   ]
 }

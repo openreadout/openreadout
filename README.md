@@ -263,9 +263,24 @@ Windsurf, Zed, Continue, and Cline are supported too. The server exposes 15 tool
 Installs the MCP server and the skill together:
 
 ```text
-/plugin marketplace add openreadout/openreadout
+/plugin marketplace add openreadout/agent-plugins
 /plugin install openreadout@openreadout
 ```
+
+### Gemini CLI Extension
+
+```bash
+gemini extensions install https://github.com/openreadout/agent-plugins
+```
+
+### Codex Plugin
+
+```bash
+codex plugin marketplace add openreadout/agent-plugins
+codex plugin add openreadout@openreadout
+```
+
+The Claude Code plugin, the Gemini CLI extension and the Codex plugin each add the skill and the MCP server. They come from the small [openreadout/agent-plugins](https://github.com/openreadout/agent-plugins) repository, which each release updates. The server runs the `openreadout` binary from your `PATH`, so [install](#installation) it first.
 
 ### Agent Skill
 
@@ -349,6 +364,10 @@ The [documentation](https://openreadout.github.io/openreadout/) has guides for e
 - **Reference:** [Commands](https://openreadout.github.io/openreadout/reference/commands.html) | [MCP tools](https://openreadout.github.io/openreadout/reference/mcp.html) | [Formats](https://openreadout.github.io/openreadout/formats.html)
 - **Guides:** [AI agents](https://openreadout.github.io/openreadout/guides/agents.html) | [Python](https://openreadout.github.io/openreadout/guides/python.html) | [R](https://openreadout.github.io/openreadout/guides/r.html) | [Recipes](https://openreadout.github.io/openreadout/recipes.html) | [Batch tables](https://openreadout.github.io/openreadout/guides/batch.html)
 - **A file that does not work:** run `openreadout check --report FILE` and attach the bundle to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). It contains no data values, sample names, or paths.
+
+## Privacy
+
+OpenReadout runs on your computer, makes no network connections and sends no telemetry. See [PRIVACY.md](PRIVACY.md).
 
 ## License
 

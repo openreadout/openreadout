@@ -38,9 +38,11 @@ configured openreadout in /home/you/.cursor/mcp.json (previous file saved as /ho
 **The Claude Code plugin** installs the skill and the MCP server together (the program must be on your `PATH`):
 
 ```text
-/plugin marketplace add openreadout/openreadout
+/plugin marketplace add openreadout/agent-plugins
 /plugin install openreadout@openreadout
 ```
+
+Codex and Gemini CLI have the same kind of package. See [Plugins](../guides/agents.md#plugins).
 
 ## What to ask first
 
@@ -86,6 +88,8 @@ $ openreadout preview mini.nd2 --image 3 --json
 - OpenReadout doesn't connect to the network. Release binaries contain no networking code.
 - OpenReadout doesn't modify your files. `openreadout_export` writes a new file, reads it back to check it, then gives it its final name. It replaces an existing output only if you ask it to overwrite.
 - The server runs as you, so it can open any file your user account can read.
+
+The [privacy policy](../../../PRIVACY.md) has the details.
 
 ## More
 

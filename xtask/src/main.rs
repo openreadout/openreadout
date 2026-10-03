@@ -5,6 +5,7 @@
 //! - `vocab-check` — every public identifier in a format crate must appear in `docs/formats/<fmt>.md`
 //! - `skill-parity` — the CLI crate's copy of the agent skill must match skills/openreadout/
 //! - `mcpb pack` — build a .mcpb bundle around a release binary
+//! - `agent-plugins --out DIR` — the openreadout/agent-plugins repository: plugin manifests, skill, licenses
 //! - `homebrew-formula`, `scoop-manifest`, `winget-manifest` — package-manager manifests from SHA256SUMS
 //! - `heldout-check` — no provenance log, format note or reader cites a held-out corpus file
 //! - `version-check` — every version string in the repository agrees with Cargo.toml
@@ -18,6 +19,7 @@
 //! - `variant intake|status|check` — the new-variant loop: a file or report bundle → corpus entry, intake record, provenance stub (docs/maintaining.md)
 #![forbid(unsafe_code)]
 
+mod agent_plugins;
 mod assurance;
 mod compress;
 mod corpus;
@@ -69,6 +71,13 @@ enum Cmd {
         /// Overwrite the copy from the canonical skills/openreadout/.
         #[arg(long)]
         fix: bool,
+    },
+    /// Assemble the openreadout/agent-plugins repository (Claude Code and Codex plugins, Gemini
+    /// CLI extension) from packaging/agent-plugins/, the skill and the licenses.
+    AgentPlugins {
+        /// Output directory; must be missing or empty.
+        #[arg(long)]
+        out: PathBuf,
     },
     /// Build a .mcpb bundle (zip with manifest.json + binary) for Claude Desktop.
     Mcpb {
@@ -281,6 +290,7 @@ fn main() -> Result<()> {
         } => schema_gen(),
         Cmd::VocabCheck => vocab_check(),
         Cmd::SkillParity { fix } => skill_parity(fix),
+        Cmd::AgentPlugins { out } => agent_plugins::run(&out),
         Cmd::Mcpb {
             cmd:
                 McpbCmd::Pack {
