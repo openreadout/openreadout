@@ -4,7 +4,9 @@
 //! peak heap is a function of the plane size and the thread count, not of the plane count.
 //! This test exports synthetic images of 16 and 64 planes (the larger one is 4x the data, and
 //! both span several decode windows, so both reach the steady state) and asserts that
-//! 1. the peak heap of the large export is within a small slack of the small one, and
+//! 1. the peak heap of the large export exceeds the small one's by at most one decode window
+//!    (`2 * threads` planes): how full the window gets in the small export depends on thread
+//!    timing, but an export that kept every plane would hold all 64, and
 //! 2. the peak heap stays below the documented formula, `(2 * threads + 4) * plane_bytes`
 //!    plus a fixed allowance for metadata and I/O buffers.
 //!
@@ -89,7 +91,7 @@ fn check(zarr: bool) {
             mib(ceiling)
         );
         assert!(
-            p_large <= p_small + 2 * plane,
+            p_large <= p_small + 2 * threads * plane,
             "{what} peak heap grows with the plane count: {p_small} B for 16 planes, {p_large} B for 64"
         );
         assert!(
