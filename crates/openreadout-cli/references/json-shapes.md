@@ -25,7 +25,7 @@ spectra[] (mass spectrometry only; images[] is then empty): {
          ms_level_counts {"1": n, "2": m}, polarities[], analyzers[] (FTMS|ITMS|...), ion_sources[] (ESI|NSI|MALDI|...),
          profile_scans, centroid_scans, ms1_scan_filters {filter: count}, mz_range [low, high], max_total_ion_current}
 }
-tables[] (FCS: one per data set): {
+tables[] (FCS: one per dataset): {
   index, name ($FIL), row_count ($TOT),
   columns[]: {index, name ($PnN), label ($PnS), dtype (uint8|uint16|uint32|uint64|float32|float64), range [0, max],
               extra {bits, range_keyword, bit_mask, amplification {decades, offset}, gain, detector_voltage, excitation_wavelength_nm[], ...}},
