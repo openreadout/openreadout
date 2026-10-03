@@ -16,6 +16,9 @@
   },
   "homepage": "https://github.com/openreadout/openreadout",
   "license": "MIT OR Apache-2.0",
+  "privacy_policies": [
+    "https://github.com/openreadout/openreadout/blob/main/PRIVACY.md"
+  ],
   "keywords": [
     "microscopy",
     "czi",

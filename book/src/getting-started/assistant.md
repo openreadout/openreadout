@@ -87,6 +87,8 @@ $ openreadout preview mini.nd2 --image 3 --json
 - OpenReadout doesn't modify your files. `openreadout_export` writes a new file, reads it back to check it, then gives it its final name. It replaces an existing output only if you ask it to overwrite.
 - The server runs as you, so it can open any file your user account can read.
 
+The [privacy policy](../../../PRIVACY.md) has the details.
+
 ## More
 
 - [AI agents](../guides/agents.md): every client's configuration file, npm and Docker setups.

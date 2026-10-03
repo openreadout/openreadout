@@ -55,7 +55,7 @@ You still need your own qualification, support arrangements and change control.
 
 ## Does it connect to the network?
 
-No. The binary contains no network code (`cargo deny` checks this in CI), no telemetry and no update check. If you see it open a network connection, report it as a security bug (see [`SECURITY.md`](https://github.com/openreadout/openreadout/blob/main/SECURITY.md)).
+No. The binary contains no network code (`cargo deny` checks this in CI), no telemetry and no update check. If you see it open a network connection, report it as a security bug (see [`SECURITY.md`](https://github.com/openreadout/openreadout/blob/main/SECURITY.md)). The [privacy policy](https://github.com/openreadout/openreadout/blob/main/PRIVACY.md) says what OpenReadout does with your data.
 
 ## My file does not open. What now?
 
