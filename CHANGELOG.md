@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### Added
+
+- A Codex plugin and marketplace (`codex plugin marketplace add openreadout/openreadout`) and a Gemini CLI extension (`gemini extensions install https://github.com/openreadout/openreadout`).
+- A privacy policy, `PRIVACY.md`, linked from the README, the docs site and the `.mcpb` manifest.
+
+### Fixed
+
+- The Claude Code plugin failed to load because its marketplace entry and `plugin.json` both declared the skill.
+- The Homebrew formula and winget manifests attached to a release no longer start with the template's header comment.
+
 ## [0.1.0] - 2026-10-02
 
 The first public release.

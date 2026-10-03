@@ -10,7 +10,7 @@ How to cut an OpenReadout release, what the release workflow produces, and how e
    ```bash
    scripts/bump-version.sh 0.2.0
    ```
-   This edits `Cargo.toml` (workspace version and the internal dependency requirements), `Cargo.lock`, `server.json`, `mcpb/manifest.json`, `.claude-plugin/plugin.json` and `marketplace.json`, `python/bioio-openreadout/pyproject.toml` and `python/napari-openreadout/pyproject.toml` (their version and their `openreadout>=0.2.0,<0.3` requirement), `r/openreadout/DESCRIPTION`, the version pins of `integrations/` (bioconda, Galaxy, Nextflow, Snakemake), `packaging/npm/package.json`, `packaging/wasm/package.json`, the crate versions in `THIRD-PARTY-NOTICES.md`, and moves the `[Unreleased]` changelog entries under `## [0.2.0] - <date>`. It finishes with `cargo xtask version-check`. The Python extension and the Nix flake read the version from `Cargo.toml`.
+   This edits `Cargo.toml` (workspace version and the internal dependency requirements), `Cargo.lock`, `server.json`, `mcpb/manifest.json`, `.claude-plugin/plugin.json` and `marketplace.json`, `.codex-plugin/plugin.json`, `gemini-extension.json`, `python/bioio-openreadout/pyproject.toml` and `python/napari-openreadout/pyproject.toml` (their version and their `openreadout>=0.2.0,<0.3` requirement), `r/openreadout/DESCRIPTION`, the version pins of `integrations/` (bioconda, Galaxy, Nextflow, Snakemake), `packaging/npm/package.json`, `packaging/wasm/package.json`, the crate versions in `THIRD-PARTY-NOTICES.md`, and moves the `[Unreleased]` changelog entries under `## [0.2.0] - <date>`. It finishes with `cargo xtask version-check`. The Python extension and the Nix flake read the version from `Cargo.toml`.
 4. Edit `CHANGELOG.md` into release notes, then commit: `git commit -s -am "chore: release v0.2.0"` and merge to `main` through a pull request.
 
 ## 2. Tag
@@ -72,6 +72,19 @@ Notes per channel:
 - From the second crates.io release on, check the public API against the previous one before tagging: `cargo install cargo-semver-checks --locked`, then `cargo semver-checks --workspace --exclude openreadout-py --exclude openreadout-corpus-tests --exclude xtask` (the baseline is the version on crates.io, so this cannot run before the first publish). A reported break needs a minor bump while the version is `0.x`. Hidden (`#[doc(hidden)]`) items are not checked. Once it runs clean, add it to CI's `publish-dry-run` job.
 - Update the Homebrew tap / Scoop bucket if they are maintained by hand.
 - If something is wrong with the assets, delete the release and the tag, fix, and tag again; crates.io and npm versions cannot be reused, so bump the patch version instead once those gates are on.
+
+## Agent marketplaces and directories
+
+These listings read the repository or the release. Most need setting up once, and then pick up each release by themselves. Each plugin and extension runs the `openreadout` binary from the user's `PATH`, so its listing should say to install the program first. Link [`PRIVACY.md`](../PRIVACY.md) wherever a form asks for a privacy policy.
+
+- **Claude Code marketplace**: `.claude-plugin/marketplace.json` and `.claude-plugin/plugin.json`. Users run `/plugin marketplace add openreadout/openreadout`. CI's `release-check` job validates the plugin and installs it.
+- **Anthropic's plugin directory**: submit at [claude.ai/directory/manage](https://claude.ai/directory/manage) (*Plugin bundle*), after the [pre-submission checklist](https://claude.com/docs/plugins/pre-submission-checklist). This repository is too large for it as it stands. The directory stops validating a repository over 50 MiB as GitHub archives it, and holds a plugin with over 512 files or a file over 256 KiB for review. Submit a small repository that holds only the plugin files instead (`.claude-plugin/`, `.mcp.json`, `skills/`, `assets/`, a README and the licenses), and raise its version with each release.
+- **Codex**: `.agents/plugins/marketplace.json` lists the plugin in `.codex-plugin/plugin.json`. Users run `codex plugin marketplace add openreadout/openreadout`, then `codex plugin add openreadout@openreadout`. Nothing to publish.
+- **Gemini CLI**: `gemini-extension.json` at the root. The extension gallery lists repositories with the `gemini-cli-extension` GitHub topic, once a day. Users run `gemini extensions install https://github.com/openreadout/openreadout`.
+- **MCP Registry**: after the npm package exists (see the table above).
+- **Smithery**: `smithery mcp publish openreadout-mcp-<target>.mcpb -n openreadout/openreadout`, or upload a bundle at [smithery.ai/new](https://smithery.ai/new).
+- **Glama**: lists public MCP servers from GitHub. To claim the listing for the organization, add a `glama.json` at the root with `{"maintainers": ["<GitHub user>"]}`, then use *Claim* on the server page.
+- **cursor.directory**: submit at [cursor.directory/plugins/new](https://cursor.directory/plugins/new) with the `openreadout mcp` command.
 
 ## Signing and notarization (deferred)
 
