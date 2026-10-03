@@ -36,12 +36,13 @@ fn manifest(manifest_src: &str, target: &str) -> Result<String> {
     Ok(serde_json::to_string_pretty(&manifest)? + "\n")
 }
 
-/// A .mcpb is a zip: `manifest.json` + `server/<binary>`, written with a minimal zip writer.
+/// A .mcpb is a zip: `manifest.json`, `icon.png` and `server/<binary>`, written with a minimal zip writer.
 pub(crate) fn pack(binary: &Path, target: &str, out: &PathBuf) -> Result<()> {
     let manifest = manifest(
         &fs::read_to_string(root().join("mcpb/manifest.json"))?,
         target,
     )?;
+    let icon = fs::read(root().join("assets/icon.png")).context("read assets/icon.png")?;
     let bin = fs::read(binary).with_context(|| format!("read {}", binary.display()))?;
     let is_win = target.contains("windows");
     let bin_name = if is_win {
@@ -53,6 +54,7 @@ pub(crate) fn pack(binary: &Path, target: &str, out: &PathBuf) -> Result<()> {
     let zip_path = out.join(format!("openreadout-mcp-{target}.mcpb"));
     let mut z = ZipWriter::default();
     z.add("manifest.json", manifest.as_bytes(), false)?;
+    z.add("icon.png", &icon, false)?;
     z.add(bin_name, &bin, true)?;
     fs::write(&zip_path, z.finish())?;
     let (sha, n) = sha256_file(&zip_path)?;
@@ -149,13 +151,15 @@ mod tests {
         // deflated, not stored
         assert!(fs::metadata(&bundle).unwrap().len() < payload.len() as u64);
         let unpacked = dir.join("unpacked");
-        assert_eq!(extract_bundle(&bundle, &unpacked, 0).unwrap(), 2);
+        assert_eq!(extract_bundle(&bundle, &unpacked, 0).unwrap(), 3);
+        assert!(unpacked.join("icon.png").is_file());
         assert_eq!(
             fs::read(unpacked.join("server/openreadout")).unwrap(),
             payload
         );
         let manifest: serde_json::Value =
             serde_json::from_slice(&fs::read(unpacked.join("manifest.json")).unwrap()).unwrap();
+        assert_eq!(manifest["icon"], "icon.png");
         assert_eq!(
             manifest["compatibility"]["platforms"],
             serde_json::json!(["linux"])
