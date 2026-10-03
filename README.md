@@ -324,7 +324,7 @@ The agent follows the hint, lists the images, and picks the right index.
 
 ## Python and R
 
-**Python** — `pip install openreadout` returns metadata as dicts and pixels as NumPy, dask, or xarray arrays, with plugins for [bioio](https://github.com/bioio-devs/bioio) and napari. Until wheels are published, run `pip install .` in a checkout. See the [Python guide](https://openreadout.github.io/openreadout/guides/python.html).
+**Python** — `pip install openreadout` returns metadata as dicts and pixels as NumPy, dask, or xarray arrays, with plugins for [bioio](https://github.com/bioio-devs/bioio) and napari. See the [Python guide](https://openreadout.github.io/openreadout/guides/python.html).
 
 ```python
 import openreadout
