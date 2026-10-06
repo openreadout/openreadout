@@ -154,7 +154,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/arbin_synthetic.rs`](tests/arbin_synthetic.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_arbin`, `whole_gamry`, `whole_mpr`, `whole_mpt`, `whole_nda`, `whole_ndax`
-- corpus inputs by tier: heldout 5, smoke 61, standard 2
+- corpus inputs by tier: heldout 10, smoke 61, standard 2
 - golden snapshots: [`corpus/snapshots/biologic-mpr.jsonl`](../../corpus/snapshots/biologic-mpr.jsonl), [`corpus/snapshots/biologic-mpt.jsonl`](../../corpus/snapshots/biologic-mpt.jsonl), [`corpus/snapshots/gamry-dta.jsonl`](../../corpus/snapshots/gamry-dta.jsonl), [`corpus/snapshots/neware-nda.jsonl`](../../corpus/snapshots/neware-nda.jsonl), [`corpus/snapshots/neware-ndax.jsonl`](../../corpus/snapshots/neware-ndax.jsonl), [`corpus/snapshots/arbin-res.jsonl`](../../corpus/snapshots/arbin-res.jsonl)
 
 ### Open new-variant intakes

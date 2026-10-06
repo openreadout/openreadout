@@ -117,7 +117,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_masshunter`
-- corpus inputs by tier: smoke 1, standard 15
+- corpus inputs by tier: heldout 2, smoke 1, standard 15
 - golden snapshots: [`corpus/snapshots/agilent-masshunter.jsonl`](../../corpus/snapshots/agilent-masshunter.jsonl)
 
 ### Open new-variant intakes

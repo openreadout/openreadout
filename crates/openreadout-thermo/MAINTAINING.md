@@ -140,7 +140,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 2 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_thermo`
-- corpus inputs by tier: full 5, heldout 6, smoke 12, standard 15
+- corpus inputs by tier: full 5, heldout 10, smoke 12, standard 15
 - golden snapshots: [`corpus/snapshots/thermo-raw.jsonl`](../../corpus/snapshots/thermo-raw.jsonl)
 
 ### Open new-variant intakes
