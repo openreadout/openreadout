@@ -131,7 +131,6 @@ dependency (one here, three in `crates/openreadout-codecs/tests/fixtures/malform
 | date | target | time | executions | crashes |
 |---|---|---|---|---|
 | 2026-09-24 | `codec_jpegxr` (new JPEG XR decoder, 30 seeds) | 3 h | 7.8 million | 0 (coverage 4,700 edges) |
-| 2026-10-06 | `codec_jpeg` with 12-bit seeds (new 12-bit sequential decoder) and `codec_chunked` (new, CZI chunked compression, 3 seeds) | 5 min each | 0.46 and 3.7 million | 0 |
 | 2026-09-24 | `whole_czi` (JPEG XR subblocks through the CZI reader) | 1 h | 1.4 million | 1, not in JPEG XR: an attachment offset overflow in the CZI reader (fixed; `crates/openreadout-czi/tests/fixtures/malformed/file-fuzz-attachment-position-overflow.czi`) |
 | 2026-09-24 | `codec_jpegxl` (jxl-oxide, 6 GDAL seeds) | 15 min | 3.0 million | 0 |
 | 2026-09-24 | `codec_webp` (image-webp, 4 GDAL seeds) | 15 + 15 min | 3.5 + 1.5 million | 1 in the first run: an integer overflow in image-webp's Huffman setup (panics only with overflow checks; SECURITY.md); none after building image-webp without them |
@@ -139,6 +138,7 @@ dependency (one here, three in `crates/openreadout-codecs/tests/fixtures/malform
 | 2026-09-24 | campaign 3: the 38 targets added or substantially changed since campaign 2 (`fuzz/run.sh 90 …`, listed in the table below) | 90 s each | 10.0 million in all | 8 causes in 5 targets, all fixed with regression fixtures: `whole_wdf` (2), `whole_mzmlb` (2, one found on the rerun), `whole_waters` (2, one a division by zero that also crashed release builds), `codec_jpeg2000` (1), `assay_input` (1); the five reran clean for 90 s. Lowest coverage: `whole_sciex` 222 edges and `whole_oib` 804 (seeds need rework) |
 | 2026-09-24 | `whole_masshunter` (new, two MetaboLights directory seeds) | 90 s | 19,031 | 0 (coverage 5,550 edges) |
 | 2026-09-24 | second round: `core_zip`, `quant_bands` (new) and 13 targets whose readers had changed (qPCR, OpenLab CDS, Gen5, Shimadzu, WiRE, Harmony, CZI/VSI/NDPI pyramids, ND2, auto baseline) | 90 s each | 3.8 million in all | 1 cause: `whole_vsi` plane-size check overflow, fixed with a regression fixture; clean on rerun |
+| 2026-10-06 | `codec_jpeg` with 12-bit seeds (new 12-bit sequential decoder) and `codec_chunked` (new, CZI chunked compression, 3 seeds) | 5 min each | 0.46 and 3.7 million | 0 |
 
 ### Last recorded run per target (to 2026-09-24)
 
