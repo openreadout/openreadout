@@ -735,16 +735,46 @@ def _map_axes(axes, shape):
         raise ValueError(f"ambiguous axes {axes}")
     return roles, spp
 
+_MODULO_LETTER = {"angle": "A", "phase": "P", "tile": "R", "lifetime": "H", "lambda": "E", "other": "Q"}
+
+
+def _fold_modulo(s, axes, shape):
+    """OME Modulo: tifffile shows a sub-dimension folded into Z, C or T as its own axis (A, P, R,
+    H, E, Q) right after its parent, or instead of a parent of size 1. Fold it back (the
+    sub-dimension varies fastest within its parent), so planes are indexed by the stored C, Z, T
+    as OpenReadout indexes them. Returns (axes, shape, modulo sizes {parent: size})."""
+    import re
+    try:
+        xml = s.parent.ome_metadata or ""
+    except Exception:
+        xml = ""
+    if "omero/dimension/modulo" not in xml:
+        return axes, tuple(shape), {}
+    axes, shape, sizes = list(axes), list(shape), {}
+    for parent, kind in re.findall(r'<(?:\w+:)?ModuloAlong([ZCT])\b[^>]*?\bType="([^"]+)"', xml):
+        m = _MODULO_LETTER.get(kind.lower(), "Q")
+        if m not in axes:
+            continue
+        i = axes.index(m)
+        sizes[parent] = shape[i]
+        if i > 0 and axes[i - 1] == parent:
+            shape[i - 1] *= shape[i]
+            del axes[i], shape[i]
+        elif parent not in axes:
+            axes[i] = parent
+    return "".join(axes), tuple(shape), sizes
+
+
 def _series_images(s, first_index):
     import itertools
-    axes, shape = s.axes, s.shape
+    axes, shape, modulo = _fold_modulo(s, s.axes, s.shape)
     roles, spp = _map_axes(axes, shape)
     size = lambda r: int(np.prod([n for rr, n in zip(roles, shape) if rr == r])) if r in roles else 1
     C = size("c") * size("cs"); Z = size("z"); T = size("t")
     split_axes = [i for i, r in enumerate(roles) if r == "split"]
     splits = list(itertools.product(*[range(shape[i]) for i in split_axes])) or [()]
     nbytes = int(np.prod(shape)) * np.dtype(s.dtype).itemsize
-    arr = np.asarray(s.asarray()) if nbytes <= TIFF_MAX_BYTES else None
+    arr = np.asarray(s.asarray()).reshape(shape) if nbytes <= TIFF_MAX_BYTES else None
     # our conventions for sample types NumPy spells differently: 1-bit samples (bool) are
     # uint8 0/1, half floats are widened to float32 (docs/formats/tiff.md § Sample formats)
     out_dtype = {np.dtype(bool): np.dtype(np.uint8), np.dtype(np.float16): np.dtype(np.float32)}.get(np.dtype(s.dtype), np.dtype(s.dtype))
@@ -786,6 +816,9 @@ def _series_images(s, first_index):
             "planes_skipped": None if arr is not None else f"series is {nbytes} bytes (> ORACLE_TIFF_MAX_BYTES)",
             "planes": planes,
         })
+        if modulo:
+            images[-1]["modulo"] = modulo
+            images[-1]["axes_unfolded"] = s.axes
     return images
 
 def _ome_companion(xml_path: Path) -> dict:

@@ -2559,6 +2559,62 @@ notes = "ProteoWizard 3.0.20239 conversion made by MassIVE/GNPS, not by us; sour
 # ---- TIFF family (added 2026-09-22 for crates/openreadout-tiff) ----
 
 [[file]]
+id = "ome-modulo-flim-along-c"
+format = "tiff"
+role = "input"
+tier = "smoke"
+filename = "ome-modulo/FLIM-ModuloAlongC.ome.tiff"
+url = "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/modulo/FLIM-ModuloAlongC.ome.tiff"
+sha256 = "d208ed92f4be0409dbb858f6006fe70eea97561ec9abed316a639ee9821bfcd9"
+size = 461842
+license = "CC-BY-4.0"
+source = "OME sample images (downloads.openmicroscopy.org/images/OME-TIFF/2016-06), directory COPYING = CC-BY-4.0 modulo/"
+attribution = "OME Consortium"
+notes = "OME Modulo sample: FLIM lifetime bins (8, 1..8 ps) folded into C: SizeC 16 = 2 channels x 8 bins; int8"
+
+[[file]]
+id = "ome-modulo-flim-along-t-tcspc"
+format = "tiff"
+role = "input"
+tier = "smoke"
+filename = "ome-modulo/FLIM-ModuloAlongT-TSCPC.ome.tiff"
+url = "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/modulo/FLIM-ModuloAlongT-TSCPC.ome.tiff"
+sha256 = "eb775bcf2368126276f4bd0b747944ad3c683fdbbda577501a2310da5dd25e77"
+size = 1221534
+license = "CC-BY-4.0"
+source = "OME sample images (downloads.openmicroscopy.org/images/OME-TIFF/2016-06), directory COPYING = CC-BY-4.0 modulo/"
+attribution = "OME Consortium"
+notes = "OME Modulo sample: TCSPC lifetime bins (8) folded into T: SizeT 16 = 2 x 8; int8"
+
+[[file]]
+id = "ome-modulo-lambda-along-z-and-t"
+format = "tiff"
+role = "input"
+tier = "smoke"
+filename = "ome-modulo/LAMBDA-ModuloAlongZ-ModuloAlongT.ome.tiff"
+url = "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/modulo/LAMBDA-ModuloAlongZ-ModuloAlongT.ome.tiff"
+sha256 = "b8c511cf2f83e78eb58f1b26d8155c3ae9687b9c6c4ac783cdd0abdd28485c9c"
+size = 2108703
+license = "CC-BY-4.0"
+source = "OME sample images (downloads.openmicroscopy.org/images/OME-TIFF/2016-06), directory COPYING = CC-BY-4.0 modulo/"
+attribution = "OME Consortium"
+notes = "OME Modulo sample: phase range 480..580 step 25 along Z (5) and 10 lambda labels along T"
+
+[[file]]
+id = "ome-modulo-spim-along-z"
+format = "tiff"
+role = "input"
+tier = "smoke"
+filename = "ome-modulo/SPIM-ModuloAlongZ.ome.tiff"
+url = "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/modulo/SPIM-ModuloAlongZ.ome.tiff"
+sha256 = "ee852d5ee8aed8afe4821ce33c22c8c4d6157828881184165c5365e8b56cf975"
+size = 7225903
+license = "CC-BY-4.0"
+source = "OME sample images (downloads.openmicroscopy.org/images/OME-TIFF/2016-06), directory COPYING = CC-BY-4.0 modulo/"
+attribution = "OME Consortium"
+notes = "OME Modulo sample: 4 SPIM angles (labels) along Z (8 = 2 x 4) and tiles 1..4 along T (12 = 3 x 4)"
+
+[[file]]
 id = "ome-artificial-single-channel-tiff"
 format = "tiff"
 role = "input"

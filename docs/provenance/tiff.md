@@ -264,3 +264,11 @@ laser, filter, PMT voltage, pixel size, scan mode, scanner software).
 **Why.** 12-bit JPEG pages exited 6 (`jpeg-decoder` stops at 8-bit DCT samples). Scientific cameras and some slide scanners write them.
 **Prior art consulted:** ITU-T T.81 (sequential DCT, Huffman coding; public), ITU-T T.871 (JFIF colour conversion); tifffile 2026.9.20 and imagecodecs 2026.8.16 (BSD-3-Clause) as the oracle, run as black boxes: tifffile returns such pages as uint16.
 **Rule implemented:** a page with compression 7, BitsPerSample 12 and unsigned samples is read as uint16; each chunk is decoded by the 12-bit decoder of `openreadout-codecs` (the same JPEG colour rules as 8-bit pages). Progressive, arithmetic-coded or chroma-subsampled 12-bit chunks exit 6.
+
+## 2026-10-06 — OME Modulo sub-dimensions
+
+**Why.** OME-TIFF files can fold an extra dimension (FLIM lifetime bins, lambda, SPIM angles, tiles, phases) into Z, C or T with a Modulo annotation; we read the planes but did not say what the folded axis means.
+**Corpus files used (new, OME sample images, `modulo/` directory, CC-BY-4.0):** `ome-modulo-flim-along-c`, `ome-modulo-flim-along-t-tcspc`, `ome-modulo-lambda-along-z-and-t`, `ome-modulo-spim-along-z`.
+**Prior art consulted:** the OME model documentation page "6D, 7D and 8D storage" (https://docs.openmicroscopy.org/ome-model/6.3.1/developers/6d-7d-and-8d-storage.html, public specification): the `XMLAnnotation` namespace `openmicroscopy.org/omero/dimension/modulo`, `ModuloAlongZ`/`C`/`T` with `Type`, `TypeDescription`, `Unit`, `Start`/`Step`/`End` or `Label`s, size = labels or (End − Start) / Step + 1, the sub-dimension varying fastest inside its parent. tifffile 2026.9.20 (BSD-3-Clause) as the oracle: it shows each sub-dimension as its own axis (H lifetime, E lambda, P phase, A angle, R tile, Q other); `oracle/gen.py` folds them back into the parent axis.
+**Inferred from the files:** the sample files give `Label`s as empty elements with a `Text` attribute (`<Label ID="Shape:0" X="0" Y="0" Text="0"/>`), not element text; both forms are read.
+**Rule implemented:** each Modulo element linked from the image whose size divides the parent axis is listed in `images[].extra.modulo[]`; plane indices stay the stored C/Z/T. All four files pass against tifffile (162 planes, and the sub-dimension sizes: C 8; T 8; Z 5 and T 10; Z 4 and T 4).

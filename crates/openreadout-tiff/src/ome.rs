@@ -192,6 +192,74 @@ pub struct OmeAnnotation {
     pub namespace: Option<String>,
     /// Text value; for `MapAnnotation` a JSON object of the `M/@K` pairs.
     pub value: serde_json::Value,
+    /// The sub-dimensions of an `XMLAnnotation` in the Modulo namespace ([`MODULO_NS`]).
+    pub modulo: Vec<OmeModulo>,
+}
+
+/// Namespace of the `XMLAnnotation` that describes extra dimensions folded into Z, C or T
+/// (OME "6D, 7D and 8D storage": `Value/Modulo/ModuloAlong{Z,C,T}`).
+pub const MODULO_NS: &str = "openmicroscopy.org/omero/dimension/modulo";
+
+/// One `ModuloAlongZ`, `ModuloAlongC` or `ModuloAlongT` element: a sub-dimension that varies
+/// fastest inside the parent axis (stored index = parent index × size + sub index).
+#[derive(Debug, Clone, Default, PartialEq)]
+pub struct OmeModulo {
+    /// The parent axis: `Z`, `C` or `T`.
+    pub along: char,
+    /// `Type`: angle, phase, tile, lifetime, lambda or other.
+    pub kind: Option<String>,
+    pub type_description: Option<String>,
+    pub unit: Option<String>,
+    pub start: Option<f64>,
+    pub step: Option<f64>,
+    pub end: Option<f64>,
+    /// `Label` children (their text, or a `Text` attribute as in the OME sample files).
+    pub labels: Vec<String>,
+}
+
+impl OmeModulo {
+    /// Number of sub-dimension steps: the labels, else `(End - Start) / Step + 1`.
+    #[must_use]
+    pub fn size(&self) -> Option<u32> {
+        if !self.labels.is_empty() {
+            return u32::try_from(self.labels.len()).ok();
+        }
+        let (start, step, end) = (self.start?, self.step.unwrap_or(1.0), self.end?);
+        if step <= 0.0 || end < start {
+            return None;
+        }
+        let n = ((end - start) / step).round() + 1.0;
+        (n >= 1.0 && n <= f64::from(u32::MAX)).then_some(n as u32)
+    }
+}
+
+fn parse_modulo(value: Node<'_, '_>) -> Vec<OmeModulo> {
+    let Some(m) = child(value, "Modulo") else {
+        return Vec::new();
+    };
+    m.children()
+        .filter(Node::is_element)
+        .filter_map(|e| {
+            let along = match e.tag_name().name() {
+                "ModuloAlongZ" => 'Z',
+                "ModuloAlongC" => 'C',
+                "ModuloAlongT" => 'T',
+                _ => return None,
+            };
+            Some(OmeModulo {
+                along,
+                kind: attr(e, "Type"),
+                type_description: attr(e, "TypeDescription"),
+                unit: attr(e, "Unit"),
+                start: attr_f64(e, "Start"),
+                step: attr_f64(e, "Step"),
+                end: attr_f64(e, "End"),
+                labels: children(e, "Label")
+                    .filter_map(|l| text_of(l).or_else(|| attr(l, "Text")))
+                    .collect(),
+            })
+        })
+        .collect()
 }
 
 fn attr(n: Node<'_, '_>, name: &str) -> Option<String> {
@@ -466,11 +534,17 @@ pub fn parse(xml: &str) -> Option<OmeDocument> {
                         serde_json::Value::String(t)
                     })
             };
+            let namespace = attr(a, "Namespace");
+            let modulo = match value_node {
+                Some(v) if namespace.as_deref() == Some(MODULO_NS) => parse_modulo(v),
+                _ => Vec::new(),
+            };
             out.annotations.push(OmeAnnotation {
                 id: attr(a, "ID").unwrap_or_default(),
                 kind: a.tag_name().name().to_string(),
-                namespace: attr(a, "Namespace"),
+                namespace,
                 value,
+                modulo,
             });
         }
     }
@@ -1224,9 +1298,55 @@ fn ome_extras(info: &mut ImageInfo, img: &OmeImage, doc: &OmeDocument) {
     if !anns.is_empty() {
         info.extra.insert("annotations".into(), Value::Array(anns));
     }
+    let modulo: Vec<Value> = doc
+        .annotations
+        .iter()
+        .filter(|a| img.annotation_refs.contains(&a.id))
+        .flat_map(|a| &a.modulo)
+        .filter_map(|m| modulo_json(m, px))
+        .collect();
+    if !modulo.is_empty() {
+        info.extra.insert("modulo".into(), Value::Array(modulo));
+    }
     if let Some(c) = &doc.creator {
         info.extra.insert("ome_creator".into(), json!(c));
     }
+}
+
+/// One Modulo sub-dimension as `images[].extra.modulo[]`, when its size divides the parent
+/// axis; `None` otherwise (an annotation that does not fit the stored sizes is not applied).
+fn modulo_json(m: &OmeModulo, px: &OmePixels) -> Option<Value> {
+    let size = m.size()?;
+    let parent = match m.along {
+        'Z' => px.size_z,
+        'C' => px.size_c,
+        _ => px.size_t,
+    };
+    if size == 0 || parent % size != 0 {
+        return None;
+    }
+    let mut v = json!({
+        "along": m.along.to_string(),
+        "type": m.kind,
+        "size": size,
+        "parent_size": parent / size,
+    });
+    let o = v.as_object_mut()?;
+    for (k, val) in [
+        ("type_description", m.type_description.as_ref().map(|s| json!(s))),
+        ("unit", m.unit.as_ref().map(|s| json!(s))),
+        ("start", m.start.map(|x| json!(x))),
+        ("step", m.step.map(|x| json!(x))),
+        ("end", m.end.map(|x| json!(x))),
+    ] {
+        if let Some(val) = val {
+            o.insert(k.into(), val);
+        }
+    }
+    if !m.labels.is_empty() {
+        o.insert("labels".into(), json!(m.labels));
+    }
+    Some(v)
 }
 
 /// The schema file name of an OME-XML document (`2016-06/ome.xsd` style URIs cut to the last
@@ -1373,5 +1493,36 @@ mod tests {
         assert_eq!(p.plane_at(1), (1, 0, 0));
         assert_eq!(p.plane_at(2), (0, 1, 0));
         assert_eq!(p.linear_of(1, 1, 0), 3);
+    }
+
+    /// The Modulo annotation of the OME sample `SPIM-ModuloAlongZ.ome.tiff` (CC-BY-4.0): four
+    /// angles as `Label`s with a `Text` attribute along Z (8 = 2 × 4), a 1..4 tile range along T
+    /// (12 = 3 × 4), and one that does not divide its axis.
+    #[test]
+    fn modulo_sub_dimensions() {
+        let xml = r#"<OME xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06">
+ <Image ID="Image:0"><Pixels ID="Pixels:0" DimensionOrder="XYCZT" Type="uint8" SizeX="2" SizeY="2" SizeZ="8" SizeC="2" SizeT="12">
+  <Channel ID="Channel:0:0"/><Channel ID="Channel:0:1"/></Pixels>
+  <AnnotationRef ID="Annotation:3"/></Image>
+ <StructuredAnnotations><XMLAnnotation ID="Annotation:3" Namespace="openmicroscopy.org/omero/dimension/modulo"><Value>
+  <Modulo namespace="http://www.openmicroscopy.org/Schemas/Additions/2011-09">
+   <ModuloAlongZ Type="angle" Unit="degree"><Label ID="Shape:0" Text="0"/><Label ID="Shape:1" Text="90"/><Label ID="Shape:2" Text="180"/><Label ID="Shape:3" Text="270"/></ModuloAlongZ>
+   <ModuloAlongT End="4" Start="1" Step="1" Type="tile"/>
+   <ModuloAlongC End="580" Start="480" Step="25" Type="phase"/>
+  </Modulo></Value></XMLAnnotation></StructuredAnnotations></OME>"#;
+        let d = parse(xml).unwrap();
+        let m = &d.annotations[0].modulo;
+        assert_eq!(m.len(), 3);
+        assert_eq!((m[0].along, m[0].size()), ('Z', Some(4)));
+        assert_eq!(m[0].labels, ["0", "90", "180", "270"]);
+        assert_eq!((m[1].along, m[1].size()), ('T', Some(4)));
+        assert_eq!((m[2].along, m[2].size()), ('C', Some(5)));
+        let px = &d.images[0].pixels;
+        let z = modulo_json(&m[0], px).unwrap();
+        assert_eq!((z["size"].as_u64(), z["parent_size"].as_u64()), (Some(4), Some(2)));
+        assert_eq!(z["unit"], "degree");
+        assert_eq!(modulo_json(&m[1], px).unwrap()["parent_size"], 3);
+        // 5 phases do not divide 2 channels: not applied
+        assert!(modulo_json(&m[2], px).is_none());
     }
 }
