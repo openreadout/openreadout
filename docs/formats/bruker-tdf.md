@@ -84,7 +84,7 @@ Trace 0 `TIC` (`Frames.SummedIntensities`) and trace 1 `BPC` (`Frames.MaxIntensi
 | `MzCalibrationRow` | an `MzCalibration` row: `id`, `model_type`, `digitizer_timebase`, `digitizer_delay`, `t1`, `t2`, `dc1`, `dc2`, `c` (`C0`…); `model` (for a frame's temperatures); `mz_rows` reads the table |
 | `TimsCalibrationRow` | a `TimsCalibration` row: `id`, `model_type`, `c`; `model`; `tims_rows` reads the table |
 | `MzModel` | a frame's m/z model: `calibration_id`, `model_type`, `unvalidated`; `time`, `mz`, `index` (inverse), `describe` |
-| `MobilityModel` | a 1/K0 model: `calibration_id`; `inverse_mobility`, `describe` |
+| `MobilityModel` | a 1/K0 model: `calibration_id`; `inverse_mobility`, `describe`; `negative_voltages` (the ramp voltages are stored negative: a negative-ion run) |
 | `Unvalidated` | which part of a model no reference file validated (`None`: none) |
 | `Selection` | a PASEF selection or DIA window: `frame`, `scan_begin`, `scan_end` (exclusive), `isolation_mz`, `isolation_width`, `collision_energy` |
 | `PrecursorRecord` | a `Precursors` row: `id`, `monoisotopic_mz`, `largest_peak_mz`, `charge`, `scan_number`, `intensity`, `parent_frame` |
