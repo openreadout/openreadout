@@ -1,0 +1,502 @@
+[
+ {
+  "case": "czi-youngmouse",
+  "size": "3.7 GB",
+  "op": "info",
+  "wall_s": 0.0216,
+  "peak_rss_mib": 16.6,
+  "exit": 0,
+  "load": 4.87,
+  "error": ""
+ },
+ {
+  "case": "czi-youngmouse",
+  "size": "3.7 GB",
+  "op": "preview",
+  "wall_s": 0.0643,
+  "peak_rss_mib": 34.8,
+  "exit": 0,
+  "load": 4.87,
+  "error": ""
+ },
+ {
+  "case": "czi-youngmouse",
+  "size": "3.7 GB",
+  "op": "stats --level 4",
+  "wall_s": 0.5387,
+  "peak_rss_mib": 220.2,
+  "exit": 0,
+  "load": 4.87,
+  "error": ""
+ },
+ {
+  "case": "czi-kidney",
+  "size": "395 MB",
+  "op": "info",
+  "wall_s": 0.0093,
+  "peak_rss_mib": 13.8,
+  "exit": 0,
+  "load": 4.87,
+  "error": ""
+ },
+ {
+  "case": "czi-kidney",
+  "size": "395 MB",
+  "op": "preview",
+  "wall_s": 0.0363,
+  "peak_rss_mib": 26.2,
+  "exit": 0,
+  "load": 4.87,
+  "error": ""
+ },
+ {
+  "case": "czi-kidney",
+  "size": "395 MB",
+  "op": "stats",
+  "wall_s": 1.1352,
+  "peak_rss_mib": 613.9,
+  "exit": 0,
+  "load": 6.16,
+  "error": ""
+ },
+ {
+  "case": "czi-kidney",
+  "size": "395 MB",
+  "op": "export ome-tiff",
+  "wall_s": 4.2166,
+  "peak_rss_mib": 491.0,
+  "exit": 0,
+  "load": 10.16,
+  "error": ""
+ },
+ {
+  "case": "czi-kidney",
+  "size": "395 MB",
+  "op": "export ome-zarr",
+  "wall_s": 4.5909,
+  "peak_rss_mib": 465.4,
+  "exit": 0,
+  "load": 10.19,
+  "error": ""
+ },
+ {
+  "case": "lif-amr1",
+  "size": "3.0 GB",
+  "op": "info",
+  "wall_s": 0.0271,
+  "peak_rss_mib": 33.5,
+  "exit": 0,
+  "load": 10.19,
+  "error": ""
+ },
+ {
+  "case": "lif-amr1",
+  "size": "3.0 GB",
+  "op": "preview",
+  "wall_s": 0.0414,
+  "peak_rss_mib": 38.8,
+  "exit": 0,
+  "load": 10.19,
+  "error": ""
+ },
+ {
+  "case": "lif-amr1",
+  "size": "3.0 GB",
+  "op": "stats --image 0",
+  "wall_s": 0.0526,
+  "peak_rss_mib": 101.7,
+  "exit": 0,
+  "load": 10.19,
+  "error": ""
+ },
+ {
+  "case": "lif-amr1",
+  "size": "3.0 GB",
+  "op": "stats (27 images)",
+  "wall_s": 0.7279,
+  "peak_rss_mib": 573.5,
+  "exit": 0,
+  "load": 4.55,
+  "error": ""
+ },
+ {
+  "case": "lif-amr1",
+  "size": "3.0 GB",
+  "op": "export ome-tiff --image 0",
+  "wall_s": 0.1134,
+  "peak_rss_mib": 108.0,
+  "exit": 0,
+  "load": 10.19,
+  "error": ""
+ },
+ {
+  "case": "lif-amr1",
+  "size": "3.0 GB",
+  "op": "export ome-zarr (27 images)",
+  "wall_s": 19.691,
+  "peak_rss_mib": 857.1,
+  "exit": 0,
+  "load": 7.49,
+  "error": ""
+ },
+ {
+  "case": "nd2-sla2",
+  "size": "605 MB",
+  "op": "info",
+  "wall_s": 0.0087,
+  "peak_rss_mib": 13.1,
+  "exit": 0,
+  "load": 10.19,
+  "error": ""
+ },
+ {
+  "case": "nd2-sla2",
+  "size": "605 MB",
+  "op": "preview",
+  "wall_s": 0.0235,
+  "peak_rss_mib": 25.8,
+  "exit": 0,
+  "load": 10.19,
+  "error": ""
+ },
+ {
+  "case": "nd2-sla2",
+  "size": "605 MB",
+  "op": "stats",
+  "wall_s": 0.1565,
+  "peak_rss_mib": 123.5,
+  "exit": 0,
+  "load": 10.09,
+  "error": ""
+ },
+ {
+  "case": "nd2-sla2",
+  "size": "605 MB",
+  "op": "export ome-tiff",
+  "wall_s": 2.4296,
+  "peak_rss_mib": 160.9,
+  "exit": 0,
+  "load": 10.06,
+  "error": ""
+ },
+ {
+  "case": "nd2-sla2",
+  "size": "605 MB",
+  "op": "export ome-zarr",
+  "wall_s": 5.4006,
+  "peak_rss_mib": 152.6,
+  "exit": 0,
+  "load": 9.53,
+  "error": ""
+ },
+ {
+  "case": "oir-stitch",
+  "size": "1.1 GB",
+  "op": "info",
+  "wall_s": 0.0343,
+  "peak_rss_mib": 20.1,
+  "exit": 0,
+  "load": 9.53,
+  "error": ""
+ },
+ {
+  "case": "oir-stitch",
+  "size": "1.1 GB",
+  "op": "preview",
+  "wall_s": 0.101,
+  "peak_rss_mib": 92.2,
+  "exit": 0,
+  "load": 9.53,
+  "error": ""
+ },
+ {
+  "case": "oir-stitch",
+  "size": "1.1 GB",
+  "op": "stats",
+  "wall_s": 0.566,
+  "peak_rss_mib": 197.8,
+  "exit": 0,
+  "load": 9.33,
+  "error": ""
+ },
+ {
+  "case": "oir-stitch",
+  "size": "1.1 GB",
+  "op": "export ome-tiff",
+  "wall_s": 7.0309,
+  "peak_rss_mib": 306.6,
+  "exit": 0,
+  "load": 10.94,
+  "error": ""
+ },
+ {
+  "case": "mrxs-bmp",
+  "size": "1.8 GB",
+  "op": "info",
+  "wall_s": 0.0093,
+  "peak_rss_mib": 13.4,
+  "exit": 0,
+  "load": 10.94,
+  "error": ""
+ },
+ {
+  "case": "mrxs-bmp",
+  "size": "1.8 GB",
+  "op": "preview",
+  "wall_s": 0.0354,
+  "peak_rss_mib": 46.5,
+  "exit": 0,
+  "load": 10.94,
+  "error": ""
+ },
+ {
+  "case": "mrxs-bmp",
+  "size": "1.8 GB",
+  "op": "stats --level 5",
+  "wall_s": 0.1964,
+  "peak_rss_mib": 112.2,
+  "exit": 0,
+  "load": 10.94,
+  "error": ""
+ },
+ {
+  "case": "vsi-vs200",
+  "size": "1.5 GB",
+  "op": "info",
+  "wall_s": 0.0112,
+  "peak_rss_mib": 16.4,
+  "exit": 0,
+  "load": 10.94,
+  "error": ""
+ },
+ {
+  "case": "vsi-vs200",
+  "size": "1.5 GB",
+  "op": "preview",
+  "wall_s": 0.0537,
+  "peak_rss_mib": 54.3,
+  "exit": 0,
+  "load": 10.46,
+  "error": ""
+ },
+ {
+  "case": "svs-cmu1",
+  "size": "177 MB",
+  "op": "info",
+  "wall_s": 0.0088,
+  "peak_rss_mib": 14.0,
+  "exit": 0,
+  "load": 10.46,
+  "error": ""
+ },
+ {
+  "case": "svs-cmu1",
+  "size": "177 MB",
+  "op": "preview",
+  "wall_s": 0.1289,
+  "peak_rss_mib": 142.3,
+  "exit": 0,
+  "load": 10.46,
+  "error": ""
+ },
+ {
+  "case": "svs-cmu1",
+  "size": "177 MB",
+  "op": "stats --level 2",
+  "wall_s": 0.0676,
+  "peak_rss_mib": 59.0,
+  "exit": 0,
+  "load": 10.46,
+  "error": ""
+ },
+ {
+  "case": "qptiff",
+  "size": "422 MB",
+  "op": "info",
+  "wall_s": 0.009,
+  "peak_rss_mib": 13.3,
+  "exit": 0,
+  "load": 10.46,
+  "error": ""
+ },
+ {
+  "case": "qptiff",
+  "size": "422 MB",
+  "op": "preview",
+  "wall_s": 0.0971,
+  "peak_rss_mib": 90.2,
+  "exit": 0,
+  "load": 10.46,
+  "error": ""
+ },
+ {
+  "case": "raw-eclipse",
+  "size": "868 MB",
+  "op": "info",
+  "wall_s": 0.0509,
+  "peak_rss_mib": 74.1,
+  "exit": 0,
+  "load": 10.46,
+  "error": ""
+ },
+ {
+  "case": "raw-eclipse",
+  "size": "868 MB",
+  "op": "export mzml",
+  "wall_s": 61.6559,
+  "peak_rss_mib": 89.0,
+  "exit": 0,
+  "load": 3.09,
+  "error": ""
+ },
+ {
+  "case": "raw-eclipse",
+  "size": "868 MB",
+  "op": "export parquet",
+  "wall_s": 25.2112,
+  "peak_rss_mib": 323.9,
+  "exit": 0,
+  "load": 3.42,
+  "error": ""
+ },
+ {
+  "case": "mzml-ascend",
+  "size": "1.2 GB",
+  "op": "info",
+  "wall_s": 0.9627,
+  "peak_rss_mib": 21.8,
+  "exit": 0,
+  "load": 3.47,
+  "error": ""
+ },
+ {
+  "case": "mzml-ascend",
+  "size": "1.2 GB",
+  "op": "export parquet",
+  "wall_s": 28.2138,
+  "peak_rss_mib": 222.4,
+  "exit": 0,
+  "load": 2.76,
+  "error": ""
+ },
+ {
+  "case": "tims-8334",
+  "size": "140 MB",
+  "op": "info",
+  "wall_s": 0.0722,
+  "peak_rss_mib": 66.2,
+  "exit": 0,
+  "load": 2.7,
+  "error": ""
+ },
+ {
+  "case": "tims-8334",
+  "size": "140 MB",
+  "op": "export mzml",
+  "wall_s": 7.8207,
+  "peak_rss_mib": 68.5,
+  "exit": 0,
+  "load": 3.56,
+  "error": ""
+ },
+ {
+  "case": "plx-bisver",
+  "size": "1.3 GB",
+  "op": "info",
+  "wall_s": 0.8367,
+  "peak_rss_mib": 1130.9,
+  "exit": 0,
+  "load": 3.52,
+  "error": ""
+ },
+ {
+  "case": "plx-bisver",
+  "size": "1.3 GB",
+  "op": "export csv",
+  "wall_s": 22.8908,
+  "peak_rss_mib": 1217.4,
+  "exit": 0,
+  "load": 2.67,
+  "error": ""
+ },
+ {
+  "case": "plx-bisver",
+  "size": "1.3 GB",
+  "op": "export parquet",
+  "wall_s": 4.7442,
+  "peak_rss_mib": 1285.7,
+  "exit": 0,
+  "load": 6.55,
+  "error": ""
+ },
+ {
+  "case": "plx-bisver",
+  "size": "1.3 GB",
+  "op": "export nwb",
+  "wall_s": 1.1061,
+  "peak_rss_mib": 1996.5,
+  "exit": 2,
+  "load": 6.51,
+  "error": "error: usage error: 295591680 samples are more than one NWB export holds in memory (67108864); narrow it with --trace, -"
+ },
+ {
+  "case": "sglx-pt03",
+  "size": "1.1 GB",
+  "op": "info",
+  "wall_s": 0.0099,
+  "peak_rss_mib": 13.6,
+  "exit": 0,
+  "load": 2.67,
+  "error": ""
+ },
+ {
+  "case": "sglx-pt03",
+  "size": "1.1 GB",
+  "op": "export csv",
+  "wall_s": 97.4169,
+  "peak_rss_mib": 434.1,
+  "exit": 0,
+  "load": 4.55,
+  "error": ""
+ },
+ {
+  "case": "sglx-pt03",
+  "size": "1.1 GB",
+  "op": "export parquet",
+  "wall_s": 20.4997,
+  "peak_rss_mib": 908.6,
+  "exit": 0,
+  "load": 7.19,
+  "error": ""
+ },
+ {
+  "case": "wid-crm2",
+  "size": "403 MB",
+  "op": "info",
+  "wall_s": 0.0138,
+  "peak_rss_mib": 18.2,
+  "exit": 0,
+  "load": 4.55,
+  "error": ""
+ },
+ {
+  "case": "fcs-facsdiscover",
+  "size": "18 MB",
+  "op": "info",
+  "wall_s": 0.0211,
+  "peak_rss_mib": 22.2,
+  "exit": 0,
+  "load": 4.55,
+  "error": ""
+ },
+ {
+  "case": "fcs-facsdiscover",
+  "size": "18 MB",
+  "op": "export parquet",
+  "wall_s": 0.1981,
+  "peak_rss_mib": 171.5,
+  "exit": 0,
+  "load": 4.55,
+  "error": ""
+ }
+]
