@@ -24,7 +24,7 @@ const bin =
 const PAGE = {
   imzml: "mzml", mzxml: "mzml", mzmlb: "mzml",
   oib: "oif",
-  rdml: "qpcr", "applied-biosystems-eds": "qpcr", "bio-rad-pcrd": "qpcr", "rotor-gene-rex": "qpcr", "roche-lightcycler-ixo": "qpcr",
+  rdml: "qpcr", "applied-biosystems-eds": "qpcr", "bio-rad-pcrd": "qpcr", "rotor-gene-rex": "qpcr", "roche-lightcycler-ixo": "qpcr", "qpcr-results-export": "qpcr",
   atf: "abf", nwb: "hdf5",
   "cytiva-biacore-blr": "cytiva-biacore", "cytiva-biacore-bme": "cytiva-biacore",
   "agilent-seahorse-asyr": "agilent-seahorse", "sartorius-octet-frd": "sartorius-octet",
