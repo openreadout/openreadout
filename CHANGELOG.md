@@ -26,6 +26,8 @@ All notable changes to this project are documented here. The format is based on 
 - Docker build records (`*.dockerbuild`) no longer end up among the release assets.
 - `CITATION.cff` now validates: the dual license is a list of SPDX identifiers.
 - The website's home page and *Connect an assistant* no longer say that there is no release yet.
+- Shimadzu: `check` no longer reports `pda_max_plot_mismatch` on PDA runs whose first spectrum is not zero. LabSolutions takes the max plot after subtracting the first spectrum.
+- Plate exports: an export the reader recognises but whose values it does not read is now `unvalidated` for tables, so `--strict` refuses it. It was `validated`.
 
 ## [0.1.0] - 2026-10-02
 
