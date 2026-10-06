@@ -637,6 +637,11 @@ pub(crate) struct SpectraSource {
 }
 
 impl SpectraSource {
+    /// Spectra the export reads.
+    pub(crate) fn spectrum_count(&self) -> u64 {
+        self.count
+    }
+
     pub(crate) fn new(
         info: &InfoOutput,
         prov: &ProvenanceMap,

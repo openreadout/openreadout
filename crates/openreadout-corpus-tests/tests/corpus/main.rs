@@ -81,6 +81,11 @@ struct Entry {
     /// share one); the default is 1e-6.
     #[serde(default)]
     precursor_tolerance: Option<f64>,
+    /// Spectra (Thermo): the export's converter took the monoisotopic m/z as the precursor only
+    /// within this distance of the isolation target (ProteoWizard 3.0.4337: 1.5), where ours
+    /// takes it within 3.0, as current converters do.
+    #[serde(default)]
+    export_monoisotopic_max_shift: Option<f64>,
     /// SRM chromatograms: absolute m/z tolerance between the export's product (Q3) target and
     /// the product m/z the scans record (added to the export's isolation offsets; default 1e-4).
     #[serde(default)]
@@ -175,8 +180,12 @@ struct Outcome {
     fields: Vec<&'static str>,
 }
 
-/// The outputs an oracle lets the comparison check (`docs/assurance.md`).
-fn compared_scopes(o: &Oracle) -> Vec<&'static str> {
+/// The outputs an oracle lets the comparison check (`docs/assurance.md`). A Thermo file's
+/// chromatograms are rebuilt from its spectra (`check_chromatograms`: the TIC from every scan, an
+/// SRM trace from the peaks in each scan's product window), so they check its spectra; its traces
+/// are the LC detectors', which no chromatogram covers.
+fn compared_scopes(o: &Oracle, format: &str) -> Vec<&'static str> {
+    let thermo_chromatograms = format == "thermo-raw" && o.chromatograms.is_some();
     let mut v = vec!["metadata"];
     if o.images
         .iter()
@@ -185,10 +194,12 @@ fn compared_scopes(o: &Oracle) -> Vec<&'static str> {
     {
         v.push("pixels");
     }
-    if o.spectra.is_some() || o.tdf.is_some() {
+    if o.spectra.is_some() || o.tdf.is_some() || thermo_chromatograms {
         v.push("spectra");
     }
-    if o.traces.iter().any(|t| t.sweep_count.is_some()) || o.chromatograms.is_some() {
+    if o.traces.iter().any(|t| t.sweep_count.is_some())
+        || (o.chromatograms.is_some() && !thermo_chromatograms)
+    {
         v.push("traces");
     }
     if o.tables.iter().any(|t| {
@@ -637,6 +648,7 @@ fn apply_entry_settings(oracle: &mut Oracle, e: &Entry) {
     }
     if let Some(sp) = oracle.spectra.as_mut() {
         sp.precursor_tolerance = e.precursor_tolerance;
+        sp.export_monoisotopic_max_shift = e.export_monoisotopic_max_shift;
         sp.peaks_not_compared.clone_from(&e.peaks_not_compared);
         sp.mz_not_compared.clone_from(&e.mz_not_compared);
         sp.native_id_not_compared
@@ -816,7 +828,7 @@ fn corpus_matches_oracle() {
                         format!("{d} [self-consistency: no independent reader exists]")
                     },
                     independent: oracle.independent,
-                    compared: compared_scopes(&oracle),
+                    compared: compared_scopes(&oracle, &e.format),
                     fields: take_covered(),
                 },
                 Err(d) => Outcome {
@@ -825,7 +837,7 @@ fn corpus_matches_oracle() {
                     status: "FAIL".into(),
                     detail: d,
                     independent: oracle.independent,
-                    compared: compared_scopes(&oracle),
+                    compared: compared_scopes(&oracle, &e.format),
                     fields: take_covered(),
                 },
             }

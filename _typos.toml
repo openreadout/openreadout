@@ -43,6 +43,7 @@ ccomment = "ccomment"  # Blackrock NEV extended-header tag `CCOMMENT` (continued
 hande = "hande"      # "H&E" (hematoxylin and eosin) stain in an OME QPTIFF sample file name
 nversion = "nversion"  # MRC2014 header field `NVERSION` (format version), CCP-EM specification
 itms = "itms"        # ion-trap mass analyzer (`ITMS`) in Thermo scan filters
+nce = "nce"          # normalized collision energy (NCE) in a MetaboLights corpus file name (`..._35NCE.raw`)
 infomation = "infomation"  # Olympus OIR XML element `fileinfo:fileInfomation` (the vendor's spelling)
 oaut = "oaut"        # Microsoft [MS-OAUT] open specification (VARIANT type codes)
 ba = "ba"            # barium, as in BaTiO3 (a DM3 corpus sample)

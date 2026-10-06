@@ -54,7 +54,7 @@ Spike channels (`SPIKE_HEADER_LEN` = 1020 each, `SpikeChannel`): 0 `name` (32), 
 | 10 | u16 | unit (spikes) or event value (events: a strobed word, or 0) |
 | 12, 14 | u16, u16 | waveforms, words per waveform; then waveforms × words int16 samples |
 
-`PlxIndex`: `continuous` (per channel number, `SampleBlock`: `offset` of the first sample, `timestamp`, `samples`), `spikes` (block offsets), `max_waveform`, `events` (`EventRecord`: `timestamp`, `channel`, `value`), `block_counts`, `data_end`, `findings`. A block that runs past the end of the file → `truncated`, walk stops (earlier blocks stay readable).
+`PlxIndex`: `continuous` (per channel number, a `BlockList` of `SampleBlock`: `offset` of the first sample, `timestamp`, `samples`; `BlockList` stores each block as small differences from the one before it, with `push`, `len`, `is_empty`, `iter` and `range`), `spikes` (block offsets), `max_waveform`, `events` (`EventRecord`: `timestamp`, `channel`, `value`), `block_counts`, `data_end`, `findings`. A block that runs past the end of the file → `truncated`, walk stops (earlier blocks stay readable).
 
 ### Scaling (Neo's formulas; values in mV)
 

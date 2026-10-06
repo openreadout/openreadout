@@ -9,6 +9,10 @@ pub const POLARITY_BYTE: usize = 4;
 pub const DATA_KIND_BYTE: usize = 5;
 pub const MS_LEVEL_BYTE: usize = 6;
 pub const SCAN_KIND_BYTE: usize = 7;
+/// In-source CID: 0 when the scan applies it, and the event's first counted tail item is its
+/// energy (`sid=10.00`; `pwiz-thermo-source-cid`, `zenodo19222374-cannabis-neg-h1-1`); 1 or 2
+/// in every other corpus event.
+pub const SOURCE_CID_BYTE: usize = 8;
 /// Scan rate: 0 prints `t` (turbo) after the ion source in ion-trap scans (two corpus files);
 /// 1 and 2 print nothing (every other corpus scan). Other analyzers: not seen, nothing printed.
 pub const SCAN_RATE_BYTE: usize = 9;
@@ -24,13 +28,17 @@ pub const LOCK_BYTE: usize = 42;
 /// `pwiz-thermo-bsa-ft-etd` (no `sa`) and elsewhere. Absent from preambles of fewer than 121
 /// bytes (file versions before 63).
 pub const SUPPLEMENTAL_ACTIVATION_BYTE: usize = 120;
+/// FAIMS: 0 when the scan was taken behind a FAIMS device, and a counted tail item (after the
+/// in-source CID energy, when there is one) is the compensation voltage (`cv=-40.00`; every event
+/// of the Orbitrap Astral and Eclipse FAIMS files); 1 or 2 elsewhere.
+pub const FAIMS_BYTE: usize = 122;
 
 /// How an instrument generation numbers its ion-trap scan rates (preamble byte 9).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ScanRates {
     /// LTQ-generation ion traps (LTQ XL, LTQ Velos, Stellar): 0 turbo, others print nothing.
     Ltq,
-    /// Tribrid ion traps (Orbitrap Fusion, Fusion Lumos, Eclipse, ID-X, Ascend): 0 turbo,
+    /// Tribrid ion traps (Orbitrap Fusion, Fusion Lumos, Eclipse, ID-X, IQ-X, Ascend): 0 turbo,
     /// 1 rapid.
     Tribrid,
 }
@@ -39,7 +47,7 @@ impl ScanRates {
     /// The numbering an instrument model uses.
     pub fn for_model(model: Option<&str>) -> ScanRates {
         let m = model.unwrap_or("").to_ascii_lowercase();
-        if ["fusion", "eclipse", "id-x", "ascend", "tribrid"]
+        if ["fusion", "eclipse", "id-x", "iq-x", "ascend", "tribrid"]
             .iter()
             .any(|k| m.contains(k))
         {
@@ -84,6 +92,8 @@ pub enum Analyzer {
     TimeOfFlight,
     FourierTransform,
     Sector,
+    /// The Orbitrap Astral's second analyzer (code 7; filter token `ASTMS` in the exports).
+    Astral,
     Unknown(u8),
 }
 
@@ -96,6 +106,7 @@ impl Analyzer {
             3 => Analyzer::TimeOfFlight,
             4 => Analyzer::FourierTransform,
             5 => Analyzer::Sector,
+            7 => Analyzer::Astral,
             x => Analyzer::Unknown(x),
         }
     }
@@ -108,6 +119,7 @@ impl Analyzer {
             Analyzer::TimeOfFlight => "TOFMS",
             Analyzer::FourierTransform => "FTMS",
             Analyzer::Sector => "Sector",
+            Analyzer::Astral => "ASTMS",
             Analyzer::Unknown(_) => return None,
         })
     }
@@ -206,46 +218,65 @@ pub fn scan_kind_token(b: u8) -> Option<&'static str> {
     })
 }
 
-/// `v` with `decimals` fraction digits, ties rounded away from zero (`309.03125` → `309.0313`
-/// at 4 decimals) as the instrument software prints filter masses; Rust's `{:.4}` gives
-/// `309.0312`. Only exact binary ties differ from the standard formatting.
+/// `v` with `decimals` fraction digits as the instrument software prints filter masses: the
+/// value written with 15 significant digits, rounded half away from zero. An exact binary tie
+/// (`309.03125` → `309.0313` at 4 decimals) and a value stored just below a decimal tie
+/// (`790.60925`, stored as 790.6092499999999745… → `790.6093`) both round up; Rust's `{:.4}`
+/// gives `309.0312` and `790.6092`. Other values print as the standard formatting does.
 pub fn fixed_decimals(v: f64, decimals: usize) -> String {
     let standard = format!("{v:.decimals$}");
     if !v.is_finite() {
         return standard;
     }
-    // The exact decimal expansion of an f64 tie is ...5000... right after the kept digits.
-    let long = format!("{:.*}", decimals + 40, v.abs());
-    let cut = long.len() - 40;
-    let tail = &long[cut..];
-    if !(tail.starts_with('5') && tail[1..].bytes().all(|b| b == b'0')) {
+    // `d.dddddddddddddde<exp>`: 15 significant digits and a power of ten.
+    let sci = format!("{:.14e}", v.abs());
+    let Some((mantissa, exp)) = sci.split_once('e') else {
         return standard;
+    };
+    let Ok(exp) = exp.parse::<i64>() else {
+        return standard;
+    };
+    let mut digits: Vec<u8> = mantissa
+        .bytes()
+        .filter(u8::is_ascii_digit)
+        .map(|b| b - b'0')
+        .collect();
+    // Digits before the decimal point: at least one (a leading zero for values below 1).
+    let mut int_len = exp + 1;
+    if int_len < 1 {
+        let zeros = usize::try_from(1 - int_len).unwrap_or(0);
+        digits.splice(0..0, std::iter::repeat_n(0, zeros));
+        int_len = 1;
     }
-    // Add one unit in the last kept place to the truncated digits.
-    let mut digits: Vec<u8> = long[..cut].bytes().collect();
-    let mut i = digits.len();
-    loop {
-        if i == 0 {
-            digits.insert(0, b'1');
-            break;
-        }
-        i -= 1;
-        match digits[i] {
-            b'.' => {}
-            b'9' => digits[i] = b'0',
-            d => {
-                digits[i] = d + 1;
+    let int_len = usize::try_from(int_len).unwrap_or(1);
+    let keep = int_len + decimals;
+    let round_up = digits.get(keep).is_some_and(|&d| d >= 5);
+    digits.resize(keep, 0);
+    let mut int_len = int_len;
+    if round_up {
+        let mut i = digits.len();
+        loop {
+            if i == 0 {
+                digits.insert(0, 1);
+                int_len += 1;
+                break;
+            }
+            i -= 1;
+            if digits[i] == 9 {
+                digits[i] = 0;
+            } else {
+                digits[i] += 1;
                 break;
             }
         }
     }
-    let body = String::from_utf8(digits).unwrap_or_else(|_| standard.clone());
-    let body = body.trim_end_matches('.');
-    if v < 0.0 {
-        format!("-{body}")
-    } else {
-        body.to_string()
+    let text = |d: &[u8]| d.iter().map(|&x| char::from(b'0' + x)).collect::<String>();
+    let mut body = text(&digits[..int_len]);
+    if decimals > 0 {
+        body.push('.');
+        body.push_str(&text(&digits[int_len..]));
     }
+    if v < 0.0 { format!("-{body}") } else { body }
 }
 
 fn byte(e: &ScanEvent, i: usize) -> u8 {
@@ -304,13 +335,29 @@ impl ScanEvent {
         self.ms_level() >= 2 && self.reactions.len() > (self.ms_level() - 1) as usize
     }
 
-    /// In-source CID energy (`sid=`): the event's first counted 8-byte tail item as an f64,
-    /// when non-zero.
+    /// In-source CID energy (`sid=`): when [`SOURCE_CID_BYTE`] is 0, the event's first counted
+    /// 8-byte tail item as an f64.
     pub fn source_cid_energy(&self) -> Option<f64> {
+        if byte(self, SOURCE_CID_BYTE) != 0 {
+            return None;
+        }
         self.tail_items
             .first()
             .map(|&bits| f64::from_bits(bits))
-            .filter(|v| v.is_finite() && *v != 0.0)
+            .filter(|v| v.is_finite())
+    }
+
+    /// FAIMS compensation voltage (`cv=`, volts): when [`FAIMS_BYTE`] is 0, the tail item after
+    /// the in-source CID energy (the first item when the scan has none).
+    pub fn faims_cv(&self) -> Option<f64> {
+        if byte(self, FAIMS_BYTE) != 0 {
+            return None;
+        }
+        let at = usize::from(byte(self, SOURCE_CID_BYTE) == 0);
+        self.tail_items
+            .get(at)
+            .map(|&bits| f64::from_bits(bits))
+            .filter(|v| v.is_finite())
     }
 
     /// `t` (turbo scan rate) or nothing, as LTQ-generation ion traps number their rates.
@@ -359,6 +406,9 @@ impl ScanEvent {
         }
         if let Some(e) = self.source_cid_energy() {
             parts.push(format!("sid={}", fixed_decimals(e, 2)));
+        }
+        if let Some(v) = self.faims_cv() {
+            parts.push(format!("cv={}", fixed_decimals(v, 2)));
         }
         if let Some(t) = self.scan_rate_token_for(rates) {
             parts.push(t.into());
@@ -421,7 +471,15 @@ mod tests {
         assert_eq!(fixed_decimals(309.031_25, 4), "309.0313");
         assert_eq!(fixed_decimals(250.906_25, 4), "250.9063");
         assert_eq!(fixed_decimals(-0.125, 2), "-0.13");
-        assert_eq!(fixed_decimals(9.995, 2), "9.99"); // stored just below the tie
+        // stored just below the decimal tie: 15 significant digits make it a tie, rounded up
+        // (790.60925 prints 790.6093 in the Astral export `msv99294-astral-nanopots-1cell-b9`)
+        assert_eq!(fixed_decimals(790.609_25, 4), "790.6093");
+        assert_eq!(fixed_decimals(9.995, 2), "10.00");
+        assert_eq!(fixed_decimals(0.001_234, 2), "0.00");
+        assert_eq!(fixed_decimals(0.005, 2), "0.01");
+        assert_eq!(fixed_decimals(1.0e-20, 4), "0.0000");
+        assert_eq!(fixed_decimals(123_456.0, 0), "123456");
+        assert_eq!(fixed_decimals(-45.0, 2), "-45.00");
         assert_eq!(fixed_decimals(99.968_75, 4), "99.9688");
         assert_eq!(fixed_decimals(99.999_96, 4), "100.0000"); // not a tie: standard rounding
         assert_eq!(fixed_decimals(0.5, 0), "1");
@@ -529,5 +587,63 @@ mod tests {
             ]
         );
         assert_eq!(e.ms_level(), 2);
+    }
+
+    #[test]
+    fn faims_and_astral_filters() {
+        // msv99294 scan 2: an Astral-analyzer MS2 behind FAIMS; tail item -40.0, byte 122 = 0.
+        let r = Reaction {
+            precursor_mz: 410.436_462_402_343_75,
+            isolation_width: 20.009_094,
+            energy: 25.0,
+            reaction_words: [11, 1],
+            reaction_values: [400.431_92, 420.441_01, 0.0],
+        };
+        let mut e = event(
+            &[
+                (4, 1),
+                (5, 0),
+                (6, 2),
+                (8, 1),
+                (9, 2),
+                (10, 0),
+                (11, 5),
+                (40, 7),
+                (122, 0),
+            ],
+            vec![r],
+            [150.0, 2000.0],
+        );
+        e.tail_items = vec![(-40.0f64).to_bits()];
+        assert_eq!(e.analyzer(), Analyzer::Astral);
+        assert_eq!(e.faims_cv(), Some(-40.0));
+        assert_eq!(e.source_cid_energy(), None);
+        assert_eq!(
+            e.filter_text(4),
+            "ASTMS + c NSI cv=-40.00 Full ms2 410.4365@hcd25.00 [150.0000-2000.0000]"
+        );
+        // msv99508: an Orbitrap MS2 of a dependent scan behind FAIMS.
+        e.preamble[ANALYZER_BYTE] = 4;
+        e.preamble[DEPENDENT_BYTE] = 1;
+        e.tail_items = vec![(-45.0f64).to_bits()];
+        e.reactions[0].precursor_mz = 442.682_8;
+        e.reactions[0].energy = 32.0;
+        e.scan_ranges = vec![[110.0, 896.0]];
+        assert_eq!(
+            e.filter_text(4),
+            "FTMS + c NSI cv=-45.00 d Full ms2 442.6828@hcd32.00 [110.0000-896.0000]"
+        );
+        // pwiz-thermo-source-cid: byte 8 = 0 makes the first tail item the in-source CID energy;
+        // byte 122 = 1 means no FAIMS.
+        e.preamble[SOURCE_CID_BYTE] = 0;
+        e.preamble[FAIMS_BYTE] = 1;
+        e.tail_items = vec![10.0f64.to_bits()];
+        assert_eq!(e.source_cid_energy(), Some(10.0));
+        assert_eq!(e.faims_cv(), None);
+        // A Q Exactive event: byte 8 = 1 and a zero tail item print neither.
+        e.preamble[SOURCE_CID_BYTE] = 1;
+        e.preamble[FAIMS_BYTE] = 2;
+        e.tail_items = vec![0.0f64.to_bits()];
+        assert_eq!((e.source_cid_energy(), e.faims_cv()), (None, None));
     }
 }

@@ -263,10 +263,17 @@ pub(crate) struct OracleSpectra {
     /// The oracle read this very file (mzML/mzXML): address spectra by position, not scan number.
     #[serde(default)]
     pub(crate) by_index: bool,
+    /// `numpress-pic` (MS-Numpress positive-integer compression) or `integer` (an ANDI-MS
+    /// export's long integers): the export rounded each intensity to a whole number.
+    #[serde(default)]
+    pub(crate) intensity_encoding: Option<String>,
     pub(crate) scans: Vec<OracleScan>,
     /// Set from the manifest entry (`precursor_tolerance`), not read from the oracle file.
     #[serde(skip)]
     pub(crate) precursor_tolerance: Option<f64>,
+    /// Set from the manifest entry (`export_monoisotopic_max_shift`).
+    #[serde(skip)]
+    pub(crate) export_monoisotopic_max_shift: Option<f64>,
     /// Set from the manifest entry (`peaks_not_compared`), not read from the oracle file.
     #[serde(skip)]
     pub(crate) peaks_not_compared: Option<String>,
@@ -322,6 +329,10 @@ pub(crate) struct OracleScan {
     /// The export's base-peak m/z, when recorded.
     #[serde(default)]
     pub(crate) base_peak_mz: Option<f64>,
+    /// The export kept only the points inside this m/z range (an ANDI-MS export's
+    /// `mass_range_min`/`mass_range_max`).
+    #[serde(default)]
+    pub(crate) mz_window: Option<[f64; 2]>,
 }
 #[derive(Deserialize)]
 pub(crate) struct OracleTdf {
