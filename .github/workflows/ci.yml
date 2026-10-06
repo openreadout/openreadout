@@ -334,7 +334,7 @@ jobs:
             echo "::error::THIRD-PARTY-NOTICES.md is stale; regenerate it with the command at the top of the file"; exit 1; }
 
   # Release readiness: every version string agrees with Cargo.toml, the package-manager templates
-  # render, and the npm wrapper tests and packs.
+  # render, and the npm package tests pass and the package packs.
   release-check:
     name: release readiness (versions, manifests, npm)
     runs-on: ubuntu-latest
@@ -392,6 +392,8 @@ jobs:
       - name: Scripts parse
         run: |
           bash -n scripts/bump-version.sh
+          bash -n scripts/macos-sign.sh
+          bash -n packaging/npm/scripts/smoke-test.sh
           sh -n scripts/install.sh
 
   # Cheap (Linux only): the WebAssembly build (book/src/guides/wasm.md) with its Node tests and the demo page.

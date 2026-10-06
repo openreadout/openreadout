@@ -1,0 +1,24 @@
+{
+  "title": "OpenReadout",
+  "upload_type": "software",
+  "description": "One static binary that reads raw lab-instrument files (microscopy, mass spectrometry, chromatography, flow cytometry, NMR, electrophysiology, spectroscopy, plate readers, qPCR and more), reports what is in them as JSON, exports them to open formats and exposes the same operations as MCP tools.",
+  "creators": [
+    {
+      "name": "The OpenReadout Authors"
+    }
+  ],
+  "access_right": "open",
+  "license": "MIT",
+  "notes": "Dual-licensed under the MIT license or the Apache License 2.0, at your option. Zenodo records one license, so this record lists MIT. Documentation: https://openreadout.github.io/openreadout/",
+  "keywords": [
+    "microscopy",
+    "mass spectrometry",
+    "flow cytometry",
+    "electrophysiology",
+    "NMR",
+    "file formats",
+    "OME-TIFF",
+    "OME-Zarr",
+    "Model Context Protocol"
+  ]
+}

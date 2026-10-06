@@ -10,7 +10,7 @@ OpenReadout is designed for AI agents. An assistant can use it in two ways: thro
 curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/skills/openreadout/SKILL.md
 ```
 
-There is no packaged release yet, so the install script the skill uses won't work until there is one. Until then, [install with cargo](install.md) yourself, then connect the program with one of the commands below.
+To do it yourself instead, [install the program](install.md), then connect it with one of the commands below.
 
 **The skill**, for agents with a shell (Claude Code, Codex, Cursor, Copilot, Gemini CLI):
 
