@@ -31,6 +31,7 @@
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]
 
+mod app;
 #[cfg(feature = "http")]
 mod http;
 mod progress;
@@ -45,9 +46,10 @@ pub use resources::PREVIEW_BUDGET;
 use openreadout_core::{Error, Registry};
 use rmcp::handler::server::router::tool::ToolRouter;
 use rmcp::model::{
-    CallToolResult, GetPromptRequestParams, GetPromptResponse, Implementation, ListPromptsResult,
-    ListResourceTemplatesResult, ListResourcesResult, PaginatedRequestParams,
-    ReadResourceRequestParams, ReadResourceResponse, ServerCapabilities, ServerConfig,
+    CallToolRequestParams, CallToolResponse, CallToolResult, GetPromptRequestParams,
+    GetPromptResponse, Implementation, ListPromptsResult, ListResourceTemplatesResult,
+    ListResourcesResult, ListToolsResult, PaginatedRequestParams, ReadResourceRequestParams,
+    ReadResourceResponse, ServerCapabilities, ServerConfig, Tool,
 };
 use rmcp::service::RequestContext;
 use rmcp::{ErrorData as McpError, RoleServer, ServerHandler, ServiceExt, tool_handler};
@@ -140,25 +142,71 @@ pub const INSTRUCTIONS: &str = "OpenReadout reads raw lab-instrument files and d
 #[tool_handler(router = self.tool_router)]
 impl ServerHandler for InstrumentServer {
     fn get_info(&self) -> ServerConfig {
-        ServerConfig::new(
-            ServerCapabilities::builder()
-                .enable_tools()
-                .enable_resources()
-                .enable_prompts()
-                .build(),
-        )
-        .with_server_info(
-            Implementation::new("openreadout", env!("CARGO_PKG_VERSION")).with_title("OpenReadout"),
-        )
-        .with_instructions(INSTRUCTIONS)
+        let mut capabilities = ServerCapabilities::builder()
+            .enable_tools()
+            .enable_resources()
+            .enable_prompts()
+            .build();
+        capabilities.extensions = Some([app::server_extension()].into_iter().collect());
+        ServerConfig::new(capabilities)
+            .with_server_info(
+                Implementation::new("openreadout", env!("CARGO_PKG_VERSION"))
+                    .with_title("OpenReadout"),
+            )
+            .with_instructions(INSTRUCTIONS)
+    }
+
+    // The viewer app (`app`) hooks in here: tools/list, tools/call and the `ui://` resource.
+    async fn list_tools(
+        &self,
+        _request: Option<PaginatedRequestParams>,
+        context: RequestContext<RoleServer>,
+    ) -> Result<ListToolsResult, McpError> {
+        let mut tools = self.tool_router.list_all();
+        if app::ui_for(&context) {
+            app::decorate(&mut tools);
+        }
+        Ok(ListToolsResult::with_all_items(tools))
+    }
+
+    async fn call_tool(
+        &self,
+        request: CallToolRequestParams,
+        context: RequestContext<RoleServer>,
+    ) -> Result<CallToolResponse, McpError> {
+        if request.name == app::VIEW_TOOL {
+            return app::call_view(self.registry, request, &context)
+                .await
+                .map(Into::into);
+        }
+        let hint = app::ui_for(&context)
+            .then(|| app::view_hint(&request.name, request.arguments.as_ref()))
+            .flatten();
+        let tcc = rmcp::handler::server::tool::ToolCallContext::new(self, request, context);
+        let mut response = self.tool_router.call(tcc).await?;
+        if let (Some(hint), CallToolResponse::Complete(result)) = (hint, &mut response) {
+            app::attach_hint(result, hint);
+        }
+        Ok(response)
+    }
+
+    fn get_tool(&self, name: &str) -> Option<Tool> {
+        if name == app::VIEW_TOOL {
+            return Some(app::view_tool());
+        }
+        self.tool_router.get(name).cloned()
     }
 
     async fn list_resources(
         &self,
         _request: Option<PaginatedRequestParams>,
-        _context: RequestContext<RoleServer>,
+        context: RequestContext<RoleServer>,
     ) -> Result<ListResourcesResult, McpError> {
-        Ok(ListResourcesResult::with_all_items(resources::list()))
+        let mut list = resources::list();
+        if app::ui_for(&context) {
+            list.push(app::resource());
+        }
+        Ok(ListResourcesResult::with_all_items(list))
     }
 
     async fn list_resource_templates(
@@ -176,6 +224,9 @@ impl ServerHandler for InstrumentServer {
         request: ReadResourceRequestParams,
         _context: RequestContext<RoleServer>,
     ) -> Result<ReadResourceResponse, McpError> {
+        if let Some(r) = app::read(&request.uri) {
+            return Ok(r.into());
+        }
         let registry = self.registry;
         let uri = request.uri;
         tokio::task::spawn_blocking(move || resources::read(registry, &uri))
