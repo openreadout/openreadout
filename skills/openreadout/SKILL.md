@@ -11,7 +11,7 @@ metadata:
 
 # OpenReadout
 
-`openreadout` opens raw instrument files and data-set folders, answers in JSON and never modifies its inputs. As an MCP server (`openreadout mcp`) it offers the CLI operations as tools named `openreadout_<command>`. Install: `brew install openreadout/tap/openreadout`, `npm install -g openreadout` or `cargo binstall openreadout`; other ways at https://openreadout.github.io/openreadout/getting-started/install.html.
+`openreadout` opens raw instrument files and data-set folders, answers in JSON and never modifies its inputs. As an MCP server (`openreadout mcp`) it offers the CLI operations as tools named `openreadout_<command>`. Install: `curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/install.sh | sh` (macOS, Linux; into ~/.local/bin), `irm https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/install.ps1 | iex` (Windows PowerShell), `brew install openreadout/tap/openreadout`, `npm install -g openreadout` or `cargo binstall openreadout`; other ways at https://openreadout.github.io/openreadout/getting-started/install.html.
 
 ## Commands
 

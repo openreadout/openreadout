@@ -55,13 +55,35 @@ fn mean(v: &[f64]) -> Option<f64> {
     (!f.is_empty()).then(|| f.iter().sum::<f64>() / f.len() as f64)
 }
 
-pub(crate) fn render(
+/// The values of a plate table, one per well, as the heat map shows them.
+#[derive(Debug, Clone, PartialEq)]
+#[non_exhaustive]
+pub struct PlateGrid {
+    /// Table index.
+    pub table: u32,
+    /// `wide` (one column per well) or `long` (`well` or `row` + `column` columns).
+    pub layout: &'static str,
+    /// Plate rows (8 for a 96-well plate).
+    pub rows: u32,
+    /// Plate columns (12 for a 96-well plate).
+    pub columns: u32,
+    /// What each value is (a column name, or `mean of N rows`).
+    pub value: String,
+    /// `((row, column), value)` of each well with a finite value, zero-based.
+    pub cells: Vec<((u32, u32), f64)>,
+    /// What was left out (rows past the read cap, other reads or time points).
+    pub notes: Vec<String>,
+}
+
+/// The per-well values of table `table` (default 0); `column` picks the value column of a long
+/// table. Errors when the table has no well layout.
+pub fn plate_grid(
     ds: &mut dyn Dataset,
     info: &FileInfo,
-    req: &PreviewRequest,
-    out: &mut PreviewOutput,
-) -> Result<Canvas> {
-    let ti = req.table.unwrap_or(0);
+    table: Option<u32>,
+    column: Option<&str>,
+) -> Result<PlateGrid> {
+    let ti = table.unwrap_or(0);
     let t = info
         .tables
         .iter()
@@ -100,9 +122,9 @@ pub(crate) fn render(
         ));
     }
     let rows = t.row_count.min(MAX_ROWS);
+    let mut notes = Vec::new();
     if rows < t.row_count {
-        out.notes
-            .push(format!("read the first {rows} of {} rows", t.row_count));
+        notes.push(format!("read the first {rows} of {} rows", t.row_count));
     }
     let tab = ds.read_table(ti, 0, rows)?;
     let mut cells: Vec<((u32, u32), f64)> = Vec::new();
@@ -131,7 +153,7 @@ pub(crate) fn render(
             col_index(&t, &["wavelength_nm"]),
             col_index(&t, &["time_s"]),
         ];
-        let vi = if let Some(name) = &req.column {
+        let vi = if let Some(name) = column {
             t.columns
                 .iter()
                 .position(|c| c.name == *name)
@@ -154,7 +176,7 @@ pub(crate) fn render(
         let mut vals = get(vi);
         let what = keep_one_measurement(&t, &tab.columns, &mut vals);
         if let Some(w) = &what {
-            out.notes.push(format!(
+            notes.push(format!(
                 "showing {w}; read the other rows with openreadout_table or `openreadout export FILE --to csv`"
             ));
         }
@@ -234,6 +256,33 @@ pub(crate) fn render(
     } else {
         (32, 48)
     };
+    Ok(PlateGrid {
+        table: ti,
+        layout,
+        rows: nr,
+        columns: nc,
+        value,
+        cells,
+        notes,
+    })
+}
+
+pub(crate) fn render(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    req: &PreviewRequest,
+    out: &mut PreviewOutput,
+) -> Result<Canvas> {
+    let PlateGrid {
+        table: ti,
+        layout,
+        rows: nr,
+        columns: nc,
+        value,
+        cells,
+        notes,
+    } = plate_grid(ds, info, req.table, req.column.as_deref())?;
+    out.notes.extend(notes);
     let (lo, hi) = cells
         .iter()
         .fold((f64::INFINITY, f64::NEG_INFINITY), |(a, b), (_, v)| {

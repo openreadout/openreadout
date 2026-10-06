@@ -230,7 +230,7 @@ irm https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/insta
 # Homebrew (macOS / Linux)
 brew install openreadout/tap/openreadout
 
-# npm (all platforms — fetches the native binary for your platform)
+# npm (all platforms; installs the native binary for your platform as a dependency)
 npm install -g openreadout
 
 # Rust toolchain

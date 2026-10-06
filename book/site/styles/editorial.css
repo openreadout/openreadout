@@ -321,6 +321,9 @@ footer.site .fine a {
   padding: 0 16px 12px;
   margin: 0;
 }
+.install .note code {
+  overflow-wrap: anywhere;
+}
 .copy {
   all: unset;
   cursor: pointer;

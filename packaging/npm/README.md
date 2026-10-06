@@ -2,7 +2,7 @@
 
 Read raw lab-instrument files without vendor software. OpenReadout prints what is in a file as JSON, checks its integrity, exports it to open formats and runs as an MCP server for AI agents. The formats it reads are listed at <https://openreadout.github.io/openreadout/formats.html>.
 
-This npm package is a thin installer for the native [OpenReadout](https://github.com/openreadout/openreadout) binary. On install it downloads the prebuilt, statically linked binary for your platform from the GitHub release with the same version, **verifies its SHA-256 against the release's `SHA256SUMS`**, and links it as `openreadout`. There are no runtime dependencies.
+This npm package runs the native [OpenReadout](https://github.com/openreadout/openreadout) binary. The binary comes in a second, platform-specific package that your package manager picks for your machine, so the install downloads nothing else and runs no install scripts. It works with npm, pnpm, Yarn and Bun, behind proxies and from registry mirrors.
 
 ```bash
 npx openreadout info run42.czi            # one-off, no global install
@@ -15,18 +15,22 @@ MCP client configuration (Claude Desktop, Cursor, ...):
 { "mcpServers": { "openreadout": { "command": "npx", "args": ["-y", "openreadout", "mcp"] } } }
 ```
 
-Platforms: macOS (arm64, x64), Linux (x64, arm64; static musl builds, any distribution), Windows (x64; arm64 via emulation). Node.js 18 or newer.
+Node.js 18 or newer.
 
-## Environment variables
-
-| variable | effect |
+| platform | package |
 | --- | --- |
-| `OPENREADOUT_BINARY` | use this binary instead of downloading one |
-| `OPENREADOUT_DOWNLOAD_BASE` | base URL (or `file://` directory) with the release assets and `SHA256SUMS`, e.g. an internal mirror |
-| `OPENREADOUT_SKIP_DOWNLOAD` | skip the postinstall download; the first run downloads instead |
+| macOS on Apple silicon | `@openreadout/cli-darwin-arm64` |
+| macOS on Intel | `@openreadout/cli-darwin-x64` |
+| Linux on x64 (static build, any distribution) | `@openreadout/cli-linux-x64` |
+| Linux on arm64 (static build, any distribution) | `@openreadout/cli-linux-arm64` |
+| Windows on x64, and on Arm under emulation | `@openreadout/cli-win32-x64` |
 
-Behind a proxy on Node 24+, set `NODE_USE_ENV_PROXY=1` together with `HTTPS_PROXY`. If the postinstall download fails because the network is unavailable, the install still succeeds and the binary is fetched on first run; a checksum mismatch always fails.
+## If the binary is missing
 
-Other ways to install (Homebrew, Scoop, cargo, Docker, Python): see the [install guide](https://openreadout.github.io/openreadout/getting-started/install.html).
+`openreadout` exits with a message naming the platform package when that package is not installed. This happens when optional dependencies are turned off (`npm install --omit=optional`) or when a lockfile made on another platform is reused. Reinstall with optional dependencies, or add the package yourself, for example `npm install @openreadout/cli-linux-x64`.
+
+To use a binary you already have, set `OPENREADOUT_BINARY` to its path.
+
+Other ways to install (Homebrew, Scoop, the install script, cargo, Docker, Python): see the [install guide](https://openreadout.github.io/openreadout/getting-started/install.html).
 
 Dual-licensed MIT OR Apache-2.0.

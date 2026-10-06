@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>OpenReadout viewer</title>
+<style>/*STYLE*/</style>
+</head>
+<body>
+<main id="app" aria-busy="true">
+  <header class="bar">
+    <div class="title">
+      <span id="file-name" class="file">OpenReadout</span>
+      <span id="file-format" class="muted"></span>
+    </div>
+    <nav id="tabs" class="tabs" aria-label="Views"></nav>
+    <button id="fullscreen" class="icon" type="button" title="Full screen" aria-label="Full screen" hidden>
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+  </header>
+  <section id="controls" class="controls" aria-label="View settings"></section>
+  <section id="stage" class="stage">
+    <canvas id="canvas" tabindex="0" aria-label="Data view"></canvas>
+    <div id="overlay" class="overlay" role="status" aria-live="polite">Waiting for data…</div>
+    <div id="tip" class="tip" hidden></div>
+  </section>
+  <footer class="status">
+    <span id="readout" class="readout"></span>
+    <span id="notes" class="muted"></span>
+  </footer>
+</main>
+<script>/*SCRIPT*/</script>
+</body>
+</html>
