@@ -81,6 +81,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - feature layout `if regular { "2D, evenly spaced times" } else { "2D, uneven times" }`
 - feature dialect `format!("{e} line endings")`
+- feature layout `"headerless export"`
 - feature writer_version `format!("Chromeleon {v}")`
 - feature codec `e`
 - feature layout `format!("{} Hz {kind} in {unit}", t.sample_rate_hz)`
@@ -213,7 +214,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: none (unit tests in `src/`)
 - fuzz targets (`fuzz/fuzz_targets/`): `chrom_cfb`, `chrom_netcdf`, `whole_andi`, `whole_chemstation`, `whole_chromeleon`, `whole_empower_arw`, `whole_openlab`, `whole_shimadzu`
-- corpus inputs by tier: full 3, heldout 10, smoke 61, standard 31
+- corpus inputs by tier: full 3, heldout 19, smoke 61, standard 31
 - golden snapshots: [`corpus/snapshots/chemstation.jsonl`](../../corpus/snapshots/chemstation.jsonl), [`corpus/snapshots/openlab-cds.jsonl`](../../corpus/snapshots/openlab-cds.jsonl), [`corpus/snapshots/andi-chrom.jsonl`](../../corpus/snapshots/andi-chrom.jsonl), [`corpus/snapshots/empower-arw.jsonl`](../../corpus/snapshots/empower-arw.jsonl), [`corpus/snapshots/shimadzu.jsonl`](../../corpus/snapshots/shimadzu.jsonl), [`corpus/snapshots/chromeleon.jsonl`](../../corpus/snapshots/chromeleon.jsonl)
 
 ### Open new-variant intakes

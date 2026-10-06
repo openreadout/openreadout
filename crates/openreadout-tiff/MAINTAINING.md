@@ -187,7 +187,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/corpus_pages.rs`](tests/corpus_pages.rs), [`tests/eer.rs`](tests/eer.rs), [`tests/fixtures.rs`](tests/fixtures.rs), [`tests/jpeg2000_pages.rs`](tests/jpeg2000_pages.rs), [`tests/jpeg_colour.rs`](tests/jpeg_colour.rs), [`tests/metamorph.rs`](tests/metamorph.rs), [`tests/nis.rs`](tests/nis.rs), [`tests/other_codecs.rs`](tests/other_codecs.rs)
 - committed fixtures: 61 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_tiff`
-- corpus inputs by tier: full 1, heldout 8, smoke 85, standard 35
+- corpus inputs by tier: full 1, heldout 10, smoke 85, standard 35
 - golden snapshots: [`corpus/snapshots/tiff.jsonl`](../../corpus/snapshots/tiff.jsonl)
 
 ### Open new-variant intakes

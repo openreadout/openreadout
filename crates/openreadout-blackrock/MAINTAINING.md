@@ -87,7 +87,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_blackrock`
-- corpus inputs by tier: heldout 1, smoke 13, standard 2
+- corpus inputs by tier: heldout 2, smoke 13, standard 2
 - golden snapshots: [`corpus/snapshots/blackrock.jsonl`](../../corpus/snapshots/blackrock.jsonl)
 
 ### Open new-variant intakes

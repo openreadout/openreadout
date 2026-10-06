@@ -147,7 +147,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs), [`tests/trios_synthetic.rs`](tests/trios_synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_ngb`, `whole_ta001`, `whole_trios`
-- corpus inputs by tier: heldout 2, smoke 27, standard 10
+- corpus inputs by tier: heldout 5, smoke 27, standard 10
 - golden snapshots: [`corpus/snapshots/netzsch-ngb.jsonl`](../../corpus/snapshots/netzsch-ngb.jsonl), [`corpus/snapshots/ta-universal-analysis.jsonl`](../../corpus/snapshots/ta-universal-analysis.jsonl), [`corpus/snapshots/ta-trios.jsonl`](../../corpus/snapshots/ta-trios.jsonl)
 
 ### Open new-variant intakes

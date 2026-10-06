@@ -140,7 +140,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
 - committed fixtures: 10 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `czi_metadata_xml`, `czi_segment_walk`, `czi_subblock_header`, `whole_czi`
-- corpus inputs by tier: full 4, heldout 9, smoke 46, standard 42
+- corpus inputs by tier: full 4, heldout 13, smoke 46, standard 42
 - golden snapshots: [`corpus/snapshots/czi.jsonl`](../../corpus/snapshots/czi.jsonl)
 
 ### Open new-variant intakes

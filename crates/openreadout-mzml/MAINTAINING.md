@@ -38,7 +38,7 @@ The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; 
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `mzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 96 / 44 | 30 | 3 / 0 |
+| `mzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 97 / 45 | 31 | 3 / 0 |
 | `imzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | low | open spec | 2 / 2 | 1 | - |
 | `mzxml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 6 / 5 | 4 | - |
 | `mzmlb` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | medium | open spec | 4 / 4 | 1 | 1 / 0 |
@@ -99,13 +99,13 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `mzml` | acquisition | `mass spectrum` | spectra, traces | 1 | 1 | `openms-tutorial-gaussfilter` |
 | `mzml` | acquisition | `profile spectrum` | spectra, traces | 1 | 9 | `mtbls1334-STD_neg_MSMS_1min0205` |
 | `mzml` | acquisition | `selected ion monitoring chromatogram` | spectra, traces | 0 | 3 |  |
-| `mzml` | acquisition | `selected reaction monitoring chromatogram` | spectra, traces | 4 | 9 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
-| `mzml` | acquisition | `total ion current chromatogram` | spectra, traces | 5 | 16 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | acquisition | `selected reaction monitoring chromatogram` | spectra, traces | 5 | 10 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | acquisition | `total ion current chromatogram` | spectra, traces | 6 | 17 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
 | `mzml` | codec | `gzip container` | spectra, traces | 3 | 3 | `mzdata-small-gz`, `mzdata-timstof-gz`, `synthetic-mzml-gz-members` |
-| `mzml` | field | `experiment.acquisition.started_at` | descriptive | 39 | 89 | `mtbls11360-col-0-3-n`, `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls1334-STD_neg_MSMS_1min0205` |
-| `mzml` | format_version | `1.1.0` | metadata, spectra, traces | 43 | 95 | `mtbls11360-col-0-3-n`, `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls1334-STD_neg_MSMS_1min0205` |
+| `mzml` | field | `experiment.acquisition.started_at` | descriptive | 40 | 90 | `mtbls11360-col-0-3-n`, `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls1334-STD_neg_MSMS_1min0205` |
+| `mzml` | format_version | `1.1.0` | metadata, spectra, traces | 44 | 96 | `mtbls11360-col-0-3-n`, `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls1334-STD_neg_MSMS_1min0205` |
 | `mzml` | instrument | `4000 QTRAP` | descriptive | 0 | 1 |  |
-| `mzml` | instrument | `Agilent instrument model` | descriptive | 5 | 16 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | instrument | `Agilent instrument model` | descriptive | 6 | 17 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
 | `mzml` | instrument | `Applied Biosystems instrument model` | descriptive | 0 | 1 |  |
 | `mzml` | instrument | `Bruker Daltonics timsTOF series` | descriptive | 2 | 9 | `mzdata-diapasef`, `mzdata-timstof-gz` |
 | `mzml` | instrument | `Exactive` | descriptive | 1 | 1 | `mtbls797-dotsha05` |
@@ -137,23 +137,23 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `mzml` | record | `chromatogram` | traces | 0 | 2 |  |
 | `mzml` | record | `electromagnetic radiation chromatogram` | traces | 0 | 1 |  |
 | `mzml` | record | `emission chromatogram` | traces | 0 | 1 |  |
-| `mzml` | record | `flow rate chromatogram` | traces | 0 | 5 |  |
-| `mzml` | record | `pressure chromatogram` | traces | 0 | 9 |  |
+| `mzml` | record | `flow rate chromatogram` | traces | 1 | 6 | `mtbls4722-1` |
+| `mzml` | record | `pressure chromatogram` | traces | 1 | 10 | `mtbls4722-1` |
 | `mzml` | record | `selected ion current chromatogram` | traces | 1 | 1 | `pyteomics-tiny-pwiz` |
 | `mzml` | record | `selected ion monitoring chromatogram` | traces | 0 | 3 |  |
-| `mzml` | record | `selected reaction monitoring chromatogram` | traces | 4 | 10 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | record | `selected reaction monitoring chromatogram` | traces | 5 | 11 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
 | `mzml` | record | `temperature chromatogram` | traces | 0 | 3 |  |
-| `mzml` | record | `total ion current chromatogram` | traces | 15 | 92 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | record | `total ion current chromatogram` | traces | 16 | 93 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
 | `mzml` | writer | `Analyst` | descriptive | 3 | 6 | `mtbls11360-col-0-3-n`, `mtbls6084-sl-st-blank2`, `pxd069939-dda-pbqc-hf75` |
 | `mzml` | writer | `Bioworks` | descriptive | 1 | 1 | `pyteomics-tiny-pwiz` |
 | `mzml` | writer | `Bruker software` | descriptive | 2 | 9 | `mzdata-diapasef`, `mzdata-timstof-gz` |
 | `mzml` | writer | `Compass` | descriptive | 0 | 4 |  |
 | `mzml` | writer | `CompassXtract` | descriptive | 1 | 1 | `pyteomics-tiny-pwiz` |
 | `mzml` | writer | `FileConverter` | descriptive | 1 | 1 | `openms-tutorial-gaussfilter` |
-| `mzml` | writer | `MassHunter Data Acquisition` | descriptive | 5 | 16 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | writer | `MassHunter Data Acquisition` | descriptive | 6 | 17 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
 | `mzml` | writer | `MassLynx` | descriptive | 2 | 19 | `mtbls7290-scfa240-001-neg-blank-raw`, `pxd059722-mth2-alicine-td-1-raw` |
 | `mzml` | writer | `ProteoWizard` | descriptive | 3 | 3 | `mtbls797-dotsha05`, `pyteomics-test`, `pyteomics-tiny-pwiz` |
-| `mzml` | writer | `ProteoWizard software` | descriptive | 35 | 87 | `mtbls11360-col-0-3-n`, `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls1334-STD_neg_MSMS_1min0205` |
+| `mzml` | writer | `ProteoWizard software` | descriptive | 36 | 88 | `mtbls11360-col-0-3-n`, `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls1334-STD_neg_MSMS_1min0205` |
 | `mzml` | writer | `ThermoRawFileParser` | descriptive | 1 | 1 | `pxd058413-chem-iz11-6-3` |
 | `mzml` | writer | `Xcalibur` | descriptive | 25 | 39 | `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls13401-neg-id-01`, `mtbls13880-bcells-lipidomics-pos-cko-ab` |
 | `mzml` | writer | `custom unreleased software tool` | descriptive | 3 | 3 | `openms-tutorial-gaussfilter`, `pxd032908-velos-etd-pep38`, `pxd064311-lumos-hela-gluc` |
@@ -166,7 +166,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `mzml_binary`, `whole_imzml`, `whole_mzml_gz`, `whole_mzml`, `whole_mzmlb`, `whole_mzxml`
-- corpus inputs by tier: heldout 9, smoke 20
+- corpus inputs by tier: heldout 12, smoke 20
 - golden snapshots: [`corpus/snapshots/mzml.jsonl`](../../corpus/snapshots/mzml.jsonl), [`corpus/snapshots/imzml.jsonl`](../../corpus/snapshots/imzml.jsonl), [`corpus/snapshots/mzxml.jsonl`](../../corpus/snapshots/mzxml.jsonl), [`corpus/snapshots/mzmlb.jsonl`](../../corpus/snapshots/mzmlb.jsonl)
 
 ### Open new-variant intakes

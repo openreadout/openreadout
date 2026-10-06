@@ -105,7 +105,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/fixtures.rs`](tests/fixtures.rs), [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
 - committed fixtures: 24 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `lif_container`, `lif_xml_model`, `whole_lif`
-- corpus inputs by tier: full 5, heldout 7, smoke 10, standard 10
+- corpus inputs by tier: full 5, heldout 10, smoke 10, standard 10
 - golden snapshots: [`corpus/snapshots/lif.jsonl`](../../corpus/snapshots/lif.jsonl)
 
 ### Open new-variant intakes
