@@ -527,6 +527,12 @@ pub(crate) fn parse_mpr(b: &[u8]) -> Result<SeriesFile> {
     let s = data.body;
     let n = usize::try_from(read(b, s, le_u32)?).map_err(|_| corrupt(s, "point count"))?;
     let (ids, first) = match data.version {
+        // older EC-Lab: one byte per column id, records from byte 100
+        0 => {
+            let k = usize::from(*slice(b, s + 4, 1)?.first().unwrap_or(&0));
+            let ids: Vec<u16> = slice(b, s + 5, k)?.iter().map(|&i| u16::from(i)).collect();
+            (ids, 100)
+        }
         2 | 3 => {
             let k = usize::from(*slice(b, s + 4, 1)?.first().unwrap_or(&0));
             let ids: Vec<u16> = (0..k)
@@ -545,7 +551,7 @@ pub(crate) fn parse_mpr(b: &[u8]) -> Result<SeriesFile> {
             return Err(Error::unsupported(
                 MPR_FORMAT_ID,
                 format!("data module version {v}"),
-                "Only data modules of versions 2, 3, 10 and 11 are read; export the file as text (.mpt) from EC-Lab.",
+                "Only data modules of versions 0, 2, 3, 10 and 11 are read; export the file as text (.mpt) from EC-Lab.",
             ));
         }
     };
@@ -630,15 +636,17 @@ pub(crate) fn parse_mpr(b: &[u8]) -> Result<SeriesFile> {
     });
     let mut vendor = Map::new();
     if let Some(log) = mods.iter().find(|m| m.short == "VMP LOG") {
-        if log.len > 593
-            && let Some(v) = le_f64(b, log.body + 585)
+        // the acquisition start: +465 in a version-0 log, +585 in later ones
+        let (at, why) = if log.version == 0 {
+            (465, "VMP LOG +465 (OLE date, local time)")
+        } else {
+            (585, "VMP LOG +585 (OLE date, local time)")
+        };
+        if log.len >= at + 8
+            && let Some(v) = le_f64(b, log.body + at)
             && let Some(t) = ole_local(v)
         {
-            facts.set(
-                "acquisition.started_at",
-                &t,
-                "VMP LOG +585 (OLE date, local time)",
-            );
+            facts.set("acquisition.started_at", &t, why);
             vendor.insert("acquisition_started".into(), json!(t));
         }
         if let Some(ch) = b.get(log.body + 9) {
@@ -1172,6 +1180,59 @@ fn mpt_time(s: &str) -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A module with the 57-byte header of version-0 files.
+    fn module(short: &str, version: u32, body: &[u8]) -> Vec<u8> {
+        let mut m = b"MODULE".to_vec();
+        m.extend(format!("{short:<10}").as_bytes());
+        m.extend(format!("{short:<25}").as_bytes());
+        m.extend(u32::try_from(body.len()).unwrap().to_le_bytes());
+        m.extend(version.to_le_bytes());
+        m.extend(b"10/29/11");
+        m.extend(body);
+        m
+    }
+
+    #[test]
+    fn data_module_version_0() {
+        // echem-figshare1228760-bio-logic4: u8 column count, u8 ids (flags, time, control/V,
+        // Ewe, dq), records from byte 100 of the body; the start at VMP LOG +465
+        let mut data = 2u32.to_le_bytes().to_vec();
+        data.extend([10, 1, 2, 3, 21, 31, 65, 4, 19, 6, 7]);
+        data.resize(100, 0);
+        for (t, e) in [(0.0f64, 0.83f32), (1.0, 0.84)] {
+            data.push(0x0b);
+            data.extend(t.to_le_bytes());
+            data.extend(0.5f32.to_le_bytes());
+            data.extend(e.to_le_bytes());
+            data.extend(0.0f64.to_le_bytes());
+        }
+        let mut log = vec![0u8; 473];
+        log[2] = 0x04;
+        log[465..473].copy_from_slice(&40_845.814_120_370_37f64.to_le_bytes());
+        let mut b = MPR_MAGIC.to_vec();
+        b.resize(0x34, b' ');
+        b.extend(module("VMP Set", 0, &[0x04, 0, 0, 0]));
+        b.extend(module("VMP data", 0, &data));
+        b.extend(module("VMP LOG", 0, &log));
+        let f = parse_mpr(&b).unwrap();
+        let t = &f.traces[0];
+        let ewe = t.channels.iter().position(|c| c.name == "ewe").unwrap();
+        assert_eq!(
+            t.sweeps[0][ewe],
+            vec![f64::from(0.83f32), f64::from(0.84f32)]
+        );
+        let mode = t.channels.iter().position(|c| c.name == "mode").unwrap();
+        assert_eq!(t.sweeps[0][mode], vec![3.0, 3.0]);
+        let started = serde_json::to_value(&f.experiment).unwrap();
+        assert!(started.to_string().contains("2011-10-29T19:32:20"));
+        // a body one byte short of the records is corrupt
+        data.pop();
+        let mut short = MPR_MAGIC.to_vec();
+        short.resize(0x34, b' ');
+        short.extend(module("VMP data", 0, &data));
+        assert!(parse_mpr(&short).is_err());
+    }
 
     #[test]
     fn absolute_time_column() {

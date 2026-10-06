@@ -203,9 +203,27 @@ def mpt_traces(path: Path, a: dict) -> list[dict]:
         harm = h.startswith(("THD", "NSD", "NSR", "|Ewe h", "|I h"))
         samples = [[i, time[i] if time else None, vals[i]] for i in idx if not (harm and vals[i] in (-1.0, 0.0))]
         out.append({"trace": 0, "sweep": 0, "label": h, "optional": bool(a.get("optional")), "n": len(rows),
-                    "samples": samples, "x_tol": 1e-9, "y_tol_rel": float(a.get("y_tol_rel", 1e-7)),
+                    "samples": samples, "x_tol": mpt_time_tol(path), "y_tol_rel": float(a.get("y_tol_rel", 1e-7)),
                     "y_tol_abs": float(a.get("y_tol_abs", 1e-30)), "source": f"EC-Lab export {path.name}"})
     return out
+
+
+def mpt_time_tol(path: Path) -> float:
+    """How far an export's printed `time/s` may lie from the stored value: half a unit of its
+    last printed decimal (older EC-Lab prints 5 decimals, `10.00020` for 10.0001997…), at least
+    1e-9."""
+    lines = path.read_bytes().decode("latin-1").splitlines()
+    nh = int(lines[1].split(":")[1]) if lines and lines[0].startswith("EC-Lab ASCII FILE") else 1
+    head = [h.strip() for h in lines[nh - 1].split("\t")]
+    if "time/s" not in head:
+        return 1e-9
+    k = head.index("time/s")
+    decimals = 0
+    for line in lines[nh:nh + 200]:
+        cells = line.split("\t")
+        if k < len(cells) and "." in cells[k] and "E" not in cells[k].upper() and "/" not in cells[k]:
+            decimals = max(decimals, len(cells[k].strip().split(".")[1]))
+    return max(1e-9, 0.5 * 10.0 ** -decimals * 1.000001) if decimals else 1e-9
 
 
 def galvani_fields(mpr: Path) -> tuple[dict, str | None]:
@@ -232,6 +250,8 @@ def galvani_traces(target: Path, a: dict) -> tuple[list[dict], list[dict]]:
     required = set(a.get("required", []))
     t = cols.get("time/s")
     freq = cols.get("freq/Hz")
+    # an .mpt input's times are the export's printed ones
+    x_tol = mpt_time_tol(target) if a.get("file") else 1e-9
     out = []
     for h, vals in cols.items():
         idx = pick(len(vals))
@@ -240,7 +260,7 @@ def galvani_traces(target: Path, a: dict) -> tuple[list[dict], list[dict]]:
         if harm and a.get("file") and freq:
             idx = [i for i in idx if freq[i] < 1e5]
         out.append({"trace": 0, "sweep": 0, "label": h, "optional": h not in required, "n": len(vals),
-                    "samples": [[i, t[i] if t else None, vals[i]] for i in idx], "x_tol": 1e-9,
+                    "samples": [[i, t[i] if t else None, vals[i]] for i in idx], "x_tol": x_tol,
                     "y_tol_rel": 1e-7, "y_tol_abs": 1e-30, "source": f"galvani {mpr.name} (GPL, black box)"})
     facts = [{"path": "acquisition.started_at", "value": ts[:19], "prefix": True, "source": "galvani"}] if ts and a.get("start") else []
     return out, facts

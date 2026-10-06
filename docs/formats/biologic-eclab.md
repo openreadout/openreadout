@@ -15,12 +15,12 @@ The binary layout was reverse-engineered from hex dumps of public `.mpr` files o
 Modules after byte 0x34: `MODULE`, 10-byte short name, 25-byte long name, then either u32 length,
 u32 version, 8-byte date (57-byte header) or, since EC-Lab 11.50, u32 0xFFFFFFFF, u32 length, u32
 0, u32 version, date (65 bytes). Modules: `VMP Set` (settings; byte 0 the technique code),
-`VMP data`, `VMP LOG` (byte 9 channel − 1; float64 OLE date of the acquisition start at +585, local
+`VMP data`, `VMP LOG` (byte 9 channel − 1; float64 OLE date of the acquisition start at +585, +465 in a version-0 log; local
 time), `VMP loop` (u32 count and u32 start index per loop), `VMP ExtDev`.
 
-`VMP data`: u32 points; column count u8 (versions 2, 3) or u16 (10, 11); u16 column ids; records
-from +405 (v2), +406 (v3) or +1007 (v10/11); body length = offset + points × record size (else
-corrupt). A record: one flag byte when any flag id is listed, then the other columns in list
+`VMP data`: u32 points; column count u8 (versions 0, 2, 3) or u16 (10, 11); column ids, u8 in
+version 0 and u16 otherwise; records from +100 (v0), +405 (v2), +406 (v3) or +1007 (v10/11);
+body length = offset + points × record size (else corrupt). A record: one flag byte when any flag id is listed, then the other columns in list
 order. **A column id not in the table below is refused** (exit 6: the record layout cannot be
 known), with the advice to read the `.mpt` export instead.
 
