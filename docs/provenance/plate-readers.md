@@ -208,3 +208,25 @@ A LabKey test file (`Label name,,,,Renilla US LUM 96 (cps)`, assay information b
 
 **Corpus files:** `softmax-abs-endpoint-plates`, `softmax-fl-kinetic-plates`, `softmax-lum-endpoint-utf16`, `softmax-spectramax340-kinetic-partial` (SoftMax Pro text exports; no held-out file). **Prior art consulted:** none new; allotropy (MIT) run as the second opinion.
 **What was inferred from what.** The only time in these exports is the footer's `Original Filename: …; Date Last Saved: <date> <time>`. The name says what it is: when the document was saved, which follows the read (in the two kinetic files by at least the run length, which allotropy adds to it). No block, header or note in the four files states when the plate was read. Decided: the footer time is reported as `tables[].extra.saved_at` and `experiment.acquisition.saved_at` (a new optional field: the time the file was last saved or exported), and no longer as `extra.acquired_at` / `experiment.acquisition.started_at`. The ASM export writes no `measurement time` for them. SoftMax Pro documents (`.sda`, `.pda`), which store each plate's read time, are unchanged.
+
+## 2026-10-06 — BMG MARS table view of a kinetic read (held-out finding D-H3, reproduced on development files) (Richard Zimring with Claude as assistant)
+
+Held-out draw D reported a CLARIOstar kinetic table-view export that returned no values (`table_axis_not_decoded`) while its assurance was `validated`. Two development files from repositories no held-out file uses show the same layout and the same result before this change:
+
+| id | source | licence | what it is |
+| --- | --- | --- | --- |
+| `bmg-table-bostock-calcein-kinetic` | GitHub jonathanbostock/phd-thesis @4ad6e84 | MIT | CLARIOstar, fluorescence 483-14/530-30, 61 time points of 36 wells, CRLF, 2024 |
+| `bmg-table-rpazuki-od600-kinetic` | GitHub rpazuki/lab_utils @a93c502 | GPL-3.0 (data) | MARS wizard `Onyx Fast Growth OD`, absorbance 600 nm, 109 time points of 6 wells, an empty line after every line, LF, 2025 |
+
+**Prior art consulted:** none. No held-out file was opened.
+
+**Observed:**
+- The title line is `Well Row,Well Col,Content,` and then `Raw Data (<filters>)` once per column (with a leading space in the CLARIOstar file). The line after it has `Time` under `Content` and each column's time as MARS prints it: `0 min `, `1 min `, … in one file, and `0 h `, `0 h 15 min`, …, `0 h 60 min`, `1 h 15 min`, …, `27 h` in the other. `0 h 60 min` shows that MARS rounds each time to the minute when it prints it (59.5 min or more prints as 60), so the printed times are exact only to ±30 s.
+- Every column under one title is one read, and the columns are its time points. The mode line (`Fluorescence (FI)`, `Absorbance`) has no `spectrum`.
+- In the second file every line is followed by an empty line, including the title line and the time line.
+
+**Decided:**
+- A table view whose second title line is labelled `Time` (or `Time [s]`, `Time [min]`, `Time [h]`) is a kinetic read. Each column's time is its label: `<n> h`, `<n> min` and `<n> s` parts are added up; a bare number takes the unit in the label's brackets, and a bare number under a bare `Time` label is refused (its unit is not stated). The value's `time_s` is that time, and the read type is `kinetic`. If any column's label does not parse, the table is refused as before (`table_axis_not_decoded`).
+- Empty lines between the title line, the axis line and the well lines are skipped.
+
+**Validation:** `oracle/plate.py` (`bmg_csv_summary`, the project's independent text reader) now also reads `Well Row`/`Well Col` tables and the time line. Every value of both files agrees with it, with its time.

@@ -11,7 +11,8 @@
 //! - **table view**: one line per well, `Well` (or `Well Row` + `Well Col`) and `Content`
 //!   columns, then one column per value under a column title (`Raw Data (Abs Spectrum)`,
 //!   `Average over replicates based on Raw Data (Ex Spectrum)`, `Raw Data (638-12/675-12 1)`).
-//!   In a spectral scan a second header line `Wavelength [nm]` gives each column's wavelength.
+//!   In a spectral scan a second header line `Wavelength [nm]` gives each column's wavelength;
+//!   in a kinetic read a second header line `Time` gives each column's time (`0 h 15 min`).
 
 use std::collections::BTreeMap;
 
@@ -204,10 +205,62 @@ struct TableView {
     /// Per value column (from `first_value`): its wavelength, when a `Wavelength [nm]` line
     /// follows the titles.
     wavelengths: Option<Vec<Option<f64>>>,
-    /// A second header line of another kind (`Time [s]`, cycles): not decoded.
+    /// Per value column (from `first_value`): its time in seconds, when a `Time` line follows
+    /// the titles (a kinetic read).
+    times: Option<Vec<f64>>,
+    /// A second header line of another kind (cycles, a time label that does not parse): not
+    /// decoded.
     other_axis: Option<String>,
     /// First well line.
     data: usize,
+}
+
+/// The first line from `r` on that holds anything (some exports put an empty line after
+/// every line).
+fn next_filled(sheet: &Sheet, mut r: usize) -> usize {
+    while r < sheet.rows.len() && sheet.row_is_blank(r) {
+        r += 1;
+    }
+    r
+}
+
+/// Seconds per unit of a time-axis label: `Time [s]`, `Time [min]`, `Time [h]`; `None` for a
+/// bare `Time`, whose columns must name their unit.
+fn axis_unit_s(label: &str) -> Option<f64> {
+    let unit = label.split_once('[')?.1.split_once(']')?.0.trim();
+    match unit {
+        "s" => Some(1.0),
+        "min" => Some(60.0),
+        "h" => Some(3600.0),
+        _ => None,
+    }
+}
+
+/// One column's time as MARS prints it under a `Time` label: `0 h 15 min`, `1 min `, `30 s`,
+/// or a bare number in the label's unit.
+pub(crate) fn column_time_s(text: &str, unit_s: Option<f64>) -> Option<f64> {
+    let t = text.trim();
+    if let Some(n) = crate::sheet::parse_number(t) {
+        return unit_s.map(|u| n * u).filter(|s| s.is_finite() && *s >= 0.0);
+    }
+    let mut parts = t.split_whitespace();
+    let mut total = 0.0;
+    let mut any = false;
+    while let Some(n) = parts.next() {
+        let n: f64 = n
+            .parse()
+            .ok()
+            .filter(|n: &f64| n.is_finite() && *n >= 0.0)?;
+        let per = match parts.next()? {
+            "h" => 3600.0,
+            "min" => 60.0,
+            "s" => 1.0,
+            _ => return None,
+        };
+        total += n * per;
+        any = true;
+    }
+    any.then_some(total)
 }
 
 fn find_table(sheet: &Sheet, upto: usize) -> Option<TableView> {
@@ -231,21 +284,34 @@ fn find_table(sheet: &Sheet, upto: usize) -> Option<TableView> {
             continue;
         }
         // An axis line: its label sits in the column before the values.
-        let axis_label = sheet.text(r + 1, first_value - 1);
+        let ax = next_filled(sheet, r + 1);
+        let axis_label = sheet.text(ax, first_value - 1);
         let well_at = |row: usize| match well {
             WellColumns::Name(c) => parse_well(&sheet.text(row, c)).is_some(),
             WellColumns::RowCol(a, _) => parse_row_label(&sheet.text(row, a), false).is_some(),
         };
-        let (wavelengths, other_axis, data) = if well_at(r + 1) {
-            (None, None, r + 1)
-        } else if axis_label.to_ascii_lowercase().starts_with("wavelength") {
-            let width = sheet.row_len(r + 1).max(sheet.row_len(r));
+        let width = sheet.row_len(ax).max(sheet.row_len(r));
+        let lower = axis_label.to_ascii_lowercase();
+        let after = next_filled(sheet, ax + 1);
+        let (mut wavelengths, mut times, mut other_axis) = (None, None, None);
+        let data = if well_at(ax) {
+            ax
+        } else if lower.starts_with("wavelength") {
             let wl = (first_value..width)
-                .map(|c| sheet.cell(r + 1, c).number())
+                .map(|c| sheet.cell(ax, c).number())
                 .collect();
-            (Some(wl), None, r + 2)
+            wavelengths = Some(wl);
+            after
         } else {
-            (None, Some(axis_label), r + 2)
+            let unit = axis_unit_s(&axis_label);
+            let parsed: Option<Vec<f64>> = (first_value..width)
+                .map(|c| column_time_s(&sheet.text(ax, c), unit))
+                .collect();
+            match parsed {
+                Some(t) if lower.starts_with("time") && !t.is_empty() => times = Some(t),
+                _ => other_axis = Some(axis_label),
+            }
+            after
         };
         return Some(TableView {
             header: r,
@@ -253,6 +319,7 @@ fn find_table(sheet: &Sheet, upto: usize) -> Option<TableView> {
             content,
             first_value,
             wavelengths,
+            times,
             other_axis,
             data,
         });
@@ -292,6 +359,10 @@ fn push_table(
     }
     let mut r = t.data;
     while r < sheet.rows.len() {
+        if sheet.row_is_blank(r) {
+            r += 1;
+            continue;
+        }
         let well = match t.well {
             WellColumns::Name(c) => parse_well(&sheet.text(r, c)),
             WellColumns::RowCol(a, bcol) => parse_row_label(&sheet.text(r, a), false).zip(
@@ -320,7 +391,8 @@ fn push_table(
                 .wavelengths
                 .as_ref()
                 .and_then(|w| w.get(i).copied().flatten());
-            b.push_cell(row, col, channel_of[title], None, wl, cell);
+            let time = t.times.as_ref().and_then(|ts| ts.get(i).copied());
+            b.push_cell(row, col, channel_of[title], time, wl, cell);
         }
         r += 1;
     }
@@ -438,6 +510,9 @@ pub(crate) fn parse(book: &Book, smart_control: bool) -> Export {
             if t.wavelengths.is_some() {
                 b.read_type = Some(ReadType::Spectrum);
             }
+            if t.times.is_some() {
+                b.read_type = Some(ReadType::Kinetic);
+            }
             push_table(data_sheet, t, mode, &mut b, &mut layout);
         }
     }
@@ -528,6 +603,29 @@ mod tests {
         assert_eq!(b.obs[1].wavelength_nm, Some(261.0));
         assert!(b.obs[0].value.is_nan());
         assert_eq!(b.extra["layout"]["Content"]["F5"], json!("Sample X2"));
+    }
+
+    #[test]
+    fn mars_table_view_kinetic() {
+        // bmg-table-rpazuki-od600-kinetic: Well Row / Well Col, a `Time` line, an empty line
+        // after every line, times printed to the minute (`0 h 60 min`).
+        let t = "User: USER,Path: C:\\Program Files (x86)\\Data\\,Test run no.: 1735,,,\n\nTest name: OD600,Date: 15/10/2025,Time: 11:58:41,,,\n\nAbsorbance,,,,,\n\n,,,,,\n\nWell Row,Well Col,Content,Raw Data (600),Raw Data (600),Raw Data (600)\n\n,,Time,0 h ,0 h 60 min,1 h 15 min\n\nA,1,Sample X1,0.081,0.097,0.1\n\nC,2,Sample X26,0.097,0.097,0.099\n\n";
+        let ex = parse(&text_book(t.as_bytes()), false);
+        let b = &ex.blocks[0];
+        assert!(b.findings.is_empty(), "{:?}", b.findings);
+        assert_eq!(b.read_type, Some(ReadType::Kinetic));
+        assert_eq!(b.channels.len(), 1);
+        assert_eq!(b.channels[0].mode, Mode::Absorbance);
+        assert_eq!(b.obs.len(), 6);
+        assert_eq!(b.obs[1].time_s, Some(3600.0));
+        assert_eq!(b.obs[2].time_s, Some(4500.0));
+        // the CLARIOstar export prints minutes only
+        assert_eq!(column_time_s("1 min ", None), Some(60.0));
+        assert_eq!(column_time_s("30 s", None), Some(30.0));
+        assert_eq!(column_time_s("90", Some(1.0)), Some(90.0));
+        // a bare number under a bare `Time` label states no unit: refused
+        assert_eq!(column_time_s("90", None), None);
+        assert_eq!(column_time_s("Cycle 1", None), None);
     }
 
     #[test]
