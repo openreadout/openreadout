@@ -537,6 +537,12 @@ def new_format_seeds() -> None:
     if tsf is not None and len(tsf) >= 8:
         total, scans = struct.unpack_from("<II", tsf)
         put("tims_frame", "tdf-dia-frame0.bin", struct.pack("<I", scans) + b"\0" + tsf[8:min(total, 16384)])
+    # Waters drift index + the first scan's .cdt bytes (ProteoWizard test data, Apache-2.0).
+    ind = corpus("pwiz-waters/HDMRM_Short_noLM.raw/_func001.ind")
+    cdt = corpus("pwiz-waters/HDMRM_Short_noLM.raw/_func001.cdt")
+    if ind is not None and cdt is not None:
+        first = 36 + 12 + 20 * 200
+        put("waters_drift", "hdmrm-scan1.bin", struct.pack("<I", first) + ind[:first] + cdt[:12000])
     # OME-Zarr v2: one 1x1x1x8x8 uint8 array, uncompressed, as a zip store and as a directory
     # (whole_zarr's parts: .zgroup, .zattrs, 0/.zarray, 0/0.0.0.0.0, then v3 files left empty).
     import io

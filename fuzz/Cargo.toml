@@ -498,6 +498,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "waters_drift"
+path = "fuzz_targets/waters_drift.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "tims_frame"
 path = "fuzz_targets/tims_frame.rs"
 test = false
