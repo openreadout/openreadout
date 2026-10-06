@@ -28,6 +28,12 @@ All notable changes to this project are documented here. The format is based on 
 - The website's home page and *Connect an assistant* no longer say that there is no release yet.
 - Shimadzu: `check` no longer reports `pda_max_plot_mismatch` on PDA runs whose first spectrum is not zero. LabSolutions takes the max plot after subtracting the first spectrum.
 - Plate exports: an export the reader recognises but whose values it does not read is now `unvalidated` for tables, so `--strict` refuses it. It was `validated`.
+- BMG MARS table views of kinetic reads (a `Time` line under the column titles) return their values with each column's time. They returned no values.
+- EC-Lab `.mpt` exports whose time column holds dates and times are read, with times in seconds from the first row. They were rejected as corrupt.
+- EC-Lab `.mpr` files with a data module of version 0 (EC-Lab 10 and earlier) are read. They were refused.
+- Bruker timsTOF: negative-ion runs no longer get negative 1/K0 values. The assurance block reports these values as derived until a vendor conversion of a negative run confirms them.
+- Waters Empower `.arw` exports without header rows are detected and read; their layout is `unvalidated`.
+- EC-Lab text exports: a column no development file had no longer makes the traces `unvalidated`, since every column is read by the same number parser.
 
 ## [0.1.0] - 2026-10-02
 
