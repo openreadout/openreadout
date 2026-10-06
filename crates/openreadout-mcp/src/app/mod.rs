@@ -50,8 +50,9 @@ pub const ENV_SWITCH: &str = "OPENREADOUT_MCP_APPS";
 /// `.dat`, `.raw`) would take over files that other apps open better, and directory formats
 /// (`.d`) are not files.
 pub const FILE_EXTENSIONS: &[&str] = &[
-    ".czi", ".nd2", ".lif", ".lof", ".oir", ".oib", ".vsi", ".ims", ".zvi", ".dm3", ".dm4", ".fcs",
-    ".abf", ".wiff",
+    ".czi", ".nd2", ".lif", ".lof", ".oir", ".oib", ".oif", ".vsi", ".ims", ".zvi", ".mrxs",
+    ".ndpi", ".svs", ".dm3", ".dm4", ".fcs", ".abf", ".smr", ".smrx", ".wcp", ".wiff", ".wiff2",
+    ".asyr",
 ];
 
 /// What the viewer shows first for a tool's result.
@@ -244,6 +245,10 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
             .filter(|v| !v.is_null())
             .cloned()
     };
+    // `select` (preview, stats): channel, z and t of an image
+    if let Some(Value::Array(sel)) = args.get("select") {
+        view::select_into(sel, &mut hint);
+    }
     let kind = match tv {
         ToolView::Auto => None,
         ToolView::Kind(k) => Some(k),
@@ -261,9 +266,6 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
             } else if args.get("table").is_some() {
                 Some(K::Plate)
             } else {
-                if let Some(Value::Array(sel)) = args.get("select") {
-                    view::select_into(sel, &mut hint);
-                }
                 for k in ["composite", "contrast"] {
                     if let Some(v) = args.get(k) {
                         hint.insert(k.into(), v.clone());

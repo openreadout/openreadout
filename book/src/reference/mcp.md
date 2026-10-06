@@ -149,7 +149,7 @@ The server offers the viewer only to clients that declare the extension `io.mode
 
 The viewer also tells the client what you are looking at (for example "image 0, channel 1, z 12, region x 400–800"), so you can ask the assistant about it.
 
-In apps that open files with an MCP App (the ChatGPT and Codex desktop apps), the viewer is also the file viewer for `.czi`, `.nd2`, `.lif`, `.lof`, `.oir`, `.oib`, `.vsi`, `.ims`, `.zvi`, `.dm3`, `.dm4`, `.fcs`, `.abf` and `.wiff` files: opening one in a thread shows it in the viewer. OpenReadout claims only extensions that belong to one instrument format, not general ones such as `.tif`, `.csv` or `.raw`.
+In apps that open files with an MCP App (the ChatGPT and Codex desktop apps), the viewer is also the file viewer for `.czi`, `.nd2`, `.lif`, `.lof`, `.oir`, `.oib`, `.oif`, `.vsi`, `.ims`, `.zvi`, `.mrxs`, `.ndpi`, `.svs`, `.dm3`, `.dm4`, `.fcs`, `.abf`, `.smr`, `.smrx`, `.wcp`, `.wiff`, `.wiff2` and `.asyr` files: opening one in a thread shows it in the viewer. OpenReadout claims only extensions that belong to one instrument format, not general ones such as `.tif`, `.csv` or `.raw`.
 
 ## Annotations
 

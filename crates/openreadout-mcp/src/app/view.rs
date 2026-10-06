@@ -1178,6 +1178,9 @@ fn fcs(
             info.tables.len()
         ))
     })?;
+    if t.columns.is_empty() {
+        return Err(usage(format!("table {ti} has no columns")));
+    }
     let find = |name: &str| {
         t.columns
             .iter()
