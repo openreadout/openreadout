@@ -95,7 +95,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `ta-universal-analysis` | medium | reverse engineered | 7 | 6 | 2 | 1 | 100% | 100% | - |
 | `thermo-omnic` | medium | prior art | 27 | 27 | 9 | 0 | 100% | 29% | 2/0 |
 | `thermo-raw` | medium | reverse engineered | 32 | 31 | 20 | 15 | 100% | 61% | 2/2 |
-| `tiff` | high | open spec | 117 | 116 | 22 | 38 | 100% | 10% | 5/0 |
+| `tiff` | high | open spec | 118 | 117 | 23 | 39 | 100% | 10% | 5/0 |
 | `varian-nmr` | high | prior art | 12 | 12 | 6 | 4 | 100% | 53% | 1/0 |
 | `vsi` | high | prior art | 28 | 12 | 10 | 16 | 100% | 100% | - |
 | `waters-raw` | high | reverse engineered | 18 | 18 | 6 | 5 | 100% | 81% | - |

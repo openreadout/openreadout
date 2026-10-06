@@ -108458,6 +108458,102 @@
       ]
     },
     {
+      "id": "zenodo12697479-ndpi-izd",
+      "format": "tiff",
+      "source": "zenodo:12697479",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NDP.scan",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "NDP.scan 3",
+          []
+        ],
+        [
+          "instrument",
+          "C13239-01",
+          []
+        ],
+        [
+          "dialect",
+          "hamamatsu-ndpi",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg (ycbcr)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        5
+      ]
+    },
+    {
       "id": "zenodo14025917-ex3-5x",
       "format": "tiff",
       "source": "zenodo:14025917",
