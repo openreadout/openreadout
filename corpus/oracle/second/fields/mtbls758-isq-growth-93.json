@@ -1,0 +1,12 @@
+{
+ "id": "mtbls758-isq-growth-93",
+ "file": "mtbls758-isq-growth-93.raw",
+ "format": "thermo-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (mtbls758-isq-growth-93.cdf)",
+  "the vendor-library conversion (mtbls758-isq-growth-93.cdf) header, read with lxml/regular expressions"
+ ],
+ "checks": [],
+ "error": "RuntimeError: - due to that error of type Parse Error in: /Users/runner/work/OpenMS/OpenMS/OpenMS/src/openms/source/FORMAT/HANDLERS/XMLHandler.cpp@108-void OpenMS::Internal::XMLHandler::fatalError(ActionMode, const String &, UInt, UInt) const"
+}

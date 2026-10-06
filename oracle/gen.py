@@ -40,7 +40,7 @@ Readers used (all run as black boxes):
         cross-checked with tifffile on the member STK/TIFF files
   .dcimg -> Bio-Formats 8.5.0 bfconvert (GPL, black box; rows flipped back to stored order),
         dcimg (MIT) second opinion and frame counters / time stamps
-  .raw  -> (Thermo) no reader of the .raw is run: the depositor's own mzML/mzXML conversion with
+  .raw  -> (Thermo) no reader of the .raw is run: the depositor's own mzML/mzXML (or ANDI-MS) conversion with
            the same stem is read with pyteomics (Apache-2.0) and every scan is recorded
   .mzML .mzXML -> pyteomics (Apache-2.0): every spectrum/scan and every chromatogram
   Agilent MassHunter .d (a directory with AcqData/MSScan.bin) -> no reader of the .d is run: the
@@ -3954,6 +3954,8 @@ def thermo(p: Path, q: Path = None) -> dict:
     software += [list(x) for x in re.findall(r'<software type="([^"]*)" name="([^"]*)" version="([^"]*)"', head)]
     chromatograms = []
     detectors = None
+    if q.suffix.lower() == ".cdf":
+        return thermo_andi(p, q)
     if q.suffix.lower() == ".mzml":
         # LC-detector spectra (native ids `controllerType=N`, N != 0; e.g. a PDA's absorbance
         # spectra) share scan numbers with the MS scans: summarized apart (oracle/thermo_detectors.py)
@@ -3965,6 +3967,12 @@ def thermo(p: Path, q: Path = None) -> dict:
             chromatograms = _mzml_chromatograms(q)
     else:
         scans = _mzxml_scans(q, 32 if 'precision="32"' in head else 64)
+        # A scan without a `centroided` attribute takes the dataProcessing default; when that
+        # is absent too (ReAdW writes neither), the export does not say, and nothing is compared.
+        default_centroided = re.search(r'<dataProcessing[^>]*centroided="([01])"', head)
+        for s_, m in zip(scans, re.finditer(rb"<scan\b[^>]*>", q.read_bytes())):
+            if b"centroided=" not in m.group(0):
+                s_["centroided"] = default_centroided.group(1) == "1" if default_centroided else None
     # ORACLE_THERMO_MAX_SCANS keeps the committed JSON small for long runs: the leading part of
     # the export (the harness compares an export's scans by scan number, so a prefix is enough).
     keep = int(os.environ.get("ORACLE_THERMO_MAX_SCANS", "0"))
@@ -3984,9 +3992,53 @@ def thermo(p: Path, q: Path = None) -> dict:
         if truncated:  # (before `spectra`: the writer keeps `spectra` last)
             out["oracle_note"] = f"the first {keep} spectra of the export (ORACLE_THERMO_MAX_SCANS)"
         out["spectra"] = {"scan_count": len(scans), "scans": scans}
+        # MS-Numpress positive-integer compression rounds intensities to whole numbers
+        # (the harness rounds ours the same way before comparing).
+        if "MS-Numpress positive integer compression" in head:
+            out["spectra"] = {"intensity_encoding": "numpress-pic", **out["spectra"]}
     else:
         out["chromatograms"] = chromatograms
     return out
+def thermo_andi(p: Path, q: Path) -> dict:
+    """Ground truth for a Thermo .raw whose depositor exported it to ANDI-MS (AIA netCDF, the
+    vendor's own converter), read with scipy.io.netcdf_file (BSD-3). The export stores intensities
+    as long integers and keeps only the points inside each scan's mass range: both are recorded so
+    the comparison treats our values the same way. ANDI-MS has no MS level (its scans are full
+    scans)."""
+    import scipy.io
+    f = scipy.io.netcdf_file(str(q), "r", mmap=False)
+    A = {k: (v.decode("latin-1") if isinstance(v, bytes) else v) for k, v in f._attributes.items()}
+    V = f.variables
+    t = np.asarray(V["scan_acquisition_time"].data, dtype=np.float64)
+    idx = np.asarray(V["scan_index"].data, dtype=np.int64)
+    cnt = np.asarray(V["point_count"].data, dtype=np.int64)
+    mz = np.asarray(V["mass_values"].data, dtype=np.float64)
+    it = np.asarray(V["intensity_values"].data, dtype=np.float64)
+    lo = np.asarray(V["mass_range_min"].data, dtype=np.float64)
+    hi = np.asarray(V["mass_range_max"].data, dtype=np.float64)
+    tic = np.asarray(V["total_intensity"].data, dtype=np.float64)
+    pol = str(A.get("test_ionization_polarity", "")).lower()
+    pol = "positive" if pol.startswith("pos") else "negative" if pol.startswith("neg") else None
+    cen = str(A.get("experiment_type", "")).lower().startswith("centroid")
+    scans = []
+    for i in range(len(t)):
+        a, b = idx[i], idx[i] + cnt[i]
+        scans.append({
+            "index": i, "scan_number": i + 1, "ms_level": 1, "rt_s": float(t[i]), "polarity": pol,
+            "centroided": cen, "filter": None, "precursor_mz": None, "precursor_charge": None,
+            "activation": None, "total_ion_current": float(tic[i]),
+            "mz_window": [float(lo[i]), float(hi[i])],
+            **_peaks(mz[a:b], it[a:b], 64),
+        })
+    return {
+        "reader": f"scipy.io.netcdf_file (scipy {__import__('scipy').__version__}) on the depositor's ANDI-MS export ({q.name})",
+        "paired_export": q.name,
+        "export_software": [[str(A.get("source_file_format", "")), str(A.get("dataset_origin", ""))]],
+        "images": [],
+        "spectra": {"intensity_encoding": "integer", "scan_count": len(scans), "scans": scans},
+    }
+
+
 def agilent_ms(p: Path, q: Path) -> dict:
     """Ground truth for an Agilent MassHunter .d = the depositor's own mzML conversion of it.
     No reader of the .d is run (none may be: see docs/provenance/agilent-masshunter.md). The
@@ -5595,6 +5647,8 @@ def main():
                 data = waters(p)
             elif ext == ".dat" and p.is_file() and _is_heka(p):
                 data = heka(p)
+            elif ext == ".raw" and p.is_file() and export is not None:
+                data = thermo(p, export)  # the given export (mzML, mzXML or ANDI-MS)
             elif ext == ".pl2" and export is not None:
                 data = pl2_plx(p, export)
             elif ext == ".scn" and _is_image_lab(p):

@@ -68,7 +68,7 @@ impl Pl2Dataset {
             let Some(blocks) = Self::blocks_of(&pl2, c) else {
                 continue;
             };
-            let r = runs(blocks, clock, c.rate_hz);
+            let r = runs(blocks.iter().copied(), clock, c.rate_hz);
             let grid: Vec<(u64, u64)> = r.iter().map(|x| (x.timestamp, x.samples)).collect();
             match traces.iter_mut().find(|t| {
                 t.rate_hz.to_bits() == c.rate_hz.to_bits()

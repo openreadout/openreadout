@@ -83,7 +83,7 @@ pub use pl2::{
 pub use pl2_dataset::{Pl2Dataset, Pl2Trace};
 #[doc(hidden)]
 pub use plx::{
-    BLOCK_CONTINUOUS, BLOCK_EVENT, BLOCK_HEADER_LEN, BLOCK_SPIKE, CONTINUOUS_HEADER_LEN,
+    BLOCK_CONTINUOUS, BLOCK_EVENT, BLOCK_HEADER_LEN, BLOCK_SPIKE, BlockList, CONTINUOUS_HEADER_LEN,
     ContinuousChannel, EVENT_HEADER_LEN, EventChannel, EventRecord, FILE_HEADER_LEN,
     MAX_CHANNEL_HEADERS, PLX_MAGIC, PlxFile, PlxHeader, PlxIndex, Run, SPIKE_HEADER_LEN,
     SampleBlock, SpikeChannel, block_header, parse_file_header, parse_plx, runs, walk_blocks,
