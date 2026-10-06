@@ -1,0 +1,35 @@
+{
+ "id": "mtbls6991-tsq-altis-plus-sar11-40",
+ "file": "mtbls6991-tsq-altis-plus-sar11-40.raw",
+ "format": "thermo-raw",
+ "family": "mass-spectrometry",
+ "readers": [
+  "pyopenms 3.5.0 (BSD-3) on the vendor-library conversion (mtbls6991-tsq-altis-plus-sar11-40.mzML)",
+  "the vendor-library conversion (mtbls6991-tsq-altis-plus-sar11-40.mzML) header, read with lxml/regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "acquisition software version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/software_version",
+   "theirs": "3.4.3268.22",
+   "cmp": "prefix",
+   "reader": 1
+  },
+  {
+   "field": "acquisition start (up to a zone offset)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2023-01-11T01:42:40Z",
+   "cmp": "time_mod_zone",
+   "abs": 2.0,
+   "reader": 1
+  }
+ ]
+}

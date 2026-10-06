@@ -527,6 +527,16 @@ fn write_one(
     Ok((digest, bytes))
 }
 
+/// How much an export with `opts` reads, for progress reports: the rows of a table, the
+/// samples of a trace over the selected sweeps, or the spectra of a run.
+pub fn export_size(ds: &mut dyn Dataset, input: &Path, opts: &ColumnarOptions) -> Result<u64> {
+    let (src, _) = build(ds, input, opts)?;
+    Ok(match src {
+        Src::Spectra(s) => s.spectrum_count(),
+        mut other => other.get().total_rows(),
+    })
+}
+
 /// Export one table, trace or spectra run of `ds` to `output` as Parquet or Arrow IPC. Spectra
 /// also write the per-scan summary to [`summary_output`]`(output)`. Everything is written under
 /// temporary names, read back and verified, and only then renamed into place.

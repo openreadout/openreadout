@@ -12,6 +12,7 @@ use arrow_array::types::{
 use arrow_array::{Array, RecordBatch};
 use arrow_schema::{DataType, SchemaRef};
 use openreadout_core::{Error, Result};
+use rayon::prelude::*;
 use xxhash_rust::xxh3::Xxh3;
 
 use crate::ColumnarFormat;
@@ -32,14 +33,14 @@ impl std::fmt::Debug for Digest {
     }
 }
 
-fn float(h: &mut Xxh3, v: f64) {
-    h.update(&[1]);
+fn float(h: &mut Vec<u8>, v: f64) {
+    h.push(1);
     let bits = if v.is_nan() {
         f64::NAN.to_bits()
     } else {
         v.to_bits()
     };
-    h.update(&bits.to_le_bytes());
+    h.extend_from_slice(&bits.to_le_bytes());
 }
 
 macro_rules! prim {
@@ -47,7 +48,7 @@ macro_rules! prim {
         let a = $a.as_primitive::<$t>();
         for i in 0..a.len() {
             if a.is_null(i) {
-                $h.update(&[0]);
+                $h.push(0);
             } else {
                 let $v = a.value(i);
                 $body;
@@ -58,8 +59,18 @@ macro_rules! prim {
 
 /// Hash the logical values of `a` (dictionary arrays by their resolved strings, so a reader that
 /// re-encodes the dictionary still matches).
+///
+/// The bytes are collected first and hashed with one call: the digest is the same, and one
+/// call per value was most of the time of a Parquet export.
+fn hash_array(hasher: &mut Xxh3, a: &dyn Array) -> Result<()> {
+    let mut buf = Vec::with_capacity(a.len().saturating_mul(9));
+    hash_values(&mut buf, a)?;
+    hasher.update(&buf);
+    Ok(())
+}
+
 #[allow(clippy::many_single_char_names)]
-fn hash_array(h: &mut Xxh3, a: &dyn Array) -> Result<()> {
+fn hash_values(h: &mut Vec<u8>, a: &dyn Array) -> Result<()> {
     match a.data_type() {
         DataType::Float64 => prim!(h, a, Float64Type, |v| float(h, v)),
         DataType::Float32 => prim!(h, a, Float32Type, |v| float(h, f64::from(v))),
@@ -67,20 +78,20 @@ fn hash_array(h: &mut Xxh3, a: &dyn Array) -> Result<()> {
         DataType::Int16 => prim!(h, a, Int16Type, |v| float(h, f64::from(v))),
         DataType::Int32 => prim!(h, a, Int32Type, |v| float(h, f64::from(v))),
         DataType::Int64 => prim!(h, a, Int64Type, |v| {
-            h.update(&[2]);
-            h.update(&v.to_le_bytes());
+            h.push(2);
+            h.extend_from_slice(&v.to_le_bytes());
         }),
         DataType::UInt8 => prim!(h, a, UInt8Type, |v| float(h, f64::from(v))),
         DataType::UInt16 => prim!(h, a, UInt16Type, |v| float(h, f64::from(v))),
         DataType::UInt32 => prim!(h, a, UInt32Type, |v| float(h, f64::from(v))),
         DataType::UInt64 => prim!(h, a, UInt64Type, |v| {
-            h.update(&[3]);
-            h.update(&v.to_le_bytes());
+            h.push(3);
+            h.extend_from_slice(&v.to_le_bytes());
         }),
         DataType::Boolean => {
             let b = a.as_boolean();
             for i in 0..b.len() {
-                h.update(if b.is_null(i) {
+                h.extend_from_slice(if b.is_null(i) {
                     &[0]
                 } else if b.value(i) {
                     &[4, 1]
@@ -93,12 +104,12 @@ fn hash_array(h: &mut Xxh3, a: &dyn Array) -> Result<()> {
             let s = a.as_string::<i32>();
             for i in 0..s.len() {
                 if s.is_null(i) {
-                    h.update(&[0]);
+                    h.push(0);
                 } else {
                     let v = s.value(i).as_bytes();
-                    h.update(&[5]);
-                    h.update(&(v.len() as u64).to_le_bytes());
-                    h.update(v);
+                    h.push(5);
+                    h.extend_from_slice(&(v.len() as u64).to_le_bytes());
+                    h.extend_from_slice(v);
                 }
             }
         }
@@ -110,7 +121,7 @@ fn hash_array(h: &mut Xxh3, a: &dyn Array) -> Result<()> {
             let keys = d.keys();
             for i in 0..keys.len() {
                 if keys.is_null(i) {
-                    h.update(&[0]);
+                    h.push(0);
                 } else {
                     let k = usize::try_from(keys.value(i))
                         .map_err(|_| Error::Other("read-back dictionary key is negative".into()))?;
@@ -120,9 +131,9 @@ fn hash_array(h: &mut Xxh3, a: &dyn Array) -> Result<()> {
                         ));
                     }
                     let v = values.value(k).as_bytes();
-                    h.update(&[5]);
-                    h.update(&(v.len() as u64).to_le_bytes());
-                    h.update(v);
+                    h.push(5);
+                    h.extend_from_slice(&(v.len() as u64).to_le_bytes());
+                    h.extend_from_slice(v);
                 }
             }
         }
@@ -147,9 +158,11 @@ impl Digest {
                 self.columns.len()
             )));
         }
-        for (h, c) in self.columns.iter_mut().zip(batch.columns()) {
-            hash_array(h, c.as_ref())?;
-        }
+        self.columns
+            .par_iter_mut()
+            .zip(batch.columns().par_iter())
+            .map(|(h, c)| hash_array(h, c.as_ref()))
+            .collect::<Result<Vec<()>>>()?;
         self.rows += batch.num_rows() as u64;
         Ok(())
     }

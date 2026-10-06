@@ -1,16 +1,136 @@
 //! `export --to csv`: one table (e.g. an FCS data set) to a CSV file, written to a temporary
 //! file, read back and compared value by value, then renamed into place.
+//!
+//! Formatting and parsing numbers is most of the work, so both run on the rayon threads, in
+//! segments of rows ([`Layout`]). The file is the same for any thread count. The values
+//! written and the values read back are each hashed per segment, and the segment hashes are
+//! hashed in order.
 
+use std::fmt::Write as _;
 use std::fs::File;
 use std::io::{BufRead, BufReader, BufWriter, Write};
 use std::path::{Path, PathBuf};
 
 use openreadout_core::model::{FileInfo, TableExportReport, TraceExportReport};
 use openreadout_core::{Dataset, Error, Result};
+use rayon::prelude::*;
 use xxhash_rust::xxh3::Xxh3;
 
-/// Rows read from the reader per batch.
-const CHUNK_ROWS: u64 = 65_536;
+/// How rows are batched: wide tables get fewer rows per batch, so memory depends on the
+/// number of values, not on the number of rows.
+#[derive(Debug, Clone, Copy)]
+struct Layout {
+    /// Rows read from the reader at once (a multiple of `segment_rows`).
+    chunk_rows: u64,
+    /// Rows formatted or parsed per task, and the unit of the read-back hash.
+    segment_rows: usize,
+}
+
+impl Layout {
+    fn for_columns(columns: usize) -> Self {
+        let per_row = columns.max(1);
+        let pow2_rows = |values: usize| (values / per_row).max(1).next_power_of_two() / 2;
+        let segment_rows = pow2_rows(1 << 17).clamp(16, 4096);
+        let chunk_rows = pow2_rows(1 << 23).clamp(segment_rows, 65_536);
+        Layout {
+            chunk_rows: chunk_rows as u64,
+            segment_rows,
+        }
+    }
+}
+
+/// Format rows `0..rows` on the rayon threads, a few segments at a time. `row(r, text, hash)`
+/// appends row `r` with its newline to `text` and feeds its values to `hash`; `write(text,
+/// digest)` receives each segment in order.
+fn format_segments(
+    rows: usize,
+    segment_rows: usize,
+    row: impl Fn(usize, &mut String, &mut Xxh3) + Sync,
+    mut write: impl FnMut(&str, u128) -> Result<()>,
+) -> Result<()> {
+    let segments = rows.div_ceil(segment_rows);
+    let batch = rayon::current_num_threads().max(1) * 2;
+    for start in (0..segments).step_by(batch) {
+        let done: Vec<(String, u128)> = (start..(start + batch).min(segments))
+            .into_par_iter()
+            .map(|seg| {
+                let mut text = String::new();
+                let mut hash = Xxh3::new();
+                for r in seg * segment_rows..((seg + 1) * segment_rows).min(rows) {
+                    row(r, &mut text, &mut hash);
+                }
+                (text, hash.digest128())
+            })
+            .collect();
+        for (text, digest) in done {
+            write(&text, digest)?;
+        }
+    }
+    Ok(())
+}
+
+/// Read back the rows of `path` after `skip` header lines, parsing on the rayon threads.
+/// `parse(row, line, hash)` checks one line (without its newline) and feeds its values to
+/// `hash`. Returns the number of rows and the hash of the segment hashes.
+fn read_back(
+    path: &Path,
+    skip: u32,
+    segment_rows: usize,
+    parse: impl Fn(u64, &str, &mut Xxh3) -> Result<()> + Sync,
+) -> Result<(u64, u128)> {
+    let io = |e| Error::io(path, e);
+    let mut reader = BufReader::with_capacity(1 << 20, File::open(path).map_err(io)?);
+    let mut line = Vec::new();
+    for _ in 0..skip {
+        line.clear();
+        reader.read_until(b'\n', &mut line).map_err(io)?;
+    }
+    let batch = rayon::current_num_threads().max(1) * 2;
+    let mut total = Xxh3::new();
+    let mut count = 0u64;
+    let mut eof = false;
+    while !eof {
+        let mut segments: Vec<Vec<u8>> = Vec::with_capacity(batch);
+        while segments.len() < batch && !eof {
+            let mut seg = Vec::new();
+            let mut lines = 0;
+            while lines < segment_rows {
+                if reader.read_until(b'\n', &mut seg).map_err(io)? == 0 {
+                    eof = true;
+                    break;
+                }
+                lines += 1;
+            }
+            if lines > 0 {
+                segments.push(seg);
+            }
+        }
+        let base = count;
+        let results: Vec<Result<(u64, u128)>> = segments
+            .par_iter()
+            .enumerate()
+            .map(|(i, seg)| {
+                let text = std::str::from_utf8(seg)
+                    .map_err(|_| Error::Other("read-back: the CSV is not valid UTF-8".into()))?;
+                let mut hash = Xxh3::new();
+                let mut n = 0u64;
+                let first = base + (i * segment_rows) as u64;
+                for line in text.split_terminator('\n') {
+                    let line = line.strip_suffix('\r').unwrap_or(line);
+                    parse(first + n, line, &mut hash)?;
+                    n += 1;
+                }
+                Ok((n, hash.digest128()))
+            })
+            .collect();
+        for r in results {
+            let (n, digest) = r?;
+            count += n;
+            total.update(&digest.to_le_bytes());
+        }
+    }
+    Ok((count, total.digest128()))
+}
 
 /// What to export.
 #[derive(Debug, Clone, Default)]
@@ -66,13 +186,21 @@ fn canonical_bits(v: f64) -> u64 {
     }
 }
 
+#[cfg(test)]
 fn format_value(v: f64, single: bool) -> String {
-    if single {
-        // Shortest text that round-trips the stored float32 exactly.
-        (v as f32).to_string()
+    let mut s = String::new();
+    push_value(&mut s, v, single);
+    s
+}
+
+/// Append the CSV text of `v`: the shortest text that reads back as the same float64 (or, for
+/// a float32 column, the same float32).
+fn push_value(out: &mut String, v: f64, single: bool) {
+    let _ = if single {
+        write!(out, "{}", v as f32)
     } else {
-        v.to_string()
-    }
+        write!(out, "{v}")
+    };
 }
 
 fn parse_value(s: &str, single: bool) -> Option<f64> {
@@ -168,6 +296,7 @@ pub fn export_csv(
         })
         .collect();
     let ncols = table.columns.len();
+    let layout = Layout::for_columns(ncols);
     let tmp = temp_path(output);
     let result = (|| -> Result<(u64, u64)> {
         let file = File::create(&tmp).map_err(|e| Error::io(&tmp, e))?;
@@ -185,9 +314,8 @@ pub fn export_csv(
         }
         let mut hash = Xxh3::new();
         let mut pos = first;
-        let mut line = String::new();
         while pos < end {
-            let n = CHUNK_ROWS.min(end - pos);
+            let n = layout.chunk_rows.min(end - pos);
             let chunk = ds.read_table(table_index, pos, n)?;
             let rows = chunk.columns.first().map_or(0, Vec::len);
             if chunk.columns.len() != ncols || rows as u64 != n {
@@ -196,58 +324,60 @@ pub fn export_csv(
                     chunk.columns.len()
                 )));
             }
-            for r in 0..rows {
-                line.clear();
-                for (c, col) in chunk.columns.iter().enumerate() {
-                    if c > 0 {
-                        line.push(',');
+            format_segments(
+                rows,
+                layout.segment_rows,
+                |r, line, hash| {
+                    for (c, col) in chunk.columns.iter().enumerate() {
+                        if c > 0 {
+                            line.push(',');
+                        }
+                        let v = col[r];
+                        match cats[c].as_ref().and_then(|n| {
+                            (v >= 0.0 && v.fract() == 0.0)
+                                .then(|| n.get(v as usize))
+                                .flatten()
+                        }) {
+                            Some(name) => line.push_str(&quote(name)),
+                            None => push_value(line, v, single[c]),
+                        }
+                        hash.update(&canonical_bits(v).to_le_bytes());
                     }
-                    let v = col[r];
-                    match cats[c].as_ref().and_then(|n| {
-                        (v >= 0.0 && v.fract() == 0.0)
-                            .then(|| n.get(v as usize))
-                            .flatten()
-                    }) {
-                        Some(name) => line.push_str(&quote(name)),
-                        None => line.push_str(&format_value(v, single[c])),
-                    }
-                    hash.update(&canonical_bits(v).to_le_bytes());
-                }
-                line.push('\n');
-                w.write_all(line.as_bytes()).map_err(io)?;
-            }
+                    line.push('\n');
+                },
+                |text, digest| {
+                    hash.update(&digest.to_le_bytes());
+                    w.write_all(text.as_bytes()).map_err(io)
+                },
+            )?;
             pos += n;
         }
         w.flush().map_err(io)?;
         drop(w);
-        let rf = File::open(&tmp).map_err(|e| Error::io(&tmp, e))?;
-        let mut lines = BufReader::new(rf).lines();
-        for _ in 0..=u32::from(opts.labels) {
-            lines.next();
-        }
-        let mut back = Xxh3::new();
-        let mut count = 0u64;
-        for text in lines {
-            let text = text.map_err(|e| Error::io(&tmp, e))?;
-            let vals: Vec<&str> = text.split(',').collect();
-            if vals.len() != ncols {
-                return Err(Error::Other(format!(
-                    "read-back row {count} has {} fields, expected {ncols}",
-                    vals.len()
-                )));
-            }
-            for (c, s) in vals.iter().enumerate() {
+        let skip = 1 + u32::from(opts.labels);
+        let (count, back) = read_back(&tmp, skip, layout.segment_rows, |row, text, back| {
+            let mut fields = 0;
+            for (c, s) in text.split(',').enumerate() {
+                fields += 1;
+                if c >= ncols {
+                    continue;
+                }
                 let named = lookup[c]
                     .as_ref()
                     .and_then(|m| m.get(s.trim_matches('"')).copied());
                 let v = named.or_else(|| parse_value(s, single[c])).ok_or_else(|| {
-                    Error::Other(format!("read-back row {count}: {s:?} is not a number"))
+                    Error::Other(format!("read-back row {row}: {s:?} is not a number"))
                 })?;
                 back.update(&canonical_bits(v).to_le_bytes());
             }
-            count += 1;
-        }
-        if count != end - first || back.digest128() != hash.digest128() {
+            if fields != ncols {
+                return Err(Error::Other(format!(
+                    "read-back row {row} has {fields} fields, expected {ncols}"
+                )));
+            }
+            Ok(())
+        })?;
+        if count != end - first || back != hash.digest128() {
             return Err(Error::Other(
                 "CSV read-back did not match the source values".into(),
             ));
@@ -371,6 +501,7 @@ pub fn export_trace_csv(
         None => i as f64,
     };
     let nch = t.channels.len();
+    let layout = Layout::for_columns(nch + 1);
     let tmp = temp_path(output);
     let result = (|| -> Result<(u64, u64)> {
         let file = File::create(&tmp).map_err(|e| Error::io(&tmp, e))?;
@@ -389,9 +520,8 @@ pub fn export_trace_csv(
         writeln!(w, "{}", names.join(",")).map_err(io)?;
         let mut hash = Xxh3::new();
         let mut pos = first;
-        let mut line = String::new();
         while pos < end {
-            let n = CHUNK_ROWS.min(end - pos);
+            let n = layout.chunk_rows.min(end - pos);
             let chunk = ds.read_trace(trace_index, sweep, pos, n)?;
             let rows = chunk.channels.first().map_or(0, Vec::len);
             if chunk.channels.len() != nch || rows as u64 != n {
@@ -400,47 +530,47 @@ pub fn export_trace_csv(
                     chunk.channels.len()
                 )));
             }
-            for r in 0..rows {
-                line.clear();
-                let tv = time(pos + r as u64);
-                line.push_str(&tv.to_string());
-                hash.update(&canonical_bits(tv).to_le_bytes());
-                for col in &chunk.channels {
-                    line.push(',');
-                    line.push_str(&format_value(col[r], false));
-                    hash.update(&canonical_bits(col[r]).to_le_bytes());
-                }
-                line.push('\n');
-                w.write_all(line.as_bytes()).map_err(io)?;
-            }
+            format_segments(
+                rows,
+                layout.segment_rows,
+                |r, line, hash| {
+                    let tv = time(pos + r as u64);
+                    push_value(line, tv, false);
+                    hash.update(&canonical_bits(tv).to_le_bytes());
+                    for col in &chunk.channels {
+                        line.push(',');
+                        push_value(line, col[r], false);
+                        hash.update(&canonical_bits(col[r]).to_le_bytes());
+                    }
+                    line.push('\n');
+                },
+                |text, digest| {
+                    hash.update(&digest.to_le_bytes());
+                    w.write_all(text.as_bytes()).map_err(io)
+                },
+            )?;
             pos += n;
         }
         w.flush().map_err(io)?;
         drop(w);
-        let rf = File::open(&tmp).map_err(|e| Error::io(&tmp, e))?;
-        let mut lines = BufReader::new(rf).lines();
-        lines.next();
-        let mut back = Xxh3::new();
-        let mut count = 0u64;
-        for text in lines {
-            let text = text.map_err(|e| Error::io(&tmp, e))?;
-            let vals: Vec<&str> = text.split(',').collect();
-            if vals.len() != nch + 1 {
-                return Err(Error::Other(format!(
-                    "read-back row {count} has {} fields, expected {}",
-                    vals.len(),
-                    nch + 1
-                )));
-            }
-            for s in &vals {
+        let (count, back) = read_back(&tmp, 1, layout.segment_rows, |row, text, back| {
+            let mut fields = 0;
+            for s in text.split(',') {
+                fields += 1;
                 let v = parse_value(s, false).ok_or_else(|| {
-                    Error::Other(format!("read-back row {count}: {s:?} is not a number"))
+                    Error::Other(format!("read-back row {row}: {s:?} is not a number"))
                 })?;
                 back.update(&canonical_bits(v).to_le_bytes());
             }
-            count += 1;
-        }
-        if count != end - first || back.digest128() != hash.digest128() {
+            if fields != nch + 1 {
+                return Err(Error::Other(format!(
+                    "read-back row {row} has {fields} fields, expected {}",
+                    nch + 1
+                )));
+            }
+            Ok(())
+        })?;
+        if count != end - first || back != hash.digest128() {
             return Err(Error::Other(
                 "CSV read-back did not match the source values".into(),
             ));
@@ -501,5 +631,19 @@ mod tests {
         assert_eq!(format_value(1023.0, false), "1023");
         assert_eq!(trace_column("IN 0", Some("pA")), "IN 0 (pA)");
         assert_eq!(trace_column("a,b", None), "\"a,b\"");
+    }
+
+    #[test]
+    fn layout_keeps_segments_aligned_and_batches_small() {
+        for columns in [0, 1, 2, 48, 385, 4000, 1 << 20] {
+            let l = Layout::for_columns(columns);
+            assert!(l.segment_rows.is_power_of_two() && (16..=4096).contains(&l.segment_rows));
+            assert_eq!(l.chunk_rows % l.segment_rows as u64, 0, "{columns} columns");
+            assert!(l.chunk_rows <= 65_536);
+            if columns <= 1 << 12 {
+                // At most 8 Mi values per chunk.
+                assert!(l.chunk_rows * columns.max(1) as u64 <= 1 << 23);
+            }
+        }
     }
 }

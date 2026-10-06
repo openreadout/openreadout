@@ -165,7 +165,7 @@ pub(crate) fn check_spectra(
         } else {
             s.scan_number - first_scan
         };
-        let sp = match ds.read_spectrum_view(0, at, view) {
+        let mut sp = match ds.read_spectrum_view(0, at, view) {
             Ok(sp) => sp,
             Err(e) => {
                 problems.push(format!("scan {}: read failed: {e}", s.scan_number));
@@ -214,10 +214,18 @@ pub(crate) fn check_spectra(
         {
             m.push(format!("filter {:?} != {f:?}", sp.scan_filter));
         }
+        // An export whose converter accepted the monoisotopic m/z only closer to the isolation
+        // target than ours does names the target beyond that distance. That converter measured
+        // the distance from the target as the filter text prints it (`713.06@cid35.00`).
+        let precursor = openreadout_corpus_tests::export_precursor(
+            sp.precursor_mz,
+            sp.isolation_window_mz,
+            sp.scan_filter.as_deref(),
+            o.export_monoisotopic_max_shift,
+        );
         if let Some(p) = s.precursor_mz
             && o.precursor_not_compared.is_none()
-            && !sp
-                .precursor_mz
+            && !precursor
                 .into_iter()
                 // an MS^n or multiplexed scan lists every precursor in `extra.precursors`;
                 // exports differ in which one they name first
@@ -326,12 +334,31 @@ pub(crate) fn check_spectra(
         if o.peaks_not_compared.is_some() {
             continue;
         }
+        // An export that kept only the points inside the scan's m/z range (ANDI-MS).
+        if let Some([lo, hi]) = s.mz_window {
+            let keep: Vec<bool> = sp.mz.iter().map(|&x| x >= lo && x <= hi).collect();
+            let mut k = keep.iter();
+            sp.mz.retain(|_| *k.next().unwrap_or(&true));
+            let mut k = keep.iter();
+            sp.intensity.retain(|_| *k.next().unwrap_or(&true));
+        }
         // Peaks. A 32-bit export rounded m/z to f32; compare our values rounded the same way.
         let mz: Vec<f64> = if s.mz_bits == Some(32) {
             sp.mz.iter().map(|&x| f64::from(x as f32)).collect()
         } else {
             sp.mz.clone()
         };
+        // MS-Numpress positive-integer compression and ANDI-MS long integers store each
+        // intensity as the whole number floor(x + 0.5) (computed in double precision): round
+        // ours the same way.
+        if matches!(
+            o.intensity_encoding.as_deref(),
+            Some("numpress-pic" | "integer")
+        ) {
+            for v in &mut sp.intensity {
+                *v = (f64::from(*v) + 0.5).floor() as f32;
+            }
+        }
         if mz.len() == s.n_peaks
             && (o.mz_not_compared.is_some() || xxh3_f64(&mz) == s.xxh3_mz)
             && xxh3_f32(&sp.intensity) == s.xxh3_intensity

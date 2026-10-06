@@ -49,6 +49,10 @@ struct Entry {
     oracle_skip: Option<String>,
     #[serde(default)]
     precursor_tolerance: Option<f64>,
+    /// The export's converter took the monoisotopic precursor only this close to the target
+    /// (see `tests/corpus/`).
+    #[serde(default)]
+    export_monoisotopic_max_shift: Option<f64>,
     #[serde(default)]
     peaks_not_compared: Option<String>,
     /// The oracle converts 1/K0 differently (see `tests/corpus/`): not compared.
@@ -192,10 +196,15 @@ fn compare(h: &ScanHeader, s: &OracleScan, e: &Entry, same_file: bool) -> Vec<St
     {
         m.push(format!("filter {:?} != {f:?}", h.scan_filter));
     }
+    let precursor = openreadout_corpus_tests::export_precursor(
+        h.precursor_mz,
+        h.isolation_window_mz,
+        h.scan_filter.as_deref(),
+        e.export_monoisotopic_max_shift,
+    );
     if let Some(p) = s.precursor_mz
         && e.precursor_not_compared.is_none()
-        && !h
-            .precursor_mz
+        && !precursor
             .into_iter()
             // an MS^n or multiplexed scan lists every precursor in `extra.precursors`
             .chain(
