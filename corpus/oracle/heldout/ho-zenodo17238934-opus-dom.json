@@ -1,0 +1,155 @@
+{
+ "id": "ho-zenodo17238934-opus-dom",
+ "file": "FTIR_Wheat.0",
+ "size": 101264,
+ "sha256": "3c2222e3ab87f6ee095a02a0dcb620f06acf3f783aa0fd90dbad58503b2a5066",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1762,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1762,
+     "channels": [
+      {
+       "xxh3": "fd27b8d45c2be4b2954a5f74c2a8d9be",
+       "first": [
+        0.11721710115671158,
+        0.11721710115671158,
+        0.11721710115671158,
+        0.11721710115671158,
+        0.11721710115671158,
+        0.11721710115671158,
+        0.11721710115671158,
+        0.11721710115671158
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3996.1700750166015,
+   "x_last": 599.8112419547119,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.529563,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.2]",
+     "instrument": "VERTEX 80V",
+     "instrument_serial": "0151",
+     "sample_name": "DOM_W_1_100KBr_256scans_vac",
+     "operator": "Admin",
+     "aperture": "6 mm",
+     "scans": 256
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1762,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1762,
+     "channels": [
+      {
+       "xxh3": "cb962cf3ff5fff649d5f3430a67afcb4",
+       "first": [
+        0.0005329481791704893,
+        0.0005337290931493044,
+        0.0005352931329980493,
+        0.0005370572907850146,
+        0.0005385426338762045,
+        0.000539819011464715,
+        0.0005405597621574998,
+        0.00054110714700073
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3996.1700750166015,
+   "x_last": 599.8112419547119,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.529563,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.2]",
+     "instrument": "VERTEX 80V",
+     "instrument_serial": "0151",
+     "sample_name": "DOM_W_1_100KBr_256scans_vac",
+     "operator": "Admin",
+     "aperture": "6 mm",
+     "scans": 256
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1768,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1768,
+     "channels": [
+      {
+       "xxh3": "b484f6bb6d43a47dea456de7606ff879",
+       "first": [
+        0.0006106768269091845,
+        0.0006125459331087768,
+        0.0006142808124423027,
+        0.0006153894355520606,
+        0.0006160465418361127,
+        0.0006161881028674543,
+        0.0006163463112898171,
+        0.0006179917836561799
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4003.8846890610366,
+   "x_last": 595.953934932495,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.529563,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLaTGS [Internal Pos.2]",
+     "instrument": "VERTEX 80V",
+     "instrument_serial": "0151",
+     "sample_name": "DOM_W_1_100KBr_256scans_vac",
+     "operator": "Admin",
+     "aperture": "6 mm",
+     "scans": 256
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}
