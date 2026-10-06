@@ -376,11 +376,27 @@ fn plugin_versions(c: &mut Checker, r: &Path) -> Result<()> {
         c.expect(&format!("{dir}/{label}"), version.as_deref());
     }
 
-    // npm wrapper, and the WebAssembly package.
+    // npm package, the platform packages it requires, and the WebAssembly package.
+    let npm = read_json("packaging/npm/package.json")?;
     c.expect(
         "packaging/npm/package.json version",
-        read_json("packaging/npm/package.json")?["version"].as_str(),
+        npm["version"].as_str(),
     );
+    let platforms = npm["optionalDependencies"]
+        .as_object()
+        .into_iter()
+        .flatten()
+        .filter(|(name, _)| name.starts_with("@openreadout/cli-"))
+        .collect::<Vec<_>>();
+    c.require(!platforms.is_empty(), || {
+        "packaging/npm/package.json: no @openreadout/cli-* optionalDependencies".into()
+    });
+    for (name, req) in platforms {
+        c.expect(
+            &format!("packaging/npm/package.json optionalDependencies {name}"),
+            req.as_str(),
+        );
+    }
     c.expect(
         "packaging/wasm/package.json version",
         read_json("packaging/wasm/package.json")?["version"].as_str(),

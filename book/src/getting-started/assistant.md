@@ -10,7 +10,7 @@ OpenReadout is designed for AI agents. An assistant can use it in two ways: thro
 curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/skills/openreadout/SKILL.md
 ```
 
-There is no packaged release yet, so the install script the skill uses won't work until there is one. Until then, [install with cargo](install.md) yourself, then connect the program with one of the commands below.
+To do it yourself instead, [install the program](install.md), then connect it with one of the commands below.
 
 **The skill**, for agents with a shell (Claude Code, Codex, Cursor, Copilot, Gemini CLI):
 
@@ -78,6 +78,10 @@ $ openreadout preview mini.nd2 --image 3 --json
   }
 }
 ```
+
+## See the data in the chat
+
+In clients that support MCP Apps (Claude Desktop and claude.ai, ChatGPT, the Codex app, VS Code and others), the data opens in an interactive viewer when the assistant reads a file. You can step through channels, z planes and sweeps, zoom, look at a chromatogram and click through to its spectra, or switch an FCS plot's parameters, without asking the assistant for each picture. In the Codex and ChatGPT desktop apps, opening a `.czi`, `.nd2`, `.lif`, `.fcs`, `.abf` or other vendor file in a thread shows it in the same viewer. Clients without MCP Apps get text and JSON as before. [The viewer](../reference/mcp.md#the-viewer) has the details.
 
 ## How the assistant sees images
 
