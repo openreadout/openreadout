@@ -1,0 +1,64 @@
+{
+ "id": "ho-zenodo15042009-czi-apotome",
+ "file": "20231207_THcolocalization_C1160_SST_10X_VTA5_MIP.czi",
+ "size": 37996192,
+ "sha256": "6c5b0e2c85edbe64dfefbccf6e7d91c1c9ada2a44eec67e10fac13a32585df1f",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 2787,
+   "size_y": 2243,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    3,
+    2243,
+    2787
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.454,
+    "y": 0.454,
+    "z": 1.1
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fe147346394a237a8615b5362905566e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cb79d935d37eda0ebf0dc98177d794d4"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "52c6eddf83ba83032013adb46cbb59b8"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.454,
+  "y": 0.454,
+  "z": 1.1
+ },
+ "subblock_count": 3,
+ "compression_ids": [
+  0
+ ]
+}

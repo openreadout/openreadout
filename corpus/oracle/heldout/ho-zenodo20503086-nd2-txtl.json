@@ -1,0 +1,105 @@
+{
+ "id": "ho-zenodo20503086-nd2-txtl",
+ "file": "POPC+RB007A_1.nd2",
+ "size": 17006592,
+ "sha256": "575c6e53d3c77174944630ad84db7aa8ccb6b34d6a0e437fd74d149cc91b60e1",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 2048, 'X': 2048}",
+   "physical_size_um": {
+    "x": 0.07595873626027366,
+    "y": 0.07595873626027366,
+    "z": null
+   },
+   "channel_names": [
+    "FITC ",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eec0343ce118fb5af926141bdb6b924c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9f09fd316bdb6b08c5aecee139d8b1cb"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "FITC ",
+    "color": "#20FF00",
+    "excitation_nm": 488.0,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ],
+    "emission_note": "band centre (adjudicated; nd2 reports the rising edge)"
+   },
+   {
+    "name": "TD",
+    "color": "#FFFFFF",
+    "excitation_nm": 561.0,
+    "emission_nm": 593.0,
+    "component_count": 1,
+    "modality": [
+     "brightfield",
+     "laserScanConfocal",
+     "pmt",
+     "transmitDetector"
+    ],
+    "emission_note": "band centre (adjudicated; nd2 reports the rising edge)"
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 91.92479999922216,
+    "tags": {
+     "Camera_000_FITC _Gain": 78.10000000000001,
+     "Camera_001_FITC _LP": 100.0,
+     "Camera_ExposureTime2": 200.0,
+     "PFS_OFFSET": 6844,
+     "PFS_STATUS": 0,
+     "X": 15065.0,
+     "Y": 347.40000000000003,
+     "Z": 3578.483,
+     "Z1": 3629.46,
+     "Z2": 50.977
+    }
+   }
+  ],
+  "acquired_at": "2022-03-25T12:42:56.418Z",
+  "acquired_at_unix_ms": 1648212176418
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(2)\r\nCamera Name: AX\r\nNumerical Aperture: 1.49\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: FITC \r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: Multi-Channel\r\n  \tScanner: Galvano Unidirectional\r\n  \tScan Mode: Band\r\n  \tLine Averaging: 2x\r\n  \tResolution: 2048 x 2048\r\n  \tDwell Time: 1.0 usec\r\n  \t\tFITC \r\n  Components:\r\n  Component FITC :\r\n  \tDetector: 1\r\n  \tEmission Range: 500 nm - 550 nm\r\n  \tGain: 78.1\r\n  \tOffset: -30\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 100.0\r\n  \r\n  Scan Area:\r\n  \tZoom: 1.14\r\n  \tOffset X: 0.00\r\n  \tOffset Y: 0.00\r\n  \tRotation: 0.00\r\n  \r\n  Misc:\r\n  \tPinhole Size: 47.7 \u03bcm\r\n  \tDetector Port: Standard\r\n  \tLaser Port: Standard\r\n  \tImage Mode: None\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tIR Filter Position: Out\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 4 (Empty)\r\n  Nikon Ti2, FilterChanger(Turret-Up): 5 (Empty)\r\n  LightPath: L100\r\n  Condenser: 1 (OPEN)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: TD\r\n Component Count: 1\r\n Modality: Brightfield, Laser Scan Confocal\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: Multi-Channel\r\n  \tScanner: Galvano Unidirectional\r\n  \tScan Mode: Band\r\n  \tResolution: 2048 x 2048\r\n  \tDwell Time: 0.8 usec\r\n  \t\tTD\r\n  Components:\r\n  TD:\r\n  \tGain: 50.0\r\n  \tOffset: 0\r\n  \tLaser 561 nm\r\n  \t\tEnabled\r\n  \t\tPower: 20.9\r\n  \r\n  Scan Area:\r\n  \tZoom: 1.14\r\n  \tOffset X: 0.00\r\n  \tOffset Y: 0.00\r\n  \tRotation: 0.00\r\n  \r\n  Misc:\r\n  \tPinhole Size: 54.3 \u03bcm\r\n  \tDetector Port: Standard\r\n  \tLaser Port: Standard\r\n  \tImage Mode: None\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tIR Filter Position: Out\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 4 (Empty)\r\n  Nikon Ti2, FilterChanger(Turret-Up): 5 (Empty)\r\n  LightPath: L100\r\n  Condenser: 1 (OPEN)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x",
+  "capturing": "AX\r\nSample 1:\r\n  Configuration:\r\n  \tDetector mode: Multi-Channel\r\n  \tScanner: Galvano Unidirectional\r\n  \tScan Mode: Band\r\n  \tLine Averaging: 2x\r\n  \tResolution: 2048 x 2048\r\n  \tDwell Time: 1.0 usec\r\n  \t\tFITC \r\n  Components:\r\n  Component FITC :\r\n  \tDetector: 1\r\n  \tEmission Range: 500 nm - 550 nm\r\n  \tGain: 78.1\r\n  \tOffset: -30\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 100.0\r\n  \r\n  Scan Area:\r\n  \tZoom: 1.14\r\n  \tOffset X: 0.00\r\n  \tOffset Y: 0.00\r\n  \tRotation: 0.00\r\n  \r\n  Misc:\r\n  \tPinhole Size: 47.7 \u03bcm\r\n  \tDetector Port: Standard\r\n  \tLaser Port: Standard\r\n  \tImage Mode: None\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tIR Filter Position: Out\r\n\r\nSample 2:\r\n  Configuration:\r\n  \tDetector mode: Multi-Channel\r\n  \tScanner: Galvano Unidirectional\r\n  \tScan Mode: Band\r\n  \tResolution: 2048 x 2048\r\n  \tDwell Time: 0.8 usec\r\n  \t\tTD\r\n  Components:\r\n  TD:\r\n  \tGain: 50.0\r\n  \tOffset: 0\r\n  \tLaser 561 nm\r\n  \t\tEnabled\r\n  \t\tPower: 20.9\r\n  \r\n  Scan Area:\r\n  \tZoom: 1.14\r\n  \tOffset X: 0.00\r\n  \tOffset Y: 0.00\r\n  \tRotation: 0.00\r\n  \r\n  Misc:\r\n  \tPinhole Size: 54.3 \u03bcm\r\n  \tDetector Port: Standard\r\n  \tLaser Port: Standard\r\n  \tImage Mode: None\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tIR Filter Position: Out\r\n",
+  "date": "3/25/2022  1:42:56 PM",
+  "optics": "SR HP Apo TIRF 100xH"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=2, heightPx=2048, pixelDataType='unsigned', sequenceCount=1, widthBytes=8192, widthPx=2048, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

@@ -744,7 +744,8 @@ def test_heldout_questions_are_sealed_and_independent():
         assert q["id"].startswith("ho-"), q["id"]
         for ref in [q["file"], *q.get("extra_files", [])]:
             assert manifest.get(ref["corpus_id"]), (q["id"], ref["corpus_id"], "not a held-out file")
-            assert ref["stage_as"].startswith(("sample", generate.UNKNOWN_NAME)), q["id"]
+            # (a VSI's frame files sit in `_<name>_/`, so `_sample_/...` for `sample.vsi`)
+            assert ref["stage_as"].startswith(("sample", "_sample_/", generate.UNKNOWN_NAME)), q["id"]
         src = q["source"]
         assert src.startswith(("corpus/oracle/heldout/", "evals/facts/heldout.json [", "corpus/manifest.toml [")), q[
             "id"

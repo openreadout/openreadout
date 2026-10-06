@@ -159,7 +159,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 5 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_plate_xlsx`, `whole_plate`
-- corpus inputs by tier: heldout 8, smoke 62
+- corpus inputs by tier: heldout 10, smoke 62
 - golden snapshots: [`corpus/snapshots/plate.jsonl`](../../corpus/snapshots/plate.jsonl)
 
 ### Open new-variant intakes
