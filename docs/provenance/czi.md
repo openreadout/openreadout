@@ -212,7 +212,7 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 
 **Why.** Compression id 7 exited 6. libCZI's public documentation now describes it (https://zeiss.github.io/libczi/pages/chunked_compression.html, read as a documentation page only), and czifile 2026.8.16 decodes it through imagecodecs, so newer ZEN versions may write it.
 
-**Corpus files used:** `synthetic-gray16-chunked-zstd-hilo`, `synthetic-gray8-chunked-lz4`, `synthetic-bgr48-chunked-zstd`, new fixtures made by `oracle/make_czi_fixtures.py --chunked-only`: the pylibCZIrw-written bases `synthetic-gray16-s2c2t2-uncompressed`, `synthetic-gray8-c2z2t3-uncompressed` and `synthetic-bgr48-uncompressed` with every subblock re-encoded by imagecodecs' `chunked_encode` (BSD-3-Clause). No public CZI with id 7 was found: the remote directory survey of this date (HTTP range reads of the subblock directory of public Zenodo CZIs; see the survey entry below) found ids 0, 4, 5 and 6 only.
+**Corpus files used:** `synthetic-gray16-chunked-zstd-hilo`, `synthetic-gray8-chunked-lz4`, `synthetic-bgr48-chunked-zstd`, new fixtures made by `oracle/make_czi_fixtures.py --chunked-only`: the pylibCZIrw-written bases `synthetic-gray16-s2c2t2-uncompressed`, `synthetic-gray8-c2z2t3-uncompressed` and `synthetic-bgr48-uncompressed` with every subblock re-encoded by imagecodecs' `chunked_encode` (BSD-3-Clause). No public CZI with id 7 was found: the remote directory survey of this date (below) found no id 7.
 
 **Prior art consulted:** the libCZI documentation page above (header entries 0–4, varints of seven-bit groups, zstd or LZ4, HiLo); czifile 2026.8.16 (BSD-3-Clause, read as documentation: it maps id 7 to imagecodecs' `chunked_decode` with the sample size, and ids 100–999 and 1000 and up to camera and system raw); imagecodecs 2026.8.16 run as a black box to write streams. pylibCZIrw 6.1 (LGPL, black box) does not read id 7 ("not implemented"), so czifile is the only oracle.
 
@@ -229,3 +229,7 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 **Corpus files used:** those two. **Prior art consulted:** none.
 
 **Rule implemented:** the planes `check` expects per image leave out the image's `absent_channels`.
+
+## 2026-10-06 — Remote survey of compression ids in public CZIs
+
+**What.** The subblock directories of 892 CZI files in 53 public Zenodo records not used by the corpus (and not held out) were read by HTTP range requests (file header, then the directory segment; no pixel data). Compression ids: 0 (uncompressed) in 764 files, 4 (JPEG XR) in 111, 6 (zstd1) in 16; no file used 1 (JPEG), 3, 7 or a raw id. Pixel types: gray16 in 554 files, gray8 in 219, bgr24 in 118. Nothing about the format was inferred from it; it set the order of the work above (12-bit JPEG and chunked compression are kept for files this survey did not reach, and are validated on synthetic files).
