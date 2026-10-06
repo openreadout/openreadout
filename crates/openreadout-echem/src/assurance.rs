@@ -61,10 +61,20 @@ fn observe(info: &FileInfo) -> Observations {
     if let Some(v) = &info.format_version {
         o.feature(K::FormatVersion, v, &[Scope::Metadata, Scope::Traces]);
     }
+    // A text export's columns are all read by the same number parser, so a column no
+    // development file had describes the file; in a binary file its id decides how its bytes
+    // are decoded.
+    let text = matches!(info.format.id.as_str(), "biologic-mpt" | "gamry-dta");
     for t in &info.traces {
         for c in &t.channels {
-            if c.name != "time" {
-                o.feature(K::Record, format!("column {}", c.name), &[Scope::Traces]);
+            if c.name == "time" {
+                continue;
+            }
+            let value = format!("column {}", c.name);
+            if text {
+                o.context(K::Record, value);
+            } else {
+                o.feature(K::Record, value, &[Scope::Traces]);
             }
         }
     }

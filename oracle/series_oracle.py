@@ -185,8 +185,17 @@ def mpt_traces(path: Path, a: dict) -> list[dict]:
     for k, h in enumerate(head):
         try:
             cols[h] = [f(r[k]) for r in rows]
-        except ValueError:  # e.g. time/s exported as absolute date-times ("07/10/2022 01:08:59.8225"): not compared
-            continue
+        except ValueError:
+            # time/s exported as absolute dates and times ("07/19/2024 16:53:36.5000"): seconds
+            # from the first row, month/day/year as EC-Lab's header writes dates, else day/month/year
+            from datetime import datetime
+            for fmt in ("%m/%d/%Y %H:%M:%S.%f", "%m/%d/%Y %H:%M:%S", "%d/%m/%Y %H:%M:%S.%f", "%d/%m/%Y %H:%M:%S"):
+                try:
+                    ts = [datetime.strptime(r[k].strip(), fmt) for r in rows]
+                except ValueError:
+                    continue
+                cols[h] = [(t - ts[0]).total_seconds() for t in ts]
+                break
     time = cols.get("time/s")
     idx = pick(len(rows))
     out = []

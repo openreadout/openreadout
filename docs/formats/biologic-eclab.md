@@ -94,6 +94,12 @@ EC-Lab sometimes announces a column after an empty label that its rows do not ca
 are dropped (info finding). Columns are named as in the table above; a label not in it keeps a
 name made from the label (`Energy we charge/W.h` → `energy_we_charge`, unit W·h).
 
+EC-Lab can export `time/s` as absolute dates and times (`07/19/2024 16:53:36.5000`). Such a
+column is returned as seconds from its first row (info finding `absolute_times`), and its first
+row is the acquisition start when the header gives none. Dates are month/day/year, as in the
+header, unless a first field is above 12. When both orders fit, month/day/year is taken unless
+only day/month/year keeps the times rising, and the start date is reported as assumed.
+
 ## What the readers return
 
 One trace sampled in time: channel 0 `time` (s, the irregular abscissa), then the columns in

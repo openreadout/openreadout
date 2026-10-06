@@ -48,3 +48,22 @@ further depositors' files as they are added below.
   voltage, 0x76 constant current, 0x7F Modulo Bat, 0x88 battery capacity determination; names
   from the export's fourth line). `VMP LOG` byte 9: channel − 1 (numbered channels). `VMP LOG`
   +585: float64 OLE date of "Acquisition started on" (local time; all 25 files with a log).
+
+## 2026-10-06 — `.mpt` exports whose time column holds dates and times (Richard Zimring with Claude as assistant)
+
+Held-out draw D reported an EC-Lab text export rejected as corrupt because its time column holds absolute dates and times (finding D-H5). No held-out file was opened.
+
+**Corpus files used (new):** `echem-figshare30080953-cp-mpt` and `echem-figshare30080953-ca-mpt` (figshare 30080953, Apache-2.0, A. Bhadouria: a chronopotentiometry and a chronoamperometry export of 2024, without EC-Lab's header block). Also looked at, not added: PyProBE's `tests/sample_data/biologic/Sample_data_biologic_timestamped.txt` (BSD-3-Clause, a `BT-Lab ASCII FILE` export trimmed to 7 rows and re-saved).
+
+**Prior art consulted:** none.
+
+**What was inferred from what:**
+- Both files label the column `time/s`, as the other exports do, but write each cell as `MM/DD/YYYY hh:mm:ss.ffff` (`07/19/2024 16:53:36.5000`). `step time/s` stays in seconds. The day (19) shows that the date is month/day/year, the order EC-Lab's header uses for `Acquisition started on`. The PyProBE file writes its header's `Acquisition started on : 11/20/2024 11:38:41.707` and its first time cell `11/20/2024 11:38:41.707` alike.
+- Successive cells step by the sampling interval (0.05 s in the CP file, 0.1 s in the CA file), so the column is the sampling time.
+
+**Decided:**
+- A column whose first cell is a date and time is read as dates and times in every row (a row that is not one is corrupt) and returned as seconds from its first row. The first row's date and time is the acquisition start when the file has no `Acquisition started on` header line (local time, as the header's).
+- Month/day/year is read unless a date's first field is above 12. When both orders fit every date, month/day/year is taken unless only day/month/year keeps the times from running backwards, and the start date is reported as assumed in that case.
+- `check` reports `absolute_times` (info), and the assurance profile observes the layout `absolute time column`.
+
+**Validation:** `oracle/series_oracle.py --mpt` reads the export's text with the Python standard library (`datetime.strptime`), now including the date-time column as seconds from the first row. Every column of both files agrees. This oracle is a second implementation of the same text, not an independent reader, so these files do not validate the layout.
