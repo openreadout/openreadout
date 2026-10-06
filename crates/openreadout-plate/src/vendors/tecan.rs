@@ -159,7 +159,10 @@ fn header_pairs(sheet: &Sheet, header_end: usize) -> Vec<(String, String)> {
                 } else {
                     v.trim().to_string()
                 };
-                out.push((k.trim().to_string(), v.trim().trim_start_matches('\'').to_string()));
+                out.push((
+                    k.trim().to_string(),
+                    v.trim().trim_start_matches('\'').to_string(),
+                ));
             } else if i == 0 && cells.len() > 1 {
                 out.push((c.clone(), cells[1..].join(" ")));
                 break;
@@ -178,7 +181,10 @@ pub(crate) fn parse_icontrol(book: &Book) -> Export {
     let exports: Vec<&Sheet> = book
         .sheets
         .iter()
-        .filter(|s| has_application_line(s) || (0..s.rows.len().min(3)).any(|r| s.text(r, 0).starts_with("Application:")))
+        .filter(|s| {
+            has_application_line(s)
+                || (0..s.rows.len().min(3)).any(|r| s.text(r, 0).starts_with("Application:"))
+        })
         .collect();
     let sheet = exports.first().copied().unwrap_or(&book.sheets[0]);
     let mut ex = Export::new(Kind::TecanIControl, book.container.clone());
@@ -331,8 +337,8 @@ fn parse_sections(sheet: &Sheet, first_label: usize, b: &mut Block, notes: &mut 
                         temps.push(v);
                     }
                 } else if let Some((key, v, unit)) = setting(sheet, rr) {
-                    if let Some(pattern) = multiple_reads_pattern(&key)
-                        .filter(|p| *p != "Border" && *p != "Rahmen")
+                    if let Some(pattern) =
+                        multiple_reads_pattern(&key).filter(|p| *p != "Border" && *p != "Rahmen")
                     {
                         settings.insert("multiple_reads_pattern".into(), json!(pattern));
                     }
@@ -810,11 +816,17 @@ mod tests {
         assert_eq!(b.channels[0].wavelength_nm, Some(600.0));
         let s = &b.channels[0].settings;
         assert_eq!(s.get("multiple_reads"), Some(&json!("3 x 3")));
-        assert_eq!(s.get("multiple_reads_pattern"), Some(&json!("Circle (filled)")));
+        assert_eq!(
+            s.get("multiple_reads_pattern"),
+            Some(&json!("Circle (filled)"))
+        );
         assert_eq!(s.get("multiple_reads_border"), Some(&json!(1500.0)));
         // the Mean line, not a position line; B2's empty second mean is not a value
-        let vals: Vec<(u32, u32, Option<f64>, f64)> =
-            b.obs.iter().map(|o| (o.row, o.col, o.time_s, o.value)).collect();
+        let vals: Vec<(u32, u32, Option<f64>, f64)> = b
+            .obs
+            .iter()
+            .map(|o| (o.row, o.col, o.time_s, o.value))
+            .collect();
         assert_eq!(
             vals,
             vec![
@@ -823,7 +835,10 @@ mod tests {
                 (1, 1, Some(0.0), 0.0981)
             ]
         );
-        assert_eq!(b.extra.get("kinetic_temperatures_c"), Some(&json!([30.6, 30.3])));
+        assert_eq!(
+            b.extra.get("kinetic_temperatures_c"),
+            Some(&json!([30.6, 30.3]))
+        );
         assert!(ex.notes.iter().any(|n| n.contains("Mean")));
     }
 
