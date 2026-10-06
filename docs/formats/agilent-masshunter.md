@@ -160,7 +160,7 @@ Validated layout (every corpus descriptor parses to its exact length; every bloc
 - Spectra: `scan_number` = `ScanID`, `native_id` `scanId=N`, `rt_s`, `polarity`, `centroided`, `precursor_mz`/`precursor_charge`/`collision_energy` for MS level ≥ 2 (the energy's magnitude: negative-ion scans store it negated, −20 where the method sets 20; neutral-loss scans, `ScanType` 2048, report no precursor: their `MzOfInterest` is the loss, `extra.neutral_loss_mz`), `activation` `HCD` (beam-type CID, MS:1000422, as the exports label Q-TOF and triple-quadrupole product-ion scans) and `CID` for MRM point lists, ion-mobility `extra.frame`, `extra.drift_bin`, `extra.drift_time_ms`, `scan_window_mz` = [`MinX`, `MaxX`], `total_ion_current`, `base_peak_*`; `extra`: `scan_type`, `fragmentor_v`, `ion_mode`, `scan_method`, `time_segment`, `cycle`, `parent_scan`. `SpectrumView::Primary` returns the profile when recorded, `Centroid` the peak list.
 - MRM (triple quadrupole) scans are one-point spectra: Q1 = `precursor_mz`, Q3 = the point's m/z; the corpus harness rebuilds every SRM chromatogram of the export from them.
 - Traces: `TIC`, `BPC` (all scans), then each device signal.
-- `export --to mzml` writes `scanId=N` native ids with the Agilent MassHunter nativeID/file-format terms.
+- `export --format mzml` writes `scanId=N` native ids with the Agilent MassHunter nativeID/file-format terms.
 
 **Precursor m/z.** Each MS/MS scan records its own `MzOfInterest`. ProteoWizard's exports of the auto-MS/MS run (MTBLS874) report, for every scan, the mean over all MS/MS scans that share that precursor (up to 9.5e-6 relative from the scan's own value); we report the scan's value. In the targeted run (MTBLS1334) all values agree exactly.
 

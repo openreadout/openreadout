@@ -912,7 +912,7 @@ class File:
     ) -> pyarrow.Table:
         """A table, trace or mass-spectrometry run as a :class:`pyarrow.Table` (needs ``pyarrow``).
 
-        The columns and metadata are those of ``openreadout export --to parquet``:
+        The columns and metadata are those of ``openreadout export --format parquet``:
 
         - tables (FCS events, spike/event tables, plate reads, peak tables): one column per
           table column in its stored type; plate ``well`` columns are dictionaries of well names;

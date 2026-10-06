@@ -1,4 +1,4 @@
-"""Check `openreadout export --to nwb` output with pynwb and nwbinspector (both BSD-3).
+"""Check `openreadout export --format nwb` output with pynwb and nwbinspector (both BSD-3).
 
 Usage:
     uv run python nwb_validate.py OUT.nwb [--source FILE] [--openreadout BIN]

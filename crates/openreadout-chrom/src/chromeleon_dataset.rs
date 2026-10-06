@@ -1799,7 +1799,7 @@ impl Dataset for ChromeleonDataset {
         Err(Error::unsupported(
             CHROMELEON_ID,
             "image planes",
-            "Chromeleon archives hold chromatograms: use `openreadout analyze chromatogram --trace N`, `analyze peaks`, or `export --to csv`.",
+            "Chromeleon archives hold chromatograms: use `openreadout analyze chromatogram --trace N`, `analyze peaks`, or `export --format csv`.",
         ))
     }
 

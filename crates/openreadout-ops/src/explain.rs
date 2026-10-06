@@ -338,7 +338,7 @@ fn explain_images(info: &FileInfo, file: &str, ex: &mut Explanation) {
     });
     if big {
         ex.suggested_commands.push(format!(
-            "openreadout export {file} --to ome-zarr   # large or pyramidal: a chunked, multiscale copy for napari/viewers"
+            "openreadout export {file} --format ome-zarr   # large or pyramidal: a chunked, multiscale copy for napari/viewers"
         ));
     }
     // A multi-well plate (one image per field of view): per-well numbers and a plate export.
@@ -348,7 +348,7 @@ fn explain_images(info: &FileInfo, file: &str, ex: &mut Explanation) {
             "openreadout stats {file} --per well --select c=0   # per-well intensities of channel 0 (tidy rows; --csv)"
         ));
         ex.suggested_commands.push(format!(
-            "openreadout export {file} --to ome-zarr --skip-incomplete   # an OME-NGFF HCS plate (fields whose files are missing left out)"
+            "openreadout export {file} --format ome-zarr --skip-incomplete   # an OME-NGFF HCS plate (fields whose files are missing left out)"
         ));
     } else {
         ex.suggested_commands.push(format!(
@@ -1182,17 +1182,17 @@ fn flow_parameter_kinds(t: &TableInfo) -> String {
 
 fn table_commands(info: &FileInfo, file: &str, ex: &mut Explanation) {
     ex.suggested_commands.push(format!(
-        "openreadout export {file} --to csv --labels   # events as a spreadsheet (one row per event)"
+        "openreadout export {file} --format csv --labels   # events as a spreadsheet (one row per event)"
     ));
     if info.tables.len() > 1 {
         ex.suggested_commands.push(format!(
-            "openreadout export {file} --to csv --table 1   # the second of {} data sets",
+            "openreadout export {file} --format csv --table 1   # the second of {} data sets",
             info.tables.len()
         ));
     }
     if info.tables.iter().any(|t| t.row_count > 100_000) {
         ex.suggested_commands.push(format!(
-            "openreadout export {file} --to csv --rows 0-9999   # the first 10,000 events only"
+            "openreadout export {file} --format csv --rows 0-9999   # the first 10,000 events only"
         ));
     }
     if info.format.family == "flow-cytometry" {
@@ -2562,7 +2562,7 @@ mod tests {
         );
         assert!(
             e.suggested_commands[0].contains("components")
-                && e.suggested_commands[1].contains("--to ome-zarr"),
+                && e.suggested_commands[1].contains("--format ome-zarr"),
             "{:?}",
             e.suggested_commands
         );
@@ -2685,7 +2685,7 @@ mod tests {
         assert!(
             e.suggested_commands[0].contains("table") && e.suggested_commands[0].contains("--tidy")
         );
-        assert!(e.suggested_commands[1].contains("--to csv --labels"));
+        assert!(e.suggested_commands[1].contains("--format csv --labels"));
         assert!(
             e.suggested_commands
                 .iter()

@@ -19,7 +19,7 @@ pub struct BatchArgs {
     pub measure: String,
     /// Files, directories or glob patterns (summarize: the one table file).
     #[serde(default)]
-    pub inputs: Vec<String>,
+    pub paths: Vec<String>,
     /// Walk sub-directories.
     #[serde(default)]
     pub recursive: bool,
@@ -30,10 +30,13 @@ pub struct BatchArgs {
     /// Only these format ids (e.g. `["fcs"]`).
     #[serde(default)]
     pub formats: Vec<String>,
-    /// The measure's options. Analyses: the openreadout_analyze options of that kind, plus
-    /// `rows` (which record list becomes rows: peaks peak|compound|chromatogram|band|region,
-    /// nmr-peaks peak|integral|spectrum, ephys-features sweep|cell|spike, qpcr
-    /// record|rq|standard_curve, assay wells|samples|compounds|kinetics|growth|quality).
+    /// The measure's options. Analyses: the arguments of that analysis's tool
+    /// (openreadout_peaks, openreadout_nmr_peaks, ...; assay: `analysis` = wells, curve,
+    /// dose-response, kinetics, growth or qc, plus the arguments of that openreadout_assay_*
+    /// tool), plus `rows` (which record list becomes rows: peaks
+    /// peak|compound|chromatogram|band|region, nmr-peaks peak|integral|spectrum,
+    /// ephys-features sweep|cell|spike, qpcr record|rq|standard_curve, assay
+    /// wells|samples|compounds|kinetics|growth|quality).
     /// stats: image, select, level, per (channel|image|plane|well|field), wells, mip (z|t).
     /// trace: trace, sweep, channels. table: table, parameters, compensate, transform,
     /// workspace or gatingml, sample. gate: workspace or gatingml, sample, populations,
@@ -96,6 +99,12 @@ fn batch_request(a: BatchArgs) -> Result<batch::BatchToolArgs, McpError> {
     );
     let mut v =
         serde_json::to_value(&a).map_err(|e| McpError::internal_error(e.to_string(), None))?;
+    // The library request calls them `inputs`, as the Python and R functions do.
+    if let Some(o) = v.as_object_mut()
+        && let Some(p) = o.remove("paths")
+    {
+        o.insert("inputs".into(), p);
+    }
     if builtin && let Some(o) = v.as_object_mut() {
         openreadout_batch::measures::spec_from_options(&a.measure, a.options.clone())
             .map_err(|e| mcp_err(&e))?;
@@ -113,7 +122,7 @@ impl InstrumentServer {
         name = "openreadout_batch",
         annotations(title = "Measure many files as one table", read_only_hint = false, destructive_hint = true, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<batch::BatchToolOutput>(),
-        description = "One measure over many files as one tidy table, optionally joined to sample sheets or plate maps (the join key is chosen from the data and reported in joins[] with unmatched rows) and summarized by group (by; test against a control). Analyses take the same options as openreadout_analyze. Inputs: files, directories, globs or an index query. Returns at most limit rows (page with offset; output writes them all to a file); a failing file is a row with error. measure=summarize regroups a table written by an earlier output."
+        description = "One measure over many files as one tidy table, optionally joined to sample sheets or plate maps (the join key is chosen from the data and reported in joins[] with unmatched rows) and summarized by group (by; test against a control). Analyses (peaks, chromatogram, nmr-peaks, ephys-features, spikes, qpcr, gate, assay) take the arguments of their tools as options. Inputs (paths): files, directories, globs or an index query. Returns at most limit rows (page with offset; output writes them all to a file); a failing file is a row with error. measure=summarize regroups a table written by an earlier output."
     )]
     pub(crate) async fn batch(
         &self,

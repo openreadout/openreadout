@@ -1645,7 +1645,7 @@ impl Dataset for ThermoDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "image planes",
-            "Thermo .raw files hold mass spectra; use `openreadout spectra FILE --scan N` or `export --to mzml`.",
+            "Thermo .raw files hold mass spectra; use `openreadout spectra FILE --scan N` or `export --format mzml`.",
         ))
     }
 

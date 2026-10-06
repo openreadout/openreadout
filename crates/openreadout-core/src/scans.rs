@@ -20,7 +20,7 @@ use crate::{Error, Result, Spectrum};
 /// Everything about one spectrum except its peaks.
 #[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct ScanHeader {
-    /// Zero-based spectrum index within its run (`spectra --index`).
+    /// Zero-based spectrum index within its run (`spectra --spectrum`).
     pub index: u64,
     /// Scan number as the instrument counts it (`spectra --scan`).
     pub scan_number: u64,

@@ -1630,7 +1630,7 @@ impl Dataset for TimsDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "image planes",
-            "timsTOF data are mass spectra: use `openreadout spectra` or `export --to mzml`.",
+            "timsTOF data are mass spectra: use `openreadout spectra` or `export --format mzml`.",
         ))
     }
 

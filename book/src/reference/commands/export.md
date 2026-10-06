@@ -12,7 +12,7 @@ Each export is written under a temporary name, read back and compared with the s
 
 ### Target and output
 
-- `--to FORMAT`: target format: `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `asm`, `parquet`, `arrow`, `nwb`, `jcamp` or `rdml`. The default depends on the file; see [Export formats](#export-formats).
+- `--format FORMAT`: target format: `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `asm`, `parquet`, `arrow`, `nwb`, `jcamp` or `rdml`. The default depends on the file; see [Export formats](#export-formats).
 - `-o`, `--output PATH`: output path. Default: the input name with the target's extension. With several inputs, a directory.
 - `--overwrite`: replace an existing output file or OME-Zarr store.
 - `--compression MODE`: images `none`, `deflate` (default) or `lzw`; Parquet `none`, `snappy` (default) or `lz4`; Arrow `none` (default) or `lz4`.
@@ -63,16 +63,16 @@ wrote doctor.ome.tiff (1 images, 2 planes, 2207 bytes, verified=true)
 ```
 
 ```bash
-openreadout export slide.czi --to ome-zarr                       # pyramid kept
+openreadout export slide.czi --format ome-zarr                       # pyramid kept
 openreadout export slide.svs --region 20000,15000,4096,4096 -o roi.ome.tiff
-openreadout export sample.fcs --to parquet
-openreadout export run.raw --to mzml --centroid
+openreadout export sample.fcs --format parquet
+openreadout export run.raw --format mzml --centroid
 openreadout export -r --skip-unknown raw/ -o ome/                # keeps the folder layout
 ```
 
 ## Export formats
 
-| `--to` | for | default output |
+| `--format` | for | default output |
 | --- | --- | --- |
 | `ome-tiff` | images (default) | `<stem>.ome.tiff` |
 | `ome-zarr` | images, plates | `<stem>.ome.zarr` |
@@ -94,7 +94,7 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 - **ASM** is Allotrope Simple Model plate-reader JSON, one document per plate and well.
 - **RDML** is RDML 1.3 with the plate setup, Cq values, amplification curves and melt data.
 
-A combination that does not fit, such as an image file `--to csv`, exits 6.
+A combination that does not fit, such as an image file `--format csv`, exits 6.
 
 ## Attachments
 

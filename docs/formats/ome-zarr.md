@@ -1,6 +1,6 @@
 # OME-Zarr (OME-NGFF)
 
-OME-Zarr is the chunked image format of the open OME-NGFF specification. OpenReadout reads OME-Zarr stores (Zarr v2 and v3, NGFF 0.1–0.5) with every pyramid level, physical sizes and channel metadata, and `export --to ome-zarr` writes them. Everything here comes from the published specifications (https://ngff.openmicroscopy.org, https://zarr-specs.readthedocs.io), not from reverse engineering. It was checked on public Fractal stores and synthetic stores written by zarr-python and ome-zarr-py, with zarr-python (`oracle/gen.py`) as the reference reader. Provenance: `docs/provenance/ome-zarr.md`.
+OME-Zarr is the chunked image format of the open OME-NGFF specification. OpenReadout reads OME-Zarr stores (Zarr v2 and v3, NGFF 0.1–0.5) with every pyramid level, physical sizes and channel metadata, and `export --format ome-zarr` writes them. Everything here comes from the published specifications (https://ngff.openmicroscopy.org, https://zarr-specs.readthedocs.io), not from reverse engineering. It was checked on public Fractal stores and synthetic stores written by zarr-python and ome-zarr-py, with zarr-python (`oracle/gen.py`) as the reference reader. Provenance: `docs/provenance/ome-zarr.md`.
 
 Format id `ome-zarr`, crate `openreadout-zarr`.
 
@@ -80,7 +80,7 @@ Chunk presence is counted for up to 100 000 chunks per array (evenly sampled bey
 
 ## Export round trip
 
-`export --to ome-zarr` (crate `openreadout-omezarr`, NGFF 0.5 / Zarr v3 / gzip) reads back through this reader hash-identical for every plane. Normalized metadata survives only in multi-image stores, which carry `OME/METADATA.ome.xml` (a CZI, LIF or ND2 comes back equal except `dimension_order`); a single image written at the root has only the NGFF `omero` block, so its channels keep names and colours but lose wavelengths, bands and modes, and objective, instrument and acquisition time are not stored (known gap) (`crates/openreadout-omezarr/tests/roundtrip.rs`); interleaved RGB images come back as three channels (the writer stores each sample as a channel), each equal to its deinterleaved sample plane.
+`export --format ome-zarr` (crate `openreadout-omezarr`, NGFF 0.5 / Zarr v3 / gzip) reads back through this reader hash-identical for every plane. Normalized metadata survives only in multi-image stores, which carry `OME/METADATA.ome.xml` (a CZI, LIF or ND2 comes back equal except `dimension_order`); a single image written at the root has only the NGFF `omero` block, so its channels keep names and colours but lose wavelengths, bands and modes, and objective, instrument and acquisition time are not stored (known gap) (`crates/openreadout-omezarr/tests/roundtrip.rs`); interleaved RGB images come back as three channels (the writer stores each sample as a channel), each equal to its deinterleaved sample plane.
 
 ## Observed corpus values
 

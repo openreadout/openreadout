@@ -51,10 +51,10 @@ of the largest decoded tile / subblock, `M` = size of the metadata blocks (XML, 
 | `info --view full` | O(M + N) + vendor JSON | the vendor tree is the XML/LV metadata converted to JSON (typically 3-8x the XML size) |
 | `check` | O(M + N) | reads one 256-byte subblock header (CZI) / 16-byte chunk header (ND2) per record; never decodes pixels; findings are O(problems) |
 | `check --planes` | O(M + N) + P + T + compressed(T) | one plane at a time; CZI mosaics stitch tiles into the plane buffer, so one decoded tile and its compressed bytes coexist with the plane |
-| `export --to ome-tiff` | O(M + N) + ~2-3 P | the plane, its compressed strip in the TIFF encoder, and during read-back verification one decoded IFD |
-| `export --to ome-zarr` | O(M + N) + ~3 P | plane, de-interleaved samples, one downsampled level and the chunk buffer |
-| `export --to mzml` | O(spectra) + 2 batches | spectra are read and compressed in batches of at most 256 spectra or 4 Mi points; one batch is compressed while the next is read. The index keeps ~100 B per spectrum |
-| `export --to csv` | one read batch + 2 x threads segments | a read batch holds at most 64 Ki rows and 8 Mi values; rows are formatted and parsed back in segments of at most 4096 rows and 128 Ki values |
+| `export --format ome-tiff` | O(M + N) + ~2-3 P | the plane, its compressed strip in the TIFF encoder, and during read-back verification one decoded IFD |
+| `export --format ome-zarr` | O(M + N) + ~3 P | plane, de-interleaved samples, one downsampled level and the chunk buffer |
+| `export --format mzml` | O(spectra) + 2 batches | spectra are read and compressed in batches of at most 256 spectra or 4 Mi points; one batch is compressed while the next is read. The index keeps ~100 B per spectrum |
+| `export --format csv` | one read batch + 2 x threads segments | a read batch holds at most 64 Ki rows and 8 Mi values; rows are formatted and parsed back in segments of at most 4096 rows and 128 Ki values |
 | MCP tools, Python `File` | same as the matching command | the Python `read_image` helpers allocate the requested N-d array on purpose |
 
 Time for `info`/`info --view structure` is linear in `N` (one small read per CZI segment in the sequential

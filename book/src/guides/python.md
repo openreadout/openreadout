@@ -141,7 +141,7 @@ For the methods, see [Chromatograms and peaks](quantitation.md), [Plate-reader a
 
 ### Arrow and pandas
 
-`File.to_arrow()` returns a `pyarrow.Table` with the same columns and metadata as `openreadout export --to parquet`, without writing a file. Without arguments it returns the spectra of a mass-spectrometry file, else table 0, else trace 0:
+`File.to_arrow()` returns a `pyarrow.Table` with the same columns and metadata as `openreadout export --format parquet`, without writing a file. Without arguments it returns the spectra of a mass-spectrometry file, else table 0, else trace 0:
 
 ```python
 with openreadout.File("cell.abf") as f:

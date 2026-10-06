@@ -1808,7 +1808,7 @@ impl Dataset for MzmlDataset {
         Err(Error::unsupported(
             FMT,
             "image planes",
-            "mzML holds mass spectra, not images: use `openreadout spectra` or `export --to mzml`.",
+            "mzML holds mass spectra, not images: use `openreadout spectra` or `export --format mzml`.",
         ))
     }
 

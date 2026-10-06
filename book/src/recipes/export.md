@@ -15,31 +15,31 @@ wrote mini.ome.tiff (1 images, 2 planes, 2612 bytes, verified=true)
 
 - `wrote` names the new file. Without `-o` it goes next to the input, named after it with the target's extension.
 - `verified=true` means the export was read back and compared with the source before it got its final name. Until then it has a temporary name, so an interrupted export doesn't leave a half-written file behind.
-- The target is chosen from the data: OME-TIFF for images, CSV for tables and traces, mzML for mass spectrometry. Pick another with `--to`.
+- The target is chosen from the data: OME-TIFF for images, CSV for tables and traces, mzML for mass spectrometry. Pick another with `--format`.
 - `export` won't replace an existing file unless you pass `--overwrite`. Without it, `export` stops with exit code 2.
-- A combination that does not fit, such as an image file `--to csv`, exits 6 with a hint that names the target to use.
+- A combination that does not fit, such as an image file `--format csv`, exits 6 with a hint that names the target to use.
 
 ## Variations
 
 ### Other targets
 
 ```text
-$ openreadout export mini.nd2 --to ome-zarr
+$ openreadout export mini.nd2 --format ome-zarr
 wrote mini.ome.zarr (1 images, 2 planes, 2876 bytes, verified=true)
 
-$ openreadout export fcsparser-cyflow-cube-8.fcs --to parquet
+$ openreadout export fcsparser-cyflow-cube-8.fcs --format parquet
 wrote fcsparser-cyflow-cube-8.parquet (parquet table 0, 725 rows x 10 columns, snappy, 52461 bytes, verified=true)
 
 $ openreadout export pyteomics-tiny-pwiz.mzML -o tiny.mzML
 wrote tiny.mzML (4 spectra, 40 points, 15667 bytes, verified=true)
 
-$ openreadout export pyabf-2018-12-09-pclamp11-0001.abf --to nwb
+$ openreadout export pyabf-2018-12-09-pclamp11-0001.abf --format nwb
 wrote pyabf-2018-12-09-pclamp11-0001.nwb (NWB 2.7.0: 20 TimeSeries, 40000 samples, 783281 bytes, verified=true)
   acquisition/trace0_sweep0: trace 0, sweep 0, 2000 samples x 1 channels (A)
   ...
 ```
 
-| `--to` | for |
+| `--format` | for |
 | --- | --- |
 | `ome-tiff`, `ome-zarr` | images; `ome-zarr` also for screening plates |
 | `csv`, `parquet`, `arrow` | tables (FCS events, plate reads), traces; Parquet and Arrow also mass spectra |

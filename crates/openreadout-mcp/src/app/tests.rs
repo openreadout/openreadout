@@ -146,10 +146,8 @@ fn hints_follow_the_tool_table() {
     assert_eq!(h["sweep"], 3);
     assert_eq!(h["channels"], json!([1]));
     let h = view_hint(
-        "openreadout_analyze",
-        Some(&args(
-            json!({"file": "a.raw", "kind": "chromatogram", "options": {"mz": [301.14]}}),
-        )),
+        "openreadout_chromatogram",
+        Some(&args(json!({"file": "a.raw", "mz": [301.14]}))),
     )
     .unwrap();
     assert_eq!(h["view"], "chromatogram");
@@ -162,11 +160,24 @@ fn hints_follow_the_tool_table() {
     assert_eq!(h["view"], "spectrum");
     assert_eq!(h["scan"], 12);
     let h = view_hint(
-        "openreadout_analyze",
-        Some(&args(json!({"file": "a.fid", "kind": "nmr-peaks"}))),
+        "openreadout_spectra",
+        Some(&args(json!({"file": "a.mzML", "spectrum": 3}))),
+    )
+    .unwrap();
+    assert_eq!(h["view"], "spectrum");
+    assert_eq!(h["index"], 3);
+    let h = view_hint(
+        "openreadout_nmr_peaks",
+        Some(&args(json!({"file": "a.fid"}))),
     )
     .unwrap();
     assert_eq!(h["view"], "nmr");
+    let h = view_hint(
+        "openreadout_dose_response",
+        Some(&args(json!({"file": "plate.xlsx"}))),
+    )
+    .unwrap();
+    assert_eq!(h["view"], "plate");
     // tools without a viewer, or calls without a file
     assert!(view_hint("openreadout_export", Some(&args(json!({"file": "a"})))).is_none());
     assert!(view_hint("openreadout_info", Some(&args(json!({})))).is_none());

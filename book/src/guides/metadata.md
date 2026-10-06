@@ -244,7 +244,7 @@ MS1 and MS/MS scans are interleaved in a run, so "the first MS/MS scan" is not s
 
 ## OME-XML export
 
-`export --to ome-tiff` writes OME-XML, as does the `OME/METADATA.ome.xml` of a multi-image OME-Zarr store. It validates against the OME 2016-06 schema. Lengths avoid non-ASCII characters so that Bio-Formats can read them: `PhysicalSizeX/Y/Z` carry no unit attribute (the schema default is µm), and stage and plane positions are written in nm.
+`export --format ome-tiff` writes OME-XML, as does the `OME/METADATA.ome.xml` of a multi-image OME-Zarr store. It validates against the OME 2016-06 schema. Lengths avoid non-ASCII characters so that Bio-Formats can read them: `PhysicalSizeX/Y/Z` carry no unit attribute (the schema default is µm), and stage and plane positions are written in nm.
 
 | OME element | from |
 | --- | --- |

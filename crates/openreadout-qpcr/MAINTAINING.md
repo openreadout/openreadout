@@ -59,7 +59,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 | [`src/lib.rs`](src/lib.rs) | Real-time PCR (qPCR) readers: RDML (the open interchange format, read and written), Applied Biosystems / Thermo Fisher `.eds` experiment documents (QuantStudio, ViiA 7, |
 | [`src/model.rs`](src/model.rs) | The normalized qPCR model every dialect is parsed into (names: `docs/formats/qpcr.md`) |
 | [`src/rdml.rs`](src/rdml.rs) | RDML (Real-time PCR Data Markup Language) 1.0-1.4: a zip holding `rdml_data.xml`, or the bare XML |
-| [`src/rdml_write.rs`](src/rdml_write.rs) | `export --to rdml`: any readable qPCR file as RDML 1.3 (`rdml_data.xml` in a zip), written to a temporary file, read back and compared, then renamed into place |
+| [`src/rdml_write.rs`](src/rdml_write.rs) | `export --format rdml`: any readable qPCR file as RDML 1.3 (`rdml_data.xml` in a zip), written to a temporary file, read back and compared, then renamed into place |
 | [`src/report.rs`](src/report.rs) | `openreadout analyze qpcr`: named per-well records, and the analyses — our own threshold Cq compared with the vendor's, ΔΔCq relative quantification, standard curves |
 | [`src/rex.rs`](src/rex.rs) | Qiagen Rotor-Gene run files (`.rex`, XML): samples by tube, groups (targets), raw channel readings (cycling and melt) and the thermal profile |
 | [`src/xml.rs`](src/xml.rs) | Small helpers over `roxmltree` (namespace-agnostic: elements are matched by local name) |

@@ -12,7 +12,6 @@
 #![warn(missing_docs)]
 
 mod commands;
-mod csv;
 mod mcp_config;
 mod output;
 mod panic;
@@ -97,9 +96,18 @@ enum Command {
     /// its signature. With `--tidy` (or `--fields`, `--sample-sheet`, `-o`): one metadata row
     /// per data set.
     Info(commands::info::InfoArgs),
-    /// Validate a file's integrity (exit 4 if corrupt or truncated); hash its planes, compare it
-    /// with a second file, or write a diagnostic bundle for a new-variant issue.
+    /// Validate a file's integrity: exit 4 if it is corrupt or truncated.
     Check(commands::check::CheckArgs),
+    /// Read every plane (or a selection) and print its dimensions and xxh3-128 hash; optionally
+    /// write the raw samples (`--dump-dir`).
+    Planes(commands::check::PlanesArgs),
+    /// Compare two files (e.g. a raw file and its export): metadata differences, geometry,
+    /// channel names, physical sizes and per-plane hashes. Exit 0 when they hold the same data,
+    /// 1 when they differ.
+    Compare(commands::compare::CompareArgs),
+    /// Write a privacy-reviewed diagnostic bundle for a file that is refused, fails or is not
+    /// validated, to attach to a new-variant issue. Nothing is sent.
+    Report(commands::report::ReportArgs),
     /// Render a PNG/JPEG preview: an image plane, channel composite or max projection; a trace
     /// sparkline (sweeps, chromatograms, NMR spectra); a mass spectrum; or a plate heat map.
     Preview(preview_cmd::PreviewArgs),
@@ -119,11 +127,14 @@ enum Command {
     /// optionally compensated, transformed and with population membership from a FlowJo
     /// workspace or Gating-ML file.
     Table(commands::flow::TableArgs),
-    /// Mass spectra: the scan headers of a run (filters, counts, paging, CSV), or one
-    /// spectrum's m/z and intensity arrays with `--scan`, `--index` or `--ms-level L --nth K`.
+    /// Mass spectrometry: the scan headers of a run (filters, counts, paging, CSV), or one
+    /// spectrum's m/z and intensity arrays with `--scan`, `--spectrum` or `--ms-level L --nth K`.
+    /// IR, Raman, UV-Vis and NMR spectra are traces (`trace`).
     Spectra(commands::spectra::SpectraArgs),
     /// Analyses with documented methods: chromatographic peaks, chromatograms, NMR peaks,
-    /// patch-clamp features, extracellular spikes, qPCR, plate assays, flow-cytometry gating.
+    /// patch-clamp features, extracellular spikes, qPCR, flow-cytometry gating and plate-reader
+    /// assays. Each analysis has its own flags and its own MCP tool (`analyze nmr-peaks` is
+    /// `openreadout_nmr_peaks`).
     #[command(subcommand)]
     Analyze(AnalyzeKind),
     /// Export to an open format (OME-TIFF, OME-Zarr, CSV, Parquet, Arrow, mzML, NWB,
@@ -193,14 +204,16 @@ pub(crate) enum AnalyzeKind {
     /// and times per channel.
     Spikes(commands::ephys::SpikesArgs),
     /// Real-time PCR results with names: one record per well × target (sample, target, task, Cq,
-    /// Tm); `--cq` recomputes Cq, `--ddcq` computes 2^-ΔΔCq, `--standard-curve` fits efficiency.
+    /// Tm); `--compute-cq` recomputes Cq, `--ddcq` computes 2^-ΔΔCq, `--standard-curve` fits
+    /// efficiency.
     Qpcr(commands::qpcr::QpcrArgs),
-    /// Plate-reader assays: layouts, blank subtraction and replicate statistics, standard curves
-    /// (linear/4PL/5PL), dose-response IC50/EC50, kinetics, growth curves, Z′.
-    Assay(commands::assay::AssayArgs),
     /// Flow-cytometry gating from a FlowJo workspace (`.wsp`) or Gating-ML 2.0 file: the gate
     /// hierarchy and, given FCS files, the event count of every population.
     Gate(commands::flow::GateArgs),
+    /// Plate-reader assays: `assay-wells`, `assay-curve`, `dose-response`, `kinetics`,
+    /// `growth`, `assay-qc`.
+    #[command(flatten)]
+    Assay(commands::assay::AssayCommand),
 }
 
 fn main() -> ExitCode {

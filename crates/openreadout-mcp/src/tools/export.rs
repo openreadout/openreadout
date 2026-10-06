@@ -16,16 +16,16 @@ use crate::{InstrumentServer, mcp_err, progress, to_value, with_strict};
 pub struct ExportArgs {
     /// Absolute or working-directory-relative path to the instrument file.
     pub file: String,
-    /// `ome-tiff` (default for images; one BigTIFF file), `ome-zarr` (OME-NGFF 0.5 / Zarr v3 directory
-    /// with a pyramid), `mzml` (indexed mzML 1.1.0, for mass-spectrometry files; the default for them),
-    /// `asm` (Allotrope Simple Model plate-reader JSON; plate-reader exports only), `rdml` (RDML
-    /// 1.3; qPCR files: RDML, Applied Biosystems .eds, Rotor-Gene .rex), `parquet` or
-    /// `arrow` (Arrow IPC file) for a table, a trace (all sweeps) or mass spectra (`spectra=true`),
-    /// `nwb` (NWB 2.x; electrophysiology traces) or `jcamp` (JCAMP-DX 5.01; NMR FIDs and
-    /// spectra, other 1-D spectra and chromatograms).
+    /// `ome-tiff` (one BigTIFF file; the default for images), `ome-zarr` (OME-NGFF 0.5 / Zarr v3
+    /// directory with a pyramid), `mzml` (indexed mzML 1.1.0; the default for mass spectra),
+    /// `csv` (one table, or one sweep of a trace; the default for tables and traces), `parquet`
+    /// or `arrow` (Arrow IPC file) for a table, a trace (all sweeps) or mass spectra
+    /// (`spectra=true`), `nwb` (NWB 2.x; electrophysiology traces), `jcamp` (JCAMP-DX 5.01; NMR
+    /// FIDs and spectra, other 1-D spectra and chromatograms), `asm` (Allotrope Simple Model
+    /// plate-reader JSON) or `rdml` (RDML 1.3; qPCR files).
     pub format: Option<String>,
-    /// Output path; defaults to the input with `.ome.tiff`, `.ome.zarr`, `.mzML`, `.asm.json`, `.rdml`,
-    /// `.parquet`, `.arrow`, `.nwb` or `.jdx`.
+    /// Output path; defaults to the input with `.ome.tiff`, `.ome.zarr`, `.mzML`, `.csv`,
+    /// `.asm.json`, `.rdml`, `.parquet`, `.arrow`, `.nwb` or `.jdx`.
     pub output: Option<String>,
     /// Replace an existing output file or directory.
     #[serde(default)]
@@ -48,15 +48,19 @@ pub struct ExportArgs {
     /// OME-Zarr of a multi-well plate: only the fields of these wells (`C05`).
     #[serde(default)]
     pub wells: Vec<String>,
-    /// Parquet, Arrow: this table index (FCS data set, plate read, event or peak table).
+    /// CSV, Parquet, Arrow: this table index (FCS data set, plate read, event or peak table).
     pub table: Option<u32>,
-    /// Parquet, Arrow, NWB, JCAMP-DX: this trace index (NWB default: every trace).
+    /// CSV, Parquet, Arrow, NWB, JCAMP-DX: this trace index (NWB default: every trace).
     pub trace: Option<u32>,
-    /// Parquet, Arrow, NWB, JCAMP-DX: only this sweep (default: every sweep).
+    /// CSV, Parquet, Arrow, NWB, JCAMP-DX: only this sweep (CSV default 0; the others: every
+    /// sweep).
     pub sweep: Option<u32>,
-    /// Parquet, Arrow, NWB, JCAMP-DX: rows (samples of each sweep for traces) `A-B`, `A-` or
-    /// `A`, zero-based and inclusive.
+    /// CSV, Parquet, Arrow, NWB, JCAMP-DX: rows (samples of each sweep for traces) `A-B`, `A-`
+    /// or `A`, zero-based and inclusive.
     pub rows: Option<String>,
+    /// CSV: add a second header line with column labels (FCS `$PnS`).
+    #[serde(default)]
+    pub labels: bool,
     /// Parquet, Arrow: export the mass spectra of `run` (one row per point, plus a
     /// `<name>.scans.parquet` per-scan summary) instead of a table or trace.
     #[serde(default)]
@@ -72,6 +76,34 @@ pub struct ExportArgs {
     /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
     #[serde(default)]
     pub strict: Option<bool>,
+}
+
+/// `format = "csv"`: one table, or one sweep of a trace.
+fn export_csv(reg: &Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
+    let input = PathBuf::from(&a.file);
+    let opts = {
+        let mut o = openreadout_batch::csv::CsvOptions::default();
+        o.table = a.table;
+        o.rows.clone_from(&a.rows);
+        o.labels = a.labels;
+        o.overwrite = a.overwrite;
+        o.sweep = a.sweep;
+        o.trace = a.trace;
+        o
+    };
+    if a.spectra {
+        return Err(mcp_err(&Error::Usage(
+            "spectra=true applies to format parquet and arrow (format mzml writes mzML)".into(),
+        )));
+    }
+    let output = a.output.as_ref().map_or_else(
+        || openreadout_batch::csv::default_output(&input, &opts),
+        PathBuf::from,
+    );
+    let (_, mut ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
+    let r = openreadout_batch::csv::export(ds.as_mut(), &input, &output, &opts)
+        .map_err(|e| mcp_err(&e))?;
+    to_value(&r)
 }
 
 /// `format = "rdml"`: a qPCR file to RDML 1.3.
@@ -291,26 +323,33 @@ fn export_blocking(
         .map_err(|e| mcp_err(&e))?;
         return to_value(&r);
     }
-    let requested = a.format.as_deref().map(str::to_ascii_lowercase);
+    let mut requested = a.format.as_deref().map(str::to_ascii_lowercase);
+    if requested.is_none() {
+        let (_, ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
+        let info = ds.info().map_err(|e| mcp_err(&e))?;
+        requested = Some(openreadout_batch::csv::default_export_format(&info).to_string());
+    }
     match requested.as_deref() {
+        Some("csv") => return export_csv(&reg, &a),
         Some("parquet") => return export_open(registry, &a, "parquet", progress),
         Some("arrow" | "feather" | "ipc") => return export_open(registry, &a, "arrow", progress),
         Some("nwb") => return export_open(registry, &a, "nwb", progress),
         Some("jcamp" | "jcamp-dx" | "jdx") => return export_open(registry, &a, "jcamp", progress),
         _ => {}
     }
-    if a.table.is_some() || a.trace.is_some() || a.sweep.is_some() || a.rows.is_some() || a.spectra
+    if a.table.is_some()
+        || a.trace.is_some()
+        || a.sweep.is_some()
+        || a.rows.is_some()
+        || a.spectra
+        || a.labels
     {
         return Err(mcp_err(&Error::Usage(
-            "table, trace, sweep, rows and spectra apply to format parquet, arrow, nwb and jcamp"
+            "table, trace, sweep, rows, labels and spectra apply to format csv, parquet, arrow, nwb and jcamp"
                 .into(),
         )));
     }
-    let is_ms = || {
-        reg.detect(&input)
-            .is_ok_and(|(r, _)| r.descriptor().family == "mass-spectrometry")
-    };
-    if requested.as_deref() == Some("mzml") || (requested.is_none() && is_ms()) {
+    if requested.as_deref() == Some("mzml") {
         let (_, mut ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
         let total = ds
             .info()
@@ -347,7 +386,7 @@ fn export_blocking(
         "rdml" => return export_rdml(registry, &a),
         other => {
             return Err(mcp_err(&Error::Usage(format!(
-                "unknown export format '{other}' (ome-tiff|ome-zarr|mzml|asm|rdml|parquet|arrow|nwb|jcamp)"
+                "unknown export format '{other}' (ome-tiff|ome-zarr|mzml|csv|asm|rdml|parquet|arrow|nwb|jcamp)"
             ))));
         }
     };
@@ -358,14 +397,14 @@ fn export_blocking(
         return Err(mcp_err(&Error::unsupported(
             "export",
             format!("image export of a {} file", info.format.name),
-            "This file holds tables (events), not images: export with format=\"parquet\" or \"arrow\", read rows with openreadout_table, or run `openreadout export FILE --to csv`.",
+            "This file holds tables (events), not images: export with format=\"parquet\" or \"arrow\", read rows with openreadout_table, or run `openreadout export FILE --format csv`.",
         )));
     }
     if info.images.is_empty() && !info.traces.is_empty() {
         return Err(mcp_err(&Error::unsupported(
             "export",
             format!("image export of a {} file", info.format.name),
-            "This file holds sampled signals or spectra (traces), not images: export with format=\"parquet\", \"nwb\" (electrophysiology) or \"jcamp\" (spectra), read samples and statistics with openreadout_trace, or run `openreadout export FILE --to csv --sweep N`.",
+            "This file holds sampled signals or spectra (traces), not images: export with format=\"parquet\", \"nwb\" (electrophysiology) or \"jcamp\" (spectra), read samples and statistics with openreadout_trace, or run `openreadout export FILE --format csv --sweep N`.",
         )));
     }
     let output = a.output.map_or_else(
@@ -441,7 +480,7 @@ impl InstrumentServer {
             idempotent_hint = true,
             open_world_hint = false
         ),
-        description = "Convert to an open format: a new file, read back and verified; the source is never touched. format: ome-tiff (images, default; pyramidal when the source is), ome-zarr (multiscale; plates as OME-NGFF HCS), parquet or arrow (tables, traces with every sweep, spectra=true for MS points), mzml, nwb (electrophysiology), jcamp (NMR, IR/Raman, chromatograms), asm (plate readers), rdml (qPCR). attachment writes one embedded attachment (thumbnail, label, slide preview) as stored. Sends progress with a progressToken."
+        description = "Convert to an open format: a new file, read back and verified; the source is never touched. format: ome-tiff (images, default; pyramidal when the source is), ome-zarr (multiscale; plates as OME-NGFF HCS), mzml (mass spectra, default), csv (one table or one sweep of a trace, default for tables and traces), parquet or arrow (tables, traces with every sweep, spectra=true for MS points), nwb (electrophysiology), jcamp (NMR, IR/Raman, chromatograms), asm (plate readers), rdml (qPCR). attachment writes one embedded attachment (thumbnail, label, slide preview) as stored. Sends progress with a progressToken."
     )]
     pub(crate) async fn export(
         &self,

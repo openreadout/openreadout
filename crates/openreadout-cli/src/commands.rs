@@ -42,6 +42,9 @@ pub fn run(cmd: Command) -> i32 {
     match cmd {
         Command::Info(a) => info::run(&reg, &a),
         Command::Check(a) => check::run(&reg, &a),
+        Command::Planes(a) => check::run_planes(&reg, &a),
+        Command::Compare(a) => compare::run(&reg, &a),
+        Command::Report(a) => report::run(&reg, &a),
         Command::Export(a) => export::run(&reg, a),
         Command::Trace(a) => trace::run(&reg, &a),
         Command::Stats(a) => stats::run(&reg, &a),

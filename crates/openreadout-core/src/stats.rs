@@ -298,7 +298,7 @@ pub struct StatsOutput {
     /// Requested histogram bins (0 = none). Integer data with fewer distinct values in its
     /// range uses fewer, one per value.
     pub bins: u32,
-    /// Per-plane statistics (omitted with `--no-planes`).
+    /// Per-plane statistics (with `--per plane`).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub planes: Vec<PlaneStats>,
     /// One aggregate per image and channel.
@@ -955,7 +955,7 @@ pub fn compute_stats(
             "stats",
             format!("pixel statistics of a {} file", info.format.name),
             if info.traces.is_empty() {
-                "This file holds no images; for tables use `openreadout export FILE --to csv`."
+                "This file holds no images; for tables use `openreadout export FILE --format csv`."
             } else {
                 "This file holds sampled signals; `openreadout trace FILE --json` reports per-channel statistics."
             },

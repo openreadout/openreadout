@@ -10,7 +10,7 @@ One table per plate (a plate block, a plate repeat, or a physical plate). One ro
 
 | column | dtype | meaning |
 | --- | --- | --- |
-| `well` | uint32 | well index, row-major from A1 = 0; the column's `extra.categories` lists the names (`A1`, `A2`, …, `P24`, `AF48`), and `export --to csv` writes the name |
+| `well` | uint32 | well index, row-major from A1 = 0; the column's `extra.categories` lists the names (`A1`, `A2`, …, `P24`, `AF48`), and `export --format csv` writes the name |
 | `row` | uint16 | plate row, 1-based (A = 1; row 27 = `AA`, written by BMG as `a`) |
 | `col` | uint16 | plate column, 1-based |
 | `read` | uint16 | measurement channel, 1-based; `extra.reads[read-1]` describes it (label as the file writes it, `mode`, `mode_basis` for measured reads (see *Read modes* below), `wavelength_nm`/`excitation_nm`/`emission_nm`, `unit`, `settings`, `calculated`, `origin` = `measured` or `calculated`, and `formula` when the export stores the vendor software's formula: EnVision `Calculations:`). When a table holds calculated reads, the column's `label` lists every read with its origin (`1 = LUM:Lum (luminescence, measured); 2 = NormLum (CALCULATED by the vendor software, not measured)`), so `table` output says which values were measured |
@@ -135,7 +135,7 @@ One sheet per protocol step starting `Measurement results`, the session file, th
 
 Performed: exporter recognised, every matrix cell parsed or recorded, geometry against the declared plate type, grid completeness per read and time point, unknown read modes, duplicates. Finding codes: `no_plate_data`, `missing_section`, `well_count_mismatch` (values outside the declared plate) (errors); `non_numeric_value`, `decimal_comma`, `well_count_mismatch` (matrix smaller than the declared plate), `duplicate_value`, `unknown_read_mode`, `read_mode_conflict` (an EnVision read whose detector and label name different modes), `table_axis_not_decoded` (a BMG table view with a second header line other than wavelengths), `no_read_step`, `unsupported_read_type`, `block_count_mismatch` (warnings); `partial_plate`, `nonstandard_plate`, `date_order_assumed`, `export_version` (info).
 
-## ASM output (`export --to asm`)
+## ASM output (`export --format asm`)
 
 Allotrope Simple Model plate-reader JSON declaring the manifest `http://purl.allotrope.org/manifests/plate-reader/REC/2025/03/plate-reader.manifest` (`ASM_MANIFEST`), shaped like allotropy's output for the same exports:
 
@@ -159,4 +159,4 @@ The ASM schema is licensed CC BY-NC 4.0 / CC BY-ND 4.0 and is not copied into th
 | `PlateReader`, `PlateDataset`, `FORMAT_ID`, `open` | the format reader, an opened export (core `Dataset`), the id `plate`, opening a file |
 | `TABLE_COLUMNS` | the long-form table columns `well,row,col,read,wavelength_nm,time_s,value` |
 | `export_asm`, `ASM_MANIFEST` | write an export as ASM plate-reader JSON; the manifest IRI declared |
-| `AsmExportReport`, `input`, `output`, `format`, `manifest`, `documents`, `measurements`, `values`, `errors`, `calculated`, `bytes_written`, `verified`, `notes` | report of `export --to asm`: paths, `asm`, manifest, counts of plate/well documents, measurement documents, numeric values, error documents and calculated values, size, read-back verification, notes |
+| `AsmExportReport`, `input`, `output`, `format`, `manifest`, `documents`, `measurements`, `values`, `errors`, `calculated`, `bytes_written`, `verified`, `notes` | report of `export --format asm`: paths, `asm`, manifest, counts of plate/well documents, measurement documents, numeric values, error documents and calculated values, size, read-back verification, notes |

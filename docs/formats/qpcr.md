@@ -6,7 +6,7 @@ Derived from public files, the RDML schema and change logs (MIT) and the RDML R 
 
 | format id | files | reads | confidence |
 | --- | --- | --- | --- |
-| `rdml` | `.rdml`, `.rdm` (zip), bare RDML `.xml` | everything but digital-PCR partitions; written by `export --to rdml` | high |
+| `rdml` | `.rdml`, `.rdm` (zip), bare RDML `.xml` | everything but digital-PCR partitions; written by `export --format rdml` | high |
 | `applied-biosystems-eds` | `.eds` (QuantStudio 1-7 Pro, 12K Flex, ViiA 7, StepOne(Plus), 7500) | setup, program, per-dye multicomponent signal, Rn/ΔRn, melt, vendor results | medium |
 | `bio-rad-pcrd` | `.pcrd` (CFX Maestro / CFX Manager) | detected and refused, exit 6: the container is encrypted with a key only the vendor software has; export RDML from CFX Maestro | — |
 | `rotor-gene-rex` | `.rex` (Rotor-Gene Q Series Software) | samples, raw cycling and melt readings, profile; no results are stored | low |
@@ -90,7 +90,7 @@ A zip with `rdml_data.xml` (RDML 1.1, read as above) and Roche members: `app_dat
 
 `vendor.lightcycler96` counts graphs, calls and replicate groups. A member that does not parse leaves the RDML data as it is, with a note. Checked against the depositors' table of the LightCycler 96 software's results for three files: every exported Cq, Cq mean and Cq error (108 wells, 36 groups), and no other reaction with a Cq.
 
-### Writing RDML (`export --to rdml`)
+### Writing RDML (`export --format rdml`)
 
 RDML 1.3 (REC), `rdml_data.xml` deflated in a zip. Every sample, target and dye is defined; a target without a dye refers to a dye `unknown`. Sample ids are the sample names; wells without one get `NTC`, `standard <quantity>` or `unnamed`, and a name used with conflicting types or quantities is split into `name (2)`, … . Tasks become RDML sample types (`type targetId=…` when they differ by target), quantities RDML quantities (unit `other` unless the source is RDML). Programs are flattened into RDML steps (a cycling stage ends in a `loop` back to its first step, `repeat` = repeats − 1; melt reads become `gradient` steps with `measure` `meltcurve`; RDML needs a positive `duration`, so a missing hold is written as 1 s and noted). Runs keep their plate format; reactions their position (`react@id` = row × columns + column + 1). Data: `tar`, `cq` (`-1` for "undetermined"), `N0`, `ampEff`, `ampEffSE`, `meltTemp` (first Tm), `excl`, `note`, `adp`, `mdp`, `bgFluor`; points with a repeated cycle or temperature are dropped (RDML requires them unique) and counted in the report notes. The file is written next to the output, read back with our RDML reader and compared (runs, reactions, data elements, every Cq bit for bit, point counts) before it is renamed into place; `oracle/qpcr.py --validate-rdml` validates it against the RDML schema with rdmlpython.
 

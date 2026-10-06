@@ -252,7 +252,7 @@ fn stats_json_human_and_selection() {
         s.contains("p50") && s.contains("saturated") && s.contains("image 0"),
         "{s}"
     );
-    // Not an image file: unsupported (6) with a hint towards `trace`/`export --to csv`.
+    // Not an image file: unsupported (6) with a hint towards `trace`/`export --format csv`.
     let out = bin().args(["stats", "--json"]).arg(&fcs).output().unwrap();
     assert_eq!(out.status.code(), Some(6));
     // Too many bins.

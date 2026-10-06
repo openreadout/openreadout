@@ -314,7 +314,7 @@ fn export_refuses_absurd_plane_counts() {
         let out = run(&[
             "export",
             p.to_str().unwrap(),
-            "--to",
+            "--format",
             to,
             "-o",
             d.join(format!("x.{to}")).to_str().unwrap(),

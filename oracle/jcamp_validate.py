@@ -1,4 +1,4 @@
-"""Check `openreadout export --to jcamp` output with nmrglue (BSD-3) and jcamp (MIT).
+"""Check `openreadout export --format jcamp` output with nmrglue (BSD-3) and jcamp (MIT).
 
 Usage:
     uv run python jcamp_validate.py OUT.jdx [--source FILE] [--openreadout BIN]
@@ -56,7 +56,7 @@ def main() -> int:
     want = None
     tol = None
     if a.source is not None:
-        rep = run(a.openreadout, "export", str(a.source), "--to", "jcamp", "-o", str(a.file),
+        rep = run(a.openreadout, "export", str(a.source), "--format", "jcamp", "-o", str(a.file),
                   "--overwrite", "--trace", str(a.trace), "--sweep", str(a.sweep))
         n = rep["samples_written"]
         tr = run(a.openreadout, "trace", str(a.source), "--trace", str(a.trace), "--sweep", str(a.sweep),

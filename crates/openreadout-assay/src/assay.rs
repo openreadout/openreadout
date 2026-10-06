@@ -57,10 +57,10 @@ pub fn user_layout(req: &AssayRequest) -> Result<Option<Layout>> {
             .transpose()
     };
     for (spec, name, role) in [
-        (&req.blank_wells, "--blank", Role::Blank),
-        (&req.positive_wells, "--positive", Role::Positive),
-        (&req.negative_wells, "--negative", Role::Negative),
-        (&req.empty_wells, "--empty", Role::Empty),
+        (&req.blank_wells, "--blank-wells", Role::Blank),
+        (&req.positive_wells, "--positive-wells", Role::Positive),
+        (&req.negative_wells, "--negative-wells", Role::Negative),
+        (&req.empty_wells, "--empty-wells", Role::Empty),
     ] {
         if let Some(w) = flag_wells(spec, name)? {
             out.set(&w, |i| {
@@ -709,7 +709,7 @@ fn blank_wells_for(wells: &[Well], mode: BlankMode) -> Result<Option<(&'static s
             return Ok(None);
         }
         return Err(usage(
-            "blank subtraction was requested but no well is a blank: mark blanks in the layout (role blank) or with --blank WELLS",
+            "blank subtraction was requested but no well is a blank: mark blanks in the layout (role blank) or with --blank-wells WELLS",
         ));
     }
     Ok(Some((method, blanks)))
@@ -786,7 +786,7 @@ fn endpoint(
     }
     // blank
     let mut blank_value = 0.0;
-    if let Some((method, blanks)) = blank_wells_for(wells, req.blank)? {
+    if let Some((method, blanks)) = blank_wells_for(wells, req.blank_subtraction)? {
         let v: Vec<f64> = blanks.iter().filter_map(|w| w.raw).collect();
         if let Some(b) = center(method, &v) {
             blank_value = b;
@@ -849,7 +849,7 @@ fn percent_of_controls(
     };
     let (Some(p), Some(n)) = (mean_of(Role::Positive), mean_of(Role::Negative)) else {
         return Err(usage(
-            "--normalize controls needs positive and negative control wells: mark them in the layout (role positive / negative), with --positive/--negative WELLS, or name their role with --role NAME=ROLE",
+            "--normalize controls needs positive and negative control wells: mark them in the layout (role positive / negative), with --positive-wells/--negative-wells WELLS, or name their role with --role NAME=ROLE",
         ));
     };
     if p == n {
@@ -1318,7 +1318,7 @@ fn time_course(
     }
     // blank per time point
     let mut blank_at: BTreeMap<u64, f64> = BTreeMap::new();
-    if let Some((method, blanks)) = blank_wells_for(wells, req.blank)? {
+    if let Some((method, blanks)) = blank_wells_for(wells, req.blank_subtraction)? {
         let mut by_t: BTreeMap<u64, Vec<f64>> = BTreeMap::new();
         for b in &blanks {
             for (t, v) in &series[&b.pos] {
@@ -1368,7 +1368,7 @@ fn time_course(
         let mut background = None;
         let y = if req.analysis == Analysis::Growth
             && blank_at.is_empty()
-            && req.blank != BlankMode::None
+            && req.blank_subtraction != BlankMode::None
         {
             let m = y
                 .iter()

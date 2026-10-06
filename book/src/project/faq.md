@@ -37,7 +37,7 @@ From files we are allowed to use, by reading hex dumps and comparing files that 
 `info`, `info --view structure` and `check --headers-only` read headers and directories only, so their time and memory do not grow with the pixel data. `export` and `check --planes` work one plane at a time, so peak memory is a few planes, not the file. For large exports, select what you need:
 
 ```bash
-openreadout export big.czi --to ome-zarr --image 0 --select c=0 --select t=0-9 -o subset.ome.zarr
+openreadout export big.czi --format ome-zarr --image 0 --select c=0 --select t=0-9 -o subset.ome.zarr
 ```
 
 OME-Zarr output is chunked and can include a pyramid. In Python, `File.to_dask()` decodes a plane only when a computation needs it. Measured numbers are on the [performance](performance.md) page.

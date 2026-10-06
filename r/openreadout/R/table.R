@@ -1,4 +1,4 @@
-# Tables, traces and spectra: the columns of `openreadout export --to parquet` as data frames.
+# Tables, traces and spectra: the columns of `openreadout export --format parquet` as data frames.
 
 .columnar <- function(h, kind, index, sweep = NULL, first_row = 0, last_row = NULL,
                       centroid = FALSE, max_rows = NULL) {

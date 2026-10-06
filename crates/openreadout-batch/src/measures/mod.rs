@@ -10,7 +10,9 @@ mod stats;
 mod table;
 mod trace;
 
-pub use analysis::{ANALYSIS_MEASURES, AnalysisMeasure, QpcrQuery, WellStatsQuery, parse_options};
+pub use analysis::{
+    ANALYSIS_MEASURES, AnalysisMeasure, QpcrQuery, WellStatsQuery, accepted_keys, parse_options,
+};
 pub use gate::GateMeasure;
 pub use info::{DEFAULT_INFO_FIELDS, InfoMeasure};
 pub use scans::ScansMeasure;

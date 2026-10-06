@@ -159,9 +159,9 @@ def bleach(c: Cli) -> tuple[object, str]:
 
 def zarr(c: Cli) -> tuple[object, str]:
     for s in ("stack_a", "stack_b"):
-        c.json("export", f"{D}/{s}.nd2", "--to", "ome-zarr", "-o", f"{D}/{s}.ome.zarr", "--overwrite")
+        c.json("export", f"{D}/{s}.nd2", "--format", "ome-zarr", "-o", f"{D}/{s}.ome.zarr", "--overwrite")
     z = c.json("info", f"{D}/stack_b.nd2")["images"][0]["physical_size"]["z"]
-    return f"{z} µm", "export --to ome-zarr ×2; info → images[0].physical_size.z"
+    return f"{z} µm", "export --format ome-zarr ×2; info → images[0].physical_size.z"
 
 
 def rdml(c: Cli) -> tuple[object, str]:

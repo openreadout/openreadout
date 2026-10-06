@@ -66,8 +66,9 @@ pub enum ToolView {
     Preview,
     /// `openreadout_spectra`: one spectrum when the call named one, else the chromatogram.
     Spectra,
-    /// `openreadout_analyze`: by analysis kind.
-    Analyze,
+    /// `openreadout_chromatogram`, `openreadout_peaks`: the chromatogram the call asked for,
+    /// with its peaks.
+    Chromatogram,
 }
 
 /// The tools whose results the viewer shows, and how it starts. Tools not listed here (export,
@@ -78,8 +79,37 @@ pub const TOOL_VIEWS: &[(&str, ToolView)] = &[
     ("openreadout_stats", ToolView::Kind(view::ViewKind::Image)),
     ("openreadout_trace", ToolView::Kind(view::ViewKind::Trace)),
     ("openreadout_spectra", ToolView::Spectra),
-    ("openreadout_analyze", ToolView::Analyze),
     ("openreadout_table", ToolView::Auto),
+    ("openreadout_chromatogram", ToolView::Chromatogram),
+    ("openreadout_peaks", ToolView::Chromatogram),
+    ("openreadout_nmr_peaks", ToolView::Kind(view::ViewKind::Nmr)),
+    (
+        "openreadout_ephys_features",
+        ToolView::Kind(view::ViewKind::Trace),
+    ),
+    ("openreadout_spikes", ToolView::Kind(view::ViewKind::Trace)),
+    ("openreadout_gate", ToolView::Kind(view::ViewKind::Fcs)),
+    (
+        "openreadout_assay_wells",
+        ToolView::Kind(view::ViewKind::Plate),
+    ),
+    (
+        "openreadout_assay_curve",
+        ToolView::Kind(view::ViewKind::Plate),
+    ),
+    (
+        "openreadout_dose_response",
+        ToolView::Kind(view::ViewKind::Plate),
+    ),
+    (
+        "openreadout_kinetics",
+        ToolView::Kind(view::ViewKind::Plate),
+    ),
+    ("openreadout_growth", ToolView::Kind(view::ViewKind::Plate)),
+    (
+        "openreadout_assay_qc",
+        ToolView::Kind(view::ViewKind::Plate),
+    ),
 ];
 
 fn tool_view(name: &str) -> Option<ToolView> {
@@ -238,13 +268,6 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
             hint.insert((*k).into(), v.clone());
         }
     }
-    let opt = |k: &str| {
-        args.get("options")
-            .and_then(Value::as_object)
-            .and_then(|o| o.get(k))
-            .filter(|v| !v.is_null())
-            .cloned()
-    };
     // `select` (preview, stats): channel, z and t of an image
     if let Some(Value::Array(sel)) = args.get("select") {
         view::select_into(sel, &mut hint);
@@ -278,40 +301,34 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
             }
         }
         ToolView::Spectra => {
-            for k in ["scan", "index"] {
-                if let Some(v) = args.get(k) {
-                    hint.insert(k.into(), v.clone());
-                }
+            if let Some(v) = args.get("scan") {
+                hint.insert("scan".into(), v.clone());
+            }
+            if let Some(v) = args.get("spectrum") {
+                hint.insert("index".into(), v.clone());
             }
             Some(
-                if args.get("scan").is_some() || args.get("index").is_some() {
+                if args.get("scan").is_some() || args.get("spectrum").is_some() {
                     K::Spectrum
                 } else {
                     K::Chromatogram
                 },
             )
         }
-        ToolView::Analyze => match args.get("kind").and_then(Value::as_str) {
-            Some("chromatogram" | "peaks") => {
-                for k in ["mz", "ppm", "run"] {
-                    if let Some(v) = opt(k) {
-                        hint.insert(k.into(), v);
-                    }
+        ToolView::Chromatogram => {
+            for k in ["mz", "ppm"] {
+                if let Some(v) = args.get(k).filter(|v| !v.is_null()) {
+                    hint.insert(k.into(), v.clone());
                 }
-                if let Some(Value::Array(t)) = opt("traces")
-                    && let Some(first) = t.first()
-                {
-                    hint.insert("trace".into(), first.clone());
-                }
-                hint.insert("peaks".into(), json!(true));
-                Some(K::Chromatogram)
             }
-            Some("nmr-peaks") => Some(K::Nmr),
-            Some("ephys-features" | "spikes") => Some(K::Trace),
-            Some("gate") => Some(K::Fcs),
-            Some("assay") => Some(K::Plate),
-            _ => None,
-        },
+            if let Some(Value::Array(t)) = args.get("traces")
+                && let Some(first) = t.first()
+            {
+                hint.insert("trace".into(), first.clone());
+            }
+            hint.insert("peaks".into(), json!(true));
+            Some(K::Chromatogram)
+        }
     };
     if let Some(k) = kind {
         hint.insert("view".into(), json!(k.name()));

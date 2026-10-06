@@ -11,7 +11,7 @@
     <command detect_errors="exit_code"><![CDATA[
 @LINK_INPUT@
 openreadout export '$input_name'
-    --to '$target.to'
+    --format '$target.to'
 #if $target.to == 'ome-tiff'
     -o out.ome.tiff
     --compression '$target.compression'

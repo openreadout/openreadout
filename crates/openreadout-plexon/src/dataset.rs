@@ -84,7 +84,7 @@ fn not_images() -> Error {
     Error::unsupported(
         FORMAT_ID,
         "image planes",
-        "Plexon files hold continuous signals, spikes and events: use `openreadout trace` for signals and `openreadout export --to csv --table N` for tables.",
+        "Plexon files hold continuous signals, spikes and events: use `openreadout trace` for signals and `openreadout export --format csv --table N` for tables.",
     )
 }
 

@@ -65,7 +65,7 @@ Value types: MS:1000521 32-bit float, MS:1000523 64-bit float, MS:1000519 32-bit
 
 ## Chromatograms → traces
 
-Each `chromatogram` is a trace with one sweep: `name` = `@id`, `sample_count` = `@defaultArrayLength`, `sample_rate_hz` = 0 (irregular sampling, `extra.irregular_sampling`), channels `time` (seconds, converted from the time array's unit; no unit = minutes), `intensity` (unit = the array's `unitName`), then any other arrays by name (e.g. `ms level`). `extra.chromatogram_type` / `_accession` name the type term (MS:1000235 TIC, MS:1000628 BPC, …); SRM chromatograms add `extra.precursor_mz`/`product_mz`. `export --to csv` writes them.
+Each `chromatogram` is a trace with one sweep: `name` = `@id`, `sample_count` = `@defaultArrayLength`, `sample_rate_hz` = 0 (irregular sampling, `extra.irregular_sampling`), channels `time` (seconds, converted from the time array's unit; no unit = minutes), `intensity` (unit = the array's `unitName`), then any other arrays by name (e.g. `ms level`). `extra.chromatogram_type` / `_accession` name the type term (MS:1000235 TIC, MS:1000628 BPC, …); SRM chromatograms add `extra.precursor_mz`/`product_mz`. `export --format csv` writes them.
 
 ## mzXML scan → `Spectrum`
 

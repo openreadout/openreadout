@@ -1,4 +1,4 @@
-//! `export --to csv`: one table (e.g. an FCS data set) to a CSV file, written to a temporary
+//! `export --format csv`: one table (e.g. an FCS data set) to a CSV file, written to a temporary
 //! file, read back and compared value by value, then renamed into place.
 //!
 //! Formatting and parsing numbers is most of the work, so both run on the rayon threads, in
@@ -135,10 +135,13 @@ fn read_back(
 /// What to export.
 #[derive(Debug, Clone, Default)]
 pub struct CsvOptions {
+    /// Table index (default 0).
     pub table: Option<u32>,
     /// Row range as given on the command line (`A-B`, `A-`, `A`; zero-based, inclusive).
     pub rows: Option<String>,
+    /// Add a second header line with column labels (FCS `$PnS`).
     pub labels: bool,
+    /// Replace an existing output file.
     pub overwrite: bool,
     /// Trace files: which sweep (default 0).
     pub sweep: Option<u32>,
@@ -218,6 +221,66 @@ fn temp_path(output: &Path) -> PathBuf {
     output.with_file_name(format!(".{name}.partial-{}", std::process::id()))
 }
 
+/// The export format a file gets when none is asked for: `mzml` for mass spectra, `csv` for
+/// tables and traces, `ome-tiff` for images (and anything else).
+pub fn default_export_format(info: &FileInfo) -> &'static str {
+    if info.images.is_empty() && !info.spectra.is_empty() {
+        "mzml"
+    } else if info.images.is_empty() && (!info.tables.is_empty() || !info.traces.is_empty()) {
+        "csv"
+    } else {
+        "ome-tiff"
+    }
+}
+
+/// The default CSV path next to `base`: `<stem>.csv`, or with `.table<T>`, `.trace<T>`,
+/// `.sweep<S>` when a table, trace or sweep other than the first is exported.
+pub fn default_output(base: &Path, opts: &CsvOptions) -> PathBuf {
+    let stem = base
+        .file_stem()
+        .map_or_else(|| "export".into(), |s| s.to_string_lossy().to_string());
+    base.with_file_name(match (opts.table, opts.trace, opts.sweep) {
+        (Some(t), _, _) if t > 0 => format!("{stem}.table{t}.csv"),
+        (_, Some(t), Some(s)) if t > 0 => format!("{stem}.trace{t}.sweep{s}.csv"),
+        (_, Some(t), _) if t > 0 => format!("{stem}.trace{t}.csv"),
+        (_, _, Some(s)) if s > 0 => format!("{stem}.sweep{s}.csv"),
+        _ => format!("{stem}.csv"),
+    })
+}
+
+/// What a CSV export wrote: a table, or one sweep of a trace.
+#[derive(Debug, Clone, serde::Serialize, schemars::JsonSchema)]
+#[serde(untagged)]
+pub enum CsvReport {
+    /// A table (FCS events, plate reads, event or peak tables).
+    Table(TableExportReport),
+    /// One sweep of a trace.
+    Trace(TraceExportReport),
+}
+
+/// Export a table or one sweep of a trace to `output`, whichever the file holds. A file with
+/// both (spectra with a per-spectrum table) exports the table unless `trace` or `sweep` asks
+/// for a trace, as Parquet and Arrow exports do.
+pub fn export(
+    ds: &mut dyn Dataset,
+    input: &Path,
+    output: &Path,
+    opts: &CsvOptions,
+) -> Result<CsvReport> {
+    if output == input {
+        return Err(Error::Usage(
+            "output path must differ from the input; raw files are never modified".into(),
+        ));
+    }
+    let info = ds.info()?;
+    let wants_trace = opts.table.is_none() && (opts.trace.is_some() || opts.sweep.is_some());
+    if !info.traces.is_empty() && (info.tables.is_empty() || wants_trace) {
+        return export_trace_csv(ds, &info, input, output, opts).map(CsvReport::Trace);
+    }
+    export_csv(ds, input, output, opts).map(CsvReport::Table)
+}
+
+/// Export one table to `output` (see [`export`], which also handles traces).
 pub fn export_csv(
     ds: &mut dyn Dataset,
     input: &Path,
@@ -235,7 +298,7 @@ pub fn export_csv(
         return Err(Error::unsupported(
             "csv",
             format!("CSV export of a {} file", info.format.name),
-            "This file holds images, not tables; use `--to ome-tiff`.",
+            "This file holds images, not tables; use `--format ome-tiff`.",
         ));
     }
     let table_index = opts.table.unwrap_or(0);
@@ -438,7 +501,7 @@ fn trace_column(name: &str, unit: Option<&str>) -> String {
     }
 }
 
-/// `export --to csv` of one sweep of a trace: `time_s` (seconds on the clock `trace` reports:
+/// `export --format csv` of one sweep of a trace: `time_s` (seconds on the clock `trace` reports:
 /// the trace's `start_s` + sample index / rate for a single sweep, from the sweep start for
 /// multi-sweep traces) and one column per channel in physical units; written to a temporary file,
 /// read back and compared, then renamed into place.

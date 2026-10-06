@@ -2021,6 +2021,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tempfile",
+ "xxhash-rust",
 ]
 
 [[package]]
@@ -2412,6 +2413,7 @@ dependencies = [
  "hyper",
  "hyper-util",
  "openreadout-arrow",
+ "openreadout-assay",
  "openreadout-batch",
  "openreadout-core",
  "openreadout-fcs",
@@ -2426,6 +2428,7 @@ dependencies = [
  "openreadout-plate",
  "openreadout-preview",
  "openreadout-qpcr",
+ "openreadout-quant",
  "openreadout-signal",
  "rayon",
  "rmcp",

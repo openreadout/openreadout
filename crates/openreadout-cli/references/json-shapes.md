@@ -77,11 +77,11 @@ CZI frame records are one per plane, ordered t, z, c: `{frame, c, z, t, acquired
 
 ## `export` → `ExportReport`
 
-`input, output, format ("ome-tiff" | "ome-zarr"), images_written, planes_written, bytes_written, verified, codec, ome_xml_bytes`. For `--to mzml` the report is `{input, output, format: "mzml", spectra_written, points_written, bytes_written, verified, view, sha1}`. For OME-Zarr `bytes_written` is the total size of the store directory, `codec` `deflate` means the Zarr `gzip` codec, and `ome_xml_bytes` is the size of `OME/METADATA.ome.xml` (0 when a single image was exported).
+`input, output, format ("ome-tiff" | "ome-zarr"), images_written, planes_written, bytes_written, verified, codec, ome_xml_bytes`. For `--format mzml` the report is `{input, output, format: "mzml", spectra_written, points_written, bytes_written, verified, view, sha1}`. For OME-Zarr `bytes_written` is the total size of the store directory, `codec` `deflate` means the Zarr `gzip` codec, and `ome_xml_bytes` is the size of `OME/METADATA.ome.xml` (0 when a single image was exported).
 
-`export --to csv` → `TableExportReport`: `input, output, format ("csv"), table, first_row, rows_written, columns_written, header_lines, bytes_written, verified`; for a trace → `TraceExportReport`: `input, output, format ("csv"), trace, sweep, first_sample, samples_written, channels_written, bytes_written, verified`.
+`export --format csv` → `TableExportReport`: `input, output, format ("csv"), table, first_row, rows_written, columns_written, header_lines, bytes_written, verified`; for a trace → `TraceExportReport`: `input, output, format ("csv"), trace, sweep, first_sample, samples_written, channels_written, bytes_written, verified`.
 
-`export --to csv` of a trace → `TraceExportReport`: `input, output, format ("csv"), trace, sweep, first_sample, samples_written, channels_written, bytes_written, verified`.
+`export --format csv` of a trace → `TraceExportReport`: `input, output, format ("csv"), trace, sweep, first_sample, samples_written, channels_written, bytes_written, verified`.
 
 ## `trace` (CLI) / `openreadout_trace` (MCP) → `TraceSlice`
 

@@ -258,7 +258,7 @@ fn bruker_directory_info_trace_export_and_truncation() {
         .map(|e| e["name"].as_str().unwrap().to_string())
         .collect();
     assert!(names.contains(&"fid".into()) && names.contains(&"pdata/1/procs".into()));
-    // export --to csv (default for traces), verified
+    // export --format csv (default for traces), verified
     let csv = dir.path().join("fid.csv");
     let out = bin()
         .args(["export", "--json", "-o"])
@@ -420,7 +420,7 @@ fn jcamp_info_trace_and_csv() {
     );
     let csv = dir.path().join("peaks.csv");
     let out = bin()
-        .args(["export", "--to", "csv", "-o"])
+        .args(["export", "--format", "csv", "-o"])
         .arg(&csv)
         .arg(&p)
         .output()
@@ -432,7 +432,7 @@ fn jcamp_info_trace_and_csv() {
     );
     // image export of a spectrum is refused with a hint (exit 6)
     let out = bin()
-        .args(["export", "--json", "--to", "ome-tiff", "-o"])
+        .args(["export", "--json", "--format", "ome-tiff", "-o"])
         .arg(dir.path().join("x.ome.tiff"))
         .arg(&p)
         .output()
@@ -488,7 +488,7 @@ fn chemstation_directory_info_trace_export_and_truncation() {
     assert!(kinds.contains(&"signal".into()) && kinds.contains(&"file".into()));
     let csv = dir.path().join("t.csv");
     let out = bin()
-        .args(["export", "--json", "--to", "csv", "-o"])
+        .args(["export", "--json", "--format", "csv", "-o"])
         .arg(&csv)
         .arg(&d)
         .output()
@@ -602,7 +602,7 @@ fn hdf5_family_detection_and_nwb_csv_export() {
         .args([
             "export",
             fx.join("synthetic-timeseries.nwb").to_str().unwrap(),
-            "--to",
+            "--format",
             "csv",
             "--trace",
             // trace 0 is the fixture's ElectricalSeries, 1 the temperature series
@@ -625,7 +625,7 @@ fn export_parquet_arrow_and_errors() {
     let fcs = tiny_fcs(dir.path());
     // default name next to the input, verified
     let out = bin()
-        .args(["export", "--json", "--to", "parquet"])
+        .args(["export", "--json", "--format", "parquet"])
         .arg(&fcs)
         .output()
         .unwrap();
@@ -648,7 +648,7 @@ fn export_parquet_arrow_and_errors() {
         .args([
             "export",
             "--json",
-            "--to",
+            "--format",
             "arrow",
             "--compression",
             "lz4",
@@ -671,12 +671,24 @@ fn export_parquet_arrow_and_errors() {
     assert_eq!(&std::fs::read(&arrow).unwrap()[..6], b"ARROW1");
     // existing output, snappy for Arrow, deflate for Parquet, --trace on a table file: usage (2)
     for args in [
-        vec!["--to", "parquet"],
-        vec!["--to", "arrow", "--compression", "snappy", "--overwrite"],
-        vec!["--to", "parquet", "--compression", "deflate", "--overwrite"],
-        vec!["--to", "parquet", "--trace", "0", "--overwrite"],
+        vec!["--format", "parquet"],
         vec![
-            "--to",
+            "--format",
+            "arrow",
+            "--compression",
+            "snappy",
+            "--overwrite",
+        ],
+        vec![
+            "--format",
+            "parquet",
+            "--compression",
+            "deflate",
+            "--overwrite",
+        ],
+        vec!["--format", "parquet", "--trace", "0", "--overwrite"],
+        vec![
+            "--format",
             "parquet",
             "--table",
             "0",
@@ -702,7 +714,7 @@ fn export_parquet_arrow_and_errors() {
         .unwrap();
     assert!(out.status.success());
     let out = bin()
-        .args(["export", "--json", "--to", "parquet"])
+        .args(["export", "--json", "--format", "parquet"])
         .arg(dir.path().join("doctor.tif"))
         .output()
         .unwrap();
@@ -710,7 +722,7 @@ fn export_parquet_arrow_and_errors() {
     // jcamp and nwb of a table file: unsupported (6)
     for to in ["jcamp", "nwb"] {
         let out = bin()
-            .args(["export", "--json", "--to", to])
+            .args(["export", "--json", "--format", to])
             .arg(&fcs)
             .output()
             .unwrap();
@@ -724,7 +736,7 @@ fn export_jcamp_of_a_bruker_fid_and_spectrum() {
     let exp = tiny_bruker(dir.path());
     let fid = dir.path().join("fid.jdx");
     let out = bin()
-        .args(["export", "--json", "--to", "jcamp", "-o"])
+        .args(["export", "--json", "--format", "jcamp", "-o"])
         .arg(&fid)
         .arg(&exp)
         .output()
@@ -755,7 +767,7 @@ fn export_jcamp_of_a_bruker_fid_and_spectrum() {
         .args([
             "export",
             "--json",
-            "--to",
+            "--format",
             "jcamp",
             "--trace",
             "1",
@@ -785,7 +797,7 @@ fn export_nwb_of_an_abf_file() {
     let dir = tempfile::tempdir().unwrap();
     let nwb = dir.path().join("cell.nwb");
     let out = bin()
-        .args(["export", "--json", "--to", "nwb", "--sweep", "2", "-o"])
+        .args(["export", "--json", "--format", "nwb", "--sweep", "2", "-o"])
         .arg(&nwb)
         .arg(&abf)
         .output()

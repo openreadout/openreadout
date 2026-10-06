@@ -222,6 +222,25 @@ pub fn run(reg: &Registry, a: &AnalyzeArgs) -> Result<(AnalyzeOutput, Option<Vec
         }
         AnalyzeKind::Assay => {
             let mut opts = o.clone();
+            // The MCP assay tools nest the rarely used plate options; the request is flat.
+            match opts.remove("plate_options") {
+                None | Some(Value::Null) => {}
+                Some(Value::Object(inner)) => {
+                    for (k, v) in inner {
+                        if opts.contains_key(&k) {
+                            return Err(Error::Usage(format!(
+                                "`{k}` is given twice, at the top level and in plate_options"
+                            )));
+                        }
+                        opts.insert(k, v);
+                    }
+                }
+                Some(other) => {
+                    return Err(Error::Usage(format!(
+                        "`plate_options` must be an object, got {other}"
+                    )));
+                }
+            }
             let plot = match opts.remove("plot") {
                 None => false,
                 Some(Value::Bool(b)) => b,

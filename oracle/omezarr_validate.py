@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Validate an OME-Zarr store written by `openreadout export --to ome-zarr` with third-party
+"""Validate an OME-Zarr store written by `openreadout export --format ome-zarr` with third-party
 readers, and compare its pixels with the source file as `openreadout check --planes --dump-dir` sees it.
 
     uv run python omezarr_validate.py STORE.ome.zarr SOURCE_FILE [--bin PATH] [--image N] [--planes K]

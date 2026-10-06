@@ -85,7 +85,7 @@ fn export_zarr(
     let mut args = vec![
         "export",
         src.to_str().unwrap(),
-        "--to",
+        "--format",
         "ome-zarr",
         "-o",
         out.to_str().unwrap(),
@@ -706,7 +706,7 @@ fn explain_nd2_czi_lif_fcs() {
                 .as_array()
                 .unwrap()
                 .iter()
-                .any(|c| c.as_str().unwrap().contains("--to csv")),
+                .any(|c| c.as_str().unwrap().contains("--format csv")),
             "{}",
             d["suggested_commands"]
         );
@@ -1558,7 +1558,7 @@ fn ome_zarr_round_trip_and_selected_exports_compare_identical() {
         let out = bin()
             .arg("export")
             .arg(&src)
-            .args(["--to", "ome-zarr", "-o"])
+            .args(["--format", "ome-zarr", "-o"])
             .arg(&zarr)
             .output()
             .unwrap();
@@ -1573,7 +1573,7 @@ fn ome_zarr_round_trip_and_selected_exports_compare_identical() {
     let out = bin()
         .arg("export")
         .arg(&src)
-        .args(["--to", "ome-zarr", "-o"])
+        .args(["--format", "ome-zarr", "-o"])
         .arg(&zarr)
         .output()
         .unwrap();
@@ -1594,7 +1594,7 @@ fn ome_zarr_round_trip_and_selected_exports_compare_identical() {
         let out = bin()
             .arg("export")
             .arg(&src)
-            .args(["--to", to, "--select", "z=1", "-o"])
+            .args(["--format", to, "--select", "z=1", "-o"])
             .arg(&out_path)
             .output()
             .unwrap();
@@ -1642,7 +1642,7 @@ fn ome_zarr_input_zip_store_and_export_round_trips() {
         .args([
             "export",
             src.to_str().unwrap(),
-            "--to",
+            "--format",
             "ome-zarr",
             "-o",
             dst.to_str().unwrap(),

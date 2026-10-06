@@ -800,7 +800,7 @@ pub struct TableFilterSummary {
     pub values: String,
 }
 
-/// Output of `export --to csv`.
+/// Output of `export --format csv`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct TableExportReport {
     /// The input file.
@@ -825,7 +825,7 @@ pub struct TableExportReport {
     pub verified: bool,
 }
 
-/// Output of `export --to csv` for a trace (one sweep: a time column plus one column per channel).
+/// Output of `export --format csv` for a trace (one sweep: a time column plus one column per channel).
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct TraceExportReport {
     /// The input file.

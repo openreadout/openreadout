@@ -1,4 +1,4 @@
-"""Check `openreadout export --to parquet|arrow` output with pyarrow (Apache-2.0).
+"""Check `openreadout export --format parquet|arrow` output with pyarrow (Apache-2.0).
 
 Usage:
     uv run python arrow_validate.py OUT.parquet|OUT.arrow [--source FILE] [--openreadout BIN]
@@ -8,7 +8,7 @@ Reads the file with pyarrow (Parquet or Arrow IPC file format), checks the file-
 per-column metadata (`unit` where the source has one, parseable `openreadout.provenance`), and,
 with --source, compares the values with what `openreadout` itself reads from the source:
 
-- tables: `openreadout export SOURCE --to csv --table N` (the CSV is parsed with pyarrow.csv)
+- tables: `openreadout export SOURCE --format csv --table N` (the CSV is parsed with pyarrow.csv)
 - traces: `openreadout trace SOURCE --trace N --sweep S --max-samples 100000 --json` for the
   first samples of every sweep
 - spectra: `openreadout spectra SOURCE --index I --json` for the first, middle and last scan,
@@ -85,7 +85,7 @@ def check(path: Path, source: Path | None, bin_: str) -> dict:
             csv = Path(d) / "t.csv"
             first = obj.get("first_row", 0)
             n = t.num_rows
-            args = ["export", str(source), "--to", "csv", "--table", str(obj["index"]), "-o", str(csv)]
+            args = ["export", str(source), "--format", "csv", "--table", str(obj["index"]), "-o", str(csv)]
             if n:
                 args += ["--rows", f"{first}-{first + n - 1}"]
             run(bin_, *args)

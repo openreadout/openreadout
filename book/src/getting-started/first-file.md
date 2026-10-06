@@ -59,7 +59,7 @@ A file that changed in the last five minutes may still be in the middle of an ac
 $ openreadout export mini.nd2 -o mini.ome.tiff
 wrote mini.ome.tiff (1 images, 2 planes, 2612 bytes, verified=true)
 
-$ openreadout export mini.nd2 --to ome-zarr -o mini.ome.zarr
+$ openreadout export mini.nd2 --format ome-zarr -o mini.ome.zarr
 wrote mini.ome.zarr (1 images, 2 planes, 2876 bytes, verified=true)
 ```
 

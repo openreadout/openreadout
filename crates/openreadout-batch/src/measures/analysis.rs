@@ -108,7 +108,9 @@ pub struct AnalysisMeasure {
 
 /// The property names a query type accepts (from its JSON Schema, following `allOf` and
 /// `$ref`, which is how `#[serde(flatten)]` fields appear).
-fn accepted_keys<T: JsonSchema>() -> BTreeSet<String> {
+/// The argument names a schema accepts: its properties, through references and `allOf`/`anyOf`/
+/// `oneOf` (flattened structs).
+pub fn accepted_keys<T: JsonSchema>() -> BTreeSet<String> {
     let schema = serde_json::to_value(schemars::schema_for!(T)).unwrap_or(J::Null);
     let mut keys = BTreeSet::new();
     let defs = schema

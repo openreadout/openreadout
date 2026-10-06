@@ -1,4 +1,4 @@
-//! JCAMP-DX writer (`export --to jcamp`): one trace (an NMR FID or spectrum, a JCAMP-DX
+//! JCAMP-DX writer (`export --format jcamp`): one trace (an NMR FID or spectrum, a JCAMP-DX
 //! spectrum, a chromatogram, ...) as `##XYDATA=(X++(Y..Y))` when it has one channel and one
 //! sweep, otherwise as `##NTUPLES=` pages (one page per channel and sweep; complex NMR data as
 //! the `R`/`I` pages of JCAMP-DX 5.01). Ordinates are written as integers times a per-channel
@@ -75,7 +75,7 @@ pub struct JcampExportOptions {
     pub overwrite: bool,
 }
 
-/// Output of `export --to jcamp`.
+/// Output of `export --format jcamp`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct JcampExportReport {
     /// The input file.
@@ -566,7 +566,7 @@ pub fn export_jcamp(
             if info.tables.is_empty() {
                 "JCAMP-DX export writes spectra and FIDs (traces); this file holds none."
             } else {
-                "JCAMP-DX export writes spectra and FIDs (traces); export tables with `--to csv` or `--to parquet`."
+                "JCAMP-DX export writes spectra and FIDs (traces); export tables with `--format csv` or `--format parquet`."
             },
         ));
     }
@@ -574,7 +574,7 @@ pub fn export_jcamp(
         return Err(Error::unsupported(
             "jcamp-dx",
             format!("JCAMP-DX export of a {} file", info.format.name),
-            "JCAMP-DX is a spectroscopy format; export electrophysiology traces with `--to nwb`, `--to parquet` or `--to csv`.",
+            "JCAMP-DX is a spectroscopy format; export electrophysiology traces with `--format nwb`, `--format parquet` or `--format csv`.",
         ));
     }
     let ti = opts.trace.unwrap_or(0);
@@ -668,7 +668,7 @@ pub fn export_jcamp(
         return Err(Error::unsupported(
             "jcamp-dx",
             format!("JCAMP-DX export of non-finite values ({v} in channel {c})"),
-            "JCAMP-DX (X++(Y..Y)) tables hold finite numbers; export with `--to csv` or `--to parquet` instead.",
+            "JCAMP-DX (X++(Y..Y)) tables hold finite numbers; export with `--format csv` or `--format parquet` instead.",
         ));
     }
     let source_name = input.file_name().map_or_else(
@@ -982,7 +982,7 @@ fn export_groups(
                 t.channels.len(),
                 sweeps.len()
             ),
-            "(XY..XY) tables are written for two columns (x, y) and one sweep: pass --sweep N, or export with `--to csv` or `--to parquet`.",
+            "(XY..XY) tables are written for two columns (x, y) and one sweep: pass --sweep N, or export with `--format csv` or `--format parquet`.",
         ));
     }
     let (x, y) = (&data[0], &data[1]);

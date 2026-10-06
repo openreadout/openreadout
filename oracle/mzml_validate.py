@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Validate an mzML written by `openreadout export --to mzml`.
+"""Validate an mzML written by `openreadout export --format mzml`.
 
 Usage: uv run python mzml_validate.py OURS.mzML [REFERENCE.mzML|.mzXML] [--xsd]
 

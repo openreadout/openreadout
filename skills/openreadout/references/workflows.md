@@ -31,7 +31,7 @@ Large file? Export one image and one timepoint: `--image 0 --select t=0`.
 Chunked and multiscale instead (napari, web viewers, cloud storage):
 
 ```bash
-openreadout export run42.czi --to ome-zarr -o run42.ome.zarr --json
+openreadout export run42.czi --format ome-zarr -o run42.ome.zarr --json
 ```
 
 ```python

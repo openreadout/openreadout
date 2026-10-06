@@ -11,7 +11,7 @@ OpenReadout can turn NMR FIDs into spectra, pick peaks and integrate regions. Th
   `--from fid` always processes the FID; `--from processed` only uses a stored spectrum.
 - `trace/export/preview --process` present every complex FID trace as its processed spectrum
   (same trace index; channels `real`, `imag`, or `magnitude`; `extra.kind = processed_spectrum`,
-  `extra.axis` in ppm), so `export --process --to jcamp|csv|parquet` writes the spectrum.
+  `extra.axis` in ppm), so `export --process --format jcamp|csv|parquet` writes the spectrum.
 
 Only 1-D processing is done: a `ser` or arrayed FID is processed row by row (`--sweep`), the
 indirect dimension of 2-D data is not transformed.

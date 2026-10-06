@@ -390,7 +390,7 @@ fn threads_give_identical_exports() {
     ] {
         let o = dir.join(format!("t{n}.{ext}"));
         let out = bin()
-            .args(["--threads", n, "export", "--to", to, "-o"])
+            .args(["--threads", n, "export", "--format", to, "-o"])
             .arg(&o)
             .arg(&src)
             .output()

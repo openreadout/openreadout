@@ -275,8 +275,7 @@ pub fn get_prompt(name: &str, args: Option<&JsonObject>) -> Result<GetPromptResu
                      2. Tell me the size of the job (images and planes, or spectra, rows, sweeps). For very large image files suggest a selection (image, c/z/t) or OME-Zarr.\n\
                      3. Call openreadout_export with the format{out}. \
                      It writes a new file, reads it back and verifies it, and never modifies the source. \
-                     For CSV, which openreadout_export does not write, give me the command `openreadout export {file} --to csv` \
-                     (with --table N or --trace N --sweep N) to run, and show a sample with openreadout_table or openreadout_trace.\n\
+                     For CSV, pick the table or the trace and sweep (table, or trace and sweep).\n\
                      4. Report the output path, what was written, bytes, and whether `verified` is true."
                 ),
             )

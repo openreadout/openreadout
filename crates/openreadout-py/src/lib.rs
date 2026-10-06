@@ -834,7 +834,7 @@ impl NativeFile {
         serde_json::to_string(&r).map_err(json_err)
     }
     /// A table, a trace (every sweep, or one) or the spectra of a run as a `pyarrow.Table`,
-    /// with the same columns and field/schema metadata as `export --to parquet`. The record
+    /// with the same columns and field/schema metadata as `export --format parquet`. The record
     /// batches are handed over through the Arrow C data interface (no copy). `per_scan=True`
     /// (with `spectra=True`) returns the per-scan summary instead of the points. `max_rows`
     /// caps the rows read (an error beyond it).

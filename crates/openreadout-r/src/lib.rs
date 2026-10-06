@@ -649,7 +649,7 @@ fn rs_read_planes(
 // ---------------------------------------------------------------------------------------------
 // Tables, traces, spectra
 
-/// A table, a trace or the spectra of a run as columns (the columns of `export --to parquet`):
+/// A table, a trace or the spectra of a run as columns (the columns of `export --format parquet`):
 /// `list(columns = <named list of vectors>, meta = <JSON: per-column unit/label/dtype, schema
 /// metadata>)`. `kind` is `table`, `trace`, `spectra` or `scans` (the per-scan summary).
 #[extendr]

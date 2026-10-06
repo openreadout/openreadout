@@ -3,8 +3,9 @@
 //! sees one schema whichever way it calls us.
 //!
 //! MCP is the protocol AI assistants (Claude, Cursor, VS Code, ...) use to call local tools.
-//! The server offers one tool per kind of question (`openreadout_info`, `openreadout_stats`,
-//! `openreadout_analyze`, `openreadout_export`, ...), named like the CLI commands, resources (`openreadout://formats`,
+//! The server offers one tool per operation (`openreadout_info`, `openreadout_stats`,
+//! `openreadout_peaks`, `openreadout_export`, ...), named like the CLI commands and taking the
+//! CLI flags' names as arguments, resources (`openreadout://formats`,
 //! `openreadout://file/{path}`) and prompts; `book/src/reference/mcp.md` in the repository lists them.
 //!
 //! # Cargo features
@@ -135,7 +136,7 @@ impl InstrumentServer {
 }
 
 /// Server instructions sent at initialization.
-pub const INSTRUCTIONS: &str = "OpenReadout reads raw lab-instrument files and data-set directories (microscopy, screening plates, flow cytometry, electrophysiology, NMR, mass spectrometry, chromatography, spectroscopy, plate readers, qPCR, bench instruments) without vendor software. Indices are zero-based. Values are raw as stored unless a tool says it processed them; each file reports an assurance level, and strict=true refuses values that are not validated. Only openreadout_export writes next to the data, always to new files that are read back and verified; openreadout_index, openreadout_batch and openreadout_check write only to paths you give them. Errors carry a code and a hint.";
+pub const INSTRUCTIONS: &str = "OpenReadout reads raw lab-instrument files and data-set directories (microscopy, screening plates, flow cytometry, electrophysiology, NMR, mass spectrometry, chromatography, spectroscopy, plate readers, qPCR, bench instruments) without vendor software. Indices are zero-based. Values are raw as stored unless a tool says it processed them; each file reports an assurance level, and strict=true refuses values that are not validated. Only openreadout_export writes next to the data, always to new files that are read back and verified; openreadout_index, openreadout_batch and openreadout_report write only to paths you give them. Tools are the commands of the openreadout CLI and arguments are its flags (analyze nmr-peaks --range-ppm is openreadout_nmr_peaks with range_ppm). Errors carry a code and a hint.";
 
 // The trait's methods are async; resources and prompts are answered without awaiting.
 #[allow(clippy::unused_async_trait_impl)]
@@ -283,17 +284,52 @@ mod tests {
     fn every_tool_is_annotated() {
         let s = InstrumentServer::new(Registry::new);
         let tools = s.tool_router.list_all();
-        assert_eq!(tools.len(), 15);
+        let mut names: Vec<&str> = tools.iter().map(|t| t.name.as_ref()).collect();
+        names.sort_unstable();
+        assert_eq!(
+            names,
+            [
+                "openreadout_assay_curve",
+                "openreadout_assay_qc",
+                "openreadout_assay_wells",
+                "openreadout_batch",
+                "openreadout_check",
+                "openreadout_chromatogram",
+                "openreadout_compare",
+                "openreadout_dose_response",
+                "openreadout_ephys_features",
+                "openreadout_export",
+                "openreadout_formats",
+                "openreadout_gate",
+                "openreadout_growth",
+                "openreadout_index",
+                "openreadout_info",
+                "openreadout_kinetics",
+                "openreadout_link",
+                "openreadout_nmr_peaks",
+                "openreadout_peaks",
+                "openreadout_preview",
+                "openreadout_qpcr",
+                "openreadout_report",
+                "openreadout_search",
+                "openreadout_spectra",
+                "openreadout_spikes",
+                "openreadout_stats",
+                "openreadout_table",
+                "openreadout_trace",
+                "openreadout_watch",
+            ]
+        );
         for t in &tools {
             let a = t
                 .annotations
                 .as_ref()
                 .unwrap_or_else(|| panic!("{} has no annotations", t.name));
-            // `index` writes only its own index directory and `check` (report=true) only its
-            // own new bundle file: not read-only, not destructive.
+            // `index` writes only its own index directory and `report` only its own new bundle
+            // file: not read-only, not destructive.
             let overwrites = matches!(t.name.as_ref(), "openreadout_export" | "openreadout_batch");
             let writes =
-                overwrites || t.name == "openreadout_index" || t.name == "openreadout_check";
+                overwrites || t.name == "openreadout_index" || t.name == "openreadout_report";
             assert!(a.title.is_some(), "{}", t.name);
             assert_eq!(a.read_only_hint, Some(!writes), "{}", t.name);
             assert_eq!(a.destructive_hint, Some(overwrites), "{}", t.name);
@@ -532,14 +568,17 @@ mod tests {
     async fn preview_reports_the_ruler_mapping() {
         let s = InstrumentServer::new(synth_registry);
         let f = synth_file("preview", 3000, 2000);
-        let args = |axes: Option<bool>, region: Option<openreadout_core::Region>| {
+        let args = |axes: openreadout_preview::Axes, region: Option<openreadout_core::Region>| {
             let v = serde_json::json!({"file": f.display().to_string(), "max_size": 400});
             let mut a: PreviewArgs = serde_json::from_value(v).unwrap();
             a.axes = axes;
             a.region = region;
             Parameters(a)
         };
-        let r = s.preview(args(None, None)).await.unwrap();
+        let r = s
+            .preview(args(openreadout_preview::Axes::Rulers, None))
+            .await
+            .unwrap();
         let v = r.structured_content.clone().unwrap();
         let im = &v["image"];
         assert_eq!(im["axes"], true);
@@ -552,7 +591,10 @@ mod tests {
         assert!(v["width"].as_u64().unwrap() <= 400);
         // a zoom read off the rulers comes back with the same numbers
         let zoom = openreadout_core::Region::new(1000, 500, 800, 600);
-        let r = s.preview(args(None, Some(zoom))).await.unwrap();
+        let r = s
+            .preview(args(openreadout_preview::Axes::Rulers, Some(zoom)))
+            .await
+            .unwrap();
         let v = r.structured_content.unwrap();
         assert_eq!(
             v["image"]["full_res_region"],
@@ -562,8 +604,11 @@ mod tests {
             v["image"]["source_origin"],
             serde_json::json!({"x": 1000.0, "y": 500.0})
         );
-        // axes=false: the bare plane fills the picture
-        let r = s.preview(args(Some(false), None)).await.unwrap();
+        // axes=none: the bare plane fills the picture
+        let r = s
+            .preview(args(openreadout_preview::Axes::None, None))
+            .await
+            .unwrap();
         let v = r.structured_content.unwrap();
         assert_eq!(v["image"]["axes"], false);
         assert_eq!(v["image"]["plot_area"]["width"], v["width"]);

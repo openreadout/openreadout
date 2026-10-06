@@ -47,7 +47,7 @@ fn thermo_raw_info_spectrum_export_and_truncation() {
         .args([
             "export",
             f,
-            "--to",
+            "--format",
             "mzml",
             "--centroid",
             "--overwrite",
@@ -121,7 +121,7 @@ fn waters_full_scan_spectrum_export_and_truncation() {
     std::fs::create_dir_all(&dir).unwrap();
     let o = dir.join("waters.mzML");
     let out = bin()
-        .args(["export", f, "--to", "mzml", "--overwrite", "-o"])
+        .args(["export", f, "--format", "mzml", "--overwrite", "-o"])
         .arg(&o)
         .arg("--json")
         .output()
@@ -292,7 +292,7 @@ fn mzml_to_mzml_keeps_instrument_terms_and_chromatograms() {
     let out = bin()
         .arg("export")
         .arg(&src)
-        .args(["--to", "mzml", "-o"])
+        .args(["--format", "mzml", "-o"])
         .arg(&out_path)
         .output()
         .unwrap();

@@ -401,7 +401,7 @@ impl Dataset for PlateDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "image planes",
-            "Plate-reader exports hold well values, not images: use `openreadout export FILE --to csv` (or `--to asm`) or the openreadout_table MCP tool.",
+            "Plate-reader exports hold well values, not images: use `openreadout export FILE --format csv` (or `--format asm`) or the openreadout_table MCP tool.",
         ))
     }
 
