@@ -38,12 +38,16 @@ jobs:
             cargo xtask version-check
           fi
 
+  # Builds, signs (when the signing secrets are set) and packages one target. The `signing`
+  # environment holds the Apple secrets and gives the Azure federated credential a fixed subject
+  # (repo:openreadout/openreadout:environment:signing); see docs/release-process.md.
   build:
     name: ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
+    environment: signing
     permissions:
       contents: read
-      id-token: write
+      id-token: write  # build provenance attestations, and the Azure login for Windows signing
       attestations: write
     strategy:
       fail-fast: false
@@ -74,6 +78,46 @@ jobs:
       - name: Build
         shell: bash
         run: cargo build --release --locked -p openreadout --target "$TARGET"
+      # Signs the binary in place before it is packaged, so the archive, the .mcpb bundle and the
+      # npm platform package all carry the signed copy. Without the secrets the script prints a
+      # notice and the binary keeps the linker's ad-hoc signature.
+      - name: Sign and notarize (macOS, needs the Apple secrets)
+        if: runner.os == 'macOS'
+        env:
+          APPLE_DEVELOPER_ID_P12_BASE64: ${{ secrets.APPLE_DEVELOPER_ID_P12_BASE64 }}
+          APPLE_DEVELOPER_ID_P12_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_P12_PASSWORD }}
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
+          APPLE_API_KEY_P8_BASE64: ${{ secrets.APPLE_API_KEY_P8_BASE64 }}
+          APPLE_TEAM_ID: RHCS4LNWL7  # the Developer ID team; a certificate from another team fails the step
+        run: scripts/macos-sign.sh "target/$TARGET/release/openreadout"
+      # Windows: Azure Artifact Signing (formerly Trusted Signing), only when the repository
+      # variable AZURE_SIGNING_ACCOUNT is set. The login uses OpenID Connect, so no client secret.
+      - name: Azure login (Windows signing)
+        if: runner.os == 'Windows' && vars.AZURE_SIGNING_ACCOUNT != ''
+        uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Sign (Windows, Azure Artifact Signing)
+        if: runner.os == 'Windows' && vars.AZURE_SIGNING_ACCOUNT != ''
+        uses: azure/artifact-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2.0.0
+        with:
+          endpoint: ${{ vars.AZURE_SIGNING_ENDPOINT }}
+          signing-account-name: ${{ vars.AZURE_SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ vars.AZURE_CERTIFICATE_PROFILE }}
+          files: ${{ github.workspace }}\target\${{ matrix.target }}\release\openreadout.exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+      - name: Check the Windows signature
+        if: runner.os == 'Windows' && vars.AZURE_SIGNING_ACCOUNT != ''
+        shell: pwsh
+        run: |
+          $sig = Get-AuthenticodeSignature "target\$env:TARGET\release\openreadout.exe"
+          $sig | Format-List Status, StatusMessage, SignerCertificate, TimeStamperCertificate
+          if ($sig.Status -ne 'Valid') { throw "openreadout.exe signature status: $($sig.Status)" }
       - name: Package
         shell: bash
         run: |
@@ -261,7 +305,7 @@ jobs:
 
   release:
     name: GitHub release
-    needs: [version-check, build, sbom, wheels, sdist, homebrew]
+    needs: [version-check, build, sbom, wheels, sdist, homebrew, npm-packages]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -273,8 +317,14 @@ jobs:
         with:
           path: artifacts
           merge-multiple: true
-      - name: Drop run-only artifacts (winget manifest tree, agent-plugins tree)
-        run: rm -rf artifacts/manifests artifacts/agent-plugins
+      # Release assets are the top-level files. Directories hold run-only artifacts (the winget
+      # manifest tree, the agent-plugins tree, the npm tarballs), and docker/build-push-action
+      # uploads its build records (*.dockerbuild) when the docker job happens to finish first.
+      - name: Drop run-only artifacts
+        run: |
+          find artifacts -mindepth 1 -maxdepth 1 -type d -print -exec rm -rf {} +
+          find artifacts -maxdepth 1 -name '*.dockerbuild' -print -delete
+          ls -l artifacts
       - name: Checksums
         run: |
           cd artifacts && sha256sum ./* | sed 's# \./# #' > SHA256SUMS && cat SHA256SUMS
@@ -546,25 +596,67 @@ jobs:
         # published with a token; trusted publishing can be configured per crate afterwards.
         run: scripts/publish-crates.sh  # zizmor: ignore[use-trusted-publishing]
 
-  # npm wrapper (packaging/npm). Off until PUBLISH_NPM == 'true'. Trusted publishing (OIDC, no
-  # token): the first version is published by hand, then a trusted publisher is configured on
-  # npmjs.com (org openreadout, repo openreadout, workflow release.yml, environment npm). Runs
-  # after the release exists, because installing the package downloads the release binary.
+  # npm (packaging/npm): `openreadout` holds the launcher and lists one platform package per
+  # target (@openreadout/cli-<os>-<cpu>, the binary from that target's archive) as an optional
+  # dependency. This job builds and packs all six on every run and installs them from a local
+  # registry with npm, pnpm and `npx -y`. It has no id-token, because it runs third-party code
+  # (Verdaccio, pnpm); publish-npm only uploads the tarballs.
+  npm-packages:
+    name: npm packages
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+          package-manager-cache: false  # no caches in release jobs
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: "{x86_64,aarch64}-*"  # the per-target build artifacts
+          path: archives
+          merge-multiple: true
+      # The tarballs go one level down so the artifact holds an npm/ directory, which the release
+      # job drops after merging every artifact.
+      - name: Test, build the platform packages, pack
+        working-directory: packaging/npm
+        run: |
+          set -e
+          npm test
+          out="$RUNNER_TEMP/npm-artifact/npm"
+          mkdir -p "$out"
+          node scripts/platform-packages.js --archives "$GITHUB_WORKSPACE/archives" --out "$RUNNER_TEMP/platform"
+          for d in "$RUNNER_TEMP"/platform/*/; do npm pack "$d" --pack-destination "$out"; done
+          npm pack --pack-destination "$out"
+          ls -l "$out"
+      - name: Install from a local registry with npm, pnpm and npx -y; run --version and an MCP handshake
+        run: packaging/npm/scripts/smoke-test.sh "$RUNNER_TEMP/npm-artifact/npm" all
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: npm-packages
+          path: ${{ runner.temp }}/npm-artifact
+
+  # Publishes the tarballs from npm-packages: the platform packages first, then openreadout, which
+  # depends on them. Off until PUBLISH_NPM == 'true'. Trusted publishing (OIDC, no token) with
+  # provenance; each of the six packages needs its trusted publisher on npmjs.com (organization
+  # openreadout, repository openreadout, workflow release.yml, environment npm), and a package
+  # must exist before it can have one, so the first version of each is published by hand. Versions
+  # already on npm are skipped, so a failed job can be re-run.
   publish-npm:
     name: publish to npm
-    needs: [release]
+    needs: [release, npm-packages]
     if: vars.PUBLISH_NPM == 'true' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     environment:
       name: npm
       url: https://www.npmjs.com/package/openreadout
     permissions:
-      contents: read
       id-token: write  # npm trusted publishing (OIDC) and provenance
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "22"
@@ -574,19 +666,29 @@ jobs:
         run: | # zizmor: ignore[adhoc-packages] (the npm CLI itself)
           npm install -g npm@^11.5.1
           npm --version
-      - name: Test, then check that the released binary installs through the package
-        working-directory: packaging/npm
-        run: | # zizmor: ignore[adhoc-packages] (installs the tarball just packed)
-          set -e
-          npm test
-          npm pack
-          mkdir -p /tmp/npm-smoke && cd /tmp/npm-smoke
-          npm init -y >/dev/null
-          npm install "$GITHUB_WORKSPACE"/packaging/npm/openreadout-*.tgz
-          npx --no-install openreadout --version
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: npm-packages
+          path: tarballs
       - name: Publish (trusted publishing; no NODE_AUTH_TOKEN)
-        working-directory: packaging/npm
-        run: npm publish --provenance --access public
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          version="${TAG#v}"
+          cd tarballs/npm
+          publish() { # $1 = package name, $2 = tarball
+            if npm view "$1@$version" version >/dev/null 2>&1; then
+              echo "$1@$version is already on npm"
+            else
+              npm publish "$2" --provenance --access public
+            fi
+          }
+          for f in openreadout-cli-*-"$version".tgz; do
+            p="${f%-"$version".tgz}"           # openreadout-cli-linux-x64
+            publish "@openreadout/${p#openreadout-}" "$f"
+          done
+          publish openreadout "openreadout-$version.tgz"
 
   # MCP Registry entry io.github.openreadout/openreadout. Off until PUBLISH_MCP_REGISTRY == 'true'.
   # GitHub OIDC login grants the io.github.openreadout namespace without a token. It publishes the

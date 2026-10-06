@@ -26,6 +26,11 @@ disabled-strategies = ["quick-install"]
 [package.metadata.binstall.overrides.x86_64-pc-windows-msvc]
 pkg-fmt = "zip"
 
+# Windows on Arm runs the x64 build under emulation.
+[package.metadata.binstall.overrides.aarch64-pc-windows-msvc]
+pkg-url = "{ repo }/releases/download/v{ version }/openreadout-x86_64-pc-windows-msvc.zip"
+pkg-fmt = "zip"
+
 [package.metadata.binstall.overrides.x86_64-unknown-linux-gnu]
 pkg-url = "{ repo }/releases/download/v{ version }/openreadout-x86_64-unknown-linux-musl.tar.gz"
 

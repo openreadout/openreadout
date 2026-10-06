@@ -85,7 +85,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_zvi`
-- corpus inputs by tier: full 1, heldout 1, smoke 3, standard 12
+- corpus inputs by tier: full 1, heldout 2, smoke 3, standard 12
 - golden snapshots: [`corpus/snapshots/zvi.jsonl`](../../corpus/snapshots/zvi.jsonl)
 
 ### Open new-variant intakes

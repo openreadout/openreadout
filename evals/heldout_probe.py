@@ -138,7 +138,12 @@ def compare(info: dict, oracle: dict) -> tuple[list[str], list[str]]:
                     [text_or_none(c.get("name")) for c in im.get("channels", [])],
                     [text_or_none(n) for n in oi["channel_names"]],
                 )
-    if oracle.get("traces"):
+    series = bool(oracle.get("traces")) and all("trace" in ot and "samples" in ot for ot in oracle["traces"])
+    if series:
+        # oracle/series_oracle.py writes one entry per channel (or per reader) of a trace, with
+        # its index in `trace`; the corpus test compares their samples
+        cmp("trace count", len(info.get("traces", [])), len({ot["trace"] for ot in oracle["traces"]}))
+    elif oracle.get("traces"):
         tr = info.get("traces", [])
         cmp("trace count", len(tr), len(oracle["traces"]))
         for k, ot in enumerate(oracle["traces"]):

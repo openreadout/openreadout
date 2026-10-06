@@ -92,7 +92,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/fixtures.rs`](tests/fixtures.rs)
 - committed fixtures: 14 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_zarr_zip`, `whole_zarr`
-- corpus inputs by tier: smoke 1, standard 6
+- corpus inputs by tier: heldout 1, smoke 1, standard 6
 - golden snapshots: [`corpus/snapshots/ome-zarr.jsonl`](../../corpus/snapshots/ome-zarr.jsonl)
 
 ### Open new-variant intakes

@@ -33,7 +33,7 @@ Runs spend model usage, so they are started by hand. CI only checks the harness:
 
 By family: microscopy 62, electron microscopy 10, flow cytometry 23, electrophysiology 25, NMR 17, mass spectrometry 39, chromatography 43, plate readers 32, high-content screening 15, qPCR 17, vibrational spectroscopy 15, bench instruments 21, share 2.
 
-Every question has a `split`: `dev` (185) or `test` (136). The split is a hash of the question's corpus file, so all questions about one file land on the same side. The `heldout` (191 questions, `questions/heldout.jsonl`) split asks about files from sources no reader was developed on.
+Every question has a `split`: `dev` (185) or `test` (136). The split is a hash of the question's corpus file, so all questions about one file land on the same side. The `heldout` (353 questions, `questions/heldout.jsonl`) split asks about files from sources no reader was developed on.
 
 ## Where the answers come from
 

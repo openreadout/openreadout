@@ -2363,7 +2363,12 @@ def load_oracle(corpus_id: str) -> dict:
     return g.share.oracle_json.load(ORACLE_DIR / f"{corpus_id}.json")  # <id>.json, or <id>.json.gz over 1 MiB
 
 
+_PREVIEW_FACTS: dict | None = None  # --only: facts computed in this run, not read from OUT
+
+
 def load_facts() -> dict:
+    if _PREVIEW_FACTS is not None:
+        return _PREVIEW_FACTS
     with OUT.open() as fh:
         return json.load(fh)
 
@@ -2414,6 +2419,13 @@ C.update(heldout_draw_c.C)
 FACTS += heldout_draw_c.facts(Fact, sys.modules[__name__])
 SPECS += heldout_draw_c.specs(spec, fact, g, sys.modules[__name__])
 
+# ------------------------------------------------------------ held-out draw D (2026-10-06, evals/heldout_draw_d.py)
+import heldout_draw_d  # noqa: E402
+
+C.update(heldout_draw_d.C)
+FACTS += heldout_draw_d.facts(Fact, sys.modules[__name__])
+SPECS += heldout_draw_d.specs(spec, fact, g, sys.modules[__name__])
+
 
 def build_question(manifest: dict, spec: g.Spec) -> dict:
     """generate.build_question, reading the held-out oracle and facts instead."""
@@ -2459,10 +2471,31 @@ def build_all(manifest: dict) -> list[dict]:
     return [build_question(manifest, s) for s in SPECS]
 
 
+def preview(only: str) -> int:
+    """Compute the facts of the ids containing `only` and print the questions about them."""
+    global FACTS, _PREVIEW_FACTS
+
+    FACTS = [f for f in FACTS if only in f.corpus_id]
+    _PREVIEW_FACTS = compute()
+    manifest = g.load_manifest()
+    for s in SPECS:
+        if only in s.corpus_id:
+            print(json.dumps(build_question(manifest, s), ensure_ascii=False))
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--check", action="store_true", help="exit 1 if evals/facts/heldout.json is out of date")
+    ap.add_argument(
+        "--only",
+        metavar="TEXT",
+        help="compute only the facts of held-out ids containing TEXT and print them with the questions "
+        "about those ids; writes nothing (for checking new facts and questions)",
+    )
     args = ap.parse_args()
+    if args.only:
+        return preview(args.only)
     text = render(compute())
     if args.check:
         if not OUT.exists() or OUT.read_text(encoding="utf-8") != text:

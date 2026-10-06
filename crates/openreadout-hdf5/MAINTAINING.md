@@ -132,7 +132,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/fixtures.rs`](tests/fixtures.rs), [`tests/nwb_export.rs`](tests/nwb_export.rs)
 - committed fixtures: 11 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_hdf5`, `whole_ims`, `whole_nwb`
-- corpus inputs by tier: heldout 5, smoke 13, standard 8
+- corpus inputs by tier: heldout 8, smoke 13, standard 8
 - golden snapshots: [`corpus/snapshots/ims.jsonl`](../../corpus/snapshots/ims.jsonl), [`corpus/snapshots/nwb.jsonl`](../../corpus/snapshots/nwb.jsonl)
 
 ### Open new-variant intakes

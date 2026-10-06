@@ -1,0 +1,67 @@
+schema_version: 1
+
+context:
+  name: bioio-openreadout
+  version: "0.1.0"
+
+package:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/bioio_openreadout-${{ version }}.tar.gz
+  sha256: 7e1410132537b937c7d90a48bcd93fdfcada19f847735d26399c14498f55aaec
+
+build:
+  number: 0
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - hatchling >=1.26
+  run:
+    - python >=${{ python_min }}
+    - bioio-base >=3.4,<4
+    - python-openreadout >=0.1.0,<0.2
+    - dask-core >=2022.2
+    - fsspec >=2022.8.0
+    - numpy >=1.22
+    - ome-types >=0.4
+    - xarray >=2022.6
+
+tests:
+  - python:
+      imports:
+        - bioio_openreadout
+      python_version:
+        - ${{ python_min }}.*
+        - "*"
+  - files:
+      source:
+        - tests/
+    requirements:
+      run:
+        - python ${{ python_min }}.*
+        - pytest
+        - bioio >=3
+    script:
+      # The tests that need corpus files skip themselves; the rest check the plugin registration
+      # and error handling.
+      - pytest tests -v
+
+about:
+  homepage: https://openreadout.github.io/openreadout/
+  repository: https://github.com/openreadout/openreadout
+  documentation: https://openreadout.github.io/openreadout/guides/python.html
+  summary: bioio reader plugin that reads microscopy files with OpenReadout
+  license: MIT OR Apache-2.0
+  license_file:
+    - LICENSE-MIT
+    - LICENSE-APACHE
+
+extra:
+  recipe-maintainers:
+    - richardzimring

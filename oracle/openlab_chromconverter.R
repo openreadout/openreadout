@@ -22,9 +22,12 @@ for (kind in names(x)) {
     write.csv(data.frame(rt = sprintf("%.17g", d$rt), intensity = sprintf("%.17g", d$intensity)),
               file.path(args[2], sprintf("%s_%d.csv", kind, i)), row.names = FALSE, quote = FALSE)
     g <- function(k) if (is.null(m[[k]])) "" else as.character(m[[k]])[1]
+    # free-text fields keep printable ASCII only: a non-ASCII method path that chromConverter
+    # decodes badly would otherwise cut the CSV row short
+    a <- function(k) gsub("[^ -~]", " ", g(k), useBytes = TRUE)
     rows[[length(rows) + 1]] <- data.frame(kind = kind, i = i, rows = nrow(d), signal = g("signal"),
-                                           units = g("units"), sample_name = g("sample_name"),
-                                           operator = g("operator"), method = g("method"))
+                                           units = g("units"), sample_name = a("sample_name"),
+                                           operator = a("operator"), method = a("method"))
   }
 }
 write.csv(do.call(rbind, rows), file.path(args[2], "index.csv"), row.names = FALSE,

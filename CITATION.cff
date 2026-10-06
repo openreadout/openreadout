@@ -8,8 +8,22 @@ abstract: >-
   more), reports what is in them as JSON, exports them to open formats and exposes the same
   operations as MCP tools.
 authors:
-  - name: "OpenReadout contributors"
+  - name: "The OpenReadout Authors"
 repository-code: "https://github.com/openreadout/openreadout"
-url: "https://github.com/openreadout/openreadout"
-license: "MIT OR Apache-2.0"
+url: "https://openreadout.github.io/openreadout/"
+# Dual-licensed: CFF reads a list of licenses as alternatives (MIT OR Apache-2.0).
+license:
+  - MIT
+  - Apache-2.0
+keywords:
+  - microscopy
+  - mass spectrometry
+  - flow cytometry
+  - electrophysiology
+  - NMR
+  - file formats
+  - OME-TIFF
+  - OME-Zarr
+  - Model Context Protocol
 version: "0.1.0"
+date-released: "2026-10-02"
