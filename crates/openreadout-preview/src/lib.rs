@@ -71,6 +71,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 pub use canvas::Canvas;
+pub use plate::{PlateGrid, plate_grid};
 
 /// Largest `max_size` accepted (pixels on the longer side).
 pub const MAX_PREVIEW_SIZE: u32 = 8192;
