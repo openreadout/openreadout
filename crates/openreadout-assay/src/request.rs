@@ -1,5 +1,6 @@
-//! What to analyse and how: the request shared by the CLI (`openreadout analyze assay …`), the
-//! MCP tool (`openreadout_analyze` kind `assay`) and the Python binding (`openreadout.assay`).
+//! What to analyse and how: the request shared by the CLI (`openreadout analyze assay-wells`, `dose-response`, …), the
+//! MCP tools (`openreadout_assay_wells`, `openreadout_dose_response`, ...) and the Python binding
+//! (`openreadout.assay`).
 
 use serde::{Deserialize, Serialize};
 

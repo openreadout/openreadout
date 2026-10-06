@@ -11,7 +11,7 @@ with --source, compares the values with what `openreadout` itself reads from the
 - tables: `openreadout export SOURCE --format csv --table N` (the CSV is parsed with pyarrow.csv)
 - traces: `openreadout trace SOURCE --trace N --sweep S --max-samples 100000 --json` for the
   first samples of every sweep
-- spectra: `openreadout spectra SOURCE --index I --json` for the first, middle and last scan,
+- spectra: `openreadout spectra SOURCE --spectrum I --json` for the first, middle and last scan,
   and the per-scan summary file beside it
 
 Prints one JSON line with the result; exit 1 on any mismatch.
@@ -119,7 +119,7 @@ def check(path: Path, source: Path | None, bin_: str) -> dict:
         for s in sweeps:
             rows = [i for i, x in enumerate(sw) if x == s]
             ref = run(bin_, "trace", str(source), "--trace", str(obj["index"]), "--sweep", str(s),
-                      "--first", str(first), "--count", str(len(rows)), "--max-samples", "100000")
+                      "--first-sample", str(first), "--count", str(len(rows)), "--max-samples", "100000")
             for ci, ch in enumerate(ref["channels"]):
                 col = t.column(2 + ci).to_pylist()
                 got = [col[i] for i in rows[: len(ch["samples"])]]
@@ -142,7 +142,7 @@ def check(path: Path, source: Path | None, bin_: str) -> dict:
             offsets.append(offsets[-1] + c)
         for i in sorted({0, count // 2, count - 1}):
             view = obj.get("view", "primary")
-            args = ["spectra", str(source), "--index", str(i), "--run", str(obj["index"])]
+            args = ["spectra", str(source), "--spectrum", str(i), "--run", str(obj["index"])]
             if view == "centroid":
                 args.append("--centroid")
             ref = run(bin_, *args)["spectrum"]

@@ -445,14 +445,14 @@ fn schema_gen() -> Result<()> {
         "check",
         "export",
         "formats",
-        "check-planes",
+        "planes",
         "export-attachment",
         "trace",
         "spectrum",
         "spectra",
         "preview",
         "stats",
-        "check-against",
+        "compare",
         "doctor",
         "sidecar",
         "sidecar-file",
@@ -475,7 +475,7 @@ fn schema_gen() -> Result<()> {
         "batch-table",
         "batch-summary",
         "link",
-        "check-report",
+        "report",
     ] {
         let o = std::process::Command::new(&bin)
             .args(["self", "schema", name])

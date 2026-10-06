@@ -16,13 +16,13 @@ It reads Thermo `.raw`, mzML (also `.mzML.gz` and mzMLb), mzXML, imzML, Bruker `
 - `--run N`: run index, for files with more than one run (Sciex samples). Default 0.
 - `--ms-level N`: only scans of this MS level (1 = full scans, 2 = MS/MS). With `--nth`, the level to count in.
 - `--polarity positive|negative`: only scans of this polarity.
-- `--rt START-END`: retention-time window in minutes. Either side may be empty (`5-`, `-12.5`).
+- `--rt-range START:END`: retention-time window in minutes. Either side may be empty (`5:`, `:12.5`).
 - `--precursor MZ`: only MS/MS scans whose precursor m/z is within the tolerance.
-- `--tol DA`: precursor tolerance in m/z units. Default 0.01.
-- `--ppm PPM`: precursor tolerance in ppm instead.
+- `--precursor-tol DA`: precursor tolerance in m/z units. Default 0.01.
+- `--precursor-ppm PPM`: precursor tolerance in ppm instead.
 - `--charge Z`: only precursors of this charge state.
 - `--activation METHOD`: only this activation (`HCD`, `CID`, `ETD`, case-insensitive).
-- `--filter TEXT`: only scans whose filter string contains this text.
+- `--scan-filter TEXT`: only scans whose filter string contains this text.
 - `--offset N`: skip this many matching scans. Default 0.
 - `--limit N`: list at most this many matching scans. Default 50, or every match with `--csv`. All matches are still counted.
 - `--count`: only count the matching scans per MS level.
@@ -31,7 +31,7 @@ It reads Thermo `.raw`, mzML (also `.mzML.gz` and mzMLb), mzXML, imzML, Bruker `
 ### One spectrum
 
 - `--scan N`: this scan number as the instrument counts it (1-based in Thermo files).
-- `--index I`: this zero-based spectrum index.
+- `--spectrum I`: this zero-based spectrum index.
 - `--nth K`: the K-th spectrum (from 1) of `--ms-level`. `--ms-level 2 --nth 1` is the first MS/MS scan.
 - `--centroid`: the instrument's stored centroid list instead of the profile, when a scan has both.
 - `--exclude-flagged`: Thermo `.raw`: leave out peaks the instrument flags as reference or background ions. Otherwise they are listed in `extra.flagged_peaks`.
@@ -41,7 +41,7 @@ It reads Thermo `.raw`, mzML (also `.mzML.gz` and mzMLb), mzXML, imzML, Bruker `
 
 ```bash
 openreadout spectra run.raw --ms-level 2 --count
-openreadout spectra run.raw --ms-level 2 --precursor 445.12 --ppm 10 --csv > ms2.csv
+openreadout spectra run.raw --ms-level 2 --precursor 445.12 --precursor-ppm 10 --csv > ms2.csv
 openreadout spectra run.raw --ms-level 2 --nth 1 --centroid --json
 ```
 

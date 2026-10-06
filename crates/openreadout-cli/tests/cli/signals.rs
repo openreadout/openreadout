@@ -209,7 +209,7 @@ fn bruker_directory_info_trace_export_and_truncation() {
             "--json",
             "--channel",
             "1",
-            "--first",
+            "--first-sample",
             "1",
             "--count",
             "2",
@@ -226,7 +226,7 @@ fn bruker_directory_info_trace_export_and_truncation() {
     assert_eq!(v["data"]["channels"][0]["stats"]["max"], 5.0);
     assert_eq!(v["data"]["start_s"], 0.0005);
     assert_eq!(v["data"]["truncated"], false);
-    // the processed spectrum (`--index` is an alias of `--trace`) carries its ppm axis
+    // the processed spectrum (trace 1) carries its ppm axis
     let out = bin()
         .args(["trace", "--json", "--trace", "1"])
         .arg(&exp)

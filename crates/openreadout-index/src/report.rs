@@ -1,4 +1,4 @@
-//! `openreadout check FILE --report`: a privacy-reviewed diagnostic bundle for a file that a reader
+//! `openreadout report FILE`: a privacy-reviewed diagnostic bundle for a file that a reader
 //! refused, failed on, or read without being able to validate it (`assurance.level` other than
 //! `validated`).
 //!
@@ -339,7 +339,7 @@ pub struct HexSample {
     pub hex: String,
 }
 
-/// What `openreadout check FILE --report` prints under `--json`.
+/// What `openreadout report FILE` prints under `--json`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct ReportOutput {
     /// Where the bundle was written; `None` with `--dry-run` (or from MCP without `output`).
@@ -1970,7 +1970,7 @@ pub fn render(out: &ReportOutput) -> String {
     let mut s = String::new();
     let _ = writeln!(
         s,
-        "openreadout {} check --report (bundle version {})",
+        "openreadout {} report (bundle version {})",
         r.generator.version, r.report_version
     );
     match &out.output {

@@ -497,7 +497,7 @@ impl ImsDataset {
         }
 
         if levels.len() > 1 {
-            notes.push("resolution levels are readable with `check --planes --level N`".into());
+            notes.push("resolution levels are readable with `planes --level N`".into());
         }
         let mut info = info.finish();
         if levels.len() > 1 || first.chunk_shape().is_some() {

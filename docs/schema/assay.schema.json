@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "AssayOutput",
-  "description": "`openreadout analyze assay … --json` data.",
+  "description": "`openreadout analyze assay-wells|assay-curve|dose-response|kinetics|growth|assay-qc --json` data.",
   "type": "object",
   "properties": {
     "path": {

@@ -137,9 +137,9 @@ pub struct BatchToolArgs {
     /// gate: parameters whose median per population is reported (`Comp-NAME` = compensated).
     #[serde(default)]
     pub medians: Vec<String>,
-    /// Options of the analysis measures: the same `options` as openreadout_analyze takes for
-    /// that kind (e.g. `{"mz": [195.0877], "ppm": 10}` for peaks, `{"analysis": "curve"}` for
-    /// assay), plus `rows` to pick the record list (peaks: peak|compound|chromatogram;
+    /// Options of the analysis measures: the arguments of that analysis's MCP tool (e.g.
+    /// `{"mz": [195.0877], "ppm": 10}` for openreadout_peaks; assay: `{"analysis": "curve"}`
+    /// plus the openreadout_assay_curve arguments), plus `rows` to pick the record list (peaks: peak|compound|chromatogram;
     /// nmr-peaks: peak|integral|spectrum; ephys-features: sweep|cell|spike; qpcr:
     /// record|rq|standard_curve; assay: wells|samples|compounds|kinetics|growth|quality).
     #[serde(default)]
@@ -160,19 +160,19 @@ pub enum MeasureName {
     Info,
     /// one row per MS scan header (options: the openreadout_spectra filters)
     Spectra,
-    /// openreadout_analyze kind peaks (options)
+    /// openreadout_peaks (its arguments as options)
     Peaks,
-    /// openreadout_analyze kind chromatogram (options)
+    /// openreadout_chromatogram (its arguments as options)
     Chromatogram,
-    /// openreadout_analyze kind assay (options)
+    /// a plate-reader assay: options `analysis` (wells, curve, dose-response, kinetics, growth, qc) and the arguments of that openreadout_assay_* tool
     Assay,
-    /// openreadout_analyze kind nmr-peaks (options)
+    /// openreadout_nmr_peaks (its arguments as options)
     NmrPeaks,
-    /// openreadout_analyze kind ephys-features (options)
+    /// openreadout_ephys_features (its arguments as options)
     EphysFeatures,
-    /// openreadout_analyze kind spikes (options)
+    /// openreadout_spikes (its arguments as options)
     Spikes,
-    /// openreadout_analyze kind qpcr (options)
+    /// openreadout_qpcr (its arguments as options)
     Qpcr,
     /// population counts, percentages and medians (workspace or gatingml)
     Gate,

@@ -1585,7 +1585,7 @@ impl Dataset for CziDataset {
             .fold(0u64, |n, i| n.saturating_add(i.plane_count));
         let mut notes = Vec::new();
         if self.scenes.iter().any(|s| s.pyramid_levels > 1) {
-            notes.push("pyramid levels are readable with `check --planes --level N`; export writes full resolution only".into());
+            notes.push("pyramid levels are readable with `planes --level N`; export writes full resolution only".into());
         }
         if self.scenes.iter().any(|s| !s.other_dims.is_empty()) {
             notes.push("extra dimensions (H/I/R/V/B) vary: one image per combination of their coordinates (`images[].extra.dimension_index`)".into());

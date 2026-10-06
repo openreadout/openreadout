@@ -56,7 +56,15 @@
     },
     {
       "name": "openreadout_check",
-      "description": "Integrity check with findings; against=FILE compares two files (e.g. a source and its export); report=true builds a privacy-reviewed diagnostic bundle"
+      "description": "Integrity check: findings for truncation, missing planes or parts and bad blocks"
+    },
+    {
+      "name": "openreadout_compare",
+      "description": "Compare two files, e.g. a source and its export: metadata differences, geometry, channels and per-plane hashes"
+    },
+    {
+      "name": "openreadout_report",
+      "description": "A privacy-reviewed diagnostic bundle for a file that is refused, fails or is not validated"
     },
     {
       "name": "openreadout_preview",
@@ -76,15 +84,63 @@
     },
     {
       "name": "openreadout_spectra",
-      "description": "Mass spectra of an MS run: scan headers filtered and counted, or one spectrum's m/z and intensity arrays (scan, index, or ms_level + nth)"
+      "description": "Mass spectrometry: scan headers filtered and counted, or one spectrum's m/z and intensity arrays (scan, spectrum, or ms_level + nth)"
     },
     {
-      "name": "openreadout_analyze",
-      "description": "Analyses with documented methods: kind=peaks, chromatogram, nmr-peaks, ephys-features, spikes, qpcr, assay or gate"
+      "name": "openreadout_peaks",
+      "description": "Chromatographic peaks with area, height, widths, tailing, plates, resolution, S/N and purity; bands and regions of spectra"
+    },
+    {
+      "name": "openreadout_chromatogram",
+      "description": "TIC, BPC, extracted-ion, SRM/MRM and detector chromatograms with apex and integral"
+    },
+    {
+      "name": "openreadout_nmr_peaks",
+      "description": "NMR peak list and region integrals, from the vendor's spectrum or the FID"
+    },
+    {
+      "name": "openreadout_ephys_features",
+      "description": "Patch-clamp features: action potentials, rheobase, f-I slope, passive properties"
+    },
+    {
+      "name": "openreadout_spikes",
+      "description": "Extracellular spike counts, rates and times per channel"
+    },
+    {
+      "name": "openreadout_qpcr",
+      "description": "qPCR results per well and target: Cq, Tm, ΔΔCq fold changes, standard curves"
+    },
+    {
+      "name": "openreadout_gate",
+      "description": "Flow-cytometry gating from a FlowJo workspace or Gating-ML file: population counts, percentages and medians"
+    },
+    {
+      "name": "openreadout_assay_wells",
+      "description": "Plate-reader wells: roles, blank subtraction, replicate statistics and outliers"
+    },
+    {
+      "name": "openreadout_assay_curve",
+      "description": "Plate-reader standard curve and back-calculated concentrations"
+    },
+    {
+      "name": "openreadout_dose_response",
+      "description": "Plate-reader dose-response: IC50/EC50 per compound"
+    },
+    {
+      "name": "openreadout_kinetics",
+      "description": "Plate-reader kinetic reads: max slope, lag time, AUC per well"
+    },
+    {
+      "name": "openreadout_growth",
+      "description": "Plate-reader growth curves: growth rate and doubling time per well"
+    },
+    {
+      "name": "openreadout_assay_qc",
+      "description": "Plate-reader assay quality: Z′, signal/background, CVs"
     },
     {
       "name": "openreadout_export",
-      "description": "Convert to OME-TIFF, OME-Zarr, Parquet, mzML, NWB, JCAMP-DX, Allotrope ASM or RDML with read-back verification, or write an embedded attachment"
+      "description": "Convert to OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, Allotrope ASM or RDML with read-back verification, or write an embedded attachment"
     },
     {
       "name": "openreadout_batch",

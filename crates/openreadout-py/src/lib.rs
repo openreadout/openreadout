@@ -614,8 +614,8 @@ impl NativeFile {
         })?;
         Ok((chans, n, values.into_pyarray(py)))
     }
-    /// `analyze KIND` on this file (`options`: the JSON object of the MCP `openreadout_analyze`
-    /// options of that kind) for the kinds that read one data set (peaks, chromatogram,
+    /// `analyze KIND` on this file (`options`: the JSON object of the arguments of that kind's
+    /// MCP tool) for the kinds that read one data set (peaks, chromatogram,
     /// nmr-peaks, ephys-features, spikes) → the analysis output as JSON.
     fn analyze_json(&self, py: Python<'_>, kind: String, options: String) -> PyResult<String> {
         let kind = analyze_kind(py, &kind)?;
@@ -1051,8 +1051,8 @@ fn options_map(json: &str) -> PyResult<serde_json::Map<String, serde_json::Value
     serde_json::from_str(json).map_err(|e| PyValueError::new_err(format!("analysis options: {e}")))
 }
 
-/// `analyze KIND FILE` (`options`: the JSON object of the MCP `openreadout_analyze` options of
-/// that kind) → the analysis output as JSON and, for an assay with `"plot": true`, the curve as
+/// `analyze KIND FILE` (`options`: the JSON object of the arguments of that
+/// kind's MCP tool) → the analysis output as JSON and, for an assay with `"plot": true`, the curve as
 /// PNG bytes (`None` when nothing was fitted).
 #[pyfunction]
 fn analyze_json(

@@ -73,13 +73,13 @@ pub enum SchemaOf {
     SidecarFile,
     /// `check`.
     Check,
-    /// `check --planes`.
-    CheckPlanes,
-    /// `check --against`.
-    CheckAgainst,
-    /// `check --report`: the diagnostic bundle for a new-variant issue (`--json` prints it with
+    /// `planes`.
+    Planes,
+    /// `compare`.
+    Compare,
+    /// `report`: the diagnostic bundle for a new-variant issue (`--json` prints it with
     /// the output path).
-    CheckReport,
+    Report,
     /// `export`.
     Export,
     /// `export --attachment`.
@@ -93,7 +93,7 @@ pub enum SchemaOf {
     Table,
     /// `spectra`: scan headers of a mass-spectrometry run.
     Spectra,
-    /// `spectra --scan|--index|--nth`: one mass spectrum.
+    /// `spectra --scan|--spectrum|--nth`: one mass spectrum.
     Spectrum,
     /// `analyze peaks`: peak tables, targeted peaks and compound rows.
     Peaks,
@@ -107,7 +107,8 @@ pub enum SchemaOf {
     Spikes,
     /// `analyze qpcr`: named well × target records and qPCR analyses.
     Qpcr,
-    /// `analyze assay`: plate analysis (wells, standard curve, dose-response, kinetics, growth, qc).
+    /// `analyze assay-wells`, `assay-curve`, `dose-response`, `kinetics`, `growth`, `assay-qc`:
+    /// plate-reader analyses.
     Assay,
     /// `analyze gate`: populations of a FlowJo workspace or Gating-ML file with event counts.
     Gate,
@@ -173,9 +174,9 @@ fn schema(of: SchemaOf) -> String {
         SchemaOf::Sidecar => schemars::schema_for!(sidecar::SidecarReport),
         SchemaOf::SidecarFile => schemars::schema_for!(sidecar::SidecarFile),
         SchemaOf::Check => schemars::schema_for!(CheckReport),
-        SchemaOf::CheckPlanes => schemars::schema_for!(PlanesOutput),
-        SchemaOf::CheckAgainst => schemars::schema_for!(openreadout_ops::compare::CompareOutput),
-        SchemaOf::CheckReport => schemars::schema_for!(openreadout_index::report::ReportOutput),
+        SchemaOf::Planes => schemars::schema_for!(PlanesOutput),
+        SchemaOf::Compare => schemars::schema_for!(openreadout_ops::compare::CompareOutput),
+        SchemaOf::Report => schemars::schema_for!(openreadout_index::report::ReportOutput),
         SchemaOf::Export => schemars::schema_for!(ExportOutput),
         SchemaOf::ExportAttachment => schemars::schema_for!(ExtractOutput),
         SchemaOf::Preview => schemars::schema_for!(openreadout_preview::PreviewOutput),

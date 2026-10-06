@@ -68,7 +68,7 @@ wrote mini.ome.zarr (1 images, 2 planes, 2876 bytes, verified=true)
 To compare the source with its export yourself:
 
 ```text
-$ openreadout check mini.nd2 --against mini.ome.tiff
+$ openreadout compare mini.nd2 mini.ome.tiff
 mini.nd2 (nd2)
 mini.ome.tiff (tiff)
 => identical

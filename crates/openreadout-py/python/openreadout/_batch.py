@@ -130,8 +130,8 @@ def batch(
     (per population; pass ``workspace=`` or ``gatingml=``, ``medians=["Comp-FITC-A"]``) or
     ``"info"`` (header metadata), ``"spectra"`` (per MS scan), or an analysis — ``"peaks"``,
     ``"chromatogram"``, ``"assay"``, ``"nmr-peaks"``, ``"ephys-features"``, ``"spikes"``,
-    ``"qpcr"`` — configured with ``options={...}``: the ``options`` the MCP tool
-    ``openreadout_analyze`` takes for that kind (e.g. ``batch("peaks", "runs/",
+    ``"qpcr"`` — configured with ``options={...}``: the arguments of that analysis's MCP
+    tool (``openreadout_peaks``, ...; e.g. ``batch("peaks", "runs/",
     options={"mz": [195.0877], "rows": "chromatogram"})``). Per-well plate statistics are
     ``"stats"`` with ``per="well"`` (or ``"field"``) and ``wells=``.
     Other options are those of the MCP tool

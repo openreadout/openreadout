@@ -117,8 +117,8 @@ test_that("a scan without a retention time reads NA, not 0 and not an error", {
     list(num = 1, rt_s = 60, mz = c(100, 200), intensity = c(2, 3)),
     list(num = 2, rt_s = NULL, mz = 100, intensity = 5)
   ))
-  expect_equal(attr(openreadout_spectra(path, index = 1), "spectrum")$rt_s, 60)
-  sp <- openreadout_spectra(path, index = 2)
+  expect_equal(attr(openreadout_spectra(path, spectrum = 1), "spectrum")$rt_s, 60)
+  sp <- openreadout_spectra(path, spectrum = 2)
   expect_equal(sp$intensity, 5)
   meta <- attr(sp, "spectrum")
   expect_true("rt_s" %in% names(meta))

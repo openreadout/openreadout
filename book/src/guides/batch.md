@@ -136,7 +136,7 @@ The analyses themselves are described in [Recipes](../recipes/index.md).
 
 ## Sample sheets and plate layouts
 
-`--sample-sheet FILE` (also `--samples` or `--layout`, repeatable) reads two kinds of file.
+`--sample-sheet FILE` (also `--sample-sheet` or `--layout`, repeatable) reads two kinds of file.
 
 A **sample sheet** is a table with a header row. It can be CSV, TSV or another delimited text file, or a worksheet of an XLSX, XLS, XLSB or ODS workbook. `--worksheet NAME` picks the worksheet. A sheet with `Row` and `Column` number columns gets a `well` column.
 

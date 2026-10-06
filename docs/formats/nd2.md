@@ -127,7 +127,7 @@ When `acquired_at` comes from the text (`extra.acquired_at_source` = `text_local
 
 ## Per-frame records
 
-`info --view full` embeds one record per frame under `images[i].extra.frames` (the first 100 per image; `--all-frames` for all), with `frame_records_total` and `frames_truncated`. A record covers all channels of a frame (they are interleaved in one frame and share one timestamp).
+`info --view full` embeds one record per frame under `images[i].extra.frames` (the first 100 per image; `--max-frames -1` for all), with `frame_records_total` and `frames_truncated`. A record covers all channels of a frame (they are interleaved in one frame and share one timestamp).
 
 | field | source |
 | --- | --- |

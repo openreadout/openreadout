@@ -649,7 +649,7 @@ pub enum DetectConfidence {
     ExtensionOnly,
 }
 
-/// One row of `check --planes`.
+/// One row of `planes`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct PlaneHash {
     /// Image index.
@@ -684,7 +684,7 @@ fn is_zero(v: &u32) -> bool {
     *v == 0
 }
 
-/// Output of `check --planes`.
+/// Output of `planes`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct PlanesOutput {
     /// The input file.
@@ -938,7 +938,7 @@ pub struct Spectrum {
     pub intensity: Vec<f32>,
 }
 
-/// Output of `spectra --scan`/`--index`: one spectrum with its arrays.
+/// Output of `spectra --scan`/`--spectrum`: one spectrum with its arrays.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct SpectrumOutput {
     /// The input file.

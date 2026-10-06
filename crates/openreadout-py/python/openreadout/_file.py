@@ -793,9 +793,9 @@ class File:
         ms_level: Optional[int] = None,
         polarity: Optional[str] = None,
         rt_range: Optional[Tuple[float, float]] = None,
-        precursor_mz: Optional[float] = None,
-        tol: Optional[float] = None,
-        ppm: Optional[float] = None,
+        precursor: Optional[float] = None,
+        precursor_tol: Optional[float] = None,
+        precursor_ppm: Optional[float] = None,
         charge: Optional[int] = None,
         activation: Optional[str] = None,
         scan_filter: Optional[str] = None,
@@ -819,10 +819,10 @@ class File:
             ms_level: Only scans of this MS level (2 = MS/MS).
             polarity: ``"positive"`` or ``"negative"``.
             rt_range: Retention-time window ``(start, end)`` in minutes.
-            precursor_mz: Only MS/MS scans with a precursor within ``tol`` (m/z, default 0.01)
-                or ``ppm`` of this.
-            tol: Absolute precursor tolerance in m/z.
-            ppm: Relative precursor tolerance in ppm.
+            precursor: Only MS/MS scans with a precursor within ``precursor_tol`` (m/z,
+                default 0.01) or ``precursor_ppm`` of this m/z.
+            precursor_tol: Absolute precursor tolerance in m/z.
+            precursor_ppm: Relative precursor tolerance in ppm.
             charge: Only precursors of this charge state.
             activation: ``"HCD"``, ``"CID"``, ... (case-insensitive).
             scan_filter: Only scans whose filter string contains this text.
@@ -839,9 +839,9 @@ class File:
         for key, val in (
             ("ms_level", ms_level),
             ("polarity", polarity.lower() if polarity else None),
-            ("precursor_mz", precursor_mz),
-            ("precursor_tol_mz", tol),
-            ("precursor_tol_ppm", ppm),
+            ("precursor_mz", precursor),
+            ("precursor_tol_mz", precursor_tol),
+            ("precursor_tol_ppm", precursor_ppm),
             ("charge", charge),
             ("activation", activation),
             ("filter_contains", scan_filter),

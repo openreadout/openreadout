@@ -17,7 +17,7 @@ Microplate-reader exports (`plate`): the text, CSV and workbook files plate-read
 
 ## Debugging a new file
 
-- `openreadout check FILE --report` names the dialect, container and delimiter, software and read modes (the fingerprint); `openreadout info FILE --view full --json` → `vendor` shows the header lines as parsed.
+- `openreadout report FILE` names the dialect, container and delimiter, software and read modes (the fingerprint); `openreadout info FILE --view full --json` → `vendor` shows the header lines as parsed.
 - A new software version usually moves a header line or a matrix title: each dialect module's unit tests hold a minimal export of every layout seen (e.g. `gen5.rs` `headerless_with_procedure_and_unnamed_kinetic_read`, `tecan_csv.rs` `sparkcontrol_endpoint_list_and_kinetic_rows`, `softmax_pda.rs` `wrong_well_count_is_refused_and_cuts_never_panic`).
 - There are no integration tests in this crate: corpus exports (allotropy fixtures and public repositories) pin it, with oracles from `oracle/plate.py` and `oracle/plate_exports.py` (`uv run --group plate`); ASM output is validated by `oracle/asm_validate.py`.
 

@@ -38,7 +38,7 @@ openreadout analyze ephys-features cell.abf --csv sweeps > sweeps.csv
 openreadout analyze ephys-features cell.abf --csv fi > fi.csv
 ```
 
-`--csv` prints one tidy table (`sweeps`, `spikes` or `fi`) instead of the report. A spike must cross −20 mV (`--peak-threshold`), and its onset is where dV/dt reaches 10 V/s (`--dvdt-threshold`). `--sweeps 0,3,5-9` limits the sweeps. Stimulus steps, and so rheobase and the f–I curve, come from ABF epoch tables only.
+`--csv` prints one tidy table (`sweeps`, `spikes` or `fi`) instead of the report. A spike must cross −20 mV (`--peak-threshold-mv`), and its onset is where dV/dt reaches 10 V/s (`--dvdt-threshold`). `--sweeps 0,3,5-9` limits the sweeps. Stimulus steps, and so rheobase and the f–I curve, come from ABF epoch tables only.
 
 ### Grouped by genotype
 
@@ -57,7 +57,7 @@ wrote cells.csv (3 rows × 13 columns, csv, 699 bytes, verified=true)
 
 ### From an assistant
 
-The MCP tool is `openreadout_analyze` with `kind: "ephys-features"` and options `trace`, `channel`, `sweeps`, `peak_threshold_mv`, `dvdt_threshold` and `max_spikes`. For a folder, `openreadout_batch` takes `measure: "ephys-features"` with the same options plus `rows`.
+The MCP tool is `openreadout_ephys_features`, with arguments `trace`, `channel`, `sweeps`, `peak_threshold_mv`, `dvdt_threshold` and `max_spikes`. For a folder, `openreadout_batch` takes `measure: "ephys-features"` with the same options plus `rows`.
 
 ## More
 

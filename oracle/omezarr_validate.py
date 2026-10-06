@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Validate an OME-Zarr store written by `openreadout export --format ome-zarr` with third-party
-readers, and compare its pixels with the source file as `openreadout check --planes --dump-dir` sees it.
+readers, and compare its pixels with the source file as `openreadout planes --dump-dir` sees it.
 
     uv run python omezarr_validate.py STORE.ome.zarr SOURCE_FILE [--bin PATH] [--image N] [--planes K]
 
@@ -9,7 +9,7 @@ For every image group in the store this checks:
   * that ome_zarr.reader recognises a multiscales image and reads every level,
   * that bioio (bioio-ome-zarr) opens it with the expected TCZYX shape, pixel sizes and channel names,
   * for K planes (first, last, and evenly spaced in between): the level-0 pixels read by ome_zarr,
-    by bioio and via zarr equal the raw samples dumped by `openreadout check --planes` (array equality and
+    by bioio and via zarr equal the raw samples dumped by `openreadout planes` (array equality and
     the xxh3-128 hash the CLI reports),
   * for multi-level images: level 1 equals the 2x2 block mean of level 0 (rounded half away from zero).
 Exit status 0 only if everything passed. This script is a test harness; nothing here ships.
@@ -155,13 +155,13 @@ def main() -> int:
             if im["physical_size"].get("x") and abs((px.X or 0) - im["physical_size"]["x"]) > 1e-9:
                 failures.append(f"{label}: bioio X pixel size {px.X} != {im['physical_size']['x']}")
 
-            # 4. pixels vs `openreadout check --planes --dump-dir`
+            # 4. pixels vs `openreadout planes --dump-dir`
             planes = [(t, c, z) for t in pick(im["size_t"], 2) for c in pick(im["size_c"], 2) for z in pick(im["size_z"], 2)]
             planes = [planes[i] for i in pick(len(planes), a.planes)]
             arr0 = zarr.open_array(str(gpath / "0"), mode="r")
             bdata = img.get_image_dask_data("TCZYX")
             for t, c, z in planes:
-                out = cli(a.bin, "check", a.source, "--planes", "--image", str(im["index"]), "--select", f"c={c}",
+                out = cli(a.bin, "planes", a.source, "--image", str(im["index"]), "--select", f"c={c}",
                           "--select", f"z={z}", "--select", f"t={t}", "--dump-dir", dump)
                 h = out["planes"][0]
                 raw = (Path(dump) / f"image{im['index']}_c{c}_z{z}_t{t}.bin").read_bytes()
@@ -176,7 +176,7 @@ def main() -> int:
                         failures.append(f"{label}: plane t={t} c={c} z={z}: {who} pixels differ from source")
                 inter = np.ascontiguousarray(np.moveaxis(got_z, 0, -1)).astype(exp.dtype.newbyteorder("<")).tobytes()
                 if xxhash.xxh3_128_hexdigest(inter) != h["xxh3"]:
-                    failures.append(f"{label}: plane t={t} c={c} z={z}: xxh3 differs from `check --planes`")
+                    failures.append(f"{label}: plane t={t} c={c} z={z}: xxh3 differs from `planes`")
                 totals["planes"] += 1
                 totals["pixels"] += exp.size
 

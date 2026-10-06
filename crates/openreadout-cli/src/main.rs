@@ -42,7 +42,7 @@ struct Cli {
 #[derive(Debug, clap::Args)]
 #[command(next_help_heading = "Global options")]
 struct GlobalArgs {
-    /// Worker threads for plane decoding (export, check --planes, stats). Default: the number of CPUs.
+    /// Worker threads for plane decoding (export, planes, stats). Default: the number of CPUs.
     /// Output is identical whatever the count.
     #[arg(long, global = true, value_name = "N")]
     threads: Option<usize>,

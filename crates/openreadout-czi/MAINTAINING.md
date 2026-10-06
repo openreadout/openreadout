@@ -18,8 +18,8 @@ Zeiss CZI (`czi`): confocal, widefield, Airyscan, lattice light-sheet and whole-
 
 ## Debugging a new file
 
-- `openreadout check FILE --report` gives the fingerprint (writer family, codecs, pixel types, layout) and which stage fails; `openreadout info FILE --view structure` lists every segment, directory entry and attachment with offsets.
-- `info --view full --json` → `vendor` is the `ImageDocument` XML as JSON; per-subblock tags are in `info --view full --all-frames`.
+- `openreadout report FILE` gives the fingerprint (writer family, codecs, pixel types, layout) and which stage fails; `openreadout info FILE --view structure` lists every segment, directory entry and attachment with offsets.
+- `info --view full --json` → `vendor` is the `ImageDocument` XML as JSON; per-subblock tags are in `info --view full --max-frames -1`.
 - Unit tests next to the code are the templates: `container.rs` (`directory_entry_parsing_rejects_garbage`), `convert.rs` (resolution protocol cases), `mask.rs`, `xml.rs` (the metadata variants), `dataset.rs` (level snapping). Synthetic CZIs from pylibCZIrw (`oracle/make_czi_fixtures.py`) cover multi-file documents, pixel types and pyramids.
 - Oracles: czifile (primary), pylibCZIrw (second opinion, `oracle/second_opinion.py`); level geometry: `oracle/czi_levels.py`.
 

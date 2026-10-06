@@ -100,23 +100,23 @@ openreadout_trace <- function(x, trace = 1, sweep = NULL, first_sample = 1, n_ma
 #'
 #' `openreadout spectra`: the scan headers of a mass-spectrometry run (Thermo `.raw`, mzML,
 #' mzXML, imzML, Bruker timsTOF `.d`, Agilent MassHunter `.d`, Waters `.raw`, Sciex `.wiff`)
-#' without decoding any peaks, or, with `scan` or `index`, one spectrum's m/z and intensity
-#' arrays.
+#' without decoding any peaks, or, with `scan` or `spectrum`, one spectrum's m/z and
+#' intensity arrays.
 #'
 #' @param x A path or an [openreadout_open()] file.
 #' @param scan The instrument's scan number (as in the vendor software and mzML ids).
-#' @param index Position of the spectrum in the run (1 = the first).
+#' @param spectrum Position of the spectrum in the run (1 = the first).
 #' @param run Which spectra run (1 = the first; `openreadout_info(x)$spectra`).
-#' @param centroid With `scan` or `index`: return the instrument's centroid list where a scan
+#' @param centroid With `scan` or `spectrum`: return the instrument's centroid list where a scan
 #'   stores both profile and centroids.
-#' @param ms_level,polarity,rt_range,precursor_mz,ppm,charge,activation,scan_filter Scan
-#'   headers only of MS level `ms_level`, polarity `"positive"` or `"negative"`, retention
-#'   times within `rt_range` (`c(start, end)`, minutes), precursors within `ppm` of
-#'   `precursor_mz`, precursor charge `charge`, activation `"HCD"`, `"CID"`, ..., and filter
-#'   strings containing `scan_filter`.
+#' @param ms_level,polarity,rt_range,precursor,precursor_tol,precursor_ppm,charge,activation,scan_filter
+#'   Scan headers only of MS level `ms_level`, polarity `"positive"` or `"negative"`,
+#'   retention times within `rt_range` (`c(start, end)`, minutes), precursors within
+#'   `precursor_tol` (m/z, default 0.01) or `precursor_ppm` of `precursor`, precursor charge
+#'   `charge`, activation `"HCD"`, `"CID"`, ..., and filter strings containing `scan_filter`.
 #' @param offset,limit Skip the first `offset` matching scans; list at most `limit` (default
 #'   all). Every match is counted.
-#' @return Without `scan` and `index`: a data frame with one row per scan (`index`,
+#' @return Without `scan` and `spectrum`: a data frame with one row per scan (`index`,
 #'   `scan_number`, `ms_level`, `rt_s`, `polarity`, `precursor_mz`, `precursor_charge`,
 #'   `isolation_window_mz`, `activation`, `collision_energy`, `scan_filter`, ...) and an
 #'   attribute `scans` with the counts (`matched`, `ms_level_counts`, `rt_range_s`, ...).
@@ -133,21 +133,22 @@ openreadout_trace <- function(x, trace = 1, sweep = NULL, first_sample = 1, n_ma
 #' plot(sp$mz, sp$intensity, type = "h")
 #' }
 #' @export
-openreadout_spectra <- function(x, scan = NULL, index = NULL, run = 1, centroid = FALSE,
+openreadout_spectra <- function(x, scan = NULL, spectrum = NULL, run = 1, centroid = FALSE,
                                 ms_level = NULL, polarity = NULL, rt_range = NULL,
-                                precursor_mz = NULL, ppm = NULL, charge = NULL,
-                                activation = NULL, scan_filter = NULL, offset = 0,
-                                limit = NULL) {
-  if (!is.null(scan) && !is.null(index)) {
-    .openreadout_abort("give at most one of scan (the instrument's scan number) and index (1 = the first spectrum)")
+                                precursor = NULL, precursor_tol = NULL, precursor_ppm = NULL,
+                                charge = NULL, activation = NULL, scan_filter = NULL,
+                                offset = 0, limit = NULL) {
+  if (!is.null(scan) && !is.null(spectrum)) {
+    .openreadout_abort("give at most one of scan (the instrument's scan number) and spectrum (1 = the first spectrum)")
   }
   run0 <- .index0(run, "run")
-  if (is.null(scan) && is.null(index)) {
+  if (is.null(scan) && is.null(spectrum)) {
     filt <- list(
       ms_level = ms_level, polarity = if (!is.null(polarity)) tolower(polarity),
       rt_min_s = if (!is.null(rt_range)) as.numeric(rt_range[1]) * 60,
       rt_max_s = if (!is.null(rt_range)) as.numeric(rt_range[2]) * 60,
-      precursor_mz = precursor_mz, precursor_tol_ppm = ppm, charge = charge,
+      precursor_mz = precursor, precursor_tol_mz = precursor_tol,
+      precursor_tol_ppm = precursor_ppm, charge = charge,
       activation = activation, filter_contains = scan_filter
     )
     offset <- .count(offset, "offset", allow_null = FALSE)
@@ -161,7 +162,7 @@ openreadout_spectra <- function(x, scan = NULL, index = NULL, run = 1, centroid 
       df
     }))
   }
-  number <- if (is.null(scan)) .index0(index, "index") else .count(scan, "scan", allow_null = FALSE)
+  number <- if (is.null(scan)) .index0(spectrum, "spectrum") else .count(scan, "scan", allow_null = FALSE)
   .with_file(x, function(h) {
     res <- .ic(rs_spectrum(.ptr(h), run0, as.double(number), !is.null(scan), isTRUE(centroid)))
     df <- .frame(list(mz = res$mz, intensity = res$intensity))

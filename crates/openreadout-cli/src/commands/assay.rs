@@ -105,7 +105,7 @@ pub struct CommonArgs {
     pub json: bool,
 }
 
-/// `assay wells` / `assay qc`.
+/// `assay-wells` / `assay-qc`.
 #[derive(Debug, clap::Args)]
 pub struct WellsArgs {
     #[command(flatten)]
@@ -145,7 +145,7 @@ pub struct FitArgs {
     pub plot: Option<PathBuf>,
 }
 
-/// `assay curve`.
+/// `assay-curve`.
 #[derive(Debug, clap::Args)]
 pub struct CurveArgs {
     #[command(flatten)]
@@ -166,7 +166,7 @@ pub struct CurveArgs {
     pub uloq: Option<f64>,
 }
 
-/// `assay dose-response`.
+/// `dose-response`.
 #[derive(Debug, clap::Args)]
 pub struct DoseArgs {
     #[command(flatten)]
@@ -179,7 +179,7 @@ pub struct DoseArgs {
     pub normalize: NormalizeArg,
 }
 
-/// `assay kinetics`.
+/// `kinetics`.
 #[derive(Debug, clap::Args)]
 pub struct TimeArgs {
     #[command(flatten)]
@@ -193,7 +193,7 @@ pub struct TimeArgs {
     pub wells: Option<String>,
 }
 
-/// `assay growth`.
+/// `growth`.
 #[derive(Debug, clap::Args)]
 pub struct GrowthArgs {
     #[command(flatten)]

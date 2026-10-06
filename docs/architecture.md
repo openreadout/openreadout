@@ -24,7 +24,7 @@ OpenReadout is a Cargo workspace. Format readers know nothing about the command 
 | `openreadout-codecs`, `openreadout-jpegxr` | pure-Rust decoders, each behind a feature | crates.io |
 | one crate per format family, such as `openreadout-czi`, `-tiff`, `-thermo`, `-nmr`, `-spectro`, `-ephys` | clean-room readers, `#![forbid(unsafe_code)]`; each crate's `MAINTAINING.md` says which formats it holds | crates.io |
 | `openreadout-ometiff`, `-omezarr`, `-mzml-writer`, `-arrow` | writers; every output is read back and verified | crates.io |
-| `openreadout-ops` | command-level operations shared by the front ends: `check --against`, `info --view explain`, `export --attachment`, `--only` | crates.io |
+| `openreadout-ops` | command-level operations shared by the front ends: `compare`, `info --view explain`, `export --attachment`, `--only` | crates.io |
 | `openreadout-quant`, `-assay`, `-qpcr`, `-signal`, `-batch`, `-preview` | analyses and previews built on the readers | crates.io |
 | `openreadout-index`, `-live` | lab-share catalog and live acquisitions | crates.io |
 | `openreadout-mcp` | MCP server over stdio (`rmcp`) | crates.io |

@@ -461,7 +461,7 @@
    "can_write": false,
    "confidence": "low",
    "known_gaps": [
-    "No Cq values: Rotor-Gene files keep raw channel readings and the run setup; the analysis lives in the vendor software (`analyze qpcr --cq` computes Cq)",
+    "No Cq values: Rotor-Gene files keep raw channel readings and the run setup; the analysis lives in the vendor software (`analyze qpcr --compute-cq` computes Cq)",
     "Melt channels are read when the file records them as readings of a melt step; gain optimisation and other auxiliary readings are listed only"
    ],
    "page": "qpcr",
@@ -482,7 +482,7 @@
     "Read: run and instrument, thermal protocol, detection channels, sample names and per-channel target/type/concentration, raw fluorescence per cycle and melt readings (instrument units, no color compensation), and the vendor's absolute-quantification results (Cp and positive/negative call). Validated on 4 LightCycler 480 QC runs (software 1.5.0 and 1.5.1): every vendor-positive well rises and every negative stays flat in the analysed channel",
     "Only `Legacy Absolute Quantification Analysis` results are read (one channel, no ratio); Tm calling, genotyping, relative quantification and other analyses are listed in the vendor tree, not read; a call other than 0 or 2 gives no Cq",
     "Vendor melt smoothing and derivative arrays (DARZ/FORM binary properties) and the temperature log are not decoded; -dF/dT is computed from the raw melt readings",
-    "Our own Cq (`analyze qpcr --cq`) is not the LightCycler 480's Cp algorithm (not public); use the vendor Cp in `cq`",
+    "Our own Cq (`analyze qpcr --compute-cq`) is not the LightCycler 480's Cp algorithm (not public); use the vendor Cp in `cq`",
     "The closing checksum line is kept (`vendor.trailer`), not verified"
    ],
    "page": "qpcr",
@@ -2060,7 +2060,7 @@
     "SoftMax Pro binary documents: SoftMax Pro 5 .pda plate sections (absorbance, endpoint or kinetic, one wavelength, 96 wells; 4 documents from 2 labs validated value-for-value against their text exports) and SoftMax Pro 6/7 .sda endpoint plates (absorbance, fluorescence, luminescence; one wavelength; 6 documents validated) are decoded; kinetic, spectrum and well-scan sections of 6/7 documents, several wavelengths, other plate sizes and cuvette sets are refused (exit 6: export them as text)",
     "Gen5 experiment files (.xpt): endpoint and kinetic reads decoded from the plate archives (validated on Gen5 2.08, 3.04, 3.11 and 3.15 files from three labs against their exports); the detection mode comes from the read name (number, ex,em, Lum), other names are `unknown`; flagged cells (OVRFLW etc.) are NaN without their text; area scans, spectra, well scans and protocol files (.prt) are refused",
     "Gen5 area scans and multi-plate kinetic exports, SoftMax Pro well scans and fluorescence spectra are not decoded",
-    "Values calculated by the vendor software are kept as `calculated` reads; curve fits and group tables are kept verbatim only (`openreadout analyze assay` recomputes standard curves, IC50s and kinetics from the reads). SoftMax Pro 5 document templates give the layout (samples, groups, `Blank` group as blanks); SoftMax Pro text-export group tables and SoftMax Pro 6/7 group sections are not used as layouts, and document-stored reduced values are not read",
+    "Values calculated by the vendor software are kept as `calculated` reads; curve fits and group tables are kept verbatim only (the plate-reader assays of `openreadout analyze` recompute standard curves, IC50s and kinetics from the reads). SoftMax Pro 5 document templates give the layout (samples, groups, `Blank` group as blanks); SoftMax Pro text-export group tables and SoftMax Pro 6/7 group sections are not used as layouts, and document-stored reduced values are not read",
     "Day/month order of slash dates is assumed month-first when ambiguous (flagged)"
    ],
    "page": "plate-readers",

@@ -52,8 +52,8 @@ A file still being written gets the same `acquisition` block as on the command l
 
 Without `against` or `report`, returns the integrity report: `ok` and a list of findings.
 
-- `against`: compare `file` with this second file (for example its export): metadata differences, geometry, channel names and per-plane hashes. `image`, `select`, `tolerance`, `ignore` and `no_pixels` work as in `check --against`.
-- `report: true`: build the privacy-reviewed diagnostic bundle of `check --report`, for a file that fails or is not validated. It contains no data values, and free text only with `include_text: true`. It is written to a file only when `output` is given.
+- `against`: compare `file` with this second file (for example its export): metadata differences, geometry, channel names and per-plane hashes. `image`, `select`, `tolerance`, `ignore` and `no_pixels` work as in `compare`.
+- `report: true`: build the privacy-reviewed diagnostic bundle of `report`, for a file that fails or is not validated. It contains no data values, and free text only with `include_text: true`. It is written to a file only when `output` is given.
 
 ### openreadout_preview
 
@@ -69,7 +69,7 @@ One window of one sweep, in physical units, with per-channel statistics (includi
 
 ### openreadout_table
 
-Rows of a table: `table`, `first_row`, `max_rows` (default about 5000 values, at most 10000 rows). For FCS files, `compensate`, `transform`, `transform_parameters`, `workspace`, `gatingml`, `sample` and `populations` work as in [`table`](commands/table.md). `filter` takes conditions such as `"FITC-A > 1000"`; with `count: true`, only the number of matching rows is returned.
+Rows of a table: `table`, `first_row`, `max_rows` (default about 5000 values, at most 10000 rows). For FCS files, `compensate`, `transform`, `parameters`, `workspace`, `gatingml`, `sample` and `populations` work as in [`table`](commands/table.md). `filter` takes conditions such as `"FITC-A > 1000"`; with `count: true`, only the number of matching rows is returned.
 
 ### openreadout_spectra
 

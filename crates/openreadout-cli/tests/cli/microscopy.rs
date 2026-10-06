@@ -9,8 +9,7 @@ use crate::common::*;
 fn nd2_plane(p: &std::path::Path, image: u32, c: u32, z: u32, t: u32) -> Result<String, String> {
     let out = bin()
         .args([
-            "check",
-            "--planes",
+            "planes",
             p.to_str().unwrap(),
             "--json",
             "--image",
@@ -192,7 +191,7 @@ fn assert_ome_tiff_roundtrip(src: &std::path::Path) {
     }
     let hashes = |p: &std::path::Path| -> Vec<(u64, u64, u64, u64, String)> {
         let out = bin()
-            .args(["check", "--planes", p.to_str().unwrap(), "--json"])
+            .args(["planes", p.to_str().unwrap(), "--json"])
             .output()
             .unwrap();
         assert!(
@@ -278,7 +277,7 @@ fn lif_info_check_and_truncation() {
     );
     // reading a missing plane is a clean error, not a panic
     let out = bin()
-        .args(["check", "--planes", t.to_str().unwrap(), "--json"])
+        .args(["planes", t.to_str().unwrap(), "--json"])
         .output()
         .unwrap();
     assert!(!out.status.success());
@@ -468,14 +467,7 @@ fn nd2_dump_embeds_frame_records() {
         return;
     };
     let out = bin()
-        .args([
-            "info",
-            "--view",
-            "full",
-            p.to_str().unwrap(),
-            "--json",
-            "--no-vendor",
-        ])
+        .args(["info", "--view", "full", p.to_str().unwrap(), "--json"])
         .output()
         .unwrap();
     assert!(out.status.success());
@@ -661,7 +653,10 @@ fn explain_nd2_czi_lif_fcs() {
             .map(|c| c.as_str().unwrap())
             .collect();
         assert!(cmds.iter().any(|c| c.contains("--select z=10")), "{cmds:?}");
-        assert!(cmds.iter().any(|c| c.contains("--all-frames")), "{cmds:?}");
+        assert!(
+            cmds.iter().any(|c| c.contains("--max-frames -1")),
+            "{cmds:?}"
+        );
         // The human form carries the same narrative.
         let out = bin()
             .args(["info", "--view", "explain", p.to_str().unwrap()])
@@ -932,7 +927,7 @@ fn lif_corpus_mosaic_matches_lasx_merge_and_exports() {
     // Real tile scan: our stitched aics-tiled planes equal LAS X's own merge (aics-merged-tiles).
     let hashes = |p: &PathBuf| -> Vec<String> {
         let out = bin()
-            .args(["check", "--planes", p.to_str().unwrap(), "--json"])
+            .args(["planes", p.to_str().unwrap(), "--json"])
             .output()
             .unwrap();
         json(&out)["data"]["planes"]
@@ -974,14 +969,7 @@ fn lif_corpus_mosaic_matches_lasx_merge_and_exports() {
 fn lif_flim_is_unsupported_exit_6_and_containers_read() {
     let p = lif_fixture("synthetic-dims.lif");
     let out = bin()
-        .args([
-            "check",
-            "--planes",
-            p.to_str().unwrap(),
-            "--image",
-            "7",
-            "--json",
-        ])
+        .args(["planes", p.to_str().unwrap(), "--image", "7", "--json"])
         .output()
         .unwrap();
     assert_eq!(out.status.code(), Some(6));
@@ -996,7 +984,7 @@ fn lif_flim_is_unsupported_exit_6_and_containers_read() {
         .unwrap();
     assert_eq!(json(&out)["data"]["confidence"], "definite");
     let out = bin()
-        .args(["check", "--planes", x.to_str().unwrap(), "--json"])
+        .args(["planes", x.to_str().unwrap(), "--json"])
         .output()
         .unwrap();
     assert!(out.status.success());
@@ -1092,14 +1080,7 @@ fn czi_dump_has_per_plane_frames_and_info_has_time_stamps() {
         return;
     };
     let out = bin()
-        .args([
-            "info",
-            "--view",
-            "full",
-            p.to_str().unwrap(),
-            "--json",
-            "--no-vendor",
-        ])
+        .args(["info", "--view", "full", p.to_str().unwrap(), "--json"])
         .output()
         .unwrap();
     assert!(out.status.success());
@@ -1155,8 +1136,7 @@ fn czi_planes_level_reads_pyramid() {
     let lvl = &im["extra"]["pyramid"][0];
     let out = bin()
         .args([
-            "check",
-            "--planes",
+            "planes",
             p.to_str().unwrap(),
             "--image",
             "0",
@@ -1175,20 +1155,13 @@ fn czi_planes_level_reads_pyramid() {
     // level 0 is the default and omits the field
     let v0 = json(
         &bin()
-            .args([
-                "check",
-                "--planes",
-                p.to_str().unwrap(),
-                "--image",
-                "0",
-                "--json",
-            ])
+            .args(["planes", p.to_str().unwrap(), "--image", "0", "--json"])
             .output()
             .unwrap(),
     );
     assert!(v0["data"]["planes"][0].get("level").is_none());
     let out = bin()
-        .args(["check", "--planes", p.to_str().unwrap(), "--level", "7"])
+        .args(["planes", p.to_str().unwrap(), "--level", "7"])
         .output()
         .unwrap();
     assert_eq!(out.status.code(), Some(2));
@@ -1204,7 +1177,7 @@ fn czi_multifile_parts_are_followed_and_missing_parts_reported() {
         return;
     };
     let out = bin()
-        .args(["check", "--planes", master.to_str().unwrap(), "--json"])
+        .args(["planes", master.to_str().unwrap(), "--json"])
         .output()
         .unwrap();
     assert!(out.status.success());
@@ -1240,26 +1213,13 @@ fn czi_multifile_parts_are_followed_and_missing_parts_reported() {
         .collect();
     assert!(codes.iter().any(|c| c == "missing_part"), "{codes:?}");
     let out = bin()
-        .args([
-            "check",
-            "--planes",
-            m.to_str().unwrap(),
-            "--select",
-            "t=0-1",
-        ])
+        .args(["planes", m.to_str().unwrap(), "--select", "t=0-1"])
         .output()
         .unwrap();
     assert!(out.status.success());
     // the missing part is a missing file (io, exit 5) naming it, not a corrupt master
     let out = bin()
-        .args([
-            "check",
-            "--planes",
-            m.to_str().unwrap(),
-            "--select",
-            "t=2",
-            "--json",
-        ])
+        .args(["planes", m.to_str().unwrap(), "--select", "t=2", "--json"])
         .output()
         .unwrap();
     assert_eq!(out.status.code(), Some(5));
@@ -1322,7 +1282,7 @@ fn czi_check_counts_planes_packed_in_one_subblock() {
 fn czi_jpeg_and_resolution_protocol_fixtures() {
     if let Some(p) = corpus("synthetic-gray8-jpeg.czi") {
         let out = bin()
-            .args(["check", "--planes", p.to_str().unwrap(), "--json"])
+            .args(["planes", p.to_str().unwrap(), "--json"])
             .output()
             .unwrap();
         assert!(out.status.success());
@@ -1330,7 +1290,7 @@ fn czi_jpeg_and_resolution_protocol_fixtures() {
     }
     if let Some(p) = corpus("synthetic-gray16-jpeg12.czi") {
         let out = bin()
-            .args(["check", "--planes", p.to_str().unwrap(), "--json"])
+            .args(["planes", p.to_str().unwrap(), "--json"])
             .output()
             .unwrap();
         assert_eq!(out.status.code(), Some(6), "12-bit DCT JPEG is unsupported");
@@ -1351,7 +1311,7 @@ fn czi_jpeg_and_resolution_protocol_fixtures() {
         assert_eq!(f["severity"], "warning");
         let planes = json(
             &bin()
-                .args(["check", "--planes", p.to_str().unwrap(), "--json"])
+                .args(["planes", p.to_str().unwrap(), "--json"])
                 .output()
                 .unwrap(),
         );
@@ -1447,7 +1407,7 @@ fn tiff_truncation_is_detected() {
         );
         // reading a plane that is gone is a clean corrupt-file error, not a panic
         let out = bin()
-            .args(["check", "--planes", t.to_str().unwrap(), "--json"])
+            .args(["planes", t.to_str().unwrap(), "--json"])
             .output()
             .unwrap();
         assert!(!out.status.success());
@@ -1506,9 +1466,8 @@ fn ome_tiff_round_trip_keeps_metadata_corpus() {
             .unwrap();
         assert!(out.status.success(), "{name}: {}", stdout(&out));
         let out = bin()
-            .args(["check", "--json"])
+            .args(["compare", "--json"])
             .arg(&p)
-            .arg("--against")
             .arg(&ome)
             .output()
             .unwrap();
@@ -1526,16 +1485,13 @@ fn ome_tiff_round_trip_keeps_metadata_corpus() {
 /// The fixtures' OME-Zarr exports compare identical, metadata included: the objective,
 /// instrument and acquisition mode travel in `OME/METADATA.ome.xml`, and neither a name nor a
 /// display colour is invented. An export made with `--select` compares identical with
-/// `check --against --select` (same selection). Regression for the 2026-10 website audit.
+/// `compare --select` (same selection). Regression for the 2026-10 website audit.
 #[test]
 fn ome_zarr_round_trip_and_selected_exports_compare_identical() {
     let tmp = tempfile::tempdir().unwrap();
     let check = |src: &Path, other: &Path, select: &[&str]| {
         let mut cmd = bin();
-        cmd.args(["check", "--json"])
-            .arg(src)
-            .arg("--against")
-            .arg(other);
+        cmd.args(["compare", "--json"]).arg(src).arg(other);
         for s in select {
             cmd.args(["--select", s]);
         }
@@ -1579,9 +1535,8 @@ fn ome_zarr_round_trip_and_selected_exports_compare_identical() {
         .unwrap();
     assert!(out.status.success(), "{}", stderr(&out));
     let out = bin()
-        .args(["check", "--json"])
+        .args(["compare", "--json"])
         .arg(&src)
-        .arg("--against")
         .arg(&zarr)
         .output()
         .unwrap();
@@ -1604,9 +1559,8 @@ fn ome_zarr_round_trip_and_selected_exports_compare_identical() {
         assert_eq!(v["data"]["planes"]["planes"], 1);
         // without the selection the export is (correctly) a different file
         let out = bin()
-            .args(["check", "--json"])
+            .args(["compare", "--json"])
             .arg(&src)
-            .arg("--against")
             .arg(&out_path)
             .output()
             .unwrap();

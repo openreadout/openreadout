@@ -83,7 +83,7 @@ Other vendor wording is kept, such as `Brightfield (RGB)` from VSI.
 
 ## Per-frame records
 
-`info --view full` lists per-plane acquisition data under `images[].extra.frames`: the first 100 per image, or all with `--all-frames`. `frame_records_total` gives the count. ND2 and CZI files have them. All fields are optional except the indices:
+`info --view full` lists per-plane acquisition data under `images[].extra.frames`: the first 100 per image, or all with `--max-frames -1`. `frame_records_total` gives the count. ND2 and CZI files have them. All fields are optional except the indices:
 
 | field | meaning |
 | --- | --- |
@@ -278,7 +278,7 @@ An export and read-back does not reproduce:
 - `time_increment_s` where the source had only per-frame times. The OME-TIFF reader infers the mean step from the planes, so the read-back has one.
 - Everything in `extra` except what the table above maps.
 
-`check --against` compares a source with its export and reports these differences; see [check](../reference/commands/check.md).
+`compare` compares a source with its export and reports these differences; see [check](../reference/commands/check.md).
 
 ## Conformance
 

@@ -7,14 +7,15 @@
 openreadout_spectra(
   x,
   scan = NULL,
-  index = NULL,
+  spectrum = NULL,
   run = 1,
   centroid = FALSE,
   ms_level = NULL,
   polarity = NULL,
   rt_range = NULL,
-  precursor_mz = NULL,
-  ppm = NULL,
+  precursor = NULL,
+  precursor_tol = NULL,
+  precursor_ppm = NULL,
   charge = NULL,
   activation = NULL,
   scan_filter = NULL,
@@ -27,24 +28,23 @@ openreadout_spectra(
 
 \item{scan}{The instrument's scan number (as in the vendor software and mzML ids).}
 
-\item{index}{Position of the spectrum in the run (1 = the first).}
+\item{spectrum}{Position of the spectrum in the run (1 = the first).}
 
 \item{run}{Which spectra run (1 = the first; \code{openreadout_info(x)$spectra}).}
 
-\item{centroid}{With \code{scan} or \code{index}: return the instrument's centroid list where a scan
+\item{centroid}{With \code{scan} or \code{spectrum}: return the instrument's centroid list where a scan
 stores both profile and centroids.}
 
-\item{ms_level, polarity, rt_range, precursor_mz, ppm, charge, activation, scan_filter}{Scan
-headers only of MS level \code{ms_level}, polarity \code{"positive"} or \code{"negative"}, retention
-times within \code{rt_range} (\code{c(start, end)}, minutes), precursors within \code{ppm} of
-\code{precursor_mz}, precursor charge \code{charge}, activation \code{"HCD"}, \code{"CID"}, ..., and filter
-strings containing \code{scan_filter}.}
+\item{ms_level, polarity, rt_range, precursor, precursor_tol, precursor_ppm, charge, activation, scan_filter}{Scan headers only of MS level \code{ms_level}, polarity \code{"positive"} or \code{"negative"},
+retention times within \code{rt_range} (\code{c(start, end)}, minutes), precursors within
+\code{precursor_tol} (m/z, default 0.01) or \code{precursor_ppm} of \code{precursor}, precursor charge
+\code{charge}, activation \code{"HCD"}, \code{"CID"}, ..., and filter strings containing \code{scan_filter}.}
 
 \item{offset, limit}{Skip the first \code{offset} matching scans; list at most \code{limit} (default
 all). Every match is counted.}
 }
 \value{
-Without \code{scan} and \code{index}: a data frame with one row per scan (\code{index},
+Without \code{scan} and \code{spectrum}: a data frame with one row per scan (\code{index},
 \code{scan_number}, \code{ms_level}, \code{rt_s}, \code{polarity}, \code{precursor_mz}, \code{precursor_charge},
 \code{isolation_window_mz}, \code{activation}, \code{collision_energy}, \code{scan_filter}, ...) and an
 attribute \code{scans} with the counts (\code{matched}, \code{ms_level_counts}, \code{rt_range_s}, ...).
@@ -56,8 +56,8 @@ seconds; \code{NA} when the file states none for the scan), \code{polarity}, \co
 \description{
 \verb{openreadout spectra}: the scan headers of a mass-spectrometry run (Thermo \code{.raw}, mzML,
 mzXML, imzML, Bruker timsTOF \code{.d}, Agilent MassHunter \code{.d}, Waters \code{.raw}, Sciex \code{.wiff})
-without decoding any peaks, or, with \code{scan} or \code{index}, one spectrum's m/z and intensity
-arrays.
+without decoding any peaks, or, with \code{scan} or \code{spectrum}, one spectrum's m/z and
+intensity arrays.
 }
 \examples{
 \dontrun{

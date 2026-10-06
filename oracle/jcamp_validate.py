@@ -60,7 +60,7 @@ def main() -> int:
                   "--overwrite", "--trace", str(a.trace), "--sweep", str(a.sweep))
         n = rep["samples_written"]
         tr = run(a.openreadout, "trace", str(a.source), "--trace", str(a.trace), "--sweep", str(a.sweep),
-                 "--first", str(rep["first_sample"]), "--count", str(n), "--max-samples", str(min(n, 100000)))
+                 "--first-sample", str(rep["first_sample"]), "--count", str(n), "--max-samples", str(min(n, 100000)))
         want = [np.array([math.nan if v is None else v for v in ch["samples"]]) for ch in tr["channels"]]
         # bit-exact when exact, else within half the factor
         tol = [0.0 if rep["exact"] else f / 2 for f in rep["factors"]]

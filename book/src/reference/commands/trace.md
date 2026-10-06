@@ -14,9 +14,9 @@ openreadout trace [OPTIONS] [FILE]...
 - `--trace N`: trace index. Default 0 (in a batch table, every trace).
 - `--sweep N`: sweep (episode or segment) index. Default 0 (in a batch table, every sweep).
 - `--channel N`: channel index. Repeatable. Default: all channels.
-- `--first N`: first sample of the window, zero-based within the sweep. Default 0.
+- `--first-sample N`: first sample of the window, zero-based within the sweep. Default 0.
 - `--count N`: window length in samples. Default: to the end of the sweep.
-- `--x-range A:B`: a window on the trace's own axis instead of `--first`/`--count`: cm⁻¹, nm, ppm, or a chromatogram's retention time. Seconds for signals without an axis.
+- `--x-range A:B`: a window on the trace's own axis instead of `--first-sample`/`--count`: cm⁻¹, nm, ppm, or a chromatogram's retention time. Seconds for signals without an axis.
 - `--max-samples N`: samples returned per channel, at most 100000. Default 1000. The statistics always cover the whole window.
 - `--process`: NMR: read FIDs as spectra processed by OpenReadout.
 - `--process-phase MODE`, `--process-lb HZ`, `--process-size N`, `--process-baseline MODE`: processing settings. See [`analyze nmr-peaks`](analyze.md#nmr-peaks).

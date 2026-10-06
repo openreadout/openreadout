@@ -651,7 +651,7 @@ async fn sessions_offer_the_viewer_only_when_negotiated() {
     let tools = plain.call("tools/list", json!({})).await;
     let text = tools.to_string();
     assert!(!text.contains(VIEW_TOOL) && !text.contains(RESOURCE_URI));
-    assert_eq!(tools["tools"].as_array().unwrap().len(), 15);
+    assert_eq!(tools["tools"].as_array().unwrap().len(), 29);
     let list = plain.call("resources/list", json!({})).await;
     assert!(!list.to_string().contains(RESOURCE_URI));
     let info = plain

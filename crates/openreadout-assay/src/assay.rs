@@ -213,7 +213,7 @@ fn collect_series(
         }
         None if spectral => {
             return Err(usage(format!(
-                "read {} (`{}`) is a spectrum ({} wavelengths: {}); choose one with --wavelength NM",
+                "read {} (`{}`) is a spectrum ({} wavelengths: {}); choose one with --wavelength-nm NM",
                 read.number,
                 read.label,
                 wls.len(),
@@ -672,7 +672,7 @@ pub fn run(plate: &PlateData, req: &AssayRequest, user: Option<Layout>) -> Resul
                     .map(|r| format!("{} `{}`", r.number, r.label))
                     .collect();
                 return Err(usage(format!(
-                    "read {} is kinetic ({} time points per well): choose how each well's time course becomes one value with --reduce (max-slope, mean-slope, last, max, mean, min, first, auc), or run `analyze assay kinetics`{}",
+                    "read {} is kinetic ({} time points per well): choose how each well's time course becomes one value with --reduce (max-slope, mean-slope, last, max, mean, min, first, auc), or run `analyze kinetics`{}",
                     read.number,
                     time_points.unwrap_or(0),
                     if others.is_empty() {
@@ -735,7 +735,7 @@ fn endpoint(
     let reduce = match (kinetic, req.reduce) {
         (true, None) => {
             return Err(usage(format!(
-                "read {} is kinetic ({} time points per well): choose how each well's time course becomes one value with --reduce (max-slope, mean-slope, last, max, mean, min, first, auc), or run `analyze assay kinetics`",
+                "read {} is kinetic ({} time points per well): choose how each well's time course becomes one value with --reduce (max-slope, mean-slope, last, max, mean, min, first, auc), or run `analyze kinetics`",
                 out.read.number,
                 out.read.time_points.unwrap_or(0)
             )));
@@ -819,7 +819,7 @@ fn endpoint(
         }
         Analysis::Qc if !has_controls => {
             return Err(usage(
-                "Z′ needs positive and negative control wells: mark them in the layout (role positive / negative) or with --positive WELLS --negative WELLS",
+                "Z′ needs positive and negative control wells: mark them in the layout (role positive / negative) or with --positive-wells WELLS --negative-wells WELLS",
             ));
         }
         _ => {}

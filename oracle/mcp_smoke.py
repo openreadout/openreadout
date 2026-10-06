@@ -42,15 +42,40 @@ import urllib.request
 
 PROTOCOL = "2025-11-25"
 WRITERS = {"openreadout_export", "openreadout_batch"}
-# Write only new files of their own (the index directory; a check report bundle only when
-# `report` and `output` are given): not read-only, not destructive.
-INDEX_WRITERS = {"openreadout_index", "openreadout_check"}
+# Write only new files of their own (the index directory; a diagnostic bundle only when
+# `output` is given): not read-only, not destructive.
+INDEX_WRITERS = {"openreadout_index", "openreadout_report"}
+# One tool per analysis; the plate-reader assays are one tool per `analysis`.
+ASSAY_TOOLS = {
+    "wells": "openreadout_assay_wells", "curve": "openreadout_assay_curve",
+    "dose-response": "openreadout_dose_response", "kinetics": "openreadout_kinetics",
+    "growth": "openreadout_growth", "qc": "openreadout_assay_qc",
+}
+# Assay arguments that the tools take under `plate_options`.
+PLATE_OPTIONS = {"table", "read", "wavelength_nm", "embedded_layout", "layout_text", "empty_wells", "roles",
+                 "blank_subtraction", "outliers", "outlier_threshold", "exclude_outliers"}
 EXPECTED_TOOLS = {
-    "openreadout_info", "openreadout_check", "openreadout_preview", "openreadout_stats",
-    "openreadout_trace", "openreadout_table", "openreadout_spectra", "openreadout_analyze",
+    "openreadout_info", "openreadout_check", "openreadout_compare", "openreadout_report",
+    "openreadout_preview", "openreadout_stats", "openreadout_trace", "openreadout_table",
+    "openreadout_spectra", "openreadout_peaks", "openreadout_chromatogram", "openreadout_nmr_peaks",
+    "openreadout_ephys_features", "openreadout_spikes", "openreadout_qpcr", "openreadout_gate",
+    *ASSAY_TOOLS.values(),
     "openreadout_export", "openreadout_batch", "openreadout_link", "openreadout_index",
     "openreadout_search", "openreadout_watch", "openreadout_formats",
 }
+
+
+def analysis_call(kind, file, options):
+    """The tool and arguments of analysis `kind` (`peaks`, `nmr-peaks`, `assay` with `analysis`)."""
+    args = dict(options)
+    if kind == "assay":
+        name = ASSAY_TOOLS[args.pop("analysis", "wells")]
+        plate = {k: args.pop(k) for k in list(args) if k in PLATE_OPTIONS}
+        if plate:
+            args["plate_options"] = plate
+    else:
+        name = "openreadout_" + kind.replace("-", "_")
+    return name, {"file": file, **args}
 # Returns new events on every call: not idempotent.
 NOT_IDEMPOTENT = {"openreadout_watch"}
 PREVIEW_BUDGET = 750_000
@@ -205,7 +230,7 @@ def synthetic_analyses(c, tmp, called):
         return c.request("tools/call", {"name": name, "arguments": args})[0]
 
     def analyze(kind, file, **options):
-        return call("openreadout_analyze", {"file": file, "kind": kind, "options": options})
+        return call(*analysis_call(kind, file, options))
 
     fcs, gml, rdml = (os.path.join(tmp, n) for n in ("smoke.fcs", "smoke-gates.xml", "smoke.rdml"))
     g = result_json(analyze("gate", fcs, gatingml=gml), "gate")
@@ -445,10 +470,20 @@ def analysis_tools(c, tmp, called):
         return result_json(c.request("tools/call", {"name": name, "arguments": args})[0], name)
 
     def analyze(kind, file, **options):
-        called.add("openreadout_analyze")
-        r = c.request("tools/call", {"name": "openreadout_analyze",
-                                     "arguments": {"file": file, "kind": kind, "options": options}})[0]
-        return result_json(r, f"analyze {kind}")
+        name, args = analysis_call(kind, file, options)
+        called.add(name)
+        r = c.request("tools/call", {"name": name, "arguments": args})[0]
+        return result_json(r, name)
+
+    def answers(kind, file, **options):
+        """The tool answers: a result, or an error with a code and a hint."""
+        name, args = analysis_call(kind, file, options)
+        called.add(name)
+        r = c.request("tools/call", {"name": name, "arguments": args})[0]
+        if "error" in r:
+            check(r["error"].get("data", {}).get("hint"), f"{name}: an error without a hint: {r}")
+        else:
+            result_json(r, name)
 
     lc = os.path.join(tmp, "smoke-lc.mzML")
     ch = analyze("chromatogram", lc, mz=[LC_MZ])["chromatograms"][0]
@@ -483,13 +518,15 @@ def analysis_tools(c, tmp, called):
     vals = plate_values()
     aw = analyze("assay", plate, analysis="wells")
     got = {w["well"]: w["raw"] for w in aw["wells"]}
-    check(all(math.isclose(got[w], v, rel_tol=1e-9) for w, v in vals.items()), "assay wells differ from the written values")
+    check(all(math.isclose(got[w], v, rel_tol=1e-9) for w, v in vals.items()), "assay-wells differ from the written values")
     stds = ";".join(f"{r}1,{r}2={conc}" for r, conc in PLATE_STD.items())
-    cv = analyze("assay", plate, analysis="curve", standards=stds, model="linear", blank="none")
+    cv = analyze("assay", plate, analysis="curve", standards=stds, model="linear", blank_subtraction="none")
     well = next(w for w in cv["wells"] if w["well"] == "C7")
     want = (vals["C7"] - 0.05) / 0.01
-    check(math.isclose(well["back_calculated"], want, rel_tol=1e-6), f"assay curve C7 {well['back_calculated']} != {want}")
+    check(math.isclose(well["back_calculated"], want, rel_tol=1e-6), f"assay-curve C7 {well['back_calculated']} != {want}")
     print(f"assay: {len(got)} wells as written; linear curve back-calculates C7 = {well['back_calculated']:.4f} ({want:.4f})")
+    for analysis in ("dose-response", "kinetics", "growth", "qc"):
+        answers("assay", plate, analysis=analysis)
 
     ws = call("openreadout_stats", {"file": os.path.join(tmp, "smoke-plate.ome.zarr"), "per": "well"})
     for w, base in ZPLATE_WELLS.items():
@@ -799,7 +836,7 @@ def per_file(c, path, tmp, called):
     base = os.path.basename(path.rstrip("/"))
     print(f"--- {base}")
     def analyze(kind, **options):
-        return call("openreadout_analyze", {"file": path, "kind": kind, "options": options})
+        return call(*analysis_call(kind, path, options))
 
     det = result_json(call("openreadout_info", {"file": path, "view": "format"})[0], "info format")
     info = result_json(call("openreadout_info", {"file": path})[0], "info")
@@ -807,7 +844,7 @@ def per_file(c, path, tmp, called):
     check(ex["summary"] and isinstance(ex["paragraphs"], list), "info explain")
     ok = result_json(call("openreadout_check", {"file": path})[0], "check")["ok"]
     ls = result_json(call("openreadout_info", {"file": path, "view": "structure"})[0], "info structure")
-    rep = result_json(call("openreadout_check", {"file": path, "report": True,
+    rep = result_json(call("openreadout_report", {"file": path,
                                                  "output": os.path.join(tmp, base + ".report.json")})[0], "check report")
     check(rep["output"] and rep["report"]["stages"][0]["stage"] == "detect", "report")
     check(base not in json.dumps(rep["report"]), "report bundle contains the file name")
@@ -851,13 +888,18 @@ def per_file(c, path, tmp, called):
             print(f"export {fmt}: {rep['planes_written']} planes verified, {len(prog)} progress notifications")
         st = result_json(call("openreadout_stats", {"file": path, "image": 0, "select": ["z=0", "t=0"], "bins": 8})[0], "stats")
         check(st["channels"] and st["channels"][0]["stats"]["count"] > 0, "stats: no samples counted")
-        cmp_ = result_json(call("openreadout_check", {"file": path, "against": os.path.join(tmp, "x.ome.tiff"),
-                                                       "image": 0, "select": ["z=0", "t=0"]})[0], "check against")
+        cmp_ = result_json(call("openreadout_compare", {"file": path, "against": os.path.join(tmp, "x.ome.tiff"),
+                                                         "image": 0, "select": ["z=0", "t=0"]})[0], "compare")
         check(cmp_["planes"]["mismatched"] == 0, f"check against our OME-TIFF export: {cmp_['planes']}")
         print(f"stats: {len(st['channels'])} channels; check against OME-TIFF: {cmp_['planes']['identical']} planes identical")
     if info.get("tables"):
         t = result_json(call("openreadout_table", {"file": path, "max_rows": 3})[0], "table")
         print(f"table: {t['columns'][:4]} total {t['total_rows']}")
+        csv_out = os.path.join(tmp, base + ".table.csv")
+        e = result_json(call("openreadout_export", {"file": path, "format": "csv", "table": 0,
+                                                    "output": csv_out})[0], "export csv")
+        check(e["verified"] and os.path.exists(csv_out), f"export csv: {e}")
+        print(f"export csv: {e['rows_written']} rows, verified")
     if det["format"] == "plate":
         r = analyze("assay", analysis="wells", reduce="last")[0]
         a = result_json(r, "assay")
@@ -874,11 +916,11 @@ def per_file(c, path, tmp, called):
             pk = result_json(analyze("peaks", summary_only=True)[0], "peaks")
             print(f"chromatogram apex {ch['chromatograms'][0].get('apex_rt_min')} min; "
                   f"peaks: {pk['chromatograms'][0]['peak_count']}")
-            r = call("openreadout_batch", {"measure": "peaks", "inputs": [path],
+            r = call("openreadout_batch", {"measure": "peaks", "paths": [path],
                                              "options": {"traces": [0], "rows": "chromatogram"}})[0]
             b = result_json(r, "batch peaks")
             check(b["total_rows"] == 1, f"batch peaks: {b['total_rows']} rows")
-            r = call("openreadout_batch", {"measure": "peaks", "inputs": [path], "options": {"mzz": 1}})[0]
+            r = call("openreadout_batch", {"measure": "peaks", "paths": [path], "options": {"mzz": 1}})[0]
             check("error" in r or r.get("result", {}).get("isError"), "batch: an unknown option must be refused")
         elif fam == "nmr":
             n = result_json(analyze("nmr-peaks")[0], "nmr-peaks")
@@ -892,7 +934,7 @@ def per_file(c, path, tmp, called):
                 sp = result_json(analyze("spikes", max_seconds=1.0)[0], "spikes")
                 print(f"spikes: {sp['spike_count_total']} spikes")
     if info.get("spectra"):
-        s = result_json(call("openreadout_spectra", {"file": path, "index": 0, "max_points": 5})[0], "spectra index")
+        s = result_json(call("openreadout_spectra", {"file": path, "spectrum": 0, "max_points": 5})[0], "spectra spectrum")
         print(f"spectrum: scan {s['spectrum']['scan_number']}, {s['point_count']} points")
         sc = result_json(call("openreadout_spectra", {"file": path, "limit": 3})[0], "spectra list")
         check(sc["returned"] <= 3 and sc["matched"] == sc["scan_count"], "scans: every scan counted, 3 listed")
@@ -946,13 +988,13 @@ def index_and_search(c, tmp, called):
         print(f"watch: {len(news)} data sets, {len(w['events'])} events, cursor {w['cursor']}")
         rows = os.path.join(idx, "rows.csv")
         r = c.request("tools/call", {"name": "openreadout_batch",
-                                     "arguments": {"measure": "info", "inputs": [tmp], "recursive": True,
+                                     "arguments": {"measure": "info", "paths": [tmp], "recursive": True,
                                                    "output": rows}})[0]
         called.add("openreadout_batch")
         b = result_json(r, "batch info")
         check(b["total_rows"] >= 1, "batch info: no rows")
         r = c.request("tools/call", {"name": "openreadout_batch",
-                                     "arguments": {"measure": "summarize", "inputs": [rows], "by": ["format"]}})[0]
+                                     "arguments": {"measure": "summarize", "paths": [rows], "by": ["format"]}})[0]
         result_json(r, "batch summarize")
         r = c.request("tools/call", {"name": "openreadout_link", "arguments": {"paths": [tmp]}})[0]
         called.add("openreadout_link")

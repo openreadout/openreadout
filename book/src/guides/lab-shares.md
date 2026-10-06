@@ -370,7 +370,7 @@ Each output is written under a temporary name, read back and compared, then rena
 
 ## Files still being written
 
-You can read data while the instrument is still writing it. `info`, `info --view structure`, `check` and `check --planes` read every complete plane of a growing file. They report the unfinished part in an `acquisition` block instead of failing as corrupt. None of these commands write to the data or lock it.
+You can read data while the instrument is still writing it. `info`, `info --view structure`, `check` and `planes` read every complete plane of a growing file. They report the unfinished part in an `acquisition` block instead of failing as corrupt. None of these commands write to the data or lock it.
 
 | format | read while growing | unit read |
 | --- | --- | --- |

@@ -772,7 +772,7 @@ fn rs_scans(h: Robj, run: i32, filter: &str, offset: f64, limit: f64) -> Robj {
 // Analyses (JSON in, JSON out: the MCP tools' arguments and the CLI's --json data)
 
 /// `openreadout analyze KIND` on an open file, for the kinds that read one data set
-/// (`options`: the MCP `openreadout_analyze` options of that kind, as JSON).
+/// (`options`: the arguments of that kind's MCP tool, as JSON).
 #[extendr]
 fn rs_analyze_dataset(h: Robj, kind: &str, options: &str) -> Robj {
     json(
@@ -806,7 +806,7 @@ fn rs_analyze(path: &str, kind: &str, options: &str) -> Robj {
     done(res)
 }
 
-/// `chromatogram` query (the `options` of MCP `openreadout_analyze` kind `chromatogram`).
+/// `chromatogram` query (the arguments of MCP `openreadout_chromatogram`).
 #[extendr]
 fn rs_chromatogram(h: Robj, query: &str) -> Robj {
     json(
@@ -821,7 +821,7 @@ fn rs_chromatogram(h: Robj, query: &str) -> Robj {
     )
 }
 
-/// `peaks` query (the `options` of MCP `openreadout_analyze` kind `peaks`):
+/// `peaks` query (the arguments of MCP `openreadout_peaks`):
 /// `{"output": PeaksOutput, "rows": [PeakRow]}`.
 #[extendr]
 fn rs_peaks(h: Robj, query: &str) -> Robj {

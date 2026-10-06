@@ -32,7 +32,7 @@ fn thermo_raw_info_spectrum_export_and_truncation() {
     );
     assert_eq!(s["mz"].as_array().unwrap().len(), 21);
     let out = bin()
-        .args(["spectra", f, "--index", "999999", "--json"])
+        .args(["spectra", f, "--spectrum", "999999", "--json"])
         .output()
         .unwrap();
     assert_eq!(out.status.code(), Some(2));
@@ -76,7 +76,7 @@ fn thermo_raw_info_spectrum_export_and_truncation() {
     assert_eq!(out.status.code(), Some(4));
     assert_eq!(json(&out)["data"]["findings"][0]["code"], "truncated");
     let out = bin()
-        .args(["spectra", t.to_str().unwrap(), "--index", "0", "--json"])
+        .args(["spectra", t.to_str().unwrap(), "--spectrum", "0", "--json"])
         .output()
         .unwrap();
     assert_eq!(out.status.code(), Some(4));
@@ -101,7 +101,7 @@ fn waters_full_scan_spectrum_export_and_truncation() {
     assert_eq!(run["instrument"]["model"], "SYNAPT-XS");
     // the first spectrum is the lock-spray reference scan at 0.035 min
     let out = bin()
-        .args(["spectra", f, "--index", "0", "--json"])
+        .args(["spectra", f, "--spectrum", "0", "--json"])
         .output()
         .unwrap();
     assert!(out.status.success());
@@ -177,7 +177,7 @@ fn sciex_wiff_mrm_check_truncation_and_wiff2() {
     // Local acquisition clock placed in its zone from the file's UTC storage times.
     assert_eq!(run["extra"]["acquired_at"], "2021-09-23T16:03:25.000+02:00");
     let out = bin()
-        .args(["spectra", f, "--index", "0", "--json"])
+        .args(["spectra", f, "--spectrum", "0", "--json"])
         .output()
         .unwrap();
     assert!(out.status.success());
@@ -246,7 +246,7 @@ fn scans_list_headers_with_filters_pages_and_csv() {
             f,
             "--precursor",
             "84.08",
-            "--tol",
+            "--precursor-tol",
             "0.01",
             "--count",
             "--json",
@@ -274,14 +274,14 @@ fn scans_list_headers_with_filters_pages_and_csv() {
     assert_eq!(lines.count() as u64, matched);
     // bad filters are usage errors
     let out = bin()
-        .args(["spectra", f, "--rt", "9-3", "--json"])
+        .args(["spectra", f, "--rt-range", "9-3", "--json"])
         .output()
         .unwrap();
     assert_eq!(out.status.code(), Some(2));
 }
 
 /// An mzML exported to mzML keeps its instrument (exact model, software and component terms)
-/// and its chromatograms: `check --against` finds the two identical. Regression for the
+/// and its chromatograms: `compare` finds the two identical. Regression for the
 /// 2026-10 website audit (generic term names came back, the TIC was dropped).
 #[test]
 fn mzml_to_mzml_keeps_instrument_terms_and_chromatograms() {
@@ -312,9 +312,8 @@ fn mzml_to_mzml_keeps_instrument_terms_and_chromatograms() {
         "total ion current chromatogram"
     );
     let out = bin()
-        .args(["check", "--json"])
+        .args(["compare", "--json"])
         .arg(&src)
-        .arg("--against")
         .arg(&out_path)
         .output()
         .unwrap();

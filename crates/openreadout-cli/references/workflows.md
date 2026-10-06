@@ -9,7 +9,7 @@ openreadout info run42.czi --json
 
 Turn `data.images[]` into a sentence per image: "Scene B2: 486×486 px, 1 channel (EGFP, ex 488/em 509 nm), 4 z-slices, 3 timepoints, 0.10 µm/px, Plan-Apochromat 5x/0.35, acquired 2022-08-22." Mention `notes` verbatim if present.
 
-Or let the tool write it: `openreadout info run42.czi --view explain --json` returns `summary` (one or two sentences), `paragraphs` (contents, channels, optics, timing, what is unusual), `caveats` (reader notes, missing calibration, local-time stamps, reader confidence) and `suggested_commands` (exports, selections, `check`, `info --view full --all-frames`), all derived from the `info` fields. Pass the caveats on; they are the things a scientist would otherwise assume.
+Or let the tool write it: `openreadout info run42.czi --view explain --json` returns `summary` (one or two sentences), `paragraphs` (contents, channels, optics, timing, what is unusual), `caveats` (reader notes, missing calibration, local-time stamps, reader confidence) and `suggested_commands` (exports, selections, `check`, `info --view full --max-frames -1`), all derived from the `info` fields. Pass the caveats on; they are the things a scientist would otherwise assume.
 
 ## 2. Convert for analysis
 
@@ -50,7 +50,7 @@ One line per file (`path`, then the usual envelope). Exit 4 = at least one file 
 
 ## 4. Feed metadata to an LLM without the vendor noise
 
-`openreadout info FILE --view full --json --no-vendor` gives the normalized block plus provenance in a few KB. Add `--no-provenance` for the smallest payload. Only pull `vendor` when a specific vendor field is needed (it can be megabytes).
+`openreadout info FILE --view full --json` gives the normalized block plus provenance in a few KB. Add `--no-provenance` for the smallest payload. Only pull `vendor` when a specific vendor field is needed (it can be megabytes).
 
 ## 5. Use it as an MCP server
 
@@ -59,7 +59,7 @@ openreadout mcp --config claude      # prints the JSON for Claude Code / Claude 
 claude mcp add openreadout -- openreadout mcp
 ```
 
-Tools: one per command, `openreadout_<command>` (`openreadout_info`, `openreadout_check`, `openreadout_preview`, `openreadout_stats`, `openreadout_trace`, `openreadout_table`, `openreadout_spectra`, `openreadout_analyze`, `openreadout_export`, `openreadout_batch`, `openreadout_link`, `openreadout_index`, `openreadout_search`, `openreadout_watch`, `openreadout_formats`); flags become arguments (`view`, `against`, `report`, `per`), and `analyze KIND` is `openreadout_analyze` with `kind` and `options`. `openreadout self doctor` lists them. Inputs and outputs are the same JSON as the CLI; each tool lists its output schema.
+Tools: one per command, `openreadout_<command>`, and one per analysis (`analyze nmr-peaks` is `openreadout_nmr_peaks`); long flags become arguments with `-` as `_` (`--rt-range` is `rt_range`). `openreadout self doctor` lists them. Inputs and outputs are the same JSON as the CLI; each tool lists its output schema.
 
 ## 6. An NMR data set from the spectrometer PC
 

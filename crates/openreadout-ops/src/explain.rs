@@ -218,9 +218,8 @@ fn explain_info(info: &FileInfo) -> Explanation {
     ex.suggested_commands.splice(0..0, next);
     ex.suggested_commands
         .push(format!("openreadout check {file}"));
-    ex.suggested_commands.push(format!(
-        "openreadout info {file} --view full --json --no-vendor"
-    ));
+    ex.suggested_commands
+        .push(format!("openreadout info {file} --view full --json"));
 
     for n in &info.notes {
         ex.caveats.push(sentence(n));
@@ -385,11 +384,11 @@ fn explain_images(info: &FileInfo, file: &str, ex: &mut Explanation) {
         .any(|i| i.extra.contains_key("frame_records_total"))
     {
         ex.suggested_commands.push(format!(
-            "openreadout info {file} --view full --json --no-vendor --all-frames   # per-frame timestamps and stage positions"
+            "openreadout info {file} --view full --json --max-frames -1   # per-frame timestamps and stage positions"
         ));
     }
     ex.suggested_commands.push(format!(
-        "openreadout check {file} --planes --json   # pixel hashes, to compare copies"
+        "openreadout planes {file} --json   # pixel hashes, to compare copies"
     ));
 }
 
@@ -771,7 +770,7 @@ fn timing_paragraph(images: &[ImageInfo]) -> Option<String> {
         .sum();
     if records > 0 {
         parts.push(format!(
-            "The file keeps a record for each of its {} (acquisition time, stage position and similar; `info --view full --all-frames` lists them).",
+            "The file keeps a record for each of its {} (acquisition time, stage position and similar; `info --view full --max-frames -1` lists them).",
             count_u64(records, "frame")
         ));
     }
@@ -2612,7 +2611,7 @@ mod tests {
         assert!(
             e.suggested_commands
                 .iter()
-                .any(|c| c.contains("--all-frames"))
+                .any(|c| c.contains("--max-frames -1"))
         );
         assert!(
             !e.suggested_commands

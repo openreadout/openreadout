@@ -626,7 +626,7 @@ def test_spectra_match_oracle_headers(corpus: Corpus) -> None:
         ms2 = f.spectra(ms_level=2, limit=2)
         assert ms2["returned"] == 2 and ms2["truncated"]
         assert ms2["matched"] == sum(1 for s in truth if s["ms_level"] == 2)
-        near = f.spectra(precursor_mz=84.08, tol=0.01, limit=0)
+        near = f.spectra(precursor=84.08, precursor_tol=0.01, limit=0)
         assert near["returned"] == 0 and near["matched"] >= 1
         early = f.spectra(rt_range=(0.0, 0.05))
         assert all(s["rt_s"] <= 3.0 for s in early["scans"])

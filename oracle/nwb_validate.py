@@ -63,7 +63,7 @@ def main() -> int:
                 c = json.loads(ts.comments)
                 n = min(data.shape[0], 100000)
                 ref = run(a.openreadout, "trace", str(a.source), "--trace", str(c["trace"]),
-                          "--sweep", str(c["sweep"]), "--first", str(c["first_sample"]),
+                          "--sweep", str(c["sweep"]), "--first-sample", str(c["first_sample"]),
                           "--count", str(n), "--max-samples", str(n))
                 by_index = {ch["index"]: ch for ch in ref["channels"]}
                 cols = data.reshape(data.shape[0], -1)

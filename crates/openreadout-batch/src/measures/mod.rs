@@ -73,8 +73,8 @@ pub struct MeasureSpec {
     /// stats per well or field: only these wells.
     pub wells: Vec<String>,
     /// The analysis measures (`peaks`, `chromatogram`, `assay`, `nmr-peaks`,
-    /// `ephys-features`, `spikes`, `qpcr`) and `spectra`: the `openreadout_analyze` options of
-    /// that kind (or the `openreadout_spectra` filters), plus `rows` (which record list becomes
+    /// `ephys-features`, `spikes`, `qpcr`) and `spectra`: the arguments of that analysis's MCP
+    /// tool (or the `openreadout_spectra` filters), plus `rows` (which record list becomes
     /// rows).
     pub options: serde_json::Map<String, serde_json::Value>,
 }

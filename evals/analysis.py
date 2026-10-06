@@ -1623,7 +1623,7 @@ FACTS += [
     ),
 ]
 
-# plate analysis (`openreadout analyze assay`): evals/assay_facts.py
+# plate analysis (the plate-reader assays of `openreadout analyze`): evals/assay_facts.py
 FACTS += assay_facts.facts(Fact)
 
 
@@ -2344,7 +2344,7 @@ ANALYSIS_SPECS += [
     ),
 ]
 
-# plate analysis (`openreadout analyze assay`): evals/assay_facts.py
+# plate analysis (the plate-reader assays of `openreadout analyze`): evals/assay_facts.py
 ANALYSIS_SPECS += assay_facts.specs()
 
 

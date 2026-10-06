@@ -307,7 +307,7 @@
           "const": "metadata"
         },
         {
-          "description": "Image planes (`check --planes`, `stats`, `export` of images, `preview`).",
+          "description": "Image planes (`planes`, `stats`, `export` of images, `preview`).",
           "type": "string",
           "const": "pixels"
         },

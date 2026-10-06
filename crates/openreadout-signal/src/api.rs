@@ -1,5 +1,5 @@
 //! JSON queries for `analyze nmr-peaks`, `analyze ephys-features` and `analyze spikes`, shared
-//! by the MCP tool (`openreadout_analyze` kinds `nmr-peaks`, `ephys-features`, `spikes`) and batch
+//! by the MCP tool (`openreadout_nmr_peaks`, `openreadout_ephys_features`, `openreadout_spikes`) and batch
 //! tables (`openreadout batch nmr-peaks …`, MCP `openreadout_batch`): the same field names
 //! and defaults everywhere.
 
@@ -56,7 +56,7 @@ pub struct NmrQuery {
     pub integral_reference: Option<(usize, f64)>,
 }
 
-/// Per-spike rows `ephys-features` returns by default over MCP (`openreadout_analyze`): sweeps
+/// Per-spike rows `ephys-features` returns by default over MCP (`openreadout_ephys_features`): sweeps
 /// and cell features answer most questions; spike counts are always complete.
 pub const DEFAULT_MAX_SPIKES: usize = 25;
 

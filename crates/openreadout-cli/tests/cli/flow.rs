@@ -40,7 +40,7 @@ fn fcs_info_ls_check_and_csv_export() {
         String::from_utf8_lossy(&out.stdout)
     );
     let out = bin()
-        .args(["info", "--view", "full", ps, "--json"])
+        .args(["info", "--view", "full", "--vendor", ps, "--json"])
         .output()
         .unwrap();
     assert!(out.status.success());

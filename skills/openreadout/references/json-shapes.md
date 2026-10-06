@@ -1,6 +1,6 @@
 # JSON shapes (schema_version 1)
 
-Authoritative: `openreadout self schema <info|info-format|info-full|info-explain|info-structure|check|check-planes|check-against|export|export-attachment|trace|spectra|spectrum|formats|envelope>` prints the JSON Schema (MCP tools list theirs). This file is the human summary.
+Authoritative: `openreadout self schema <info|info-format|info-full|info-explain|info-structure|check|planes|compare|export|export-attachment|trace|spectra|spectrum|formats|envelope>` prints the JSON Schema (MCP tools list theirs). This file is the human summary.
 
 ## `info` → `FileInfo`
 
@@ -59,7 +59,7 @@ traces[] (Bruker NMR: fid/ser then one per pdata/<n>; JCAMP-DX: one per data tab
 
 ## `info --view full` → `Dump`
 
-`file` (a `FileInfo`; per-frame records under `images[].extra.frames`, capped at 100 per image unless `--all-frames`, with `frame_records_total` and `frames_truncated`), `vendor` (JSON tree of the vendor metadata; CZI = the ImageDocument XML, ND2 = the LV/variant chunks by name (legacy files: the XML boxes by tag), LIF = the XML header), `provenance` (map of JSON path → `spec|vendor-impl|prior-art|inferred`).
+`file` (a `FileInfo`; per-frame records under `images[].extra.frames`, capped at 100 per image unless `--max-frames -1`, with `frame_records_total` and `frames_truncated`), `vendor` (JSON tree of the vendor metadata; CZI = the ImageDocument XML, ND2 = the LV/variant chunks by name (legacy files: the XML boxes by tag), LIF = the XML header), `provenance` (map of JSON path → `spec|vendor-impl|prior-art|inferred`).
 
 CZI frame records are one per plane, ordered t, z, c: `{frame, c, z, t, acquired_at, time_ms, stage_x_um, stage_y_um, stage_z_um, exposure_ms, time_stamp_s}`. CZI `images[].extra` also carries `scene` (`center_position_um`, `contour_size_um`, `well` {`name`, `id`, `row_index`, `column_index`}), `experiment` (`active_setups`, `time_series_cycles`, `time_series_interval_s`), `time_stamps_s` (per T), `events` (`time_s`, `kind`, `description`), `pyramid` (per level: `size_x`, `size_y`, `downsample_x/_y`).
 
@@ -95,7 +95,7 @@ CZI frame records are one per plane, ordered t, z, c: `{frame, c, z, t, acquired
 
 `path, format, trace, sweep, sweep_count, sample_rate_hz, sweep_sample_count, first_sample, sample_count, start_s, channels[]: {index, name, unit, stats {count, finite, min, max, mean, std, argmin, argmax}, samples[]}, truncated`. Statistics cover the whole window; `samples` is capped (CLI `--max-samples`, default 1000; MCP `max_samples`, default 200, max 10000).
 
-## `check --planes` → `PlanesOutput`
+## `planes` → `PlanesOutput`
 
 `path, format, planes[]: {image, level?, c, z, t, width, height, pixel_type, samples_per_pixel, xxh3}`; `xxh3` is xxh3-128 of the little-endian samples, 32 hex chars; `level` appears only for `--level N` with N > 0.
 

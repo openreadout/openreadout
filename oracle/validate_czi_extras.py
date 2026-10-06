@@ -70,7 +70,7 @@ def main() -> int:
                         else:
                             problems.append(f"events {got} != {want}")
                 # per-plane acquisition times: each must be the AcquisitionTime of a subblock at that (S, C, Z, T)
-                dump = run(binary, "info", str(p), "--view", "full", "--no-vendor", "--no-provenance", "--all-frames")
+                dump = run(binary, "info", str(p), "--view", "full", "--no-provenance", "--max-frames", "-1")
                 planes = [dict(fr, image=im["index"]) for im in dump["data"]["file"]["images"]
                           for fr in im.get("extra", {}).get("frames", [])] if dump.get("ok") else []
                 if any(pl.get("acquired_at") for pl in planes):

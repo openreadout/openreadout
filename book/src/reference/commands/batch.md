@@ -39,7 +39,7 @@ Failures are rows with an `error` column, so one bad file does not stop the run,
 
 ### Sample sheets
 
-- `--sample-sheet FILE` (alias `--samples`): join a sample sheet (CSV, TSV, XLSX) or plate layout onto the rows. The join key is chosen from the data and reported. Repeatable.
+- `--sample-sheet FILE` (alias `--sample-sheet`): join a sample sheet (CSV, TSV, XLSX) or plate layout onto the rows. The join key is chosen from the data and reported. Repeatable.
 - `--worksheet NAME`: worksheet of an XLSX sample sheet.
 - `--key SHEET_COLUMN=FIELD`: set the join key yourself. Fields: `path`, `file`, `stem`, `sample_id`, `sample_name`, `barcode`, `well`, `position`, `run_order`, `column:NAME`. Repeat for a composite key.
 

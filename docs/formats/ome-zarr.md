@@ -40,7 +40,7 @@ What becomes images (`info.images[]`, in this order):
 | NGFF | our field |
 | --- | --- |
 | `axes` (0.4+: objects with `name`, `type`, `unit`; 0.3: names; 0.1/0.2: none = `t, c, z, y, x`) | `AxisRole` per array dimension: by name `x`/`y`/`z`/`c`/`t`, else by `type` (`channel`, `time`, the last `space` axes as x, y, z); other axes are read at index 0 and listed in `extra.unmapped_axes` |
-| `datasets[i].path` | pyramid level `i` (`pyramid_levels`, `check --planes --level i`); level 0 gives `size_x/y/z/c/t` |
+| `datasets[i].path` | pyramid level `i` (`pyramid_levels`, `planes --level i`); level 0 gives `size_x/y/z/c/t` |
 | `datasets[0].coordinateTransformations` `scale` × multiscales-level `scale`, with the axis `unit` | `physical_size` (µm; `length_um` converts UDUNITS names such as `nanometer`, `millimeter`) and `time_increment_s` (`time_s`); no unit → no physical size (the raw scale stays in `extra.scale`) |
 | `translation` | `extra.translation` (not applied) |
 | `name` | image `name` (plate fields are named by well and field) |

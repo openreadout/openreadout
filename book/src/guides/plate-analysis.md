@@ -1,11 +1,11 @@
 # Plate-reader assays
 
-After reading a plate, most labs do one of a few standard things: subtract blanks and average replicates, fit a standard curve and back-calculate unknowns, fit dose-response curves, extract kinetic or growth rates, or check the plate's quality from its controls. `openreadout analyze assay` does each of these with a documented method.
+After reading a plate, most labs do one of a few standard things: subtract blanks and average replicates, fit a standard curve and back-calculate unknowns, fit dose-response curves, extract kinetic or growth rates, or check the plate's quality from its controls. `openreadout analyze` has one subcommand for each, with a documented method.
 
 Here is a dose-response plate with three compounds, positive and negative controls, and a layout file that says which well holds what:
 
 ```bash
-openreadout analyze assay dose-response plate.csv --layout layout.csv
+openreadout analyze dose-response plate.csv --layout layout.csv
 ```
 
 ```text
@@ -23,12 +23,12 @@ The files are in the repository as `crates/openreadout-assay/tests/fixtures/assa
 ## Commands
 
 ```bash
-openreadout analyze assay wells         FILE [--layout L.csv] [--blank H1,H2]       # blanks, replicates, CVs, outliers
-openreadout analyze assay curve         FILE [--layout L.csv] [--standard A1,A2=100] [--model linear|4pl|5pl]
-openreadout analyze assay dose-response FILE --layout L.csv [--normalize controls] [--model 4pl|5pl]
-openreadout analyze assay kinetics      FILE [--window N]
-openreadout analyze assay growth        FILE [--window N]
-openreadout analyze assay qc            FILE [--positive A1:H1 --negative A12:H12]
+openreadout analyze assay-wells   FILE [--layout L.csv] [--blank-wells H1,H2]   # blanks, replicates, CVs, outliers
+openreadout analyze assay-curve   FILE [--layout L.csv] [--standard A1,A2=100] [--model linear|4pl|5pl]
+openreadout analyze dose-response FILE --layout L.csv [--normalize controls] [--model 4pl|5pl]
+openreadout analyze kinetics      FILE [--window N]
+openreadout analyze growth        FILE [--window N]
+openreadout analyze assay-qc      FILE [--positive-wells A1:H1 --negative-wells A12:H12]
 ```
 
 Options shared by every subcommand:
@@ -37,10 +37,10 @@ Options shared by every subcommand:
 - `--csv PREFIX` writes tidy tables: `PREFIX.wells.csv`, `.samples.csv`, `.compounds.csv`, `.kinetics.csv`, `.growth.csv` and `.curve.csv`.
 - `--table N` picks the plate in a file with several.
 - `--read R` picks the read by number or label. The default is the first measured read; for `kinetics` and `growth`, the first kinetic read.
-- `--wavelength NM` picks a wavelength of a spectral read.
-- `--preview FILE.png` draws the fitted curve (`curve` and `dose-response`).
+- `--wavelength-nm NM` picks a wavelength of a spectral read.
+- `--plot FILE.png` draws the fitted curve (`assay-curve` and `dose-response`).
 
-The same analyses are the MCP tool `openreadout_analyze` with `kind: "assay"`, and the Python function `openreadout.analyze(path, "assay", analysis=…, layout=…, **options)`. To run them over many plates, see [batch](batch.md#analyses-over-a-folder).
+Each subcommand is also an MCP tool with the same arguments: `openreadout_assay_wells`, `openreadout_assay_curve`, `openreadout_dose_response`, `openreadout_kinetics`, `openreadout_growth` and `openreadout_assay_qc`. The tools take `layout` and the control wells at the top level, and the rarely needed options (`table`, `read`, `wavelength_nm`, `blank_subtraction`, `outliers`, `roles`, ...) in a `plate_options` object. In Python they are `openreadout.analyze(path, "assay", analysis=…, layout=…, **options)`. To run them over many plates, see [batch](batch.md#analyses-over-a-folder).
 
 **Input.** Any plate-reader export OpenReadout reads (see [Plate readers](../formats/plate-readers.md)), or a long CSV or TSV file. A long file has a `well` column and a value column named `value`, `signal`, `od`, `absorbance`, `fluorescence`, `luminescence`, `rfu`, `rlu` or similar. For kinetics it also has a time column (`time_s`, `time_min`, `time_h` or `time`). It may carry `read`, `wavelength_nm` and layout columns such as `role` and `sample`.
 
@@ -82,14 +82,14 @@ Layout information is merged well by well, and later sources override earlier on
 
 1. The layout the export embeds, such as Gen5 `Well ID` and `Conc/Dil`, SkanIt sample matrices and layout sheets, or BMG content maps. `--no-embedded-layout` ignores it.
 2. `--layout FILE`.
-3. The well flags `--blank`, `--positive`, `--negative` and `--empty` (wells as `H1,H2`, `A1:H1` or `A1-A12`), and `--standard WELLS=CONC` (repeatable).
+3. The well flags `--blank-wells`, `--positive-wells`, `--negative-wells` and `--empty-wells` (wells as `H1,H2`, `A1:H1` or `A1-A12`), and `--standard WELLS=CONC` (repeatable).
 
 ### Roles
 
 Some names do not say which way a control points. A vehicle or untreated well is the no-effect control of an inhibition assay but the full-signal control of an activation assay. Such wells are controls of unknown sign and are left out of normalization and Z′ until you map them:
 
 ```bash
-openreadout analyze assay dose-response plate.xlsx --layout layout.csv --role DMSO=negative
+openreadout analyze dose-response plate.xlsx --layout layout.csv --role DMSO=negative
 ```
 
 `--role NAME=ROLE` (repeatable) sets the role of every well whose role text or sample name is NAME. `--role CTL=positive` also covers `CTL1` and `CTL2`. It overrides every other source.
@@ -116,7 +116,7 @@ The output's `warnings` list what may be wrong with the layout: a role text that
 
 ## Standard curves
 
-`analyze assay curve` fits the standard wells and back-calculates the concentration of every other well.
+`analyze assay-curve` fits the standard wells and back-calculates the concentration of every other well.
 
 | model | formula |
 | --- | --- |
@@ -145,9 +145,9 @@ In the 4PL, a is the response at zero concentration, d the response at infinite 
 
 ## Dose-response
 
-`analyze assay dose-response` fits a 4PL (default) or 5PL curve per compound to the sample wells that have a concentration.
+`analyze dose-response` fits a 4PL (default) or 5PL curve per compound to the sample wells that have a concentration.
 
-`--normalize controls` first converts every value to percent effect: 100 × (y − negative mean) / (positive mean − negative mean). The negative control is 0 %, the positive control 100 %. On `analyze assay wells`, the same option adds `percent_effect` to every well.
+`--normalize controls` first converts every value to percent effect: 100 × (y − negative mean) / (positive mean − negative mean). The negative control is 0 %, the positive control 100 %. On `analyze assay-wells`, the same option adds `percent_effect` to every well.
 
 Each entry of `compounds[]` has:
 
@@ -161,7 +161,7 @@ Each entry of `compounds[]` has:
 
 ## Kinetics
 
-`analyze assay kinetics` computes per well of a kinetic read. `--window` sets the points per sliding window; the default is 5 or a tenth of the time points, whichever is larger.
+`analyze kinetics` computes per well of a kinetic read. `--window` sets the points per sliding window; the default is 5 or a tenth of the time points, whichever is larger.
 
 | field | meaning |
 | --- | --- |
@@ -174,7 +174,7 @@ Each entry of `compounds[]` has:
 
 ## Growth curves
 
-`analyze assay growth` computes per well after background correction. The background is the blank wells per time point when there are blanks, else the well's own minimum, as in growthcurver.
+`analyze growth` computes per well after background correction. The background is the blank wells per time point when there are blanks, else the well's own minimum, as in growthcurver.
 
 | field | meaning |
 | --- | --- |
@@ -189,7 +189,7 @@ The two rates answer different questions. µmax is the steepest exponential grow
 
 ## Assay quality
 
-`analyze assay qc` reports plate quality from the control wells. The other analyses add the same `quality` block whenever the layout has positive and negative controls. It uses the values before blank subtraction.
+`analyze assay-qc` reports plate quality from the control wells. The other analyses add the same `quality` block whenever the layout has positive and negative controls. It uses the values before blank subtraction.
 
 - `positive`, `negative`, `blank` and `samples`: group statistics
 - `z_prime`: 1 − 3 (SD₊ + SD₋) / |mean₊ − mean₋| (Zhang, Chung and Oldenburg, 1999), with `assessment` `excellent` (at least 0.5), `marginal` (0 to 0.5) or `unusable` (0 or below)
@@ -199,7 +199,7 @@ The two rates answer different questions. µmax is the steepest exponential grow
 
 ## Errors
 
-Mistakes in the request are usage errors (exit 2) with a message that says what to add: no standards or concentrations, no controls for `qc` or `--normalize controls`, a kinetic read without `--reduce`, a spectral read without `--wavelength`, an endpoint read for `kinetics` or `growth`, too few concentrations for the model, or a bad layout line. A file that is not a plate gives the same exit code as `info` would.
+Mistakes in the request are usage errors (exit 2) with a message that says what to add: no standards or concentrations, no controls for `assay-qc` or `--normalize controls`, a kinetic read without `--reduce`, a spectral read without `--wavelength-nm`, an endpoint read for `kinetics` or `growth`, too few concentrations for the model, or a bad layout line. A file that is not a plate gives the same exit code as `info` would.
 
 ## Validation
 
