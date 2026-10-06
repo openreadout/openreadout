@@ -2,7 +2,7 @@
   "name": "openreadout",
   "version": "0.1.0",
   "mcpName": "io.github.openreadout/openreadout",
-  "description": "Read raw lab-instrument files without vendor software. Installs the prebuilt OpenReadout binary for your platform.",
+  "description": "Read raw lab-instrument files without vendor software. Runs the prebuilt OpenReadout binary for your platform.",
   "license": "MIT OR Apache-2.0",
   "author": "The OpenReadout Authors <openreadout@gmail.com>",
   "homepage": "https://github.com/openreadout/openreadout",
@@ -34,28 +34,24 @@
     ".": "./lib/binary.js"
   },
   "scripts": {
-    "postinstall": "node install.js",
     "prepack": "node scripts/prepack.js",
-    "test": "node --test test/archive.test.js"
+    "test": "node --test test/archive.test.js test/packages.test.js"
   },
   "files": [
     "openreadout.js",
-    "install.js",
     "lib/binary.js",
-    "lib/archive.js",
+    "lib/platforms.js",
     "README.md",
     "LICENSE-MIT",
     "LICENSE-APACHE"
   ],
-  "os": [
-    "darwin",
-    "linux",
-    "win32"
-  ],
-  "cpu": [
-    "x64",
-    "arm64"
-  ],
+  "optionalDependencies": {
+    "@openreadout/cli-darwin-arm64": "0.1.0",
+    "@openreadout/cli-darwin-x64": "0.1.0",
+    "@openreadout/cli-linux-arm64": "0.1.0",
+    "@openreadout/cli-linux-x64": "0.1.0",
+    "@openreadout/cli-win32-x64": "0.1.0"
+  },
   "engines": {
     "node": ">=18"
   },

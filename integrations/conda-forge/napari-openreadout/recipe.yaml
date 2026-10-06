@@ -1,0 +1,64 @@
+schema_version: 1
+
+context:
+  name: napari-openreadout
+  version: "0.1.0"
+
+package:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/napari_openreadout-${{ version }}.tar.gz
+  sha256: e6fd01252c0e21574f972f0f307e4db4b4ce32c7e070a4a31da6da732a8123e4
+
+build:
+  number: 0
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - hatchling >=1.26
+  run:
+    # napari loads the plugin, so napari itself is not a dependency (as on PyPI).
+    - python >=${{ python_min }}
+    - python-openreadout >=0.1.0,<0.2
+    - dask-core >=2022.2
+    - numpy >=1.22
+
+tests:
+  - python:
+      imports:
+        - napari_openreadout
+      python_version:
+        - ${{ python_min }}.*
+        - "*"
+  - files:
+      source:
+        - tests/
+    requirements:
+      run:
+        - python ${{ python_min }}.*
+        - pytest
+        - npe2 >=0.7
+    script:
+      # The tests that need corpus files skip themselves; the rest validate the napari manifest
+      # and check that unknown files are declined.
+      - pytest tests -v
+
+about:
+  homepage: https://openreadout.github.io/openreadout/
+  repository: https://github.com/openreadout/openreadout
+  documentation: https://openreadout.github.io/openreadout/guides/napari.html
+  summary: napari reader plugin that opens microscopy files lazily with OpenReadout
+  license: MIT OR Apache-2.0
+  license_file:
+    - LICENSE-MIT
+    - LICENSE-APACHE
+
+extra:
+  recipe-maintainers:
+    - richardzimring

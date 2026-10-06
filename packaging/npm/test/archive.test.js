@@ -7,8 +7,7 @@ const os = require('os');
 const path = require('path');
 const zlib = require('zlib');
 const { execFileSync } = require('child_process');
-const { extractFromTarGz, extractFromZip } = require('../lib/archive');
-const { parseSums, target, assetName } = require('../lib/binary');
+const { extractFromTarGz, extractFromZip } = require('../scripts/archive');
 
 test('tar.gz produced like the release job (tar -C dist -czf x.tar.gz .)', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'openreadout-'));
@@ -69,13 +68,3 @@ test('zip, stored and deflated entries', () => {
   assert.throws(() => extractFromZip(Buffer.alloc(100), 'x'), /not a zip/);
 });
 
-test('SHA256SUMS parsing and platform mapping', () => {
-  const a = 'a'.repeat(64);
-  const s = parseSums(`${a}  openreadout-x86_64-unknown-linux-musl.tar.gz\n${'B'.repeat(64)} *dist/x.zip\n`);
-  assert.strictEqual(s.get('openreadout-x86_64-unknown-linux-musl.tar.gz'), a);
-  assert.strictEqual(s.get('x.zip'), 'b'.repeat(64));
-  assert.strictEqual(target('linux', 'x64'), 'x86_64-unknown-linux-musl');
-  assert.strictEqual(target('darwin', 'arm64'), 'aarch64-apple-darwin');
-  assert.strictEqual(assetName(target('win32', 'x64')), 'openreadout-x86_64-pc-windows-msvc.zip');
-  assert.throws(() => target('freebsd', 'x64'), /no prebuilt/);
-});
