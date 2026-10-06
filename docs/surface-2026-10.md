@@ -1,6 +1,12 @@
 # CLI and MCP surface, October 2026
 
-Status: proposal for review. Nothing below is implemented yet.
+Status: partly implemented on `feat/surface`.
+
+- Done: one MCP tool per analysis (with `plate_options` on the six assay tools), `check` split into `check`, `planes`, `compare` and `report` on both surfaces, the argument renames and naming conventions below, CSV in `openreadout_export`, `schema_version` 2. The plate-reader subcommands are `analyze assay-wells`, `assay-curve`, `dose-response`, `kinetics`, `growth` and `assay-qc`, and `analyze` stays a CLI group. The `spectra` renames (`--spectrum`, `--rt-range`, `--precursor-tol`, `--precursor-ppm`, `--scan-filter`, `count`) apply to `spectra` as it is today. The `--samples` and `--layout` spellings of `--sample-sheet` are gone (rule 4).
+- Held for the owner: splitting `spectra` into `scans` and `spectrum`, `export --attachment` into `extract`, `batch summarize` into `summarize`, `search --health` and `--export` into `health` and `export-dataset` (with `index --health`), adding `openreadout_health`, dropping `openreadout_formats`, and whether the analyses move to the top level of the CLI. The MCP crate keeps these as separate modules (`tools/spectra.rs`, `tools/export.rs`, `tools/batch.rs`, `tools/index.rs`) so each is one change.
+- Measured after the change: 29 tools, 77 kB of input schemas (58 kB before). The largest is `openreadout_peaks` at 6.8 kB; the six assay tools are 3.4 to 5.4 kB each, against 26 kB for `openreadout_analyze`.
+
+The rest of this note is the proposal as reviewed.
 
 This note maps every command, MCP tool and argument of v0.1.0 to the surface proposed for the next release, and says why. There are no users yet, so names change without aliases or deprecation shims.
 

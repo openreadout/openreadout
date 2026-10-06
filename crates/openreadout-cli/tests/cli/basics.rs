@@ -9,7 +9,7 @@ fn formats_lists_all_readers() {
     assert!(out.status.success());
     let v = json(&out);
     assert_eq!(v["ok"], true);
-    assert_eq!(v["schema_version"], "1");
+    assert_eq!(v["schema_version"], "2");
     let ids: Vec<&str> = v["data"]["formats"]
         .as_array()
         .unwrap()

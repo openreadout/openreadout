@@ -27,7 +27,7 @@ pub struct MeasureArgs {
     pub files: Vec<PathBuf>,
     #[command(flatten)]
     pub batch: BatchArgs,
-    /// A measure option, `KEY=VALUE`, repeatable: the MCP tools' option names (`mz=[195.0877]`,
+    /// A measure option, `KEY=VALUE`, repeatable: the MCP tools' argument names (`mz=[195.0877]`,
     /// `ppm=10`, `analysis=curve`, `from=fid`, `rows=compound`). VALUE is read as JSON when it
     /// parses (numbers, true, [..], {..}), else as text.
     #[arg(long = "set", value_name = "KEY=VALUE")]

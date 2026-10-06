@@ -18,7 +18,7 @@
 //!
 //! [`Files`] holds several files (a dropped folder) so multi-file data sets resolve their
 //! siblings. Every operation returns the `--json` envelope of the CLI command of the same name
-//! as a string: `{"ok":true,"schema_version":"1","tool":{…},"data":{…}}` or `{"ok":false,…,
+//! as a string: `{"ok":true,"schema_version":"2","tool":{…},"data":{…}}` or `{"ok":false,…,
 //! "error":{code,message,hint,exit_code}}`.
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]
@@ -151,7 +151,7 @@ fn envelope<T: Serialize>(r: Result<T, Error>) -> String {
     };
     s.unwrap_or_else(|e| {
         format!(
-            r#"{{"ok":false,"schema_version":"1","error":{{"code":"error","message":"JSON serialization failed: {e}","exit_code":1}}}}"#
+            r#"{{"ok":false,"schema_version":"2","error":{{"code":"error","message":"JSON serialization failed: {e}","exit_code":1}}}}"#
         )
     })
 }

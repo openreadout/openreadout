@@ -187,7 +187,7 @@
       "type": "object",
       "properties": {
         "index": {
-          "description": "Zero-based spectrum index within its run (`spectra --index`).",
+          "description": "Zero-based spectrum index within its run (`spectra --spectrum`).",
           "type": "integer",
           "format": "uint64",
           "minimum": 0

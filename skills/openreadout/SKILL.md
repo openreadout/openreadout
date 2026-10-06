@@ -32,7 +32,7 @@ Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <
 
 ## Output
 
-- `--json` prints `{"ok": true, "schema_version": "1", "tool": {...}, "data": {...}}`; errors are `{"ok": false, "error": {"code", "message", "hint", "exit_code"}}`, and the `hint` says what to do next. Exit codes: 0 ok · 1 error (`compare`: the files differ) · 2 usage · 3 unknown format · 4 corrupt or truncated · 5 I/O · 6 known format, unsupported feature.
+- `--json` prints `{"ok": true, "schema_version": "2", "tool": {...}, "data": {...}}`; errors are `{"ok": false, "error": {"code", "message", "hint", "exit_code"}}`, and the `hint` says what to do next. Exit codes: 0 ok · 1 error (`compare`: the files differ) · 2 usage · 3 unknown format · 4 corrupt or truncated · 5 I/O · 6 known format, unsupported feature.
 - Replies are summary-first: a capped list says it was `truncated` and names the flag that pages it. `--only /pointer,…` (JSON pointers into `data`, `*` for every element) returns just those values.
 - Several paths, directories (`-r`) or quoted globs make a batch; `--jsonl` prints one envelope per input, and a failing file does not stop the run. `--tidy`, `--sample-sheet` and `--by` turn `info`, `stats`, `trace`, `table` and `analyze gate` into one table; check its `joins[]` (key used, unmatched rows) before the numbers.
 

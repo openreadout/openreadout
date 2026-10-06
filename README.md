@@ -146,7 +146,7 @@ openreadout info cells.lif --json
 ```json
 {
   "ok": true,
-  "schema_version": "1",
+  "schema_version": "2",
   "data": {
     "format": { "id": "lif", "name": "Leica LIF", "vendor": "Leica Microsystems" },
     "images": [

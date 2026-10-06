@@ -26,7 +26,7 @@ use clap::{Parser, Subcommand};
 /// `OpenReadout`: read raw lab-instrument files without the vendor software.
 ///
 /// Every command accepts `--json` and returns a stable envelope
-/// `{"ok":true,"schema_version":"1","tool":{...},"data":{...}}`; errors carry a
+/// `{"ok":true,"schema_version":"2","tool":{...},"data":{...}}`; errors carry a
 /// machine-readable `code`, a `hint`, and the process exit code
 /// (0 ok, 1 error, 2 usage, 3 unknown format, 4 corrupt, 5 I/O, 6 unsupported feature).
 #[derive(Debug, Parser)]
@@ -152,7 +152,7 @@ enum Command {
     ///
     /// Measures: stats, trace, table, info, spectra (one row per MS scan header), or an analysis
     /// — peaks, chromatogram, assay, nmr-peaks, ephys-features, spikes, qpcr, gate — configured
-    /// with the MCP options' names (`--set mz=[195.0877] --set ppm=10`). Rows are exactly the
+    /// with the MCP tools' argument names (`--set mz=[195.0877] --set ppm=10`). Rows are exactly the
     /// single-file command's records (one per peak, compound, well, sweep, …).
     Batch(commands::measure::MeasureArgs),
     /// Group files that measured the same sample across instruments and formats (sample ids,

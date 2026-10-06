@@ -113,15 +113,16 @@
           "description": "The provenance map is included.",
           "type": "boolean"
         },
-        "all_frames": {
-          "description": "Every per-frame record is included (`--max-frames -1`).",
-          "type": "boolean"
+        "max_frames": {
+          "description": "Per-frame records per image (`--max-frames`; -1 = all).",
+          "type": "integer",
+          "format": "int64"
         }
       },
       "required": [
         "vendor",
         "provenance",
-        "all_frames"
+        "max_frames"
       ]
     },
     "Dump": {
