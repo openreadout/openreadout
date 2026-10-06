@@ -37,7 +37,7 @@ Olympus/Evident cellSens VSI files (cellSens, VS120/VS200 slide scanners) with t
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `vsi` | [format note](../../docs/formats/vsi.md), [provenance log](../../docs/provenance/vsi.md) | high | prior art | 27 / 11 | 9 | - |
+| `vsi` | [format note](../../docs/formats/vsi.md), [provenance log](../../docs/provenance/vsi.md) | high | prior art | 28 / 12 | 10 | - |
 
 ### Source map
 
@@ -72,29 +72,32 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `vsi` | codec | `jpeg` | pixels | 6 | 6 | `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview`, `figshare30384007-vsi-spleen` |
+| `vsi` | codec | `jpeg` | pixels | 7 | 7 | `bia2666-vsi-24B0759-t6`, `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview` |
+| `vsi` | codec | `jpeg-lossless` | pixels | 1 | 1 | `bia2666-vsi-24B0759-t6` |
 | `vsi` | codec | `jpeg2000` | pixels | 1 | 1 | `zenodo6094961-vsi-ets-test-jpg2k` |
 | `vsi` | codec | `raw` | pixels | 3 | 4 | `ome-cellsens-deconv-binning2x2`, `ome-cellsens-deconv-binning2x2-mle`, `ome-cellsens-metadatatest-01` |
-| `vsi` | field | `experiment.acquisition.started_at` | descriptive | 11 | 11 | `figshare27677802-vsi-stitch`, `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview` |
-| `vsi` | field | `experiment.instrument.model` | descriptive | 11 | 11 | `figshare27677802-vsi-stitch`, `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview` |
-| `vsi` | format_version | `0x00030003` | metadata, pixels | 3 | 3 | `figshare27677802-vsi-stitch`, `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview` |
+| `vsi` | field | `experiment.acquisition.started_at` | descriptive | 12 | 12 | `bia2666-vsi-24B0759-t6`, `figshare27677802-vsi-stitch`, `figshare28409411-vsi-dotslide` |
+| `vsi` | field | `experiment.instrument.model` | descriptive | 12 | 12 | `bia2666-vsi-24B0759-t6`, `figshare27677802-vsi-stitch`, `figshare28409411-vsi-dotslide` |
+| `vsi` | format_version | `0x00030003` | metadata, pixels | 4 | 4 | `bia2666-vsi-24B0759-t6`, `figshare27677802-vsi-stitch`, `figshare28409411-vsi-dotslide` |
 | `vsi` | format_version | `0x00030005` | metadata, pixels | 1 | 1 | `figshare30384007-vsi-spleen` |
 | `vsi` | format_version | `0x00030006` | metadata, pixels | 7 | 7 | `figshare31724575-vsi-timelapse`, `ome-cellsens-deconv-binning2x2`, `ome-cellsens-deconv-binning2x2-mle` |
 | `vsi` | layout | `dimension c` | pixels | 3 | 3 | `figshare31724575-vsi-timelapse`, `ome-cellsens-metadatatest-01`, `zenodo6094961-vsi-ets-test-jpg2k` |
 | `vsi` | layout | `dimension t` | pixels | 2 | 2 | `figshare31724575-vsi-timelapse`, `ome-cellsens-metadatatest-01` |
 | `vsi` | layout | `dimension z` | pixels | 4 | 4 | `ome-cellsens-deconv-binning2x2`, `ome-cellsens-deconv-binning2x2-mle`, `ome-cellsens-metadatatest-01` |
 | `vsi` | layout | `metadata_only` | metadata | 0 | 16 |  |
-| `vsi` | layout | `pyramid` | pixels | 5 | 6 | `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview`, `figshare30384007-vsi-spleen` |
+| `vsi` | layout | `pyramid` | pixels | 6 | 7 | `bia2666-vsi-24B0759-t6`, `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview` |
 | `vsi` | layout | `size from ets_header` | pixels | 8 | 8 | `figshare30384007-vsi-spleen`, `figshare31724575-vsi-timelapse`, `ome-cellsens-deconv-binning2x2` |
-| `vsi` | layout | `size from vsi_layout` | pixels | 2 | 3 | `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview` |
+| `vsi` | layout | `size from vsi_layout` | pixels | 3 | 4 | `bia2666-vsi-24B0759-t6`, `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview` |
 | `vsi` | layout | `tile grid offset` | pixels | 1 | 2 | `figshare30384007-vsi-spleen` |
 | `vsi` | sample_layout | `uint16` | pixels | 4 | 4 | `ome-cellsens-deconv-binning2x2`, `ome-cellsens-deconv-binning2x2-mle`, `ome-cellsens-metadatatest-01` |
 | `vsi` | sample_layout | `uint8` | pixels | 1 | 2 | `figshare31724575-vsi-timelapse` |
-| `vsi` | sample_layout | `uint8x3` | pixels | 5 | 5 | `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview`, `figshare30384007-vsi-spleen` |
+| `vsi` | sample_layout | `uint8x3` | pixels | 6 | 6 | `bia2666-vsi-24B0759-t6`, `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview` |
+| `vsi` | writer | `OLYMPUS VS-ASW` | metadata, pixels | 1 | 1 | `bia2666-vsi-24B0759-t6` |
 | `vsi` | writer | `OLYMPUS VS200 ASW` | metadata, pixels | 2 | 2 | `zenodo17453126-he-bone-vsi`, `zenodo8161864-vs200-he-20x` |
 | `vsi` | writer | `OLYMPUS cellSens Dimension` | metadata, pixels | 6 | 6 | `figshare30384007-vsi-spleen`, `figshare31724575-vsi-timelapse`, `ome-cellsens-deconv-binning2x2` |
 | `vsi` | writer | `Stream Essentials` | metadata, pixels | 1 | 1 | `figshare27677802-vsi-stitch` |
 | `vsi` | writer | `dotSlide` | metadata, pixels | 2 | 2 | `figshare28409411-vsi-dotslide`, `figshare28409411-vsi-dotslide-overview` |
+| `vsi` | writer_version | `OLYMPUS VS-ASW 2` | descriptive | 1 | 1 | `bia2666-vsi-24B0759-t6` |
 | `vsi` | writer_version | `OLYMPUS VS200 ASW 3` | descriptive | 1 | 1 | `zenodo8161864-vs200-he-20x` |
 | `vsi` | writer_version | `OLYMPUS VS200 ASW 4` | descriptive | 1 | 1 | `zenodo17453126-he-bone-vsi` |
 | `vsi` | writer_version | `OLYMPUS cellSens Dimension 1` | descriptive | 1 | 1 | `figshare30384007-vsi-spleen` |
@@ -108,7 +111,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_vsi`
-- corpus inputs by tier: full 3, smoke 1, standard 23
+- corpus inputs by tier: full 4, smoke 1, standard 23
 - golden snapshots: [`corpus/snapshots/vsi.jsonl`](../../corpus/snapshots/vsi.jsonl)
 
 ### Open new-variant intakes
