@@ -129,7 +129,7 @@ pub struct ContinuousChannel {
 }
 
 /// A run of continuous samples: where its samples start and when.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct SampleBlock {
     /// File offset of the first sample.
     pub offset: u64,
@@ -137,6 +137,202 @@ pub struct SampleBlock {
     pub timestamp: u64,
     /// Samples in the block.
     pub samples: u32,
+}
+
+/// One continuous channel's blocks in file order, stored compactly.
+///
+/// Long recordings can hold tens of millions of small blocks (a corpus file has 31 million
+/// blocks of about 10 samples), so a plain list of [`SampleBlock`] would cost 24 bytes per
+/// block. Blocks are stored in groups of `GROUP`. The first block of a group is kept whole.
+/// Each later block is stored as how much the offset step, the timestamp step and the sample
+/// count changed from the block before it (variable-length numbers, usually a few bytes in
+/// all, since these rarely change). Finding a block decodes at most one group. The encoded
+/// bytes go into fixed-size chunks, so the list does not copy itself as it grows.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct BlockList {
+    /// Encoded groups; a group does not span two chunks.
+    chunks: Vec<Vec<u8>>,
+    /// First block of each group, and the chunk and position where the rest of it starts.
+    groups: Vec<(SampleBlock, u32, u32)>,
+    len: usize,
+    /// The last block pushed and the steps that led to it.
+    last: Steps,
+}
+
+/// A block and its differences from the block before it.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+struct Steps {
+    block: SampleBlock,
+    offset_step: u64,
+    timestamp_step: u64,
+}
+
+impl Steps {
+    fn start(block: SampleBlock) -> Self {
+        Steps {
+            block,
+            offset_step: 0,
+            timestamp_step: 0,
+        }
+    }
+}
+
+impl BlockList {
+    const GROUP: usize = 64;
+    const CHUNK: usize = 64 << 10;
+    /// Longest encoding of one block: three 10-byte numbers.
+    const MAX_BLOCK_BYTES: usize = 30;
+
+    /// Number of blocks.
+    pub fn len(&self) -> usize {
+        self.len
+    }
+
+    /// True when the channel has no blocks.
+    pub fn is_empty(&self) -> bool {
+        self.len == 0
+    }
+
+    /// Append a block.
+    pub fn push(&mut self, b: SampleBlock) {
+        let prev = self.last;
+        match self.chunks.last_mut() {
+            Some(out) if !self.len.is_multiple_of(Self::GROUP) => {
+                let offset_step = b.offset.wrapping_sub(prev.block.offset);
+                let timestamp_step = b.timestamp.wrapping_sub(prev.block.timestamp);
+                put_varint(out, zigzag(offset_step.wrapping_sub(prev.offset_step)));
+                put_varint(
+                    out,
+                    zigzag(timestamp_step.wrapping_sub(prev.timestamp_step)),
+                );
+                put_varint(
+                    out,
+                    zigzag(u64::from(b.samples).wrapping_sub(u64::from(prev.block.samples))),
+                );
+                self.last = Steps {
+                    block: b,
+                    offset_step,
+                    timestamp_step,
+                };
+            }
+            _ => {
+                let room = self
+                    .chunks
+                    .last()
+                    .map_or(0, |c| Self::CHUNK.saturating_sub(c.len()));
+                if room < Self::GROUP * Self::MAX_BLOCK_BYTES {
+                    self.chunks.push(Vec::with_capacity(Self::CHUNK));
+                }
+                let chunk = self.chunks.len() - 1;
+                let pos = self.chunks[chunk].len();
+                self.groups.push((
+                    b,
+                    u32::try_from(chunk).unwrap_or(u32::MAX),
+                    u32::try_from(pos).unwrap_or(u32::MAX),
+                ));
+                self.last = Steps::start(b);
+            }
+        }
+        self.len += 1;
+    }
+
+    /// Blocks `first..first + count` (fewer at the end of the list).
+    pub fn range(&self, first: usize, count: usize) -> impl Iterator<Item = SampleBlock> + '_ {
+        let end = first.saturating_add(count).min(self.len);
+        let group = first / Self::GROUP;
+        BlockIter {
+            list: self,
+            next: group * Self::GROUP,
+            end,
+            last: Steps::default(),
+            bytes: &[],
+            pos: 0,
+        }
+        .skip(first - group * Self::GROUP)
+    }
+
+    /// Every block, in file order.
+    pub fn iter(&self) -> impl Iterator<Item = SampleBlock> + '_ {
+        self.range(0, self.len)
+    }
+}
+
+struct BlockIter<'a> {
+    list: &'a BlockList,
+    next: usize,
+    end: usize,
+    last: Steps,
+    bytes: &'a [u8],
+    pos: usize,
+}
+
+impl Iterator for BlockIter<'_> {
+    type Item = SampleBlock;
+
+    fn next(&mut self) -> Option<SampleBlock> {
+        if self.next >= self.end {
+            return None;
+        }
+        let i = self.next;
+        self.next += 1;
+        if i.is_multiple_of(BlockList::GROUP) {
+            let (b, chunk, pos) = *self.list.groups.get(i / BlockList::GROUP)?;
+            self.bytes = self.list.chunks.get(chunk as usize)?;
+            self.pos = pos as usize;
+            self.last = Steps::start(b);
+            return Some(b);
+        }
+        let prev = self.last;
+        let offset_step = prev
+            .offset_step
+            .wrapping_add(unzigzag(get_varint(self.bytes, &mut self.pos)?));
+        let timestamp_step = prev
+            .timestamp_step
+            .wrapping_add(unzigzag(get_varint(self.bytes, &mut self.pos)?));
+        let samples = u64::from(prev.block.samples)
+            .wrapping_add(unzigzag(get_varint(self.bytes, &mut self.pos)?));
+        let b = SampleBlock {
+            offset: prev.block.offset.wrapping_add(offset_step),
+            timestamp: prev.block.timestamp.wrapping_add(timestamp_step),
+            samples: u32::try_from(samples).ok()?,
+        };
+        self.last = Steps {
+            block: b,
+            offset_step,
+            timestamp_step,
+        };
+        Some(b)
+    }
+}
+
+/// Map a wrapping difference near zero, either side, to a small number.
+fn zigzag(v: u64) -> u64 {
+    (v << 1) ^ (v >> 63).wrapping_neg()
+}
+
+fn unzigzag(v: u64) -> u64 {
+    (v >> 1) ^ (v & 1).wrapping_neg()
+}
+
+fn put_varint(out: &mut Vec<u8>, mut v: u64) {
+    while v >= 0x80 {
+        out.push((v as u8) | 0x80);
+        v >>= 7;
+    }
+    out.push(v as u8);
+}
+
+fn get_varint(b: &[u8], pos: &mut usize) -> Option<u64> {
+    let mut v = 0u64;
+    for shift in (0..64).step_by(7) {
+        let byte = *b.get(*pos)?;
+        *pos += 1;
+        v |= u64::from(byte & 0x7F) << shift;
+        if byte < 0x80 {
+            return Some(v);
+        }
+    }
+    None
 }
 
 /// One event block.
@@ -167,7 +363,7 @@ pub struct Run {
 #[derive(Debug, Clone, Default)]
 pub struct PlxIndex {
     /// Continuous blocks per channel number, in file order.
-    pub continuous: BTreeMap<u16, Vec<SampleBlock>>,
+    pub continuous: BTreeMap<u16, BlockList>,
     /// File offsets of the spike blocks (block header), in file order.
     pub spikes: Vec<u64>,
     /// Longest spike waveform (waveforms × words), samples.
@@ -507,7 +703,11 @@ pub fn walk_blocks(f: &mut File, path: &Path, start: u64, file_len: u64) -> Resu
 
 /// Split one channel's blocks into gap-free runs: a block that starts more than half a sample
 /// period away from where the previous one ended starts a new run.
-pub fn runs(blocks: &[SampleBlock], clock_hz: f64, rate_hz: f64) -> Vec<Run> {
+pub fn runs(
+    blocks: impl IntoIterator<Item = SampleBlock>,
+    clock_hz: f64,
+    rate_hz: f64,
+) -> Vec<Run> {
     let mut out: Vec<Run> = Vec::new();
     let ticks = if rate_hz > 0.0 {
         clock_hz / rate_hz
@@ -515,7 +715,7 @@ pub fn runs(blocks: &[SampleBlock], clock_hz: f64, rate_hz: f64) -> Vec<Run> {
         0.0
     };
     let mut expect: Option<f64> = None;
-    for (i, b) in blocks.iter().enumerate() {
+    for (i, b) in blocks.into_iter().enumerate() {
         let start = b.timestamp as f64;
         let joins = expect.is_some_and(|e| (start - e).abs() <= ticks / 2.0);
         match out.last_mut() {
@@ -533,4 +733,47 @@ pub fn runs(blocks: &[SampleBlock], clock_hz: f64, rate_hz: f64) -> Vec<Run> {
         expect = Some(start + f64::from(b.samples) * ticks);
     }
     out
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn block_list_round_trips() {
+        let mut want = Vec::new();
+        let mut list = BlockList::default();
+        let (mut offset, mut ts) = (1000u64, 5u64 << 33);
+        for i in 0..50_000u64 {
+            offset += 36 + (i * 7919) % 5000;
+            // Mostly forward, sometimes backwards, once a large jump.
+            ts = match i {
+                500 => ts + (1 << 40),
+                _ if i % 97 == 0 => ts - 3,
+                _ => ts + 400,
+            };
+            let b = SampleBlock {
+                offset,
+                timestamp: ts,
+                samples: (10 + i % 3) as u32,
+            };
+            want.push(b);
+            list.push(b);
+        }
+        assert_eq!(list.len(), want.len());
+        assert_eq!(list.iter().collect::<Vec<_>>(), want);
+        for (first, count) in [
+            (0, 1),
+            (63, 2),
+            (64, 64),
+            (130, 500),
+            (49_990, 50),
+            (50_000, 5),
+        ] {
+            let got: Vec<_> = list.range(first, count).collect();
+            let end = (first + count).min(want.len());
+            assert_eq!(got, want[first.min(end)..end], "range {first}+{count}");
+        }
+        assert!(BlockList::default().iter().next().is_none());
+    }
 }

@@ -17,9 +17,42 @@ use openreadout_core::{Error, Plane, Result};
 use serde_json::{Value, json};
 
 use crate::plx::{
-    BLOCK_HEADER_LEN, ContinuousChannel, PlxFile, Run, SampleBlock, block_header, parse_plx, runs,
+    BLOCK_HEADER_LEN, BlockList, ContinuousChannel, PlxFile, Run, block_header, parse_plx, runs,
 };
 use crate::{FORMAT_ID, PlexonReader};
+
+/// A sweep's blocks are read in one go when they lie within this many bytes of the file.
+const READ_SPAN_MAX: u64 = 64 << 20;
+/// Otherwise they are read through windows of this size.
+const READ_WINDOW: u64 = 4 << 20;
+
+/// Call `f(offset, samples)` for each stretch of samples `first_sample..first_sample + n` of
+/// `run` covers in `blocks`, in order.
+fn for_each_piece(
+    blocks: &BlockList,
+    run: &Run,
+    first_sample: u64,
+    n: u64,
+    mut f: impl FnMut(u64, u64) -> Result<()>,
+) -> Result<()> {
+    let mut skip = first_sample;
+    let mut done = 0u64;
+    for b in blocks.range(run.first_block, run.block_count) {
+        if done >= n {
+            break;
+        }
+        let bs = u64::from(b.samples);
+        if skip >= bs {
+            skip -= bs;
+            continue;
+        }
+        let take = (bs - skip).min(n - done);
+        f(b.offset.saturating_add(2 * skip), take)?;
+        done += take;
+        skip = 0;
+    }
+    Ok(())
+}
 
 /// Rows decoded per `read_table` call at most.
 pub const MAX_TABLE_READ: u64 = 1 << 20;
@@ -82,7 +115,7 @@ impl PlxDataset {
                 continue;
             };
             let rate = f64::from(c.rate_hz);
-            let r = runs(blocks, clock, rate);
+            let r = runs(blocks.iter(), clock, rate);
             let grid: Vec<(u64, u64)> = r.iter().map(|x| (x.timestamp, x.samples)).collect();
             match traces.iter_mut().find(|t| {
                 t.rate_hz.to_bits() == rate.to_bits()
@@ -137,11 +170,12 @@ impl PlxDataset {
         Ok(self.handle.as_mut().expect("just opened"))
     }
 
-    fn blocks(&self, c: &ContinuousChannel) -> &[SampleBlock] {
+    fn blocks(&self, c: &ContinuousChannel) -> &BlockList {
+        static EMPTY: std::sync::LazyLock<BlockList> = std::sync::LazyLock::new(BlockList::default);
         u16::try_from(c.channel)
             .ok()
             .and_then(|ch| self.plx.index.continuous.get(&ch))
-            .map_or(&[], Vec::as_slice)
+            .unwrap_or(&*EMPTY)
     }
 
     fn trace_info(&self, index: usize, t: &PlxTrace) -> TraceInfo {
@@ -534,37 +568,52 @@ impl Dataset for PlxDataset {
         }
         let n = max_samples.min(run.samples - first_sample).min(1 << 24);
         let (path, len) = (self.path.clone(), self.plx.file_len);
+        // The blocks of one sweep interleave all channels (and spikes) in one stretch of the
+        // file. When that stretch is small, read it once for every channel instead of one
+        // read per block: blocks often hold only ten samples.
+        let mut span: Option<(u64, u64)> = None;
+        for &ci in &t.channels {
+            let blocks = self.blocks(&self.plx.continuous_channels[ci]);
+            for_each_piece(blocks, &run, first_sample, n, |at, take| {
+                let end = at.saturating_add(2 * take);
+                span = Some(span.map_or((at, end), |(lo, hi)| (lo.min(at), hi.max(end))));
+                Ok(())
+            })?;
+        }
+        let whole_span = span.filter(|(lo, hi)| hi - lo <= READ_SPAN_MAX);
+        let mut win = openreadout_core::bytes::Block::default();
         let mut out = Vec::with_capacity(t.channels.len());
         for &ci in &t.channels {
             let c = self.plx.continuous_channels[ci].clone();
             let scale = self.plx.header.continuous_scale(&c);
-            let blocks: Vec<SampleBlock> =
-                self.blocks(&c)[run.first_block..run.first_block + run.block_count].to_vec();
             let mut v = Vec::with_capacity(n as usize);
-            let mut skip = first_sample;
-            for b in blocks {
-                if v.len() as u64 >= n {
-                    break;
+            let handle = self.handle.take();
+            let mut file = match handle {
+                Some(file) => file,
+                None => self.fs.open(&path).map_err(|e| Error::io(&path, e))?,
+            };
+            let blocks = self.blocks(&c);
+            let res = for_each_piece(blocks, &run, first_sample, n, |at, take| {
+                let end = at.saturating_add(2 * take);
+                if at < win.origin || end > win.end() {
+                    win = match whole_span {
+                        Some((lo, hi)) => read_block(&mut file, &path, lo, hi - lo, len)?,
+                        None => read_block(&mut file, &path, at, (2 * take).max(READ_WINDOW), len)?,
+                    };
                 }
-                let bs = u64::from(b.samples);
-                if skip >= bs {
-                    skip -= bs;
-                    continue;
-                }
-                let take = (bs - skip).min(n - v.len() as u64);
-                let at = b.offset + 2 * skip;
-                let blk = read_block(self.handle()?, &path, at, 2 * take, len)?;
-                if (blk.len() as u64) < 2 * take {
+                if end > win.end() {
                     return Err(Error::corrupt_at(FORMAT_ID, at, "continuous block cut off"));
                 }
                 for k in 0..take {
-                    let raw = blk
+                    let raw = win
                         .i16_at(at + 2 * k)
                         .ok_or_else(|| Error::corrupt_at(FORMAT_ID, at, "sample cut off"))?;
                     v.push(f64::from(raw) * scale);
                 }
-                skip = 0;
-            }
+                Ok(())
+            });
+            self.handle = Some(file);
+            res?;
             out.push(v);
         }
         Ok(Trace {
@@ -649,8 +698,9 @@ impl Dataset for PlxDataset {
                 ));
             }
             let back = blocks
-                .windows(2)
-                .filter(|w| w[1].timestamp < w[0].timestamp)
+                .iter()
+                .zip(blocks.iter().skip(1))
+                .filter(|(a, b)| b.timestamp < a.timestamp)
                 .count();
             if back > 0 {
                 r.push(Finding::warning(
