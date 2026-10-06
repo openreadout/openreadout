@@ -373,7 +373,10 @@ impl EtsFile {
                 &raw,
                 expected.saturating_mul(4).max(1 << 20),
             ),
-            EtsCompression::Jpeg2000 => openreadout_codecs::jpeg2000_decode(&raw),
+            EtsCompression::Jpeg2000 => openreadout_codecs::jpeg2000_decode_limited(
+                &raw,
+                expected.saturating_mul(4).max(1 << 20),
+            ),
             EtsCompression::Other(c) => {
                 return Err(Error::unsupported(
                     FORMAT_ID,

@@ -139,6 +139,7 @@ dependency (one here, three in `crates/openreadout-codecs/tests/fixtures/malform
 | 2026-09-24 | `whole_masshunter` (new, two MetaboLights directory seeds) | 90 s | 19,031 | 0 (coverage 5,550 edges) |
 | 2026-09-24 | second round: `core_zip`, `quant_bands` (new) and 13 targets whose readers had changed (qPCR, OpenLab CDS, Gen5, Shimadzu, WiRE, Harmony, CZI/VSI/NDPI pyramids, ND2, auto baseline) | 90 s each | 3.8 million in all | 1 cause: `whole_vsi` plane-size check overflow, fixed with a regression fixture; clean on rerun |
 | 2026-10-06 | `codec_jpeg` with 12-bit seeds (new 12-bit sequential decoder) and `codec_chunked` (new, CZI chunked compression, 3 seeds) | 5 min each | 0.46 and 3.7 million | 0 |
+| 2026-10-06 | `codec_jpeg2000` after CI's fuzz smoke ran out of memory on a 246-byte codestream declaring 32776 × 9992 samples (the fallback decoder allocated about 2 GB): declared samples are now capped at 65536 per codestream byte (`crates/openreadout-codecs/tests/fixtures/malformed/jpeg2000-fuzz-327-megapixels-from-246-bytes.bin`) | 5 min, `-rss_limit_mb=2048 -malloc_limit_mb=2048` | 236,562 | 0 |
 
 ### Last recorded run per target (to 2026-09-24)
 
