@@ -40,6 +40,10 @@ const MAX_REGION: u64 = 256 << 20;
 /// conversion in the corpus does (`docs/formats/thermo-raw.md` § Precursor and charge).
 pub const MONOISOTOPIC_MAX_SHIFT: f64 = 3.0;
 
+/// How far (m/z) an index row's scan range may lie from the method-table template its scan takes
+/// its event from before `check` warns (`template_mismatch`).
+const TEMPLATE_RANGE_SLACK: f64 = 0.05;
+
 /// The instrument method embedded in the file (a compound file after a Finnigan header).
 #[derive(Debug, Clone, Default)]
 pub struct MethodDocument {
@@ -159,6 +163,8 @@ pub struct ThermoDataset {
     /// Leave peaks flagged [`crate::FLAG_EXCLUDED`] out of spectra, as conversions made before
     /// about 2021 did (see [`ThermoDataset::set_exclude_flagged_peaks`]). Off by default.
     exclude_flagged: bool,
+    /// The run stores no per-scan events: `events` are the method table's templates.
+    events_from_templates: bool,
 }
 
 fn corrupt(offset: u64, msg: impl Into<String>) -> Error {
@@ -226,7 +232,7 @@ impl ThermoDataset {
             return Err(Error::unsupported(
                 FORMAT_ID,
                 format!("file version {version}"),
-                "Versions 63, 64 and 66 are validated; 57-62 are attempted. Older (LCQ-era) and newer layouts are not decoded.",
+                "Versions 57, 61, 62, 63, 64 and 66 are validated; 58-60 and 65 are attempted. Older (LCQ-era) and newer layouts are not decoded.",
             ));
         }
         c.seek_to(FILE_HEADER_LEN as usize)?;
@@ -398,7 +404,7 @@ impl ThermoDataset {
         let ev_buf = region(&mut file, path, s.scan_events, ev_end, "scan events")?;
         let mut c = Cursor::new(&ev_buf, s.scan_events);
         let lead = c.u32()?;
-        if version < 66 && u64::from(lead) != n {
+        if version < 66 && u64::from(lead) != n && run_header.scan_event_count != 0 {
             problems.push(
                 Finding::warning(
                     "scan_event_count",
@@ -408,10 +414,43 @@ impl ThermoDataset {
             );
         }
         let mut events = Vec::with_capacity(n as usize);
-        for i in 0..n {
-            let e = parse_scan_event(&mut c, version)
-                .map_err(|e| corrupt(c.offset(), format!("scan event {}: {e}", i + 1)))?;
-            events.push(e);
+        let events_from_templates = run_header.scan_event_count == 0 && n > 0;
+        if events_from_templates {
+            // No per-scan events (TSQ Altis Plus, TSQ 9610): each scan's event is the method table's template
+            // at the segment and event number of its index row.
+            let table = method_table.as_ref().ok_or_else(|| {
+                corrupt(
+                    s.scan_events,
+                    "the run stores no scan events and its segment/event table could not be read",
+                )
+            })?;
+            let by_number: BTreeMap<(u32, u32), &ScanEvent> = table
+                .templates
+                .iter()
+                .filter_map(|t| t.scan_event.as_ref().map(|e| ((t.segment, t.event), e)))
+                .collect();
+            for (i, row) in index.iter().enumerate() {
+                let e = by_number
+                    .get(&(u32::from(row.segment_number), u32::from(row.event_number)))
+                    .ok_or_else(|| {
+                        corrupt(
+                            s.scan_events,
+                            format!(
+                                "scan {}: no scan event stored and no template for segment {} event {}",
+                                i + 1,
+                                row.segment_number,
+                                row.event_number
+                            ),
+                        )
+                    })?;
+                events.push((*e).clone());
+            }
+        } else {
+            for i in 0..n {
+                let e = parse_scan_event(&mut c, version)
+                    .map_err(|e| corrupt(c.offset(), format!("scan event {}: {e}", i + 1)))?;
+                events.push(e);
+            }
         }
         let events_end = c.offset();
 
@@ -447,6 +486,7 @@ impl ThermoDataset {
             broken: None,
             detectors,
             exclude_flagged: false,
+            events_from_templates,
         })
     }
 
@@ -776,6 +816,9 @@ impl ThermoDataset {
         if let Some(e) = event.source_cid_energy() {
             extra.insert("source_cid_energy".into(), json!(e));
         }
+        if let Some(v) = event.faims_cv() {
+            extra.insert("faims_cv".into(), json!(v));
+        }
         if event.ms_level() >= 3 {
             let params = self.scan_parameters(i).unwrap_or_default();
             if let Some((_, v)) = params
@@ -942,14 +985,37 @@ impl ThermoDataset {
         let mut sources = BTreeSet::new();
         let mut filters: BTreeMap<String, u64> = BTreeMap::new();
         let mut profile = 0u64;
+        // FAIMS compensation voltages (hundredths of a volt, as the filters print them) and the
+        // per-scan options that change what an event's tail items mean.
+        let mut faims_cvs: BTreeSet<i64> = BTreeSet::new();
+        let mut scan_options: BTreeSet<&str> = BTreeSet::new();
+        let rates = self.scan_rates();
         let decimals = self.run_header.filter_mass_decimals();
         for e in &self.events {
+            let cv = e.faims_cv();
+            if let Some(v) = cv {
+                faims_cvs.insert((v * 100.0).round() as i64);
+                scan_options.insert("FAIMS");
+            }
+            if e.source_cid_energy().is_some() {
+                scan_options.insert(if cv.is_some() {
+                    "FAIMS with in-source CID"
+                } else {
+                    "in-source CID"
+                });
+            }
+            if cv.is_some() && e.scan_rate_token_for(rates).is_some() {
+                scan_options.insert("FAIMS with an ion-trap scan rate");
+            }
             levels.insert(e.ms_level());
             *level_counts.entry(e.ms_level()).or_default() += 1;
             polarities.insert(e.polarity().word());
-            if let Some(t) = e.analyzer().filter_token() {
-                analyzers.insert(t);
-            }
+            // An analyzer code without a filter token is listed by its code, so that one never
+            // seen in the corpus shows in the assurance profile (the TSQ files store 6).
+            match e.analyzer() {
+                crate::event::Analyzer::Unknown(code) => analyzers.insert(format!("code {code}")),
+                a => analyzers.insert(a.filter_token().unwrap_or_default().to_string()),
+            };
             if let Some(t) = e.ionization().filter_token() {
                 sources.insert(t);
             }
@@ -1065,6 +1131,20 @@ impl ThermoDataset {
         put("profile_scans", json!(profile));
         put("centroid_scans", json!(self.events.len() as u64 - profile));
         put("ms1_scan_filters", json!(filters));
+        if !faims_cvs.is_empty() {
+            put(
+                "faims_compensation_voltages",
+                json!(
+                    faims_cvs
+                        .iter()
+                        .map(|&v| v as f64 / 100.0)
+                        .collect::<Vec<_>>()
+                ),
+            );
+        }
+        if !scan_options.is_empty() {
+            put("scan_options", json!(scan_options));
+        }
         put(
             "mz_range",
             json!([self.run_header.low_mz, self.run_header.high_mz]),
@@ -1104,8 +1184,14 @@ fn full_model(model: &str, model_2: &str, serial: &str) -> Option<String> {
     let words2: Vec<&str> = m2.split_whitespace().collect();
     let extends = m2.len() > m.len() && m.split_whitespace().all(|w| words2.contains(&w));
     // An instrument name that is the model family plus a site label (`Orbitrap Exploris Slot
-    // #10076` / `Orbitrap Exploris 240`): same first word, and the name lacks a word of the model.
+    // #10076` / `Orbitrap Exploris 240`) or a series name after the maker (`Thermo TSQ Series` /
+    // `TSQ 9610`): same first word once a leading `Thermo` is set aside, and the name lacks a word
+    // of the model.
     let words: Vec<&str> = m.split_whitespace().collect();
+    let words = match words.split_first() {
+        Some((&"Thermo", rest)) if !rest.is_empty() => rest.to_vec(),
+        _ => words,
+    };
     let labelled = !words2.is_empty()
         && words.first() == words2.first()
         && !words2.iter().all(|w| words.contains(w));
@@ -1698,7 +1784,7 @@ impl Dataset for ThermoDataset {
         r.performed("run header self-address and stream addresses within the file");
         let rh = self.run_header.clone();
         let s = rh.streams;
-        if u64::from(rh.scan_event_count) != self.scan_count()
+        if (u64::from(rh.scan_event_count) != self.scan_count() && !self.events_from_templates)
             || u64::from(rh.scan_parameter_count) != self.scan_count()
         {
             r.push(Finding::warning(
@@ -1735,7 +1821,9 @@ impl Dataset for ThermoDataset {
                     r.push(f);
                 }
             };
-            if e.scan_index as usize != i {
+            // Runs without per-scan events store no position here (u32::MAX in the TSQ Altis Plus
+            // file, 0 in the TSQ 9610 file).
+            if e.scan_index as usize != i && !self.events_from_templates {
                 complain(Finding::error(
                     "index_sequence",
                     format!("index row {i} carries position {}", e.scan_index),
@@ -1760,6 +1848,25 @@ impl Dataset for ThermoDataset {
                     )
                     .at(start),
                 );
+            }
+            // A scan whose event comes from the method table: the index row records the
+            // template's range (exactly in the TSQ Altis Plus file; the ISQ file's rows end
+            // 0.015 above its 900.0). A row far from its template points at another template.
+            let near = |a: f64, b: f64| (a - b).abs() <= TEMPLATE_RANGE_SLACK;
+            if self.events_from_templates
+                && let Some(ev) = self.events.get(i)
+                && !(near(ev.scan_range()[0], e.low_mz) && near(ev.scan_range()[1], e.high_mz))
+            {
+                complain(Finding::warning(
+                    "template_mismatch",
+                    format!(
+                        "scan {scan}: template {}/{} covers {:?}, the index row {:?}",
+                        e.segment_number,
+                        e.event_number,
+                        ev.scan_range(),
+                        [e.low_mz, e.high_mz]
+                    ),
+                ));
             }
         }
         if bad > 20 {
@@ -1873,7 +1980,7 @@ impl Dataset for ThermoDataset {
                 format!("{} further packet problems not listed", bad_packets - 10),
             ));
         }
-        if version < 63 {
+        if !SUPPORTED_VERSIONS.contains(&version) {
             r.push(Finding::info(
                 "unvalidated_version",
                 format!("version {version} layouts are inferred, not validated"),
@@ -1997,6 +2104,15 @@ mod tests {
             Some("Thermo Exactive Orbitrap")
         );
         assert_eq!(full_model("LTQ", "LTQX", "").as_deref(), Some("LTQ"));
+        // msv97728: a maker and series name; the export names the instrument `TSQ 9610`
+        assert_eq!(
+            full_model("Thermo TSQ Series", "TSQ 9610", "2310010").as_deref(),
+            Some("TSQ 9610")
+        );
+        assert_eq!(
+            full_model("Orbitrap Astral OA10140", "Orbitrap Astral", "OA10140").as_deref(),
+            Some("Orbitrap Astral")
+        );
         assert_eq!(full_model("", "Orbitrap", "").as_deref(), Some("Orbitrap"));
         assert_eq!(full_model("", "", ""), None);
         assert_eq!(
