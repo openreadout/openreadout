@@ -38,6 +38,28 @@ fn observe(info: &FileInfo) -> Observations {
         if let Some(ac) = a::extra_str(&s.extra, "acquisition") {
             o.feature(K::Acquisition, ac, &[Scope::Spectra]);
         }
+        // The ion polarity is a variant of the 1/K0 decoding, not only a description of the
+        // run: the mobility calibration of one polarity says nothing about the other's.
+        let mobility = s.extra.contains_key("mobility_conversion");
+        let polarities = a::extra_values_in(&s.extra, "polarities");
+        if polarities.iter().any(|p| p == "negative")
+            && a::extra_str(&s.extra, "mobility_conversion")
+                .is_some_and(|c| c.starts_with("TimsCalibration"))
+        {
+            o.derived(
+                "spectra[].inverse_reduced_mobility",
+                "negative-ion voltage magnitude",
+                "a negative-ion run stores its ramp voltages negative; the mobility model is applied to their magnitude",
+            );
+        }
+        for p in polarities {
+            let value = if mobility {
+                format!("{p} ions with ion mobility")
+            } else {
+                format!("{p} ions")
+            };
+            o.feature(K::Acquisition, value, &[Scope::Spectra]);
+        }
         if let Some(i) = &s.instrument {
             if let Some(m) = &i.model {
                 o.context(K::Instrument, m);

@@ -13,7 +13,8 @@
 //! coefficients) inside `[C5, C6]`, faded outside it by `exp(−d²)` with `d` the distance in
 //! m/z from the range.
 //!
-//! 1/K0, model type 2: `1/K0 = 1 / (C6 + C7 / (C2 + (C3 − C2)/C1 · (scan − C0 − C4)))`.
+//! 1/K0, model type 2: `1/K0 = 1 / (C6 + C7 / |C2 + (C3 − C2)/C1 · (scan − C0 − C4)|)` (the
+//! voltages are negative in negative-ion runs).
 
 use crate::sqlite::SqlTable;
 
@@ -366,9 +367,15 @@ impl TimsCalibrationRow {
 }
 
 impl MobilityModel {
-    /// 1/K0 (V·s/cm²) of a (possibly fractional) zero-based scan index.
+    /// 1/K0 (V·s/cm²) of a (possibly fractional) zero-based scan index. Negative-ion runs
+    /// store the ramp voltages with a negative sign; the model takes their magnitude.
     pub fn inverse_mobility(&self, scan: f64) -> f64 {
-        1.0 / (self.c6 + self.c7 / self.slope.mul_add(scan, self.offset))
+        1.0 / (self.c6 + self.c7 / self.slope.mul_add(scan, self.offset).abs())
+    }
+
+    /// Whether the run's ramp voltages are stored negative (a negative-ion run).
+    pub fn negative_voltages(&self) -> bool {
+        self.offset < 0.0
     }
 
     /// The parameters in the reader's vocabulary.
@@ -460,5 +467,31 @@ mod tests {
         let m = t.model().unwrap();
         assert!((m.inverse_mobility(0.0) - 1.635_471_840).abs() < 1e-9);
         assert!((m.inverse_mobility(349.0) - 1.270_441_57).abs() < 1e-8);
+        assert!(!m.negative_voltages());
+    }
+
+    #[test]
+    fn negative_ion_voltages() {
+        // mtbls13504-balf-neg: TimsCalibration 1 with negative ramp voltages
+        let t = TimsCalibrationRow {
+            id: 1,
+            model_type: 2,
+            c: vec![
+                1.0,
+                1042.0,
+                -198.2489,
+                -53.7707,
+                37.5,
+                1.0,
+                0.040743,
+                128.646029,
+                8.614977,
+                3290.787448,
+            ],
+        };
+        let m = t.model().unwrap();
+        assert!(m.negative_voltages());
+        assert!((m.inverse_mobility(0.0) - 1.486_68).abs() < 1e-4);
+        assert!((m.inverse_mobility(1042.0) - 0.451_03).abs() < 1e-4);
     }
 }
