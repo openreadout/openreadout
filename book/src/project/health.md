@@ -25,8 +25,8 @@ Knowledge basis: 15 open spec, 47 prior art, 26 reverse engineered, 8 vendor doc
 | full | 77 | 48.2 GB |
 | heldout | 730 | 6.6 GB |
 | hold | 26 | 132.6 MB |
-| smoke | 1841 | 1.1 GB |
-| standard | 1311 | 19.8 GB |
+| smoke | 1839 | 1.1 GB |
+| standard | 1313 | 19.8 GB |
 
 Formats without a development-corpus input of their own id (read through a sibling format's files, or not yet in the corpus): `hdf5`.
 
