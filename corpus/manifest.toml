@@ -6734,6 +6734,100 @@ notes = "DDA-PASEF from a fifth depositor and a timsTOF HT; MS1 and PASEF frames
 bundle = "pxd080079-dda-zip"
 mz_not_compared = "timsrust (the oracle) converts m/z and 1/K0 with the acquisition-range approximation; the reader applies the file's MzCalibration/TimsCalibration models, validated against vendor-library conversions in mz_agreement.rs. Frames, point counts and intensities are compared."
 
+# Negative-ion timsTOF runs (added 2026-10-06 for held-out finding D-M1: negative 1/K0 in a
+# negative-mode DDA-PASEF run). MetaboLights MTBLS13504 holds a negative and a positive run of the
+# same instrument; MTBLS12332 is a negative run from another laboratory.
+
+[[file]]
+id = "mtbls13504-balf-neg-zip"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls13504-HAR_BALF_35704.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13504/FILES/RAW_FILES/HAR_BALF_35704.d.zip"
+sha256 = "3d20379c6c7ee00b8efd14905231b6d376be13432123061aa21fc3331fef22e5"
+size = 67971825
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13504/FILES/i_Investigation.txt (Comment[License] CC0 1.0), 2026-10-06"
+source = "MetaboLights MTBLS13504 (bronchoalveolar lavage fluid metabolomics), RAW_FILES/HAR_BALF_35704.d.zip"
+attribution = "MTBLS13504 submitters (Lai et al., HUST Union Shenzhen Hospital)"
+notes = "timsTOF Pro, timsTOF 3.1, negative-ion DDA-PASEF metabolomics run; unpacked by corpus fetch"
+unpack = true
+
+[[file]]
+id = "mtbls13504-balf-neg"
+format = "bruker-tdf"
+role = "input"
+tier = "standard"
+filename = "HAR_BALF_1-E,4_1_35704.d/analysis.tdf"
+url = ""
+license = "CC0-1.0"
+source = "MetaboLights MTBLS13504, RAW_FILES/HAR_BALF_35704.d.zip"
+attribution = "MTBLS13504 submitters (Lai et al., HUST Union Shenzhen Hospital)"
+notes = "Negative ions in all 4,975 frames (1,659 MS1, 3,316 PASEF); TimsCalibration with negative ramp voltages (C2 -198.25, C3 -53.77). Its positive-ion sibling run is mtbls13504-balf-pos."
+bundle = "mtbls13504-balf-neg-zip"
+mz_not_compared = "timsrust (the oracle) converts m/z and 1/K0 with the acquisition-range approximation; the reader applies the file's MzCalibration/TimsCalibration models. Frames, point counts and intensities are compared."
+
+[[file]]
+id = "mtbls13504-balf-pos-zip"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls13504-LMYu_BALF_35653.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13504/FILES/RAW_FILES/LMYu_BALF_35653.d.zip"
+sha256 = "7e1f60b4c8aa77b9b372aefd1ab3662f66f7c9aab06c4993f5a0e0e8ec09f351"
+size = 21474158
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13504/FILES/i_Investigation.txt (Comment[License] CC0 1.0), 2026-10-06"
+source = "MetaboLights MTBLS13504 (bronchoalveolar lavage fluid metabolomics), RAW_FILES/LMYu_BALF_35653.d.zip"
+attribution = "MTBLS13504 submitters (Lai et al., HUST Union Shenzhen Hospital)"
+notes = "timsTOF Pro, positive-ion DDA-PASEF run of the same study and instrument as mtbls13504-balf-neg; unpacked by corpus fetch"
+unpack = true
+
+[[file]]
+id = "mtbls13504-balf-pos"
+format = "bruker-tdf"
+role = "input"
+tier = "standard"
+filename = "LMYu_BALF_2-A,6_1_35653.d/analysis.tdf"
+url = ""
+license = "CC0-1.0"
+source = "MetaboLights MTBLS13504, RAW_FILES/LMYu_BALF_35653.d.zip"
+attribution = "MTBLS13504 submitters (Lai et al., HUST Union Shenzhen Hospital)"
+notes = "Positive ions; TimsCalibration with positive ramp voltages (C2 195.20, C3 54.57). The reference curve for the negative run mtbls13504-balf-neg."
+bundle = "mtbls13504-balf-pos-zip"
+mz_not_compared = "timsrust (the oracle) converts m/z and 1/K0 with the acquisition-range approximation; the reader applies the file's MzCalibration/TimsCalibration models. Frames, point counts and intensities are compared."
+
+[[file]]
+id = "mtbls12332-tft-neg-zip"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls12332-B10_TFT_2_21-Aug-24_11047.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12332/FILES/RAW_FILES/RP18_neg/B10_TFT_2_21-Aug-24_11047.d.zip"
+sha256 = "299ef6a90e402778c83e367d7ee1c4e4c7a65adcb563a7a12768e716a0cc9d89"
+size = 67545585
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12332/FILES/i_Investigation.txt (no Comment[License]; the MetaboLights terms apply), 2026-10-06"
+source = "MetaboLights MTBLS12332, RAW_FILES/RP18_neg/B10_TFT_2_21-Aug-24_11047.d.zip"
+attribution = "MTBLS12332 submitters (Schermer, Richling et al., RPTU Kaiserslautern)"
+notes = "timsTOF Pro, otofControl 6.2, TDF 3.3, negative-ion DDA-PASEF (RP18) run; unpacked by corpus fetch"
+unpack = true
+
+[[file]]
+id = "mtbls12332-tft-neg"
+format = "bruker-tdf"
+role = "input"
+tier = "standard"
+filename = "B10_TFT_2_21-Aug-24_11047.d/analysis.tdf"
+url = ""
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS12332, RAW_FILES/RP18_neg/B10_TFT_2_21-Aug-24_11047.d.zip"
+attribution = "MTBLS12332 submitters (Schermer, Richling et al., RPTU Kaiserslautern)"
+notes = "Negative ions in all 5,012 frames (2,047 MS1, 2,965 PASEF); TimsCalibration with negative ramp voltages (C2 -193.85, C3 -53.16); MzCalibration model type 2 in a TDF file."
+bundle = "mtbls12332-tft-neg-zip"
+mz_not_compared = "timsrust (the oracle) converts m/z and 1/K0 with the acquisition-range approximation; the reader applies the file's MzCalibration/TimsCalibration models. Frames, point counts and intensities are compared."
+
 
 # ---- ProteoWizard vendor-reader test data (Apache-2.0): Bruker timsTOF files with the ProteoWizard
 # conversions made with Bruker's own library, the calibrated reference for m/z and 1/K0.
@@ -11598,6 +11692,38 @@ plate_vendor = "BMG_CSV"
 notes = "BMG CLARIOstar MARS export, comma-delimited table view: fluorescence endpoint, multichromatic (638-12/675-12 and 400-15/675-12), 96 wells, 2026"
 
 [[file]]
+id = "bmg-table-bostock-calcein-kinetic"
+format = "plate"
+role = "input"
+tier = "smoke"
+filename = "bmg-table-bostock-calcein-kinetic.csv"
+url = "https://raw.githubusercontent.com/jonathanbostock/phd-thesis/4ad6e849211d00ba475bbef16990204bb4e0175e/other-data/MAC%20%2B%20Brushes/2024-07-10%20Calcein%20Leakage%20Timecourse.csv"
+sha256 = "9a7d0cac5111462b0128d8fb106e5b788bf5c8de3c80973f75a281ef80936268"
+size = 14059
+license = "MIT"
+license_checked = "https://github.com/jonathanbostock/phd-thesis (repository licence MIT, GitHub licence API), 2026-10-06"
+source = "GitHub jonathanbostock/phd-thesis, other-data/MAC + Brushes/2024-07-10 Calcein Leakage Timecourse.csv, pinned to commit 4ad6e84"
+attribution = "Jonathan Bostock"
+plate_vendor = "BMG_CSV"
+notes = "BMG CLARIOstar MARS export, comma-delimited table view of a kinetic read: fluorescence 483-14/530-30, Well Row and Well Col columns, a second header line `,,Time,0 min ,1 min ,…,60 min ` (61 time points), 36 wells, CRLF, 2024. A development file for held-out finding D-H3 (a kinetic table view that returned no values)."
+
+[[file]]
+id = "bmg-table-rpazuki-od600-kinetic"
+format = "plate"
+role = "input"
+tier = "smoke"
+filename = "bmg-table-rpazuki-od600-kinetic.csv"
+url = "https://raw.githubusercontent.com/rpazuki/lab_utils/a93c5028cd86beef9496ac83d49f9a811c465f74/tests/rw_data.csv"
+sha256 = "0a08b4230f2f67cf43798e5b3b0011fd91a35d5c4dd65570f7622d66726ec26d"
+size = 7461
+license = "GPL-3.0"
+license_checked = "https://github.com/rpazuki/lab_utils (repository licence GPL-3.0, GitHub licence API; the CSV is used as data), 2026-10-06"
+source = "GitHub rpazuki/lab_utils, tests/rw_data.csv, pinned to commit a93c502"
+attribution = "Roozbeh Pazuki"
+plate_vendor = "BMG_CSV"
+notes = "BMG MARS export (wizard `Onyx Fast Growth OD`), table view of a kinetic absorbance read at 600 nm: Well Row and Well Col columns, a second header line `,,Time,0 h ,0 h 15 min,…,27 h` (109 time points, printed to the minute: `0 h 60 min`), an empty line after every line, LF, 6 wells, 2025."
+
+[[file]]
 id = "envision-text-gdr-lum384-untitled"
 format = "plate"
 role = "input"
@@ -13222,6 +13348,54 @@ license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on 
 source = "MetaboLights MTBLS449 (fetal metabolic stress in HIV/cART-exposed infants; plasma oxylipins)"
 attribution = "Schoeman J, Bunders M et al. (MetaboLights MTBLS449; doi:10.1093/infdis/jix291)"
 notes = "depositor-made mzML conversion (ProteoWizard) of the .d with the same stem"
+
+# MetaboLights MTBLS4722: a 6470 dynamic-MRM run whose method stores product m/z to up to three
+# decimals (added 2026-10-06 for held-out finding D-L1: product m/z against a ProteoWizard export).
+
+[[file]]
+id = "mtbls4722-1-d"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls4722-1.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS4722/FILES/RAW_FILES/1.d.zip"
+sha256 = "ae83f73767f1822b66f8caf7920e81123ec256cf6fa0941a84da6290dd7dd27b"
+size = 32955629
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS4722/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS4722 (nutrient availability and IDH1 inhibitors in pancreatic tumours), RAW_FILES/1.d.zip"
+attribution = "Vaziri-Gohar A, Cassel J et al. (MetaboLights MTBLS4722)"
+notes = "the zipped .d directory as deposited; extracted into mtbls4722-1-d/ by corpus fetch"
+
+[[file]]
+id = "mtbls4722-1"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls4722-1-d/1.d"
+url = ""
+bundle = "mtbls4722-1-d"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS4722, RAW_FILES/1.d.zip"
+attribution = "Vaziri-Gohar A, Cassel J et al. (MetaboLights MTBLS4722)"
+notes = "Agilent 6470A triple quadrupole (G6470A), MassHunter 8.0, dynamic MRM, negative ESI, 424 transitions whose method (Neg6470-2021-11.m/192_1.xml) gives product m/z with 0 to 3 decimals; the depositor's mzML holds a TIC and 426 SRM chromatograms"
+srm_product_tolerance = 0.005  # the export prints each Q3 target 0.004 below the product m/z the scans record (179.196 for 179.2)
+
+[[file]]
+id = "mtbls4722-1"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls4722-1.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS4722/FILES/DERIVED_FILES/1.mzML"
+sha256 = "e83cd8d814e27fa36920b541aa6f8b64d1b79348754e2d56081808c752eb679f"
+size = 5682275
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS4722, DERIVED_FILES/1.mzML"
+attribution = "Vaziri-Gohar A, Cassel J et al. (MetaboLights MTBLS4722)"
+notes = "depositor-made mzML conversion (ProteoWizard 3.0.22110 with the vendor library) of mtbls4722-1"
 
 [[file]]
 id = "mtbls243-03_D24062013T1259_1399CBU_01QC_A3-d"
@@ -37241,6 +37415,108 @@ source = "GitHub echemdata/galvani (commit d4a5f44, Git LFS), tests/testdata/v11
 attribution = "galvani contributors (test data)"
 notes = "EC-Lab export of echem-galvani-v1150-ca. Ground truth: galvani on the paired .mpr."
 
+# figshare 1228760 (CC-BY-4.0, "galvani test data"): .mpr files whose data module has version 0,
+# with EC-Lab's .mpt export of each (added 2026-10-06 for held-out finding D-G1).
+
+[[file]]
+id = "echem-figshare1228760-bio-logic1"
+format = "biologic-mpr"
+family = "electrochemistry"
+role = "input"
+tier = "smoke"
+filename = "echem-figshare1228760-bio-logic1.mpr"
+url = "https://ndownloader.figshare.com/files/1778939"
+sha256 = "2297914c6c90686e74262e9875bd4e2bab83edb7d79db67fb41f419dd69652cb"
+size = 96531
+license = "CC-BY-4.0"
+license_checked = "https://api.figshare.com/v2/articles/1228760 (CC BY 4.0), 2026-10-06"
+source = "figshare 1228760 v5 (galvani test data), bio-logic1.mpr"
+attribution = "Christopher Kerr, Ken Ogata, Matthias Richter, J B Warrington"
+notes = "EC-Lab .mpr of 2011: VMP Set, VMP data and VMP LOG modules of version 0; 3,119 records of 29 bytes (flags, time, control/V/mA, Ewe, dq, P/W). Ground truth: EC-Lab's export (echem-figshare1228760-bio-logic1-mpt) and galvani (GPL, black box)."
+
+[[file]]
+id = "echem-figshare1228760-bio-logic1-mpt"
+format = "biologic-mpt"
+family = "electrochemistry"
+role = "input"
+tier = "smoke"
+filename = "echem-figshare1228760-bio-logic1.mpt"
+url = "https://ndownloader.figshare.com/files/1778945"
+sha256 = "0c6275fd5ca4ecec2f06c19ecc1ff532835096cd4c262bf73b61f9bf670029d5"
+size = 466105
+license = "CC-BY-4.0"
+license_checked = "https://api.figshare.com/v2/articles/1228760 (CC BY 4.0), 2026-10-06"
+source = "figshare 1228760 v5 (galvani test data), bio-logic1.mpt"
+attribution = "Christopher Kerr, Ken Ogata, Matthias Richter, J B Warrington"
+notes = "EC-Lab export of echem-figshare1228760-bio-logic1 with a three-line header. Ground truth: galvani on the paired .mpr."
+
+[[file]]
+id = "echem-figshare1228760-bio-logic4"
+format = "biologic-mpr"
+family = "electrochemistry"
+role = "input"
+tier = "smoke"
+filename = "echem-figshare1228760-bio-logic4.mpr"
+url = "https://ndownloader.figshare.com/files/1780444"
+sha256 = "29c36e0d628827f542689e45f7ba306a94de56db3798d16f1059708423109871"
+size = 108927
+license = "CC-BY-4.0"
+license_checked = "https://api.figshare.com/v2/articles/1228760 (CC BY 4.0), 2026-10-06"
+source = "figshare 1228760 v5 (galvani test data), bio-logic4.mpr"
+attribution = "Christopher Kerr, Ken Ogata, Matthias Richter, J B Warrington"
+notes = "EC-Lab .mpr of 2011, modules of version 0; 4,137 records of 25 bytes (flags, time, control/V, Ewe, dq). Ground truth: EC-Lab's export (echem-figshare1228760-bio-logic4-mpt) and galvani (GPL, black box)."
+
+[[file]]
+id = "echem-figshare1228760-bio-logic4-mpt"
+format = "biologic-mpt"
+family = "electrochemistry"
+role = "input"
+tier = "smoke"
+filename = "echem-figshare1228760-bio-logic4.mpt"
+url = "https://ndownloader.figshare.com/files/1778941"
+sha256 = "511857ab36082a4419acb5a19799717033b4de038d3c2767d74eabef91584817"
+size = 560151
+license = "CC-BY-4.0"
+license_checked = "https://api.figshare.com/v2/articles/1228760 (CC BY 4.0), 2026-10-06"
+source = "figshare 1228760 v5 (galvani test data), bio-logic4.mpt"
+attribution = "Christopher Kerr, Ken Ogata, Matthias Richter, J B Warrington"
+notes = "EC-Lab export of echem-figshare1228760-bio-logic4 with a three-line header. Ground truth: galvani on the paired .mpr."
+
+# figshare 30080953 (Apache-2.0): EC-Lab text exports whose time column holds absolute dates and
+# times (added 2026-10-06 for held-out finding D-H5). No .mpr is deposited with them.
+
+[[file]]
+id = "echem-figshare30080953-cp-mpt"
+format = "biologic-mpt"
+family = "electrochemistry"
+role = "input"
+tier = "smoke"
+filename = "echem-figshare30080953-cp.mpt"
+url = "https://ndownloader.figshare.com/files/57770854"
+sha256 = "12ab2b9408e7a1ea8d133714c3a7c4c240fb0f75ab3e079bb61777589894e0f7"
+size = 300283
+license = "Apache-2.0"
+license_checked = "https://api.figshare.com/v2/articles/30080953 (license Apache 2.0), 2026-10-06"
+source = "figshare 30080953 v2 (doi:10.6084/m9.figshare.30080953.v2), 240719_CP_trial10_1MZnCl2_3000RPM_diskn1000_WEn0476_pH0529_03_CP_C01.mpt"
+attribution = "Ashutosh Bhadouria"
+notes = "EC-Lab text export without the header block (line 1 is the column header), Latin-1, CRLF; chronopotentiometry, 721 rows; `time/s` holds dates and times (07/19/2024 16:53:36.5000), `step time/s` seconds. Ground truth: the export's own text read with the Python standard library (no .mpr deposited)."
+
+[[file]]
+id = "echem-figshare30080953-ca-mpt"
+format = "biologic-mpt"
+family = "electrochemistry"
+role = "input"
+tier = "standard"
+filename = "echem-figshare30080953-ca.mpt"
+url = "https://ndownloader.figshare.com/files/57770899"
+sha256 = "69c1f381acdc2a36ada146aa499af8aa9ea4f80b3aa5bddf3c88e6d28af57943"
+size = 2072088
+license = "Apache-2.0"
+license_checked = "https://api.figshare.com/v2/articles/30080953 (license Apache 2.0), 2026-10-06"
+source = "figshare 30080953 v2 (doi:10.6084/m9.figshare.30080953.v2), 240719_CP_trial7_1MZnCl2_3000RPM_diskn1000_WEn0476_pH0528_02_CA_C02.mpt"
+attribution = "Ashutosh Bhadouria"
+notes = "EC-Lab text export without the header block, chronoamperometry, 4,921 rows; `time/s` holds dates and times (07/19/2024 16:30:11.7182 to 16:38:23.7014). Ground truth: the export's own text read with the Python standard library."
+
 [[file]]
 id = "echem-zenodo12205268-ocv-ref"
 format = "biologic-mpr"
@@ -49391,6 +49667,21 @@ notes = "PerkinElmer spectrum (FTIR of extracellular polymeric substances)"
 license_checked = "https://zenodo.org/records/22967314 (licence CC-BY-4.0 in the record metadata), 2026-09-26"
 
 [[file]]
+id = "pesp-figshare32604129-zb-uvvis"
+format = "perkinelmer-sp"
+role = "input"
+tier = "smoke"
+filename = "pesp-figshare32604129-zb-uvvis.sp"
+url = "https://ndownloader.figshare.com/files/65370039"
+sha256 = "4b977c4620dd26d495381cb297a9e30f55de83b16d07f27357ebdea0124a0a2d"
+size = 8085
+license = "CC-BY-4.0"
+license_checked = "https://api.figshare.com/v2/articles/32604129 (CC BY 4.0), 2026-10-06"
+source = "figshare 32604129 'Data set supporting the study', ZB.sp"
+attribution = "Vanthini Adoons"
+notes = "A UV-Vis-NIR .sp (added 2026-10-06 for held-out finding D-L2): Lambda 950, PerkinElmer UV WinLab 6.2, diffuse reflectance (%R) from 1000 to 200 nm in 801 points, 2026. Its instrument record (block 123) holds only model, serial and software; the UV-Vis settings are other blocks, and the infrared settings (scans, detector, source, beamsplitter, apodization) are absent. Ground truth: specio (BSD-3, black box); the depositor's ASCII export ZB.asc agrees with the values."
+
+[[file]]
 id = "figshare25325560-vt1-nvt"
 format = "neuralynx"
 role = "input"
@@ -55538,6 +55829,7 @@ license_checked = "https://www.ebi.ac.uk/metabolights/MTBLS15503 (CC0 1.0 Univer
 source = "MetaboLights MTBLS15503 (Targeted lipidomics in Alexander's disease cellular models), RAW_FILES/Blank1.d.zip"
 attribution = "Jové M et al. (University of Lleida)"
 notes = "Agilent 6495 triple quadrupole (absent from development), MassHunter acquisition, dynamic-MRM lipid panel, positive ESI, solvent blank acquired 2024-09-12; the depositor's mzML holds 748 chromatograms (TIC and SRM) and no spectra. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: the depositor's mzML (ProteoWizard 3.0.26239; every sourceFile SHA-1 equals the .d's files), read with pyteomics."
+srm_product_tolerance = 0.005  # set 2026-10-06 after draw D's first run, as for every development MassHunter MRM file: ProteoWizard prints each Q3 target 0.004 below the product m/z the scans and the method record (docs/provenance/agilent-masshunter.md, mtbls4722-1)
 
 [[file]]
 id = "ho-mtbls15503-d-6495"
