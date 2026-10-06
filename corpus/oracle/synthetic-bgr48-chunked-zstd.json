@@ -1,0 +1,52 @@
+{
+ "id": "synthetic-bgr48-chunked-zstd",
+ "file": "synthetic-bgr48-chunked-zstd.czi",
+ "size": 63488,
+ "sha256": "067b93c224a4f2f8c784e046db33296d952331fa71c3be5f5149ea7b88c98677",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 128,
+   "size_y": 96,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint16",
+   "dims": "YXS",
+   "shape": [
+    96,
+    128,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.5,
+    "y": 0.5,
+    "z": 2.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6e284863493fbbb377939736baa0b6b3"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.5,
+  "y": 0.5,
+  "z": 2.0
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  7
+ ]
+}

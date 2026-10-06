@@ -1,8 +1,8 @@
 {
- "id": "synthetic-gray16-jpeg12",
- "file": "synthetic-gray16-jpeg12.czi",
- "size": 98848,
- "sha256": "965f3e5810e6792acd5e178665db0cff3f2ffbe544c3228ba77a21d972d8be12",
+ "id": "synthetic-gray16-chunked-zstd-hilo",
+ "file": "synthetic-gray16-chunked-zstd-hilo.czi",
+ "size": 139296,
+ "sha256": "4b1d716b8b3d6cb00200e2a0fc94092c855aa8c948b98b2e1473af9de816aa2f",
  "max_planes_hashed": 64,
  "reader": "czifile 2026.8.16",
  "images": [
@@ -35,29 +35,25 @@
      "c": 0,
      "z": 0,
      "t": 0,
-     "xxh3": "d0de17fcf8fb04f9a9716b80ec7fd804",
-     "mean": 2083.03173828125
+     "xxh3": "1dc53dc2b9a94261964ecfaabb5458cb"
     },
     {
      "c": 0,
      "z": 0,
      "t": 1,
-     "xxh3": "3852592ccbc6c1e0e98bda23b6866fd7",
-     "mean": 1987.3758138020833
+     "xxh3": "b7e89e6bfd7274a5fc1dd08838a663c1"
     },
     {
      "c": 1,
      "z": 0,
      "t": 0,
-     "xxh3": "6778df07061daf31cd62126cd7a30e74",
-     "mean": 1949.1514485677083
+     "xxh3": "3a1d9a53a40149c76ec70e5c2288590f"
     },
     {
      "c": 1,
      "z": 0,
      "t": 1,
-     "xxh3": "54e99c71007922c872e6effdbc9262b1",
-     "mean": 2024.8473307291667
+     "xxh3": "61ddc7686169e7c29cb815971b314381"
     }
    ],
    "levels": []
@@ -91,29 +87,25 @@
      "c": 0,
      "z": 0,
      "t": 0,
-     "xxh3": "5b840dae2c4c64f134cf7dc5726ace2e",
-     "mean": 2085.2359212239585
+     "xxh3": "7cc74d9649075439585a4dc36cf0e619"
     },
     {
      "c": 0,
      "z": 0,
      "t": 1,
-     "xxh3": "2648315b0d29277d88a04be52687fd67",
-     "mean": 1986.4815266927083
+     "xxh3": "2f1b24028f605b27e8fac8fcb0580223"
     },
     {
      "c": 1,
      "z": 0,
      "t": 0,
-     "xxh3": "7cb5a41fb3c6563f74b8b77e4c144656",
-     "mean": 1947.7132161458333
+     "xxh3": "35e86faf3939d71cbb619993855a9fbc"
     },
     {
      "c": 1,
      "z": 0,
      "t": 1,
-     "xxh3": "901a5f7c615de3c28cd566307e97009e",
-     "mean": 2022.90087890625
+     "xxh3": "f923ba155f4c1d436fcacf7e2cf5ec81"
     }
    ],
    "levels": []
@@ -126,6 +118,6 @@
  },
  "subblock_count": 8,
  "compression_ids": [
-  1
+  7
  ]
 }

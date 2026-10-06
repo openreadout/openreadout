@@ -116,10 +116,17 @@ fn observe(info: &FileInfo) -> Observations {
 /// as its own image at the stored size, with the logical pixel size divided by the ratio
 /// (`docs/formats/czi.md`); the variant is fingerprinted so the evidence says which files
 /// validate it.
+///
+/// Also the JPEG coding processes beyond 8-bit sequential DCT (`jpeg 12-bit`, `jpeg lossless`):
+/// they share the compression id with ordinary JPEG but take other decoding paths.
 pub(crate) fn internal<'a>(
     level0: impl Iterator<Item = &'a crate::DirectoryEntry>,
+    jpeg_processes: &std::collections::BTreeSet<String>,
 ) -> Observations {
     let mut o = Observations::default();
+    for p in jpeg_processes {
+        o.feature(K::Codec, p, &[Scope::Pixels]);
+    }
     let super_resolved = level0
         .filter(|e| {
             let over = |d: char| {

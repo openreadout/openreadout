@@ -116,6 +116,9 @@ pub struct CziDataset {
     events: Option<Vec<EventRecord>>,
     /// Decoded subblocks kept between region reads, keyed by (file part, file position).
     tiles: TileCache<(u32, u64), Decoded>,
+    /// The JPEG coding processes met in the first JPEG subblock of each pixel type
+    /// (`jpeg 12-bit`, `jpeg lossless`), for the assurance profile.
+    jpeg_processes: BTreeSet<String>,
 }
 
 impl CziDataset {
@@ -134,9 +137,47 @@ impl CziDataset {
             time_stamps: None,
             events: None,
             tiles: TileCache::new(REGION_TILE_CACHE_BYTES),
+            jpeg_processes: BTreeSet::new(),
         };
         ds.load_small_attachments();
+        ds.probe_jpeg_processes();
         Ok(ds)
+    }
+
+    /// Read the frame header of the first JPEG subblock of each pixel type (its first 64 KiB
+    /// at most). A stream whose header cannot be read is left to plane reads and `check`.
+    fn probe_jpeg_processes(&mut self) {
+        let mut seen = BTreeSet::new();
+        let firsts: Vec<DirectoryEntry> = self
+            .file
+            .entries
+            .iter()
+            .filter(|e| e.compression == CompressionId::Jpeg && seen.insert(e.pixel_type.name()))
+            .cloned()
+            .collect();
+        for e in firsts {
+            let Ok(sb) = self.subblock_header(&e) else {
+                continue;
+            };
+            let off = e
+                .file_position
+                .saturating_add(SEGMENT_HEADER_LEN + sb.header_len)
+                .saturating_add(u64::from(sb.metadata_size));
+            let Ok(head) = self.read_part(e.file_part, off, sb.data_size.min(64 << 10)) else {
+                continue;
+            };
+            if let Ok(m) = openreadout_codecs::jpeg_markers(&head, None) {
+                match (m.process, m.precision) {
+                    (3, _) => {
+                        self.jpeg_processes.insert("jpeg lossless".into());
+                    }
+                    (_, 12) => {
+                        self.jpeg_processes.insert("jpeg 12-bit".into());
+                    }
+                    _ => {}
+                }
+            }
+        }
     }
 
     /// Read and interpret the `TimeStamps` and `EventList` attachments (a few hundred bytes each).
@@ -620,6 +661,19 @@ fn decode_fetched(entry: &DirectoryEntry, fetched: Fetched) -> Result<Decoded> {
                 .map_err(codec_err)?
         }
         CompressionId::Lzw => openreadout_codecs::lzw_decode(&data, expected).map_err(codec_err)?,
+        CompressionId::Chunked => {
+            openreadout_codecs::chunked_decode(&data, expected, pt.bytes_per_sample() as usize)
+                .map_err(|e| match e {
+                    openreadout_codecs::CodecError::Unsupported { detail, .. } => {
+                        Error::unsupported(
+                            FORMAT_ID,
+                            format!("chunked subblock: {detail}"),
+                            "Chunked subblocks (id 7) are decoded with zstd or LZ4 chunks and the optional HiLo split; this one uses something else.",
+                        )
+                    }
+                    other => codec_err(other),
+                })?
+        }
         CompressionId::JpegXr | CompressionId::Jpeg => {
             let mut r = if entry.compression == CompressionId::Jpeg {
                 openreadout_codecs::jpeg_decode_limited(
@@ -658,7 +712,7 @@ fn decode_fetched(entry: &DirectoryEntry, fetched: Fetched) -> Result<Decoded> {
             return Err(Error::unsupported(
                 FORMAT_ID,
                 format!("subblock compression {}", other.name()),
-                "Only uncompressed, zstd0, zstd1 (with HiLo), LZW, JPEG and JPEG XR subblocks are decoded.",
+                "Only uncompressed, zstd0, zstd1 (with HiLo), chunked (id 7), LZW, JPEG and JPEG XR subblocks are decoded.",
             ));
         }
     };
@@ -1008,7 +1062,7 @@ fn jpeg_error(e: &openreadout_codecs::CodecError, off: u64) -> Error {
         Error::unsupported(
             FORMAT_ID,
             format!("JPEG subblock: {msg}"),
-            "8-bit baseline/progressive and lossless (up to 16-bit) JPEG are decoded; 12-bit DCT and CMYK JPEG are not.",
+            "8-bit baseline/progressive, 12-bit sequential and lossless (up to 16-bit) JPEG are decoded; 12-bit progressive or chroma-subsampled and CMYK JPEG are not.",
         )
     } else {
         Error::corrupt_at(FORMAT_ID, off, msg)
@@ -1564,6 +1618,7 @@ impl Dataset for CziDataset {
             self.scenes
                 .iter()
                 .flat_map(|s| s.level0.iter().filter_map(|&i| self.file.entries.get(i))),
+            &self.jpeg_processes,
         )
     }
 
