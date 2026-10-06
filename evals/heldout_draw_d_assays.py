@@ -25,6 +25,7 @@ C: dict[str, str] = {
     "d_assays_ras": "ho-zenodo14997537-xrd-ras-tmfeo3",
     # EPR
     "d_assays_efs": "ho-zenodo4521882-epr-bes3t-efs",
+    "d_assays_efs_dta": "ho-zenodo4521882-epr-bes3t-efs-dta",  # its data file (part), staged next to it
     # electrochemistry
     "d_assays_mpr": "ho-zenodo3631173-echem-mpr-lsv",
     "d_assays_mpt": "ho-zenodo13271360-echem-mpt-0016",
@@ -389,6 +390,7 @@ def specs(spec, fact, g, H) -> list[Any]:
             fact("peak_field_g", lambda v: g.number(v, "G", abs_=2.0)),
             "facts-heldout: peak_field_g (DeerLab deerload; NumPy on the DSC/DTA agrees)",
             answer_hint="the field in gauss",
+            extra=[(C["d_assays_efs_dta"], "sample.DTA")],
         ),
         # ------------------------------------------------ electrochemistry
         spec(

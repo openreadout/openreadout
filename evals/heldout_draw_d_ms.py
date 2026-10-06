@@ -28,6 +28,9 @@ C: dict[str, str] = {
     "d_ms_tt6600": "ho-mtbls14234-wiff-tt6600",
     "d_ms_tdf_blank": "ho-mtbls14519-tdf-blank",
     "d_ms_tdf_prm": "ho-mtbls14813-tdf-prm",
+    # their frame blobs (companions), staged next to analysis.tdf in a `.d` folder
+    "d_ms_tdf_blank_bin": "ho-mtbls14519-tdf-blank-bin",
+    "d_ms_tdf_prm_bin": "ho-mtbls14813-tdf-prm-bin",
     # mass spectrometry: open formats
     "d_ms_mzml_sim": "ho-mtbls15607-mzml-isq7000",
     "d_ms_mzml_avg": "ho-figshare8038448-mzml-avg",
@@ -536,6 +539,8 @@ def specs(spec, fact, g, H) -> list[Any]:
             "How many precursors were selected for PASEF MS/MS in this timsTOF run?",
             fact("precursors", g.integer),
             "facts-heldout: precursors (Python sqlite3 on analysis.tdf, Precursors table)",
+            stage_as="sample.d/analysis.tdf",
+            extra=[(C["d_ms_tdf_blank_bin"], "sample.d/analysis.tdf_bin")],
         ),
         spec(
             "ho-d-ms-tdf-blank-ms1-frames",
@@ -544,6 +549,8 @@ def specs(spec, fact, g, H) -> list[Any]:
             "How many MS1 frames does this timsTOF run contain?",
             fact("ms1_frames", g.integer),
             "facts-heldout: ms1_frames (Python sqlite3 on analysis.tdf, Frames with MsMsType 0)",
+            stage_as="sample.d/analysis.tdf",
+            extra=[(C["d_ms_tdf_blank_bin"], "sample.d/analysis.tdf_bin")],
         ),
         spec(
             "ho-d-ms-tdf-prm-targets",
@@ -552,6 +559,8 @@ def specs(spec, fact, g, H) -> list[Any]:
             "How many PRM targets (precursors in the prm-PASEF target list) does this run define?",
             fact("prm_targets", g.integer),
             "facts-heldout: prm_targets (Python sqlite3 on analysis.tdf, PrmTargets table)",
+            stage_as="sample.d/analysis.tdf",
+            extra=[(C["d_ms_tdf_prm_bin"], "sample.d/analysis.tdf_bin")],
         ),
         spec(
             "ho-d-ms-tdf-prm-instrument",
@@ -562,6 +571,8 @@ def specs(spec, fact, g, H) -> list[Any]:
                 "instrument", lambda v: g.string("timsTOF Pro 2", accept=[v, "timsTOF pro 2", "Bruker timsTOF Pro 2"])
             ),
             "facts-heldout: instrument (Python sqlite3 on analysis.tdf, GlobalMetadata InstrumentName)",
+            stage_as="sample.d/analysis.tdf",
+            extra=[(C["d_ms_tdf_prm_bin"], "sample.d/analysis.tdf_bin")],
         ),
         # ------------------------------------------------ open formats
         spec(

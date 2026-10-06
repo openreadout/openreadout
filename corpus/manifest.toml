@@ -55825,7 +55825,24 @@ license = "CC0-1.0"
 license_checked = "https://www.ebi.ac.uk/metabolights/MTBLS14519 (CC0 1.0 Universal, the License field of i_Investigation.txt on the EBI FTP), 2026-10-06"
 source = "MetaboLights MTBLS14519 (Method Comparison using DBS samples), RAW_FILES/B_Blank_Whatman_neg_33_1_14868.d.zip"
 attribution = "Gika H, Thaitumu M, Theodoridis G et al. (Aristotle University of Thessaloniki)"
-notes = "Bruker timsTOF Pro 2 (absent from development) behind an Elute UHPLC, negative mode, extract of a blank Whatman filter paper from a dried-blood-spot method comparison, 2026-01-30; analysis.tdf 15.7 MB with a 12.4 MB analysis.tdf_bin. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: timsrust 0.6.6 through oracle/timsrust-oracle (black box), as for the development timsTOF files; no depositor export."
+notes = "Bruker timsTOF Pro 2 (absent from development) behind an Elute UHPLC, negative mode, extract of a blank Whatman filter paper from a dried-blood-spot method comparison, 2026-01-30; analysis.tdf 15.7 MB with a 24.6 MB analysis.tdf_bin. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: timsrust 0.6.6 through oracle/timsrust-oracle (black box), as for the development timsTOF files; no depositor export."
+
+[[file]]
+id = "ho-mtbls14519-tdf-blank-bin"
+format = "bruker-tdf"
+family = "mass-spectrometry"
+role = "companion"
+tier = "heldout"
+bundle = "ho-mtbls14519-tdf-blank-zip"
+filename = "ho-mtbls14519-tdf-blank-zip/B_Blank_Whatman_neg_33_1_14868.d/analysis.tdf_bin"
+url = ""
+sha256 = "f05421e6660c26b16ffbc7fe93cf40b0d106b1249676e40edee7cc69bba477fc"
+size = 24576000
+license = "CC0-1.0"
+license_checked = "https://www.ebi.ac.uk/metabolights/MTBLS14519 (CC0 1.0 Universal, the License field of i_Investigation.txt on the EBI FTP), 2026-10-06"
+source = "MetaboLights MTBLS14519 (Method Comparison using DBS samples), RAW_FILES/B_Blank_Whatman_neg_33_1_14868.d.zip"
+attribution = "Gika H, Thaitumu M, Theodoridis G et al. (Aristotle University of Thessaloniki)"
+notes = "The frame blobs of ho-mtbls14519-tdf-blank (from its bundle), listed so the held-out questions can stage the run with them."
 
 [[file]]
 id = "ho-mtbls14813-tdf-prm-zip"
@@ -55859,6 +55876,23 @@ license_checked = "https://www.ebi.ac.uk/metabolights/MTBLS14813 (CC0 1.0 Univer
 source = "MetaboLights MTBLS14813 (Rapid chromatography combined with trapped ion mobility mass spectrometry for analysis of derivatized small molecules), RAW_FILES/SCFA_fecal-mouse_prm-PASEF_fast_1.d.zip"
 attribution = "Anagho-Mattanovich M, Moritz T (University of Copenhagen)"
 notes = "Bruker timsTOF Pro 2 with an Agilent 1290 front end, prm-PASEF of derivatized short-chain fatty acids in mouse feces, a fast gradient, 2025-02-11; analysis.tdf 2.7 MB, analysis.tdf_bin 4.5 MB. prm-PASEF from a timsTOF Pro 2 is absent from development. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: timsrust 0.6.6 through oracle/timsrust-oracle (black box); no depositor export."
+
+[[file]]
+id = "ho-mtbls14813-tdf-prm-bin"
+format = "bruker-tdf"
+family = "mass-spectrometry"
+role = "companion"
+tier = "heldout"
+bundle = "ho-mtbls14813-tdf-prm-zip"
+filename = "ho-mtbls14813-tdf-prm-zip/SCFA_fecal-mouse_prm-PASEF_fast_1.d/analysis.tdf_bin"
+url = ""
+sha256 = "b4ff6e95593ec771f0e94257e5d5a04e07955b627a793e460107b491727557d5"
+size = 4509696
+license = "CC0-1.0"
+license_checked = "https://www.ebi.ac.uk/metabolights/MTBLS14813 (CC0 1.0 Universal, the License field of i_Investigation.txt on the EBI FTP), 2026-10-06"
+source = "MetaboLights MTBLS14813 (Rapid chromatography combined with trapped ion mobility mass spectrometry for analysis of derivatized small molecules), RAW_FILES/SCFA_fecal-mouse_prm-PASEF_fast_1.d.zip"
+attribution = "Anagho-Mattanovich M, Moritz T (University of Copenhagen)"
+notes = "The frame blobs of ho-mtbls14813-tdf-prm (from its bundle), listed so the held-out questions can stage the run with them."
 
 [[file]]
 id = "ho-mtbls15607-mzml-isq7000"
@@ -59692,6 +59726,7 @@ source = "BioImage Archive S-BIAD1129: Artificial intelligence-based quantificat
 attribution = "Judit Magnusson Wulcan; Stefan M Keller (University of California, Davis)"
 notes = "Olympus VS120 virtual slide microscope, VSI with its ETS folder (stack1 and stack10001): an RGB overview of 13217 x 6191 and a 40x scan of 83504 x 14908 (0.173 um pixels, 2021-04-03) of a brightfield H&E slide of a feline small-intestine biopsy (veterinary diagnostic archive), deposited 2024. The corpus has no held-out VSI so far. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: Bio-Formats (black box)."
 pixel_tolerance = 4
+lossy = true  # JPEG tiles, like the development VS120/VS200 slides (set after the first run; docs/benchmark/heldout-2026-10-06d.md)
 
 [[file]]
 id = "ho-biad1129-vsi-feline-ets-stack1"
