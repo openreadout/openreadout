@@ -29,6 +29,8 @@ All notable changes to this project are documented here. The format is based on 
 - Docker build records (`*.dockerbuild`) no longer end up among the release assets.
 - `CITATION.cff` now validates: the dual license is a list of SPDX identifiers.
 - The website's home page and *Connect an assistant* no longer say that there is no release yet.
+- TIFF: whole full-resolution planes of NDPI slides between 1 and 4 GiB are read (they exited 4).
+- CZI and VSI: `check` no longer exits 4 on channels stored at only some extra-dimension indices, or on stored tiles that lie just past the image edge.
 - DM: `check` no longer reports `truncated` when the header's root length counts 4 of the 8 end bytes (30 of the 89 development files).
 
 ## [0.1.0] - 2026-10-02
