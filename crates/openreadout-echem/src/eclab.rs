@@ -636,8 +636,9 @@ pub(crate) fn parse_mpr(b: &[u8]) -> Result<SeriesFile> {
     });
     let mut vendor = Map::new();
     if let Some(log) = mods.iter().find(|m| m.short == "VMP LOG") {
-        // the acquisition start: +465 in a version-0 log, +585 in later ones
-        let (at, why) = if log.version == 0 {
+        // the acquisition start: +465 in the log of a file whose data module has version 0, +585
+        // in later files (their logs can also have version 0)
+        let (at, why) = if data.version == 0 {
             (465, "VMP LOG +465 (OLE date, local time)")
         } else {
             (585, "VMP LOG +585 (OLE date, local time)")

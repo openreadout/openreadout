@@ -15,7 +15,7 @@ The binary layout was reverse-engineered from hex dumps of public `.mpr` files o
 Modules after byte 0x34: `MODULE`, 10-byte short name, 25-byte long name, then either u32 length,
 u32 version, 8-byte date (57-byte header) or, since EC-Lab 11.50, u32 0xFFFFFFFF, u32 length, u32
 0, u32 version, date (65 bytes). Modules: `VMP Set` (settings; byte 0 the technique code),
-`VMP data`, `VMP LOG` (byte 9 channel − 1; float64 OLE date of the acquisition start at +585, +465 in a version-0 log; local
+`VMP data`, `VMP LOG` (byte 9 channel − 1; float64 OLE date of the acquisition start at +585, +465 when the data module has version 0; local
 time), `VMP loop` (u32 count and u32 start index per loop), `VMP ExtDev`.
 
 `VMP data`: u32 points; column count u8 (versions 0, 2, 3) or u16 (10, 11); column ids, u8 in
