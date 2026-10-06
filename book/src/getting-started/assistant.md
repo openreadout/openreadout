@@ -79,6 +79,10 @@ $ openreadout preview mini.nd2 --image 3 --json
 }
 ```
 
+## See the data in the chat
+
+In clients that support MCP Apps (Claude Desktop and claude.ai, ChatGPT, the Codex app, VS Code and others), the data opens in an interactive viewer when the assistant reads a file. You can step through channels, z planes and sweeps, zoom, look at a chromatogram and click through to its spectra, or switch an FCS plot's parameters, without asking the assistant for each picture. In the Codex and ChatGPT desktop apps, opening a `.czi`, `.nd2`, `.lif`, `.fcs`, `.abf` or other vendor file in a thread shows it in the same viewer. Clients without MCP Apps get text and JSON as before. [The viewer](../reference/mcp.md#the-viewer) has the details.
+
 ## How the assistant sees images
 
 `openreadout_preview` returns a picture as image content, followed by JSON that says what was drawn. Image previews have rulers labelled in full-resolution pixels and a µm scale bar when the pixel size is known, so the assistant can read a feature's coordinates off the rulers and ask again for just that `region`. To measure intensities it uses `openreadout_stats`, not the picture.

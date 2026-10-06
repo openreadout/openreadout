@@ -87,6 +87,14 @@ jobs:
         run: |
           cargo build -p openreadout --features mcp-http
           python3 oracle/mcp_smoke.py --http target/debug/openreadout crates/openreadout-lif/tests/fixtures/synthetic-dims.lif --synthetic
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+      # The MCP App viewer is plain JavaScript embedded as is (crates/openreadout-mcp/MAINTAINING.md).
+      - name: MCP viewer app (syntax, helper tests)
+        run: |
+          node --check crates/openreadout-mcp/src/app/web/viewer.js
+          node --test crates/openreadout-mcp/tests/viewer.test.mjs
 
   # Downloads the smoke corpus once per manifest version and caches it for the jobs below, so
   # parallel jobs do not each download it (data hosts throttle concurrent downloads). When the
