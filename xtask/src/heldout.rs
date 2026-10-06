@@ -249,6 +249,21 @@ fn github_record(rest: &str, top: usize) -> String {
     }
 }
 
+/// File names a vendor gives every acquisition of a directory data set (a Bruker `.d` folder's
+/// `analysis.tdf`, an Agilent MassHunter folder's `MSScan.bin`). A held-out input unpacked from a
+/// bundle can carry one, and format notes cite them, so they identify nothing.
+const VENDOR_FIXED_NAMES: &[&str] = &[
+    "analysis.tdf",
+    "analysis.tdf_bin",
+    "analysis.tsf",
+    "analysis.baf",
+    "MSScan.bin",
+    "MSProfile.bin",
+    "MSPeak.bin",
+    "_HEADER.TXT",
+    "_extern.inf",
+];
+
 /// Strings that identify a held-out entry when they appear in a document.
 fn needles(e: &Entry) -> Vec<String> {
     let mut out = vec![e.id.clone()];
@@ -265,7 +280,13 @@ fn needles(e: &Entry) -> Vec<String> {
     // distinctive file names count. The files of a directory data set (`role = "part"`) carry the
     // vendor's fixed names (`Index.idx.xml`, `MeasurementData.mlf`, `r01c01f01p01-ch1sk1fk1fl1.tiff`)
     // that every format note cites; their ids and URLs still count, and so does the folder's id.
-    if e.role != "part" && base.len() >= 10 && base.contains('.') {
+    if e.role != "part"
+        && base.len() >= 10
+        && base.contains('.')
+        && !VENDOR_FIXED_NAMES
+            .iter()
+            .any(|n| n.eq_ignore_ascii_case(base))
+    {
         out.push(base.to_string());
     }
     out
