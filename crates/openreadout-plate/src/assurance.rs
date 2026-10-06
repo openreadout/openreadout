@@ -137,6 +137,47 @@ pub(crate) fn internal(container: &serde_json::Value) -> Observations {
     o
 }
 
+/// Plate data the reader found but did not read. A read, table or plate section the export
+/// holds and the reader refused is left out (the other reads do not depend on it). An export
+/// that yields no values at all, or a block without values, has its data in a layout the
+/// reader does not decode, so its tables are unvalidated whatever else is known about the file.
+pub(crate) fn left_out(ex: &crate::model::Export) -> Observations {
+    const REFUSALS: &[&str] = &[
+        "plate_not_decoded",
+        "read_not_decoded",
+        "table_axis_not_decoded",
+        "unsupported_read_type",
+    ];
+    let mut o = Observations::default();
+    let findings = ex
+        .findings
+        .iter()
+        .chain(ex.blocks.iter().flat_map(|b| &b.findings));
+    for f in findings.filter(|f| REFUSALS.contains(&f.code.as_str())) {
+        o.undecoded(
+            format!("plate data refused ({})", f.code),
+            &[],
+            f.message.clone(),
+        );
+    }
+    if ex.blocks.iter().all(|b| b.obs.is_empty()) {
+        o.undecoded(
+            "plate values",
+            &[Scope::Tables],
+            "the export was recognised but no plate values were read from it",
+        );
+    } else {
+        for b in ex.blocks.iter().filter(|b| b.obs.is_empty()) {
+            o.undecoded(
+                format!("plate block without values ({})", b.name),
+                &[Scope::Tables],
+                "the block was found but none of its values were read",
+            );
+        }
+    }
+    o
+}
+
 // BEGIN GENERATED plate (cargo xtask assurance-audit --write; do not edit)
 const PLATE_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
@@ -211,3 +252,20 @@ const PLATE_VALIDATED: &[Validated] = &[
     a::row(K::WriterVersion, "i-control 2", 3, 2, 3),
 ];
 // END GENERATED plate
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::sheet::text_book;
+
+    #[test]
+    fn an_export_without_values_is_unvalidated_for_tables() {
+        // A table view whose second header line the reader does not read: no values at all.
+        let t = "User: U,Path: C:\\BMG\\CLARIOstar\\U\\Data,Test run no.: 1\nTest name: x,Date: 3/06/2026,Time: 11:57:23 AM\nAbsorbance\n\nWell,Content,Raw Data (600),Raw Data (600)\n,Unknown axis,1,2\nA01,Sample X1,0.1,0.2\n";
+        let ex = crate::vendors::bmg::parse(&text_book(t.as_bytes()), false);
+        assert!(ex.blocks.iter().all(|b| b.obs.is_empty()));
+        let o = left_out(&ex);
+        assert!(o.undecoded.iter().any(|u| u.scope == [Scope::Tables]));
+        assert!(o.undecoded.iter().any(|u| u.scope.is_empty()));
+    }
+}

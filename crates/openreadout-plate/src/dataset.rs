@@ -258,7 +258,9 @@ pub(crate) fn table_info(ex: &Export, b: &Block, index: u32) -> TableInfo {
 
 impl Dataset for PlateDataset {
     fn assurance_observations(&self) -> openreadout_core::assurance::Observations {
-        crate::assurance::internal(&self.export.container.describe())
+        let mut o = crate::assurance::internal(&self.export.container.describe());
+        o.merge(crate::assurance::left_out(&self.export));
+        o
     }
 
     fn info(&self) -> Result<FileInfo> {
