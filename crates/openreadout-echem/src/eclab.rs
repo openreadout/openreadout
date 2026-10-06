@@ -1080,33 +1080,33 @@ struct Stamp {
     secs: f64,
 }
 
-fn stamp(s: &str) -> Option<Stamp> {
-    let (date, time) = s.trim().split_once(' ')?;
-    let mut d = date.split('/');
+fn stamp(cell: &str) -> Option<Stamp> {
+    let (date, time) = cell.trim().split_once(' ')?;
+    let mut dates = date.split('/');
     let (a, b, year): (u32, u32, i64) = (
-        d.next()?.parse().ok()?,
-        d.next()?.parse().ok()?,
-        d.next()?.parse().ok()?,
+        dates.next()?.parse().ok()?,
+        dates.next()?.parse().ok()?,
+        dates.next()?.parse().ok()?,
     );
-    let mut t = time.trim().split(':');
-    let (h, m, sec): (u32, u32, f64) = (
-        t.next()?.parse().ok()?,
-        t.next()?.parse().ok()?,
-        t.next()?.parse().ok()?,
+    let mut clock = time.trim().split(':');
+    let (hour, minute, sec): (u32, u32, f64) = (
+        clock.next()?.parse().ok()?,
+        clock.next()?.parse().ok()?,
+        clock.next()?.parse().ok()?,
     );
-    let valid = d.next().is_none()
-        && t.next().is_none()
+    let valid = dates.next().is_none()
+        && clock.next().is_none()
         && (1..=31).contains(&a)
         && (1..=31).contains(&b)
         && (1900..=9999).contains(&year)
-        && h <= 23
-        && m <= 59
+        && hour <= 23
+        && minute <= 59
         && (0.0..61.0).contains(&sec);
     valid.then(|| Stamp {
         a,
         b,
         year,
-        secs: f64::from(h) * 3600.0 + f64::from(m) * 60.0 + sec,
+        secs: f64::from(hour) * 3600.0 + f64::from(minute) * 60.0 + sec,
     })
 }
 

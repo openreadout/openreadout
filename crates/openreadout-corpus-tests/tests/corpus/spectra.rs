@@ -499,7 +499,10 @@ pub(crate) fn check_chromatograms(
                         s.mz.iter()
                             .position(|&m| m >= q3 - lo && m <= q3 + hi)
                             .map(|k| {
-                                let method = s.extra.get("scan_method").and_then(|v| v.as_i64());
+                                let method = s
+                                    .extra
+                                    .get("scan_method")
+                                    .and_then(serde_json::Value::as_i64);
                                 (s.rt_s.unwrap_or(f64::NAN) / 60.0, s.intensity[k], method)
                             })
                     })
