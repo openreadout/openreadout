@@ -29,7 +29,7 @@ The tag must equal the `Cargo.toml` version with a `v` prefix and `CHANGELOG.md`
 | job | output |
 | --- | --- |
 | `version-check` | fails fast if any version string disagrees |
-| `build` (5 targets) | `openreadout-<target>.tar.gz` / `.zip` (binary at the archive root + README, SKILL.md, licenses, NOTICE, THIRD-PARTY-NOTICES.md, `man/*.1` and `completions/` from `cargo xtask man`), `openreadout-mcp-<target>.mcpb` |
+| `build` (5 targets) | `openreadout-<target>.tar.gz` / `.zip` (binary at the archive root + README, SKILL.md, licenses, NOTICE, THIRD-PARTY-NOTICES.md, `man/*.1` and `completions/` from `cargo xtask man`), `openreadout-mcp-<target>.mcpb`. The macOS and Windows binaries are signed first when the signing secrets are set (see [Signing and notarization](#signing-and-notarization)) |
 | `npm-packages` | the npm tarballs: `openreadout` and one `@openreadout/cli-<os>-<cpu>` per target, installed from a local registry with npm, pnpm and `npx -y` and run, as a run artifact |
 | `sbom` | `openreadout-<target>.cdx.json` (CycloneDX 1.5, cargo-cyclonedx, dependencies of the binary for that target) |
 | `wheels`, `sdist` | Python abi3 wheels for 7 platforms, `openreadout` sdist, `bioio-openreadout` and `napari-openreadout` wheels + sdists (`twine check --strict`) |
@@ -105,14 +105,87 @@ The release workflow's `agent-plugins` job runs on a tag, after the GitHub relea
 - **Glama**: lists public MCP servers from GitHub. To claim the listing for the organization, add a `glama.json` at the root with `{"maintainers": ["<GitHub user>"]}`, then use *Claim* on the server page.
 - **cursor.directory**: submit at [cursor.directory/plugins/new](https://cursor.directory/plugins/new) with the `openreadout mcp` command.
 
-## Signing and notarization (deferred)
+## Signing and notarization
 
-Release binaries are unsigned apart from the ad-hoc signature the macOS linker adds (enough for Apple Silicon to run them). What proper signing needs, none of which exists yet:
+The `build` job signs the macOS and Windows binaries right after `cargo build`, before it packages them, so the archive, the `.mcpb` bundle and the npm platform package all carry the signed copy, and the Homebrew, Scoop and winget checksums cover it. Each platform is switched on by its secrets. Without them the step prints a notice or is skipped, and the binaries keep only the ad-hoc signature the macOS linker adds, which is enough for Apple silicon to run them. v0.1.0 was released that way.
 
-- **macOS**: an Apple Developer Program membership (paid, yearly) for a *Developer ID Application* certificate, then `codesign --options runtime --timestamp` on each Mach-O binary and `xcrun notarytool submit` of a zip or disk image. A bare binary cannot be stapled, so users are covered by the online notarization check; the certificate and an App Store Connect API key would live in repository secrets and the `build` job would sign on the macOS runners.
-- **Windows**: an Authenticode code-signing certificate (an OV/EV certificate from a CA, or Azure Trusted Signing), applied with `signtool sign /fd sha256 /tr <timestamp URL>` in the `build` job before zipping.
+The `build` job runs in the `signing` environment. It holds the secrets, and it gives the Azure login a fixed identity (see Windows below).
 
-Until then `book/src/getting-started/install.md` explains the Gatekeeper workaround; Homebrew, the install script, npm and cargo do not set the quarantine flag.
+### What users see
+
+A browser marks a download with the quarantine flag (macOS) or the Mark of the Web (Windows), and extracting an archive passes the mark on to the files inside. Only marked files are checked. curl, the install scripts, Homebrew, Scoop, npm, pip and cargo don't set the mark, so their binaries run whether or not they are signed.
+
+- **macOS, signed and notarized.** The first time someone runs a downloaded binary, Gatekeeper checks the Developer ID signature and asks Apple's servers for the notarization ticket, then lets it run without a dialog. Apple can't staple a ticket to a bare binary (only to apps, disk images and installer packages), so this first run needs an internet connection. Offline, macOS blocks the binary, and `xattr -d com.apple.quarantine openreadout` gets past it.
+- **macOS, unsigned** (v0.1.0). macOS says it can't verify that `openreadout` is free of malware and won't open it. The workaround is the same `xattr` command, or *System Settings > Privacy & Security > Open Anyway*.
+- **Windows.** SmartScreen judges files opened from Explorer. A command-line program started from a terminal usually runs without a prompt either way. Signed binaries show the name on the certificate as the publisher in the file's properties and in any SmartScreen or antivirus prompt.
+- **Python wheels** are not signed separately. pip doesn't set the quarantine flag on the files it unpacks, and Gatekeeper doesn't check a library that Python loads, so the extension module needs no Developer ID signature.
+
+### macOS: one-time setup
+
+You need the Apple Developer Program (team `RHCS4LNWL7`) and the Account Holder role to create a Developer ID certificate.
+
+1. **Certificate signing request.** In Keychain Access, choose *Keychain Access > Certificate Assistant > Request a Certificate From a Certificate Authority*, enter your email address and name, leave the CA email empty, and choose *Saved to disk*. This writes `CertificateSigningRequest.certSigningRequest` and keeps the private key in your login keychain. Or, with OpenSSL:
+   ```bash
+   openssl req -new -newkey rsa:2048 -nodes -keyout developer-id.key -out developer-id.csr \
+     -subj "/emailAddress=you@example.com/CN=Your Name/C=US"
+   ```
+2. **Developer ID Application certificate.** At [developer.apple.com/account/resources/certificates](https://developer.apple.com/account/resources/certificates/list), click *+*, choose *Developer ID Application* and the *G2 Sub-CA* profile, upload the request and download `developerID_application.cer`.
+3. **Export a .p12 with its private key.** If you made the request in Keychain Access, double-click the `.cer`, then under *My Certificates* right-click "Developer ID Application: … (RHCS4LNWL7)", choose *Export*, pick the `.p12` format and set a strong password. With OpenSSL:
+   ```bash
+   openssl x509 -inform der -in developerID_application.cer -out developer-id.pem
+   openssl pkcs12 -export -legacy -inkey developer-id.key -in developer-id.pem -out developer-id.p12
+   ```
+   `-legacy` matters. OpenSSL 3 otherwise encrypts the file in a way that macOS's `security import` rejects. Keep the `.p12` and its password in your password manager and delete the loose key files.
+4. **App Store Connect API key for the notary service.** At [appstoreconnect.apple.com](https://appstoreconnect.apple.com), go to *Users and Access > Integrations > App Store Connect API > Team Keys*, click *+*, name it "openreadout notarization" and give it the *Developer* role. Download `AuthKey_<key id>.p8` (Apple offers the download only once), and note the *Key ID* and the *Issuer ID* shown above the list.
+5. **Test on your Mac** before you set the secrets. `scripts/macos-sign.sh` is the script the workflow runs. It signs a binary in place, notarizes it and checks Gatekeeper's verdict:
+   ```bash
+   cargo build --release -p openreadout && cp target/release/openreadout /tmp/openreadout-signed
+   export APPLE_DEVELOPER_ID_P12_BASE64="$(base64 -i developer-id.p12)"
+   read -rs APPLE_DEVELOPER_ID_P12_PASSWORD && export APPLE_DEVELOPER_ID_P12_PASSWORD   # type the password
+   export APPLE_API_KEY_ID=<key id> APPLE_API_ISSUER_ID=<issuer id> APPLE_TEAM_ID=RHCS4LNWL7
+   export APPLE_API_KEY_P8_BASE64="$(base64 -i AuthKey_<key id>.p8)"
+   scripts/macos-sign.sh --require /tmp/openreadout-signed
+   ```
+   It ends with `notarized: /tmp/openreadout-signed` once `spctl` reports "source=Notarized Developer ID". The script imports the `.p12` into a temporary keychain and deletes it at the end. If you imported the certificate into your login keychain instead, set `APPLE_SIGNING_IDENTITY="Developer ID Application: Richard Zimring (RHCS4LNWL7)"` in place of the two `.p12` variables.
+6. **Create the `signing` environment** (*Settings > Environments > New environment*). Under *Deployment branches and tags*, choose *Selected branches and tags* and add the branch `main` (for dry runs) and the tag pattern `v*`. Don't add required reviewers, because every build job would then wait for approval. With `gh`:
+   ```bash
+   gh api -X PUT repos/openreadout/openreadout/environments/signing \
+     -F 'deployment_branch_policy[protected_branches]=false' -F 'deployment_branch_policy[custom_branch_policies]=true'
+   gh api -X POST repos/openreadout/openreadout/environments/signing/deployment-branch-policies -f name=main -f type=branch
+   gh api -X POST repos/openreadout/openreadout/environments/signing/deployment-branch-policies -f name='v*' -f type=tag
+   ```
+7. **Set the secrets** in that environment. `gh secret set` reads the value from standard input, or prompts for it without echoing:
+   ```bash
+   R=openreadout/openreadout
+   base64 -i developer-id.p12 | gh secret set APPLE_DEVELOPER_ID_P12_BASE64 --env signing --repo $R
+   gh secret set APPLE_DEVELOPER_ID_P12_PASSWORD --env signing --repo $R        # prompts
+   gh secret set APPLE_API_KEY_ID --env signing --repo $R --body <key id>
+   gh secret set APPLE_API_ISSUER_ID --env signing --repo $R --body <issuer id>
+   base64 -i AuthKey_<key id>.p8 | gh secret set APPLE_API_KEY_P8_BASE64 --env signing --repo $R
+   ```
+8. **Dry run.** *Actions > Release > Run workflow* on `main`. The macOS build jobs log the signature and `notarized: target/…/openreadout`. Download an archive from the `release-dry-run` artifact and check it with `codesign -dv --verbose=2 openreadout` and `spctl -a -vv -t open --context context:primary-signature openreadout`.
+
+The workflow passes `APPLE_TEAM_ID=RHCS4LNWL7`, so a certificate from another team fails the step. Set all five secrets or none: with only some of them, the step fails rather than shipping an unnotarized binary. The certificate is valid for five years, and binaries signed before it expires stay valid because of the secure timestamp. To replace the certificate or the key, repeat the steps above and set the secrets again.
+
+### Windows: Azure Artifact Signing
+
+The Windows steps use Microsoft's [Artifact Signing](https://learn.microsoft.com/azure/artifact-signing/) (formerly Trusted Signing) through [azure/artifact-signing-action](https://github.com/Azure/artifact-signing-action). They run only when the repository variable `AZURE_SIGNING_ACCOUNT` is set. The service costs a monthly fee per account, and Microsoft validates the identity of the publisher first. When this was written, public-trust validation was open to organizations in the USA, Canada, the EU and the UK, and to individual developers in the USA and Canada.
+
+1. In the Azure portal, create an *Artifact Signing account* in a region near you. Its endpoint looks like `https://eus.codesigning.azure.net/`.
+2. Complete *identity validation* (public trust) in the account, then create a *certificate profile* of type *Public Trust* that uses it.
+3. In Microsoft Entra ID, create an *app registration* (for example "openreadout-release-signing"). Under *Certificates & secrets > Federated credentials*, add a credential for *GitHub Actions deploying Azure resources* with organization `openreadout`, repository `openreadout`, entity type *Environment* and environment `signing`. Its subject is `repo:openreadout/openreadout:environment:signing`. No client secret is needed.
+4. On the certificate profile (or the account), assign the role *Artifact Signing Certificate Profile Signer* to that app registration.
+5. Set the secrets and variables:
+   ```bash
+   R=openreadout/openreadout
+   gh secret set AZURE_CLIENT_ID --env signing --repo $R --body <application (client) id>
+   gh secret set AZURE_TENANT_ID --env signing --repo $R --body <directory (tenant) id>
+   gh secret set AZURE_SUBSCRIPTION_ID --env signing --repo $R --body <subscription id>
+   gh variable set AZURE_SIGNING_ENDPOINT --repo $R --body https://eus.codesigning.azure.net/
+   gh variable set AZURE_CERTIFICATE_PROFILE --repo $R --body <certificate profile name>
+   gh variable set AZURE_SIGNING_ACCOUNT --repo $R --body <signing account name>   # set this last: it turns the steps on
+   ```
+6. Dry run as for macOS. The *Check the Windows signature* step prints the signer and fails unless the signature is valid.
 
 ## Local checks
 
@@ -129,6 +202,7 @@ OPENREADOUT_INSTALL_FROM=openreadout-aarch64-apple-darwin.tar.gz OPENREADOUT_INS
 (cd packaging/npm && node scripts/platform-packages.js --archives DIR --out /tmp/npm-platform \
   && for d in /tmp/npm-platform/*/; do npm pack "$d" --pack-destination /tmp/npm-tgz; done \
   && npm pack --pack-destination /tmp/npm-tgz && scripts/smoke-test.sh /tmp/npm-tgz)
+scripts/macos-sign.sh --require /tmp/openreadout   # sign and notarize a copy (see Signing and notarization)
 maturin build --out dist && maturin sdist --out dist                        # Python wheel (profile release-py) + sdist
 python -m build python/bioio-openreadout --outdir dist && python -m build python/napari-openreadout --outdir dist
 twine check --strict dist/*

@@ -38,12 +38,16 @@ jobs:
             cargo xtask version-check
           fi
 
+  # Builds, signs (when the signing secrets are set) and packages one target. The `signing`
+  # environment holds the Apple secrets and gives the Azure federated credential a fixed subject
+  # (repo:openreadout/openreadout:environment:signing); see docs/release-process.md.
   build:
     name: ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
+    environment: signing
     permissions:
       contents: read
-      id-token: write
+      id-token: write  # build provenance attestations, and the Azure login for Windows signing
       attestations: write
     strategy:
       fail-fast: false
@@ -74,6 +78,46 @@ jobs:
       - name: Build
         shell: bash
         run: cargo build --release --locked -p openreadout --target "$TARGET"
+      # Signs the binary in place before it is packaged, so the archive, the .mcpb bundle and the
+      # npm platform package all carry the signed copy. Without the secrets the script prints a
+      # notice and the binary keeps the linker's ad-hoc signature.
+      - name: Sign and notarize (macOS, needs the Apple secrets)
+        if: runner.os == 'macOS'
+        env:
+          APPLE_DEVELOPER_ID_P12_BASE64: ${{ secrets.APPLE_DEVELOPER_ID_P12_BASE64 }}
+          APPLE_DEVELOPER_ID_P12_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_P12_PASSWORD }}
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
+          APPLE_API_KEY_P8_BASE64: ${{ secrets.APPLE_API_KEY_P8_BASE64 }}
+          APPLE_TEAM_ID: RHCS4LNWL7  # the Developer ID team; a certificate from another team fails the step
+        run: scripts/macos-sign.sh "target/$TARGET/release/openreadout"
+      # Windows: Azure Artifact Signing (formerly Trusted Signing), only when the repository
+      # variable AZURE_SIGNING_ACCOUNT is set. The login uses OpenID Connect, so no client secret.
+      - name: Azure login (Windows signing)
+        if: runner.os == 'Windows' && vars.AZURE_SIGNING_ACCOUNT != ''
+        uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Sign (Windows, Azure Artifact Signing)
+        if: runner.os == 'Windows' && vars.AZURE_SIGNING_ACCOUNT != ''
+        uses: azure/artifact-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2.0.0
+        with:
+          endpoint: ${{ vars.AZURE_SIGNING_ENDPOINT }}
+          signing-account-name: ${{ vars.AZURE_SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ vars.AZURE_CERTIFICATE_PROFILE }}
+          files: ${{ github.workspace }}\target\${{ matrix.target }}\release\openreadout.exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+      - name: Check the Windows signature
+        if: runner.os == 'Windows' && vars.AZURE_SIGNING_ACCOUNT != ''
+        shell: pwsh
+        run: |
+          $sig = Get-AuthenticodeSignature "target\$env:TARGET\release\openreadout.exe"
+          $sig | Format-List Status, StatusMessage, SignerCertificate, TimeStamperCertificate
+          if ($sig.Status -ne 'Valid') { throw "openreadout.exe signature status: $($sig.Status)" }
       - name: Package
         shell: bash
         run: |
