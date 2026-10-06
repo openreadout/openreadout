@@ -64,8 +64,13 @@ fi
 
 work="$(mktemp -d)"
 keychain=
+original_keychains=
 cleanup() {
   if [ -n "$keychain" ]; then
+    if [ -n "${original_keychains:-}" ]; then
+      # shellcheck disable=SC2086 # one argument per keychain path
+      security list-keychains -d user -s $original_keychains || true
+    fi
     security delete-keychain "$keychain" 2>/dev/null || true
   fi
   rm -rf "$work"
@@ -89,17 +94,16 @@ if [ -n "$p12" ]; then
   g2_sha256=f16cd3c54c7f83cea4bf1a3e6a0819c8aaa8e4a1528fd144715f350643d2df3a
   if curl -fsSL --retry 3 -o "$work/DeveloperIDG2CA.cer" https://www.apple.com/certificateauthority/DeveloperIDG2CA.cer &&
     [ "$(shasum -a 256 "$work/DeveloperIDG2CA.cer" | cut -d' ' -f1)" = "$g2_sha256" ]; then
-    security import "$work/DeveloperIDG2CA.cer" -k "$keychain" >/dev/null
+    # It may already be in a keychain on the search list, which makes the import fail harmlessly.
+    security import "$work/DeveloperIDG2CA.cer" -k "$keychain" >/dev/null 2>&1 || true
   else
     echo "warning: could not fetch Apple's Developer ID G2 intermediate certificate; relying on the system keychain" >&2
   fi
-  # On a CI runner, also put the keychain in the user's search list, where codesign looks for the
-  # chain. The runner is thrown away afterwards. On your own Mac the search list stays as it is.
-  if [ "${GITHUB_ACTIONS:-}" = true ]; then
-    existing="$(security list-keychains -d user | tr -d '"' | xargs)"
-    # shellcheck disable=SC2086 # one argument per keychain path
-    security list-keychains -d user -s "$keychain" $existing
-  fi
+  # codesign only finds the identity and its chain in keychains on the user's search list, so add
+  # this one for the run. On your own Mac, cleanup puts the original list back.
+  original_keychains="$(security list-keychains -d user | tr -d '"' | xargs)"
+  # shellcheck disable=SC2086 # one argument per keychain path
+  security list-keychains -d user -s "$keychain" $original_keychains
   identity="$(security find-identity -p codesigning "$keychain" | awk -F'"' '/Developer ID Application/ { split($1, a, " "); print a[2]; exit }')"
   [ -n "$identity" ] || { echo "error: the .p12 holds no Developer ID Application identity" >&2; security find-identity -p codesigning "$keychain" >&2; exit 1; }
 fi
