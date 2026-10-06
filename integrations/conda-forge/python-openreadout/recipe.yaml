@@ -1,0 +1,88 @@
+schema_version: 1
+
+context:
+  name: openreadout
+  version: "0.1.0"
+
+package:
+  # bioconda already uses the name `openreadout` for the command-line tool (integrations/bioconda),
+  # so the Python package takes the `python-` prefix here. pip still sees it as `openreadout`.
+  name: python-openreadout
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: fca5eaec0e3b96b79c2298cf426a2789a59f437a7c180948528ec0097f70b92c
+
+build:
+  number: 0
+  # The extension uses the stable ABI (pyo3 abi3-py310), so one build serves every Python version.
+  skip: is_abi3 and not is_python_min
+  python:
+    version_independent: ${{ is_abi3 }}
+  script:
+    - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
+    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ${{ compiler('rust') }}
+    - cargo-bundle-licenses
+    - if: build_platform != host_platform
+      then:
+        - python
+        - cross-python_${{ host_platform }}
+        - maturin >=1.7,<2
+  host:
+    - if: is_abi3
+      then: python-abi3
+    - python
+    - pip
+    - maturin >=1.7,<2
+  run:
+    - python
+    - numpy >=1.22
+
+tests:
+  - python:
+      imports:
+        - openreadout
+      python_version:
+        - if: is_abi3
+          then: ${{ python_min }}.*
+        - "*"
+  - script:
+      - python -c "import openreadout; assert openreadout.__version__ == '${{ version }}', openreadout.__version__; assert len(openreadout.formats()) > 10"
+  - if: is_abi3
+    then:
+      requirements:
+        run:
+          - abi3audit
+      script:
+        - if: unix
+          then: abi3audit $SP_DIR/openreadout/_native.abi3.so -s -v --assume-minimum-abi3 ${{ python_min }}
+          else: abi3audit %SP_DIR%/openreadout/_native.pyd -s -v --assume-minimum-abi3 ${{ python_min }}
+
+about:
+  homepage: https://openreadout.github.io/openreadout/
+  repository: https://github.com/openreadout/openreadout
+  documentation: https://openreadout.github.io/openreadout/guides/python.html
+  summary: Read raw lab-instrument files without vendor software, from Python
+  description: |
+    Python bindings for OpenReadout, which reads raw instrument files (Zeiss CZI, Nikon ND2,
+    Leica LIF, Olympus, whole-slide images, FCS, Thermo RAW, mzML, ABF, plate-reader exports,
+    Bruker NMR and more) without vendor software. It returns metadata as dictionaries and
+    pixels, events, traces and spectra as NumPy arrays, with optional dask, xarray and pyarrow
+    views, and exports to OME-TIFF, OME-Zarr and mzML.
+  license: MIT OR Apache-2.0
+  license_file:
+    - LICENSE-MIT
+    - LICENSE-APACHE
+    - NOTICE
+    - THIRDPARTY.yml
+
+extra:
+  recipe-maintainers:
+    - richardzimring

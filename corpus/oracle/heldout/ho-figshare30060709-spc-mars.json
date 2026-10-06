@@ -1,0 +1,44 @@
+{
+ "id": "ho-figshare30060709-spc-mars",
+ "file": "GypMst1_2024-01-30T13-37-47.spc",
+ "size": 8250,
+ "sha256": "26173ce1072f02d2fbb5e73b440646c49081e5adb02a8757a9cda91d12c7af36",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_spc",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1879,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1879,
+     "channels": [
+      {
+       "xxh3": "32623257f4507471ad7a38243dfab901",
+       "first": [
+        0.005223829764872789,
+        0.004383142571896315,
+        0.003894362598657608,
+        0.0036583137698471546,
+        0.0037068254314363003,
+        0.004343869164586067,
+        0.0046250587329268456,
+        0.004211947321891785
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4100.071620941162,
+   "x_last": 600.1013917922974
+  }
+ ],
+ "second_opinion": {
+  "reader": "spc-io 0.2.1 (MIT)",
+  "values_agree": true
+ }
+}

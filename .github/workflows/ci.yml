@@ -87,6 +87,14 @@ jobs:
         run: |
           cargo build -p openreadout --features mcp-http
           python3 oracle/mcp_smoke.py --http target/debug/openreadout crates/openreadout-lif/tests/fixtures/synthetic-dims.lif --synthetic
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+      # The MCP App viewer is plain JavaScript embedded as is (crates/openreadout-mcp/MAINTAINING.md).
+      - name: MCP viewer app (syntax, helper tests)
+        run: |
+          node --check crates/openreadout-mcp/src/app/web/viewer.js
+          node --test crates/openreadout-mcp/tests/viewer.test.mjs
 
   # Downloads the smoke corpus once per manifest version and caches it for the jobs below, so
   # parallel jobs do not each download it (data hosts throttle concurrent downloads). When the
@@ -334,7 +342,7 @@ jobs:
             echo "::error::THIRD-PARTY-NOTICES.md is stale; regenerate it with the command at the top of the file"; exit 1; }
 
   # Release readiness: every version string agrees with Cargo.toml, the package-manager templates
-  # render, and the npm wrapper tests and packs.
+  # render, and the npm package tests pass and the package packs.
   release-check:
     name: release readiness (versions, manifests, npm)
     runs-on: ubuntu-latest
@@ -392,6 +400,8 @@ jobs:
       - name: Scripts parse
         run: |
           bash -n scripts/bump-version.sh
+          bash -n scripts/macos-sign.sh
+          bash -n packaging/npm/scripts/smoke-test.sh
           sh -n scripts/install.sh
 
   # Cheap (Linux only): the WebAssembly build (book/src/guides/wasm.md) with its Node tests and the demo page.

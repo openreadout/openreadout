@@ -1,0 +1,49 @@
+{
+ "id": "ho-figshare32287374-spa-rebar",
+ "file": "5347.SPA",
+ "size": 64996,
+ "sha256": "282ccfe970f83a6a502f52a102e90e38d5333bfbdd8c706dcc16c0f1e0c11dd8",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1801,
+   "x_first": 3577.532,
+   "x_last": 106.293,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1801,
+     "channels": [
+      {
+       "xxh3": "7b3cbea0f5eefc764d9677a67e7ba575",
+       "first": [
+        24.0013427734375,
+        28.6214599609375,
+        21.2652587890625,
+        3.2947998046875,
+        15.7989501953125,
+        42.2454833984375,
+        62.8870849609375,
+        74.0611572265625
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 5,
+     "background_scans": 1,
+     "laser_wavenumber_cm1": 15798.0
+    }
+   },
+   "x_tolerance": 0.002
+  }
+ ],
+ "acquisition_date": "2001-12-31 21:25:18-08:00"
+}

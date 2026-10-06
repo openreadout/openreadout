@@ -112,7 +112,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `tims_frame`, `tims_sqlite`, `whole_tims`
-- corpus inputs by tier: smoke 7, standard 3
+- corpus inputs by tier: heldout 2, smoke 7, standard 3
 - golden snapshots: [`corpus/snapshots/bruker-tdf.jsonl`](../../corpus/snapshots/bruker-tdf.jsonl)
 
 ### Open new-variant intakes

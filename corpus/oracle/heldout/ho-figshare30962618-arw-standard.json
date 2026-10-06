@@ -1,0 +1,45 @@
+{
+ "id": "ho-figshare30962618-arw-standard",
+ "file": "Standard_1.arw",
+ "size": 1168643,
+ "sha256": "0e2f9b5c058bea705c62464b1159138ebe48ebab330cd9e59296a92680f2eaa5",
+ "reader": "numpy 2.5.3 loadtxt on the export text",
+ "oracle_note": "headerless export (no SampleName/Channel rows): rows of time (min) and value only",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "value"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 10.0,
+   "x_first_min": 0.0,
+   "x_last_min": 107.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 64201,
+     "channels": [
+      {
+       "xxh3": "2830d8b79d6c7a1cd86edfb29798b025",
+       "first": [
+        -3.3e-06,
+        -2.61e-05,
+        -2.59e-05,
+        -2.93e-05,
+        -3.35e-05,
+        -2.68e-05,
+        -5.5e-06,
+        1.9e-06
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

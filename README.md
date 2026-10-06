@@ -6,7 +6,7 @@
 
 Open-source. Single binary. No vendor software. No dependencies. No network access. Works everywhere.
 
-**OpenReadout makes data stored in proprietary instrument file formats readable: it pulls out the metadata, images, traces, spectra, and tables as structured JSON and renders previews so your agent can see and understand the data.** Every format is validated against real data and independent libraries.
+**OpenReadout makes data stored in proprietary instrument file formats readable: it pulls out the metadata, images, traces, spectra, and tables as structured JSON and renders previews so your agent can see and understand the data.** Every format is validated against real data and independent libraries. On files from labs, instruments and software versions that no reader was developed on, 85 of 94 agree with an independent reference (90 %, 95 % CI 83–95 %). Mass spectrometry generalizes least well, at 8 of 13 ([held-out report](docs/benchmark/heldout-2026-10-06d.md)).
 
 [![CI](https://github.com/openreadout/openreadout/actions/workflows/ci.yml/badge.svg)](https://github.com/openreadout/openreadout/actions/workflows/ci.yml)
 [![Docs](https://github.com/openreadout/openreadout/actions/workflows/docs.yml/badge.svg)](https://openreadout.github.io/openreadout/)
@@ -230,7 +230,7 @@ irm https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/insta
 # Homebrew (macOS / Linux)
 brew install openreadout/tap/openreadout
 
-# npm (all platforms — fetches the native binary for your platform)
+# npm (all platforms; installs the native binary for your platform as a dependency)
 npm install -g openreadout
 
 # Rust toolchain

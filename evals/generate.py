@@ -71,11 +71,13 @@ OUT_DIR = Path(__file__).resolve().parent / "questions"
 
 FAMILIES = {
     # (formats after the `|` are only asked about in the held-out set so far: evals/heldout.py)
-    "microscopy": {"czi", "nd2", "lif", "tiff", "oir", "vsi", "zvi", "ims", "ome-zarr"} | {"oib", "oif", "dcimg"},
+    "microscopy": {"czi", "nd2", "lif", "tiff", "oir", "vsi", "zvi", "ims", "ome-zarr"}
+    | {"oib", "oif", "dcimg", "mirax"},
     "em": {"mrc", "dm", "ser", "emd"},
     "flow": {"fcs"},
-    "ephys": {"abf", "neuralynx", "blackrock", "spikeglx", "intan", "nwb"} | {"atf", "plexon"},
-    "nmr": {"bruker-nmr", "jcamp-dx"} | {"varian-nmr", "jeol-jdf"},
+    "ephys": {"abf", "neuralynx", "blackrock", "spikeglx", "intan", "nwb"}
+    | {"atf", "plexon", "ced-spike2", "winwcp", "open-ephys", "heka-patchmaster"},
+    "nmr": {"bruker-nmr", "jcamp-dx"} | {"varian-nmr", "jeol-jdf", "magritek-spinsolve"},
     "ms": {"thermo-raw", "mzml", "mzxml", "imzml", "bruker-tdf", "mzmlb"} | {"agilent-masshunter", "sciex-wiff"},
     "chromatography": {
         "chemstation",
@@ -89,7 +91,8 @@ FAMILIES = {
     "plates": {"plate"},
     "qpcr": {"rdml", "applied-biosystems-eds", "bio-rad-pcrd", "rotor-gene-rex", "roche-lightcycler-ixo"},
     "hcs": {"opera-harmony", "imagexpress", "cellvoyager"},
-    "spectroscopy": {"bruker-opus", "thermo-omnic", "renishaw-wdf", "perkinelmer-sp"},
+    "spectroscopy": {"bruker-opus", "thermo-omnic", "renishaw-wdf", "perkinelmer-sp"}
+    | {"galactic-spc", "witec-project"},
     # bench instruments (evals/bench.py): protein purification, biophysics, gel imaging, JASCO spectra
     "bench": {
         "cytiva-unicorn-res",
@@ -105,6 +108,16 @@ FAMILIES = {
         "neware-nda",
         "netzsch-ngb",
         "ta-universal-analysis",
+    }
+    | {
+        "cytiva-biacore-bme",
+        "bruker-raw",
+        "bruker-brml",
+        "rigaku-ras",
+        "bruker-bes3t",
+        "biologic-mpt",
+        "gamry-dta",
+        "neware-ndax",
     },
     # search questions over a whole staged share (share.py); single-family shares use their family
     "share": set(),

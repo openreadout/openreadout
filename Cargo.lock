@@ -1979,6 +1979,7 @@ dependencies = [
  "arrow-schema",
  "openreadout-core",
  "parquet",
+ "rayon",
  "schemars",
  "serde",
  "serde_json",
@@ -2444,6 +2445,7 @@ dependencies = [
  "openreadout-core",
  "openreadout-hdf5",
  "quick-xml 0.42.0",
+ "rayon",
  "serde_json",
  "sha1",
  "tempfile",
@@ -2456,9 +2458,11 @@ dependencies = [
  "flate2",
  "openreadout-core",
  "quick-xml 0.42.0",
+ "rayon",
  "schemars",
  "serde",
  "serde_json",
+ "sha1",
  "xxhash-rust",
 ]
 

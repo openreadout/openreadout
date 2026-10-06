@@ -1,0 +1,61 @@
+{
+ "id": "ho-zenodo14095495-opus-ice",
+ "file": "04_20240325_MIR_CH3OH_CH3NH2_after_dep2.0",
+ "size": 20656,
+ "sha256": "c6ba8de5306aa247dd8cd2062fa64f2f7cb3b46abba8ba94172f84d613bf0e95",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3526,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3526,
+     "channels": [
+      {
+       "xxh3": "2a7afd0447dafe32e3ec5e9d0b91f579",
+       "first": [
+        0.031025465577840805,
+        0.03102671541273594,
+        0.031043842434883118,
+        0.031078210100531578,
+        0.031126929447054863,
+        0.03118477761745453,
+        0.031248556450009346,
+        0.03131813183426857
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3998.6759033203125,
+   "x_last": 599.753173828125,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.0,
+     "apodization": "HG",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Mid [External Pos.5]",
+     "instrument": "INVENIO-R",
+     "instrument_serial": "269",
+     "sample_name": "20240325 MIR CH3OH CH3NH2 after deposition2",
+     "operator": "Admin",
+     "aperture": "1.5 mm",
+     "scans": 256
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

@@ -1,0 +1,33 @@
+{
+ "id": "ho-zenodo5898370-scn-dna",
+ "file": "recyced calf ecoli qpcr.scn",
+ "size": 12590713,
+ "sha256": "42f44679747dd55843aea601d9fbe24acbc0ebbe9bb6ed35a71f7f282ce718e0",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 3072,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 68.359375,
+    "y": 68.359375
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a8c1292969f617831b9a1b6ea322570b",
+     "mean": 540.5565193494161
+    }
+   ]
+  }
+ ]
+}

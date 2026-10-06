@@ -1,0 +1,75 @@
+{
+ "id": "ho-zenodo18360756-nd2-fishscale",
+ "file": "FS-30mic-1sc-RV-BrightField.nd2",
+ "size": 5304320,
+ "sha256": "26ee7298f087c29565d9ad86357edca6789211a7223818bce50b6f981ef0683e",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1608,
+   "size_y": 1608,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Y': 1608, 'X': 1608}",
+   "physical_size_um": {
+    "x": 0.298507462686567,
+    "y": 0.298507462686567,
+    "z": null
+   },
+   "channel_names": [
+    "DIA"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bda9187599b148bf5f10086b898f7646"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "DIA",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": 500.0,
+    "component_count": 1,
+    "modality": [
+     "brightfield",
+     "camera"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 2770657.887799993,
+    "tags": {
+     "Camera_ExposureTime1": 100.0,
+     "Z": 6443.2,
+     "Z1": 6443.2
+    }
+   }
+  ],
+  "acquired_at": "2025-12-27T06:28:53.164Z",
+  "acquired_at_unix_ms": 1766816933164
+ },
+ "text_info": {
+  "description": "Camera Name: Camera Nikon DS-Qi2\r\nNumerical Aperture: 0.3\r\nRefractive Index: 1\r\n Name: DIA\r\n Component Count: 1\r\n Modality: Brightfield\r\n Camera Settings:   \r\n  Camera Type: Nikon DS-Qi2\r\n  Binning: 1.0x1.0\r\n  Exposure: 100 ms\r\n  Gain: 1.0x\r\n  Trigger Mode: Software\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 4 (Empty)\r\n  Nikon Ti2, Shutter(DIA LED): Open\r\n  Nikon Ti2, Illuminator(DIA): On\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 1.2\r\n  LightPath: R100\r\n  Zoom: 1.00x\r\n",
+  "capturing": "Camera Nikon DS-Qi2\r\n\r\nCamera Type: Nikon DS-Qi2\r\nBinning: 1.0x1.0\r\nExposure: 100 ms\r\nGain: 1.0x\r\nTrigger Mode: Software",
+  "date": "27-12-2025  11:58:53",
+  "optics": "Plan Apo \u03bb 100x Oil Ph3 DMPlan Fluor 10x OFN25 Ph1 DL"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=14, componentCount=1, heightPx=1608, pixelDataType='unsigned', sequenceCount=1, widthBytes=3216, widthPx=1608, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

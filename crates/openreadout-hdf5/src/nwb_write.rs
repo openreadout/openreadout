@@ -281,8 +281,9 @@ pub fn export_nwb(
         None => info.traces.clone(),
     };
     let (first, last) = opts.rows.unwrap_or((0, None));
-    // plan: (trace, sweep, samples) and the value count
-    let mut plan: Vec<(TraceInfo, u32, u64, u64)> = Vec::new();
+    // plan: (trace, sweep, samples) and the value count. The trace is borrowed: a recording
+    // with many sweeps would otherwise hold one copy of its description per sweep.
+    let mut plan: Vec<(&TraceInfo, u32, u64, u64)> = Vec::new();
     let mut values = 0u64;
     for t in &traces {
         if t.channels.is_empty() {
@@ -303,7 +304,7 @@ pub fn export_nwb(
             let a = first.min(n);
             let b = last.map_or(n, |l| l.saturating_add(1).min(n)).max(a);
             values = values.saturating_add((b - a).saturating_mul(t.channels.len() as u64));
-            plan.push((t.clone(), s, a, b));
+            plan.push((t, s, a, b));
         }
     }
     if plan.is_empty() {

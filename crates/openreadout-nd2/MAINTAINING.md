@@ -110,7 +110,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
 - committed fixtures: 7 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `nd2_chunk_map`, `nd2_lv`, `nd2_variant_xml`, `whole_nd2`
-- corpus inputs by tier: full 9, heldout 8, smoke 13, standard 14
+- corpus inputs by tier: full 9, heldout 11, smoke 13, standard 14
 - golden snapshots: [`corpus/snapshots/nd2.jsonl`](../../corpus/snapshots/nd2.jsonl)
 
 ### Open new-variant intakes

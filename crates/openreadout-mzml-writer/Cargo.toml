@@ -19,9 +19,11 @@ include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
 openreadout-core = { workspace = true }
 flate2 = { workspace = true }
 quick-xml = { workspace = true }
+rayon = { workspace = true }
 serde = { workspace = true }
 schemars = { workspace = true }
 serde_json = { workspace = true }
+sha1 = { workspace = true }
 xxhash-rust = { workspace = true }
 
 [lints]

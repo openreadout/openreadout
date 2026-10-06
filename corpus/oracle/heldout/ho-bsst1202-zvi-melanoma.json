@@ -1,0 +1,53 @@
+{
+ "id": "ho-bsst1202-zvi-melanoma",
+ "file": "Fig 3d raw image wt sting cd31.zvi",
+ "size": 8808960,
+ "sha256": "c6dc26f8a2e349d5607cc0fc2c50c2e0f9ea44ac9dffe64a94653e394c3b0633",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Fig 3d raw image wt sting cd31.zvi",
+   "size_x": 1388,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.10238095238095238,
+    "y": 0.10238095238095238
+   },
+   "channel_names": [
+    "Cy5",
+    "GFP",
+    "DAPI"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ce52262c148b65523e8d58c33790f94e",
+     "mean": 441.1888349312791
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "13f09d1f2075bd9343502d85b30c28b7",
+     "mean": 919.2430427011749
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "be225b52cfa528f4fa8a116377ca670d",
+     "mean": 850.9284138771891
+    }
+   ]
+  }
+ ]
+}

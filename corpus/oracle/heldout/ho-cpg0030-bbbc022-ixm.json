@@ -1,0 +1,1459 @@
+{
+ "id": "ho-cpg0030-bbbc022-ixm",
+ "file": "20585",
+ "size": 65371949,
+ "max_planes_hashed": 64,
+ "reader": "Python stdlib index parse + tifffile 2026.9.20; Bio-Formats 8.5.0 showinf/bfconvert (GPL, black box)",
+ "hcs": {
+  "format": "imagexpress",
+  "plate": {
+   "id": null,
+   "rows": null,
+   "columns": null,
+   "wells_imaged": 2,
+   "fields": 18,
+   "planes_expected": 90,
+   "planes_missing": 0,
+   "planes_absent": 0,
+   "planes_not_recorded": 0,
+   "planes_present": 90
+  },
+  "channels": [
+   "DAPI",
+   "GFP",
+   "Cy3",
+   "TxRed",
+   "Cy5"
+  ],
+  "size_c": 5,
+  "size_z": 1,
+  "size_t": 1,
+  "size": [
+   696,
+   520
+  ],
+  "pixel_type": "uint16",
+  "pixel_size_um": [
+   0.645,
+   0.645
+  ],
+  "wells": [
+   {
+    "well": "A01",
+    "images": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ]
+   },
+   {
+    "well": "A02",
+    "images": [
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17
+    ]
+   }
+  ],
+  "images": [
+   {
+    "index": 0,
+    "well": "A01",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s1_w164FBEEF7-F77C-4892-86F5-72D0160D4FB2.tif",
+      "page": 0,
+      "xxh3": "63f543995e93da6ef7e810d2d07953a2",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s1_w22CA7BDF3-1425-4AE6-8E57-9C004D6F7FF2.tif",
+      "page": 0,
+      "xxh3": "546a6606b53a13fab866a5211b4ab854",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s1_w3FD54227A-6BE4-460B-8E2C-54B8709F6E33.tif",
+      "page": 0,
+      "xxh3": "6ecc0e3bc28f3ffa56257adb0e83c503",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s1_w47457436C-5BE7-4DA2-B966-CCF64B9F0088.tif",
+      "page": 0,
+      "xxh3": "ef01cbbe8334116fc8f7a6824fefd95f",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s1_w58DA6AF62-1799-4B85-BE17-744E12ADC245.tif",
+      "page": 0,
+      "xxh3": "690fa944725c9e08e08f026fc9d2facd",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 1,
+    "well": "A01",
+    "field": 2,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s2_w1AA6B1894-F561-42EE-9D1D-E21E5C741B75.tif",
+      "page": 0,
+      "xxh3": "5faa15e4bfd872e1b457a79c2ba4a394",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s2_w246FFAEE1-BEB6-4C81-913B-B979EC0C4BC3.tif",
+      "page": 0,
+      "xxh3": "75f4f41e992007601461134f827a36f2",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s2_w3A597237B-C3D7-43AE-8399-83E76DA1532D.tif",
+      "page": 0,
+      "xxh3": "141b8e5deb82162df5738bf2206ac539",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s2_w46657239A-5AFE-4C29-BB9B-49978EFE4791.tif",
+      "page": 0,
+      "xxh3": "6b4eabae10d1d46ccf3308f5af560d0e",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s2_w50F1562CD-EBCF-408E-9D8D-F6F0FDD746C8.tif",
+      "page": 0,
+      "xxh3": "0c2082c796e528c6bce2f3fb4e630d13",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 2,
+    "well": "A01",
+    "field": 3,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s3_w108F3A6FF-A865-40A1-8488-9A5BA31605A9.tif",
+      "page": 0,
+      "xxh3": "d8134b979c5adf6c266e013ffc90586d",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s3_w22AD5BD08-58A3-466D-A364-BE116BD98696.tif",
+      "page": 0,
+      "xxh3": "214ce41b16c8b030104d5788a30ad020",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s3_w30B946780-C923-4A40-8EC5-16262CFF03A6.tif",
+      "page": 0,
+      "xxh3": "ba735e0361669581a35097a7b8521a23",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s3_w47B5F2FF6-A5A2-4101-AC2A-0A821FDE7445.tif",
+      "page": 0,
+      "xxh3": "ba9da0c5aa08d00d730a998131c4c8ac",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s3_w5489716D4-2D06-45BE-8D68-F2EEE857929D.tif",
+      "page": 0,
+      "xxh3": "1598140050e2f5627b2587da6f010dea",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 3,
+    "well": "A01",
+    "field": 4,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s4_w189967984-D8CB-4449-9CE5-EE2E5F1B8ED4.tif",
+      "page": 0,
+      "xxh3": "f0a35b8928ebe82d4a9ea797af089ee9",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s4_w231D1EC99-22A8-47A8-9691-691906FA558E.tif",
+      "page": 0,
+      "xxh3": "734a04567f56ff7f4134180a0a868ac3",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s4_w3F582BADD-2249-48D6-BC19-1B4C166A2122.tif",
+      "page": 0,
+      "xxh3": "f251cb43d356759431195fcb5de0cb6d",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s4_w47E34AB5F-23B4-42E1-8B5B-93AB750DA038.tif",
+      "page": 0,
+      "xxh3": "5d5fe466327440bf404847383cd76086",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s4_w5D0566314-B9B2-4299-98AC-9BC33CA94192.tif",
+      "page": 0,
+      "xxh3": "e06f158211be0ac6deccdc77593ec2a0",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 4,
+    "well": "A01",
+    "field": 5,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s5_w1DCC72C3D-6ABF-4D49-897E-5F35679A166D.tif",
+      "page": 0,
+      "xxh3": "0926986b24bdedb533d898f663db54df",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s5_w2B3F07F02-876D-455B-94E4-35A0802022FD.tif",
+      "page": 0,
+      "xxh3": "7edb8913475690a6042eca4d47b08669",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s5_w3EB7ABD45-EE05-41A0-979E-7F3056233176.tif",
+      "page": 0,
+      "xxh3": "e637d3cedb65d031825e6f6f7fdcd63c",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s5_w4AFA01300-7373-42C4-872F-0375FA56ECAC.tif",
+      "page": 0,
+      "xxh3": "95e4a22adb4d44ee1c08abcbdd00e898",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s5_w513201EB0-3500-4A0C-8FAC-9468E5195D1D.tif",
+      "page": 0,
+      "xxh3": "ec8399f13d94c97aba24b780b16ce17d",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 5,
+    "well": "A01",
+    "field": 6,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s6_w11258626E-836F-4028-A3CB-50B83C60EAFF.tif",
+      "page": 0,
+      "xxh3": "2c28944c1b4ccffd3477b35c4f409df3",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s6_w27F5A3544-E7D1-4B26-AFD0-416B9F6666B7.tif",
+      "page": 0,
+      "xxh3": "8c72442d1789e1b89ea874362a2c3988",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s6_w3AB6348D8-0D46-488E-A7F5-28C7154735C0.tif",
+      "page": 0,
+      "xxh3": "c557582134d76eb9093070a89a3c188e",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s6_w4946663A1-86AC-40DF-943A-4E08B1CD13D9.tif",
+      "page": 0,
+      "xxh3": "d617eb0e510efbb6a98a09800c79fa62",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s6_w5724C008F-7724-45C3-9175-14CB1B83D10A.tif",
+      "page": 0,
+      "xxh3": "54869285332153a65536a11bac2e98e4",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 6,
+    "well": "A01",
+    "field": 7,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s7_w179C24BDB-EF90-4FE8-BA34-932EA0272FCE.tif",
+      "page": 0,
+      "xxh3": "768b21f733705d6b923dcba80f7fd95d",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s7_w295CAF1E1-B818-4677-893C-12C7F2DED413.tif",
+      "page": 0,
+      "xxh3": "0534e6bef337961c8146bab813ee05af",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s7_w31942FB3D-6A47-4BC7-9E29-B1F3A8315EEE.tif",
+      "page": 0,
+      "xxh3": "d3245896cccfbed96c1614c4f3c89bf7",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s7_w4F1F709F2-75BD-4C97-8C05-F9DDB5FE4BC9.tif",
+      "page": 0,
+      "xxh3": "e4de0abf54433d54dde897fa211f4f92",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s7_w59DF62B1E-DFA1-43CC-8E5A-E728330183F2.tif",
+      "page": 0,
+      "xxh3": "8be9d00694dfc53d7e4c2468dd1d06ac",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 7,
+    "well": "A01",
+    "field": 8,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s8_w1032E967C-5DCF-45C9-A460-2F9FF2234C24.tif",
+      "page": 0,
+      "xxh3": "f92588beb3ef241cb221e73e281a37db",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s8_w25D5AAB6A-DAA9-4B11-83B1-3FB83E67C7BC.tif",
+      "page": 0,
+      "xxh3": "cac3988d36fd05aeebf729f1c081bca7",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s8_w32DF8A9F7-6B3A-4CAF-A4F7-6B21886EB183.tif",
+      "page": 0,
+      "xxh3": "335ab18a247595cbe9424ec439940e2c",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s8_w4A92050CA-2700-43B3-B6C9-DFEDDB126BFB.tif",
+      "page": 0,
+      "xxh3": "56ef32691145297ed3f4c034aa661d7e",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s8_w5DDA6A97F-74B1-4885-B7E2-A45D548546EB.tif",
+      "page": 0,
+      "xxh3": "8630c7baddd0d4455f5fdffb508c8672",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 8,
+    "well": "A01",
+    "field": 9,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s9_w144EC6EFC-4CAE-411A-B641-EDA50D0E1550.tif",
+      "page": 0,
+      "xxh3": "11590d69bc02596fc32ac0aa0512a4bc",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s9_w296CDDB9B-6E01-4728-808C-B75F055DD8A4.tif",
+      "page": 0,
+      "xxh3": "e5bb3b6397596e7861c78a0a977c8d80",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s9_w31798561A-387E-4234-B6FF-91E8553A153D.tif",
+      "page": 0,
+      "xxh3": "36e589c50f9596a9064a3da663ccebc5",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s9_w4ED8064A5-A59B-4467-97FF-5D233832619D.tif",
+      "page": 0,
+      "xxh3": "2f0dfb50b6a0cf76ed2613a74ef1d665",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A01_s9_w502337C9E-8FAB-4160-A7DC-03AC77E687D8.tif",
+      "page": 0,
+      "xxh3": "c6aeed12565f69852dd2e3cb7b16ad56",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 9,
+    "well": "A02",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s1_w17C9F8BDB-79F0-4F8B-852B-71161631F236.tif",
+      "page": 0,
+      "xxh3": "b44a821aa43f78c3bf6604131c6b3562",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s1_w2F2F58829-F3E0-44C8-9F34-A22F20F6005B.tif",
+      "page": 0,
+      "xxh3": "b635b69c0c2c216fbb229df19355e801",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s1_w390BAB393-0635-4160-82E3-5FF0DA618AE1.tif",
+      "page": 0,
+      "xxh3": "0a9ec741513c6d336715327827d4a405",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s1_w48D2F4423-35BE-4871-AF40-3073075D8835.tif",
+      "page": 0,
+      "xxh3": "cd626a28ca11c14f30182bc0b6edb10b",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s1_w574184257-3FB3-459B-9FBE-D5781F590253.tif",
+      "page": 0,
+      "xxh3": "f08771b60054724ea38548f8a58681a1",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 10,
+    "well": "A02",
+    "field": 2,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s2_w1D18DF60D-A77E-4A79-B823-CA9754A95240.tif",
+      "page": 0,
+      "xxh3": "15111a6f007e0370ee8781a37f3c95ce",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s2_w28F2DBB99-8D5F-43AC-B168-3EE93B68D7E7.tif",
+      "page": 0,
+      "xxh3": "c249090db6bc4c02d0d980a5a8aa9644",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s2_w3C8965B83-AB21-4710-92C6-D35E126A339E.tif",
+      "page": 0,
+      "xxh3": "f3e48c85dc64a0064b11a23243131ba4",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s2_w436D1859D-54CB-46E5-B0A2-3AE92FAE9934.tif",
+      "page": 0,
+      "xxh3": "855f2dc28d37ee00b58ba56a10e24bd5",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s2_w5EAE94D12-813B-4F7E-A1CB-413654D25A41.tif",
+      "page": 0,
+      "xxh3": "51c53455ce9f61ab66bf9a417787dbc6",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 11,
+    "well": "A02",
+    "field": 3,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s3_w1F9B2A085-E37A-409A-80E6-3D264FD375F1.tif",
+      "page": 0,
+      "xxh3": "de92871f3504adb387f3bae0f559838d",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s3_w2CFDF7C8A-F5B2-4379-ADC0-F0E8A8E66244.tif",
+      "page": 0,
+      "xxh3": "e3262c0c9769742d8ef3b0d1ffa7d41a",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s3_w364F4864C-95E8-4BD1-AA43-92D9225FDA1A.tif",
+      "page": 0,
+      "xxh3": "0080e2b9e0a1552f1e1f1abdbf0d75f4",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s3_w4088CCB69-CE85-4EF9-97D5-28C6ED6A0DC0.tif",
+      "page": 0,
+      "xxh3": "ce71df788d0994b5be7ab21ee91329e7",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s3_w5481A1D67-91EC-4216-B626-E8BA98479C96.tif",
+      "page": 0,
+      "xxh3": "9089c7ae50e72cfdd738666558c4905a",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 12,
+    "well": "A02",
+    "field": 4,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s4_w1A422B830-5958-460D-BA96-20247897BBE6.tif",
+      "page": 0,
+      "xxh3": "341404217ba62644e3c56ea96c8f6fb3",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s4_w215A81966-E066-4212-B4B5-AB191F66C10D.tif",
+      "page": 0,
+      "xxh3": "649d256957ea97cb2295e1497837d088",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s4_w3391C182D-D482-4C2D-8313-6EEEB0F396DB.tif",
+      "page": 0,
+      "xxh3": "4ca97685a6823ece3597a9b938576a9b",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s4_w40B1757EC-B080-4014-94C1-5101C39DF39F.tif",
+      "page": 0,
+      "xxh3": "b59cb6b77ff55a525e936a320183e6c6",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s4_w5841FFF61-6221-4BE6-BBB5-B1AA96AC44CB.tif",
+      "page": 0,
+      "xxh3": "5b76574e8ce344ca377ea034828ceca0",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 13,
+    "well": "A02",
+    "field": 5,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s5_w161A7766F-A786-4CEC-9678-C72AAE0AD42E.tif",
+      "page": 0,
+      "xxh3": "de7cfd00452fc0c0026bed2339789897",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s5_w22B396477-2F5D-4307-B7CF-F1263A59E049.tif",
+      "page": 0,
+      "xxh3": "3ea7826be80be7e8c9a8971afc74e559",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s5_w3127EEE5E-F3A3-425C-B181-894521319D93.tif",
+      "page": 0,
+      "xxh3": "aa1588b1cc6e2fe1d2dd60ba6533348d",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s5_w411435BB5-F132-44FD-B7FD-22C842FE41C0.tif",
+      "page": 0,
+      "xxh3": "deb1b580b20df012ae905e091fdc2a4d",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s5_w539A7861B-7BF7-464F-9B8C-1E312266BF72.tif",
+      "page": 0,
+      "xxh3": "405bc2bd3c2413b1458fb9bf27011b06",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 14,
+    "well": "A02",
+    "field": 6,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s6_w16061A696-DDDB-4A44-89CF-5104B9F54A37.tif",
+      "page": 0,
+      "xxh3": "08866a47c4a79945a54bd0732f7b7cd7",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s6_w2E192A9CF-E8A8-44EE-A97A-87F92DD9AAC0.tif",
+      "page": 0,
+      "xxh3": "bc74596daa0204e6583e7498b45b709b",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s6_w349DEF89C-EE75-414B-A310-2184AFE74D03.tif",
+      "page": 0,
+      "xxh3": "1c53d41e1dbd787e4d49bc26f2b44553",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s6_w4201B33C5-4418-49CE-AFA4-CE313F4CB0C9.tif",
+      "page": 0,
+      "xxh3": "8adc550b3915db029e95518e7342d7d5",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s6_w579F85493-7073-4D25-8651-A404F93B24EF.tif",
+      "page": 0,
+      "xxh3": "73ed7eecd2008a02832e19973ed054e8",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 15,
+    "well": "A02",
+    "field": 7,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s7_w1A18819FA-22CA-4886-9FA7-94D2B3FFD09F.tif",
+      "page": 0,
+      "xxh3": "6c53a0e24683341ea56930bdea8787d1",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s7_w23013DDFB-9104-48F7-8868-60F99C2DFF0B.tif",
+      "page": 0,
+      "xxh3": "fb78260cd7e218fd36ba091b5594a144",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s7_w35F97F26C-44EF-467E-A8C4-CB4C574A29CB.tif",
+      "page": 0,
+      "xxh3": "b093419702d6485b0eb3ab8a0e279d9c",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s7_w41B8A62F7-5B68-4BA1-B016-718579BFF8A4.tif",
+      "page": 0,
+      "xxh3": "852c9c62edac5ad4c1471922a8ebfd1d",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s7_w5AA5A58B5-58CC-4EFF-9498-477073B81BE0.tif",
+      "page": 0,
+      "xxh3": "94faf479b44fc8ee4649eccc2994d190",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 16,
+    "well": "A02",
+    "field": 8,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s8_w1D5E9BBA9-66BD-4DE6-A3F1-8E8BA835909B.tif",
+      "page": 0,
+      "xxh3": "ccdeea516ca46635d3c13da24284c04f",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s8_w271FF69FD-A32F-4CF5-8D22-BFCDDA5836A3.tif",
+      "page": 0,
+      "xxh3": "7806a97078ab4111ba0fa1892f7fe135",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s8_w34137CA0D-D075-4B1D-B8F6-8F879F6ACB97.tif",
+      "page": 0,
+      "xxh3": "6c25157c4ac482185ebf76b94ca0fcfd",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s8_w4F0E7CF93-774C-47AA-BF62-29FC9FAC5B41.tif",
+      "page": 0,
+      "xxh3": "2308b5ac93cb0f854d3f36fabd50f0f9",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s8_w54309A5A3-1E2C-4A35-AAEF-2B55869AC7CD.tif",
+      "page": 0,
+      "xxh3": "052a5ad67b2990c44ed12131cce6a884",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   },
+   {
+    "index": 17,
+    "well": "A02",
+    "field": 9,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s9_w1994C1B84-9FDC-496D-9984-E3C116069776.tif",
+      "page": 0,
+      "xxh3": "86a1a9314f3fb5fd6252906acb8a8f76",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s9_w2B30A5DE7-44F8-4B59-8E78-AF3EECC73564.tif",
+      "page": 0,
+      "xxh3": "5a4b8b27a0010643f681f32e597208dc",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 2,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s9_w3B3127A26-B306-4264-BBD0-41BC4DEB76C7.tif",
+      "page": 0,
+      "xxh3": "1ae9fbaf8f7a862428cedb160208e2f9",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 3,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s9_w4F5640AC9-EEBB-4CAB-B4A3-43250BB365AB.tif",
+      "page": 0,
+      "xxh3": "c4bf65d163b30e0a5a7f26ffe748f363",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     },
+     {
+      "c": 4,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "IXMtest_A02_s9_w55C0A4EAA-59A4-49F2-BEDD-D577F0A06EE7.tif",
+      "page": 0,
+      "xxh3": "4b39c633e42a71405c098bc40851534a",
+      "dtype": "uint16",
+      "shape": [
+       520,
+       696
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

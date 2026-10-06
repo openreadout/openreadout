@@ -21,7 +21,10 @@ expected values, that every tool except openreadout_export declares an outputSch
 reads resources and resource templates, renders every prompt, and calls every tool at least once
 over the given files (exports, attachments and report bundles go to a temporary directory; image
 exports are sent a progressToken and must report progress). Over HTTP it also checks that a
-browser Origin, a foreign Host and a missing bearer token are refused. Exits non-zero on the first failure.
+browser Origin, a foreign Host and a missing bearer token are refused. A second session declares
+MCP Apps (the io.modelcontextprotocol/ui extension) and checks the viewer: the ui:// page, the
+tools that point at it, and openreadout_view over every file, within its size caps. Exits non-zero
+on the first failure.
 """
 import base64
 import json
@@ -51,6 +54,13 @@ EXPECTED_TOOLS = {
 # Returns new events on every call: not idempotent.
 NOT_IDEMPOTENT = {"openreadout_watch"}
 PREVIEW_BUDGET = 750_000
+UI_EXTENSION = "io.modelcontextprotocol/ui"
+UI_MIME = "text/html;profile=mcp-app"
+VIEWER_URI = "ui://openreadout/viewer.html"
+VIEW_TOOL = "openreadout_view"
+# openreadout_view caps (crates/openreadout-mcp/src/app/view.rs)
+VIEW_MAX_IMAGE = 1600
+VIEW_MAX_POINTS = 4000
 
 
 def fail(msg):
@@ -679,6 +689,47 @@ def check_image(b64, mime, what):
     return raw, w, h
 
 
+def viewer(c, files):
+    """A client that declares MCP Apps gets the viewer; its data stays within the caps."""
+    r, _ = c.request("initialize", {
+        "protocolVersion": PROTOCOL,
+        "capabilities": {"extensions": {UI_EXTENSION: {"mimeTypes": [UI_MIME]}}},
+        "clientInfo": {"name": "smoke-ui", "version": "0"}})
+    check(UI_EXTENSION in r["result"]["capabilities"].get("extensions", {}),
+          f"server does not declare {UI_EXTENSION}: {r['result']['capabilities']}")
+    c.notify("notifications/initialized")
+    tools = {t["name"]: t for t in c.request("tools/list")[0]["result"]["tools"]}
+    check(set(tools) == EXPECTED_TOOLS | {VIEW_TOOL}, f"tools with the viewer: {sorted(tools)}")
+    check(tools[VIEW_TOOL]["_meta"]["ui"] == {"resourceUri": VIEWER_URI, "visibility": ["app"]},
+          f"{VIEW_TOOL} _meta: {tools[VIEW_TOOL].get('_meta')}")
+    check(tools["openreadout_info"]["_meta"]["ui"]["resourceUri"] == VIEWER_URI, "info has no viewer")
+    check("_meta" not in tools["openreadout_export"], "export should have no viewer")
+    page = c.request("resources/read", {"uri": VIEWER_URI})[0]["result"]["contents"][0]
+    check(page["mimeType"] == UI_MIME and page["text"].lower().startswith("<!doctype html>"), "viewer page")
+    check("http://" not in page["text"] and "https://" not in page["text"], "the viewer page names a URL")
+    shown = []
+    for f in files:
+        r, _ = c.request("tools/call", {"name": "openreadout_info", "arguments": {"file": f}})
+        if "result" not in r or r["result"].get("isError"):
+            continue
+        hint = r["result"].get("_meta", {}).get("openreadout/view")
+        check(hint and hint.get("file") == f, f"info {f}: no viewer hint in _meta")
+        r, _ = c.request("tools/call", {"name": VIEW_TOOL, "arguments": hint})
+        check("result" in r and not r["result"].get("isError"), f"{VIEW_TOOL} {f}: {json.dumps(r)[:400]}")
+        res = r["result"]
+        sc = res["structuredContent"]
+        for img in (x for x in res["content"] if x["type"] == "image"):
+            _, w, h = check_image(img["data"], img["mimeType"], f"{VIEW_TOOL} {f}")
+            check(w is None or max(w, h) <= VIEW_MAX_IMAGE, f"{VIEW_TOOL} {f}: {w}x{h}")
+        for series in (sc.get("plot") or {}).get("series", []):
+            for k in ("x", "y", "lo", "hi"):
+                n = len(series.get(k) or [])
+                check(n <= VIEW_MAX_POINTS, f"{VIEW_TOOL} {f}: {n} points in {k}")
+        shown.append(f"{os.path.basename(f)}={sc['view']}")
+    check(shown, "the viewer showed no file")
+    print("viewer ->", ", ".join(shown))
+
+
 def surface(c):
     """Checks that do not depend on a file."""
     r, _ = c.request("initialize", {"protocolVersion": PROTOCOL, "capabilities": {},
@@ -953,6 +1004,11 @@ def main(argv):
             synthetic_analyses(c, tmp, called)
             analysis_tools(c, tmp, called)
         index_and_search(c, tmp, called)
+        v = Http(binary) if http else Stdio(binary)
+        try:
+            viewer(v, files)
+        finally:
+            v.close()
     finally:
         c.close()
         shutil.rmtree(tmp, ignore_errors=True)

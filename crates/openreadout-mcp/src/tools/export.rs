@@ -142,6 +142,7 @@ fn export_open(
     registry: fn() -> Registry,
     a: &ExportArgs,
     format: &str,
+    progress: Option<progress::ProgressFn>,
 ) -> Result<serde_json::Value, McpError> {
     let input = PathBuf::from(&a.file);
     let (_, mut ds) = registry().open(&input).map_err(|e| mcp_err(&e))?;
@@ -191,7 +192,7 @@ fn export_open(
                 .map_err(|e| mcp_err(&e))?;
             to_value(&r)
         }
-        _ => export_columnar(ds.as_mut(), &input, output, a, format, rows),
+        _ => export_columnar(ds.as_mut(), &input, output, a, format, rows, progress),
     }
 }
 
@@ -203,6 +204,7 @@ fn export_columnar(
     a: &ExportArgs,
     format: &str,
     rows: Option<(u64, Option<u64>)>,
+    progress: Option<progress::ProgressFn>,
 ) -> Result<serde_json::Value, McpError> {
     use openreadout_arrow::{ColumnarFormat, ColumnarSelection};
     let usage = |m: String| mcp_err(&Error::Usage(m));
@@ -232,6 +234,15 @@ fn export_columnar(
     if out == input {
         return Err(usage("output must differ from the input".into()));
     }
+    let mut wrapped;
+    let ds: &mut dyn openreadout_core::reader::Dataset = match progress {
+        Some(p) => {
+            let total = openreadout_arrow::export_size(ds, input, &o).map_err(|e| mcp_err(&e))?;
+            wrapped = progress::ProgressDataset::rows(ds, total, p);
+            &mut wrapped
+        }
+        None => ds,
+    };
     let r = openreadout_arrow::export_columnar(ds, input, &out, &o).map_err(|e| mcp_err(&e))?;
     to_value(&r)
 }
@@ -244,6 +255,7 @@ fn export_columnar(
     _a: &ExportArgs,
     format: &str,
     _rows: Option<(u64, Option<u64>)>,
+    _progress: Option<progress::ProgressFn>,
 ) -> Result<serde_json::Value, McpError> {
     Err(mcp_err(&Error::unsupported(
         "export",
@@ -281,10 +293,10 @@ fn export_blocking(
     }
     let requested = a.format.as_deref().map(str::to_ascii_lowercase);
     match requested.as_deref() {
-        Some("parquet") => return export_open(registry, &a, "parquet"),
-        Some("arrow" | "feather" | "ipc") => return export_open(registry, &a, "arrow"),
-        Some("nwb") => return export_open(registry, &a, "nwb"),
-        Some("jcamp" | "jcamp-dx" | "jdx") => return export_open(registry, &a, "jcamp"),
+        Some("parquet") => return export_open(registry, &a, "parquet", progress),
+        Some("arrow" | "feather" | "ipc") => return export_open(registry, &a, "arrow", progress),
+        Some("nwb") => return export_open(registry, &a, "nwb", progress),
+        Some("jcamp" | "jcamp-dx" | "jdx") => return export_open(registry, &a, "jcamp", progress),
         _ => {}
     }
     if a.table.is_some() || a.trace.is_some() || a.sweep.is_some() || a.rows.is_some() || a.spectra

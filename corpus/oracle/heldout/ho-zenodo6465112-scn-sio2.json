@@ -1,0 +1,33 @@
+{
+ "id": "ho-zenodo6465112-scn-sio2",
+ "file": "2_metadata_NP01155 & NP01156 Artificial Mix ImageLab N1.scn",
+ "size": 12151726,
+ "sha256": "ff6d0c9f8928c3de6182a10dddecc5190269d4a14fec8cbad62a1799343ceaf2",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2750,
+   "size_y": 2200,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 35.272363636363636,
+    "y": 35.272363636363636
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "50424a59acc196e5f21f29e1ebd1bb80",
+     "mean": 41041.20213586777
+    }
+   ]
+  }
+ ]
+}

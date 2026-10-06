@@ -20,7 +20,7 @@ kept apart from the rest of the benchmark.
   repository, ...) that the development corpus does not use (a GitHub repository is one record; ProteoWizard's collects test data from unrelated contributors, so its top-level trees — `pwiz/…`, the vendor-reader test data, and `pwiz_tools/…`, Skyline's — are separate records), and each entry records its licence,
   where the licence was checked (`license_checked`) and what ground truth exists. Each input names
   the generalization draw that added it (`draw = "2026-09-24"`, `"2026-09-24b"`, `"2026-09-26"`,
-  `"2026-09-26c"`, ...), so a run can be reported per draw. Files are
+  `"2026-09-26c"`, `"2026-10-06d"`, ...), so a run can be reported per draw. Files are
   downloaded into `<corpus dir>/heldout/` (bundles into `<corpus dir>/<bundle id>/`).
 - **Ground truth**: `corpus/oracle/heldout/<id>.json`, written by `oracle/gen.py` with the same
   third-party readers as the rest of the corpus (`oracle/gen_heldout.py` runs it with
@@ -115,18 +115,28 @@ cargo xtask heldout-check                                       # the rules belo
 | 2026-09-24b (B) | [heldout-2026-09-24b.md](heldout-2026-09-24b.md) | 22 | 17 of 21 (81 %) |
 | 2026-09-26 (bench) | below | 5 | 1 of 3 (the ITC "pass" compared nothing: [draw C](heldout-2026-09-26c.md), C-O3) |
 | 2026-09-26c (C) | [heldout-2026-09-26c.md](heldout-2026-09-26c.md) | 90 (82 counted, 8 exposed) | 67 of 71 (94.4 %, 95 % CI 86.4–97.8); 69 of 71 after adjudication; 4 variants refused cleanly (as first reported, with the 8 exposed inputs: 74 of 78) |
+| 2026-10-06d (D) | [heldout-2026-10-06d.md](heldout-2026-10-06d.md) | 105 | 77 of 94 (81.9 %, 95 % CI 72.9–88.4); 85 of 94 after adjudication (90.4 %, CI 82.8–94.9); 4 variants refused with a hint; mass spectrometry 8 of 13 after adjudication, the rest 77 of 81 |
 
 A draw's first measurement is the generalization number: later runs over the same files follow
-fixes developed on other files, so they are no longer a fresh test. The latest run over all 171
-inputs (2026-09-26, `main` at `7c0ad6bd`): 143 of 155 agree (92.3 %), 150 of 155 after adjudication
-(without draw C's 8 exposed inputs, all of which agree or are self-consistency only: 136 of 148,
-91.9 %, and 143 of 148);
-the adjudication of every disagreement is in
-[heldout-2026-09-26c-classes.json](heldout-2026-09-26c-classes.json).
+fixes developed on other files, so they are no longer a fresh test. The latest run over all 292
+inputs (2026-10-06, `main` at `572e5922`), without the 9 exposed inputs: 219 of 252 agree (86.9 %,
+CI 82.2–90.5), 240 of 252 after adjudication (95.2 %, CI 91.9–97.3). The adjudication of every
+disagreement is in [heldout-2026-10-06d-classes.json](heldout-2026-10-06d-classes.json), and the
+reader errors of draw D, for fixing on other files, in
+[heldout-2026-10-06d-findings.json](heldout-2026-10-06d-findings.json). Eleven held-out inputs
+added for the bench formats after draw C have no `draw` yet.
 
 ## Incidents
 
 Exposures of held-out files to development work, recorded so the reader of a held-out score can judge it.
+
+- **2026-10-06, draw D adjudication looked inside a few held-out files.** To classify the draw-D
+  disagreements, the measuring workstream (which changes no reader) read the cell concentration line
+  of the ITC file's text header, the first rows of the TA Universal Analysis export, the first and
+  last 16 bytes of the DM3 line profile, the scan index arrays of the 2003 ANDI file with SciPy, the
+  processing metadata of the two Sciex exports, and OpenReadout's own output on every disagreeing
+  file. What it found is in the draw-D report and its findings file, at the level of behaviour.
+  Nothing was used for a reader change, and whoever fixes these findings works from new files.
 
 - **2026-09-26, draw C reserved eight records development work had used.** Before draw C, the
   electrophysiology and spectroscopy work had added development files from eight source

@@ -80,7 +80,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_scn`
-- corpus inputs by tier: heldout 3, smoke 6, standard 7
+- corpus inputs by tier: heldout 5, smoke 6, standard 7
 - golden snapshots: [`corpus/snapshots/biorad-scn.jsonl`](../../corpus/snapshots/biorad-scn.jsonl)
 
 ### Open new-variant intakes

@@ -134,7 +134,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/fcs32.rs`](tests/fcs32.rs), [`tests/gating.rs`](tests/gating.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_fcs`
-- corpus inputs by tier: heldout 10, hold 2, smoke 39, standard 4
+- corpus inputs by tier: heldout 12, hold 2, smoke 39, standard 4
 - golden snapshots: [`corpus/snapshots/fcs.jsonl`](../../corpus/snapshots/fcs.jsonl)
 
 ### Open new-variant intakes
