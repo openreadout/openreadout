@@ -75,6 +75,8 @@ COMMITTED_CUTS = [
     ("whole_plate", "bmg-mars-lum-1536.csv", 8 * 1024),  # MIT
     ("whole_plate_xlsx", "magellan-pro-compact.xlsx", 16 * 1024),  # MIT
     ("whole_plate_xlsx", "skanit-luciferase.xlsx", 16 * 1024),  # MIT
+    ("whole_qpcr_export", "qpcrx-cfx-churchlab-vwf-pecam1.csv", 8 * 1024),  # MIT
+    ("whole_qpcr_export_xls", "qpcrx-ab-stepone-taec-24h-taqman.xls", 64 * 1024),  # CC-BY-4.0
     ("tims_sqlite", "timsrust-test-dda.d/analysis.tdf", 32 * 1024),  # Apache-2.0
     ("jcamp_asdf", "jcamp-lancashire-dupinc1.jdx", 16 * 1024),  # public domain
     ("jcamp_asdf", "jcamp-lancashire-sqzdec1.jdx", 16 * 1024),  # public domain

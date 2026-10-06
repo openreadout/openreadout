@@ -1,0 +1,1143 @@
+{
+ "id": "qpcrx-ab-stepone-sj-taec-6h",
+ "file": "qpcrx-ab-stepone-sj-taec-6h.xls",
+ "size": 58880,
+ "sha256": "e5d64503418c06185ff59f5049e6e71b8ec24eb5176c6f2c22e4e6d7cd6d167b",
+ "reader": "xlrd / openpyxl / csv over the export (independent of OpenReadout)",
+ "format": "qpcr-results-export",
+ "layout": "applied-biosystems",
+ "rows": 8,
+ "columns": 12,
+ "records": [
+  {
+   "row": 1,
+   "col": 1,
+   "target": "H20",
+   "sample": "11-3 A 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    70.50304412841797
+   ]
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "target": "H20",
+   "sample": "11-3 B 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    67.52198791503906
+   ]
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "target": "H20",
+   "sample": "11-3 C 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    68.72088623046875
+   ]
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "target": "H20",
+   "sample": "11-3 D 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    70.50926208496094
+   ]
+  },
+  {
+   "row": 1,
+   "col": 5,
+   "target": "H20",
+   "sample": "11-3 OXA 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    67.96886444091797,
+    87.19622802734375
+   ]
+  },
+  {
+   "row": 1,
+   "col": 6,
+   "target": "H20",
+   "sample": "11-3 DMSO 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    69.75746154785156
+   ]
+  },
+  {
+   "row": 1,
+   "col": 7,
+   "target": "H20",
+   "sample": "8-4 A 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    87.34993743896484,
+    66.18535614013672,
+    70.20960998535156
+   ]
+  },
+  {
+   "row": 1,
+   "col": 8,
+   "target": "H20",
+   "sample": "8-4 B 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    68.57009887695312,
+    87.49898529052734
+   ]
+  },
+  {
+   "row": 1,
+   "col": 9,
+   "target": "H20",
+   "sample": "8-4 C 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    67.97592163085938
+   ]
+  },
+  {
+   "row": 1,
+   "col": 10,
+   "target": "H20",
+   "sample": "8-4 D 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    87.50077056884766,
+    67.37974548339844,
+    63.951717376708984
+   ]
+  },
+  {
+   "row": 1,
+   "col": 11,
+   "target": "H20",
+   "sample": "8-4 OXA 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    87.49705505371094,
+    61.564632415771484
+   ]
+  },
+  {
+   "row": 1,
+   "col": 12,
+   "target": "H20",
+   "sample": "8-4 DMSO 6H",
+   "task_raw": "NTC",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    71.69914245605469
+   ]
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "target": "GAPDH",
+   "sample": "11-3 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.29242515563965,
+   "cq_undetermined": false,
+   "tm": [
+    88.38937377929688
+   ]
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "target": "GAPDH",
+   "sample": "11-3 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.37404441833496,
+   "cq_undetermined": false,
+   "tm": [
+    88.83653259277344
+   ]
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "target": "GAPDH",
+   "sample": "11-3 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 17.89183235168457,
+   "cq_undetermined": false,
+   "tm": [
+    88.69108581542969
+   ]
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "target": "GAPDH",
+   "sample": "11-3 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.70197105407715,
+   "cq_undetermined": false,
+   "tm": [
+    88.24398803710938
+   ]
+  },
+  {
+   "row": 2,
+   "col": 5,
+   "target": "GAPDH",
+   "sample": "11-3 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.047718048095703,
+   "cq_undetermined": false,
+   "tm": [
+    88.38862609863281
+   ]
+  },
+  {
+   "row": 2,
+   "col": 6,
+   "target": "GAPDH",
+   "sample": "11-3 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 17.970796585083008,
+   "cq_undetermined": false,
+   "tm": [
+    88.68672180175781
+   ]
+  },
+  {
+   "row": 2,
+   "col": 7,
+   "target": "GAPDH",
+   "sample": "8-4 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.692039489746094,
+   "cq_undetermined": false,
+   "tm": [
+    88.09516906738281
+   ]
+  },
+  {
+   "row": 2,
+   "col": 8,
+   "target": "GAPDH",
+   "sample": "8-4 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.97500991821289,
+   "cq_undetermined": false,
+   "tm": [
+    88.09516906738281,
+    67.37772369384766
+   ]
+  },
+  {
+   "row": 2,
+   "col": 9,
+   "target": "GAPDH",
+   "sample": "8-4 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.512948989868164,
+   "cq_undetermined": false,
+   "tm": [
+    88.39503479003906
+   ]
+  },
+  {
+   "row": 2,
+   "col": 10,
+   "target": "GAPDH",
+   "sample": "8-4 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.968730926513672,
+   "cq_undetermined": false,
+   "tm": [
+    88.54408264160156
+   ]
+  },
+  {
+   "row": 2,
+   "col": 11,
+   "target": "GAPDH",
+   "sample": "8-4 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.933935165405273,
+   "cq_undetermined": false,
+   "tm": [
+    88.54031372070312
+   ]
+  },
+  {
+   "row": 2,
+   "col": 12,
+   "target": "GAPDH",
+   "sample": "8-4 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.589839935302734,
+   "cq_undetermined": false,
+   "tm": [
+    88.54031372070312
+   ]
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "target": "GAPDH",
+   "sample": "11-3 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.38764762878418,
+   "cq_undetermined": false,
+   "tm": [
+    88.68748474121094
+   ]
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "target": "GAPDH",
+   "sample": "11-3 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.275814056396484,
+   "cq_undetermined": false,
+   "tm": [
+    88.38937377929688
+   ]
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "target": "GAPDH",
+   "sample": "11-3 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.302263259887695,
+   "cq_undetermined": false,
+   "tm": [
+    88.09495544433594
+   ]
+  },
+  {
+   "row": 3,
+   "col": 4,
+   "target": "GAPDH",
+   "sample": "11-3 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.64911651611328,
+   "cq_undetermined": false,
+   "tm": [
+    88.54205322265625
+   ]
+  },
+  {
+   "row": 3,
+   "col": 5,
+   "target": "GAPDH",
+   "sample": "11-3 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.299049377441406,
+   "cq_undetermined": false,
+   "tm": [
+    88.38862609863281
+   ]
+  },
+  {
+   "row": 3,
+   "col": 6,
+   "target": "GAPDH",
+   "sample": "11-3 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.30103874206543,
+   "cq_undetermined": false,
+   "tm": [
+    88.53767395019531
+   ]
+  },
+  {
+   "row": 3,
+   "col": 7,
+   "target": "GAPDH",
+   "sample": "8-4 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 19.12171745300293,
+   "cq_undetermined": false,
+   "tm": [
+    88.09516906738281
+   ]
+  },
+  {
+   "row": 3,
+   "col": 8,
+   "target": "GAPDH",
+   "sample": "8-4 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.534067153930664,
+   "cq_undetermined": false,
+   "tm": [
+    88.24421691894531
+   ]
+  },
+  {
+   "row": 3,
+   "col": 9,
+   "target": "GAPDH",
+   "sample": "8-4 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.79314422607422,
+   "cq_undetermined": false,
+   "tm": [
+    88.2459945678711
+   ]
+  },
+  {
+   "row": 3,
+   "col": 10,
+   "target": "GAPDH",
+   "sample": "8-4 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.997257232666016,
+   "cq_undetermined": false,
+   "tm": [
+    88.2459945678711
+   ]
+  },
+  {
+   "row": 3,
+   "col": 11,
+   "target": "GAPDH",
+   "sample": "8-4 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.753305435180664,
+   "cq_undetermined": false,
+   "tm": [
+    88.39127349853516
+   ]
+  },
+  {
+   "row": 3,
+   "col": 12,
+   "target": "GAPDH",
+   "sample": "8-4 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 18.667865753173828,
+   "cq_undetermined": false,
+   "tm": [
+    88.54031372070312
+   ]
+  },
+  {
+   "row": 4,
+   "col": 1,
+   "target": "I-CAM",
+   "sample": "11-3 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    66.18051147460938
+   ]
+  },
+  {
+   "row": 4,
+   "col": 2,
+   "target": "I-CAM",
+   "sample": "11-3 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 33.82581329345703,
+   "cq_undetermined": false,
+   "tm": [
+    77.5085220336914,
+    84.36495208740234
+   ]
+  },
+  {
+   "row": 4,
+   "col": 3,
+   "target": "I-CAM",
+   "sample": "11-3 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 35.92726135253906,
+   "cq_undetermined": false,
+   "tm": [
+    84.36917114257812
+   ]
+  },
+  {
+   "row": 4,
+   "col": 4,
+   "target": "I-CAM",
+   "sample": "11-3 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 35.431365966796875,
+   "cq_undetermined": false,
+   "tm": [
+    76.91761016845703,
+    84.36917114257812
+   ]
+  },
+  {
+   "row": 4,
+   "col": 5,
+   "target": "I-CAM",
+   "sample": "11-3 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 35.68184280395508,
+   "cq_undetermined": false,
+   "tm": [
+    87.79243469238281,
+    84.21524810791016,
+    65.73312377929688
+   ]
+  },
+  {
+   "row": 4,
+   "col": 6,
+   "target": "I-CAM",
+   "sample": "11-3 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 35.202178955078125,
+   "cq_undetermined": false,
+   "tm": [
+    76.61372375488281,
+    81.085205078125,
+    65.28598022460938
+   ]
+  },
+  {
+   "row": 4,
+   "col": 7,
+   "target": "I-CAM",
+   "sample": "8-4 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 34.8929557800293,
+   "cq_undetermined": false,
+   "tm": [
+    77.21478271484375
+   ]
+  },
+  {
+   "row": 4,
+   "col": 8,
+   "target": "I-CAM",
+   "sample": "8-4 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 39.54228210449219,
+   "cq_undetermined": false,
+   "tm": [
+    84.21996307373047,
+    65.58917236328125
+   ]
+  },
+  {
+   "row": 4,
+   "col": 9,
+   "target": "I-CAM",
+   "sample": "8-4 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 33.99504089355469,
+   "cq_undetermined": false,
+   "tm": [
+    87.35173034667969,
+    84.07274627685547,
+    68.27400970458984
+   ]
+  },
+  {
+   "row": 4,
+   "col": 10,
+   "target": "I-CAM",
+   "sample": "8-4 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 32.308780670166016,
+   "cq_undetermined": false,
+   "tm": [
+    86.90459442138672,
+    76.32241821289062
+   ]
+  },
+  {
+   "row": 4,
+   "col": 11,
+   "target": "I-CAM",
+   "sample": "8-4 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 35.57441711425781,
+   "cq_undetermined": false,
+   "tm": [
+    84.2182388305664,
+    66.03573608398438
+   ]
+  },
+  {
+   "row": 4,
+   "col": 12,
+   "target": "I-CAM",
+   "sample": "8-4 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 34.6747932434082,
+   "cq_undetermined": false,
+   "tm": [
+    89.73260498046875,
+    84.2182388305664,
+    68.56936645507812
+   ]
+  },
+  {
+   "row": 5,
+   "col": 1,
+   "target": "I-CAM",
+   "sample": "11-3 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 33.282325744628906,
+   "cq_undetermined": false,
+   "tm": [
+    77.5085220336914
+   ]
+  },
+  {
+   "row": 5,
+   "col": 2,
+   "target": "I-CAM",
+   "sample": "11-3 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 34.774879455566406,
+   "cq_undetermined": false,
+   "tm": [
+    84.21589660644531,
+    67.96914672851562
+   ]
+  },
+  {
+   "row": 5,
+   "col": 3,
+   "target": "I-CAM",
+   "sample": "11-3 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 33.92440414428711,
+   "cq_undetermined": false,
+   "tm": [
+    80.64339447021484,
+    67.08154296875
+   ]
+  },
+  {
+   "row": 5,
+   "col": 4,
+   "target": "I-CAM",
+   "sample": "11-3 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 32.5571403503418,
+   "cq_undetermined": false,
+   "tm": [
+    87.34980010986328,
+    68.27378845214844
+   ]
+  },
+  {
+   "row": 5,
+   "col": 5,
+   "target": "I-CAM",
+   "sample": "11-3 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 32.912723541259766,
+   "cq_undetermined": false,
+   "tm": [
+    84.06619262695312,
+    76.61372375488281,
+    90.4753189086914
+   ]
+  },
+  {
+   "row": 5,
+   "col": 6,
+   "target": "I-CAM",
+   "sample": "11-3 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 33.76787567138672,
+   "cq_undetermined": false,
+   "tm": [
+    77.20993041992188,
+    84.36429595947266
+   ]
+  },
+  {
+   "row": 5,
+   "col": 7,
+   "target": "I-CAM",
+   "sample": "8-4 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 33.77251434326172,
+   "cq_undetermined": false,
+   "tm": [
+    87.64803314208984
+   ]
+  },
+  {
+   "row": 5,
+   "col": 8,
+   "target": "I-CAM",
+   "sample": "8-4 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 34.82527542114258,
+   "cq_undetermined": false,
+   "tm": [
+    84.21996307373047,
+    69.0172348022461
+   ]
+  },
+  {
+   "row": 5,
+   "col": 9,
+   "target": "I-CAM",
+   "sample": "8-4 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 35.711700439453125,
+   "cq_undetermined": false,
+   "tm": [
+    84.22178649902344,
+    91.52497863769531,
+    67.97592163085938
+   ]
+  },
+  {
+   "row": 5,
+   "col": 10,
+   "target": "I-CAM",
+   "sample": "8-4 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 33.898250579833984,
+   "cq_undetermined": false,
+   "tm": [
+    77.36573791503906,
+    66.18738555908203
+   ]
+  },
+  {
+   "row": 5,
+   "col": 11,
+   "target": "I-CAM",
+   "sample": "8-4 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 37.16761016845703,
+   "cq_undetermined": false,
+   "tm": [
+    84.36727905273438,
+    79.001953125,
+    66.48284912109375
+   ]
+  },
+  {
+   "row": 5,
+   "col": 12,
+   "target": "I-CAM",
+   "sample": "8-4 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 35.17012405395508,
+   "cq_undetermined": false,
+   "tm": [
+    88.09320068359375,
+    84.36727905273438,
+    68.42033386230469
+   ]
+  },
+  {
+   "row": 6,
+   "col": 1,
+   "target": "V-CAM",
+   "sample": "11-3 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.892940521240234,
+   "cq_undetermined": false,
+   "tm": [
+    80.63863372802734,
+    86.30264282226562
+   ]
+  },
+  {
+   "row": 6,
+   "col": 2,
+   "target": "V-CAM",
+   "sample": "11-3 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.56356430053711,
+   "cq_undetermined": false,
+   "tm": [
+    80.78768920898438
+   ]
+  },
+  {
+   "row": 6,
+   "col": 3,
+   "target": "V-CAM",
+   "sample": "11-3 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.875234603881836,
+   "cq_undetermined": false,
+   "tm": [
+    80.64339447021484
+   ]
+  },
+  {
+   "row": 6,
+   "col": 4,
+   "target": "V-CAM",
+   "sample": "11-3 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.88595199584961,
+   "cq_undetermined": false,
+   "tm": [
+    80.79241943359375
+   ]
+  },
+  {
+   "row": 6,
+   "col": 5,
+   "target": "V-CAM",
+   "sample": "11-3 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 31.529926300048828,
+   "cq_undetermined": false,
+   "tm": [
+    80.787109375
+   ]
+  },
+  {
+   "row": 6,
+   "col": 6,
+   "target": "V-CAM",
+   "sample": "11-3 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.120277404785156,
+   "cq_undetermined": false,
+   "tm": [
+    80.9361572265625
+   ]
+  },
+  {
+   "row": 6,
+   "col": 7,
+   "target": "V-CAM",
+   "sample": "8-4 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 31.872577667236328,
+   "cq_undetermined": false,
+   "tm": [
+    80.79190063476562
+   ]
+  },
+  {
+   "row": 6,
+   "col": 8,
+   "target": "V-CAM",
+   "sample": "8-4 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.954917907714844,
+   "cq_undetermined": false,
+   "tm": [
+    80.64285278320312
+   ]
+  },
+  {
+   "row": 6,
+   "col": 9,
+   "target": "V-CAM",
+   "sample": "8-4 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 32.10635757446289,
+   "cq_undetermined": false,
+   "tm": [
+    80.64471435546875
+   ]
+  },
+  {
+   "row": 6,
+   "col": 10,
+   "target": "V-CAM",
+   "sample": "8-4 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 31.24208641052246,
+   "cq_undetermined": false,
+   "tm": [
+    80.64471435546875
+   ]
+  },
+  {
+   "row": 6,
+   "col": 11,
+   "target": "V-CAM",
+   "sample": "8-4 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 32.03612518310547,
+   "cq_undetermined": false,
+   "tm": [
+    80.79039001464844
+   ]
+  },
+  {
+   "row": 6,
+   "col": 12,
+   "target": "V-CAM",
+   "sample": "8-4 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 32.183406829833984,
+   "cq_undetermined": false,
+   "tm": [
+    80.79039001464844,
+    86.00668334960938
+   ]
+  },
+  {
+   "row": 7,
+   "col": 1,
+   "target": "V-CAM",
+   "sample": "11-3 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.374231338500977,
+   "cq_undetermined": false,
+   "tm": [
+    80.78768920898438
+   ]
+  },
+  {
+   "row": 7,
+   "col": 2,
+   "target": "V-CAM",
+   "sample": "11-3 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 31.185373306274414,
+   "cq_undetermined": false,
+   "tm": [
+    80.63863372802734
+   ]
+  },
+  {
+   "row": 7,
+   "col": 3,
+   "target": "V-CAM",
+   "sample": "11-3 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 31.1197509765625,
+   "cq_undetermined": false,
+   "tm": [
+    80.79241943359375
+   ]
+  },
+  {
+   "row": 7,
+   "col": 4,
+   "target": "V-CAM",
+   "sample": "11-3 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.679519653320312,
+   "cq_undetermined": false,
+   "tm": [
+    80.79241943359375
+   ]
+  },
+  {
+   "row": 7,
+   "col": 5,
+   "target": "V-CAM",
+   "sample": "11-3 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 31.09454917907715,
+   "cq_undetermined": false,
+   "tm": [
+    80.787109375
+   ]
+  },
+  {
+   "row": 7,
+   "col": 6,
+   "target": "V-CAM",
+   "sample": "11-3 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.954355239868164,
+   "cq_undetermined": false,
+   "tm": [
+    80.787109375
+   ]
+  },
+  {
+   "row": 7,
+   "col": 7,
+   "target": "V-CAM",
+   "sample": "8-4 A 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 32.1446533203125,
+   "cq_undetermined": false,
+   "tm": [
+    80.64285278320312
+   ]
+  },
+  {
+   "row": 7,
+   "col": 8,
+   "target": "V-CAM",
+   "sample": "8-4 B 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.912832260131836,
+   "cq_undetermined": false,
+   "tm": [
+    80.94094848632812
+   ]
+  },
+  {
+   "row": 7,
+   "col": 9,
+   "target": "V-CAM",
+   "sample": "8-4 C 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 31.832019805908203,
+   "cq_undetermined": false,
+   "tm": [
+    80.94281005859375
+   ]
+  },
+  {
+   "row": 7,
+   "col": 10,
+   "target": "V-CAM",
+   "sample": "8-4 D 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.874521255493164,
+   "cq_undetermined": false,
+   "tm": [
+    80.79376220703125
+   ]
+  },
+  {
+   "row": 7,
+   "col": 11,
+   "target": "V-CAM",
+   "sample": "8-4 OXA 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 33.91905975341797,
+   "cq_undetermined": false,
+   "tm": [
+    80.79039001464844
+   ]
+  },
+  {
+   "row": 7,
+   "col": 12,
+   "target": "V-CAM",
+   "sample": "8-4 DMSO 6H",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 32.320072174072266,
+   "cq_undetermined": false,
+   "tm": [
+    80.79039001464844,
+    86.75186920166016
+   ]
+  }
+ ]
+}

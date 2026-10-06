@@ -49,6 +49,14 @@ pub(crate) static ROTOR_GENE_REX: AssuranceProfile = AssuranceProfile {
     basis: Basis::ReverseEngineered,
 };
 
+pub(crate) static QPCR_RESULTS_EXPORT: AssuranceProfile = AssuranceProfile {
+    format_id: "qpcr-results-export",
+    observe,
+    validated: QPCR_RESULTS_EXPORT_VALIDATED,
+    confidence: QPCR_RESULTS_EXPORT_CONFIDENCE,
+    basis: Basis::ReverseEngineered,
+};
+
 fn observe(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
     let both = [Scope::Metadata, Scope::Tables, Scope::Traces];
@@ -72,6 +80,10 @@ fn observe(info: &FileInfo) -> Observations {
         }
         if let Some(c) = a::extra_str(&t.extra, "chemistry") {
             o.context(K::Acquisition, format!("chemistry {c}"));
+        }
+        // results exports: the container the table was read from
+        if let Some(c) = a::extra_str(&t.extra, "export_container") {
+            o.feature(K::Codec, c, &both);
         }
     }
     for t in &info.traces {
@@ -225,3 +237,8 @@ const ROTOR_GENE_REX_VALIDATED: &[Validated] = &[
     a::row(K::Writer, "Rotor-Gene Q Series Software", 1, 1, 1),
 ];
 // END GENERATED rotor-gene-rex
+
+// BEGIN GENERATED qpcr-results-export (cargo xtask assurance-audit --write; do not edit)
+const QPCR_RESULTS_EXPORT_CONFIDENCE: Confidence = Confidence::Low;
+const QPCR_RESULTS_EXPORT_VALIDATED: &[Validated] = &[];
+// END GENERATED qpcr-results-export

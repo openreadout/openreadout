@@ -11,6 +11,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
    - `.rex` (`rex.rs`): samples by tube, groups, raw channel readings, thermal profile; no analysis results stored.
    - `.ixo` (`ixo.rs`): an XML object stream with an embedded base64+zlib object stream of readings; the vendor's Cp and calls.
    - `.lc96p` (`lc96.rs`): an RDML 1.1 zip plus Roche members with the vendor's analysis attached to reactions.
+   - Results exports (`export.rs`, format `qpcr-results-export`): Applied Biosystems `Results` sheets (with `Amplification Data` and `Melt Curve Raw Data` when present) and Bio-Rad CFX `Quantification Cq Results`, read from `.xls`/`.xlsx` through `calamine` or from delimited text; columns are found by header name. Detection reads workbooks up to 16 MiB in `sniff_input`, because the cells decide.
 3. **Dataset** (`dataset.rs` `QpcrDataset`): table 0 `results` (well × target), tables 1–2 `amplification` and `melt` curves, traces per run and dye.
 4. **Analysis** (`analysis.rs`, `report.rs`): our own threshold Cq (linear baseline), melt −dF/dT, ΔΔCq and standard curves, reported next to the vendor's values, never over them. `rdml_write.rs` writes RDML 1.3 (verified by read-back).
 

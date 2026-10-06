@@ -11,6 +11,7 @@ All notable changes to this project are documented here. The format is based on 
 - The release workflow can sign and notarize the macOS binaries with a Developer ID, and sign the Windows binary with Azure Artifact Signing. `scripts/macos-sign.sh` does the macOS part and also runs on a Mac.
 - `.zenodo.json`, so Zenodo can archive each release with a DOI.
 - `cargo binstall openreadout` on Windows on Arm installs the x64 build.
+- qPCR results exports: the Results tables of Applied Biosystems software (StepOne, 7500, QuantStudio, ViiA 7; `.xls`, `.xlsx`, text, with their amplification and melt curves) and Bio-Rad CFX `Quantification Cq Results` (`.csv`, `.xlsx`) are read as `qpcr-results-export`, so `analyze qpcr` works on them.
 
 ### Changed
 

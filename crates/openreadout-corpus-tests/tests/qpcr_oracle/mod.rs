@@ -19,7 +19,12 @@ use openreadout_qpcr::{QpcrDataset, QpcrReportRequest, qpcr_report};
 use serde_json::Value;
 
 /// Manifest formats compared here.
-pub const FORMATS: [&str; 3] = ["rdml", "applied-biosystems-eds", "rotor-gene-rex"];
+pub const FORMATS: [&str; 4] = [
+    "rdml",
+    "applied-biosystems-eds",
+    "rotor-gene-rex",
+    "qpcr-results-export",
+];
 
 /// Stored RDML `cq` values the LightCycler 96 software shows no Cq for (calls other than
 /// Positive), which the reader keeps as `cq_stored` while rdmlpython reads them as Cqs:
@@ -409,11 +414,18 @@ fn check_records(
             }
         }
     }
-    if recs.len() != rep.records.iter().filter(|r| r.target.is_some()).count() && missing == 0 {
+    // records without a target count when the oracle's have none either (an export that
+    // names no target: CFX without a Target column, a trimmed QuantStudio export)
+    let untargeted = !recs.is_empty() && recs.iter().all(|o| o["target"].is_null());
+    let ours_n = rep
+        .records
+        .iter()
+        .filter(|r| r.target.is_some() || untargeted)
+        .count();
+    if recs.len() != ours_n && missing == 0 {
         errs.push(format!(
-            "{id}: {} oracle records, {} of ours with a target",
+            "{id}: {} oracle records, {ours_n} of ours",
             recs.len(),
-            rep.records.iter().filter(|r| r.target.is_some()).count()
         ));
     }
     if let Some(c) = oracle["cycles"].as_u64()
