@@ -78,8 +78,9 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `panalytical-xrdml` | high | open spec | 7 | 7 | 7 | 11 | 100% | 0% | - |
 | `perkinelmer-fsm` | low | prior art | 2 | 2 | 2 | 0 | 100% | 38% | - |
 | `perkinelmer-sp` | medium | prior art | 8 | 8 | 6 | 0 | 100% | 57% | 1/0 |
-| `plate` | medium | prior art | 60 | 53 | 14 | 16 | 100% | 52% | 2/1 |
+| `plate` | medium | prior art | 69 | 59 | 17 | 16 | 100% | 52% | 2/1 |
 | `plexon` | medium | prior art | 6 | 4 | 1 | 3 | 100% | 54% | - |
+| `qpcr-results-export` | medium | reverse engineered | 9 | 9 | 7 | 0 | 100% | 100% | - |
 | `rdml` | high | open spec | 9 | 9 | 5 | 5 | 100% | 4% | 1/0 |
 | `renishaw-wdf` | high | prior art | 15 | 15 | 6 | 3 | 100% | 33% | 2/0 |
 | `rigaku-ras` | medium | reverse engineered | 4 | 4 | 4 | 2 | 100% | 0% | - |
@@ -89,7 +90,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `sartorius-octet-frd` | medium | prior art | 6 | 6 | 2 | 3 | 100% | 50% | - |
 | `sciex-wiff` | medium | reverse engineered | 7 | 7 | 6 | 9 | 100% | 100% | - |
 | `ser` | medium | prior art | 21 | 21 | 4 | 3 | 100% | 50% | 1/0 |
-| `shimadzu` | medium | reverse engineered | 12 | 9 | 4 | 2 | 100% | 100% | 0/1 |
+| `shimadzu` | medium | reverse engineered | 14 | 11 | 6 | 2 | 100% | 100% | 0/1 |
 | `spikeglx` | high | vendor docs | 15 | 15 | 3 | 3 | 100% | 20% | - |
 | `ta-trios` | medium | reverse engineered | 12 | 9 | 3 | 5 | 100% | 100% | - |
 | `ta-universal-analysis` | medium | reverse engineered | 7 | 6 | 2 | 1 | 100% | 100% | - |

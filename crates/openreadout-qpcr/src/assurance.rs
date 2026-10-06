@@ -239,6 +239,26 @@ const ROTOR_GENE_REX_VALIDATED: &[Validated] = &[
 // END GENERATED rotor-gene-rex
 
 // BEGIN GENERATED qpcr-results-export (cargo xtask assurance-audit --write; do not edit)
-const QPCR_RESULTS_EXPORT_CONFIDENCE: Confidence = Confidence::Low;
-const QPCR_RESULTS_EXPORT_VALIDATED: &[Validated] = &[];
+const QPCR_RESULTS_EXPORT_CONFIDENCE: Confidence = Confidence::Medium;
+#[rustfmt::skip]
+const QPCR_RESULTS_EXPORT_VALIDATED: &[Validated] = &[
+    a::row(K::Acquisition, "Comparative Cт (ΔΔCт)", 2, 2, 2),
+    a::row(K::Acquisition, "Standard Curve", 2, 2, 2),
+    a::row(K::Acquisition, "chemistry SYBR_GREEN", 6, 6, 6),
+    a::row(K::Acquisition, "chemistry TAQMAN", 1, 1, 1),
+    a::row(K::Codec, "comma-delimited text", 2, 1, 2),
+    a::row(K::Codec, "xls workbook", 7, 6, 7),
+    a::row(K::Dialect, "applied-biosystems-export", 7, 6, 7),
+    a::row(K::Dialect, "bio-rad-cfx-export", 2, 1, 2),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 7),
+    a::row(K::Instrument, "QuantStudio 12K Flex", 1, 1, 1),
+    a::row(K::Instrument, "QuantStudio(TM) 7 Flex System", 1, 1, 1),
+    a::row(K::Instrument, "QuantStudio™ 3 System", 1, 1, 1),
+    a::row(K::Instrument, "ViiA 7", 1, 1, 1),
+    a::row(K::Instrument, "steponeplus", 3, 2, 3),
+    a::row(K::Record, "amplification", 2, 2, 2),
+    a::row(K::Record, "amplification baseline-corrected", 2, 2, 2),
+    a::row(K::Record, "melt", 2, 2, 2),
+    a::row(K::Record, "melt derivative", 2, 2, 2),
+];
 // END GENERATED qpcr-results-export

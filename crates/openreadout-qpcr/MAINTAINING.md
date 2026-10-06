@@ -46,6 +46,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 | `bio-rad-pcrd` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | open spec | 0 / 0 | 0 | - |
 | `roche-lightcycler-ixo` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | reverse engineered | 4 / 0 | 0 | - |
 | `rotor-gene-rex` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | reverse engineered | 1 / 1 | 1 | 1 / 0 |
+| `qpcr-results-export` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | medium | reverse engineered | 9 / 9 | 7 | - |
 
 ### Source map
 
@@ -55,6 +56,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the qPCR readers (RDML, Applied Biosystems `.eds`, Bio-Rad `.pcrd`, Rotor-Gene `.rex`): the variant features of a run file and the |
 | [`src/dataset.rs`](src/dataset.rs) | `Dataset` over the normalized model: the results table, curve tables, traces, listing, integrity checks and provenance |
 | [`src/eds.rs`](src/eds.rs) | Applied Biosystems experiment documents (`.eds`): the `apldbio/sds/` XML layout (QuantStudio, ViiA 7), the 7500 / StepOne layout (`multicomponent_data.txt`) and the JSON layout… |
+| [`src/export.rs`](src/export.rs) | Results exports of qPCR software (`docs/formats/qpcr.md` § Results exports): the tables the vendor software writes when a run is exported to Excel or text, read where the run file… |
 | [`src/ixo.rs`](src/ixo.rs) | Roche LightCycler 480 experiment files (`.ixo`): an XML object stream (`<objectstream signature="IXOS">`) of `<obj name class>` / `<prop name>` / `<list name count>` elements… |
 | [`src/lc96.rs`](src/lc96.rs) | Roche LightCycler 96 experiment files (`.lc96p`): an RDML 1.1 zip (read by [`crate::rdml`]) with Roche members next to `rdml_data.xml` |
 | [`src/lib.rs`](src/lib.rs) | Real-time PCR (qPCR) readers: RDML (the open interchange format, read and written), Applied Biosystems / Thermo Fisher `.eds` experiment documents (QuantStudio, ViiA 7, |
@@ -71,6 +73,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - feature format_version `v, &both`
 - feature dialect `d, &both`
+- feature codec `c, &both`
 - feature record `k`
 - feature layout `"not analysed (no Cq)"`
 - feature layout `"no fluorescence data"`
@@ -136,6 +139,24 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `applied-biosystems-eds` | writer | `QuantStudio™ Design & Analysis Software` | descriptive | 3 | 3 | `eds-qs35-npff-mtrna-ampstatus`, `eds-qs35-sybr-water-test`, `eds-qs5-qslib-test` |
 | `applied-biosystems-eds` | writer | `QuantStudio™ Real-Time PCR Software` | descriptive | 4 | 4 | `eds-qs7-snv-genotyping`, `eds-qs7flex-tac-hmsc-stdcurve`, `eds-viia7-hmsc-siexo-stdcurve` |
 | `applied-biosystems-eds` | writer | `StepOne Software` | descriptive | 9 | 9 | `eds-stepone-caco2-dss-eps-ccl2`, `eds-stepone-caco2-dss-eps-il6`, `eds-stepone-setup-only` |
+| `qpcr-results-export` | acquisition | `Comparative Cт (ΔΔCт)` | descriptive | 2 | 2 | `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-viia7-npff-ddct` |
+| `qpcr-results-export` | acquisition | `Standard Curve` | descriptive | 2 | 2 | `qpcrx-ab-qs12k-tdmmc`, `qpcrx-ab-qs7flex-hmsc-stdcurve` |
+| `qpcr-results-export` | acquisition | `chemistry SYBR_GREEN` | descriptive | 6 | 6 | `qpcrx-ab-qs12k-tdmmc`, `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-qs7flex-hmsc-stdcurve` |
+| `qpcr-results-export` | acquisition | `chemistry TAQMAN` | descriptive | 1 | 1 | `qpcrx-ab-stepone-taec-24h-taqman` |
+| `qpcr-results-export` | codec | `comma-delimited text` | metadata, tables, traces | 2 | 2 | `qpcrx-cfx-churchlab-day25-27-28`, `qpcrx-cfx-churchlab-vwf-pecam1` |
+| `qpcr-results-export` | codec | `xls workbook` | metadata, tables, traces | 7 | 7 | `qpcrx-ab-qs12k-tdmmc`, `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-qs7flex-hmsc-stdcurve` |
+| `qpcr-results-export` | dialect | `applied-biosystems-export` | metadata, tables, traces | 7 | 7 | `qpcrx-ab-qs12k-tdmmc`, `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-qs7flex-hmsc-stdcurve` |
+| `qpcr-results-export` | dialect | `bio-rad-cfx-export` | metadata, tables, traces | 2 | 2 | `qpcrx-cfx-churchlab-day25-27-28`, `qpcrx-cfx-churchlab-vwf-pecam1` |
+| `qpcr-results-export` | field | `experiment.instrument.model` | descriptive | 7 | 7 | `qpcrx-ab-qs12k-tdmmc`, `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-qs7flex-hmsc-stdcurve` |
+| `qpcr-results-export` | instrument | `QuantStudio 12K Flex` | descriptive | 1 | 1 | `qpcrx-ab-qs12k-tdmmc` |
+| `qpcr-results-export` | instrument | `QuantStudio(TM) 7 Flex System` | descriptive | 1 | 1 | `qpcrx-ab-qs7flex-hmsc-stdcurve` |
+| `qpcr-results-export` | instrument | `QuantStudio™ 3 System` | descriptive | 1 | 1 | `qpcrx-ab-qs35-npff-mtrna` |
+| `qpcr-results-export` | instrument | `ViiA 7` | descriptive | 1 | 1 | `qpcrx-ab-viia7-npff-ddct` |
+| `qpcr-results-export` | instrument | `steponeplus` | descriptive | 3 | 3 | `qpcrx-ab-stepone-caco2-il6`, `qpcrx-ab-stepone-sj-taec-6h`, `qpcrx-ab-stepone-taec-24h-taqman` |
+| `qpcr-results-export` | record | `amplification` | traces | 2 | 2 | `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-viia7-npff-ddct` |
+| `qpcr-results-export` | record | `amplification baseline-corrected` | traces | 2 | 2 | `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-viia7-npff-ddct` |
+| `qpcr-results-export` | record | `melt` | traces | 2 | 2 | `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-viia7-npff-ddct` |
+| `qpcr-results-export` | record | `melt derivative` | traces | 2 | 2 | `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-viia7-npff-ddct` |
 | `rdml` | dialect | `rdml` | metadata, tables, traces | 9 | 9 | `lc96p-pendo-hmuy-24h48h-r12`, `lc96p-pendo-hmuy-24h48h-r34`, `lc96p-pendo-hmuy-hm-dip` |
 | `rdml` | field | `experiment.acquisition.started_at` | descriptive | 1 | 1 | `rdml-soybean-vpz` |
 | `rdml` | format_version | `1.0` | metadata, tables, traces | 1 | 1 | `rdml-stepone-std` |
@@ -154,24 +175,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `roche-lightcycler-ixo` | instrument | `LightCycler 480 - Xenon lamp` | descriptive | 0 | 2 |  |
 | `roche-lightcycler-ixo` | record | `amplification` | traces | 0 | 4 |  |
 | `roche-lightcycler-ixo` | record | `melt` | traces | 0 | 4 |  |
-| `roche-lightcycler-ixo` | record | `melt derivative` | traces | 0 | 4 |  |
-| `roche-lightcycler-ixo` | writer | `LightCycler` | descriptive | 0 | 4 |  |
-| `rotor-gene-rex` | dialect | `rex` | metadata, tables, traces | 1 | 1 | `rex-rotorgene-72well` |
-| `rotor-gene-rex` | field | `experiment.acquisition.started_at` | descriptive | 1 | 1 | `rex-rotorgene-72well` |
-| `rotor-gene-rex` | field | `experiment.instrument.model` | descriptive | 1 | 1 | `rex-rotorgene-72well` |
-| `rotor-gene-rex` | format_version | `REX 3.15` | metadata, tables, traces | 1 | 1 | `rex-rotorgene-72well` |
-| `rotor-gene-rex` | record | `amplification` | traces | 1 | 1 | `rex-rotorgene-72well` |
-| `rotor-gene-rex` | record | `melt` | traces | 1 | 1 | `rex-rotorgene-72well` |
-| `rotor-gene-rex` | record | `melt derivative` | traces | 1 | 1 | `rex-rotorgene-72well` |
-| `rotor-gene-rex` | writer | `Rotor-Gene Q Series Software` | descriptive | 1 | 1 | `rex-rotorgene-72well` |
+
+… 10 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 7 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
-- fuzz targets (`fuzz/fuzz_targets/`): `whole_eds`, `whole_ixo`, `whole_pcrd`, `whole_rdml`, `whole_rex`
-- corpus inputs by tier: heldout 10, smoke 25, standard 13
-- golden snapshots: [`corpus/snapshots/rdml.jsonl`](../../corpus/snapshots/rdml.jsonl), [`corpus/snapshots/applied-biosystems-eds.jsonl`](../../corpus/snapshots/applied-biosystems-eds.jsonl), [`corpus/snapshots/bio-rad-pcrd.jsonl`](../../corpus/snapshots/bio-rad-pcrd.jsonl), [`corpus/snapshots/roche-lightcycler-ixo.jsonl`](../../corpus/snapshots/roche-lightcycler-ixo.jsonl), [`corpus/snapshots/rotor-gene-rex.jsonl`](../../corpus/snapshots/rotor-gene-rex.jsonl)
+- fuzz targets (`fuzz/fuzz_targets/`): `whole_eds`, `whole_ixo`, `whole_pcrd`, `whole_qpcr_export_xls`, `whole_qpcr_export`, `whole_rdml`, `whole_rex`
+- corpus inputs by tier: heldout 10, smoke 27, standard 20
+- golden snapshots: [`corpus/snapshots/rdml.jsonl`](../../corpus/snapshots/rdml.jsonl), [`corpus/snapshots/applied-biosystems-eds.jsonl`](../../corpus/snapshots/applied-biosystems-eds.jsonl), [`corpus/snapshots/bio-rad-pcrd.jsonl`](../../corpus/snapshots/bio-rad-pcrd.jsonl), [`corpus/snapshots/roche-lightcycler-ixo.jsonl`](../../corpus/snapshots/roche-lightcycler-ixo.jsonl), [`corpus/snapshots/rotor-gene-rex.jsonl`](../../corpus/snapshots/rotor-gene-rex.jsonl), [`corpus/snapshots/qpcr-results-export.jsonl`](../../corpus/snapshots/qpcr-results-export.jsonl)
 
 ### Open new-variant intakes
 
