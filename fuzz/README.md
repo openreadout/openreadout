@@ -93,7 +93,7 @@ listed names in a scratch directory (`whole_bundle`).
 | `tims_frame` | TDF frame blobs (zstd, four byte planes) and TSF line spectra; first 4 bytes: scan count or peak count, byte 4: which |
 | `jcamp_asdf` | JCAMP-DX ASDF (SQZ/DIF/DUP) tables, grouped decoding and the line lexer |
 | `mzml_binary` | base64, zlib/zstd and MS-Numpress arrays; the first byte picks value type, compression and byte order |
-| `codec_zstd0`, `codec_zstd1`, `codec_hilo`, `codec_jpegxr`, `codec_lzw`, `codec_zlib`, `codec_jpeg`, `codec_jpeg2000`, `codec_packbits`, `codec_lzma2`, `codec_webp`, `codec_jpegxl` | each `openreadout-codecs` entry point (first 3 bytes: expected decoded length or, for JPEG, the frame-size bound; WebP and JPEG XL decode with a 64 MiB limit; `codec_jpeg` also drives the `jpeg_markers` scanner) |
+| `codec_zstd0`, `codec_zstd1`, `codec_hilo`, `codec_jpegxr`, `codec_lzw`, `codec_zlib`, `codec_jpeg`, `codec_jpeg2000`, `codec_packbits`, `codec_lzma2`, `codec_webp`, `codec_jpegxl`, `codec_chunked` | each `openreadout-codecs` entry point (first 3 bytes: expected decoded length or, for JPEG, the frame-size bound; WebP and JPEG XL decode with a 64 MiB limit; `codec_jpeg` also drives the `jpeg_markers` scanner and, with 12-bit seeds, the 12-bit decoder) |
 | `ome_xml` | OME-XML builder from a JSON `FileInfo` (asserts the output is well-formed 7-bit XML) |
 | `selection` | `--select` parser |
 
