@@ -517,6 +517,12 @@ pub fn read_page(
     if layout.compression == 7 {
         jpeg_page_supported(layout)?;
     }
+    if let Some(starts) = &layout.ndpi_mcu_starts {
+        // A whole-slide JPEG strip: read it by restart intervals, as `read_region` does, not
+        // as one JPEG frame of the whole page.
+        let t = crate::ndpi::tiled_layout(src, layout, starts)?;
+        return read_page(src, &t, select);
+    }
     let out_spp = match select {
         SampleSelect::All => spp,
         SampleSelect::One(_) => 1,

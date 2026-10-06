@@ -1333,7 +1333,10 @@ fn modulo_json(m: &OmeModulo, px: &OmePixels) -> Option<Value> {
     });
     let o = v.as_object_mut()?;
     for (k, val) in [
-        ("type_description", m.type_description.as_ref().map(|s| json!(s))),
+        (
+            "type_description",
+            m.type_description.as_ref().map(|s| json!(s)),
+        ),
         ("unit", m.unit.as_ref().map(|s| json!(s))),
         ("start", m.start.map(|x| json!(x))),
         ("step", m.step.map(|x| json!(x))),
@@ -1519,7 +1522,10 @@ mod tests {
         assert_eq!((m[2].along, m[2].size()), ('C', Some(5)));
         let px = &d.images[0].pixels;
         let z = modulo_json(&m[0], px).unwrap();
-        assert_eq!((z["size"].as_u64(), z["parent_size"].as_u64()), (Some(4), Some(2)));
+        assert_eq!(
+            (z["size"].as_u64(), z["parent_size"].as_u64()),
+            (Some(4), Some(2))
+        );
         assert_eq!(z["unit"], "degree");
         assert_eq!(modulo_json(&m[1], px).unwrap()["parent_size"], 3);
         // 5 phases do not divide 2 channels: not applied

@@ -272,3 +272,11 @@ laser, filter, PMT voltage, pixel size, scan mode, scanner software).
 **Prior art consulted:** the OME model documentation page "6D, 7D and 8D storage" (https://docs.openmicroscopy.org/ome-model/6.3.1/developers/6d-7d-and-8d-storage.html, public specification): the `XMLAnnotation` namespace `openmicroscopy.org/omero/dimension/modulo`, `ModuloAlongZ`/`C`/`T` with `Type`, `TypeDescription`, `Unit`, `Start`/`Step`/`End` or `Label`s, size = labels or (End − Start) / Step + 1, the sub-dimension varying fastest inside its parent. tifffile 2026.9.20 (BSD-3-Clause) as the oracle: it shows each sub-dimension as its own axis (H lifetime, E lambda, P phase, A angle, R tile, Q other); `oracle/gen.py` folds them back into the parent axis.
 **Inferred from the files:** the sample files give `Label`s as empty elements with a `Text` attribute (`<Label ID="Shape:0" X="0" Y="0" Text="0"/>`), not element text; both forms are read.
 **Rule implemented:** each Modulo element linked from the image whose size divides the parent axis is listed in `images[].extra.modulo[]`; plane indices stay the stored C/Z/T. All four files pass against tifffile (162 planes, and the sub-dimension sizes: C 8; T 8; Z 5 and T 10; Z 4 and T 4).
+
+## 2026-10-06 — NDPI: whole full-resolution planes are read by restart intervals
+
+**Why.** A survey of public NDPI slides on Zenodo found `check --planes` (and any whole-plane read) exiting 4 on four of seven: "chunk 0: jpeg: frame header declares 26880 x 16896 pixels (1362493440 bytes decoded)". The full-resolution page of an NDPI is one JPEG strip; region reads already decode it by its restart intervals (2026-09 entry above), but whole-plane reads decoded the strip as one JPEG frame, which the frame-size bound refused. The development corpus missed it because its only NDPI (`openslide-hamamatsu-cmu-1`) has a level 0 above 4 GiB, which is read by region only.
+
+**Corpus files used:** `zenodo12697479-ndpi-izd` (new, Zenodo 12697479, CC-BY-4.0: a 26880 × 16896 H&E slide written by NDP.scan) and `openslide-hamamatsu-cmu-1`. **Prior art consulted:** tifffile 2026.9.20 (BSD-3-Clause) as the oracle, run as a black box.
+
+**Rule implemented:** a whole-page read of a page with NDPI restart offsets goes through the same restart-interval tiling as region reads.

@@ -2615,6 +2615,22 @@ attribution = "OME Consortium"
 notes = "OME Modulo sample: 4 SPIM angles (labels) along Z (8 = 2 x 4) and tiles 1..4 along T (12 = 3 x 4)"
 
 [[file]]
+id = "zenodo12697479-ndpi-izd"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo12697479-ndpi-izd.ndpi"
+url = "https://zenodo.org/api/records/12697479/files/IZD%20-%202023-07-26%2008.20.19.ndpi/content"
+sha256 = "e58ced9198b6bc59f101599774dad78c70b1b8fd11751d1ea0a2c79fe7a2c665"
+size = 82146156
+license = "CC-BY-4.0"
+source = "Zenodo 12697479: 3D tumor reconstruction using self-supervised registration, file IZD - 2023-07-26 08.20.19.ndpi"
+attribution = "Dennie Sommer, Marion Dörrich, Benjamin Frey et al."
+notes = "Hamamatsu NDPI, 26880 x 16896 H&E at full resolution (one JPEG strip with restart offsets, 1.36 GB decoded), pyramid pages and a macro image"
+pixel_tolerance = 4
+lossy = true
+
+[[file]]
 id = "ome-artificial-single-channel-tiff"
 format = "tiff"
 role = "input"
