@@ -59,6 +59,14 @@ fn observe_empower_arw(info: &FileInfo) -> Observations {
         if let Some(e) = a::extra_str(&t.extra, "line_ending") {
             o.feature(K::Dialect, format!("{e} line endings"), &[Scope::Traces]);
         }
+        // detected by the extension and rows of numbers alone (no field names it Empower's)
+        if t.extra
+            .get("headerless")
+            .and_then(serde_json::Value::as_bool)
+            == Some(true)
+        {
+            o.feature(K::Layout, "headerless export", &[Scope::Traces]);
+        }
     }
     o.assumed(
         "traces[].channels[].unit",

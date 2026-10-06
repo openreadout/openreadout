@@ -577,7 +577,15 @@ impl FormatReader for EmpowerArwReader {
         let text = empower_arw::looks_like_arw(head);
         let ext = has_extension(path, &["arw"]);
         if !text {
-            return None;
+            // an export without its header rows: rows of two numbers, named `.arw`
+            return (ext && empower_arw::looks_like_headerless_arw(head)).then_some(Detection {
+                format_id: EMPOWER_ARW_ID,
+                confidence: DetectConfidence::Likely,
+                note: Some(
+                    "rows of two numbers and no header: an Empower export whose method selected no fields"
+                        .into(),
+                ),
+            });
         }
         Some(Detection {
             format_id: EMPOWER_ARW_ID,
