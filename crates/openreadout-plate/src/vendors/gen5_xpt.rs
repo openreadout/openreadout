@@ -3,11 +3,12 @@
 //! "Gen5 experiment files"; provenance 2026-09-26).
 //!
 //! Gen5 3.x compresses each `DATA` stream (zlib after a `CAssayDoc` head giving both sizes);
-//! Gen5 2.x stores it as is. In the archive, every read is a `CPlateDataSet` (name such as
-//! `450`, `Lum`, `485,530`; an OLE date) followed by a record block: u32 24, u16 7, u32 reads,
-//! u32 1, u32 rows, u32 columns, 3 × u32 1, then reads × rows × columns records of 24 bytes (f64
-//! value, flag bytes, 15 bytes not interpreted). Kinetic blocks end with a table of read times
-//! in milliseconds. Only this validated grammar is decoded; anything else is refused.
+//! Gen5 2.x and 1.x store it as is. In the archive, every read is a `CPlateDataSet` (name such as
+//! `450`, `Lum`, `485,530`; an OLE date, none in Gen5 1.x) followed by a record block: u32 24,
+//! u16 7, u32 reads, u32 1, u32 rows, u32 columns, 3 × u32 1, then reads × rows × columns
+//! records of 24 bytes (f64 value, flag bytes, 15 bytes not interpreted). Kinetic blocks end
+//! with a table of read times in milliseconds. Only this validated grammar is decoded; anything
+//! else is refused.
 
 use std::io::Cursor as IoCursor;
 
@@ -99,18 +100,23 @@ struct DataSet {
 }
 
 /// The data set header at `p` (after a class declaration or a class tag): u16 version (6, 8),
-/// u16 (2, 3), u16 1, name, f64 date.
+/// u16 (2, 3), u16 1, name, f64 date; or, written by Gen5 1.x, u16 5, u16 0, u16 1, name and no
+/// date.
 fn header(data: &[u8], p: usize) -> Option<(String, Option<String>, usize)> {
     let mut c = Cursor::new(data, p);
     let ver = c.u16_le()?;
     let a = c.u16_le()?;
     let b = c.u16_le()?;
-    if !matches!(ver, 6 | 8) || !matches!(a, 2 | 3) || b != 1 {
+    let gen5_v1 = ver == 5 && a == 0 && b == 1;
+    if !gen5_v1 && (!matches!(ver, 6 | 8) || !matches!(a, 2 | 3) || b != 1) {
         return None;
     }
     let name = cstring(&mut c)?;
     if name.is_empty() || name.len() > 64 || name.chars().any(char::is_control) {
         return None;
+    }
+    if gen5_v1 {
+        return Some((name, None, c.pos));
     }
     let date = c.f64_le()?;
     Some((name, ole_date(date), c.pos))
@@ -265,11 +271,17 @@ fn channel(name: &str) -> (Channel, bool) {
     )
 }
 
-/// Reader model, serial number and Gen5 version from `CPlateDescr`.
+/// Reader model, serial number and Gen5 version from `CPlateDescr`: u16 schema, zero bytes (3
+/// after schema 7, Gen5 2.x and 3.x; 4 after schema 6, Gen5 1.x), then the strings. Other
+/// schemas are not read.
 fn plate_descr(data: &[u8]) -> Option<Vec<String>> {
     let at = find(data, PLATE_DESCR, 0, data.len())?;
     let mut c = Cursor::new(data, at + PLATE_DESCR.len());
-    c.skip(5)?;
+    match c.u16_le()? {
+        7 => c.skip(3)?,
+        6 => c.skip(4)?,
+        _ => return None,
+    }
     let mut out = Vec::new();
     for _ in 0..5 {
         out.push(cstring(&mut c)?);
@@ -622,5 +634,52 @@ mod tests {
                 let _ = block(&d[..cut], h.0.clone(), None, h.2, cut);
             }
         }
+    }
+
+    /// Gen5 1.x: the read header is u16 5, u16 0, u16 1 and the name, without a date, and
+    /// `CPlateDescr` has schema 6 with four zero bytes before its strings.
+    #[test]
+    fn gen5_v1_read_header_and_plate_description() {
+        let mut d = DATASET_CLASS.to_vec();
+        d.extend_from_slice(&[5, 0, 0, 0, 1, 0, 7]);
+        d.extend_from_slice(b"490,525");
+        d.extend_from_slice(&1f64.to_le_bytes());
+        d.extend_from_slice(&1f64.to_le_bytes());
+        d.extend_from_slice(&[0; 40]);
+        d.extend_from_slice(RECORD_HEAD);
+        for v in [1u32, 1, 2, 3, 1, 1, 1] {
+            d.extend_from_slice(&v.to_le_bytes());
+        }
+        for w in 0..6u32 {
+            d.extend_from_slice(&f64::from(w * 1000).to_le_bytes());
+            d.extend_from_slice(&[0; 16]);
+        }
+        let hs = headers(&d);
+        assert_eq!(hs.len(), 1);
+        assert_eq!((hs[0].0.as_str(), hs[0].1.as_deref()), ("490,525", None));
+        let ds = block(&d, hs[0].0.clone(), None, hs[0].2, d.len()).unwrap();
+        assert_eq!((ds.reads, ds.rows, ds.cols), (1, 2, 3));
+        // version 5 with another second number is not taken
+        let mut other = d.clone();
+        other[DATASET_CLASS.len() + 2] = 2;
+        assert!(headers(&other).is_empty());
+
+        let descr = |schema: u8, zeros: usize| {
+            let mut p = PLATE_DESCR.to_vec();
+            p.extend_from_slice(&[schema, 0]);
+            p.extend_from_slice(&vec![0; zeros]);
+            for s in ["Synergy H1", "258503", "8040200", "1.03.0", "1.11.4"] {
+                p.push(s.len() as u8);
+                p.extend_from_slice(s.as_bytes());
+            }
+            p
+        };
+        let v1 = plate_descr(&descr(6, 4)).unwrap();
+        assert_eq!(
+            (v1[0].as_str(), v1[1].as_str(), v1[4].as_str()),
+            ("Synergy H1", "258503", "1.11.4")
+        );
+        assert_eq!(plate_descr(&descr(7, 3)).unwrap()[0], "Synergy H1");
+        assert!(plate_descr(&descr(9, 3)).is_none());
     }
 }

@@ -242,3 +242,19 @@ A LabKey test file (`Label name,,,,Renilla US LUM 96 (cps)`, assay information b
 - Not decoded: `21500211`'s documents ("Cell viability", figshare, CC-BY-4.0) use another settings class (`Excitation`, `Emission`, `NrOfWavelengthPairs` instead of a `WavelengthList`) and have no export; they stay refused.
 
 **Rule:** a plate section is decoded when its `WavelengthList` has n ≥ 1 entries, its data object says n wavelengths, and its one read holds n wavelength entries indexed 0 … n−1, each with a rows × columns value array; each wavelength becomes a read (channel) of the table. Kinetic and spectrum sections, several reads, and settings without a `WavelengthList` stay refused.
+
+## 2026-10-06 — Gen5 1.x experiment files (Richard Zimring with Claude as assistant)
+
+**Why:** the survey above found seven Gen5 `.xpt` files of figshare 33174608 ("Human Preclinical Blood-Brain Barrier Model Reveals Surface Chemistry-Dependent Permeability…", CC-BY-4.0, 2026; no held-out record) refused with exit 6 ("no read (CPlateDataSet) found"). They were written by Gen5 1.11 (`CPlateDescr`: Synergy H1, Gen5 `1.11.4`), older than any `.xpt` in the corpus (2.08 to 3.15).
+
+**Corpus files:** `gen5xpt-gen5v1-synergyh1-dextran`, `gen5xpt-gen5v1-synergyh1-cdneg`, `gen5xpt-gen5v1-synergyh1-cdpos` (`2025-07+15 Dextran 4-37degres.xpt`, `2025-07+15 D-CD-  4-37degres.xpt`, `2025-07+15 D-CD+  4-37degres.xpt`), and the depositors' workbook `gen5xpt-gen5v1-fluo-results-xls` (`Fluo Results for 4 and 37 degres brut 2025-07-15.xls`), whose sheets `Dex`, `CD-` and `CD+` hold Gen5 result matrices (row letters in column A, column numbers 1–12, the read label `490,525` or `399,505` after the last column) copied by the depositors.
+
+**Prior art consulted:** none. The streams were listed with olefile (BSD-2-Clause) and the archives read as bytes.
+
+**What was inferred from what:**
+- `SUBSETS/<n>/DATA` starts with the `CAssayDoc` class as in Gen5 2.x and 3.x, document version 4, stored as is (not zlib-compressed).
+- The data set header after `CPlateDataSet` is u16 **5**, u16 **0**, u16 1, the read's name as a `CString` (`490,525`, `399,505`), then two f64 that are 1.0 in all seven files of the record; there is no OLE date where Gen5 2.x and 3.x write one. (Further on, `0A 00 00 80` and a u32 Unix time hold what looks like the read time, 7 to 28 s after the plate time in `HEADER`; it is not read.)
+- The record block is the one Gen5 2.x and 3.x write: `18 00 00 00 07 00`, u32 reads (1), u32 1, u32 rows (8), u32 columns (12), 3 × u32 1, then 96 records of 24 bytes (f64 value, flag byte 0; one file of the record not added here, `Dextran 4 et 37°.xpt`, has flag `64` with −99999, as Gen5 2.x writes for wells it did not measure). In the three files every value in the depositors' sheets equals the decoded value of the same well, 159 values (the `Dex` sheet's second matrix is the Dextran file; the depositors kept columns 1–9 and a few further wells).
+- The other four `.xpt` files of the record decode the same way; their values are not in the depositors' sheet, so they were not added.
+- `CPlateDescr` starts with u16 6 and four zero bytes (Gen5 2.x and 3.x files: u16 7 and three zero bytes), then the same strings: reader `Synergy H1`, serial number `258503`, a code `8040200`, firmware `1.03.0`, Gen5 version `1.11.4`. Read with the 2.x offsets, the strings shift by one (an empty model, the reader name as serial number, the firmware as Gen5 version), so the schema now picks the offset and another schema is not read.
+- **Rule:** a data set header with u16 5, u16 0, u16 1 and a name is a Gen5 1.x read without a date; its record block is decoded by the existing grammar. Only the class declaration's header is taken for this version (later reads that refer to the class by a tag carry a date in 2.x and 3.x, and no Gen5 1.x file with several reads was seen), and a record block that no header announces is still reported (`read_not_decoded`).

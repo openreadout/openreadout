@@ -31676,6 +31676,68 @@ source = "Zenodo record 12108530 'Evaluating porous protein microcrystals as a c
 attribution = "Jones, Alec"
 notes = "Gen5 2.08.12 experiment, Synergy H1: 3 plates of fluorescence endpoint reads 494,518 / 552,578 / 494,580 on 15 wells; plate 1 lacks the header of its first read (a block of -99999 values), which is reported, not decoded; no export of the values"
 
+# Gen5 1.11 experiment files and the depositors' sheet of their result matrices (added 2026-10-06;
+# docs/provenance/plate-readers.md). Oracle: oracle/plate_exports.py matrix-sheet.
+[[file]]
+id = "gen5xpt-gen5v1-synergyh1-dextran"
+format = "plate"
+role = "input"
+tier = "standard"
+filename = "gen5xpt-gen5v1-synergyh1-dextran.xpt"
+url = "https://ndownloader.figshare.com/files/67303385"
+sha256 = "7ee991235af97d870abd81a5ac8ad734ea5a6944dc611b29f4fa77d1ca38367a"
+md5 = "9fefde42e70061a528100ff07f3bd940"
+license = "CC-BY-4.0"
+license_checked = "Figshare API, article 33174608 (license CC BY 4.0), 2026-10-06"
+source = "Figshare 33174608 (doi:10.6084/m9.figshare.33174608.v1) 'Human Preclinical Blood-Brain Barrier Model Reveals Surface Chemistry-Dependent Permeability of Glucose-Derived Carbon Quantum Dots with Anti-Amyloid Activity', 2025-07+15 Dextran 4-37degres.xpt"
+attribution = "Amar Abderrahmani, Asmaa Khalil, Alexandre Barras, Margaux Cochard, Valérie Plaisance, Marie-Pierre Dehouck et al."
+notes = "Gen5 1.11.4 experiment, Synergy H1: fluorescence endpoint 490,525 (FITC-dextran), 96 wells; a second plate stream holds no read"
+
+[[file]]
+id = "gen5xpt-gen5v1-synergyh1-cdneg"
+format = "plate"
+role = "input"
+tier = "standard"
+filename = "gen5xpt-gen5v1-synergyh1-cdneg.xpt"
+url = "https://ndownloader.figshare.com/files/67303382"
+sha256 = "63b1980b1b88b85828dbc386cd541557d42a0a9b63ad39c21898ddfc28cb6cfa"
+md5 = "8bde94e7698e0b9f2a3d11b877a1a593"
+license = "CC-BY-4.0"
+license_checked = "Figshare API, article 33174608 (license CC BY 4.0), 2026-10-06"
+source = "Figshare 33174608 (doi:10.6084/m9.figshare.33174608.v1), 2025-07+15 D-CD-  4-37degres.xpt"
+attribution = "Amar Abderrahmani, Asmaa Khalil, Alexandre Barras, Margaux Cochard, Valérie Plaisance, Marie-Pierre Dehouck et al."
+notes = "Gen5 1.11.4 experiment, Synergy H1: fluorescence endpoint 399,505, 96 wells"
+
+[[file]]
+id = "gen5xpt-gen5v1-synergyh1-cdpos"
+format = "plate"
+role = "input"
+tier = "standard"
+filename = "gen5xpt-gen5v1-synergyh1-cdpos.xpt"
+url = "https://ndownloader.figshare.com/files/67303379"
+sha256 = "2b69dcaed03eff5f43d9a91260fe89a503ef618866b93eb0ef8c7a1f7644c324"
+md5 = "47494b66b0eb5567f5cd18d774de5a43"
+license = "CC-BY-4.0"
+license_checked = "Figshare API, article 33174608 (license CC BY 4.0), 2026-10-06"
+source = "Figshare 33174608 (doi:10.6084/m9.figshare.33174608.v1), 2025-07+15 D-CD+  4-37degres.xpt"
+attribution = "Amar Abderrahmani, Asmaa Khalil, Alexandre Barras, Margaux Cochard, Valérie Plaisance, Marie-Pierre Dehouck et al."
+notes = "Gen5 1.11.4 experiment, Synergy H1: fluorescence endpoint 399,505, 96 wells"
+
+[[file]]
+id = "gen5xpt-gen5v1-fluo-results-xls"
+format = "plate"
+role = "oracle-export"
+tier = "standard"
+filename = "gen5xpt-gen5v1-fluo-results.xls"
+url = "https://ndownloader.figshare.com/files/67303409"
+sha256 = "0150d90df3ff7add09c7361852864059ece9e28afd7e75fc1f87a562a32cfe3c"
+md5 = "f9d0871b880fe01a270fa92f287b2053"
+license = "CC-BY-4.0"
+license_checked = "Figshare API, article 33174608 (license CC BY 4.0), 2026-10-06"
+source = "Figshare 33174608, Fluo Results for 4 and 37 degres brut 2025-07-15.xls"
+attribution = "Amar Abderrahmani, Asmaa Khalil, Alexandre Barras, Margaux Cochard, Valérie Plaisance, Marie-Pierre Dehouck et al."
+notes = "the depositors' workbook of Gen5 result matrices: sheet Dex (second matrix = gen5xpt-gen5v1-synergyh1-dextran), CD- (= -cdneg), CD+ (= -cdpos); the read label after the last column is written as a number (490.525)"
+
 [[file]]
 id = "gen5prt-elisa-reader"
 format = "plate"

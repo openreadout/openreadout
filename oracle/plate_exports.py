@@ -17,6 +17,9 @@ Usage: plate_exports.py ID KIND EXPORT [SHEET | DOCUMENT]
   KIND softmax-xlsx: SoftMax Pro's text export in the first sheet of a workbook (PlateFormat
                   endpoint blocks, one column group per wavelength); the 4th argument names the
                   .sda/.pda document it was exported from.
+  KIND matrix-sheet: a depositor's .xls sheet of Gen5 result matrices (row letters in column A,
+                  column numbers from B); the 4th argument is `sheet:index:label` (the index-th
+                  matrix of the sheet, 1-based, and the read label of the decoded file).
 """
 import datetime as dt
 import json
@@ -148,10 +151,41 @@ def softmax_xlsx(path: Path) -> dict:
     return {"kind": "softmax-xlsx", "header": {"plates": plates}, "values": values}
 
 
+def matrix_sheet(path: Path, sheet: str, index: int, label: str) -> dict:
+    """A depositor's sheet of Gen5 result matrices (.xls, read with xlrd): a header row of column
+    numbers 1, 2, ... from column B, then rows `A`... with a value per column; the `index`-th
+    matrix (1-based) of `sheet` is taken. Numeric cells only (`OVRFLW` is not a value)."""
+    import xlrd
+    sh = xlrd.open_workbook(str(path)).sheet_by_name(sheet)
+    rows = [sh.row_values(i) for i in range(sh.nrows)]
+    found = 0
+    values = []
+    for i, r in enumerate(rows):
+        if r and r[0] in ("", None) and len(r) > 2 and r[1] == 1 and r[2] == 2:
+            found += 1
+            if found != index:
+                continue
+            cols = [(c, int(v)) for c, v in enumerate(r) if c >= 1 and isinstance(v, float) and v.is_integer()]
+            j = i + 1
+            while j < len(rows) and isinstance(rows[j][0], str) and re.fullmatch(r"[A-P]", rows[j][0].strip()):
+                for c, col in cols:
+                    v = rows[j][c]
+                    if isinstance(v, float):
+                        values.append([f"{rows[j][0].strip()}{col}", label, None, v])
+                j += 1
+            break
+    if found < index:
+        sys.exit(f"{path.name}: sheet {sheet} has {found} matrices, not {index}")
+    return {"kind": "matrix-sheet", "header": {}, "values": values}
+
+
 def main():
     fid, kind, export = sys.argv[1], sys.argv[2], Path(sys.argv[3])
     if kind == "gen5-xlsx":
         data = gen5_xlsx(export)
+    elif kind == "matrix-sheet":
+        sheet, index, label = sys.argv[4].split(":", 2)
+        data = matrix_sheet(export, sheet, int(index), label)
     elif kind == "softmax-xlsx":
         data = softmax_xlsx(export)
         data["document"] = sys.argv[4]
