@@ -11,7 +11,9 @@
 //! 0). `mz_match` says how
 //! spectra pair up: `native-id` (default; the reference's id equals ours), `scan-number`,
 //! `index`, or `tdf-scan` (timsTOF per-scan references `frame=F scan=S`, compared with scan
-//! S − 1 of our decoded frame F, including its 1/K0).
+//! S − 1 of our decoded frame F, including its 1/K0). `mz_drift_references = [ids]` names
+//! per-drift-bin references of a Waters ion-mobility or SONAR acquisition, compared by native id
+//! with our run 1 (one spectrum per drift bin).
 //!
 //! Every reference point with non-zero intensity is matched to our nearest point in m/z. The
 //! report gives, per pair, the spectra and points compared and the |ppm| median, 99th
@@ -50,6 +52,9 @@ struct Entry {
     role: String,
     #[serde(default)]
     mz_references: Vec<String>,
+    /// References compared with run 1 (Waters drift bins).
+    #[serde(default)]
+    mz_drift_references: Vec<String>,
     #[serde(default)]
     mz_ppm_max: Option<f64>,
     #[serde(default)]
@@ -261,7 +266,7 @@ fn vendor_readers_match_vendor_calibrated_conversions() {
     let mut rows = Vec::new();
     let mut compared_inputs: Vec<(String, String)> = Vec::new();
     for e in &manifest.file {
-        if e.mz_references.is_empty()
+        if (e.mz_references.is_empty() && e.mz_drift_references.is_empty())
             || e.role != "input"
             || e.id.starts_with("ho-")
             || only.as_ref().is_some_and(|o| !e.id.contains(o.as_str()))
@@ -276,7 +281,12 @@ fn vendor_readers_match_vendor_calibrated_conversions() {
         if !compared_inputs.iter().any(|(i, _)| i == &e.id) {
             compared_inputs.push((e.id.clone(), e.format.clone()));
         }
-        for rid in &e.mz_references {
+        let refs = e
+            .mz_references
+            .iter()
+            .map(|r| (r, 0u32))
+            .chain(e.mz_drift_references.iter().map(|r| (r, 1u32)));
+        for (rid, run) in refs {
             let Some(r) = by_id.get(rid.as_str()) else {
                 failures.push(format!("{}: reference {rid} is not in the manifest", e.id));
                 continue;
@@ -302,11 +312,14 @@ fn vendor_readers_match_vendor_calibrated_conversions() {
                     }
                 };
                 let oinfo = ours.info().expect("input info");
-                let on = oinfo.spectra.first().map_or(0, |s| s.scan_count);
+                let on = oinfo
+                    .spectra
+                    .get(run as usize)
+                    .map_or(0, |s| s.scan_count);
                 // our native id → index (header-only where the reader can)
                 let mut ids: HashMap<String, u64> = HashMap::new();
                 let mut numbers: HashMap<u64, u64> = HashMap::new();
-                let _ = openreadout_core::scans::visit_scans(ours.as_mut(), 0, &mut |h| {
+                let _ = openreadout_core::scans::visit_scans(ours.as_mut(), run, &mut |h| {
                     if let Some(id) = &h.native_id {
                         ids.insert(id.clone(), h.index);
                     }
@@ -341,7 +354,7 @@ fn vendor_readers_match_vendor_calibrated_conversions() {
                     } else {
                         SpectrumView::Primary
                     };
-                    let sp = match ours.read_spectrum_view(0, at, view) {
+                    let sp = match ours.read_spectrum_view(run, at, view) {
                         Ok(sp) => sp,
                         Err(err) => {
                             st.spectra_unmatched += 1;

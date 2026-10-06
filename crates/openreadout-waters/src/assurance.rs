@@ -74,6 +74,9 @@ fn observe(info: &FileInfo) -> Observations {
         {
             o.context(K::WriterVersion, format!("MassLynx {v}"));
         }
+        if let Some(d) = a::extra_str(&s.extra, "drift_resolved") {
+            o.feature(K::Record, format!("drift bins ({d})"), &[Scope::Spectra]);
+        }
         if let Some(st) = a::extra_str(&s.extra, "stored_spectra") {
             o.feature(K::Acquisition, format!("stored {st}"), &[Scope::Spectra]);
         }

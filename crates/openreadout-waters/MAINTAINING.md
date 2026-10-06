@@ -10,6 +10,7 @@ Waters MassLynx `.raw` directories (`waters-raw`): full-scan spectra of TOF inst
 4. **Scan index** (`layout.rs` `parse_idx`): `_FUNCnnn.IDX` records of 22 or 30 bytes (`idx_record_len_for`) with offset, count, TIC, retention time and flags.
 5. **Values** (`layout.rs`): **the value layout is the main branch**: 12-byte values (`decode_value12`, `decode_mass27`, `decode_intensity12`), 8- and 6-byte (`decode_value8`, `decode_value6`), 4- and 2-byte MRM/SIR (`decode_packed32`, `decode_packed16`); `infer_bytes_per_value` picks it from the record and data sizes. Index flag 0x100 means values are stored calibrated; otherwise the `Cal Function n` polynomial is applied (`stored_calibrated`).
 6. **Dataset** (`dataset.rs` `WatersRawDataset`): spectra (`spectrum_at`, `visit_scan_headers`), MRM/SIR as tables and traces, PDA and analog channels (`_CHROnnn.DAT`, `_CHROMS.INF`) as traces, statistics (`_FUNCnnn.STS`, `parse_stats_layout`) in scan headers.
+7. **Drift bins** (`drift.rs`, `dataset.rs` `decode_drift`, `drift_spectrum`): `_funcNNN.ind` (`parse_drift_index`) locates each scan's three LZRW3-compressed sections in `_funcNNN.cdt` (`lzrw3_decompress`, `decode_drift_scan`); time-of-flight indices take the m/z of the drift-summed DAT spectrum's point of the same rank, after checking that the bins sum to it. Run 1 lists one spectrum per bin.
 
 ## Invariants and checks
 
@@ -25,7 +26,8 @@ Waters MassLynx `.raw` directories (`waters-raw`): full-scan spectra of TOF inst
 
 ## Fragile spots
 
-- Lock-mass correction is not applied (reported per reference scan); ion-mobility drift bins (`_funcNNN.cdt`) are not decoded (drift-summed spectra are returned and say so).
+- Lock-mass correction is not applied (reported per reference scan).
+- Drift bins get their m/z from the drift-summed DAT spectrum, so they depend on it being stored as a profile of every time-of-flight index the bins use. A file whose DAT is centroided or thresholded fails the sum check and its bins are refused; deriving m/z from the time-of-flight index itself (the `.ind` header holds the sampling rate, `Lteff` and the mass range) would lift that. SONAR quadrupole windows per bin are not derived.
 - MRM 4-byte values are scaled so each scan sums to the IDX TIC (rainbow reports twice these values): a documented choice validated against exports.
 - PDA functions are unscaled absorbance counts; `.EE`/`.CMP` files and the third word of 12-byte values are listed, not decoded.
 
