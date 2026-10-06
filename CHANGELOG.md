@@ -11,6 +11,7 @@ All notable changes to this project are documented here. The format is based on 
 - The release workflow can sign and notarize the macOS binaries with a Developer ID, and sign the Windows binary with Azure Artifact Signing. `scripts/macos-sign.sh` does the macOS part and also runs on a Mac.
 - `.zenodo.json`, so Zenodo can archive each release with a DOI.
 - `cargo binstall openreadout` on Windows on Arm installs the x64 build.
+- Sciex QTRAP quadrupole and ion-trap scans: Q1, precursor ion, neutral loss, enhanced MS and enhanced product ion (with precursor charges), validated point for point against the depositors' conversions of five public files.
 - Waters ion-mobility and SONAR acquisitions: the drift bins in `_funcNNN.cdt` are read as run 1, one spectrum per bin with its drift time; the 2,000 bins of four test acquisitions equal the vendor library's conversions.
 
 ### Changed
@@ -22,6 +23,8 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- Sciex `.wiff` files with several samples: samples after the first returned the first sample's scan data. Each sample's scans are now read from its own block of the `.wiff.scan`.
+- Agilent MassHunter profiles written by MassHunter Acquisition 10 (for example a 6546 Q-TOF) were refused as corrupt LZF; they use the ion-mobility profile encoding and are read.
 - The Claude Code plugin failed to load because its marketplace entry and `plugin.json` both declared the skill.
 - The Homebrew formula and winget manifests attached to a release no longer start with the template's header comment.
 - Docker build records (`*.dockerbuild`) no longer end up among the release assets.

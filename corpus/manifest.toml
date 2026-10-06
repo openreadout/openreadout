@@ -59885,6 +59885,10 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS7324 (Ralstonia lipopolysaccharides and tomato metabolome)"
 attribution = "MTBLS7324 submitters (MetaboLights)"
 notes = "SYNAPT (G1) HDMS, six functions, MS1 and MS/MS, negative mode, paired with the depositor's mzML"
+oracle_skip = "the vendor library labels function 2 (collision energy 10 eV) MS2 with the scan window's centre as precursor and functions 3 to 5 (20 to 40 eV) MS1, a convention the file does not state; the points are compared by native id in mz_agreement.rs"
+mz_references = ["mtbls7324-8sa-lps-16h-3b-raw-mzml"]
+mz_ppm_max = 0.1
+mz_intensity_rel_max = 0.0
 
 [[file]]
 id = "mtbls7324-8sa-lps-16h-3b-raw-mzml"
@@ -59975,6 +59979,9 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS12637 (high-pressure and ultra-shear processing of juice)"
 attribution = "MTBLS12637 submitters (MetaboLights)"
 notes = "6546 LC/Q-TOF, 2025, profile, paired with the depositor's mzML"
+oracle_skip = "the export holds the vendor library's peak-picked centroids of these profiles and leaves out the first 139 scans; compared by native id in mz_agreement.rs (every exported centroid within 4 ppm of a profile point), and every scan's counts sum to its TIC with their maximum equal to its base-peak value"
+mz_references = ["mtbls12637-processblank2-pos-77-d-mzml"]
+mz_ppm_max = 4.0
 
 [[file]]
 id = "mtbls12637-processblank2-pos-77-d-mzml"
@@ -60019,6 +60026,7 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS12837 (lipid profiling after mTOR inhibition)"
 attribution = "MTBLS12837 submitters (MetaboLights)"
 notes = "6545 Q-TOF, polarity switching, paired with the depositor's mzML"
+mz_references = ["mtbls12837-n14-d-mzml"]
 
 [[file]]
 id = "mtbls12837-n14-d-mzml"
@@ -60062,6 +60070,8 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS14343 (HUMAN ring trial, standards detection, reverse phase)"
 attribution = "MTBLS14343 submitters (MetaboLights)"
 notes = "6546 auto MS/MS, paired with the depositor's mzML"
+mz_references = ["mtbls14343-e-1-pos-041-ms2-d-mzml"]
+precursor_tolerance = 3e-5
 
 [[file]]
 id = "mtbls14343-e-1-pos-041-ms2-d-mzml"
