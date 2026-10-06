@@ -130,3 +130,11 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **Rule implemented:** code 5 is `JpegLossless`; its tiles are decoded by the JPEG decoder of `openreadout-codecs` (lossless JPEG support of `jpeg-decoder`), and must decode to the tile's size and samples like any JPEG tile. PNG (8) and BMP (9) still exit 6: no file with them was found.
 
 **Validation (same entry):** the code-5 stack is the slide overview (12120 × 6186, 6 levels; the 40x stack, 183255 × 68292, is JPEG). Every decoded code-5 tile equals libjpeg-turbo's decoding of the same stream with no colour conversion (imagecodecs `jpeg8_decode`, components as coded: the components are R, G, B despite the JFIF segment, and libjpeg-turbo refuses a YCbCr conversion of a lossless stream). Against Bio-Formats the overview's levels 1–5 are bit-exact (5 planes); Bio-Formats fails on level 0 (an index out of bounds inside its reader), which is left out of the oracle (`bf_failed_levels`). The 40x levels 4–9 agree within 4 grey levels (lossy JPEG decoders).
+
+## 2026-10-06 — `check`: tiles just past the image edge are not out of range
+
+**Why.** `check` over the development corpus exited 4 on two files that the corpus test confirms against their depositors' full-resolution exports: `figshare30384007-vsi-spleen` (tile-grid origin (−42, −1): column 17 starts at x = 8662, past the 8630-pixel image) and `figshare27677802-vsi-stitch` (origin (13306, 2464), 512-pixel tiles: column −27 ends at x = −6). The message also printed negative grid indices as unsigned numbers (4294967269).
+
+**Corpus files used:** those two. **Prior art consulted:** none.
+
+**Rule implemented:** a tile whose level and other indices are valid and that lies outside the image by less than one tile in X and Y is counted in one `tiles_off_canvas` info finding (reads crop it away, as before); anything farther out is still `tile_out_of_range` (exit 4). Grid indices in messages are signed.

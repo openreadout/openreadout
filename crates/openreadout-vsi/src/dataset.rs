@@ -1150,6 +1150,10 @@ impl Dataset for VsiDataset {
             }
             let mut beyond = 0usize;
             let mut outside = 0usize;
+            // Tiles of the stored grid that fall just outside the image (the grid origin is not
+            // a multiple of the tile size, so a column or row of tiles can lie entirely past an
+            // edge): read as cropped away, reported once as info.
+            let mut off_canvas = 0usize;
             for t in &s.ets.tiles {
                 if t.offset.saturating_add(u64::from(t.len)) > s.ets.file_len {
                     beyond += 1;
@@ -1172,26 +1176,41 @@ impl Dataset for VsiDataset {
                     t.column() * i64::from(h.tile_width) + ox,
                     t.row() * i64::from(h.tile_height) + oy,
                 );
-                let ok_xy = x0 < i64::from(lw)
-                    && y0 < i64::from(lh)
-                    && x0 + i64::from(h.tile_width) > 0
-                    && y0 + i64::from(h.tile_height) > 0;
+                let (tw, th) = (i64::from(h.tile_width), i64::from(h.tile_height));
+                let ok_xy = x0 < i64::from(lw) && y0 < i64::from(lh) && x0 + tw > 0 && y0 + th > 0;
+                let near_xy = x0 < i64::from(lw) + tw
+                    && y0 < i64::from(lh) + th
+                    && x0 + 2 * tw > 0
+                    && y0 + 2 * th > 0;
                 let ok_extra = t.extra().iter().zip(&s.dims).all(|(v, d)| *v < d.2);
-                if !(ok_level && ok_xy && ok_extra) {
+                if ok_level && ok_extra && !ok_xy && near_xy {
+                    off_canvas += 1;
+                } else if !(ok_level && ok_xy && ok_extra) {
                     outside += 1;
                     if outside <= 3 {
+                        let mut at = vec![t.column(), t.row()];
+                        at.extend(t.extra().iter().map(|&v| i64::from(v)));
+                        at.push(i64::from(t.level()));
                         r.push(
                             Finding::error(
                                 "tile_out_of_range",
                                 format!(
-                                    "{name}: tile at {:?} lies outside the image or its pyramid",
-                                    t.coords
+                                    "{name}: tile at {at:?} (column, row, other indices, level) lies outside the image or its pyramid"
                                 ),
                             )
                             .at(t.offset),
                         );
                     }
                 }
+            }
+            if off_canvas > 0 {
+                r.push(Finding::info(
+                    "tiles_off_canvas",
+                    format!(
+                        "{name}: {off_canvas} stored tile(s) lie just past an edge of the image (within one tile; the tile grid starts at {:?}) and are cropped away",
+                        s.origin
+                    ),
+                ));
             }
             if beyond > 1 {
                 r.push(Finding::error(

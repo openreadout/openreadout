@@ -133,7 +133,7 @@ Focus maps, focus points and sample masks appear as stack records without an ETS
 
 ## Integrity checks (`check`)
 
-Record tree (`bad_record_tree`, `no_stacks`), missing `_<stem>_` directory (`missing_ets_directory`), stack without ETS (`missing_ets`), unreadable ETS (`bad_ets`), several ETS files (`unexpected_ets_files`), unnamed stack directory (`unnamed_stack`), tile table or tile data past the end of the file (`truncated`), tiles outside the image or pyramid (`tile_out_of_range`), planes without tiles (`missing_planes`), `.vsi`/ETS size disagreement (`dimension_mismatch`), unknown dimension kind (`unknown_dimension_kind`), unknown sample type (`unsupported_sample_type`), and one decoded tile per image (`bad_tile`, `unsupported_tile`). Any error → exit 4.
+Record tree (`bad_record_tree`, `no_stacks`), missing `_<stem>_` directory (`missing_ets_directory`), stack without ETS (`missing_ets`), unreadable ETS (`bad_ets`), several ETS files (`unexpected_ets_files`), unnamed stack directory (`unnamed_stack`), tile table or tile data past the end of the file (`truncated`), tiles outside the image or pyramid (`tile_out_of_range`; a tile that lies past an edge by less than one tile, because the tile grid's origin is not a multiple of the tile size, is cropped away and counted in one `tiles_off_canvas` info finding instead), planes without tiles (`missing_planes`), `.vsi`/ETS size disagreement (`dimension_mismatch`), unknown dimension kind (`unknown_dimension_kind`), unknown sample type (`unsupported_sample_type`), and one decoded tile per image (`bad_tile`, `unsupported_tile`). Any error → exit 4.
 
 ## Vocabulary (every public identifier in `openreadout-vsi` must appear here)
 
