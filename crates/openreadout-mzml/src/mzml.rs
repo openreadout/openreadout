@@ -5,6 +5,7 @@ use std::io::{BufReader, Read, Seek, SeekFrom};
 use std::path::{Path, PathBuf};
 use std::sync::OnceLock;
 
+use rayon::prelude::*;
 use serde_json::{Value, json};
 
 use openreadout_core::model::{
@@ -368,21 +369,35 @@ impl MzmlDataset {
     }
 
     fn summaries(&self) -> Result<&[Summary]> {
+        // Every spectrum header is parsed, so a large run takes a while: spread the headers
+        // over the rayon threads in runs of `PER_TASK`, each with its own file handle.
+        const PER_TASK: usize = 512;
         let r = self.summaries.get_or_init(|| {
-            let mut f = self.fs.open(&self.path).map_err(|e| e.to_string())?;
-            let mut out = Vec::with_capacity(self.spectra.len());
-            for i in 0..self.spectra.len() {
-                let n = self
-                    .spectrum_node(Some(&mut f), i, true)
-                    .map_err(|e| e.to_string())?;
-                let m = interpret(&n, &self.groups, i as u64);
-                out.push(Summary {
-                    ms_level: m.ms_level,
-                    rt_s: m.rt,
-                    polarity: m.spectrum.polarity.clone(),
-                    centroided: m.spectrum.centroided,
-                    points: m.points,
-                });
+            let n = self.spectra.len();
+            let runs: Vec<std::result::Result<Vec<Summary>, String>> = (0..n.div_ceil(PER_TASK))
+                .into_par_iter()
+                .map(|t| {
+                    let mut f = self.fs.open(&self.path).map_err(|e| e.to_string())?;
+                    (t * PER_TASK..((t + 1) * PER_TASK).min(n))
+                        .map(|i| {
+                            let node = self
+                                .spectrum_node(Some(&mut f), i, true)
+                                .map_err(|e| e.to_string())?;
+                            let m = interpret(&node, &self.groups, i as u64);
+                            Ok(Summary {
+                                ms_level: m.ms_level,
+                                rt_s: m.rt,
+                                polarity: m.spectrum.polarity.clone(),
+                                centroided: m.spectrum.centroided,
+                                points: m.points,
+                            })
+                        })
+                        .collect()
+                })
+                .collect();
+            let mut out = Vec::with_capacity(n);
+            for run in runs {
+                out.extend(run?);
             }
             Ok(out)
         });
