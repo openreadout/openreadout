@@ -2148,8 +2148,11 @@ impl Dataset for CziDataset {
                     })
                 })
                 .collect();
+            // Channels the scene stores only at other H/I/R/V/B coordinates read as 0 here
+            // (`absent_channels`); they are not missing planes.
+            let present_c = u64::from(s.size_c).saturating_sub(s.absent_channels.len() as u64);
             let expect = u64::from(s.size_z)
-                .saturating_mul(u64::from(s.size_c))
+                .saturating_mul(present_c)
                 .saturating_mul(u64::from(s.size_t));
             if (have.len() as u64) < expect {
                 r.push(Finding::error(

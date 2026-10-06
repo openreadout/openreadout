@@ -221,3 +221,11 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 **Inferred from imagecodecs' streams (hex dumps):** the same size forms (6000 bytes in chunks of 4096 give `[4096, 1904]`; 6000 in chunks of 2000 give `[2000]`); LZ4 chunks are raw blocks. imagecodecs applies HiLo to each chunk on its own (a 2000-byte chunk of 16-bit samples holds 1000 low bytes, then 1000 high bytes), which differs from the reading of the page above (one split over the whole subblock) whenever there is more than one chunk.
 
 **Rule implemented:** `openreadout-codecs::chunked_decode`: header entries 1–4 as documented; one decompressed size per chunk, `[C]` or `[C, L]` (other forms exit 6); each chunk must decode to its size, and the joined chunks must fill the subblock exactly; unknown entry ids, codecs or preprocessing values exit 6. HiLo is undone only when the subblock is one chunk, where both readings agree; HiLo over several chunks exits 6 until a file written by ZEN or libCZI shows which reading is meant. The three fixtures (the HiLo one with one chunk per subblock, the LZ4 one in the `[5000, 2288]` form) decode to the same planes as czifile and as their uncompressed bases. Compression ids 100–999 are now named `camera_raw(N)` and 1000 and up `system_raw(N)` (both still exit 6: czifile reads them as uncompressed samples, but no public file shows what a camera stores there).
+
+## 2026-10-06 — `check`: channels absent at an extra-dimension index are not missing planes
+
+**Why.** `check` exited 4 (`missing_planes`, "2 of 4 (z,c,t) planes have subblocks") on `zenodo17482295-Figure-08-P-aeruginosa-H4` and `zenodo17432573-MC1-Nt3EmCherry-7412-H4`, whose channels 1 and 3 exist at H = 0 only. Reads already return those channels as 0 and list them in `images[].extra.absent_channels` (2026-09-26 entry above); both files match czifile.
+
+**Corpus files used:** those two. **Prior art consulted:** none.
+
+**Rule implemented:** the planes `check` expects per image leave out the image's `absent_channels`.
