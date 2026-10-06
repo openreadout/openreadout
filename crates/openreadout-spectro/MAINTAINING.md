@@ -214,7 +214,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/cary_synthetic.rs`](tests/cary_synthetic.rs), [`tests/jasco_synthetic.rs`](tests/jasco_synthetic.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_agilent_fpa`, `whole_cary`, `whole_fsm`, `whole_jws`, `whole_omnic`, `whole_opus`, `whole_pesp`, `whole_spc`, `whole_wdf`, `whole_witec`
-- corpus inputs by tier: full 1, heldout 27, hold 11, smoke 109, standard 34
+- corpus inputs by tier: full 1, heldout 27, hold 11, smoke 108, standard 35
 - golden snapshots: [`corpus/snapshots/bruker-opus.jsonl`](../../corpus/snapshots/bruker-opus.jsonl), [`corpus/snapshots/thermo-omnic.jsonl`](../../corpus/snapshots/thermo-omnic.jsonl), [`corpus/snapshots/renishaw-wdf.jsonl`](../../corpus/snapshots/renishaw-wdf.jsonl), [`corpus/snapshots/perkinelmer-sp.jsonl`](../../corpus/snapshots/perkinelmer-sp.jsonl), [`corpus/snapshots/galactic-spc.jsonl`](../../corpus/snapshots/galactic-spc.jsonl), [`corpus/snapshots/jasco-jws.jsonl`](../../corpus/snapshots/jasco-jws.jsonl), [`corpus/snapshots/witec-project.jsonl`](../../corpus/snapshots/witec-project.jsonl), [`corpus/snapshots/perkinelmer-fsm.jsonl`](../../corpus/snapshots/perkinelmer-fsm.jsonl), [`corpus/snapshots/agilent-fpa.jsonl`](../../corpus/snapshots/agilent-fpa.jsonl), [`corpus/snapshots/agilent-cary.jsonl`](../../corpus/snapshots/agilent-cary.jsonl)
 
 ### Open new-variant intakes
