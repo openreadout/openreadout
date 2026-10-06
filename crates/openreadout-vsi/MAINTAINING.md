@@ -13,7 +13,7 @@ Olympus/Evident cellSens VSI files (cellSens, VS120/VS200 slide scanners) with t
 ## Invariants and checks
 
 - `check`: every record set has its signature, links point forward inside the file, record counts match; the `_<name>_` directory exists and each stack directory has a readable `frame_t*.ets`; ETS headers, tile table and every tile's bytes inside the file; tile coordinates within the image and pyramid; one tile per image decodes; dimension sizes in the `.vsi` agree with the ETS header.
-- ETS sample types other than 8- and 16-bit unsigned, and compressions other than raw, JPEG and JPEG 2000, exit 6.
+- ETS sample types other than 8- and 16-bit unsigned, and compressions other than raw, JPEG, JPEG 2000 and lossless JPEG (code 5), exit 6.
 
 ## Debugging a new file
 

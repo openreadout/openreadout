@@ -2463,8 +2463,9 @@ def vsi(p: Path) -> dict:
     and is left out. Planes are hashed from bfconvert output: full resolution when the series is
     at most ORACLE_VSI_MAX_BYTES, and every downsampled pyramid level up to that size.
     ORACLE_SIDECARS=1 also writes the planes next to the file (`<stem>.oracle/`, not committed).
+    A level Bio-Formats fails to convert is listed in `bf_failed_levels` and not compared.
     """
-    import tempfile
+    import subprocess, tempfile
     noflat = _bf_series(_showinf(p, "-noflat", "-nometa"))
     flat = _bf_series(_showinf(p, "-nometa"))
     meta = _bf_images(_showinf(p, "-noflat", "-omexml"))
@@ -2503,7 +2504,13 @@ def vsi(p: Path) -> dict:
                 if os.environ.get("ORACLE_SIDECARS"):
                     pre = f"image{img['index']}" if r == 0 else f"image{img['index']}_l{r}"
                     side = (p.with_name(f"{p.stem}.oracle"), pre)
-                planes = _bf_planes(p, first + r, fs, tmp, side)
+                try:
+                    planes = _bf_planes(p, first + r, fs, tmp, side)
+                except subprocess.CalledProcessError as e:
+                    # Bio-Formats fails on this level (an exception inside its reader): the
+                    # level is left out of the comparison rather than failing the whole oracle.
+                    img.setdefault("bf_failed_levels", []).append({"level": r, "error": (e.stderr or "")[-300:] if isinstance(e.stderr, str) else "bfconvert failed"})
+                    continue
                 if r == 0:
                     img["planes"] = planes
                 else:

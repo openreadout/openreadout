@@ -116,3 +116,17 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **Changed (all JPEG readers):** `jpeg-decoder` on x86/x86_64 switches at run time to an SSSE3 IDCT and colour conversion whose 16-bit fixed point rounds differently from its portable integer path, which aarch64 always uses. On x86_64, five corpus files decoded differently from aarch64 (`synthetic-bgr24-jpeg`, `wdf-pywdf-line`, `figshare30384007-vsi-spleen`, `zenodo17453126-he-bone-vsi`, `zenodo8161864-vs200-he-20x`, all failing their oracle comparison). The workspace now enables the crate's `platform_independent` feature: the 618 compared entries give identical results on both architectures, and the aarch64 results are unchanged.
 
 **Remaining target dependence:** `dicom-toolkit-jpeg2000` (the fallback for codestreams `rust-j2k` refuses) fuses `a * b + c` in its 9/7 lifting on aarch64 and on x86_64 builds with the `fma` target feature, and not on baseline x86_64; the 618 compared entries show no difference from it.
+
+## 2026-10-06 — ETS compression code 5: lossless JPEG
+
+**Why.** VS120 scans (OLYMPUS VS-ASW 2) can store their full-resolution stack with ETS compression code 5, which exited 6.
+
+**Corpus files used:** `bia2666-vsi-24B0759-t6` (new): a VS120 H&E slide from BioImage Archive S-BIAD2666 (CC0), whose `stack1` ETS has code 5 and whose overview `stack10001` has code 2. The same authors deposited S-BIAD1129, which a held-out draw reserves; S-BIAD2666 is a different record (docs/benchmark/heldout.md rule 3), and this slide was scanned in November 2024, after S-BIAD1129 was released, so it is not one of that record's slides. No held-out file was opened.
+
+**Prior art consulted:** slideio (BSD-3-Clause, https://github.com/Booritas/slideio, `src/slideio/drivers/vsi/vsistruct.hpp`, read as documentation): its ETS compression list names 0 raw, 2 JPEG, 3 JPEG 2000, 5 lossless JPEG, 8 PNG and 9 BMP (slideio decodes only 0, 2 and 3). Bio-Formats 8.5.0 run as a black box for the oracle (`oracle/gen.py`).
+
+**Inferred from the file (range reads of the tile table and the first tiles):** each code-5 tile is a complete JPEG stream (SOI, JFIF APP0, a comment, DHT, then an SOF3 frame header: lossless, 8-bit, 3 components, 512 × 512, then SOS).
+
+**Rule implemented:** code 5 is `JpegLossless`; its tiles are decoded by the JPEG decoder of `openreadout-codecs` (lossless JPEG support of `jpeg-decoder`), and must decode to the tile's size and samples like any JPEG tile. PNG (8) and BMP (9) still exit 6: no file with them was found.
+
+**Validation (same entry):** the code-5 stack is the slide overview (12120 × 6186, 6 levels; the 40x stack, 183255 × 68292, is JPEG). Every decoded code-5 tile equals libjpeg-turbo's decoding of the same stream with no colour conversion (imagecodecs `jpeg8_decode`, components as coded: the components are R, G, B despite the JFIF segment, and libjpeg-turbo refuses a YCbCr conversion of a lossless stream). Against Bio-Formats the overview's levels 1–5 are bit-exact (5 planes); Bio-Formats fails on level 0 (an index out of bounds inside its reader), which is left out of the oracle (`bf_failed_levels`). The 40x levels 4–9 agree within 4 grey levels (lossy JPEG decoders).

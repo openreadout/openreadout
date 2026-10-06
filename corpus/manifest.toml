@@ -10786,6 +10786,50 @@ pixel_tolerance = 3
 lossy = true  # irreversible 9/7 tiles: Bio-Formats' decoder rounds 19 of 22 planes differently by 1; without sidecars (CI) plane means are compared
 
 [[file]]
+id = "bia2666-vsi-24B0759-t6"
+format = "vsi"
+role = "input"
+tier = "full"
+filename = "bia2666-vsi-24B0759/24B0759_T6_he_2024-11-15.vsi"
+url = "https://ftp.ebi.ac.uk/pub/databases/biostudies/S-BIAD/666/S-BIAD2666/Files/whole_slide_images/24B0759_T6_he_2024-11-15.vsi"
+sha256 = "cb07fb2003e8f0e4dcf01ece49814397423ca6adb2307b5216878d369242bd30"
+size = 1578673
+license = "CC0-1.0"
+source = "BioImage Archive S-BIAD2666: Unsupervised Clustering of Feline Small Intestinal Biopsies Reveals Overlapping Patterns in Feline Chronic Enteropathy, whole_slide_images/24B0759_T6_he_2024-11-15"
+attribution = "Judit Magnusson Wulcan (University of California, Davis)"
+notes = "Olympus VS120 (OLYMPUS VS-ASW 2) H&E slide of a feline small intestinal biopsy, 40x: full-resolution stack with ETS compression 5 (lossless JPEG tiles), overview with code 2 (JPEG). Same authors as S-BIAD1129, a different record (docs/provenance/vsi.md, 2026-10-06)"
+pixel_tolerance = 4
+lossy = true
+
+[[file]]
+id = "bia2666-vsi-24B0759-t6-ets"
+format = "vsi"
+role = "companion"
+tier = "full"
+filename = "bia2666-vsi-24B0759/_24B0759_T6_he_2024-11-15_/stack1/frame_t.ets"
+url = "https://ftp.ebi.ac.uk/pub/databases/biostudies/S-BIAD/666/S-BIAD2666/Files/whole_slide_images/_24B0759_T6_he_2024-11-15_/stack1/frame_t.ets"
+sha256 = "f4def8d9d092797583590dc964c7ced18aa82704677be98acf7ea99827ca678a"
+size = 157920392
+license = "CC0-1.0"
+source = "BioImage Archive S-BIAD2666: Unsupervised Clustering of Feline Small Intestinal Biopsies Reveals Overlapping Patterns in Feline Chronic Enteropathy, whole_slide_images/24B0759_T6_he_2024-11-15"
+attribution = "Judit Magnusson Wulcan (University of California, Davis)"
+notes = "full-resolution pyramid of bia2666-vsi-24B0759-t6 (ETS compression 5). Same authors as S-BIAD1129, a different record (docs/provenance/vsi.md, 2026-10-06)"
+
+[[file]]
+id = "bia2666-vsi-24B0759-t6-overview-ets"
+format = "vsi"
+role = "companion"
+tier = "full"
+filename = "bia2666-vsi-24B0759/_24B0759_T6_he_2024-11-15_/stack10001/frame_t.ets"
+url = "https://ftp.ebi.ac.uk/pub/databases/biostudies/S-BIAD/666/S-BIAD2666/Files/whole_slide_images/_24B0759_T6_he_2024-11-15_/stack10001/frame_t.ets"
+sha256 = "d8d36d29eb2174def9b359db11338c4ff1ea5d62d58e07d1fbe58e8cbc458df6"
+size = 179440321
+license = "CC0-1.0"
+source = "BioImage Archive S-BIAD2666: Unsupervised Clustering of Feline Small Intestinal Biopsies Reveals Overlapping Patterns in Feline Chronic Enteropathy, whole_slide_images/24B0759_T6_he_2024-11-15"
+attribution = "Judit Magnusson Wulcan (University of California, Davis)"
+notes = "overview pyramid of bia2666-vsi-24B0759-t6 (ETS compression 2). Same authors as S-BIAD1129, a different record (docs/provenance/vsi.md, 2026-10-06)"
+
+[[file]]
 id = "ome-cellsens-metadatatest-01"
 format = "vsi"
 role = "input"

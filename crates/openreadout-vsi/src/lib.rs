@@ -112,7 +112,7 @@ impl FormatReader for VsiReader {
             known_gaps: vec![
                 "No specification: the .vsi record tree and ETS layout are derived from 27 corpus files (11 with pixel data: cellSens Dimension 1.18/3.2/3.x, VS200 ASW, VS120 dotSlide 2.5, Stream Essentials 1.7; ETS versions 0x00030003/5/6); names, calibration, channels, exposure, objective, camera, times and dimension kinds come from records identified by comparison with Bio-Formats; everything else is only in `vendor` under numeric tags".into(),
                 "Dimension kinds other than Z (1), T (2) and channel (4) never occurred in the corpus; one would be exposed as T with a note and a `check` warning".into(),
-                "ETS sample types other than 8-bit (2) and 16-bit (4) unsigned, and compressions other than raw (0), JPEG (2) and JPEG 2000 (3), are not decoded (exit 6)".into(),
+                "ETS sample types other than 8-bit (2) and 16-bit (4) unsigned, and compressions other than raw (0), JPEG (2), JPEG 2000 (3) and lossless JPEG (5), are not decoded (exit 6)".into(),
                 "Unstored whole-slide tiles are filled with the ETS background value (as Bio-Formats does); JPEG tiles are decoded with jpeg-decoder and may differ by a few levels from other decoders".into(),
                 "Where the tile grid is offset from the image corner (record 2410), coarser pyramid levels place it at the nearest pixel of offset/2^L; Bio-Formats truncates, so such levels can differ from it by one pixel".into(),
                 "Planes larger than 4 GiB (full-resolution whole slides) are read by region (`--region`) or at a pyramid level (`--level`), not whole".into(),
