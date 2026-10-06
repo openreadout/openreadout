@@ -3603,6 +3603,11 @@ def _mzml_scans(q: Path, reader=None, skip_detectors=False):
                 a = pl[-1].get("activation", {})
                 energy = a.get("collision energy")
                 act = sorted(k for k in a if k != "collision energy")
+            # ProteoWizard gives a constant neutral loss scan's loss as its selected ion: it is
+            # no precursor m/z
+            loss = None
+            if "constant neutral loss spectrum" in sp and prec is not None:
+                loss, prec = prec, None
             mza = sp.get("m/z array")
             bits = int(np.asarray(mza).dtype.itemsize * 8) if mza is not None and len(mza) else None
             polarity = "positive" if "positive scan" in sp else "negative" if "negative scan" in sp else "unknown"
@@ -3617,6 +3622,7 @@ def _mzml_scans(q: Path, reader=None, skip_detectors=False):
                 "filter": scan.get("filter string"),
                 "precursor_mz": float(prec) if prec is not None else None,
                 "precursor_charge": int(charge) if charge is not None else None,
+                **({"neutral_loss_mz": float(loss)} if loss is not None else {}),
                 "isolation_target_mz": float(iso) if iso is not None else None,
                 "activation": act,
                 "collision_energy": float(energy) if energy is not None else None,

@@ -8,7 +8,7 @@ Legacy Sciex `.wiff` files with their `.wiff.scan` companions (`sciex-wiff`); `.
 2. **Container**: `openreadout-core`'s MS-CFB reader; streams read with `read_stream`.
 3. **Method and sample** (`layout.rs`): experiment headers (`parse_experiment_header`: scan type, polarity, MRM transitions and their scheduling windows `parse_windows`, mass ranges `parse_mass_ranges`), sample strings (UTF-16 runs, `sample_strings`), device channels and their data (`parse_device_channels`, `parse_device_data`: LC pumps, UV).
 4. **Scan index** (`layout.rs` `parse_index`): whole 54-byte records, each pointing into the `.wiff.scan` companion.
-5. **Scan data** (`layout.rs`, `dataset.rs` `spectrum_of`): **scan types branch here**. MRM: one intensity per transition per cycle, assigned to cycles by the scheduling windows. TOF (TripleTOF, ZenoTOF): time-to-digital histograms (`decode_tdc`, `expand_zero_runs`), calibrated per scan to m/z (`tof_calibration`, `tof_mz`), precursors for data-dependent MS2 (`precursor_slot`). The acquisition software version (`software`: Analyst vs Analyst TF vs SCIEX OS) selects defaults.
+5. **Scan data** (`layout.rs`, `dataset.rs` `spectrum_of`, `fill_grid`): **scan types branch here**. Grid scans (quadrupole and ion trap): counts on an m/z grid (`decode_grid_scan`). MRM: one intensity per transition per cycle, assigned to cycles by the scheduling windows. TOF (TripleTOF, ZenoTOF): time-to-digital histograms (`decode_tdc`, `expand_zero_runs`), calibrated per scan to m/z (`tof_calibration`, `tof_mz`), precursors for data-dependent MS2 (`precursor_slot`). The acquisition software version (`software`: Analyst vs Analyst TF vs SCIEX OS) selects defaults.
 
 ## Invariants and checks
 
@@ -23,7 +23,8 @@ Legacy Sciex `.wiff` files with their `.wiff.scan` companions (`sciex-wiff`); `.
 
 ## Fragile spots
 
-- Scan types other than MRM and TOF (Q1/Q3 scans, enhanced product ion, MRM³, SWATH variable windows) are listed but not decoded.
+- Scan types other than MRM, TOF and the grid scans (Q1, precursor ion, neutral loss, enhanced MS, enhanced product ion) are listed but not decoded: MRM³, Q3 scans, SWATH windows. A new QTRAP scan type that starts with the grid marker (−2) probably decodes with `decode_grid_scan`; validate it against an export before adding its code.
+- Multi-sample files: each sample's scans sit in their own block of `.wiff.scan` (`scan_base`), found by walking the block headers; a sample whose header is not where expected is refused.
 - TripleTOF 5600: the index TIC is not the sum of the stored counts; counts are returned as stored and `total_ion_current` is the index value (the format note explains the evidence).
 - ZenoTOF files open, but precursor charges and rolling collision energies are not read and no export validates them.
 - The first half of every 2N-value MRM cycle (zero in the corpus files) is not interpreted.

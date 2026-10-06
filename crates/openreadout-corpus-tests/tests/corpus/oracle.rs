@@ -297,6 +297,9 @@ pub(crate) struct OracleScan {
     pub(crate) filter: Option<String>,
     pub(crate) precursor_mz: Option<f64>,
     pub(crate) precursor_charge: Option<i32>,
+    /// The loss of a constant neutral loss scan (which mzML exports give as the selected ion).
+    #[serde(default)]
+    pub(crate) neutral_loss_mz: Option<f64>,
     /// mzML: list of activation CV names; mzXML: `HCD`, `CID`, ...
     #[serde(default)]
     pub(crate) activation: Option<serde_json::Value>,

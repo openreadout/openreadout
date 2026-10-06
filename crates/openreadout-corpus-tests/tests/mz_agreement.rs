@@ -13,7 +13,8 @@
 //! `index`, or `tdf-scan` (timsTOF per-scan references `frame=F scan=S`, compared with scan
 //! S − 1 of our decoded frame F, including its 1/K0). `mz_drift_references = [ids]` names
 //! per-drift-bin references of a Waters ion-mobility or SONAR acquisition, compared by native id
-//! with our run 1 (one spectrum per drift bin).
+//! with our run 1 (one spectrum per drift bin). `mz_run = N` compares `mz_references` with run N
+//! instead of run 0 (one sample of a multi-sample Sciex `.wiff`).
 //!
 //! Every reference point with non-zero intensity is matched to our nearest point in m/z. The
 //! report gives, per pair, the spectra and points compared and the |ppm| median, 99th
@@ -55,6 +56,10 @@ struct Entry {
     /// References compared with run 1 (Waters drift bins).
     #[serde(default)]
     mz_drift_references: Vec<String>,
+    /// The run `mz_references` are compared with (a sample of a multi-sample Sciex `.wiff`;
+    /// default 0).
+    #[serde(default)]
+    mz_run: Option<u32>,
     #[serde(default)]
     mz_ppm_max: Option<f64>,
     #[serde(default)]
@@ -82,6 +87,7 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_sciex::SciexWiffReader))
         .with(Box::new(openreadout_waters::WatersRawReader))
         .with(Box::new(openreadout_mzml::MzmlReader))
+        .with(Box::new(openreadout_mzml::MzxmlReader))
         .with(Box::new(openreadout_bruker_tims::BrukerTimsReader))
 }
 
@@ -284,7 +290,7 @@ fn vendor_readers_match_vendor_calibrated_conversions() {
         let refs = e
             .mz_references
             .iter()
-            .map(|r| (r, 0u32))
+            .map(|r| (r, e.mz_run.unwrap_or(0)))
             .chain(e.mz_drift_references.iter().map(|r| (r, 1u32)));
         for (rid, run) in refs {
             let Some(r) = by_id.get(rid.as_str()) else {
@@ -314,7 +320,8 @@ fn vendor_readers_match_vendor_calibrated_conversions() {
                 let oinfo = ours.info().expect("input info");
                 let on = oinfo
                     .spectra
-                    .get(run as usize)
+                    .iter()
+                    .find(|s| s.index == run)
                     .map_or(0, |s| s.scan_count);
                 // our native id → index (header-only where the reader can)
                 let mut ids: HashMap<String, u64> = HashMap::new();

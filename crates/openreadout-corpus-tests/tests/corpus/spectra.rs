@@ -254,6 +254,18 @@ pub(crate) fn check_spectra(
         {
             m.push(format!("1/K0 {:?} != {im}", sp.inverse_reduced_mobility));
         }
+        if let Some(l) = s.neutral_loss_mz
+            && !sp
+                .extra
+                .get("neutral_loss_mz")
+                .and_then(serde_json::Value::as_f64)
+                .is_some_and(|q| rel_close(q, l, 1e-9))
+        {
+            m.push(format!(
+                "neutral loss {:?} != {l}",
+                sp.extra.get("neutral_loss_mz")
+            ));
+        }
         if let Some(c) = s.precursor_charge
             && c != 0
             && sp.precursor_charge != Some(c)
