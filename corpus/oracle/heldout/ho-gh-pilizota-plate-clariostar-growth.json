@@ -1,0 +1,21 @@
+{
+ "id": "ho-gh-pilizota-plate-clariostar-growth",
+ "file": "Test.CSV",
+ "size": 255416,
+ "sha256": "6348632f25bd434eeb73173f872cd16368a96af1331ba7a942bbdb7b540c4de5",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py bmg_csv_summary (independent reader of the export text; allotropy cannot parse this export)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 41280,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "f5b92c6daf9809b1d299759eabe607ef"
+   }
+  ],
+  "header": {}
+ }
+}

@@ -1,0 +1,51 @@
+{
+ "id": "ho-figshare21354474-sp-uvvis",
+ "file": "8.Sample.Raw.sp",
+ "size": 7877,
+ "sha256": "65afd26179d957983b1bf80950bac9f3f13f26b3e5a9495472d2f3d7f8ee2e9c",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 801,
+   "x_first": 1000.0,
+   "x_last": 200.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 801,
+     "channels": [
+      {
+       "xxh3": "36a5e6639a7d9dc6bf677a1c69d09dbd",
+       "first": [
+        0.3223752027599226,
+        0.3246267406389129,
+        0.32678597703642337,
+        0.32907480254560606,
+        0.331036403769465,
+        0.33318570503853767,
+        0.33519617421229464,
+        0.33715935349712584
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Lambda 25",
+     "instrument_serial": "501S10081703",
+     "scans": 1,
+     "detector": 1,
+     "source": 0,
+     "beamsplitter": 0,
+     "apodization": 0
+    }
+   }
+  }
+ ]
+}

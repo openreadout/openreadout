@@ -193,7 +193,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/synthetic_emd.rs`](tests/synthetic_emd.rs), [`tests/synthetic_mrc.rs`](tests/synthetic_mrc.rs)
 - committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_dm`, `whole_emd`, `whole_mrc`, `whole_ser`
-- corpus inputs by tier: heldout 15, smoke 134, standard 21
+- corpus inputs by tier: heldout 22, smoke 134, standard 21
 - golden snapshots: [`corpus/snapshots/mrc.jsonl`](../../corpus/snapshots/mrc.jsonl), [`corpus/snapshots/dm.jsonl`](../../corpus/snapshots/dm.jsonl), [`corpus/snapshots/ser.jsonl`](../../corpus/snapshots/ser.jsonl), [`corpus/snapshots/emd.jsonl`](../../corpus/snapshots/emd.jsonl)
 
 ### Open new-variant intakes

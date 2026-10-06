@@ -1,0 +1,82 @@
+{
+ "id": "ho-gh-brainbremen-oecon-nidaq",
+ "file": "Test_2026-03-12_16-32-08",
+ "size": 35905547,
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 OpenEphysBinaryRawIO folder parse + NumPy",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "AI0",
+    "AI2"
+   ],
+   "sample_rate_hz": 30000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1774200,
+     "channels": [
+      {
+       "xxh3": "a289efdd4e5ea358e39853cb5416edfa",
+       "first": [
+        4.3958861804,
+        4.4703513448,
+        4.5207068863,
+        4.5142979992,
+        4.4914091167,
+        4.4758446766,
+        4.4718772703,
+        4.4730980107
+       ]
+      },
+      {
+       "xxh3": "a6fd44887c4e97c805b7a238858d5e6b",
+       "first": [
+        0.0,
+        4.3543810068,
+        4.403820993,
+        4.4596698663000005,
+        4.4889676359,
+        4.4923246720000005,
+        4.4853054147,
+        4.4773706021
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "Record Node 101/NI-DAQmx-110.USB-6343",
+   "channel_units": [
+    "V",
+    "V"
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 14997,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "stream": "806d317e8e2edee2b64d70fd67436a30",
+    "sample_number": "38c61537513f392b15800d391bc6626f",
+    "time_s": "79237ad79f175f5aacec3f60e03ed73c",
+    "timestamp_s": "79237ad79f175f5aacec3f60e03ed73c",
+    "state": "9803fc191c8d3fa86fc048e91966714c",
+    "line": "93a1848b73a8fc91c4e2eb405045548c",
+    "full_word": "8aae2a67d163db97bcebba2a6300a776",
+    "text": "f463975ba9a79c764710956572468fd3"
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "neo 0.14.5 OpenEphysBinaryRawIO API",
+  "channels_compared": 2,
+  "values_agree": true
+ }
+}

@@ -17,15 +17,15 @@ From [Project health](health.md), which `cargo xtask health --write` generates f
 | --- | --- |
 | formats, reader crates | 96 formats in 40 reader crates |
 | confidence (computed, not set by hand) | 44 high, 38 medium, 14 low |
-| corpus manifest | 3,610 entries; 1,653 development inputs of 95 formats from 528 depositors; 187 held-out inputs |
+| corpus manifest | 3,959 entries; 1,653 development inputs of 95 formats from 528 depositors; 292 held-out inputs |
 | development files read | 1,629 |
 | compared with an independent reader | 1,514, all of which agree (100%) |
 | confirmed by an independent reader | 1,488 |
 | variant-feature values seen, validated | 2,212 seen, 2,098 validated (95%) |
 | development files `info` cannot read | 3 |
-| latest held-out run | 171 inputs: 148 clean, 3 clean partial copies (`check` rightly exits 4), 14 disagree, 4 fail, 2 read but fail `check` or dump |
+| latest held-out run | 292 inputs: 237 clean, 5 clean partial copies (`check` rightly exits 4), 36 disagree, 12 fail, 2 read but fail `check` or dump |
 
-From the held-out report [`heldout-2026-09-26c.md`](../../../docs/benchmark/heldout-2026-09-26c.md): of the 148 held-out inputs that have an independent oracle and are counted, 136 agree as read (91.9%), and 143 (96.6%) after adjudication, which does not count oracle and converter errors against OpenReadout.
+From the held-out report [`heldout-2026-10-06d.md`](../../../docs/benchmark/heldout-2026-10-06d.md): of the 94 inputs of its newest draw that have an independent oracle, 77 agree as read (81.9%, 95% CI 72.9–88.4%) and 85 (90.4%, CI 82.8–94.9%) after adjudication, which does not count oracle and converter errors against OpenReadout. Mass spectrometry agrees on 8 of those 13 files, the other families on 77 of 81. Over all 252 counted held-out inputs of the four draws, 219 agree as read (86.9%) and 240 (95.2%) after adjudication.
 
 From [m/z agreement](mz-agreement.md) (2026-09-26): for Bruker timsTOF, Waters MassLynx, Thermo RAW and Agilent MassHunter files, every reference point in the vendor-library conversion has a counterpart, and the largest m/z difference is about 0.06 ppm, the rounding of the references' 32-bit m/z arrays.
 

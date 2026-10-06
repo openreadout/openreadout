@@ -202,7 +202,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs), [`tests/jcamp_export.rs`](tests/jcamp_export.rs), [`tests/spinsolve.rs`](tests/spinsolve.rs), [`tests/synthetic.rs`](tests/synthetic.rs), [`tests/varian_jeol.rs`](tests/varian_jeol.rs)
 - committed fixtures: 10 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `jcamp_asdf`, `whole_bruker`, `whole_jcamp`, `whole_jeol`, `whole_spinsolve`, `whole_varian`
-- corpus inputs by tier: heldout 15, hold 11, smoke 31, standard 82
+- corpus inputs by tier: heldout 21, hold 11, smoke 31, standard 82
 - golden snapshots: [`corpus/snapshots/bruker-nmr.jsonl`](../../corpus/snapshots/bruker-nmr.jsonl), [`corpus/snapshots/jcamp-dx.jsonl`](../../corpus/snapshots/jcamp-dx.jsonl), [`corpus/snapshots/varian-nmr.jsonl`](../../corpus/snapshots/varian-nmr.jsonl), [`corpus/snapshots/jeol-jdf.jsonl`](../../corpus/snapshots/jeol-jdf.jsonl), [`corpus/snapshots/magritek-spinsolve.jsonl`](../../corpus/snapshots/magritek-spinsolve.jsonl)
 
 ### Open new-variant intakes

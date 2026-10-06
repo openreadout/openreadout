@@ -1,0 +1,45 @@
+{
+ "id": "ho-gh-jarweile-ch-tcd",
+ "file": "TCD1A.ch",
+ "size": 33184,
+ "sha256": "0a085c0b0e74aa9083c689ac0e0695447b932849a3829a63dc31523bd60b931f",
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) / Aston (BSD-3) for version 81",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "TCD1A"
+   ],
+   "channel_units": [
+    "25 \u00b5V"
+   ],
+   "sample_rate_hz": 4.999999774324372,
+   "x_first_min": 0.003329699961344401,
+   "x_last_min": 11.266663541666667,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3380,
+     "channels": [
+      {
+       "xxh3": "d9607f15e492ac7482ea134dbaac1ae7",
+       "first": [
+        8.98515625,
+        8.988932291666666,
+        8.987369791666666,
+        8.986979166666666,
+        8.98671875,
+        8.986197916666667,
+        8.987109375,
+        8.984765625
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

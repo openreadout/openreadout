@@ -1,0 +1,8 @@
+{
+ "id": "ho-gh-txtltradeoff-plate-gen5-salt",
+ "file": "20220224_SaltCalibration_AR_ZJ_Extract_w_PEG_and_Minimal_Energy_Solution.txt",
+ "size": 85942,
+ "sha256": "130dbfd3e274d8f291de778f4b4c9aba5a8986cfa40bb1a7a846d310121c5f9a",
+ "max_planes_hashed": 64,
+ "error": "AllotropeConversionError: Unable to convert DataFrame to series: data has more than 1 row and no index was provided."
+}

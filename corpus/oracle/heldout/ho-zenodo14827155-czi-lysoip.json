@@ -1,0 +1,64 @@
+{
+ "id": "ho-zenodo14827155-czi-lysoip",
+ "file": "Immunofluoresence_SFig3_HA.647_T192.594_Calnexin.488.czi",
+ "size": 1005856,
+ "sha256": "36e10b5367133bae3c3819a2f05fbadf8459c300bc8cf01a2fc9905a2508de47",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CYX",
+   "shape": [
+    3,
+    512,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.05930470267512786,
+    "y": 0.05930470267512786,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "62374e404b51c3863142eb48e9a96981"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e4beac5dd17a3f44945359314ad57dc3"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b439575c5b7d8063fb13dc72fa95823c"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.05930470267512786,
+  "y": 0.05930470267512786,
+  "z": 0.0
+ },
+ "subblock_count": 3,
+ "compression_ids": [
+  0
+ ]
+}

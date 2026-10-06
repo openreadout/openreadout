@@ -156,7 +156,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/biacore_synthetic.rs`](tests/biacore_synthetic.rs), [`tests/octet_synthetic.rs`](tests/octet_synthetic.rs), [`tests/seahorse_synthetic.rs`](tests/seahorse_synthetic.rs), [`tests/zetasizer_synthetic.rs`](tests/zetasizer_synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_biacore`, `whole_bme`, `whole_gpr`, `whole_itc`, `whole_octet`, `whole_seahorse`, `whole_zetasizer`
-- corpus inputs by tier: full 2, heldout 10, smoke 22, standard 27
+- corpus inputs by tier: full 2, heldout 14, smoke 22, standard 27
 - golden snapshots: [`corpus/snapshots/microcal-itc.jsonl`](../../corpus/snapshots/microcal-itc.jsonl), [`corpus/snapshots/cytiva-biacore-blr.jsonl`](../../corpus/snapshots/cytiva-biacore-blr.jsonl), [`corpus/snapshots/cytiva-biacore-bme.jsonl`](../../corpus/snapshots/cytiva-biacore-bme.jsonl), [`corpus/snapshots/agilent-seahorse-asyr.jsonl`](../../corpus/snapshots/agilent-seahorse-asyr.jsonl), [`corpus/snapshots/sartorius-octet-frd.jsonl`](../../corpus/snapshots/sartorius-octet-frd.jsonl), [`corpus/snapshots/malvern-zetasizer-dts.jsonl`](../../corpus/snapshots/malvern-zetasizer-dts.jsonl), [`corpus/snapshots/genepix-gpr.jsonl`](../../corpus/snapshots/genepix-gpr.jsonl)
 
 ### Open new-variant intakes

@@ -1,0 +1,54 @@
+{
+ "id": "ho-zenodo3722793-jdx-malonate",
+ "file": "Cumyl_ethyl_malonate.jdx",
+ "size": 132207,
+ "sha256": "c4bec6d4668ea6c9e7d22bf41d179cc767f7bf414c3f9ae49878b1f6b0f52f22",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "es2486/7-9",
+   "kind": "xydata",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 26214,
+     "channels": [
+      {
+       "xxh3": "e4c9664da53011f145f33f91ae7f7cfa",
+       "first": [
+        -0.0005844889326641957,
+        -0.00054090234966601,
+        -0.0005694837155664597,
+        -0.0006116412302696229,
+        -0.0006845237133157697,
+        -0.00065022607423523,
+        -0.0006545132791202974,
+        -0.0006159284351546903
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 26214,
+   "channel_count": 1,
+   "reader": "nmrglue 0.12 jcampdx.read",
+   "second_opinion": {
+    "reader": "jcamp 1.2.2",
+    "agrees": true
+   }
+  },
+  {
+   "index": 1,
+   "name": "es2486/7-9",
+   "kind": "peak_table",
+   "data_type": "NMR PEAK TABLE"
+  }
+ ],
+ "notes": [
+  "jcamp decoded 1 tables, the block walk found 2"
+ ]
+}

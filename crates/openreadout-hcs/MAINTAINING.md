@@ -113,7 +113,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_hcs_cellvoyager`, `whole_hcs_harmony`, `whole_hcs_imagexpress`
-- corpus inputs by tier: heldout 4, smoke 2, standard 15
+- corpus inputs by tier: heldout 7, smoke 2, standard 15
 - golden snapshots: [`corpus/snapshots/opera-harmony.jsonl`](../../corpus/snapshots/opera-harmony.jsonl), [`corpus/snapshots/imagexpress.jsonl`](../../corpus/snapshots/imagexpress.jsonl), [`corpus/snapshots/cellvoyager.jsonl`](../../corpus/snapshots/cellvoyager.jsonl)
 
 ### Open new-variant intakes
