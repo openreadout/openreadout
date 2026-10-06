@@ -4814,6 +4814,119 @@
       ]
     },
     {
+      "id": "mtbls4722-1",
+      "format": "agilent-masshunter",
+      "source": "metabolights mtbls4722",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MSScan layout 5",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation 6400 triple quadrupole",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "G6410A",
+          []
+        ],
+        [
+          "writer_version",
+          "6400 Series Triple Quadrupole B.08.02 (B8260.0)",
+          []
+        ],
+        [
+          "acquisition",
+          "device TandemQuadrupole",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored centroid",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type 256",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "total ion current",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base peak",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument reading",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "device HiP-ALS",
+          []
+        ],
+        [
+          "record",
+          "device QuatPump",
+          []
+        ],
+        [
+          "record",
+          "device TCC",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        10
+      ]
+    },
+    {
       "id": "mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129",
       "format": "agilent-masshunter",
       "source": "metabolights mtbls7386",
@@ -11676,6 +11789,227 @@
       ]
     },
     {
+      "id": "echem-figshare1228760-bio-logic1",
+      "format": "biologic-mpr",
+      "source": "figshare 1228760 v5",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "mpr data module 0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column mode",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column ox_red",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column error",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column control_changes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column sequence_changes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column counter_increment",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column control",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column ewe",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column dq",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "data module 0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "Galvanostatic Cycling with Potential Limitation",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "echem-figshare1228760-bio-logic4",
+      "format": "biologic-mpr",
+      "source": "figshare 1228760 v5",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "mpr data module 0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column mode",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column ox_red",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column error",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column control_changes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column sequence_changes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column counter_increment",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column control_potential",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column ewe",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column dq",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "data module 0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "technique code 0x05",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
       "id": "echem-galvani-v1150-ca",
       "format": "biologic-mpr",
       "source": "github echemdata/galvani",
@@ -14824,6 +15158,571 @@
       ]
     },
     {
+      "id": "echem-figshare1228760-bio-logic1-mpt",
+      "format": "biologic-mpt",
+      "source": "figshare 1228760 v5",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EC-Lab ASCII",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column mode",
+          []
+        ],
+        [
+          "record",
+          "column ox_red",
+          []
+        ],
+        [
+          "record",
+          "column error",
+          []
+        ],
+        [
+          "record",
+          "column control_changes",
+          []
+        ],
+        [
+          "record",
+          "column sequence_changes",
+          []
+        ],
+        [
+          "record",
+          "column counter_increment",
+          []
+        ],
+        [
+          "record",
+          "column control",
+          []
+        ],
+        [
+          "record",
+          "column ewe",
+          []
+        ],
+        [
+          "record",
+          "column dq",
+          []
+        ],
+        [
+          "record",
+          "column power",
+          []
+        ],
+        [
+          "record",
+          "column current_mean",
+          []
+        ],
+        [
+          "record",
+          "column charge",
+          []
+        ],
+        [
+          "record",
+          "column x",
+          []
+        ],
+        [
+          "dialect",
+          "EC-Lab ASCII FILE",
+          [
+            "metadata",
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "echem-figshare1228760-bio-logic4-mpt",
+      "format": "biologic-mpt",
+      "source": "figshare 1228760 v5",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EC-Lab ASCII",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column mode",
+          []
+        ],
+        [
+          "record",
+          "column ox_red",
+          []
+        ],
+        [
+          "record",
+          "column error",
+          []
+        ],
+        [
+          "record",
+          "column control_changes",
+          []
+        ],
+        [
+          "record",
+          "column sequence_changes",
+          []
+        ],
+        [
+          "record",
+          "column counter_increment",
+          []
+        ],
+        [
+          "record",
+          "column control_potential",
+          []
+        ],
+        [
+          "record",
+          "column ewe",
+          []
+        ],
+        [
+          "record",
+          "column dq",
+          []
+        ],
+        [
+          "record",
+          "column current_mean",
+          []
+        ],
+        [
+          "record",
+          "column charge",
+          []
+        ],
+        [
+          "record",
+          "column x",
+          []
+        ],
+        [
+          "dialect",
+          "EC-Lab ASCII FILE",
+          [
+            "metadata",
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "echem-figshare30080953-ca-mpt",
+      "format": "biologic-mpt",
+      "source": "figshare 30080953 v2",
+      "oracle": "pass",
+      "independent": false,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EC-Lab ASCII (no header)",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column mode",
+          []
+        ],
+        [
+          "record",
+          "column ox_red",
+          []
+        ],
+        [
+          "record",
+          "column error",
+          []
+        ],
+        [
+          "record",
+          "column control_changes",
+          []
+        ],
+        [
+          "record",
+          "column sequence_changes",
+          []
+        ],
+        [
+          "record",
+          "column counter_increment",
+          []
+        ],
+        [
+          "record",
+          "column sequence",
+          []
+        ],
+        [
+          "record",
+          "column control_potential",
+          []
+        ],
+        [
+          "record",
+          "column ewe",
+          []
+        ],
+        [
+          "record",
+          "column current_mean",
+          []
+        ],
+        [
+          "record",
+          "column delta_q_coulomb",
+          []
+        ],
+        [
+          "record",
+          "column charge_coulomb",
+          []
+        ],
+        [
+          "record",
+          "column current_range",
+          []
+        ],
+        [
+          "record",
+          "column charge_half_cycle",
+          []
+        ],
+        [
+          "record",
+          "column half_cycle",
+          []
+        ],
+        [
+          "record",
+          "column energy_we_charge",
+          []
+        ],
+        [
+          "record",
+          "column energy_we_discharge",
+          []
+        ],
+        [
+          "record",
+          "column capacitance_charge",
+          []
+        ],
+        [
+          "record",
+          "column capacitance_discharge",
+          []
+        ],
+        [
+          "record",
+          "column step_time",
+          []
+        ],
+        [
+          "record",
+          "column r_compensation",
+          []
+        ],
+        [
+          "record",
+          "column q_discharge",
+          []
+        ],
+        [
+          "record",
+          "column q_charge",
+          []
+        ],
+        [
+          "record",
+          "column capacity",
+          []
+        ],
+        [
+          "record",
+          "column efficiency",
+          []
+        ],
+        [
+          "record",
+          "column cycle",
+          []
+        ],
+        [
+          "record",
+          "column power",
+          []
+        ],
+        [
+          "record",
+          "column rwe",
+          []
+        ],
+        [
+          "layout",
+          "absolute time column",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "dialect",
+          "headerless",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "echem-figshare30080953-cp-mpt",
+      "format": "biologic-mpt",
+      "source": "figshare 30080953 v2",
+      "oracle": "pass",
+      "independent": false,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EC-Lab ASCII (no header)",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "column mode",
+          []
+        ],
+        [
+          "record",
+          "column ox_red",
+          []
+        ],
+        [
+          "record",
+          "column error",
+          []
+        ],
+        [
+          "record",
+          "column control_changes",
+          []
+        ],
+        [
+          "record",
+          "column sequence_changes",
+          []
+        ],
+        [
+          "record",
+          "column counter_increment",
+          []
+        ],
+        [
+          "record",
+          "column sequence",
+          []
+        ],
+        [
+          "record",
+          "column control_current",
+          []
+        ],
+        [
+          "record",
+          "column ewe_mean",
+          []
+        ],
+        [
+          "record",
+          "column current",
+          []
+        ],
+        [
+          "record",
+          "column delta_q_coulomb",
+          []
+        ],
+        [
+          "record",
+          "column charge_coulomb",
+          []
+        ],
+        [
+          "record",
+          "column half_cycle",
+          []
+        ],
+        [
+          "record",
+          "column charge_half_cycle",
+          []
+        ],
+        [
+          "record",
+          "column current_range",
+          []
+        ],
+        [
+          "record",
+          "column r_compensation",
+          []
+        ],
+        [
+          "record",
+          "column energy_we_charge",
+          []
+        ],
+        [
+          "record",
+          "column energy_we_discharge",
+          []
+        ],
+        [
+          "record",
+          "column capacitance_charge",
+          []
+        ],
+        [
+          "record",
+          "column capacitance_discharge",
+          []
+        ],
+        [
+          "record",
+          "column step_time",
+          []
+        ],
+        [
+          "record",
+          "column q_discharge",
+          []
+        ],
+        [
+          "record",
+          "column q_charge",
+          []
+        ],
+        [
+          "record",
+          "column capacity",
+          []
+        ],
+        [
+          "record",
+          "column efficiency",
+          []
+        ],
+        [
+          "record",
+          "column cycle",
+          []
+        ],
+        [
+          "record",
+          "column power",
+          []
+        ],
+        [
+          "record",
+          "column rwe",
+          []
+        ],
+        [
+          "layout",
+          "absolute time column",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "dialect",
+          "headerless",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
       "id": "echem-galvani-v1150-ca-mpt",
       "format": "biologic-mpt",
       "source": "github echemdata/galvani",
@@ -14850,184 +15749,132 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column counter_increment",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column delta_q_coulomb",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_coulomb",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column step_time",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column efficiency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -15092,191 +15939,137 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column dq",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_we_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_we_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column step_time",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column x",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column efficiency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column rwe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -15334,184 +16127,132 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column counter_increment",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column delta_q_coulomb",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_coulomb",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column step_time",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column efficiency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -15576,191 +16317,137 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column counter_increment",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column dq",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column delta_q",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column step_time",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column efficiency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -15818,191 +16505,137 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column counter_increment",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column delta_q_coulomb",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_coulomb",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ece_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column efficiency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_ece",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -16060,79 +16693,57 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column counter_increment",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_coulomb",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -16190,121 +16801,87 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column counter_increment",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_coulomb",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column r_compensation",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column step_time",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column rwe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -16362,198 +16939,142 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column counter_increment",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column dq",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column step_time",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column efficiency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -16614,212 +17135,152 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column counter_increment",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column dq",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ece",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column x",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column efficiency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_ece",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -16862,436 +17323,312 @@
         [
           "record",
           "column frequency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_imag_neg",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_series",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_parallel",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column thd_ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column nsd_ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column nsr_ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_h2",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_h3",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_h4",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_h5",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_h6",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_h7",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column thd_current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column nsd_current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column nsr_current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_h2",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_h3",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_h4",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_h5",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_h6",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_h7",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_conductivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column tan_delta",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column loss_angle_delta",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column dq",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column rwe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -17349,86 +17686,62 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_coulomb",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ece_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_ece",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -17486,408 +17799,292 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column counter_increment",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column dq",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column frequency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_we",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_imag_neg",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_conductivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column tan_delta",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column loss_angle_delta",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column x",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column efficiency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column rwe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -17945,198 +18142,142 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ox_red",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence_changes",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column counter_increment",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column control_current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column dq",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_abs",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge_half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column half_cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column energy_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column x",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_discharge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column q_charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column efficiency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column r",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -18194,23 +18335,17 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -18268,422 +18403,302 @@
         [
           "record",
           "column frequency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_imag_neg",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_series",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_parallel",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column sequence",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ece_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ece_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zce_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zce_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zce_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zce_imag_neg",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zwece_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zwece_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zwece_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zwece_imag_neg",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_conductivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column tan_delta",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column loss_angle_delta",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column dq",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column x",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column power",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column pce",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column pwe_ce",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_ece",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column rwe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column rce",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column rwe_ce",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -18741,205 +18756,147 @@
         [
           "record",
           "column frequency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_imag_neg",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_series",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_parallel",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ece_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ece_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zce_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zce_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zce_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zce_imag_neg",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zwece_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zwece_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zwece_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column zwece_imag_neg",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column dq",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -18993,37 +18950,27 @@
         [
           "record",
           "column mode",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column error",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column analog_in_1",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column analog_in_2",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -19066,254 +19013,182 @@
         [
           "record",
           "column frequency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_imag_neg",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_c",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_m",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_permittivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_resistivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column conductivity_ms",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_conductivity",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column tan_delta",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column loss_angle_delta",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -19367,23 +19242,17 @@
         [
           "record",
           "column ewe",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ece",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_ece",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -19422,135 +19291,97 @@
         [
           "record",
           "column frequency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_imag_neg",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_mean",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_series",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column capacitance_parallel",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column ewe_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_amplitude",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column charge",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column re_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column im_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column phase_y",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column dq",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "dialect",
@@ -28401,6 +28232,277 @@
       ]
     },
     {
+      "id": "mtbls12332-tft-neg",
+      "format": "bruker-tdf",
+      "source": "metabolights mtbls12332",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDF 3.3",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "tdf",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "TimsCompressionType 2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "DDA-PASEF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "derivation",
+          "spectra[].inverse_reduced_mobility by negative-ion voltage magnitude",
+          []
+        ],
+        [
+          "acquisition",
+          "negative ions with ion mobility",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "timsTOF Pro",
+          []
+        ],
+        [
+          "writer_version",
+          "timsControl 6",
+          []
+        ],
+        [
+          "layout",
+          "MzCalibration model 2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "TimsCalibration model 2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        9
+      ]
+    },
+    {
+      "id": "mtbls13504-balf-neg",
+      "format": "bruker-tdf",
+      "source": "metabolights mtbls13504",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDF 3.7",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "tdf",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "TimsCompressionType 2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "DDA-PASEF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "derivation",
+          "spectra[].inverse_reduced_mobility by negative-ion voltage magnitude",
+          []
+        ],
+        [
+          "acquisition",
+          "negative ions with ion mobility",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "timsTOF Pro",
+          []
+        ],
+        [
+          "writer_version",
+          "timsControl 3",
+          []
+        ],
+        [
+          "layout",
+          "MzCalibration model 1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "TimsCalibration model 2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        9
+      ]
+    },
+    {
+      "id": "mtbls13504-balf-pos",
+      "format": "bruker-tdf",
+      "source": "metabolights mtbls13504",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDF 3.7",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "tdf",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "TimsCompressionType 2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "DDA-PASEF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions with ion mobility",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "timsTOF Pro",
+          []
+        ],
+        [
+          "writer_version",
+          "timsControl 3",
+          []
+        ],
+        [
+          "layout",
+          "MzCalibration model 1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "TimsCalibration model 2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        9
+      ]
+    },
+    {
       "id": "pwiz-bruker-diapasef",
       "format": "bruker-tdf",
       "source": "github:proteowizard/pwiz",
@@ -28445,6 +28547,13 @@
         [
           "acquisition",
           "DIA-PASEF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions with ion mobility",
           [
             "spectra"
           ]
@@ -28539,6 +28648,13 @@
           ]
         ],
         [
+          "acquisition",
+          "positive ions with ion mobility",
+          [
+            "spectra"
+          ]
+        ],
+        [
           "instrument",
           "timsTOF",
           []
@@ -28628,6 +28744,13 @@
           ]
         ],
         [
+          "acquisition",
+          "positive ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
           "instrument",
           "timsTOF fleX MALDI 2",
           []
@@ -28705,6 +28828,13 @@
         [
           "acquisition",
           "other",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions with ion mobility",
           [
             "spectra"
           ]
@@ -28799,6 +28929,13 @@
           ]
         ],
         [
+          "acquisition",
+          "negative ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
           "instrument",
           "timsTOF fleX",
           []
@@ -28867,6 +29004,13 @@
         [
           "acquisition",
           "DIA-PASEF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions with ion mobility",
           [
             "spectra"
           ]
@@ -28976,6 +29120,13 @@
           ]
         ],
         [
+          "acquisition",
+          "positive ions with ion mobility",
+          [
+            "spectra"
+          ]
+        ],
+        [
           "instrument",
           "timsTOF Pro 2",
           []
@@ -29065,6 +29216,13 @@
           ]
         ],
         [
+          "acquisition",
+          "positive ions with ion mobility",
+          [
+            "spectra"
+          ]
+        ],
+        [
           "instrument",
           "timsTOF HT",
           []
@@ -29146,6 +29304,13 @@
           [
             "spectra"
           ]
+        ],
+        [
+          "acquisition",
+          "positive ions with ion mobility",
+          [
+            "spectra"
+          ]
         ]
       ],
       "inferred": [
@@ -29192,6 +29357,13 @@
         [
           "acquisition",
           "DIA-PASEF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions with ion mobility",
           [
             "spectra"
           ]
@@ -51541,51 +51713,37 @@
         [
           "record",
           "column point",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential_uncompensated",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column signal",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column aux_channel",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
@@ -51637,100 +51795,72 @@
         [
           "record",
           "column point",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential_measured",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column aux_channel",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column temperature",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column frequency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_imag",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_signal",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_dc",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential_dc",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
@@ -51781,114 +51911,82 @@
         [
           "record",
           "column point",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential_measured",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column aux_channel",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column temperature",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column frequency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_imag",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_signal",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_dc",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential_dc",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column v",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column i",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
@@ -51954,65 +52052,47 @@
         [
           "record",
           "column point",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential_measured",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column aux_channel",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column temperature",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential_uncompensated",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column signal",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
@@ -52071,100 +52151,72 @@
         [
           "record",
           "column point",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential_measured",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column aux_channel",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column temperature",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column frequency",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_real",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_imag",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_signal",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_modulus",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column z_phase",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_dc",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential_dc",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
@@ -52223,65 +52275,47 @@
         [
           "record",
           "column point",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column potential_uncompensated",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column signal",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column aux_channel",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column current_range",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column cycle",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
           "column temperature",
-          [
-            "traces"
-          ]
+          []
         ],
         [
           "record",
@@ -58505,7 +58539,7 @@
     {
       "id": "bsst749-2a-ishi-hf-fshr-dmso",
       "format": "lif",
-      "source": "embl-ebi biostudies s-bsst749",
+      "source": "biostudies:S-BSST749",
       "oracle": "pass",
       "independent": true,
       "compared": [
@@ -58556,7 +58590,7 @@
     {
       "id": "bsst749-2a-ishi-hf-fshr-dmso-fsh-5",
       "format": "lif",
-      "source": "embl-ebi biostudies s-bsst749",
+      "source": "biostudies:S-BSST749",
       "oracle": "pass",
       "independent": true,
       "compared": [
@@ -58607,7 +58641,7 @@
     {
       "id": "bsst749-2a-ishi-hf-fshr-dyngo",
       "format": "lif",
-      "source": "embl-ebi biostudies s-bsst749",
+      "source": "biostudies:S-BSST749",
       "oracle": "pass",
       "independent": true,
       "compared": [
@@ -58658,7 +58692,7 @@
     {
       "id": "bsst749-2a-ishi-hf-fshr-dyngo-fsh-5",
       "format": "lif",
-      "source": "embl-ebi biostudies s-bsst749",
+      "source": "biostudies:S-BSST749",
       "oracle": "pass",
       "independent": true,
       "compared": [
@@ -58709,7 +58743,7 @@
     {
       "id": "bsst749-4i-bodipy-ctl",
       "format": "lif",
-      "source": "embl-ebi biostudies s-bsst749",
+      "source": "biostudies:S-BSST749",
       "oracle": "pass",
       "independent": true,
       "compared": [
@@ -58760,7 +58794,7 @@
     {
       "id": "bsst749-4ii-bodipy-ctl",
       "format": "lif",
-      "source": "embl-ebi biostudies s-bsst749",
+      "source": "biostudies:S-BSST749",
       "oracle": "pass",
       "independent": true,
       "compared": [
@@ -64347,6 +64381,99 @@
         [
           "record",
           "selected reaction monitoring chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        9
+      ]
+    },
+    {
+      "id": "mtbls4722-1",
+      "format": "mzml",
+      "source": "metabolights:MTBLS4722",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassHunter Data Acquisition",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "total ion current chromatogram",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "selected reaction monitoring chromatogram",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Agilent instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "selected reaction monitoring chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "flow rate chromatogram",
           [
             "traces"
           ]
@@ -82752,6 +82879,53 @@
       ]
     },
     {
+      "id": "pesp-figshare32604129-zb-uvvis",
+      "format": "perkinelmer-sp",
+      "source": "figshare 32604129 'data set supporting the study'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "layout",
+          "2D constant interval DataSet file",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Lambda 950",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        7
+      ]
+    },
+    {
       "id": "pesp-orange-single",
       "format": "perkinelmer-sp",
       "source": "github:quasars/orange-spectroscopy",
@@ -83666,6 +83840,83 @@
       ]
     },
     {
+      "id": "bmg-table-bostock-calcein-kinetic",
+      "format": "plate",
+      "source": "github:jonathanbostock/phd-thesis",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "tables[].extra.reads[].mode"
+      ],
+      "assumed": [
+        "tables[].extra.acquired_at"
+      ],
+      "features": [
+        [
+          "dialect",
+          "bmg-mars",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "MARS",
+          []
+        ],
+        [
+          "acquisition",
+          "kinetic read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "fluorescence",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "CLARIOstar",
+          []
+        ],
+        [
+          "layout",
+          "container text (comma)",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
       "id": "bmg-table-kelp-pigments-absspectrum",
       "format": "plate",
       "source": "github:lukaseamus/kelps-vs-urchins",
@@ -83727,6 +83978,70 @@
         [
           "field",
           "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "bmg-table-rpazuki-od600-kinetic",
+      "format": "plate",
+      "source": "github:rpazuki/lab_utils",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "tables[].extra.reads[].mode"
+      ],
+      "features": [
+        [
+          "dialect",
+          "bmg-mars",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "MARS",
+          []
+        ],
+        [
+          "acquisition",
+          "kinetic read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "absorbance",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "container text (comma)",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
           []
         ],
         [
