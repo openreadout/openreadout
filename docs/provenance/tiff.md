@@ -258,3 +258,9 @@ linear data, value × `MDScalePixel`.
 and `MDFileUnits` `Counts`; `MDSampleInfo` is `key=value` lines (serial number, date and time,
 laser, filter, PMT voltage, pixel size, scan mode, scanner software).
 **Oracle:** tifffile's `mdgel` series (every pixel, float32).
+
+## 2026-10-06 — 12-bit JPEG pages (compression 7, BitsPerSample 12)
+
+**Why.** 12-bit JPEG pages exited 6 (`jpeg-decoder` stops at 8-bit DCT samples). Scientific cameras and some slide scanners write them.
+**Prior art consulted:** ITU-T T.81 (sequential DCT, Huffman coding; public), ITU-T T.871 (JFIF colour conversion); tifffile 2026.9.20 and imagecodecs 2026.8.16 (BSD-3-Clause) as the oracle, run as black boxes: tifffile returns such pages as uint16.
+**Rule implemented:** a page with compression 7, BitsPerSample 12 and unsigned samples is read as uint16; each chunk is decoded by the 12-bit decoder of `openreadout-codecs` (the same JPEG colour rules as 8-bit pages). Progressive, arithmetic-coded or chroma-subsampled 12-bit chunks exit 6.
