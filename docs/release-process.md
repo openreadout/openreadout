@@ -177,6 +177,8 @@ You need the Apple Developer Program (team `RHCS4LNWL7`) and the Account Holder 
    ```
 8. **Dry run.** *Actions > Release > Run workflow* on `main`. The macOS build jobs log the signature and `notarized: target/…/openreadout`. Download an archive from the `release-dry-run` artifact and check it with `codesign -dv --verbose=2 openreadout` and `spctl -a -vv -t open --context context:primary-signature openreadout`.
 
+If Apple hasn't finished notarizing after 45 minutes, the step logs a notice with the submission id and the release goes on. The binary is signed either way, and Gatekeeper finds the ticket online once Apple accepts it. Apple can take hours over a team's first submissions; check one with `xcrun notarytool info <id>` and the same key. A rejected submission fails the step.
+
 The workflow passes `APPLE_TEAM_ID=RHCS4LNWL7`, so a certificate from another team fails the step. Set all five secrets or none: with only some of them, the step fails rather than shipping an unnotarized binary. The certificate is valid for five years, and binaries signed before it expires stay valid because of the secure timestamp. To replace the certificate or the key, repeat the steps above and set the secrets again.
 
 ### Windows: Azure Artifact Signing
