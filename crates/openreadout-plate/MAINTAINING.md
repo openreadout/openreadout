@@ -25,7 +25,7 @@ Microplate-reader exports (`plate`): the text, CSV and workbook files plate-read
 
 - **Sniffing order**: the generic matrix fallback accepts almost any spreadsheet with a plate grid; a new vendor layout may be read as `generic` with an unknown detection mode rather than refused — the assurance `dialect` feature (`generic`) makes that visible.
 - Detection modes come from read names and titles (Gen5 `.xpt`: `450`, `Lum`, `485,530`); unrecognised names are `unknown`.
-- SoftMax Pro binary: kinetic, spectrum and well-scan sections of 6/7 documents, several wavelengths and cuvette sets are refused.
+- SoftMax Pro binary: kinetic, spectrum and well-scan sections of 6/7 documents, several reads, settings without a `WavelengthList` and cuvette sets are refused. Several wavelengths of one endpoint read are decoded (validated on dual-wavelength ELISA documents, 2026-10-06).
 - Decimal commas, day/month order and Excel serial dates are inferred per file (assurance `assumed` records it).
 
 <!-- BEGIN GENERATED guide -->

@@ -361,6 +361,26 @@ def plate_export(binary: Path, export: Path) -> dict:
         tmp.write_bytes(raw.replace(b"\r", b"\n"))
         src = tmp
         note = "; bare-CR line ends given to allotropy as LF"
+    if export.suffix.lower() == ".xlsx" and vendor == "MOLDEV_SOFTMAX_PRO":
+        # a workbook whose first sheet holds SoftMax Pro's text export: its cells written out
+        # as tab-separated text (numbers as Python prints them, booleans as SoftMax writes them)
+        import openpyxl
+        ws = openpyxl.load_workbook(export, read_only=True, data_only=True).worksheets[0]
+
+        def cell(v):
+            if v is None:
+                return ""
+            if isinstance(v, bool):
+                return "TRUE" if v else "FALSE"
+            if isinstance(v, float) and v.is_integer():
+                return str(int(v))
+            return str(v)
+
+        lines = ["\t".join(cell(v) for v in row).rstrip("\t") for row in ws.iter_rows(values_only=True)]
+        tmp = Path(tempfile.mkdtemp()) / (export.stem + ".txt")
+        tmp.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        note = "; its first sheet written out as tab-separated text"
+        src = tmp
     import allotropy
     version = getattr(allotropy, "__version__", None)
     if version is None:
@@ -376,9 +396,9 @@ def plate_export(binary: Path, export: Path) -> dict:
                 "plate": summary}
     if vendor != "MOLDEV_SOFTMAX_PRO":
         raise RuntimeError(f"allotropy could not read {export.name}: {failed}")
-    return {"reader": f"oracle/plate.py softmax_text_summary on the depositor's export {export.name} "
+    return {"reader": f"oracle/plate.py softmax_text_summary on the depositor's export {export.name}{note} "
                       f"(independent reader of the text; allotropy {version} failed: {failed})",
-            "plate": softmax_text_summary(export)}
+            "plate": softmax_text_summary(src)}
 
 
 def softmax_text_summary(path: Path) -> dict:

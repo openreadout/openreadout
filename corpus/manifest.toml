@@ -31463,6 +31463,69 @@ source = "Zenodo record 3980703 'Identification of immunodominant linear epitope
 attribution = "Farrera-Soler, Lluc; Daguer, Jean-Pierre; Barluenga, Sofia; Vadas, Oscar et al."
 notes = "SoftMax Pro 6/7 binary document, SpectraMax M5: 10 endpoint absorbance plates at 605 nm (names 10min ... redo3), group sections Standards/Unknowns/Unk_Dilution/Control and a standard-curve graph; no text export deposited"
 
+# SoftMax Pro 6/7 documents with two wavelengths and the depositors' exports (added 2026-10-06;
+# docs/provenance/plate-readers.md). Each export is an .xlsx whose first sheet holds SoftMax Pro's
+# text export.
+[[file]]
+id = "softmax7-elisa2wl-ha-0513"
+format = "plate"
+role = "input"
+tier = "standard"
+filename = "softmax7-elisa2wl-ha-0513.sda"
+url = "https://ndownloader.figshare.com/files/59068745"
+sha256 = "55f2e31ab6dc08297639fdf1b6579ef6b2b4ce98403c224e7e58449a7fc43697"
+md5 = "1f60eb3a629656a1b44b4224d38e9599"
+license = "CC-BY-4.0"
+license_checked = "Figshare API, article 30449435 (license CC BY 4.0), 2026-10-06"
+source = "Figshare 30449435 (doi:10.6084/m9.figshare.30449435.v1) 'Data sets for conditioned media and flow cytometry for menMSC comparison with BMSCs', 5.13.22_HA_D0+D24.sda"
+attribution = "Char Panek, Aimee C. Colbath"
+notes = "SoftMax Pro 6/7 document (.sda): one plate, absorbance endpoint at 450 and 570 nm (an ELISA read with a correction wavelength), 96 wells"
+
+[[file]]
+id = "softmax7-elisa2wl-ha-0513-xlsx"
+format = "plate"
+role = "oracle-export"
+tier = "standard"
+filename = "softmax7-elisa2wl-ha-0513.xlsx"
+url = "https://ndownloader.figshare.com/files/59068712"
+sha256 = "b0afe54c1aeeeeb6a8f8ad0f4c570bae633dd3d008d922dd97e9e8b01d76365c"
+md5 = "ca1570f38494662e81f1a4e3842d57a2"
+license = "CC-BY-4.0"
+license_checked = "Figshare API, article 30449435 (license CC BY 4.0), 2026-10-06"
+source = "Figshare 30449435, 5.13.22_HA_D0+D24.xlsx"
+attribution = "Char Panek, Aimee C. Colbath"
+notes = "the depositors' workbook of softmax7-elisa2wl-ha-0513: the first sheet is SoftMax Pro's text export (##BLOCKS=, Plate: line with 2 wavelengths 450 570, PlateFormat matrices), later sheets their own calculations"
+
+[[file]]
+id = "softmax7-elisa2wl-ha-0630"
+format = "plate"
+role = "input"
+tier = "standard"
+filename = "softmax7-elisa2wl-ha-0630.sda"
+url = "https://ndownloader.figshare.com/files/59068751"
+sha256 = "e4976379270682c6312c9f181a9de112981dad03fb99c8da1946044c79af29d8"
+md5 = "5a3259a68aff90f6e763b86d4d756524"
+license = "CC-BY-4.0"
+license_checked = "Figshare API, article 30449435 (license CC BY 4.0), 2026-10-06"
+source = "Figshare 30449435 (doi:10.6084/m9.figshare.30449435.v1), 6.30.22_HA_D24+D48-dilutions2.sda"
+attribution = "Char Panek, Aimee C. Colbath"
+notes = "SoftMax Pro 6/7 document (.sda): one plate, absorbance endpoint at 450 and 570 nm; the export covers columns 1-10"
+
+[[file]]
+id = "softmax7-elisa2wl-ha-0630-xlsx"
+format = "plate"
+role = "oracle-export"
+tier = "standard"
+filename = "softmax7-elisa2wl-ha-0630.xlsx"
+url = "https://ndownloader.figshare.com/files/59068730"
+sha256 = "48c13094841021b488a482d918786ead5f1d97e3bd6b14b8e483bb14bfa4f861"
+md5 = "2f1516808e9555d3feae4248b3426a68"
+license = "CC-BY-4.0"
+license_checked = "Figshare API, article 30449435 (license CC BY 4.0), 2026-10-06"
+source = "Figshare 30449435, 6.30.22_HA_D24+D48-dilutions2.xlsx"
+attribution = "Char Panek, Aimee C. Colbath"
+notes = "the depositors' workbook of softmax7-elisa2wl-ha-0630, SoftMax Pro's text export in the first sheet"
+
 [[file]]
 id = "gen5xpt-cytation5-elisa-ifng"
 format = "plate"

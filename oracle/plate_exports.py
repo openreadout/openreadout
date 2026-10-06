@@ -8,12 +8,15 @@ written to corpus/oracle/plate-binary/<id>.json as
 `tests/plate_binary.rs` checks that the binary decode holds every one of these values (within
 the export's rounding) under the same well, read and time.
 
-Usage: plate_exports.py ID KIND EXPORT [SHEET]
+Usage: plate_exports.py ID KIND EXPORT [SHEET | DOCUMENT]
   KIND gen5-xlsx: Gen5's Excel export (header lines, `Results`, matrices with row letters in
                   column B, column numbers from C, the read label after the last column).
   KIND kinetic-sheet: a sheet whose header row starts with `Time` followed by well names, one
                   row per read time (h:mm:ss); the read label is given as the 4th argument
                   (`sheet:label`).
+  KIND softmax-xlsx: SoftMax Pro's text export in the first sheet of a workbook (PlateFormat
+                  endpoint blocks, one column group per wavelength); the 4th argument names the
+                  .sda/.pda document it was exported from.
 """
 import datetime as dt
 import json
@@ -97,10 +100,61 @@ def kinetic_sheet(path: Path, sheet: str, label: str) -> dict:
     return {"kind": "kinetic-sheet", "header": {}, "values": values}
 
 
+def softmax_xlsx(path: Path) -> dict:
+    """SoftMax Pro's text export held in the first sheet of a workbook: each `Plate:` line (name in
+    the second cell, PlateFormat endpoint data, the wavelength list in the 16th cell), then a
+    header row of column numbers (one group per wavelength, groups separated by an empty cell)
+    and one row per plate row with the temperature in the second cell. Values are
+    [plate/well, wavelength, null, value]."""
+    ws = openpyxl.load_workbook(path, read_only=True, data_only=True).worksheets[0]
+    rows = [list(r) for r in ws.iter_rows(values_only=True)]
+    values = []
+    plates = []
+    i = 0
+    while i < len(rows):
+        r = rows[i]
+        if not r or r[0] != "Plate:":
+            i += 1
+            continue
+        name, fmt, read_type = cell_text(r[1]), cell_text(r[3]), cell_text(r[4])
+        if fmt != "PlateFormat" or read_type != "Endpoint":
+            sys.exit(f"{path.name}: {name} is {fmt} {read_type}, not a PlateFormat endpoint block")
+        wls = cell_text(r[15]).split()
+        plates.append({"plate": name, "wavelengths": wls})
+        head = rows[i + 1]
+        # column-number groups: runs of 1, 2, 3, ... after the temperature column
+        groups, cur = [], []
+        for c, v in enumerate(head):
+            if isinstance(v, (int, float)) and c >= 2:
+                cur.append((c, int(v)))
+            elif cur:
+                groups.append(cur)
+                cur = []
+        if cur:
+            groups.append(cur)
+        if len(groups) != len(wls):
+            sys.exit(f"{path.name}: {name}: {len(groups)} column groups for {len(wls)} wavelengths")
+        j = i + 2
+        row = 0
+        while j < len(rows) and rows[j] and any(v not in (None, "") for v in rows[j]) and rows[j][0] != "~End":
+            for wl, group in zip(wls, groups):
+                for c, col in group:
+                    v = rows[j][c] if c < len(rows[j]) else None
+                    if isinstance(v, (int, float)):
+                        values.append([f"{name}/{chr(65 + row)}{col}", wl, None, float(v)])
+            row += 1
+            j += 1
+        i = j
+    return {"kind": "softmax-xlsx", "header": {"plates": plates}, "values": values}
+
+
 def main():
     fid, kind, export = sys.argv[1], sys.argv[2], Path(sys.argv[3])
     if kind == "gen5-xlsx":
         data = gen5_xlsx(export)
+    elif kind == "softmax-xlsx":
+        data = softmax_xlsx(export)
+        data["document"] = sys.argv[4]
     elif kind == "kinetic-sheet":
         sheet, label = sys.argv[4].split(":", 1)
         data = kinetic_sheet(export, sheet, label)

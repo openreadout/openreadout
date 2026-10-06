@@ -264,6 +264,9 @@ fn gen5_experiments_match_their_exports() {
         let p = entry.unwrap().path();
         let o: serde_json::Value =
             serde_json::from_str(&std::fs::read_to_string(&p).unwrap()).unwrap();
+        if o["kind"] == "softmax-xlsx" {
+            continue; // softmax_documents_match_their_workbook_exports
+        }
         let id = o["id"].as_str().unwrap();
         let doc = corpus_dir().join(format!("{id}.xpt"));
         if !doc.exists() {
@@ -336,6 +339,67 @@ fn gen5_experiments_match_their_exports() {
         compared += n;
     }
     eprintln!("{compared} Gen5 export values compared");
+}
+
+/// SoftMax Pro 6/7 documents with two wavelengths against the depositors' workbooks, whose first
+/// sheet is SoftMax Pro's text export (oracle/plate_exports.py `softmax-xlsx`): every exported
+/// value is the decoded value of the same plate, well and wavelength, exactly (the export prints
+/// what the document stores).
+#[test]
+fn softmax_documents_match_their_workbook_exports() {
+    let dir = root().join("corpus/oracle/plate-binary");
+    let mut compared = 0;
+    for entry in std::fs::read_dir(&dir).unwrap() {
+        let p = entry.unwrap().path();
+        let o: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(&p).unwrap()).unwrap();
+        if o["kind"] != "softmax-xlsx" {
+            continue;
+        }
+        let doc = corpus_dir().join(o["document"].as_str().unwrap());
+        if !doc.exists() {
+            eprintln!("skip {}: missing", doc.display());
+            continue;
+        }
+        // (plate/well, wavelength) -> decoded value
+        let mut ours: BTreeMap<(String, String), f64> = BTreeMap::new();
+        let mut ds = openreadout_plate::PlateReader.open(&doc).unwrap();
+        let info = ds.info().unwrap();
+        for t in &info.tables {
+            let reads = t.extra["reads"].as_array().unwrap().clone();
+            let tab = ds.read_table(t.index, 0, t.row_count).unwrap();
+            for i in 0..tab.columns[0].len() {
+                let v = tab.columns[6][i];
+                if !v.is_finite() {
+                    continue;
+                }
+                let row = tab.columns[1][i] as u8 - 1;
+                let well = format!("{}{}", char::from(b'A' + row), tab.columns[2][i]);
+                let wl = reads[tab.columns[3][i] as usize - 1]["wavelength_nm"]
+                    .as_f64()
+                    .unwrap();
+                let plate = t.name.clone().unwrap_or_default();
+                ours.insert((format!("{plate}/{well}"), format!("{wl}")), v);
+            }
+        }
+        let mut n = 0;
+        for v in o["values"].as_array().unwrap() {
+            let key = (
+                v[0].as_str().unwrap().to_string(),
+                v[1].as_str().unwrap().to_string(),
+            );
+            let want = v[3].as_f64().unwrap();
+            let got = ours
+                .get(&key)
+                .unwrap_or_else(|| panic!("{}: {key:?} not decoded", p.display()));
+            assert_eq!(*got, want, "{}: {key:?}", p.display());
+            n += 1;
+        }
+        let id = o["id"].as_str().unwrap();
+        eprintln!("{id}: {n} exported values equal the decoded ones");
+        compared += n;
+    }
+    eprintln!("{compared} SoftMax Pro workbook export values compared");
 }
 
 #[test]
