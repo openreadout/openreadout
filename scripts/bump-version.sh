@@ -65,8 +65,8 @@ perl -pi -e '
   s/"openreadout(\[[^\]]*\])?>=[^",]+,<[^"]+"/"openreadout$1>=$ENV{NEW},<$ENV{NEXT}"/;
 ' python/bioio-openreadout/pyproject.toml python/napari-openreadout/pyproject.toml
 
-# CITATION.cff: the version field.
-perl -pi -e 's/^version: "\Q$ENV{OLD}\E"/version: "$ENV{NEW}"/' CITATION.cff
+# CITATION.cff: the version and release date. Zenodo (.zenodo.json) takes both from the GitHub release.
+TODAY="$(date -u +%Y-%m-%d)" perl -pi -e 's/^version: "\Q$ENV{OLD}\E"/version: "$ENV{NEW}"/; s/^date-released: .*/date-released: "$ENV{TODAY}"/' CITATION.cff
 
 # THIRD-PARTY-NOTICES.md lists our own crates with their version.
 perl -pi -e 's/\[(openreadout-[a-z0-9-]+) \Q$ENV{OLD}\E\]/[$1 $ENV{NEW}]/g' THIRD-PARTY-NOTICES.md

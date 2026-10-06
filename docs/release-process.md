@@ -105,6 +105,18 @@ The release workflow's `agent-plugins` job runs on a tag, after the GitHub relea
 - **Glama**: lists public MCP servers from GitHub. To claim the listing for the organization, add a `glama.json` at the root with `{"maintainers": ["<GitHub user>"]}`, then use *Claim* on the server page.
 - **cursor.directory**: submit at [cursor.directory/plugins/new](https://cursor.directory/plugins/new) with the `openreadout mcp` command.
 
+## Citation and DOI (Zenodo)
+
+`CITATION.cff` drives GitHub's *Cite this repository* button, and `.zenodo.json` describes the record that Zenodo archives for each GitHub release. When both exist Zenodo reads only `.zenodo.json`, so keep the title, description, creators and keywords of the two files the same. `.zenodo.json` has no version or date: Zenodo takes both from the release. `scripts/bump-version.sh` sets `version` and `date-released` in `CITATION.cff`.
+
+To switch it on (once):
+
+1. Sign in at [zenodo.org](https://zenodo.org) with your GitHub account.
+2. Let Zenodo see the organization. On GitHub, open *Settings > Applications > Authorized OAuth Apps > Zenodo* and, under *Organization access*, click *Grant* next to `openreadout` (an organization owner has to approve it).
+3. At [zenodo.org/account/settings/github](https://zenodo.org/account/settings/github/), click *Sync now* and turn on `openreadout/openreadout`.
+4. Zenodo archives only releases published after this, so the first DOI comes with the next release. Check the new record on Zenodo after the release job finishes. If the metadata is wrong, fix `.zenodo.json` and edit that record by hand.
+5. Zenodo gives each release its own DOI, plus a concept DOI that always resolves to the latest version. Add the concept DOI to the README as a badge and to `CITATION.cff` as `doi: 10.5281/zenodo.<id>`.
+
 ## Signing and notarization
 
 The `build` job signs the macOS and Windows binaries right after `cargo build`, before it packages them, so the archive, the `.mcpb` bundle and the npm platform package all carry the signed copy, and the Homebrew, Scoop and winget checksums cover it. Each platform is switched on by its secrets. Without them the step prints a notice or is skipped, and the binaries keep only the ad-hoc signature the macOS linker adds, which is enough for Apple silicon to run them. v0.1.0 was released that way.
