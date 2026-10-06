@@ -54199,3 +54199,612 @@ license_checked = "https://rdr.ucl.ac.uk/articles/dataset/FTIR_Data_Mars_Sublima
 source = "Figshare 30060709 'FTIR Data Mars Sublimation Experiments' (UCL Research Data Repository, doi:10.5522/04/30060709.v1)"
 attribution = "Louisa Preston (UCL)"
 notes = "SPC infrared spectrum of a gypsum sample from a portable FTIR whose software also wrote the record's .a2r files, 2024-01-30. A small field-instrument SPC absent from development. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: SpectroChemPy / spc-io."
+
+[[file]]
+id = "ho-zenodo5794197-heka-locus"
+format = "heka-patchmaster"
+family = "electrophysiology"
+role = "heldout"
+tier = "heldout"
+draw = "2026-10-06d"
+filename = "heldout/ho-zenodo5794197-heka-locus/171128s2continuousCNO.dat"
+url = "https://zenodo.org/api/records/5794197/files/171128s2continuousCNO.dat/content"
+sha256 = "b9d648d75783ad255de03270c96641a7ccf8f0bab04f96c71da9c03cb02ede42"
+size = 216201780
+md5 = "b2d8d67e60ab61c52239a1feb877ca6f"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/5794197 (cc-by-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo 5794197 'Raw recordings for electrophysiological characterization of CNO-DREADD mediated responses in noradrenergic locus coeruleus neurons'"
+attribution = "Xiaolong Jiang, Andrew McKinney (Baylor College of Medicine)"
+notes = "HEKA PatchMaster bundle (DAT2, PatchMaster v2x90.5) from 2017: continuous whole-cell recordings of locus coeruleus neurons with two Quadro EPC 10 amplifiers (up to 8 cells at once). The smallest file of the record (216 MB). A multi-amplifier setup and a lab absent from development. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: load-heka-python (MIT)."
+
+[[file]]
+id = "ho-zenodo14095495-opus-ice"
+format = "bruker-opus"
+family = "spectroscopy"
+role = "heldout"
+tier = "heldout"
+draw = "2026-10-06d"
+filename = "heldout/ho-zenodo14095495-opus-ice/04_20240325_MIR_CH3OH_CH3NH2_after_dep2.0"
+url = "https://zenodo.org/api/records/14095495/files/04_20240325_MIR_CH3OH_CH3NH2_after_dep2.0/content"
+sha256 = "c6ba8de5306aa247dd8cd2062fa64f2f7cb3b46abba8ba94172f84d613bf0e95"
+size = 20656
+md5 = "ee9ae547ae27e1da683f6da514bf18e0"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/14095495 (cc-by-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo 14095495 'Supporting Information for Cosmic-Ray-Induced Chemical Processes in CH3OH, CH3NH2, and CH3OH:CH3NH2 Ices'"
+attribution = "Barbara Keresztes, Sándor Góbi, Anita Schneiker, Gábor Bazsó, György Tarczay"
+notes = "OPUS file from a Bruker INVENIO-R (an instrument absent from development) with an external LN-MCT detector: one mid-infrared absorbance block (AB, 3526 points, 4000-600 cm-1) of a CH3OH:CH3NH2 ice at cryogenic temperature after deposition, 2024-03-25. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: brukeropus."
+
+[[file]]
+id = "ho-zenodo17238934-opus-dom"
+format = "bruker-opus"
+family = "spectroscopy"
+role = "heldout"
+tier = "heldout"
+draw = "2026-10-06d"
+filename = "heldout/ho-zenodo17238934-opus-dom/FTIR_Wheat.0"
+url = "https://zenodo.org/api/records/17238934/files/FTIR_Wheat.0/content"
+sha256 = "3c2222e3ab87f6ee095a02a0dcb620f06acf3f783aa0fd90dbad58503b2a5066"
+size = 101264
+md5 = "470045f0e41445aa2a09272e7c41d227"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/17238934 (cc-by-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo 17238934 'Dataset for \"Insights into the Complex Nature of Dissolved Organic Matter from Plant Residues Using Multiple Spectroscopic Techniques\"'"
+attribution = "Zongtang Yang, Biswaranjan Mohanty, Feike Dijkstra, Georg Guggenberger, Balwant Singh (University of Sydney)"
+notes = "OPUS file from a Bruker VERTEX 80V (KBr pellet, RT-DLaTGS detector, 256 scans): reference single channel (ScRf), absorbance (AB) and sample single channel (ScSm) blocks of dissolved organic matter from wheat residue, 2025. A soil-science lab absent from development. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: brukeropus."
+
+[[file]]
+id = "ho-figshare21354474-sp-uvvis"
+format = "perkinelmer-sp"
+family = "spectroscopy"
+role = "heldout"
+tier = "heldout"
+draw = "2026-10-06d"
+filename = "heldout/ho-figshare21354474-sp-uvvis/8.Sample.Raw.sp"
+url = "https://ndownloader.figshare.com/files/37903314"
+sha256 = "65afd26179d957983b1bf80950bac9f3f13f26b3e5a9495472d2f3d7f8ee2e9c"
+size = 7877
+md5 = "8ac31834708b961695cd2d11c8481846"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.manchester.ac.uk/articles/dataset/UV-Visible_Spectroscopy_for_concentration_calculation_I/21354474 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 21354474 'UV-Visible Spectroscopy for concentration calculation I' (University of Manchester, doi:10.48420/21354474.v1)"
+attribution = "James Bird (University of Manchester)"
+notes = "PerkinElmer .sp UV-Vis absorbance spectrum (1000 nm downwards in 1 nm steps), 2022, with the depositor's CSV export of the same spectrum (ho-figshare21354474-sp-uvvis, role oracle-export). The development .sp files are all infrared; this is the first UV-Vis one. The sibling record 21334872 ('... calculation', same depositor) is not used. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: specio; the depositor's CSV export."
+
+[[file]]
+id = "ho-figshare21354474-sp-uvvis"
+format = "csv"
+family = "spectroscopy"
+role = "oracle-export"
+tier = "heldout"
+filename = "heldout/ho-figshare21354474-sp-uvvis/8.Sample.Raw.csv"
+url = "https://ndownloader.figshare.com/files/37903272"
+sha256 = "fcc99f7a865babe0fb98eeb94eb8f63d0840307bef291c5e6928db03fe9360a8"
+size = 17630
+md5 = "26d03222dfb6c9607b9cd3d784495e92"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.manchester.ac.uk/articles/dataset/UV-Visible_Spectroscopy_for_concentration_calculation_I/21354474 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 21354474 'UV-Visible Spectroscopy for concentration calculation I' (University of Manchester, doi:10.48420/21354474.v1)"
+attribution = "James Bird (University of Manchester)"
+notes = "The depositor's CSV export (nm, A) of 8.Sample.Raw.sp."
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq"
+format = "open-ephys"
+family = "electrophysiology"
+role = "heldout"
+tier = "heldout"
+draw = "2026-10-06d"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08"
+url = ""
+license = "MIT"
+license_checked = "https://github.com/brain-bremen/oecon (MIT, GitHub API), 2026-10-06"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+attribution = "brain-bremen (University of Bremen), oecon test data"
+notes = "Open Ephys binary recording from GUI 1.0.2 (2026-03-12): one Record Node with an NI-DAQmx USB-6343 stream of 2 analog channels at 30 kHz (sample_numbers.npy), TTL events from the DAQ and a Network Events source, and MessageCenter text events. An NI-DAQ source and GUI 1.0 are absent from development (neo test data, Zenodo 8343581 and 20726062). The repository's .dh5 conversion of the same recording was not taken. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: neo OpenEphysBinaryRawIO."
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm"
+format = "open-ephys"
+family = "electrophysiology"
+role = "heldout"
+tier = "heldout"
+draw = "2026-10-06d"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data"
+url = ""
+license = "MIT"
+license_checked = "https://github.com/ELGarulli/neurokin (MIT, GitHub API), 2026-10-06"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+attribution = "Elisa L. Garulli et al., neurokin test data"
+notes = "Open Ephys binary recording from GUI 0.5.4: one Record Node with a Rhythm FPGA (Intan acquisition board) stream of 40 channels at 30 kHz (about 10.6 s), timestamps and synchronized_timestamps, TTL and message events. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: neo OpenEphysBinaryRawIO."
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-1-recording1-continuous-ni-daqmx-110-usb-6343-continuous-dat"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/continuous/NI-DAQmx-110.USB-6343/continuous.dat"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/continuous/NI-DAQmx-110.USB-6343/continuous.dat"
+sha256 = "82bb04c2b24a06a1f617b225e63da8987ce4fbfe3f36d912ad8bce8093578f93"
+size = 7096800
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-cording1-continuous-ni-daqmx-110-usb-6343-sample-numbers-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/continuous/NI-DAQmx-110.USB-6343/sample_numbers.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/continuous/NI-DAQmx-110.USB-6343/sample_numbers.npy"
+sha256 = "9a7ab748ded924a15092621d01d67077fc4e2146c95f3f6c7eaec806278cf5f2"
+size = 14193728
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-1-recording1-continuous-ni-daqmx-110-usb-6343-timestamps-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/continuous/NI-DAQmx-110.USB-6343/timestamps.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/continuous/NI-DAQmx-110.USB-6343/timestamps.npy"
+sha256 = "f9b9b88d8295e1d4d0fc025a54cd285951b9f3c9043ff678218023cd0a04ef0c"
+size = 14193728
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-periment1-recording1-events-messagecenter-sample-numbers-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/events/MessageCenter/sample_numbers.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/events/MessageCenter/sample_numbers.npy"
+sha256 = "e1ac3640e4db2fac424718c9e417eb8d633234d18196dd7e36cb4a9958325cbf"
+size = 440
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-ode-101-experiment1-recording1-events-messagecenter-text-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/events/MessageCenter/text.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/events/MessageCenter/text.npy"
+sha256 = "6f3aae7f4a9e01461f79af5013d037ae01828988252c0d552d0eabb09e3babfa"
+size = 20135
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-1-experiment1-recording1-events-messagecenter-timestamps-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/events/MessageCenter/timestamps.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/events/MessageCenter/timestamps.npy"
+sha256 = "feaac54d2bb9528d65c13ffd89a4e148cbf2ec5d0c127d0701470ba5f3d35a09"
+size = 440
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-1-recording1-events-ni-daqmx-110-usb-6343-ttl-full-words-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/events/NI-DAQmx-110.USB-6343/TTL/full_words.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/events/NI-DAQmx-110.USB-6343/TTL/full_words.npy"
+sha256 = "439f8578344eaf719e29d0aac54149495f8b5f76406ba18d28f5857209cf40bd"
+size = 95632
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-cording1-events-ni-daqmx-110-usb-6343-ttl-sample-numbers-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/events/NI-DAQmx-110.USB-6343/TTL/sample_numbers.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/events/NI-DAQmx-110.USB-6343/TTL/sample_numbers.npy"
+sha256 = "ca36e51b02be6ad16d40d96a5cda55a285211ff6ab53c4eb4faac4e0019cd362"
+size = 95632
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-ment1-recording1-events-ni-daqmx-110-usb-6343-ttl-states-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/events/NI-DAQmx-110.USB-6343/TTL/states.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/events/NI-DAQmx-110.USB-6343/TTL/states.npy"
+sha256 = "c14e83cad58b213d3cbfbf12cb17a97c297027b91f76764d3306edb6d24f8e36"
+size = 24004
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-1-recording1-events-ni-daqmx-110-usb-6343-ttl-timestamps-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/events/NI-DAQmx-110.USB-6343/TTL/timestamps.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/events/NI-DAQmx-110.USB-6343/TTL/timestamps.npy"
+sha256 = "c60d6191b8ae49399df083f145cc9941830edd3463c5184fa397a00c2ea66538"
+size = 95632
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-rding1-events-network-events-109-usb-6343-ttl-full-words-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/events/Network_Events-109.USB-6343/TTL/full_words.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/events/Network_Events-109.USB-6343/TTL/full_words.npy"
+sha256 = "3bb01afb0d11cad9cd2b33656e1d6d5d7363510e9defc059c5086aebc9af77ae"
+size = 24288
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-g1-events-network-events-109-usb-6343-ttl-sample-numbers-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/events/Network_Events-109.USB-6343/TTL/sample_numbers.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/events/Network_Events-109.USB-6343/TTL/sample_numbers.npy"
+sha256 = "1469eace4cb4c60c20eb2cacb55617b11ea7cdac92977c07b9a1f26243b55e26"
+size = 24288
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-recording1-events-network-events-109-usb-6343-ttl-states-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/events/Network_Events-109.USB-6343/TTL/states.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/events/Network_Events-109.USB-6343/TTL/states.npy"
+sha256 = "ec8b5e91d06e10c1f2881fd6fbcf95dd924f47f86b14055353a507274b864549"
+size = 6168
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-rding1-events-network-events-109-usb-6343-ttl-timestamps-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/events/Network_Events-109.USB-6343/TTL/timestamps.npy"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/events/Network_Events-109.USB-6343/TTL/timestamps.npy"
+sha256 = "68555345553c1fe49d70b2f1d5bf033c9126afcae66dc99e882e2e01b62b6f15"
+size = 24288
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-record-node-101-experiment1-recording1-structure-oebin"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/structure.oebin"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/structure.oebin"
+sha256 = "24a2d41b0570c716beef4bcb3bc418e78ca232a85cce8aca87e91b72e09e7c13"
+size = 2294
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-record-node-101-experiment1-recording1-sync-messages-txt"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/experiment1/recording1/sync_messages.txt"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/experiment1/recording1/sync_messages.txt"
+sha256 = "ce0c779ffb3671612cbda02476a993589b1e4a0a89389ad7c15c13a7d0c7619b"
+size = 131
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-brainbremen-oecon-nidaq-record-node-101-settings-xml"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-brainbremen-oecon-nidaq/Test_2026-03-12_16-32-08/Record Node 101/settings.xml"
+url = "https://raw.githubusercontent.com/brain-bremen/oecon/d23850bb1ae2fbe0d8f3d0e3d2381d9c62e40ce9/tests/data/Test_2026-03-12_16-32-08/Record%20Node%20101/settings.xml"
+sha256 = "d4b80ba7c23eeabebc18d4a11363fb63a5fbe949ee3eed1c0327be2cc32c0f48"
+size = 7919
+license = "MIT"
+source = "GitHub brain-bremen/oecon (commit d23850b), tests/data/Test_2026-03-12_16-32-08"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-ment1-recording1-continuous-rhythm-fpga-100-0-continuous-dat"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/continuous/Rhythm_FPGA-100.0/continuous.dat"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/continuous/Rhythm_FPGA-100.0/continuous.dat"
+sha256 = "d27a64649ab6ba9691d8d752cf78498c6f89996eea3218436b8108c3f7285ef9"
+size = 25354240
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-ng1-continuous-rhythm-fpga-100-0-synchronized-timestamps-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/continuous/Rhythm_FPGA-100.0/synchronized_timestamps.npy"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/continuous/Rhythm_FPGA-100.0/synchronized_timestamps.npy"
+sha256 = "5974053fe7abaa62ff0a86e40a198bbf7b58e64c243fc8dc357656b9c8b9e49a"
+size = 2535552
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-ment1-recording1-continuous-rhythm-fpga-100-0-timestamps-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/continuous/Rhythm_FPGA-100.0/timestamps.npy"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/continuous/Rhythm_FPGA-100.0/timestamps.npy"
+sha256 = "6b1a08e1774e62a8d5805d21bddfec939b76a52be8eb4a8f24ea175f39627b6a"
+size = 2535552
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-rding1-events-message-center-904-0-text-group-1-channels-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/events/Message_Center-904.0/TEXT_group_1/channels.npy"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/events/Message_Center-904.0/TEXT_group_1/channels.npy"
+sha256 = "0698e782887bb0dfadc446c2ecae6a9e9055d5c0f59c7e327f5a826675bb86cc"
+size = 128
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-recording1-events-message-center-904-0-text-group-1-text-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/events/Message_Center-904.0/TEXT_group_1/text.npy"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/events/Message_Center-904.0/TEXT_group_1/text.npy"
+sha256 = "c693679a4411815a27717838ff92bec53e9cb39ad6d73e9de38ade72bb0eedbb"
+size = 128
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-ing1-events-message-center-904-0-text-group-1-timestamps-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/events/Message_Center-904.0/TEXT_group_1/timestamps.npy"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/events/Message_Center-904.0/TEXT_group_1/timestamps.npy"
+sha256 = "e734dac55ea9fbbe782af2d8c02c3c5992131906228afb2aaaf137d6f3ed74db"
+size = 128
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-recording1-events-rhythm-fpga-100-0-ttl-1-channel-states-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/events/Rhythm_FPGA-100.0/TTL_1/channel_states.npy"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/events/Rhythm_FPGA-100.0/TTL_1/channel_states.npy"
+sha256 = "811d2e1e81aaca0efcbb5ceba500108325a628583a35f1e6c14bed15aa733c2f"
+size = 128
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-ment1-recording1-events-rhythm-fpga-100-0-ttl-1-channels-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/events/Rhythm_FPGA-100.0/TTL_1/channels.npy"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/events/Rhythm_FPGA-100.0/TTL_1/channels.npy"
+sha256 = "0698e782887bb0dfadc446c2ecae6a9e9055d5c0f59c7e327f5a826675bb86cc"
+size = 128
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-nt1-recording1-events-rhythm-fpga-100-0-ttl-1-full-words-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/events/Rhythm_FPGA-100.0/TTL_1/full_words.npy"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/events/Rhythm_FPGA-100.0/TTL_1/full_words.npy"
+sha256 = "4ca930d4c39dd441d095d27d2ac61750ccb0f54238f1eed588061be710bf4bb6"
+size = 128
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-nt1-recording1-events-rhythm-fpga-100-0-ttl-1-timestamps-npy"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/events/Rhythm_FPGA-100.0/TTL_1/timestamps.npy"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/events/Rhythm_FPGA-100.0/TTL_1/timestamps.npy"
+sha256 = "e734dac55ea9fbbe782af2d8c02c3c5992131906228afb2aaaf137d6f3ed74db"
+size = 128
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-record-node-102-experiment1-recording1-structure-oebin"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/structure.oebin"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/structure.oebin"
+sha256 = "608db1803f375139b6e53d68b45674d16321841df2816b0ed8b75f342b6a6573"
+size = 16832
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-record-node-102-experiment1-recording1-sync-messages-txt"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/experiment1/recording1/sync_messages.txt"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/experiment1/recording1/sync_messages.txt"
+sha256 = "c4924a5cd7593a20c15208e4eb63250a987c69951ab6b91701d2a486749c38cd"
+size = 111
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-gh-elgarulli-neurokin-rhythm-record-node-102-settings-xml"
+format = "open-ephys"
+family = "electrophysiology"
+role = "part"
+tier = "heldout"
+filename = "heldout/ho-gh-elgarulli-neurokin-rhythm/OE_test_data/Record Node 102/settings.xml"
+url = "https://raw.githubusercontent.com/ELGarulli/neurokin/c84f8df140570f1e3ed498952ae243721448cd44/tests/test_data/OE_test_data/Record%20Node%20102/settings.xml"
+sha256 = "430465f6366aafb21be012624af771d4843cd157ce38f69e7a10108e51780d7c"
+size = 22421
+license = "MIT"
+source = "GitHub ELGarulli/neurokin (commit c84f8df), tests/test_data/OE_test_data"
+
+[[file]]
+id = "ho-figshare28446950-rhd-amph"
+format = "intan"
+family = "electrophysiology"
+role = "heldout"
+tier = "heldout"
+draw = "2026-10-06d"
+filename = "heldout/ho-figshare28446950-rhd-amph/Rat2_Saline_at_44s.rhd"
+url = "https://ndownloader.figshare.com/files/52475504"
+sha256 = "c58bca7a1236d6a550821ad16cd8082b1ff3792a91b38c1c24a3ca0a7f26c63f"
+size = 546617338
+md5 = "f6b438f71a9aec0ac81ae44e89aae7f0"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/Electrophysiology_recording_in_free_moving_rat_with_AMPH_Saline_Injection/28446950 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 28446950 'Electrophysiology recording in free moving rat with AMPH/Saline Injection'"
+attribution = "Yi Qiang et al."
+notes = "Intan RHD2000 file (header version 3.2), traditional single-file layout: 15 amplifier channels at 20 kHz (about 729 s), 3 auxiliary inputs and one USB-board digital input, from a freely moving rat after a saline injection, 2025. The first held-out RHD file (draw C found none); the smallest file of the record (547 MB). Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: neo IntanRawIO."
+
+[[file]]
+id = "ho-gh-cullenlab-npxl-nosync"
+format = "spikeglx"
+family = "electrophysiology"
+role = "heldout"
+tier = "heldout"
+draw = "2026-10-06d"
+filename = "heldout/ho-gh-cullenlab-npxl-nosync/NPXL_noSync.imec0.ap.bin"
+url = "https://raw.githubusercontent.com/CullenLab/NeuropixelsSYNC/b1b9f105101dda7ecadb838e98522e38897f31bc/NPXL_deArtifact/ExampleData/NPXL_noSync.imec0.ap.bin"
+sha256 = "8fd8fbbad94f4431686119a0c2bf44b75421912afdce515558cd44d405a225b1"
+size = 21967330
+license = "MIT"
+license_checked = "https://github.com/CullenLab/NeuropixelsSYNC (MIT, GitHub API), 2026-10-06"
+source = "GitHub CullenLab/NeuropixelsSYNC (commit b1b9f10), NPXL_deArtifact/ExampleData/NPXL_noSync.imec0.ap.bin"
+attribution = "Cullen Lab (Johns Hopkins University), NeuropixelsSYNC example data"
+notes = "SpikeGLX AP band (appVersion 20240129, Imec API 3.62) from a Neuropixels NP1032 probe (type 1030, the long NHP probe), 385 saved channels at 30 kHz, 0.95 s, 2024-11-21. A probe type, a SpikeGLX version and a lab absent from development; the first held-out SpikeGLX file. The sibling NPXL_withSync recording of the same repository was not taken. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: neo SpikeGLXRawIO."
+
+[[file]]
+id = "ho-gh-cullenlab-npxl-nosync-meta"
+format = "spikeglx"
+family = "electrophysiology"
+role = "companion"
+tier = "heldout"
+filename = "heldout/ho-gh-cullenlab-npxl-nosync/NPXL_noSync.imec0.ap.meta"
+url = "https://raw.githubusercontent.com/CullenLab/NeuropixelsSYNC/b1b9f105101dda7ecadb838e98522e38897f31bc/NPXL_deArtifact/ExampleData/NPXL_noSync.imec0.ap.meta"
+sha256 = "bb4ca75626bfa04dc174a77ad3455da6b83c2a7d9a1916267d19c1f6ddee6cd1"
+size = 20404
+license = "MIT"
+license_checked = "https://github.com/CullenLab/NeuropixelsSYNC (MIT, GitHub API), 2026-10-06"
+source = "GitHub CullenLab/NeuropixelsSYNC (commit b1b9f10), NPXL_deArtifact/ExampleData/NPXL_noSync.imec0.ap.meta"
+attribution = "Cullen Lab (Johns Hopkins University), NeuropixelsSYNC example data"
+notes = "metadata companion of ho-gh-cullenlab-npxl-nosync"
+
+[[file]]
+id = "ho-zenodo4694912-varian-cosy-zip"
+format = "zip"
+family = "nmr"
+role = "bundle"
+tier = "heldout"
+filename = "heldout/ho-zenodo4694912-varian-cosy.zip"
+url = "https://zenodo.org/api/records/4694912/files/gCOSY_01.fid.zip/content"
+sha256 = "c7c2715a421873c3f8eb6225b39917a95449fad667523f2d8dc69b14b50c641c"
+size = 3694451
+md5 = "f0624c1ae5188e84122b265da9e99b4e"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/4694912 (cc-by-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4694912 'NMR data for (NPA)6Zn3(H2O)2 in Synthesis, structural analysis, and docking studies with SARS-CoV-2 of a trinuclear zinc complex'"
+notes = "Archive (gCOSY_01.fid.zip) holding the held-out input gCOSY_01.fid; __MACOSX entries in the zip."
+
+[[file]]
+id = "ho-zenodo4694912-varian-cosy"
+format = "varian-nmr"
+family = "nmr"
+role = "heldout"
+tier = "heldout"
+draw = "2026-10-06d"
+bundle = "ho-zenodo4694912-varian-cosy-zip"
+filename = "ho-zenodo4694912-varian-cosy-zip/gCOSY_01.fid"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/4694912 (cc-by-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4694912, gCOSY_01.fid.zip, gCOSY_01.fid"
+attribution = "Jacob P. Brannon, Kevyn D. Gardner-Ricossa et al. (California State Polytechnic University, Pomona; University of Yaoundé I)"
+notes = "Varian/Agilent 2D gradient COSY (gCOSY): VnmrJ 4.2A, console vnmrs, 399.78 MHz, DMSO, np 1944, ni 512, nt 16, 2021-03-30. The only held-out Varian file so far is a 1D 1H; this is the first 2D. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: nmrglue."
+
+[[file]]
+id = "ho-figshare32287374-spa-rebar"
+format = "thermo-omnic"
+family = "spectroscopy"
+role = "heldout"
+tier = "heldout"
+draw = "2026-10-06d"
+filename = "heldout/ho-figshare32287374-spa-rebar/5347.SPA"
+url = "https://ndownloader.figshare.com/files/64550910"
+sha256 = "282ccfe970f83a6a502f52a102e90e38d5333bfbdd8c706dcc16c0f1e0c11dd8"
+size = 64996
+md5 = "c912cd6bb8b4693347258f39fbdc684c"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/corrosion_characteristics_of_steel_rebars_in_mortar/32287374 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 32287374 'corrosion characteristics of steel rebars in mortar' (doi:10.6084/m9.figshare.32287374.v1)"
+attribution = "Raja Rizwan Hussain"
+notes = "OMNIC .SPA Raman spectrum (1801 points, 3578-106 cm-1 Raman shift) of a corroded steel rebar after a potentiodynamic test in simulated pore solution with 0.6 M NaCl, 2026. Corrosion science is a use absent from development. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: SpectroChemPy."
