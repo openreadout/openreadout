@@ -9,7 +9,7 @@
 # (.claude-plugin/{plugin,marketplace}.json, .codex-plugin/plugin.json, gemini-extension.json),
 # python/bioio-openreadout/pyproject.toml and python/napari-openreadout/pyproject.toml
 # (version + openreadout requirement),
-# packaging/npm/package.json, packaging/wasm/package.json, CITATION.cff, THIRD-PARTY-NOTICES.md (our own crates' versions), CHANGELOG.md.
+# packaging/npm/package.json (version + platform package requirements), packaging/wasm/package.json, CITATION.cff, THIRD-PARTY-NOTICES.md (our own crates' versions), CHANGELOG.md.
 # Also r/openreadout/DESCRIPTION and the integrations/ version pins (Galaxy, Nextflow, Snakemake, bioconda).
 # The Python extension (pyproject.toml) and the Nix flake read the version from Cargo.toml.
 # Afterwards `cargo xtask version-check` must pass; see docs/release-process.md.
@@ -56,6 +56,8 @@ AP=packaging/agent-plugins
 for f in server.json mcpb/manifest.json $AP/.claude-plugin/plugin.json $AP/.claude-plugin/marketplace.json $AP/.codex-plugin/plugin.json $AP/gemini-extension.json packaging/npm/package.json packaging/wasm/package.json packaging/wasm/package-lock.json; do
   perl -pi -e 's/("version":\s*")\Q$ENV{OLD}\E(")/${1}$ENV{NEW}$2/g; s{/releases/download/v\Q$ENV{OLD}\E/}{/releases/download/v$ENV{NEW}/}g' "$f"
 done
+# The npm package requires its platform packages (@openreadout/cli-<os>-<cpu>) at the same version.
+perl -pi -e 's/("\@openreadout\/cli-[a-z0-9-]+":\s*")\Q$ENV{OLD}\E(")/${1}$ENV{NEW}$2/g' packaging/npm/package.json
 
 # bioio and napari plugins: their own version and the openreadout requirement.
 perl -pi -e '

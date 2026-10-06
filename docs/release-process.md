@@ -30,6 +30,7 @@ The tag must equal the `Cargo.toml` version with a `v` prefix and `CHANGELOG.md`
 | --- | --- |
 | `version-check` | fails fast if any version string disagrees |
 | `build` (5 targets) | `openreadout-<target>.tar.gz` / `.zip` (binary at the archive root + README, SKILL.md, licenses, NOTICE, THIRD-PARTY-NOTICES.md, `man/*.1` and `completions/` from `cargo xtask man`), `openreadout-mcp-<target>.mcpb` |
+| `npm-packages` | the npm tarballs: `openreadout` and one `@openreadout/cli-<os>-<cpu>` per target, installed from a local registry with npm, pnpm and `npx -y` and run, as a run artifact |
 | `sbom` | `openreadout-<target>.cdx.json` (CycloneDX 1.5, cargo-cyclonedx, dependencies of the binary for that target) |
 | `wheels`, `sdist` | Python abi3 wheels for 7 platforms, `openreadout` sdist, `bioio-openreadout` and `napari-openreadout` wheels + sdists (`twine check --strict`) |
 | `homebrew` | `openreadout.rb` (Homebrew formula) and `openreadout.json` (Scoop manifest) rendered from the archives' SHA-256; winget manifests as a run artifact only |
@@ -50,7 +51,7 @@ Repository variables live under *Settings > Secrets and variables > Actions > Va
 | --- | --- | --- | --- |
 | PyPI (`openreadout`, `bioio-openreadout`, `napari-openreadout`) | `PUBLISH_PYPI=true` | none: register a trusted publisher on PyPI per project (owner `openreadout`, repository `openreadout`, workflow `release.yml`; environment `pypi` for `openreadout`, `pypi-bioio` for `bioio-openreadout`, `pypi-napari` for `napari-openreadout`: PyPI allows one pending publisher per environment) | `pypi` |
 | crates.io (every publishable crate; `cargo xtask publish-order` lists them) | `PUBLISH_CRATES=true` | `CARGO_REGISTRY_TOKEN`, an environment secret of `crates-io` (crates.io API token with `publish-new` and `publish-update`) | `publish-crates` |
-| npm (`openreadout`) | `PUBLISH_NPM=true` | none: trusted publishing (OIDC). Publish the first version by hand (`npm publish --access public` in `packaging/npm`), then on npmjs.com configure the trusted publisher (organization `openreadout`, repository `openreadout`, workflow `release.yml`, environment `npm`) | `publish-npm` |
+| npm (`openreadout` and the five `@openreadout/cli-*` platform packages) | `PUBLISH_NPM=true` | none: trusted publishing (OIDC). Each package needs a trusted publisher on npmjs.com (organization `openreadout`, repository `openreadout`, workflow `release.yml`, environment `npm`), and a package must exist before it can have one, so publish the first version of each new package by hand (below) | `publish-npm` |
 | ghcr.io (`ghcr.io/openreadout/openreadout`) | `PUBLISH_DOCKER=true` | none (uses `GITHUB_TOKEN` with `packages: write`); after the first push, make the package public under the repository's *Packages* | `docker` |
 | Homebrew tap | — | create `openreadout/homebrew-tap`, copy the release's `openreadout.rb` to `Formula/openreadout.rb` | manual (automatable with a PAT) |
 | Scoop bucket | — | optional `openreadout/scoop-bucket` with the release's `openreadout.json` under `bucket/`; `checkver`/`autoupdate` keep it current | manual |
@@ -63,7 +64,20 @@ Notes per channel:
 
   **Rate limit.** crates.io limits how fast new crates can be created: a burst of 5, then one every 10 minutes (new versions of existing crates: a burst of 30, then one per minute); beyond that the server answers 429 with a "try again after" time (defaults from the crates.io source, `src/rate_limiter.rs`). The first release creates every crate, so it takes roughly `(crates - 5) x 10` minutes, more than one 6-hour job. The script waits until the stated time and retries the same crate, for at most 5 h 20 min of waiting in total (`MAX_WAIT_S`), then fails with a message; **re-run the failed `publish-crates` job** (once or twice for the first release) and it continues where it stopped. Later releases only publish new versions and fit in the burst. After the first release, crates.io trusted publishing can replace the token (configure it per crate, then use `rust-lang/crates-io-auth-action`). CI's `publish-dry-run` packages and verifies every publishable crate on pull requests. `openreadout-py`, `openreadout-r`, `openreadout-wasm`, `openreadout-bench` and `openreadout-corpus-tests` are `publish = false`.
 - **API stability of the crates**: the format crates document only their reader types and format-id constants; their parser modules are `#[doc(hidden)]` (public for tests and fuzz targets, not a supported API). Enums and option structs that will grow are `#[non_exhaustive]`. Sibling crates are released in lockstep with `^0.x` requirements, so a patch release must not break a hidden item another crate of the workspace uses (today: `openreadout-zarr` uses `openreadout-tiff`'s OME-XML parser, and every reader crate uses `openreadout-codecs`).
-- **npm** runs after the GitHub release exists, because installing the package downloads the release binary; the job installs the packed tarball and runs `openreadout --version` before publishing. The job publishes with npm trusted publishing: `id-token: write`, npm >= 11.5.1 (installed by the job), no `NODE_AUTH_TOKEN`; `--provenance` requires the repository to be public. A package that does not exist yet cannot have a trusted publisher, which is why the first version is published by hand; `repository.url` in `packaging/npm/package.json` must match the repository exactly.
+- **npm** ships the binary in five platform packages, `@openreadout/cli-darwin-arm64`, `-darwin-x64`, `-linux-arm64`, `-linux-x64` (the static musl builds) and `-win32-x64` (which also installs on Windows on Arm). Each has `os` and `cpu` fields, and `openreadout` lists all five as optional dependencies at its own version, so the package manager installs only the one for the machine. `openreadout`'s command is a small Node.js launcher (`packaging/npm/openreadout.js`) that finds that package and runs its binary. Nothing downloads at install time and there are no install scripts, which matters because pnpm 10 skips dependencies' install scripts by default and corporate proxies and offline mirrors block downloads from GitHub. `packaging/npm/lib/platforms.js` is the list of platform packages; `scripts/platform-packages.js` builds them from the release archives.
+
+  The `npm-packages` job builds and packs all six, then `packaging/npm/scripts/smoke-test.sh` publishes them to a throwaway [Verdaccio](https://verdaccio.org) registry on 127.0.0.1 and installs them with `npx -y openreadout@<version>`, npm and pnpm. It checks that exactly one platform package was installed, `openreadout --version`, an MCP `initialize` handshake, and the error message when optional dependencies are left out. The GitHub release waits for this job. `publish-npm` then uploads the tarballs, platform packages first, with trusted publishing (`id-token: write`, npm >= 11.5.1, no `NODE_AUTH_TOKEN`) and `--provenance`. It skips versions that are already on npm, so you can re-run it. `repository.url` in each package must match the repository exactly, which the tests check.
+
+  **First publish of the platform packages (once).** npm only lets you add a trusted publisher to a package that exists. Publish 0.1.0 of the five platform packages by hand from the v0.1.0 release binaries. This is harmless: `openreadout` 0.1.0 does not depend on them.
+  ```bash
+  gh release download v0.1.0 --repo openreadout/openreadout --dir /tmp/rel \
+    --pattern 'openreadout-*.tar.gz' --pattern 'openreadout-*.zip' --pattern SHA256SUMS
+  cd packaging/npm   # on the commit that adds the platform packages, with version 0.1.0
+  node scripts/platform-packages.js --archives /tmp/rel --sums /tmp/rel/SHA256SUMS --out /tmp/npm-platform
+  npm login          # an owner of the openreadout organization on npmjs.com
+  for d in /tmp/npm-platform/*/; do (cd "$d" && npm publish --access public); done
+  ```
+  Then, for each of the five packages on npmjs.com, open *Settings > Trusted publishing*, choose GitHub Actions and enter organization `openreadout`, repository `openreadout`, workflow `release.yml` and environment `npm`. While you are there, set *Publishing access* to require two-factor authentication and disallow tokens, as for `openreadout`.
 - **Docker** always builds and tests the image; `PUBLISH_DOCKER` only controls the push (tags `X.Y.Z`, `X.Y`, `latest`, `sha-…`, platforms `linux/amd64` and `linux/arm64`) and the registry attestation.
 - **PyPI** is unchanged from before: trusted publishing, no stored token.
 
@@ -111,6 +125,10 @@ cargo xtask homebrew-formula --sums SHA256SUMS --out /tmp/openreadout.rb   # als
 cargo xtask mcpb pack --binary target/release/openreadout --target aarch64-apple-darwin --out /tmp
 OPENREADOUT_INSTALL_FROM=openreadout-aarch64-apple-darwin.tar.gz OPENREADOUT_INSTALL_DIR=/tmp/bin sh scripts/install.sh
 (cd packaging/npm && npm test && npm pack --dry-run)
+# npm packages from release archives, installed from a local registry with npm, pnpm and npx -y:
+(cd packaging/npm && node scripts/platform-packages.js --archives DIR --out /tmp/npm-platform \
+  && for d in /tmp/npm-platform/*/; do npm pack "$d" --pack-destination /tmp/npm-tgz; done \
+  && npm pack --pack-destination /tmp/npm-tgz && scripts/smoke-test.sh /tmp/npm-tgz)
 maturin build --out dist && maturin sdist --out dist                        # Python wheel (profile release-py) + sdist
 python -m build python/bioio-openreadout --outdir dist && python -m build python/napari-openreadout --outdir dist
 twine check --strict dist/*
