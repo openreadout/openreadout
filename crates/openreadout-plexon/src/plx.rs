@@ -776,4 +776,33 @@ mod tests {
         }
         assert!(BlockList::default().iter().next().is_none());
     }
+
+    /// The memory guard for `info` on long recordings: blocks of a regular recording, with
+    /// spike blocks of varying size between them, cost a few bytes each.
+    #[test]
+    fn block_list_stays_small() {
+        let mut list = BlockList::default();
+        let (mut offset, mut ts) = (0u64, 0u64);
+        let n = 1_000_000u64;
+        for i in 0..n {
+            offset += 36 + 104 * ((i * 2_654_435_761) % 3);
+            ts += 400;
+            list.push(SampleBlock {
+                offset,
+                timestamp: ts,
+                samples: 10,
+            });
+        }
+        let bytes = list.chunks.iter().map(Vec::capacity).sum::<usize>()
+            + list.groups.capacity() * std::mem::size_of::<(SampleBlock, u32, u32)>();
+        assert!(
+            bytes as u64 <= 6 * n,
+            "{bytes} bytes for {n} blocks ({} per block)",
+            bytes as f64 / n as f64
+        );
+        assert_eq!(
+            list.range(999_999, 1).next().map(|b| b.offset),
+            Some(offset)
+        );
+    }
 }
