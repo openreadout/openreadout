@@ -133,6 +133,12 @@ xcrun notarytool submit "$work/submission.zip" --key "$work/AuthKey.p8" --key-id
 cat "$work/result.json"; echo
 status="$(plutil -extract status raw -o - "$work/result.json" 2>/dev/null || echo unknown)"
 submission="$(plutil -extract id raw -o - "$work/result.json" 2>/dev/null || true)"
+if [ "$status" = unknown ] && [ -n "$submission" ] && grep -q 'Timeout of' "$work/result.json"; then
+  # Apple accepted the upload but hasn't finished. That can take hours for a team's first
+  # submissions. Gatekeeper looks the ticket up online, so the binary works once Apple accepts it.
+  notice "notarization of $bin is still in progress at Apple (submission $submission); check it with: xcrun notarytool info $submission"
+  exit 0
+fi
 if [ "$status" != Accepted ]; then
   echo "error: notarization status is '$status'" >&2
   if [ -n "$submission" ]; then
