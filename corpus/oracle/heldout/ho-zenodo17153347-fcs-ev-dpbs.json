@@ -1,0 +1,57 @@
+{
+ "id": "ho-zenodo17153347-fcs-ev-dpbs",
+ "file": "export_1. DPBS.fcs",
+ "size": 215446,
+ "sha256": "31e4f3df438d9514ce16545af24ddfd827440777d465634dfd0b7248dd306398",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.1",
+   "parameter_count": 9,
+   "event_count": 5944,
+   "parameter_names": [
+    "FSC-A",
+    "FSC-H",
+    "SSC-A",
+    "SSC-B-A",
+    "SSC-B-H",
+    "SSC-H",
+    "V4-A",
+    "V4-H",
+    "Time"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "2568d14cf798f3d5e2f47d9d72633172",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 5944,
+  "xxh3": "2568d14cf798f3d5e2f47d9d72633172",
+  "agrees_with_flowio": true
+ }
+}

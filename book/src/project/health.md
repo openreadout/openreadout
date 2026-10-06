@@ -18,12 +18,12 @@ Knowledge basis: 15 open spec, 47 prior art, 26 reverse engineered, 8 vendor doc
 
 ## Corpus
 
-3636 manifest entries; 1678 development inputs of 95 formats from 541 depositors (distinct source records: a Zenodo record, a study, a repository) (276 without a download URL: synthetic fixtures and bundle members); 187 held-out inputs. Licences recorded: 23 distinct (every entry has one).
+3985 manifest entries; 1678 development inputs of 95 formats from 541 depositors (distinct source records: a Zenodo record, a study, a repository) (276 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
 
 | tier | entries | declared size |
 | --- | --- | --- |
 | full | 77 | 48.2 GB |
-| heldout | 381 | 2.9 GB |
+| heldout | 730 | 6.6 GB |
 | hold | 26 | 132.6 MB |
 | smoke | 1841 | 1.1 GB |
 | standard | 1311 | 19.8 GB |
@@ -67,17 +67,17 @@ Variant values the development corpus reaches but no independent reader confirms
 
 ## Held-out benchmark
 
-Latest run: [heldout-2026-09-26c.md](https://github.com/openreadout/openreadout/blob/main/docs/benchmark/heldout-2026-09-26c.md) (171 held-out inputs never used for development; rules in [heldout.md](https://github.com/openreadout/openreadout/blob/main/docs/benchmark/heldout.md)).
+Latest run: [heldout-2026-10-06d.md](https://github.com/openreadout/openreadout/blob/main/docs/benchmark/heldout-2026-10-06d.md) (292 held-out inputs never used for development; rules in [heldout.md](https://github.com/openreadout/openreadout/blob/main/docs/benchmark/heldout.md)).
 
 | outcome | files |
 | --- | --- |
-| clean | 148 |
-| clean (partial copy: check rightly exits 4) | 3 |
-| disagrees | 14 |
-| fails | 4 |
+| clean | 237 |
+| clean (partial copy: check rightly exits 4) | 5 |
+| disagrees | 36 |
+| fails | 12 |
 | reads, check/dump fail | 2 |
 
-Assurance of those files: 64 partially validated, 4 refused, 21 unvalidated, 82 validated.
+Assurance of those files: 102 partially validated, 12 refused, 32 unvalidated, 146 validated.
 
 Held-out corpus-test results in the evidence (what the confidence rubric uses): 68 pass, 6 fail.
 
@@ -96,6 +96,6 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 | reader crates with a maintainer guide (`MAINTAINING.md`, generated facts checked by `cargo xtask guides`) | 40 of 40 |
 | golden-output snapshots of committed fixtures (`cargo test`) | 107 |
 | golden-output snapshots of development-corpus files | 1657 |
-| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 2956 |
+| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3058 |
 | fuzz targets (`fuzz/fuzz_targets/`) | 134 |
-| Rust source files under `crates/` | 773 |
+| Rust source files under `crates/` | 776 |

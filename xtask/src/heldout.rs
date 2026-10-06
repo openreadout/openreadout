@@ -116,6 +116,13 @@ pub(crate) fn record_key(url: &str) -> Option<String> {
             return Some(format!("bioimage-archive:S-BIAD{d}"));
         }
     }
+    if let Some(i) = lower.rfind("/s-bsst") {
+        // a BioStudies study (`S-BSST1202`), stored in the same archive as S-BIAD studies
+        let d = digits(&lower[i + 7..]);
+        if !d.is_empty() {
+            return Some(format!("biostudies:S-BSST{d}"));
+        }
+    }
     if let Some(rest) = after("flowrepository.org/")
         && let Some(j) = rest.find("fr-fcm-")
     {
@@ -249,6 +256,39 @@ fn github_record(rest: &str, top: usize) -> String {
     }
 }
 
+/// File names a vendor gives every acquisition of a directory data set: a Bruker `.d` folder's
+/// `analysis.tdf`, an Agilent MassHunter folder's `MSScan.bin`, a ChemStation `.D` folder's
+/// `Report.TXT`, a MIRAX slide's `Slidedat.ini`, an Olympus VSI stack's `frame_t.ets`. A held-out
+/// input or companion unpacked from a bundle can carry one, and format notes cite them, so they
+/// identify nothing.
+const VENDOR_FIXED_NAMES: &[&str] = &[
+    "analysis.tdf",
+    "analysis.tdf_bin",
+    "analysis.tsf",
+    "analysis.baf",
+    "MSScan.bin",
+    "MSProfile.bin",
+    "MSPeak.bin",
+    "_HEADER.TXT",
+    "_extern.inf",
+    "Report.TXT",
+    "RESULTS.CSV",
+    "Slidedat.ini",
+    "frame_t.ets",
+];
+
+/// A name in `VENDOR_FIXED_NAMES`, or a MIRAX slide's numbered data file (`Data0000.dat`).
+fn vendor_fixed_name(base: &str) -> bool {
+    let numbered_mirax = base.len() == 12
+        && base[..4].eq_ignore_ascii_case("data")
+        && base[4..8].bytes().all(|b| b.is_ascii_digit())
+        && base[8..].eq_ignore_ascii_case(".dat");
+    numbered_mirax
+        || VENDOR_FIXED_NAMES
+            .iter()
+            .any(|n| n.eq_ignore_ascii_case(base))
+}
+
 /// Strings that identify a held-out entry when they appear in a document.
 fn needles(e: &Entry) -> Vec<String> {
     let mut out = vec![e.id.clone()];
@@ -265,7 +305,7 @@ fn needles(e: &Entry) -> Vec<String> {
     // distinctive file names count. The files of a directory data set (`role = "part"`) carry the
     // vendor's fixed names (`Index.idx.xml`, `MeasurementData.mlf`, `r01c01f01p01-ch1sk1fk1fl1.tiff`)
     // that every format note cites; their ids and URLs still count, and so does the folder's id.
-    if e.role != "part" && base.len() >= 10 && base.contains('.') {
+    if e.role != "part" && base.len() >= 10 && base.contains('.') && !vendor_fixed_name(base) {
         out.push(base.to_string());
     }
     out
@@ -483,6 +523,11 @@ url = "https://zenodo.org/api/records/222/files/sample_b_image.czi/content"
             Some("zenodo:123")
         );
         assert_eq!(
+            record_key("https://ftp.ebi.ac.uk/biostudies/fire/S-BSST/202/S-BSST1202/Files/a.zvi")
+                .as_deref(),
+            Some("biostudies:S-BSST1202")
+        );
+        assert_eq!(
             record_key("https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS20/FILES/a.RAW")
                 .as_deref(),
             Some("metabolights:MTBLS20")
@@ -622,6 +667,15 @@ url = "https://zenodo.org/api/records/222/files/sample_b_image.czi/content"
         .unwrap();
         assert_eq!(problems(&root, &m).unwrap().len(), 1);
         fs::remove_dir_all(&root).unwrap();
+    }
+
+    #[test]
+    fn vendor_fixed_names_identify_nothing() {
+        assert!(vendor_fixed_name("analysis.tdf"));
+        assert!(vendor_fixed_name("REPORT.TXT"));
+        assert!(vendor_fixed_name("Data0012.dat"));
+        assert!(!vendor_fixed_name("Data0012a.dat"));
+        assert!(!vendor_fixed_name("B_Blank_Whatman_neg.d"));
     }
 
     #[test]

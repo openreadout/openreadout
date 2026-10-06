@@ -166,7 +166,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `mzml_binary`, `whole_imzml`, `whole_mzml_gz`, `whole_mzml`, `whole_mzmlb`, `whole_mzxml`
-- corpus inputs by tier: heldout 9, smoke 20
+- corpus inputs by tier: heldout 12, smoke 20
 - golden snapshots: [`corpus/snapshots/mzml.jsonl`](../../corpus/snapshots/mzml.jsonl), [`corpus/snapshots/imzml.jsonl`](../../corpus/snapshots/imzml.jsonl), [`corpus/snapshots/mzxml.jsonl`](../../corpus/snapshots/mzxml.jsonl), [`corpus/snapshots/mzmlb.jsonl`](../../corpus/snapshots/mzmlb.jsonl)
 
 ### Open new-variant intakes

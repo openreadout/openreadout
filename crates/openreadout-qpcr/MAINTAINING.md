@@ -169,7 +169,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 7 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_eds`, `whole_ixo`, `whole_pcrd`, `whole_rdml`, `whole_rex`
-- corpus inputs by tier: heldout 8, smoke 25, standard 13
+- corpus inputs by tier: heldout 10, smoke 25, standard 13
 - golden snapshots: [`corpus/snapshots/rdml.jsonl`](../../corpus/snapshots/rdml.jsonl), [`corpus/snapshots/applied-biosystems-eds.jsonl`](../../corpus/snapshots/applied-biosystems-eds.jsonl), [`corpus/snapshots/bio-rad-pcrd.jsonl`](../../corpus/snapshots/bio-rad-pcrd.jsonl), [`corpus/snapshots/roche-lightcycler-ixo.jsonl`](../../corpus/snapshots/roche-lightcycler-ixo.jsonl), [`corpus/snapshots/rotor-gene-rex.jsonl`](../../corpus/snapshots/rotor-gene-rex.jsonl)
 
 ### Open new-variant intakes

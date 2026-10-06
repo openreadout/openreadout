@@ -1,0 +1,42 @@
+{
+ "id": "ho-zenodo5716144-dm3-oam",
+ "file": "016_l=+10_V1_-8_V2_+16_V3_-16_C-9.2_L+4.6_onGIF_good_profile.dm3",
+ "size": 290349,
+ "sha256": "2b39372aae3128c944dcd2f922e63072d1c93f5ae5b887797fd661eeb8eedcd7",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "016_l=+10_V1_-8_V2_+16_V3_-16_C-9.2_L+4.6_onGIF_good_profile",
+   "size_x": 109,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6fe6801c4441a481d7ba828f422aa85f"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}

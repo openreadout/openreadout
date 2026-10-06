@@ -93,7 +93,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_oib`, `whole_oif`
-- corpus inputs by tier: heldout 3, smoke 5, standard 4
+- corpus inputs by tier: heldout 4, smoke 5, standard 4
 - golden snapshots: [`corpus/snapshots/oib.jsonl`](../../corpus/snapshots/oib.jsonl), [`corpus/snapshots/oif.jsonl`](../../corpus/snapshots/oif.jsonl)
 
 ### Open new-variant intakes

@@ -10,7 +10,8 @@ Sources, never our reader:
   (`--deerload`): every sweep's real (and imaginary) values;
 - values the depositor states outside the file (`--fact path=value[:rel_tol]`);
 - TRIOS exports of a `.tri` run (`--trios-export PATH [--trace K] [--sample-mass-g M] [--sheet S]`):
-  the Excel export, the CSV export or a depositor's copy into a workbook.
+  the Excel export, the CSV export or a depositor's copy into a workbook;
+- neware_reader (BSD-2-Clause) on an older Neware `.nda` that NewareNDA refuses (`--neware-reader`).
 
 Usage:
   python series_oracle.py --id ID --format FMT FILE [--out DIR]
@@ -180,7 +181,12 @@ def mpt_traces(path: Path, a: dict) -> list[dict]:
     comma = bool(rows) and "," in "\t".join(rows[0]) and "." not in "\t".join(rows[0])
     def f(v):
         return float(v.replace(",", ".") if comma else v)
-    cols = {h: [f(r[k]) for r in rows] for k, h in enumerate(head)}
+    cols = {}
+    for k, h in enumerate(head):
+        try:
+            cols[h] = [f(r[k]) for r in rows]
+        except ValueError:  # e.g. time/s exported as absolute date-times ("07/10/2022 01:08:59.8225"): not compared
+            continue
     time = cols.get("time/s")
     idx = pick(len(rows))
     out = []
@@ -596,6 +602,26 @@ def pyngb_traces(path: Path, a: dict) -> tuple[list[dict], list[dict]]:
     return out, facts
 
 
+def neware_reader_traces(path: Path) -> list[dict]:
+    """neware_reader (BSD-2-Clause, github.com/FTHuld/neware_reader at a pinned commit, run as a black
+    box) on an older `.nda` that NewareNDA refuses (version 8): voltage, current and step time per
+    record, sampled at up to 256 records, compared by our channel name. It reports one capacity
+    column for both directions, so capacities are not compared."""
+    from neware_reader import neware  # type: ignore
+
+    df = neware.read_nda(str(path))
+    n = len(df)
+    every = pick(n)
+    out = []
+    for ours, theirs in (("voltage", "voltage_V"), ("current", "current_mA"), ("step_time", "time_in_step")):
+        vals = [float(v) for v in df[theirs]]
+        out.append({"trace": 0, "sweep": 0, "channel": ours, "n": n,
+                    "samples": [[i, None, vals[i]] for i in every if vals[i] == vals[i]],
+                    "x_tol": 1e-9, "y_tol_rel": 2e-6, "y_tol_abs": 1e-9,
+                    "source": f"neware_reader {path.name} (BSD-2-Clause, black box)"})
+    return out
+
+
 def main() -> None:
     args = sys.argv[1:]
     out_dir = OUT
@@ -610,6 +636,7 @@ def main() -> None:
     independent = True
     gam = False
     nda: list[dict] = []
+    nwr = False
     ngbs: list[dict] = []
     tas: list[tuple[Path, dict]] = []
     trios: list[tuple[Path, dict]] = []
@@ -643,6 +670,8 @@ def main() -> None:
             cur["expdat"].append(args[i + 1]); i += 2
         elif k == "--newarenda":
             cur = {}; nda.append(cur); i += 1
+        elif k == "--neware-reader":
+            nwr = True; i += 1
         elif k == "--no-cycle":
             cur["cycle"] = False; i += 1
         elif k == "--second-implementation":
@@ -708,6 +737,8 @@ def main() -> None:
             nt, nf = newarenda_traces(target, o)
             traces += nt
             facts += nf
+        if nwr:
+            traces += neware_reader_traces(target)
         for g in galv:
             # labels EC-Lab's export shares with galvani: required
             exp = next((Path(m["file"]) for m in mpts), target if str(target).lower().endswith((".mpt", ".txt")) else None)

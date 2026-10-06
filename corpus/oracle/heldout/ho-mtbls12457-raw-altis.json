@@ -1,0 +1,3103 @@
+{
+ "id": "ho-mtbls12457-raw-altis",
+ "file": "WT_HT115_2.raw",
+ "size": 20343227,
+ "sha256": "ec9e4ea561644c28e2e61d8529bf04ed8e39a728ef786c54c11cfc4ecefb7cb0",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 on the depositor's mzML (WT_HT115_2.mzML)",
+ "paired_export": "WT_HT115_2.mzML",
+ "export_software": [
+  [
+   "Xcalibur",
+   "3.2.2675"
+  ],
+  [
+   "pwiz",
+   "3.0.22189"
+  ]
+ ],
+ "peak_picking_in_export": true,
+ "images": [],
+ "chromatograms": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "kind": "tic",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 45600,
+   "xxh3_time_min": "cf875eafbb391afffba87e6d3d29ba1c",
+   "xxh3_intensity": "1b96a49ca972ea0d555e5b6e2196dbcc",
+   "sum_intensity": 1860665650.802783,
+   "first_points": [
+    [
+     5.63304e-05,
+     103.39768981933594
+    ],
+    [
+     0.0002810602666666667,
+     83.17852020263672
+    ],
+    [
+     0.0004935970666666667,
+     0.0
+    ],
+    [
+     0.0007053434666666667,
+     0.0
+    ],
+    [
+     0.0009375682666666667,
+     0.0
+    ]
+   ],
+   "n_nonzero": 34684,
+   "xxh3_time_min_nonzero": "76f46c3805142dd428e7b9e202bedcd0",
+   "xxh3_intensity_nonzero": "c6079d53129ba055a36303d1da77f133"
+  },
+  {
+   "index": 1,
+   "id": "SRM SIC 76,30",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 76.0,
+   "product_mz": 30.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "e29aab0c69e7179feaa27ded6a9fab02",
+   "xxh3_intensity": "9b750c84b4d2a09777dc2dc6e7d43bb4",
+   "sum_intensity": 1771934.583664894,
+   "first_points": [
+    [
+     5.63304e-05,
+     103.39768981933594
+    ],
+    [
+     0.016730631200000002,
+     103.39768981933594
+    ],
+    [
+     0.03340984721666666,
+     130.28848266601562
+    ],
+    [
+     0.050084722416666665,
+     138.62066650390625
+    ],
+    [
+     0.06676223788333333,
+     343.9625244140625
+    ]
+   ],
+   "n_nonzero": 599,
+   "xxh3_time_min_nonzero": "46dab063c8e859d2e3837cf57003f223",
+   "xxh3_intensity_nonzero": "fbddcc046a56bf062abf02a4726492b3"
+  },
+  {
+   "index": 2,
+   "id": "SRM SIC 76,31",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 76.0,
+   "product_mz": 31.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "ca2ba4c8051281e32e9eab24140d4971",
+   "xxh3_intensity": "6d261b548f3ed5271c72ff9cfff288cc",
+   "sum_intensity": 376226.1394357681,
+   "first_points": [
+    [
+     0.0002810602666666667,
+     83.17852020263672
+    ],
+    [
+     0.016980593066666667,
+     83.17852020263672
+    ],
+    [
+     0.03365986135,
+     35.91082763671875
+    ],
+    [
+     0.050334720549999996,
+     43.27247619628906
+    ],
+    [
+     0.06701212001666666,
+     44.23664474487305
+    ]
+   ],
+   "n_nonzero": 589,
+   "xxh3_time_min_nonzero": "e4948559cea052e511a48fd4cb8c4879",
+   "xxh3_intensity_nonzero": "a098737e48ff9ff96a21b219e184c951"
+  },
+  {
+   "index": 3,
+   "id": "SRM SIC 76,39",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 76.0,
+   "product_mz": 39.0,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "b91a26b37fee2da6491beea9b2e24f19",
+   "xxh3_intensity": "76c392d340981cb1034312ff89d7b367",
+   "sum_intensity": 23574.819408891228,
+   "first_points": [
+    [
+     0.0004935970666666667,
+     0.0
+    ],
+    [
+     0.017192393066666666,
+     0.0
+    ],
+    [
+     0.033871387733333334,
+     0.0
+    ],
+    [
+     0.05054649868333334,
+     0.0
+    ],
+    [
+     0.06722339946666667,
+     0.0
+    ]
+   ],
+   "n_nonzero": 382,
+   "xxh3_time_min_nonzero": "bbd6b32115a522d85b392d5d90daf3ca",
+   "xxh3_intensity_nonzero": "59c1e062e235c0e9a442d2ff02e4c230"
+  },
+  {
+   "index": 4,
+   "id": "SRM SIC 90.05,58.06",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 90.05,
+   "product_mz": 58.06,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "135aa7c43830f9ff5d5fb5da914bf40f",
+   "xxh3_intensity": "156f48a57a30ff78b196cc977cc3b4a5",
+   "sum_intensity": 15753.815117541139,
+   "first_points": [
+    [
+     0.0007053434666666667,
+     0.0
+    ],
+    [
+     0.017404137599999998,
+     0.0
+    ],
+    [
+     0.03408322666666667,
+     16.680574417114258
+    ],
+    [
+     0.05075835653333333,
+     13.146552085876465
+    ],
+    [
+     0.06743543148333334,
+     0.0007448297692462802
+    ]
+   ],
+   "n_nonzero": 331,
+   "xxh3_time_min_nonzero": "def6c6aa2cc7609ccdce82b1c1710786",
+   "xxh3_intensity_nonzero": "5de60b1ca4a3994db6ebd315e65f4635"
+  },
+  {
+   "index": 5,
+   "id": "SRM SIC 90.05,59.01",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 90.05,
+   "product_mz": 59.01,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "77027f0ddec69941aecafc14e3050501",
+   "xxh3_intensity": "fc19fe4e5a42964e76931e919e472722",
+   "sum_intensity": 309.7868216128554,
+   "first_points": [
+    [
+     0.0009375682666666667,
+     0.0
+    ],
+    [
+     0.01763570295,
+     0.0
+    ],
+    [
+     0.0343148864,
+     0.0
+    ],
+    [
+     0.05098994186666667,
+     0.0
+    ],
+    [
+     0.06766735415,
+     0.0
+    ]
+   ],
+   "n_nonzero": 16,
+   "xxh3_time_min_nonzero": "3447b8f6ba124a5e1d3ddefaeedc709d",
+   "xxh3_intensity_nonzero": "dbf3f0dc0453b3239c65d156ab485c6c"
+  },
+  {
+   "index": 6,
+   "id": "SRM SIC 104,45",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 104.0,
+   "product_mz": 45.0,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "c17dc8045d3d4b8462dd5e8a40921e23",
+   "xxh3_intensity": "9f6f6d58a3b70016c8d73cebe4778935",
+   "sum_intensity": 71896956.37176514,
+   "first_points": [
+    [
+     0.0011493648,
+     6355.857421875
+    ],
+    [
+     0.017847144550000003,
+     6355.857421875
+    ],
+    [
+     0.034526735733333334,
+     6251.99951171875
+    ],
+    [
+     0.05120161895,
+     5267.18408203125
+    ],
+    [
+     0.06787885388333333,
+     4673.4814453125
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "c17dc8045d3d4b8462dd5e8a40921e23",
+   "xxh3_intensity_nonzero": "9f6f6d58a3b70016c8d73cebe4778935"
+  },
+  {
+   "index": 7,
+   "id": "SRM SIC 104,60",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 104.0,
+   "product_mz": 60.0,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "3fcad86e9eb4e42f23ae1855629505dd",
+   "xxh3_intensity": "c1c79ca326be31f038a8d1a884b8a78d",
+   "sum_intensity": 29669823.732330322,
+   "first_points": [
+    [
+     0.0013816464,
+     2963.98095703125
+    ],
+    [
+     0.018079382683333332,
+     2963.98095703125
+    ],
+    [
+     0.034758370399999995,
+     2333.4072265625
+    ],
+    [
+     0.05143381095,
+     2523.301025390625
+    ],
+    [
+     0.06811077681666666,
+     3218.340576171875
+    ]
+   ],
+   "n_nonzero": 598,
+   "xxh3_time_min_nonzero": "036d83adc49ed80e5e79e4e02456cfd2",
+   "xxh3_intensity_nonzero": "a0bbe90a19f480bb9d3147c2cb6e87b1"
+  },
+  {
+   "index": 8,
+   "id": "SRM SIC 104.07,42.03",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 104.07,
+   "product_mz": 42.03,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "ff251a8dc3723b184110e04a9de2826a",
+   "xxh3_intensity": "af374c8179881855e48d7f6df9223a46",
+   "sum_intensity": 25602775.61169052,
+   "first_points": [
+    [
+     0.0015940426666666667,
+     2257.650634765625
+    ],
+    [
+     0.018291732800000002,
+     2257.650634765625
+    ],
+    [
+     0.034970421866666664,
+     2006.85986328125
+    ],
+    [
+     0.051646427216666665,
+     2352.311279296875
+    ],
+    [
+     0.06832254213333333,
+     2162.06640625
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "ff251a8dc3723b184110e04a9de2826a",
+   "xxh3_intensity_nonzero": "af374c8179881855e48d7f6df9223a46"
+  },
+  {
+   "index": 9,
+   "id": "SRM SIC 104.07,44.05",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 104.07,
+   "product_mz": 44.05,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "73e1567f2b6c223499e141a46cd1875e",
+   "xxh3_intensity": "f6de1747cd8993d235c71399e774d8df",
+   "sum_intensity": 44101335.03612518,
+   "first_points": [
+    [
+     0.0018263706666666667,
+     3960.75146484375
+    ],
+    [
+     0.018523674666666667,
+     3960.75146484375
+    ],
+    [
+     0.0352022568,
+     3796.142822265625
+    ],
+    [
+     0.051878560549999994,
+     3570.7275390625
+    ],
+    [
+     0.06855409333333333,
+     3325.25244140625
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "73e1567f2b6c223499e141a46cd1875e",
+   "xxh3_intensity_nonzero": "f6de1747cd8993d235c71399e774d8df"
+  },
+  {
+   "index": 10,
+   "id": "SRM SIC 106,42",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 106.0,
+   "product_mz": 42.0,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "536986a05a2c348dc774e380f190e287",
+   "xxh3_intensity": "b6cf03c12eb8d817e1e20be6f14d7c15",
+   "sum_intensity": 2666582.6008136747,
+   "first_points": [
+    [
+     0.0020381522666666667,
+     825.2772216796875
+    ],
+    [
+     0.018734965083333333,
+     825.2772216796875
+    ],
+    [
+     0.0354137984,
+     644.35986328125
+    ],
+    [
+     0.05208995361666667,
+     546.117431640625
+    ],
+    [
+     0.06876535948333333,
+     408.8811340332031
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "536986a05a2c348dc774e380f190e287",
+   "xxh3_intensity_nonzero": "b6cf03c12eb8d817e1e20be6f14d7c15"
+  },
+  {
+   "index": 11,
+   "id": "SRM SIC 106,43",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 106.0,
+   "product_mz": 43.0,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "c0bb323509b72cbe5ad45934663f7d19",
+   "xxh3_intensity": "579bdd9c5808a422242e3c3987b07db4",
+   "sum_intensity": 914757.4408478565,
+   "first_points": [
+    [
+     0.002269745083333333,
+     308.22991943359375
+    ],
+    [
+     0.018966578150000003,
+     308.22991943359375
+    ],
+    [
+     0.035646090666666665,
+     230.03530883789062
+    ],
+    [
+     0.05232172773333333,
+     191.16639709472656
+    ],
+    [
+     0.06899752695,
+     108.34962463378906
+    ]
+   ],
+   "n_nonzero": 598,
+   "xxh3_time_min_nonzero": "63e5b549c279efb751adc73586e9440f",
+   "xxh3_intensity_nonzero": "3dd6607ae698d88cf1edee622d71ede3"
+  },
+  {
+   "index": 12,
+   "id": "SRM SIC 106,60",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 106.0,
+   "product_mz": 60.0,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "c6bcc2b784b344cc2fbc10370708c086",
+   "xxh3_intensity": "90e2d172012a8a809eeb8828a21de0fe",
+   "sum_intensity": 1449232.5964240357,
+   "first_points": [
+    [
+     0.0024815090833333335,
+     263.0326843261719
+    ],
+    [
+     0.01917806161666667,
+     263.0326843261719
+    ],
+    [
+     0.035857388000000004,
+     307.9329528808594
+    ],
+    [
+     0.05253327708333333,
+     395.61376953125
+    ],
+    [
+     0.06920904081666666,
+     239.48780822753906
+    ]
+   ],
+   "n_nonzero": 555,
+   "xxh3_time_min_nonzero": "8d2a3d4785da0854d47106ec62f8c816",
+   "xxh3_intensity_nonzero": "5896a58ce9146479eca65969d134356b"
+  },
+  {
+   "index": 13,
+   "id": "SRM SIC 110.02,55.93",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 110.02,
+   "product_mz": 55.93,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "daf33bb84f3aee6b16afc60a7b40a378",
+   "xxh3_intensity": "b70b38ddbe990d5fb315d3e56e72b0d2",
+   "sum_intensity": 5269127.904782802,
+   "first_points": [
+    [
+     0.0026937720166666664,
+     761.6463623046875
+    ],
+    [
+     0.019390192266666665,
+     761.6463623046875
+    ],
+    [
+     0.0360692344,
+     809.548583984375
+    ],
+    [
+     0.05274584721666666,
+     928.7935180664062
+    ],
+    [
+     0.0694208072,
+     1043.693359375
+    ]
+   ],
+   "n_nonzero": 555,
+   "xxh3_time_min_nonzero": "556a19ab1201e0da0e514f9f3c9610dd",
+   "xxh3_intensity_nonzero": "f3fabca49fc7d890224af39a948e26ce"
+  },
+  {
+   "index": 14,
+   "id": "SRM SIC 110.02,81.93",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 110.02,
+   "product_mz": 81.93,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "b4c66abfc4be90739427e44cad5d4204",
+   "xxh3_intensity": "5cfc85dcc3e94302d24b1652ae702467",
+   "sum_intensity": 5799565.227137793,
+   "first_points": [
+    [
+     0.0029257594833333334,
+     1169.78564453125
+    ],
+    [
+     0.019622128800000003,
+     1169.78564453125
+    ],
+    [
+     0.036301090933333335,
+     1690.42919921875
+    ],
+    [
+     0.05297814321666667,
+     2258.50244140625
+    ],
+    [
+     0.06965249386666666,
+     2268.088134765625
+    ]
+   ],
+   "n_nonzero": 532,
+   "xxh3_time_min_nonzero": "aae0303be9329dcc271b9af0274434ff",
+   "xxh3_intensity_nonzero": "63d4e6a3ccf9396d6b8fd891670b8369"
+  },
+  {
+   "index": 15,
+   "id": "SRM SIC 118,58",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 118.0,
+   "product_mz": 58.0,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "23e2a0b827406f90ebac343ab9d940a6",
+   "xxh3_intensity": "1680b540f4654a4f8471fc779c683633",
+   "sum_intensity": 1272437755.20919,
+   "first_points": [
+    [
+     0.0031383245333333333,
+     4033.013671875
+    ],
+    [
+     0.019834259483333335,
+     4033.013671875
+    ],
+    [
+     0.03651317653333333,
+     3855.775146484375
+    ],
+    [
+     0.053190353600000004,
+     3868.867919921875
+    ],
+    [
+     0.06986444906666667,
+     3798.0537109375
+    ]
+   ],
+   "n_nonzero": 599,
+   "xxh3_time_min_nonzero": "8e2963391548d77a6e76c37770925c4f",
+   "xxh3_intensity_nonzero": "dcc219ed3ce4ee09fab6ce5df33ddf99"
+  },
+  {
+   "index": 16,
+   "id": "SRM SIC 118,59.07",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 118.0,
+   "product_mz": 59.07,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "0d7a812add20aec6a887263839e91be9",
+   "xxh3_intensity": "6ce9641e46fd7e78e2448e2247874643",
+   "sum_intensity": 114938196.7484932,
+   "first_points": [
+    [
+     0.0033708314666666666,
+     594.1185913085938
+    ],
+    [
+     0.020065860283333334,
+     594.1185913085938
+    ],
+    [
+     0.03674512826666666,
+     412.0467529296875
+    ],
+    [
+     0.05342206186666667,
+     443.9512939453125
+    ],
+    [
+     0.07009656373333333,
+     564.3756713867188
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "0d7a812add20aec6a887263839e91be9",
+   "xxh3_intensity_nonzero": "6ce9641e46fd7e78e2448e2247874643"
+  },
+  {
+   "index": 17,
+   "id": "SRM SIC 118.1,55.1",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 118.1,
+   "product_mz": 55.1,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "04d70d6d2b044001f5ec362d2c9c6893",
+   "xxh3_intensity": "0897acb8b51cc239e63951697dd67049",
+   "sum_intensity": 25222364.889282227,
+   "first_points": [
+    [
+     0.0035827130833333332,
+     3628.456787109375
+    ],
+    [
+     0.020277449883333333,
+     3628.456787109375
+    ],
+    [
+     0.036956652,
+     3529.930419921875
+    ],
+    [
+     0.053633384533333335,
+     4232.2392578125
+    ],
+    [
+     0.07030804746666666,
+     3602.854736328125
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "04d70d6d2b044001f5ec362d2c9c6893",
+   "xxh3_intensity_nonzero": "0897acb8b51cc239e63951697dd67049"
+  },
+  {
+   "index": 18,
+   "id": "SRM SIC 118.1,72.1",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 118.1,
+   "product_mz": 72.1,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "ff9537dbfcba30c1f8325556f0d1e803",
+   "xxh3_intensity": "cfec207104a4b8d2cc9fccd2bc39b2f1",
+   "sum_intensity": 15612545.324092865,
+   "first_points": [
+    [
+     0.00381440295,
+     3019.75048828125
+    ],
+    [
+     0.020509165083333333,
+     3019.75048828125
+    ],
+    [
+     0.037188514400000004,
+     2474.57763671875
+    ],
+    [
+     0.0538654328,
+     3070.316650390625
+    ],
+    [
+     0.07053974319999999,
+     3065.0126953125
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "ff9537dbfcba30c1f8325556f0d1e803",
+   "xxh3_intensity_nonzero": "cfec207104a4b8d2cc9fccd2bc39b2f1"
+  },
+  {
+   "index": 19,
+   "id": "SRM SIC 120.067,56.05",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 120.067,
+   "product_mz": 56.05,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "b0f196aa2bc5810c8d28dfab929abd4e",
+   "xxh3_intensity": "a16f4c087749759f950d771a51e8c6c1",
+   "sum_intensity": 3219978.018275261,
+   "first_points": [
+    [
+     0.004026564549999999,
+     618.744140625
+    ],
+    [
+     0.0207213456,
+     618.744140625
+    ],
+    [
+     0.037400376549999996,
+     942.4244384765625
+    ],
+    [
+     0.0540779112,
+     1132.8397216796875
+    ],
+    [
+     0.07075154426666666,
+     859.7913208007812
+    ]
+   ],
+   "n_nonzero": 596,
+   "xxh3_time_min_nonzero": "42dbb5acb81a3f05960bbae4f118792c",
+   "xxh3_intensity_nonzero": "c8e58d0a9b5045b492dcbfcab4217ece"
+  },
+  {
+   "index": 20,
+   "id": "SRM SIC 120.067,74.06",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 120.067,
+   "product_mz": 74.06,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "870aaf47cdb5b08e358eee0dc43ea98a",
+   "xxh3_intensity": "8a08b68d6235cf86cc69f6b18fe946dd",
+   "sum_intensity": 965187.4660520554,
+   "first_points": [
+    [
+     0.004258176,
+     250.88088989257812
+    ],
+    [
+     0.020953214933333335,
+     250.88088989257812
+    ],
+    [
+     0.03763224401666666,
+     205.91848754882812
+    ],
+    [
+     0.05431046506666667,
+     138.337890625
+    ],
+    [
+     0.07098307946666667,
+     108.07313537597656
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "870aaf47cdb5b08e358eee0dc43ea98a",
+   "xxh3_intensity_nonzero": "8a08b68d6235cf86cc69f6b18fe946dd"
+  },
+  {
+   "index": 21,
+   "id": "SRM SIC 120.067,84.04",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 120.067,
+   "product_mz": 84.04,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "bb671bb5bce0dab682d37f0cd2485fd6",
+   "xxh3_intensity": "021bb9f956d6e365393436f8ff7bd555",
+   "sum_intensity": 60366.32465425908,
+   "first_points": [
+    [
+     0.0044702008,
+     30.943788528442383
+    ],
+    [
+     0.021165434666666667,
+     30.943788528442383
+    ],
+    [
+     0.03784431095,
+     61.47850036621094
+    ],
+    [
+     0.05452264133333333,
+     122.4476547241211
+    ],
+    [
+     0.07119515733333334,
+     65.00025939941406
+    ]
+   ],
+   "n_nonzero": 369,
+   "xxh3_time_min_nonzero": "7a459a53d38de51364c56950c32769c0",
+   "xxh3_intensity_nonzero": "266d17e55725029facc8a52ae1ac55c6"
+  },
+  {
+   "index": 22,
+   "id": "SRM SIC 120.067,102.05",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 120.067,
+   "product_mz": 102.05,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "05f19990e281a883baf661bc43b169bb",
+   "xxh3_intensity": "73eb53478b99c93af5062142bd111eac",
+   "sum_intensity": 5999742.091873169,
+   "first_points": [
+    [
+     0.004682215466666667,
+     241.01034545898438
+    ],
+    [
+     0.0213776072,
+     241.01034545898438
+    ],
+    [
+     0.03805644933333333,
+     132.42776489257812
+    ],
+    [
+     0.05473458801666666,
+     136.3946990966797
+    ],
+    [
+     0.07140741093333333,
+     349.4788513183594
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "05f19990e281a883baf661bc43b169bb",
+   "xxh3_intensity_nonzero": "73eb53478b99c93af5062142bd111eac"
+  },
+  {
+   "index": 23,
+   "id": "SRM SIC 126,64.96",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 126.0,
+   "product_mz": 64.96,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "d7313fb24a92746a64af67bddfb91785",
+   "xxh3_intensity": "987bcf88382d770b46a2eaa10f1b93ce",
+   "sum_intensity": 514146.17113863153,
+   "first_points": [
+    [
+     0.004894299466666667,
+     0.0
+    ],
+    [
+     0.021589372266666667,
+     0.0
+    ],
+    [
+     0.03826829441666667,
+     28.215913772583008
+    ],
+    [
+     0.05494693948333333,
+     22.237960815429688
+    ],
+    [
+     0.0716196,
+     76.64390563964844
+    ]
+   ],
+   "n_nonzero": 587,
+   "xxh3_time_min_nonzero": "a1ca5fa66f3b2c06ba2841c05480be56",
+   "xxh3_intensity_nonzero": "c15bf22f4c68dfaf10e9f3fbf98d27bf"
+  },
+  {
+   "index": 24,
+   "id": "SRM SIC 126,67.03",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 126.0,
+   "product_mz": 67.03,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "60dd1bceeae4f35a482e362ec13a3ace",
+   "xxh3_intensity": "3f95b73364e46dc2b7a6682eb9677fd4",
+   "sum_intensity": 28648.63528046012,
+   "first_points": [
+    [
+     0.005126831466666666,
+     0.0
+    ],
+    [
+     0.021821010666666665,
+     0.0
+    ],
+    [
+     0.038499997349999995,
+     52.323020935058594
+    ],
+    [
+     0.05517887388333333,
+     41.23762893676758
+    ],
+    [
+     0.07185112613333335,
+     55.56620788574219
+    ]
+   ],
+   "n_nonzero": 466,
+   "xxh3_time_min_nonzero": "4b21859ad9a7a0f9aad3d79ef000d614",
+   "xxh3_intensity_nonzero": "89dec238e95bbb14e8132582e9411faa"
+  },
+  {
+   "index": 25,
+   "id": "SRM SIC 126,78.98",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 126.0,
+   "product_mz": 78.98,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "09af7b0acbf461776c777078c31b569c",
+   "xxh3_intensity": "9af594d2ec3c727cdc8fb6b555acc20a",
+   "sum_intensity": 67159.67614281437,
+   "first_points": [
+    [
+     0.005338590933333333,
+     0.0
+    ],
+    [
+     0.022032585616666666,
+     0.0
+    ],
+    [
+     0.03871169148333333,
+     0.0
+    ],
+    [
+     0.05539061521666667,
+     0.0
+    ],
+    [
+     0.07206261039999999,
+     0.0
+    ]
+   ],
+   "n_nonzero": 487,
+   "xxh3_time_min_nonzero": "9257f5505aac77ea28ccbcebf775b39b",
+   "xxh3_intensity_nonzero": "a349bf561e333a10566419eebcc0860f"
+  },
+  {
+   "index": 26,
+   "id": "SRM SIC 126,108",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 126.0,
+   "product_mz": 108.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "03c8ed72741f73fb8f767412244344b4",
+   "xxh3_intensity": "27173c202a66852b0cbeb7831672f20b",
+   "sum_intensity": 2650.9141271360204,
+   "first_points": [
+    [
+     0.00555072215,
+     0.0
+    ],
+    [
+     0.022245049083333336,
+     0.0
+    ],
+    [
+     0.03892364986666667,
+     0.0
+    ],
+    [
+     0.05560271148333333,
+     0.0
+    ],
+    [
+     0.07227469306666667,
+     0.0
+    ]
+   ],
+   "n_nonzero": 47,
+   "xxh3_time_min_nonzero": "eba4c9199c7dc831beac196eef89dc75",
+   "xxh3_intensity_nonzero": "7e3cee086985e0c747954e8ccf9a79fd"
+  },
+  {
+   "index": 27,
+   "id": "SRM SIC 132.1,69.1",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 132.1,
+   "product_mz": 69.1,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "2b971166505a1e7454c80f99446ea42b",
+   "xxh3_intensity": "b11443255b5d63a67b365f0f1cda6b78",
+   "sum_intensity": 5727515.023973465,
+   "first_points": [
+    [
+     0.0057636040166666675,
+     829.650390625
+    ],
+    [
+     0.0224569448,
+     829.650390625
+    ],
+    [
+     0.039135761883333335,
+     929.3299560546875
+    ],
+    [
+     0.055814617616666666,
+     1295.426513671875
+    ],
+    [
+     0.0724867536,
+     1070.839599609375
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "2b971166505a1e7454c80f99446ea42b",
+   "xxh3_intensity_nonzero": "b11443255b5d63a67b365f0f1cda6b78"
+  },
+  {
+   "index": 28,
+   "id": "SRM SIC 132.1,86.1",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 132.1,
+   "product_mz": 86.1,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "d888d7c2f5dab08edef62088333f6380",
+   "xxh3_intensity": "0e142bae0980772379fcc9b569aa1074",
+   "sum_intensity": 10431821.094940186,
+   "first_points": [
+    [
+     0.005996161616666666,
+     2377.41796875
+    ],
+    [
+     0.022688554133333334,
+     2377.41796875
+    ],
+    [
+     0.03936762961666666,
+     2064.94287109375
+    ],
+    [
+     0.056046591750000006,
+     1877.6436767578125
+    ],
+    [
+     0.0727182848,
+     1490.9241943359375
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "d888d7c2f5dab08edef62088333f6380",
+   "xxh3_intensity_nonzero": "0e142bae0980772379fcc9b569aa1074"
+  },
+  {
+   "index": 29,
+   "id": "SRM SIC 136.04,44.04",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 136.04,
+   "product_mz": 44.04,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "f2ccd2ce4923cfda201da4ebbb28d294",
+   "xxh3_intensity": "cfad9d385c84918c244995818e7c3841",
+   "sum_intensity": 94753.16700470448,
+   "first_points": [
+    [
+     0.0062080293333333335,
+     85.91124725341797
+    ],
+    [
+     0.022900790933333335,
+     85.91124725341797
+    ],
+    [
+     0.039579888283333337,
+     191.64588928222656
+    ],
+    [
+     0.05625861093333333,
+     237.77239990234375
+    ],
+    [
+     0.0729304432,
+     164.55723571777344
+    ]
+   ],
+   "n_nonzero": 564,
+   "xxh3_time_min_nonzero": "7942b1489d3a72e2c6b95b09f991bae1",
+   "xxh3_intensity_nonzero": "48bb1dbb06895e5eb7e98032fdb796c8"
+  },
+  {
+   "index": 30,
+   "id": "SRM SIC 136.04,46.9",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 136.04,
+   "product_mz": 46.9,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "0c0f0f6431f0718703feef36a4ba153d",
+   "xxh3_intensity": "32b929a97f4ad3f2a9afed8557fe6f68",
+   "sum_intensity": 97846.94510650635,
+   "first_points": [
+    [
+     0.006439560266666667,
+     15.398550987243652
+    ],
+    [
+     0.023132667200000002,
+     15.398550987243652
+    ],
+    [
+     0.039811759216666666,
+     20.244304656982422
+    ],
+    [
+     0.056491056266666666,
+     14.902875900268555
+    ],
+    [
+     0.07316248693333334,
+     73.18203735351562
+    ]
+   ],
+   "n_nonzero": 478,
+   "xxh3_time_min_nonzero": "12e94be4792c6fbc6ce1e74d1cb251a9",
+   "xxh3_intensity_nonzero": "476093487207ab394c37d1d6b238ede7"
+  },
+  {
+   "index": 31,
+   "id": "SRM SIC 136.04,56.04",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 136.04,
+   "product_mz": 56.04,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "61b8d2277f4ec4dd9a86ba367bb71cf4",
+   "xxh3_intensity": "b1bd836705c1137e0ca6c09a44a1cfd1",
+   "sum_intensity": 63784.50572915701,
+   "first_points": [
+    [
+     0.006651333883333333,
+     177.16632080078125
+    ],
+    [
+     0.023344452,
+     177.16632080078125
+    ],
+    [
+     0.0400229208,
+     105.80325317382812
+    ],
+    [
+     0.05670245653333333,
+     51.46131134033203
+    ],
+    [
+     0.0733739856,
+     38.75923156738281
+    ]
+   ],
+   "n_nonzero": 508,
+   "xxh3_time_min_nonzero": "1a8fd4e3aec136c1e83a93b20cae2e91",
+   "xxh3_intensity_nonzero": "1b92f27332a4ab5d3f03d8bb80a24769"
+  },
+  {
+   "index": 32,
+   "id": "SRM SIC 150.05,56",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 150.05,
+   "product_mz": 56.0,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "9ddb7e888866fa90c54e96ed636e82ab",
+   "xxh3_intensity": "874476fa0f86ec44b251fe7368c5484e",
+   "sum_intensity": 1146962.1995716142,
+   "first_points": [
+    [
+     0.00686356615,
+     196.98545837402344
+    ],
+    [
+     0.0235562368,
+     196.98545837402344
+    ],
+    [
+     0.040234955483333334,
+     283.2854309082031
+    ],
+    [
+     0.05691434508333334,
+     299.1487121582031
+    ],
+    [
+     0.07358613653333333,
+     143.7686309814453
+    ]
+   ],
+   "n_nonzero": 583,
+   "xxh3_time_min_nonzero": "bf4e642e2a19b5dce927d28c2bf788b6",
+   "xxh3_intensity_nonzero": "c584e04d6ac6b901ae535c48d9d8ca6b"
+  },
+  {
+   "index": 33,
+   "id": "SRM SIC 150.05,61",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 150.05,
+   "product_mz": 61.0,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "d1fd2ad2855cf832f8201371338d719e",
+   "xxh3_intensity": "a064a7b8178d91808451ff42e4605a34",
+   "sum_intensity": 1855263.09617424,
+   "first_points": [
+    [
+     0.007096457083333333,
+     150.94737243652344
+    ],
+    [
+     0.023787884,
+     150.94737243652344
+    ],
+    [
+     0.04046676455,
+     256.1589660644531
+    ],
+    [
+     0.05714637921666667,
+     254.61233520507812
+    ],
+    [
+     0.07381815386666667,
+     171.0658721923828
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "d1fd2ad2855cf832f8201371338d719e",
+   "xxh3_intensity_nonzero": "a064a7b8178d91808451ff42e4605a34"
+  },
+  {
+   "index": 34,
+   "id": "SRM SIC 150.05,104",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 150.05,
+   "product_mz": 104.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "5716d257c216c76e5fe3ab02f5f6aa9a",
+   "xxh3_intensity": "37bfcd497527b081a6ee8be28fff5a5b",
+   "sum_intensity": 80640.10926939943,
+   "first_points": [
+    [
+     0.0073083584,
+     84.97740173339844
+    ],
+    [
+     0.02399927975,
+     84.97740173339844
+    ],
+    [
+     0.04067822535,
+     71.26470947265625
+    ],
+    [
+     0.0573576024,
+     32.88078689575195
+    ],
+    [
+     0.07402969599999999,
+     34.62442398071289
+    ]
+   ],
+   "n_nonzero": 542,
+   "xxh3_time_min_nonzero": "36a75ad36f382df8a27533c19ba432b0",
+   "xxh3_intensity_nonzero": "91076a00b65b87a7736965f51897f02a"
+  },
+  {
+   "index": 35,
+   "id": "SRM SIC 182.1,136.1",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 182.1,
+   "product_mz": 136.1,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "5a398478150bb0018940b14575934c05",
+   "xxh3_intensity": "dd7ac3fae3eb9d3b314628a76c1919fc",
+   "sum_intensity": 1960867.2455825806,
+   "first_points": [
+    [
+     0.007520758933333333,
+     316.3783264160156
+    ],
+    [
+     0.024211977616666668,
+     316.3783264160156
+    ],
+    [
+     0.04089026533333333,
+     353.7914123535156
+    ],
+    [
+     0.05756980241666666,
+     373.7355041503906
+    ],
+    [
+     0.0742415144,
+     465.6242370605469
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "5a398478150bb0018940b14575934c05",
+   "xxh3_intensity_nonzero": "dd7ac3fae3eb9d3b314628a76c1919fc"
+  },
+  {
+   "index": 36,
+   "id": "SRM SIC 182.1,165.1",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 182.1,
+   "product_mz": 165.1,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "bc46c74c9738cc6874a42665d2f6603b",
+   "xxh3_intensity": "b4ee080d2a36ce6dd4e9418c4267d65b",
+   "sum_intensity": 171033.15464446208,
+   "first_points": [
+    [
+     0.007752933883333333,
+     0.0
+    ],
+    [
+     0.024444145616666666,
+     0.0
+    ],
+    [
+     0.04112214746666667,
+     60.9073371887207
+    ],
+    [
+     0.05780206508333333,
+     48.003231048583984
+    ],
+    [
+     0.07447315066666667,
+     0.0
+    ]
+   ],
+   "n_nonzero": 558,
+   "xxh3_time_min_nonzero": "3513cace0b6fe3cf08fefbe3b0b78a36",
+   "xxh3_intensity_nonzero": "287585bd978108888887cb3259f85131"
+  },
+  {
+   "index": 37,
+   "id": "SRM SIC 184.08,86.1",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 184.08,
+   "product_mz": 86.1,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "c03d2ff3956e55b17cbe88be48c1fe09",
+   "xxh3_intensity": "24b35a27dbed55ccf76f652159ff1094",
+   "sum_intensity": 6700690.750207605,
+   "first_points": [
+    [
+     0.007965283216666667,
+     13.501931190490723
+    ],
+    [
+     0.0246559592,
+     13.501931190490723
+    ],
+    [
+     0.041334083199999996,
+     13.41039752960205
+    ],
+    [
+     0.05801407361666667,
+     6.869418621063232
+    ],
+    [
+     0.07468549840000001,
+     0.0
+    ]
+   ],
+   "n_nonzero": 555,
+   "xxh3_time_min_nonzero": "76758f00b9762ebc93814b3b8b362da9",
+   "xxh3_intensity_nonzero": "82126ed6d8b6b3204f004f7ade591fd0"
+  },
+  {
+   "index": 38,
+   "id": "SRM SIC 184.08,104.11",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 184.08,
+   "product_mz": 104.11,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "2f471f2f0f0f5d1d014a772936f89756",
+   "xxh3_intensity": "bd0d49405e333f2e323845887cece6e3",
+   "sum_intensity": 750069.7750108242,
+   "first_points": [
+    [
+     0.008197861883333333,
+     0.0
+    ],
+    [
+     0.024887540266666668,
+     0.0
+    ],
+    [
+     0.041565916,
+     0.0
+    ],
+    [
+     0.058246214416666664,
+     0.0
+    ],
+    [
+     0.07491737493333334,
+     0.0
+    ]
+   ],
+   "n_nonzero": 513,
+   "xxh3_time_min_nonzero": "e85ee6c165e35a0ff3db606f16e0c162",
+   "xxh3_intensity_nonzero": "7353cc7e6aa8fa5c6ec67fd629e73b13"
+  },
+  {
+   "index": 39,
+   "id": "SRM SIC 184.08,125",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 184.08,
+   "product_mz": 125.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "2e88afb99edbf516bd7908718e8c05c4",
+   "xxh3_intensity": "bd18e80c33899104380ad945b68901f5",
+   "sum_intensity": 3456193.6827607155,
+   "first_points": [
+    [
+     0.00841033015,
+     19.234525680541992
+    ],
+    [
+     0.025099316266666668,
+     19.234525680541992
+    ],
+    [
+     0.04177805786666666,
+     16.714282989501953
+    ],
+    [
+     0.05845819013333333,
+     7.902486801147461
+    ],
+    [
+     0.0751296768,
+     0.0
+    ]
+   ],
+   "n_nonzero": 517,
+   "xxh3_time_min_nonzero": "2789bfd949ca8b7db8a0f520492e3675",
+   "xxh3_intensity_nonzero": "70a5249d903d0a669c6a6eae7533a48a"
+  },
+  {
+   "index": 40,
+   "id": "SRM SIC 205.1,146.1",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 205.1,
+   "product_mz": 146.1,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "55e2f1e6b0f7710ba8bfa47fa55dec89",
+   "xxh3_intensity": "19247daeef6a779e56533b133569f342",
+   "sum_intensity": 10810210.169647217,
+   "first_points": [
+    [
+     0.008622071733333332,
+     357.3816833496094
+    ],
+    [
+     0.025316209599999997,
+     357.3816833496094
+    ],
+    [
+     0.041990125600000004,
+     667.0082397460938
+    ],
+    [
+     0.058671112,
+     604.0633544921875
+    ],
+    [
+     0.0753414464,
+     469.2611389160156
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "55e2f1e6b0f7710ba8bfa47fa55dec89",
+   "xxh3_intensity_nonzero": "19247daeef6a779e56533b133569f342"
+  },
+  {
+   "index": 41,
+   "id": "SRM SIC 205.1,188.1",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 205.1,
+   "product_mz": 188.1,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "02fda2bf3f1a682f7cecc57ed1b9c55e",
+   "xxh3_intensity": "cd31be958637c0b849c91533d4896c6f",
+   "sum_intensity": 558818.7425436974,
+   "first_points": [
+    [
+     0.008854426666666667,
+     47.28640365600586
+    ],
+    [
+     0.0255484472,
+     47.28640365600586
+    ],
+    [
+     0.04222201413333333,
+     204.99595642089844
+    ],
+    [
+     0.058903173083333336,
+     201.8845977783203
+    ],
+    [
+     0.07557313333333333,
+     127.36819458007812
+    ]
+   ],
+   "n_nonzero": 552,
+   "xxh3_time_min_nonzero": "d41123cd098c0579cfe1fcd653302a4a",
+   "xxh3_intensity_nonzero": "bf25d709c3967d80cb1e768d18d8edf2"
+  },
+  {
+   "index": 42,
+   "id": "SRM SIC 223,88",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 223.0,
+   "product_mz": 88.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "6269c6fb50d65567d43e158f3e73199f",
+   "xxh3_intensity": "25000f61fc4f56302866092f3fd7bafd",
+   "sum_intensity": 33294148.62856813,
+   "first_points": [
+    [
+     0.009066689883333335,
+     264.0959777832031
+    ],
+    [
+     0.02576085226666667,
+     264.0959777832031
+    ],
+    [
+     0.04243381681666667,
+     214.08070373535156
+    ],
+    [
+     0.05911542961666667,
+     345.6199951171875
+    ],
+    [
+     0.0757851424,
+     247.33157348632812
+    ]
+   ],
+   "n_nonzero": 567,
+   "xxh3_time_min_nonzero": "cc2dcaa22dba30cdee92e4c798f3c134",
+   "xxh3_intensity_nonzero": "d77ca065a82a55c6e9801db5146b1332"
+  },
+  {
+   "index": 43,
+   "id": "SRM SIC 223,134",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 223.0,
+   "product_mz": 134.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "ac49a0b132f510b0724cdd8b0f1559dd",
+   "xxh3_intensity": "5dca9cba688b2ce06a3b0b3182dd14ed",
+   "sum_intensity": 1997411.369250536,
+   "first_points": [
+    [
+     0.00929884695,
+     107.1878433227539
+    ],
+    [
+     0.0259931256,
+     107.1878433227539
+    ],
+    [
+     0.04266557815,
+     37.267127990722656
+    ],
+    [
+     0.05934753441666667,
+     0.0
+    ],
+    [
+     0.07601691546666665,
+     0.0
+    ]
+   ],
+   "n_nonzero": 572,
+   "xxh3_time_min_nonzero": "eb209f860c5f228453dabf3745e16c57",
+   "xxh3_intensity_nonzero": "2a3f4f835395ad1bb7a1d422bf77c62b"
+  },
+  {
+   "index": 44,
+   "id": "SRM SIC 251.069,41.03",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 251.069,
+   "product_mz": 41.03,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "be7f27c070bda24e098a55d14287c9f6",
+   "xxh3_intensity": "5fadc515d75f0f42cba511a1d59bc5f7",
+   "sum_intensity": 168651.4092343839,
+   "first_points": [
+    [
+     0.009511776016666666,
+     73.56938171386719
+    ],
+    [
+     0.026205421333333333,
+     73.56938171386719
+    ],
+    [
+     0.04287790215,
+     25.578645706176758
+    ],
+    [
+     0.05955929335,
+     17.116214752197266
+    ],
+    [
+     0.07622931226666667,
+     38.850425720214844
+    ]
+   ],
+   "n_nonzero": 592,
+   "xxh3_time_min_nonzero": "b0df5eefbcd29b20e8c1a9c8d11021a5",
+   "xxh3_intensity_nonzero": "b48ef667033475adb7eb945e44724b54"
+  },
+  {
+   "index": 45,
+   "id": "SRM SIC 251.069,56.04",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 251.069,
+   "product_mz": 56.04,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "1e5cde3dca61705ea1cadf8805591d53",
+   "xxh3_intensity": "b9dc3e05364eb93468940651c7b71d55",
+   "sum_intensity": 235370.94421195984,
+   "first_points": [
+    [
+     0.009744586416666668,
+     42.4381103515625
+    ],
+    [
+     0.0264372264,
+     42.4381103515625
+    ],
+    [
+     0.04310983068333333,
+     27.165172576904297
+    ],
+    [
+     0.059790953066666666,
+     9.78097152709961
+    ],
+    [
+     0.07646122693333333,
+     31.195655822753906
+    ]
+   ],
+   "n_nonzero": 593,
+   "xxh3_time_min_nonzero": "80dd9a5a1920f89e3842bf745ea9661b",
+   "xxh3_intensity_nonzero": "26ad5b488343b754c4da0a651902e1b0"
+  },
+  {
+   "index": 46,
+   "id": "SRM SIC 251.069,58.99",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 251.069,
+   "product_mz": 58.99,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "43f174f0b1cd70d0fba63b96394b4621",
+   "xxh3_intensity": "8d15d0fa1a4c5911cf8f585783b1f0f7",
+   "sum_intensity": 130818.31360971928,
+   "first_points": [
+    [
+     0.009956638416666667,
+     0.0
+    ],
+    [
+     0.026648919200000003,
+     0.0
+    ],
+    [
+     0.043321799200000004,
+     11.46950912475586
+    ],
+    [
+     0.06000258268333333,
+     9.039527893066406
+    ],
+    [
+     0.07667294933333334,
+     31.734560012817383
+    ]
+   ],
+   "n_nonzero": 578,
+   "xxh3_time_min_nonzero": "5c8e5532478d3ea8074d41602014942c",
+   "xxh3_intensity_nonzero": "abb17a3e27e2f792db05e32646c4a43f"
+  },
+  {
+   "index": 47,
+   "id": "SRM SIC 251.069,76.02",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 251.069,
+   "product_mz": 76.02,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "db1930828f1394882ca40240f497afef",
+   "xxh3_intensity": "acbc644c608733859e49a657c06dd06a",
+   "sum_intensity": 33626.952173202226,
+   "first_points": [
+    [
+     0.010168582416666667,
+     0.0
+    ],
+    [
+     0.026860596,
+     0.0
+    ],
+    [
+     0.04353331653333334,
+     0.0
+    ],
+    [
+     0.06021432428333333,
+     0.0
+    ],
+    [
+     0.07688426186666666,
+     0.0
+    ]
+   ],
+   "n_nonzero": 242,
+   "xxh3_time_min_nonzero": "83e01a6ad5d17ebc60e034b2abe7d7f9",
+   "xxh3_intensity_nonzero": "a57be35b857315b2da8f51f514ece2ab"
+  },
+  {
+   "index": 48,
+   "id": "SRM SIC 251.069,84.04",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 251.069,
+   "product_mz": 84.04,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "05e515d485386667e2397b8e63ab78fe",
+   "xxh3_intensity": "28deecb9d8a4105970d2cb86fb4f1eb0",
+   "sum_intensity": 462562.1912190914,
+   "first_points": [
+    [
+     0.01038049335,
+     0.0
+    ],
+    [
+     0.027072453599999997,
+     0.0
+    ],
+    [
+     0.04374604746666667,
+     31.855871200561523
+    ],
+    [
+     0.060426521616666666,
+     61.32916259765625
+    ],
+    [
+     0.0770969288,
+     102.8030014038086
+    ]
+   ],
+   "n_nonzero": 557,
+   "xxh3_time_min_nonzero": "784ab4fc502021d7611bd180289d1b7e",
+   "xxh3_intensity_nonzero": "a847fdda98545a2bb548f2907c62d448"
+  },
+  {
+   "index": 49,
+   "id": "SRM SIC 308.09,76.02",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 308.09,
+   "product_mz": 76.02,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "d9f6fbef6b40be319352a28610abe794",
+   "xxh3_intensity": "c8b1e20801114e93cc229b1872265c49",
+   "sum_intensity": 7076093.403908739,
+   "first_points": [
+    [
+     0.010593119483333333,
+     364.5365295410156
+    ],
+    [
+     0.02728442695,
+     364.5365295410156
+    ],
+    [
+     0.04395786613333333,
+     248.04086303710938
+    ],
+    [
+     0.060638332,
+     287.91455078125
+    ],
+    [
+     0.07730935946666667,
+     240.67860412597656
+    ]
+   ],
+   "n_nonzero": 534,
+   "xxh3_time_min_nonzero": "a707e33cd1031f38cebccdcd38fd2562",
+   "xxh3_intensity_nonzero": "f64c8d65afdf9b9144c937035b6952c1"
+  },
+  {
+   "index": 50,
+   "id": "SRM SIC 308.09,84.04",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 308.09,
+   "product_mz": 84.04,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "6f02b8c4756c53dc6df67eb1021602fc",
+   "xxh3_intensity": "0571b88bedaf5f3af3150ec224b4bca6",
+   "sum_intensity": 9930593.016947508,
+   "first_points": [
+    [
+     0.01082664375,
+     494.1512145996094
+    ],
+    [
+     0.027516700016666666,
+     494.1512145996094
+    ],
+    [
+     0.0441901256,
+     624.1834716796875
+    ],
+    [
+     0.060870532000000005,
+     647.3084716796875
+    ],
+    [
+     0.0775416536,
+     709.1655883789062
+    ]
+   ],
+   "n_nonzero": 586,
+   "xxh3_time_min_nonzero": "9ac1dd2108819ce12486ad394ef7f49b",
+   "xxh3_intensity_nonzero": "7e0791c7a6b908b18c9b892f3fb67a45"
+  },
+  {
+   "index": 51,
+   "id": "SRM SIC 308.09,162.02",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 308.09,
+   "product_mz": 162.02,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "510b72e2ad0bf41ee45fd27f94be9ded",
+   "xxh3_intensity": "d8cc794799a05efb27b6c758d6b9e7b9",
+   "sum_intensity": 56101.47784996513,
+   "first_points": [
+    [
+     0.011039073866666667,
+     0.0
+    ],
+    [
+     0.02772883895,
+     0.0
+    ],
+    [
+     0.04440190533333333,
+     0.0
+    ],
+    [
+     0.06108247068333333,
+     0.0
+    ],
+    [
+     0.07775340239999999,
+     0.0
+    ]
+   ],
+   "n_nonzero": 324,
+   "xxh3_time_min_nonzero": "d4a34a898fab892d30b5ed1044d6b2fc",
+   "xxh3_intensity_nonzero": "a0abbacc4770d1031d42bf6ef2b88437"
+  },
+  {
+   "index": 52,
+   "id": "SRM SIC 385,136",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 385.0,
+   "product_mz": 136.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "db0656a53dabdfb4b9f520916b26f2e8",
+   "xxh3_intensity": "d31050149d30c5a6018ad036da64e660",
+   "sum_intensity": 1487125.2134094238,
+   "first_points": [
+    [
+     0.011252081083333334,
+     416.0162048339844
+    ],
+    [
+     0.027941514133333335,
+     416.0162048339844
+    ],
+    [
+     0.04461466453333333,
+     453.20758056640625
+    ],
+    [
+     0.06129545761666667,
+     425.37615966796875
+    ],
+    [
+     0.07796572480000001,
+     332.7030944824219
+    ]
+   ],
+   "n_nonzero": 600,
+   "xxh3_time_min_nonzero": "db0656a53dabdfb4b9f520916b26f2e8",
+   "xxh3_intensity_nonzero": "d31050149d30c5a6018ad036da64e660"
+  },
+  {
+   "index": 53,
+   "id": "SRM SIC 385,250",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 385.0,
+   "product_mz": 250.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "9bd9255664d8a604ad2b2cfe2d5b55be",
+   "xxh3_intensity": "1fe98c7530270e79cac1ae5bc0b0ec99",
+   "sum_intensity": 79521.73819462786,
+   "first_points": [
+    [
+     0.011484832283333333,
+     0.0
+    ],
+    [
+     0.0281739528,
+     0.0
+    ],
+    [
+     0.0448474496,
+     0.0
+    ],
+    [
+     0.06152828561666667,
+     0.0
+    ],
+    [
+     0.07819801333333333,
+     0.0
+    ]
+   ],
+   "n_nonzero": 369,
+   "xxh3_time_min_nonzero": "99e3feb536b89f42f11e9538fcaf1d2b",
+   "xxh3_intensity_nonzero": "824edc1518c3743d4288ded89e9c3733"
+  },
+  {
+   "index": 54,
+   "id": "SRM SIC 399,250",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 399.0,
+   "product_mz": 250.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "5e8fcaf6388e6bd97dc945655d1ea88b",
+   "xxh3_intensity": "fe4c2dc132bcac178575b90909d56120",
+   "sum_intensity": 1424687.5566542572,
+   "first_points": [
+    [
+     0.011698368550000001,
+     0.0
+    ],
+    [
+     0.028386974933333333,
+     0.0
+    ],
+    [
+     0.0450609712,
+     0.0
+    ],
+    [
+     0.06174159333333333,
+     0.0
+    ],
+    [
+     0.0784116824,
+     0.0
+    ]
+   ],
+   "n_nonzero": 440,
+   "xxh3_time_min_nonzero": "07b57937ec41406971e885f3acb203de",
+   "xxh3_intensity_nonzero": "1b8e7f2172a0e81a9d5098af5cc69754"
+  },
+  {
+   "index": 55,
+   "id": "SRM SIC 399,298",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 399.0,
+   "product_mz": 298.0,
+   "product_lower_offset": 0.0009999999999764,
+   "product_upper_offset": 0.0009999999999764,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "f7df7ffa2b79471e0785771fcbcbb286",
+   "xxh3_intensity": "7f9be6737929fa5d1efc7d5eeae8a413",
+   "sum_intensity": 52604.712787582845,
+   "first_points": [
+    [
+     0.011930790416666667,
+     0.0
+    ],
+    [
+     0.028618876550000002,
+     0.0
+    ],
+    [
+     0.0452931736,
+     0.0
+    ],
+    [
+     0.061973219733333335,
+     0.0
+    ],
+    [
+     0.0786440576,
+     0.0
+    ]
+   ],
+   "n_nonzero": 222,
+   "xxh3_time_min_nonzero": "327dc351b6753604af2fb7a4be6bd497",
+   "xxh3_intensity_nonzero": "e041931dab2b4f5831f13f5000a8877e"
+  },
+  {
+   "index": 56,
+   "id": "SRM SIC 444.16,120.04",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 444.16,
+   "product_mz": 120.04,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "b2cd934a839d987239c114750d0f2316",
+   "xxh3_intensity": "e07cfc87a343bc6440683f89b2a40c4f",
+   "sum_intensity": 445480.89005443564,
+   "first_points": [
+    [
+     0.012143496016666666,
+     0.0
+    ],
+    [
+     0.02883105095,
+     0.0
+    ],
+    [
+     0.04550540693333334,
+     0.0
+    ],
+    [
+     0.06218535735,
+     11.0400972366333
+    ],
+    [
+     0.0788561312,
+     8.701090812683105
+    ]
+   ],
+   "n_nonzero": 577,
+   "xxh3_time_min_nonzero": "cc8a05809690ec339538b5d6b386983c",
+   "xxh3_intensity_nonzero": "09bfecd6d056f93a10bb0af8da6dc2a8"
+  },
+  {
+   "index": 57,
+   "id": "SRM SIC 444.16,136.05",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 444.16,
+   "product_mz": 136.05,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "ce64ffcb5d288c53a5bb93777cfae9d3",
+   "xxh3_intensity": "5f1768148523c62852386cb1c1c6c07c",
+   "sum_intensity": 620621.4711776696,
+   "first_points": [
+    [
+     0.012375690683333333,
+     74.95636749267578
+    ],
+    [
+     0.029063847216666668,
+     74.95636749267578
+    ],
+    [
+     0.04573795866666666,
+     54.987186431884766
+    ],
+    [
+     0.062417564816666674,
+     91.82428741455078
+    ],
+    [
+     0.07908856160000001,
+     80.84461212158203
+    ]
+   ],
+   "n_nonzero": 598,
+   "xxh3_time_min_nonzero": "07c53bceceea2b6239a297f47295e843",
+   "xxh3_intensity_nonzero": "1916aa1a6fbc105d060a7794983f479e"
+  },
+  {
+   "index": 58,
+   "id": "SRM SIC 444.16,161.04",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 444.16,
+   "product_mz": 161.04,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "37b60c6989850ccf31d9875286acd4f3",
+   "xxh3_intensity": "eaa9fea3b91c3ab2b04bc4238b47eaed",
+   "sum_intensity": 21366.02301586108,
+   "first_points": [
+    [
+     0.012587720533333334,
+     0.0
+    ],
+    [
+     0.02927575841666667,
+     0.0
+    ],
+    [
+     0.04594982026666667,
+     0.0
+    ],
+    [
+     0.06262963548333333,
+     0.0
+    ],
+    [
+     0.07930048455000001,
+     0.0
+    ]
+   ],
+   "n_nonzero": 308,
+   "xxh3_time_min_nonzero": "7fde356df2e8d83780d672f8f399a9ee",
+   "xxh3_intensity_nonzero": "613a5620f76ab4c9ad6451700465614b"
+  },
+  {
+   "index": 59,
+   "id": "SRM SIC 444.16,178.07",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 444.16,
+   "product_mz": 178.07,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "a57c3a9658543aaf4bf8b31c3bd12530",
+   "xxh3_intensity": "803851158ab5f8c0d65af510a13b5ac4",
+   "sum_intensity": 22921.529458924037,
+   "first_points": [
+    [
+     0.01280030695,
+     0.0
+    ],
+    [
+     0.0294877,
+     0.0
+    ],
+    [
+     0.04616219173333334,
+     0.0
+    ],
+    [
+     0.06284200586666668,
+     0.0
+    ],
+    [
+     0.07951280001666668,
+     0.0
+    ]
+   ],
+   "n_nonzero": 261,
+   "xxh3_time_min_nonzero": "7894180f6f28835a65ea67e740718e2a",
+   "xxh3_intensity_nonzero": "a89ec7b1752cb08acb54273b17b1bf5b"
+  },
+  {
+   "index": 60,
+   "id": "SRM SIC 446.17,120.04",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 446.17,
+   "product_mz": 120.04,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "5ecfa8f802d05c2377ad47b1b5031466",
+   "xxh3_intensity": "a2c924528f26627f4984fb2d2a18e0a3",
+   "sum_intensity": 410520.44197344646,
+   "first_points": [
+    [
+     0.013012705349999999,
+     0.0
+    ],
+    [
+     0.029699514133333334,
+     0.0
+    ],
+    [
+     0.046374262666666666,
+     0.0
+    ],
+    [
+     0.06305395066666666,
+     0.0
+    ],
+    [
+     0.0797250024,
+     22.877059936523438
+    ]
+   ],
+   "n_nonzero": 537,
+   "xxh3_time_min_nonzero": "eaf0b8186b00f29f7620e932277e4058",
+   "xxh3_intensity_nonzero": "0474ae696686db287d17e982ca5df064"
+  },
+  {
+   "index": 61,
+   "id": "SRM SIC 446.17,166.07",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 446.17,
+   "product_mz": 166.07,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "2be9517e03bb04bcbb7cde712d2d3e06",
+   "xxh3_intensity": "8470410a71ce6e039ab249af652bc3af",
+   "sum_intensity": 51754.17011260986,
+   "first_points": [
+    [
+     0.013244631483333333,
+     0.0
+    ],
+    [
+     0.0299314568,
+     0.0
+    ],
+    [
+     0.04660641013333333,
+     0.0
+    ],
+    [
+     0.06328558108333333,
+     0.0
+    ],
+    [
+     0.07995747280000001,
+     0.0
+    ]
+   ],
+   "n_nonzero": 382,
+   "xxh3_time_min_nonzero": "febaf5d18c6b2a246d88cd8a2ad095b2",
+   "xxh3_intensity_nonzero": "9852aebd67cadd17f3063ba28bbceff9"
+  },
+  {
+   "index": 62,
+   "id": "SRM SIC 446.17,299.12",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 446.17,
+   "product_mz": 299.12,
+   "product_lower_offset": 0.0009999999999764,
+   "product_upper_offset": 0.0009999999999764,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "f1616b12f0919a7002a8f7882996db0e",
+   "xxh3_intensity": "1b4096ec149fecc004b5cb6c575a15d2",
+   "sum_intensity": 2065.1011292675394,
+   "first_points": [
+    [
+     0.0134572104,
+     0.0
+    ],
+    [
+     0.030143566666666666,
+     0.0
+    ],
+    [
+     0.046818264533333334,
+     0.0
+    ],
+    [
+     0.06349745495,
+     0.0
+    ],
+    [
+     0.08016958535,
+     0.0
+    ]
+   ],
+   "n_nonzero": 49,
+   "xxh3_time_min_nonzero": "7ae2bcee60a9569e572a2cbf15f63763",
+   "xxh3_intensity_nonzero": "057d4dc6f9d4a69792dfe853e24a2d00"
+  },
+  {
+   "index": 63,
+   "id": "SRM SIC 458,241",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 458.0,
+   "product_mz": 241.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "638446b5ced5504e148a83351f5ec4e4",
+   "xxh3_intensity": "07db5851b3a5b24460c07ae301bc7cb4",
+   "sum_intensity": 20499.300858992272,
+   "first_points": [
+    [
+     0.013670998133333334,
+     0.0
+    ],
+    [
+     0.030356666666666664,
+     0.0
+    ],
+    [
+     0.047031469066666665,
+     0.0
+    ],
+    [
+     0.06371071735,
+     0.0
+    ],
+    [
+     0.08038265441666666,
+     0.0
+    ]
+   ],
+   "n_nonzero": 208,
+   "xxh3_time_min_nonzero": "54fc544acc61ffb0dc9d5ec897af2cc6",
+   "xxh3_intensity_nonzero": "c6e669ae5a1e7610b3053f42f3cef5fe"
+  },
+  {
+   "index": 64,
+   "id": "SRM SIC 458,283",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 458.0,
+   "product_mz": 283.0,
+   "product_lower_offset": 0.0009999999999764,
+   "product_upper_offset": 0.0009999999999764,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "bca4397fe58cb2b395d122fc32b7e2b9",
+   "xxh3_intensity": "299d66a87aee297d571d3fca6b1ac85b",
+   "sum_intensity": 29539.779656829574,
+   "first_points": [
+    [
+     0.013903257866666666,
+     153.92669677734375
+    ],
+    [
+     0.030588542399999998,
+     153.92669677734375
+    ],
+    [
+     0.04726354213333333,
+     142.9124298095703
+    ],
+    [
+     0.06394241575,
+     75.51215362548828
+    ],
+    [
+     0.08061434695,
+     60.21177291870117
+    ]
+   ],
+   "n_nonzero": 373,
+   "xxh3_time_min_nonzero": "a7a70f76124f01d566c013f6a0da56dd",
+   "xxh3_intensity_nonzero": "9a514264676120bad53286706824e66b"
+  },
+  {
+   "index": 65,
+   "id": "SRM SIC 458,396",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 458.0,
+   "product_mz": 396.0,
+   "product_lower_offset": 0.0009999999999764,
+   "product_upper_offset": 0.0009999999999764,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "b098107f76f56b7c27a0876edfceae20",
+   "xxh3_intensity": "f2ba353b95007c6ee3be55e673d4b6c6",
+   "sum_intensity": 3820.1346851587296,
+   "first_points": [
+    [
+     0.01411608615,
+     0.0
+    ],
+    [
+     0.030800452016666664,
+     0.0
+    ],
+    [
+     0.04747580613333333,
+     0.0
+    ],
+    [
+     0.06415443493333334,
+     0.0
+    ],
+    [
+     0.08082646774999999,
+     0.0
+    ]
+   ],
+   "n_nonzero": 56,
+   "xxh3_time_min_nonzero": "5b435ee6f591a9bec0bd72e11d748a01",
+   "xxh3_intensity_nonzero": "a5065d0bd1c36d534ecbd14bdf7ca60f"
+  },
+  {
+   "index": 66,
+   "id": "SRM SIC 458,422",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 458.0,
+   "product_mz": 422.0,
+   "product_lower_offset": 0.0009999999999764,
+   "product_upper_offset": 0.0009999999999764,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "5ee7af6b2920d9f6afc4b2224708a9e4",
+   "xxh3_intensity": "0ee5f9444c9eef592f16656eef222ac9",
+   "sum_intensity": 6481.437702765514,
+   "first_points": [
+    [
+     0.014329539483333332,
+     0.0
+    ],
+    [
+     0.03101394401666667,
+     0.0
+    ],
+    [
+     0.0476890216,
+     0.0
+    ],
+    [
+     0.0643674416,
+     0.0
+    ],
+    [
+     0.0810397912,
+     0.0
+    ]
+   ],
+   "n_nonzero": 94,
+   "xxh3_time_min_nonzero": "1460301d1ac8e19bc5b15473fd3788d6",
+   "xxh3_intensity_nonzero": "0829fae268d64e55685544503f4895b2"
+  },
+  {
+   "index": 67,
+   "id": "SRM SIC 460,180",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 460.0,
+   "product_mz": 180.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "c1db9ff1cb61f5b17dec63d702664ebf",
+   "xxh3_intensity": "c63546719f9bf03144294b40ba7df064",
+   "sum_intensity": 88914.59466986379,
+   "first_points": [
+    [
+     0.014542383483333334,
+     13.065336227416992
+    ],
+    [
+     0.031225839216666666,
+     13.065336227416992
+    ],
+    [
+     0.047900928550000006,
+     4.542563438415527
+    ],
+    [
+     0.0645795656,
+     0.0
+    ],
+    [
+     0.08125171441666666,
+     0.0
+    ]
+   ],
+   "n_nonzero": 352,
+   "xxh3_time_min_nonzero": "c6b0d0821bf3ca2035b08506437ae0c1",
+   "xxh3_intensity_nonzero": "751f79e45f960a063b98b70ac0e2a50d"
+  },
+  {
+   "index": 68,
+   "id": "SRM SIC 460,194",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 460.0,
+   "product_mz": 194.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "11cbe84f47dc65a4731c86a07679aef3",
+   "xxh3_intensity": "22b3bfaf7f96a827dd0cbc0999ecb1f0",
+   "sum_intensity": 99111.43408635673,
+   "first_points": [
+    [
+     0.014773998399999998,
+     0.0
+    ],
+    [
+     0.0314575216,
+     0.0
+    ],
+    [
+     0.04813256135,
+     0.0
+    ],
+    [
+     0.06481146426666666,
+     0.0
+    ],
+    [
+     0.08148348241666666,
+     0.0
+    ]
+   ],
+   "n_nonzero": 373,
+   "xxh3_time_min_nonzero": "94ee4830b3cc1296df165d6f2e27b7d5",
+   "xxh3_intensity_nonzero": "afcfdccaabacccfcd40107bddaa4c6df"
+  },
+  {
+   "index": 69,
+   "id": "SRM SIC 460,313",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 460.0,
+   "product_mz": 313.0,
+   "product_lower_offset": 0.0009999999999764,
+   "product_upper_offset": 0.0009999999999764,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "e6c5faa796d2b82afcbcae8c42fa319c",
+   "xxh3_intensity": "7c02879f2b66239d3f5afbbf5e7fa610",
+   "sum_intensity": 263369.6925012277,
+   "first_points": [
+    [
+     0.01498589495,
+     0.0
+    ],
+    [
+     0.03166949573333334,
+     0.0
+    ],
+    [
+     0.04834475255,
+     0.0
+    ],
+    [
+     0.0650234064,
+     0.0
+    ],
+    [
+     0.08169579868333333,
+     3.450470447540283
+    ]
+   ],
+   "n_nonzero": 413,
+   "xxh3_time_min_nonzero": "bc3ea90ccf53466f2a583f055bc4a947",
+   "xxh3_intensity_nonzero": "542895960790f2b35dd3783e60269a4b"
+  },
+  {
+   "index": 70,
+   "id": "SRM SIC 474.17,208.08",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 474.17,
+   "product_mz": 208.08,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "052f7cc5a4780f2b21eb61e934cd8208",
+   "xxh3_intensity": "bc69163d6c4d0c396c6eb31891a15f25",
+   "sum_intensity": 19327.62778402071,
+   "first_points": [
+    [
+     0.015199346683333333,
+     0.0
+    ],
+    [
+     0.03188281388333333,
+     0.0
+    ],
+    [
+     0.048558042399999994,
+     0.0
+    ],
+    [
+     0.06523651786666666,
+     0.0
+    ],
+    [
+     0.08190903335000001,
+     0.0
+    ]
+   ],
+   "n_nonzero": 208,
+   "xxh3_time_min_nonzero": "2c268c8540317710c7c2c5530d5d6522",
+   "xxh3_intensity_nonzero": "9a697ed44a71be3e663e3c7e2afad26e"
+  },
+  {
+   "index": 71,
+   "id": "SRM SIC 474.17,299.122",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 474.17,
+   "product_mz": 299.122,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "b228b2af83e476038cbf679a6ca9c1fa",
+   "xxh3_intensity": "1da2ed6f99ddc0d2d25defa308d43a73",
+   "sum_intensity": 2402.6110326974886,
+   "first_points": [
+    [
+     0.01543203735,
+     0.0
+    ],
+    [
+     0.03211471495,
+     0.0
+    ],
+    [
+     0.04879018935,
+     0.0
+    ],
+    [
+     0.06546814266666666,
+     0.0
+    ],
+    [
+     0.08214071546666667,
+     0.0
+    ]
+   ],
+   "n_nonzero": 58,
+   "xxh3_time_min_nonzero": "aeb043fdceda6dfc25ec57a742e2ea8a",
+   "xxh3_intensity_nonzero": "5f0d317fdab4bf4fe1a2d23b0534dda0"
+  },
+  {
+   "index": 72,
+   "id": "SRM SIC 474.17,327.118",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 474.17,
+   "product_mz": 327.118,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "888aa6bfbab7ee915a7c1f60ff5d920f",
+   "xxh3_intensity": "63d2065fae10578b9a0f0ca4600318a2",
+   "sum_intensity": 10523.787493646145,
+   "first_points": [
+    [
+     0.015645929083333333,
+     0.0
+    ],
+    [
+     0.03232752481666667,
+     0.0
+    ],
+    [
+     0.04900300188333333,
+     0.0
+    ],
+    [
+     0.065680608,
+     0.0
+    ],
+    [
+     0.08235328774999999,
+     0.0
+    ]
+   ],
+   "n_nonzero": 124,
+   "xxh3_time_min_nonzero": "2962556b5ff121a62f4eb8d7ef51b660",
+   "xxh3_intensity_nonzero": "9a0b7b9255006cc6f4666ce9c855fa10"
+  },
+  {
+   "index": 73,
+   "id": "SRM SIC 489.115,104",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 489.115,
+   "product_mz": 104.0,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "c9951826ec6bb087487c669de4c8e325",
+   "xxh3_intensity": "bb13fca53ccd65e9e6d79943d2706f8b",
+   "sum_intensity": 2285902.620277279,
+   "first_points": [
+    [
+     0.015858368266666666,
+     0.0
+    ],
+    [
+     0.032539498666666666,
+     0.0
+    ],
+    [
+     0.04921483815,
+     0.0
+    ],
+    [
+     0.06589238053333334,
+     0.0
+    ],
+    [
+     0.08256546775000001,
+     0.0
+    ]
+   ],
+   "n_nonzero": 434,
+   "xxh3_time_min_nonzero": "c18837d1ae19649ec28dd9d366397106",
+   "xxh3_intensity_nonzero": "d75e22e6465ab4d78b6563fd6090895f"
+  },
+  {
+   "index": 74,
+   "id": "SRM SIC 489.115,184.07",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 489.115,
+   "product_mz": 184.07,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "c76ddd3993456aa451e63761c78ca5d9",
+   "xxh3_intensity": "1008dcaf490e3c24b08f8da5b4d02b19",
+   "sum_intensity": 116991886.05124891,
+   "first_points": [
+    [
+     0.016091224,
+     0.0
+    ],
+    [
+     0.03277118,
+     0.0
+    ],
+    [
+     0.04944680508333333,
+     0.0
+    ],
+    [
+     0.06612400613333333,
+     0.0
+    ],
+    [
+     0.08279742188333333,
+     0.0
+    ]
+   ],
+   "n_nonzero": 431,
+   "xxh3_time_min_nonzero": "ef59a3a0fb43e5792a541ba6dd3da237",
+   "xxh3_intensity_nonzero": "c5cbe3165b672420bf0eaacf4c8d49c2"
+  },
+  {
+   "index": 75,
+   "id": "SRM SIC 489.115,264.04",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 489.115,
+   "product_mz": 264.04,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "a0ad891a2f94d94ed6a2246bda39288c",
+   "xxh3_intensity": "fcc4942aa327934b25db024cd2e00c86",
+   "sum_intensity": 10287720.392701186,
+   "first_points": [
+    [
+     0.016304309066666668,
+     0.0
+    ],
+    [
+     0.032984017883333334,
+     0.0
+    ],
+    [
+     0.04965929495,
+     0.0
+    ],
+    [
+     0.06633662026666667,
+     0.0
+    ],
+    [
+     0.08301011788333333,
+     0.0
+    ]
+   ],
+   "n_nonzero": 350,
+   "xxh3_time_min_nonzero": "7aa5c35d47a8ac65e248204912a850d0",
+   "xxh3_intensity_nonzero": "d1766f2dfae98c675dd82672f7021c6e"
+  },
+  {
+   "index": 76,
+   "id": "SRM SIC 489.115,360.06",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 489.115,
+   "product_mz": 360.06,
+   "product_lower_offset": 0.0009999999999764,
+   "product_upper_offset": 0.0009999999999764,
+   "collision_energy": 0.0,
+   "n_points": 600,
+   "xxh3_time_min": "583833aaf915a942ee20c733aef4ab3b",
+   "xxh3_intensity": "4937625e003e369d26fccce757d66844",
+   "sum_intensity": 18937.986008137825,
+   "first_points": [
+    [
+     0.01651732666666667,
+     860.8878784179688
+    ],
+    [
+     0.03319703921666667,
+     860.8878784179688
+    ],
+    [
+     0.04987193066666666,
+     672.397705078125
+    ],
+    [
+     0.06654927068333333,
+     294.18670654296875
+    ],
+    [
+     0.08322252106666667,
+     50.17477035522461
+    ]
+   ],
+   "n_nonzero": 46,
+   "xxh3_time_min_nonzero": "0ddbbc225631c9572bca0412797244db",
+   "xxh3_intensity_nonzero": "ad3de47c9a68f00ce55100c23160b191"
+  }
+ ]
+}

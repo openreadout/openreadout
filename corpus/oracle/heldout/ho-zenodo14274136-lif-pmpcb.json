@@ -1,0 +1,371 @@
+{
+ "id": "ho-zenodo14274136-lif-pmpcb",
+ "file": "331_1 PMPCB A647_T20_A488.lif",
+ "size": 19853611,
+ "sha256": "56c8bb4ce1f486721b7693dceb4c8bc82210a0477ba64318e4b33cadbd9cde78",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Cell 2",
+   "path": "Cell 2",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.06012506353861261,
+    "y": 0.060125063538609226,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3e80b2bb057a909597017fea08859c41"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f0ada22bedbd45b5a5c2dcfd1d51d040"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Cell 1",
+   "path": "Cell 1",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.060125063538611766,
+    "y": 0.060125063538609226,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7d9cff8a556260c53b23473879aa811f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "753e47e2d1829acbadc6c20303b9e7ea"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Cell 3",
+   "path": "Cell 3",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.060125063538609226,
+    "y": 0.06012506353861261,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1910cd7d762b363f7ebf8225bf8a4700"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4906b4b9b9858223ff8bbeb825b2ead8"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Cell 4",
+   "path": "Cell 4",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.060125063538609226,
+    "y": 0.060125063538609226,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e8f608e4a9017f4b8365d0b9fa374511"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "931e899f4b00c7cfc0a400bc31acea09"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Cell 5_6",
+   "path": "Cell 5_6",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.06012506353861261,
+    "y": 0.060125063538609226,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "75f84ee9a3955b7e146f460dd875bc0f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4dc831d48d2c58ff180665b7590c4fae"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "Cell 7",
+   "path": "Cell 7",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.060125063538609226,
+    "y": 0.06012506353861261,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4e6dac876d7086fc1e32c43e865ca97b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d537ac344e06d5c46857630ed7db896c"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "Cell 9",
+   "path": "Cell 9",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.06012506353861261,
+    "y": 0.06012506353861261,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6435973a2b9a9f8cc8a86f30fae3c763"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "de31fba73cca9890bf12d4148b54dcee"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "Cell 8",
+   "path": "Cell 8",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.060125063538611766,
+    "y": 0.060125063538609226,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "100aae38905f601de344aa6a580b7a4d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "359de3a17b2c837aca044fbc93118fb8"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "Cell 10",
+   "path": "Cell 10",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.060125063538611766,
+    "y": 0.06012506353861261,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2e2afcf2c30462c9864986c3f77eb984"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "494cbaa3456f4f2fa757fe7378a7a6b3"
+    }
+   ]
+  }
+ ]
+}

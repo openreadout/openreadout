@@ -1,0 +1,184 @@
+{
+ "id": "ho-zenodo1490851-oir-hek293",
+ "file": "110818_hek293_splitSCN1AGFP1to10and11 2D posttrans 20x_hoechst_phal.oir",
+ "size": 52280794,
+ "sha256": "c54ac098779d8e15a1936ffbb960d30398de10c716fffc242ca0fac69c2be955",
+ "max_planes_hashed": 64,
+ "reader": "oirfile 2026.9.6",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 6,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.621480569402239,
+    "y": 0.621480569402239,
+    "z": 0.5
+   },
+   "time_increment_s": null,
+   "lambda_nm": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1098c8692b9ab03f8039490786abc4df"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "4210edad4c14457f43d19d3b0a781d7a"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1f86b70d16138f9ab4f7547ec88d28b8"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "6a095533cde6b19a693076df99d3ba15"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "5401269c9b9ee2ab92de64fbbe852dd6"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "324d4d043d15ddef0b0121f0fd0120db"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9cd7483fb4307e3735afc04ae92e5777"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "de47b3c16418196c71949bc7249bf947"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "b7fc8c2082afc48dda0c3d52664b7f59"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "bc76193985f562ed83a5323fc9f2cfce"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "b622b3498686dd338661b91bf89282eb"
+    },
+    {
+     "c": 1,
+     "z": 5,
+     "t": 0,
+     "xxh3": "239ea9387879514ffa54e6247f64df3c"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "86ce1c0fa7da006f1930501755ca773b"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "8ef2573860ac381caf993749fe34d8d7"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "eb79cc80902cb4162c60bdde233d0968"
+    },
+    {
+     "c": 2,
+     "z": 3,
+     "t": 0,
+     "xxh3": "c765013e5658f1edc16fb47cd8129902"
+    },
+    {
+     "c": 2,
+     "z": 4,
+     "t": 0,
+     "xxh3": "591a46e96c5f47cb27e43f0dbab27f86"
+    },
+    {
+     "c": 2,
+     "z": 5,
+     "t": 0,
+     "xxh3": "26af42c3ec237a5a5b82db864e882073"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "kind": "reference",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.621480569402239,
+    "y": 0.621480569402239
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bcdef7655c162d5e75d45310fc4b2aed"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "09eb10de4e639d531b0a7c119dbb4397"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1c8f4de7e30af18e4ab22f33957ea581"
+    }
+   ]
+  }
+ ],
+ "reader_sizes": {
+  "Z": 6,
+  "C": 3,
+  "Y": 1024,
+  "X": 1024
+ },
+ "datetime": "2018-11-08T11:29:28.043-05:00",
+ "companion_files": [],
+ "channel_names": [
+  "CH1",
+  "CH1",
+  "CH2",
+  "CH3"
+ ]
+}

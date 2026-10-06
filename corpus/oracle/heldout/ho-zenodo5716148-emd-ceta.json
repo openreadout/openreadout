@@ -1,0 +1,36 @@
+{
+ "id": "ho-zenodo5716148-emd-ceta",
+ "file": "ACQUIRE Camera Ceta 1313.emd",
+ "size": 697739,
+ "sha256": "27c4e891835ccee574eac5d52f8879785620dac2655b6890b2765539520dbf71",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "fd18f69847034d0f9cd022e05b55570f",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int16",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "detector": "BM-Ceta",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "489863cb1e72b3269da8ea1f7c8867fe"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"9\",\n    \"format\": \"Velox\"\n}\n"
+}

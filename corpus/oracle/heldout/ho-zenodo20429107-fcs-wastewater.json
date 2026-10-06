@@ -1,0 +1,66 @@
+{
+ "id": "ho-zenodo20429107-fcs-wastewater",
+ "file": "504H.fcs",
+ "size": 5094479,
+ "sha256": "028a4ed4a3ff3ce2cbb2dcbff3ec0cc087a38c65b720c16daefd273134e8578d",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 12,
+   "event_count": 212073,
+   "parameter_names": [
+    "Pulse Width",
+    "FS Lin",
+    "SS Lin",
+    "FL 1 Log",
+    "FL 2 Log",
+    "FL 3 Log",
+    "FL 4 Log",
+    "FL 5 Log",
+    "FL 6 Log",
+    "TIME",
+    "Raw Time",
+    "Sort Classifier"
+   ],
+   "parameter_labels": [
+    "Pulse Width",
+    "FS",
+    "SS",
+    "FL 1",
+    "FL 2",
+    "FL 3",
+    "FL 4",
+    "FL 5",
+    "FL 6",
+    "Raw Time",
+    "Raw Time",
+    "Sort Classifier"
+   ],
+   "dtypes": [
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16"
+   ],
+   "xxh3": "ccd4cf15cbc5f0ff6f5aed8aa9f25391",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 212073,
+  "xxh3": "ccd4cf15cbc5f0ff6f5aed8aa9f25391",
+  "agrees_with_flowio": true
+ }
+}
