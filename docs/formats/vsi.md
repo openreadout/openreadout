@@ -40,7 +40,7 @@ Stack directories are named `stack<id>`, the id matching a stack record in the `
 | 8 | u32 | `sample_type` | 2 → `uint8`, 4 → `uint16` (others: exit 6) |
 | 12 | u32 | `samples_per_pixel` | 1, or 3 (RGB, interleaved) |
 | 16 | u32 | `color_space` | 1 (gray) / 4 (RGB); meaning otherwise unknown |
-| 20 | u32 | `compression` | `EtsCompression`: 0 `Raw` (little-endian samples), 2 `Jpeg` (baseline JFIF stream), 3 `Jpeg2000` (J2K codestream `FF4F FF51`), 5 `JpegLossless` (a JFIF stream with an SOF3 lossless frame; VS120 full-resolution stacks); other codes exit 6 (slideio, BSD-3, lists 8 PNG and 9 BMP) |
+| 20 | u32 | `compression` | `EtsCompression`: 0 `Raw` (little-endian samples), 2 `Jpeg` (baseline JFIF stream), 3 `Jpeg2000` (J2K codestream `FF4F FF51`), 5 `JpegLossless` (a JFIF stream with an SOF3 lossless frame, components R, G, B as coded; seen in VS120 slides); other codes exit 6 (slideio, BSD-3, lists 8 PNG and 9 BMP) |
 | 24 | u32 | `quality` | 90, 100 |
 | 28, 32, 36 | u32 | `tile_width`, `tile_height`, `tile_depth` | 512 × 512 × 1 on slides; the whole plane in the fluorescence files |
 | 108 | u32 | `background` | `0x00EEEEEE` / `0x00FFFFFF` (RGB), `0xFFFF` / `0x0FFF` (16-bit): value of tiles that are not stored |

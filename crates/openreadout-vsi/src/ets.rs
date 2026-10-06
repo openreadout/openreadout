@@ -26,7 +26,7 @@ pub enum EtsCompression {
     Jpeg,
     /// 3: JPEG 2000 codestream.
     Jpeg2000,
-    /// 5: lossless JPEG stream (SOF3), as VS120 scans store full-resolution tiles.
+    /// 5: lossless JPEG stream (SOF3), seen in VS120 slides.
     JpegLossless,
     /// Any other code (not seen in the corpus).
     Other(u32),
