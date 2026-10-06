@@ -4,7 +4,11 @@
 //! `Time:`, `Plate` (plate definition), then one section per `Label: <name>` with
 //! `key … value … unit` settings, `Start Time:`, `Temperature: 23.1 °C`, and either a plate
 //! matrix with a `<>` corner or a kinetic list (`Cycle Nr.`, `Time [s]`, `Temp. [°C]`, then
-//! one line per well).
+//! one line per well). With several reads per well (`Multiple Reads per Well (…)` `3 x 3`) the
+//! data are a `Cycles / Well` block per well (kinetic) or a `Well`/`Mean`/`StDev` list (endpoint),
+//! and each well's value is i-control's `Mean`. A workbook can hold one export per sheet (segments
+//! of a run); each becomes a plate read. German exports (`Programm: Tecan i-control`, `Gerät:`,
+//! `Datum:`, `Modus`, `Zyklen / Well`, `Mittelwert`) use the same layout.
 //! Magellan: a list with a `Well positions` column and one value column per label (optional
 //! time and temperature lines above the wells), followed by metadata lines (`Date of
 //! measurement: …/Time of measurement: …`, method `.mth`, workspace `.wsp`, device, serial
@@ -19,22 +23,50 @@ use crate::grid::{find_grids, parse_well};
 use crate::model::{Block, Channel, Export, Kind, Mode, ReadType, first_number, nonempty};
 use crate::sheet::{Book, Sheet};
 
+/// The first cell of an i-control export: the application line, in English or German.
+fn is_application_line(l: &str) -> bool {
+    l.starts_with("Application: Tecan i-control")
+        || l.starts_with("Application: SparkControl")
+        || l.starts_with("Programm: Tecan i-control")
+}
+
 pub(crate) fn sniff_icontrol(text: &str) -> bool {
     let text = text.trim_start_matches('\u{feff}').trim_start();
     // SparkControl CSV exports open with `Method name: …` and name the application next.
     text.lines().take(3).any(|l| {
         let l = l.trim_start_matches('\u{feff}').trim_start();
-        l.starts_with("Application: Tecan i-control") || l.starts_with("Application: SparkControl")
+        is_application_line(l)
     })
 }
 
+/// Whether a sheet starts with an i-control header.
+fn has_application_line(s: &Sheet) -> bool {
+    (0..s.rows.len().min(3)).any(|r| is_application_line(&s.text(r, 0)))
+}
+
 pub(crate) fn is_icontrol_book(book: &Book) -> bool {
-    book.sheets.iter().any(|s| {
-        (0..s.rows.len().min(3)).any(|r| {
-            s.text(r, 0).starts_with("Application: Tecan i-control")
-                || s.text(r, 0).starts_with("Application: SparkControl")
-        })
-    })
+    book.sheets.iter().any(has_application_line)
+}
+
+/// A header value under its English or its German key (German keys only where an export showed
+/// them: docs/provenance/plate-readers.md, 2026-10-06).
+fn get_any<'a>(ex: &'a Export, keys: &[&str]) -> Option<&'a str> {
+    keys.iter().find_map(|k| ex.get(k))
+}
+
+/// The line that opens one well's block of a kinetic read with several reads per well.
+fn is_cycles_per_well(k: &str) -> bool {
+    k == "Cycles / Well" || k == "Zyklen / Well"
+}
+
+/// The line of a multiple-read block or list that holds each well's mean.
+fn is_mean(k: &str) -> bool {
+    k == "Mean" || k == "Mittelwert"
+}
+
+/// The header of an endpoint list with several reads per well: `Well`, `Mean`, `StDev`, positions.
+fn is_mean_list_header(sheet: &Sheet, r: usize) -> bool {
+    sheet.text(r, 0) == "Well" && is_mean(&sheet.text(r, 1))
 }
 
 pub(crate) fn is_magellan_book(book: &Book) -> bool {
@@ -75,30 +107,35 @@ fn setting_key(k: &str) -> String {
         "Part of Plate" => "part_of_plate",
         "Kinetic duration" => "kinetic_duration",
         "Interval Time" => "interval",
-        other => return other.to_string(),
+        // German exports (the keys one i-control 1.12 file showed)
+        "Wellenlänge" => "wavelength_nm",
+        "Bandbreite" => "bandwidth_nm",
+        "Anzahl der Blitze" => "flashes",
+        "Ruhezeit" => "settle_time_ms",
+        "Intervallzeit" => "interval",
+        other => {
+            // `Multiple Reads per Well (Circle (filled))` → `3 x 3`; `… (Border)` → 1500 µm
+            return match multiple_reads_pattern(other) {
+                Some("Border" | "Rahmen") => "multiple_reads_border".into(),
+                Some(_) => "multiple_reads".into(),
+                None => other.to_string(),
+            };
+        }
     }
     .to_string()
 }
 
-pub(crate) fn parse_icontrol(book: &Book) -> Export {
-    let sheet = book
-        .sheets
+/// What the parentheses of a `Multiple Reads per Well (…)` key hold: the read pattern
+/// (`Circle (filled)`, `Quadrat`) or `Border`.
+fn multiple_reads_pattern(key: &str) -> Option<&str> {
+    ["Multiple Reads per Well (", "Mehrfachmessungen pro Well ("]
         .iter()
-        .find(|s| (0..s.rows.len().min(3)).any(|r| s.text(r, 0).starts_with("Application:")))
-        .unwrap_or(&book.sheets[0]);
-    let mut ex = Export::new(Kind::TecanIControl, book.container.clone());
-    let n = sheet.rows.len();
-    let grids = find_grids(sheet);
-    let first_label = (0..n)
-        .find(|&r| sheet.text(r, 0).starts_with("Label:"))
-        .unwrap_or(n);
-    // i-control 1.11 CSV and SparkControl CSV exports have no `Label:` lines (tecan_csv.rs).
-    let labelled = first_label < n;
-    let header_end = if labelled {
-        first_label
-    } else {
-        super::tecan_csv::header_end(sheet)
-    };
+        .find_map(|p| key.strip_prefix(p).and_then(|x| x.strip_suffix(')')))
+}
+
+/// Header `key: value` pairs of an i-control sheet above its first section, in order.
+fn header_pairs(sheet: &Sheet, header_end: usize) -> Vec<(String, String)> {
+    let mut out = Vec::new();
     for r in 0..header_end {
         let cells = sheet.row_texts(r);
         let mut i = 0;
@@ -122,25 +159,50 @@ pub(crate) fn parse_icontrol(book: &Book) -> Export {
                 } else {
                     v.trim().to_string()
                 };
-                ex.put(k.trim(), v.trim().trim_start_matches('\'').to_string());
+                out.push((k.trim().to_string(), v.trim().trim_start_matches('\'').to_string()));
             } else if i == 0 && cells.len() > 1 {
-                ex.put(c.clone(), cells[1..].join(" "));
+                out.push((c.clone(), cells[1..].join(" ")));
                 break;
             }
             i += 1;
         }
         if cells.len() == 1 && !cells[0].contains(':') {
-            ex.put(cells[0].clone(), String::new());
+            out.push((cells[0].clone(), String::new()));
         }
     }
-    ex.model = ex.get("Device").map(str::to_string);
-    ex.serial = ex.get("Serial number").map(str::to_string);
+    out
+}
+
+pub(crate) fn parse_icontrol(book: &Book) -> Export {
+    // A workbook can hold several complete exports, one per sheet (segments of one run).
+    let exports: Vec<&Sheet> = book
+        .sheets
+        .iter()
+        .filter(|s| has_application_line(s) || (0..s.rows.len().min(3)).any(|r| s.text(r, 0).starts_with("Application:")))
+        .collect();
+    let sheet = exports.first().copied().unwrap_or(&book.sheets[0]);
+    let mut ex = Export::new(Kind::TecanIControl, book.container.clone());
+    let n = sheet.rows.len();
+    let first_label = (0..n)
+        .find(|&r| sheet.text(r, 0).starts_with("Label:"))
+        .unwrap_or(n);
+    // i-control 1.11 CSV and SparkControl CSV exports have no `Label:` lines (tecan_csv.rs).
+    let labelled = first_label < n;
+    let header_end = if labelled {
+        first_label
+    } else {
+        super::tecan_csv::header_end(sheet)
+    };
+    ex.header = header_pairs(sheet, header_end);
+    ex.model = get_any(&ex, &["Device", "Gerät"]).map(str::to_string);
+    ex.serial = get_any(&ex, &["Serial number", "Seriennummer"]).map(str::to_string);
     // `Tecan i-control , 1.9.17.0` next to `Application: Tecan i-control`
     ex.software_version = ex
         .header
         .iter()
         .find_map(|(k, v)| {
-            (k == "Application").then(|| v.rsplit(',').next().map(|s| s.trim().to_string()))
+            (k == "Application" || k == "Programm")
+                .then(|| v.rsplit(',').next().map(|s| s.trim().to_string()))
         })
         .flatten()
         .filter(|v| v.chars().next().is_some_and(|c| c.is_ascii_digit()))
@@ -153,34 +215,81 @@ pub(crate) fn parse_icontrol(book: &Book) -> Export {
             })
         })
         .or_else(|| super::tecan_csv::spark_version(sheet));
-    ex.operator = ex.get("User").map(str::to_string);
+    ex.operator = get_any(&ex, &["User", "Anwender"]).map(str::to_string);
     if ex.protocol.is_none() {
         ex.protocol = ex.get("Method name").map(str::to_string);
     }
-    if let Some(d) = ex.get("Date").map(str::to_string) {
-        let t = ex.get("Time").map(str::to_string);
+    if let Some(d) = get_any(&ex, &["Date", "Datum"]).map(str::to_string) {
+        let t = get_any(&ex, &["Time", "Zeit"]).map(str::to_string);
         ex.set_acquired(&d, t.as_deref());
     }
-    let plate_type = ex.get("Plate").map(str::to_string);
-    let mut b = Block::new("Plate 1", "Plate 1");
-    b.plate_type = plate_type.clone();
-    b.declared_wells = plate_type
-        .as_deref()
-        .and_then(first_number)
-        .map(|n| n as u32)
-        .filter(|n| crate::grid::dims_for_wells(*n).is_some());
-    b.started_at.clone_from(&ex.acquired_at);
-    b.read_type = Some(ReadType::Endpoint);
-    if let Some(id) = ex.get("Plate-ID (Stacker)").map(str::to_string) {
-        b.barcode = Some(id.clone());
-        b.plate.clone_from(&id);
-        b.name = id;
-    }
+    let plate_type = get_any(&ex, &["Plate", "Platte"]).map(str::to_string);
+    let barcode = get_any(&ex, &["Plate-ID (Stacker)", "Platten-ID (Stapler)"]).map(str::to_string);
+    let new_block = |started_at: Option<String>| {
+        let mut b = Block::new("Plate 1", "Plate 1");
+        b.plate_type = plate_type.clone();
+        b.declared_wells = plate_type
+            .as_deref()
+            .and_then(first_number)
+            .map(|n| n as u32)
+            .filter(|n| crate::grid::dims_for_wells(*n).is_some());
+        b.started_at = started_at;
+        b.read_type = Some(ReadType::Endpoint);
+        if let Some(id) = &barcode {
+            b.barcode = Some(id.clone());
+            b.plate.clone_from(id);
+            b.name.clone_from(id);
+        }
+        b
+    };
     if !labelled {
+        let grids = find_grids(sheet);
+        let mut b = new_block(ex.acquired_at.clone());
         super::tecan_csv::parse_unlabelled(sheet, &grids, header_end, &mut b);
         ex.blocks.push(b);
         return ex;
     }
+    let several = exports.len() > 1;
+    for (k, s) in exports.iter().enumerate() {
+        let first = (0..s.rows.len())
+            .find(|&r| s.text(r, 0).starts_with("Label:"))
+            .unwrap_or(s.rows.len());
+        // each sheet's own date and time (the first sheet's are the export's)
+        let started = if k == 0 {
+            ex.acquired_at.clone()
+        } else {
+            let pairs = header_pairs(s, first);
+            let get = |keys: &[&str]| {
+                pairs
+                    .iter()
+                    .find(|(pk, v)| keys.contains(&pk.as_str()) && !v.trim().is_empty())
+                    .map(|(_, v)| v.clone())
+            };
+            get(&["Date", "Datum"])
+                .and_then(|d| crate::datetime::combine(&d, get(&["Time", "Zeit"]).as_deref()))
+                .map(|(iso, _)| iso)
+        };
+        let mut b = new_block(started);
+        if several {
+            b.name = format!("{} ({})", b.name, s.name);
+            b.sheet = Some(s.name.clone());
+        }
+        parse_sections(s, first, &mut b, &mut ex.notes);
+        ex.blocks.push(b);
+    }
+    if several {
+        ex.notes.push(format!(
+            "the workbook holds {} i-control exports, one per sheet (segments of a run); each is its own plate read with its own start time",
+            exports.len()
+        ));
+    }
+    ex
+}
+
+/// The `Label:` sections of one i-control sheet, from `first_label` on, into `b`.
+fn parse_sections(sheet: &Sheet, first_label: usize, b: &mut Block, notes: &mut Vec<String>) {
+    let n = sheet.rows.len();
+    let grids = find_grids(sheet);
     let mut r = first_label;
     let mut temps = Vec::new();
     while r < n {
@@ -200,16 +309,18 @@ pub(crate) fn parse_icontrol(book: &Book) -> Export {
                 let k = sheet.text(rr, 0);
                 if k == "<>"
                     || k.starts_with("Cycle Nr")
+                    || is_cycles_per_well(&k)
+                    || is_mean_list_header(sheet, rr)
                     || grids.iter().any(|g| g.header_row == rr)
                 {
                     break;
                 }
-                if k == "Kinetic Measurement" {
+                if k == "Kinetic Measurement" || k == "Kinetik - Messung" {
                     kinetic = true;
                 }
-                if k.starts_with("Start Time") {
+                if k.starts_with("Start Time") || k.starts_with("Startzeit") {
                     started = sheet.row_texts(rr).get(1).cloned();
-                } else if k == "Mode" {
+                } else if k == "Mode" || k == "Modus" {
                     mode_text = sheet.row_texts(rr).get(1).cloned().unwrap_or_default();
                 } else if let Some(t) = sheet
                     .row_texts(rr)
@@ -220,6 +331,11 @@ pub(crate) fn parse_icontrol(book: &Book) -> Export {
                         temps.push(v);
                     }
                 } else if let Some((key, v, unit)) = setting(sheet, rr) {
+                    if let Some(pattern) = multiple_reads_pattern(&key)
+                        .filter(|p| *p != "Border" && *p != "Rahmen")
+                    {
+                        settings.insert("multiple_reads_pattern".into(), json!(pattern));
+                    }
                     let key = setting_key(&key);
                     let val = crate::sheet::parse_number(&v).map_or_else(|| json!(v), |x| json!(x));
                     settings.insert(key.clone(), val);
@@ -261,20 +377,31 @@ pub(crate) fn parse_icontrol(book: &Book) -> Export {
             if let Some(s) = &started {
                 settings.insert("start_time".into(), json!(s.trim_start_matches('\'')));
             }
+            let multiple = settings.contains_key("multiple_reads");
+            if multiple {
+                settings.insert("well_value".into(), json!("mean of the reads per well"));
+            }
             ch.settings = settings;
             let idx = b.channel(ch);
             if kinetic {
                 b.read_type = Some(ReadType::Kinetic);
             }
-            // data: a matrix, or a kinetic list
-            if let Some(g) = grids
+            // data: one block per well or a list (several reads per well), a matrix, or a
+            // kinetic list
+            if let Some(cyc) = (rr..end).find(|&x| is_cycles_per_well(&sheet.text(x, 0))) {
+                kinetic_per_well(sheet, cyc, end, b, idx);
+                push_multiple_reads_note(notes);
+            } else if let Some(h) = (rr..end).find(|&x| is_mean_list_header(sheet, x)) {
+                mean_list(sheet, h, end, b, idx);
+                push_multiple_reads_note(notes);
+            } else if let Some(g) = grids
                 .iter()
                 .find(|g| g.header_row >= r && g.header_row < end)
             {
-                super::push_grid(sheet, g, &mut b, idx, None);
+                super::push_grid(sheet, g, b, idx, None);
             } else if let Some(cyc) = (rr..end).find(|&x| sheet.text(x, 0).starts_with("Cycle Nr"))
             {
-                kinetic_list(sheet, cyc, end, &mut b, idx);
+                kinetic_list(sheet, cyc, end, b, idx);
             }
             if b.line.is_none() {
                 b.line = Some(r + 1);
@@ -290,8 +417,97 @@ pub(crate) fn parse_icontrol(book: &Book) -> Export {
             b.extra.insert("temperatures_c".into(), json!(temps));
         }
     }
-    ex.blocks.push(b);
-    ex
+}
+
+fn push_multiple_reads_note(notes: &mut Vec<String>) {
+    const NOTE: &str = "several reads per well: each well's value is i-control's Mean of its read positions; the position readings and StDev are not returned";
+    if !notes.iter().any(|n| n == NOTE) {
+        notes.push(NOTE.into());
+    }
+}
+
+/// Kinetic reads with several reads per well: one block per well, `Cycles / Well`, then `<well>`
+/// with the cycle numbers, `Time [s]`, `Temp. [°C]`, `Mean`, `StDev` and one line per read
+/// position (`1;2`). Each well's value at a cycle is its `Mean`; a block without one is reported.
+fn kinetic_per_well(sheet: &Sheet, start: usize, end: usize, b: &mut Block, ch: u32) {
+    let mut r = start;
+    let mut temps: Option<Vec<f64>> = None;
+    let mut without_mean = Vec::new();
+    while r < end {
+        if !is_cycles_per_well(&sheet.text(r, 0)) {
+            r += 1;
+            continue;
+        }
+        let head = r + 1;
+        let well_name = sheet.text(head, 0);
+        let Some((pr, pc)) = parse_well(&well_name) else {
+            r += 1;
+            continue;
+        };
+        let width = sheet.row_len(head);
+        let mut times: Vec<Option<f64>> = vec![None; width];
+        let mut mean_row = None;
+        let mut k = head + 1;
+        while k < end {
+            let t = sheet.text(k, 0);
+            if t.is_empty() || is_cycles_per_well(&t) {
+                break;
+            }
+            if t.starts_with("Time") || t.starts_with("Zeit") {
+                for (c, slot) in times.iter_mut().enumerate().skip(1) {
+                    *slot = sheet.cell(k, c).number();
+                }
+            } else if t.starts_with("Temp") && temps.is_none() {
+                temps = Some(
+                    (1..width)
+                        .filter_map(|c| sheet.cell(k, c).number())
+                        .collect(),
+                );
+            } else if is_mean(&t) {
+                mean_row = Some(k);
+            }
+            k += 1;
+        }
+        match mean_row {
+            Some(m) => {
+                for (c, time) in times.iter().enumerate().skip(1) {
+                    if sheet.cell(head, c).number().is_some() {
+                        let cell = sheet.cell(m, c).clone();
+                        b.push_cell(pr, pc, ch, *time, None, &cell);
+                    }
+                }
+            }
+            None => without_mean.push(well_name),
+        }
+        r = k;
+    }
+    if let Some(t) = temps.filter(|t| !t.is_empty()) {
+        b.extra.insert("kinetic_temperatures_c".into(), json!(t));
+    }
+    if !without_mean.is_empty() {
+        b.findings.push(openreadout_core::model::Finding::warning(
+            "multiple_reads_without_mean",
+            format!(
+                "{}: {} well block(s) with several reads have no Mean line and were not read (first: {})",
+                b.name,
+                without_mean.len(),
+                without_mean[0]
+            ),
+        ));
+    }
+}
+
+/// Endpoint reads with several reads per well: `Well`, `Mean`, `StDev`, one column per read
+/// position, then one line per well. Each well's value is its `Mean`.
+fn mean_list(sheet: &Sheet, header: usize, end: usize, b: &mut Block, ch: u32) {
+    for r in header + 1..end {
+        let w = sheet.text(r, 0);
+        let Some((pr, pc)) = parse_well(&w) else {
+            break;
+        };
+        let cell = sheet.cell(r, 1).clone();
+        b.push_cell(pr, pc, ch, None, None, &cell);
+    }
 }
 
 /// `Cycle Nr.` / `Time [s]` / `Temp. [°C]` lines, then one line per well (`A1`, …).
@@ -579,5 +795,63 @@ mod tests {
         assert_eq!(b.obs.len(), 4);
         assert_eq!(b.temperature_c, Some(23.1));
         assert_eq!(b.declared_wells, Some(96));
+    }
+
+    /// The `Cycles / Well` layout of a kinetic read with several reads per well (tread's
+    /// `time_series_multiple_reads.xlsx`, i-control 2.0), as tab-separated text.
+    const MULTIREAD_KINETIC: &str = "Application: Tecan i-control\t\t\t\tTecan i-control , 2.0.10.0\nDevice: infinite 200Pro\t\t\t\tSerial number: 1234567890\n\nDate:\t1/1/2022\nTime:\t10:00:00 AM\n\nPlate\t\t\t\t96-well plate\n\nLabel: Label1\nKinetic Measurement\nMode\t\t\t\tAbsorbance\nMultiple Reads per Well (Circle (filled))\t\t\t\t3 x 3\nMultiple Reads per Well (Border)\t\t\t\t1500\t\u{b5}m\nMeasurement Wavelength\t\t\t\t600\tnm\nStart Time:\t1/1/2022 10:00:00 AM\n\nCycles / Well\nA1\t1\t2\nTime [s]\t0\t600\nTemp. [\u{b0}C]\t30.6\t30.3\nMean\t0.0959\t0.1082\nStDev\t0.0106\t0.0207\n1;2\t0.0897\t0.0925\n2;1\t0.1131\t0.1442\n\nCycles / Well\nB2\t1\t2\nTime [s]\t0\t600\nTemp. [\u{b0}C]\t30.6\t30.3\nMean\t0.0981\t\nStDev\t0.0139\t0.016\n1;2\t0.0956\t0.1001\n";
+
+    #[test]
+    fn several_reads_per_well_kinetic() {
+        let ex = parse_icontrol(&text_book(MULTIREAD_KINETIC.as_bytes()));
+        let b = &ex.blocks[0];
+        assert_eq!(b.read_type, Some(ReadType::Kinetic));
+        assert_eq!(b.channels[0].mode, Mode::Absorbance);
+        assert_eq!(b.channels[0].wavelength_nm, Some(600.0));
+        let s = &b.channels[0].settings;
+        assert_eq!(s.get("multiple_reads"), Some(&json!("3 x 3")));
+        assert_eq!(s.get("multiple_reads_pattern"), Some(&json!("Circle (filled)")));
+        assert_eq!(s.get("multiple_reads_border"), Some(&json!(1500.0)));
+        // the Mean line, not a position line; B2's empty second mean is not a value
+        let vals: Vec<(u32, u32, Option<f64>, f64)> =
+            b.obs.iter().map(|o| (o.row, o.col, o.time_s, o.value)).collect();
+        assert_eq!(
+            vals,
+            vec![
+                (0, 0, Some(0.0), 0.0959),
+                (0, 0, Some(600.0), 0.1082),
+                (1, 1, Some(0.0), 0.0981)
+            ]
+        );
+        assert_eq!(b.extra.get("kinetic_temperatures_c"), Some(&json!([30.6, 30.3])));
+        assert!(ex.notes.iter().any(|n| n.contains("Mean")));
+    }
+
+    #[test]
+    fn several_reads_per_well_endpoint_list() {
+        let t = "Application: Tecan i-control\t\t\t\tTecan i-control , 2.0.10.0\nDevice: infinite 200Pro\n\nLabel: Label1\nMode\t\t\t\tAbsorbance\nMultiple Reads per Well (Circle (filled))\t\t\t\t3 x 3\nMeasurement Wavelength\t\t\t\t600\tnm\n\n\tTemperature: 30.6 \u{b0}C\nWell\tMean\tStDev\t1;2\t0;1\nA1\t0.1036\t0.0243\t0.096\t0.0896\nA2\t0.0951\t0.0073\t0.0913\t0.0913\n\nEnd Time:\t1/1/2022 10:01:00 AM\n";
+        let ex = parse_icontrol(&text_book(t.as_bytes()));
+        let b = &ex.blocks[0];
+        let vals: Vec<f64> = b.obs.iter().map(|o| o.value).collect();
+        assert_eq!(vals, vec![0.1036, 0.0951]);
+        assert_eq!(b.temperature_c, Some(30.6));
+    }
+
+    #[test]
+    fn german_export_is_recognised() {
+        let t = "Programm: Tecan i-control\t\t\t\tTecan i-control , 1.12.4.0\nGer\u{e4}t: infinite 200Pro\t\t\t\tSeriennummer: 1610002981\n\nDatum:\t04.04.2019\nZeit:\t15:17:52\n\nAnwender\t\t\t\tKRZ\\L00616\nPlatte\t\t\t\tGreiner 96 Flat Bottom\n\nLabel: Label1\nKinetik - Messung\nModus\t\t\t\tAbsorption\nMehrfachmessungen pro Well (Quadrat)\t\t\t\t2 x 2\nWellenl\u{e4}nge\t\t\t\t600\tnm\nStartzeit:\t04.04.2019 15:17:54\n\nZyklen / Well\nA1\t1\t2\nZeit [s]\t0\t599.7\nTemp. [\u{b0}C]\t24.9\t37.1\nMittelwert\t0.1027\t0.1025\nStDev\t0.0104\t0.0097\n0;1\t0.0979\t0.0976\n";
+        assert!(sniff_icontrol(t));
+        let ex = parse_icontrol(&text_book(t.as_bytes()));
+        assert_eq!(ex.model.as_deref(), Some("infinite 200Pro"));
+        assert_eq!(ex.serial.as_deref(), Some("1610002981"));
+        assert_eq!(ex.software_version.as_deref(), Some("1.12.4.0"));
+        assert_eq!(ex.acquired_at.as_deref(), Some("2019-04-04T15:17:52"));
+        assert_eq!(ex.operator.as_deref(), Some("KRZ\\L00616"));
+        let b = &ex.blocks[0];
+        assert_eq!(b.read_type, Some(ReadType::Kinetic));
+        assert_eq!(b.channels[0].mode, Mode::Absorbance);
+        assert_eq!(b.channels[0].wavelength_nm, Some(600.0));
+        let vals: Vec<(Option<f64>, f64)> = b.obs.iter().map(|o| (o.time_s, o.value)).collect();
+        assert_eq!(vals, vec![(Some(0.0), 0.1027), (Some(599.7), 0.1025)]);
     }
 }

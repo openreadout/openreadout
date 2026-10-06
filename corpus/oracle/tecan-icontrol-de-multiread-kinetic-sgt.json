@@ -1,0 +1,24 @@
+{
+ "id": "tecan-icontrol-de-multiread-kinetic-sgt",
+ "file": "tecan-icontrol-de-multiread-kinetic-sgt.xlsx",
+ "size": 957032,
+ "sha256": "60696c68363f4090b50d05f42fb2a6661290f1b6930666a72960af5ecdd3152d",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py icontrol_summary (independent reader; allotropy has no i-control parser)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 10560,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "1fb8218a054b78e495303a435b89b8b2"
+   }
+  ],
+  "header": {
+   "software_version": "1.12.4.0",
+   "model": "infinite 200Pro"
+  }
+ }
+}
