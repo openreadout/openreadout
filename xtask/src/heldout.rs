@@ -249,8 +249,9 @@ fn github_record(rest: &str, top: usize) -> String {
     }
 }
 
-/// File names a vendor gives every acquisition of a directory data set (a Bruker `.d` folder's
-/// `analysis.tdf`, an Agilent MassHunter folder's `MSScan.bin`). A held-out input unpacked from a
+/// File names a vendor gives every acquisition of a directory data set: a Bruker `.d` folder's
+/// `analysis.tdf`, an Agilent MassHunter folder's `MSScan.bin`, a ChemStation `.D` folder's
+/// `Report.TXT`, a MIRAX slide's `Slidedat.ini`. A held-out input or companion unpacked from a
 /// bundle can carry one, and format notes cite them, so they identify nothing.
 const VENDOR_FIXED_NAMES: &[&str] = &[
     "analysis.tdf",
@@ -262,7 +263,22 @@ const VENDOR_FIXED_NAMES: &[&str] = &[
     "MSPeak.bin",
     "_HEADER.TXT",
     "_extern.inf",
+    "Report.TXT",
+    "RESULTS.CSV",
+    "Slidedat.ini",
 ];
+
+/// A name in `VENDOR_FIXED_NAMES`, or a MIRAX slide's numbered data file (`Data0000.dat`).
+fn vendor_fixed_name(base: &str) -> bool {
+    let numbered_mirax = base.len() == 12
+        && base[..4].eq_ignore_ascii_case("data")
+        && base[4..8].bytes().all(|b| b.is_ascii_digit())
+        && base[8..].eq_ignore_ascii_case(".dat");
+    numbered_mirax
+        || VENDOR_FIXED_NAMES
+            .iter()
+            .any(|n| n.eq_ignore_ascii_case(base))
+}
 
 /// Strings that identify a held-out entry when they appear in a document.
 fn needles(e: &Entry) -> Vec<String> {
@@ -280,13 +296,7 @@ fn needles(e: &Entry) -> Vec<String> {
     // distinctive file names count. The files of a directory data set (`role = "part"`) carry the
     // vendor's fixed names (`Index.idx.xml`, `MeasurementData.mlf`, `r01c01f01p01-ch1sk1fk1fl1.tiff`)
     // that every format note cites; their ids and URLs still count, and so does the folder's id.
-    if e.role != "part"
-        && base.len() >= 10
-        && base.contains('.')
-        && !VENDOR_FIXED_NAMES
-            .iter()
-            .any(|n| n.eq_ignore_ascii_case(base))
-    {
+    if e.role != "part" && base.len() >= 10 && base.contains('.') && !vendor_fixed_name(base) {
         out.push(base.to_string());
     }
     out
@@ -643,6 +653,15 @@ url = "https://zenodo.org/api/records/222/files/sample_b_image.czi/content"
         .unwrap();
         assert_eq!(problems(&root, &m).unwrap().len(), 1);
         fs::remove_dir_all(&root).unwrap();
+    }
+
+    #[test]
+    fn vendor_fixed_names_identify_nothing() {
+        assert!(vendor_fixed_name("analysis.tdf"));
+        assert!(vendor_fixed_name("REPORT.TXT"));
+        assert!(vendor_fixed_name("Data0012.dat"));
+        assert!(!vendor_fixed_name("Data0012a.dat"));
+        assert!(!vendor_fixed_name("B_Blank_Whatman_neg.d"));
     }
 
     #[test]
