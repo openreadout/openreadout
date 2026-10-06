@@ -417,6 +417,8 @@ function main() {
     o.hidden = false;
     o.textContent = text;
     o.classList.toggle("error", !!isError);
+    // While a picture is already shown, a reload only gets a small badge.
+    o.classList.toggle("busy", !isError && !!S.data && S.data.view !== "pending");
   }
 
   // Tell the model what the user is looking at, so "what is this?" has an answer.
@@ -672,7 +674,7 @@ function main() {
   }
 
   /** Size the canvas for its box; returns CSS width and height. */
-  function sizeCanvas(aspect) {
+  function sizeCanvas(aspect, minH) {
     const dpr = window.devicePixelRatio || 1;
     const w = Math.max(160, canvas.parentElement.clientWidth);
     let h;
@@ -682,7 +684,8 @@ function main() {
     } else {
       const maxH = (S.hostContext.containerDimensions && S.hostContext.containerDimensions.maxHeight) || 0;
       h = aspect ? w / aspect : Math.round(Math.min(520, Math.max(220, w * 0.55)));
-      h = Math.min(h, maxH ? maxH - 120 : 640);
+      h = Math.max(h, minH || 0);
+      h = Math.min(h, maxH ? maxH - 120 : Math.max(640, minH || 0));
       h = Math.max(160, h);
     }
     canvas.style.height = h + "px";
@@ -823,9 +826,10 @@ function main() {
   }
 
   function drawPlot() {
-    const [w, h] = sizeCanvas();
-    const c = colors();
     const m = plotModel();
+    // stacked panels keep a readable height each
+    const [w, h] = sizeCanvas(null, m.panels.length > 1 ? m.panels.length * 74 + 58 : 0);
+    const c = colors();
     ctx2d.clearRect(0, 0, w, h);
     ctx2d.font = `11px ${c.font}`;
     const left = 62, right = 14, top = 10, bottom = 38, gap = 10;
@@ -1019,7 +1023,7 @@ function main() {
     for (const pk of sorted) {
       const xx = X(pk.x);
       if (!isFinite(xx)) continue;
-      const label = S.data.plot.kind === "nmr" ? fmt(pk.x, 4) : String(pk.label ?? "");
+      const label = String(pk.label ?? "");
       if (!label) continue;
       const half = ctx2d.measureText(label).width / 2 + 3;
       const L = { lo: 62 + half, hi: canvas.clientWidth - 14 - half };

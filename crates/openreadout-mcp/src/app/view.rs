@@ -378,10 +378,10 @@ fn is_retention(t: &TraceInfo) -> bool {
     axis_str(t, "quantity") == Some("retention_time")
 }
 
-fn is_nmr(info: &FileInfo, t: &TraceInfo) -> bool {
-    openreadout_signal::nmr::source::is_fid(t)
-        || (info.format.family == "nmr"
-            && axis_str(t, "unit").is_some_and(|u| u.eq_ignore_ascii_case("ppm")))
+/// An FID, or a spectrum with a chemical-shift axis (ppm, or Hz with the spectrometer frequency).
+fn is_nmr(t: &TraceInfo) -> bool {
+    use openreadout_signal::nmr::source;
+    source::is_fid(t) || source::spectrum_axis(t).is_some()
 }
 
 fn is_plate_table(t: &TableInfo) -> bool {
@@ -445,7 +445,7 @@ pub fn available(info: &FileInfo) -> Vec<ViewKind> {
     if !info.images.is_empty() {
         v.push(ViewKind::Image);
     }
-    if info.traces.iter().any(|t| is_nmr(info, t)) {
+    if info.traces.iter().any(is_nmr) {
         v.push(ViewKind::Nmr);
     }
     if has_scans(info) || info.traces.iter().any(is_retention) {
@@ -468,10 +468,12 @@ pub fn available(info: &FileInfo) -> Vec<ViewKind> {
 
 /// The view for [`ViewKind::Auto`].
 pub fn auto_kind(info: &FileInfo) -> ViewKind {
-    available(info)
-        .first()
-        .copied()
-        .unwrap_or(ViewKind::Summary)
+    let views = available(info);
+    // qPCR runs: the amplification curves say more than a plate of one number.
+    if info.format.family == "qpcr" && views.contains(&ViewKind::Trace) {
+        return ViewKind::Trace;
+    }
+    views.first().copied().unwrap_or(ViewKind::Summary)
 }
 
 fn outline(info: &FileInfo) -> Value {
@@ -523,7 +525,7 @@ fn outline(info: &FileInfo) -> Value {
                 "index": t.index, "name": t.name, "sweep_count": t.sweep_count,
                 "sample_count": t.sample_count, "sample_rate_hz": t.sample_rate_hz,
                 "channel_count": t.channels.len(), "channels": channels, "axis": axis_of(t),
-                "retention": is_retention(t), "nmr": is_nmr(info, t),
+                "retention": is_retention(t), "nmr": is_nmr(t),
             })
         })
         .collect();
