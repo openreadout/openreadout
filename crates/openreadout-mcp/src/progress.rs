@@ -1,5 +1,6 @@
 //! Progress reporting for long exports without touching the writers: a [`Dataset`] wrapper that
-//! counts plane and spectrum reads and reports `(done, total)` to a callback.
+//! counts plane and spectrum reads (or, for table and trace exports, rows and samples) and
+//! reports `(done, total)` to a callback.
 
 use openreadout_core::Result;
 use openreadout_core::model::{
@@ -12,12 +13,14 @@ use openreadout_core::reader::{Dataset, PlaneIndex, SpectrumView};
 /// Called with `(units done, total units)`.
 pub type ProgressFn = Box<dyn FnMut(u64, u64) + Send>;
 
-/// Forwards every call to `inner`; each plane or spectrum read counts one unit.
+/// Forwards every call to `inner`; each plane or spectrum read counts one unit, and with
+/// [`ProgressDataset::rows`] each table row and trace sample read counts one unit too.
 pub struct ProgressDataset<'a> {
     inner: &'a mut dyn Dataset,
     total: u64,
     done: u64,
     report: ProgressFn,
+    rows: bool,
 }
 
 impl<'a> ProgressDataset<'a> {
@@ -27,11 +30,25 @@ impl<'a> ProgressDataset<'a> {
             total,
             done: 0,
             report,
+            rows: false,
+        }
+    }
+
+    /// Also count the rows of table reads and the samples of trace reads.
+    #[cfg_attr(not(feature = "parquet"), allow(dead_code))]
+    pub fn rows(inner: &'a mut dyn Dataset, total: u64, report: ProgressFn) -> Self {
+        ProgressDataset {
+            rows: true,
+            ..Self::new(inner, total, report)
         }
     }
 
     fn tick(&mut self) {
-        self.done += 1;
+        self.tick_by(1);
+    }
+
+    fn tick_by(&mut self, n: u64) {
+        self.done = self.done.saturating_add(n);
         let d = self.done.min(self.total);
         (self.report)(d, self.total);
     }
@@ -80,7 +97,13 @@ impl Dataset for ProgressDataset<'_> {
         self.inner.check()
     }
     fn read_table(&mut self, index: u32, first_row: u64, max_rows: u64) -> Result<Table> {
-        self.inner.read_table(index, first_row, max_rows)
+        let t = self.inner.read_table(index, first_row, max_rows);
+        if self.rows
+            && let Ok(t) = &t
+        {
+            self.tick_by(t.columns.first().map_or(0, |c| c.len() as u64));
+        }
+        t
     }
     fn read_trace(
         &mut self,
@@ -89,8 +112,15 @@ impl Dataset for ProgressDataset<'_> {
         first_sample: u64,
         max_samples: u64,
     ) -> Result<Trace> {
-        self.inner
-            .read_trace(index, sweep, first_sample, max_samples)
+        let t = self
+            .inner
+            .read_trace(index, sweep, first_sample, max_samples);
+        if self.rows
+            && let Ok(t) = &t
+        {
+            self.tick_by(t.channels.first().map_or(0, |c| c.len() as u64));
+        }
+        t
     }
     fn read_spectrum(&mut self, index: u32, spectrum: u64) -> Result<Spectrum> {
         let s = self.inner.read_spectrum(index, spectrum);

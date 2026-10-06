@@ -71,15 +71,28 @@ impl std::fmt::Display for ArrayError {
     }
 }
 
-fn b64_value(c: u8) -> Option<u32> {
-    Some(u32::from(match c {
+/// The value of each base64 alphabet character; 0xFF for every other byte.
+const B64_TABLE: [u8; 256] = {
+    let mut t = [0xFFu8; 256];
+    let mut c = 0;
+    while c < 256 {
+        if let Some(v) = b64_value(c as u8) {
+            t[c] = v as u8;
+        }
+        c += 1;
+    }
+    t
+};
+
+const fn b64_value(c: u8) -> Option<u32> {
+    Some(match c {
         b'A'..=b'Z' => c - b'A',
         b'a'..=b'z' => c - b'a' + 26,
         b'0'..=b'9' => c - b'0' + 52,
         b'+' => 62,
         b'/' => 63,
         _ => return None,
-    }))
+    } as u32)
 }
 
 /// Decode standard base64 (RFC 4648), ignoring ASCII whitespace. Returns the bytes and the
@@ -87,11 +100,26 @@ fn b64_value(c: u8) -> Option<u32> {
 /// declared `encodedLength`.
 pub fn decode_base64(text: &[u8]) -> Result<(Vec<u8>, usize), ArrayError> {
     let mut out = Vec::with_capacity(text.len() / 4 * 3);
+    // Fast path: whole groups of four alphabet characters. The loop below takes over from the
+    // first group holding anything else (whitespace, padding, a bad character), with the same
+    // results as if it had decoded everything.
+    let mut fast = 0usize;
+    for q in text.as_chunks::<4>().0 {
+        let sextets = q.map(|ch| B64_TABLE[usize::from(ch)]);
+        if sextets.iter().any(|&s| s & 0x80 != 0) {
+            break;
+        }
+        let bits = sextets
+            .iter()
+            .fold(0u32, |acc, &s| (acc << 6) | u32::from(s));
+        out.extend_from_slice(&[(bits >> 16) as u8, (bits >> 8) as u8, bits as u8]);
+        fast += 4;
+    }
     let mut acc = 0u32;
     let mut n = 0u8;
-    let mut seen = 0usize;
+    let mut seen = fast;
     let mut pad = 0usize;
-    for &c in text {
+    for &c in &text[fast..] {
         if c.is_ascii_whitespace() {
             continue;
         }
@@ -247,6 +275,30 @@ mod tests {
         assert_eq!(decode_base64(b"").unwrap().0, b"");
         assert!(decode_base64(b"TW!u").is_err());
         assert!(decode_base64(b"T").is_err());
+    }
+
+    #[test]
+    fn base64_fast_path_agrees_with_the_slow_one() {
+        // A leading space sends the whole text through the character-by-character loop.
+        let cases: [&[u8]; 8] = [
+            b"TWFuTWFuTWFu",
+            b"TWFuTWFuTWE=",
+            b"TWFuTWFuTQ==",
+            b"TWFuTW\nFuTWFu",
+            b"TWFuTWFuTWF",
+            b"TWFuTW=uTWFu",
+            b"TWFuTWFu!WFu",
+            b"TWFuTWFuTWFu====",
+        ];
+        for text in cases {
+            let slow = [b" ".as_slice(), text].concat();
+            assert_eq!(
+                decode_base64(text),
+                decode_base64(&slow),
+                "{}",
+                String::from_utf8_lossy(text)
+            );
+        }
     }
 
     #[test]

@@ -10,13 +10,17 @@
 //! 2. the peak heap stays below the documented formula, `(2 * threads + 4) * plane_bytes`
 //!    plus a fixed allowance for metadata and I/O buffers.
 //!
+//! It also exports synthetic mass-spectrometry runs of 1,000 and 4,000 spectra to mzML: the
+//! writer reads and compresses spectra in batches, so its peak heap must not grow with the
+//! number of spectra either.
+//!
 //! The heap high-water mark comes from a counting global allocator ([`peak_alloc`]); it
 //! measures anonymous memory the process allocates, which is what a large export could run
 //! out of (file pages read through the OS cache are reclaimable and not counted).
 
 use std::path::Path;
 
-use openreadout_bench::{SyntheticImage, tiff_options, zarr_options};
+use openreadout_bench::{SyntheticImage, SyntheticSpectra, tiff_options, zarr_options};
 use openreadout_core::Result;
 use openreadout_core::parallel::ReadContext;
 use openreadout_core::reader::Dataset;
@@ -101,10 +105,52 @@ fn check(zarr: bool) {
     }
 }
 
+/// Peak heap of exporting `scans` spectra of `points` points to mzML, on 4 threads.
+fn mzml_peak(scans: u64, points: usize, dir: &Path) -> usize {
+    let pool = rayon::ThreadPoolBuilder::new()
+        .num_threads(4)
+        .build()
+        .unwrap();
+    let mut ds = SyntheticSpectra { scans, points };
+    let out = dir.join("out.mzML");
+    let mut opts = openreadout_mzml_writer::MzmlExportOptions::default();
+    opts.overwrite = true;
+    pool.install(|| {
+        PEAK.reset_peak_usage();
+        let base = PEAK.current_usage();
+        openreadout_mzml_writer::export_mzml(&mut ds, Path::new("synthetic.raw"), &out, &opts)
+            .unwrap();
+        PEAK.peak_usage().saturating_sub(base)
+    })
+}
+
+fn check_mzml() {
+    let dir = tempfile::tempdir().unwrap();
+    // 2,000 points of 12 bytes: 23 KiB of arrays per spectrum, 94 MiB for 4,000 spectra.
+    let points = 2000;
+    let p_small = mzml_peak(1000, points, dir.path());
+    let p_large = mzml_peak(4000, points, dir.path());
+    eprintln!(
+        "mzML: peak heap {:.1} MiB for 1,000 spectra, {:.1} MiB for 4,000",
+        mib(p_small),
+        mib(p_large)
+    );
+    // The index (ids, offsets, hashes) grows by about 100 bytes per spectrum.
+    assert!(
+        p_large <= p_small + (4 << 20),
+        "mzML peak heap grows with the spectrum count: {p_small} B for 1,000 spectra, {p_large} B for 4,000"
+    );
+    assert!(
+        p_large <= 64 << 20,
+        "mzML peak heap {p_large} B exceeds 64 MiB"
+    );
+}
+
 /// One test function: the allocator counters are process-wide, so the exports must not run
 /// concurrently with anything else in this binary.
 #[test]
 fn export_memory_is_bounded_by_plane_size() {
     check(false);
     check(true);
+    check_mzml();
 }
