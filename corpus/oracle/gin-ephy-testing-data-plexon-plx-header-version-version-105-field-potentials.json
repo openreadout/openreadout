@@ -1,0 +1,119 @@
+{
+ "id": "gin-ephy-testing-data-plexon-plx-header-version-version-105-field-potentials",
+ "file": "gin-ephy-testing-data-plexon-plx-header-version-version-105-field-potentials.plx",
+ "size": 466416,
+ "sha256": "7e9931b36a36d83ab82a23c71c482acbbcb6e685e3bc9fde68616425548c972d",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 PlexonRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "ad01",
+    "ad03",
+    "ad07"
+   ],
+   "sample_rate_hz": 1000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 60000,
+     "channels": [
+      {
+       "xxh3": "e6d55f96adf5f49239fe5d7dbdd8e96a",
+       "first": [
+        0.9033203125,
+        0.9423828125,
+        0.99609375,
+        0.96923828125,
+        0.83740234375,
+        0.869140625,
+        0.89111328125,
+        0.8740234375
+       ]
+      },
+      {
+       "xxh3": "5fa0e898422d2c05a17a98bf66c25ae2",
+       "first": [
+        0.93994140625,
+        1.005859375,
+        1.12060546875,
+        1.09375,
+        1.0107421875,
+        1.0205078125,
+        0.9716796875,
+        0.99853515625
+       ]
+      },
+      {
+       "xxh3": "79e7585741990dd596b5ac2870f1a8da",
+       "first": [
+        1.49169921875,
+        1.201171875,
+        0.98388671875,
+        1.142578125,
+        1.32568359375,
+        1.27197265625,
+        1.171875,
+        1.20361328125
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "oracle_note": "samples of 3 channel(s) taken from Neo's parsed blocks, where Neo's chunk reader truncates the final block (see plexon() in oracle/gen.py)",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 0,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_column_hashes": [
+    {
+     "column": "time_s",
+     "count": 0,
+     "xxh3": "99aa06d3014798d86001c324468d497f"
+    },
+    {
+     "column": "channel",
+     "count": 0,
+     "xxh3": "99aa06d3014798d86001c324468d497f"
+    },
+    {
+     "column": "unit",
+     "count": 0,
+     "xxh3": "99aa06d3014798d86001c324468d497f"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "event_count": 2,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_column_hashes": [
+    {
+     "column": "time_s",
+     "count": 2,
+     "xxh3": "a985498247d5c827a2944f566b12fcce"
+    },
+    {
+     "column": "channel",
+     "count": 2,
+     "xxh3": "d77480ee06c35fbec810ceb3adbaac12"
+    },
+    {
+     "column": "value",
+     "count": 2,
+     "xxh3": "e5189a9599e3f86205ea23ef06e28b2d"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,359 @@
+{
+ "id": "figshare639946-smr-day1-light",
+ "file": "figshare639946-smr-day1-light.smr",
+ "size": 2094080,
+ "sha256": "bb77b2a5d6f8b2d4c438a6a8f79a509d8a55552f55949827ce252010a8ed6c54",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 Spike2RawIO (try_signal_grouping=False)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CH#0"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 1000.1000100010023,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100010,
+     "channels": [
+      {
+       "xxh3": "70d5ad6bc3823df5a07f223d1991264a",
+       "first": [
+        0.009918212890625,
+        0.009918212890625,
+        -0.0701904296875,
+        0.01983642578125,
+        0.009918212890625,
+        -0.060272216796875,
+        0.01983642578125,
+        0.009918212890625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CH#1"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 1000.1000100010023,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100010,
+     "channels": [
+      {
+       "xxh3": "a6259a60521d22f338750c9983565c41",
+       "first": [
+        -0.37994384765625,
+        -0.299835205078125,
+        -0.370025634765625,
+        -0.389862060546875,
+        -0.299835205078125,
+        -0.34027099609375,
+        -0.37994384765625,
+        -0.299835205078125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CH#2"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 1000.1000100010023,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100010,
+     "channels": [
+      {
+       "xxh3": "44708ebe35a1756d65e4c250f2c7106f",
+       "first": [
+        0.07000045738436711,
+        0.07000045738436711,
+        0.07000045738436711,
+        0.07999992327256678,
+        0.07999992327256678,
+        0.07000045738436711,
+        0.07000045738436711,
+        0.07000045738436711
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CH#3"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 1000.1000100010023,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100010,
+     "channels": [
+      {
+       "xxh3": "a057588f1a1ffebfb02ca29fcbdf4030",
+       "first": [
+        -19.99969482421875,
+        -19.99969482421875,
+        -19.99969482421875,
+        -19.99969482421875,
+        -19.99969482421875,
+        -19.99969482421875,
+        -19.99969482421875,
+        -19.99969482421875
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CH#4"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 1000.1000100010023,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100010,
+     "channels": [
+      {
+       "xxh3": "3f9dd5365b71e40dac292df2382b31f2",
+       "first": [
+        0.5799979905759756,
+        0.5799979905759756,
+        0.5799979905759756,
+        0.5799979905759756,
+        0.5799979905759756,
+        0.5799979905759756,
+        0.5799979905759756,
+        0.5799979905759756
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CH#5"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 1000.1000100010023,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100010,
+     "channels": [
+      {
+       "xxh3": "91aac162eafe03b9dd82a8293f7d23a8",
+       "first": [
+        0.5799979905759756,
+        0.5799979905759756,
+        0.5799979905759756,
+        0.5700050100631415,
+        0.5700050100631415,
+        0.5799979905759756,
+        0.5799979905759756,
+        0.5799979905759756
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CH#6"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 1000.1000100010023,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100010,
+     "channels": [
+      {
+       "xxh3": "434dfde9366d05f4de8afe340fedd045",
+       "first": [
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CH#7"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 1000.1000100010023,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100010,
+     "channels": [
+      {
+       "xxh3": "434dfde9366d05f4de8afe340fedd045",
+       "first": [
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875,
+        -319.9951171875
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Spk"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 1000.1000100010023,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100010,
+     "channels": [
+      {
+       "xxh3": "27e028c40a76b63939795af56602d2fc",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Trial#"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 721.5007215007231,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 72150,
+     "channels": [
+      {
+       "xxh3": "0f5afdeffa1630a3bb0c781fc5f905ec",
+       "first": [
+        3.9990615844726562,
+        3.9990615844726562,
+        3.9990615844726562,
+        3.9990615844726562,
+        3.9990615844726562,
+        3.9990615844726562,
+        3.9990615844726562,
+        3.9990615844726562
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 0,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "time_s": "99aa06d3014798d86001c324468d497f",
+    "tick": "99aa06d3014798d86001c324468d497f",
+    "channel": "99aa06d3014798d86001c324468d497f",
+    "code0": "99aa06d3014798d86001c324468d497f",
+    "code1": "99aa06d3014798d86001c324468d497f",
+    "code2": "99aa06d3014798d86001c324468d497f",
+    "code3": "99aa06d3014798d86001c324468d497f",
+    "text": "99aa06d3014798d86001c324468d497f"
+   }
+  }
+ ]
+}

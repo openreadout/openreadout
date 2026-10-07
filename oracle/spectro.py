@@ -58,6 +58,8 @@ def kind(p: Path):
         return "wdf"
     if head[:4] == b"PEPE":
         return "pesp"
+    if head[:3] == b"PE " and p.name.lower().endswith(".sp"):
+        return "pesp_ascii"
     if _is_galactic_spc(head, p.name):
         return "spc"
     return None
@@ -390,6 +392,22 @@ def pesp(p: Path, max_sweeps=1000) -> dict:
     if extra:
         t["parameters"] = {"extra": extra}
     return {"reader": "specio (BSD-3)", "traces": [t]}
+
+
+def pesp_ascii(p: Path, max_sweeps=1000) -> dict:
+    """A PerkinElmer `.sp` saved as text (`PE … ASCII PEDS`): the x and y pairs after `#DATA`,
+    read with the standard library. No independent reader of this form exists, so this is a
+    second implementation of the format note (`independent: false`)."""
+    lines = p.read_bytes().decode("latin-1").splitlines()
+    at = [l.strip() for l in lines].index("#DATA")
+    pairs = [l.split() for l in lines[at + 1:] if l.strip() and not l.startswith("#")]
+    x = np.asarray([float(a) for a, _ in pairs], dtype=np.float64)
+    y = np.asarray([float(b) for _, b in pairs], dtype=np.float64)
+    t = {"index": 0, "reader": "standard library (#DATA pairs)", "sweep_count": 1, "channel_count": 1,
+         "sample_count": int(len(y)), "x_first": float(x[0]), "x_last": float(x[-1]),
+         "sweeps": _sweeps([[y]], max_sweeps)}
+    return {"reader": "second implementation (#DATA pairs read with the standard library); not an independent oracle",
+            "independent": False, "traces": [t]}
 
 
 def is_wdf(p: Path) -> bool:

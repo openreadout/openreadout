@@ -1,0 +1,61 @@
+{
+ "id": "figshare11750730-benzoic-al2o3-drifts",
+ "file": "figshare11750730-benzoic-al2o3-drifts.0",
+ "size": 12680,
+ "sha256": "5183703e43c9950d2258628c7b8d6ecd0e6fdcc3ff6e04587e0cf3a65d3b6019",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 2481,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2481,
+     "channels": [
+      {
+       "xxh3": "76c57b0528121318857de90a408f18b7",
+       "first": [
+        -0.0012500863522291183,
+        -0.0012537818402051926,
+        -0.001066485419869423,
+        -0.0009834598749876022,
+        -0.0011153928935527802,
+        -0.0011958014219999313,
+        -0.0009196791797876358,
+        -0.00036348961293697357
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3997.5165338516235,
+   "x_last": 449.2556161880493,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11720.70703125,
+     "apodization": "B3",
+     "beamsplitter": "KBr-Broadband",
+     "source": "MIR",
+     "detector": "LN-MCT Wide [Internal]",
+     "instrument": "Tensor II",
+     "instrument_serial": "946",
+     "sample_name": "Alumina, RT, dioxane + H2 + 0.1 M benzoic acid",
+     "operator": "Administrator",
+     "aperture": "6 mm",
+     "scans": 8
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

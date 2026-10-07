@@ -1,0 +1,41 @@
+{
+ "id": "zenodo15320476-lichen-hyt-1",
+ "file": "zenodo15320476-lichen-hyt-1.dx",
+ "size": 5743,
+ "sha256": "f4f0040eb02de83910f8ca4824671c7419b95460617be1262f7b0fd0e85ca503",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "Hyt-1",
+   "kind": "xydata",
+   "data_type": "INFRARED SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 520,
+     "channels": [
+      {
+       "xxh3": "4863e79e6a16770dd528e3bb2c172ff4",
+       "first": [
+        -1.4e-05,
+        1.2e-05,
+        3.8e-05,
+        4.3e-05,
+        2e-05,
+        -1.4e-05,
+        -2.3e-05,
+        -2e-06
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 520,
+   "channel_count": 1,
+   "reader": "jcamp 1.2.2"
+  }
+ ]
+}

@@ -93,6 +93,7 @@ mod omnic;
 mod omnic_srs;
 mod opus;
 mod pesp;
+mod pesp_ascii;
 mod spc;
 mod wdf;
 mod witec;
@@ -348,6 +349,7 @@ impl FormatReader for PeSpReader {
                 "One spectrum per file (2D constant-interval data sets); Spotlight image files (.fsm) are read by the perkinelmer-fsm reader".into(),
                 "Instrument settings are named from their values in the corpus (scans, resolution, detector, source, beamsplitter, apodization, laser wavenumber); other settings are in the vendor tree by member id".into(),
                 "UV-Vis (.sp from Lambda instruments, x in nm) follows the same layout by inference; no public UV-Vis .sp file was available".into(),
+                "Text .sp files (`PE … ASCII PEDS`, e.g. from an LS55): only the x and y pairs and the technique code are read; the other header lines are kept unnamed in the vendor tree".into(),
             ],
         }
     }
@@ -358,6 +360,13 @@ impl FormatReader for PeSpReader {
                 format_id: PESP_FORMAT_ID,
                 confidence: DetectConfidence::Definite,
                 note: None,
+            });
+        }
+        if pesp_ascii::is_ascii_sp(head) {
+            return Some(Detection {
+                format_id: PESP_FORMAT_ID,
+                confidence: DetectConfidence::Definite,
+                note: Some("PerkinElmer .sp saved as text (PEDS)".into()),
             });
         }
         has_extension(path, &["sp"]).then_some(Detection {
@@ -373,6 +382,19 @@ impl FormatReader for PeSpReader {
 
     fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
         let (f, len) = common::open_source(input)?;
+        let head = common::read_at(&f, input.path(), 0, len.min(256), len)?;
+        if !head.starts_with(pesp::PESP_MAGIC) && pesp_ascii::is_ascii_sp(&head) {
+            let opened = pesp_ascii::parse(&f, input.path(), len)?;
+            let n = opened.values.len() as u64;
+            let src = openreadout_core::source::MemSource::new("#DATA", opened.values);
+            return Ok(Box::new(
+                SpectroDataset::new(self.descriptor(), input, f, len, opened.parsed)
+                    .with_values_source(
+                        openreadout_core::source::SourceFile::new(std::sync::Arc::new(src)),
+                        n,
+                    ),
+            ));
+        }
         let parsed = pesp::parse(&f, input.path(), len)?;
         Ok(Box::new(SpectroDataset::new(
             self.descriptor(),

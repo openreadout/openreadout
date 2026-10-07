@@ -125,7 +125,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_brml`, `whole_bruker_raw`, `whole_ras`, `whole_rasx`, `whole_xrdml`
-- corpus inputs by tier: heldout 8, smoke 31, standard 4
+- corpus inputs by tier: heldout 8, smoke 37, standard 4
 - golden snapshots: [`corpus/snapshots/panalytical-xrdml.jsonl`](../../corpus/snapshots/panalytical-xrdml.jsonl), [`corpus/snapshots/bruker-raw.jsonl`](../../corpus/snapshots/bruker-raw.jsonl), [`corpus/snapshots/bruker-brml.jsonl`](../../corpus/snapshots/bruker-brml.jsonl), [`corpus/snapshots/rigaku-ras.jsonl`](../../corpus/snapshots/rigaku-ras.jsonl), [`corpus/snapshots/rigaku-rasx.jsonl`](../../corpus/snapshots/rigaku-rasx.jsonl)
 
 ### Open new-variant intakes

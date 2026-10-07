@@ -12,6 +12,16 @@ use crate::reader::Dataset;
 /// Samples read from the reader per batch while computing statistics.
 const CHUNK: u64 = 1 << 20;
 
+/// Most values (samples × channels) asked of a reader in one `read_trace` call, so a
+/// many-channel recording is read in pages of bounded size (64 MiB as f64).
+pub const READ_VALUES: u64 = 1 << 23;
+
+/// Samples per `read_trace` call for a trace of `channels` channels: `CHUNK`, fewer when the
+/// channels would make one call hold more than `READ_VALUES` values (at least 4096).
+pub fn page_samples(channels: usize) -> u64 {
+    (READ_VALUES / (channels.max(1) as u64)).clamp(4096, CHUNK)
+}
+
 /// Largest `max_samples` a slice returns per channel.
 pub const MAX_SLICE_SAMPLES: u64 = 100_000;
 
@@ -385,8 +395,9 @@ pub fn slice_trace(
     let mut pos = first_sample;
     let mut remaining = count.unwrap_or(u64::MAX);
     let mut sweep_len = None;
+    let page = page_samples(t.channels.len());
     loop {
-        let want = CHUNK.min(remaining);
+        let want = page.min(remaining);
         let tr = ds.read_trace(req.trace, req.sweep, pos, want)?;
         let got = tr.channels.first().map_or(0, Vec::len) as u64;
         let times = x
@@ -520,8 +531,9 @@ fn axis_window(
     };
     let (mut first, mut last) = (None::<u64>, None::<u64>);
     let mut pos = 0u64;
+    let page = page_samples(t.channels.len());
     while pos < n {
-        let want = CHUNK.min(n - pos);
+        let want = page.min(n - pos);
         let tr = ds.read_trace(req.trace, req.sweep, pos, want)?;
         let Some(c) = tr.channels.get(col) else { break };
         for (i, v) in c.iter().enumerate() {
@@ -569,12 +581,16 @@ pub fn read_channels(
     let mut out: Vec<Vec<f64>> = channels.iter().map(|_| Vec::new()).collect();
     let mut pos = first;
     let end = first.saturating_add(count);
+    // The first page is small and tells the channel count; later pages hold at most
+    // `READ_VALUES` values, whatever the reader would return for a whole sweep.
+    let mut page = 4096;
     while pos < end {
-        let tr = ds.read_trace(trace, sweep, pos, end - pos)?;
+        let tr = ds.read_trace(trace, sweep, pos, (end - pos).min(page))?;
         let got = tr.channels.first().map_or(0, Vec::len) as u64;
         if got == 0 {
             break;
         }
+        page = page_samples(tr.channels.len()).max(page);
         for (k, &c) in channels.iter().enumerate() {
             let col = tr
                 .channels
@@ -686,6 +702,21 @@ mod tests {
             offset: 0.0,
             extra: std::collections::BTreeMap::new(),
         }
+    }
+
+    #[test]
+    fn many_channels_are_read_in_bounded_pages() {
+        assert_eq!(page_samples(1), CHUNK);
+        assert_eq!(page_samples(64), READ_VALUES / 64);
+        assert_eq!(page_samples(1_000_000), 4096);
+        // read_channels returns every sample of the window, page by page
+        let cols: Vec<Vec<f64>> = (0..3)
+            .map(|c| (0..10_000).map(|i| f64::from(c * 100_000 + i)).collect())
+            .collect();
+        let mut ds = Fake(cols.clone());
+        let got = read_channels(&mut ds, 0, 0, 5, 9_000, &[2, 0]).unwrap();
+        assert_eq!(got[0], cols[2][5..9_005].to_vec());
+        assert_eq!(got[1], cols[0][5..9_005].to_vec());
     }
 
     fn slice(ds: &mut Fake, info: &FileInfo, first: u64, count: Option<u64>) -> TraceSlice {

@@ -93,7 +93,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_intan`
-- corpus inputs by tier: heldout 2, smoke 6, standard 6
+- corpus inputs by tier: heldout 2, smoke 6, standard 11
 - golden snapshots: [`corpus/snapshots/intan.jsonl`](../../corpus/snapshots/intan.jsonl)
 
 ### Open new-variant intakes

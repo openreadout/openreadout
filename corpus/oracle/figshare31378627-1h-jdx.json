@@ -1,0 +1,44 @@
+{
+ "id": "figshare31378627-1h-jdx",
+ "file": "figshare31378627-1h-jdx.jdx",
+ "size": 959739,
+ "sha256": "9fe82ccd307e6917414423f45e7a3309940b701942a169f7e19035c43d2e4be9",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "STL-TIPS U Cyclo",
+   "kind": "xydata",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 419430,
+     "channels": [
+      {
+       "xxh3": "51edd2f320358d5b11017c56397ac11b",
+       "first": [
+        -0.00012056993134049347,
+        -0.00011133552908464643,
+        -8.816240644261517e-05,
+        -9.513176663570728e-05,
+        -0.00010262382884328129,
+        -8.293538629779608e-05,
+        -7.492062207574016e-05,
+        -9.234402255847043e-05
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 419430,
+   "channel_count": 1,
+   "reader": "nmrglue 0.12 jcampdx.read"
+  }
+ ],
+ "notes": [
+  "jcamp: IndexError: list index out of range"
+ ]
+}

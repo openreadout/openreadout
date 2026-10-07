@@ -1,0 +1,96 @@
+{
+ "id": "gin-ephy-testing-data-plexon-plx-header-version-version-107-spikes-continuous-and-events",
+ "file": "gin-ephy-testing-data-plexon-plx-header-version-version-107-spikes-continuous-and-events.plx",
+ "size": 292280,
+ "sha256": "303d0ae3fddcf3f5229a200ee87724469102918821625063a7eb65fe4ac3c500",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 PlexonRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Memory"
+   ],
+   "sample_rate_hz": 25000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 124920,
+     "channels": [
+      {
+       "xxh3": "44a7508764ed070a1573fb38f0f9f35e",
+       "first": [
+        -0.002288818359375,
+        -0.00213623046875,
+        -0.00213623046875,
+        -0.00213623046875,
+        -0.002593994140625,
+        -0.002593994140625,
+        -0.002288818359375,
+        -0.001983642578125
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "oracle_note": "samples of 1 channel(s) taken from Neo's parsed blocks, where Neo's chunk reader truncates the final block (see plexon() in oracle/gen.py)",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 181,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_column_hashes": [
+    {
+     "column": "time_s",
+     "count": 181,
+     "xxh3": "d070cc1869d9499a17d3e2c48def510b"
+    },
+    {
+     "column": "channel",
+     "count": 181,
+     "xxh3": "b334a12e3628e6979bdfe34eae4d1a17"
+    },
+    {
+     "column": "unit",
+     "count": 181,
+     "xxh3": "514e5649edc960d297967901eb2da6a7"
+    },
+    {
+     "column": "w0",
+     "count": 181,
+     "xxh3": "d5d7688160443b314b26336b2b5c3546"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "event_count": 1,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_column_hashes": [
+    {
+     "column": "time_s",
+     "count": 1,
+     "xxh3": "2c0a8a99dc147d5445c3b49d035665b2"
+    },
+    {
+     "column": "channel",
+     "count": 1,
+     "xxh3": "1d85e13540b8f55dacbcf3ae8a39cd07"
+    },
+    {
+     "column": "value",
+     "count": 1,
+     "xxh3": "2c0a8a99dc147d5445c3b49d035665b2"
+    }
+   ]
+  }
+ ]
+}

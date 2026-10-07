@@ -1,0 +1,154 @@
+{
+ "id": "figshare12141147-termite-opus",
+ "file": "figshare12141147-termite-opus.0",
+ "size": 24784,
+ "sha256": "0cd6ecaad6a9576b09fe129290c5a594c80e4525948dcb6ce97e771ae26144c2",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1556,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1556,
+     "channels": [
+      {
+       "xxh3": "4a5c5c95f318e7f23a7e6659690609f2",
+       "first": [
+        0.8735339045524597,
+        0.8722809553146362,
+        0.8816734552383423,
+        0.8902932405471802,
+        0.8857690691947937,
+        0.8750172257423401,
+        0.8702608346939087,
+        0.8712085485458374
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 9995.13691540039,
+   "x_last": 3996.5117114453124,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 8.0,
+     "laser_wavenumber_cm1": 15800.88028,
+     "apodization": "B3",
+     "beamsplitter": "KBr-Broadband",
+     "source": "NIR",
+     "detector": "IntegratIR [Top module]",
+     "instrument": "Tensor 27",
+     "instrument_serial": "2410",
+     "sample_name": "Cupim Syntermes_COLONIA 1",
+     "operator": "juliana",
+     "aperture": "6 mm",
+     "scans": 256
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1556,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1556,
+     "channels": [
+      {
+       "xxh3": "f04c6dd8eae5f763e4fa75aa992a45f0",
+       "first": [
+        0.00011822492524515837,
+        0.00011912173067685217,
+        0.0001170440882560797,
+        0.00011547477333806455,
+        0.00011759443441405892,
+        0.00012166426313342527,
+        0.00012428252375684679,
+        0.00012508116196841002
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 9995.13691540039,
+   "x_last": 3996.5117114453124,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 8.0,
+     "laser_wavenumber_cm1": 15800.88028,
+     "apodization": "B3",
+     "beamsplitter": "KBr-Broadband",
+     "source": "NIR",
+     "detector": "IntegratIR [Top module]",
+     "instrument": "Tensor 27",
+     "instrument_serial": "2410",
+     "sample_name": "Cupim Syntermes_COLONIA 1",
+     "operator": "juliana",
+     "aperture": "6 mm",
+     "scans": 256
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1556,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1556,
+     "channels": [
+      {
+       "xxh3": "89930bb1161989bc6d65d3fb2f0dd5ba",
+       "first": [
+        0.0008835739572532475,
+        0.0008877117652446032,
+        0.0008912979974411428,
+        0.0008969750488176942,
+        0.0009039738215506077,
+        0.0009123894851654768,
+        0.0009218725608661771,
+        0.0009298233781009912
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 9995.13691540039,
+   "x_last": 3996.5117114453124,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 8.0,
+     "laser_wavenumber_cm1": 15800.88028,
+     "apodization": "B3",
+     "beamsplitter": "KBr-Broadband",
+     "source": "NIR",
+     "detector": "IntegratIR [Top module]",
+     "instrument": "Tensor 27",
+     "instrument_serial": "2410",
+     "sample_name": "Cupim Syntermes_COLONIA 1",
+     "operator": "juliana",
+     "aperture": "6 mm"
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

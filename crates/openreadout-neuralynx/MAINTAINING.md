@@ -88,7 +88,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_neuralynx`
-- corpus inputs by tier: heldout 1, smoke 17, standard 5
+- corpus inputs by tier: heldout 1, smoke 17, standard 13
 - golden snapshots: [`corpus/snapshots/neuralynx.jsonl`](../../corpus/snapshots/neuralynx.jsonl)
 
 ### Open new-variant intakes

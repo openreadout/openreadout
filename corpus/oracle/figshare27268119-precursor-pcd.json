@@ -1,0 +1,282 @@
+{
+ "id": "figshare27268119-precursor-pcd",
+ "file": "figshare27268119-precursor-pcd.0",
+ "size": 261604,
+ "sha256": "c72cad190ba97fc7697867ab84c012c2e1dee7b0522b54d3c1c8a62b6d826ffb",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1868,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1868,
+     "channels": [
+      {
+       "xxh3": "abad191947108d7585dff768f824db0e",
+       "first": [
+        0.08960238844156265,
+        0.09010139107704163,
+        0.09072033315896988,
+        0.09087919443845749,
+        0.09084685891866684,
+        0.0909716784954071,
+        0.09101314842700958,
+        0.09110052138566971
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3999.64013671875,
+   "x_last": 399.192626953125,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.0,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR-Source",
+     "detector": "DTGS",
+     "instrument": "IFS66V/S",
+     "operator": "Default",
+     "aperture": "12 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1868,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1868,
+     "channels": [
+      {
+       "xxh3": "1c1135f119348ac617855632bdd0299d",
+       "first": [
+        0.001627218909561634,
+        0.0016296525718644261,
+        0.0016299798153340816,
+        0.0016313146334141493,
+        0.001634940505027771,
+        0.0016394434496760368,
+        0.0016438274178653955,
+        0.0016473217401653528
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3999.64013671875,
+   "x_last": 399.192626953125,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.0,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR-Source",
+     "detector": "DTGS",
+     "instrument": "IFS66V/S",
+     "operator": "Default",
+     "aperture": "12 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "igsm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 28436,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 28436,
+     "channels": [
+      {
+       "xxh3": "101bfd68e6934c96f54d788b0be7397c",
+       "first": [
+        3.013014793395996e-05,
+        2.9228627681732178e-05,
+        2.9474496841430664e-05,
+        2.972036600112915e-05,
+        2.991408109664917e-05,
+        2.9668211936950684e-05,
+        2.983957529067993e-05,
+        3.0159950256347656e-05
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 28435.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.0,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR-Source",
+     "detector": "DTGS",
+     "instrument": "IFS66V/S",
+     "operator": "Default",
+     "aperture": "12 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 3,
+   "reader": "brukeropus",
+   "brukeropus_key": "phsm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1024,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1024,
+     "channels": [
+      {
+       "xxh3": "0a8dba200f6753cdafb787af6281cf53",
+       "first": [
+        -2.6528756618499756,
+        -2.4944217205047607,
+        -2.4451284408569336,
+        -2.354301929473877,
+        -2.3163840770721436,
+        -4.5825629234313965,
+        -4.738163948059082,
+        -4.772496700286865
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 15782.572265625,
+   "x_last": 0.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.0,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR-Source",
+     "detector": "DTGS",
+     "instrument": "IFS66V/S",
+     "operator": "Default",
+     "aperture": "12 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 4,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1868,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1868,
+     "channels": [
+      {
+       "xxh3": "97f58ec09f1db395188a24191bc039e4",
+       "first": [
+        0.002000084612518549,
+        0.0020053787156939507,
+        0.0020086420699954033,
+        0.0020110225304961205,
+        0.0020153422374278307,
+        0.0020214738324284554,
+        0.0020270729437470436,
+        0.0020317905582487583
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3999.64013671875,
+   "x_last": 399.192626953125,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.0,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR-Source",
+     "detector": "DTGS",
+     "instrument": "IFS66V/S",
+     "operator": "Default",
+     "aperture": "12 mm"
+    }
+   }
+  },
+  {
+   "index": 5,
+   "reader": "brukeropus",
+   "brukeropus_key": "igrf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 28436,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 28436,
+     "channels": [
+      {
+       "xxh3": "1a793ed335ec4b2698a7e6d269a99904",
+       "first": [
+        3.3386051654815674e-05,
+        3.35201621055603e-05,
+        3.279745578765869e-05,
+        3.3602118492126465e-05,
+        3.331899642944336e-05,
+        3.299117088317871e-05,
+        3.4049153327941895e-05,
+        3.3468008041381836e-05
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 0.0,
+   "x_last": 28435.0,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.0,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR-Source",
+     "detector": "DTGS",
+     "instrument": "IFS66V/S",
+     "operator": "Default",
+     "aperture": "12 mm"
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

@@ -75,7 +75,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/pl2_synthetic.rs`](tests/pl2_synthetic.rs), [`tests/plx_synthetic.rs`](tests/plx_synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_pl2`, `whole_plexon`
-- corpus inputs by tier: heldout 1, hold 2, smoke 3, standard 1
+- corpus inputs by tier: heldout 1, hold 2, smoke 3, standard 6
 - golden snapshots: [`corpus/snapshots/plexon.jsonl`](../../corpus/snapshots/plexon.jsonl)
 
 ### Open new-variant intakes

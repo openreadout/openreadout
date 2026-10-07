@@ -1,0 +1,113 @@
+{
+ "id": "dandi001358-ecephys-a19034-s062",
+ "file": "dandi001358-ecephys-a19034-s062.nwb",
+ "size": 632912,
+ "sha256": "40a4d60b7a94d04d9fb1227b7bd705934e648b9a15465adb43b57b37396f5881",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.7.0",
+ "session": {
+  "session_description": "V4 crowding experiment",
+  "identifier": "s062_J210501",
+  "session_start_time": "2021-04-21T10:30:00-07:00"
+ },
+ "traces": [],
+ "tables": [
+  {
+   "index": 0,
+   "name": "units",
+   "event_count": 1,
+   "parameter_names": [
+    "id",
+    "ses_ID",
+    "ses_Name",
+    "unit_ID",
+    "probe_num",
+    "best_ch",
+    "is_sua",
+    "spike_times_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "2c0a8a99dc147d5445c3b49d035665b2",
+    "ses_ID": "2c0a8a99dc147d5445c3b49d035665b2",
+    "ses_Name": "2c0a8a99dc147d5445c3b49d035665b2",
+    "unit_ID": "feed7f8e89c8dff12a58bf777ca76068",
+    "probe_num": "2c0a8a99dc147d5445c3b49d035665b2",
+    "best_ch": "2c0a8a99dc147d5445c3b49d035665b2",
+    "is_sua": "1d85e13540b8f55dacbcf3ae8a39cd07",
+    "spike_times_count": "7a8a72425cdec6da07bd34fabedfaf75"
+   }
+  },
+  {
+   "index": 1,
+   "name": "units/spike_times",
+   "event_count": 24073,
+   "parameter_names": [
+    "unit_row",
+    "unit_id",
+    "spike_time"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "unit_row": "0a1d546582efeeaf97b57094513c37ca",
+    "unit_id": "0a1d546582efeeaf97b57094513c37ca",
+    "spike_time": "5ba3ac3aa247094a69046df99f3c67fe"
+   }
+  },
+  {
+   "index": 2,
+   "name": "intervals/trials",
+   "event_count": 1130,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "ses_ID",
+    "ses_Name",
+    "cond_Name",
+    "cond_ID",
+    "target_rot",
+    "rep_num",
+    "pdOn",
+    "pdOff"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "4b2d4875f106cc8c08d0d94085e7139e",
+    "start_time": "2ef17f9d0025959d9aefaca6298f6472",
+    "stop_time": "ebf837a67ecad70857869ce07dcfe9b6",
+    "ses_ID": "45187055088dcf53d92dd8e75562bb40",
+    "ses_Name": "45187055088dcf53d92dd8e75562bb40",
+    "cond_Name": "a83cc9ef106b3af6b6defdbddac23e5a",
+    "cond_ID": "a4c80bcd3a80a0a3c8a695364c4f7f23",
+    "target_rot": "b927b5591d7c3e6d76aec98bf88170d2",
+    "rep_num": "d616d8f19369fb733413464f78f1b82f",
+    "pdOn": "5c501dbf90b988de3ee498c1c0d4dfb0",
+    "pdOff": "1d9f8d6f7f7e35edae0b93f727ea55f0"
+   }
+  },
+  {
+   "index": 3,
+   "name": "general/extracellular_ephys/electrodes",
+   "event_count": 1,
+   "parameter_names": [
+    "id",
+    "location",
+    "group_name",
+    "label"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "2c0a8a99dc147d5445c3b49d035665b2",
+    "location": "2c0a8a99dc147d5445c3b49d035665b2",
+    "group_name": "2c0a8a99dc147d5445c3b49d035665b2",
+    "label": "2c0a8a99dc147d5445c3b49d035665b2"
+   }
+  }
+ ]
+}
