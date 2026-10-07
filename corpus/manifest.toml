@@ -62638,6 +62638,7 @@ role = "input"
 tier = "smoke"
 filename = "zenodo22908178-eds-sds-plate2.eds"
 url = "https://zenodo.org/api/records/22908178/files/Ruminants_qPCR_dataset.zip/content"
+zip_member = "1_raw_qPCR_runs/Plate2.eds"
 sha256 = "de6142b74086ab09321a3350d46153aa636195f72ebf7a4592cd8f77301b5623"
 size = 513803
 license = "CC-BY-4.0"
