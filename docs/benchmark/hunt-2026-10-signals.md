@@ -48,9 +48,9 @@ readers the corpus already uses: pyABF, Neo, h5py, nmrglue, specio, SpectroChemP
 FlowIO and fcsparser, rdmlpython and the vendor result files of `.eds`, galvani, geddes, DeerLab's
 `deerload`, witio, jws2txt and allotropy. GPL readers were run as black boxes only.
 
-On the corpus test after the fixes, 190 of the inputs agree with their oracle (185 with an
+On the corpus test after the fixes, 189 of the inputs agree with their oracle (184 with an
 independent reader, 5 with a second implementation). One is compared but skipped with a reason
-(below), and 20 have no oracle, mostly because the oracle itself fails on the file. No intact
+(below), and 21 have no oracle, mostly because the oracle itself fails on the file. No intact
 file made a command panic or hang. The slowest step was `analyze spikes` on a 234 MB `.ns6`
 (21 s).
 
@@ -64,6 +64,12 @@ file made a command panic or hang. The slowest step was `analyze spikes` on a 23
 | PerkinElmer `.sp` saved as text (`PE FL … ASCII PEDS 1.60`) was called corrupt | 3 figshare 3841308 files (LS55) | exit 4 "may be truncated" | read, with the `#GR` header checked against the data; compared with a standard-library read of the same pairs |
 | `analyze spikes` and `trace` held every channel of a long recording in memory | `figshare30728969-ns6-50mw002` (65 channels, 234 MB) | 1.7 GB and 830 MB | 1.0 GB and 190 MB, same spikes |
 | the spike-detection refusal printed `300–45.00000000000096 Hz band-pass at 100.00000000000213 Hz` | 2 files sampled at 100 Hz | | numbers rounded to 4 significant digits |
+
+The touched fuzz targets ran for 10 minutes each (`whole_abf`, `whole_blackrock`, `whole_pesp`,
+`signal_analysis`). `whole_abf` ran out of memory on a header that declares millions of sweeps,
+because the structure entries listed each one; they now list 10,000 and sum up the rest, and the
+input is a regression fixture. A second 10-minute run of `whole_abf` after the fix, and the other
+three targets, found nothing.
 
 Two oracle problems were fixed in `oracle/gen.py`: the ABF oracle now leaves out a DAC whose
 epochs overrun a sweep (pyABF raises a broadcast error building `sweepC`), and the Plexon oracle
