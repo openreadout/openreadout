@@ -110,7 +110,7 @@ The second release. In short:
 - Docker build records (`*.dockerbuild`) no longer end up among the release assets.
 - `CITATION.cff` now validates: the dual license is a list of SPDX identifiers.
 - The website's home page and *Connect an assistant* no longer say that there is no release yet.
-- Thermo: `spectrum --exclude-flagged` on a profile scan zeroed every value of a stored chunk that reached a flagged peak's m/z, including a larger unflagged peak in the same chunk. It now zeroes only the values up to the flagged peak's intensity, which matches conversions made before October 2020 on every scan of an Orbitrap Elite run (57 of its 2,446 scans differed).
+- Thermo: `spectrum --exclude-flagged` on a profile scan zeroed every value of a stored chunk that reached a flagged peak's m/z, including a larger unflagged peak in the same chunk. It now zeroes only the values up to the flagged peak's intensity, which matches conversions made before October 2020 on an Orbitrap Elite run.
 
 ## [0.1.0] - 2026-10-02
 
