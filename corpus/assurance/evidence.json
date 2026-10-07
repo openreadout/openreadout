@@ -132535,7 +132535,7 @@
       "id": "mtbls5747-vantage-sponge-35",
       "format": "thermo-raw",
       "source": "metabolights:MTBLS5747",
-      "oracle": "FAIL",
+      "oracle": "pass",
       "independent": true,
       "compared": [
         "metadata",
@@ -133394,7 +133394,7 @@
       "id": "mtbls9526-elite-liver-neg-a01",
       "format": "thermo-raw",
       "source": "metabolights:MTBLS9526",
-      "oracle": "FAIL",
+      "oracle": "pass",
       "independent": true,
       "compared": [
         "metadata",
