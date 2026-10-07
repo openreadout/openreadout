@@ -9,7 +9,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `abf` | high | prior art | 37 | 37 | 10 | 19 | 100% | 14% | 4/0 |
 | `agilent-cary` | medium | reverse engineered | 24 | 20 | 5 | 1 | 100% | 100% | - |
 | `agilent-fpa` | medium | prior art | 13 | 13 | 2 | 1 | 100% | 57% | - |
-| `agilent-masshunter` | high | reverse engineered | 16 | 16 | 6 | 7 | 100% | 100% | - |
+| `agilent-masshunter` | high | reverse engineered | 19 | 19 | 9 | 8 | 100% | 100% | - |
 | `agilent-seahorse-asyr` | low | reverse engineered | 9 | 3 | 1 | 2 | 100% | 100% | - |
 | `andi-chrom` | high | open spec | 25 | 25 | 5 | 3 | 100% | 100% | 1/0 |
 | `applied-biosystems-eds` | high | reverse engineered | 23 | 23 | 15 | 11 | 100% | 100% | 2/0 |
@@ -59,9 +59,9 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `microcal-itc` | medium | reverse engineered | 10 | 6 | 2 | 5 | 100% | 100% | - |
 | `mirax` | medium | prior art | 7 | 7 | 1 | 6 | 100% | 13% | - |
 | `mrc` | high | open spec | 13 | 13 | 7 | 6 | 100% | 24% | 2/0 |
-| `mzml` | high | open spec | 96 | 44 | 30 | 16 | 100% | 0% | 3/0 |
+| `mzml` | high | open spec | 108 | 44 | 30 | 16 | 100% | 0% | 3/0 |
 | `mzmlb` | medium | open spec | 4 | 4 | 1 | 5 | 100% | 0% | 1/0 |
-| `mzxml` | high | open spec | 6 | 5 | 4 | 2 | 100% | 0% | - |
+| `mzxml` | high | open spec | 7 | 5 | 4 | 2 | 100% | 0% | - |
 | `nd2` | high | prior art | 28 | 27 | 7 | 14 | 100% | 42% | 4/0 |
 | `netzsch-ngb` | medium | prior art | 18 | 18 | 2 | 1 | 100% | 0% | - |
 | `neuralynx` | high | vendor docs | 22 | 22 | 3 | 9 | 100% | 30% | - |
@@ -87,7 +87,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `roche-lightcycler-ixo` | low | reverse engineered | 4 | 0 | 0 | 0 | - | 46% | - |
 | `rotor-gene-rex` | low | reverse engineered | 1 | 1 | 1 | 2 | 100% | 46% | 1/0 |
 | `sartorius-octet-frd` | medium | prior art | 6 | 6 | 2 | 3 | 100% | 50% | - |
-| `sciex-wiff` | medium | reverse engineered | 7 | 7 | 6 | 9 | 100% | 100% | - |
+| `sciex-wiff` | high | reverse engineered | 13 | 11 | 9 | 11 | 100% | 100% | - |
 | `ser` | medium | prior art | 21 | 21 | 4 | 3 | 100% | 50% | 1/0 |
 | `shimadzu` | medium | reverse engineered | 12 | 9 | 4 | 2 | 100% | 100% | 0/1 |
 | `spikeglx` | high | vendor docs | 15 | 15 | 3 | 3 | 100% | 20% | - |
@@ -98,7 +98,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `tiff` | high | open spec | 113 | 112 | 22 | 38 | 100% | 10% | 5/0 |
 | `varian-nmr` | high | prior art | 12 | 12 | 6 | 4 | 100% | 53% | 1/0 |
 | `vsi` | high | prior art | 27 | 11 | 9 | 14 | 100% | 100% | - |
-| `waters-raw` | high | reverse engineered | 18 | 18 | 6 | 5 | 100% | 81% | - |
+| `waters-raw` | high | reverse engineered | 22 | 21 | 9 | 6 | 100% | 81% | - |
 | `winwcp` | low | prior art | 2 | 2 | 1 | 3 | 100% | 22% | - |
 | `witec-project` | high | prior art | 12 | 12 | 7 | 3 | 100% | 43% | - |
 | `zvi` | high | reverse engineered | 16 | 15 | 12 | 2 | 100% | 100% | 1/0 |
