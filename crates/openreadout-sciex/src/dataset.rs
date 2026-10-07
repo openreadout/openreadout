@@ -24,8 +24,9 @@ use crate::layout::{
     SCAN_TYPE_MRM, SCAN_TYPE_NEUTRAL_LOSS, SCAN_TYPE_PRECURSOR_ION, SCAN_TYPE_Q1, SCAN_TYPE_TOF_MS,
     SCAN_TYPE_TOF_PRODUCT, STREAM_PREAMBLE, decode_grid_scan, decode_tdc, dependent_charges,
     expand_zero_runs, index_trailing, log_fields, parse_device_channels, parse_device_data,
-    parse_experiment_header, parse_index, parse_mass_ranges, parse_windows, precursor_slot,
-    sample_strings, tdc_step, tof_calibration, tof_default_calibration, tof_mz, utf16_runs,
+    parse_experiment_header, parse_index, parse_mass_ranges, parse_smrm_window_s, parse_windows,
+    precursor_slot, sample_strings, tdc_step, tof_calibration, tof_default_calibration, tof_mz,
+    utf16_runs,
 };
 use crate::{FORMAT_ID, SciexWiffReader};
 
@@ -47,6 +48,8 @@ pub struct Experiment {
     pub ranges: Vec<MassRange>,
     /// TDC bins per stored step of the experiment's TOF data (`ExperimentHeaderEx`).
     pub tdc_step: u64,
+    /// Detection window (s) of a scheduled MRM experiment (`sMRM`), when it is scheduled.
+    pub scheduled_window_s: Option<u32>,
 }
 
 impl Experiment {
@@ -114,6 +117,8 @@ pub struct Sample {
     pub index_trailing: usize,
     /// Scheduled-MRM windows (start, end) in ms per transition.
     pub windows: Vec<(u32, u32)>,
+    /// The windows come from the method (expected times and detection window), not the sample.
+    pub windows_from_method: bool,
     /// Text of the `Log` stream.
     pub log: Option<String>,
     /// Strings of `SampleDABE/DATA` (sample name, id, comment, data file, method, …).
@@ -307,11 +312,14 @@ impl SciexDataset {
             }
             let tdc_step = read_stream(&cfb, &mut f, &path, &format!("{dir}/ExperimentHeaderEx"))
                 .map_or(1, |b| tdc_step(&b));
+            let scheduled_window_s = read_stream(&cfb, &mut f, &path, &format!("{dir}/sMRM"))
+                .and_then(|b| parse_smrm_window_s(&b));
             experiments.push(Experiment {
                 number: n,
                 header,
                 ranges,
                 tdc_step,
+                scheduled_window_s,
             });
         }
         if periods > 1 {
@@ -391,7 +399,10 @@ impl SciexDataset {
                 &format!("{dir}/SampleDAM/sMRMPro_adw1/sMRMPro_adw_Times"),
             )
             .map(|b| parse_windows(&b))
-            .unwrap_or_default();
+            .filter(|w| !w.is_empty());
+            let windows_from_method =
+                windows.is_none() && !derived_windows(&experiments).is_empty();
+            let windows = windows.unwrap_or_else(|| derived_windows(&experiments));
             let log = read_stream(&cfb, &mut f, &path, &format!("{dir}/Log"))
                 .map(|b| utf16_runs(&b, 2).join("\n"));
             let strings = read_stream(&cfb, &mut f, &path, &format!("{dir}/SampleDABE/DATA"))
@@ -439,6 +450,7 @@ impl SciexDataset {
                 index,
                 index_trailing,
                 windows,
+                windows_from_method,
                 log,
                 strings,
                 started_at,
@@ -1042,6 +1054,9 @@ impl SciexDataset {
             "cycles".into(),
             json!(s.index.len() / self.experiments.len().max(1)),
         );
+        if s.windows_from_method {
+            extra.insert("scheduled_windows".into(), json!("from the method"));
+        }
         extra.insert(
             "stored_spectra".into(),
             json!(if self
@@ -1246,6 +1261,40 @@ impl SciexDataset {
             _ => Ok(r.base_peak_intensity),
         }
     }
+}
+
+/// Windows of a scheduled MRM experiment whose sample stores none (`sMRMPro_adw_Times` absent):
+/// each transition's expected retention time ± half the method's detection window, in ms
+/// (docs/provenance/sciex-wiff.md, 2026-10-06); a transition whose expected time is 0 is not
+/// scheduled and is active throughout. Empty when the first experiment is not a scheduled MRM
+/// experiment. Analyst judges a window at each transition's own time within the cycle, which the
+/// file does not give us, so a cycle at a window's edge may be kept or left out differently.
+#[allow(clippy::float_cmp)] // 0.0 is the stored value of an unscheduled transition
+fn derived_windows(experiments: &[Experiment]) -> Vec<(u32, u32)> {
+    let Some(exp) = experiments.first() else {
+        return Vec::new();
+    };
+    let (Some(SCAN_TYPE_MRM), Some(w)) = (exp.scan_type(), exp.scheduled_window_s) else {
+        return Vec::new();
+    };
+    let half_ms = f64::from(w) * 500.0;
+    let mut out = Vec::with_capacity(exp.ranges.len());
+    for r in &exp.ranges {
+        let rt = f64::from(r.expected_rt_min);
+        if !rt.is_finite() || rt < 0.0 {
+            return Vec::new();
+        }
+        // a transition without an expected time is acquired in every cycle
+        if rt == 0.0 {
+            out.push((0, u32::MAX));
+            continue;
+        }
+        let centre = rt * 60_000.0;
+        #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
+        let clamp = |x: f64| x.round().clamp(0.0, f64::from(u32::MAX)) as u32;
+        out.push((clamp(centre - half_ms), clamp(centre + half_ms)));
+    }
+    out
 }
 
 /// The spectra of a sample, in index order: one per (cycle, Q1) for MRM experiments (the

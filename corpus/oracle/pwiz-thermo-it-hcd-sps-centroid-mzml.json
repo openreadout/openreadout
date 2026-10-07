@@ -1,0 +1,128 @@
+{
+ "id": "pwiz-thermo-it-hcd-sps-centroid-mzml",
+ "file": "IT-HCD-SPS-centroid.mzML",
+ "size": 19399,
+ "sha256": "1385757d35652421663837ea58f1f86f03081d12583a86c0e09f4ad01af39371",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1,
+     "channels": [
+      {
+       "xxh3": "aa27f6f18cec1b2eb105230a31c10a92",
+       "first": [
+        862.7297973632812
+       ]
+      },
+      {
+       "xxh3": "74c524adaa6b12149b1e1d959793225f",
+       "first": [
+        8810962.0
+       ]
+      },
+      {
+       "xxh3": "ff6b02367221c31f70e0220d5b51b33a",
+       "first": [
+        3.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "controllerType=0 controllerNumber=1 scan=1",
+    "ms_level": 3,
+    "rt_s": 862.72982051202,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": "ITMS + p NSI t Full ms3 599.77@hcd27.00 677.31@cid33.00 [107.00-605.00]",
+    "precursor_mz": 599.765014648438,
+    "precursor_charge": null,
+    "isolation_target_mz": 599.765014648438,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 27.0,
+    "total_ion_current": 8810961.722297,
+    "base_peak_mz": 562.25,
+    "n_peaks": 431,
+    "n_nonzero": 431,
+    "mz_bits": 32,
+    "xxh3_mz": "5a7892221d853bbfcf15dc553e583b1c",
+    "xxh3_intensity": "7b2794c6422c37e3e1441d81055acd59",
+    "xxh3_mz_nonzero": "5a7892221d853bbfcf15dc553e583b1c",
+    "xxh3_intensity_nonzero": "7b2794c6422c37e3e1441d81055acd59",
+    "sum_intensity": 8809019.147502184,
+    "mz_min": 147.20252990722656,
+    "mz_max": 604.60791015625,
+    "first_peaks": [
+     [
+      147.20252990722656,
+      303.51422119140625
+     ],
+     [
+      147.75,
+      4.899721622467041
+     ],
+     [
+      197.82943725585938,
+      1815.4063720703125
+     ],
+     [
+      198.35658264160156,
+      2428.977294921875
+     ],
+     [
+      199.05157470703125,
+      4452.43603515625
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      147.20252990722656,
+      303.51422119140625
+     ],
+     [
+      147.75,
+      4.899721622467041
+     ],
+     [
+      197.82943725585938,
+      1815.4063720703125
+     ],
+     [
+      198.35658264160156,
+      2428.977294921875
+     ],
+     [
+      199.05157470703125,
+      4452.43603515625
+     ]
+    ]
+   }
+  ]
+ }
+}

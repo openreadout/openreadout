@@ -1,0 +1,63 @@
+{
+ "id": "mtbls3956-arg-1",
+ "file": "mtbls3956-arg-1.wiff",
+ "size": 172032,
+ "sha256": "72d4d705246d8cf3843696c2092fb16f1c1c72dd1668c85bf22ec4a3fb11aed9",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 on the depositor's mzML (mtbls3956-arg-1.mzML)",
+ "paired_export": "mtbls3956-arg-1.mzML",
+ "export_software": [
+  [
+   "Analyst",
+   "unknown"
+  ],
+  [
+   "pwiz_Reader_ABI",
+   "3.0.23124"
+  ]
+ ],
+ "peak_picking_in_export": true,
+ "images": [],
+ "chromatograms": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "kind": "tic",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 530,
+   "xxh3_time_min": "abb43147121a102a608c70c2e88ef941",
+   "xxh3_intensity": "7d018cd5ce521f2fa93d1e938ce40e44",
+   "sum_intensity": 273304195.0,
+   "first_points": [
+    [
+     0.0,
+     421400.0
+    ],
+    [
+     0.03585,
+     430750.0
+    ],
+    [
+     0.07171666666666666,
+     384850.0
+    ],
+    [
+     0.10756666666666667,
+     374250.0
+    ],
+    [
+     0.14343333333333333,
+     414400.0
+    ]
+   ],
+   "n_nonzero": 530,
+   "xxh3_time_min_nonzero": "abb43147121a102a608c70c2e88ef941",
+   "xxh3_intensity_nonzero": "7d018cd5ce521f2fa93d1e938ce40e44"
+  }
+ ]
+}

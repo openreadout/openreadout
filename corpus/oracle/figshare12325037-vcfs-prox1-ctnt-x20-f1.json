@@ -1,0 +1,54 @@
+{
+ "id": "figshare12325037-vcfs-prox1-ctnt-x20-f1",
+ "file": "figshare12325037-VCFs_PROX1_cTnT_x20_F1.oib",
+ "size": 7241728,
+ "sha256": "963e435a4810421be42f8a17501fda44b118c554c426a19a3feaa2aee18f6603",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box); planes cross-checked with oiffile 2026.2.8",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series 1",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.621,
+    "y": 0.621
+   },
+   "channel_names": [
+    "CHS1",
+    "CHS2",
+    "OP4CH"
+   ],
+   "oiffile_agrees": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "44eb0a201d60fa7a8bf6b5a6a9f608a8",
+     "mean": 700.814151763916
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "afab739aa28a365a366616dbea09a545",
+     "mean": 480.37879753112793
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f10077b65e9df093db88eae087fc6ce2",
+     "mean": 317.2123317718506
+    }
+   ]
+  }
+ ]
+}

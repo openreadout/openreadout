@@ -60,3 +60,91 @@ lbignell/zetasizer_zs) and an unlicensed viewer whose repository holds only a RE
 - The number and volume "means" of the export are not stored (they follow from the
   distributions, which are not decoded); nor is the diffusion coefficient (it follows from the
   Z-average through Stokes-Einstein).
+
+## 2026-10-06 — public exports of size records from three new depositors (Richard Zimring with Claude as assistant)
+
+Corpus ids:
+- UNC Dataverse doi:10.15139/S3/ADXHMT (Alyssa Holden, CC0-1.0): `zetasizer-unc-adxhmt-lelc-n23`,
+  `zetasizer-unc-adxhmt-lelc-n1`, `zetasizer-unc-adxhmt-stab-n3`, Zetasizer 7.12, size records.
+- Texas Data Repository doi:10.18738/T8/BKRUCG (Laxmicharan Samineni, CC0-1.0):
+  `zetasizer-tdl-bkrucg-ecoli`, Zetasizer 7.13, zeta records.
+- University of Manchester Figshare, six items by James Bird (CC-BY-4.0): doi:10.48420/21387954,
+  21518898, 21922542, 22263982, 22293532 and 21967850 (`zetasizer-figshare<item>-dls`), Zetasizer
+  7.10, size and zeta records.
+
+Each `.dts` comes with the depositor's copy of the Zetasizer records table: Excel files for UNC
+and the Texas repository, the software's CSV export for the Manchester items. Licences were read
+from the repositories' APIs on 2026-10-06.
+
+Pairing: the UNC record attaches the same 54-row table to three `.dts` files. Only "LE and LC
+n=2 and n=3" holds those sample names, so the other two files (Drug Release, Stability n = 2)
+were left out. Several exports list only some records of their file: the depositor exported the
+size records and left out the zeta ones, or left out records. For those,
+`oracle/zetasizer_oracle.py --subset` (new option) drops `rows` and marks the table
+`"key": "record"`, so a comparison has to find each row by its record number. The corpus test
+does not do that yet. `zetasizer_oracle.py` also gained a small `_csv_rows` function for
+comma-separated exports.
+
+Outcome with the release binary (`scratch/bench/cmp_series.py`, record-keyed for the subsets):
+- Record numbers, record kinds, sample names, dates, temperatures, zeta potential, mobility and
+  conductivity agree in every file, with one exception: in `zetasizer-figshare21387954-dls` our
+  `sample_name` is empty for records 7-12, where the export and the file's own strings say
+  "Ti3 MXene Kaikai Noeske Multiple narrow modes 1" to "... 3" and similar names.
+- Z-average, PdI and intensity peaks are NaN in every size record, because the reader withholds
+  size results (format note, "Size results are withheld"). These exports are the public size
+  exports the note asks for. A probe (`scratch/bench/zsize_probe.py`) found each exported
+  (Z-average, PdI) pair exactly once in its `.dts` as two consecutive little-endian `f32`, the
+  start of the size-result block the format note describes: 12 of 12 records in
+  `zetasizer-figshare21387954-dls`, 18 of 18 in `-21922542-dls`, 54 of 54 in
+  `zetasizer-unc-adxhmt-lelc-n23`.
+
+Nothing in the reader was changed or inferred from these files yet.
+
+## 2026-10-06 — size results returned, record-keyed comparison, a second material-block head (Richard Zimring with Claude as assistant)
+
+Corpus ids: the ten files of the previous entry (`zetasizer-figshare21387954-dls`,
+`-21518898-dls`, `-21922542-dls`, `-21967850-dls`, `-22263982-dls`, `-22293532-dls`,
+`zetasizer-unc-adxhmt-lelc-n23`, `-lelc-n1`, `-stab-n3`, `zetasizer-tdl-bkrucg-ecoli`) with their
+oracles in `corpus/oracle/series/`, and for structure only the earlier development files
+(`zetasizer-zenodo19193123-cnf`, `-zenodo6552819-ps30k`, `-zenodo13860620-dtab-nacl`,
+`-zenodo13860620-ogd-d2o`, `-zenodo12108530-fig2`, `-zenodo10944781-dls`). The Zenodo 19044980
+file of the first entry was not opened again. No held-out file was opened.
+
+Prior art: none new. Scratch scripts listed the `REC<n>` streams with olefile 0.47
+(BSD-2-Clause, https://github.com/decalage2/olefile) and read the bytes with Python's `struct`
+and numpy.
+
+What we inferred, from what:
+
+- **Size result block.** For each exported size record we searched its stream for the exported
+  (Z-average, PdI) pair as two consecutive little-endian `f32`, within the export's rounding. It
+  occurs exactly once in every one of the 153 exported size records of the six Manchester items
+  (software 7.10) and the 654 of the three UNC files (7.12). At that offset the structure the
+  format note gives holds in every record: `u32` n (24-50 here) and n `f32` near 1 (falling, a
+  fit of the correlation function), then three groups of `u32` k + k means, `u32` k + k areas,
+  `u32` k + k widths. The first group's means and areas are the export's `Pk 1-3 Mean Int` and
+  `Pk 1-3 Area Int` (checked by the corpus test, all cells). Before the block: an `f64` 10.0, an
+  `f32` 0.02, an `f32`, eight zero bytes, an `f64` that reads as an OLE date near the
+  measurement, then 12 (7.10) or 16 (7.12) zero bytes. The reader does not use that context.
+- **Locating it.** The reader's structure search (unchanged since 2026-09-26) finds exactly one
+  block in every size record of every development file with size records, exported or not
+  (16 files; three aborted records of `zenodo6552819-ps30k` have none, as before). So the
+  search is turned on.
+- **What stays withheld.** No export holds peak widths (`PdI Width` is the Z-average's width,
+  not a peak's) or number and volume peaks. The export's `Number Mean` equals the number
+  group's first peak mean in single-peak records but is the distribution's mean in general, so
+  it confirms nothing. Widths and the number and volume groups stay withheld (finding
+  `size_values_withheld`).
+- **Sample name.** In records 7-12 of `zetasizer-figshare21387954-dls` the 46-byte block after
+  the material string ("Quartz") begins with `u32` 2 instead of 1. The rest of its shape (bytes
+  4-5 `01 00`, the 14-byte ending of two empty strings) is the same, and the next string is the
+  exported sample name. A survey of all 16 development files found the block head 1 in every
+  other record and no other value. Taking 1 or 2 changes no other record's sample name (the
+  first match stays the same in each).
+- **Comparison by record.** `oracle/zetasizer_oracle.py --subset` marks a table
+  `"key": "record"`. The series comparison now finds each oracle row by its `record` cell
+  instead of its position.
+
+Writer versions: size results are confirmed on 7.10 and 7.12. Size records of 7.02, 7.13, 8.00
+and 8.01 have no export in the corpus; their results are returned (one block each), and the
+assurance tables keep those writer versions unvalidated for tables.

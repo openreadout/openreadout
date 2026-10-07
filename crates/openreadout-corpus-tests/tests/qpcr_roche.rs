@@ -6,9 +6,13 @@
 //!   RDML `cq` of wells the software calls Negative is not a Cq), and the replicate Cq mean and
 //!   error are the software's (within the table's two decimals).
 //! - LightCycler 480 (`.ixo`): a standard-library decode of the file's own statements (sample
-//!   names, the analysis' calls and crossing points, readings per program and channel). No
-//!   vendor export exists, so the decode is also checked against the vendor's calls: every
-//!   position called positive rises in the analysed channel, every one called negative stays flat.
+//!   names, the analysis' calls and crossing points, readings per program and channel), also
+//!   checked against the vendor's calls: every position called positive rises in the analysed
+//!   channel, every one called negative stays flat. Two independent oracles besides: the QC
+//!   runs' depositor's own reader (`corpus/oracle/qpcr-roche-qcreader/`) and the LightCycler 480
+//!   software's Cp table and raw-data export of six plates (`corpus/oracle/qpcr-roche-export/`).
+//!   With `QPCR_ROCHE_RESULTS=<file>` those two comparisons append a results line per file for
+//!   `cargo xtask assurance-audit refresh --results <file>`.
 //!
 //! Both are exported to RDML and read back. `analyze qpcr --compute-cq` agreement with the vendor Cq is
 //! printed (a method difference: the file does not say how the vendor computed its Cq).
@@ -281,4 +285,339 @@ fn lightcycler480_decode_matches_an_independent_reading() {
         files += 1;
     }
     eprintln!("{files} LightCycler 480 files agree with the standard-library reading");
+}
+
+/// A results line for `cargo xtask assurance-audit refresh` (`QPCR_ROCHE_RESULTS=<file>`):
+/// `compared` names the outputs the comparison checked, `fields` the tracked normalized fields.
+fn results_line(id: &str, problems: &[String], compared: &[&str], fields: &[&str]) -> String {
+    let status = if problems.is_empty() { "pass" } else { "FAIL" };
+    let mut s = serde_json::json!({
+        "id": id,
+        "format": "roche-lightcycler-ixo",
+        "status": status,
+        "independent": true,
+        "compared": compared,
+        "fields": fields,
+    })
+    .to_string();
+    s.push('\n');
+    s
+}
+
+/// Append results lines to the file `QPCR_ROCHE_RESULTS` names (both LightCycler 480 tests
+/// write to it, so it is appended to, not replaced).
+fn write_results(lines: &str) {
+    if let Ok(p) = std::env::var("QPCR_ROCHE_RESULTS") {
+        use std::io::Write;
+        let mut f = std::fs::OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(p)
+            .unwrap();
+        f.write_all(lines.as_bytes()).unwrap();
+    }
+}
+
+/// The normalized experiment as `info --json` reports it under `/experiment`.
+fn experiment_json(ds: &QpcrDataset, info: &openreadout_core::FileInfo) -> Value {
+    serde_json::to_value(openreadout_core::experiment::of_dataset(ds, info)).unwrap()
+}
+
+fn oracle_in(dir: &str, id: &str) -> Value {
+    let p = root().join(format!("corpus/oracle/{dir}/{id}.json"));
+    serde_json::from_str(&std::fs::read_to_string(&p).unwrap()).unwrap()
+}
+
+/// The four QC runs against the depositor's own offline reader (`oracle/lc480_qc_reader.mjs`,
+/// `corpus/oracle/qpcr-roche-qcreader/`): instrument model, software version and run date, every
+/// stored crossing point, and the amplification readings of cycles 2-45 per channel (count, sum
+/// and first well). Its melt data are the software's resampled curves, which we do not return, so
+/// melt is not compared.
+#[test]
+fn lightcycler480_matches_the_depositors_reader() {
+    let mut results = String::new();
+    let mut failed = Vec::new();
+    for id in [
+        "ixo-lc480-qc-2017a",
+        "ixo-lc480-qc-2023b",
+        "ixo-lc480-qc-2025b",
+        "ixo-lc480-qc-2026a",
+    ] {
+        let path = corpus_dir().join(format!("{id}.ixo"));
+        if !path.exists() {
+            eprintln!("skip {id}: not downloaded");
+            continue;
+        }
+        let o = oracle_in("qpcr-roche-qcreader", id);
+        let mut ds = QpcrDataset::open(&path).unwrap();
+        let info = ds.info().unwrap();
+        let e = experiment_json(&ds, &info);
+        let mut problems = Vec::new();
+        if e["instrument"]["model"] != o["instrument"] {
+            problems.push(format!(
+                "model {} vs {}",
+                e["instrument"]["model"], o["instrument"]
+            ));
+        }
+        if e["instrument"]["software_version"] != o["software"] {
+            problems.push(format!(
+                "software {} vs {}",
+                e["instrument"]["software_version"], o["software"]
+            ));
+        }
+        // the reader gives the run's day only
+        let day = e["acquisition"]["started_at"].as_str().unwrap_or_default();
+        if !day.starts_with(o["date"].as_str().unwrap()) {
+            problems.push(format!("run date {day} vs {}", o["date"]));
+        }
+        // crossing points: every stored one is our Cq, and we have no other
+        let rep = qpcr_report(&ds, &QpcrReportRequest::default()).unwrap();
+        let ours: BTreeMap<u32, f64> = rep
+            .records
+            .iter()
+            .filter(|r| r.run == "Run")
+            .filter_map(|r| Some(((r.row - 1) * 12 + r.col - 1, r.cq?)))
+            .collect();
+        let want: BTreeMap<u32, f64> = o["crossing_points"]
+            .as_object()
+            .unwrap()
+            .iter()
+            .map(|(k, v)| (k.parse().unwrap(), v.as_f64().unwrap()))
+            .collect();
+        if ours.keys().ne(want.keys()) {
+            problems.push(format!(
+                "{} positions with a Cq, the reader has {}",
+                ours.len(),
+                want.len()
+            ));
+        }
+        for (pos, cp) in &want {
+            if ours
+                .get(pos)
+                .is_none_or(|c| (c - cp).abs() > 1e-9 * cp.abs())
+            {
+                problems.push(format!("position {pos}: Cq {:?} vs {cp}", ours.get(pos)));
+            }
+        }
+        // amplification readings per channel and cycle (the reader's cycle 1 holds melt
+        // readings, so it starts at cycle 2)
+        let channels = ds.vendor_metadata().unwrap()["channels"].clone();
+        let mut cycles = 0usize;
+        for (ch, per_cycle) in o["amplification"].as_object().unwrap() {
+            let name = channels[ch.parse::<usize>().unwrap()]["name"]
+                .as_str()
+                .unwrap()
+                .to_string();
+            let Some(t) = info
+                .traces
+                .iter()
+                .find(|t| t.name.as_deref() == Some(format!("Run: amplification {name}").as_str()))
+            else {
+                problems.push(format!("no amplification trace for channel {name}"));
+                continue;
+            };
+            let tr = ds.read_trace(t.index, 0, 0, t.sample_count).unwrap();
+            for c in per_cycle.as_array().unwrap() {
+                let k = c["cycle"].as_u64().unwrap() as usize - 1;
+                let vals: Vec<f64> = tr
+                    .channels
+                    .iter()
+                    .filter_map(|w| w.get(k).copied())
+                    .collect();
+                let sum: f64 = vals.iter().sum();
+                let (n, s, w0) = (
+                    c["n"].as_u64().unwrap() as usize,
+                    c["sum"].as_f64().unwrap(),
+                    c["well0"].as_f64().unwrap(),
+                );
+                if vals.len() != n || (sum - s).abs() > 1e-9 * s.abs() || vals.first() != Some(&w0)
+                {
+                    problems.push(format!(
+                        "{name} cycle {}: {} readings summing to {sum} (first {:?}) vs {n}, {s}, {w0}",
+                        k + 1,
+                        vals.len(),
+                        vals.first()
+                    ));
+                }
+                cycles += 1;
+            }
+        }
+        eprintln!(
+            "{id}: {} crossing points and {cycles} channel-cycles compared with the depositor's reader; {} problems",
+            want.len(),
+            problems.len()
+        );
+        results.push_str(&results_line(
+            id,
+            &problems,
+            &["metadata", "tables", "traces"],
+            &["experiment.instrument.model"],
+        ));
+        if !problems.is_empty() {
+            failed.push(format!(
+                "{id}: {}",
+                problems[..problems.len().min(5)].join("; ")
+            ));
+        }
+    }
+    write_results(&results);
+    assert!(failed.is_empty(), "{}", failed.join("\n"));
+}
+
+/// The six Mendeley plates against the LightCycler 480 software's own exports
+/// (`oracle/lc480_export_oracle.py`, `corpus/oracle/qpcr-roche-export/`): every well's sample
+/// name; the Cp where the file stores the analysis (`cp1` only; the other files store none and
+/// we return none); and every exported reading, which is the stored reading times the
+/// acquisition's export scale (`vendor.export_scale`), within the export's rounding.
+#[test]
+fn lightcycler480_matches_the_vendor_exports() {
+    let mut results = String::new();
+    let mut failed = Vec::new();
+    for id in [
+        "ixo-mendeley-diras2-cp1",
+        "ixo-mendeley-diras2-cp2",
+        "ixo-mendeley-diras2-cp3",
+        "ixo-mendeley-diras2-cp4",
+        "ixo-mendeley-diras2-cp6",
+        "ixo-mendeley-diras2-cp7",
+    ] {
+        let path = corpus_dir().join(format!("{id}.ixo"));
+        if !path.exists() {
+            eprintln!("skip {id}: not downloaded");
+            continue;
+        }
+        let o = oracle_in("qpcr-roche-export", id);
+        let mut ds = QpcrDataset::open(&path).unwrap();
+        let info = ds.info().unwrap();
+        let vendor = ds.vendor_metadata().unwrap();
+        let e = experiment_json(&ds, &info);
+        let mut problems = Vec::new();
+        if e["instrument"]["software_version"] != o["software"] {
+            problems.push(format!(
+                "software {} vs {}",
+                e["instrument"]["software_version"], o["software"]
+            ));
+        }
+        let rep = qpcr_report(&ds, &QpcrReportRequest::default()).unwrap();
+        let tol_cp = o["tol_cp"].as_f64().unwrap() + 1e-9;
+        let tol_raw = o["tol_raw"].as_f64().unwrap() + 1e-9;
+        let analysed = rep.records.iter().any(|r| r.cq_status != "no result");
+        let (mut cps, mut readings) = (0usize, 0usize);
+        for export_ch in o["channels"].as_array().unwrap() {
+            // the export names a channel by its wavelengths (`465-510`); the file may name it
+            // otherwise (`FAM`)
+            let export_ch = export_ch.as_str().unwrap();
+            let Some(ch) = vendor["channels"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .find(|c| {
+                    let nm = |k: &str| c[k].as_f64().unwrap_or(f64::NAN);
+                    c["name"] == export_ch
+                        || format!("{}-{}", nm("excitation_nm"), nm("emission_nm")) == export_ch
+                })
+                .and_then(|c| c["name"].as_str())
+            else {
+                problems.push(format!("no channel {export_ch}"));
+                continue;
+            };
+            // trace names carry the run's name only when the file has several runs
+            let wanted = format!("amplification {ch}");
+            let Some(t) = info.traces.iter().find(|t| {
+                t.name
+                    .as_deref()
+                    .is_some_and(|n| n == wanted || n.ends_with(&format!(": {wanted}")))
+            }) else {
+                problems.push(format!(
+                    "no amplification trace for channel {ch} (traces: {:?})",
+                    info.traces
+                        .iter()
+                        .map(|t| t.name.clone())
+                        .collect::<Vec<_>>()
+                ));
+                continue;
+            };
+            let run = match t.name.as_deref().unwrap().split_once(": ") {
+                Some((run, _)) => run,
+                None => rep.records.first().map_or("", |r| r.run.as_str()),
+            };
+            let tr = ds.read_trace(t.index, 0, 0, t.sample_count).unwrap();
+            let scale: Vec<Option<f64>> = vendor["export_scale"][ch]
+                .as_array()
+                .map(|a| a.iter().map(Value::as_f64).collect())
+                .unwrap_or_default();
+            for w in o["wells"].as_array().unwrap() {
+                let pos = w["pos"].as_str().unwrap();
+                let Some(r) = rep
+                    .records
+                    .iter()
+                    .find(|r| r.run == run && r.well == pos && r.dye.as_deref() == Some(ch))
+                else {
+                    problems.push(format!("{pos}: no record"));
+                    continue;
+                };
+                if r.sample.as_deref() != w["name"].as_str() {
+                    problems.push(format!("{pos}: sample {:?} vs {}", r.sample, w["name"]));
+                }
+                if analysed {
+                    let ok = match (r.cq, w["cp"].as_f64()) {
+                        (Some(a), Some(b)) => (a - b).abs() <= tol_cp,
+                        (None, None) => true,
+                        _ => false,
+                    };
+                    if !ok {
+                        problems.push(format!("{pos}: Cq {:?} vs Cp {}", r.cq, w["cp"]));
+                    }
+                    cps += 1;
+                } else if r.cq.is_some() {
+                    problems.push(format!("{pos}: a Cq in a file without an analysis"));
+                }
+                let Some(k) = t
+                    .channels
+                    .iter()
+                    .position(|c| c.extra.get("well").and_then(Value::as_str) == Some(pos))
+                else {
+                    problems.push(format!("{pos}: no amplification curve"));
+                    continue;
+                };
+                let want = w["raw"][export_ch].as_array().unwrap();
+                if want.len() != tr.channels[k].len() || want.len() != scale.len() {
+                    problems.push(format!(
+                        "{pos}: {} cycles, {} scales, the export has {}",
+                        tr.channels[k].len(),
+                        scale.len(),
+                        want.len()
+                    ));
+                    continue;
+                }
+                for (i, v) in want.iter().enumerate() {
+                    let v = v.as_f64().unwrap();
+                    let ours = tr.channels[k][i] * scale[i].unwrap_or(f64::NAN);
+                    if (ours - v).abs() > tol_raw || ours.is_nan() {
+                        problems.push(format!("{pos} cycle {}: {ours} vs export {v}", i + 1));
+                    }
+                    readings += 1;
+                }
+            }
+        }
+        eprintln!(
+            "{id}: {} wells, {cps} Cps and {readings} exported readings compared; {} problems",
+            o["wells"].as_array().unwrap().len(),
+            problems.len()
+        );
+        results.push_str(&results_line(
+            id,
+            &problems,
+            &["metadata", "tables", "traces"],
+            &[],
+        ));
+        if !problems.is_empty() {
+            failed.push(format!(
+                "{id}: {}",
+                problems[..problems.len().min(5)].join("; ")
+            ));
+        }
+    }
+    write_results(&results);
+    assert!(failed.is_empty(), "{}", failed.join("\n"));
 }

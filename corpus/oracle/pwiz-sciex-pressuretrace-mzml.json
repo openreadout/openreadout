@@ -1,0 +1,1889 @@
+{
+ "id": "pwiz-sciex-pressuretrace-mzml",
+ "file": "PressureTrace1.mzML",
+ "size": 403383,
+ "sha256": "798919ac8c0e60ef2f87be68f506b1465070d4e5bd07366b6bb03e960715c913",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "1cefd1ed9f07a88fe9e8e3c45999c579",
+       "first": [
+        0.0,
+        50.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        50.0
+       ]
+      },
+      {
+       "xxh3": "1d077fcde039c3725553acaa6717b93f",
+       "first": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "id": "BPC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "f696d38a89baf36a85127d613c7c2607",
+       "first": [
+        0.0,
+        50.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        50.0
+       ]
+      },
+      {
+       "xxh3": "1d077fcde039c3725553acaa6717b93f",
+       "first": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "id": "SRM SIC Q1=487.257 Q3=860.422 sample=1 period=1 experiment=1 transition=0 ce=26.4 name=iRT-C18 Standard Peptides.LGGNEQVTR.+2y8.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "64bc61b01297f4d1521f1241ddf41c3e",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        50.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "id": "SRM SIC Q1=487.257 Q3=803.401 sample=1 period=1 experiment=1 transition=1 ce=26.4 name=iRT-C18 Standard Peptides.LGGNEQVTR.+2y7.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "e61459635b9f1d3514f6a054a577b1b7",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "id": "SRM SIC Q1=487.257 Q3=503.294 sample=1 period=1 experiment=1 transition=2 ce=26.4 name=iRT-C18 Standard Peptides.LGGNEQVTR.+2y4.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "7e9e6d525bd4f4d3e88ff01cdd5ac47d",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "id": "SRM SIC Q1=644.823 Q3=1016.53 sample=1 period=1 experiment=1 transition=3 ce=32.1 name=iRT-C18 Standard Peptides.GAGSSEPVTGLDAK.+2y10.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "cb6b4adbb8372f632a602a44dc25d8c5",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "id": "SRM SIC Q1=644.823 Q3=800.451 sample=1 period=1 experiment=1 transition=4 ce=32.1 name=iRT-C18 Standard Peptides.GAGSSEPVTGLDAK.+2y8.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "e06d6d69755f5da8054e8d01a08a5095",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "id": "SRM SIC Q1=644.823 Q3=604.33 sample=1 period=1 experiment=1 transition=5 ce=32.1 name=iRT-C18 Standard Peptides.GAGSSEPVTGLDAK.+2y6.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "b8298c7c332f7871526213f42a839852",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "id": "SRM SIC Q1=683.828 Q3=966.453 sample=1 period=1 experiment=1 transition=6 ce=33.5 name=iRT-C18 Standard Peptides.VEATFGVDESNAK.+2y9.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "3fc4cd938ff7e52bdccd13887d3050ee",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "id": "SRM SIC Q1=683.828 Q3=663.294 sample=1 period=1 experiment=1 transition=7 ce=33.5 name=iRT-C18 Standard Peptides.VEATFGVDESNAK.+2y6.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "3b902f57778f301ed54b9adce2af15c4",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "id": "SRM SIC Q1=683.828 Q3=819.388 sample=1 period=1 experiment=1 transition=8 ce=33.5 name=iRT-C18 Standard Peptides.VEATFGVDESNAK.+2b8.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "508aedc000292206e5d63b54f8d2f179",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "id": "SRM SIC Q1=547.298 Q3=817.441 sample=1 period=1 experiment=1 transition=9 ce=28.6 name=iRT-C18 Standard Peptides.YILAGVENSK.+2y8.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "b6bfe9463426d02dccb51eb57c345683",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "id": "SRM SIC Q1=547.298 Q3=704.357 sample=1 period=1 experiment=1 transition=10 ce=28.6 name=iRT-C18 Standard Peptides.YILAGVENSK.+2y7.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "7b7b7d7fd1fc0847aa55d4110fc298cd",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "id": "SRM SIC Q1=547.298 Q3=633.32 sample=1 period=1 experiment=1 transition=11 ce=28.6 name=iRT-C18 Standard Peptides.YILAGVENSK.+2y6.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "3af81be3415fc2a52a7ee5972a027acc",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "id": "SRM SIC Q1=669.838 Q3=1041.5 sample=1 period=1 experiment=1 transition=12 ce=33 name=iRT-C18 Standard Peptides.TPVISGGPYEYR.+2y9.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "080642b9326eb57f6eb29b4f5582313c",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "id": "SRM SIC Q1=669.838 Q3=928.416 sample=1 period=1 experiment=1 transition=13 ce=33 name=iRT-C18 Standard Peptides.TPVISGGPYEYR.+2y8.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "ff585a3c7d7c9be3499a5a46371d305e",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "id": "SRM SIC Q1=669.838 Q3=841.384 sample=1 period=1 experiment=1 transition=14 ce=33 name=iRT-C18 Standard Peptides.TPVISGGPYEYR.+2y7.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "c1311f24b1ed3d6493f47b4823e48c1e",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "id": "SRM SIC Q1=683.854 Q3=1069.53 sample=1 period=1 experiment=1 transition=15 ce=33.5 name=iRT-C18 Standard Peptides.TPVITGAPYEYR.+2y9.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "a2b0a10018920e63740b6e6888bb723d",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "id": "SRM SIC Q1=683.854 Q3=956.447 sample=1 period=1 experiment=1 transition=16 ce=33.5 name=iRT-C18 Standard Peptides.TPVITGAPYEYR.+2y8.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "53a3a763e9a31b4da80c17e65fa5476c",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "id": "SRM SIC Q1=683.854 Q3=855.4 sample=1 period=1 experiment=1 transition=17 ce=33.5 name=iRT-C18 Standard Peptides.TPVITGAPYEYR.+2y7.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "685050b31fc98b944b71475ec193e70d",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "id": "SRM SIC Q1=699.338 Q3=926.473 sample=1 period=1 experiment=1 transition=18 ce=34 name=iRT-C18 Standard Peptides.DGLDAASYYAPVR.+2y8.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "620427b1198541ddc5adaf5c076334a2",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "id": "SRM SIC Q1=699.338 Q3=855.436 sample=1 period=1 experiment=1 transition=19 ce=34 name=iRT-C18 Standard Peptides.DGLDAASYYAPVR.+2y7.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "0c3763dc986fa126b6a8e9d82ff0f722",
+       "first": [
+        0.0,
+        50.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "id": "SRM SIC Q1=699.338 Q3=605.341 sample=1 period=1 experiment=1 transition=20 ce=34 name=iRT-C18 Standard Peptides.DGLDAASYYAPVR.+2y5.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "481b22ef2e5bc2bb0031d9c25920b699",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "id": "SRM SIC Q1=726.836 Q3=1066.48 sample=1 period=1 experiment=1 transition=21 ce=35 name=iRT-C18 Standard Peptides.ADVTPADFSEWSK.+2y9.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "53fcb3a43ae5c0b8c799e80ef0d30b0c",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "id": "SRM SIC Q1=726.836 Q3=584.269 sample=1 period=1 experiment=1 transition=22 ce=35 name=iRT-C18 Standard Peptides.ADVTPADFSEWSK.+2y10+2.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "dc7bf44f8556f414b8ab080303602238",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "id": "SRM SIC Q1=726.836 Q3=533.746 sample=1 period=1 experiment=1 transition=23 ce=35 name=iRT-C18 Standard Peptides.ADVTPADFSEWSK.+2y9+2.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "71724547189c2f96732bb1c7d3840380",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "id": "SRM SIC Q1=622.854 Q3=826.478 sample=1 period=1 experiment=1 transition=24 ce=31.3 name=iRT-C18 Standard Peptides.GTFIIDPGGVIR.+2y8.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "a2bd662c3e55d72df98595385cd55934",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "id": "SRM SIC Q1=622.854 Q3=713.394 sample=1 period=1 experiment=1 transition=25 ce=31.3 name=iRT-C18 Standard Peptides.GTFIIDPGGVIR.+2y7.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "99a912bbe42e1334e5a5898f4307d707",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "id": "SRM SIC Q1=622.854 Q3=598.367 sample=1 period=1 experiment=1 transition=26 ce=31.3 name=iRT-C18 Standard Peptides.GTFIIDPGGVIR.+2y6.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "314f707379db938950b26292ee6914d3",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "id": "SRM SIC Q1=636.869 Q3=854.509 sample=1 period=1 experiment=1 transition=27 ce=31.8 name=iRT-C18 Standard Peptides.GTFIIDPAAVIR.+2y8.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "113270824aaa7e7578f162c442a2c5a5",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "id": "SRM SIC Q1=636.869 Q3=741.425 sample=1 period=1 experiment=1 transition=28 ce=31.8 name=iRT-C18 Standard Peptides.GTFIIDPAAVIR.+2y7.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "36c75baceb6d06daf6e00287c5204f2d",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "id": "SRM SIC Q1=636.869 Q3=626.398 sample=1 period=1 experiment=1 transition=29 ce=31.8 name=iRT-C18 Standard Peptides.GTFIIDPAAVIR.+2y6.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "2099bbe20c6232529b56602736e15e2d",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "id": "SRM SIC Q1=776.93 Q3=1051.56 sample=1 period=1 experiment=1 transition=30 ce=36.8 name=iRT-C18 Standard Peptides.LFLQFGAQGSPFLK.+2y10.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "1213dcd2934b5374a2034a8b8b8e6682",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "id": "SRM SIC Q1=776.93 Q3=904.489 sample=1 period=1 experiment=1 transition=31 ce=36.8 name=iRT-C18 Standard Peptides.LFLQFGAQGSPFLK.+2y9.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "c2fa300e9a32ae075fda16cccac4a154",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "id": "SRM SIC Q1=776.93 Q3=504.318 sample=1 period=1 experiment=1 transition=32 ce=36.8 name=iRT-C18 Standard Peptides.LFLQFGAQGSPFLK.+2y4.light",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1454,
+     "channels": [
+      {
+       "xxh3": "50dccb259a29ea8bc0c325ac5dc1a69a",
+       "first": [
+        0.0,
+        0.8260000124573708,
+        1.6510000079870224,
+        2.476999908685684,
+        3.302000015974045,
+        4.1280001401901245,
+        4.952999800443649,
+        5.778999924659729
+       ]
+      },
+      {
+       "xxh3": "d12e155fa8c4c4113e70d10c443cf27a",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "id": "Column Pressure (channel 1)",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1148,
+     "channels": [
+      {
+       "xxh3": "1029ebef628fe4fa056efc4d97f16e64",
+       "first": [
+        0.0,
+        0.5000000260770321,
+        1.0000000521540642,
+        1.5000000223517418,
+        2.0000001043081284,
+        2.500000074505806,
+        3.0000000447034836,
+        3.500000014901161
+       ]
+      },
+      {
+       "xxh3": "7d33db95f50b277104971f11a086c5f2",
+       "first": [
+        1470.0,
+        1470.0,
+        1513.0,
+        1513.0,
+        1562.0,
+        1562.0,
+        1593.0,
+        1593.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "id": "Pump A Flowrate (channel 2)",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1148,
+     "channels": [
+      {
+       "xxh3": "1029ebef628fe4fa056efc4d97f16e64",
+       "first": [
+        0.0,
+        0.5000000260770321,
+        1.0000000521540642,
+        1.5000000223517418,
+        2.0000001043081284,
+        2.500000074505806,
+        3.0000000447034836,
+        3.500000014901161
+       ]
+      },
+      {
+       "xxh3": "58c745c2745294e4e322670cf9700fe6",
+       "first": [
+        91590.0,
+        91590.0,
+        87500.0,
+        87500.0,
+        88170.0,
+        88170.0,
+        88550.0,
+        88550.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "id": "Pump B Flowrate (channel 3)",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1148,
+     "channels": [
+      {
+       "xxh3": "1029ebef628fe4fa056efc4d97f16e64",
+       "first": [
+        0.0,
+        0.5000000260770321,
+        1.0000000521540642,
+        1.5000000223517418,
+        2.0000001043081284,
+        2.500000074505806,
+        3.0000000447034836,
+        3.500000014901161
+       ]
+      },
+      {
+       "xxh3": "049e24b1105ebb1f52b95d3d20db0161",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "id": "Column Pressure (channel 4)",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3508,
+     "channels": [
+      {
+       "xxh3": "ebd7fb8540fe468119b612bb06ba0f8e",
+       "first": [
+        0.0,
+        0.5000000260770321,
+        1.0000000521540642,
+        1.5000000223517418,
+        2.0000001043081284,
+        2.500000074505806,
+        3.0000000447034836,
+        3.500000014901161
+       ]
+      },
+      {
+       "xxh3": "0114d6afad7a74227730f5a8dda27ecf",
+       "first": [
+        1396.0,
+        1396.0,
+        1369.0,
+        1369.0,
+        1352.0,
+        1352.0,
+        1337.0,
+        1337.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 39,
+   "id": "Pump A Flowrate (channel 5)",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3508,
+     "channels": [
+      {
+       "xxh3": "ebd7fb8540fe468119b612bb06ba0f8e",
+       "first": [
+        0.0,
+        0.5000000260770321,
+        1.0000000521540642,
+        1.5000000223517418,
+        2.0000001043081284,
+        2.500000074505806,
+        3.0000000447034836,
+        3.500000014901161
+       ]
+      },
+      {
+       "xxh3": "d5f1c0a5c2f4c318e1e704b6daa973b4",
+       "first": [
+        7038.0,
+        7038.0,
+        7927.0,
+        7927.0,
+        7927.0,
+        7927.0,
+        7856.0,
+        7856.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 40,
+   "id": "Pump B Flowrate (channel 6)",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3508,
+     "channels": [
+      {
+       "xxh3": "ebd7fb8540fe468119b612bb06ba0f8e",
+       "first": [
+        0.0,
+        0.5000000260770321,
+        1.0000000521540642,
+        1.5000000223517418,
+        2.0000001043081284,
+        2.500000074505806,
+        3.0000000447034836,
+        3.500000014901161
+       ]
+      },
+      {
+       "xxh3": "bbc92387ae6e56f16f388d3b09a1439e",
+       "first": [
+        680.0,
+        680.0,
+        303.0,
+        303.0,
+        252.0,
+        252.0,
+        252.0,
+        252.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 0,
+  "by_index": true,
+  "scans": []
+ }
+}

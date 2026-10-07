@@ -83,7 +83,7 @@ fn render(root: &Path) -> Result<String> {
 
     readers(&mut s, &crates)?;
     corpus(&mut s, &crates, &manifest, &ev);
-    evidence(&mut s, &ev);
+    evidence(&mut s, &ev, &crate::assurance::feature_validation(root)?);
     heldout(&mut s, root, &ev)?;
     findings(&mut s, root, &manifest)?;
     safety_nets(&mut s, root, &crates);
@@ -225,7 +225,11 @@ fn corpus(
 }
 
 /// Oracle agreement and validated variant-feature values from the assurance evidence.
-fn evidence(s: &mut String, ev: &repo::Evidence) {
+fn evidence(
+    s: &mut String,
+    ev: &repo::Evidence,
+    values: &BTreeMap<(String, String, String), bool>,
+) {
     let read = ev.files.iter().filter(|f| f.oracle != "unreadable").count();
     let with_oracle = ev
         .files
@@ -250,16 +254,8 @@ fn evidence(s: &mut String, ev: &repo::Evidence) {
         .filter(|f| f.oracle == "unreadable")
         .map(|f| format!("`{}` ({})", f.id, f.format))
         .collect();
-    let mut values: BTreeMap<(String, String, String), bool> = BTreeMap::new();
-    for f in &ev.files {
-        let validates = f.oracle == "pass" && f.independent;
-        for (kind, value, scope) in &f.features {
-            let v = values
-                .entry((f.format.clone(), kind.clone(), value.clone()))
-                .or_insert(false);
-            *v |= validates && (scope.is_empty() || scope.iter().any(|x| f.compared.contains(x)));
-        }
-    }
+    // validated exactly as the assurance audit validates them (tracked fields, vendor-stored
+    // results and scopes included), so this page and the generated tables agree
     let validated_values = values.values().filter(|v| **v).count();
     let _ = writeln!(
         s,
@@ -287,7 +283,7 @@ fn evidence(s: &mut String, ev: &repo::Evidence) {
     // decode paths the corpus reaches but no independent reader confirms: files using them are
     // `partially_validated` (descriptive features) or `unvalidated` for the outputs they affect
     let mut unconfirmed_values: BTreeMap<&str, Vec<String>> = BTreeMap::new();
-    for ((format, kind, value), ok) in &values {
+    for ((format, kind, value), ok) in values {
         if !ok {
             unconfirmed_values
                 .entry(format.as_str())

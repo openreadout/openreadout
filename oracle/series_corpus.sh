@@ -189,3 +189,33 @@ $PY series_oracle.py --id cary-z14893496-rb-02-nano200 --format agilent-cary $C/
   --export $C/cary-z14893496-rb-02-nano200.export.csv --skip-until Wavelength --xcol 0 --ycol 1 --delim , --channel absorbance --x-tol 5e-4 --y-tol-rel 1e-7 --y-tol-abs 1e-9
 $PY series_oracle.py --id cary-z14893496-rb-dichloro --format agilent-cary $C/cary-z14893496-rb-dichloro.dsw \
   --export $C/cary-z14893496-rb-dichloro.export.csv --skip-until Wavelength --xcol 0 --ycol 1 --delim , --channel absorbance --x-tol 5e-4 --y-tol-rel 1e-7 --y-tol-abs 1e-9
+# ---- 2026-10-06: other readers, each in a venv of its own (see the scripts' docstrings)
+# cwepr (BSD-2-Clause) on Bruker ESP/WinEPR .par/.spc; ESPY: a Python with cwepr and setuptools<81
+ESPY=${ESPY:-$PY}
+$ESPY esp_cwepr_oracle.py --id epr-easyspin-emx-2dpowersweep $C/epr-easyspin-emx-2dpowersweep.par
+$ESPY esp_cwepr_oracle.py --id epr-zenodo7433815-dmttf-20k $C/epr-zenodo7433815-dmttf-20k.par
+$ESPY esp_cwepr_oracle.py --id epr-zenodo7433815-dmttf-150k $C/epr-zenodo7433815-dmttf-150k.par
+$ESPY esp_cwepr_oracle.py --id epr-zenodo7433815-nq113-angles $C/epr-zenodo7433815-nq113-angles.par
+$ESPY esp_cwepr_oracle.py --id epr-easyspin-esp $C/epr-easyspin-esp.par
+$ESPY esp_cwepr_oracle.py --id epr-easyspin-sample2 $C/epr-easyspin-sample2.par
+$ESPY esp_cwepr_oracle.py --id epr-easyspin-100416-wt60min $C/epr-easyspin-100416-wt60min.par
+$ESPY esp_cwepr_oracle.py --id epr-easyspin-00011201 $C/epr-easyspin-00011201.par
+$ESPY esp_cwepr_oracle.py --id epr-easyspin-emx-field1d $C/epr-easyspin-emx-field1d.par
+$ESPY esp_cwepr_oracle.py --id epr-easyspin-frem-gly $C/epr-easyspin-frem-gly.par
+$ESPY esp_cwepr_oracle.py --id epr-cwepr-esp $C/epr-cwepr-esp.par
+$ESPY esp_cwepr_oracle.py --id epr-cwepr-winepr $C/epr-cwepr-winepr.par
+$ESPY esp_cwepr_oracle.py --id epr-cwepr-emx-winepr $C/epr-cwepr-emx-winepr.par
+# xrayutilities (GPL, run as a black box) on .ras, FAIRmat readers-xrd (Apache-2.0) on .rasx; XRDPY: a Python with both
+XRDPY=${XRDPY:-$PY}
+$XRDPY rigaku_oracle.py --id xrd-zenodo18522047-ras-5ysz $C/xrd-zenodo18522047-ras-5ysz.ras
+$XRDPY rigaku_oracle.py --id xrd-zenodo20341379-rasx-as48 $C/xrd-zenodo20341379-rasx-as48.rasx
+$XRDPY rigaku_oracle.py --id xrd-fairmat-rasx-zno-ald $C/xrd-fairmat-rasx-zno-ald.rasx
+$XRDPY rigaku_oracle.py --id xrd-fairmat-rasx-omega2theta-ht $C/xrd-fairmat-rasx-omega2theta-ht.rasx
+$XRDPY rigaku_oracle.py --id xrd-fairmat-rasx-rsm111 $C/xrd-fairmat-rasx-rsm111.rasx
+$XRDPY rigaku_oracle.py --id xrd-figshare32834120-ras-bc $C/xrd-figshare32834120-ras-bc.ras
+$XRDPY rigaku_oracle.py --id xrd-figshare32834120-rasx-bc $C/xrd-figshare32834120-rasx-bc.rasx
+$XRDPY rigaku_oracle.py --id xrd-figshare31861468-rasx-mos2cqd $C/xrd-figshare31861468-rasx-mos2cqd.rasx
+$XRDPY rigaku_oracle.py --id xrd-figshare28490114-rasx-prosser-cultivated $C/xrd-figshare28490114-rasx-prosser-cultivated.rasx
+# impedance.py (MIT) on a Gamry EIS file gamry-parser refuses; IMPY: a Python with impedance
+IMPY=${IMPY:-$PY}
+$IMPY gamry_impedancepy.py --id echem-impedancepy-eis-abort $C/echem-impedancepy-eis-abort.DTA

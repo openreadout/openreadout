@@ -343,14 +343,15 @@ const OPEN_EPHYS_VALIDATED: &[Validated] = &[
 // END GENERATED open-ephys
 
 // BEGIN GENERATED winwcp (cargo xtask assurance-audit --write; do not edit)
-const WINWCP_CONFIDENCE: Confidence = Confidence::Low;
+const WINWCP_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const WINWCP_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 1),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 2),
     a::row(K::FormatVersion, "8", 1, 1, 1),
-    a::row(K::FormatVersion, "9", 1, 1, 1),
-    a::row(K::Layout, "2 channels", 2, 1, 2),
+    a::row(K::FormatVersion, "9", 3, 3, 3),
+    a::row(K::Layout, "2 channels", 4, 3, 4),
     a::row(K::WriterVersion, "V5.3.7", 1, 1, 1),
+    a::row(K::WriterVersion, "V5.8.1", 1, 1, 1),
 ];
 // END GENERATED winwcp
 

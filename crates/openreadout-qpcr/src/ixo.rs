@@ -113,6 +113,9 @@ struct Channel {
 struct Read {
     channel: usize,
     temp: Option<f64>,
+    /// `ScalingFactor / (RefValue × IntgrTime)`: the LightCycler 480 software's raw-data export
+    /// is the stored reading times this factor.
+    export_scale: Option<f64>,
     values: Vec<f64>,
 }
 
@@ -173,9 +176,18 @@ fn acquisitions(b64: &str, wells: usize) -> Result<(Vec<CycleReads>, usize)> {
             if !valid {
                 invalid += 1;
             }
+            let export_scale = match (
+                prop_num(a, "ScalingFactor"),
+                prop(a, "RefValue").as_deref().and_then(hex_f64),
+                prop_num(a, "IntgrTime"),
+            ) {
+                (Some(s), Some(r), Some(t)) => Some(s / (r * t)).filter(|v| v.is_finite()),
+                _ => None,
+            };
             reads.push(Read {
                 channel: prop_num(a, "Channel").map_or(usize::MAX, |v| v as usize),
                 temp: prop(a, "Temp").as_deref().and_then(hex_f64),
+                export_scale,
                 values: bytes
                     .as_chunks::<4>()
                     .0
@@ -296,7 +308,12 @@ pub(crate) fn parse_ixo(bytes: &[u8]) -> Result<QpcrData> {
     d.started_at = prop(run, "StartTime");
     d.ended_at = prop(run, "EndTime");
     d.instrument.manufacturer = Some("Roche".into());
-    d.instrument.model = prop(run, "InstrumentName");
+    // the run's instrument name: a LightCycler model as the software names it, or whatever the
+    // lab typed (one lab's runs hold a serial number); only a LightCycler name is a model
+    let instrument_name = prop(run, "InstrumentName");
+    d.instrument.model = instrument_name
+        .clone()
+        .filter(|n| n.to_ascii_lowercase().contains("lightcycler"));
     d.instrument.serial_number = prop(run, "InstrumentID");
     d.instrument.software = Some("LightCycler 480 software".into());
     d.instrument.software_version =
@@ -434,6 +451,8 @@ pub(crate) fn parse_ixo(bytes: &[u8]) -> Result<QpcrData> {
         .collect();
     // amplification: per quantification program, per channel, per position, one value per cycle
     let mut amp: BTreeMap<usize, (Vec<f64>, Vec<Vec<Vec<f64>>>)> = BTreeMap::new();
+    // per quantification program and channel, each cycle's export scale
+    let mut amp_scale: BTreeMap<usize, Vec<Vec<Option<f64>>>> = BTreeMap::new();
     for &p in &quant {
         let mut these: Vec<&CycleReads> = cycles.iter().filter(|c| c.program == p).collect();
         if these.is_empty() {
@@ -452,14 +471,17 @@ pub(crate) fn parse_ixo(bytes: &[u8]) -> Result<QpcrData> {
         }
         let xs: Vec<f64> = these.iter().map(|c| f64::from(c.cycle) + 1.0).collect();
         let mut data = vec![vec![Vec::with_capacity(xs.len()); wells]; channels.len()];
+        let mut scale = vec![Vec::with_capacity(xs.len()); channels.len()];
         for c in &these {
             for r in &c.reads {
                 for (w, v) in r.values.iter().enumerate().take(wells) {
                     data[r.channel][w].push(*v);
                 }
+                scale[r.channel].push(r.export_scale);
             }
         }
         amp.insert(p, (xs, data));
+        amp_scale.insert(p, scale);
     }
     // melt: per program, per channel, (temperatures, per position readings)
     let mut melt: BTreeMap<usize, Vec<(Vec<f64>, Vec<Vec<f64>>)>> = BTreeMap::new();
@@ -566,6 +588,18 @@ pub(crate) fn parse_ixo(bytes: &[u8]) -> Result<QpcrData> {
     let main_amp = (quant.len() == 1)
         .then(|| quant[0])
         .and_then(|p| amp.get(&p));
+    let export_scale: Option<Value> = (quant.len() == 1)
+        .then(|| quant[0])
+        .and_then(|p| amp_scale.get(&p))
+        .map(|per| {
+            Value::Object(
+                channels
+                    .iter()
+                    .zip(per)
+                    .map(|(c, v)| (c.name.clone(), json!(v)))
+                    .collect(),
+            )
+        });
     if quant.len() > 1 {
         d.notes.push(format!(
             "{} quantification programs: readings are not attached (the model holds one amplification curve per well and channel)",
@@ -771,6 +805,7 @@ pub(crate) fn parse_ixo(bytes: &[u8]) -> Result<QpcrData> {
         "software_version": prop(root, "SWVersion"),
         "macro": prop(root, "MacroName"),
         "instrument_id": prop(run, "InstrumentID"),
+        "instrument_name": instrument_name,
         "plate_id": plist.and_then(|p| prop(p, "PlateID")),
         "detection_format": prop(*format, "name"),
         "channels": channels.iter().map(|c| json!({"name": c.name, "excitation_nm": c.excitation, "emission_nm": c.emission})).collect::<Vec<_>>(),
@@ -778,6 +813,7 @@ pub(crate) fn parse_ixo(bytes: &[u8]) -> Result<QpcrData> {
         "analyses": analyses,
         "calculators": calculators,
         "trailer": (!trailer.is_empty()).then_some(trailer),
+        "export_scale": export_scale,
     });
     Ok(d)
 }
@@ -827,7 +863,7 @@ mod tests {
         let mut cyc = String::new();
         for (c, v) in [[1.0f32, 5.0], [1.1, 6.0], [1.2, 9.0]].iter().enumerate() {
             cyc.push_str(&format!(
-                r#"<obj name="Item" class="TCycle" version="1"><prop name="Program">0</prop><prop name="Segment">1</prop><prop name="Cycle">{c}</prop><list name="Acquisitions" count="1"><obj name="Item" class="THTCFloAcquisition" version="3"><prop name="Temp">$404D000000000000</prop><prop name="Channel">0</prop><prop name="Valid">1</prop><prop name="FloPoints">{}</prop></obj></list></obj>"#,
+                r#"<obj name="Item" class="TCycle" version="1"><prop name="Program">0</prop><prop name="Segment">1</prop><prop name="Cycle">{c}</prop><list name="Acquisitions" count="1"><obj name="Item" class="THTCFloAcquisition" version="3"><prop name="Temp">$404D000000000000</prop><prop name="Channel">0</prop><prop name="IntgrTime">400</prop><prop name="Valid">1</prop><prop name="RefValue">$40B3880000000000</prop><prop name="ScalingFactor">20000</prop><prop name="FloPoints">{}</prop></obj></list></obj>"#,
                 floats(v)
             ));
         }
@@ -895,6 +931,24 @@ $18E8ABDB-DA8A33BB-77973CA2-E2C7AE51
         assert_eq!(d.programs[0].acquisition_temperature(), Some(58.0));
         assert_eq!(d.instrument.software_version.as_deref(), Some("1.5.1.62"));
         assert_eq!(d.vendor["trailer"], "$18E8ABDB-DA8A33BB-77973CA2-E2C7AE51");
+        assert_eq!(d.instrument.model.as_deref(), Some("LightCycler 480"));
+        // ScalingFactor 20000 / (RefValue 5000 × IntgrTime 400)
+        assert_eq!(
+            d.vendor["export_scale"]["498-640"],
+            json!([0.01, 0.01, 0.01])
+        );
+    }
+
+    #[test]
+    fn an_instrument_name_that_is_not_a_model() {
+        let f = String::from_utf8(ixo(&[])).unwrap().replace(
+            "<prop name=\"InstrumentName\">LightCycler 480</prop>",
+            "<prop name=\"InstrumentName\">29892</prop>",
+        );
+        let d = parse_ixo(f.as_bytes()).unwrap();
+        assert_eq!(d.instrument.model, None);
+        assert_eq!(d.runs[0].instrument, None);
+        assert_eq!(d.vendor["instrument_name"], "29892");
     }
 
     #[test]

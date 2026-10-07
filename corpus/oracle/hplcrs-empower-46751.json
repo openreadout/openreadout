@@ -1,0 +1,45 @@
+{
+ "id": "hplcrs-empower-46751",
+ "file": "chromatogram_timeseries_46751.arw",
+ "size": 61138,
+ "sha256": "814ef780e62595994cade3ffc42932e3c7d493a36b7c30d6a24b75557c996714",
+ "reader": "chromConverter 0.9.0 read_chroms(format_in = 'waters_arw') (GPL-3.0, black box)",
+ "oracle_note": "rows chromConverter returned as two numbers (3301); 3 header rows it returned as data rows were left out",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "value"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 1.0,
+   "x_first_min": 0.0,
+   "x_last_min": 55.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3301,
+     "channels": [
+      {
+       "xxh3": "19605d4a36d5724764fb97d83d93f2d7",
+       "first": [
+        0.0003356934,
+        0.0004867554,
+        -1.678467e-05,
+        0.003401184,
+        0.01472931,
+        0.03064728,
+        0.04431915,
+        0.05213165
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

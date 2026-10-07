@@ -64,3 +64,33 @@ depositor is held out (`docs/benchmark/heldout.md`).
 - WinEPR `.par` files end lines with CR only; `JDA` is `MM/DD/YYYY` or `13-Jun-2018`.
 - WinEPR's `.asc` export prints the field axis from float32 values (differences up to 1e-4 G from
   `GST` + i·`GSI`/(n − 1) in float64); the intensities agree to its six decimals.
+
+## 2026-10-06 — more files and an independent reader for ESP and WinEPR (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `epr-zenodo7433815-dmttf-20k`, `epr-zenodo7433815-dmttf-150k`,
+`epr-zenodo7433815-nq113-angles` (Zenodo 7433815, CC-BY-4.0, Bertaina, Fourmigué and Orio);
+`epr-easyspin-esp`, `epr-easyspin-sample2`, `epr-easyspin-100416-wt60min`, `epr-easyspin-00011201`,
+`epr-easyspin-emx-field1d`, `epr-easyspin-frem-gly` (EasySpin test files, commit d46e5ef, MIT);
+`epr-cwepr-esp`, `epr-cwepr-winepr`, `epr-cwepr-emx-winepr` (cwepr test data, commit 707eb60,
+BSD-2-Clause). The existing `epr-easyspin-emx-2dpowersweep` now has ground truth too.
+
+**Prior art consulted:** cwepr 0.5.1 (https://github.com/tillbiskup/cwepr, BSD-2-Clause), its
+`cwepr/io/esp_winepr.py`, read to learn how to call the importer: it tells WinEPR from ESP by a
+`DOS Format` line in the `.par` and reads `.spc` values as little-endian float32 (WinEPR) or
+big-endian int32 (ESP). The depositor's own converter in Zenodo 7433815 (`EPRconverter.py`,
+CC-BY-4.0) reads the same files as little-endian float32 and builds the field axis from `HCF` and
+`HSW`. Nothing was taken from either into a reader.
+
+**Ground truth:** `oracle/esp_cwepr_oracle.py` (new) runs cwepr's `ESPWinEPRImporter` as a black
+box. Two workarounds, not reimplementations: cwepr's date parsing is skipped (it refuses `JDA`
+dates such as `12.Dec.2001`), and a 2D file comes back as one flat vector, which the script cuts
+into `SSY` sweeps of `SSX` values taken from cwepr's own parameter dictionary. Field values are
+compared for 1D files (cwepr's axis in mT times 10), not for 2D files.
+
+**Result:** all 13 files agree with cwepr exactly (values) and within 1.4e-12 G (axis). Four files
+are ESP (big-endian) files, so the `format_version` value `ESP` is now confirmed beside `WinEPR`.
+
+**Observed, not inferred:** two ESP files carry instrument dates in 1900 (`JDA 20-JUL-1900`,
+`12-JAN-1900`), which openreadout reports as the acquisition date because that is what the file
+says.
+

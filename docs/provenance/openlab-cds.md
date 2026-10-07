@@ -45,3 +45,15 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **Oracles (run only):** rainbow-api 1.5.2 (LGPL-3.0) `chemstation.parse_uv` on the `.UV` parts extracted with `zipfile`, in a separate virtual environment; chromConverter 0.9.0 as before for the other parts, both run as black boxes.
 
 **Inferred:** the `Spectra131` part (content type from the manifest's `Encoding`) is a ChemStation version-131 file (`03 31 33 31`, file type `OL DATA FILE`, header scale f64 big-endian 0.000476837158203125 = the manifest's `ScaleFactor`), whose records (from byte 4096) have tag 70 instead of 67: the 22-byte record header as for tag 67 (length 1,270 = 22 + 156 × 8 for 190–500 nm in 2 nm steps), then little-endian f64 values. rainbow's `parse_uv` returns exactly stored × scale for every value (4,050 × 156 values of MeOH1). That this is not yet the unit showed against the DAD's own channels in the same container (`DAD1A,Sig=210,4` etc., recorded by the detector, mAU): the spectra × scale are 2,097 times larger; × scale × scale averaged over the channel's band agree with the channel (slope 0.993–1.009, r ≥ 0.99999, 8 channels of 2 injections). The `.UVD` member (`urn:schemas-agilent-com:spectradirectory` relationship) is left listed. The manifest's `NumberOfRecords` equals the spectrum count.
+
+## 2026-10-06 — a GC-FID injection from the pyGecko test data (no parsing change) (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `pygecko-openlab-fkb-fa-060-ri` (GitHub FelixKatz77/pyGecko @f90e1f3, MIT, `tests/integration/fixtures/test_sequences/FKB-FA-060-RI/FKB-FA-060-RI.dx`) and its `.acaml`.
+
+**Prior art consulted:** rainbow-api (LGPL-3.0) and chromConverter 0.9.0 (GPL-3.0, CRAN), both run as black boxes through `oracle/openlab_cds.py` (unchanged). chromConverter was installed into a scratch R library (`CHROMCONVERTER_LIB`).
+
+**What was compared:** two FID signals (FID2B, FID1A), 37,500 points each. rainbow-api and chromConverter agree exactly, and the binary equals both on every value.
+
+**Note on depositors:** pyGecko is the Glorius group's software, and Zenodo 14316687 is from the same group. The rubric counts it as a separate depositor (a separate GitHub repository, with a run that is not in the Zenodo record). Whether to count it is the lead's call.
+
+**Searched without result:** Zenodo `filetype:"dx"` (26 records; every `.dx` checked is JCAMP-DX or an OpenDX volume map), Zenodo `openlab` and `"OpenLAB CDS"`, figshare `:extension: dx` and `OpenLab CDS`, Harvard Dataverse `*.dx`, and GitHub code search for `extension:acaml` and `"agilent_dx"`. The other OpenLab `.dx` files on GitHub (dgbowl/yadg, MyonicS/ChromStream) are copies of the yadg file that the corpus already holds.
