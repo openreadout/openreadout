@@ -425,9 +425,10 @@ impl MzScale {
 
 /// Render a profile the way the reference conversion does (validated bit-for-bit on the corpus):
 /// every stored chunk plus [`PROFILE_PAD_BINS`] zero bins on each side, grid bins `1..=4` and
-/// `n-3..=n` as zeros, padding bins taking the correction of the next chunk, and chunks whose
-/// m/z span contains a centroid flagged [`FLAG_EXCLUDED`] reported with zero intensity (unless
-/// `include_flagged`).
+/// `n-3..=n` as zeros, padding bins taking the correction of the next chunk, and m/z kept
+/// strictly increasing. Unless `include_flagged`, each centroid flagged [`FLAG_EXCLUDED`] blanks
+/// the chunks whose rendered m/z span contains it: their values up to the centroid's intensity
+/// are reported as zero, and larger values (a different peak in the same chunk) are kept.
 pub fn render_profile(
     profile: &Profile,
     scale: MzScale,
@@ -442,37 +443,13 @@ pub fn render_profile(
     let grid = |bin: u32, corr: f32| {
         scale.mz(profile.first_value + profile.step * f64::from(bin)) + f64::from(corr)
     };
-    // Which chunks the converter blanks.
-    let mut blank = vec![false; chunks.len()];
-    if !include_flagged {
-        for (i, d) in descriptors.iter().enumerate() {
-            if d.flags & FLAG_EXCLUDED == 0 {
-                continue;
-            }
-            let Some(peak) = centroids.get(i) else {
-                continue;
-            };
-            for (k, ch) in chunks.iter().enumerate() {
-                let n = ch.values.len() as u32;
-                if n == 0 {
-                    continue;
-                }
-                let lo = grid(ch.first_bin, ch.mz_correction);
-                let hi = grid(ch.first_bin.saturating_add(n - 1), ch.mz_correction);
-                let (lo, hi) = if lo <= hi { (lo, hi) } else { (hi, lo) };
-                if lo <= peak.mz && peak.mz <= hi {
-                    blank[k] = true;
-                }
-            }
-        }
-    }
-    // Collect (bin, value, correction) with stored bins taking precedence over padding.
+    // Collect (bin, value, correction, chunk) with stored bins taking precedence over padding.
     // An m/z grid (ion-trap profiles, `MzScale::Direct`) numbers its stored values from bin 1:
     // value j of a chunk lies at bin first_bin + j + 1, and values past `bin_count` are not
     // part of the scan (every ion-trap profile of the LTQ Velos and SPS reference conversions:
     // the reference's m/z are one step above bin first_bin + j, and it lists one point fewer).
     let direct = matches!(scale, MzScale::Direct);
-    let mut points: std::collections::BTreeMap<u32, (f32, f32, bool)> =
+    let mut points: std::collections::BTreeMap<u32, (f32, f32, Option<usize>)> =
         std::collections::BTreeMap::new();
     for (k, ch) in chunks.iter().enumerate() {
         for (j, &v) in ch.values.iter().enumerate() {
@@ -486,8 +463,7 @@ pub fn render_profile(
             } else {
                 bin
             };
-            let v = if blank[k] { 0.0 } else { v };
-            points.insert(bin, (v, ch.mz_correction, true));
+            points.insert(bin, (v, ch.mz_correction, Some(k)));
         }
     }
     let last = chunks.len() - 1;
@@ -509,7 +485,7 @@ pub fn render_profile(
         if (1..=profile.bin_count).contains(&bin) {
             points
                 .entry(bin)
-                .or_insert_with(|| (0.0, pad_correction(bin), false));
+                .or_insert_with(|| (0.0, pad_correction(bin), None));
         }
     };
     for ch in chunks {
@@ -536,7 +512,10 @@ pub fn render_profile(
     }
     let mut mz: Vec<f64> = Vec::with_capacity(points.len());
     let mut it = Vec::with_capacity(points.len());
-    for (bin, (v, corr, _)) in points {
+    let mut owner: Vec<Option<usize>> = Vec::with_capacity(points.len());
+    // The rendered m/z of each chunk's first and last stored value.
+    let mut span: Vec<Option<(f64, f64)>> = vec![None; chunks.len()];
+    for (bin, (v, corr, chunk)) in points {
         let mut m = grid(bin, corr);
         // Neighbouring chunks can carry very different corrections; the reference conversion
         // keeps m/z strictly increasing by placing such a point 1e-5 above its predecessor.
@@ -545,8 +524,39 @@ pub fn render_profile(
         {
             m = prev + MONOTONIC_NUDGE;
         }
+        if let Some(k) = chunk {
+            let s = span[k].get_or_insert((m, m));
+            s.0 = s.0.min(m);
+            s.1 = s.1.max(m);
+        }
         mz.push(m);
         it.push(v);
+        owner.push(chunk);
+    }
+    if !include_flagged {
+        // Per chunk, the largest intensity of a flagged centroid inside its rendered span.
+        let mut limit: Vec<Option<f32>> = vec![None; chunks.len()];
+        for (d, peak) in descriptors.iter().zip(centroids) {
+            if d.flags & FLAG_EXCLUDED == 0 {
+                continue;
+            }
+            for (k, s) in span.iter().enumerate() {
+                if let Some((lo, hi)) = *s
+                    && lo <= peak.mz
+                    && peak.mz <= hi
+                {
+                    let l = limit[k].get_or_insert(peak.intensity);
+                    *l = l.max(peak.intensity);
+                }
+            }
+        }
+        for (v, chunk) in it.iter_mut().zip(&owner) {
+            if let Some(l) = chunk.and_then(|k| limit[k])
+                && *v <= l
+            {
+                *v = 0.0;
+            }
+        }
     }
     (mz, it)
 }
@@ -639,6 +649,36 @@ mod tests {
         assert!(it.iter().all(|v| *v == 0.0));
         let (_, it) = render_profile(&p, MzScale::Direct, &c, &d, true);
         assert_eq!(it.iter().filter(|v| **v != 0.0).count(), 3);
+    }
+
+    /// A flagged peak zeroes the chunk's values up to its own intensity only (a larger peak in
+    /// the same chunk stays, as in scan 481 of mtbls9526-elite-liver-neg-a01), and a chunk
+    /// pushed above its predecessor by the m/z nudge does not contain a centroid that lies below
+    /// its first rendered point (scan 75 of that file).
+    #[test]
+    fn blanking_stops_at_the_flagged_intensity_and_rendered_span() {
+        let p = Profile {
+            first_value: 100.0,
+            step: 1.0,
+            bin_count: 100,
+            chunks: vec![
+                chunk(20, &[5.0, 900.0, 7.0, 4.0], 0.0),
+                // stored at m/z 120.5 and 121.5, rendered just above 124 after the nudge
+                chunk(24, &[3.0, 2.0], -4.5),
+            ],
+        };
+        let c = [Centroid {
+            mz: 121.5,
+            intensity: 7.0,
+        }];
+        let d = [PeakDescriptor {
+            peak_index: 0,
+            flags: 0x10,
+            descriptor_byte: 0,
+        }];
+        let (_, it) = render_profile(&p, MzScale::Direct, &c, &d, false);
+        let kept: Vec<f32> = it.iter().copied().filter(|v| *v != 0.0).collect();
+        assert_eq!(kept, vec![900.0, 3.0, 2.0]);
     }
 
     #[test]
