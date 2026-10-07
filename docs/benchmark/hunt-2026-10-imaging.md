@@ -84,17 +84,19 @@ DSX writer and others).
 
 ## What is left, and why
 
-- **LIF channel names** come from `LUTName` (`Red`, `Gray`), as documented. LAS X also records
-  dye names (`MultiBand/@DyeName`, for example `Leica/DAPI`), but they belong to detector bands,
-  and mapping bands to image channels needs more files with known answers. Bio-Formats maps them;
-  we have not checked that its mapping is right.
+- **LIF channel names** came from `LUTName` (`Red`, `Gray`). Fixed after the hunt: a channel is
+  now named after the dye LAS X records for it, per channel (LAS X 4) or on its detector's band
+  when the bands map to the channels one for one; the colour stays in `color`
+  (`docs/provenance/lif.md`, 2026-10-07). On three files Bio-Formats' dye names are shifted
+  against the channels' colours and lasers.
 - **MRC files with ISPG 0** are read as image stacks (T), following the MRC2014 specification
   and mrcfile, even when they are clearly density maps written by older tools (cryoSPARC,
   RELION, ChimeraX, NVERSION 0). An agent asking for the z voxel size of such a map gets none.
   A rule that recognises them would diverge from mrcfile and needs a decision.
-- **`stats` on a whole-slide level 0** holds the plane in memory: 2.9 GB peak for a
-  53,760 × 17,664 RGB NDPI, while `export` streams the same file in tiles. Planes over 4 GiB are
-  refused with a hint to use `--level` or `--region`.
+- **`stats` on a whole-slide level 0** held the plane in memory: 2.9 GB peak for a
+  53,760 × 17,664 RGB NDPI, while `export` streams the same file in tiles. Fixed after the hunt:
+  `stats` reads large planes of tiled levels in strips, with the same results
+  (`docs/architecture-memory.md`).
 - **NDPI sets** (`.ndpis`, one NDPI per fluorescence channel) exit 3. Reading the set as one
   multichannel image is a new feature.
 - **OME-Zarr 0.5** still has no development file. IDR publishes 0.5 stores
