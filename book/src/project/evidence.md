@@ -9,7 +9,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `abf` | high | prior art | 37 | 37 | 10 | 19 | 100% | 14% | 4/0 |
 | `agilent-cary` | medium | reverse engineered | 24 | 20 | 5 | 1 | 100% | 100% | - |
 | `agilent-fpa` | medium | prior art | 13 | 13 | 2 | 1 | 100% | 57% | - |
-| `agilent-masshunter` | high | reverse engineered | 20 | 20 | 10 | 9 | 100% | 100% | - |
+| `agilent-masshunter` | high | reverse engineered | 31 | 20 | 10 | 9 | 100% | 100% | - |
 | `agilent-seahorse-asyr` | low | reverse engineered | 9 | 3 | 1 | 2 | 100% | 100% | - |
 | `andi-chrom` | high | open spec | 25 | 25 | 5 | 3 | 100% | 100% | 1/0 |
 | `applied-biosystems-eds` | high | reverse engineered | 23 | 23 | 15 | 11 | 100% | 100% | 2/0 |
@@ -59,9 +59,9 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `microcal-itc` | medium | reverse engineered | 10 | 6 | 2 | 5 | 100% | 100% | - |
 | `mirax` | medium | prior art | 7 | 7 | 1 | 6 | 100% | 13% | - |
 | `mrc` | high | open spec | 23 | 23 | 17 | 7 | 100% | 24% | 2/0 |
-| `mzml` | high | open spec | 123 | 112 | 48 | 17 | 100% | 0% | 3/0 |
+| `mzml` | high | open spec | 131 | 112 | 48 | 17 | 100% | 0% | 3/0 |
 | `mzmlb` | medium | open spec | 4 | 4 | 1 | 5 | 100% | 0% | 1/0 |
-| `mzxml` | high | open spec | 9 | 8 | 7 | 5 | 100% | 0% | - |
+| `mzxml` | high | open spec | 15 | 8 | 7 | 5 | 100% | 0% | - |
 | `nd2` | high | prior art | 42 | 41 | 21 | 19 | 100% | 42% | 4/0 |
 | `netzsch-ngb` | medium | prior art | 18 | 18 | 2 | 1 | 100% | 0% | - |
 | `neuralynx` | high | vendor docs | 22 | 22 | 3 | 9 | 100% | 30% | - |
@@ -95,7 +95,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `ta-trios` | medium | reverse engineered | 12 | 9 | 3 | 5 | 100% | 100% | - |
 | `ta-universal-analysis` | medium | reverse engineered | 7 | 6 | 2 | 1 | 100% | 100% | - |
 | `thermo-omnic` | medium | prior art | 27 | 27 | 9 | 0 | 100% | 29% | 2/0 |
-| `thermo-raw` | medium | reverse engineered | 45 | 44 | 33 | 26 | 100% | 61% | 2/2 |
+| `thermo-raw` | medium | reverse engineered | 53 | 44 | 33 | 26 | 100% | 61% | 2/2 |
 | `tiff` | high | open spec | 148 | 147 | 51 | 46 | 100% | 9% | 5/0 |
 | `varian-nmr` | high | prior art | 12 | 12 | 6 | 4 | 100% | 53% | 1/0 |
 | `vsi` | high | prior art | 29 | 13 | 11 | 18 | 100% | 100% | - |
