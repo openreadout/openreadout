@@ -41,7 +41,7 @@ session parts and bundles; 97 on the smoke tier). We left out the rest:
 ## How we ran them
 
 Each file went through `info`, `check`, `trace` or `table`, the family's analysis
-(`analyze ephys-features` and `analyze spikes`, `nmr-peaks`, `peaks`, `qpcr`, `assay wells`,
+(`analyze ephys-features` and `analyze spikes`, `nmr-peaks`, `peaks`, `qpcr`, `assay-wells`,
 `gate`) and an export (NWB, JCAMP-DX, RDML or CSV). We recorded the exit code, wall time and peak
 memory of each step (`target/hunt/survey.py` during the hunt). Ground truth came from the
 readers the corpus already uses: pyABF, Neo, h5py, nmrglue, specio, SpectroChemPy, brukeropus,
@@ -59,7 +59,7 @@ file made a command panic or hang. The slowest step was `analyze spikes` on a 23
 | finding | files | before | after |
 | --- | --- | --- | --- |
 | `analyze ephys-features` refused every NWB intracellular series: NWB spells its units `volts` and `amperes` | DANDI 001544, 001475, 001746, 001938 | exit 6 "a trace with no voltage or current channel" | read; all 16 current-clamp series of `dandi001544-icephys-cc328` give the same 82 spikes as eFEL, peaks at the same sample (new corpus test `nwb_current_clamp_matches_efel`) |
-| ABF: `info` listed a command trace that could not be read, because the epoch table runs past the end of the sweep; `export --to nwb` failed on it | 2 GIN ABF 2 files | trace 1 listed, reading it exit 6, NWB export exit 6 | the DAC is refused up front with its reason in `extra.not_synthesized`; recorded channels agree with pyABF |
+| ABF: `info` listed a command trace that could not be read, because the epoch table runs past the end of the sweep; `export --format nwb` failed on it | 2 GIN ABF 2 files | trace 1 listed, reading it exit 6, NWB export exit 6 | the DAC is refused up front with its reason in `extra.not_synthesized`; recorded channels agree with pyABF |
 | Blackrock PTP: `info` read only the first and last timestamps, so a jump forward and a clock reset of the same size looked like one gap-free sweep, called `validated` | `gin-ephy-testing-data-blackrock-ptp-missing-samples` | `info` 1 sweep, `check` 7 | `info` reads every timestamp up to 64 MiB of packets (7 sweeps); larger files are probed and the sweep layout is reported as assumed |
 | PerkinElmer `.sp` saved as text (`PE FL … ASCII PEDS 1.60`) was called corrupt | 3 figshare 3841308 files (LS55) | exit 4 "may be truncated" | read, with the `#GR` header checked against the data; compared with a standard-library read of the same pairs |
 | `analyze spikes` and `trace` held every channel of a long recording in memory | `figshare30728969-ns6-50mw002` (65 channels, 234 MB) | 1.7 GB and 830 MB | 1.0 GB and 190 MB, same spikes |
