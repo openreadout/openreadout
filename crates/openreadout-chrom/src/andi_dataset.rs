@@ -714,7 +714,7 @@ impl Dataset for AndiDataset {
         Err(Error::unsupported(
             ANDI_ID,
             "image planes",
-            "ANDI files hold chromatograms and mass spectra: use `openreadout trace` or `export --to csv`.",
+            "ANDI files hold chromatograms and mass spectra: use `openreadout trace` or `export --format csv`.",
         ))
     }
 

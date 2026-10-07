@@ -22,8 +22,8 @@ Depends on \code{kind} (see the sections).
 \verb{openreadout analyze KIND}: chromatograms and chromatographic peaks, NMR peaks and
 integrals, patch-clamp features, extracellular spikes, qPCR, plate-reader assays and
 flow-cytometry gating. The methods are described in the OpenReadout book
-(\url{https://openreadout.github.io/openreadout/}), and the options are those of the MCP tool
-\code{openreadout_analyze} for that kind, with R's 1-based indices (\code{trace}, \code{sweep},
+(\url{https://openreadout.github.io/openreadout/}), and the options are the arguments of that
+kind's MCP tool (\code{openreadout_peaks}, \code{openreadout_nmr_peaks}, ...), with R's 1-based indices (\code{trace}, \code{sweep},
 \code{channel}, \code{table}, \code{sweeps}, \code{channels}, \code{traces}, \code{run}).
 }
 \section{\code{kind = "chromatogram"}}{

@@ -1,4 +1,4 @@
-"""Check `openreadout export --to parquet|arrow` output with pyarrow (Apache-2.0).
+"""Check `openreadout export --format parquet|arrow` output with pyarrow (Apache-2.0).
 
 Usage:
     uv run python arrow_validate.py OUT.parquet|OUT.arrow [--source FILE] [--openreadout BIN]
@@ -8,10 +8,10 @@ Reads the file with pyarrow (Parquet or Arrow IPC file format), checks the file-
 per-column metadata (`unit` where the source has one, parseable `openreadout.provenance`), and,
 with --source, compares the values with what `openreadout` itself reads from the source:
 
-- tables: `openreadout export SOURCE --to csv --table N` (the CSV is parsed with pyarrow.csv)
+- tables: `openreadout export SOURCE --format csv --table N` (the CSV is parsed with pyarrow.csv)
 - traces: `openreadout trace SOURCE --trace N --sweep S --max-samples 100000 --json` for the
   first samples of every sweep
-- spectra: `openreadout spectra SOURCE --index I --json` for the first, middle and last scan,
+- spectra: `openreadout spectrum SOURCE --spectrum I --json` for the first, middle and last scan,
   and the per-scan summary file beside it
 
 Prints one JSON line with the result; exit 1 on any mismatch.
@@ -85,7 +85,7 @@ def check(path: Path, source: Path | None, bin_: str) -> dict:
             csv = Path(d) / "t.csv"
             first = obj.get("first_row", 0)
             n = t.num_rows
-            args = ["export", str(source), "--to", "csv", "--table", str(obj["index"]), "-o", str(csv)]
+            args = ["export", str(source), "--format", "csv", "--table", str(obj["index"]), "-o", str(csv)]
             if n:
                 args += ["--rows", f"{first}-{first + n - 1}"]
             run(bin_, *args)
@@ -119,7 +119,7 @@ def check(path: Path, source: Path | None, bin_: str) -> dict:
         for s in sweeps:
             rows = [i for i, x in enumerate(sw) if x == s]
             ref = run(bin_, "trace", str(source), "--trace", str(obj["index"]), "--sweep", str(s),
-                      "--first", str(first), "--count", str(len(rows)), "--max-samples", "100000")
+                      "--first-sample", str(first), "--count", str(len(rows)), "--max-samples", "100000")
             for ci, ch in enumerate(ref["channels"]):
                 col = t.column(2 + ci).to_pylist()
                 got = [col[i] for i in rows[: len(ch["samples"])]]
@@ -142,7 +142,7 @@ def check(path: Path, source: Path | None, bin_: str) -> dict:
             offsets.append(offsets[-1] + c)
         for i in sorted({0, count // 2, count - 1}):
             view = obj.get("view", "primary")
-            args = ["spectra", str(source), "--index", str(i), "--run", str(obj["index"])]
+            args = ["spectrum", str(source), "--spectrum", str(i), "--run", str(obj["index"])]
             if view == "centroid":
                 args.append("--centroid")
             ref = run(bin_, *args)["spectrum"]

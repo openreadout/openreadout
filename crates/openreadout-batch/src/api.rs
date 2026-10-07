@@ -35,7 +35,7 @@ pub struct BatchToolArgs {
     /// What to measure per data set.
     #[schemars(with = "MeasureName")]
     pub measure: String,
-    /// Files, directories or glob patterns (summarize: the table file).
+    /// Files, directories or glob patterns.
     #[serde(default)]
     pub inputs: Vec<String>,
     /// Walk sub-directories.
@@ -137,9 +137,9 @@ pub struct BatchToolArgs {
     /// gate: parameters whose median per population is reported (`Comp-NAME` = compensated).
     #[serde(default)]
     pub medians: Vec<String>,
-    /// Options of the analysis measures: the same `options` as openreadout_analyze takes for
-    /// that kind (e.g. `{"mz": [195.0877], "ppm": 10}` for peaks, `{"analysis": "curve"}` for
-    /// assay), plus `rows` to pick the record list (peaks: peak|compound|chromatogram;
+    /// Options of the analysis measures: the arguments of that analysis's MCP tool (e.g.
+    /// `{"mz": [195.0877], "ppm": 10}` for openreadout_peaks; assay: `{"analysis": "curve"}`
+    /// plus the openreadout_assay_curve arguments), plus `rows` to pick the record list (peaks: peak|compound|chromatogram;
     /// nmr-peaks: peak|integral|spectrum; ephys-features: sweep|cell|spike; qpcr:
     /// record|rq|standard_curve; assay: wells|samples|compounds|kinetics|growth|quality).
     #[serde(default)]
@@ -158,26 +158,24 @@ pub enum MeasureName {
     Table,
     /// one row of header metadata per data set (fields)
     Info,
-    /// one row per MS scan header (options: the openreadout_spectra filters)
-    Spectra,
-    /// openreadout_analyze kind peaks (options)
+    /// one row per MS scan header (options: the openreadout_scans filters)
+    Scans,
+    /// openreadout_peaks (its arguments as options)
     Peaks,
-    /// openreadout_analyze kind chromatogram (options)
+    /// openreadout_chromatogram (its arguments as options)
     Chromatogram,
-    /// openreadout_analyze kind assay (options)
+    /// a plate-reader assay: options `analysis` (wells, curve, dose-response, kinetics, growth, qc) and the arguments of that openreadout_assay_* tool
     Assay,
-    /// openreadout_analyze kind nmr-peaks (options)
+    /// openreadout_nmr_peaks (its arguments as options)
     NmrPeaks,
-    /// openreadout_analyze kind ephys-features (options)
+    /// openreadout_ephys_features (its arguments as options)
     EphysFeatures,
-    /// openreadout_analyze kind spikes (options)
+    /// openreadout_spikes (its arguments as options)
     Spikes,
-    /// openreadout_analyze kind qpcr (options)
+    /// openreadout_qpcr (its arguments as options)
     Qpcr,
     /// population counts, percentages and medians (workspace or gatingml)
     Gate,
-    /// group statistics (by) of the one table file in inputs, written by an earlier output
-    Summarize,
 }
 
 /// Run a batch request. `paged`: answer summary-first as the MCP tool does (at most `limit`
@@ -270,49 +268,6 @@ pub fn run_batch(reg: &Registry, a: BatchToolArgs, paged: bool) -> Result<BatchO
     Ok(out)
 }
 
-/// What `openreadout_batch` returns: a batch table, or (measure `summarize`) a summary.
-#[derive(Debug, Serialize, schemars::JsonSchema)]
-#[serde(untagged)]
-pub enum BatchToolOutput {
-    /// A batch table.
-    Table(Box<BatchOutput>),
-    /// The summary of a saved table.
-    Summary(Box<SummarizeToolOutput>),
-}
-
-/// Run an `openreadout_batch` request: measure `summarize` summarizes the one table in
-/// `inputs`, every other measure runs [`run_batch`].
-pub fn run_batch_or_summary(
-    reg: &Registry,
-    a: BatchToolArgs,
-    paged: bool,
-) -> Result<BatchToolOutput> {
-    if a.measure != "summarize" {
-        return run_batch(reg, a, paged).map(|o| BatchToolOutput::Table(Box::new(o)));
-    }
-    let [table] = a.inputs.as_slice() else {
-        return Err(Error::Usage(
-            "measure `summarize` takes one input: the table file to summarize".into(),
-        ));
-    };
-    if a.by.is_empty() {
-        return Err(Error::Usage("measure `summarize` needs `by`".into()));
-    }
-    run_summarize(SummarizeToolArgs {
-        table: table.clone(),
-        by: a.by,
-        values: a.values,
-        replicate: a.replicate,
-        test: a.test,
-        control: a.control,
-        filters: a.filters,
-        exact_by: a.exact_by,
-        output: a.output,
-        overwrite: a.overwrite,
-    })
-    .map(|o| BatchToolOutput::Summary(Box::new(o)))
-}
-
 fn test_kind(t: Option<&str>) -> Result<Option<TestKind>> {
     t.map(|x| {
         TestKind::parse(x)
@@ -321,7 +276,7 @@ fn test_kind(t: Option<&str>) -> Result<Option<TestKind>> {
     .transpose()
 }
 
-/// A summary request (`openreadout_batch` measure `summarize`; Python `summarize()`).
+/// A summary request (`openreadout_summarize`; Python `summarize()`).
 #[derive(Debug, Default, Deserialize, schemars::JsonSchema)]
 pub struct SummarizeToolArgs {
     /// A table file written by an openreadout_batch `output` (or any CSV, TSV, JSON Lines,

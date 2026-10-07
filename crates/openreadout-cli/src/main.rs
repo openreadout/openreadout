@@ -12,7 +12,6 @@
 #![warn(missing_docs)]
 
 mod commands;
-mod csv;
 mod mcp_config;
 mod output;
 mod panic;
@@ -27,7 +26,7 @@ use clap::{Parser, Subcommand};
 /// `OpenReadout`: read raw lab-instrument files without the vendor software.
 ///
 /// Every command accepts `--json` and returns a stable envelope
-/// `{"ok":true,"schema_version":"1","tool":{...},"data":{...}}`; errors carry a
+/// `{"ok":true,"schema_version":"2","tool":{...},"data":{...}}`; errors carry a
 /// machine-readable `code`, a `hint`, and the process exit code
 /// (0 ok, 1 error, 2 usage, 3 unknown format, 4 corrupt, 5 I/O, 6 unsupported feature).
 #[derive(Debug, Parser)]
@@ -43,7 +42,7 @@ struct Cli {
 #[derive(Debug, clap::Args)]
 #[command(next_help_heading = "Global options")]
 struct GlobalArgs {
-    /// Worker threads for plane decoding (export, check --planes, stats). Default: the number of CPUs.
+    /// Worker threads for plane decoding (export, planes, stats). Default: the number of CPUs.
     /// Output is identical whatever the count.
     #[arg(long, global = true, value_name = "N")]
     threads: Option<usize>,
@@ -97,9 +96,18 @@ enum Command {
     /// its signature. With `--tidy` (or `--fields`, `--sample-sheet`, `-o`): one metadata row
     /// per data set.
     Info(commands::info::InfoArgs),
-    /// Validate a file's integrity (exit 4 if corrupt or truncated); hash its planes, compare it
-    /// with a second file, or write a diagnostic bundle for a new-variant issue.
+    /// Validate a file's integrity: exit 4 if it is corrupt or truncated.
     Check(commands::check::CheckArgs),
+    /// Read every plane (or a selection) and print its dimensions and xxh3-128 hash; optionally
+    /// write the raw samples (`--dump-dir`).
+    Planes(commands::check::PlanesArgs),
+    /// Compare two files (e.g. a raw file and its export): metadata differences, geometry,
+    /// channel names, physical sizes and per-plane hashes. Exit 0 when they hold the same data,
+    /// 1 when they differ.
+    Compare(commands::compare::CompareArgs),
+    /// Write a privacy-reviewed diagnostic bundle for a file that is refused, fails or is not
+    /// validated, to attach to a new-variant issue. Nothing is sent.
+    Report(commands::report::ReportArgs),
     /// Render a PNG/JPEG preview: an image plane, channel composite or max projection; a trace
     /// sparkline (sweeps, chromatograms, NMR spectra); a mass spectrum; or a plate heat map.
     Preview(preview_cmd::PreviewArgs),
@@ -119,15 +127,20 @@ enum Command {
     /// optionally compensated, transformed and with population membership from a FlowJo
     /// workspace or Gating-ML file.
     Table(commands::flow::TableArgs),
-    /// Mass spectra: the scan headers of a run (filters, counts, paging, CSV), or one
-    /// spectrum's m/z and intensity arrays with `--scan`, `--index` or `--ms-level L --nth K`.
-    Spectra(commands::spectra::SpectraArgs),
+    /// Mass spectrometry: the scan headers of a run, filtered, counted and paged, or as CSV.
+    /// IR, Raman, UV-Vis and NMR spectra are traces (`trace`).
+    Scans(commands::spectra::ScansArgs),
+    /// Mass spectrometry: one spectrum's m/z and intensity arrays, by `--scan`, `--spectrum` or
+    /// `--ms-level L --nth K`.
+    Spectrum(commands::spectra::SpectrumArgs),
     /// Analyses with documented methods: chromatographic peaks, chromatograms, NMR peaks,
-    /// patch-clamp features, extracellular spikes, qPCR, plate assays, flow-cytometry gating.
+    /// patch-clamp features, extracellular spikes, qPCR, flow-cytometry gating and plate-reader
+    /// assays. Each analysis has its own flags and its own MCP tool (`analyze nmr-peaks` is
+    /// `openreadout_nmr_peaks`).
     #[command(subcommand)]
     Analyze(AnalyzeKind),
     /// Export to an open format (OME-TIFF, OME-Zarr, CSV, Parquet, Arrow, mzML, NWB,
-    /// JCAMP-DX, Allotrope ASM, RDML), or write one embedded attachment (`--attachment`).
+    /// JCAMP-DX, Allotrope ASM, RDML).
     ///
     /// Images go to OME-TIFF or OME-Zarr; tables (FCS events, spike and event tables, plate
     /// reads, peak tables) and traces (electrophysiology sweeps, NMR FIDs and spectra, JCAMP-DX
@@ -136,14 +149,20 @@ enum Command {
     /// Never modifies the source; the output is read back and verified before it is renamed
     /// into place.
     Export(commands::export::ExportArgs),
+    /// Write one embedded attachment (a slide label or thumbnail, time stamps, ...) to a new
+    /// file as stored. `info --view structure` lists them.
+    Extract(commands::export::ExtractArgs),
     /// Any measure over many files as one tidy table, with sample sheets (`--sample-sheet`) and
-    /// group summaries (`--by`); `batch summarize TABLE` summarizes a saved table.
+    /// group summaries (`--by`).
     ///
-    /// Measures: stats, trace, table, info, spectra (one row per MS scan header), or an analysis
+    /// Measures: stats, trace, table, info, scans (one row per MS scan header), or an analysis
     /// — peaks, chromatogram, assay, nmr-peaks, ephys-features, spikes, qpcr, gate — configured
-    /// with the MCP options' names (`--set mz=[195.0877] --set ppm=10`). Rows are exactly the
+    /// with the MCP tools' argument names (`--set mz=[195.0877] --set ppm=10`). Rows are exactly the
     /// single-file command's records (one per peak, compound, well, sweep, …).
     Batch(commands::measure::MeasureArgs),
+    /// Group statistics of a saved table (from `batch -o` or `--tidy -o`) by its columns, with
+    /// replicate averaging and tests against a control.
+    Summarize(commands::summarize::SummarizeArgs),
     /// Group files that measured the same sample across instruments and formats (sample ids,
     /// barcodes, plate wells, conversions naming their source, the same acquisition), with the
     /// evidence and a confidence for every link. Headers only.
@@ -151,9 +170,14 @@ enum Command {
     /// Catalog every instrument data set under one or more directories into an index of open
     /// files (Parquet tables + index.json): headers only, parallel, resumable, incremental.
     Index(commands::index::IndexArgs),
-    /// Search an index (`search INDEX_DIR "objective=63x channel~GFP acquired<2020"`), report
-    /// its storage health (`--health`), or export what a query selects as a dataset (`--export`).
+    /// Search an index: `search INDEX_DIR "objective=63x channel~GFP acquired<2020"`.
     Search(commands::index::SearchArgs),
+    /// Storage health of an index: truncated or corrupt files, unreadable formats, duplicates,
+    /// files at risk, totals, personal data.
+    Health(commands::index::HealthArgs),
+    /// Export the data sets a query selects as an ML-ready dataset: images to OME-Zarr, tables,
+    /// traces and spectra to Parquet or CSV, metadata JSON and a datasheet. Resumable.
+    ExportDataset(commands::index::ExportDatasetArgs),
     /// Watch directories for instrument data being written: one JSON line per new data set,
     /// plane, scan or sweep, per completed or stalled data set, per QC finding (`--qc`) and
     /// per error. Polls, opens files read-only and never locks them.
@@ -193,14 +217,16 @@ pub(crate) enum AnalyzeKind {
     /// and times per channel.
     Spikes(commands::ephys::SpikesArgs),
     /// Real-time PCR results with names: one record per well × target (sample, target, task, Cq,
-    /// Tm); `--cq` recomputes Cq, `--ddcq` computes 2^-ΔΔCq, `--standard-curve` fits efficiency.
+    /// Tm); `--compute-cq` recomputes Cq, `--ddcq` computes 2^-ΔΔCq, `--standard-curve` fits
+    /// efficiency.
     Qpcr(commands::qpcr::QpcrArgs),
-    /// Plate-reader assays: layouts, blank subtraction and replicate statistics, standard curves
-    /// (linear/4PL/5PL), dose-response IC50/EC50, kinetics, growth curves, Z′.
-    Assay(commands::assay::AssayArgs),
     /// Flow-cytometry gating from a FlowJo workspace (`.wsp`) or Gating-ML 2.0 file: the gate
     /// hierarchy and, given FCS files, the event count of every population.
     Gate(commands::flow::GateArgs),
+    /// Plate-reader assays: `assay-wells`, `assay-curve`, `dose-response`, `kinetics`,
+    /// `growth`, `assay-qc`.
+    #[command(flatten)]
+    Assay(commands::assay::AssayCommand),
 }
 
 fn main() -> ExitCode {

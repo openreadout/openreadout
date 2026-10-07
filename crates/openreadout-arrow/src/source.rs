@@ -681,7 +681,7 @@ impl SpectraSource {
                 DataType::UInt64,
                 false,
                 None,
-                "instrument scan number (see `openreadout spectra --scan`)",
+                "instrument scan number (see `openreadout spectrum --scan`)",
             ),
             with_prov(
                 field(

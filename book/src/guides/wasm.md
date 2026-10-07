@@ -39,8 +39,8 @@ Each method is named after a command-line command and returns the same JSON:
 | `preview(options)` | `preview` |
 | `table(i, { firstRow, maxRows })` | `table` |
 | `trace(i, { sweep, firstSample, count, maxSamples })` | `trace` |
-| `spectra({ ms_level, rt_range, limit, ... })` | `spectra` (scan headers) |
-| `spectra({ index, scan, centroid, max_points })` | `spectra --index`, `--scan` |
+| `scans({ ms_level, rt_range, limit, ... })` | `scans` |
+| `spectrum({ spectrum, scan, centroid, max_points })` | `spectrum` |
 
 Errors are thrown as `InstrumentError`, with `code`, `exitCode` and `hint` fields that match the command line's [JSON errors](../getting-started/reading-json.md#the-json-wrapper).
 

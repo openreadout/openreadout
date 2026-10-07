@@ -1,6 +1,6 @@
 //! NMR: FID processing, peak picking and integration.
 //!
-//! [`analyze`] is what `openreadout analyze nmr-peaks` and the `openreadout_analyze` MCP tool
+//! [`analyze`] is what `openreadout analyze nmr-peaks` and the `openreadout_nmr_peaks` MCP tool
 //! run: choose a spectrum (the vendor's processed one, or the FID processed here), pick peaks,
 //! integrate regions. [`ProcessedNmrDataset`] wraps any NMR dataset so that its FID traces read
 //! as processed spectra (`trace --process`, `export --process`, `preview --process`).

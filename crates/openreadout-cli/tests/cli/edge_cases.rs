@@ -16,7 +16,7 @@ fn scratch(tag: &str) -> PathBuf {
 fn fixtures_are_readable() {
     for name in ["mini.czi", "mini.nd2", "mini.lif"] {
         let p = fixture(name);
-        let out = run(&["check", "--planes", p.to_str().unwrap(), "--json"]);
+        let out = run(&["planes", p.to_str().unwrap(), "--json"]);
         assert_eq!(out.status.code(), Some(0), "{name}");
         let out = run(&["check", p.to_str().unwrap(), "--json"]);
         assert_eq!(out.status.code(), Some(0), "{name}");
@@ -57,9 +57,9 @@ fn preview_rulers_hint_and_plain() {
         "{}",
         stdout(&out)
     );
-    // --plain: the bare 8x8 plane
+    // --axes none: the bare 8x8 plane
     let out = bin()
-        .args(["preview", "--plain", "--json", "--overwrite", "-o"])
+        .args(["preview", "--axes", "none", "--json", "--overwrite", "-o"])
         .arg(&png)
         .arg(&czi)
         .output()
@@ -146,7 +146,7 @@ fn unicode_path_roundtrips() {
             .unwrap()
             .ends_with("Zelle-ß-🔬.czi")
     );
-    let out = run(&["check", "--planes", p.to_str().unwrap(), "--json"]);
+    let out = run(&["planes", p.to_str().unwrap(), "--json"]);
     assert_eq!(out.status.code(), Some(0));
     std::fs::remove_dir_all(&d).ok();
 }
@@ -185,7 +185,7 @@ fn read_only_and_unreadable_files() {
         &["info"][..],
         &["check"],
         &["info", "--view", "structure"],
-        &["check", "--planes"],
+        &["planes"],
     ] {
         assert_eq!(
             run(&[cmd, &[p.to_str().unwrap()]].concat()).status.code(),
@@ -263,7 +263,7 @@ fn czi_empty_and_garbage_metadata_xml() {
     for cmd in [
         &["info"][..],
         &["check"],
-        &["check", "--planes"],
+        &["planes"],
         &["info", "--view", "full"],
     ] {
         let out = run(&[cmd, &[p.to_str().unwrap(), "--json"]].concat());
@@ -288,14 +288,9 @@ fn czi_empty_and_garbage_metadata_xml() {
     let p = d.join("garbage-xml.czi");
     std::fs::write(&p, &garbage).unwrap();
     assert_eq!(run(&["info", p.to_str().unwrap()]).status.code(), Some(0));
+    assert_eq!(run(&["planes", p.to_str().unwrap()]).status.code(), Some(0));
     assert_eq!(
-        run(&["check", "--planes", p.to_str().unwrap()])
-            .status
-            .code(),
-        Some(0)
-    );
-    assert_eq!(
-        run(&["info", "--view", "full", p.to_str().unwrap()])
+        run(&["info", "--view", "full", "--vendor", p.to_str().unwrap()])
             .status
             .code(),
         Some(4)
@@ -314,7 +309,7 @@ fn export_refuses_absurd_plane_counts() {
         let out = run(&[
             "export",
             p.to_str().unwrap(),
-            "--to",
+            "--format",
             to,
             "-o",
             d.join(format!("x.{to}")).to_str().unwrap(),

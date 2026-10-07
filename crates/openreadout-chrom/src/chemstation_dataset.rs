@@ -1418,7 +1418,7 @@ impl Dataset for ChemStationDataset {
         Err(Error::unsupported(
             CHEMSTATION_ID,
             "image planes",
-            "ChemStation data holds chromatograms and spectra: use `openreadout trace`, `export --to csv`, or read_spectrum.",
+            "ChemStation data holds chromatograms and spectra: use `openreadout trace`, `export --format csv`, or read_spectrum.",
         ))
     }
 

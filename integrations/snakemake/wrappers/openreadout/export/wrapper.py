@@ -52,8 +52,8 @@ log = snakemake.log_fmt_shell(stdout=report is None, stderr=True)
 
 if report:
     shell(
-        "openreadout export {snakemake.input[0]:q} --to {fmt} -o {output:q} {extra} --json "
+        "openreadout export {snakemake.input[0]:q} --format {fmt} -o {output:q} {extra} --json "
         "> {report:q} {log}"
     )
 else:
-    shell("openreadout export {snakemake.input[0]:q} --to {fmt} -o {output:q} {extra} {log}")
+    shell("openreadout export {snakemake.input[0]:q} --format {fmt} -o {output:q} {extra} {log}")

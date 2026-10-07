@@ -1,4 +1,4 @@
-//! `search --export`: one command turns a slice of an index into an ML-ready dataset.
+//! `export-dataset`: one command turns a slice of an index into an ML-ready dataset.
 //!
 //! For every data set a query matches: images become OME-Zarr stores, tables, traces and mass
 //! spectra become Parquet (or CSV) files, and the metadata (`info` plus the experiment) a JSON
@@ -56,7 +56,7 @@ pub enum TableFormat {
     Csv,
 }
 
-/// Options of `search --export`.
+/// Options of `export-dataset`.
 #[derive(Debug, Default)]
 #[non_exhaustive]
 pub struct ExportDatasetOptions {
@@ -157,7 +157,7 @@ pub struct SkippedDataset {
     pub reason: String,
 }
 
-/// `datasheet.json`, and the payload of `search --export --json`.
+/// `datasheet.json`, and the payload of `export-dataset --json`.
 #[derive(Debug, Clone, Serialize, schemars::JsonSchema)]
 pub struct ExportDatasetReport {
     /// Datasheet schema version.

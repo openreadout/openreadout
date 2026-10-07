@@ -9,7 +9,7 @@ fn formats_lists_all_readers() {
     assert!(out.status.success());
     let v = json(&out);
     assert_eq!(v["ok"], true);
-    assert_eq!(v["schema_version"], "1");
+    assert_eq!(v["schema_version"], "2");
     let ids: Vec<&str> = v["data"]["formats"]
         .as_array()
         .unwrap()
@@ -129,12 +129,12 @@ fn schema_is_valid_json_schema() {
         "info-structure",
         "info-format",
         "check",
-        "check-planes",
-        "check-against",
+        "planes",
+        "compare",
         "export",
-        "export-attachment",
+        "extract",
         "trace",
-        "spectra",
+        "scans",
         "spectrum",
         "formats",
         "stats",
@@ -275,7 +275,7 @@ fn completions_and_man_pages() {
 
 #[test]
 fn schemas_of_new_commands() {
-    for name in ["stats", "check-against", "doctor"] {
+    for name in ["stats", "compare", "doctor"] {
         let out = bin().args(["self", "schema", name]).output().unwrap();
         assert!(out.status.success(), "schema {name}");
         let v = json(&out);
@@ -330,7 +330,7 @@ fn stdin_is_spooled_and_capped() {
         &["check"],
         &["info", "--view", "structure"],
         &["info", "--view", "explain"],
-        &["check", "--planes"],
+        &["planes"],
     ] {
         let out = bin()
             .args(cmd)
@@ -391,7 +391,7 @@ fn threads_give_identical_exports() {
     ] {
         let o = dir.join(format!("t{n}.{ext}"));
         let out = bin()
-            .args(["--threads", n, "export", "--to", to, "-o"])
+            .args(["--threads", n, "export", "--format", to, "-o"])
             .arg(&o)
             .arg(&src)
             .output()
@@ -431,7 +431,7 @@ fn threads_give_identical_exports() {
     // planes hashes are the same whatever the thread count.
     let hashes = |n: &str| {
         let out = bin()
-            .args(["--threads", n, "check", "--planes", "--json"])
+            .args(["--threads", n, "planes", "--json"])
             .arg(&src)
             .output()
             .unwrap();

@@ -198,7 +198,7 @@ pub fn stderr(out: &std::process::Output) -> String {
 /// Plane hashes reported by `planes --json` for `path` (image, c, z, t, xxh3).
 pub fn plane_hashes(path: &std::path::Path) -> Vec<(u64, u64, u64, u64, String)> {
     let out = bin()
-        .args(["check", "--planes", path.to_str().unwrap(), "--json"])
+        .args(["planes", path.to_str().unwrap(), "--json"])
         .output()
         .unwrap();
     assert!(out.status.success(), "{}", stderr(&out));

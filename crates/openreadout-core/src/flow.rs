@@ -1,4 +1,4 @@
-//! JSON shapes of flow-cytometry analysis: `openreadout analyze gate` / `openreadout_analyze` kind
+//! JSON shapes of flow-cytometry analysis: `openreadout analyze gate` / `openreadout_gate`
 //! `gate` (FlowJo workspace or Gating-ML populations with event counts) and the processing record
 //! that `table --compensate/--transform/--gatingml/--workspace` attaches to a table slice. The
 //! computation lives in the FCS reader crate; these types are shared by the CLI and MCP.

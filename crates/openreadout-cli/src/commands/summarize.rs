@@ -1,5 +1,5 @@
-//! `batch summarize` (group statistics of a table file written by `--tidy -o` or `batch -o`)
-//! and `link` (files that measured the same sample).
+//! `summarize` (group statistics of a table file written by `--tidy -o` or `batch -o`) and
+//! `link` (files that measured the same sample).
 
 use std::fmt::Write as _;
 use std::path::PathBuf;
@@ -14,26 +14,50 @@ use serde::Serialize;
 use crate::output::{emit, fail};
 use crate::ui;
 
-/// What `batch summarize TABLE` summarizes, from the batch-table flags.
-#[derive(Debug)]
+/// Arguments of `summarize`.
+#[derive(Debug, clap::Args)]
 pub struct SummarizeArgs {
     /// A table written by `--tidy -o` or `batch -o` (or any CSV, TSV, JSON Lines, JSON or
     /// Parquet table), or the `--tidy --json` output saved to a file.
+    #[arg(value_name = "TABLE")]
     pub table: PathBuf,
+    /// Summarize by these columns (comma-separated or repeated): n, mean, sd, sem, median, min,
+    /// max and CV % per group; channels, parameters and populations stay apart unless
+    /// `--exact-by`.
+    #[arg(long, required = true, value_delimiter = ',', value_name = "COLUMNS")]
     pub by: Vec<String>,
+    /// Value columns to summarize (default: the measure's main values).
+    #[arg(long = "value", value_delimiter = ',', value_name = "COLUMNS")]
     pub values: Vec<String>,
+    /// Average rows within each value of this column first (technical replicates).
+    #[arg(long, value_name = "COLUMN")]
     pub replicate: Option<String>,
+    /// `welch` or `mann-whitney`: compare every group with `--control`.
+    #[arg(long, value_name = "TEST", requires = "control")]
     pub test: Option<String>,
+    /// The control group: a value of the first `--by` column.
+    #[arg(long, value_name = "VALUE", requires = "test")]
     pub control: Option<String>,
+    /// Keep only rows where COLUMN equals (`=`) or differs from (`!=`) VALUE. Repeatable.
+    #[arg(long = "where", value_name = "COLUMN=VALUE")]
     pub filters: Vec<String>,
+    /// Group by exactly `--by`.
+    #[arg(long)]
     pub exact_by: bool,
+    /// Also write the summary to this .csv/.tsv/.jsonl/.json/.parquet file (verified).
+    #[arg(short, long, value_name = "FILE")]
     pub output: Option<PathBuf>,
+    /// Replace an existing output file.
+    #[arg(long)]
     pub overwrite: bool,
+    /// Print the summary table as CSV.
+    #[arg(long, conflicts_with = "json")]
     pub csv: bool,
+    #[arg(long)]
     pub json: bool,
 }
 
-/// Output of `batch summarize`.
+/// Output of `summarize`.
 #[derive(Debug, Serialize, schemars::JsonSchema)]
 pub struct SummarizeOutput {
     /// The table summarized.

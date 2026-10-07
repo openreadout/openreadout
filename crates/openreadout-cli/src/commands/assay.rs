@@ -1,4 +1,5 @@
-//! `analyze assay`: plate-reader analysis after reading a plate — layouts, blank subtraction and
+//! `analyze assay-wells`, `assay-curve`, `dose-response`, `kinetics`, `growth`, `assay-qc`:
+//! plate-reader analysis after reading a plate — layouts, blank subtraction and
 //! replicates, standard curves, dose-response, kinetics, growth curves and assay quality
 //! (crate `openreadout-assay`, book/src/guides/plate-analysis.md).
 
@@ -12,21 +13,16 @@ use openreadout_core::{Error, Registry, Result};
 
 use crate::output::{emit, fail};
 
-/// Arguments of `assay`.
-#[derive(Debug, clap::Args)]
-pub struct AssayArgs {
-    #[command(subcommand)]
-    pub command: AssayCommand,
-}
-
-/// The analyses.
+/// The plate-reader analyses, each its own `analyze` subcommand.
 #[derive(Debug, clap::Subcommand)]
 pub enum AssayCommand {
     /// Per-well values with roles, blank subtraction, and per-replicate-group mean, SD, CV % and
     /// outlier flags (plus Z′ when the layout has positive and negative controls).
+    #[command(name = "assay-wells")]
     Wells(WellsArgs),
     /// Fit a standard curve (linear, 4PL, 5PL) to the standard wells and back-calculate the
     /// concentration of every well, with range flags, LLOQ/ULOQ, R² and residuals.
+    #[command(name = "assay-curve")]
     Curve(CurveArgs),
     /// Fit a dose-response curve (4PL/5PL) per compound: IC50/EC50 with confidence interval,
     /// Hill slope, top and bottom; optionally normalised to controls (percent effect).
@@ -38,6 +34,7 @@ pub enum AssayCommand {
     /// exponential phase, lag time, and a logistic fit (K, r, N0).
     Growth(GrowthArgs),
     /// Assay quality from control wells: Z′, signal/background, signal/noise, SSMD, CVs.
+    #[command(name = "assay-qc")]
     Qc(WellsArgs),
 }
 
@@ -59,16 +56,16 @@ pub struct CommonArgs {
     pub no_embedded_layout: bool,
     /// Mark wells as blanks (`H1,H2`, `H1:H12`).
     #[arg(long, value_name = "WELLS")]
-    pub blank: Option<String>,
+    pub blank_wells: Option<String>,
     /// Mark wells as positive controls (full effect / maximum signal).
     #[arg(long, value_name = "WELLS")]
-    pub positive: Option<String>,
+    pub positive_wells: Option<String>,
     /// Mark wells as negative controls (no effect / vehicle).
     #[arg(long, value_name = "WELLS")]
-    pub negative: Option<String>,
+    pub negative_wells: Option<String>,
     /// Mark wells as empty (ignored).
     #[arg(long, value_name = "WELLS")]
-    pub empty: Option<String>,
+    pub empty_wells: Option<String>,
     /// Role of the wells a layout names NAME (role text or sample name, with or without a
     /// trailing index), repeatable: `--role DMSO=negative --role STAU=positive`. For names the
     /// layout cannot place (vehicle/DMSO wells are controls of unknown sign until mapped).
@@ -82,7 +79,7 @@ pub struct CommonArgs {
     pub read: Option<String>,
     /// Spectral reads: the wavelength (nm).
     #[arg(long, value_name = "NM")]
-    pub wavelength: Option<f64>,
+    pub wavelength_nm: Option<f64>,
     /// Blank subtraction: `auto` (mean of the blank wells when there are any), `mean`,
     /// `median`, `none`.
     #[arg(long, value_enum, default_value = "auto")]
@@ -108,7 +105,7 @@ pub struct CommonArgs {
     pub json: bool,
 }
 
-/// `assay wells` / `assay qc`.
+/// `assay-wells` / `assay-qc`.
 #[derive(Debug, clap::Args)]
 pub struct WellsArgs {
     #[command(flatten)]
@@ -145,10 +142,10 @@ pub struct FitArgs {
     pub window: Option<usize>,
     /// Render the curve (points and fit) as a PNG.
     #[arg(long, value_name = "PNG")]
-    pub preview: Option<PathBuf>,
+    pub plot: Option<PathBuf>,
 }
 
-/// `assay curve`.
+/// `assay-curve`.
 #[derive(Debug, clap::Args)]
 pub struct CurveArgs {
     #[command(flatten)]
@@ -169,7 +166,7 @@ pub struct CurveArgs {
     pub uloq: Option<f64>,
 }
 
-/// `assay dose-response`.
+/// `dose-response`.
 #[derive(Debug, clap::Args)]
 pub struct DoseArgs {
     #[command(flatten)]
@@ -182,7 +179,7 @@ pub struct DoseArgs {
     pub normalize: NormalizeArg,
 }
 
-/// `assay kinetics`.
+/// `kinetics`.
 #[derive(Debug, clap::Args)]
 pub struct TimeArgs {
     #[command(flatten)]
@@ -196,7 +193,7 @@ pub struct TimeArgs {
     pub wells: Option<String>,
 }
 
-/// `assay growth`.
+/// `growth`.
 #[derive(Debug, clap::Args)]
 pub struct GrowthArgs {
     #[command(flatten)]
@@ -204,7 +201,7 @@ pub struct GrowthArgs {
     /// Values at or below this are left out of the log-scale fit (default 5 % of each well's
     /// maximum).
     #[arg(long, value_name = "OD")]
-    pub threshold: Option<f64>,
+    pub growth_threshold: Option<f64>,
 }
 
 fn parse_model(s: &str) -> std::result::Result<Model, String> {
@@ -287,14 +284,14 @@ fn base_request(c: &CommonArgs, analysis: Analysis) -> AssayRequest {
         analysis,
         table: c.table,
         read: c.read.clone(),
-        wavelength_nm: c.wavelength,
+        wavelength_nm: c.wavelength_nm,
         layout: c.layout.as_ref().map(|p| p.display().to_string()),
         embedded_layout: !c.no_embedded_layout,
-        blank_wells: c.blank.clone(),
-        positive_wells: c.positive.clone(),
-        negative_wells: c.negative.clone(),
-        empty_wells: c.empty.clone(),
-        blank: match c.blank_subtraction {
+        blank_wells: c.blank_wells.clone(),
+        positive_wells: c.positive_wells.clone(),
+        negative_wells: c.negative_wells.clone(),
+        empty_wells: c.empty_wells.clone(),
+        blank_subtraction: match c.blank_subtraction {
             BlankArg::Auto => BlankMode::Auto,
             BlankArg::Mean => BlankMode::Mean,
             BlankArg::Median => BlankMode::Median,
@@ -319,11 +316,12 @@ fn apply_fit(req: &mut AssayRequest, f: &FitArgs) {
     req.window = f.window;
 }
 
-/// Run `assay …`.
-pub fn run(reg: &Registry, a: &AssayArgs) -> i32 {
-    let (common, req, preview) = match &a.command {
+/// Run `analyze assay-wells`, `assay-curve`, `dose-response`, `kinetics`, `growth` or
+/// `assay-qc`.
+pub fn run(reg: &Registry, command: &AssayCommand) -> i32 {
+    let (common, req, plot) = match command {
         AssayCommand::Wells(w) | AssayCommand::Qc(w) => {
-            let analysis = if matches!(a.command, AssayCommand::Qc(_)) {
+            let analysis = if matches!(command, AssayCommand::Qc(_)) {
                 Analysis::Qc
             } else {
                 Analysis::Wells
@@ -349,7 +347,7 @@ pub fn run(reg: &Registry, a: &AssayArgs) -> i32 {
             };
             r.lloq = c.lloq;
             r.uloq = c.uloq;
-            (&c.common, r, c.fit.preview.clone())
+            (&c.common, r, c.fit.plot.clone())
         }
         AssayCommand::DoseResponse(d) => {
             let mut r = base_request(&d.common, Analysis::DoseResponse);
@@ -358,7 +356,7 @@ pub fn run(reg: &Registry, a: &AssayArgs) -> i32 {
                 NormalizeArg::None => Normalize::None,
                 NormalizeArg::Controls => Normalize::Controls,
             };
-            (&d.common, r, d.fit.preview.clone())
+            (&d.common, r, d.fit.plot.clone())
         }
         AssayCommand::Kinetics(t) => {
             let mut r = base_request(&t.common, Analysis::Kinetics);
@@ -370,7 +368,7 @@ pub fn run(reg: &Registry, a: &AssayArgs) -> i32 {
             let mut r = base_request(&g.time.common, Analysis::Growth);
             r.window = g.time.window;
             r.wells = g.time.wells.clone();
-            r.growth_threshold = g.threshold;
+            r.growth_threshold = g.growth_threshold;
             (&g.time.common, r, None)
         }
     };
@@ -383,7 +381,7 @@ pub fn run(reg: &Registry, a: &AssayArgs) -> i32 {
                 out.written.push(p.display().to_string());
             }
         }
-        if let Some(png) = &preview {
+        if let Some(png) = &plot {
             match openreadout_assay::render_plot(&out)? {
                 Some((bytes, notes)) => {
                     openreadout_assay::write_verified(png, &bytes, common.overwrite)?;

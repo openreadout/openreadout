@@ -44,9 +44,9 @@ use crate::provenance::{Confidence, ProvenanceMap, Source};
 pub enum Scope {
     /// The normalized metadata (`info`, all its views): sizes, channels, instrument, times.
     Metadata,
-    /// Image planes (`check --planes`, `stats`, `export` of images, `preview`).
+    /// Image planes (`planes`, `stats`, `export` of images, `preview`).
     Pixels,
-    /// Mass spectra and scan headers (`spectra`, `analyze chromatogram`, mzML export).
+    /// Mass spectra and scan headers (`scans`, `spectrum`, `analyze chromatogram`, mzML export).
     Spectra,
     /// Sampled signals (`trace`, electrophysiology, chromatograms, NMR and IR/Raman spectra).
     Traces,

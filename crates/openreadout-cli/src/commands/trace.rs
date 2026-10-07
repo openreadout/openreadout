@@ -28,14 +28,14 @@ pub struct TraceArgs {
     pub channels: Vec<u32>,
     /// First sample of the window (zero-based, within the sweep).
     #[arg(long, default_value_t = 0)]
-    pub first: u64,
+    pub first_sample: u64,
     /// Window length in samples. Default: to the end of the sweep.
     #[arg(long)]
     pub count: Option<u64>,
-    /// Window on the trace's own axis instead of --first/--count, `A:B` (either order): cm⁻¹,
+    /// Window on the trace's own axis instead of --first-sample/--count, `A:B` (either order): cm⁻¹,
     /// nm, ppm or a chromatogram's retention time in its axis unit (see `info` →
     /// traces[].extra.axis); seconds for signals without an axis.
-    #[arg(long = "x-range", value_name = "A:B", allow_hyphen_values = true, conflicts_with_all = ["first", "count"])]
+    #[arg(long = "x-range", value_name = "A:B", allow_hyphen_values = true, conflicts_with_all = ["first_sample", "count"])]
     pub x_range: Option<String>,
     /// Samples returned per channel (statistics always cover the whole window). Max 100000.
     #[arg(long, default_value_t = 1000)]
@@ -56,7 +56,7 @@ pub fn run(reg: &Registry, a: &TraceArgs) -> i32 {
             trace: a.trace,
             sweep: a.sweep,
             channels: a.channels.clone(),
-            first: a.first,
+            first: a.first_sample,
             count: a.count,
             x_range,
         };
@@ -76,7 +76,7 @@ pub fn run(reg: &Registry, a: &TraceArgs) -> i32 {
             request.trace = a.trace.unwrap_or(0);
             request.sweep = a.sweep.unwrap_or(0);
             request.channels = a.channels.clone();
-            request.first_sample = a.first;
+            request.first_sample = a.first_sample;
             request.count = a.count;
             request.x_range = a.x_range.as_deref().map(peaks::parse_x_range).transpose()?;
             request.max_samples = a.max_samples;
@@ -152,7 +152,9 @@ fn render_trace(t: &TraceSlice) -> String {
         ));
     }
     if t.truncated {
-        s.push_str("  (samples truncated; use --json with --max-samples, or `export --to csv`)\n");
+        s.push_str(
+            "  (samples truncated; use --json with --max-samples, or `export --format csv`)\n",
+        );
     }
     s.trim_end().to_string()
 }

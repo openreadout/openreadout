@@ -197,7 +197,7 @@ fn resolve(info: &FileInfo, sel: ColumnarSelection) -> Result<Target> {
         Error::unsupported(
             "export",
             format!("{what} of a {} file", info.format.name),
-            "Parquet/Arrow export writes tables, traces and mass spectra; this file holds images: use `--to ome-tiff` or `--to ome-zarr`.",
+            "Parquet/Arrow export writes tables, traces and mass spectra; this file holds images: use `--format ome-tiff` or `--format ome-zarr`.",
         )
     };
     Ok(match sel {
@@ -691,7 +691,7 @@ pub fn read_columnar(
             && rows > cap
         {
             return Err(Error::Usage(format!(
-                "more than {cap} points; export to a file instead (`openreadout export --to parquet`)"
+                "more than {cap} points; export to a file instead (`openreadout export --format parquet`)"
             )));
         }
         batches.push(b);

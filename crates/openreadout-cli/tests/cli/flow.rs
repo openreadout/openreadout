@@ -40,7 +40,7 @@ fn fcs_info_ls_check_and_csv_export() {
         String::from_utf8_lossy(&out.stdout)
     );
     let out = bin()
-        .args(["info", "--view", "full", ps, "--json"])
+        .args(["info", "--view", "full", "--vendor", ps, "--json"])
         .output()
         .unwrap();
     assert!(out.status.success());
@@ -49,7 +49,7 @@ fn fcs_info_ls_check_and_csv_export() {
         "Forward, area"
     );
 
-    // CSV export: --to is inferred for tabular files; labels line is quoted; masks applied
+    // CSV export: --format is inferred for tabular files; labels line is quoted; masks applied
     let csv = dir.join("tiny.csv");
     let out = bin()
         .args([
@@ -80,7 +80,7 @@ fn fcs_info_ls_check_and_csv_export() {
         .args([
             "export",
             ps,
-            "--to",
+            "--format",
             "csv",
             "-o",
             csv.to_str().unwrap(),
@@ -96,7 +96,7 @@ fn fcs_info_ls_check_and_csv_export() {
         "FSC-A,SSC-A\n1023,65535\n7,9\n"
     );
     let out = bin()
-        .args(["export", ps, "--to", "csv", "-o", csv.to_str().unwrap()])
+        .args(["export", ps, "--format", "csv", "-o", csv.to_str().unwrap()])
         .output()
         .unwrap();
     assert_eq!(out.status.code(), Some(2));
@@ -105,7 +105,7 @@ fn fcs_info_ls_check_and_csv_export() {
         .args([
             "export",
             ps,
-            "--to",
+            "--format",
             "ome-tiff",
             "-o",
             dir.join("x.ome.tiff").to_str().unwrap(),

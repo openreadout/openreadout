@@ -25,7 +25,7 @@ process OPENREADOUT_BATCH {
 
     script:
     // args: options of the measure (e.g. '--where parameter=FITC-A', '--per image');
-    // args2: `openreadout batch summarize` options; when set, the table is also summarized by group
+    // args2: `openreadout summarize` options; when set, the table is also summarized by group
     // (e.g. '--by condition --value median --test welch --control control').
     def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: ''
@@ -36,7 +36,7 @@ process OPENREADOUT_BATCH {
     }
     def command = measure == 'gate' ? 'analyze gate' : measure
     def sheet = sample_sheet ? "--sample-sheet ${sample_sheet}" : ''
-    def summarize = args2 ? "openreadout batch summarize ${prefix}.table.csv ${args2} -o ${prefix}.summary.csv" : ''
+    def summarize = args2 ? "openreadout summarize ${prefix}.table.csv ${args2} -o ${prefix}.summary.csv" : ''
     """
     openreadout \\
         $command \\

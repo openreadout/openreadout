@@ -7,7 +7,7 @@ Three independent sources, none of them openreadout:
    wells, fields, channels, Z planes and time points the plate records, each plane's file name,
    channel names and pixel size.
 2. tifffile (BSD-3) on every plane file present on disk: the plane's pixels (xxh3-128 of the
-   little-endian samples, the hash `openreadout check --planes` computes) and, for MetaXpress files,
+   little-endian samples, the hash `openreadout planes` computes) and, for MetaXpress files,
    the MetaSeries/STK calibration and illumination names.
 3. Bio-Formats 8.5.0 (GPL; run as a black box from oracle/bftools):
    `showinf -nopix -omexml` for the series geometry, the OME Plate/Well/WellSample layout,

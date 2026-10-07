@@ -907,7 +907,7 @@ fn nmr(
     }))
 }
 
-/// Run one `openreadout_analyze` kind on `file`, as JSON.
+/// Run one analysis kind on `file`, as JSON.
 fn analyze(reg: &Registry, file: &str, kind: &str, options: Value) -> Result<Value, McpError> {
     let args: openreadout_batch::analyze::AnalyzeArgs =
         serde_json::from_value(json!({"file": file, "kind": kind, "options": options}))

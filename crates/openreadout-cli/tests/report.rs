@@ -1,4 +1,4 @@
-//! `openreadout check --report`: the diagnostic bundle for new-variant issues is written to a local
+//! `openreadout report`: the diagnostic bundle for new-variant issues is written to a local
 //! file, holds the decode path and structure, and never the file's name, path or free text
 //! unless asked (docs/maintaining.md).
 
@@ -40,7 +40,7 @@ fn report_writes_a_bundle_without_the_name_or_path() {
     let input = copy_as(&fixture("mini.nd2"), tmp.path(), "JaneRoe_mouse7_liver.nd2");
     let out_path = tmp.path().join("bundle.json");
     let out = bin()
-        .args(["check", "--report", "--json", "-o"])
+        .args(["report", "--json", "-o"])
         .arg(&out_path)
         .arg(&input)
         .output()
@@ -92,7 +92,7 @@ fn report_writes_a_bundle_without_the_name_or_path() {
     assert_eq!(bundle["privacy"]["mode"], "structure_only");
     // a second run refuses to replace it
     let again = bin()
-        .args(["check", "--report", "-o"])
+        .args(["report", "-o"])
         .arg(&out_path)
         .arg(&input)
         .output()
@@ -106,7 +106,7 @@ fn unknown_files_are_reported_with_their_text_masked() {
     let input = tmp.path().join("assay_JaneRoe.xyz");
     std::fs::write(&input, "Operator: Jane Roe\nwell,value\nA1,0.5\n").unwrap();
     let out = bin()
-        .args(["check", "--report", "--dry-run", "--json"])
+        .args(["report", "--dry-run", "--json"])
         .arg(&input)
         .output()
         .unwrap();
@@ -142,7 +142,7 @@ fn include_text_and_hex_are_opt_in() {
     let input = copy_as(&fixture("mini.czi"), tmp.path(), "mini.czi");
     let plain = json(
         &bin()
-            .args(["check", "--report", "--dry-run", "--json"])
+            .args(["report", "--dry-run", "--json"])
             .arg(&input)
             .output()
             .unwrap(),
@@ -151,8 +151,7 @@ fn include_text_and_hex_are_opt_in() {
     let hex = json(
         &bin()
             .args([
-                "check",
-                "--report",
+                "report",
                 "--dry-run",
                 "--json",
                 "--hex",

@@ -16,7 +16,9 @@
 //!   (Welch's t-test, Mann–Whitney U);
 //! - [`mod@write`] writes tables as JSON, JSON Lines, CSV, TSV or Parquet, and reads them back;
 //! - [`link()`] groups files that measured the same sample across instruments, with the
-//!   evidence and a confidence for every link.
+//!   evidence and a confidence for every link;
+//! - [`csv`] writes one table or one sweep of a trace as a verified CSV file (`export --format
+//!   csv`, `openreadout_export` format `csv`).
 //!
 //! The CLI (`--tidy`, `batch`, `link`), the MCP server and the Python package are thin
 //! layers over these functions. `book/src/guides/batch.md` in the repository documents the behaviour.
@@ -28,6 +30,7 @@
 pub mod analyze;
 pub mod api;
 pub mod companion;
+pub mod csv;
 pub mod join;
 pub mod link;
 pub mod measure;

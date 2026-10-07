@@ -7,14 +7,14 @@ body:
       value: |
         Thank you. A new variant becomes a validated one in three steps: we see its **structure** (the report below), we get **ground truth** for it (the vendor software's own export of the same file), and ideally a **public copy** of a file with the same variant joins the test corpus. The whole process is in [docs/maintaining.md](https://github.com/openreadout/openreadout/blob/main/docs/maintaining.md).
 
-        **Privacy.** `openreadout check --report` writes a local file and sends nothing. By default it contains no pixel, spectral or trace values, no sample, image or channel names, no comments, no serial numbers and no paths; open it and read it before you attach it. Never attach patient-identifiable data. Do not attach or link vendor SDKs, headers, DLLs or specifications obtained under NDA ([clean-room policy](https://github.com/openreadout/openreadout/blob/main/docs/legal/clean-room-policy.md)); issues that do are closed.
+        **Privacy.** `openreadout report` writes a local file and sends nothing. By default it contains no pixel, spectral or trace values, no sample, image or channel names, no comments, no serial numbers and no paths; open it and read it before you attach it. Never attach patient-identifiable data. Do not attach or link vendor SDKs, headers, DLLs or specifications obtained under NDA ([clean-room policy](https://github.com/openreadout/openreadout/blob/main/docs/legal/clean-room-policy.md)); issues that do are closed.
 
   - type: textarea
     id: report
     attributes:
       label: Diagnostic bundle
       description: |
-        Run `openreadout check FILE --report` (add `--include-text` only if the names in the file are not sensitive) and attach the `openreadout-report-*.json` it writes by dragging it here. It holds the assurance fingerprint, every decode stage with its error, and the structure map.
+        Run `openreadout report FILE` (add `--include-text` only if the names in the file are not sensitive) and attach the `openreadout-report-*.json` it writes by dragging it here. It holds the assurance fingerprint, every decode stage with its error, and the structure map.
       placeholder: Drag openreadout-report-<hash>.json here.
     validations:
       required: true

@@ -1,4 +1,4 @@
-# openreadout_analyze(): `openreadout analyze KIND` (MCP `openreadout_analyze`). The kinds with
+# openreadout_analyze(): `openreadout analyze KIND` (one MCP tool per kind). The kinds with
 # R-shaped results (chromatogram, peaks, qpcr) are in chrom.R and export.R; the others pass
 # their options through as JSON.
 
@@ -39,8 +39,8 @@
 #' `openreadout analyze KIND`: chromatograms and chromatographic peaks, NMR peaks and
 #' integrals, patch-clamp features, extracellular spikes, qPCR, plate-reader assays and
 #' flow-cytometry gating. The methods are described in the OpenReadout book
-#' (<https://openreadout.github.io/openreadout/>), and the options are those of the MCP tool
-#' `openreadout_analyze` for that kind, with R's 1-based indices (`trace`, `sweep`,
+#' (<https://openreadout.github.io/openreadout/>), and the options are the arguments of that
+#' kind's MCP tool (`openreadout_peaks`, `openreadout_nmr_peaks`, ...), with R's 1-based indices (`trace`, `sweep`,
 #' `channel`, `table`, `sweeps`, `channels`, `traces`, `run`).
 #'
 #' @section `kind = "chromatogram"`:

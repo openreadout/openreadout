@@ -13,7 +13,7 @@
    "field": "scans in the time segments (MSTS.xml)",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],

@@ -67,7 +67,7 @@ impl LevelLayout {
             return Err(Error::unsupported(
                 FORMAT_ID,
                 "a MIRAX slide without a camera position table (exported with overlaps removed)",
-                "No development file of this kind has been validated; `info`, `info --view structure`, `check` and the attachments still work. Please report the file (`openreadout check FILE --report`).",
+                "No development file of this kind has been validated; `info`, `info --view structure`, `check` and the attachments still work. Please report the file (`openreadout report FILE`).",
             ));
         };
         if (s < div && div % s != 0) || (s >= div && s % div != 0) {

@@ -68,7 +68,7 @@ When an agent asks for an image that does not exist, the error tells it how to r
 $ openreadout preview mini.nd2 --image 3 --json
 {
   "ok": false,
-  "schema_version": "1",
+  "schema_version": "2",
   "tool": { "name": "openreadout", "version": "0.1.0" },
   "error": {
     "code": "usage",

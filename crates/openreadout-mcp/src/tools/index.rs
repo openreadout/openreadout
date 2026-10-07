@@ -1,4 +1,5 @@
-//! `openreadout_index` (catalog a file share) and `openreadout_search` (query the catalog).
+//! `openreadout_index` (catalog a file share), `openreadout_search` (query the catalog) and
+//! `openreadout_health` (its storage health).
 
 use std::path::{Path, PathBuf};
 
@@ -43,6 +44,21 @@ pub struct IndexArgs {
 pub const MCP_INDEX_MAX_FILES: u64 = 20_000;
 /// Default `max_seconds` of `openreadout_index` per call.
 pub const MCP_INDEX_MAX_SECONDS: f64 = 45.0;
+
+/// Arguments for `openreadout_health`.
+#[derive(Debug, Deserialize, schemars::JsonSchema)]
+pub struct HealthArgs {
+    /// Index directory (from openreadout_index or `openreadout index`).
+    pub index_dir: String,
+    /// Do not confirm duplicate candidates by hashing their content (no file is read).
+    #[serde(default)]
+    pub no_hash: bool,
+    /// Most entries listed per section (default 50; counts are complete).
+    pub max_list: Option<usize>,
+}
+
+/// Default `max_list` of `openreadout_health`.
+pub const MCP_HEALTH_MAX_LIST: usize = 50;
 
 /// Arguments for `openreadout_search`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
@@ -164,6 +180,28 @@ impl InstrumentServer {
         r.fields = a.fields;
         let out =
             openreadout_index::search(Path::new(&a.index_dir), &r).map_err(|e| mcp_err(&e))?;
+        ok_json(&out)
+    }
+
+    #[tool(
+        name = "openreadout_health",
+        annotations(title = "Storage health of an index", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_index::HealthReport>(),
+        description = "Storage health of a share indexed by openreadout_index: truncated or corrupt files, unreadable formats, duplicates (confirmed by content hash unless no_hash), the same experiment stored twice, files at risk, totals and personal-data findings."
+    )]
+    pub(crate) async fn health(
+        &self,
+        Parameters(a): Parameters<HealthArgs>,
+    ) -> Result<CallToolResult, McpError> {
+        let out = tokio::task::spawn_blocking(move || {
+            let mut o = openreadout_index::HealthOptions::default();
+            o.hash_duplicates = !a.no_hash;
+            o.max_list = a.max_list.unwrap_or(MCP_HEALTH_MAX_LIST);
+            openreadout_index::health(Path::new(&a.index_dir), &o)
+        })
+        .await
+        .map_err(|e| McpError::internal_error(format!("health task failed: {e}"), None))?
+        .map_err(|e| mcp_err(&e))?;
         ok_json(&out)
     }
 }

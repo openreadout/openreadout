@@ -280,7 +280,7 @@ pub fn spectrum_by_scan(
     };
     if sp.scan_number != scan {
         return Err(Error::Usage(format!(
-            "scan numbers are not contiguous; spectrum {i} is scan {}. Use --index",
+            "scan numbers are not contiguous; spectrum {i} is scan {}. Use --spectrum (the zero-based index)",
             sp.scan_number
         )));
     }
@@ -333,7 +333,7 @@ pub fn spectrum_by_level(
     )))
 }
 
-/// Default number of per-frame records `info --view full` embeds per image (`--all-frames` lifts
+/// Default number of per-frame records `info --view full` embeds per image (`--max-frames -1` lifts
 /// it).
 pub const DEFAULT_FRAME_RECORDS: usize = 100;
 

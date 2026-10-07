@@ -1640,7 +1640,7 @@ impl Dataset for CziDataset {
             .fold(0u64, |n, i| n.saturating_add(i.plane_count));
         let mut notes = Vec::new();
         if self.scenes.iter().any(|s| s.pyramid_levels > 1) {
-            notes.push("pyramid levels are readable with `check --planes --level N`; export writes full resolution only".into());
+            notes.push("pyramid levels are readable with `planes --level N`; export writes full resolution only".into());
         }
         if self.scenes.iter().any(|s| !s.other_dims.is_empty()) {
             notes.push("extra dimensions (H/I/R/V/B) vary: one image per combination of their coordinates (`images[].extra.dimension_index`)".into());
@@ -1654,7 +1654,7 @@ impl Dataset for CziDataset {
         }
         if !self.file.attachments.is_empty() {
             notes.push(format!(
-                "{} attachment(s): `info --view structure` lists them, `export --attachment NAME` writes one out",
+                "{} attachment(s): `info --view structure` lists them, `extract FILE NAME` writes one out",
                 self.file.attachments.len()
             ));
         }
@@ -1753,7 +1753,7 @@ impl Dataset for CziDataset {
         for a in self.attachments()? {
             let e = &self.file.attachments[a.index as usize];
             let mut details = json!({"index": a.index, "content_type": a.content_type,
-                "extract": format!("openreadout export FILE --attachment {}", if a.name.is_empty() { format!("#{}", a.index) } else { a.name.clone() }),
+                "extract": format!("openreadout extract FILE {}", if a.name.is_empty() { format!("#{}", a.index) } else { a.name.clone() }),
                 "file_part": e.file_part});
             for (k, v) in a.extra {
                 details[k] = v;

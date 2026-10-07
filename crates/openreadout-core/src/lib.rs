@@ -26,10 +26,10 @@
 //!   measurements) from the normalized model, with terms from [`vocab`]; `info` prints it as
 //!   [`InfoOutput`].
 //! - [`stats`] and [`trace`] implement those commands; [`batch`] and [`select`] parse their
-//!   inputs. Other command-level operations (`check --against`, `info --view explain`,
-//!   `export --attachment`, `--only`) live in the `openreadout-ops` crate.
+//!   inputs. Other command-level operations (`compare`, `info --view explain`,
+//!   `extract`, `--only`) live in the `openreadout-ops` crate.
 //! - [`live`] judges whether an incomplete file is still being written (`acquisition` in
-//!   `info`, `info --view structure`, `check` and `check --planes`).
+//!   `info`, `info --view structure`, `check` and `planes`).
 //! - [`bytes`], [`cfb`], [`xml`], [`xmljson`], [`zip`], [`time`] and [`parallel`] are helpers for
 //!   format crates.
 //!
