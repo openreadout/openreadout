@@ -26,6 +26,7 @@ extend-exclude = [
 extend-ignore-re = [
   "\\b[0-9a-f]{16,}\\b",
   "LTQ OT Discovery",      # Thermo instrument user name recorded in corpus files (mtbls404, mtbls20)
+  "figshare22587166-standar-carbon",  # corpus id built from the depositor's file name (generated MAINTAINING.md tables)
 ]
 
 [default.extend-words]
