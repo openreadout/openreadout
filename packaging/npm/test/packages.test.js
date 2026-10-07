@@ -76,7 +76,7 @@ test('platform-packages.js builds a package from a binary', () => {
   assert.strictEqual(fs.readFileSync(path.join(built, 'bin', 'openreadout'), 'utf8'), 'BINARY');
   if (process.platform !== 'win32') assert.ok(fs.statSync(path.join(built, 'bin', 'openreadout')).mode & 0o100);
   assert.strictEqual(JSON.parse(fs.readFileSync(path.join(built, 'package.json'))).name, '@openreadout/cli-linux-x64');
-  for (const f of ['README.md', 'LICENSE-MIT', 'LICENSE-APACHE', 'NOTICE', 'THIRD-PARTY-NOTICES.md']) {
+  for (const f of ['README.md', 'LICENSE-MIT', 'LICENSE-APACHE', 'NOTICE', 'THIRD-PARTY-NOTICES.md', 'licenses/gohlke-BSD-3-Clause.txt']) {
     assert.ok(fs.existsSync(path.join(built, f)), f);
   }
 });

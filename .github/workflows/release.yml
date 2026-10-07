@@ -126,6 +126,7 @@ jobs:
           mkdir -p dist
           cp README.md LICENSE-MIT LICENSE-APACHE NOTICE THIRD-PARTY-NOTICES.md skills/openreadout/SKILL.md dist/
           cp -R skills/openreadout/references dist/references
+          cp -R licenses dist/licenses
           # Man pages (dist/man/*.1) and shell completions (dist/completions/), from a host build.
           cargo run -p xtask -- man --out dist
           if [ "$RUNNER_OS" = Windows ]; then
