@@ -103,5 +103,5 @@ The MCP tool is `openreadout_dose_response`, with `file` and `layout`.
 ## More
 
 - [Plate-reader assays](../guides/plate-analysis.md): layouts, roles, the fit and every output field.
-- [`analyze` reference](../reference/commands/analyze.md#assay): every flag.
+- [`analyze` reference](../reference/commands/analyze.md#plate-reader-assays): every flag.
 - JSON: [`assay`](../reference/json/assay.md).

@@ -24,7 +24,7 @@ The server has 29 tools.
 | `openreadout_info` | what a file holds, from its headers | [info](commands/info.md) |
 | `openreadout_check` | integrity check | [check](commands/check.md) |
 | `openreadout_compare` | compare two files, such as a raw file and its export | [compare](commands/compare.md) |
-| `openreadout_report` | a diagnostic bundle for a file OpenReadout cannot read | [report](commands/report-cmd.md) |
+| `openreadout_report` | a diagnostic bundle for a file OpenReadout cannot read | [report](commands/report.md) |
 | `openreadout_preview` | a picture of the data | [preview](commands/preview.md) |
 | `openreadout_stats` | pixel statistics, or per-well statistics of a plate | [stats](commands/stats.md) |
 | `openreadout_trace` | samples and statistics of one sweep of a signal or 1-D spectrum | [trace](commands/trace.md) |
@@ -77,7 +77,7 @@ A file still being written gets the same `acquisition` block as on the command l
 
 `openreadout_compare` compares `file` with `against` (for example its export): metadata differences, geometry, channel names and per-plane hashes. `image`, `select`, `level`, `tolerance`, `ignore` and `no_pixels` work as in [`compare`](commands/compare.md). `identical` says whether the files hold the same data.
 
-`openreadout_report` builds the privacy-reviewed diagnostic bundle of [`report`](commands/report-cmd.md), for a file that fails or is not validated. It contains no data values, and free text only with `include_text: true`. It is written to a file only when `output` is given.
+`openreadout_report` builds the privacy-reviewed diagnostic bundle of [`report`](commands/report.md), for a file that fails or is not validated. It contains no data values, and free text only with `include_text: true`. It is written to a file only when `output` is given.
 
 ### openreadout_preview
 

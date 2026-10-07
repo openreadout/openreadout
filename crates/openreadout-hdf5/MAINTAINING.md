@@ -53,7 +53,7 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 | [`src/lib.rs`](src/lib.rs) | HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volumes (pyramids, LZ4/deflate chunks), NWB 2.x (session fields, plain `TimeSeries` as traces) and a |
 | [`src/nwb.rs`](src/nwb.rs) | Neurodata Without Borders (NWB 2.x, HDF5): session fields; `TimeSeries`, `ElectricalSeries` and `SpatialSeries` under `acquisition/` and `processing/`, and the intracellular |
 | [`src/nwb_tables.rs`](src/nwb_tables.rs) | NWB tables: every `DynamicTable` (electrodes, units, trials, …), the spike times of a units table, and `SpikeEventSeries`, as numeric tables |
-| [`src/nwb_write.rs`](src/nwb_write.rs) | NWB 2.x writer (`export --format nwb`): the traces of an electrophysiology file (ABF sweeps, Neuralynx, Blackrock, SpikeGLX, Intan, ...) as plain `TimeSeries` under `/acquisition/`… |
+| [`src/nwb_write.rs`](src/nwb_write.rs) | NWB 2.x writer (`export --format nwb`): the traces of an electrophysiology file (ABF sweeps, Neuralynx, Blackrock, SpikeGLX, Intan, ...) as plain `TimeSeries` under… |
 
 ### Where variants branch
 

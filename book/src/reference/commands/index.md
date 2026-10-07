@@ -6,7 +6,7 @@
 - [`check`](check.md): validate a file's integrity.
 - [`planes`](planes.md): hash every plane of a file.
 - [`compare`](compare.md): compare a file with a second file, such as its export.
-- [`report`](report-cmd.md): write a diagnostic bundle for a file OpenReadout cannot read.
+- [`report`](report.md): write a diagnostic bundle for a file OpenReadout cannot read.
 - [`export`](export.md): convert to an open format (OME-TIFF, OME-Zarr, CSV, Parquet, Arrow, mzML, NWB, JCAMP-DX, Allotrope ASM, RDML).
 - [`preview`](preview.md): render a PNG or JPEG of an image plane, a trace, a mass spectrum or a plate.
 - [`stats`](stats.md): pixel statistics per plane, channel, image or plate well.

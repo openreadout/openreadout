@@ -2,7 +2,7 @@
 //! file, read back and compared value by value, then renamed into place.
 //!
 //! Formatting and parsing numbers is most of the work, so both run on the rayon threads, in
-//! segments of rows ([`Layout`]). The file is the same for any thread count. The values
+//! segments of rows (`Layout`). The file is the same for any thread count. The values
 //! written and the values read back are each hashed per segment, and the segment hashes are
 //! hashed in order.
 

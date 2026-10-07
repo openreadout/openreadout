@@ -81,15 +81,13 @@ pub struct ExportArgs {
 /// `format = "csv"`: one table, or one sweep of a trace.
 fn export_csv(reg: &Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
     let input = PathBuf::from(&a.file);
-    let opts = {
-        let mut o = openreadout_batch::csv::CsvOptions::default();
-        o.table = a.table;
-        o.rows.clone_from(&a.rows);
-        o.labels = a.labels;
-        o.overwrite = a.overwrite;
-        o.sweep = a.sweep;
-        o.trace = a.trace;
-        o
+    let opts = openreadout_batch::csv::CsvOptions {
+        table: a.table,
+        rows: a.rows.clone(),
+        labels: a.labels,
+        overwrite: a.overwrite,
+        sweep: a.sweep,
+        trace: a.trace,
     };
     if a.spectra {
         return Err(mcp_err(&Error::Usage(

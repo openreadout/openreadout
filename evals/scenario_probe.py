@@ -177,8 +177,8 @@ def rdml(c: Cli) -> tuple[object, str]:
 
 def eds(c: Cli) -> tuple[object, str]:
     d = c.json(
-        "analyze", "qpcr", f"{D}/abhd17c_run.eds", "--ddcq", "--control-sample", sf.EDS_CONTROL, "--reference-target", sf.EDS_REF,
-        "--target", sf.EDS_TARGET, "--max-records", "0",
+        "analyze", "qpcr", f"{D}/abhd17c_run.eds", "--ddcq", "--control-sample", sf.EDS_CONTROL,
+        "--reference-target", sf.EDS_REF, "--target", sf.EDS_TARGET, "--max-records", "0",
     )  # fmt: skip
     rq = next(r["rq"] for r in d["relative_quantities"] if r["sample"] == sf.EDS_TREATED)
     return rq, "analyze qpcr --ddcq --control-sample → relative_quantities[].rq"

@@ -118,7 +118,7 @@ export default defineConfig({
                 cmd("check"),
                 cmd("planes"),
                 cmd("compare"),
-                cmd("report", "report-cmd"),
+                cmd("report"),
                 cmd("export"),
                 cmd("preview"),
                 cmd("stats"),
