@@ -222,6 +222,10 @@ enum AssuranceCmd {
         /// test write); only per-format counts are kept. Default: keep the previous counts.
         #[arg(long)]
         heldout: Option<PathBuf>,
+        /// Refresh only the files of this format (repeat for several); the evidence of every
+        /// other format is kept as it is. The results then need to cover only these formats.
+        #[arg(long = "format")]
+        formats: Vec<String>,
     },
     /// Leave-one-depositor-out cross-validation of the assurance signal on the development
     /// corpus: how often `--strict` would refuse correct files of a depositor it has not seen,
@@ -326,6 +330,7 @@ fn main() -> Result<()> {
                     bin,
                     results,
                     heldout,
+                    formats,
                 }),
             ..
         } => assurance::refresh(
@@ -338,6 +343,7 @@ fn main() -> Result<()> {
             },
             &results,
             heldout.as_deref(),
+            &formats,
         ),
         Cmd::AssuranceAudit {
             cmd: Some(AssuranceCmd::Cv { json }),

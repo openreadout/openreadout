@@ -66825,6 +66825,8 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS599 (marine toxins spectral database), AZA-26-50.d.zip"
 attribution = "MTBLS599 depositors (MetaboLights)"
 notes = "6540 Q-TOF (G6540B), MassHunter B.05.01, positive ESI, MS1 and targeted MS2, 1,689 scans"
+precursor_tolerance = 1e-5  # the export averages the recorded precursor m/z over the MS/MS scans that share a precursor
+window_centre_precursor = "every full scan was recorded with a 50 V collision energy; the export calls them MS2 with the scan window's centre as precursor, where the records say MS level 1"
 bundle = "mtbls599-6540-aza-26-50-d"
 
 [[file]]
@@ -66871,6 +66873,7 @@ license_checked = "https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD068773 
 source = "PRIDE PXD068773, 100fmolQQ_200SPD_r001.d.zip"
 attribution = "PXD068773 depositors (PRIDE)"
 notes = "6545 Q-TOF (G6545B) data directory of a MOBILion ion-mobility platform run, MassHunter 11.0, MS1 and MS2, 958 scans, 2024"
+precursor_tolerance = 1.2e-5  # the export averages the recorded precursor m/z over the MS/MS scans that share a precursor
 bundle = "pxd068773-mobilion-100fmol-r001-d"
 
 [[file]]
@@ -72567,3 +72570,72 @@ license_checked = "https://zenodo.org/records/4449746 (licence CC-BY-4.0 in the 
 source = "Zenodo 4449746 'Phages weaponize their bacteria with biosynthetic gene clusters'"
 attribution = "Dragos A, Andersen AJC et al."
 notes = "BioTek Gen5 3.03.14 export from a Synergy HTX, continuous OD and GFP kinetic read at 37 C, 96-well, Bacillus subtilis cultures; upstream 'Dragos et al., raw data_plate reader.xlsx'"
+
+# Files the signals bug hunt (docs/benchmark/hunt-2026-10-signals.md) left open, added 2026-10-07.
+[[file]]
+id = "zenodo21511646-ras-kagome-tar012"
+format = "rigaku-ras"
+family = "xrd"
+role = "input"
+tier = "smoke"
+filename = "zenodo21511646-ras-kagome-tar012.ras"
+url = "https://zenodo.org/api/records/21511646/files/FigS1_TAR_012_XRD_08212024.ras/content"
+sha256 = "8c2adbf1729f5243a49c46cdff43cd4120b26ae1abd909a33c505a4cbd9c23e0"
+size = 86304
+md5 = "7c8befc85853d9b4fc112cb933fc9838"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/21511646 (licence cc-by-4.0 in the record metadata), 2026-10-07"
+source = "Zenodo 21511646 'Data in: Confined Room-Temperature Ferromagnetism in Kagome (Fe3Sn2/CoSn) Superlattices'"
+attribution = "Dutta R, Jensen C, Tandon T et al."
+notes = "SmartLab 2θ/ω scan, 2251 points; edited by hand: the file ends after the last data row, without *RAS_INT_END and *RAS_DATA_END; upstream FigS1_TAR_012_XRD_08212024.ras"
+
+[[file]]
+id = "zenodo21511646-ras-kagome-pml321"
+format = "rigaku-ras"
+family = "xrd"
+role = "input"
+tier = "smoke"
+filename = "zenodo21511646-ras-kagome-pml321.ras"
+url = "https://zenodo.org/api/records/21511646/files/FigS1_PML%20321%20Fe-(Fe3Sn2-CoSn)-CaF2%20XRD.ras/content"
+sha256 = "6a946151aa6bd52d9cb463fd2942d68db4dc4ec5393bb48c95761616282afff8"
+size = 473183
+md5 = "caf99b3c3c75046c8f7899dff663f776"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/21511646 (licence cc-by-4.0 in the record metadata), 2026-10-07"
+source = "Zenodo 21511646 'Data in: Confined Room-Temperature Ferromagnetism in Kagome (Fe3Sn2/CoSn) Superlattices'"
+attribution = "Dutta R, Jensen C, Tandon T et al."
+notes = "SmartLab 2θ/ω scan declaring 18751 points; edited by hand: the 6250 rows from 70.0048° on start with `#`; upstream 'FigS1_PML 321 Fe-(Fe3Sn2-CoSn)-CaF2 XRD.ras'"
+
+[[file]]
+id = "figshare13601282-dk-cd"
+format = "jasco-jws"
+family = "spectroscopy"
+role = "input"
+tier = "smoke"
+filename = "figshare13601282-dk-cd.jws"
+url = "https://ndownloader.figshare.com/files/26078969"
+sha256 = "60fd621c99c9065246c7eca0dc8faef34773429163eaa12b8702cc3c147cc798"
+size = 2984
+md5 = "dfeeb1fcbf84e4d3b44ce8bfdfed16ae"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/13601282 (licence CC BY 4.0 in the item metadata), 2026-10-07"
+source = "Figshare 13601282 'peptides_CD and FRET', DK_27xi20.jws"
+attribution = "Laurents, Douglas V."
+notes = "Flat SPECMAN R2.0.0 file with two channels: J-810 circular dichroism and HT voltage, 260-190 nm in 0.5 nm steps. Ground truth: the depositor's Spectra Manager text export of the same measurement."
+
+[[file]]
+id = "figshare13601282-dk-cd"
+format = "text"
+family = "spectroscopy"
+role = "oracle-export"
+tier = "smoke"
+filename = "figshare13601282-dk-cd.txt"
+url = "https://ndownloader.figshare.com/files/26078975"
+sha256 = "332219f620d8a6b7403803b0360e521d4ffb0477eb52bae1f92a250a020b69a2"
+size = 4154
+md5 = "04f84b8224b38b6180be9787a1a53ade"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/13601282 (licence CC BY 4.0 in the item metadata), 2026-10-07"
+source = "Figshare 13601282 'peptides_CD and FRET', DK_27xi20.txt"
+attribution = "Laurents, Douglas V."
+notes = "JASCO Spectra Manager text export of the same measurement: CD[mdeg] and HT[V] columns."

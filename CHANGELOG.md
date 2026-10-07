@@ -34,6 +34,9 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- Gen5 Excel exports: kinetic tables that start in column B are read, every worksheet that holds a Gen5 export becomes its own table, and `check` reports worksheets that no reader read (`worksheet_not_read`).
+- Rigaku `.ras` files edited by hand are read: data rows commented out with `#` are left out with a warning, and a file that lost its `*RAS_INT_END` trailer is read when every declared row is there.
+- JASCO flat `.jws` files with two channels (circular dichroism and HT voltage, J-810) are read. They were refused with exit 6.
 - imzML: spectra that state no MS level are MS1 when the file's `fileContent` names only MS1 spectra, and `check` reports a spectrum whose m/z and intensity arrays differ in length (`bad_array`).
 - Rigaku RASX: reciprocal-space maps returned their scans in text order (`Data10` before `Data2`). They are now in scan order.
 - Sciex `.wiff`: a scheduled MRM file without stored windows returned every transition in every cycle. Each transition now has its expected time ± half the method's detection window; the layout stays unvalidated, because Analyst decides a window's edge cycles in a way the file does not record.
