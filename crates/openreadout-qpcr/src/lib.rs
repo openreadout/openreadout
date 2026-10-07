@@ -1,8 +1,9 @@
 //! Real-time PCR (qPCR) readers: RDML (the open interchange format, read and written),
 //! Applied Biosystems / Thermo Fisher `.eds` experiment documents (QuantStudio, ViiA 7,
 //! StepOne, 7500), Qiagen Rotor-Gene `.rex`, Roche LightCycler 480 `.ixo` (and LightCycler 96
-//! `.lc96p`, an RDML zip with the vendor's analysis); Bio-Rad CFX `.pcrd` is detected and refused
-//! (it is encrypted).
+//! `.lc96p`, an RDML zip with the vendor's analysis), and the results exports of Applied
+//! Biosystems and Bio-Rad CFX software; Bio-Rad CFX `.pcrd` is detected and refused (it is
+//! encrypted).
 //!
 //! Every file becomes the same normalized model (`docs/formats/qpcr.md`): plate runs of
 //! reactions (wells), each with the targets measured in it, the vendor-computed result (Cq,
@@ -37,6 +38,7 @@ mod analysis;
 mod assurance;
 mod dataset;
 mod eds;
+mod export;
 mod ixo;
 mod lc96;
 mod model;
@@ -73,6 +75,9 @@ pub const PCRD_FORMAT_ID: &str = "bio-rad-pcrd";
 pub const REX_FORMAT_ID: &str = rex::FORMAT_ID;
 /// Format id of Roche LightCycler 480 `.ixo` experiment files.
 pub const IXO_FORMAT_ID: &str = ixo::FORMAT_ID;
+/// Format id of qPCR results exports (Applied Biosystems `Results` tables, Bio-Rad CFX
+/// `Quantification Cq Results`).
+pub const EXPORT_FORMAT_ID: &str = export::FORMAT_ID;
 
 /// Name of the first member in a zip head (the local file header at offset 0).
 fn first_member(head: &[u8]) -> Option<String> {
@@ -445,19 +450,99 @@ impl FormatReader for IxoReader {
     }
 }
 
+/// Results exports of qPCR software: an Applied Biosystems `Results` table (StepOne, 7500,
+/// QuantStudio, ViiA 7 software; `.xls`, `.xlsx`, text) or a Bio-Rad CFX `Quantification Cq
+/// Results` table (`.csv`, `.txt`, `.xlsx`).
+#[derive(Debug, Default, Clone, Copy)]
+pub struct ExportReader;
+
+/// File extensions of results exports.
+const EXPORT_EXTENSIONS: [&str; 5] = ["xls", "xlsx", "csv", "txt", "tsv"];
+
+impl FormatReader for ExportReader {
+    fn assurance(&self) -> Option<&'static openreadout_core::assurance::AssuranceProfile> {
+        Some(&assurance::QPCR_RESULTS_EXPORT)
+    }
+
+    fn descriptor(&self) -> FormatDescriptor {
+        descriptor(
+            EXPORT_FORMAT_ID,
+            "qPCR results export (Applied Biosystems, Bio-Rad CFX)",
+            "Applied Biosystems / Thermo Fisher (StepOne, 7500, QuantStudio, ViiA 7 software); Bio-Rad (CFX Manager, CFX Maestro)",
+            &EXPORT_EXTENSIONS,
+            true,
+            false,
+            assurance::QPCR_RESULTS_EXPORT.confidence,
+            &[
+                "Applied Biosystems: the Results table (Cq or Undetermined, Cq mean and SD, threshold, baseline window, Amp Status, Tm, quantities, RQ and ΔCq), and amplification (Rn, ΔRn) and melt curves when the export holds those sheets; Sample Setup, Multicomponent Data and Raw Data sheets are not read",
+                "Bio-Rad CFX: the Quantification Cq Results table only (no curves); NaN and N/A Cq are read as no Cq; the export holds no plate size",
+                "Other exports (Amplification Results, Melt Curve Peak Results, End Point Results, Allelic Discrimination) are not recognised",
+            ],
+        )
+    }
+
+    fn sniff(&self, head: &[u8], path: &Path) -> Option<Detection> {
+        // text exports: the header row is in the first kilobytes
+        if export::is_workbook(head) || !has_extension(path, &EXPORT_EXTENSIONS) {
+            return None;
+        }
+        let (_, sheets) = export::read_sheets(head.to_vec()).ok()?;
+        export::classify(&sheets).map(|layout| Detection {
+            format_id: EXPORT_FORMAT_ID,
+            confidence: DetectConfidence::Definite,
+            note: Some(format!("{} results export", layout.name())),
+        })
+    }
+
+    fn sniff_input(&self, head: &[u8], input: &Input) -> Option<Detection> {
+        let path = input.path();
+        if !has_extension(path, &EXPORT_EXTENSIONS) {
+            return None;
+        }
+        if !export::is_workbook(head) {
+            return self.sniff(head, path);
+        }
+        // a workbook: its cells decide (exports are small; larger workbooks are not looked into)
+        let size = input.fs().metadata(path).ok()?.len();
+        if size > 16 << 20 {
+            return None;
+        }
+        let bytes = input.fs().read(path).ok()?;
+        let (_, sheets) = export::read_sheets(bytes).ok()?;
+        export::classify(&sheets).map(|layout| Detection {
+            format_id: EXPORT_FORMAT_ID,
+            confidence: DetectConfidence::Definite,
+            note: Some(format!("{} results export (workbook)", layout.name())),
+        })
+    }
+
+    fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {
+        self.open_input(&Input::local(path))
+    }
+
+    fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
+        Ok(Box::new(QpcrDataset::open_as(input, EXPORT_FORMAT_ID)?))
+    }
+
+    fn reads_any_source(&self) -> bool {
+        true
+    }
+}
+
 /// Open a qPCR file through a registry: detection decides, so a `.pcrd` gets its own refusal
 /// (exit 6 with a hint) and a file of another format says what `analyze qpcr` reads.
 pub fn open_qpcr(reg: &openreadout_core::Registry, path: &Path) -> Result<QpcrDataset> {
     let (reader, det) = reg.detect(path)?;
     match det.format_id {
         RDML_FORMAT_ID | EDS_FORMAT_ID | REX_FORMAT_ID | IXO_FORMAT_ID => QpcrDataset::open(path),
+        EXPORT_FORMAT_ID => QpcrDataset::open_as(&Input::local(path), EXPORT_FORMAT_ID),
         other => {
             // `.pcrd` explains itself when opened
             reader.open(path)?;
             Err(Error::unsupported(
                 "qpcr",
                 format!("qPCR analysis of a {other} file"),
-                "qPCR analysis reads real-time PCR files: RDML (.rdml, LightCycler 96 .lc96p), Applied Biosystems (.eds), Rotor-Gene (.rex), LightCycler 480 (.ixo). Use `info` to see what this file holds.",
+                "qPCR analysis reads real-time PCR files: RDML (.rdml, LightCycler 96 .lc96p), Applied Biosystems (.eds), Rotor-Gene (.rex), LightCycler 480 (.ixo), and the results exports of Applied Biosystems and Bio-Rad CFX software. Use `info` to see what this file holds.",
             ))
         }
     }
@@ -470,6 +555,7 @@ pub(crate) fn descriptor_of(id: &str) -> FormatDescriptor {
         REX_FORMAT_ID => RexReader.descriptor(),
         IXO_FORMAT_ID => IxoReader.descriptor(),
         PCRD_FORMAT_ID => PcrdReader.descriptor(),
+        EXPORT_FORMAT_ID => ExportReader.descriptor(),
         _ => EdsReader.descriptor(),
     }
 }

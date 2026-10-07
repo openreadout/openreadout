@@ -490,6 +490,29 @@
    "field": "Plate readers and qPCR"
   },
   {
+   "id": "qpcr-results-export",
+   "name": "qPCR results export (Applied Biosystems, Bio-Rad CFX)",
+   "vendor": "Applied Biosystems / Thermo Fisher (StepOne, 7500, QuantStudio, ViiA 7 software); Bio-Rad (CFX Manager, CFX Maestro)",
+   "extensions": [
+    "xls",
+    "xlsx",
+    "csv",
+    "txt",
+    "tsv"
+   ],
+   "family": "qpcr",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Applied Biosystems: the Results table (Cq or Undetermined, Cq mean and SD, threshold, baseline window, Amp Status, Tm, quantities, RQ and ΔCq), and amplification (Rn, ΔRn) and melt curves when the export holds those sheets; Sample Setup, Multicomponent Data and Raw Data sheets are not read",
+    "Bio-Rad CFX: the Quantification Cq Results table only (no curves); NaN and N/A Cq are read as no Cq; the export holds no plate size",
+    "Other exports (Amplification Results, Melt Curve Peak Results, End Point Results, Allelic Discrimination) are not recognised"
+   ],
+   "page": "qpcr",
+   "field": "Plate readers and qPCR"
+  },
+  {
    "id": "abf",
    "name": "Axon Binary Format (ABF)",
    "vendor": "Molecular Devices (Axon Instruments) pCLAMP",

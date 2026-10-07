@@ -50,6 +50,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_qpcr::PcrdReader))
         .with(Box::new(openreadout_qpcr::RexReader))
         .with(Box::new(openreadout_qpcr::IxoReader))
+        .with(Box::new(openreadout_qpcr::ExportReader))
         .with(Box::new(openreadout_abf::AbfReader))
         .with(Box::new(openreadout_abf::AtfReader))
         .with(Box::new(openreadout_neuralynx::NeuralynxReader))

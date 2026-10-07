@@ -41,6 +41,7 @@ fn formats_lists_all_readers() {
             "bio-rad-pcrd",
             "rotor-gene-rex",
             "roche-lightcycler-ixo",
+            "qpcr-results-export",
             "abf",
             "atf",
             "neuralynx",

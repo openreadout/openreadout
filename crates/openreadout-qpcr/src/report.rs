@@ -356,7 +356,7 @@ fn settings(a: &Assay, dialect: Dialect, req: &QpcrReportRequest) -> (Option<f64
     };
     let vendor_baseline = match (dialect, a.baseline_start, a.baseline_end) {
         (Dialect::EdsJson, Some(s), Some(e)) => Some(Baseline::Window(s, e)),
-        (Dialect::EdsSds | Dialect::Eds7500, Some(s), Some(e))
+        (Dialect::EdsSds | Dialect::Eds7500 | Dialect::AbExport, Some(s), Some(e))
             if a.auto_baseline == Some(false) =>
         {
             Some(Baseline::Window(s, e))

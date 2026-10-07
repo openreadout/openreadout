@@ -173,6 +173,7 @@ Consolidated on 2026-10-01 (pure refactors, snapshots unchanged): bounds-checked
 | helper | copies | why |
 | --- | --- | --- |
 | OLE Automation dates | `core::jet`, `em`, `plate` (Gen5) | each formats differently (zone, milliseconds, valid range) |
+| workbook cells through `calamine` | `plate` (`sheet.rs`), `qpcr` (`export.rs`) | the plate reader keeps dates and booleans as typed cells and streams every sheet; the qPCR export reader needs numbers and text only |
 | zlib inflation | `chrom` (Shimadzu TLM), `plate` (Gen5), `qpcr` (`.ixo`), `core::zip` | the callers differ in how an over-long stream is treated and the TLM header read inflates partially |
 | byte cursors | `thermo` (errors with offsets), `plate` (`Option`), `intan`, `chrom` (ChemStation results, netCDF) | sequential readers with different error types (corrupt error with offset, `Option`, `String`, a format error enum) |
 | XML helpers with other predicates | `lif` (`has_tag_name`), `mzml` (streaming `quick_xml` nodes), `oir` (custom local name) | different matching or node types |

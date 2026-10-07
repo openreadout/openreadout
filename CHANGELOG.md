@@ -12,6 +12,7 @@ All notable changes to this project are documented here. The format is based on 
 - The release workflow can sign and notarize the macOS binaries with a Developer ID, and sign the Windows binary with Azure Artifact Signing. `scripts/macos-sign.sh` does the macOS part and also runs on a Mac.
 - `.zenodo.json`, so Zenodo can archive each release with a DOI.
 - `cargo binstall openreadout` on Windows on Arm installs the x64 build.
+- qPCR results exports: the Results tables of Applied Biosystems software (StepOne, 7500, QuantStudio, ViiA 7; `.xls`, `.xlsx`, text, with their amplification and melt curves) and Bio-Rad CFX `Quantification Cq Results` (`.csv`, `.xlsx`) are read as `qpcr-results-export`, so `analyze qpcr` works on them.
 - CZI: 12-bit JPEG subblocks and chunked compression (id 7, zstd or LZ4 chunks) are decoded.
 - TIFF: 12-bit JPEG pages are read as uint16, and OME Modulo sub-dimensions (FLIM bins, lambda, angles, tiles) are listed in `images[].extra.modulo`.
 - VSI: ETS tiles with compression code 5 (lossless JPEG, as some VS120 slides store them) are decoded.
@@ -26,6 +27,9 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- SoftMax Pro 6/7 documents (`.sda`) that read two wavelengths, as dual-wavelength ELISAs do, were refused. Each wavelength is now a read of the plate table.
+- Gen5 experiment files written by Gen5 1.x were refused. Their reads are now decoded, and the reader, serial number and Gen5 version of their plate description are read at the right offsets. A refused Gen5 file now says why.
+- Tecan i-control exports with several reads per well returned no values, and German i-control exports were not recognised. Each well's value is now i-control's `Mean`, and a workbook with one export per sheet gives one plate read per sheet.
 - The Claude Code plugin failed to load because its marketplace entry and `plugin.json` both declared the skill.
 - The Homebrew formula and winget manifests attached to a release no longer start with the template's header comment.
 - Docker build records (`*.dockerbuild`) no longer end up among the release assets.

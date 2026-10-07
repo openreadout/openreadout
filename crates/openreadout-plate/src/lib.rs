@@ -215,9 +215,26 @@ fn binary_document(path: &Path, bytes: &[u8]) -> Result<Option<model::Export>> {
         })?;
         ex.finish();
         if ex.blocks.iter().all(|b| b.obs.is_empty()) {
+            // say why: the reads that were refused and the reason for each
+            let why = ex
+                .sections
+                .get("refused_reads")
+                .and_then(serde_json::Value::as_array)
+                .map(|r| {
+                    r.iter()
+                        .filter_map(serde_json::Value::as_str)
+                        .collect::<Vec<_>>()
+                        .join("; ")
+                })
+                .filter(|w| !w.is_empty());
             return Err(Error::unsupported(
                 FORMAT_ID,
-                "Gen5 experiment file whose plate data are not decoded",
+                match why {
+                    Some(w) => {
+                        format!("Gen5 experiment file whose plate data are not decoded ({w})")
+                    }
+                    None => "Gen5 experiment file whose plate data are not decoded".into(),
+                },
                 gen5_hint,
             ));
         }

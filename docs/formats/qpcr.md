@@ -1,6 +1,6 @@
 # Real-time PCR (qPCR)
 
-OpenReadout reads RDML files, which most qPCR software can export, and the native files of several instruments: Applied Biosystems `.eds`, Rotor-Gene `.rex` and LightCycler 480 `.ixo`. It returns the plate setup, the cycling program, the amplification and melt curves, and the vendor's results where the file stores them. `analyze qpcr` computes its own Cq values from the curves (see "Analysis" below). Bio-Rad `.pcrd` files are encrypted and refused. The table below lists each format.
+OpenReadout reads RDML files, which most qPCR software can export, the native files of several instruments (Applied Biosystems `.eds`, Rotor-Gene `.rex` and LightCycler 480 `.ixo`), and the results tables Applied Biosystems and Bio-Rad CFX software export. It returns the plate setup, the cycling program, the amplification and melt curves, and the vendor's results where the file stores them. `analyze qpcr` computes its own Cq values from the curves (see "Analysis" below). Bio-Rad `.pcrd` files are encrypted and refused. The table below lists each format.
 
 Derived from public files, the RDML schema and change logs (MIT) and the RDML R package (MIT) read as prior art. rdmlpython (MIT) is the reference reader and validator for RDML, and qslib (EUPL-1.2) is run as a black box. Provenance: `docs/provenance/qpcr.md`. Crate: `openreadout-qpcr`.
 
@@ -10,6 +10,7 @@ Derived from public files, the RDML schema and change logs (MIT) and the RDML R 
 | `applied-biosystems-eds` | `.eds` (QuantStudio 1-7 Pro, 12K Flex, ViiA 7, StepOne(Plus), 7500) | setup, program, per-dye multicomponent signal, Rn/ΔRn, melt, vendor results | medium |
 | `bio-rad-pcrd` | `.pcrd` (CFX Maestro / CFX Manager) | detected and refused, exit 6: the container is encrypted with a key only the vendor software has; export RDML from CFX Maestro | — |
 | `rotor-gene-rex` | `.rex` (Rotor-Gene Q Series Software) | samples, raw cycling and melt readings, profile; no results are stored | low |
+| `qpcr-results-export` | `.xls`, `.xlsx`, `.csv`, `.txt`: Applied Biosystems `Results` exports (StepOne, 7500, QuantStudio, ViiA 7 software), Bio-Rad CFX `Quantification Cq Results` | the vendor's results per well and target; Applied Biosystems amplification (Rn, ΔRn) and melt curves when the export holds those sheets | low |
 | `roche-lightcycler-ixo` | `.ixo` (LightCycler 480 software 1.5) | run, protocol, channels, samples, raw fluorescence per cycle and melt readings, the vendor's absolute-quantification Cp and calls | medium |
 
 LightCycler 96 experiment files (`.lc96p`) are RDML zips with the LightCycler 96 software's own analysis next to the RDML document; they are read as `rdml` with that analysis attached (see "LightCycler 96 `.lc96p`" below). LightCycler 480 `.lc` files (older software) have no public sample and are not read.
@@ -127,6 +128,25 @@ Files that keep only raw optical images (`apldbio/sds/images/*.tiff`, `quant/*.q
 
 **Automatic baseline windows (SDS/7500 layouts).** `analysis_protocol.xml` stores one baseline setting (`BaselineStart`/`BaselineStop`); with `AutoBaseline` true the software picks a window per well and does not store it. `baseline_start`/`baseline_end` of such a well are the window (two or more cycles) whose least-squares line through the stored Rn equals the vendor's baseline line `Rn − ΔRn` (intercept and slope within 1e-6 of the Rn scale), when exactly one window does; otherwise they are empty and a note counts the wells. They are never the setting. Checked against StepOne Software Results exports (8 StepOnePlus runs, 574 wells): 572 windows equal the exported `Baseline Start`/`Baseline End`, 2 left empty (a two-point window, a flat undetermined well). With `AutoBaseline` false the setting is the window used.
 
+## Results exports (`qpcr-results-export`)
+
+The tables qPCR software writes when a run is exported to Excel or text. We read them where the run file is missing or unreadable (a Bio-Rad `.pcrd` is encrypted). Every value comes from a column found by its header name. `dialect` in table 0 `extra` says which software wrote the export, and `export_container` how it was stored (`xls workbook`, `xlsx workbook`, `tab-delimited text`, `comma-delimited text`).
+
+**Applied Biosystems** (`applied-biosystems-export`; StepOne, 7500, QuantStudio 3/5/6/7/12K Flex and ViiA 7 software). Detected by a `Results` sheet (or any sheet, or a text file) whose header row starts with `Well`, names `Well Position`, `Sample Name` or `Target Name` and a Ct column, below a header block with `Block Type` or `Instrument Type`.
+
+| where | what we read |
+| --- | --- |
+| header block (`key`, `value` in the first two columns) | `Block Type` → plate geometry (`96well`, `96-Well 0.2-mL Block`, `384-Well Block`, `48well`; else the smallest standard plate holding every well), `Instrument Type` → instrument `model` (`steponeplus`, `QuantStudio™ 3 System`), `Instrument Serial Number`, `Chemistry`, `Passive Reference`, `Experiment Type`, `Experiment Name`, `Experiment User Name` → operator, `Experiment Run End Time` → `ended_at` (`2023-04-21 12:14:09 PM CEST` → `2023-04-21T12:14:09`, the zone not converted; `Not Started` → none). The whole block is in the vendor tree. |
+| `Results` table | wells by `Well Position` or `Well` (`A1`, or a 1-based number on the block's plate); `Sample Name`, `Target Name` (or `Detector Name`), `Task`, `Reporter` → dye, `Quencher` → the target's quencher (`None` = none); the Ct column `CT`, `Ct`, `Cт` (StepOne writes a Cyrillic `т`) or `Cq`: a number, or `Undetermined` → no Cq, `cq_status` `undetermined`; `Ct Mean`/`Cт Mean`, `Ct SD`/`Cт SD`; `Quantity` → `quantity` for standards, else `calculated_quantity`; `Ct Threshold` → `threshold` (the one used), `Automatic Ct Threshold`, `Automatic Baseline`, `Baseline Start`, `Baseline End`; `Amp Status` (`Amp`, `No Amp`, `Inconclusive`); `Cq Conf`; `Tm1`–`Tm4`; `RQ`, `Delta Ct` / `ΔCт`, `Delta Delta Ct` / `ΔΔCт` → `vendor_rq`, `vendor_delta_cq`, `vendor_delta_delta_cq`; `Omit` → `excluded`; `Comments` → note; flag columns (upper-case names such as `HIGHSD`, `NOAMP`, `THOLDFAIL`) with `Y` → `flags` (lower case). The table ends at the first line without a well. A line with no sample, target or Ct is an unused well and is left out. |
+| `Amplification Data` sheet | `Well`, `Well Position` (optional), `Cycle`, `Target Name`, `Rn`, `Delta Rn` → each result's amplification curve (`Rn`) and its baseline-corrected values (`ΔRn`) |
+| `Melt Curve Raw Data` sheet | `Well`, `Well Position`, `Reading`, `Temperature`, `Fluorescence`, `Derivative`, `Target Name` (optional) → melt curves with the vendor's −dF/dT; without a target column a well with one result takes the curve, a well with several does not (a note counts them) |
+
+`Sample Setup`, `Multicomponent Data`, `Raw Data`, `Melt Curve Result` and the depositor's own sheets are not read.
+
+**Bio-Rad CFX** (`bio-rad-cfx-export`; CFX Manager, CFX Maestro `Quantification Cq Results`). Detected by a header row naming `Well`, `Fluor`, `Content` and `Cq` (CFX writes an empty first column). `Well` (`A01`) → position; `Fluor` → dye; `Target`; `Sample`; `Content` → task (`Unkn`, `Std`, `NTC`, `NRT`, `Pos Ctrl`, `Neg Ctrl`; a `-01` replicate suffix is dropped; other text names no task and a note lists it); `Cq`: a number, or `NaN` / `N/A` (CFX's "no Cq") → `undetermined`; `Cq Mean`, `Cq Std. Dev`; `Starting Quantity (SQ)` (or `SQ`) → `quantity` for standards, else `calculated_quantity`; `Well Note` → note. The export states no plate size: the plate is the smallest standard plate holding every well, and a note says so. No curves: CFX writes them to other files (`Quantification Amplification Results`), which are not read.
+
+Checked (`tests/corpus/`, `oracle/qpcr.py` `export_file`, an independent reading of the cells with xlrd, openpyxl or the csv module): 7 Applied Biosystems exports (StepOne, QuantStudio 3, QuantStudio 7 Flex, QuantStudio 12K Flex, ViiA 7; 914 results, 36 Undetermined, 242 amplification and 242 melt curves) and 2 CFX exports (192 results, 27 without a Cq). Three of the Applied Biosystems exports are of runs whose `.eds` is in the corpus. In the two with curves, our own Cq from those curves agrees with the exported Ct (median |d| 0.02 and 0.15 cycles).
+
 ## Bio-Rad `.pcrd`
 
 Every public `.pcrd` is a zip (after a `PK\x07\x08` marker) whose single member `datafile.pcrd` has general-purpose flag bit 0 (encryption) set. Reading it would need the vendor's key; the clean-room policy (rule 4) keeps us from circumventing it. `info --view format` names the format; every other command exits 6 with a hint to export RDML from CFX Maestro (File > Export > RDML File), which `openreadout` reads. A truncated `.pcrd` is corrupt (exit 4).
@@ -169,8 +189,9 @@ Public identifiers of `crates/openreadout-qpcr` (checked by `cargo xtask vocab-c
 
 | identifier | meaning |
 | --- | --- |
-| `RdmlReader`, `EdsReader`, `PcrdReader`, `RexReader`, `IxoReader` | the five format readers |
-| `RDML_FORMAT_ID`, `EDS_FORMAT_ID`, `PCRD_FORMAT_ID`, `REX_FORMAT_ID`, `IXO_FORMAT_ID` | their format ids (`rdml`, `applied-biosystems-eds`, `bio-rad-pcrd`, `rotor-gene-rex`, `roche-lightcycler-ixo`) |
+| `RdmlReader`, `EdsReader`, `PcrdReader`, `RexReader`, `IxoReader`, `ExportReader` | the six format readers |
+| `RDML_FORMAT_ID`, `EDS_FORMAT_ID`, `PCRD_FORMAT_ID`, `REX_FORMAT_ID`, `IXO_FORMAT_ID`, `EXPORT_FORMAT_ID` | their format ids (`rdml`, `applied-biosystems-eds`, `bio-rad-pcrd`, `rotor-gene-rex`, `roche-lightcycler-ixo`, `qpcr-results-export`) |
+| `applied-biosystems-export`, `bio-rad-cfx-export` (dialects), `export_container` | the two results-export dialects; how the export was stored |
 | `ixo` (dialect), `lc96_negative_call`, `lc96_call_not_positive`, `lc480_call_<n>` (flags), `samples[].id` | the LightCycler 480 dialect id; flags of results whose stored number is not a Cq; the file's GUID of a sample renamed to its description |
 | `QpcrDataset`, `open`, `format_id`, `path` | an opened qPCR file; open with detection of the dialect; its format id; the path opened |
 | `open_qpcr` | open a qPCR file through a registry (a `.pcrd` gets its exit-6 refusal, other formats a hint) |

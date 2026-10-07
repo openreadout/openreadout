@@ -1,0 +1,1264 @@
+{
+ "id": "qpcrx-ab-stepone-caco2-il6",
+ "file": "qpcrx-ab-stepone-caco2-il6.xls",
+ "size": 73216,
+ "sha256": "9b9f8211ec073ed8796fb5a5996949951b4edcacc64c122b66df9c18161cbb2d",
+ "reader": "xlrd / openpyxl / csv over the export (independent of OpenReadout)",
+ "format": "qpcr-results-export",
+ "layout": "applied-biosystems",
+ "rows": 8,
+ "columns": 12,
+ "records": [
+  {
+   "row": 1,
+   "col": 1,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 13.990884780883789,
+   "cq_undetermined": false,
+   "tm": [
+    78.61685180664062
+   ]
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.021563529968262,
+   "cq_undetermined": false,
+   "tm": [
+    78.61685180664062
+   ]
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.045151710510254,
+   "cq_undetermined": false,
+   "tm": [
+    78.6170425415039
+   ]
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 23.324010848999023,
+   "cq_undetermined": false,
+   "tm": [
+    75.6393051147461
+   ]
+  },
+  {
+   "row": 1,
+   "col": 5,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 23.89899444580078,
+   "cq_undetermined": false,
+   "tm": [
+    76.63211822509766
+   ]
+  },
+  {
+   "row": 1,
+   "col": 6,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 25.130544662475586,
+   "cq_undetermined": false,
+   "tm": [
+    76.38394165039062
+   ]
+  },
+  {
+   "row": 1,
+   "col": 7,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.76417350769043,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039,
+    70.427734375
+   ]
+  },
+  {
+   "row": 1,
+   "col": 8,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.81104850769043,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 1,
+   "col": 9,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.90290069580078,
+   "cq_undetermined": false,
+   "tm": [
+    76.63166809082031
+   ]
+  },
+  {
+   "row": 1,
+   "col": 10,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.725191116333008,
+   "cq_undetermined": false,
+   "tm": [
+    73.40544128417969
+   ]
+  },
+  {
+   "row": 1,
+   "col": 11,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.907079696655273,
+   "cq_undetermined": false,
+   "tm": [
+    75.39415740966797
+   ]
+  },
+  {
+   "row": 1,
+   "col": 12,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.161380767822266,
+   "cq_undetermined": false,
+   "tm": [
+    75.64237213134766
+   ]
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 13.965603828430176,
+   "cq_undetermined": false,
+   "tm": [
+    78.61685180664062
+   ]
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.15019702911377,
+   "cq_undetermined": false,
+   "tm": [
+    78.36869812011719
+   ]
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.081626892089844,
+   "cq_undetermined": false,
+   "tm": [
+    78.6170425415039
+   ]
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 23.275211334228516,
+   "cq_undetermined": false,
+   "tm": [
+    76.1355972290039
+   ]
+  },
+  {
+   "row": 2,
+   "col": 5,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 23.869874954223633,
+   "cq_undetermined": false,
+   "tm": [
+    76.38394165039062
+   ]
+  },
+  {
+   "row": 2,
+   "col": 6,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 24.63414764404297,
+   "cq_undetermined": false,
+   "tm": [
+    76.13577270507812
+   ]
+  },
+  {
+   "row": 2,
+   "col": 7,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.298274993896484,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 2,
+   "col": 8,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.52444076538086,
+   "cq_undetermined": false,
+   "tm": [
+    76.63252258300781
+   ]
+  },
+  {
+   "row": 2,
+   "col": 9,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.7011661529541,
+   "cq_undetermined": false,
+   "tm": [
+    76.63166809082031
+   ]
+  },
+  {
+   "row": 2,
+   "col": 10,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.702165603637695,
+   "cq_undetermined": false,
+   "tm": [
+    73.40544128417969
+   ]
+  },
+  {
+   "row": 2,
+   "col": 11,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.895904541015625,
+   "cq_undetermined": false,
+   "tm": [
+    74.89773559570312
+   ]
+  },
+  {
+   "row": 2,
+   "col": 12,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.087085723876953,
+   "cq_undetermined": false,
+   "tm": [
+    75.64237213134766
+   ]
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 15.465941429138184,
+   "cq_undetermined": false,
+   "tm": [
+    78.36869812011719
+   ]
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.037010192871094,
+   "cq_undetermined": false,
+   "tm": [
+    78.36869812011719
+   ]
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.312677383422852,
+   "cq_undetermined": false,
+   "tm": [
+    78.368896484375
+   ]
+  },
+  {
+   "row": 3,
+   "col": 4,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 24.37127685546875,
+   "cq_undetermined": false,
+   "tm": [
+    76.1355972290039
+   ]
+  },
+  {
+   "row": 3,
+   "col": 5,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 23.618738174438477,
+   "cq_undetermined": false,
+   "tm": [
+    76.38394165039062
+   ]
+  },
+  {
+   "row": 3,
+   "col": 6,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 24.608747482299805,
+   "cq_undetermined": false,
+   "tm": [
+    76.38394165039062
+   ]
+  },
+  {
+   "row": 3,
+   "col": 7,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.53635025024414,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 3,
+   "col": 8,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.759424209594727,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 3,
+   "col": 9,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.5860595703125,
+   "cq_undetermined": false,
+   "tm": [
+    76.63166809082031
+   ]
+  },
+  {
+   "row": 3,
+   "col": 10,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 30.771682739257812,
+   "cq_undetermined": false,
+   "tm": [
+    73.90178680419922
+   ]
+  },
+  {
+   "row": 3,
+   "col": 11,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.226211547851562,
+   "cq_undetermined": false,
+   "tm": [
+    75.14595031738281
+   ]
+  },
+  {
+   "row": 3,
+   "col": 12,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.78299903869629,
+   "cq_undetermined": false,
+   "tm": [
+    75.64237213134766
+   ]
+  },
+  {
+   "row": 4,
+   "col": 1,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.02336311340332,
+   "cq_undetermined": false,
+   "tm": [
+    78.36869812011719
+   ]
+  },
+  {
+   "row": 4,
+   "col": 2,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 13.987883567810059,
+   "cq_undetermined": false,
+   "tm": [
+    78.61685180664062
+   ]
+  },
+  {
+   "row": 4,
+   "col": 3,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.08486270904541,
+   "cq_undetermined": false,
+   "tm": [
+    78.6170425415039
+   ]
+  },
+  {
+   "row": 4,
+   "col": 4,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 23.156892776489258,
+   "cq_undetermined": false,
+   "tm": [
+    76.1355972290039
+   ]
+  },
+  {
+   "row": 4,
+   "col": 5,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 23.776723861694336,
+   "cq_undetermined": false,
+   "tm": [
+    76.38394165039062
+   ]
+  },
+  {
+   "row": 4,
+   "col": 6,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 24.70206642150879,
+   "cq_undetermined": false,
+   "tm": [
+    76.38394165039062
+   ]
+  },
+  {
+   "row": 4,
+   "col": 7,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.991592407226562,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 4,
+   "col": 8,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.781980514526367,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 4,
+   "col": 9,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.207380294799805,
+   "cq_undetermined": false,
+   "tm": [
+    76.63166809082031
+   ]
+  },
+  {
+   "row": 4,
+   "col": 10,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.539091110229492,
+   "cq_undetermined": false,
+   "tm": [
+    75.14264678955078
+   ]
+  },
+  {
+   "row": 4,
+   "col": 11,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.57282257080078,
+   "cq_undetermined": false,
+   "tm": [
+    75.14595031738281
+   ]
+  },
+  {
+   "row": 4,
+   "col": 12,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.997058868408203,
+   "cq_undetermined": false,
+   "tm": [
+    75.64237213134766
+   ]
+  },
+  {
+   "row": 5,
+   "col": 1,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.03376579284668,
+   "cq_undetermined": false,
+   "tm": [
+    78.36869812011719
+   ]
+  },
+  {
+   "row": 5,
+   "col": 2,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 13.91733169555664,
+   "cq_undetermined": false,
+   "tm": [
+    78.36869812011719
+   ]
+  },
+  {
+   "row": 5,
+   "col": 3,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.638931274414062,
+   "cq_undetermined": false,
+   "tm": [
+    78.368896484375
+   ]
+  },
+  {
+   "row": 5,
+   "col": 4,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 23.744203567504883,
+   "cq_undetermined": false,
+   "tm": [
+    76.1355972290039
+   ]
+  },
+  {
+   "row": 5,
+   "col": 5,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 25.148269653320312,
+   "cq_undetermined": false,
+   "tm": [
+    75.14308166503906
+   ]
+  },
+  {
+   "row": 5,
+   "col": 6,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 24.9316349029541,
+   "cq_undetermined": false,
+   "tm": [
+    76.38394165039062
+   ]
+  },
+  {
+   "row": 5,
+   "col": 7,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.77666473388672,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 5,
+   "col": 8,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.248594284057617,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 5,
+   "col": 9,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.74063491821289,
+   "cq_undetermined": false,
+   "tm": [
+    76.63166809082031
+   ]
+  },
+  {
+   "row": 5,
+   "col": 10,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.554777145385742,
+   "cq_undetermined": false,
+   "tm": [
+    75.14264678955078
+   ]
+  },
+  {
+   "row": 5,
+   "col": 11,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.79838752746582,
+   "cq_undetermined": false,
+   "tm": [
+    75.39415740966797
+   ]
+  },
+  {
+   "row": 5,
+   "col": 12,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.654813766479492,
+   "cq_undetermined": false,
+   "tm": [
+    75.64237213134766
+   ]
+  },
+  {
+   "row": 6,
+   "col": 1,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.171299934387207,
+   "cq_undetermined": false,
+   "tm": [
+    78.36869812011719
+   ]
+  },
+  {
+   "row": 6,
+   "col": 2,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 13.903473854064941,
+   "cq_undetermined": false,
+   "tm": [
+    78.36869812011719
+   ]
+  },
+  {
+   "row": 6,
+   "col": 3,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.019347190856934,
+   "cq_undetermined": false,
+   "tm": [
+    78.368896484375
+   ]
+  },
+  {
+   "row": 6,
+   "col": 4,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 23.978649139404297,
+   "cq_undetermined": false,
+   "tm": [
+    76.1355972290039
+   ]
+  },
+  {
+   "row": 6,
+   "col": 5,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 24.626115798950195,
+   "cq_undetermined": false,
+   "tm": [
+    75.8875961303711
+   ]
+  },
+  {
+   "row": 6,
+   "col": 6,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 24.999237060546875,
+   "cq_undetermined": false,
+   "tm": [
+    76.38394165039062
+   ]
+  },
+  {
+   "row": 6,
+   "col": 7,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.943214416503906,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 6,
+   "col": 8,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.449113845825195,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 6,
+   "col": 9,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.580684661865234,
+   "cq_undetermined": false,
+   "tm": [
+    76.63166809082031
+   ]
+  },
+  {
+   "row": 6,
+   "col": 10,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.611122131347656,
+   "cq_undetermined": false,
+   "tm": [
+    74.89447021484375
+   ]
+  },
+  {
+   "row": 6,
+   "col": 11,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.976041793823242,
+   "cq_undetermined": false,
+   "tm": [
+    75.14595031738281
+   ]
+  },
+  {
+   "row": 6,
+   "col": 12,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.82784652709961,
+   "cq_undetermined": false,
+   "tm": [
+    75.64237213134766
+   ]
+  },
+  {
+   "row": 7,
+   "col": 1,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.129586219787598,
+   "cq_undetermined": false,
+   "tm": [
+    78.36869812011719
+   ]
+  },
+  {
+   "row": 7,
+   "col": 2,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 13.961732864379883,
+   "cq_undetermined": false,
+   "tm": [
+    78.36869812011719
+   ]
+  },
+  {
+   "row": 7,
+   "col": 3,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.081275939941406,
+   "cq_undetermined": false,
+   "tm": [
+    78.368896484375
+   ]
+  },
+  {
+   "row": 7,
+   "col": 4,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 23.77043914794922,
+   "cq_undetermined": false,
+   "tm": [
+    75.887451171875
+   ]
+  },
+  {
+   "row": 7,
+   "col": 5,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 24.324493408203125,
+   "cq_undetermined": false,
+   "tm": [
+    76.38394165039062
+   ]
+  },
+  {
+   "row": 7,
+   "col": 6,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 25.133159637451172,
+   "cq_undetermined": false,
+   "tm": [
+    76.13577270507812
+   ]
+  },
+  {
+   "row": 7,
+   "col": 7,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.38774299621582,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 7,
+   "col": 8,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.23713493347168,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 7,
+   "col": 9,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.34800148010254,
+   "cq_undetermined": false,
+   "tm": [
+    76.63166809082031
+   ]
+  },
+  {
+   "row": 7,
+   "col": 10,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.675201416015625,
+   "cq_undetermined": false,
+   "tm": [
+    75.14264678955078
+   ]
+  },
+  {
+   "row": 7,
+   "col": 11,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.838380813598633,
+   "cq_undetermined": false,
+   "tm": [
+    75.64237213134766
+   ]
+  },
+  {
+   "row": 7,
+   "col": 12,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.676557540893555,
+   "cq_undetermined": false,
+   "tm": [
+    75.64237213134766
+   ]
+  },
+  {
+   "row": 8,
+   "col": 1,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 14.120444297790527,
+   "cq_undetermined": false,
+   "tm": [
+    78.61685180664062
+   ]
+  },
+  {
+   "row": 8,
+   "col": 2,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 13.994267463684082,
+   "cq_undetermined": false,
+   "tm": [
+    78.36869812011719
+   ]
+  },
+  {
+   "row": 8,
+   "col": 3,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 20.46567726135254,
+   "cq_undetermined": false,
+   "tm": [
+    77.87260437011719
+   ]
+  },
+  {
+   "row": 8,
+   "col": 4,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 23.68798065185547,
+   "cq_undetermined": false,
+   "tm": [
+    76.63188171386719
+   ]
+  },
+  {
+   "row": 8,
+   "col": 5,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 24.48710823059082,
+   "cq_undetermined": false,
+   "tm": [
+    76.38394165039062
+   ]
+  },
+  {
+   "row": 8,
+   "col": 6,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 31.422664642333984,
+   "cq_undetermined": false,
+   "tm": [
+    75.6394271850586
+   ]
+  },
+  {
+   "row": 8,
+   "col": 7,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 28.89919090270996,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 8,
+   "col": 8,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.66265296936035,
+   "cq_undetermined": false,
+   "tm": [
+    76.8807144165039
+   ]
+  },
+  {
+   "row": 8,
+   "col": 9,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 33.688262939453125,
+   "cq_undetermined": false,
+   "tm": [
+    75.88716125488281
+   ]
+  },
+  {
+   "row": 8,
+   "col": 10,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.288232803344727,
+   "cq_undetermined": false,
+   "tm": [
+    75.39081573486328
+   ]
+  },
+  {
+   "row": 8,
+   "col": 11,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": 29.233501434326172,
+   "cq_undetermined": false,
+   "tm": [
+    75.64237213134766
+   ]
+  },
+  {
+   "row": 8,
+   "col": 12,
+   "target": "Target 1",
+   "sample": "Sample 1",
+   "task_raw": "UNKNOWN",
+   "dye": "SYBR",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    82.09588623046875,
+    62.487125396728516,
+    74.64952087402344
+   ]
+  }
+ ]
+}
