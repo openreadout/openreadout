@@ -25,5 +25,5 @@ keywords:
   - OME-TIFF
   - OME-Zarr
   - Model Context Protocol
-version: "0.1.0"
-date-released: "2026-10-02"
+version: "0.2.0"
+date-released: "2026-10-07"

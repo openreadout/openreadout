@@ -66,7 +66,7 @@ default-members = [
 ]
 
 [workspace.package]
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.91"
 license = "MIT OR Apache-2.0"
@@ -78,62 +78,62 @@ categories = ["command-line-utilities", "parser-implementations", "science"]
 
 [workspace.dependencies]
 # internal
-openreadout-core = { path = "crates/openreadout-core", version = "0.1.0" }
-openreadout-codecs = { path = "crates/openreadout-codecs", version = "0.1.0" }
-openreadout-jpegxr = { path = "crates/openreadout-jpegxr", version = "0.1.0" }
-openreadout-czi = { path = "crates/openreadout-czi", version = "0.1.0" }
-openreadout-nd2 = { path = "crates/openreadout-nd2", version = "0.1.0" }
-openreadout-lif = { path = "crates/openreadout-lif", version = "0.1.0" }
-openreadout-tiff = { path = "crates/openreadout-tiff", version = "0.1.0" }
-openreadout-fcs = { path = "crates/openreadout-fcs", version = "0.1.0" }
-openreadout-thermo = { path = "crates/openreadout-thermo", version = "0.1.0" }
-openreadout-agilent-ms = { path = "crates/openreadout-agilent-ms", version = "0.1.0" }
-openreadout-sciex = { path = "crates/openreadout-sciex", version = "0.1.0" }
-openreadout-waters = { path = "crates/openreadout-waters", version = "0.1.0" }
-openreadout-mzml-writer = { path = "crates/openreadout-mzml-writer", version = "0.1.0" }
-openreadout-arrow = { path = "crates/openreadout-arrow", version = "0.1.0" }
-openreadout-mzml = { path = "crates/openreadout-mzml", version = "0.1.0" }
-openreadout-bruker-tims = { path = "crates/openreadout-bruker-tims", version = "0.1.0" }
-openreadout-plate = { path = "crates/openreadout-plate", version = "0.1.0" }
-openreadout-qpcr = { path = "crates/openreadout-qpcr", version = "0.1.0" }
-openreadout-assay = { path = "crates/openreadout-assay", version = "0.1.0" }
-openreadout-oir = { path = "crates/openreadout-oir", version = "0.1.0" }
-openreadout-vsi = { path = "crates/openreadout-vsi", version = "0.1.0" }
-openreadout-wsi = { path = "crates/openreadout-wsi", version = "0.1.0" }
-openreadout-abf = { path = "crates/openreadout-abf", version = "0.1.0" }
-openreadout-neuralynx = { path = "crates/openreadout-neuralynx", version = "0.1.0" }
-openreadout-blackrock = { path = "crates/openreadout-blackrock", version = "0.1.0" }
-openreadout-spikeglx = { path = "crates/openreadout-spikeglx", version = "0.1.0" }
-openreadout-intan = { path = "crates/openreadout-intan", version = "0.1.0" }
-openreadout-plexon = { path = "crates/openreadout-plexon", version = "0.1.0" }
-openreadout-ephys = { path = "crates/openreadout-ephys", version = "0.1.0" }
-openreadout-chrom = { path = "crates/openreadout-chrom", version = "0.1.0" }
-openreadout-em = { path = "crates/openreadout-em", version = "0.1.0" }
-openreadout-nmr = { path = "crates/openreadout-nmr", version = "0.1.0" }
-openreadout-signal = { path = "crates/openreadout-signal", version = "0.1.0" }
-openreadout-ometiff = { path = "crates/openreadout-ometiff", version = "0.1.0" }
-openreadout-omezarr = { path = "crates/openreadout-omezarr", version = "0.1.0" }
-openreadout-zarr = { path = "crates/openreadout-zarr", version = "0.1.0" }
-openreadout-hdf5 = { path = "crates/openreadout-hdf5", version = "0.1.0" }
-openreadout-zvi = { path = "crates/openreadout-zvi", version = "0.1.0" }
-openreadout-oif = { path = "crates/openreadout-oif", version = "0.1.0" }
-openreadout-dcimg = { path = "crates/openreadout-dcimg", version = "0.1.0" }
-openreadout-hcs = { path = "crates/openreadout-hcs", version = "0.1.0" }
-openreadout-spectro = { path = "crates/openreadout-spectro", version = "0.1.0" }
-openreadout-fplc = { path = "crates/openreadout-fplc", version = "0.1.0" }
-openreadout-biophys = { path = "crates/openreadout-biophys", version = "0.1.0" }
-openreadout-gel = { path = "crates/openreadout-gel", version = "0.1.0" }
-openreadout-epr = { path = "crates/openreadout-epr", version = "0.1.0" }
-openreadout-xrd = { path = "crates/openreadout-xrd", version = "0.1.0" }
-openreadout-thermal = { path = "crates/openreadout-thermal", version = "0.1.0" }
-openreadout-echem = { path = "crates/openreadout-echem", version = "0.1.0" }
-openreadout-preview = { path = "crates/openreadout-preview", version = "0.1.0" }
-openreadout-quant = { path = "crates/openreadout-quant", version = "0.1.0" }
-openreadout-ops = { path = "crates/openreadout-ops", version = "0.1.0" }
-openreadout-live = { path = "crates/openreadout-live", version = "0.1.0" }
-openreadout-mcp = { path = "crates/openreadout-mcp", version = "0.1.0" }
-openreadout-index = { path = "crates/openreadout-index", version = "0.1.0" }
-openreadout-batch = { path = "crates/openreadout-batch", version = "0.1.0" }
+openreadout-core = { path = "crates/openreadout-core", version = "0.2.0" }
+openreadout-codecs = { path = "crates/openreadout-codecs", version = "0.2.0" }
+openreadout-jpegxr = { path = "crates/openreadout-jpegxr", version = "0.2.0" }
+openreadout-czi = { path = "crates/openreadout-czi", version = "0.2.0" }
+openreadout-nd2 = { path = "crates/openreadout-nd2", version = "0.2.0" }
+openreadout-lif = { path = "crates/openreadout-lif", version = "0.2.0" }
+openreadout-tiff = { path = "crates/openreadout-tiff", version = "0.2.0" }
+openreadout-fcs = { path = "crates/openreadout-fcs", version = "0.2.0" }
+openreadout-thermo = { path = "crates/openreadout-thermo", version = "0.2.0" }
+openreadout-agilent-ms = { path = "crates/openreadout-agilent-ms", version = "0.2.0" }
+openreadout-sciex = { path = "crates/openreadout-sciex", version = "0.2.0" }
+openreadout-waters = { path = "crates/openreadout-waters", version = "0.2.0" }
+openreadout-mzml-writer = { path = "crates/openreadout-mzml-writer", version = "0.2.0" }
+openreadout-arrow = { path = "crates/openreadout-arrow", version = "0.2.0" }
+openreadout-mzml = { path = "crates/openreadout-mzml", version = "0.2.0" }
+openreadout-bruker-tims = { path = "crates/openreadout-bruker-tims", version = "0.2.0" }
+openreadout-plate = { path = "crates/openreadout-plate", version = "0.2.0" }
+openreadout-qpcr = { path = "crates/openreadout-qpcr", version = "0.2.0" }
+openreadout-assay = { path = "crates/openreadout-assay", version = "0.2.0" }
+openreadout-oir = { path = "crates/openreadout-oir", version = "0.2.0" }
+openreadout-vsi = { path = "crates/openreadout-vsi", version = "0.2.0" }
+openreadout-wsi = { path = "crates/openreadout-wsi", version = "0.2.0" }
+openreadout-abf = { path = "crates/openreadout-abf", version = "0.2.0" }
+openreadout-neuralynx = { path = "crates/openreadout-neuralynx", version = "0.2.0" }
+openreadout-blackrock = { path = "crates/openreadout-blackrock", version = "0.2.0" }
+openreadout-spikeglx = { path = "crates/openreadout-spikeglx", version = "0.2.0" }
+openreadout-intan = { path = "crates/openreadout-intan", version = "0.2.0" }
+openreadout-plexon = { path = "crates/openreadout-plexon", version = "0.2.0" }
+openreadout-ephys = { path = "crates/openreadout-ephys", version = "0.2.0" }
+openreadout-chrom = { path = "crates/openreadout-chrom", version = "0.2.0" }
+openreadout-em = { path = "crates/openreadout-em", version = "0.2.0" }
+openreadout-nmr = { path = "crates/openreadout-nmr", version = "0.2.0" }
+openreadout-signal = { path = "crates/openreadout-signal", version = "0.2.0" }
+openreadout-ometiff = { path = "crates/openreadout-ometiff", version = "0.2.0" }
+openreadout-omezarr = { path = "crates/openreadout-omezarr", version = "0.2.0" }
+openreadout-zarr = { path = "crates/openreadout-zarr", version = "0.2.0" }
+openreadout-hdf5 = { path = "crates/openreadout-hdf5", version = "0.2.0" }
+openreadout-zvi = { path = "crates/openreadout-zvi", version = "0.2.0" }
+openreadout-oif = { path = "crates/openreadout-oif", version = "0.2.0" }
+openreadout-dcimg = { path = "crates/openreadout-dcimg", version = "0.2.0" }
+openreadout-hcs = { path = "crates/openreadout-hcs", version = "0.2.0" }
+openreadout-spectro = { path = "crates/openreadout-spectro", version = "0.2.0" }
+openreadout-fplc = { path = "crates/openreadout-fplc", version = "0.2.0" }
+openreadout-biophys = { path = "crates/openreadout-biophys", version = "0.2.0" }
+openreadout-gel = { path = "crates/openreadout-gel", version = "0.2.0" }
+openreadout-epr = { path = "crates/openreadout-epr", version = "0.2.0" }
+openreadout-xrd = { path = "crates/openreadout-xrd", version = "0.2.0" }
+openreadout-thermal = { path = "crates/openreadout-thermal", version = "0.2.0" }
+openreadout-echem = { path = "crates/openreadout-echem", version = "0.2.0" }
+openreadout-preview = { path = "crates/openreadout-preview", version = "0.2.0" }
+openreadout-quant = { path = "crates/openreadout-quant", version = "0.2.0" }
+openreadout-ops = { path = "crates/openreadout-ops", version = "0.2.0" }
+openreadout-live = { path = "crates/openreadout-live", version = "0.2.0" }
+openreadout-mcp = { path = "crates/openreadout-mcp", version = "0.2.0" }
+openreadout-index = { path = "crates/openreadout-index", version = "0.2.0" }
+openreadout-batch = { path = "crates/openreadout-batch", version = "0.2.0" }
 # serialization / schema
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order"] }

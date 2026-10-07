@@ -7,8 +7,8 @@ process OPENREADOUT_EXPORT {
     // shell and `openreadout` on PATH (book/src/guides/pipelines.md), or use conda/PATH.
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/openreadout:0.1.0--0' :
-        'biocontainers/openreadout:0.1.0--0' }"
+        'https://depot.galaxyproject.org/singularity/openreadout:0.2.0--0' :
+        'biocontainers/openreadout:0.2.0--0' }"
 
     input:
     tuple val(meta), path(input)

@@ -4,4 +4,4 @@ channels:
   - nodefaults
 dependencies:
   # bioconda recipe: integrations/bioconda (not yet submitted)
-  - openreadout =0.1.0
+  - openreadout =0.2.0

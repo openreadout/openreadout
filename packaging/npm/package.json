@@ -1,6 +1,6 @@
 {
   "name": "openreadout",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "mcpName": "io.github.openreadout/openreadout",
   "description": "Read raw lab-instrument files without vendor software. Runs the prebuilt OpenReadout binary for your platform.",
   "license": "MIT OR Apache-2.0",
@@ -46,11 +46,11 @@
     "LICENSE-APACHE"
   ],
   "optionalDependencies": {
-    "@openreadout/cli-darwin-arm64": "0.1.0",
-    "@openreadout/cli-darwin-x64": "0.1.0",
-    "@openreadout/cli-linux-arm64": "0.1.0",
-    "@openreadout/cli-linux-x64": "0.1.0",
-    "@openreadout/cli-win32-x64": "0.1.0"
+    "@openreadout/cli-darwin-arm64": "0.2.0",
+    "@openreadout/cli-darwin-x64": "0.2.0",
+    "@openreadout/cli-linux-arm64": "0.2.0",
+    "@openreadout/cli-linux-x64": "0.2.0",
+    "@openreadout/cli-win32-x64": "0.2.0"
   },
   "engines": {
     "node": ">=18"

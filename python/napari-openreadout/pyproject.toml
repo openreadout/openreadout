@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "napari-openreadout"
-version = "0.1.0"
+version = "0.2.0"
 description = "napari reader plugin that opens microscopy files lazily with OpenReadout"
 readme = "README.md"
 license = "MIT OR Apache-2.0"
@@ -24,7 +24,7 @@ classifiers = [
 # napari itself is not a dependency: the plugin is loaded by napari, and its tests run without
 # a GUI (npe2 reads the manifest; the reader returns plain layer data).
 dependencies = [
-  "openreadout[dask]>=0.1.0,<0.2",
+  "openreadout[dask]>=0.2.0,<0.3",
   "numpy>=1.22",
 ]
 

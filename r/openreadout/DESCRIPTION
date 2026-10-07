@@ -1,7 +1,7 @@
 Package: openreadout
 Type: Package
 Title: Read Raw Laboratory Instrument Files Without Vendor Software
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person("Richard", "Zimring", email = "openreadout@gmail.com",
         role = c("aut", "cre")),
