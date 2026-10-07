@@ -105,6 +105,7 @@ fn parse_header(f: &[String]) -> Header {
 pub(crate) fn parse(book: &Book) -> Export {
     let sheet = &book.sheets[0];
     let mut ex = Export::new(Kind::SoftMaxPro, book.container.clone());
+    ex.sheets_read.push(sheet.name.clone());
     let n = sheet.rows.len();
     let first = (0..n).find(|&r| {
         sheet

@@ -332,6 +332,7 @@ impl ModeResolver {
 pub(crate) fn parse_envision(book: &Book) -> Export {
     let sheet = &book.sheets[0];
     let mut ex = Export::new(Kind::EnVision, book.container.clone());
+    ex.sheets_read.push(sheet.name.clone());
     let n = sheet.rows.len();
     // Trailer sections first: labels, filters, instrument, assay information.
     let mut labels: Vec<(String, String)> = Vec::new();
@@ -787,6 +788,7 @@ fn push(sheet: &Sheet, g: &Grid, block: &mut Block, ch: u32) {
 pub(crate) fn parse_kaleido(book: &Book) -> Export {
     let sheet = &book.sheets[0];
     let mut ex = Export::new(Kind::Kaleido, book.container.clone());
+    ex.sheets_read.push(sheet.name.clone());
     let n = sheet.rows.len();
     let grids = super::titled_grids(sheet);
     let mut measurements: Vec<(String, String)> = Vec::new();

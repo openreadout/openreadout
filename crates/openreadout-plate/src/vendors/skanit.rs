@@ -59,6 +59,16 @@ fn step_mode(step: &str) -> Option<Mode> {
 
 pub(crate) fn parse(book: &Book) -> Export {
     let mut ex = Export::new(Kind::SkanIt, book.container.clone());
+    ex.sheets_read = book
+        .sheets
+        .iter()
+        .filter(|s| {
+            INFO_SHEETS.contains(&s.name.as_str())
+                || s.name == "Layout definitions"
+                || s.text(0, 0) == "Measurement results"
+        })
+        .map(|s| s.name.clone())
+        .collect();
     for s in book
         .sheets
         .iter()

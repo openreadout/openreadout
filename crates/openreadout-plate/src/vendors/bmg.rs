@@ -421,6 +421,13 @@ pub(crate) fn parse(book: &Book, smart_control: bool) -> Export {
                 .find(|s| !crate::grid::find_grids(s).is_empty())
         })
         .unwrap_or(&book.sheets[0]);
+    ex.sheets_read.push(data_sheet.name.clone());
+    ex.sheets_read.extend(
+        book.sheets
+            .iter()
+            .filter(|s| s.name == "Protocol Information")
+            .map(|s| s.name.clone()),
+    );
     let grids = titled_grids(data_sheet);
     let table = if grids.is_empty() {
         find_table(data_sheet, 200)
