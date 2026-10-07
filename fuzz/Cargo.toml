@@ -698,14 +698,6 @@ path = "fuzz_targets/whole_qpcr_export.rs"
 test = false
 doc = false
 bench = false
-
-[[bin]]
-name = "whole_qpcr_export_xls"
-path = "fuzz_targets/whole_qpcr_export_xls.rs"
-test = false
-doc = false
-bench = false
-
 [[bin]]
 name = "whole_chromeleon"
 path = "fuzz_targets/whole_chromeleon.rs"
