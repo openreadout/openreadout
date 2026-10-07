@@ -14,9 +14,9 @@ measured separately (`openreadout --version`, `showinf -version`, `python -c "im
 and the Python tools also time their work *inside* the process, so JVM/Python start-up is never
 silently charged to (or hidden from) per-file work.
 
-Results are merged into a JSON file (default bench/results/compare.json) keyed by
+Results are merged into a JSON file (default target/reports/bench/compare.json) keyed by
 (section, tool, file), so a long run can be split (`--section`, `--only`) and resumed; `report`
-renders the Markdown tables used in book/src/project/performance.md.
+renders the results as Markdown tables.
 
 Run it with the oracle environment, which has bioio, its plugins and the Python readers:
 
@@ -45,7 +45,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_OUT = ROOT / "bench" / "results" / "compare.json"
+DEFAULT_OUT = ROOT / "target" / "reports" / "bench" / "compare.json"
 RSS_CAP = 4 << 30  # kill any benchmark process above ~4 GiB resident
 
 # (id, file, kind): kind picks the Python comparator and whether export runs.

@@ -186,7 +186,7 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 
 ## 2026-09-26 — Channels named by `DisplaySetting` when `Information/Image` lists none; exposure checked
 
-**Why.** The per-field comparison with Bio-Formats (`oracle/metadata_compare.py`; docs/benchmark/microscopy-metadata.md) found channel names missing in `zenodo10577621-Palm-mitDrift`, `-PALM-OnlineVerrechnet`, `-winnt` and `aics-RGB-8bit`, and exposure times that differ in 11 files.
+**Why.** The per-field comparison with Bio-Formats (`oracle/metadata_compare.py`) found channel names missing in `zenodo10577621-Palm-mitDrift`, `-PALM-OnlineVerrechnet`, `-winnt` and `aics-RGB-8bit`, and exposure times that differ in 11 files.
 
 **Corpus files used:** those four; `zenodo7015307-*` (6 files), `aics-OverViewScan`, `openslide-zeiss-5-slidepreview-*`, `ome-idr0011-Plate1-Blue-A-02-Scene-{1,2}-*` for the exposures. **Prior art consulted:** czifile (BSD-3-Clause) to list the metadata XML and each subblock's metadata segment.
 

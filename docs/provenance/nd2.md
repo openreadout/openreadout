@@ -102,7 +102,7 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 
 ## 2026-09-24 — RGB sample order (Richard Zimring with Claude as assistant)
 
-**Trigger.** Finding M1 of `docs/benchmark/heldout-2026-09-24.md`: an RGB ND2 (colour camera) exported with red and blue swapped compared with NIS-Elements' own export. Per the held-out rules that file was not opened; the order was established on development-corpus files.
+**Trigger.** Finding M1 of the first held-out draw (2026-09-24): an RGB ND2 (colour camera) exported with red and blue swapped compared with NIS-Elements' own export. Per the held-out rules that file was not opened; the order was established on development-corpus files.
 
 **Corpus files used:** `zenodo8161776-VPA002` (Zenodo 8161776, CC-BY-4.0: four RGB picture planes named DAPI, GFP, Texas Red and DIC in the record description, DS-Ri2 colour camera, modern container), `aics-ND2-dims-rgb` and `aics-ND2-dims-rgb-t3p2c2z3x64y64` (DS-Fi3, brightfield, modern), `ome-aryeh-Time-sequence-24` (legacy JPEG 2000 container, colour camera, phase contrast).
 
@@ -118,7 +118,7 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 
 **Scope:** performance only; no new interpretation of the file. A multichannel frame is split into all its channels in one pass (`deinterleave.rs`, checked byte for byte against a naive gather in unit tests) and the other channels are kept for the next reads of that frame; frame chunks are found through a frame-number index built from the chunk map (`ImageDataSeq|N!` names, as before); the chunk header of a frame is read with one positional read and checked against the name the map gives (any other header layout takes the previous two-read path). Output unchanged: `check --planes` hashes identical on every ND2 of the corpus (`corpus_matches_oracle`, nd2: 27 files pass) and the region oracle of `ome-karl-sample-image`.
 
-**Corpus files used:** `ome-karl-sample-image`, `zenodo21162526-nd2jobs`, `zenodo21162526-nested-loop`, `zenodo21162526-NDacquisition`, `ome-jonas-control002` (timings in `book/src/project/performance.md`). **Prior art consulted:** none.
+**Corpus files used:** `ome-karl-sample-image`, `zenodo21162526-nd2jobs`, `zenodo21162526-nested-loop`, `zenodo21162526-NDacquisition`, `ome-jonas-control002`. **Prior art consulted:** none.
 
 ## 2026-09-25 — assurance profile (`src/assurance.rs`)
 
@@ -135,7 +135,7 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 
 ## 2026-09-26 — Filter-band wavelengths are band centres; one shared sample setting applies to every plane
 
-**Why.** The per-field comparison with Bio-Formats (`oracle/metadata_compare.py`, docs/benchmark/microscopy-metadata.md): emission 500 vs 525 nm (`aics-ND2-aryeh-but3-cont200-1`, `ome-aryeh-weekend002`) and 615 vs 640 nm (`ome-aryeh-por003`); exposure missing on every channel but the first of `zenodo21162526-{nested-loop,NDacquisition,nd2jobs}`.
+**Why.** The per-field comparison with Bio-Formats (`oracle/metadata_compare.py`): emission 500 vs 525 nm (`aics-ND2-aryeh-but3-cont200-1`, `ome-aryeh-weekend002`) and 615 vs 640 nm (`ome-aryeh-por003`); exposure missing on every channel but the first of `zenodo21162526-{nested-loop,NDacquisition,nd2jobs}`.
 
 **Corpus files used:** those six; every development ND2 for the regression check. **Prior art consulted:** the `nd2` package (BSD-3-Clause), run for `metadata.channels[].channel.emissionLambdaNm` (None for the legacy aryeh files) and `unstructured_metadata()` (the `SampleSetting` entries).
 

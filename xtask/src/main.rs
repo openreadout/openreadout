@@ -14,7 +14,7 @@
 //! - `publish-order` — the publishable crates in crates.io dependency order (CI and release read it)
 //! - `guides [--write]` — every reader crate's MAINTAINING.md: generated facts current, hand-written sections present
 //! - `coverage [--crate NAME] [--corpus] [--from lcov.info]` — coverage per crate and the uncovered regions of the readers
-//! - `health [--write]` — the generated project-health page of the book
+//! - `health [--write] [--reports DIR]` — an internal project-health report (target/reports/health.md)
 //! - `snapshot review|accept` — golden-output snapshots of every fixture and corpus file (docs/maintaining.md)
 //! - `variant intake|status|check` — the new-variant loop: a file or report bundle → corpus entry, intake record, provenance stub (docs/maintaining.md)
 #![forbid(unsafe_code)]
@@ -122,12 +122,14 @@ enum Cmd {
         stop_after: Option<u64>,
     },
     /// Check (or with --write regenerate) every reader's validated-variant table and confidence
-    /// level from the development-corpus evidence (corpus/assurance/evidence.json) and the
-    /// evidence page of the book; `refresh` rebuilds that evidence (docs/assurance.md).
+    /// level from the development-corpus evidence (corpus/assurance/evidence.json); `--write`
+    /// also writes the internal per-format report target/reports/evidence.md. `refresh` rebuilds
+    /// that evidence (docs/assurance.md).
     AssuranceAudit {
         #[command(subcommand)]
         cmd: Option<AssuranceCmd>,
-        /// Rewrite the generated tables and the evidence page instead of failing on drift.
+        /// Rewrite the generated tables instead of failing on drift, and write
+        /// target/reports/evidence.md.
         #[arg(long)]
         write: bool,
     },
@@ -163,13 +165,17 @@ enum Cmd {
     /// uncovered regions of every reader crate (`--corpus`: with the corpus tests too);
     /// `--from lcov.info` summarizes an existing run. Writes target/coverage/summary.md.
     Coverage(coverage::CoverageArgs),
-    /// Print (or with --write update) the project-health page of the book
-    /// (book/src/project/health.md): confidence distribution, corpus, evidence, held-out results,
-    /// open findings and safety nets, computed from the repository.
+    /// Print (or with --write save) an internal project-health report: confidence distribution,
+    /// corpus, evidence, held-out results, open findings and safety nets, computed from the
+    /// repository.
     Health {
-        /// Write book/src/project/health.md instead of printing it.
+        /// Write target/reports/health.md instead of printing the report.
         #[arg(long)]
         write: bool,
+        /// Folder holding the benchmark reports (the latest heldout-*.json and
+        /// second-opinions.md); defaults to $OPENREADOUT_REPORTS. Without it those parts are left out.
+        #[arg(long)]
+        reports: Option<PathBuf>,
     },
     /// Golden-output snapshots (docs/maintaining.md § Regression snapshots): `review` shows how
     /// the last `golden`/`snapshots` test run differs from the committed records; `accept` takes it.
@@ -354,7 +360,7 @@ fn main() -> Result<()> {
         Cmd::VersionCheck { tag } => packaging::version_check(tag.as_deref()),
         Cmd::Variant { cmd } => variant::run(cmd),
         Cmd::Guides { write } => guides::run(write),
-        Cmd::Health { write } => health::run(write),
+        Cmd::Health { write, reports } => health::run(write, reports),
         Cmd::Coverage(a) => coverage::run(&a),
         Cmd::Snapshot { cmd } => snapshot::run(cmd),
         Cmd::PublishOrder { flags } => publish::run(flags),

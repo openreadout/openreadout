@@ -8,7 +8,7 @@ OpenReadout is meant for cases where Bio-Formats fits less well:
 
 - **No runtime.** It is one static binary with no JVM. It installs in one step on a CI runner, in a minimal container, on a locked-down lab PC or in an agent's sandbox.
 - **Output for programs.** Every command can print JSON with a published schema, exit codes have fixed meanings, and errors carry a hint. The same operations are available as an MCP server.
-- **Fast metadata.** `info` reads headers only, so it answers in milliseconds even on multi-gigabyte files (see [Performance](performance.md)).
+- **Fast metadata.** `info` reads headers only, so it answers in milliseconds even on multi-gigabyte files.
 - **Permissive license.** OpenReadout is MIT OR Apache-2.0, so it can be embedded in closed-source tools. The Bio-Formats format readers are GPL.
 - **Beyond microscopy.** The same commands cover mass spectrometry, flow cytometry, chromatography, electrophysiology, NMR, spectroscopy, plate readers, qPCR and more ([Formats](../formats/index.md)).
 
@@ -16,7 +16,7 @@ See also the [comparison with other tools](comparison.md).
 
 ## Is it validated?
 
-We compare each reader with independent readers on a corpus of public files and write down the reason for each disagreement ([Validation](validation.md)). CI runs the smallest tier of that corpus on every push.
+We compare each reader with independent readers on a corpus of public files and write down the reason for each disagreement ([How we validate](how-we-validate.md)). CI runs the smallest tier of that corpus on every push.
 
 This is not validation in the regulatory sense (IQ/OQ/PQ under GxP). See [regulated use](#can-i-use-it-in-a-regulated-gxp-21-cfr-part-11-lab) below.
 
@@ -40,7 +40,7 @@ From files we are allowed to use, by reading hex dumps and comparing files that 
 openreadout export big.czi --format ome-zarr --image 0 --select c=0 --select t=0-9 -o subset.ome.zarr
 ```
 
-OME-Zarr output is chunked and can include a pyramid. In Python, `File.to_dask()` decodes a plane only when a computation needs it. Measured numbers are on the [performance](performance.md) page.
+OME-Zarr output is chunked and can include a pyramid. In Python, `File.to_dask()` decodes a plane only when a computation needs it.
 
 ## Can I use it in a regulated (GxP, 21 CFR Part 11) lab?
 

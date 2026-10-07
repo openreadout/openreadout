@@ -26,8 +26,13 @@ CORPUS_RESULTS=/tmp/results.jsonl cargo test -p openreadout-corpus-tests --featu
 MZ_RESULTS=/tmp/mz.jsonl cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test mz_agreement
 VENDOR_RESULTS=/tmp/vendor.jsonl cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test chromeleon every_signal
 SECOND_RESULTS=/tmp/second.jsonl cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test second_fields
-cargo xtask assurance-audit refresh --results /tmp/results.jsonl --results /tmp/mz.jsonl --results /tmp/vendor.jsonl --results /tmp/second.jsonl   # writes corpus/assurance/evidence.json
-cargo xtask assurance-audit --write                                # regenerates the tables and book/src/project/evidence.md
+PLATE_RESULTS=/tmp/plate.jsonl cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test plate_binary
+QPCR_ROCHE_RESULTS=/tmp/qpcr.jsonl cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test qpcr_roche
+THERMO_DETECTOR_RESULTS=/tmp/thermo.jsonl cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test thermo_detectors
+HDF5_RESULTS=/tmp/hdf5.jsonl cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test hdf5_structure
+cargo xtask assurance-audit refresh --results /tmp/results.jsonl --results /tmp/mz.jsonl --results /tmp/vendor.jsonl --results /tmp/second.jsonl \
+  --results /tmp/plate.jsonl --results /tmp/qpcr.jsonl --results /tmp/thermo.jsonl --results /tmp/hdf5.jsonl   # writes corpus/assurance/evidence.json
+cargo xtask assurance-audit --write                                # regenerates the tables; writes target/reports/evidence.md
 cargo xtask assurance-audit                                        # CI: fails when anything is stale
 ```
 
@@ -66,14 +71,11 @@ it is validated only by development files of its format whose comparison checked
 A value read from a field whose meaning a published specification or the vendor's own
 documentation gives (its experiment provenance is `spec` or `vendor-impl`) is read from a
 validated location and is not tracked. Second opinions count as such comparisons: the
-field-level second-opinion test (`second_fields`; `docs/benchmark/second-opinions.md`) sets each
+field-level second-opinion test (`second_fields`) sets each
 family's acquisition time (zones handled per reader) and instrument model against an independent
 reader or the vendor's own export, and its results list the tracked fields a second reader
 **agreed** with; a difference adjudicated in our favour lets the file pass but confirms nothing,
-and one adjudicated against us (or `neither`) fails the file. With them, 561 of the 1043
-development files holding an acquisition time and 173 of the 646 holding an instrument model
-(time and model not read from a documented field) have them confirmed, from 85 and 14 (refreshed
-2026-09-26; SoftMax Pro text exports' save times no longer count as acquisition times). A field no oracle has checked is withheld by `--strict` and named in `reasons`; the level does not change (the value is read along validated paths), and nothing else is refused because of it. A value derived by a rule no oracle confirmed makes the file `partially_validated`, as an assumed value does.
+and one adjudicated against us (or `neither`) fails the file. A field no oracle has checked is withheld by `--strict` and named in `reasons`; the level does not change (the value is read along validated paths), and nothing else is refused because of it. A value derived by a rule no oracle confirmed makes the file `partially_validated`, as an assumed value does.
 
 ### Vendor-stored results
 
@@ -90,8 +92,7 @@ it validates only the signals the results were computed from: the results line l
 features (`features`, `stored_result_features` in the evidence), so peaks integrated on a UV
 signal do not confirm the codec or layout of a pressure or flow signal in the same archive
 (since 2026-10-06; before, every trace feature of the archive counted). A file confirmed
-this way counts as a confirmed file in the rubric (the evidence page says how many were
-confirmed only so); a stored result our values do not reproduce is a failure. Agreement must be
+this way counts as a confirmed file in the rubric; a stored result our values do not reproduce is a failure. Agreement must be
 non-trivial: for Chromeleon, at least 10 stored peaks per archive, every one reproduced with area
 and height within 1e-6 relative (`VENDOR_RESULTS=<file> cargo test -p openreadout-corpus-tests
 --features corpus --profile corpus --test chromeleon every_signal`, then `refresh --results <file>`).
@@ -109,8 +110,7 @@ plane) are not in the assurance block. Readers refuse those with exit 6 when the
 A structure a reader recognises and does not decode is `undecoded`. With a scope it makes those
 outputs `unvalidated`; without one it is left out and the file is `partially_validated`. The plate
 reader reports both since 2026-10-06: an export that yields no values, or a plate block without
-values, is undecoded with the tables scope (draw D's BMG kinetic export was `validated` with no
-values, and three fuzz fixtures without plate data were too), and a read or plate section it refuses
+values, is undecoded with the tables scope, and a read or plate section it refuses
 by name (`multiple_reads_without_mean`, `plate_not_decoded`, `read_not_decoded`, `table_axis_not_decoded`,
 `unsupported_read_type`) is left out. The UNICORN reader does the same for curves it refuses (a member cut short, or bare floats instead of a serialized array): `info` notes that the file is damaged, and the traces are undecoded, so the file is never `validated` for them, whatever its comparison covered. A table with no rows is not enough on its own: event tables
 of electrophysiology files are often empty, and correctly so.
@@ -125,30 +125,16 @@ verdict). Every development file agrees with its oracle, so this measures the pr
 `--strict` for a new depositor, not its recall: how often it would refuse an output that an
 independent reader confirmed.
 
-| 2026-09-26 | before (`main` at `8432da8e`) | after |
-| --- | --- | --- |
-| confirmed files | 839 | 864 |
-| refused on an output their comparison checked | 314 (37.4 %) | 292 (33.8 %) |
-| refused because of the instrument model | 33 | 10 |
-| refused because of a plate export dialect | 30 | 23 |
-| with a withheld field | – | 553 (64 %) |
+Most refusals come from variant features that only one depositor's files carry (a format
+version, an acquisition mode, a layout). A format whose development files all come from one
+depositor is refused whole for any new depositor, which is what the rule means. The
+mass-spectrometry profiles scope the instrument generation instead of the exact model string,
+because packet layouts follow the generation. An unseen format or writer version between two
+validated versions of the same family and major version is partial instead of refused.
 
-The rest of the refusals are variant features that only one depositor's files carry (a format
-version, an acquisition mode, a layout): formats with one depositor (all 22 ABF files come from
-one repository) are refused whole for any new depositor, which is what the rule means. Two
-changes lowered the price without a new depositor: the mass-spectrometry profiles scope the
-instrument generation instead of the exact model string (packet layouts follow the generation),
-and an unseen format or writer version between two validated versions of the same family and
-major version is partial instead of refused. The rest came from new depositors.
-
-No development file fails its oracle, so recall cannot be cross-validated on it. The reader
-errors the third held-out draw found were reproduced on new development files before they were
-fixed (`docs/provenance/plate-readers.md`, 2026-09-26); the assurance that `main` gave those
-files before the fix is the closest development measure of recall: of six files with missing or
-misassigned values, two were `unvalidated` for `tables` (a semicolon-delimited container never
-seen), three `partially_validated` and one `validated` (an EnVision export returning no values).
-Errors in single values (a read mode, a measurement time) are what `inferred`, field coverage and
-`strict_withholds` now address.
+No development file fails its oracle, so recall cannot be cross-validated on it. Held-out runs
+measure it instead (`docs/benchmark/heldout.md`). Errors in single values, such as a read mode or
+a measurement time, are what `inferred`, field coverage and `strict_withholds` address.
 
 ## The confidence rubric
 
@@ -163,8 +149,9 @@ not assigned by hand:
 
 *Depositors* are distinct source records: a Zenodo record, a MetaboLights study, a PRIDE project,
 a GitHub repository, an OME sample directory. The held-out input is the per-format pass/fail
-count of the latest held-out run, which is only measured (`docs/benchmark/heldout.md`). The
-current table, with every input, is the generated evidence page (`book/src/project/evidence.md`, "Evidence per format" in the book).
+count of the latest held-out run, which is only measured (`docs/benchmark/heldout.md`).
+`cargo xtask assurance-audit --write` writes the current table, with every input, to
+`target/reports/evidence.md`, which is not committed.
 
 ## Adding a reader
 
@@ -173,7 +160,7 @@ current table, with every input, is the generated evidence page (`book/src/proje
    (no scope), and add an empty generated block.
 2. In `impl FormatReader`, add `fn assurance(&self) -> Option<&'static AssuranceProfile> { Some(&assurance::FMT) }`
    and take `confidence` from the profile (`confidence: assurance::FMT.confidence`).
-3. Run the four commands above and commit the evidence, the tables and the evidence page.
+3. Run the commands above and commit the evidence and the tables.
 
 A reader without a profile still works, but every file it reads is `unvalidated`, and
 `openreadout-cli`'s test `every_reader_declares_an_assurance_profile` fails.
@@ -198,106 +185,6 @@ reader exists, the corpus compares against it too (`cargo test -p openreadout-co
   whether they agree. Every recorded disagreement must be adjudicated.
 
 A disagreement fails the test until `corpus/oracle/second/adjudications.toml` says which reader
-is right (`openreadout`, `second` or `neither`) and why. On 2026-09-26, 201 development files
-had a second reader and 4,048 of their planes agreed with it; 87 recorded second opinions
-agreed; 21 files were not compared because the series are grouped differently. Twenty-five
-files were adjudicated (20 plane comparisons, 5 recorded opinions). Twenty-three are
-conventions or errors of the second reader:
-- rows flipped and image stacks as Z (Bio-Formats on MRC);
-- colour samples split into channels in stored order, and other colour-ND2 layouts misread
-  (Bio-Formats);
-- Java JPEG and JPEG 2000 decoders one to 14 grey levels away from libjpeg-turbo and OpenJPEG;
-- a MetaMorph file set grouped by name;
-- pylibCZIrw's zstd1-HiLo decode of 48-bit RGB;
-- readlif reading half-float FLIM maps as integers;
-- brukeropusreader on three OPUS 8 files;
-- fcsparser on an inconsistent FlowIO test file and on FCS 3.2 per-measurement types;
-- a script artefact on per-scene time points.
-
-In two (`zenodo10577621-PALM-OnlineVerrechnet`, `zenodo10577621-Palm-mitDrift`) neither reader
-was right: OpenReadout mis-registered super-resolved PALM renderings. Fixed 2026-09-25 (each
-stored-to-logical ratio is its own image with the rendering's pixel size, equal to czifile's
-stored-size reading; `docs/provenance/czi.md`); the adjudications now name OpenReadout. Two whole-slide planes above 4 GiB, which OpenReadout
-reads by region only, were refused (exit 6) and not compared.
-
-## Measured on the held-out set
-
-The profiles and tables were written and generated from development files only. Afterwards, on
-2026-09-26, `info` was run on the 76 held-out inputs and each file's level was set against its
-held-out corpus-test result. This was measurement only; nothing was tuned on it.
-
-| held-out result | validated | partially validated | unvalidated |
-| --- | --- | --- | --- |
-| pass (68) | 36 | 24 | 8 |
-| FAIL (6) | 1 | 3 | 2 |
-| oracle error (2) | 2 | 0 | 0 |
-
-Both held-out failures that are reader errors were `unvalidated`, and `--strict` would have
-refused the affected outputs: a CZI written by a ZEN generation absent from the development
-corpus, where the pyramid-level geometry differs, and Shimadzu traces returned without the
-detector scaling LabSolutions applies. The other four failures come from the oracle or from a
-converter's conventions (docs/benchmark/heldout-2026-09-24.md, findings O2, L1 and O-1): an
-incomplete allotropy reading, RawConverter's charge and centroid conventions (two files), and
-Bio-Formats disagreeing with tifffile. On those, `partially_validated` or `validated` is the
-correct answer. The price of the guarantee is 8 held-out files that were read correctly but are
-still `unvalidated`, because their variant has not yet been confirmed on a development file.
-
-The CZI failure above later turned out to be an oracle error (factor-3 pyramids), so the
-first measurement caught its one real reader error. A second measurement followed the third held-out draw
-(docs/benchmark/heldout-2026-09-26c.md): 171 held-out inputs, 90 of them new, with every
-disagreement adjudicated.
-
-| verdict | validated | partially validated | unvalidated | refused (exit 6) |
-| --- | --- | --- | --- | --- |
-| agree (143) | 71 | 56 | 16 | 0 |
-| oracle or converter error (7) | 2 | 4 | 1 | 0 |
-| reader error (4) | 1 | 1 | 2 | 0 |
-| unresolved (1) | 1 | 0 | 0 | 0 |
-| unsupported variant, no oracle (4) | 0 | 0 | 0 | 4 |
-
-`--strict` would have refused both reader errors in which values were missing or unscaled: a BMG
-spectrum export that yields no values, and the Shimadzu traces. It did not refuse the two metadata
-errors, an EnVision read mode left `unknown` and a JASCO measurement time, because the signal
-describes how values are decoded, not how fields are labelled. It did not refuse the unresolved
-ÄKTA peak heights either. So `unvalidated` has 2/2 recall for value errors and 2/5 over all
-errors, at a precision of 2/19. 17 correctly read files are refused, because their variant has
-not yet been confirmed on a development file. The four variants that no third-party reader
-supports either were refused by the readers themselves, with exit 6 and a hint, not read wrongly.
-
-The same 171 inputs were measured once more after derived values, field coverage, vendor-stored
-results and instrument generations were added (commit `1eebdb43`; the release binary, nothing
-tuned on the result). The BMG spectrum export and the EnVision read mode had been reproduced on
-new development files and fixed, and both now agree with their oracles; the EnVision mode is
-reported in `inferred` (derived from the detector code) and the file is `partially_validated`.
-
-| verdict | validated | partially validated | unvalidated | refused (exit 6) |
-| --- | --- | --- | --- | --- |
-| agree (143) | 71 | 57 | 15 | 0 |
-| fixed since (2) | 1 | 1 | 0 | 0 |
-| oracle or converter error (7) | 2 | 5 | 0 | 0 |
-| reader error (2) | 1 | 1 | 0 | 0 |
-| unresolved (1) | 1 | 0 | 0 | 0 |
-| unsupported variant, no oracle (4) | 0 | 0 | 0 | 4 |
-
-No remaining reader error is refused whole: the Shimadzu traces are now scaled (the remaining
-error is a 0.01 min time-axis offset) and their layout is `partially_validated`, and neither the
-ÄKTA peak heights nor the JASCO file are. The JASCO error is a measurement time, which `--strict`
-now withholds (`experiment.acquisition.started_at` has never been compared on a JASCO
-development file), so one of the three remaining errors is kept out of strict output, at field
-level. File-level refusals fall from 17 correct files to 15 (0/15 precision, against 2/19); the
-Orbitrap ID-X, an FT-ICR mzML and the semicolon BMG export are no longer refused. Withholding is
-cheap but not precise: 99 of the 152 files read correctly have a withheld field (measurement time
-96, instrument model 68), because most formats have no oracle that compares those fields.
-
-
-Draw D (2026-10-06, `docs/benchmark/heldout-2026-10-06d.md`) measured 104 new inputs with an
-independent verdict on 93: `--strict` refused 2 of the 6 reader errors that returned data, at a
-precision of 2 of 15, and 13 correctly read files were `unvalidated`. D-H5, D-M1, D-L4, D-G1 and
-D-G4 were then fixed on development files, D-L1 and D-L2 turned out to be oracle conventions, and
-three changes went into the signal: the plate rule above, the ion polarity of
-a timsTOF mobility run as a variant feature (a negative run's 1/K0 is derived by a rule no vendor
-conversion has confirmed, so `--strict` withholds it), and the columns of EC-Lab text exports as
-descriptive features (a text export reads every column with one number parser). Re-measured after
-the fixes (a re-measurement, not a fresh test): 2 of the 3 remaining reader errors that return data
-are refused, at a precision of 2 of 16, and 14 correct files are `unvalidated`, the added one a
-headerless Empower export whose layout no development file confirms.
+is right (`openreadout`, `second` or `neither`) and why.
+Whole-slide planes above 4 GiB, which OpenReadout
+reads by region only, are refused (exit 6) and not compared.

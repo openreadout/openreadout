@@ -151,7 +151,7 @@ export default defineConfig({
           label: "Trust",
           collapsed: true,
           items: [
-            { label: "Validation", slug: "project/validation" },
+            { label: "How we validate", slug: "project/how-we-validate" },
             { label: "Comparison with other tools", slug: "project/comparison" },
             { label: "FAQ", slug: "project/faq" },
             { label: "Clean-room policy", slug: "project/clean-room" },

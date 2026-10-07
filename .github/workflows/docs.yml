@@ -61,8 +61,6 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "22"
-      - name: Regenerate the project-health page from the repository
-        run: cargo xtask health --write
       # The format list on the site is the CLI's own (`self formats --json`), and every flag in
       # `<command> --help` must be on that command's reference page.
       - name: Format list and command reference from the CLI

@@ -5,7 +5,7 @@ each development input and its values are written as *checks* to
 `corpus/oracle/second/fields/<id>.json`. The corpus test
 `crates/openreadout-corpus-tests/tests/second_fields.rs` runs OpenReadout, finds our value for
 each check and compares; a difference fails until `corpus/oracle/second/adjudications.toml`
-says who is right and why (docs/benchmark/second-opinions.md).
+says who is right and why.
 
 A family plugs in with a module in this package exposing
 

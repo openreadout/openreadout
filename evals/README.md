@@ -94,7 +94,7 @@ Rules for honest numbers:
 - Optimize against `dev` only. Read only the aggregate score of `test`; `triage.py` refuses it without `--unseal`.
 - Run at least three repeats; agents are not deterministic.
 - Quote `test`, `with` against `baseline`, with the model, the Claude Code and OpenReadout versions, the number of questions and repeats, and the intervals.
-- Report `heldout` on its own, next to `test`. Held-out benchmark reports are in [docs/benchmark/](../docs/benchmark/heldout.md).
+- Report `heldout` on its own, next to `test`. The held-out protocol is in [docs/benchmark/heldout.md](../docs/benchmark/heldout.md).
 
 ## Adding a question
 

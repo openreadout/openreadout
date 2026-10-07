@@ -136,7 +136,7 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 **Inferred / validated.** Every GDAL-written sample (WebP lossy and lossless, JPEG XL, LERC in 8 sample types, with and without masks, deflate- and zstd-wrapped, strips, tiles, planar) decodes to exactly tifffile + imagecodecs' samples. Masked LERC pixels are 0 in tifffile's output (checked on both float samples: 128 masked pixels, all 0), so we write 0. For old-style JPEG, that ReferenceBlackWhite applies was inferred from libtiff's output: JFIF conversion is 9.5 grey levels off on average, the section 21 conversion 1.02.
 ## 2026-09-24 — JPEG colour: photometric RGB pages holding YCbCr streams (Richard Zimring with Claude as assistant)
 
-**Trigger.** Finding H2 of `docs/benchmark/heldout-2026-09-24.md`: an OME-TIFF written by Bio-Formats 6.7 (JPEG, photometric RGB, 256 × 256 tiles) decodes to wrong colours with no warning. Per the held-out rules the file itself was not opened; the problem was reproduced on new fixtures.
+**Trigger.** Finding H2 of the first held-out draw (2026-09-24): an OME-TIFF written by Bio-Formats 6.7 (JPEG, photometric RGB, 256 × 256 tiles) decodes to wrong colours with no warning. Per the held-out rules the file itself was not opened; the problem was reproduced on new fixtures.
 
 **Corpus files used.** The eight `synthetic-tiff-jpeg-*` fixtures (written by `oracle/make_tiff_jpeg_fixtures.py` from a 1300 × 1000 crop of `openslide-aperio-cmu-1-small-region`, CC0-1.0), and for regression the existing JPEG TIFFs `openslide-aperio-cmu-1-small-region`, `openslide-aperio-cmu-1`, `openslide-hamamatsu-cmu-1` and `ome-qptiff-hande-compressed-scan1`.
 
@@ -283,7 +283,7 @@ laser, filter, PMT voltage, pixel size, scan mode, scanner software).
 
 ## 2026-10-07 — Hamamatsu NDPI sets (`.ndpis`) read as one multichannel image
 
-**Why.** The October imaging bug hunt (`docs/benchmark/hunt-2026-10-imaging.md`) found that an NDPI set exits 3. NanoZoomer fluorescence scans write one NDPI per filter set and a small text file that lists them.
+**Why.** The October imaging bug hunt (2026-10) found that an NDPI set exits 3. NanoZoomer fluorescence scans write one NDPI per filter set and a small text file that lists them.
 
 **Corpus files used:** `ome-ndpi-manuel-test3` (new: `test3.ndpis` from the OME sample directory `Hamamatsu-NDPI/manuel`, CC-BY-4.0, the directory that already gives the three member files `ome-ndpi-manuel-test3-dapi`, `-fitc` and `-tritc`). No other public `.ndpis` was found (OpenSlide's test data has none; Zenodo searches for `ndpis` return nothing).
 

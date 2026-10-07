@@ -278,7 +278,7 @@ opt-level = "z"
 
 # `cargo bench` (criterion suite in crates/openreadout-bench). Same optimization level as
 # release, but thin LTO and parallel codegen so the suite builds in minutes on a laptop; the
-# end-to-end numbers in book/src/project/performance.md come from the real release profile.
+# end-to-end numbers from bench/compare.py come from the real release profile.
 [profile.bench]
 lto = "thin"
 codegen-units = 16

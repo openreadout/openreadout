@@ -1,6 +1,6 @@
 """Held-out draw D (2026-10-06): questions about the fourth generalization draw.
 
-The fourth draw (docs/benchmark/heldout-2026-10-06d.md) adds held-out inputs from source records
+The fourth draw adds held-out inputs from source records
 no development or earlier held-out file uses. Its questions were written from the held-out oracles
 (`corpus/oracle/heldout/<id>.json`), the depositors' exports and records, and facts computed with
 third-party readers, and committed before OpenReadout was run on any of these files.

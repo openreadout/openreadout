@@ -1,4 +1,4 @@
-//! Memory ceiling of image export (book/src/project/performance.md, "Memory ceiling").
+//! Memory ceiling of image export.
 //!
 //! Export holds a bounded number of decoded planes in memory whatever the size of the file:
 //! peak heap is a function of the plane size and the thread count, not of the plane count.

@@ -13,7 +13,7 @@ The second release. In short:
 - **More mass spectrometry.** Current Thermo instruments (Orbitrap Astral, Ascend, Eclipse, IQ-X, ID-X, TSQ Altis Plus, FAIMS runs) are validated, Waters ion-mobility and SONAR drift bins and Sciex QTRAP scans are read, and Agilent GC/MSD and MassHunter 10 data that used to come back empty or wrong are fixed.
 - **Microscopy codecs and whole slides.** CZI 12-bit JPEG and chunked zstd/LZ4 subblocks, 12-bit JPEG TIFF pages, lossless-JPEG VSI tiles, Hamamatsu NDPI sets and OME-Zarr NGFF 0.5 stores are read. `stats` works on whole-slide levels larger than memory.
 - **Plates and qPCR.** Applied Biosystems and Bio-Rad CFX results exports are read, `analyze qpcr` can compute Cq itself, and Gen5, SoftMax Pro, Tecan and BMG exports that were refused or returned no values now work.
-- **Measured on new data.** A fourth held-out draw (draw D, 104 new files) and three bug hunts (imaging, mass spectrometry and chromatography, signals) found the errors fixed below. Hundreds of new development files with independent ground truth raise the confidence of several readers.
+- **Tested on new data.** New held-out files and bug hunts in imaging, mass spectrometry, chromatography and signals found the errors fixed below. New development files with independent ground truth raise the confidence of several readers.
 - **Easier installs.** npm installs the binary from a platform package instead of downloading it, the macOS binaries are signed and notarized, the install scripts check the release checksums, and there is a bioconda recipe for the program and conda-forge recipes for the Python packages.
 
 ### Added
@@ -30,11 +30,11 @@ The second release. In short:
 - OME-Zarr: two public NGFF 0.5 stores from the Image Data Resource (sharded Zarr v3, with a label image) are development files, so NGFF 0.5 is validated on files OpenReadout did not write. `resolution_levels` gives a sharded array's inner chunk size as its tile size.
 - OME-TIFF export writes int8, int16 and int32 planes (MRC micrographs and segmentations), which it used to refuse with exit 6.
 - qPCR results exports: the Results tables of Applied Biosystems software (StepOne, 7500, QuantStudio, ViiA 7; `.xls`, `.xlsx`, text, with their amplification and melt curves) and Bio-Rad CFX `Quantification Cq Results` (`.csv`, `.xlsx`) are read as `qpcr-results-export`, so `analyze qpcr` works on them.
-- `analyze qpcr --compute-cq` (`openreadout_qpcr` `compute_cq`) can compute Cq by `--cq-method` (`cq_method`) `stored-threshold` or `second-derivative`, and LightCycler 480 `.ixo` files now default to `second-derivative`, which is 0.03 cycles from the instrument's Cp on average instead of 2.3.
+- `analyze qpcr --compute-cq` (`openreadout_qpcr` `compute_cq`) can compute Cq by `--cq-method` (`cq_method`) `stored-threshold` or `second-derivative`, and LightCycler 480 `.ixo` files now default to `second-derivative`, which comes much closer to the instrument's own Cp.
 - Roche LightCycler 480 `.ixo`: `vendor.export_scale` gives the factor that turns each stored amplification reading into the value the LightCycler 480 software exports. The instrument model is taken from the run's instrument name only when that names a LightCycler, so a lab's serial number is no longer reported as the model.
 - Malvern Zetasizer `.dts`: size records now return their Z-average, PdI and intensity peak means and areas, checked against the Zetasizer software's exports of two depositors (software 7.10 and 7.12). Peak widths and the number and volume peaks stay withheld, because no export in the corpus holds them. Sample names whose material block begins with 2 instead of 1 are no longer empty.
 - Empower `.arw` exports whose header has one `"name"<TAB>value` field per line are read. They were refused.
-- New development files with independent ground truth raise the confidence of imzML, Bruker ESP and FluoView OIB to high, and of Empower `.arw`, UNICORN `.res`, Zetasizer `.dts`, LightCycler 480 `.ixo`, FluoView OIF, WinWCP, Rigaku RASX and generic HDF5 to medium (`docs/benchmark/gaps-2026-10.md`).
+- New development files with independent ground truth raise the confidence of imzML, Bruker ESP and FluoView OIB to high, and of Empower `.arw`, UNICORN `.res`, Zetasizer `.dts`, LightCycler 480 `.ixo`, FluoView OIF, WinWCP, Rigaku RASX and generic HDF5 to medium.
 - The release workflow can sign and notarize the macOS binaries with a Developer ID, and sign the Windows binary with Azure Artifact Signing. `scripts/macos-sign.sh` does the macOS part and also runs on a Mac.
 - `cargo binstall openreadout` on Windows on Arm installs the x64 build.
 - A bioconda recipe for the program (`integrations/bioconda/`) and conda-forge recipes for the Python packages (`integrations/conda-forge/`).
@@ -54,6 +54,7 @@ The second release. In short:
 - Plate exports: an export the reader recognises but whose values it does not read is now `unvalidated` for tables, so `--strict` refuses it. It was `validated`.
 - Assurance: Chromeleon's stored peaks confirm only the signals they were found on, not every trace layout in the archive.
 - EC-Lab text exports: a column no development file had no longer makes the traces `unvalidated`, since every column is read by the same number parser.
+- The documentation site has one page, [How we validate](https://openreadout.github.io/openreadout/project/how-we-validate.html), in place of the Validation, Project health, Evidence per format, m/z agreement and Performance pages.
 
 ### Fixed
 

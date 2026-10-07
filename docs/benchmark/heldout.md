@@ -58,9 +58,9 @@ cargo xtask heldout-check                                       # the rules belo
    record by the same lab has another number (rule 3), a line that says the record is held out is a
    disclosure and passes, and the records of `exposed` entries are left out (rule 7). `cargo xtask heldout-check` (also a test in `cargo test -p xtask` and a CI step)
    fails if one does.
-2. **A held-out failure is fixed on a new file.** The generalization report
-   (`docs/benchmark/heldout-<date>.md`) lists what fails, with severity, so the failures can be
-   assigned. The fix is developed on a NEW public file that shows the same problem, added to the
+2. **A held-out failure is fixed on a new file.** Each draw's report lists what fails, with
+   severity, so the failures can be assigned. The reports are kept with the maintainers' notes, not
+   in the repository. The fix is developed on a NEW public file that shows the same problem, added to the
    development corpus with its own provenance entry; the held-out file only confirms afterwards that
    the fix generalizes. If no other file shows the problem, the held-out file is moved to the
    development corpus (and out of the held-out set, questions and all) and a replacement held-out
@@ -109,70 +109,3 @@ cargo xtask heldout-check                                       # the rules belo
    questions about them carry `exposed` and `evals/stats.py` leaves them out of held-out accuracy.
    `cargo xtask heldout-check` prints every exposed entry and refuses an `exposed` value that is not
    a dated statement on a held-out input. An exposed input never becomes unexposed.
-
-## Measurements
-
-| draw | report | inputs | agreement with an independent oracle when first measured |
-| --- | --- | --- | --- |
-| 2026-09-24 (A) | [heldout-2026-09-24.md](heldout-2026-09-24.md) | 54 | 46 of 53 (87 %) |
-| 2026-09-24b (B) | [heldout-2026-09-24b.md](heldout-2026-09-24b.md) | 22 | 17 of 21 (81 %) |
-| 2026-09-26 (bench) | below | 5 | 1 of 3 (the ITC "pass" compared nothing: [draw C](heldout-2026-09-26c.md), C-O3) |
-| 2026-09-26c (C) | [heldout-2026-09-26c.md](heldout-2026-09-26c.md) | 90 (82 counted, 8 exposed) | 67 of 71 (94.4 %, 95 % CI 86.4–97.8); 69 of 71 after adjudication; 4 variants refused cleanly (as first reported, with the 8 exposed inputs: 74 of 78) |
-| 2026-10-06d (D) | [heldout-2026-10-06d.md](heldout-2026-10-06d.md) | 105 | 77 of 94 (81.9 %, 95 % CI 72.9–88.4); 85 of 94 after adjudication (90.4 %, CI 82.8–94.9); 4 variants refused with a hint; mass spectrometry 8 of 13 after adjudication, the rest 77 of 81 |
-
-A draw's first measurement is the generalization number: later runs over the same files follow
-fixes developed on other files, so they are no longer a fresh test. The latest run over all 292
-inputs (2026-10-06, `main` at `572e5922`), without the 9 exposed inputs: 219 of 252 agree (86.9 %,
-CI 82.2–90.5), 240 of 252 after adjudication (95.2 %, CI 91.9–97.3). The adjudication of every
-disagreement is in [heldout-2026-10-06d-classes.json](heldout-2026-10-06d-classes.json), and the
-reader errors of draw D, for fixing on other files, in
-[heldout-2026-10-06d-findings.json](heldout-2026-10-06d-findings.json). Eleven held-out inputs
-added for the bench formats after draw C have no `draw` yet.
-
-## Incidents
-
-Exposures of held-out files to development work, recorded so the reader of a held-out score can judge it.
-
-- **2026-10-06, a LabSolutions record draw D reserved had been opened in development.** While
-  fixing draw D's findings, the fixing workstream noticed that `docs/provenance/shimadzu.md`
-  (2026-09-26) lists figshare 31095109 among records it looked at and did not add: the Shimadzu
-  work had opened `LUM_IF_L3.lcd` of that record. Draw D later held out another file of the record
-  (`ho-figshare31095109-lcd-lumefantrine`), which now carries `exposed` (rule 7).
-  `cargo xtask heldout-check` did not catch the mention: it looks for held-out ids, download URLs
-  and file names, and the log names only the record and another of its files.
-
-- **2026-10-06, draw D adjudication looked inside a few held-out files.** To classify the draw-D
-  disagreements, the measuring workstream (which changes no reader) read the cell concentration line
-  of the ITC file's text header, the first rows of the TA Universal Analysis export, the first and
-  last 16 bytes of the DM3 line profile, the scan index arrays of the 2003 ANDI file with SciPy, the
-  processing metadata of the two Sciex exports, and OpenReadout's own output on every disagreeing
-  file. What it found is in the draw-D report and its findings file, at the level of behaviour.
-  Nothing was used for a reader change, and whoever fixes these findings works from new files.
-
-- **2026-09-26, draw C reserved eight records development work had used.** Before draw C, the
-  electrophysiology and spectroscopy work had added development files from eight source
-  records that draw C then held out; for five of them the development file *is* the held-out file.
-  The development entries and their oracles were removed when the draw was merged, and the eight
-  held-out inputs carry `exposed` (rule 7): `ho-zenodo11586428-pl2-v4` (the offline-written PL2
-  rules — footer offset 0, the 10-word end record — were inferred from files of this record, this
-  one among them), `ho-figshare26337268-ncs-hpc` (the `.nvt` reader was first run on this record's
-  video-tracker file; the held-out `.ncs` was not opened), and six read-and-passed-unchanged files
-  with nothing inferred: `ho-zenodo5139650-abf-stns`, `ho-zenodo17294324-opus-silica`,
-  `ho-zenodo21396092-spa-dust`, `ho-zenodo10885924-spa-raman`, `ho-zenodo21456008-sp-aeb`,
-  `ho-zenodo3898505-sp-microplastic`. Draw C's headline is restated without them in its report
-  (addendum).
-
-- **2026-09-24, detection sweep.** `corpus/files/files` was a symlink back to `corpus/files`. A development script passed it to `openreadout info --view format -r`, which followed it into the held-out `ho-*` folders and ran header-only format detection on them. The engineer saw only the detected format names in a listing; no header, value or oracle was read, and nothing was used for or cited in any change. The symlink was removed, and the committed detection test (`crates/openreadout-corpus-tests/tests/detect.rs`) starts only from folders the development manifest names. Impact on held-out scores: none expected (every held-out file's format was already detected correctly in the first generalization report).
-- **2026-09-26, bench-instrument held-out files.** The held-out ÄKTA/UNICORN, Image Lab, MicroCal ITC, JASCO and Seahorse files were downloaded by checksum-verifying scripts that did not print their content, and their ground truth was written by `oracle/gen_heldout.py`. The engineer saw the oracle scripts' one-line summaries (for the Seahorse file: well, reading and measurement counts and the background-well ratio) and listed the top-level key names of four held-out oracle JSONs to write the held-out questions (`evals/heldout.py`, `ho-bench-*`); no value was used for or cited in a reader change. Separately, a development Image Lab file turned out to come from a Zenodo record that also holds a held-out Rotor-Gene file (held out 2026-09-24); the `.scn` file was removed from the development corpus (`docs/provenance/biorad-scn.md`). It is unrelated to the qPCR reader.
-
-## First measurement of the bench-instrument held-out files (2026-09-26)
-
-Recorded by `heldout_agreement_is_recorded`; nothing was changed in a reader because of it.
-
-| file | format | result |
-| --- | --- | --- |
-| `ho-zenodo16611302-scn-biochimlab` | `biorad-scn` | pass: the plane equals Bio-Formats' |
-| `ho-zenodo21529576-itc-igp1-serk2` | `microcal-itc` | pass (structure only: 13 injections) |
-| `ho-zenodo8277227-seahorse-taz` | `agilent-seahorse-asyr` | pass (self-consistency; background wells flattest) |
-| `ho-gh-artiums-unicorn-histrap` | `cytiva-unicorn-zip` | FAIL: UNICORN's peak-table heights are 3-6 % below the curve value at the peak (the development files agreed within 2 %); whether UNICORN reports heights above a baseline is to be checked on a new development file |
-| `ho-zenodo22832447-jws-ftir-atr` | `jasco-jws` | FAIL: the measurement time differs from the export's by far more than a time zone; the time field this file uses is to be identified on a new development file |

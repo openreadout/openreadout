@@ -18,8 +18,7 @@
 //!
 //! Every reference point with non-zero intensity is matched to our nearest point in m/z. The
 //! report gives, per pair, the spectra and points compared and the |ppm| median, 99th
-//! percentile and maximum, plus the intensity agreement: the numbers quoted in
-//! `docs/benchmark/mz-agreement.md`.
+//! percentile and maximum, plus the intensity agreement.
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test mz_agreement -- --nocapture`
 //! Env: `OPENREADOUT_CORPUS_DIR` overrides `corpus/files`; `CORPUS_ONLY=<substring>` filters ids.

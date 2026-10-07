@@ -352,7 +352,7 @@ with openreadout.File("cells.lif") as f:
 
 ## Validation
 
-Readers are tested against about 1,500 public instrument files. Each file's geometry, metadata, and plane hashes are compared with independent libraries (czifile, nd2, liffile, Bio-Formats, FlowIO, pyABF, and others), and pixel data must match exactly. See [Validation](https://openreadout.github.io/openreadout/project/validation.html).
+Readers are checked against independent readers on public instrument files, as [How we validate](https://openreadout.github.io/openreadout/project/how-we-validate.html) explains.
 
 Every reader was written from public files and permissively licensed documentation — no vendor SDKs, headers, DLLs, or GPL source code. See the [clean-room policy](docs/legal/clean-room-policy.md).
 

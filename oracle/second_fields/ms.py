@@ -247,8 +247,7 @@ def header_checks(rec: Rec, q: Path, reader: int, fmt: str):
         rec.check("acquisition software version", "/experiment/instrument/software_version", vendor_sw[0][1],
                   cmp="prefix", reader=reader)
     if h.get("start") and re.match(r"\d{4}-\d{2}-\d{2}", h["start"]):  # (not "-infinity")
-        # ProteoWizard writes the converting computer's local clock with a "Z" (compare
-        # docs/benchmark/second-opinions.md): the same reading up to a zone offset
+        # ProteoWizard writes the converting computer's local clock with a "Z", so the reading matches only up to a zone offset
         rec.check("acquisition start (up to a zone offset)", "/experiment/acquisition/started_at", h["start"],
                   cmp="time_mod_zone", abs=2.0, reader=reader)
 

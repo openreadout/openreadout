@@ -171,4 +171,4 @@ The automated tests compare these analyses with independent tools and with the v
 - Automatic integration in every baseline mode is compared with the peak tables of Agilent ChemStation, Agilent OpenLab CDS, Shimadzu LabSolutions and Thermo Chromeleon. `auto` is the default because it is at least as close to every vendor data set as `drop`.
 - Spectral regions are compared with NumPy on the samples of independent readers, with OMNIC's CSV exports and with TopSpin's integrals. Detected bands are compared with `scipy.signal.find_peaks`.
 
-The tests are in [`crates/openreadout-corpus-tests/tests/`](https://github.com/openreadout/openreadout/tree/main/crates/openreadout-corpus-tests/tests) (`quant.rs`, `peak_agreement.rs`, `bands.rs`). How the test corpus and the reference readers work is on the [validation page](../project/validation.md).
+The tests are in [`crates/openreadout-corpus-tests/tests/`](https://github.com/openreadout/openreadout/tree/main/crates/openreadout-corpus-tests/tests) (`quant.rs`, `peak_agreement.rs`, `bands.rs`). [How we validate](../project/how-we-validate.md) explains how the test corpus and the reference readers work.

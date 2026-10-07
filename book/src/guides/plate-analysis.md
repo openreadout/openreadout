@@ -203,4 +203,4 @@ Mistakes in the request are usage errors (exit 2) with a message that says what 
 
 ## Validation
 
-The curve fits, back-calculation, dose-response, kinetics, growth and quality metrics are compared with independent implementations and with the results that plate-reader software stores in its exports. The method is on the [validation page](../project/validation.md); the reference tools and data are logged in [docs/provenance/plate-analysis.md](https://github.com/openreadout/openreadout/blob/main/docs/provenance/plate-analysis.md).
+The curve fits, back-calculation, dose-response, kinetics, growth and quality metrics are compared with independent implementations and with the results that plate-reader software stores in its exports. [How we validate](../project/how-we-validate.md) explains the method, and the reference tools and data are logged in [docs/provenance/plate-analysis.md](https://github.com/openreadout/openreadout/blob/main/docs/provenance/plate-analysis.md).

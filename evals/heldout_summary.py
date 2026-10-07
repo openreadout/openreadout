@@ -1,7 +1,7 @@
 """Summarize a held-out probe run (evals/heldout_probe.py JSON) for a generalization report.
 
-    uv run python heldout_summary.py ../docs/benchmark/heldout-<date>.json \\
-        [--classes ../docs/benchmark/heldout-<date>-classes.json] [--draw 2026-09-26c]
+    uv run python heldout_summary.py <reports>/heldout-<date>.json \\
+        [--classes <reports>/heldout-<date>-classes.json] [--draw 2026-09-26c]
 
 Per held-out input it takes one verdict. Without an adjudication, from the run alone:
   - `agree`: the deep comparison (`heldout_agreement_is_recorded`) passed and the probe's field

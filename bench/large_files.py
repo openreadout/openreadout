@@ -4,8 +4,7 @@
 Each case runs the binary once to warm the page cache, then `--reps` more times under
 `/usr/bin/time -l` (macOS) or `/usr/bin/time -v` (Linux). The median wall time and the largest
 peak RSS are reported, with the 1-minute load average after the case. Outputs go to a temporary
-directory that is emptied before every run. Results and the table are in
-docs/benchmark/large-files.md.
+directory that is emptied before every run.
 
     python3 bench/large_files.py run BINARY [--reps 3] [--only REGEX] [--out results.json]
     python3 bench/large_files.py report BEFORE.json AFTER.json    # Markdown table

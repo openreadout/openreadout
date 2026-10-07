@@ -1,16 +1,16 @@
 #!/usr/bin/env python
-"""Tables of docs/benchmark/second-opinions.md from the second-opinion test's report.
+"""Tables of second-opinion results from the second-opinion test's report.
 
     SECOND_REPORT=/tmp/second.jsonl cargo test -p openreadout-corpus-tests --features corpus \\
         --release --test second_fields
-    python oracle/second_report.py /tmp/second.jsonl [docs/benchmark/second-opinions.md]
+    python oracle/second_report.py /tmp/second.jsonl [page.md]
 
 The report has one line per check (`id, format, family, field, reader, status, normalized,
 right, why`). The script rewrites the text between `<!-- BEGIN GENERATED -->` and
 `<!-- END GENERATED -->` of the page: per family and format, files, checks, agreements,
 adjudicated differences (ours right / theirs right / neither), gaps (theirs only), and the files
-whose acquisition time and instrument model a second reader confirmed. The prose around it is
-written by hand.
+whose acquisition time and instrument model a second reader confirmed. The text outside the markers is left alone. A missing page is created
+with empty markers.
 """
 from __future__ import annotations
 
@@ -84,9 +84,10 @@ def tables(rows: list[dict]) -> str:
 
 def main(argv: list[str]) -> int:
     report = Path(argv[1])
-    page = Path(argv[2]) if len(argv) > 2 else ROOT / "docs" / "benchmark" / "second-opinions.md"
+    page = Path(argv[2]) if len(argv) > 2 else ROOT / "target" / "reports" / "second-opinions.md"
     rows = [json.loads(l) for l in report.read_text().splitlines() if l.strip()]
-    text = page.read_text()
+    page.parent.mkdir(parents=True, exist_ok=True)
+    text = page.read_text() if page.exists() else f"{BEGIN}\n{END}\n"
     a, b = text.index(BEGIN) + len(BEGIN), text.index(END)
     page.write_text(text[:a] + "\n\n" + tables(rows) + "\n" + text[b:])
     print(f"{page}: {len(rows)} checks")

@@ -1,4 +1,4 @@
-"""Header-less Gen5 exports for the development corpus (N-M2 of docs/benchmark/heldout-2026-09-24b).
+"""Header-less Gen5 exports for the development corpus (finding N-M2 of held-out draw B, 2026-09-24).
 
 Gen5's export options can leave the file header out (`Software Version` ... `Reading Type`, and
 with it the procedure): the text then starts at the `Layout` section. No public, licensed export of

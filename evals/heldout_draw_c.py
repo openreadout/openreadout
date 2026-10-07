@@ -1,6 +1,6 @@
 """Held-out draw C (2026-09-26): questions about the third generalization draw.
 
-The third draw (docs/benchmark/heldout-2026-09-26c.md) adds 90 held-out inputs from 89 source
+The third draw adds 90 held-out inputs from 89 source
 records no development or earlier held-out file uses. These questions were written from the
 held-out oracles (`corpus/oracle/heldout/<id>.json`), the depositors' exports and records, and
 facts computed here with third-party readers, before OpenReadout was run on any of these files.

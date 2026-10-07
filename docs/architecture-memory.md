@@ -102,7 +102,7 @@ the last cycle's values (2026-10-07):
 `figshare28409411-vsi-dotslide` (a cellSens VSI slide, level 0 31,740 x 20,970 RGB, 1.9 GB as one
 plane). The VSI reader used to decode every tile of a plane before pasting any, so it held the
 plane twice. It now decodes and pastes 64 MiB of tiles at a time (2026-10-07, found by the
-imaging deep pass, `docs/benchmark/deep-pass-2026-10-imaging.md`; test
+imaging deep pass; test
 `crates/openreadout-corpus-tests/tests/vsi_memory.rs`):
 
 | command | before | after |

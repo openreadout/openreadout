@@ -233,4 +233,4 @@ From Python, `openreadout.batch()` (with `"summarize"` for `summarize`) and `ope
 
 ## Validation
 
-The table measures, sample-sheet reading, group statistics and `link` are checked against independent readers and SciPy on the test corpus. The method and results are on the [validation page](../project/validation.md).
+The table measures, sample-sheet reading, group statistics and `link` are checked against independent readers and SciPy on the test corpus. [How we validate](../project/how-we-validate.md) explains the method.

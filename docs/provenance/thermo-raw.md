@@ -104,7 +104,7 @@ Search method for the non-MTBLS404 files: PRIDE v3 API listings (`/pride/ws/arch
 
 ## 2026-09-24 — Orbitrap Exploris generation, flagged peaks, monoisotopic precursor, filter rounding (Richard Zimring with Claude as assistant)
 
-**Trigger:** held-out findings H1 (an Orbitrap Exploris 480 file unreadable: `packet header describes 2616 bytes, index says 2732`), M2 (Q Exactive HF PRM: one centroid fewer than a 2024 export on 2,247 of 2,909 scans) and L1 (no precursor charge on LTQ XL and TSQ files) of `docs/benchmark/heldout-2026-09-24.md`. None of the held-out files was opened; every observation below is from the new development files.
+**Trigger:** held-out findings H1 (an Orbitrap Exploris 480 file unreadable: `packet header describes 2616 bytes, index says 2732`), M2 (Q Exactive HF PRM: one centroid fewer than a 2024 export on 2,247 of 2,909 scans) and L1 (no precursor charge on LTQ XL and TSQ files) of the first held-out draw (2026-09-24). None of the held-out files was opened; every observation below is from the new development files.
 
 **Search:** PRIDE v3 API (`/search/projects?keyword=Exploris|Astral|Ascend|"LTQ XL"`, then `/projects/<PXD>/files`) and the MetaboLights FTP `FILES/` listings of the studies EBI Search returns for `"Exploris"`, `"Q Exactive HF"` and `"LTQ"`, for `.raw` files with a same-stem `.mzML`/`.mzXML` (scripts in the session scratchpad). Astral/Ascend pairs were all ≥ 4 GB and were not taken. Every chosen export records the SHA-1 of its `.raw` (mzML `sourceFile`, mzXML `parentFile`), which matched the downloaded file.
 

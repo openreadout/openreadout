@@ -156,7 +156,7 @@ development file.
 
 ## 2026-10-07 — RAS files edited by hand: no end marker, data rows commented out (Richard Zimring with Claude as assistant)
 
-**Why:** the signals bug hunt (`docs/benchmark/hunt-2026-10-signals.md`) left two RAS files from one record exiting 4.
+**Why:** the signals bug hunt (2026-10) left two RAS files from one record exiting 4.
 
 **Corpus files:** `zenodo21511646-ras-kagome-tar012` (`FigS1_TAR_012_XRD_08212024.ras`) and `zenodo21511646-ras-kagome-pml321` (`FigS1_PML 321 Fe-(Fe3Sn2-CoSn)-CaF2 XRD.ras`), Zenodo 21511646 "Data in: Confined Room-Temperature Ferromagnetism in Kagome (Fe3Sn2/CoSn) Superlattices" (Dutta, Jensen, Tandon et al., CC-BY-4.0; no held-out record). Both are SmartLab 2θ/ω scans.
 

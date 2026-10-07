@@ -57,7 +57,7 @@ The `whole_plate_xlsx` fuzz target (3 min; seeds `magellan-pro-compact.xlsx`, `s
 
 ## 2026-09-24 — i-control 1.11 comma-delimited CSV and SparkControl CSV (Richard Zimring with Claude as assistant)
 
-**Trigger:** held-out finding M3 (`docs/benchmark/heldout-2026-09-24.md`): an i-control 1.11 comma-delimited export was detected but gave no values, and `check` exited 4. The held-out file was not opened; the layout was derived from the two new development files below.
+**Trigger:** finding M3 of the first held-out draw (2026-09-24): an i-control 1.11 comma-delimited export was detected but gave no values, and `check` exited 4. The held-out file was not opened; the layout was derived from the two new development files below.
 
 **Corpus files added:**
 - `tecan-icontrol-csv-kinetic-wellr` — `tecanON1.csv` from the wellr R package (GitHub BradyAJohnston/wellr @3fa4a8d, `inst/extdata/`; MIT, LICENSE checked 2026-09-24): i-control 1.11.1.0, infinite 200Pro, comma-delimited with a UTF-8 BOM, 120 kinetic cycles of absorbance (595 nm) and luminescence, 96 wells.
@@ -283,7 +283,7 @@ Held-out draw D reported a CLARIOstar kinetic table-view export that returned no
 
 ## 2026-10-07 — Gen5 Excel kinetic tables, and workbooks with several Gen5 exports (Richard Zimring with Claude as assistant)
 
-**Why:** the signals bug hunt (`docs/benchmark/hunt-2026-10-signals.md`) found that `zenodo4449746-gen5-synergy-htx` yields no values: `info` calls it `unvalidated` and `check` exits 4 (`no_plate_data`). The reader also read only the first worksheet of a workbook and said nothing about the others, and this workbook holds seven Gen5 exports, one per sheet.
+**Why:** the signals bug hunt (2026-10) found that `zenodo4449746-gen5-synergy-htx` yields no values: `info` calls it `unvalidated` and `check` exits 4 (`no_plate_data`). The reader also read only the first worksheet of a workbook and said nothing about the others, and this workbook holds seven Gen5 exports, one per sheet.
 
 **Corpus files:** `zenodo4449746-gen5-synergy-htx` (Zenodo 4449746, "Phages weaponize their bacteria with biosynthetic gene clusters", Dragos, Andersen et al., CC-BY-4.0; no held-out record). The development workbooks with several sheets were run before and after the change: `bmg-smart-control-fi`, `skanit-elisa-steps`, `tecan-icontrol-kinetic-xlsx`, `tecan-icontrol-multiread-kinetic-tread`, `tecan-icontrol-multiread-endpoint-tread`, `tecan-icontrol-multiread-segments-tread`, `tecan-icontrol-de-multiread-kinetic-sgt`, `zenodo7922369-spark-lipid-mixing`, `zenodo21627132-clariostar-cou3-050`, `zenodo21627132-clariostar-cou3-200`.
 
