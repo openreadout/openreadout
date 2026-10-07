@@ -114,7 +114,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
-- fuzz targets (`fuzz/fuzz_targets/`): `whole_sciex`
+- fuzz targets (`fuzz/fuzz_targets/`): `sciex_grid`, `whole_sciex`
 - corpus inputs by tier: full 7, heldout 3, smoke 3, standard 3
 - golden snapshots: [`corpus/snapshots/sciex-wiff.jsonl`](../../corpus/snapshots/sciex-wiff.jsonl)
 

@@ -97,5 +97,5 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 | golden-output snapshots of committed fixtures (`cargo test`) | 109 |
 | golden-output snapshots of development-corpus files | 1692 |
 | committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3075 |
-| fuzz targets (`fuzz/fuzz_targets/`) | 136 |
+| fuzz targets (`fuzz/fuzz_targets/`) | 137 |
 | Rust source files under `crates/` | 783 |
