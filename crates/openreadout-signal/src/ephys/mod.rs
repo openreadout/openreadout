@@ -28,25 +28,50 @@ pub use extracellular::{DetectSettings, PeakSign};
 pub use passive::{StepResponse, TestPulse};
 pub use protocol::{Protocol, SweepEpoch};
 
-/// Factor from `unit` to millivolts, if it is a voltage.
+/// Factor from `unit` to millivolts, if it is a voltage: a symbol (`mV`, `V`, `µV`) or a
+/// spelled-out SI name in any case (`volts`, as NWB writes it, `millivolt`, ...).
 pub fn to_mv(unit: Option<&str>) -> Option<f64> {
-    match unit?.trim() {
-        "mV" => Some(1.0),
-        "V" => Some(1000.0),
-        "uV" | "µV" | "μV" => Some(1e-3),
+    let u = unit?.trim();
+    match u {
+        "mV" => return Some(1.0),
+        "V" => return Some(1000.0),
+        "uV" | "µV" | "μV" => return Some(1e-3),
+        _ => {}
+    }
+    let lower = u.to_ascii_lowercase();
+    match lower.strip_suffix('s').unwrap_or(&lower) {
+        "millivolt" => Some(1.0),
+        "volt" => Some(1000.0),
+        "microvolt" => Some(1e-3),
         _ => None,
     }
 }
 
-/// Factor from `unit` to picoamperes, if it is a current.
+/// Factor from `unit` to picoamperes, if it is a current: a symbol (`pA`, `nA`, `A`) or a
+/// spelled-out SI name in any case (`amperes`, as NWB writes it, `picoampere`, `amps`, ...).
 pub fn to_pa(unit: Option<&str>) -> Option<f64> {
-    match unit?.trim() {
-        "pA" => Some(1.0),
-        "nA" => Some(1e3),
-        "uA" | "µA" | "μA" => Some(1e6),
-        "mA" => Some(1e9),
-        "A" => Some(1e12),
-        "fA" => Some(1e-3),
+    let u = unit?.trim();
+    match u {
+        "pA" => return Some(1.0),
+        "nA" => return Some(1e3),
+        "uA" | "µA" | "μA" => return Some(1e6),
+        "mA" => return Some(1e9),
+        "A" => return Some(1e12),
+        "fA" => return Some(1e-3),
+        _ => {}
+    }
+    let lower = u.to_ascii_lowercase();
+    let singular = lower.strip_suffix('s').unwrap_or(&lower);
+    let prefix = singular
+        .strip_suffix("ampere")
+        .or_else(|| singular.strip_suffix("amp"))?;
+    match prefix {
+        "femto" => Some(1e-3),
+        "pico" => Some(1.0),
+        "nano" => Some(1e3),
+        "micro" => Some(1e6),
+        "milli" => Some(1e9),
+        "" => Some(1e12),
         _ => None,
     }
 }
@@ -731,8 +756,10 @@ pub fn analyze_extracellular(
         return Err(Error::unsupported(
             "ephys-analysis",
             format!(
-                "a {}–{} Hz band-pass at {fs} Hz sampling",
-                settings.low_hz, settings.high_hz
+                "a {}–{} Hz band-pass at {} Hz sampling",
+                fmt_g(settings.low_hz),
+                fmt_g(settings.high_hz),
+                fmt_g(fs)
             ),
             "Spike detection needs a broadband signal sampled well above the pass band (typically >= 20 kHz); use `--band LOW:HIGH` within the Nyquist range, or pick the wideband trace (`openreadout info`).",
         ));
@@ -844,6 +871,17 @@ mod tests {
         assert_eq!(to_pa(Some("nA")), Some(1000.0));
         assert_eq!(to_mv(Some("pA")), None);
         assert_eq!(to_pa(None), None);
+        // NWB spells the units of its intracellular series out
+        assert_eq!(to_mv(Some("volts")), Some(1000.0));
+        assert_eq!(to_mv(Some("Millivolt")), Some(1.0));
+        assert_eq!(to_pa(Some("amperes")), Some(1e12));
+        assert_eq!(to_pa(Some("picoamps")), Some(1.0));
+        assert_eq!(to_pa(Some("nanoampere")), Some(1e3));
+        // symbols stay case-sensitive, and other units are not voltages or currents
+        assert_eq!(to_mv(Some("MV")), None);
+        assert_eq!(to_mv(Some("amperes")), None);
+        assert_eq!(to_pa(Some("volts")), None);
+        assert_eq!(to_pa(Some("lamp")), None);
     }
 
     #[test]
