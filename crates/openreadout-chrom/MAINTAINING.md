@@ -46,7 +46,7 @@ Shared: `binary.rs` (Pascal strings, bounded whole-file reads, date and number f
 | `openlab-cds` | [format note](../../docs/formats/openlab-cds.md), [provenance log](../../docs/provenance/openlab-cds.md) | medium | reverse engineered | 12 / 12 | 3 | - |
 | `andi-chrom` | [format note](../../docs/formats/andi-chrom.md), [provenance log](../../docs/provenance/andi-chrom.md) | high | open spec | 25 / 25 | 5 | 1 / 0 |
 | `empower-arw` | [format note](../../docs/formats/empower-arw.md), [provenance log](../../docs/provenance/empower-arw.md) | low | reverse engineered | 6 / 6 | 1 | - |
-| `shimadzu` | [format note](../../docs/formats/shimadzu.md), [provenance log](../../docs/provenance/shimadzu.md) | medium | reverse engineered | 12 / 9 | 4 | 0 / 1 |
+| `shimadzu` | [format note](../../docs/formats/shimadzu.md), [provenance log](../../docs/provenance/shimadzu.md) | medium | reverse engineered | 14 / 11 | 6 | 0 / 1 |
 | `chromeleon` | [format note](../../docs/formats/chromeleon.md), [provenance log](../../docs/provenance/chromeleon.md) | medium | reverse engineered | 12 / 2 | 2 | - |
 
 ### Source map
@@ -214,7 +214,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: none (unit tests in `src/`)
 - fuzz targets (`fuzz/fuzz_targets/`): `chrom_cfb`, `chrom_netcdf`, `whole_andi`, `whole_chemstation`, `whole_chromeleon`, `whole_empower_arw`, `whole_openlab`, `whole_shimadzu`
-- corpus inputs by tier: full 3, heldout 19, smoke 61, standard 31
+- corpus inputs by tier: full 3, heldout 19, smoke 61, standard 33
 - golden snapshots: [`corpus/snapshots/chemstation.jsonl`](../../corpus/snapshots/chemstation.jsonl), [`corpus/snapshots/openlab-cds.jsonl`](../../corpus/snapshots/openlab-cds.jsonl), [`corpus/snapshots/andi-chrom.jsonl`](../../corpus/snapshots/andi-chrom.jsonl), [`corpus/snapshots/empower-arw.jsonl`](../../corpus/snapshots/empower-arw.jsonl), [`corpus/snapshots/shimadzu.jsonl`](../../corpus/snapshots/shimadzu.jsonl), [`corpus/snapshots/chromeleon.jsonl`](../../corpus/snapshots/chromeleon.jsonl)
 
 ### Open new-variant intakes

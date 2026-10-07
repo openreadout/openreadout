@@ -1813,6 +1813,7 @@ dependencies = [
 name = "openreadout-qpcr"
 version = "0.1.0"
 dependencies = [
+ "calamine",
  "miniz_oxide 0.9.1",
  "openreadout-core",
  "roxmltree 0.21.1",

@@ -1,0 +1,727 @@
+{
+ "id": "qpcrx-ab-stepone-taec-24h-taqman",
+ "file": "qpcrx-ab-stepone-taec-24h-taqman.xls",
+ "size": 61952,
+ "sha256": "c5ee729951009a20a4faff6caa0d7ecb6845407b28665741512cc880621dd851",
+ "reader": "xlrd / openpyxl / csv over the export (independent of OpenReadout)",
+ "format": "qpcr-results-export",
+ "layout": "applied-biosystems",
+ "rows": 8,
+ "columns": 12,
+ "records": [
+  {
+   "row": 1,
+   "col": 1,
+   "target": "GAPDH",
+   "sample": "TAEC 24H SPC",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 17.12363052368164,
+   "cq_undetermined": false,
+   "tm": [
+    84.97676849365234
+   ]
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "target": "GAPDH",
+   "sample": "TAEC 24H SPC",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 17.188432693481445,
+   "cq_undetermined": false,
+   "tm": [
+    84.98814392089844
+   ]
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "target": "VCAM",
+   "sample": "TAEC 24H SPC",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 29.93556785583496,
+   "cq_undetermined": false,
+   "tm": [
+    82.6755599975586
+   ]
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "target": "VCAM",
+   "sample": "TAEC 24H SPC",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 29.911327362060547,
+   "cq_undetermined": false,
+   "tm": [
+    82.56759643554688,
+    87.09139251708984
+   ]
+  },
+  {
+   "row": 1,
+   "col": 5,
+   "target": "E-SEL",
+   "sample": "TAEC 24H SPC",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 32.62273025512695,
+   "cq_undetermined": false,
+   "tm": [
+    81.02664184570312
+   ]
+  },
+  {
+   "row": 1,
+   "col": 6,
+   "target": "E-SEL",
+   "sample": "TAEC 24H SPC",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 31.930007934570312,
+   "cq_undetermined": false,
+   "tm": [
+    81.09712219238281
+   ]
+  },
+  {
+   "row": 1,
+   "col": 7,
+   "target": "ICAM",
+   "sample": "TAEC 24H SPC",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 34.93378448486328,
+   "cq_undetermined": false,
+   "tm": [
+    86.71905517578125
+   ]
+  },
+  {
+   "row": 1,
+   "col": 8,
+   "target": "ICAM",
+   "sample": "TAEC 24H SPC",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 34.920654296875,
+   "cq_undetermined": false,
+   "tm": [
+    86.67044067382812,
+    78.33068084716797
+   ]
+  },
+  {
+   "row": 1,
+   "col": 9,
+   "target": "H2O",
+   "sample": "TAEC 24H SPC",
+   "task_raw": "NTC",
+   "dye": "FAM",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    66.12601470947266
+   ]
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "target": "GAPDH",
+   "sample": "TAEC 24H A",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 17.775508880615234,
+   "cq_undetermined": false,
+   "tm": [
+    84.97742462158203
+   ]
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "target": "GAPDH",
+   "sample": "TAEC 24H A",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 17.9143123626709,
+   "cq_undetermined": false,
+   "tm": [
+    84.927978515625
+   ]
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "target": "VCAM",
+   "sample": "TAEC 24H A",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 29.871397018432617,
+   "cq_undetermined": false,
+   "tm": [
+    82.55716705322266
+   ]
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "target": "VCAM",
+   "sample": "TAEC 24H A",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 29.81554412841797,
+   "cq_undetermined": false,
+   "tm": [
+    82.62646484375
+   ]
+  },
+  {
+   "row": 2,
+   "col": 5,
+   "target": "E-SEL",
+   "sample": "TAEC 24H A",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 32.708251953125,
+   "cq_undetermined": false,
+   "tm": [
+    81.02729797363281
+   ]
+  },
+  {
+   "row": 2,
+   "col": 6,
+   "target": "E-SEL",
+   "sample": "TAEC 24H A",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 32.75385665893555,
+   "cq_undetermined": false,
+   "tm": [
+    81.03694915771484
+   ]
+  },
+  {
+   "row": 2,
+   "col": 7,
+   "target": "ICAM",
+   "sample": "TAEC 24H A",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 34.72343826293945,
+   "cq_undetermined": false,
+   "tm": [
+    86.6601333618164,
+    77.72467803955078
+   ]
+  },
+  {
+   "row": 2,
+   "col": 8,
+   "target": "ICAM",
+   "sample": "TAEC 24H A",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 34.54788589477539,
+   "cq_undetermined": false,
+   "tm": [
+    86.66979217529297
+   ]
+  },
+  {
+   "row": 2,
+   "col": 9,
+   "target": "H2O",
+   "sample": "TAEC 24H A",
+   "task_raw": "NTC",
+   "dye": "FAM",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    65.88856506347656
+   ]
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "target": "GAPDH",
+   "sample": "TAEC 24H B",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 18.468856811523438,
+   "cq_undetermined": false,
+   "tm": [
+    84.97781372070312
+   ]
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "target": "GAPDH",
+   "sample": "TAEC 24H B",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 18.037546157836914,
+   "cq_undetermined": false,
+   "tm": [
+    84.92758178710938
+   ]
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "target": "VCAM",
+   "sample": "TAEC 24H B",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 29.96200180053711,
+   "cq_undetermined": false,
+   "tm": [
+    82.61708068847656
+   ]
+  },
+  {
+   "row": 3,
+   "col": 4,
+   "target": "VCAM",
+   "sample": "TAEC 24H B",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 29.959653854370117,
+   "cq_undetermined": false,
+   "tm": [
+    82.5665512084961,
+    87.03082275390625
+   ]
+  },
+  {
+   "row": 3,
+   "col": 5,
+   "target": "E-SEL",
+   "sample": "TAEC 24H B",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 32.63289260864258,
+   "cq_undetermined": false,
+   "tm": [
+    80.9681625366211
+   ]
+  },
+  {
+   "row": 3,
+   "col": 6,
+   "target": "E-SEL",
+   "sample": "TAEC 24H B",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 32.834903717041016,
+   "cq_undetermined": false,
+   "tm": [
+    80.97703552246094
+   ]
+  },
+  {
+   "row": 3,
+   "col": 7,
+   "target": "ICAM",
+   "sample": "TAEC 24H B",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 33.66661071777344,
+   "cq_undetermined": false,
+   "tm": [
+    86.6605224609375,
+    78.26119995117188
+   ]
+  },
+  {
+   "row": 3,
+   "col": 8,
+   "target": "ICAM",
+   "sample": "TAEC 24H B",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 34.788246154785156,
+   "cq_undetermined": false,
+   "tm": [
+    86.66940307617188,
+    78.32964324951172
+   ]
+  },
+  {
+   "row": 3,
+   "col": 9,
+   "target": "H2O",
+   "sample": "TAEC 24H B",
+   "task_raw": "NTC",
+   "dye": "FAM",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    66.4246826171875
+   ]
+  },
+  {
+   "row": 4,
+   "col": 1,
+   "target": "GAPDH",
+   "sample": "TAEC 24H C",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 17.956985473632812,
+   "cq_undetermined": false,
+   "tm": [
+    84.91867065429688
+   ]
+  },
+  {
+   "row": 4,
+   "col": 2,
+   "target": "GAPDH",
+   "sample": "TAEC 24H C",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 17.937034606933594,
+   "cq_undetermined": false,
+   "tm": [
+    84.92720031738281
+   ]
+  },
+  {
+   "row": 4,
+   "col": 3,
+   "target": "VCAM",
+   "sample": "TAEC 24H C",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 29.35009765625,
+   "cq_undetermined": false,
+   "tm": [
+    82.67698669433594
+   ]
+  },
+  {
+   "row": 4,
+   "col": 4,
+   "target": "VCAM",
+   "sample": "TAEC 24H C",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 29.15416717529297,
+   "cq_undetermined": false,
+   "tm": [
+    82.68521881103516
+   ]
+  },
+  {
+   "row": 4,
+   "col": 5,
+   "target": "E-SEL",
+   "sample": "TAEC 24H C",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 32.41111755371094,
+   "cq_undetermined": false,
+   "tm": [
+    81.02806854248047
+   ]
+  },
+  {
+   "row": 4,
+   "col": 6,
+   "target": "E-SEL",
+   "sample": "TAEC 24H C",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 31.89940643310547,
+   "cq_undetermined": false,
+   "tm": [
+    81.03617858886719
+   ]
+  },
+  {
+   "row": 4,
+   "col": 7,
+   "target": "ICAM",
+   "sample": "TAEC 24H C",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 31.951814651489258,
+   "cq_undetermined": false,
+   "tm": [
+    86.66090393066406,
+    79.09555053710938
+   ]
+  },
+  {
+   "row": 4,
+   "col": 8,
+   "target": "ICAM",
+   "sample": "TAEC 24H C",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 34.50064468383789,
+   "cq_undetermined": false,
+   "tm": [
+    86.60945129394531
+   ]
+  },
+  {
+   "row": 4,
+   "col": 9,
+   "target": "H2O",
+   "sample": "TAEC 24H C",
+   "task_raw": "NTC",
+   "dye": "FAM",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    65.05597686767578
+   ]
+  },
+  {
+   "row": 5,
+   "col": 1,
+   "target": "GAPDH",
+   "sample": "TAEC 24H D",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 17.363101959228516,
+   "cq_undetermined": false,
+   "tm": [
+    84.91905212402344
+   ]
+  },
+  {
+   "row": 5,
+   "col": 2,
+   "target": "GAPDH",
+   "sample": "TAEC 24H D",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 17.72805404663086,
+   "cq_undetermined": false,
+   "tm": [
+    84.92681884765625
+   ]
+  },
+  {
+   "row": 5,
+   "col": 3,
+   "target": "VCAM",
+   "sample": "TAEC 24H D",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 29.584003448486328,
+   "cq_undetermined": false,
+   "tm": [
+    82.61784362792969
+   ]
+  },
+  {
+   "row": 5,
+   "col": 4,
+   "target": "VCAM",
+   "sample": "TAEC 24H D",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 29.6832275390625,
+   "cq_undetermined": false,
+   "tm": [
+    82.62531280517578
+   ]
+  },
+  {
+   "row": 5,
+   "col": 5,
+   "target": "E-SEL",
+   "sample": "TAEC 24H D",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 32.90288162231445,
+   "cq_undetermined": false,
+   "tm": [
+    80.96892547607422
+   ]
+  },
+  {
+   "row": 5,
+   "col": 6,
+   "target": "E-SEL",
+   "sample": "TAEC 24H D",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 32.5038948059082,
+   "cq_undetermined": false,
+   "tm": [
+    80.97627258300781
+   ]
+  },
+  {
+   "row": 5,
+   "col": 7,
+   "target": "ICAM",
+   "sample": "TAEC 24H D",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 34.52699661254883,
+   "cq_undetermined": false,
+   "tm": [
+    86.66128540039062
+   ]
+  },
+  {
+   "row": 5,
+   "col": 8,
+   "target": "ICAM",
+   "sample": "TAEC 24H D",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 34.06828308105469,
+   "cq_undetermined": false,
+   "tm": [
+    86.60906982421875,
+    78.74586486816406
+   ]
+  },
+  {
+   "row": 5,
+   "col": 9,
+   "target": "H2O",
+   "sample": "TAEC 24H D",
+   "task_raw": "NTC",
+   "dye": "FAM",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    65.651611328125
+   ]
+  },
+  {
+   "row": 6,
+   "col": 1,
+   "target": "GAPDH",
+   "sample": "TAEC 24H DMSO",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 17.354585647583008,
+   "cq_undetermined": false,
+   "tm": [
+    84.91944885253906
+   ]
+  },
+  {
+   "row": 6,
+   "col": 2,
+   "target": "GAPDH",
+   "sample": "TAEC 24H DMSO",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 17.65604591369629,
+   "cq_undetermined": false,
+   "tm": [
+    84.92643737792969
+   ]
+  },
+  {
+   "row": 6,
+   "col": 3,
+   "target": "VCAM",
+   "sample": "TAEC 24H DMSO",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 30.195716857910156,
+   "cq_undetermined": false,
+   "tm": [
+    82.55870819091797,
+    87.02297973632812
+   ]
+  },
+  {
+   "row": 6,
+   "col": 4,
+   "target": "VCAM",
+   "sample": "TAEC 24H DMSO",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 29.885610580444336,
+   "cq_undetermined": false,
+   "tm": [
+    82.62492370605469
+   ]
+  },
+  {
+   "row": 6,
+   "col": 5,
+   "target": "E-SEL",
+   "sample": "TAEC 24H DMSO",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 32.44792556762695,
+   "cq_undetermined": false,
+   "tm": [
+    80.96931457519531
+   ]
+  },
+  {
+   "row": 6,
+   "col": 6,
+   "target": "E-SEL",
+   "sample": "TAEC 24H DMSO",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 32.39940643310547,
+   "cq_undetermined": false,
+   "tm": [
+    81.03540802001953
+   ]
+  },
+  {
+   "row": 6,
+   "col": 7,
+   "target": "ICAM",
+   "sample": "TAEC 24H DMSO",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 33.598854064941406,
+   "cq_undetermined": false,
+   "tm": [
+    86.60210418701172
+   ]
+  },
+  {
+   "row": 6,
+   "col": 8,
+   "target": "ICAM",
+   "sample": "TAEC 24H DMSO",
+   "task_raw": "UNKNOWN",
+   "dye": "FAM",
+   "cq": 33.80154037475586,
+   "cq_undetermined": false,
+   "tm": [
+    86.60868072509766,
+    77.43494415283203
+   ]
+  },
+  {
+   "row": 6,
+   "col": 9,
+   "target": "H2O",
+   "sample": "TAEC 24H DMSO",
+   "task_raw": "NTC",
+   "dye": "FAM",
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    86.90257263183594,
+    65.59247589111328,
+    67.85444641113281
+   ]
+  }
+ ]
+}

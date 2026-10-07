@@ -1,0 +1,24 @@
+{
+ "id": "tecan-icontrol-multiread-endpoint-tread",
+ "file": "tecan-icontrol-multiread-endpoint-tread.xlsx",
+ "size": 24042,
+ "sha256": "fb45bced9075dada5c7a0333718a46a027fa6a381025758ce40dbb453a333fbc",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py icontrol_summary (independent reader; allotropy has no i-control parser)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 96,
+    "values": 96,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "dbaa95c9c856d03028772c75c58388f3"
+   }
+  ],
+  "header": {
+   "software_version": "2.0.10.0",
+   "model": "infinite 200Pro"
+  }
+ }
+}

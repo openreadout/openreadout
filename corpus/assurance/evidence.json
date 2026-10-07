@@ -86824,6 +86824,225 @@
       ]
     },
     {
+      "id": "gen5xpt-gen5v1-synergyh1-cdneg",
+      "format": "plate",
+      "source": "figshare 33174608",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "dialect",
+          "gen5",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Gen5",
+          []
+        ],
+        [
+          "writer_version",
+          "Gen5 1",
+          []
+        ],
+        [
+          "acquisition",
+          "endpoint read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "fluorescence",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "derivation",
+          "tables[].extra.reads[].mode by label keywords",
+          []
+        ],
+        [
+          "instrument",
+          "Synergy H1",
+          []
+        ],
+        [
+          "layout",
+          "container gen5-experiment",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "gen5xpt-gen5v1-synergyh1-cdpos",
+      "format": "plate",
+      "source": "figshare 33174608",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "dialect",
+          "gen5",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Gen5",
+          []
+        ],
+        [
+          "writer_version",
+          "Gen5 1",
+          []
+        ],
+        [
+          "acquisition",
+          "endpoint read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "fluorescence",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "derivation",
+          "tables[].extra.reads[].mode by label keywords",
+          []
+        ],
+        [
+          "instrument",
+          "Synergy H1",
+          []
+        ],
+        [
+          "layout",
+          "container gen5-experiment",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "gen5xpt-gen5v1-synergyh1-dextran",
+      "format": "plate",
+      "source": "figshare 33174608",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "dialect",
+          "gen5",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Gen5",
+          []
+        ],
+        [
+          "writer_version",
+          "Gen5 1",
+          []
+        ],
+        [
+          "acquisition",
+          "endpoint read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "fluorescence",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "derivation",
+          "tables[].extra.reads[].mode by label keywords",
+          []
+        ],
+        [
+          "instrument",
+          "Synergy H1",
+          []
+        ],
+        [
+          "layout",
+          "container gen5-experiment",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
       "id": "gen5xpt-synergyh1-fl-endpoint",
       "format": "plate",
       "source": "zenodo:12108530",
@@ -88125,6 +88344,156 @@
       ]
     },
     {
+      "id": "softmax7-elisa2wl-ha-0513",
+      "format": "plate",
+      "source": "figshare 30449435",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "tables[].extra.reads[].mode",
+        "tables[].extra.reads[].wavelength_nm"
+      ],
+      "features": [
+        [
+          "dialect",
+          "softmax-pro",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "SoftMax Pro",
+          []
+        ],
+        [
+          "acquisition",
+          "endpoint read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "absorbance",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "SpectraMax ABS",
+          []
+        ],
+        [
+          "layout",
+          "container softmax-pro-document",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "softmax7-elisa2wl-ha-0630",
+      "format": "plate",
+      "source": "figshare 30449435",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "tables[].extra.reads[].mode",
+        "tables[].extra.reads[].wavelength_nm"
+      ],
+      "features": [
+        [
+          "dialect",
+          "softmax-pro",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "SoftMax Pro",
+          []
+        ],
+        [
+          "acquisition",
+          "endpoint read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "absorbance",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "SpectraMax ABS",
+          []
+        ],
+        [
+          "layout",
+          "container softmax-pro-document",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
       "id": "softmax7-lum-7skexp53",
       "format": "plate",
       "source": "unc dataverse doi",
@@ -88806,6 +89175,86 @@
       ]
     },
     {
+      "id": "tecan-icontrol-de-multiread-kinetic-sgt",
+      "format": "plate",
+      "source": "github:dataspott/sgt_analysis",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.instrument.model",
+        "tables[].extra.reads[].mode"
+      ],
+      "features": [
+        [
+          "dialect",
+          "tecan-i-control",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "i-control",
+          []
+        ],
+        [
+          "writer_version",
+          "i-control 1",
+          []
+        ],
+        [
+          "acquisition",
+          "kinetic read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "absorbance",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "infinite 200Pro",
+          []
+        ],
+        [
+          "layout",
+          "container xlsx",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
       "id": "tecan-icontrol-f200-txt",
       "format": "plate",
       "source": "github:jamesrco/exoenzymehydrocalc",
@@ -88956,6 +89405,231 @@
           "field",
           "experiment.acquisition.started_at",
           []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "tecan-icontrol-multiread-endpoint-tread",
+      "format": "plate",
+      "source": "github:gl-eb/tread",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.instrument.model",
+        "tables[].extra.reads[].mode"
+      ],
+      "features": [
+        [
+          "dialect",
+          "tecan-i-control",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "i-control",
+          []
+        ],
+        [
+          "writer_version",
+          "i-control 2",
+          []
+        ],
+        [
+          "acquisition",
+          "endpoint read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "absorbance",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "infinite 200Pro",
+          []
+        ],
+        [
+          "layout",
+          "container xlsx",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "tecan-icontrol-multiread-kinetic-tread",
+      "format": "plate",
+      "source": "github:gl-eb/tread",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.instrument.model",
+        "tables[].extra.reads[].mode"
+      ],
+      "features": [
+        [
+          "dialect",
+          "tecan-i-control",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "i-control",
+          []
+        ],
+        [
+          "writer_version",
+          "i-control 2",
+          []
+        ],
+        [
+          "acquisition",
+          "kinetic read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "absorbance",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "infinite 200Pro",
+          []
+        ],
+        [
+          "layout",
+          "container xlsx",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "tecan-icontrol-multiread-segments-tread",
+      "format": "plate",
+      "source": "github:gl-eb/tread",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.instrument.model",
+        "tables[].extra.reads[].mode"
+      ],
+      "features": [
+        [
+          "dialect",
+          "tecan-i-control",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "i-control",
+          []
+        ],
+        [
+          "writer_version",
+          "i-control 2",
+          []
+        ],
+        [
+          "acquisition",
+          "kinetic read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "absorbance",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "infinite 200Pro",
+          []
+        ],
+        [
+          "layout",
+          "container xlsx",
+          [
+            "tables"
+          ]
         ],
         [
           "field",
@@ -89393,6 +90067,511 @@
       "inferred": [
         13,
         13
+      ]
+    },
+    {
+      "id": "qpcrx-ab-qs12k-tdmmc",
+      "format": "qpcr-results-export",
+      "source": "harvard dataverse doi",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "applied-biosystems-export",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "QuantStudio 12K Flex",
+          []
+        ],
+        [
+          "acquisition",
+          "Standard Curve",
+          []
+        ],
+        [
+          "acquisition",
+          "chemistry SYBR_GREEN",
+          []
+        ],
+        [
+          "codec",
+          "xls workbook",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        28,
+        28
+      ]
+    },
+    {
+      "id": "qpcrx-ab-qs35-npff-mtrna",
+      "format": "qpcr-results-export",
+      "source": "figshare:21205784",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "applied-biosystems-export",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "QuantStudio™ 3 System",
+          []
+        ],
+        [
+          "acquisition",
+          "Comparative Cт (ΔΔCт)",
+          []
+        ],
+        [
+          "acquisition",
+          "chemistry SYBR_GREEN",
+          []
+        ],
+        [
+          "codec",
+          "xls workbook",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "amplification baseline-corrected",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "melt",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "melt derivative",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        28,
+        28
+      ]
+    },
+    {
+      "id": "qpcrx-ab-qs7flex-hmsc-stdcurve",
+      "format": "qpcr-results-export",
+      "source": "zenodo:4598136",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "applied-biosystems-export",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "QuantStudio(TM) 7 Flex System",
+          []
+        ],
+        [
+          "acquisition",
+          "Standard Curve",
+          []
+        ],
+        [
+          "acquisition",
+          "chemistry SYBR_GREEN",
+          []
+        ],
+        [
+          "codec",
+          "xls workbook",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        28,
+        28
+      ]
+    },
+    {
+      "id": "qpcrx-ab-stepone-caco2-il6",
+      "format": "qpcr-results-export",
+      "source": "figshare 30581381 'raw data of activity of lactobacillus gasseri strain llg1 and its exopolysaccharides'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "applied-biosystems-export",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "steponeplus",
+          []
+        ],
+        [
+          "acquisition",
+          "chemistry SYBR_GREEN",
+          []
+        ],
+        [
+          "codec",
+          "xls workbook",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        28,
+        28
+      ]
+    },
+    {
+      "id": "qpcrx-ab-stepone-sj-taec-6h",
+      "format": "qpcr-results-export",
+      "source": "zenodo:14230362",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "applied-biosystems-export",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "steponeplus",
+          []
+        ],
+        [
+          "acquisition",
+          "chemistry SYBR_GREEN",
+          []
+        ],
+        [
+          "codec",
+          "xls workbook",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        28,
+        28
+      ]
+    },
+    {
+      "id": "qpcrx-ab-stepone-taec-24h-taqman",
+      "format": "qpcr-results-export",
+      "source": "zenodo:14230362",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "applied-biosystems-export",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "steponeplus",
+          []
+        ],
+        [
+          "acquisition",
+          "chemistry TAQMAN",
+          []
+        ],
+        [
+          "codec",
+          "xls workbook",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        28,
+        28
+      ]
+    },
+    {
+      "id": "qpcrx-ab-viia7-npff-ddct",
+      "format": "qpcr-results-export",
+      "source": "figshare:21205928",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "applied-biosystems-export",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "ViiA 7",
+          []
+        ],
+        [
+          "acquisition",
+          "Comparative Cт (ΔΔCт)",
+          []
+        ],
+        [
+          "acquisition",
+          "chemistry SYBR_GREEN",
+          []
+        ],
+        [
+          "codec",
+          "xls workbook",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "amplification baseline-corrected",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "melt",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "melt derivative",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        28,
+        28
+      ]
+    },
+    {
+      "id": "qpcrx-cfx-churchlab-day25-27-28",
+      "format": "qpcr-results-export",
+      "source": "github:churchlab/vascularized-organoids",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "bio-rad-cfx-export",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "comma-delimited text",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        28,
+        28
+      ]
+    },
+    {
+      "id": "qpcrx-cfx-churchlab-vwf-pecam1",
+      "format": "qpcr-results-export",
+      "source": "github:churchlab/vascularized-organoids",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "bio-rad-cfx-export",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "comma-delimited text",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        28,
+        28
       ]
     },
     {
@@ -94180,6 +95359,122 @@
         [
           "layout",
           "status trace in LC Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "vendor peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zenodo4314704-chiral-alkyne-racemic",
+      "format": "shimadzu",
+      "source": "zenodo:4314704",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.01",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "pda max plot in PDA 3D Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "pda spectra in PDA 3D Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "status trace in LSS Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "vendor peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zenodo4323265-chiral-racemic",
+      "format": "shimadzu",
+      "source": "zenodo:4323265",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.01",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "pda max plot in PDA 3D Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "pda spectra in PDA 3D Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "status trace in LSS Raw Data",
           [
             "traces"
           ]

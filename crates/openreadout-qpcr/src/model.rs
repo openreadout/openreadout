@@ -22,6 +22,10 @@ pub(crate) enum Dialect {
     Rex,
     /// Roche LightCycler 480 `.ixo`.
     Ixo,
+    /// An Applied Biosystems results export (`.xls`, `.xlsx`, text).
+    AbExport,
+    /// A Bio-Rad CFX `Quantification Cq Results` export.
+    CfxExport,
 }
 
 impl Dialect {
@@ -33,6 +37,8 @@ impl Dialect {
             Dialect::EdsJson => "eds-json",
             Dialect::Rex => "rex",
             Dialect::Ixo => "ixo",
+            Dialect::AbExport => "applied-biosystems-export",
+            Dialect::CfxExport => "bio-rad-cfx-export",
         }
     }
 }

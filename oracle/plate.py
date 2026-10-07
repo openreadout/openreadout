@@ -157,15 +157,16 @@ def icontrol_summary(path: Path) -> dict:
     while i < len(rows):
         r = rows[i]
         first = str(cell(r, 0)).strip()
-        if first.startswith("Device:"):
+        # German exports write `Programm:`, `Gerät:` and `Modus` (`Absorption`)
+        if first.startswith(("Device:", "Gerät:")) and "model" not in header:
             header["model"] = first.split(":", 1)[1].strip()
-        if first.startswith("Application:"):
+        if first.startswith(("Application:", "Programm:")) and "software_version" not in header:
             ver = [str(c) for c in r if " , " in str(c)]
             if ver:
                 header["software_version"] = ver[0].split(" , ")[1].strip()
-        if first == "Mode":
+        if first in ("Mode", "Modus"):
             mode_text = next((str(c) for c in r[1:] if str(c).strip()), "")
-            mode = "absorbance" if "Absorb" in mode_text else "fluorescence" if "Fluor" in mode_text else "luminescence" if "Lumin" in mode_text else None
+            mode = "absorbance" if ("Absorb" in mode_text or "Absorp" in mode_text) else "fluorescence" if "Fluor" in mode_text else "luminescence" if "Lumin" in mode_text else None
         if first == "Measurement Wavelength" and mode is None:
             mode = "absorbance"
         if first.startswith("Label:"):
@@ -182,6 +183,39 @@ def icontrol_summary(path: Path) -> dict:
                     except (TypeError, ValueError):
                         continue
                     groups.setdefault(mode or "absorbance", []).append((row, col - 1, x))
+                j += 1
+            i = j
+            continue
+        if first in ("Cycles / Well", "Zyklen / Well"):
+            # several reads per well, kinetic: `<well>` + cycle numbers, then Time, Temp., Mean
+            # (Mittelwert), StDev and one line per read position; the well's value is the Mean
+            w = parse_well(str(cell(rows[i + 1], 0))) if i + 1 < len(rows) else None
+            j = i + 2
+            block = {}
+            while j < len(rows) and str(cell(rows[j], 0)).strip() not in ("", "Cycles / Well", "Zyklen / Well"):
+                block[str(cell(rows[j], 0)).strip()] = rows[j][1:]
+                j += 1
+            mean = block.get("Mean", block.get("Mittelwert"))
+            if w and mean is not None:
+                cycles = rows[i + 1][1:]
+                for k, v in enumerate(mean):
+                    if k >= len(cycles) or str(cycles[k]).strip() == "":
+                        continue
+                    try:
+                        x = float(v)
+                    except (TypeError, ValueError):
+                        continue
+                    groups.setdefault(mode or "absorbance", []).append((*w, x))
+            i = j
+            continue
+        if first == "Well" and str(cell(r, 1)).strip() in ("Mean", "Mittelwert"):
+            # several reads per well, endpoint: a list of wells with their Mean in column 2
+            j = i + 1
+            while j < len(rows) and parse_well(str(cell(rows[j], 0))):
+                try:
+                    groups.setdefault(mode or "absorbance", []).append((*parse_well(str(cell(rows[j], 0))), float(cell(rows[j], 1))))
+                except (TypeError, ValueError):
+                    pass
                 j += 1
             i = j
             continue
@@ -327,6 +361,26 @@ def plate_export(binary: Path, export: Path) -> dict:
         tmp.write_bytes(raw.replace(b"\r", b"\n"))
         src = tmp
         note = "; bare-CR line ends given to allotropy as LF"
+    if export.suffix.lower() == ".xlsx" and vendor == "MOLDEV_SOFTMAX_PRO":
+        # a workbook whose first sheet holds SoftMax Pro's text export: its cells written out
+        # as tab-separated text (numbers as Python prints them, booleans as SoftMax writes them)
+        import openpyxl
+        ws = openpyxl.load_workbook(export, read_only=True, data_only=True).worksheets[0]
+
+        def cell(v):
+            if v is None:
+                return ""
+            if isinstance(v, bool):
+                return "TRUE" if v else "FALSE"
+            if isinstance(v, float) and v.is_integer():
+                return str(int(v))
+            return str(v)
+
+        lines = ["\t".join(cell(v) for v in row).rstrip("\t") for row in ws.iter_rows(values_only=True)]
+        tmp = Path(tempfile.mkdtemp()) / (export.stem + ".txt")
+        tmp.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        note = "; its first sheet written out as tab-separated text"
+        src = tmp
     import allotropy
     version = getattr(allotropy, "__version__", None)
     if version is None:
@@ -342,9 +396,9 @@ def plate_export(binary: Path, export: Path) -> dict:
                 "plate": summary}
     if vendor != "MOLDEV_SOFTMAX_PRO":
         raise RuntimeError(f"allotropy could not read {export.name}: {failed}")
-    return {"reader": f"oracle/plate.py softmax_text_summary on the depositor's export {export.name} "
+    return {"reader": f"oracle/plate.py softmax_text_summary on the depositor's export {export.name}{note} "
                       f"(independent reader of the text; allotropy {version} failed: {failed})",
-            "plate": softmax_text_summary(export)}
+            "plate": softmax_text_summary(src)}
 
 
 def softmax_text_summary(path: Path) -> dict:

@@ -14,6 +14,8 @@ Readers, all independent of OpenReadout:
   vendor software wrote them, and the per-cycle Rn / ΔRn it stored. qslib (EUPL-1.2, run as a
   black box) is a second reader of the multicomponent (per-dye) signal.
 - .rex: ElementTree over the XML (raw channel readings; Rotor-Gene files store no results).
+- results exports (.xls, .xlsx, .csv, .txt: Applied Biosystems Results tables, Bio-Rad CFX
+  Quantification Cq Results): xlrd (BSD), openpyxl (MIT) or the csv module over the cells.
 
 For every well x target the oracle records the vendor Cq (or that it is undetermined), the Tm
 list, and checksums of the curves: number of points and their sum (compared with a relative
@@ -466,6 +468,185 @@ def attach_export(out: dict, path: Path) -> None:
                      "experiment_type": ex["experiment_type"]}
 
 
+# ------------------------------------------------------------------ results exports
+
+def _sheets(path: Path) -> dict:
+    """{sheet name: rows of cell values} of a workbook (xlrd for .xls, openpyxl for .xlsx) or of a
+    delimited text file (tab if any of the first lines has one, else comma; csv module)."""
+    head = path.read_bytes()[:8]
+    if head.startswith(b"PK\x03\x04"):
+        import openpyxl
+        wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+        return {ws.title: [["" if c is None else c for c in r] for r in ws.iter_rows(values_only=True)] for ws in wb.worksheets}
+    if head.startswith(b"\xd0\xcf\x11\xe0"):
+        import xlrd
+        wb = xlrd.open_workbook(str(path))
+        return {s.name: [s.row_values(i) for i in range(s.nrows)] for s in wb.sheets()}
+    import csv
+    text = path.read_bytes().decode("utf-8-sig", "replace")
+    delim = "\t" if any("\t" in line for line in text.splitlines()[:50]) else ","
+    return {"": [list(r) for r in csv.reader(text.splitlines(), delimiter=delim)]}
+
+
+def _s(v) -> str:
+    if isinstance(v, float) and v.is_integer():
+        return str(int(v))
+    return str(v).strip()
+
+
+def _well(s: str):
+    m = re.fullmatch(r"([A-Z]{1,2})0*(\d{1,3})", s.strip())
+    if not m:
+        return None
+    r = 0
+    for ch in m.group(1):
+        r = r * 26 + ord(ch) - 64
+    return r - 1, int(m.group(2)) - 1
+
+
+def export_file(p: Path) -> dict:
+    """Ground truth for a qPCR results export, read with xlrd/openpyxl/csv, written from the
+    exports' text (docs/provenance/qpcr.md, 2026-10-06) and not from OpenReadout's parser.
+
+    Applied Biosystems: the `Results` sheet's header row starts with `Well`; Ct column `CT`,
+    `Ct`, `Cт` or `Cq` ("Undetermined" = no Cq); wells named `A1` (`Well` or `Well Position`) or
+    numbered from 1 on the plate of the `Block Type`. Curves: `Amplification Data` (Rn, Delta Rn)
+    and `Melt Curve Raw Data` (Temperature, Fluorescence), matched by well and target.
+    Bio-Rad CFX: the header row names `Well`, `Fluor`, `Content` and `Cq`; Cq `NaN` or `N/A` =
+    no Cq."""
+    sheets = _sheets(p)
+    records = {}
+    out = {"reader": "xlrd / openpyxl / csv over the export (independent of OpenReadout)", "format": "qpcr-results-export"}
+
+    def find_header(rows, test, limit=400):
+        return next((i for i, r in enumerate(rows[:limit]) if r and test([_s(c) for c in r])), None)
+
+    ab = None
+    for name in (["Results"] if "Results" in sheets else []) + list(sheets):
+        rows = sheets[name]
+        hi = find_header(rows, lambda h: h[0] == "Well" and any(x in h for x in ("CT", "Ct", "Cт", "Cq")))
+        if hi is not None and any(_s(r[0]) in ("Block Type", "Instrument Type") for r in rows[:hi] if r):
+            ab = (name, hi)
+            break
+    if ab:
+        name, hi = ab
+        rows = sheets[name]
+        head = [_s(c) for c in rows[hi]]
+        ix = lambda *ns: next((head.index(n) for n in ns if n in head), None)  # noqa: E731
+        block = next((_s(r[1]) for r in rows[:hi] if r and _s(r[0]) == "Block Type"), "")
+        cols = 24 if "384" in block else 12 if "96" in block else 8 if "48" in block else None
+        nrows = 16 if "384" in block else 8 if "96" in block else 6 if "48" in block else None
+        c_pos, c_s, c_t, c_task, c_rep, c_ct = ix("Well Position"), ix("Sample Name"), ix("Target Name", "Detector Name", "Detector"), ix("Task"), ix("Reporter"), ix("CT", "Ct", "Cт", "Cq")
+        tms = [head.index(t) for t in ("Tm1", "Tm2", "Tm3", "Tm4") if t in head]
+
+        def pos(r, c_pos, cols):
+            if c_pos is not None and _well(_s(r[c_pos])):
+                return _well(_s(r[c_pos]))
+            w = _well(_s(r[0]))
+            if w:
+                return w
+            try:
+                i = int(float(r[0])) - 1
+            except (TypeError, ValueError):
+                return None
+            return divmod(i, cols or 12)
+
+        for r in rows[hi + 1:]:
+            if not r or _s(r[0]) == "":
+                break
+            g = lambda c: _s(r[c]) if c is not None and c < len(r) else ""  # noqa: E731
+            w = pos(r, c_pos, cols)
+            if w is None or (g(c_t) == "" and g(c_ct) == "" and g(c_s) == ""):
+                continue
+            key = (w, g(c_t) or None)
+            rec = {"row": w[0] + 1, "col": w[1] + 1, "target": g(c_t) or None, "sample": g(c_s) or None,
+                   "task_raw": g(c_task) or None, "dye": g(c_rep) or None, "cq": None, "cq_undetermined": False,
+                   "tm": [num(r[c]) for c in tms if num(r[c]) is not None]}
+            ct = g(c_ct)
+            if ct.lower() == "undetermined":
+                rec["cq_undetermined"] = True
+            else:
+                rec["cq"] = num(ct)
+            records[key] = rec
+        out["layout"] = "applied-biosystems"
+        out["rows"], out["columns"] = nrows, cols
+
+        def curves(sheet, xcol, ycol, ycol2=None):
+            rows = sheets.get(sheet)
+            if not rows:
+                return {}
+            hi = find_header(rows, lambda h: h[0] == "Well")
+            head = [_s(c) for c in rows[hi]]
+            if xcol not in head or ycol not in head:
+                return {}
+            cp, ct_ = (head.index("Well Position") if "Well Position" in head else None), (head.index("Target Name") if "Target Name" in head else None)
+            acc = {}
+            for r in rows[hi + 1:]:
+                if not r or _s(r[0]) == "":
+                    break
+                w = pos(r, cp, cols)
+                x, y = num(r[head.index(xcol)]), num(r[head.index(ycol)])
+                if w is None or x is None or y is None:
+                    continue
+                k = (w, (_s(r[ct_]) or None) if ct_ is not None else None)
+                a = acc.setdefault(k, [0, 0.0, 0.0, 0.0])
+                a[0] += 1
+                a[1] += y
+                a[2] += x
+                if ycol2 and ycol2 in head:
+                    v = num(r[head.index(ycol2)])
+                    a[3] += v if v is not None else 0.0
+            return acc
+
+        def attach(acc, fields):
+            for (w, t), a in acc.items():
+                rec = records.get((w, t))
+                if rec is None and t is None:
+                    same = [v for (ww, _), v in records.items() if ww == w]
+                    rec = same[0] if len(same) == 1 else None
+                if rec is not None:
+                    fields(rec, a)
+
+        def amp(rec, a):
+            rec["amp_n"], rec["amp_sum"], rec["corrected_sum"] = a[0], a[1], a[3]
+
+        def melt(rec, a):
+            rec["melt_n"], rec["melt_sum"], rec["melt_t_sum"] = a[0], a[1], a[2]
+
+        attach(curves("Amplification Data", "Cycle", "Rn", "Delta Rn"), amp)
+        attach(curves("Melt Curve Raw Data", "Temperature", "Fluorescence"), melt)
+    else:
+        for name, rows in sheets.items():
+            hi = find_header(rows, lambda h: all(k in h for k in ("Well", "Fluor", "Content", "Cq")), 50)
+            if hi is None:
+                continue
+            head = [_s(c) for c in rows[hi]]
+            ix = lambda n: head.index(n) if n in head else None  # noqa: E731
+            cw, cf, cc, ccq, ct_, cs = ix("Well"), ix("Fluor"), ix("Content"), ix("Cq"), ix("Target"), ix("Sample")
+            for r in rows[hi + 1:]:
+                g = lambda c: _s(r[c]) if c is not None and c < len(r) else ""  # noqa: E731
+                if g(cw) == "":
+                    break
+                w = _well(g(cw))
+                if w is None:
+                    continue
+                content = re.sub(r"-\d+$", "", g(cc))
+                cq = g(ccq)
+                rec = {"row": w[0] + 1, "col": w[1] + 1, "target": g(ct_) or None, "sample": g(cs) or None,
+                       "dye": g(cf) or None, "cq": None, "cq_undetermined": False, "tm": []}
+                if content in ("Unkn", "Std", "NTC"):
+                    rec["task_raw"] = content
+                if cq.lower() in ("nan", "n/a"):
+                    rec["cq_undetermined"] = True
+                else:
+                    rec["cq"] = num(cq)
+                records[(w, g(ct_) or None)] = rec
+            out["layout"] = "bio-rad-cfx"
+            break
+    out["records"] = sorted(records.values(), key=lambda r: (r["row"], r["col"], r["target"] or ""))
+    return out
+
+
 # ------------------------------------------------------------------ .rex (ElementTree)
 
 def rex(p: Path) -> dict:
@@ -521,7 +702,7 @@ def main():
         exports = {e["id"]: e for e in entries if e.get("role") == "oracle-export" and e.get("tier") != "heldout"}
         for e in entries:
             if (e.get("role") != "input" or e.get("tier") == "heldout"
-                    or e["format"] not in ("rdml", "applied-biosystems-eds", "rotor-gene-rex")
+                    or e["format"] not in ("rdml", "applied-biosystems-eds", "rotor-gene-rex", "qpcr-results-export")
                     or (only and not any(o in e["id"] for o in only))):
                 continue
             p = corpus / e["filename"]
@@ -545,7 +726,8 @@ def main():
     for given, p, export in todo:
         ext = p.suffix.lower()
         try:
-            data = {".rdml": rdml, ".rdm": rdml, ".lc96p": rdml, ".eds": eds, ".rex": rex}[ext](p)
+            data = {".rdml": rdml, ".rdm": rdml, ".lc96p": rdml, ".eds": eds, ".rex": rex, ".xls": export_file,
+                    ".xlsx": export_file, ".csv": export_file, ".txt": export_file}[ext](p)
             if export is not None:
                 attach_export(data, export)
         except Exception as e:
