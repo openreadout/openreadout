@@ -4,7 +4,13 @@
 \alias{openreadout_spectrum}
 \title{One mass spectrum}
 \usage{
-openreadout_spectrum(x, scan = NULL, spectrum = NULL, run = 1, centroid = FALSE)
+openreadout_spectrum(
+  x,
+  scan = NULL,
+  spectrum = NULL,
+  run = 1,
+  centroid = FALSE
+)
 }
 \arguments{
 \item{x}{A path or an \code{\link[=openreadout_open]{openreadout_open()}} file.}
