@@ -1,6 +1,6 @@
 # Malvern Zetasizer `.dts`
 
-The Malvern Zetasizer software (Nano, Pro and Ultra) saves dynamic light scattering and zeta potential measurements as `.dts` files. OpenReadout returns one table row per size or zeta record: sample, time, temperature and the results the software computed (Z-average, PDI, peaks, zeta potential, mobility, conductivity). No prior art exists for this binary format. It was derived from public files of several depositors, one of whom also published the Zetasizer's own table of zeta results. Provenance: `docs/provenance/malvern-zetasizer.md`. Crate: `openreadout-biophys`.
+The Malvern Zetasizer software (Nano, Pro and Ultra) saves dynamic light scattering and zeta potential measurements as `.dts` files. OpenReadout returns one table row per size or zeta record: sample, time, temperature and the results the software computed (Z-average, PdI, intensity peaks, zeta potential, mobility, conductivity). No prior art exists for this binary format. It was derived from public files of several depositors, four of whom also published the Zetasizer software's own table of the records. Provenance: `docs/provenance/malvern-zetasizer.md`. Crate: `openreadout-biophys`.
 
 | format id | files | reads | confidence |
 | --- | --- | --- | --- |
@@ -8,7 +8,8 @@ The Malvern Zetasizer software (Nano, Pro and Ultra) saves dynamic light scatter
 
 Not read: ZS Xplorer `.zmes` files; the size distributions, correlation functions, zeta
 distributions and phase plots stored in each record; molecular-weight and other record kinds
-(listed only).
+(listed only). Read but withheld: the widths of the size peaks and the peaks of the number and
+volume distributions (no export in the corpus holds them, see "Validation").
 
 ## Layout
 
@@ -33,14 +34,18 @@ ending in NUL.
 | then | `u32`, `f32`, `f32` measured temperature (°C) |
 
 Further on: the operator, the SOP path, the dispersant (one or more strings with their
-properties), the material and a 46-byte block that begins `01 00 00 00 01 00` and ends
-`02 00 00 00 01 00 00 02 00 00 00 01 00 00`, then the **sample name**. The reader takes the
-string after the first material block of that shape.
+properties), the material and a 46-byte block that begins with `u32` 1 or 2 and the bytes
+`01 00`, and ends `02 00 00 00 01 00 00 02 00 00 00 01 00 00` (two empty strings), then the
+**sample name**. The reader takes the string after the first material block of that shape. The
+first `u32` is 2 in six records of one depositor and 1 everywhere else; what it means is not
+known.
 
 **Size results** are located by their structure: `f32` Z-average (d.nm), `f32` PdI, `u32` n and
-n `f32` (a fit of the correlation function), then for the intensity, number and volume
-distributions in turn: `u32` k + k peak means (d.nm), `u32` k + k areas (%), `u32` k + k widths
-(d.nm); a distribution's areas sum to 100.
+n `f32` (a fit of the correlation function; n was 24-50 in the corpus), then for the intensity,
+number and volume distributions in turn: `u32` k + k peak means (d.nm), `u32` k + k areas (%),
+`u32` k + k widths (d.nm); a distribution's areas sum to 100. The block sits about 2 KB before
+the end of the record, after an `f64` 10.0, an `f32` 0.02, an `f32`, eight zero bytes, an `f64`
+date and 12 (software 7.10) or 16 (7.12) zero bytes; the reader does not rely on those.
 
 **Zeta results**: `u32` 5 + 5 `f32` zeta peak areas (%, largest first), `u32` 5 + 5 zeta peak
 means (mV), `f64` conductivity (mS/cm), then ten `f32`: applied voltage (V), zeta potential
@@ -62,15 +67,16 @@ Table `records`, one row per record in record-number order:
 | `sample_name`, `measured_at` | — | ISO local time |
 | `temperature` | °C | measured |
 | `z_average`, `pdi` | nm, — | size records |
-| `peak1_mean` … `peak3_width` | nm, %, nm | intensity peaks (mean, area, width) |
+| `peak1_mean` … `peak3_width` | nm, %, nm | intensity peaks (mean, area, width); widths are NaN (withheld) |
 | `zeta_potential`, `zeta_deviation` | mV | zeta records |
 | `mobility`, `mobility_deviation` | µm·cm/(V·s) | |
 | `conductivity` | mS/cm | |
 | `voltage` | V | applied voltage (inferred) |
 | `zeta_peak1_mean` … `zeta_peak3_width` | mV, %, mV | zeta peaks |
 
-Table `peaks`: every stored peak (`record`, `distribution` intensity/number/volume/zeta/mobility,
-`peak`, `mean`, `area`, `width`, `unit`).
+Table `peaks`: the intensity peaks of size records (width NaN) and every zeta and mobility peak
+(`record`, `distribution` intensity/zeta/mobility, `peak`, `mean`, `area`, `width`, `unit`).
+A file with size results has the finding `size_values_withheld`.
 
 Experiment: vendor Malvern Panalytical, model Zetasizer, serial and software version (first
 record), start and end (earliest and latest record), the sample name when every record has the
@@ -82,19 +88,25 @@ the distributions and the Z-average; they are not stored and not returned.
 
 ## Validation
 
-`tests/series_oracle/mod.rs` against the depositor's Zetasizer results table (`oracle/
-zetasizer_oracle.py`): 36 zeta records (software 7.12) — record, sample name, date (within the
-export's second), temperature, zeta potential, mobility and conductivity — agree within the
-export's rounding, 252 cells. The other files (7.02, 7.13, 8.00, 8.01) are read for structure:
-every record's header walks and every size record with results has exactly one block of the size
-structure.
+`tests/corpus/series_oracle/mod.rs` compares the `records` table with the depositors' copies of
+the Zetasizer software's records table (`oracle/zetasizer_oracle.py`; an export that lists only
+some of a file's records is matched by record number, `"key": "record"`). Eleven files of four
+depositors:
 
-**Size results are withheld.** The size-result layout above was mapped on one depositor's size
-records whose export matched it (Z-average, PdI, peaks), but that record is the source of a
-held-out file of another format and cannot be development evidence; no other public export of
-size records was found. Until one is in the corpus, `z_average`, `pdi` and the intensity peaks
-are NaN and a finding (`size_results_withheld`) says so; the records, samples, dates and
-temperatures of size records are returned.
+| depositor | software | records compared | what |
+| --- | --- | --- | --- |
+| da Silva (Zenodo 19193123) | 7.12 | 36 zeta | sample, date, temperature, zeta potential, mobility, conductivity |
+| Samineni (Texas Data Repository) | 7.13 | 15 zeta | sample, zeta potential |
+| Holden (UNC Dataverse), 3 files | 7.12 | 654 size | sample, date, temperature, Z-average, PdI, intensity peak means and areas |
+| Bird (Manchester figshare), 6 items | 7.10 | 153 size, 15 zeta (sample, date, temperature) | sample, date, temperature (where exported), Z-average, PdI, intensity peak means and areas |
+
+Every cell agrees within the export's rounding. The files without an export (7.02, 7.13 size
+records, 8.00, 8.01) are read for structure: every record's header walks and every size record
+with results has exactly one block of the size structure.
+
+Size results are confirmed on software 7.10 and 7.12, by two depositors. The exports hold no
+peak widths and no number or volume peaks, so those are withheld: the `peak*_width` columns are
+NaN and the `peaks` table lists only intensity peaks, without widths.
 
 ## Vocabulary (public API of `openreadout-biophys`, Zetasizer)
 
@@ -107,3 +119,4 @@ temperatures of size records are returned.
 | `Size` | size results: `z_average`, `pdi`, `peaks` |
 | `Zeta` | zeta results: `zeta`, `zeta_deviation`, `mobility`, `mobility_deviation`, `conductivity`, `voltage`, `zeta_peaks`, `mobility_peaks` |
 | `Record` | one record: `stream`, `schema`, `kind`, `number`, `version`, `measured_at`, `serial`, `temperature`, `sample`, `size`, `zeta`, `matches` |
+| `size result block`, `zeta result block` | assurance features (record kind): a record whose result block was found |

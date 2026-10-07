@@ -91,6 +91,26 @@ fn observe(info: &FileInfo) -> Observations {
             o.feature(K::Record, k, &[Scope::Traces]);
         }
     }
+    // LightCycler 480: the melt curves are the melting programs' readings at each acquisition's
+    // temperature. The independent readers of the corpus give the software's resampled curves,
+    // so nothing has confirmed them, while the amplification traces are confirmed: the
+    // derivation keeps that visible (scopes cannot tell one trace kind from another).
+    let ixo = info
+        .tables
+        .iter()
+        .any(|t| a::extra_str(&t.extra, "dialect") == Some("ixo"));
+    if ixo
+        && info
+            .traces
+            .iter()
+            .any(|t| a::extra_str(&t.extra, "kind") == Some("melt"))
+    {
+        o.derived(
+            "traces[].melt",
+            "LightCycler 480 melting-program readings at each acquisition's temperature",
+            "no independent reader of a development file returns the raw melt readings to compare with",
+        );
+    }
     if a::has_note(info, "the file holds no analysis results") {
         o.feature(K::Layout, "not analysed (no Cq)", &[Scope::Tables]);
     }
