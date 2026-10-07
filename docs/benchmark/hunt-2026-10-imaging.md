@@ -103,5 +103,5 @@ DSX writer and others).
 - **Not surveyed for lack of small public files from new records:** DCIMG (the new OME record
   holds 1.6 GB files), EER, MetaMorph `.nd`, QPTIFF, BIF, and the formats another workstream owns
   (OIB/OIF, MIRAX, ImageXpress, CellVoyager).
-- The deeper pass (every plane with `check --planes`, export of every image and
-  `check --against` on the result, z-MIP previews) was written but not run in time.
+- The deeper pass (every plane with `planes`, export of every image and
+  `compare` on the result, z-MIP previews) was written but not run in time.
