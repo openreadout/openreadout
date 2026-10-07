@@ -797,7 +797,11 @@ def test_stats_reports_heldout_on_its_own(tmp_path, monkeypatch):
 
     monkeypatch.setattr(stats, "RESULTS", tmp_path)
     qs = score.load_questions()
-    held = [q["id"] for q in qs.values() if q["split"] == "heldout" and q["answer"]["type"] == "number"][:4]
+    held = [
+        q["id"]
+        for q in qs.values()
+        if q["split"] == "heldout" and q["answer"]["type"] == "number" and not q.get("exposed")
+    ][:4]
     test = [q["id"] for q in qs.values() if q["split"] == "test" and q["answer"]["type"] == "number"][:4]
 
     def rec(qid, ok):
