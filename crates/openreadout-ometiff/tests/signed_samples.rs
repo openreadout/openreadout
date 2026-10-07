@@ -16,14 +16,14 @@ struct Signed {
 
 impl Signed {
     fn plane_bytes(&self) -> Vec<u8> {
-        let n = 8 * 4;
+        let n: i32 = 8 * 4;
         match self.pixel_type {
             PixelType::Int8 => (0..n).map(|i| (i as i8 - 16) as u8).collect(),
             PixelType::Int16 => (0..n)
                 .flat_map(|i| (i as i16 * 1000 - 16_000).to_le_bytes())
                 .collect(),
             _ => (0..n)
-                .flat_map(|i| (i as i32 * 100_000 - 1_600_000).to_le_bytes())
+                .flat_map(|i| (i * 100_000 - 1_600_000).to_le_bytes())
                 .collect(),
         }
     }
