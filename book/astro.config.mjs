@@ -60,6 +60,7 @@ export default defineConfig({
             { label: "Install", slug: "getting-started/install" },
             { label: "Your first file", slug: "getting-started/first-file" },
             { label: "Connect an assistant", slug: "getting-started/assistant" },
+            { label: "Upgrading from 0.1", slug: "getting-started/upgrading" },
             { label: "Try it in the browser", link: "https://openreadout.github.io/openreadout/demo/" },
           ],
         },
