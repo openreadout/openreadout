@@ -10,15 +10,15 @@ The state of the project, computed from the files in the repository: the readers
 
 | confidence | formats | which |
 | --- | --- | --- |
-| high | 44 | `abf`, `agilent-masshunter`, `blackrock`, `bruker-tdf`, `chemstation`, `andi-chrom`, `biologic-mpr`, `mrc`, `dm`, `emd`, `heka-patchmaster`, `ced-spike2`, `open-ephys`, `fcs`, `biorad-scn`, `opera-harmony`, `ims`, `nwb`, `intan`, `lif`, `mzml`, `mzxml`, `nd2`, `neuralynx`, `bruker-nmr`, `jcamp-dx`, `varian-nmr`, `jeol-jdf`, `oir`, `rdml`, `applied-biosystems-eds`, `bruker-opus`, `renishaw-wdf`, `galactic-spc`, `jasco-jws`, `witec-project`, `spikeglx`, `tiff`, `vsi`, `waters-raw`, `panalytical-xrdml`, `bruker-raw`, `ome-zarr`, `zvi` |
-| medium | 39 | `atf`, `microcal-itc`, `cytiva-biacore-blr`, `cytiva-biacore-bme`, `sartorius-octet-frd`, `genepix-gpr`, `openlab-cds`, `shimadzu`, `chromeleon`, `czi`, `dcimg`, `biologic-mpt`, `gamry-dta`, `neware-nda`, `neware-ndax`, `arbin-res`, `ser`, `bruker-bes3t`, `cytiva-unicorn-zip`, `imagexpress`, `cellvoyager`, `mzmlb`, `magritek-spinsolve`, `oib`, `plate`, `plexon`, `qpcr-results-export`, `sciex-wiff`, `thermo-omnic`, `perkinelmer-sp`, `agilent-fpa`, `agilent-cary`, `netzsch-ngb`, `ta-universal-analysis`, `ta-trios`, `thermo-raw`, `mirax`, `bruker-brml`, `rigaku-ras` |
+| high | 45 | `abf`, `agilent-masshunter`, `blackrock`, `bruker-tdf`, `chemstation`, `andi-chrom`, `biologic-mpr`, `mrc`, `dm`, `emd`, `heka-patchmaster`, `ced-spike2`, `open-ephys`, `fcs`, `biorad-scn`, `opera-harmony`, `ims`, `nwb`, `intan`, `lif`, `mzml`, `mzxml`, `nd2`, `neuralynx`, `bruker-nmr`, `jcamp-dx`, `varian-nmr`, `jeol-jdf`, `oir`, `rdml`, `applied-biosystems-eds`, `sciex-wiff`, `bruker-opus`, `renishaw-wdf`, `galactic-spc`, `jasco-jws`, `witec-project`, `spikeglx`, `tiff`, `vsi`, `waters-raw`, `panalytical-xrdml`, `bruker-raw`, `ome-zarr`, `zvi` |
+| medium | 38 | `atf`, `microcal-itc`, `cytiva-biacore-blr`, `cytiva-biacore-bme`, `sartorius-octet-frd`, `genepix-gpr`, `openlab-cds`, `shimadzu`, `chromeleon`, `czi`, `dcimg`, `biologic-mpt`, `gamry-dta`, `neware-nda`, `neware-ndax`, `arbin-res`, `ser`, `bruker-bes3t`, `cytiva-unicorn-zip`, `imagexpress`, `cellvoyager`, `mzmlb`, `magritek-spinsolve`, `oib`, `plate`, `plexon`, `qpcr-results-export`, `thermo-omnic`, `perkinelmer-sp`, `agilent-fpa`, `agilent-cary`, `netzsch-ngb`, `ta-universal-analysis`, `ta-trios`, `thermo-raw`, `mirax`, `bruker-brml`, `rigaku-ras` |
 | low | 14 | `agilent-seahorse-asyr`, `malvern-zetasizer-dts`, `empower-arw`, `winwcp`, `bruker-esp`, `cytiva-unicorn-res`, `hdf5`, `imzml`, `oif`, `bio-rad-pcrd`, `roche-lightcycler-ixo`, `rotor-gene-rex`, `perkinelmer-fsm`, `rigaku-rasx` |
 
 Knowledge basis: 15 open spec, 47 prior art, 27 reverse engineered, 8 vendor docs.
 
 ## Corpus
 
-4037 manifest entries; 1721 development inputs of 96 formats from 560 depositors (distinct source records: a Zenodo record, a study, a repository) (283 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
+4076 manifest entries; 1747 development inputs of 96 formats from 579 depositors (distinct source records: a Zenodo record, a study, a repository) (290 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
 
 | tier | entries | declared size |
 | --- | --- | --- |
@@ -32,7 +32,7 @@ Formats without a development-corpus input of their own id (read through a sibli
 
 ## Assurance evidence
 
-From `corpus/assurance/evidence.json` (development files only): 1697 files read; 1580 compared with an oracle, 1580 agree (100%); 1552 confirmed by an independent reader. 2298 distinct variant-feature values observed, 2186 of them validated (95%); the others make files that use them `partially_validated` or `unvalidated`.
+From `corpus/assurance/evidence.json` (development files only): 1723 files read; 1590 compared with an oracle, 1590 agree (100%); 1562 confirmed by an independent reader. 2321 distinct variant-feature values observed, 2207 of them validated (95%); the others make files that use them `partially_validated` or `unvalidated`.
 
 Development files `info` cannot read (3): `pcrd-cfx-primerpickr` (bio-rad-pcrd), `gen5prt-elisa-reader` (plate), `softmax5-cuvette-spectra-s2` (plate).
 
@@ -51,8 +51,8 @@ Variant values the development corpus reaches but no independent reader confirms
 | `jcamp-dx` | acquisition=`CONTINUOUS MASS SPECTRUM`, acquisition=`ND NMR SPECTRUM` |
 | `malvern-zetasizer-dts` | acquisition=`size record`, format_version=`record schema 10`, writer_version=`Zetasizer 7.02`, writer_version=`Zetasizer 7.13`, writer_version=`Zetasizer 8.00`, writer_version=`Zetasizer 8.01` |
 | `microcal-itc` | writer=`MicroCalITC`, writer_version=`ITC200 1.25`, writer_version=`MicroCalITC 1.29` |
-| `mzml` | acquisition=`SRM spectrum`, acquisition=`electromagnetic radiation spectrum`, acquisition=`selected ion monitoring chromatogram`, instrument=`4000 QTRAP`, instrument=`Applied Biosystems instrument model`, instrument=`LTQ Velos`, instrument=`Stellar`, record=`absorption chromatogram`, record=`chromatogram`, record=`electromagnetic radiation chromatogram`, record=`emission chromatogram`, record=`selected ion monitoring chromatogram`, record=`temperature chromatogram`, writer=`Compass` |
-| `mzxml` | format_version=`2.1` |
+| `mzml` | acquisition=`SRM spectrum`, acquisition=`constant neutral loss spectrum`, acquisition=`electromagnetic radiation spectrum`, acquisition=`precursor ion spectrum`, acquisition=`selected ion monitoring chromatogram`, instrument=`4000 QTRAP`, instrument=`AB SCIEX instrument model`, instrument=`Applied Biosystems instrument model`, instrument=`LTQ Velos`, instrument=`QTRAP 5500`, instrument=`Stellar`, record=`absorption chromatogram`, record=`chromatogram`, record=`electromagnetic radiation chromatogram`, record=`emission chromatogram`, record=`selected ion monitoring chromatogram`, record=`temperature chromatogram`, writer=`Compass`, writer=`ProteinPilot Software` |
+| `mzxml` | format_version=`2.1`, instrument=`API 2000` |
 | `plate` | instrument=`Cytation3`, instrument=`Cytation5`, instrument=`SpectraMax M5`, instrument=`Synergy HT`, layout=`container gen5-experiment`, writer_version=`Gen5 1`, writer_version=`Gen5 2` |
 | `plexon` | format_version=`PL2`, record=`PL2 continuous` |
 | `rigaku-ras` | layout=`2θ/θ scan` |
@@ -96,7 +96,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 | --- | --- |
 | reader crates with a maintainer guide (`MAINTAINING.md`, generated facts checked by `cargo xtask guides`) | 40 of 40 |
 | golden-output snapshots of committed fixtures (`cargo test`) | 109 |
-| golden-output snapshots of development-corpus files | 1700 |
-| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3106 |
-| fuzz targets (`fuzz/fuzz_targets/`) | 136 |
-| Rust source files under `crates/` | 783 |
+| golden-output snapshots of development-corpus files | 1723 |
+| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3110 |
+| fuzz targets (`fuzz/fuzz_targets/`) | 138 |
+| Rust source files under `crates/` | 784 |

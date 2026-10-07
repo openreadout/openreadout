@@ -9,7 +9,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `abf` | high | prior art | 37 | 37 | 10 | 19 | 100% | 14% | 4/0 |
 | `agilent-cary` | medium | reverse engineered | 24 | 20 | 5 | 1 | 100% | 100% | - |
 | `agilent-fpa` | medium | prior art | 13 | 13 | 2 | 1 | 100% | 57% | - |
-| `agilent-masshunter` | high | reverse engineered | 17 | 17 | 7 | 8 | 100% | 100% | - |
+| `agilent-masshunter` | high | reverse engineered | 20 | 20 | 10 | 9 | 100% | 100% | - |
 | `agilent-seahorse-asyr` | low | reverse engineered | 9 | 3 | 1 | 2 | 100% | 100% | - |
 | `andi-chrom` | high | open spec | 25 | 25 | 5 | 3 | 100% | 100% | 1/0 |
 | `applied-biosystems-eds` | high | reverse engineered | 23 | 23 | 15 | 11 | 100% | 100% | 2/0 |
@@ -59,7 +59,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `microcal-itc` | medium | reverse engineered | 10 | 6 | 2 | 5 | 100% | 100% | - |
 | `mirax` | medium | prior art | 7 | 7 | 1 | 6 | 100% | 13% | - |
 | `mrc` | high | open spec | 13 | 13 | 7 | 6 | 100% | 24% | 2/0 |
-| `mzml` | high | open spec | 107 | 55 | 41 | 16 | 100% | 0% | 3/0 |
+| `mzml` | high | open spec | 119 | 55 | 41 | 16 | 100% | 0% | 3/0 |
 | `mzmlb` | medium | open spec | 4 | 4 | 1 | 5 | 100% | 0% | 1/0 |
 | `mzxml` | high | open spec | 9 | 7 | 6 | 4 | 100% | 0% | - |
 | `nd2` | high | prior art | 28 | 27 | 7 | 14 | 100% | 42% | 4/0 |
