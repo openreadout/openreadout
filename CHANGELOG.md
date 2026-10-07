@@ -12,6 +12,9 @@ All notable changes to this project are documented here. The format is based on 
 - The release workflow can sign and notarize the macOS binaries with a Developer ID, and sign the Windows binary with Azure Artifact Signing. `scripts/macos-sign.sh` does the macOS part and also runs on a Mac.
 - `.zenodo.json`, so Zenodo can archive each release with a DOI.
 - `cargo binstall openreadout` on Windows on Arm installs the x64 build.
+- CZI: 12-bit JPEG subblocks and chunked compression (id 7, zstd or LZ4 chunks) are decoded.
+- TIFF: 12-bit JPEG pages are read as uint16, and OME Modulo sub-dimensions (FLIM bins, lambda, angles, tiles) are listed in `images[].extra.modulo`.
+- VSI: ETS tiles with compression code 5 (lossless JPEG, as some VS120 slides store them) are decoded.
 
 ### Changed
 
@@ -35,6 +38,9 @@ All notable changes to this project are documented here. The format is based on 
 - Bruker timsTOF: negative-ion runs no longer get negative 1/K0 values. The assurance block reports these values as derived until a vendor conversion of a negative run confirms them.
 - Waters Empower `.arw` exports without header rows are detected and read; their layout is `unvalidated`.
 - EC-Lab text exports: a column no development file had no longer makes the traces `unvalidated`, since every column is read by the same number parser.
+- TIFF: whole full-resolution planes of NDPI slides between 1 and 4 GiB are read (they exited 4).
+- CZI and VSI: `check` no longer exits 4 on channels stored at only some extra-dimension indices, or on stored tiles that lie just past the image edge.
+- DM: `check` no longer reports `truncated` when the header's root length counts 4 of the 8 end bytes (30 of the 89 development files).
 
 ## [0.1.0] - 2026-10-02
 

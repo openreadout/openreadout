@@ -1,0 +1,290 @@
+{
+ "id": "bia2666-vsi-24B0759-t6",
+ "file": "24B0759_T6_he_2024-11-15.vsi",
+ "size": 1578673,
+ "sha256": "cb07fb2003e8f0e4dcf01ece49814397423ca6adb2307b5216878d369242bd30",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "overview",
+   "size_x": 12120,
+   "size_y": 6186,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 3.5058441796619415,
+    "y": 3.5058262500380413
+   },
+   "channel_names": [
+    null
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2024-11-15T01:18:22",
+   "resolutions": 6,
+   "planes": [],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 6060,
+     "size_y": 3093,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "11f87aa49f892ac6991938816888bb28",
+       "mean": 220.56747176010845
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 3030,
+     "size_y": 1547,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "1cab9f2a2d053affb79ab9d964620a6d",
+       "mean": 220.6922342331195
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 1515,
+     "size_y": 774,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "5e72fd8e8b4a707cc4af80a064759cd6",
+       "mean": 220.8153168288405
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 758,
+     "size_y": 387,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "bd767e7bd80c8a819605b812e892722d",
+       "mean": 220.91750810760445
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 379,
+     "size_y": 194,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "7d1fafe4027f4bd3b6333c08223bdd60",
+       "mean": 220.98511184252283
+      }
+     ]
+    }
+   ],
+   "level_sizes": [
+    [
+     12120,
+     6186
+    ],
+    [
+     6060,
+     3093
+    ],
+    [
+     3030,
+     1547
+    ],
+    [
+     1515,
+     774
+    ],
+    [
+     758,
+     387
+    ],
+    [
+     379,
+     194
+    ]
+   ],
+   "bf_failed_levels": [
+    {
+     "level": 0,
+     "error": "at loci.formats.tools.ImageConverter.convertTilePlane(ImageConverter.java:1034)\n\tat loci.formats.tools.ImageConverter.convertPlane(ImageConverter.java:944)\n\tat loci.formats.tools.ImageConverter.testConvert(ImageConverter.java:877)\n\tat loci.formats.tools.ImageConverter.main(ImageConverter.java:1382)\n"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "40x",
+   "size_x": 183255,
+   "size_y": 68292,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.17267040190199842,
+    "y": 0.17266977385522866
+   },
+   "channel_names": [
+    null
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2024-11-15T01:18:39",
+   "resolutions": 10,
+   "planes": [],
+   "levels": [
+    {
+     "level": 4,
+     "size_x": 11454,
+     "size_y": 4269,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "94872b4474a2ee2a9841923f85dd786f",
+       "mean": 219.29361371191155
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 5727,
+     "size_y": 2135,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "74de8be1a44f2fe5088e363583ce8cd1",
+       "mean": 219.29892134808793
+      }
+     ]
+    },
+    {
+     "level": 6,
+     "size_x": 2864,
+     "size_y": 1068,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "89f13c9dcdab69aded5648f63b95ca24",
+       "mean": 219.30534021718663
+      }
+     ]
+    },
+    {
+     "level": 7,
+     "size_x": 1432,
+     "size_y": 534,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "e0a10d1c7d50311d4b7fa155dfbfd920",
+       "mean": 219.31109071063406
+      }
+     ]
+    },
+    {
+     "level": 8,
+     "size_x": 716,
+     "size_y": 267,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "30f64b94a9d9a6645b970fdaa043785e",
+       "mean": 219.31767901854525
+      }
+     ]
+    },
+    {
+     "level": 9,
+     "size_x": 358,
+     "size_y": 134,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "cb27dbc765242e3502fd3e52952af23f",
+       "mean": 219.33172128185888
+      }
+     ]
+    }
+   ],
+   "level_sizes": [
+    [
+     183255,
+     68292
+    ],
+    [
+     91628,
+     34146
+    ],
+    [
+     45814,
+     17073
+    ],
+    [
+     22907,
+     8537
+    ],
+    [
+     11454,
+     4269
+    ],
+    [
+     5727,
+     2135
+    ],
+    [
+     2864,
+     1068
+    ],
+    [
+     1432,
+     534
+    ],
+    [
+     716,
+     267
+    ],
+    [
+     358,
+     134
+    ]
+   ]
+  }
+ ]
+}

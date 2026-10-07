@@ -18,21 +18,21 @@ Knowledge basis: 15 open spec, 47 prior art, 26 reverse engineered, 8 vendor doc
 
 ## Corpus
 
-4003 manifest entries; 1692 development inputs of 95 formats from 550 depositors (distinct source records: a Zenodo record, a study, a repository) (280 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
+3996 manifest entries; 1687 development inputs of 95 formats from 543 depositors (distinct source records: a Zenodo record, a study, a repository) (279 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
 
 | tier | entries | declared size |
 | --- | --- | --- |
-| full | 77 | 48.2 GB |
+| full | 80 | 48.5 GB |
 | heldout | 730 | 6.6 GB |
 | hold | 26 | 132.6 MB |
-| smoke | 1841 | 1.1 GB |
-| standard | 1329 | 20.0 GB |
+| smoke | 1846 | 1.1 GB |
+| standard | 1314 | 19.9 GB |
 
 Formats without a development-corpus input of their own id (read through a sibling format's files, or not yet in the corpus): `hdf5`.
 
 ## Assurance evidence
 
-From `corpus/assurance/evidence.json` (development files only): 1668 files read; 1553 compared with an oracle, 1553 agree (100%); 1525 confirmed by an independent reader. 2270 distinct variant-feature values observed, 2159 of them validated (95%); the others make files that use them `partially_validated` or `unvalidated`.
+From `corpus/assurance/evidence.json` (development files only): 1663 files read; 1549 compared with an oracle, 1549 agree (100%); 1523 confirmed by an independent reader. 2263 distinct variant-feature values observed, 2151 of them validated (95%); the others make files that use them `partially_validated` or `unvalidated`.
 
 Development files `info` cannot read (3): `pcrd-cfx-primerpickr` (bio-rad-pcrd), `gen5prt-elisa-reader` (plate), `softmax5-cuvette-spectra-s2` (plate).
 
@@ -86,7 +86,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 
 - New-variant intakes (`corpus/intake/`): none.
 - Second-opinion disagreements adjudicated (`corpus/oracle/second/adjudications.toml`, 0 where neither reader was right): 26 whole-file entries, and 33 field entries that settle 123 per-file field differences ([second opinions](../../../docs/benchmark/second-opinions.md)).
-- Corpus files whose oracle is known to disagree for a documented reason (`oracle_skip`): 8.
+- Corpus files whose oracle is known to disagree for a documented reason (`oracle_skip`): 7.
 - Corpus entries whose licence or source is not yet confirmed (from intakes; tier `hold`, not fetched automatically): 0.
 - Known upstream dependency bugs with reproducers (`fuzz/known-upstream/`): 5.
 
@@ -95,8 +95,8 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 | what | count |
 | --- | --- |
 | reader crates with a maintainer guide (`MAINTAINING.md`, generated facts checked by `cargo xtask guides`) | 40 of 40 |
-| golden-output snapshots of committed fixtures (`cargo test`) | 107 |
-| golden-output snapshots of development-corpus files | 1671 |
+| golden-output snapshots of committed fixtures (`cargo test`) | 109 |
+| golden-output snapshots of development-corpus files | 1666 |
 | committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3071 |
-| fuzz targets (`fuzz/fuzz_targets/`) | 134 |
-| Rust source files under `crates/` | 778 |
+| fuzz targets (`fuzz/fuzz_targets/`) | 135 |
+| Rust source files under `crates/` | 782 |

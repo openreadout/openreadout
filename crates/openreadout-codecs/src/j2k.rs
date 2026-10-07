@@ -58,6 +58,11 @@ pub(crate) fn codestream(data: &[u8]) -> Result<&[u8]> {
     Err(err("JP2 file without a codestream box"))
 }
 
+/// Largest number of declared samples per byte of codestream (a compression ratio of 65536 to
+/// one for 8-bit samples). Blank 512 x 512 RGB tiles need 12 bytes at this ratio; real tiles,
+/// noise included, are far larger.
+const MAX_SAMPLES_PER_CODED_BYTE: u64 = 1 << 16;
+
 /// Width, height and component count from the SIZ marker (image area on the reference grid).
 pub(crate) fn siz(cs: &[u8]) -> Result<(u32, u32, u16)> {
     let g = |o: usize| -> Result<u32> {
@@ -91,6 +96,19 @@ pub(crate) fn decode(data: &[u8], max_bytes: usize) -> Result<Raster> {
     if bytes > max_bytes.min(MAX_UNSIZED_OUTPUT) as u64 {
         return Err(err(format!(
             "codestream declares an implausible {w}x{h}x{c} image"
+        )));
+    }
+    // The decoders allocate several bytes per declared sample before reading any coded data,
+    // so a few hundred bytes declaring a 300-megapixel image cost gigabytes. Coded data that
+    // small cannot hold such an image in any instrument file: refuse more than
+    // `MAX_SAMPLES_PER_CODED_BYTE` samples per byte of codestream.
+    let samples = u64::from(w)
+        .saturating_mul(u64::from(h))
+        .saturating_mul(u64::from(c));
+    if samples > (cs.len() as u64).saturating_mul(MAX_SAMPLES_PER_CODED_BYTE) {
+        return Err(err(format!(
+            "a {}-byte codestream declares a {w}x{h}x{c} image",
+            cs.len()
         )));
     }
     match rust_j2k::decode(cs) {
