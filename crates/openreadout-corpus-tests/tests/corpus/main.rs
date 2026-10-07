@@ -109,6 +109,11 @@ struct Entry {
     /// frames: the scan window's centre as a pseudo-precursor); the text says why.
     #[serde(default)]
     precursor_not_compared: Option<String>,
+    /// Spectra: the export calls a full scan with a collision energy MS2 and names the centre of
+    /// its scan window as the precursor, where the file's record says MS level 1; such scans are
+    /// compared without MS level, precursor and activation. The text says why.
+    #[serde(default)]
+    window_centre_precursor: Option<String>,
 }
 
 const LOSSY_MEAN_TOLERANCE: f64 = 0.05;
@@ -661,6 +666,8 @@ fn apply_entry_settings(oracle: &mut Oracle, e: &Entry) {
             .clone_from(&e.native_id_not_compared);
         sp.precursor_not_compared
             .clone_from(&e.precursor_not_compared);
+        sp.window_centre_precursor
+            .clone_from(&e.window_centre_precursor);
     }
     oracle.srm_product_tolerance = e.srm_product_tolerance;
 }

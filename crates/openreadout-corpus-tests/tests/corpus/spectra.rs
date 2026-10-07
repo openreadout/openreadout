@@ -187,7 +187,19 @@ pub(crate) fn check_spectra(
                 sp.scan_number, s.scan_number
             ));
         }
-        if sp.ms_level != s.ms_level {
+        // A full scan with a collision energy that the export calls MS2 (manifest
+        // `window_centre_precursor`): level, precursor and activation are the converter's.
+        let window_centre = o.window_centre_precursor.is_some()
+            && openreadout_corpus_tests::window_centre_precursor(
+                sp.ms_level,
+                s.ms_level,
+                &[
+                    sp.scan_window_mz,
+                    s.mz_min.zip(s.mz_max).map(|(a, b)| [a, b]),
+                ],
+                s.precursor_mz,
+            );
+        if sp.ms_level != s.ms_level && !window_centre {
             m.push(format!("ms level {} != {}", sp.ms_level, s.ms_level));
         }
         if let Some(p) = &s.polarity
@@ -225,6 +237,7 @@ pub(crate) fn check_spectra(
         );
         if let Some(p) = s.precursor_mz
             && o.precursor_not_compared.is_none()
+            && !window_centre
             && !precursor
                 .into_iter()
                 // an MS^n or multiplexed scan lists every precursor in `extra.precursors`;
@@ -283,6 +296,7 @@ pub(crate) fn check_spectra(
         if let Some(act) = &s.activation
             && !act.is_null()
             && o.precursor_not_compared.is_none()
+            && !window_centre
         {
             let theirs = act.to_string().to_ascii_lowercase();
             let theirs = if theirs.contains("beam-type")
