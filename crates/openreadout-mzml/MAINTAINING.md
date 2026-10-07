@@ -73,6 +73,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature writer `n` (descriptive)
 - feature instrument `m` (descriptive)
 - undecoded "chromatograms"
+- assumed "spectra[].ms_levels"
 
 ### Validated variants and the corpus files that pin them
 

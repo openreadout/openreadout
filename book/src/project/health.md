@@ -10,29 +10,27 @@ The state of the project, computed from the files in the repository: the readers
 
 | confidence | formats | which |
 | --- | --- | --- |
-| high | 46 | `abf`, `agilent-masshunter`, `blackrock`, `bruker-tdf`, `chemstation`, `andi-chrom`, `biologic-mpr`, `mrc`, `dm`, `ser`, `emd`, `heka-patchmaster`, `ced-spike2`, `open-ephys`, `fcs`, `biorad-scn`, `opera-harmony`, `ims`, `nwb`, `intan`, `lif`, `mzml`, `mzxml`, `nd2`, `neuralynx`, `bruker-nmr`, `jcamp-dx`, `varian-nmr`, `jeol-jdf`, `oir`, `rdml`, `applied-biosystems-eds`, `sciex-wiff`, `bruker-opus`, `renishaw-wdf`, `galactic-spc`, `jasco-jws`, `witec-project`, `spikeglx`, `tiff`, `vsi`, `waters-raw`, `panalytical-xrdml`, `bruker-raw`, `ome-zarr`, `zvi` |
-| medium | 37 | `atf`, `microcal-itc`, `cytiva-biacore-blr`, `cytiva-biacore-bme`, `sartorius-octet-frd`, `genepix-gpr`, `openlab-cds`, `shimadzu`, `chromeleon`, `czi`, `dcimg`, `biologic-mpt`, `gamry-dta`, `neware-nda`, `neware-ndax`, `arbin-res`, `bruker-bes3t`, `cytiva-unicorn-zip`, `imagexpress`, `cellvoyager`, `mzmlb`, `magritek-spinsolve`, `oib`, `plate`, `plexon`, `qpcr-results-export`, `thermo-omnic`, `perkinelmer-sp`, `agilent-fpa`, `agilent-cary`, `netzsch-ngb`, `ta-universal-analysis`, `ta-trios`, `thermo-raw`, `mirax`, `bruker-brml`, `rigaku-ras` |
-| low | 14 | `agilent-seahorse-asyr`, `malvern-zetasizer-dts`, `empower-arw`, `winwcp`, `bruker-esp`, `cytiva-unicorn-res`, `hdf5`, `imzml`, `oif`, `bio-rad-pcrd`, `roche-lightcycler-ixo`, `rotor-gene-rex`, `perkinelmer-fsm`, `rigaku-rasx` |
+| high | 49 | `abf`, `agilent-masshunter`, `blackrock`, `bruker-tdf`, `chemstation`, `andi-chrom`, `biologic-mpr`, `mrc`, `dm`, `ser`, `emd`, `heka-patchmaster`, `ced-spike2`, `open-ephys`, `bruker-esp`, `fcs`, `biorad-scn`, `opera-harmony`, `ims`, `nwb`, `intan`, `lif`, `mzml`, `imzml`, `mzxml`, `nd2`, `neuralynx`, `bruker-nmr`, `jcamp-dx`, `varian-nmr`, `jeol-jdf`, `oib`, `oir`, `rdml`, `applied-biosystems-eds`, `sciex-wiff`, `bruker-opus`, `renishaw-wdf`, `galactic-spc`, `jasco-jws`, `witec-project`, `spikeglx`, `tiff`, `vsi`, `waters-raw`, `panalytical-xrdml`, `bruker-raw`, `ome-zarr`, `zvi` |
+| medium | 44 | `atf`, `microcal-itc`, `cytiva-biacore-blr`, `cytiva-biacore-bme`, `sartorius-octet-frd`, `malvern-zetasizer-dts`, `genepix-gpr`, `openlab-cds`, `empower-arw`, `shimadzu`, `chromeleon`, `czi`, `dcimg`, `biologic-mpt`, `gamry-dta`, `neware-nda`, `neware-ndax`, `arbin-res`, `winwcp`, `bruker-bes3t`, `cytiva-unicorn-res`, `cytiva-unicorn-zip`, `imagexpress`, `cellvoyager`, `hdf5`, `mzmlb`, `magritek-spinsolve`, `oif`, `plate`, `plexon`, `roche-lightcycler-ixo`, `qpcr-results-export`, `thermo-omnic`, `perkinelmer-sp`, `agilent-fpa`, `agilent-cary`, `netzsch-ngb`, `ta-universal-analysis`, `ta-trios`, `thermo-raw`, `mirax`, `bruker-brml`, `rigaku-ras`, `rigaku-rasx` |
+| low | 4 | `agilent-seahorse-asyr`, `bio-rad-pcrd`, `rotor-gene-rex`, `perkinelmer-fsm` |
 
 Knowledge basis: 15 open spec, 47 prior art, 27 reverse engineered, 8 vendor docs.
 
 ## Corpus
 
-4212 manifest entries; 1879 development inputs of 96 formats from 706 depositors (distinct source records: a Zenodo record, a study, a repository) (291 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
+4390 manifest entries; 1970 development inputs of 97 formats from 737 depositors (distinct source records: a Zenodo record, a study, a repository) (293 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 25 distinct (every entry has one).
 
 | tier | entries | declared size |
 | --- | --- | --- |
 | full | 119 | 48.5 GB |
 | heldout | 730 | 6.6 GB |
 | hold | 26 | 132.6 MB |
-| smoke | 1854 | 1.1 GB |
-| standard | 1483 | 23.0 GB |
-
-Formats without a development-corpus input of their own id (read through a sibling format's files, or not yet in the corpus): `hdf5`.
+| smoke | 1909 | 1.1 GB |
+| standard | 1606 | 23.5 GB |
 
 ## Assurance evidence
 
-From `corpus/assurance/evidence.json` (development files only): 1855 files read; 1722 compared with an oracle, 1722 agree (100%); 1694 confirmed by an independent reader. 2374 distinct variant-feature values observed, 2260 of them validated (95%); the others make files that use them `partially_validated` or `unvalidated`.
+From `corpus/assurance/evidence.json` (development files only): 1946 files read; 1874 compared with an oracle, 1874 agree (100%); 1846 confirmed by an independent reader. 2402 distinct variant-feature values observed, 2264 of them validated (94%); the others make files that use them `partially_validated` or `unvalidated`.
 
 Development files `info` cannot read (3): `pcrd-cfx-primerpickr` (bio-rad-pcrd), `gen5prt-elisa-reader` (plate), `softmax5-cuvette-spectra-s2` (plate).
 
@@ -40,31 +38,67 @@ Variant values the development corpus reaches but no independent reader confirms
 
 | format | values |
 | --- | --- |
-| `agilent-cary` | layout=`explicit x values`, record=`baseline store`, writer=`Scan 5.0.0.999`, writer=`Scanning Kinetics 5.0.0.999` |
+| `agilent-cary` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model`, layout=`explicit x values`, record=`baseline store`, writer=`Scan 5.0.0.999`, writer=`Scanning Kinetics 5.0.0.999` |
+| `agilent-fpa` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
 | `agilent-masshunter` | record=`detector signal` |
-| `agilent-seahorse-asyr` | layout=`24-well plate` |
+| `agilent-seahorse-asyr` | field=`experiment.acquisition.started_at`, layout=`24-well plate` |
+| `andi-chrom` | field=`experiment.instrument.model` |
+| `applied-biosystems-eds` | field=`experiment.instrument.model` |
+| `arbin-res` | field=`experiment.acquisition.started_at` |
 | `biologic-mpt` | layout=`absolute time column` |
-| `ced-spike2` | writer_version=`S2091349` |
-| `chromeleon` | codec=`3DRawSpc`, codec=`PtsDDCmp`, codec=`PtsLL2Df`, format_version=`stored results 2`, instrument=`Acquity.dll`, instrument=`DAD3000.dll`, instrument=`PumpLPG3X00RS.dll`, instrument=`Thermo.MassSpectrometer`, layout=`1 Hz signal in mL/min`, layout=`10 Hz signal in bar`, layout=`100 Hz signal in bar`, layout=`20 Hz 3D field in mAU`, layout=`20 Hz signal in mAU`, layout=`25 Hz 3D field in mAU`, layout=`25 Hz signal in mAU`, layout=`irregular signal in counts` |
-| `gamry-dta` | record=`column i`, record=`column v`, record=`table FRACURVE` |
+| `biorad-scn` | field=`experiment.instrument.model` |
+| `bruker-esp` | field=`experiment.acquisition.started_at` |
+| `bruker-nmr` | field=`experiment.instrument.model` |
+| `bruker-opus` | field=`experiment.instrument.model` |
+| `bruker-raw` | field=`experiment.acquisition.started_at` |
+| `bruker-tdf` | derivation=`spectra[].inverse_reduced_mobility by negative-ion voltage magnitude` |
+| `ced-spike2` | field=`experiment.acquisition.started_at`, writer_version=`S2091349` |
+| `cellvoyager` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `chromeleon` | codec=`3DRawSpc`, format_version=`stored results 2`, instrument=`Acquity.dll`, instrument=`DAD3000.dll`, instrument=`PumpLPG3X00RS.dll`, instrument=`Thermo.MassSpectrometer`, layout=`1 Hz signal in mL/min`, layout=`10 Hz signal in bar`, layout=`100 Hz signal in bar`, layout=`20 Hz 3D field in mAU`, layout=`25 Hz 3D field in mAU` |
+| `cytiva-biacore-bme` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `cytiva-unicorn-res` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `dcimg` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `dm` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `emd` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `galactic-spc` | field=`experiment.instrument.model` |
+| `imzml` | field=`experiment.acquisition.started_at` |
 | `jasco-jws` | record=`channel 0x2`, record=`channel 0x9`, record=`channel 0xa` |
 | `jcamp-dx` | acquisition=`CONTINUOUS MASS SPECTRUM`, acquisition=`ND NMR SPECTRUM` |
-| `malvern-zetasizer-dts` | acquisition=`size record`, format_version=`record schema 10`, writer_version=`Zetasizer 7.02`, writer_version=`Zetasizer 7.13`, writer_version=`Zetasizer 8.00`, writer_version=`Zetasizer 8.01` |
+| `jeol-jdf` | field=`experiment.instrument.model` |
+| `magritek-spinsolve` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `malvern-zetasizer-dts` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model`, format_version=`record schema 10`, writer_version=`Zetasizer 7.02`, writer_version=`Zetasizer 8.00`, writer_version=`Zetasizer 8.01` |
 | `microcal-itc` | writer=`MicroCalITC`, writer_version=`ITC200 1.25`, writer_version=`MicroCalITC 1.29` |
-| `mzml` | acquisition=`SRM spectrum`, acquisition=`constant neutral loss spectrum`, acquisition=`electromagnetic radiation spectrum`, acquisition=`precursor ion spectrum`, acquisition=`selected ion monitoring chromatogram`, instrument=`4000 QTRAP`, instrument=`AB SCIEX instrument model`, instrument=`Applied Biosystems instrument model`, instrument=`LTQ Velos`, instrument=`QTRAP 5500`, instrument=`Stellar`, record=`absorption chromatogram`, record=`chromatogram`, record=`electromagnetic radiation chromatogram`, record=`emission chromatogram`, record=`selected ion monitoring chromatogram`, record=`temperature chromatogram`, writer=`Compass`, writer=`ProteinPilot Software` |
-| `mzxml` | format_version=`2.1`, instrument=`API 2000` |
-| `plate` | instrument=`Cytation3`, instrument=`Cytation5`, instrument=`SpectraMax M5`, instrument=`Synergy HT`, layout=`container gen5-experiment`, writer_version=`Gen5 1`, writer_version=`Gen5 2` |
+| `mirax` | field=`experiment.acquisition.started_at` |
+| `mrc` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `mzml` | acquisition=`constant neutral loss spectrum`, acquisition=`precursor ion spectrum`, instrument=`AB SCIEX instrument model`, instrument=`Applied Biosystems instrument model`, record=`emission chromatogram`, writer=`ProteinPilot Software` |
+| `mzxml` | instrument=`API 2000` |
+| `oir` | field=`experiment.instrument.model` |
+| `openlab-cds` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `opera-harmony` | field=`experiment.instrument.model` |
+| `perkinelmer-fsm` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `perkinelmer-sp` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `plate` | derivation=`tables[].extra.reads[].wavelength_nm by label keywords`, instrument=`Cytation3`, instrument=`SpectraMax M5` |
 | `plexon` | format_version=`PL2`, record=`PL2 continuous` |
-| `rigaku-ras` | layout=`2θ/θ scan` |
-| `rigaku-rasx` | layout=`TwoThetaTheta scan` |
-| `roche-lightcycler-ixo` | dialect=`ixo`, field=`experiment.acquisition.started_at`, field=`experiment.instrument.model`, instrument=`LightCycler 480 - LED lamp`, instrument=`LightCycler 480 - Xenon lamp`, record=`amplification`, record=`melt`, record=`melt derivative`, writer=`LightCycler` |
-| `sciex-wiff` | acquisition=`scan type MRM`, acquisition=`stored SRM`, instrument=`generation ZenoTOF`, writer_version=`Analyst TF 1.7` |
-| `shimadzu` | layout=`chromatogram in LSS Raw Data` |
-| `ta-trios` | acquisition=`oscillation moduli, parallel plate 20 mm`, instrument=`DMA850`, instrument=`DSC2500`, instrument=`Discovery HR30`, record=`channel heat_capacity`, record=`channel signal_00df1759`, record=`channel signal_055d9ef1`, record=`channel signal_0657b71a`, record=`channel signal_21d50e7b`, record=`channel signal_448bc112`, record=`channel signal_590f45fb`, record=`channel signal_649ee073`, record=`channel signal_849a233d`, record=`channel signal_98638024`, record=`channel signal_a341c459`, record=`channel signal_a3cc3ee2`, record=`channel signal_ac1f73ff`, record=`channel signal_d9aae222`, record=`channel signal_f03e0b40`, writer_version=`TRIOS 5.9` |
-| `thermo-raw` | record=`controller analog`, record=`controller channel`, record=`controller pda`, writer_version=`Xcalibur 2.11` |
-| `tiff` | codec=`old-jpeg (ycbcr)` |
-| `vsi` | layout=`metadata_only` |
+| `qpcr-results-export` | field=`experiment.instrument.model` |
+| `rdml` | field=`experiment.acquisition.started_at` |
+| `renishaw-wdf` | field=`experiment.acquisition.started_at` |
+| `roche-lightcycler-ixo` | derivation=`traces[].melt by LightCycler 480 melting-program readings at each acquisition's temperature`, field=`experiment.acquisition.started_at` |
+| `rotor-gene-rex` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `sartorius-octet-frd` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `sciex-wiff` | instrument=`generation ZenoTOF`, layout=`scheduled MRM, method windows` |
+| `ser` | field=`experiment.instrument.model` |
+| `shimadzu` | field=`experiment.acquisition.started_at`, layout=`chromatogram in LSS Raw Data` |
+| `spikeglx` | field=`experiment.instrument.model` |
+| `ta-trios` | acquisition=`oscillation moduli, parallel plate 20 mm`, field=`experiment.acquisition.started_at`, field=`experiment.instrument.model`, instrument=`DMA850`, instrument=`DSC2500`, instrument=`Discovery HR30`, record=`channel heat_capacity`, record=`channel signal_00df1759`, record=`channel signal_055d9ef1`, record=`channel signal_0657b71a`, record=`channel signal_21d50e7b`, record=`channel signal_448bc112`, record=`channel signal_590f45fb`, record=`channel signal_649ee073`, record=`channel signal_849a233d`, record=`channel signal_98638024`, record=`channel signal_a341c459`, record=`channel signal_a3cc3ee2`, record=`channel signal_ac1f73ff`, record=`channel signal_d9aae222`, record=`channel signal_f03e0b40`, writer_version=`TRIOS 5.9` |
+| `ta-universal-analysis` | field=`experiment.acquisition.started_at`, field=`experiment.instrument.model` |
+| `thermo-raw` | record=`controller analog`, writer_version=`Xcalibur 2.11` |
+| `tiff` | codec=`old-jpeg (ycbcr)`, field=`experiment.instrument.model` |
+| `varian-nmr` | field=`experiment.instrument.model` |
+| `vsi` | field=`experiment.instrument.model`, layout=`metadata_only` |
 | `waters-raw` | record=`analog channel` |
+| `winwcp` | field=`experiment.acquisition.started_at` |
+| `witec-project` | field=`experiment.acquisition.started_at` |
+| `zvi` | field=`experiment.instrument.model` |
 
 ## Held-out benchmark
 
@@ -86,7 +120,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 
 - New-variant intakes (`corpus/intake/`): none.
 - Second-opinion disagreements adjudicated (`corpus/oracle/second/adjudications.toml`, 0 where neither reader was right): 26 whole-file entries, and 33 field entries that settle 123 per-file field differences ([second opinions](../../../docs/benchmark/second-opinions.md)).
-- Corpus files whose oracle is known to disagree for a documented reason (`oracle_skip`): 15.
+- Corpus files whose oracle is known to disagree for a documented reason (`oracle_skip`): 16.
 - Corpus entries whose licence or source is not yet confirmed (from intakes; tier `hold`, not fetched automatically): 0.
 - Known upstream dependency bugs with reproducers (`fuzz/known-upstream/`): 6.
 
@@ -96,7 +130,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 | --- | --- |
 | reader crates with a maintainer guide (`MAINTAINING.md`, generated facts checked by `cargo xtask guides`) | 40 of 40 |
 | golden-output snapshots of committed fixtures (`cargo test`) | 109 |
-| golden-output snapshots of development-corpus files | 1858 |
-| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3242 |
+| golden-output snapshots of development-corpus files | 1949 |
+| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3384 |
 | fuzz targets (`fuzz/fuzz_targets/`) | 138 |
-| Rust source files under `crates/` | 786 |
+| Rust source files under `crates/` | 787 |
