@@ -96,7 +96,7 @@ pub struct MzmlDataset {
     summaries: OnceLock<std::result::Result<Vec<Summary>, String>>,
     chrom_meta: OnceLock<std::result::Result<Vec<ChromMeta>, String>>,
     /// imzML: the MS level of a spectrum that states none (`default_ms_level`).
-    level_default: OnceLock<u32>,
+    level_default: OnceLock<(u32, bool)>,
     /// imzML: the `.ibd` file holding the arrays.
     imaging: Option<Imaging>,
     /// mzMLb: the HDF5 datasets holding the arrays.
@@ -322,13 +322,19 @@ impl MzmlDataset {
         self.file_len
     }
 
-    /// The MS level of an imzML spectrum that states none: 1 when the file's `fileContent` names
-    /// MS1 spectra and no other spectrum type (an imaging file's spectra are one kind), else 0
-    /// (not stated). mzML files keep 0: their `fileContent` lists every kind in the run.
+    /// The MS level of an imzML spectrum that states none, and whether it is assumed: 1 when the
+    /// file's `fileContent` names MS1 spectra and no other spectrum kind (an imaging file's
+    /// spectra are one kind); 1, assumed, when it names no specific kind (only the generic
+    /// `mass spectrum`, or nothing); else 0 (not stated). mzML files keep 0: their `fileContent`
+    /// lists every kind in the run.
     fn default_ms_level(&self) -> u32 {
+        self.level_default().0
+    }
+
+    fn level_default(&self) -> (u32, bool) {
         *self.level_default.get_or_init(|| {
             if self.imaging.is_none() {
-                return 0;
+                return (0, false);
             }
             let fc: Vec<Param> = self
                 .header_node("fileDescription")
@@ -336,14 +342,22 @@ impl MzmlDataset {
                 .map(|c| params(c, &self.groups))
                 .unwrap_or_default();
             // spectrum kinds, not their representation (`centroid spectrum`, `profile spectrum`)
+            // or the generic parent term (`mass spectrum`)
             let kinds = fc
                 .iter()
                 .filter(|p| {
                     p.name.ends_with("spectrum")
-                        && !matches!(p.name.as_str(), "centroid spectrum" | "profile spectrum")
+                        && !matches!(
+                            p.name.as_str(),
+                            "centroid spectrum" | "profile spectrum" | "mass spectrum"
+                        )
                 })
                 .count();
-            u32::from(kinds == 1 && find(&fc, cv::MS1_SPECTRUM).is_some())
+            match (kinds, find(&fc, cv::MS1_SPECTRUM).is_some()) {
+                (1, true) => (1, false),
+                (0, _) => (1, true),
+                _ => (0, false),
+            }
         })
     }
 
@@ -1704,6 +1718,12 @@ impl Dataset for MzmlDataset {
         };
         let mut notes = self.notes.clone();
         let spectra = self.spectra_info()?;
+        if self.level_default().1 {
+            notes.push(
+                "the imzML names no spectrum kind and its spectra state no MS level: they are taken as MS1 (assumed)"
+                    .into(),
+            );
+        }
         if spectra
             .extra
             .get("acquired_at")

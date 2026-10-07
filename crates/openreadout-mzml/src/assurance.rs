@@ -43,6 +43,13 @@ pub(crate) static MZMLB: AssuranceProfile = AssuranceProfile {
 
 fn observe(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
+    if let Some(n) = info
+        .notes
+        .iter()
+        .find(|n| n.contains("they are taken as MS1 (assumed)"))
+    {
+        o.assumed("spectra[].ms_levels", n.clone());
+    }
     if let Some(v) = &info.format_version {
         o.feature(
             K::FormatVersion,
