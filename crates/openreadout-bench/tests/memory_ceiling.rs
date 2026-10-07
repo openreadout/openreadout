@@ -10,6 +10,12 @@
 //! 2. the peak heap stays below the documented formula, `(2 * threads + 4) * plane_bytes`
 //!    plus a fixed allowance for metadata and I/O buffers.
 //!
+//! A single plane larger than the streaming writer's block (`BLOCK_BYTES`, 256 MiB) is exported
+//! to OME-Zarr without a pyramid block by block: the peak heap stays within one block plus the
+//! fixed allowance, about half the plane.
+//! The whole-plane writer used for it before held the plane several times over (the decoded
+//! plane, the deinterleaved samples, compressed chunks and the read-back copy).
+//!
 //! It also exports synthetic mass-spectrometry runs of 1,000 and 4,000 spectra to mzML: the
 //! writer reads and compresses spectra in batches, so its peak heap must not grow with the
 //! number of spectra either.
@@ -105,6 +111,25 @@ fn check(zarr: bool) {
     }
 }
 
+fn check_large_plane() {
+    let dir = tempfile::tempdir().unwrap();
+    // 16384 x 16384 uint16 = 512 MiB, one plane: twice the block budget.
+    let ds = SyntheticImage::new(16384, 16384, 1, 1, 1);
+    let plane = ds.plane_bytes() as usize;
+    let peak = export_peak(&ds, 1, true, dir.path());
+    let ceiling = openreadout_ometiff::pyramid::BLOCK_BYTES as usize + 2 * FIXED_ALLOWANCE;
+    eprintln!(
+        "OME-Zarr, one {:.0} MiB plane: peak heap {:.1} MiB (ceiling {:.1} MiB)",
+        mib(plane),
+        mib(peak),
+        mib(ceiling)
+    );
+    assert!(
+        peak <= ceiling,
+        "OME-Zarr peak heap {peak} B for one {plane} B plane exceeds one block plus allowance ({ceiling} B)"
+    );
+}
+
 /// Peak heap of exporting `scans` spectra of `points` points to mzML, on 4 threads.
 fn mzml_peak(scans: u64, points: usize, dir: &Path) -> usize {
     let pool = rayon::ThreadPoolBuilder::new()
@@ -152,5 +177,6 @@ fn check_mzml() {
 fn export_memory_is_bounded_by_plane_size() {
     check(false);
     check(true);
+    check_large_plane();
     check_mzml();
 }

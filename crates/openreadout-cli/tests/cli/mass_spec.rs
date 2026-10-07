@@ -324,3 +324,75 @@ fn mzml_to_mzml_keeps_instrument_terms_and_chromatograms() {
         v["data"]["metadata"]["differences"]
     );
 }
+
+/// An mzML with a PDA detector's optical spectrum between two mass spectra: `spectrum` refuses
+/// the optical one (exit 6), and the mzML export leaves it out and says so. The export used to
+/// panic on it (MTBLS773, `docs/provenance/mzml.md`).
+#[test]
+fn mzml_optical_spectra_are_refused_and_left_out_of_exports() {
+    // Two 32-bit floats, 3.0 and 4.0, uncompressed.
+    let array = |kind: &str| {
+        format!(
+            r#"<binaryDataArray encodedLength="12">{kind}
+     <cvParam accession="MS:1000521" name="32-bit float"/>
+     <cvParam accession="MS:1000576" name="no compression"/>
+     <binary>AABAQAAAgEA=</binary></binaryDataArray>"#
+        )
+    };
+    let mz = array(r#"<cvParam accession="MS:1000514" name="m/z array"/>"#);
+    let wavelength = array(r#"<cvParam accession="MS:1000617" name="wavelength array"/>"#);
+    let intensity = array(r#"<cvParam accession="MS:1000515" name="intensity array"/>"#);
+    let ms1 = r#"<cvParam accession="MS:1000579" name="MS1 spectrum"/>
+   <cvParam accession="MS:1000511" name="ms level" value="1"/>"#;
+    let optical = r#"<cvParam accession="MS:1000804" name="electromagnetic radiation spectrum"/>"#;
+    let spectrum = |i: usize, kind: &str, x: &str| {
+        format!(
+            r#"  <spectrum id="scan={}" index="{i}" defaultArrayLength="2">
+   {kind}
+   <binaryDataArrayList count="2">{x}{intensity}</binaryDataArrayList>
+  </spectrum>
+"#,
+            i + 1
+        )
+    };
+    let xml = format!(
+        r#"<mzML xmlns="http://psi.hupo.org/ms/mzml" version="1.1.0">
+ <run id="r"><spectrumList count="3">
+{}{}{} </spectrumList></run></mzML>
+"#,
+        spectrum(0, ms1, &mz),
+        spectrum(1, optical, &wavelength),
+        spectrum(2, ms1, &mz)
+    );
+    let tmp = tempfile::tempdir().unwrap();
+    let src = tmp.path().join("pda.mzML");
+    std::fs::write(&src, xml).unwrap();
+
+    let out = bin()
+        .args(["spectrum", "--json", "--spectrum", "1"])
+        .arg(&src)
+        .output()
+        .unwrap();
+    assert_eq!(out.status.code(), Some(6), "{}", stderr(&out));
+    assert!(json(&out)["error"]["hint"].is_string());
+
+    let dst = tmp.path().join("out.mzML");
+    let out = bin()
+        .args(["export", "--json", "--format", "mzml", "-o"])
+        .arg(&dst)
+        .arg(&src)
+        .output()
+        .unwrap();
+    assert!(out.status.success(), "{}", stderr(&out));
+    let v = json(&out);
+    assert_eq!(v["data"]["spectra_written"], 2);
+    assert_eq!(v["data"]["spectra_skipped"], 1);
+    assert!(
+        v["data"]["warnings"][0]
+            .as_str()
+            .unwrap()
+            .contains("optical")
+    );
+    let out = bin().args(["info", "--json"]).arg(&dst).output().unwrap();
+    assert_eq!(json(&out)["data"]["spectra"][0]["scan_count"], 2);
+}

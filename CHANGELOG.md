@@ -64,6 +64,8 @@ The second release. In short:
 - CZI and VSI: `check` no longer exits 4 on channels stored at only some extra-dimension indices, or on stored tiles that lie just past the image edge.
 - Imaris files whose lower resolution levels have fewer z planes failed to export (exit 2), and `preview` failed when it picked such a level. Export no longer copies those levels, and `preview` no longer picks them.
 - DM: `check` no longer reports `truncated` when the header's root length counts 4 of the 8 end bytes (30 of the 89 development files).
+- mzML: optical spectra (a PDA detector's, with a wavelength array instead of m/z) no longer make `export --format mzml` panic. `spectrum` refuses them with exit 6 and a hint, and the mzML export leaves them out and reports how many in `spectra_skipped`.
+- OME-Zarr export streams planes larger than 256 MiB block by block instead of above 4 GiB. A 20563 × 20164 RGB plane now peaks at 0.9 GB instead of 2.9 GB, and the store is byte-identical.
 - OME-Zarr export stores chunks that hold only zeros. A fresh export whose last image was blank (an empty label image, a dark frame) read as an acquisition in progress for five minutes, and `planes` returned nothing in that time.
 - OME-Zarr: while a store is still being written, the planes of its finished images (earlier wells of a plate) count as complete. `planes` and `check` left them out.
 - VSI: reading a whole slide plane holds it once, not twice (3.8 GB to 2.2 GB peak for a 1.9 GB plane, same pixels).
