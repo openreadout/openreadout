@@ -857,7 +857,11 @@ impl LifDataset {
                 let ci = (k / g.lambda.max(1)) as usize;
                 let l = k % g.lambda.max(1);
                 let c = &node.channels[ci];
-                let base = (!c.lut_name.is_empty()).then(|| c.lut_name.clone());
+                // Named after the recorded dye when there is one, else the display colour.
+                let base = c
+                    .dye_name
+                    .clone()
+                    .or_else(|| (!c.lut_name.is_empty()).then(|| c.lut_name.clone()));
                 let (name, emission_nm) = match lambda_dim {
                     Some(d) => {
                         let v = d.coordinate(l);
@@ -879,6 +883,7 @@ impl LifDataset {
                     index: k,
                     name,
                     color: lut_color(&c.lut_name).map(str::to_string),
+                    fluorophore: c.dye_name.clone(),
                     // λ scans: the λ coordinate, which is the start of the detection window
                     emission_nm,
                     emission_range_nm: if lambda_dim.is_some() {
@@ -1733,6 +1738,7 @@ mod tests {
                     min: 0.0,
                     max: 0.0,
                     band_nm: None,
+                    dye_name: None,
                 })
                 .collect(),
             dimensions: dims,

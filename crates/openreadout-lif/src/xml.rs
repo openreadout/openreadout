@@ -102,6 +102,10 @@ pub struct ChannelDesc {
     pub max: f64,
     /// Detection band `[start, end]` in nm from `ChannelAttachment`, if present.
     pub band_nm: Option<[f64; 2]>,
+    /// Dye recorded for this channel, without the `Leica/` prefix (`docs/formats/lif.md`,
+    /// *Channels*): its own `ChannelProperty` `DyeName`, or the band of its detector in the
+    /// hardware setting when that maps to the channels one for one.
+    pub dye_name: Option<String>,
 }
 
 /// Acquisition settings found in the hardware-setting attachment.
@@ -302,6 +306,92 @@ fn magnification_of(name: &str) -> Option<f64> {
     })
 }
 
+/// A recorded dye name without LAS X's `Leica/` prefix; empty and `None` mean no dye.
+fn dye(v: &str) -> Option<String> {
+    let v = v.trim();
+    let v = v.strip_prefix("Leica/").unwrap_or(v).trim();
+    (!v.is_empty() && v != "None").then(|| v.to_string())
+}
+
+/// Dyes of the image's channels from the detection bands of its hardware setting, or `None`
+/// when they do not map to the channels unambiguously (`docs/provenance/lif.md`, 2026-10-07).
+///
+/// The sequential steps (`LDM_Block_Sequential_List`), or the main setting when there are
+/// none, are walked in order; each active detector of a step takes the `DyeName` of the band
+/// (`Spectro/MultiBand`) with its `Channel` in the same step. Every step must carry its own
+/// bands, every active detector except the transmission detector (`Channel` 100) must have
+/// one, the active detectors must match the `n` channels one for one, and no dye may be named
+/// twice.
+fn hardware_dyes(image: Node<'_, '_>, n: usize) -> Option<Vec<Option<String>>> {
+    // LAS X has one `HardwareSetting` attachment; LAS AF a `HardwareSettingList` that we read
+    // only when it holds a single setting.
+    let hs = image
+        .children()
+        .filter(|a| a.has_tag_name("Attachment"))
+        .find_map(|a| match a.attribute("Name") {
+            Some("HardwareSetting") => Some(Some(a)),
+            Some("HardwareSettingList") => {
+                let mut settings = a.children().filter(|c| c.has_tag_name("HardwareSetting"));
+                Some(settings.next().filter(|_| settings.next().is_none()))
+            }
+            _ => None,
+        })??;
+    let is_setting = |c: &Node<'_, '_>| c.has_tag_name("ATLConfocalSettingDefinition");
+    let sequential = hs
+        .children()
+        .find(|c| c.has_tag_name("LDM_Block_Sequential"));
+    let mut steps: Vec<Node<'_, '_>> = sequential
+        .and_then(|s| {
+            s.children()
+                .find(|c| c.has_tag_name("LDM_Block_Sequential_List"))
+        })
+        .map(|l| l.children().filter(is_setting).collect())
+        .unwrap_or_default();
+    if steps.is_empty() {
+        let main = hs.children().find(is_setting).or_else(|| {
+            sequential?
+                .children()
+                .find(|c| c.has_tag_name("LDM_Block_Sequential_Master"))?
+                .children()
+                .find(is_setting)
+        })?;
+        steps.push(main);
+    }
+    let mut dyes = Vec::new();
+    for step in steps {
+        let bands: Vec<Node<'_, '_>> = step
+            .children()
+            .filter(|c| c.has_tag_name("Spectro"))
+            .flat_map(|s| s.children().filter(|b| b.has_tag_name("MultiBand")))
+            .collect();
+        if bands.is_empty() {
+            return None;
+        }
+        let detectors = step
+            .children()
+            .filter(|c| c.has_tag_name("DetectorList"))
+            .flat_map(|l| l.children().filter(|d| d.has_tag_name("Detector")))
+            .filter(|d| d.attribute("IsActive") == Some("1"));
+        for d in detectors {
+            let channel = d.attribute("Channel");
+            match bands.iter().find(|b| b.attribute("Channel") == channel) {
+                Some(b) => dyes.push(b.attribute("DyeName").and_then(dye)),
+                None if channel == Some("100") => dyes.push(None),
+                None => return None,
+            }
+            if dyes.len() > n {
+                return None;
+            }
+        }
+    }
+    let named: Vec<&String> = dyes.iter().flatten().collect();
+    let distinct = named
+        .iter()
+        .enumerate()
+        .all(|(i, a)| !named[..i].contains(a));
+    (dyes.len() == n && !named.is_empty() && distinct).then_some(dyes)
+}
+
 fn attr_f64(n: Node<'_, '_>, name: &str) -> Option<f64> {
     n.attribute(name).and_then(|v| v.trim().parse().ok())
 }
@@ -498,6 +588,11 @@ fn parse_image(
                     min: attr_f64(n, "Min").unwrap_or(0.0),
                     max: attr_f64(n, "Max").unwrap_or(0.0),
                     band_nm: None,
+                    dye_name: n
+                        .children()
+                        .filter(|p| p.has_tag_name("ChannelProperty"))
+                        .find(|p| child_text(*p, "Key") == Some("DyeName"))
+                        .and_then(|p| dye(child_text(p, "Value")?)),
                 })
                 .collect()
         })
@@ -551,6 +646,13 @@ fn parse_image(
     }
     // Channels in storage order (by `BytesInc`), as they are laid out in the memory block.
     channels.sort_by_key(|c| c.bytes_inc);
+    if channels.iter().all(|c| c.dye_name.is_none())
+        && let Some(dyes) = hardware_dyes(image, channels.len())
+    {
+        for (c, d) in channels.iter_mut().zip(dyes) {
+            c.dye_name = d;
+        }
+    }
 
     // `TimeStampList` holds hex FILETIMEs as text (LAS X) or `TimeStamp` elements with the two
     // 32-bit halves as `HighInteger` / `LowInteger` attributes (LAS AF).
@@ -690,6 +792,71 @@ mod tests {
         assert_eq!((f.size("X"), f.size("Y"), f.size("Z")), (64, 32, 1));
         assert_eq!(f.histogram_bins(), Some(528));
         assert_eq!(nodes[1].memory_block_id, "MemBlock_3");
+    }
+
+    #[test]
+    fn dye_names_from_channel_properties_or_detector_bands() {
+        let image = |channels: &str, att: &str| {
+            format!(
+                r#"<LMSDataContainerHeader Version="2"><Element Name="p"><Data><Image><ImageDescription>
+                <Channels>{channels}</Channels>
+                <Dimensions><DimensionDescription DimID="1" NumberOfElements="2" BytesInc="1"/>
+                <DimensionDescription DimID="2" NumberOfElements="2" BytesInc="2"/></Dimensions>
+                </ImageDescription>{att}</Image></Data><Memory Size="8" MemoryBlockID="MemBlock_1"/></Element>
+                </LMSDataContainerHeader>"#
+            )
+        };
+        let dyes = |xml: &str| -> Vec<Option<String>> {
+            parse_images(xml).unwrap()[0]
+                .channels
+                .iter()
+                .map(|c| c.dye_name.clone())
+                .collect()
+        };
+        let two = r#"<ChannelDescription BytesInc="4" LUTName="Green"/><ChannelDescription BytesInc="0" LUTName="Blue"/>"#;
+        // LAS X 4: each channel's own property, in storage order.
+        let props = image(
+            r#"<ChannelDescription BytesInc="4" LUTName="Green"><ChannelProperty><Key>DyeName</Key><Value>Leica/ALEXA 488</Value></ChannelProperty></ChannelDescription>
+            <ChannelDescription BytesInc="0" LUTName="Blue"><ChannelProperty><Key>DyeName</Key><Value>Leica/DAPI</Value></ChannelProperty></ChannelDescription>"#,
+            "",
+        );
+        assert_eq!(
+            dyes(&props),
+            [Some("DAPI".into()), Some("ALEXA 488".into())]
+        );
+        // Sequential steps: each step's active detector takes its own band's dye; the band of
+        // the inactive detector (FITC in step 1) is ignored.
+        let step = |band1: &str, band2: &str, active: u32| {
+            format!(
+                r#"<ATLConfocalSettingDefinition><Spectro><MultiBand Channel="1" DyeName="{band1}"/><MultiBand Channel="2" DyeName="{band2}"/></Spectro>
+                <DetectorList><Detector Channel="1" IsActive="{}"/><Detector Channel="2" IsActive="{}"/></DetectorList></ATLConfocalSettingDefinition>"#,
+                u32::from(active == 1),
+                u32::from(active == 2)
+            )
+        };
+        let seq = |steps: &str| {
+            format!(
+                r#"<Attachment Name="HardwareSetting"><LDM_Block_Sequential><LDM_Block_Sequential_List>{steps}</LDM_Block_Sequential_List></LDM_Block_Sequential></Attachment>"#
+            )
+        };
+        let steps = format!(
+            "{}{}",
+            step("Leica/DAPI", "Leica/FITC", 1),
+            step("None", "Leica/FITC", 2)
+        );
+        assert_eq!(
+            dyes(&image(two, &seq(&steps))),
+            [Some("DAPI".into()), Some("FITC".into())]
+        );
+        // Ambiguous: one step for two channels, the same dye twice, a step without bands.
+        let one = step("Leica/DAPI", "Leica/FITC", 1);
+        assert_eq!(dyes(&image(two, &seq(&one))), [None, None]);
+        let twice = format!("{}{}", step("Leica/FITC", "", 1), step("", "Leica/FITC", 2));
+        assert_eq!(dyes(&image(two, &seq(&twice))), [None, None]);
+        let bare = format!(
+            r#"{one}<ATLConfocalSettingDefinition><DetectorList><Detector Channel="2" IsActive="1"/></DetectorList></ATLConfocalSettingDefinition>"#
+        );
+        assert_eq!(dyes(&image(two, &seq(&bare))), [None, None]);
     }
 
     #[test]

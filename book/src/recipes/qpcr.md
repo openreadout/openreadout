@@ -62,7 +62,7 @@ hint: Check the arguments with `openreadout help <command>`; `openreadout info F
 
 ### Recompute Cq from the curves
 
-`--compute-cq` computes a threshold Cq for every curve and compares it with the stored one:
+`--compute-cq` computes our own Cq for every curve and compares it with the stored one. On LightCycler 480 `.ixo` files it finds the second-derivative maximum, the same kind of Cp the instrument reports. Elsewhere it finds a threshold crossing:
 
 ```text
 $ openreadout analyze qpcr rdml-stepone-std.rdml --compute-cq
@@ -70,7 +70,7 @@ $ openreadout analyze qpcr rdml-stepone-std.rdml --compute-cq
 our Cq vs vendor: 24 curves, 24 both with Cq, 0 both undetermined, 0 only vendor, 0 only ours; mean diff -7.369, median |diff| 6.909, max |diff| 28.629, within 0.5 cycles 0.042, r = 0.50760
 ```
 
-The two agree closely only when the file records the threshold and baseline the software used. This StepOne RDML file records neither, so OpenReadout falls back to its own automatic threshold, and the difference above is a difference of method, not a reading error. Use the stored Cq for such files, and set `--threshold` and `--baseline` to match your software's settings when you need the comparison. See [qPCR formats](../formats/qpcr.md).
+The two agree closely only when the file records the threshold and baseline the software used. This StepOne RDML file records neither, so OpenReadout falls back to its own automatic threshold, and the difference above is a difference of method, not a reading error. Use the stored Cq for such files, and set `--threshold`, `--baseline-start` and `--baseline-end` to match your software's settings when you need the comparison. `--cq-method stored-threshold` uses only the settings the file stores, and leaves curves without them uncomputed. See [qPCR formats](../formats/qpcr.md).
 
 ### Many runs
 

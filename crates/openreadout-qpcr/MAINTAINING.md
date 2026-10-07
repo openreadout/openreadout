@@ -13,7 +13,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
    - `.lc96p` (`lc96.rs`): an RDML 1.1 zip plus Roche members with the vendor's analysis attached to reactions.
    - Results exports (`export.rs`, format `qpcr-results-export`): Applied Biosystems `Results` sheets (with `Amplification Data` and `Melt Curve Raw Data` when present) and Bio-Rad CFX `Quantification Cq Results`, read from `.xls`/`.xlsx` through `calamine` or from delimited text; columns are found by header name. Detection reads workbooks up to 16 MiB in `sniff_input`, because the cells decide.
 3. **Dataset** (`dataset.rs` `QpcrDataset`): table 0 `results` (well × target), tables 1–2 `amplification` and `melt` curves, traces per run and dye.
-4. **Analysis** (`analysis.rs`, `report.rs`): our own threshold Cq (linear baseline), melt −dF/dT, ΔΔCq and standard curves, reported next to the vendor's values, never over them. `rdml_write.rs` writes RDML 1.3 (verified by read-back).
+4. **Analysis** (`analysis.rs`, `report.rs`): our own Cq (`CqMethod`: threshold crossing, stored-threshold, second-derivative maximum; the default depends on the format), melt −dF/dT, ΔΔCq and standard curves, reported next to the vendor's values, never over them. `rdml_write.rs` writes RDML 1.3 (verified by read-back).
 
 ## Invariants and checks
 
@@ -52,7 +52,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 
 | file | what it does (its module documentation) |
 | --- | --- |
-| [`src/analysis.rs`](src/analysis.rs) | Our own qPCR analysis (documented in `docs/formats/qpcr.md` → "Analysis"): threshold-cycle Cq with linear baseline subtraction, melt-curve −dF/dT, and least-squares helpers for |
+| [`src/analysis.rs`](src/analysis.rs) | Our own qPCR analysis (documented in `docs/formats/qpcr.md` → "Analysis"): Cq by threshold cycle (with linear baseline subtraction) or by second-derivative maximum, melt-curve |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the qPCR readers (RDML, Applied Biosystems `.eds`, Bio-Rad `.pcrd`, Rotor-Gene `.rex`): the variant features of a run file and the |
 | [`src/dataset.rs`](src/dataset.rs) | `Dataset` over the normalized model: the results table, curve tables, traces, listing, integrity checks and provenance |
 | [`src/eds.rs`](src/eds.rs) | Applied Biosystems experiment documents (`.eds`): the `apldbio/sds/` XML layout (QuantStudio, ViiA 7), the 7500 / StepOne layout (`multicomponent_data.txt`) and the JSON layout… |
@@ -63,7 +63,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 | [`src/model.rs`](src/model.rs) | The normalized qPCR model every dialect is parsed into (names: `docs/formats/qpcr.md`) |
 | [`src/rdml.rs`](src/rdml.rs) | RDML (Real-time PCR Data Markup Language) 1.0-1.4: a zip holding `rdml_data.xml`, or the bare XML |
 | [`src/rdml_write.rs`](src/rdml_write.rs) | `export --format rdml`: any readable qPCR file as RDML 1.3 (`rdml_data.xml` in a zip), written to a temporary file, read back and compared, then renamed into place |
-| [`src/report.rs`](src/report.rs) | `openreadout analyze qpcr`: named per-well records, and the analyses — our own threshold Cq compared with the vendor's, ΔΔCq relative quantification, standard curves |
+| [`src/report.rs`](src/report.rs) | `openreadout analyze qpcr`: named per-well records, and the analyses — our own Cq compared with the vendor's, ΔΔCq relative quantification, standard curves |
 | [`src/rex.rs`](src/rex.rs) | Qiagen Rotor-Gene run files (`.rex`, XML): samples by tube, groups (targets), raw channel readings (cycling and melt) and the thermal profile |
 | [`src/xml.rs`](src/xml.rs) | Small helpers over `roxmltree` (namespace-agnostic: elements are matched by local name) |
 

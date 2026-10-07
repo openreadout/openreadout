@@ -1,13 +1,34 @@
 //! `analyze qpcr`: named per-well results of a real-time PCR file (RDML, Applied Biosystems `.eds`,
-//! Rotor-Gene `.rex`, LightCycler 480 `.ixo`), and the analyses: our own threshold Cq against the vendor's, ΔΔCq
+//! Rotor-Gene `.rex`, LightCycler 480 `.ixo`), and the analyses: our own Cq against the vendor's, ΔΔCq
 //! relative quantification, standard curves (`openreadout_qpcr::qpcr_report`).
 
 use std::path::{Path, PathBuf};
 
 use openreadout_core::{Error, Registry, Result};
-use openreadout_qpcr::{QpcrDataset, QpcrReport, QpcrReportRequest, qpcr_report};
+use openreadout_qpcr::{CqMethod, QpcrDataset, QpcrReport, QpcrReportRequest, qpcr_report};
 
 use crate::output::{emit, fail};
+
+/// How `--compute-cq` computes Cq (`openreadout_qpcr::CqMethod`).
+#[derive(Debug, Clone, Copy, clap::ValueEnum)]
+pub enum CqMethodArg {
+    /// Where the baseline-corrected curve crosses a threshold.
+    Threshold,
+    /// A threshold crossing with only the threshold and baseline the file stores.
+    StoredThreshold,
+    /// The maximum of the second derivative, as the LightCycler 480 places its Cp.
+    SecondDerivative,
+}
+
+impl From<CqMethodArg> for CqMethod {
+    fn from(m: CqMethodArg) -> Self {
+        match m {
+            CqMethodArg::Threshold => Self::Threshold,
+            CqMethodArg::StoredThreshold => Self::StoredThreshold,
+            CqMethodArg::SecondDerivative => Self::SecondDerivative,
+        }
+    }
+}
 
 /// Arguments of `qpcr`.
 #[derive(Debug, clap::Args)]
@@ -28,10 +49,14 @@ pub struct QpcrArgs {
     /// Only this run (RDML files with several plates).
     #[arg(long)]
     pub run: Option<String>,
-    /// Also compute our own threshold Cq for every curve and compare it with the vendor's
+    /// Also compute our own Cq for every curve and compare it with the vendor's
     /// (agreement statistics under `cq_comparison`).
     #[arg(long)]
     pub compute_cq: bool,
+    /// With `--compute-cq`: how to compute Cq (default: second-derivative for LightCycler 480
+    /// `.ixo` files without `--threshold` or a baseline window, else threshold).
+    #[arg(long, requires = "compute_cq", value_name = "METHOD")]
+    pub cq_method: Option<CqMethodArg>,
     /// With `--compute-cq`: threshold in baseline-corrected fluorescence units (default: the
     /// file's own where it records the threshold in force, else 10 SD of the baseline).
     #[arg(long, requires = "compute_cq")]
@@ -88,6 +113,7 @@ fn report(reg: &Registry, a: &QpcrArgs) -> Result<QpcrReport> {
     req.sample.clone_from(&a.sample);
     req.run.clone_from(&a.run);
     req.compute_cq = a.compute_cq;
+    req.cq_method = a.cq_method.map(CqMethod::from);
     req.threshold = a.threshold;
     req.baseline = baseline(a.baseline_start, a.baseline_end)?;
     req.relative = a.ddcq;
