@@ -164,7 +164,7 @@ The gates every change passes: `cargo fmt --check`, `cargo clippy --all-targets 
 
 - `cargo xtask coverage [--crate NAME] [--corpus]` measures line coverage per crate with cargo-llvm-cov (optional tool) and writes `target/coverage/summary.md`; with `--corpus` the corpus tests run under coverage too, which is what tells the reader code no test or corpus file reaches. Code paths nothing reaches are either given a synthetic test built from the observed structure, or made visible to users as `undecoded`/`unvalidated` in the assurance profile.
 - Shared parsing utilities live in `openreadout-core` (`bytes`, `cfb`, `zip`, `gzip`, `xmljson`, `source`) and `openreadout-codecs`; a reader that needs a container another crate already parses should use the shared one (see the guides' *Fragile spots* for what a change there affects).
-- `scripts/sweep/sweep.py` runs the release binary over the development corpus and flags panics, memory and time limits, errors without a hint and output that changes between runs (`scripts/sweep/README.md`; findings go in `docs/benchmark/`).
+- `scripts/sweep/sweep.py` runs the release binary over the development corpus and flags panics, memory and time limits, errors without a hint and output that changes between runs (`scripts/sweep/README.md`).
 - Every public item of a published crate is documented (`#![warn(missing_docs)]`, an error in `openreadout-core` and under CI's `-D warnings`; CI also builds the API docs with `RUSTDOCFLAGS=-D warnings`); parser internals that tests and fuzz targets need are `#[doc(hidden)]`.
 
 ### Known duplication

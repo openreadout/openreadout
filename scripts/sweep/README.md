@@ -17,4 +17,4 @@ The commands are `info`, `info --view format`, `check`, `preview`, `stats` on th
 
 `--oracle-results PATH` marks exit codes 4 and 5 on files whose oracle test passed. Make that file with `CORPUS_RESULTS=PATH cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test corpus corpus_matches_oracle`.
 
-Keep results under `target/`. The findings of a campaign and their fixes go in `docs/benchmark/` (for example `sweep-2026-10.md`).
+Keep results under `target/`. They are not committed.
