@@ -1231,7 +1231,7 @@ impl Dataset for DmDataset {
             r.performed("DM5: the HDF5 group tree and its attributes read as the DM tag tree");
             r.performed("every ImageList entry has an ImageData/Data dataset whose size matches Dimensions x DataType");
         } else {
-            r.performed("header: version 3/4, byte-order word, root length = file length - header - 8 end bytes");
+            r.performed("header: version 3/4, byte-order word, root length = file length - header - 8 end bytes (or - 4: some writers count half of the end bytes)");
             r.performed(
                 "tag directory parses to the end; DM4 tag lengths agree with their contents",
             );
@@ -1240,7 +1240,12 @@ impl Dataset for DmDataset {
         r.performed("Thumbnails.ImageIndex names an ImageList entry");
         let len = self.blob.len;
         let expected = len.saturating_sub(self.header.header_len + 8);
-        if !dm5 && self.header.root_length != expected {
+        // Writers differ: the root length is the file length minus the header and the 8 end
+        // bytes, or minus the header and 4 of them (rsciio's and Nion's test files, and DM3/DM4
+        // files from several depositors: docs/formats/dm.md).
+        let counts_half_end = self.header.root_length == expected.saturating_add(4)
+            && len >= self.header.header_len + 8;
+        if !dm5 && self.header.root_length != expected && !counts_half_end {
             let f = if self.header.root_length > expected {
                 Finding::error(
                     "truncated",
@@ -1658,6 +1663,28 @@ mod tests {
         assert_eq!(info.images[0].size_z, 2);
         let p = ds.read_plane(0, PlaneIndex { c: 0, z: 1, t: 0 }).unwrap();
         assert_eq!(p.data, px[16..].to_vec());
+    }
+
+    /// Writers set the root length to file length − header − 8 or − 4 (30 of the 89
+    /// development files); only a larger one means the file is cut short.
+    #[test]
+    fn root_length_may_count_half_of_the_end_bytes() {
+        let px: Vec<u8> = (0..6u16).flat_map(u16::to_le_bytes).collect();
+        for v in [3u32, 4] {
+            for (extra, ok) in [(0u64, true), (4, true), (5, false), (12, false)] {
+                let mut b = image_file(v, &[3, 2], 10, &px);
+                if v == 4 {
+                    let n = u64::from_be_bytes(b[4..12].try_into().unwrap()) + extra;
+                    b[4..12].copy_from_slice(&n.to_be_bytes());
+                } else {
+                    let n = u32::from_be_bytes(b[4..8].try_into().unwrap()) + extra as u32;
+                    b[4..8].copy_from_slice(&n.to_be_bytes());
+                }
+                let (_d, mut ds) = open(&b);
+                let r = ds.check().unwrap();
+                assert_eq!(r.ok, ok, "DM{v}, root length + {extra}: {:?}", r.findings);
+            }
+        }
     }
 
     #[test]

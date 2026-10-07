@@ -336,6 +336,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "codec_chunked"
+path = "fuzz_targets/codec_chunked.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "codec_jpeg2000"
 path = "fuzz_targets/codec_jpeg2000.rs"
 test = false

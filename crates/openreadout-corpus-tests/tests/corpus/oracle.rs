@@ -393,6 +393,10 @@ pub(crate) struct OracleImage {
     /// Channel names, compared when present (MetaMorph `.nd` wavelength names).
     #[serde(default)]
     pub(crate) check_channel_names: Option<Vec<String>>,
+    /// OME Modulo sub-dimension sizes by parent axis (`Z`, `C`, `T`), compared with
+    /// `images[].extra.modulo` when present (tifffile's modulo axes).
+    #[serde(default)]
+    pub(crate) modulo: BTreeMap<String, u32>,
 }
 #[derive(Deserialize)]
 pub(crate) struct OracleLevel {

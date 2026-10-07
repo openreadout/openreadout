@@ -1,0 +1,123 @@
+{
+ "id": "synthetic-gray16-chunked-zstd-hilo",
+ "file": "synthetic-gray16-chunked-zstd-hilo.czi",
+ "size": 139296,
+ "sha256": "4b1d716b8b3d6cb00200e2a0fc94092c855aa8c948b98b2e1473af9de816aa2f",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 128,
+   "size_y": 96,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 2,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "TCYX",
+   "shape": [
+    2,
+    2,
+    96,
+    128
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.5,
+    "y": 0.5,
+    "z": 2.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1dc53dc2b9a94261964ecfaabb5458cb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "b7e89e6bfd7274a5fc1dd08838a663c1"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3a1d9a53a40149c76ec70e5c2288590f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "61ddc7686169e7c29cb815971b314381"
+    }
+   ],
+   "levels": []
+  },
+  {
+   "index": 1,
+   "name": "Scene 1",
+   "size_x": 128,
+   "size_y": 96,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 2,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "TCYX",
+   "shape": [
+    2,
+    2,
+    96,
+    128
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.5,
+    "y": 0.5,
+    "z": 2.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7cc74d9649075439585a4dc36cf0e619"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "2f1b24028f605b27e8fac8fcb0580223"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "35e86faf3939d71cbb619993855a9fbc"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "f923ba155f4c1d436fcacf7e2cf5ec81"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.5,
+  "y": 0.5,
+  "z": 2.0
+ },
+ "subblock_count": 8,
+ "compression_ids": [
+  7
+ ]
+}

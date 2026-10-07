@@ -1,0 +1,346 @@
+{
+ "id": "/Users/richardzimring/desktop-things/projects/openreadout/corpus/files/ome-modulo-lambda-along-z-and-t",
+ "file": "LAMBDA-ModuloAlongZ-ModuloAlongT.ome.tiff",
+ "size": 2108703,
+ "sha256": "b8c511cf2f83e78eb58f1b26d8155c3ae9687b9c6c4ac783cdd0abdd28485c9c",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 50,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "LAMBDA",
+   "kind": "ome",
+   "axes": "TZYX",
+   "shape": [
+    10,
+    5,
+    200,
+    200
+   ],
+   "size_x": 200,
+   "size_y": 200,
+   "size_z": 5,
+   "size_c": 1,
+   "size_t": 10,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c7ca41861274160fb27ac3ef1eac0811"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "5c6aea14307e330c6256e68f4f04bbfd"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "4acd21e4c98217b87083ce87bbc5c322"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "d44733903f750e27f127d82ab1b0c3a7"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "d3ec6e0b194f2068819fc092bc649ec7"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "88bdcd1a7f9bfa39f2590a3a3069816f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "b625147cdebddb9f80a03c2d6fe54b6a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "e320eca36d659fb68e23c6a740a08136"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "943d93498175dd6849375e57f5017248"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "60bc1504ed616528af685ad70eb90ac4"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "3db1a9d91e4f8932fd0d3198698d2326"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 1,
+     "xxh3": "56c7fd796c95e410aa72bcc9542c9d97"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 2,
+     "xxh3": "a7efdfe0156149906e66f46259931683"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 3,
+     "xxh3": "756a38608727534cae1460ba3677ed96"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 4,
+     "xxh3": "8b6b89ad0ce3660f97dbd39fb2344d8e"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 5,
+     "xxh3": "6344f0e6c327788d0dd9e52e06222a14"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 6,
+     "xxh3": "54bbde61d852ec89e6385280793b49af"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 7,
+     "xxh3": "1bcc3068677201a599efd6c083b1c7d6"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 8,
+     "xxh3": "3597e31b2b860a581f60ac9085bea1f9"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 9,
+     "xxh3": "1207b435ee24d45af42ca4973de5bb0b"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "899553db13f3504c5f6b78f22b2a2023"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 1,
+     "xxh3": "e3de0f05df3950747811c46c15aab9ae"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 2,
+     "xxh3": "d785142fd9901b97a53479f973075c20"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 3,
+     "xxh3": "841096683947c4582fc45de2f515a706"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 4,
+     "xxh3": "6f90585c2b8af49dc9b346edf8f455bd"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 5,
+     "xxh3": "26192fbfc4576c6e26e7ffd6425efacf"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 6,
+     "xxh3": "5360d12d93d61a57bc3ba9441881aec9"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 7,
+     "xxh3": "dff263d7bd7e1efc176ebc376d2ff0ef"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 8,
+     "xxh3": "d6aad9bd15d4a58b69eb9ef733776a04"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 9,
+     "xxh3": "82102d4ff83853d586d2f4338bebd502"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "bd7d81f3a68f5d30485da92e833985ee"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 1,
+     "xxh3": "edd4145afe52ac88c6752fcddb75c0e6"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 2,
+     "xxh3": "9b0347f6211f65e1a50254ca509d0066"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 3,
+     "xxh3": "2fb6cb1f19564039586ca2a1bab09c6f"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 4,
+     "xxh3": "c34a838be6488e5711b945671a102da0"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 5,
+     "xxh3": "8c7f6cd07eafd9ac18dad8fb043f39e2"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 6,
+     "xxh3": "c3293038207deed74ea14df6c0d24463"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 7,
+     "xxh3": "6d68bf30352f10e5147a918a28cdc5b6"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 8,
+     "xxh3": "1d460fc32d91829cfc301cb9ca3282a2"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 9,
+     "xxh3": "031f2a9d5ba2029cc523cade658f5194"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "7bf72353bea4239fc5b4887f6d8356bf"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 1,
+     "xxh3": "3f918588addb7421fedb766c49d47d59"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 2,
+     "xxh3": "b596ac711e0ad30ad9f546c0195ff338"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 3,
+     "xxh3": "5b973a099fd2c3be5e11f8138b6dbeaa"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 4,
+     "xxh3": "94b3ac768096b24f21ab6ce9507cf073"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 5,
+     "xxh3": "0990f2b50c4532b7ff0e24bdb4bd1157"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 6,
+     "xxh3": "348edb95a15927021cd664bd2c6049bf"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 7,
+     "xxh3": "150bc9e85dc8ace3ca7cd5e5c4596eec"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 8,
+     "xxh3": "b8618c4a2a0f782205af187e78ba8c36"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 9,
+     "xxh3": "243715bc462e1932142a70be8da1d59b"
+    }
+   ],
+   "modulo": {
+    "Z": 5,
+    "T": 10
+   },
+   "axes_unfolded": "EPYX"
+  }
+ ]
+}

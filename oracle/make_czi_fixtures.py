@@ -250,6 +250,12 @@ def to_jxr(sb: SubBlock, *, level=1.0, declare: int | None = None, convert=None)
     return replace(sb, compression=4, data=data, pixel_type=sb.pixel_type if declare is None else declare)
 
 
+def to_chunked(sb: SubBlock, **kw) -> SubBlock:
+    """Chunked compression (id 7) of the stored bytes, by imagecodecs (BSD-3-Clause)."""
+    itemsize = np.dtype(PIXEL[sb.pixel_type][0]).itemsize
+    return replace(sb, compression=7, data=bytes(imagecodecs.chunked_encode(sb.data, itemsize=itemsize, **kw)))
+
+
 def transcode(src: Path, dst: Path, fn) -> None:
     c = read_container(src)
     c.subblocks = [fn(sb) for sb in c.subblocks]
@@ -327,6 +333,8 @@ def build(out: Path) -> list[Path]:
     transcode(g16u, p, lambda sb: to_jpeg(sb, level=95, bitspersample=12))
     note(p, "gray16 (12-bit values) 2 scenes, subblocks re-encoded as 12-bit extended JPEG q95 under compression id 1")
 
+    build_chunked(out, note)
+
     # --- JPEG XR (compression id 4), matching and mismatching the declared pixel type ---
     p = out / "synthetic-gray16-jxr.czi"
     transcode(g16u, p, lambda sb: to_jxr(sb))
@@ -359,12 +367,30 @@ def build(out: Path) -> list[Path]:
     return made
 
 
+def build_chunked(out: Path, note) -> None:
+    """Chunked compression (id 7, libCZI documentation page pages/chunked_compression.html):
+    pylibCZIrw 6.1 does not write it, so the subblocks of pylibCZIrw-written bases are
+    re-encoded with imagecodecs' `chunked_encode`. Needs the bases on disk (`build` writes them)."""
+    g16u = out / "synthetic-gray16-s2c2t2-uncompressed.czi"
+    g8 = out / "synthetic-gray8-c2z2t3-uncompressed.czi"
+    rgb48 = out / "synthetic-bgr48-uncompressed.czi"
+    p = out / "synthetic-gray16-chunked-zstd-hilo.czi"
+    transcode(g16u, p, lambda sb: to_chunked(sb, codec="zstd", hilo=True))
+    note(p, "gray16 2 scenes, chunked (id 7): one zstd chunk per subblock with the HiLo split (imagecodecs)")
+    p = out / "synthetic-gray8-chunked-lz4.czi"
+    transcode(g8, p, lambda sb: to_chunked(sb, codec="lz4", chunksize=5000))  # sizes [5000, 2288]
+    note(p, "gray8 C=2 Z=2 T=3 mosaic, chunked (id 7): LZ4 chunks of 5000 bytes (imagecodecs)")
+    p = out / "synthetic-bgr48-chunked-zstd.czi"
+    transcode(rgb48, p, lambda sb: to_chunked(sb, codec="zstd"))
+    note(p, "bgr48, chunked (id 7): one zstd chunk, no preprocessing (imagecodecs)")
+
+
 # Fixtures whose pixels czifile gets wrong (it casts a mismatched JPEG XR stream instead of
 # converting it); their plane hashes come from pylibCZIrw, which applies the resolution protocol.
 PYLIBCZIRW_ORACLE = {"synthetic-jxr-mismatch-bgr48-as-bgr24", "synthetic-jxr-mismatch-gray8-as-gray16"}
 # Lossy JPEG fixtures: libjpeg-turbo (czifile's decoder) and a pure-Rust decoder differ by a few
 # grey levels, so the harness compares these against czifile's decoded planes with a tolerance.
-SIDECAR_PLANES = {"synthetic-gray8-jpeg", "synthetic-bgr24-jpeg", "synthetic-bgr24-jpeg444"}
+SIDECAR_PLANES = {"synthetic-gray8-jpeg", "synthetic-bgr24-jpeg", "synthetic-bgr24-jpeg444", "synthetic-gray16-jpeg12"}
 
 
 def _xxh(a: np.ndarray) -> str:
@@ -431,8 +457,13 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.environ.get("OPENREADOUT_CORPUS_DIR", str(ROOT / "corpus/files")))
     ap.add_argument("--oracle", action="store_true")
+    ap.add_argument("--chunked-only", action="store_true", help="only the chunked (id 7) fixtures, from bases on disk")
     a = ap.parse_args()
-    made = build(Path(a.out))
+    if a.chunked_only:
+        made: list[Path] = []
+        build_chunked(Path(a.out), lambda p, d: (FIXTURES.__setitem__(p.stem, d), made.append(p)))
+    else:
+        made = build(Path(a.out))
     for p in made:
         print(f"{p.stat().st_size:>10}  {p.name}")
     for k, v in FIXTURES.items():

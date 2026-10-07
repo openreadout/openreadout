@@ -1,0 +1,140 @@
+{
+ "id": "/Users/richardzimring/desktop-things/projects/openreadout/corpus/files/ome-modulo-flim-along-c",
+ "file": "FLIM-ModuloAlongC.ome.tiff",
+ "size": 461842,
+ "sha256": "d208ed92f4be0409dbb858f6006fe70eea97561ec9abed316a639ee9821bfcd9",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 16,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "FLIM",
+   "kind": "ome",
+   "axes": "CYX",
+   "shape": [
+    16,
+    150,
+    180
+   ],
+   "size_x": 180,
+   "size_y": 150,
+   "size_z": 1,
+   "size_c": 16,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "int8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "37027981d11b1fa3b96032e46e0ed7ec"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4c36790ac2cedb255a39f71647c26d6d"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2491e75484501991f6c1232aa229b6ab"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3c7a34995c33bf7fb19501087e963084"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "af66d3ec1527791aebf85672514c7fd4"
+    },
+    {
+     "c": 5,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5a270344ab4fc3009634ee2fde290eac"
+    },
+    {
+     "c": 6,
+     "z": 0,
+     "t": 0,
+     "xxh3": "61ad8dfe00eb79f0b05068cfeb649039"
+    },
+    {
+     "c": 7,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31d4b19318f21ed78da4b0a875794d33"
+    },
+    {
+     "c": 8,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5a21ea036939063cbe019f8e296eb514"
+    },
+    {
+     "c": 9,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a044009fb23696977a82d197ee5f7ff7"
+    },
+    {
+     "c": 10,
+     "z": 0,
+     "t": 0,
+     "xxh3": "41e45b34d3230126e095ac73e8f424bd"
+    },
+    {
+     "c": 11,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f16709a001fa3b4a10c7b701c8ba6369"
+    },
+    {
+     "c": 12,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8ff6db6c76e06214ed272525c8a9ced3"
+    },
+    {
+     "c": 13,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4e016b29d54eec709918ba5615a74d9d"
+    },
+    {
+     "c": 14,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8ddef61c63e85fde2fcd905274994ce1"
+    },
+    {
+     "c": 15,
+     "z": 0,
+     "t": 0,
+     "xxh3": "810c939c80d5a076f150dde4603309e7"
+    }
+   ],
+   "modulo": {
+    "C": 8
+   },
+   "axes_unfolded": "CHYX"
+  }
+ ]
+}

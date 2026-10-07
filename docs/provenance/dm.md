@@ -55,3 +55,13 @@ Gatan does not publish the DM3/DM4 file format. Everything here comes from permi
 - DataType 23 (RGBA): bytes R, G, B, A (the vendor page, nionswift-io and RosettaSciIO agree); returned as three interleaved uint8 samples, alpha dropped (the vendor page says it carries no data). The spectrum-plot thumbnails then render in DM's plot colours (a yellow grid, an olive fill), not in their R/B-swapped complement.
 - The spectral axis: `Meta Data.Format` "Spectrum image" → the last of three dimensions, or the first of two (a line scan: `test-MonoCL_spectrum-SI.dm4` has Dimensions 1336 × 67 with units nm and µm, its first axis spanning 811–936 nm around the recorded "Central wavelength (nm)" 869.98); "Spectrum" with more than one spectrum → the first dimension; files without the tag → a third dimension (or the first of two) whose unit is an energy (eV, keV). A spectral axis whose other axes are all 1 is a single spectrum: kept as an image one pixel high (as before) and also exposed as a trace. Otherwise the spectral axis becomes channels (C), one per bin, named by the bin's calibrated value, like Velox spectrum images; positions stay X (and Y). Previously a 3-D spectrum image's energy axis was T and a CL spectrum image's wavelength axis (unit nm) was taken for Z with a physical Z size: both were wrong.
 - `Meta Data.IsSequence` makes the stacked axis T even when its unit is a length.
+
+## 2026-10-06 — Root length counting half of the end bytes is not truncation
+
+**Why.** `check` reported `truncated` (exit 4) whenever the header's root length was larger than file length − header − 8. Running `check` over the development corpus showed this on 30 of the 89 DM files, all of which `info` and the oracles read completely.
+
+**Corpus files used:** the `rsciio-dm-*-dm3` test files, the `nion-dm-ref-*` DM3/DM4 files, `zenodo13913066-Core-DF`, `zenodo13913066-CS-Co-EELS-SI`, `ncem-dm-08-carbon-dm3` (the 30 files) and the other 59 DM3/DM4 development files. **Prior art consulted:** none; a survey of the 16-byte headers of 560 public DM3/DM4 files on Zenodo by HTTP range requests (file length − root length: 20 or 16 for DM3, 24 or 20 for DM4).
+
+**Inferred.** Writers set the root length to file length − header − 8 or to file length − header − 4, in DM3 and DM4 alike. In every one of the 30 files the tag directory parses to its end, which is followed by the usual 8 zero bytes.
+
+**Rule implemented:** a root length of file length − header − 4 is accepted as well; a larger one is still `truncated`, and a smaller one is still a `root_length` warning. A file whose tag directory or pixel data run past the end is reported as before.

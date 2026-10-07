@@ -1,0 +1,237 @@
+{
+ "id": "/Users/richardzimring/desktop-things/projects/openreadout/corpus/files/ome-modulo-flim-along-t-tcspc",
+ "file": "FLIM-ModuloAlongT-TSCPC.ome.tiff",
+ "size": 1221534,
+ "sha256": "eb775bcf2368126276f4bd0b747944ad3c683fdbbda577501a2310da5dd25e77",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 32,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "FLIM",
+   "kind": "ome",
+   "axes": "TCYX",
+   "shape": [
+    16,
+    2,
+    200,
+    180
+   ],
+   "size_x": 180,
+   "size_y": 200,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 16,
+   "samples_per_pixel": 1,
+   "pixel_type": "int8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ddd0c6c572d38d773c59b5dc20de0fcb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "a9a28d3384c111a87bfb285c2fda7d20"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "faf78c5ac478ab09e622ff32c181c3da"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "eda769062a47442a21bbfbeb0e07c0da"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "99bc6b9d8807ac6bc735f4eb0d95e86c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "76755dc4254e0dd3540a3964df29eae3"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "ef3749655d059f5858dc90e0cefa7df4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "a3b72ba8a6b007f8552ad598c860be32"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "5fdb4ba26d47f547794e390acf9eca62"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "4b9dff118098df823e17b7c880f66bc5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 10,
+     "xxh3": "52638e00bcb09397ff13573c63a3c1c2"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 11,
+     "xxh3": "f0fb1db4e0481dd074d6b05f5ab12741"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 12,
+     "xxh3": "9f10c6530db95c4c2c10952797627c12"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 13,
+     "xxh3": "a40e077a7643821a939815b056d5f34a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 14,
+     "xxh3": "07a75ad7f6388f790d652c636a7d759e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 15,
+     "xxh3": "a4cd46b8252e68cbf064dbc781eeec45"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "016b63bc7efdd23252b0f3847df0abf6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 1,
+     "xxh3": "a5b976652f3b61846b4338cd9742a5aa"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "5d4fa448d15f4437001d4a17a6429f3c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 3,
+     "xxh3": "29e00ac4e0eb4ddaf104415cf644bb0d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 4,
+     "xxh3": "2ad7ae2014c207f08642ae35a2f8e8ec"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 5,
+     "xxh3": "f5fa75c8e374cbb73bcb0b52404c55e8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 6,
+     "xxh3": "61ccfb03d8c8475f95d349e8deb1bb36"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 7,
+     "xxh3": "9a67519bafd98fc7ae87c1dd369d1c58"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 8,
+     "xxh3": "4698543bac780ab925c58a3fc607a7f3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 9,
+     "xxh3": "8ccfb3d1c3b1ac72bd49ad6134564dd0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 10,
+     "xxh3": "e010e02c35ea09485157aaeecd477003"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 11,
+     "xxh3": "bd20f530a4715c1982f056dd4be85f37"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 12,
+     "xxh3": "5e12f5b2ea7819ca535a7d856ab929c7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 13,
+     "xxh3": "d5dc11e906357837f4c6eb395ef4dfd3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 14,
+     "xxh3": "b360271de10c3cb53c82af940237fea8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 15,
+     "xxh3": "1a1464609b9245004687103999193ef3"
+    }
+   ],
+   "modulo": {
+    "T": 8
+   },
+   "axes_unfolded": "THCYX"
+  }
+ ]
+}
