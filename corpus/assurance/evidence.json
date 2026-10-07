@@ -104388,6 +104388,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -104483,6 +104486,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -104556,6 +104562,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -104698,6 +104707,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -104981,6 +104993,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -105054,6 +105069,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -105210,6 +105228,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -105350,6 +105371,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -107639,7 +107663,9 @@
       "source": "github:osgeo/gdal",
       "oracle": "skip",
       "independent": true,
-      "compared": [],
+      "compared": [
+        "metadata"
+      ],
       "features": [
         [
           "format_version",
@@ -108432,6 +108458,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -108504,6 +108533,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -108569,6 +108601,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -108642,6 +108677,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -108707,6 +108745,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -108774,6 +108815,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -108839,6 +108883,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -108978,6 +109025,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -109985,6 +110035,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -110066,6 +110119,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -110149,6 +110205,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -110209,6 +110268,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -110278,6 +110340,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -110867,6 +110932,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -110953,6 +111021,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -111041,6 +111112,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -111127,6 +111201,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -111215,6 +111292,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -111302,6 +111382,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -111387,6 +111470,9 @@
       "independent": true,
       "compared": [
         "metadata"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -111482,6 +111568,9 @@
       "independent": true,
       "compared": [
         "metadata"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -111579,6 +111668,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -111667,6 +111759,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -113645,6 +113740,9 @@
       "compared": [
         "metadata"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -113728,6 +113826,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -113804,6 +113905,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -113879,6 +113983,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -113986,6 +114093,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -114092,6 +114202,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -114168,6 +114281,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -114243,6 +114359,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -114472,6 +114591,9 @@
         "metadata",
         "pixels"
       ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -114547,6 +114669,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -114630,6 +114755,9 @@
       "compared": [
         "metadata",
         "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
       ],
       "features": [
         [

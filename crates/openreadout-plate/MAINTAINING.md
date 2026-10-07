@@ -37,7 +37,7 @@ Microplate-reader exports (`plate`): the text, CSV and workbook files plate-read
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `plate` | [format note](../../docs/formats/plate-readers.md), [provenance log](../../docs/provenance/plate-readers.md) | medium | prior art | 69 / 59 | 17 | 2 / 1 |
+| `plate` | [format note](../../docs/formats/plate-readers.md), [provenance log](../../docs/provenance/plate-readers.md) | medium | prior art | 71 / 61 | 19 | 2 / 1 |
 
 ### Source map
 
@@ -88,10 +88,10 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `plate` | acquisition | `absorbance` | tables | 34 | 38 | `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc`, `bmg-mars-pherastar-abs` |
+| `plate` | acquisition | `absorbance` | tables | 35 | 39 | `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc`, `bmg-mars-pherastar-abs` |
 | `plate` | acquisition | `endpoint read` | tables | 41 | 50 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
-| `plate` | acquisition | `fluorescence` | tables | 15 | 20 | `bmg-mars-fi-transcreener`, `bmg-smart-control-fi`, `bmg-table-wehi-multichromatic` |
-| `plate` | acquisition | `kinetic read` | tables | 13 | 14 | `gen5-abs-kinetic-meanv-4pl`, `gen5-kinetic-growth-curve`, `softmax-fl-kinetic-plates` |
+| `plate` | acquisition | `fluorescence` | tables | 16 | 21 | `bmg-mars-fi-transcreener`, `bmg-smart-control-fi`, `bmg-table-bostock-calcein-kinetic` |
+| `plate` | acquisition | `kinetic read` | tables | 15 | 16 | `bmg-table-bostock-calcein-kinetic`, `bmg-table-rpazuki-od600-kinetic`, `gen5-abs-kinetic-meanv-4pl` |
 | `plate` | acquisition | `luminescence` | tables | 11 | 12 | `bmg-mars-lum-1536`, `envision-lum-384`, `envision-text-dse-ctg-lum384-semicolon` |
 | `plate` | acquisition | `spectrum read` | tables | 5 | 5 | `bmg-table-kelp-pigments-absspectrum`, `bmg-table-tjlane-absspectrum-semicolon`, `bmg-table-wehi-emscan-averaged` |
 | `plate` | acquisition | `unknown` | tables | 1 | 1 | `assay-synth-dose-response` |
@@ -109,10 +109,10 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `plate` | dialect | `softmax-pro` | metadata, tables | 16 | 17 | `softmax-abs-endpoint-plates`, `softmax-fl-kinetic-plates`, `softmax-lum-endpoint-utf16` |
 | `plate` | dialect | `tecan-i-control` | metadata, tables | 9 | 9 | `tecan-icontrol-csv-kinetic-wellr`, `tecan-icontrol-de-multiread-kinetic-sgt`, `tecan-icontrol-f200-txt` |
 | `plate` | dialect | `tecan-magellan` | metadata, tables | 2 | 2 | `magellan-elisa-384`, `magellan-pro-compact` |
-| `plate` | field | `experiment.acquisition.started_at` | descriptive | 48 | 55 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
-| `plate` | field | `experiment.instrument.model` | descriptive | 45 | 55 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
-| `plate` | field | `tables[].extra.reads[].mode` | descriptive | 57 | 67 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
-| `plate` | instrument | `CLARIOstar` | descriptive | 6 | 6 | `bmg-mars-lum-1536`, `bmg-table-kelp-pigments-absspectrum`, `bmg-table-tjlane-absspectrum-semicolon` |
+| `plate` | field | `experiment.acquisition.started_at` | descriptive | 50 | 57 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
+| `plate` | field | `experiment.instrument.model` | descriptive | 46 | 56 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
+| `plate` | field | `tables[].extra.reads[].mode` | descriptive | 59 | 69 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
+| `plate` | instrument | `CLARIOstar` | descriptive | 7 | 7 | `bmg-mars-lum-1536`, `bmg-table-bostock-calcein-kinetic`, `bmg-table-kelp-pigments-absspectrum` |
 | `plate` | instrument | `Cytation3` | descriptive | 0 | 1 |  |
 | `plate` | instrument | `Cytation5` | descriptive | 0 | 2 |  |
 | `plate` | instrument | `EnVision` | descriptive | 7 | 7 | `envision-abs-a450`, `envision-fluor-htrf`, `envision-lum-384` |
@@ -134,7 +134,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `plate` | layout | `container gen5-experiment` | tables | 0 | 9 |  |
 | `plate` | layout | `container softmax-pro-5-document` | tables | 4 | 4 | `softmax5-elisa-il10`, `softmax5-elisa-tnf`, `softmax5-kinetic-phage-120308b` |
 | `plate` | layout | `container softmax-pro-document` | tables | 8 | 9 | `softmax7-elisa2wl-ha-0513`, `softmax7-elisa2wl-ha-0630`, `softmax7-lum-7skexp53` |
-| `plate` | layout | `container text (comma)` | tables | 19 | 19 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
+| `plate` | layout | `container text (comma)` | tables | 21 | 21 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
 | `plate` | layout | `container text (semicolon)` | tables | 2 | 2 | `bmg-table-tjlane-absspectrum-semicolon`, `envision-text-dse-ctg-lum384-semicolon` |
 | `plate` | layout | `container text (tab)` | tables | 16 | 16 | `envision-text-dse-lum1536-tab`, `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum` |
 | `plate` | layout | `container xlsx` | tables | 10 | 10 | `bmg-smart-control-fi`, `magellan-elisa-384`, `magellan-pro-compact` |
@@ -164,7 +164,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 5 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_plate_xlsx`, `whole_plate`
-- corpus inputs by tier: heldout 10, smoke 66, standard 5
+- corpus inputs by tier: heldout 10, smoke 68, standard 5
 - golden snapshots: [`corpus/snapshots/plate.jsonl`](../../corpus/snapshots/plate.jsonl)
 
 ### Open new-variant intakes

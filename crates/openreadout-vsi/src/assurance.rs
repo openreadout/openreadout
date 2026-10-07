@@ -100,7 +100,7 @@ const VSI_VALIDATED: &[Validated] = &[
     a::row(K::Codec, "jpeg-lossless", 1, 1, 1),
     a::row(K::Codec, "jpeg2000", 1, 1, 1),
     a::row(K::Codec, "raw", 3, 2, 4),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 12),
+    a::row(K::Field, "experiment.acquisition.started_at", 11, 9, 12),
     a::row(K::Field, "experiment.instrument.model", 0, 0, 12),
     a::row(K::FormatVersion, "0x00030003", 4, 3, 4),
     a::row(K::FormatVersion, "0x00030005", 1, 1, 1),

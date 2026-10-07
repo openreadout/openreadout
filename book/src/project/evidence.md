@@ -77,8 +77,8 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `opera-harmony` | high | prior art | 11 | 11 | 9 | 9 | 100% | 82% | 2/0 |
 | `panalytical-xrdml` | high | open spec | 7 | 7 | 7 | 11 | 100% | 0% | - |
 | `perkinelmer-fsm` | low | prior art | 2 | 2 | 2 | 0 | 100% | 38% | - |
-| `perkinelmer-sp` | medium | prior art | 8 | 8 | 6 | 0 | 100% | 57% | 1/0 |
-| `plate` | medium | prior art | 69 | 59 | 17 | 16 | 100% | 52% | 2/1 |
+| `perkinelmer-sp` | medium | prior art | 9 | 9 | 7 | 0 | 100% | 57% | 1/0 |
+| `plate` | medium | prior art | 71 | 61 | 19 | 16 | 100% | 52% | 2/1 |
 | `plexon` | medium | prior art | 6 | 4 | 1 | 3 | 100% | 54% | - |
 | `qpcr-results-export` | medium | reverse engineered | 9 | 9 | 7 | 0 | 100% | 100% | - |
 | `rdml` | high | open spec | 9 | 9 | 5 | 5 | 100% | 4% | 1/0 |
