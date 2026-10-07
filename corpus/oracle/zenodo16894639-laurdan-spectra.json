@@ -1,0 +1,235 @@
+{
+ "id": "zenodo16894639-laurdan-spectra",
+ "file": "zenodo16894639-laurdan-spectra.lsm",
+ "size": 5349198,
+ "sha256": "27173be5b57a1a0f40ad6e89df1fd1d6d20bdd1e0a80e469acb47cf0bc103a1c",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "CYX",
+   "shape": [
+    32,
+    256,
+    256
+   ],
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 32,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.3773935624780863,
+    "y": 0.3773935624780863
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a12e5ad16d65c3d07d8a68a318a3ace1"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4c897c9d168535c5b8ba356716c817dd"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "66e06bbe329057de0561d8b5bfc2f041"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "02c28db8ac82d14f3d15471c28007da2"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bb26b2a594447f9f170660e557c1a265"
+    },
+    {
+     "c": 5,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ef44007ea3118837110cb2d43db112ef"
+    },
+    {
+     "c": 6,
+     "z": 0,
+     "t": 0,
+     "xxh3": "af2fbca84498bee1eae37492aba9c80c"
+    },
+    {
+     "c": 7,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1bd56a22291dd591b5dc7b6402c7d375"
+    },
+    {
+     "c": 8,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d84e15e074a727be3d11bd4d88a81293"
+    },
+    {
+     "c": 9,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e9208b800fda9945eb9df3bf7f8d83d7"
+    },
+    {
+     "c": 10,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0170a9222c4ac90d955e166974781b46"
+    },
+    {
+     "c": 11,
+     "z": 0,
+     "t": 0,
+     "xxh3": "18a44feac6d0b437719508d904c8c7d2"
+    },
+    {
+     "c": 12,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cba1ab4173fe1daf672cc39efccf5bfe"
+    },
+    {
+     "c": 13,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1ede350ae5716de49686148c2c755f58"
+    },
+    {
+     "c": 14,
+     "z": 0,
+     "t": 0,
+     "xxh3": "46e58e851fe581afd76773486ce209e4"
+    },
+    {
+     "c": 15,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b37c101433fbf414eb2c510d8581c0f5"
+    },
+    {
+     "c": 16,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2cdf2bec4ac5c1bc3a455c89aa856cee"
+    },
+    {
+     "c": 17,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5781d8a572a3abc4437064d85f461ed9"
+    },
+    {
+     "c": 18,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0905befd474f6d37e7fe15f619a98cd4"
+    },
+    {
+     "c": 19,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bb18769b75ded039d267fc5c0b5a3c3f"
+    },
+    {
+     "c": 20,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2a66a18b71af66e1be809e121e2365f7"
+    },
+    {
+     "c": 21,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b2393f2da6c59a7880bef805192a6b54"
+    },
+    {
+     "c": 22,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1266008946bb76d6dea0a8c2b0170e1a"
+    },
+    {
+     "c": 23,
+     "z": 0,
+     "t": 0,
+     "xxh3": "009734f2d6ef290f889865a7ff7823c2"
+    },
+    {
+     "c": 24,
+     "z": 0,
+     "t": 0,
+     "xxh3": "886436660fe535b8dc361c7345c1ff7e"
+    },
+    {
+     "c": 25,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a10a5b8338d85122ee0b4d1ddd8f9b12"
+    },
+    {
+     "c": 26,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9000ac564be91d771a8138ade363dba6"
+    },
+    {
+     "c": 27,
+     "z": 0,
+     "t": 0,
+     "xxh3": "77e1bcdfe3b6b7ee688d1c77ec4b833d"
+    },
+    {
+     "c": 28,
+     "z": 0,
+     "t": 0,
+     "xxh3": "68ec4249f537b8717ce693f4dda6375b"
+    },
+    {
+     "c": 29,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1a99b3aa48cb69297e49b5d176fe80bc"
+    },
+    {
+     "c": 30,
+     "z": 0,
+     "t": 0,
+     "xxh3": "27bf2bcf7133443e7430b32c06ed958e"
+    },
+    {
+     "c": 31,
+     "z": 0,
+     "t": 0,
+     "xxh3": "af2520b063031ad3acd9c69431ba6d96"
+    }
+   ]
+  }
+ ]
+}

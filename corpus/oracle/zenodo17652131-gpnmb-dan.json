@@ -1,0 +1,245 @@
+{
+ "id": "zenodo17652131-gpnmb-dan",
+ "file": "zenodo17652131-gpnmb-dan.czi",
+ "size": 17267872,
+ "sha256": "940858ad6d87b5b81233c807bbeb1807cac689d9241d6381d7aa60ec555e2fb0",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 508,
+   "size_y": 508,
+   "size_z": 11,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CZYX",
+   "shape": [
+    3,
+    11,
+    508,
+    508
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.08501707619855367,
+    "y": 0.08501707619855367,
+    "z": 0.6359838750170591
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9a0db4aec7b8e18fd1c3de194ad65cd5"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "ea081aff0c6968f6919a1a426b09f272"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "a7810b2ddcd776d79f7faa7c8913b32c"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "a0ba3210a8e9a39995d813f76a3b1add"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "06aff2cd3daeb45ee7f16adf4439d86c"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "c4cfa12f69227af2536bce92e2cbeaac"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "2bc8ba5de6b91d2f5f199cfb34a8c511"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "d76bb1dba452a5b41c7ca0b8b4c85735"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "5e7158db96e3e7227e3ef713b49cc06a"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "22f2a3afcb78f883a05bb982c848ab1a"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "de2fce16c959ea096ff9324c64a44bbf"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "32d7e94031c38a8a55cba2717ee21c11"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "5a8b6682048b82a96414925ed12a3e21"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "237b06e5d5a9cef363bb79c331d6a066"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "763fe2c7ca917cb9fa2adfaecdb4e8bd"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "ecf441e1187a4b60ac3d98f62615ddd3"
+    },
+    {
+     "c": 1,
+     "z": 5,
+     "t": 0,
+     "xxh3": "c1f7dd403fa6eeacbc6d2b5b42a73fcc"
+    },
+    {
+     "c": 1,
+     "z": 6,
+     "t": 0,
+     "xxh3": "88eae7c33e28441698dc09000b75d13b"
+    },
+    {
+     "c": 1,
+     "z": 7,
+     "t": 0,
+     "xxh3": "5a9337a82212403882db9bbe5101f813"
+    },
+    {
+     "c": 1,
+     "z": 8,
+     "t": 0,
+     "xxh3": "d9f43ec40df4092259d712bdc01383c3"
+    },
+    {
+     "c": 1,
+     "z": 9,
+     "t": 0,
+     "xxh3": "f19112933e21885cfb06412d5b73b7ae"
+    },
+    {
+     "c": 1,
+     "z": 10,
+     "t": 0,
+     "xxh3": "49c81afa7675fc842fe7afae071a7296"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3004cd451f8157ca81123b1aab6cf60d"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "e55dcb3d403eea3304e0811d134fc6b6"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "717a79f922ff7f8fee2fbebea458a13e"
+    },
+    {
+     "c": 2,
+     "z": 3,
+     "t": 0,
+     "xxh3": "2528c48e3931635f025f54d7eead4201"
+    },
+    {
+     "c": 2,
+     "z": 4,
+     "t": 0,
+     "xxh3": "1e85bd1158e62a29a4485dc9d4213704"
+    },
+    {
+     "c": 2,
+     "z": 5,
+     "t": 0,
+     "xxh3": "eb610c57165eb81316d78dc78b21dbf9"
+    },
+    {
+     "c": 2,
+     "z": 6,
+     "t": 0,
+     "xxh3": "b0570aaeae2b4f91a43dda22ad6a5105"
+    },
+    {
+     "c": 2,
+     "z": 7,
+     "t": 0,
+     "xxh3": "2c7b1afe32ed348aedab45760d23f7f3"
+    },
+    {
+     "c": 2,
+     "z": 8,
+     "t": 0,
+     "xxh3": "9fd513fe853e5603f774239596554b50"
+    },
+    {
+     "c": 2,
+     "z": 9,
+     "t": 0,
+     "xxh3": "0dec714bbcdf09291e09e503066fc41c"
+    },
+    {
+     "c": 2,
+     "z": 10,
+     "t": 0,
+     "xxh3": "e9268934766b98a6ff59be56b82f5e57"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.08501707619855367,
+  "y": 0.08501707619855367,
+  "z": 0.6359838750170591
+ },
+ "subblock_count": 33,
+ "compression_ids": [
+  0
+ ]
+}

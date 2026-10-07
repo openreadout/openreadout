@@ -1,0 +1,51 @@
+{
+ "id": "zenodo21426640-droplet-pdms",
+ "file": "zenodo21426640-droplet-pdms.czi",
+ "size": 10743680,
+ "sha256": "904cee66981cdda3f86250e6051002e44e39d895e5db6de5fcf7d2a048192468",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 5118,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "YX",
+   "shape": [
+    1024,
+    5118
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.219647046944918,
+    "y": 0.219647046944918,
+    "z": 0.65
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "76105e98c5053e15693ea72e5ef1c87b"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.219647046944918,
+  "y": 0.219647046944918,
+  "z": 0.65
+ },
+ "subblock_count": 5,
+ "compression_ids": [
+  0
+ ]
+}

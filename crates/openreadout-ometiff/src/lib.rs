@@ -159,7 +159,7 @@ fn tiff_err(e: tiff::TiffError, path: &Path) -> Error {
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct SampleLayout {
     bits: u16,
-    /// TIFF `SampleFormat`: 1 unsigned integer, 3 IEEE floating point.
+    /// TIFF `SampleFormat`: 1 unsigned integer, 2 signed integer, 3 IEEE floating point.
     format: u16,
     /// TIFF `PhotometricInterpretation`: 1 black is zero, 2 RGB.
     photometric: u16,
@@ -175,13 +175,16 @@ pub(crate) fn layout_of(pixel_type: PixelType, samples_per_pixel: u32) -> Result
         (PixelType::Uint8, 1 | 3) => (8, 1),
         (PixelType::Uint16, 1 | 3) => (16, 1),
         (PixelType::Uint32, 1) => (32, 1),
+        (PixelType::Int8, 1) => (8, 2),
+        (PixelType::Int16, 1) => (16, 2),
+        (PixelType::Int32, 1) => (32, 2),
         (PixelType::Float, 1 | 3) => (32, 3),
         (PixelType::Double, 1) => (64, 3),
         (pt, spp) => {
             return Err(Error::unsupported(
                 "ome-tiff",
                 format!("{} samples of {} per pixel", spp, pt.ome_name()),
-                "OME-TIFF export supports 1-sample uint8/16/32/float/double and 3-sample uint8/16/float planes.",
+                "OME-TIFF export supports 1-sample int8/16/32, uint8/16/32, float and double planes and 3-sample uint8/16/float planes; OME-Zarr export takes the others.",
             ));
         }
     };

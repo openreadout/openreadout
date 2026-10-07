@@ -1,0 +1,58 @@
+{
+ "id": "zenodo8420587-igem-leiden",
+ "file": "zenodo8420587-igem-leiden.czi",
+ "size": 20826464,
+ "sha256": "94be7cb25193d10e9eacce42ae646e6a7a8380888b4b37041b4c59d00eacae8f",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 2464,
+   "size_y": 2078,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    2,
+    2078,
+    2464
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.05476190476190476,
+    "y": 0.05476190476190476,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "864a983f59f889ef826a01c190bc4774"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "751f51f3805264c8a0289420165c06bb"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.05476190476190476,
+  "y": 0.05476190476190476,
+  "z": null
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

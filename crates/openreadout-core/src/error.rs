@@ -39,6 +39,12 @@ fn other_hint(message: &str) -> &'static str {
     }
 }
 
+/// Added to the message when a reader matched only the file's extension and could not open it.
+pub(crate) const EXTENSION_ONLY: &str = "only the file extension matched this format";
+
+/// The hint for such a failure.
+pub(crate) const EXTENSION_ONLY_HINT: &str = "The file's first bytes do not look like this format, only its extension does: it may be another kind of file with the same extension, or damaged from the start. `openreadout info --view format FILE` shows what was detected.";
+
 /// Result alias used throughout `OpenReadout`.
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -128,6 +134,9 @@ impl Error {
                     .into(),
             ),
             Error::Unsupported { hint, .. } => hint.clone(),
+            Error::Corrupt { detail, .. } if detail.contains(EXTENSION_ONLY) => {
+                Some(EXTENSION_ONLY_HINT.into())
+            }
             Error::Corrupt { .. } => Some(
                 "Run `openreadout check <file>` for a full integrity report. The file may be truncated by an interrupted acquisition or copy."
                     .into(),

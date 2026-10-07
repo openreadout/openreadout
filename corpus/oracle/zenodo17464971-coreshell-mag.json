@@ -1,0 +1,84 @@
+{
+ "id": "zenodo17464971-coreshell-mag",
+ "file": "zenodo17464971-coreshell-mag.emd",
+ "size": 18032922,
+ "sha256": "7f184a0950d0a9ec5a4ed39e0e3420393aa2dad23675bd4ae8c74851602c84d5",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "462ec0b6a19f48ec89aa3c96b8b2192f",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 1.7801284898714816e-05,
+    "y": 1.7801284898714816e-05,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a79699d52b5d272dd143dd41997dc2aa"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "velox_id": "66edd88a0953473d94dcc750d0ce3fff",
+   "size_x": 199,
+   "size_y": 396,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "complex",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "detector": "DF4",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4c14ef45601fc9979cba9136ecfa3ff9"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "velox_id": "89d1951127054cbd9ecc0df072c6b1e2",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 1.7801284898714816e-05,
+    "y": 1.7801284898714816e-05,
+    "z": null
+   },
+   "detector": "HAADF",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fc8861217b732e569d3688e935227008"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"11\",\n    \"format\": \"Velox\"\n}\n"
+}

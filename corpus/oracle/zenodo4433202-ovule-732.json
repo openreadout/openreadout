@@ -1,0 +1,1149 @@
+{
+ "id": "zenodo4433202-ovule-732",
+ "file": "zenodo4433202-ovule-732.ims",
+ "size": 47484079,
+ "sha256": "abddea6dd1ee41680e121a5a5c9d053e460595f4ed2fd1b2b2c3ffd3ca402399",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 219,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.19929218749999994,
+    "y": 0.19929218749999994,
+    "z": 0.16784657534246572
+   },
+   "channel_names": [
+    "Red",
+    "Masked Red"
+   ],
+   "filters": [
+    1
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "472f49b049c20417fbb5f6aeac8335ad"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "b45887fe274a4eb8ce276bea357202ee"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "d8688816110dba36c9648a10946c1040"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "1bed00eda0fb455646c7ce8710f5c4ca"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "b1d3e7a3dde32056b9c38537b3138610"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "1294d313231a4b2a8bcab648a4c1a71b"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "c6b6362ae625fe4d9df23e19b0118cf2"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "e1e86d494a80482c2cd75c581fb86151"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "ee6a9d15babb342116f7a6934a17e557"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "331ed4ba82c46b8f70fcf14fae6a0233"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "bf9d80797d7c42331261791fac6345b1"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "0361f6aa44f790511c5090a0031367da"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "dfe353affb86df4d0cbe9d3f0a38591a"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "50b7581d112386129aabbd94a4b3d47e"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "ae4585ef7b6d197e39ab52dbde9655c8"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "da9897310e3359c89ca83307f1d54e56"
+    },
+    {
+     "c": 0,
+     "z": 16,
+     "t": 0,
+     "xxh3": "8dc16d5360ed545004916eac2dc92456"
+    },
+    {
+     "c": 0,
+     "z": 17,
+     "t": 0,
+     "xxh3": "217cb26526f472848bd21fd5b0d50af5"
+    },
+    {
+     "c": 0,
+     "z": 18,
+     "t": 0,
+     "xxh3": "1d05e8dac45e0189f75753c40cead44d"
+    },
+    {
+     "c": 0,
+     "z": 19,
+     "t": 0,
+     "xxh3": "df69961162d48211052de3ca3b6ceaaf"
+    },
+    {
+     "c": 0,
+     "z": 20,
+     "t": 0,
+     "xxh3": "fee6b84600ab003e32fd4c046e530418"
+    },
+    {
+     "c": 0,
+     "z": 21,
+     "t": 0,
+     "xxh3": "1eadc136b2794e18d89b91aa433ecaaf"
+    },
+    {
+     "c": 0,
+     "z": 22,
+     "t": 0,
+     "xxh3": "25ba0946d7461730f6ccf598f06bcafd"
+    },
+    {
+     "c": 0,
+     "z": 23,
+     "t": 0,
+     "xxh3": "3630dd4ccf45e287cb7a9172e7b01982"
+    },
+    {
+     "c": 0,
+     "z": 24,
+     "t": 0,
+     "xxh3": "bc1cdb901383e416e8b704f397f814cd"
+    },
+    {
+     "c": 0,
+     "z": 25,
+     "t": 0,
+     "xxh3": "30adc0d9ad7f728ec62933806a4f43d1"
+    },
+    {
+     "c": 0,
+     "z": 26,
+     "t": 0,
+     "xxh3": "16da1fed5f91701c11ba1bce926364e7"
+    },
+    {
+     "c": 0,
+     "z": 27,
+     "t": 0,
+     "xxh3": "c3ab155da9b85b109c49ca7a449ba323"
+    },
+    {
+     "c": 0,
+     "z": 28,
+     "t": 0,
+     "xxh3": "5464e4ccdcd29d7e8003d50064aac677"
+    },
+    {
+     "c": 0,
+     "z": 29,
+     "t": 0,
+     "xxh3": "cad422b67dc7bbfd873635d65bce7eac"
+    },
+    {
+     "c": 0,
+     "z": 30,
+     "t": 0,
+     "xxh3": "51cb3bef8c7c14ec4758ca6b494284bf"
+    },
+    {
+     "c": 0,
+     "z": 31,
+     "t": 0,
+     "xxh3": "70145bc11af36bb2224979482fe452c9"
+    },
+    {
+     "c": 0,
+     "z": 32,
+     "t": 0,
+     "xxh3": "6ee4a05d942ff9c41efe702954112c1a"
+    },
+    {
+     "c": 0,
+     "z": 33,
+     "t": 0,
+     "xxh3": "82e2e501edb2694f0dde7ef017c94402"
+    },
+    {
+     "c": 0,
+     "z": 34,
+     "t": 0,
+     "xxh3": "0a1c4886b7cf19d384fcdf5215ccc8fe"
+    },
+    {
+     "c": 0,
+     "z": 35,
+     "t": 0,
+     "xxh3": "a1d2775a336b3454a6ad432f815ccc54"
+    },
+    {
+     "c": 0,
+     "z": 36,
+     "t": 0,
+     "xxh3": "eeb2211f8f335566de23ce12d0b66e35"
+    },
+    {
+     "c": 0,
+     "z": 37,
+     "t": 0,
+     "xxh3": "6cb7e03a976784a3b793b1cae39e8bf0"
+    },
+    {
+     "c": 0,
+     "z": 38,
+     "t": 0,
+     "xxh3": "1b9059faff4952923d2b1c42775f4574"
+    },
+    {
+     "c": 0,
+     "z": 39,
+     "t": 0,
+     "xxh3": "433cfb32d5058c97dddf1f05b470b30f"
+    },
+    {
+     "c": 0,
+     "z": 40,
+     "t": 0,
+     "xxh3": "65dc4e80ed3c33a4ba001c0e99a45fa0"
+    },
+    {
+     "c": 0,
+     "z": 41,
+     "t": 0,
+     "xxh3": "ec3ad3830c0b97913c45b5ece9da2489"
+    },
+    {
+     "c": 0,
+     "z": 42,
+     "t": 0,
+     "xxh3": "b41c96aba0349f56f2e8ea1ef0258f36"
+    },
+    {
+     "c": 0,
+     "z": 43,
+     "t": 0,
+     "xxh3": "48c4aaae333933e635ec71e1dad6e67b"
+    },
+    {
+     "c": 0,
+     "z": 44,
+     "t": 0,
+     "xxh3": "4645de9f24506308d0a365b0626d497d"
+    },
+    {
+     "c": 0,
+     "z": 45,
+     "t": 0,
+     "xxh3": "e27db81e8a4e4fb2fe839ff443c2a1dc"
+    },
+    {
+     "c": 0,
+     "z": 46,
+     "t": 0,
+     "xxh3": "a593c149c388f767823fd75ce6ce1a9a"
+    },
+    {
+     "c": 0,
+     "z": 47,
+     "t": 0,
+     "xxh3": "ce1aeb6012895023a546703bcfa6caf8"
+    },
+    {
+     "c": 0,
+     "z": 48,
+     "t": 0,
+     "xxh3": "b455df65b4186f7517a5abbf4a5e266b"
+    },
+    {
+     "c": 0,
+     "z": 49,
+     "t": 0,
+     "xxh3": "44864972d5572d719145505168b5571e"
+    },
+    {
+     "c": 0,
+     "z": 50,
+     "t": 0,
+     "xxh3": "2969e130602472e5cbdf0ae4e68eb812"
+    },
+    {
+     "c": 0,
+     "z": 51,
+     "t": 0,
+     "xxh3": "67a9a091b0a23e4b63bea5c9fe170a49"
+    },
+    {
+     "c": 0,
+     "z": 52,
+     "t": 0,
+     "xxh3": "b92c504e398234756ff8d9d8b7f03d8d"
+    },
+    {
+     "c": 0,
+     "z": 53,
+     "t": 0,
+     "xxh3": "3f80b3a704f78e2b809980a09ec8bab3"
+    },
+    {
+     "c": 0,
+     "z": 54,
+     "t": 0,
+     "xxh3": "265e26a6051b6ba8a816fdcaf468ecb8"
+    },
+    {
+     "c": 0,
+     "z": 55,
+     "t": 0,
+     "xxh3": "c05b1e88d1d5efc759338eff45d2ec73"
+    },
+    {
+     "c": 0,
+     "z": 56,
+     "t": 0,
+     "xxh3": "40350130757a33b5e517519303aac47a"
+    },
+    {
+     "c": 0,
+     "z": 57,
+     "t": 0,
+     "xxh3": "34686ba6c3c322f378fe8ba3ebf83905"
+    },
+    {
+     "c": 0,
+     "z": 58,
+     "t": 0,
+     "xxh3": "13132f06943743cb5f843f1f56dbcd5c"
+    },
+    {
+     "c": 0,
+     "z": 59,
+     "t": 0,
+     "xxh3": "1579a1f9094a94268bf9539dc6db50b5"
+    },
+    {
+     "c": 0,
+     "z": 60,
+     "t": 0,
+     "xxh3": "a24120caca1540cc8a06c0b49d2fccdf"
+    },
+    {
+     "c": 0,
+     "z": 61,
+     "t": 0,
+     "xxh3": "56fe0a9c3aef8b51a6d3af9f0cae5c3a"
+    },
+    {
+     "c": 0,
+     "z": 62,
+     "t": 0,
+     "xxh3": "b84503a962b59ea29ff0f9306d62f8ea"
+    },
+    {
+     "c": 0,
+     "z": 63,
+     "t": 0,
+     "xxh3": "328bf48404fb0771f595ad88a132312e"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 128,
+     "size_y": 128,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "761e7a8adbdf55ca76ebd8148c765b20"
+      },
+      {
+       "c": 0,
+       "z": 1,
+       "t": 0,
+       "xxh3": "2fb9c64f7b1001deb3e1edd75baee59d"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "tables": [
+  {
+   "index": 0,
+   "name": "ovule: Cell statistics",
+   "event_count": 243,
+   "parameter_names": [
+    "ID",
+    "Time",
+    "Cell Area",
+    "Cell BoundingBoxAA Length X",
+    "Cell BoundingBoxAA Length Y",
+    "Cell BoundingBoxAA Length Z",
+    "Cell BoundingBoxOO Length A",
+    "Cell BoundingBoxOO Length B",
+    "Cell BoundingBoxOO Length C",
+    "Cell Center of Homogeneous Mass X",
+    "Cell Center of Homogeneous Mass Y",
+    "Cell Center of Homogeneous Mass Z",
+    "Cell Center of Image Mass X [Channel=1]",
+    "Cell Center of Image Mass X [Channel=2]",
+    "Cell Center of Image Mass Y [Channel=1]",
+    "Cell Center of Image Mass Y [Channel=2]",
+    "Cell Center of Image Mass Z [Channel=1]",
+    "Cell Center of Image Mass Z [Channel=2]",
+    "Cell Cytoplasm Area",
+    "Cell Cytoplasm Intensity Max [Channel=1]",
+    "Cell Cytoplasm Intensity Max [Channel=2]",
+    "Cell Cytoplasm Intensity Mean [Channel=1]",
+    "Cell Cytoplasm Intensity Mean [Channel=2]",
+    "Cell Cytoplasm Intensity Min [Channel=1]",
+    "Cell Cytoplasm Intensity Min [Channel=2]",
+    "Cell Cytoplasm Intensity StdDev [Channel=1]",
+    "Cell Cytoplasm Intensity StdDev [Channel=2]",
+    "Cell Cytoplasm Intensity Sum [Channel=1]",
+    "Cell Cytoplasm Intensity Sum [Channel=2]",
+    "Cell Cytoplasm Number of Voxels",
+    "Cell Cytoplasm Volume",
+    "Cell Distance from Origin",
+    "Cell Distance to Image Border XY",
+    "Cell Distance to Image Border XYZ",
+    "Cell Ellipsoid Axis A X",
+    "Cell Ellipsoid Axis A Y",
+    "Cell Ellipsoid Axis A Z",
+    "Cell Ellipsoid Axis B X",
+    "Cell Ellipsoid Axis B Y",
+    "Cell Ellipsoid Axis B Z",
+    "Cell Ellipsoid Axis C X",
+    "Cell Ellipsoid Axis C Y",
+    "Cell Ellipsoid Axis C Z",
+    "Cell Ellipsoid Axis Length A",
+    "Cell Ellipsoid Axis Length B",
+    "Cell Ellipsoid Axis Length C",
+    "Cell Ellipticity (oblate)",
+    "Cell Ellipticity (prolate)",
+    "Cell Generation",
+    "Cell Intensity Center [Channel=1]",
+    "Cell Intensity Center [Channel=2]",
+    "Cell Intensity Max [Channel=1]",
+    "Cell Intensity Max [Channel=2]",
+    "Cell Intensity Mean [Channel=1]",
+    "Cell Intensity Mean [Channel=2]",
+    "Cell Intensity Min [Channel=1]",
+    "Cell Intensity Min [Channel=2]",
+    "Cell Intensity StdDev [Channel=1]",
+    "Cell Intensity StdDev [Channel=2]",
+    "Cell Intensity Sum [Channel=1]",
+    "Cell Intensity Sum [Channel=2]",
+    "Cell Nucleus to Cytoplasm Volume Ratio",
+    "Cell Number Of Nuclei",
+    "Cell Number of Voxels",
+    "Cell Position X",
+    "Cell Position Y",
+    "Cell Position Z",
+    "Cell Sphericity",
+    "Cell Time",
+    "Cell Time Index",
+    "Cell Volume"
+   ],
+   "dtypes": [
+    "int64",
+    "int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "ca6e777362b3ecccea0e1647ca952297"
+  },
+  {
+   "index": 1,
+   "name": "ovule: Overall statistics",
+   "event_count": 2,
+   "parameter_names": [
+    "ID",
+    "Time",
+    "Number of Cells per Time Point",
+    "Total Number of Cells",
+    "Total Number of Nuclei"
+   ],
+   "dtypes": [
+    "int64",
+    "int64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "b611be3511cd05fd736d68c98824c971"
+  },
+  {
+   "index": 2,
+   "name": "ovule: Cells/Cell",
+   "event_count": 243,
+   "parameter_names": [
+    "ID",
+    "IDMaskImage",
+    "IDMaskImageIndex",
+    "IDMaskImageTime"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "e8bc9c040b24859da26d1f963cf5883d"
+  },
+  {
+   "index": 3,
+   "name": "ovule: Cells/CellTimeOffset",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "IndexBegin",
+    "IndexEnd"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "50fbd318b43d21fc3e2fb4cc17994782"
+  },
+  {
+   "index": 4,
+   "name": "ovule: Cells/TrackSegment0",
+   "event_count": 243,
+   "parameter_names": [
+    "ID",
+    "FirstObjectId",
+    "Position"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "8bb89656d0014ceede26071a28bfb2bc"
+  },
+  {
+   "index": 5,
+   "name": "ovule: MaskImage",
+   "event_count": 1,
+   "parameter_names": [
+    "ID"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "e2af07eae97effd9be8c34c2154995ce"
+  },
+  {
+   "index": 6,
+   "name": "ovule: Time",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "Birth",
+    "Death",
+    "IDTimeBegin"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "e474c4bfc383509718eced7c1478b57b"
+  },
+  {
+   "index": 7,
+   "name": "ovule: TimeBegin",
+   "event_count": 1,
+   "parameter_names": [
+    "ID"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "2c0a8a99dc147d5445c3b49d035665b2"
+  },
+  {
+   "index": 8,
+   "name": "ImageMasks0: MaskStatistics",
+   "event_count": 425,
+   "parameter_names": [
+    "Label",
+    "Valid",
+    "TimePoint",
+    "Volume",
+    "Area",
+    "CenterOfMassX",
+    "CenterOfMassY",
+    "CenterOfMassZ",
+    "BoundingBoxMinX",
+    "BoundingBoxMinY",
+    "BoundingBoxMinZ",
+    "BoundingBoxMaxX",
+    "BoundingBoxMaxY",
+    "BoundingBoxMaxZ",
+    "Sphericity",
+    "NumberOfVoxels",
+    "EllipsoidAxisLengthX",
+    "EllipsoidAxisLengthY",
+    "EllipsoidAxisLengthZ",
+    "EllipsoidAxisAX",
+    "EllipsoidAxisAY",
+    "EllipsoidAxisAZ",
+    "EllipsoidAxisBX",
+    "EllipsoidAxisBY",
+    "EllipsoidAxisBZ",
+    "EllipsoidAxisCX",
+    "EllipsoidAxisCY",
+    "EllipsoidAxisCZ",
+    "OrientationAxisX",
+    "OrientationAxisY",
+    "OrientationAxisZ",
+    "OrientationAngle",
+    "OrientedBoundingBoxMinX",
+    "OrientedBoundingBoxMinY",
+    "OrientedBoundingBoxMinZ",
+    "OrientedBoundingBoxMaxX",
+    "OrientedBoundingBoxMaxY",
+    "OrientedBoundingBoxMaxZ",
+    "EllipticityProlate",
+    "EllipticityOblate"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "510dae53fd8d3a9601b35ac313966262"
+  },
+  {
+   "index": 9,
+   "name": "ImageMasks0: MaskTimeOffset",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "IndexBegin",
+    "IndexEnd"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "17e442a9bc77cb32290477092526feb9"
+  },
+  {
+   "index": 10,
+   "name": "Surfaces 1: Surface statistics",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "Time",
+    "Area",
+    "BoundingBoxAA Length X",
+    "BoundingBoxAA Length Y",
+    "BoundingBoxAA Length Z",
+    "BoundingBoxOO Length A",
+    "BoundingBoxOO Length B",
+    "BoundingBoxOO Length C",
+    "Center of Homogeneous Mass X",
+    "Center of Homogeneous Mass Y",
+    "Center of Homogeneous Mass Z",
+    "Center of Image Mass X [Channel=1]",
+    "Center of Image Mass X [Channel=2]",
+    "Center of Image Mass Y [Channel=1]",
+    "Center of Image Mass Y [Channel=2]",
+    "Center of Image Mass Z [Channel=1]",
+    "Center of Image Mass Z [Channel=2]",
+    "Distance from Origin",
+    "Distance to Image Border XY",
+    "Distance to Image Border XYZ",
+    "Ellipsoid Axis A X",
+    "Ellipsoid Axis A Y",
+    "Ellipsoid Axis A Z",
+    "Ellipsoid Axis B X",
+    "Ellipsoid Axis B Y",
+    "Ellipsoid Axis B Z",
+    "Ellipsoid Axis C X",
+    "Ellipsoid Axis C Y",
+    "Ellipsoid Axis C Z",
+    "Ellipsoid Axis Length A",
+    "Ellipsoid Axis Length B",
+    "Ellipsoid Axis Length C",
+    "Ellipticity (oblate)",
+    "Ellipticity (prolate)",
+    "Generation",
+    "Intensity Center [Channel=1]",
+    "Intensity Center [Channel=2]",
+    "Intensity Max [Channel=1]",
+    "Intensity Max [Channel=2]",
+    "Intensity Mean [Channel=1]",
+    "Intensity Mean [Channel=2]",
+    "Intensity Median [Channel=1]",
+    "Intensity Median [Channel=2]",
+    "Intensity Min [Channel=1]",
+    "Intensity Min [Channel=2]",
+    "Intensity StdDev [Channel=1]",
+    "Intensity StdDev [Channel=2]",
+    "Intensity Sum [Channel=1]",
+    "Intensity Sum [Channel=2]",
+    "Number of Disconnected Components",
+    "Number of Triangles",
+    "Number of Vertices",
+    "Number of Voxels",
+    "Position X",
+    "Position Y",
+    "Position Z",
+    "Sphericity",
+    "Time",
+    "Time Index",
+    "Volume"
+   ],
+   "dtypes": [
+    "int64",
+    "int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "a4229855b55b533c9ddf108bedc0de27"
+  },
+  {
+   "index": 11,
+   "name": "Surfaces 1: Overall statistics",
+   "event_count": 2,
+   "parameter_names": [
+    "ID",
+    "Time",
+    "Number of Disconnected Components per Time Point",
+    "Number of Surfaces per Time Point",
+    "Total Number of Disconnected Components",
+    "Total Number of Surfaces",
+    "Total Number of Triangles",
+    "Total Number of Voxels"
+   ],
+   "dtypes": [
+    "int64",
+    "int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "d27778bfb69069d99ade03cade68ffb9"
+  },
+  {
+   "index": 12,
+   "name": "Surfaces 1: Surface",
+   "event_count": 1,
+   "parameter_names": [
+    "ID_Time",
+    "ID",
+    "IndexVertexBegin",
+    "IndexVertexEnd",
+    "IndexTriangleBegin",
+    "IndexTriangleEnd"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "993d6003130df6c2c562bb0126dcfeb9"
+  },
+  {
+   "index": 13,
+   "name": "Surfaces 1: SurfaceTimeOffset",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "IndexBegin",
+    "IndexEnd"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "d66209d914a60ba675d85135b4491314"
+  },
+  {
+   "index": 14,
+   "name": "Surfaces 1: Time",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "Birth",
+    "Death",
+    "IDTimeBegin"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "e474c4bfc383509718eced7c1478b57b"
+  },
+  {
+   "index": 15,
+   "name": "Surfaces 1: TimeBegin",
+   "event_count": 1,
+   "parameter_names": [
+    "ID"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "2c0a8a99dc147d5445c3b49d035665b2"
+  },
+  {
+   "index": 16,
+   "name": "Surfaces 1: TrackSegment0",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "FirstObjectId",
+    "Position"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "10e45c7ce2292320743df94ee4c78a2a"
+  },
+  {
+   "index": 17,
+   "name": "Surfaces 1: Triangle",
+   "event_count": 447372,
+   "parameter_names": [
+    "IndexVertexA",
+    "IndexVertexB",
+    "IndexVertexC"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "51e77f51beb33a9e46f6f45308bd6bd4"
+  },
+  {
+   "index": 18,
+   "name": "Surfaces 1: TriangleTimeOffset",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "IndexBegin",
+    "IndexEnd"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "8961f1f97903af52d771bb96d9bc2920"
+  },
+  {
+   "index": 19,
+   "name": "Surfaces 1: Vertex",
+   "event_count": 223688,
+   "parameter_names": [
+    "PositionX",
+    "PositionY",
+    "PositionZ",
+    "NormalX",
+    "NormalY",
+    "NormalZ"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "8a9b132b7d5f947db24c463055db6362"
+  },
+  {
+   "index": 20,
+   "name": "Surfaces 1: VertexTimeOffset",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "IndexBegin",
+    "IndexEnd"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "29bfdb7d30215f3400770691b214da7d"
+  }
+ ],
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 256,
+   "height": 256,
+   "size_z": 219,
+   "size_t": 1,
+   "size_c": 2,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint8",
+   "thumbnail": "false"
+  },
+  {
+   "series": 1,
+   "samples": 1,
+   "width": 128,
+   "height": 128,
+   "size_z": 109,
+   "size_t": 1,
+   "size_c": 2,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint8",
+   "thumbnail": "true"
+  }
+ ]
+}

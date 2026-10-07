@@ -1,0 +1,129 @@
+{
+ "id": "zenodo14007546-fdaa",
+ "file": "zenodo14007546-fdaa.nd2",
+ "size": 33759232,
+ "sha256": "46ea9743b4aafd8e311687bb4183c1322f869bb6d99c9da4553136423d2c0abb",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2304,
+   "size_y": 1800,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 4, 'Y': 1800, 'X': 2304}",
+   "physical_size_um": {
+    "x": 0.043333333333333335,
+    "y": 0.043333333333333335,
+    "z": null
+   },
+   "channel_names": [
+    "PC",
+    "TetraOrange1",
+    "NADA",
+    "Dapi"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f3edfe963d033961564ecf9d26a4d180"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4f55d6397f0428281205a486eece81d7"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9ff7a1dbe7f415b40d509686b73ed159"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "462bd4cf887e1e8e6c8084d8b29c3932"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "PC",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": 705.0,
+    "component_count": 1,
+    "modality": [
+     "brightfield"
+    ]
+   },
+   {
+    "name": "TetraOrange1",
+    "color": "#FFBF00",
+    "excitation_nm": 561.0,
+    "emission_nm": 595.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "NADA",
+    "color": "#6DFF00",
+    "excitation_nm": 440.0,
+    "emission_nm": 540.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "Dapi",
+    "color": "#0000FF",
+    "excitation_nm": null,
+    "emission_nm": 475.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 234.53641438484192,
+    "tags": {
+     "Camera_ExposureTime1": 40.0,
+     "PFS_OFFSET": 2449,
+     "PFS_STATUS": 0,
+     "X": 4113.1,
+     "Y": -310.8,
+     "Z": 5461.88,
+     "Z1": 5461.88
+    }
+   }
+  ],
+  "acquired_at": "2023-05-01T15:54:42.213Z",
+  "acquired_at_unix_ms": 1682956482213
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(4)\r\nCamera Name: Fusion, SN:000470\r\nNumerical Aperture: 1.45\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 4\r\nPlane #1:\r\n Name: PC\r\n Component Count: 1\r\n Modality: Brightfield\r\n Camera Settings:   Exposure: 40 ms\r\n  Binning: 1x1\r\n  Scan Mode: Standard\r\n  Temperature: -5.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (LED-DA/FI/TR/Cy5-B (DAPI / FITC / TRITC / Cy5 - Full Multiband Quad))\r\n  Nikon Ti2, FilterChanger(EM Wheel1): 1 (435/26)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Open\r\n  Nikon Ti2, Illuminator(DIA): On\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 100.0\r\n  LightPath: L100\r\n  PFS, state: On\r\n  PFS, offset: 3142\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  LAPP Lower Ports:\r\n     Port 1: On  (FRAP)\r\n     Port 2: Off  (EPI)\r\n  \r\n  SpectraIII/Celesta, Shutter(SpectraIII): Active\r\n  SpectraIII/Celesta, MultiLaser(SpectraIII):\r\n     Line:1; ExW:365; Power:100.0; Off\r\n     Line:2; ExW:440; Power:100.0; Off\r\n     Line:3; ExW:488; Power:100.0; Off\r\n     Line:4; ExW:514; Power: 20.0; Off\r\n     Line:5; ExW:561; Power:100.0; Off\r\n     Line:6; ExW:594; Power:100.0; Off\r\n     Line:7; ExW:640; Power:100.0; Off\r\n     Line:8; ExW:730; Power:100.0; Off\r\n\r\nPlane #2:\r\n Name: TetraOrange1\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 500 ms\r\n  Binning: 1x1\r\n  Scan Mode: Standard\r\n  Temperature: -5.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  DIC Prism, position: Out\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (LED-DA/FI/TR/Cy5-B (DAPI / FITC / TRITC / Cy5 - Full Multiband Quad))\r\n  Nikon Ti2, FilterChanger(EM Wheel1): 3 (595/40)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 12.3\r\n  LightPath: L100\r\n  PFS, state: On\r\n  PFS, offset: 18543\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.50x\r\n  LAPP Lower Ports:\r\n     Port 1: Off  (FRAP)\r\n     Port 2: On  (EPI)\r\n  \r\n  SpectraIII/Celesta, Shutter(SpectraIII): Active\r\n  SpectraIII/Celesta, MultiLaser(SpectraIII):\r\n     Line:1; ExW:365; Power:100.0; Off\r\n     Line:2; ExW:440; Power: 70.0; Off\r\n     Line:3; ExW:488; Power:100.0; Off\r\n     Line:4; ExW:514; Power:100.0; Off\r\n     Line:5; ExW:561; Power:100.0; On\r\n     Line:6; ExW:594; Power:100.0; Off\r\n     Line:7; ExW:640; Power:100.0; Off\r\n     Line:8; ExW:730; Power:100.0; Off\r\n\r\nPlane #3:\r\n Name: NADA\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 1 s\r\n  Binning: 1x1\r\n  Scan Mode: Standard\r\n  Temperature: -5.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  DIC Prism, position: Out\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 2 (LED-CFP/YFP/mCherry-3X3M-A (CFP / YFP / mCherry - Sedat Triple))\r\n  Nikon Ti2, FilterChanger(EM Wheel1): 6 (540/21)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 12.3\r\n  LightPath: L100\r\n  PFS, state: On\r\n  PFS, offset: 2653\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.50x\r\n  LAPP Lower Ports:\r\n     Port 1: Off  (FRAP)\r\n     Port 2: On  (EPI)\r\n  \r\n  SpectraIII/Celesta, Shutter(SpectraIII): Active\r\n  SpectraIII/Celesta, MultiLaser(SpectraIII):\r\n     Line:1; ExW:365; Power:100.0; Off\r\n     Line:2; ExW:440; Power:100.0; On\r\n     Line:3; ExW:488; Power:100.0; Off\r\n     Line:4; ExW:514; Power: 20.0; Off\r\n     Line:5; ExW:561; Power:100.0; Off\r\n     Line:6; ExW:594; Power:100.0; Off\r\n     Line:7; ExW:640; Power:100.0; Off\r\n     Line:8; ExW:730; Power:100.0; Off\r\n\r\nPlane #4:\r\n Name: Dapi\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 2 s\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Temperature: -5.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (LED-DA/FI/TR/Cy5-B (DAPI / FITC / TRITC / Cy5 - Full Multiband Quad))\r\n  Nikon Ti2, FilterChanger(EM Wheel1): 1 (435/26)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 27.1\r\n  LightPath: L100\r\n  PFS, state: On\r\n  PFS, offset: 6510\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  LAPP Lower Ports:\r\n     Port 1: On \r\n     Port 2: Off \r\n  \r\n  SpectraIII/Celesta, Shutter(SpectraIII): Active\r\n  SpectraIII/Celesta, MultiLaser(SpectraIII):\r\n     Line:1; ExW:365; Power:100.0; On\r\n     Line:2; ExW:440; Power:100.0; Off\r\n     Line:3; ExW:488; Power:100.0; Off\r\n     Line:4; ExW:514; Power: 50.0; Off\r\n     Line:5; ExW:561; Power:100.0; Off\r\n     Line:6; ExW:594; Power:100.0; Off\r\n     Line:7; ExW:640; Power:100.0; Off\r\n     Line:8; ExW:730; Power:100.0; Off",
+  "capturing": "Fusion, SN:000470\r\nSample 1:\r\n  Exposure: 40 ms\r\n  Binning: 1x1\r\n  Scan Mode: Standard\r\n  Temperature: -5.0\u00b0C\r\nSample 2:\r\n  Exposure: 500 ms\r\n  Binning: 1x1\r\n  Scan Mode: Standard\r\n  Temperature: -5.0\u00b0C\r\nSample 3:\r\n  Exposure: 1 s\r\n  Binning: 1x1\r\n  Scan Mode: Standard\r\n  Temperature: -5.0\u00b0C\r\nSample 4:\r\n  Exposure: 2 s\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Temperature: -5.0\u00b0C",
+  "date": "01/05/2023  16:54:42",
+  "optics": "Plan Apo \u03bb 100x Oil Ph3 DM"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=4, heightPx=1800, pixelDataType='unsigned', sequenceCount=1, widthBytes=18432, widthPx=2304, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=4)"
+}

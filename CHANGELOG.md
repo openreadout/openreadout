@@ -16,6 +16,7 @@ All notable changes to this project are documented here. The format is based on 
 - CZI: 12-bit JPEG subblocks and chunked compression (id 7, zstd or LZ4 chunks) are decoded.
 - TIFF: 12-bit JPEG pages are read as uint16, and OME Modulo sub-dimensions (FLIM bins, lambda, angles, tiles) are listed in `images[].extra.modulo`.
 - VSI: ETS tiles with compression code 5 (lossless JPEG, as some VS120 slides store them) are decoded.
+- OME-TIFF export writes int8, int16 and int32 planes (MRC micrographs and segmentations), which it used to refuse with exit 6.
 - Sciex QTRAP quadrupole and ion-trap scans: Q1, precursor ion, neutral loss, enhanced MS and enhanced product ion (with precursor charges), validated point for point against the depositors' conversions of five public files.
 - Waters ion-mobility and SONAR acquisitions: the drift bins in `_funcNNN.cdt` are read as run 1, one spectrum per bin with its drift time; the 2,000 bins of four test acquisitions equal the vendor library's conversions.
 
@@ -29,6 +30,9 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- VSI: raw ETS tiles with three samples per pixel (a DSX-2000 texture map written by PRECiV) came out with red and blue exchanged. They are now returned as red, green, blue.
+- Imaris files whose lower resolution levels have fewer z planes failed to export (exit 2), and `preview` failed when it picked such a level. Export no longer copies those levels, and `preview` no longer picks them.
+- A file that matched a format only by its extension and then failed to open (a JSON file named `.emd`, a Java object file named `.ser`, a library catalogue named `.mrc`) was reported as truncated. The error now says that only the extension matched.
 - SoftMax Pro 6/7 documents (`.sda`) that read two wavelengths, as dual-wavelength ELISAs do, were refused. Each wavelength is now a read of the plate table.
 - Gen5 experiment files written by Gen5 1.x were refused. Their reads are now decoded, and the reader, serial number and Gen5 version of their plate description are read at the right offsets. A refused Gen5 file now says why.
 - Tecan i-control exports with several reads per well returned no values, and German i-control exports were not recognised. Each well's value is now i-control's `Mean`, and a workbook with one export per sheet gives one plate read per sheet.

@@ -1,0 +1,154 @@
+{
+ "id": "zenodo22261325-flim-fret2",
+ "file": "zenodo22261325-flim-fret2.tif",
+ "size": 312389,
+ "sha256": "6438ad4a2108c1fa1d573131c5a514f61122300b1f56fdd3700e4b9e8223c746",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ome",
+ "flags": [
+  "ome"
+ ],
+ "page_count": 6,
+ "series_count": 4,
+ "images": [
+  {
+   "index": 0,
+   "name": "Phasor mean",
+   "kind": "ome",
+   "axes": "YX",
+   "shape": [
+    256,
+    256
+   ],
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d796953d8e202e21287146c57ac48a34"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Phasor real",
+   "kind": "ome",
+   "axes": "TYX",
+   "shape": [
+    2,
+    256,
+    256
+   ],
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 2,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5c18ba6fa41d41d886e3e308949a55e2"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "17dd5803e0107fcdf0b9a0dd164451fe"
+    }
+   ],
+   "modulo": {
+    "T": 2
+   },
+   "axes_unfolded": "QYX"
+  },
+  {
+   "index": 2,
+   "name": "Phasor imag",
+   "kind": "ome",
+   "axes": "TYX",
+   "shape": [
+    2,
+    256,
+    256
+   ],
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 2,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "64180fcc61eac2e93ea75a277832018c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "b2c9a4e6946ea369d414bc78345df81d"
+    }
+   ],
+   "modulo": {
+    "T": 2
+   },
+   "axes_unfolded": "QYX"
+  },
+  {
+   "index": 3,
+   "name": "Phasor harmonic",
+   "kind": "ome",
+   "axes": "YX",
+   "shape": [
+    1,
+    2
+   ],
+   "size_x": 2,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint32",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9cb99f86ae035f85657ce6e8d8ff657f"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,177 @@
+{
+ "id": "zenodo6850745-arabidopsis-confocal",
+ "file": "zenodo6850745-arabidopsis-confocal.tif",
+ "size": 2888933,
+ "sha256": "604605c0f2ca4a5815d0fbd1c8bc11fcb87ce2ef2b4d6c78c660647c1fb701dc",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "imagej",
+ "flags": [
+  "imagej"
+ ],
+ "page_count": 22,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "imagej",
+   "axes": "ZCYX",
+   "shape": [
+    11,
+    2,
+    256,
+    256
+   ],
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 11,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.40400007367134094,
+    "y": 0.40400007367134094,
+    "z": 0.5
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6bf7649f407799f38eee40ec60cf38bb"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "6fb50b2f13367bb11769d04b6e7c6a63"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "a070fd12dd005de3adc5aee78f623615"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "75ccaa7d5907124cc71e0f2cb447a273"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "e7b5b1878875ea6e494f925d5b0b264a"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "4ed62b85e827614c343a736f911b1401"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "157681a62b6cec1c8813021b58751c83"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "a5b3774af972e79f9af04b93d9bc576a"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "ff107e3de35fa5e5c60c9d20fb79da9d"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "c40984d2fbe7a3f36c1df9a55cd5ae3d"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "689154a9bdc23e1315388f11ed540947"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "190aa3ec91a4a4cea569735c7a19d5b6"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "69347fe917ceb4935eaefb5372c5defc"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "efb701fad31e45e9346b5eda6bb66017"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "41687241e732fb578b7ee4674ee52a65"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "657b854f38a734d9ecd1877da8e90e9a"
+    },
+    {
+     "c": 1,
+     "z": 5,
+     "t": 0,
+     "xxh3": "b0234237a6f09a157c166e34bf030a7a"
+    },
+    {
+     "c": 1,
+     "z": 6,
+     "t": 0,
+     "xxh3": "0b4c259fdfc09d854349c4c862d11e70"
+    },
+    {
+     "c": 1,
+     "z": 7,
+     "t": 0,
+     "xxh3": "c8581fb81bbbdaeae438cc81fa94afa3"
+    },
+    {
+     "c": 1,
+     "z": 8,
+     "t": 0,
+     "xxh3": "2d842044bd042e8a5383d5ad1296aa14"
+    },
+    {
+     "c": 1,
+     "z": 9,
+     "t": 0,
+     "xxh3": "d2a1d031ce3ac3181a63a0abdfd082a8"
+    },
+    {
+     "c": 1,
+     "z": 10,
+     "t": 0,
+     "xxh3": "b52ef0563df317b47f814a060e688830"
+    }
+   ]
+  }
+ ]
+}

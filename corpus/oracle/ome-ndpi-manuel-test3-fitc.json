@@ -1,0 +1,50 @@
+{
+ "id": "ome-ndpi-manuel-test3-fitc",
+ "file": "test3-FITC 2 (485).ndpi",
+ "size": 4484083,
+ "sha256": "455069a02a761ecfedb93492f103dec8c5b23b7c46fd47e9d8d22191ea803018",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ndpi",
+ "flags": [
+  "ndpi"
+ ],
+ "page_count": 6,
+ "series_count": 3,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "ndpi",
+   "axes": "YXS",
+   "shape": [
+    4864,
+    3968,
+    3
+   ],
+   "size_x": 3968,
+   "size_y": 4864,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 4,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.2281750559028887,
+    "y": 0.2281750559028887
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0999720869f0ced0ae5ab95e5ceb66a7",
+     "mean": 7.256088956305046
+    }
+   ]
+  }
+ ]
+}

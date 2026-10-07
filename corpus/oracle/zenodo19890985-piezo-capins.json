@@ -1,0 +1,64 @@
+{
+ "id": "zenodo19890985-piezo-capins",
+ "file": "zenodo19890985-piezo-capins.czi",
+ "size": 4950464,
+ "sha256": "8957a9c24768e89bd9148777b167b0803d63458528f6bb4bafb0a7d1d0417070",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.20716064453124997,
+    "y": 0.20716064453124997,
+    "z": 1.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e51845dd08b6e4d6a74e421b8ebc62b9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3fbebd23be581ac0ce0713a90743c971"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ea3d37a69f16cda64d13cdc7c7c605b9"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.20716064453124997,
+  "y": 0.20716064453124997,
+  "z": 1.0
+ },
+ "subblock_count": 3,
+ "compression_ids": [
+  0
+ ]
+}

@@ -1,0 +1,95 @@
+{
+ "id": "zenodo15236968-nimbus",
+ "file": "zenodo15236968-nimbus.nd2",
+ "size": 86446080,
+ "sha256": "34b00a286a7ed0a3bd1bb8d721d809a997eb5270b0717c3a14c690c70227ef80",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 3789,
+   "size_y": 3782,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 3, 'Y': 3782, 'X': 3789}",
+   "physical_size_um": {
+    "x": 0.649551662210002,
+    "y": 0.649551662210002,
+    "z": null
+   },
+   "channel_names": [
+    "Brightfield",
+    "DAPI",
+    "A594"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "380da89ff2627ea02ac7e5a6c1a300f0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0273ecd05ddfd272c9806b05585fe987"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1ba35aa78a8ddde86622d6295b1ddacc"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Brightfield",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": 540.0,
+    "component_count": 1,
+    "modality": [
+     "brightfield"
+    ]
+   },
+   {
+    "name": "DAPI",
+    "color": "#0000FF",
+    "excitation_nm": null,
+    "emission_nm": 460.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "A594",
+    "color": "#FF0000",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frames_error": "ValueError: cannot convert float NaN to integer"
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(3)\r\nCamera Name: Flash4.0, SN:302473\r\nNumerical Aperture: 0.75\r\nRefractive Index: 1\r\nNumber of Picture Planes: 3\r\nPlane #1:\r\n Name: Brightfield\r\n Component Count: 1\r\n Modality: Brightfield\r\n Camera Settings:   Exposure: 50 ms\r\n  Binning: 2x2\r\n  Scan Mode: Slow\r\n  Temperature: -10.0\u00b0C\r\n Microscope Settings:   Sola II, Shutter(Sola): Closed\r\n  Sola II, Illuminator(Sola) Iris intensity: 100.0\r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 3 (YFPHQ)\r\n  Nikon Ti, Shutter(EPI): Opened\r\n  Nikon Ti, Shutter(DIA): Active\r\n  PFS-S, state: Off\r\n  PFS-S, offset: 6710\r\n  PFS-S, mirror: Inserted\r\n  PFS-S, mirror: Inserted\r\n  \r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: DAPI\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 50 ms\r\n  Binning: 2x2\r\n  Scan Mode: Slow\r\n  Temperature: -10.0\u00b0C\r\n Microscope Settings:   Sola II, Shutter(Sola): Active\r\n  Sola II, Illuminator(Sola) Iris intensity: 100.0\r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 2 (DAPI)\r\n  Nikon Ti, Shutter(EPI): Opened\r\n  Nikon Ti, Shutter(DIA): Closed\r\n  PFS-S, state: On\r\n  PFS-S, offset: 6710\r\n  PFS-S, mirror: Inserted\r\n  PFS-S, mirror: Inserted\r\n  \r\n  Zoom: 1.00x\r\nPlane #3:\r\n Name: A594\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 1 s\r\n  Binning: 2x2\r\n  Scan Mode: Slow\r\n  Temperature: -10.0\u00b0C\r\n Microscope Settings:   Sola II, Shutter(Sola): Active\r\n  Sola II, Illuminator(Sola) Iris intensity: 100.0\r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5 (A594)\r\n  Nikon Ti, Shutter(EPI): Opened\r\n  Nikon Ti, Shutter(DIA): Closed\r\n  PFS-S, state: Off\r\n  PFS-S, offset: 6710\r\n  PFS-S, mirror: Inserted\r\n  PFS-S, mirror: Inserted\r\n  \r\n  Zoom: 1.00x",
+  "capturing": "Flash4.0, SN:302473\r\nSample 1:\r\n  Exposure: 50 ms\r\n  Binning: 2x2\r\n  Scan Mode: Slow\r\n  Temperature: -10.0\u00b0C\r\nSample 2:\r\n  Exposure: 50 ms\r\n  Binning: 2x2\r\n  Scan Mode: Slow\r\n  Temperature: -10.0\u00b0C\r\nSample 3:\r\n  Exposure: 1 s\r\n  Binning: 2x2\r\n  Scan Mode: Slow\r\n  Temperature: -10.0\u00b0C",
+  "date": "3/5/2024  2:05:07 PM",
+  "optics": "Plan Apo \u03bb 20x"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=3, heightPx=3782, pixelDataType='unsigned', sequenceCount=1, widthBytes=22736, widthPx=3789, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=3)"
+}

@@ -1,0 +1,39 @@
+{
+ "id": "zenodo1108559-diamond-1c",
+ "file": "zenodo1108559-diamond-1c.dm3",
+ "size": 1650753,
+ "sha256": "86669e6efd93d662133ec3522c7c16f082820debe37ad4b4faad58ba6ffefb6a",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "23",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 11,
+   "physical_size_um": {
+    "x": 1.0104933753609657e-05,
+    "y": 1.0104933753609657e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a5e54f74949455f51e94ae41b8edb653"
+    }
+   ],
+   "pixel_type": "uint32"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}
