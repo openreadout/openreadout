@@ -1,0 +1,41 @@
+{
+ "id": "figshare3841308-bfp-sp",
+ "file": "figshare3841308-bfp-sp.sp",
+ "size": 5704,
+ "sha256": "c80b65005a90191023419bb1064a73f38c6239444e2329095370d55e20565d14",
+ "max_planes_hashed": 64,
+ "reader": "second implementation (#DATA pairs read with the standard library); not an independent oracle",
+ "independent": false,
+ "traces": [
+  {
+   "index": 0,
+   "reader": "standard library (#DATA pairs)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 231,
+   "x_first": 585.0,
+   "x_last": 700.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 231,
+     "channels": [
+      {
+       "xxh3": "82f4ba5c139394b16eb6665a863a8735",
+       "first": [
+        32.4443,
+        29.74236,
+        28.668757,
+        28.912096,
+        29.965008,
+        30.245768,
+        29.384892,
+        28.657067
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

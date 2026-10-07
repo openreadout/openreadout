@@ -66253,3 +66253,51 @@ license_checked = "https://zenodo.org/records/14917325 (licence CC-BY-4.0 in the
 source = "Zenodo 14917325 'qPCR datasets of the quantification of bacterial communities in the maize-reused cover crop experiment'"
 attribution = "Ghosh D, Jehmlich N et al."
 notes = "Applied Biosystems 7500 Fast .eds (SYBR Green 16S rRNA copy number, soil); upstream 20231213_DG_qPCR_16S_2023_RootWayS_RH_IV.eds"
+
+[[file]]
+id = "figshare3841308-bfp-sp"
+format = "perkinelmer-sp"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare3841308-bfp-sp.sp"
+url = "https://figshare.com/ndownloader/files/6007374"
+sha256 = "c80b65005a90191023419bb1064a73f38c6239444e2329095370d55e20565d14"
+size = 5704
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/Fluorescence_spectrometer_raw_data/3841308 (figshare item licence CC BY 4.0, API api.figshare.com/v2/articles/3841308), 2026-10-06"
+source = "Figshare 3841308 'Fluorescence spectrometer raw data'"
+attribution = "Martino Calamai"
+notes = "PerkinElmer .sp saved as text (PE FL ... ASCII PEDS 1.60) by an LS55 fluorescence spectrometer: one emission spectrum, 585-700 nm in 0.5 nm steps (231 points); upstream name + BFP.sp"
+
+[[file]]
+id = "figshare3841308-bace1-bfp-sp"
+format = "perkinelmer-sp"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare3841308-bace1-bfp-sp.sp"
+url = "https://figshare.com/ndownloader/files/6007371"
+sha256 = "e0460e5cb2290acfc267fba9c29da3993da5dcd19c3e892141d95fc5016632c3"
+size = 5706
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/Fluorescence_spectrometer_raw_data/3841308 (figshare item licence CC BY 4.0, API api.figshare.com/v2/articles/3841308), 2026-10-06"
+source = "Figshare 3841308 'Fluorescence spectrometer raw data'"
+attribution = "Martino Calamai"
+notes = "PerkinElmer .sp saved as text (PE FL ... ASCII PEDS 1.60) by an LS55 fluorescence spectrometer: one emission spectrum, 585-700 nm in 0.5 nm steps (231 points); upstream name + Bace1 BFP.SP"
+
+[[file]]
+id = "figshare3841308-sirna-bace1-sp"
+format = "perkinelmer-sp"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare3841308-sirna-bace1-sp.sp"
+url = "https://figshare.com/ndownloader/files/6007377"
+sha256 = "5ccbe6e69a70f344d1ab75a1279a51d9b4c6dfde29e92427dcad6b208b3f1728"
+size = 5711
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/Fluorescence_spectrometer_raw_data/3841308 (figshare item licence CC BY 4.0, API api.figshare.com/v2/articles/3841308), 2026-10-06"
+source = "Figshare 3841308 'Fluorescence spectrometer raw data'"
+attribution = "Martino Calamai"
+notes = "PerkinElmer .sp saved as text (PE FL ... ASCII PEDS 1.60) by an LS55 fluorescence spectrometer: one emission spectrum, 585-700 nm in 0.5 nm steps (231 points); upstream name + siRNA Bace1.SP"
