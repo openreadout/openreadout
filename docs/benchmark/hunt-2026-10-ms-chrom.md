@@ -6,8 +6,7 @@ file was opened, and no file comes from a record a held-out draw reserves.
 
 ## Files surveyed
 
-138 inputs from 45 source records, each run through `info`, `check`, the scan list, the first
-spectrum (or trace), a chromatogram (or peaks) and an export, with time and peak memory recorded.
+138 inputs from 45 source records, each run through `info`, `check`, `scans`, `spectrum` (or `trace`), a chromatogram (or peaks) and an export, with time and peak memory recorded.
 
 | source | licence | what |
 | --- | --- | --- |
@@ -52,7 +51,7 @@ Agilent 6224 TOF (1,676), 6540 Q-TOF (1,689), 6545 with MOBILion (958) and 6400-
   returns no spectra and says so ("11 PASEF selections name no known precursor"); the assurance
   block lists them as left out. Defining a spectrum per selection needs an independent reference.
 - **Sciex multi-sample `.wiff` memory.** `analyze chromatogram` on a 14.5 MB API 4000 file
-  (MTBLS11852) peaked at 5.6 GB of memory and took 29 s; `export --to mzml` took 64 s at 1.7 GB.
+  (MTBLS11852) peaked at 5.6 GB of memory and took 29 s; `export --format mzml` took 64 s at 1.7 GB.
 - **7200 GC/Q-TOF (MTBLS1561).** Its 16-byte time-of-flight centroids are refused: the run has no
   calibration the reader applies. Its ANDI export is a nominal-mass reduction, not an oracle.
 - **Exports too coarse to compare.** ProteoWizard 3.0.24002 rounds the MRM chromatograms of a
@@ -61,9 +60,9 @@ Agilent 6224 TOF (1,676), 6540 Q-TOF (1,689), 6545 with MOBILion (958) and 6400-
   added and the second carries `oracle_skip`.
 - **mzML byte-shuffled and dictionary zstd (MS:1003781, MS:1003782).** Refused with a hint, as the
   known gaps say. OpenMS's `MzMLFile_zstd.mzML` is a test file for them.
-- **Chromatogram-only files.** `export --to mzml` refuses mzML and Waters MRM files that hold
-  chromatograms and no spectra ("the run has no spectra"). The command surface is being renamed in
-  another pull request, so this was left alone.
+- **Chromatogram-only files.** `export --format mzml` refuses mzML and Waters MRM files that hold
+  chromatograms and no spectra ("the run has no spectra"). Writing their chromatograms is a change
+  to the export, left for separate work while the command surface was being renamed.
 - **Orbitrap Astral reporting its model as `MP01`** (mzmine's `astral.raw`): read, and
   `unvalidated` because the model maps to no known generation. No conversion exists to confirm it.
 - **Not downloaded.** MassIVE returned HTTP 429 for the TSQ Altis SRM, Q Exactive GC, Velos Pro

@@ -803,7 +803,7 @@ impl AgilentDataset {
                     "scan {}: 16-byte centroids whose most intense point calibrates to m/z {:.4}, not the stored base peak {:.4}",
                     r.scan_id, mz[k], r.base_peak_mz
                 ),
-                "This centroid layout has been decoded on one GC/Q-TOF file only; report the file with `openreadout check --report`.",
+                "This centroid layout has been decoded on one GC/Q-TOF file only; report the file with `openreadout report`.",
             ));
         }
         Ok(sort_pairs(mz, d.y))
