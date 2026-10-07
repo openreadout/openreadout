@@ -62429,6 +62429,7 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS2240 (An Evolutionarily Conserved Metabolite Inhibits Biofilm Formation in Escherichia coli K-12)"
 attribution = "Jingzhe Guo, Wilhelmina van de Ven, Aleksandra Skirycz et al. (MetaboLights MTBLS2240)"
 notes = "QTRAP 6500, Analyst 1.6.2, MRM, negative; ten samples (E. coli K-12 cell pellets, MEcPP-treated and control), 378,350 MRM spectra per sample. Paired with the depositor's mzML of sample 1; its sourceFile SHA-1 values (00693a73..., 3d2dac39...) are this .wiff and .wiff.scan. Sanity check: the TIC of sample 1 equals the export's value for value (2,162 points)"
+oracle_skip = "not yet validated: scheduled MRM without stored windows. The reader takes each transition's window as its expected time ± half the method's 240 s detection window; Analyst judges it at the transition's own time within the cycle, which the file does not give, so many SRM chromatograms differ from the export by one cycle at a window edge (the values inside agree). The layout stays unvalidated and --strict refuses these spectra (docs/provenance/sciex-wiff.md, 2026-10-06)"
 
 [[file]]
 id = "mtbls2240-bal-214-ecoli-scan"

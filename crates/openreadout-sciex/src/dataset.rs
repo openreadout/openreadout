@@ -1072,8 +1072,11 @@ impl SciexDataset {
 
 /// Windows of a scheduled MRM experiment whose sample stores none (`sMRMPro_adw_Times` absent):
 /// each transition's expected retention time ± half the method's detection window, in ms
-/// (docs/provenance/sciex-wiff.md, 2026-10-06). Empty when the first experiment is not a
-/// scheduled MRM experiment or a transition has no expected time.
+/// (docs/provenance/sciex-wiff.md, 2026-10-06); a transition whose expected time is 0 is not
+/// scheduled and is active throughout. Empty when the first experiment is not a scheduled MRM
+/// experiment. Analyst judges a window at each transition's own time within the cycle, which the
+/// file does not give us, so a cycle at a window's edge may be kept or left out differently.
+#[allow(clippy::float_cmp)] // 0.0 is the stored value of an unscheduled transition
 fn derived_windows(experiments: &[Experiment]) -> Vec<(u32, u32)> {
     let Some(exp) = experiments.first() else {
         return Vec::new();
@@ -1087,6 +1090,11 @@ fn derived_windows(experiments: &[Experiment]) -> Vec<(u32, u32)> {
         let rt = f64::from(r.expected_rt_min);
         if !rt.is_finite() || rt < 0.0 {
             return Vec::new();
+        }
+        // a transition without an expected time is acquired in every cycle
+        if rt == 0.0 {
+            out.push((0, u32::MAX));
+            continue;
         }
         let centre = rt * 60_000.0;
         #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]

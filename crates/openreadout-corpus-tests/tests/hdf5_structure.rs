@@ -1,9 +1,10 @@
 //! The generic HDF5 reader (`hdf5`) against h5py (`oracle/hdf5_structure_oracle.py` →
 //! `corpus/oracle/hdf5/<id>.json`): the superblock version, the group and dataset counts, and
-//! every group and dataset reached from `/` with its kind, shape, type and attributes, in the
-//! same order. An attribute whose oracle value is `null` (a value h5py could not summarise) is
+//! every group and dataset reached from `/` with its kind, shape, type and attributes, matched by
+//! path. An attribute whose oracle value is `null` (a value h5py could not summarise) is
 //! compared by name only. An empty text attribute is `""` in h5py and has no value (`null`) in
-//! our listing; both say the attribute holds no text.
+//! our listing; both say the attribute holds no text. h5py reads an HDF5 FALSE/TRUE enum as a
+//! bool, where the listing keeps the stored 0 or 1.
 //!
 //! With `HDF5_RESULTS=<file>`, each compared file is written as a results line for `cargo xtask
 //! assurance-audit refresh` (docs/assurance.md): the listing is the reader's metadata.
@@ -38,6 +39,8 @@ fn same_value(ours: &Value, oracle: &Value) -> bool {
     match (ours, oracle) {
         (_, Value::Null) => true,
         (Value::Null, Value::String(s)) => s.is_empty(),
+        // h5py turns HDF5's FALSE/TRUE enum into a bool; the listing keeps the stored 0 or 1
+        (Value::Number(n), Value::Bool(b)) => n.as_u64() == Some(u64::from(*b)),
         (Value::Number(a), Value::Number(b)) => match (a.as_f64(), b.as_f64()) {
             (Some(x), Some(y)) => x == y || (x - y).abs() <= 1e-12 * x.abs().max(y.abs()),
             _ => a == b,
@@ -93,10 +96,15 @@ fn listings_match_h5py() {
                 objects.len()
             ));
         }
-        for (e, x) in entries.iter().zip(objects) {
+        // matched by path: the listing's order is not h5py's breadth-first order
+        for x in objects {
             let at = x["path"].as_str().unwrap_or_default();
-            if e.name != at || Some(e.kind.as_str()) != x["kind"].as_str() {
-                problems.push(format!("{} {} != {} {at}", e.kind, e.name, x["kind"]));
+            let Some(e) = entries.iter().find(|e| e.name == at) else {
+                problems.push(format!("{at}: not listed"));
+                continue;
+            };
+            if Some(e.kind.as_str()) != x["kind"].as_str() {
+                problems.push(format!("{at}: {} != {}", e.kind, x["kind"]));
                 continue;
             }
             if x["kind"] == "dataset" {
