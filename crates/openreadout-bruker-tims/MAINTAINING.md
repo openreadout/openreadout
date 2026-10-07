@@ -19,7 +19,7 @@ Bruker timsTOF acquisitions (`.d` directories; TDF and TSF; `bruker-tdf`). Proje
 ## Debugging a new file
 
 - `openreadout info RUN.d --view structure` lists the database tables with row counts and the binary file; `info --view full --json` → `vendor` has `GlobalMetadata` and the calibration rows.
-- `openreadout check RUN.d --report` shows the calibration state (`assurance.calibrations`): `not_applied` means a model type the reader does not know yet.
+- `openreadout report RUN.d` shows the calibration state (`assurance.calibrations`): `not_applied` means a model type the reader does not know yet.
 - `oracle/timsrust-oracle` (a separate Rust workspace, Apache-2.0 timsrust) and vendor-library conversions are the ground truth; `tests/fuzz_regressions.rs` replays malformed databases and blobs.
 
 ## Fragile spots

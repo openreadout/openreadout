@@ -174,7 +174,7 @@ the end of a sequence may have none.
 - The next table `injections`: `injection`, `name`, `injection_type`, `status`, `position`,
   `volume_ul`, `inject_time` (Unix seconds; `extra.inject_times` as stored), `level`,
   `processing_method`, `instrument_method`, `dilution_factor`, `weight`, `vault_number`.
-- Attachments (`export --attachment`): each audit trail (`<injection> / audit trail`), each
+- Attachments (`extract`): each audit trail (`<injection> / audit trail`), each
   instrument method and each processing method's settings, decompressed XML.
 - `vendor_metadata` (`info --view full`): `injections`, `components`, `instrument_methods` (name and script
   `steps`: `stage`, `time_min`, `kind`, `symbol`, `value`), `chromatograms` (`results`, `peaks`,

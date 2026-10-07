@@ -1,5 +1,5 @@
 //! JSON queries for `analyze chromatogram` and `analyze peaks`, shared by the MCP tool
-//! (`openreadout_analyze` kinds `chromatogram` and `peaks`) and the Python bindings: the same
+//! (`openreadout_chromatogram` and `openreadout_peaks`) and the Python bindings: the same
 //! field names and defaults everywhere.
 
 use openreadout_core::model::FileInfo;

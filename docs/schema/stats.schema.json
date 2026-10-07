@@ -43,7 +43,7 @@
       "minimum": 0
     },
     "planes": {
-      "description": "Per-plane statistics (omitted with `--no-planes`).",
+      "description": "Per-plane statistics (with `--per plane`).",
       "type": "array",
       "items": {
         "$ref": "#/$defs/PlaneStats"

@@ -65,7 +65,7 @@ Value types: MS:1000521 32-bit float, MS:1000523 64-bit float, MS:1000519 32-bit
 
 ## Chromatograms → traces
 
-Each `chromatogram` is a trace with one sweep: `name` = `@id`, `sample_count` = `@defaultArrayLength`, `sample_rate_hz` = 0 (irregular sampling, `extra.irregular_sampling`), channels `time` (seconds, converted from the time array's unit; no unit = minutes), `intensity` (unit = the array's `unitName`), then any other arrays by name (e.g. `ms level`). `extra.chromatogram_type` / `_accession` name the type term (MS:1000235 TIC, MS:1000628 BPC, …); SRM chromatograms add `extra.precursor_mz`/`product_mz`. `export --to csv` writes them.
+Each `chromatogram` is a trace with one sweep: `name` = `@id`, `sample_count` = `@defaultArrayLength`, `sample_rate_hz` = 0 (irregular sampling, `extra.irregular_sampling`), channels `time` (seconds, converted from the time array's unit; no unit = minutes), `intensity` (unit = the array's `unitName`), then any other arrays by name (e.g. `ms level`). `extra.chromatogram_type` / `_accession` name the type term (MS:1000235 TIC, MS:1000628 BPC, …); SRM chromatograms add `extra.precursor_mz`/`product_mz`. `export --format csv` writes them.
 
 ## mzXML scan → `Spectrum`
 
@@ -113,7 +113,7 @@ Each pixel is one spectrum, in file order. **Encoding:** quick-xml reads UTF-8 o
 
 ## Containers: gzip (`.mzML.gz`, `.mzXML.gz`) and mzMLb
 
-Public repositories (PRIDE, MetaboLights) often serve mzML and mzXML gzip-compressed, and mzMLb puts mzML into HDF5. Both are read by the same mzML/mzXML reader through a byte view of the document inside; `info`, `spectra`, `trace`, `export` and `check` work as on the plain file.
+Public repositories (PRIDE, MetaboLights) often serve mzML and mzXML gzip-compressed, and mzMLb puts mzML into HDF5. Both are read by the same mzML/mzXML reader through a byte view of the document inside; `info`, `scans`, `spectrum`, `trace`, `export` and `check` work as on the plain file.
 
 **gzip** (RFC 1952; format id stays `mzml`/`mzxml`). Detected from the `1F 8B 08` signature plus the decompressed head's root element (`.mzML.gz`/`.mzXML.gz` names alone give an extension-only match). Opening decompresses the whole file once (`openreadout_core::gzip::GzipSource`), verifying every member's CRC-32 and length, and keeps **restart points**: at DEFLATE block boundaries about every MiB of output, the decoder's leftover bits and the last 32 KiB of output (at most 1,024 points, so at most 32 MiB; the spacing doubles on longer files). A read restarts at the nearest point, or continues one of four live decoders when that is cheaper, so reading front to back costs one decompression and a random spectrum costs at most one spacing of decompression. No temporary file is written. The trade-off: `info` on an indexed file decompresses the file twice (the pass at open, then the per-spectrum metadata pass in file order) where the plain file needs neither; measured on a 67 MB `.mzML.gz` (122 MB of mzML, 8,371 spectra): 0.75 s CPU and 27 MB peak memory, against 0.19 s for the plain file. Concatenated members (block gzip) are one stream; zero padding after the last member is ignored, other trailing bytes are a warning. A truncated or damaged file opens with its clean prefix: the mzML reader then reports the document as truncated, and `check` adds `gzip_truncated` / `gzip_corrupt` (errors) or `gzip_trailing_data` (warning). Byte offsets in the output refer to the decompressed document.
 

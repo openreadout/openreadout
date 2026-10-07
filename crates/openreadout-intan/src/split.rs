@@ -638,7 +638,7 @@ impl Dataset for SplitDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "image planes",
-            "Intan recordings hold sampled signals: use `openreadout trace` or `openreadout export --to csv`.",
+            "Intan recordings hold sampled signals: use `openreadout trace` or `openreadout export --format csv`.",
         ))
     }
 

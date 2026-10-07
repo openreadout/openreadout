@@ -1,4 +1,4 @@
-//! `openreadout analyze assay` against independent ground truth: every case in
+//! the plate-reader assays of `openreadout analyze` against independent ground truth: every case in
 //! `corpus/oracle/assay/*.json` (written by `oracle/assay.py` with SciPy, R `drc` and
 //! `growthcurver` run as black boxes, and the curve fits and concentrations Gen5 and SkanIt stored
 //! in their exports). Synthetic cases read the committed fixtures in `tests/fixtures`; corpus

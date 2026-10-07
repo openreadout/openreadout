@@ -44,7 +44,7 @@ path = "src/main.rs"
 [features]
 default = ["mcp", "parquet"]
 mcp = ["dep:openreadout-mcp"]
-# `export --to parquet|arrow` (and the MCP tool's `parquet`/`arrow` formats): the Apache Arrow
+# `export --format parquet|arrow` (and the MCP tool's `parquet`/`arrow` formats): the Apache Arrow
 # and Parquet crates, pure Rust (Snappy and LZ4 only). On by default. Measured 2026-09-23 on
 # aarch64-apple-darwin: adding them grew the release binary from 16.8 MB to 22.7 MB. Since
 # `index` writes Parquet, the Arrow crates are now linked either way; this feature only gates

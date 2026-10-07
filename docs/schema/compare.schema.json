@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "CompareOutput",
-  "description": "Output of `check --against`.",
+  "description": "Output of `compare`.",
   "type": "object",
   "properties": {
     "identical": {

@@ -6,7 +6,7 @@ use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
 
-/// `openreadout analyze assay … --json` data.
+/// `openreadout analyze assay-wells|assay-curve|dose-response|kinetics|growth|assay-qc --json` data.
 #[derive(Debug, Clone, Default, Serialize, Deserialize, schemars::JsonSchema)]
 pub struct AssayOutput {
     /// The input file.
@@ -53,7 +53,7 @@ pub struct AssayOutput {
     /// Assay quality from control wells (whenever positive and negative controls exist).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub quality: Option<QualityReport>,
-    /// Files written (`--csv`, `--preview`).
+    /// Files written (`--csv`, `--plot`).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub written: Vec<String>,
     /// What was assumed or left out.
@@ -97,7 +97,7 @@ pub struct ReadSummary {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, schemars::JsonSchema)]
 pub struct LayoutSummary {
     /// Sources merged, in order (later ones win well by well): `embedded:<title>`, a file path,
-    /// `text`, `--blank`, ….
+    /// `text`, `--blank-wells`, ….
     pub sources: Vec<String>,
     /// Measured wells with a role.
     pub wells_assigned: usize,

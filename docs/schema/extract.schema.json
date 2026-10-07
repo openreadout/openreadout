@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ExtractOutput",
-  "description": "Output of `export --attachment`.",
+  "description": "Output of `extract`.",
   "type": "object",
   "properties": {
     "path": {
@@ -50,7 +50,7 @@
       "type": "object",
       "properties": {
         "index": {
-          "description": "Zero-based index, usable with `export --attachment #<index>`.",
+          "description": "Zero-based index, usable with `extract FILE #<index>`.",
           "type": "integer",
           "format": "uint32",
           "minimum": 0

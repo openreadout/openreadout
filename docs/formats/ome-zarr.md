@@ -1,6 +1,6 @@
 # OME-Zarr (OME-NGFF)
 
-OME-Zarr is the chunked image format of the open OME-NGFF specification. OpenReadout reads OME-Zarr stores (Zarr v2 and v3, NGFF 0.1–0.5) with every pyramid level, physical sizes and channel metadata, and `export --to ome-zarr` writes them. Everything here comes from the published specifications (https://ngff.openmicroscopy.org, https://zarr-specs.readthedocs.io), not from reverse engineering. It was checked on public Fractal stores and synthetic stores written by zarr-python and ome-zarr-py, with zarr-python (`oracle/gen.py`) as the reference reader. Provenance: `docs/provenance/ome-zarr.md`.
+OME-Zarr is the chunked image format of the open OME-NGFF specification. OpenReadout reads OME-Zarr stores (Zarr v2 and v3, NGFF 0.1–0.5) with every pyramid level, physical sizes and channel metadata, and `export --format ome-zarr` writes them. Everything here comes from the published specifications (https://ngff.openmicroscopy.org, https://zarr-specs.readthedocs.io), not from reverse engineering. It was checked on public Fractal stores and synthetic stores written by zarr-python and ome-zarr-py, with zarr-python (`oracle/gen.py`) as the reference reader. Provenance: `docs/provenance/ome-zarr.md`.
 
 Format id `ome-zarr`, crate `openreadout-zarr`.
 
@@ -40,7 +40,7 @@ What becomes images (`info.images[]`, in this order):
 | NGFF | our field |
 | --- | --- |
 | `axes` (0.4+: objects with `name`, `type`, `unit`; 0.3: names; 0.1/0.2: none = `t, c, z, y, x`) | `AxisRole` per array dimension: by name `x`/`y`/`z`/`c`/`t`, else by `type` (`channel`, `time`, the last `space` axes as x, y, z); other axes are read at index 0 and listed in `extra.unmapped_axes` |
-| `datasets[i].path` | pyramid level `i` (`pyramid_levels`, `check --planes --level i`); level 0 gives `size_x/y/z/c/t` |
+| `datasets[i].path` | pyramid level `i` (`pyramid_levels`, `planes --level i`); level 0 gives `size_x/y/z/c/t` |
 | `datasets[0].coordinateTransformations` `scale` × multiscales-level `scale`, with the axis `unit` | `physical_size` (µm; `length_um` converts UDUNITS names such as `nanometer`, `millimeter`) and `time_increment_s` (`time_s`); no unit → no physical size (the raw scale stays in `extra.scale`) |
 | `translation` | `extra.translation` (not applied) |
 | `name` | image `name` (plate fields are named by well and field) |
@@ -80,7 +80,7 @@ Chunk presence is counted for up to 100 000 chunks per array (evenly sampled bey
 
 ## Export round trip
 
-`export --to ome-zarr` (crate `openreadout-omezarr`, NGFF 0.5 / Zarr v3 / gzip) reads back through this reader hash-identical for every plane. Normalized metadata survives only in multi-image stores, which carry `OME/METADATA.ome.xml` (a CZI, LIF or ND2 comes back equal except `dimension_order`); a single image written at the root has only the NGFF `omero` block, so its channels keep names and colours but lose wavelengths, bands and modes, and objective, instrument and acquisition time are not stored (known gap) (`crates/openreadout-omezarr/tests/roundtrip.rs`); interleaved RGB images come back as three channels (the writer stores each sample as a channel), each equal to its deinterleaved sample plane.
+`export --format ome-zarr` (crate `openreadout-omezarr`, NGFF 0.5 / Zarr v3 / gzip) reads back through this reader hash-identical for every plane. Normalized metadata survives only in multi-image stores, which carry `OME/METADATA.ome.xml` (a CZI, LIF or ND2 comes back equal except `dimension_order`); a single image written at the root has only the NGFF `omero` block, so its channels keep names and colours but lose wavelengths, bands and modes, and objective, instrument and acquisition time are not stored (known gap) (`crates/openreadout-omezarr/tests/roundtrip.rs`); interleaved RGB images come back as three channels (the writer stores each sample as a channel), each equal to its deinterleaved sample plane.
 
 ## Observed corpus values
 

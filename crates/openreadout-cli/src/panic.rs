@@ -41,7 +41,7 @@ pub fn install() {
             "This is a bug in openreadout {}; please report it at {ISSUES} with the command line and the output of the same command run with RUST_BACKTRACE=1.",
             env!("CARGO_PKG_VERSION")
         );
-        // `check --report`: finish the bundle with the crash recorded, so the bug can be
+        // `report`: finish the bundle with the crash recorded, so the bug can be
         // reported with it.
         let report = openreadout_index::report::panic_hook(&message);
         let json = std::env::args_os().any(|a| a == "--json" || a == "--jsonl");

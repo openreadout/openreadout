@@ -41,7 +41,7 @@ for file in "$@"; do
     z=$((size_z / 2))
     dest="$out/${stem}_img${img}_c${CHANNEL}_z${z}.$ext"
     rc=0
-    report=$("$BIN" export "$file" --to "$TO" -o "$dest" --overwrite \
+    report=$("$BIN" export "$file" --format "$TO" -o "$dest" --overwrite \
       --image "$img" --select "c=$CHANNEL" --select "z=$z" --select t=0 --json 2>/dev/null) || rc=$?
     if [ "$rc" -eq 0 ] && [ "$(jq -r .data.verified <<<"$report")" = true ]; then
       echo "$dest: $(jq -r '"\(.data.planes_written) plane(s), \(.data.bytes_written) bytes, verified"' <<<"$report")"

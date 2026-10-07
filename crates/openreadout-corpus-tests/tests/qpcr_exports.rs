@@ -2,7 +2,7 @@
 //! (`oracle/qpcr_exports.py` → `corpus/oracle/qpcr-exports/<id>.json`, read with xlrd): per
 //! well × target the Ct (or "Undetermined"), Ct Mean and SD, the threshold, the baseline window
 //! the vendor used (automatic baselines are recovered from Rn − ΔRn, or left empty — never the
-//! setting), and the Tm list. Our own Cq (`analyze qpcr --cq`) is compared with the vendor's Ct.
+//! setting), and the Tm list. Our own Cq (`analyze qpcr --compute-cq`) is compared with the vendor's Ct.
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus --test qpcr_exports -- --nocapture`
 #![cfg(feature = "corpus")]
@@ -135,7 +135,7 @@ fn stepone_runs_match_their_results_exports() {
     abs.sort_by(f64::total_cmp);
     let median = abs.get(abs.len() / 2).copied().unwrap_or(0.0);
     eprintln!(
-        "{wells} wells equal to the vendor exports ({undetermined} Undetermined, {tms} Tm values); baseline window recovered for {windows}, left empty for {refused}; qpcr --cq vs vendor Ct over {} wells: median |d| {median:.4}, 95th percentile {:.4}",
+        "{wells} wells equal to the vendor exports ({undetermined} Undetermined, {tms} Tm values); baseline window recovered for {windows}, left empty for {refused}; qpcr --compute-cq vs vendor Ct over {} wells: median |d| {median:.4}, 95th percentile {:.4}",
         abs.len(),
         abs.get(abs.len() * 95 / 100).copied().unwrap_or(0.0)
     );

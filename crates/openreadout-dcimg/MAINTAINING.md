@@ -17,7 +17,7 @@ Hamamatsu DCIMG camera streams (`dcimg`; ORCA-Flash, ORCA-Fusion). Project-wide 
 ## Debugging a new file
 
 - `openreadout info FILE --view structure` lists the header, session, frame region and footer with offsets; `info --view full --json` → `vendor` has the header fields and the camera text (`CameraText`).
-- A new camera or firmware usually shows as a new version or a new stored-pixel arrangement: compare the header bytes with a corpus file (`openreadout check FILE --report --hex 64` masks text but keeps the structure).
+- A new camera or firmware usually shows as a new version or a new stored-pixel arrangement: compare the header bytes with a corpus file (`openreadout report FILE --hex 64` masks text but keeps the structure).
 - `tests/synthetic.rs` writes both layouts from the format note.
 
 ## Fragile spots

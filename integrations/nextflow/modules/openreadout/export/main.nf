@@ -40,7 +40,7 @@ process OPENREADOUT_EXPORT {
     openreadout \\
         export \\
         $args \\
-        --to $format \\
+        --format $format \\
         -o ${prefix}.${ext} \\
         --json \\
         $input \\

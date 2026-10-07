@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "AssayOutput",
-  "description": "`openreadout analyze assay … --json` data.",
+  "description": "`openreadout analyze assay-wells|assay-curve|dose-response|kinetics|growth|assay-qc --json` data.",
   "type": "object",
   "properties": {
     "path": {
@@ -117,7 +117,7 @@
       ]
     },
     "written": {
-      "description": "Files written (`--csv`, `--preview`).",
+      "description": "Files written (`--csv`, `--plot`).",
       "type": "array",
       "items": {
         "type": "string"
@@ -220,7 +220,7 @@
       "type": "object",
       "properties": {
         "sources": {
-          "description": "Sources merged, in order (later ones win well by well): `embedded:<title>`, a file path,\n`text`, `--blank`, ….",
+          "description": "Sources merged, in order (later ones win well by well): `embedded:<title>`, a file path,\n`text`, `--blank-wells`, ….",
           "type": "array",
           "items": {
             "type": "string"

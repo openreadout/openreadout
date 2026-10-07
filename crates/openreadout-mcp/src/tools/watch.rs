@@ -28,7 +28,7 @@ pub struct WatchArgs {
     #[serde(default)]
     pub qc: bool,
     /// First call only: seconds without growth before `dataset_stalled` (default 120).
-    pub stall_after_s: Option<f64>,
+    pub stall_after: Option<f64>,
 }
 
 /// Output of `openreadout_watch`.
@@ -107,7 +107,7 @@ impl InstrumentServer {
                         std::time::SystemTime::now().checked_sub(openreadout_core::live::window())
                     }
                 };
-                if let Some(s) = a.stall_after_s.filter(|s| s.is_finite() && *s >= 0.0) {
+                if let Some(s) = a.stall_after.filter(|s| s.is_finite() && *s >= 0.0) {
                     o.stall_after = std::time::Duration::from_secs_f64(s);
                 }
                 if a.qc {

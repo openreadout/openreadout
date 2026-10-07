@@ -1,6 +1,7 @@
 //! The analyses by name: one entry point, picked by `kind`, configured by `options` (the same
-//! options `openreadout_batch` takes for that measure). The MCP tool `openreadout_analyze`, the
-//! Python `openreadout.analyze()` and the R `openreadout_analyze()` call it.
+//! options `openreadout_batch` takes for that measure). The MCP analysis tools
+//! (`openreadout_peaks`, `openreadout_nmr_peaks`, ..., `openreadout_dose_response`), the Python
+//! `openreadout.analyze()` and the R `openreadout_analyze()` call it.
 
 use std::path::{Path, PathBuf};
 
@@ -146,7 +147,7 @@ enum AnalyzeOptions {
     Gate(GateOptions),
 }
 
-/// Arguments for `openreadout_analyze`.
+/// One analysis: the file, the kind and its options (the arguments of that kind's MCP tool).
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct AnalyzeArgs {
     /// Absolute or working-directory-relative path to the instrument file (kind=gate: the FCS
@@ -164,7 +165,7 @@ pub struct AnalyzeArgs {
     pub strict: Option<bool>,
 }
 
-/// What `openreadout_analyze` returns, by kind.
+/// What an analysis returns, by kind.
 #[derive(Debug, Serialize, schemars::JsonSchema)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
@@ -222,6 +223,25 @@ pub fn run(reg: &Registry, a: &AnalyzeArgs) -> Result<(AnalyzeOutput, Option<Vec
         }
         AnalyzeKind::Assay => {
             let mut opts = o.clone();
+            // The MCP assay tools nest the rarely used plate options; the request is flat.
+            match opts.remove("plate_options") {
+                None | Some(Value::Null) => {}
+                Some(Value::Object(inner)) => {
+                    for (k, v) in inner {
+                        if opts.contains_key(&k) {
+                            return Err(Error::Usage(format!(
+                                "`{k}` is given twice, at the top level and in plate_options"
+                            )));
+                        }
+                        opts.insert(k, v);
+                    }
+                }
+                Some(other) => {
+                    return Err(Error::Usage(format!(
+                        "`plate_options` must be an object, got {other}"
+                    )));
+                }
+            }
             let plot = match opts.remove("plot") {
                 None => false,
                 Some(Value::Bool(b)) => b,

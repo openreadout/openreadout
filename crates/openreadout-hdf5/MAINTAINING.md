@@ -1,6 +1,6 @@
 # Maintaining `openreadout-hdf5`
 
-HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volumes (`ims`, `ims.rs`), Neurodata Without Borders 2.x (`nwb`, `nwb.rs`, `nwb_tables.rs`; also the NWB writer `nwb_write.rs` behind `export --to nwb`) and a generic HDF5 fallback (`hdf5`, `generic.rs`). Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Notes: [docs/formats/ims.md](../../docs/formats/ims.md), [docs/formats/hdf5.md](../../docs/formats/hdf5.md); provenance: [docs/provenance/ims.md](../../docs/provenance/ims.md), [docs/provenance/hdf5.md](../../docs/provenance/hdf5.md).
+HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volumes (`ims`, `ims.rs`), Neurodata Without Borders 2.x (`nwb`, `nwb.rs`, `nwb_tables.rs`; also the NWB writer `nwb_write.rs` behind `export --format nwb`) and a generic HDF5 fallback (`hdf5`, `generic.rs`). Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Notes: [docs/formats/ims.md](../../docs/formats/ims.md), [docs/formats/hdf5.md](../../docs/formats/hdf5.md); provenance: [docs/provenance/ims.md](../../docs/provenance/ims.md), [docs/provenance/hdf5.md](../../docs/provenance/hdf5.md).
 
 ## Decode pipeline
 
@@ -53,7 +53,7 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 | [`src/lib.rs`](src/lib.rs) | HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volumes (pyramids, LZ4/deflate chunks), NWB 2.x (session fields, plain `TimeSeries` as traces) and a |
 | [`src/nwb.rs`](src/nwb.rs) | Neurodata Without Borders (NWB 2.x, HDF5): session fields; `TimeSeries`, `ElectricalSeries` and `SpatialSeries` under `acquisition/` and `processing/`, and the intracellular |
 | [`src/nwb_tables.rs`](src/nwb_tables.rs) | NWB tables: every `DynamicTable` (electrodes, units, trials, …), the spike times of a units table, and `SpikeEventSeries`, as numeric tables |
-| [`src/nwb_write.rs`](src/nwb_write.rs) | NWB 2.x writer (`export --to nwb`): the traces of an electrophysiology file (ABF sweeps, Neuralynx, Blackrock, SpikeGLX, Intan, ...) as plain `TimeSeries` under `/acquisition/`… |
+| [`src/nwb_write.rs`](src/nwb_write.rs) | NWB 2.x writer (`export --format nwb`): the traces of an electrophysiology file (ABF sweeps, Neuralynx, Blackrock, SpikeGLX, Intan, ...) as plain `TimeSeries` under… |
 
 ### Where variants branch
 

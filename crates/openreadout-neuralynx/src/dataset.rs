@@ -567,7 +567,7 @@ impl Dataset for NeuralynxDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "image planes",
-            "Neuralynx files hold signals, events or spikes, not images: use `openreadout trace` (NCS) or `openreadout export --to csv`.",
+            "Neuralynx files hold signals, events or spikes, not images: use `openreadout trace` (NCS) or `openreadout export --format csv`.",
         ))
     }
 
@@ -582,7 +582,7 @@ impl Dataset for NeuralynxDataset {
             return Err(Error::unsupported(
                 FORMAT_ID,
                 format!("sampled-signal reads of a .{} file", self.kind.name()),
-                "Event and spike files are tables: use `openreadout export FILE --to csv` or the openreadout_table MCP tool.",
+                "Event and spike files are tables: use `openreadout export FILE --format csv` or the openreadout_table MCP tool.",
             ));
         };
         if index != 0 {
@@ -665,7 +665,7 @@ impl Dataset for NeuralynxDataset {
                 Error::unsupported(
                     FORMAT_ID,
                     "table reads of an NCS file",
-                    "NCS files are continuous signals: use `openreadout trace` or `export --to csv`.",
+                    "NCS files are continuous signals: use `openreadout trace` or `export --format csv`.",
                 )
             } else {
                 Error::Usage(format!("table {index} out of range (file has 1 table)"))

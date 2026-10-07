@@ -893,7 +893,7 @@ impl Dataset for BrukerDataset {
         Err(Error::unsupported(
             BRUKER_FORMAT_ID,
             "image planes",
-            "Bruker NMR data are traces (FIDs and spectra), not images: use `openreadout trace`, `openreadout export --to csv`, or the openreadout_trace MCP tool.",
+            "Bruker NMR data are traces (FIDs and spectra), not images: use `openreadout trace`, `openreadout export --format csv`, or the openreadout_trace MCP tool.",
         ))
     }
 

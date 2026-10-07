@@ -588,7 +588,7 @@ impl Dataset for VarianDataset {
         Err(Error::unsupported(
             VARIAN_FORMAT_ID,
             "image planes",
-            "VnmrJ NMR data are traces (FIDs), not images: use `openreadout trace`, `openreadout export --to csv`, or the openreadout_trace MCP tool.",
+            "VnmrJ NMR data are traces (FIDs), not images: use `openreadout trace`, `openreadout export --format csv`, or the openreadout_trace MCP tool.",
         ))
     }
 

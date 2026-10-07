@@ -38,14 +38,14 @@ def run(bin_, *args):
 
 
 def table_rows(bin_, path, index, rows):
-    """All rows of table `index` via `openreadout export --to csv` (category codes come back as
+    """All rows of table `index` via `openreadout export --format csv` (category codes come back as
     their text), as a list of columns (numbers where the text parses as one)."""
     import csv
     import os
     import tempfile
     with tempfile.TemporaryDirectory() as d:
         out = os.path.join(d, "t.csv")
-        run(bin_, "export", path, "--to", "csv", "--table", str(index), "--output", out)
+        run(bin_, "export", path, "--format", "csv", "--table", str(index), "--output", out)
         with open(out, newline="") as f:
             r = list(csv.reader(f))
     body = r[1:]

@@ -19,7 +19,6 @@ The index directory holds `index.json`, `experiments.parquet`, `files.parquet`, 
 - `--restart`: discard an interrupted crawl instead of resuming it.
 - `--full-rescan`: read every file again instead of reusing unchanged records.
 - `--no-pii`: do not look for personal data.
-- `--health`: also print the storage health report, as `search --health` does.
 - `--json`: print the JSON wrapper instead of text.
 
 The global `--threads` flag sets how many files are read in parallel.
@@ -29,7 +28,7 @@ The global `--threads` flag sets how many files are read in parallel.
 ```bash
 openreadout index /lab/share -o /lab/index                  # rerun to update or to resume
 openreadout index /lab/share -o /lab/index --exclude 'scratch/**' --max-seconds 3600
-openreadout index /lab/share -o /lab/index --health
+openreadout health /lab/index                               # what the crawl found
 ```
 
 The [lab share guide](../../guides/lab-shares.md) walks through a crawl and lists every column of the index tables.

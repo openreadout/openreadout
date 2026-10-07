@@ -1,7 +1,7 @@
-//! `check A --against B`: metadata diff, geometry, channel names, physical sizes and plane hashes
+//! `compare A B`: metadata diff, geometry, channel names, physical sizes and plane hashes
 //! of two files (`openreadout_ops::compare`). Exit 0 when identical, 1 when they differ.
 
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use openreadout_core::{Registry, Result};
 use openreadout_ops::compare::{CompareOutput, CompareRequest, compare};
@@ -9,65 +9,67 @@ use openreadout_ops::compare::{CompareOutput, CompareRequest, compare};
 use crate::output::{emit, fail};
 use crate::ui;
 
-/// `check --against`: what to compare.
+/// Arguments of `compare`.
 #[derive(Debug, Clone, Default, clap::Args)]
-#[command(next_help_heading = "Compare with a second file (--against)")]
-pub struct CompareOpts {
-    /// Compare FILE with this second file (e.g. its OME-TIFF export): metadata diff, geometry,
-    /// channel names, physical sizes and per-plane hashes. Exit 0 identical, 1 different.
-    #[arg(long, value_name = "FILE")]
-    pub against: Option<PathBuf>,
+pub struct CompareArgs {
+    /// The first file (e.g. the raw file).
+    #[arg(value_name = "FILE")]
+    pub file: PathBuf,
+    /// The second file (e.g. its OME-TIFF export).
+    #[arg(value_name = "AGAINST")]
+    pub against: PathBuf,
+    /// Only this image index (in both files).
+    #[arg(long)]
+    pub image: Option<u32>,
+    /// Plane selection, e.g. `c=0`, `z=2-5`, `t=0,3`. Repeatable. A second file holding only
+    /// the selected planes (an export with the same `--select`) is matched to them in order.
+    #[arg(long = "select")]
+    pub select: Vec<String>,
+    /// Pyramid level (0 = full resolution).
+    #[arg(long, default_value_t = 0)]
+    pub level: u32,
     /// Largest absolute sample difference that still counts as equal (lossy conversions).
     /// Default: planes must be bit-identical (same xxh3-128).
-    #[arg(long, value_name = "T", requires = "against")]
+    #[arg(long, value_name = "T")]
     pub tolerance: Option<f64>,
     /// Leave this JSON pointer (into `info --json` data) out of the metadata diff; `*` matches
     /// one segment, e.g. `/images/*/name`. Repeatable. `/path`, `/size_bytes`, `/format`,
     /// `/format_version`, `/notes` and `/images/*/dimension_order` are always left out.
-    #[arg(long, value_name = "POINTER", requires = "against")]
+    #[arg(long, value_name = "POINTER")]
     pub ignore: Vec<String>,
     /// Also diff the `extra` objects (format-specific; they usually differ between formats).
-    #[arg(long, requires = "against")]
+    #[arg(long)]
     pub include_extra: bool,
     /// Compare data only: skip the metadata diff.
-    #[arg(long, requires = "against", conflicts_with_all = ["ignore", "include_extra"])]
+    #[arg(long, conflicts_with_all = ["ignore", "include_extra"])]
     pub no_metadata: bool,
     /// Compare metadata and geometry only: do not read pixels.
-    #[arg(long, requires = "against", conflicts_with = "tolerance")]
+    #[arg(long, conflicts_with = "tolerance")]
     pub no_pixels: bool,
-}
-
-/// One comparison: the two files, the planes to compare and the options.
-#[derive(Debug)]
-pub struct CompareArgs<'a> {
-    pub a: &'a Path,
-    pub b: &'a Path,
-    pub image: Option<u32>,
-    pub select: &'a [String],
-    pub level: u32,
-    pub opts: &'a CompareOpts,
+    #[arg(long)]
     pub json: bool,
 }
 
-fn go(reg: &Registry, a: &CompareArgs<'_>) -> Result<CompareOutput> {
-    let (_, mut da) = reg.open(a.a)?;
-    let (_, mut db) = reg.open(a.b)?;
+fn go(reg: &Registry, a: &CompareArgs) -> Result<CompareOutput> {
+    let (_, mut da) = reg.open(&a.file)?;
+    let (_, mut db) = reg.open(&a.against)?;
     let (ia, ib) = (da.info()?, db.info()?);
     compare(da.as_mut(), &ia, db.as_mut(), &ib, &{
         let mut compare_request = CompareRequest::default();
         compare_request.image = a.image;
-        compare_request.select = a.select.to_vec();
+        compare_request.select = a.select.clone();
         compare_request.level = a.level;
-        compare_request.tolerance = a.opts.tolerance;
-        compare_request.ignore = a.opts.ignore.clone();
-        compare_request.include_extra = a.opts.include_extra;
-        compare_request.no_metadata = a.opts.no_metadata;
-        compare_request.no_pixels = a.opts.no_pixels;
+        compare_request.tolerance = a.tolerance;
+        compare_request.ignore = a.ignore.clone();
+        compare_request.include_extra = a.include_extra;
+        compare_request.no_metadata = a.no_metadata;
+        compare_request.no_pixels = a.no_pixels;
         compare_request
     })
 }
 
-pub fn run(reg: &Registry, a: &CompareArgs<'_>) -> i32 {
+/// Run `compare`: exit 0 when the files hold the same data, 1 when they differ.
+pub fn run(reg: &Registry, a: &CompareArgs) -> i32 {
     match go(reg, a) {
         Ok(out) => {
             emit(a.json, &out, render);

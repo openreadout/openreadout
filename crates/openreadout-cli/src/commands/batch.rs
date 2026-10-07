@@ -1,4 +1,4 @@
-//! Batch mode for the read-only commands (`info` in every view, `check`, `check --planes`,
+//! Batch mode for the read-only commands (`info` in every view, `check`, `planes`,
 //! `stats`) and `export`.
 //!
 //! One plain file argument gives one envelope (or one human report) and that file's exit code.

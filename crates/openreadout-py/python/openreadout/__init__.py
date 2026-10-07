@@ -23,7 +23,7 @@ Quick start::
     peaks = openreadout.analyze("nmr/sucrose/1", "nmr-peaks")    # ``openreadout analyze``
 
 Functions and methods are named after the CLI commands (``info`` with ``view=``, ``check``,
-``stats``, ``spectra``, ``analyze``, ``export``, ``batch``, ``link``).
+``stats``, ``scans``, ``analyze``, ``export``, ``batch``, ``summarize``, ``link``).
 
 Metadata is the same JSON the ``openreadout`` CLI prints
 (https://openreadout.github.io/openreadout/getting-started/reading-json.html), typed as
@@ -38,7 +38,7 @@ import os
 from typing import Any, Dict, List, Optional, cast
 
 from . import _native
-from ._batch import BatchResult, batch, link
+from ._batch import BatchResult, batch, link, summarize
 from ._errors import (
     CorruptFileError,
     InstrumentFileNotFoundError,
@@ -106,6 +106,7 @@ __all__ = [
     "info",
     "link",
     "open",
+    "summarize",
 ]
 
 
@@ -189,9 +190,10 @@ def analyze(
     ``rt_min`` and ``intensity`` as NumPy arrays), ``"nmr-peaks"``, ``"ephys-features"``
     (patch clamp), ``"spikes"`` (extracellular), ``"qpcr"`` (Cq, ΔΔCq, standard curves),
     ``"assay"`` (plate-reader assays) or ``"gate"`` (flow-cytometry gating). The keyword
-    options are the ``options`` of the MCP tool ``openreadout_analyze`` for that kind
-    (https://openreadout.github.io/openreadout/reference/mcp.html); ``from_=`` stands for the
-    option ``from`` (a Python keyword). Indices are zero-based. An option the kind does not
+    options are the arguments of that analysis's MCP tool (``openreadout_peaks``,
+    ``openreadout_nmr_peaks``, ...; see
+    https://openreadout.github.io/openreadout/reference/mcp.html); ``from_=`` stands for
+    the option ``from`` (a Python keyword). Indices are zero-based. An option the kind does not
     take is a :class:`UsageError` naming the ones it does.
 
     ``qpcr``, ``assay`` and ``gate`` take a path; the others also what :func:`open` accepts.

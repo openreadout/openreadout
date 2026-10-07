@@ -146,7 +146,7 @@ openreadout info cells.lif --json
 ```json
 {
   "ok": true,
-  "schema_version": "1",
+  "schema_version": "2",
   "data": {
     "format": { "id": "lif", "name": "Leica LIF", "vendor": "Leica Microsystems" },
     "images": [
@@ -256,7 +256,7 @@ openreadout mcp --install vscode          # VS Code / Copilot
 openreadout mcp --install gemini          # Gemini CLI
 ```
 
-Windsurf, Zed, Continue, and Cline are supported too. The server exposes 15 tools (`openreadout_info`, `openreadout_check`, `openreadout_preview`, `openreadout_export`, `openreadout_analyze`, ...) over JSON-RPC — no shell access needed.
+Windsurf, Zed, Continue, and Cline are supported too. The server exposes 32 tools (`openreadout_info`, `openreadout_check`, `openreadout_preview`, `openreadout_export`, `openreadout_peaks`, ...) over JSON-RPC — no shell access needed.
 
 ### Claude Code Plugin
 
@@ -363,7 +363,7 @@ The [documentation](https://openreadout.github.io/openreadout/) has guides for e
 - **Getting started:** [Install](https://openreadout.github.io/openreadout/getting-started/install.html) | [Your first file](https://openreadout.github.io/openreadout/getting-started/first-file.html) | [Reading the JSON output](https://openreadout.github.io/openreadout/getting-started/reading-json.html)
 - **Reference:** [Commands](https://openreadout.github.io/openreadout/reference/commands.html) | [MCP tools](https://openreadout.github.io/openreadout/reference/mcp.html) | [Formats](https://openreadout.github.io/openreadout/formats.html)
 - **Guides:** [AI agents](https://openreadout.github.io/openreadout/guides/agents.html) | [Python](https://openreadout.github.io/openreadout/guides/python.html) | [R](https://openreadout.github.io/openreadout/guides/r.html) | [Recipes](https://openreadout.github.io/openreadout/recipes.html) | [Batch tables](https://openreadout.github.io/openreadout/guides/batch.html)
-- **A file that does not work:** run `openreadout check --report FILE` and attach the bundle to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). It contains no data values, sample names, or paths.
+- **A file that does not work:** run `openreadout report FILE` and attach the bundle to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). It contains no data values, sample names, or paths.
 
 ## Privacy
 

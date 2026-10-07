@@ -985,7 +985,7 @@ impl Dataset for JeolDataset {
         Err(Error::unsupported(
             JEOL_FORMAT_ID,
             "image planes",
-            "JEOL NMR data are traces (FIDs and spectra), not images: use `openreadout trace`, `openreadout export --to csv`, or the openreadout_trace MCP tool.",
+            "JEOL NMR data are traces (FIDs and spectra), not images: use `openreadout trace`, `openreadout export --format csv`, or the openreadout_trace MCP tool.",
         ))
     }
 

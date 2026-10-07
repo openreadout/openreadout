@@ -18,7 +18,7 @@ use crate::formats::{is_open_export_name, preservation, stem};
 use crate::manifest::{EXPERIMENTS_FILE, FILES_FILE, PROBLEMS_FILE, Tally, read_manifest};
 use crate::tables::{Cell, scan_table};
 
-/// Options of `search --health`.
+/// Options of `health`.
 #[derive(Debug, Clone)]
 #[non_exhaustive]
 pub struct HealthOptions {
@@ -224,7 +224,7 @@ pub struct PiiEntry {
     pub fields: Vec<String>,
 }
 
-/// `openreadout search INDEX --health`.
+/// `openreadout health INDEX`.
 #[derive(Debug, Clone, Serialize, schemars::JsonSchema)]
 pub struct HealthReport {
     /// The index directory.

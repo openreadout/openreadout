@@ -143,12 +143,15 @@ impl std::fmt::Display for Contrast {
 }
 
 /// Colour lookup for a single channel.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Deserialize, schemars::JsonSchema)]
+#[serde(rename_all = "kebab-case")]
 #[non_exhaustive]
 pub enum Lut {
-    /// Black → white.
+    /// black to white
+    #[serde(alias = "grey")]
     Gray,
-    /// Black → the channel's colour (see [`color::channel_color`]).
+    /// black to the channel's colour
+    #[serde(alias = "channel-colour", alias = "color")]
     ChannelColor,
 }
 
@@ -166,13 +169,50 @@ impl FromStr for Lut {
 }
 
 /// Axis of a maximum-intensity projection.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Deserialize, schemars::JsonSchema)]
+#[serde(rename_all = "lowercase")]
 #[non_exhaustive]
 pub enum Axis {
-    /// Project along Z (focal planes).
+    /// along z (focal planes)
     Z,
-    /// Project along T (time points).
+    /// along t (time points)
     T,
+}
+
+/// What frames an image preview.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, serde::Deserialize, schemars::JsonSchema)]
+#[serde(rename_all = "lowercase")]
+#[non_exhaustive]
+pub enum Axes {
+    /// coordinate rulers in full-resolution pixels and a scale bar around the picture (default)
+    #[default]
+    Rulers,
+    /// rulers, plus faint grid lines over the data at the ruler ticks
+    Grid,
+    /// the bare downsampled plane
+    None,
+}
+
+impl Axes {
+    /// Set `axes` and `grid` of a request.
+    pub fn apply(self, req: &mut PreviewRequest) {
+        req.axes = self != Axes::None;
+        req.grid = self == Axes::Grid;
+    }
+}
+
+impl FromStr for Axes {
+    type Err = Error;
+    fn from_str(s: &str) -> Result<Self> {
+        match s.trim().to_ascii_lowercase().as_str() {
+            "rulers" => Ok(Axes::Rulers),
+            "grid" => Ok(Axes::Grid),
+            "none" => Ok(Axes::None),
+            other => Err(Error::Usage(format!(
+                "bad axes '{other}': use rulers, grid or none"
+            ))),
+        }
+    }
 }
 
 impl FromStr for Axis {
@@ -189,13 +229,15 @@ impl FromStr for Axis {
 }
 
 /// Output encoding.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, serde::Deserialize, schemars::JsonSchema)]
+#[serde(rename_all = "lowercase")]
 #[non_exhaustive]
 pub enum Encoding {
-    /// PNG (lossless); the default.
+    /// lossless (default)
     #[default]
     Png,
-    /// JPEG (lossy, smaller).
+    /// lossy and smaller
+    #[serde(alias = "jpg")]
     Jpeg,
 }
 

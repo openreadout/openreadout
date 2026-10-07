@@ -1,4 +1,4 @@
-//! Scan headers (`spectra`, `Dataset::visit_scan_headers`) against third-party ground truth: for
+//! Scan headers (`scans`, `Dataset::visit_scan_headers`) against third-party ground truth: for
 //! every mass-spectrometry file of the corpus with an oracle (`corpus/oracle/<id>.json`:
 //! pyteomics on the file itself or on the depositor's mzML/mzXML export of a vendor file;
 //! pyimzML, timsrust, rainbow-api/Aston, scipy netCDF for the others), every oracle scan's

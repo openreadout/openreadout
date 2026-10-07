@@ -16,7 +16,7 @@ The TIFF family (`tiff`): TIFF 6.0 and BigTIFF, with OME-TIFF (single and multi-
 
 ## Debugging a new file
 
-- `openreadout check FILE --report` gives the flavour, writer, codec with its colour space and layout (the assurance fingerprint folds the photometric interpretation into colour-sensitive codecs: `jpeg (rgb)` ≠ `jpeg (ycbcr)`).
+- `openreadout report FILE` gives the flavour, writer, codec with its colour space and layout (the assurance fingerprint folds the photometric interpretation into colour-sensitive codecs: `jpeg (rgb)` ≠ `jpeg (ycbcr)`).
 - `openreadout info FILE --view structure` lists every IFD with its tags and strips/tiles; `info --view full --json` → `vendor` has the tags, OME-XML and flavour metadata.
 - Tests: `tests/fixtures.rs` (committed files against oracle JSON), `tests/other_codecs.rs` (`tests/fixtures/codecs/`: every compression with `.expected` samples), `tests/jpeg_colour.rs`, `tests/jpeg2000_pages.rs`, `tests/metamorph.rs`, `tests/nis.rs`, `tests/corpus_pages.rs`. `oracle/make_tiff_jpeg_fixtures.py` regenerates JPEG fixtures.
 - Oracles: tifffile + imagecodecs (primary), Bio-Formats (second opinion).

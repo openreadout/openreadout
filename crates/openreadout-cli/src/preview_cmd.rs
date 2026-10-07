@@ -5,8 +5,8 @@ use std::path::PathBuf;
 
 use openreadout_core::{Error, Registry, Result};
 use openreadout_preview::{
-    Axis, Contrast, Encoding, Lut, PreviewOutput, PreviewRequest, default_output, finish, render,
-    write_verified,
+    Axes, Axis, Contrast, Encoding, Lut, PreviewOutput, PreviewRequest, default_output, finish,
+    render, write_verified,
 };
 
 use crate::output::{emit, fail};
@@ -42,12 +42,11 @@ pub struct PreviewArgs {
     /// one is given. Zoom into a whole-slide image without reading all of it.
     #[arg(long, value_name = "X,Y,W,H")]
     pub region: Option<String>,
-    /// Image previews: no coordinate rulers, scale bar or frame; just the downsampled plane.
-    #[arg(long)]
-    pub plain: bool,
-    /// Image previews: faint grid lines over the data at the ruler ticks.
-    #[arg(long, conflicts_with = "plain")]
-    pub grid: bool,
+    /// Image previews: `rulers` (coordinate rulers in full-resolution pixels and a scale bar),
+    /// `grid` (rulers plus faint grid lines over the data at the ruler ticks) or `none` (the
+    /// bare downsampled plane).
+    #[arg(long, default_value = "rulers", value_name = "rulers|grid|none")]
+    pub axes: String,
     /// Longest side of the output in pixels (16..=8192), rulers included.
     #[arg(long, default_value_t = openreadout_preview::DEFAULT_PREVIEW_SIZE)]
     pub max_size: u32,
@@ -124,8 +123,7 @@ impl PreviewArgs {
             preview_request.centroid = self.centroid;
             preview_request.table = self.table;
             preview_request.column = self.column.clone();
-            preview_request.axes = !self.plain;
-            preview_request.grid = self.grid;
+            self.axes.parse::<Axes>()?.apply(&mut preview_request);
             preview_request
         })
     }
