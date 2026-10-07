@@ -812,32 +812,18 @@ pub fn analyze_extracellular(
                 n = cap;
             }
         }
-        // paged: readers cap one read (a 385-channel probe returns ~174 k samples at a time)
-        let cols = openreadout_core::trace::read_channels(ds, t.index, sw, 0, n, &channels)?;
-        for (k, x) in cols.iter().enumerate() {
-            let Some(y) = extracellular::bandpass(x, fs, &settings) else {
-                continue;
-            };
-            let noise = extracellular::mad_noise(&y);
-            let o = &mut out[k];
-            if o.noise == 0.0 {
-                o.noise = noise;
-                o.threshold = noise * settings.threshold;
-            }
-            let peaks = extracellular::detect_peaks(&y, fs, noise, &settings);
-            o.spike_count += peaks.len();
-            o.duration_s += x.len() as f64 / fs;
-            for p in peaks {
-                if o.times.len() < req.max_times {
-                    o.times.push(SpikeTime {
-                        sweep: sw,
-                        sample: p as u64,
-                        time_s: p as f64 / fs,
-                        amplitude: y[p],
-                    });
-                } else {
-                    o.times_truncated = true;
-                }
+        // Channels are read in groups that hold at most `SPIKES_READ_BYTES` of samples, so a
+        // long many-channel recording is not held in memory whole (each channel is filtered and
+        // thresholded on its own, so the grouping does not change the result). Reads are paged:
+        // readers cap one read (a 385-channel probe returns ~174 k samples at a time).
+        let per_group = usize::try_from(SPIKES_READ_BYTES / n.max(1).saturating_mul(8))
+            .unwrap_or(usize::MAX)
+            .max(1);
+        for (g, group) in channels.chunks(per_group).enumerate() {
+            let cols = openreadout_core::trace::read_channels(ds, t.index, sw, 0, n, group)?;
+            for (j, x) in cols.iter().enumerate() {
+                let k = g * per_group + j;
+                spikes_of_channel(x, fs, &settings, sw, req.max_times, &mut out[k]);
             }
         }
     }
@@ -859,6 +845,44 @@ pub fn analyze_extracellular(
         channels: out,
         notes,
     })
+}
+
+/// Most bytes of samples `analyze spikes` reads at once (channels are read in groups).
+pub const SPIKES_READ_BYTES: u64 = 512 << 20;
+
+/// Band-pass, noise and threshold crossings of one channel's samples `x` of sweep `sw`, added
+/// to `o`.
+fn spikes_of_channel(
+    x: &[f64],
+    fs: f64,
+    settings: &DetectSettings,
+    sw: u32,
+    max_times: usize,
+    o: &mut ChannelSpikes,
+) {
+    let Some(y) = extracellular::bandpass(x, fs, settings) else {
+        return;
+    };
+    let noise = extracellular::mad_noise(&y);
+    if o.noise == 0.0 {
+        o.noise = noise;
+        o.threshold = noise * settings.threshold;
+    }
+    let peaks = extracellular::detect_peaks(&y, fs, noise, settings);
+    o.spike_count += peaks.len();
+    o.duration_s += x.len() as f64 / fs;
+    for p in peaks {
+        if o.times.len() < max_times {
+            o.times.push(SpikeTime {
+                sweep: sw,
+                sample: p as u64,
+                time_s: p as f64 / fs,
+                amplitude: y[p],
+            });
+        } else {
+            o.times_truncated = true;
+        }
+    }
 }
 
 #[cfg(test)]
