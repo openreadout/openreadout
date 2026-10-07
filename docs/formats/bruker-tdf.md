@@ -37,7 +37,7 @@ Each frame names its `MzCalibration` and `TimsCalibration` rows (`Frames.MzCalib
 
 - **m/z, model type 1.** Flight time `t = index · DigitizerTimebase + DigitizerDelay` (ns). With `s = sqrt(m/z + C4)`: `t = C0 + β·s + C2·s² + C3·s³`, `β = sqrt(10^12 / (C1 · f))`, `f = 1 + 10^-6 · (dC1 · (T1 − T1_frame) + dC2 · (T2 − T2_frame))` (`T1`, `T2`, `dC1`, `dC2` of the row). Solved for `s` (quadratic in closed form; Newton steps when `C3 ≠ 0`), `m/z = s² − C4`. Inverse (TOF index of an m/z): evaluate `t` and `index = (t − DigitizerDelay) / DigitizerTimebase` (`MzModel::index`).
 - **m/z, model type 2** (columns to `C14`). `C3`, `C4` repeat `C0`, `C2`; `m/z₁` from the type-1 formula with `C4 = 0`; then `m/z = m/z₁ − P(m/z₁) · exp(−d²)` with `P(x) = Σ C(8+k)·x^k` (`C7` coefficients) evaluated at `m/z₁` clamped to `[C5, C6]` and `d` the distance of `m/z₁` outside that range (0 inside).
-- **1/K0, TimsCalibration model type 2.** `1/K0 = 1 / (C6 + C7 / (C2 + (C3 − C2)/C1 · (scan − C0 − C4)))`, `scan` the zero-based scan index (fractional for a precursor's `ScanNumber`).
+- **1/K0, TimsCalibration model type 2.** `1/K0 = 1 / (C6 + C7 / |C2 + (C3 − C2)/C1 · (scan − C0 − C4)|)`, `scan` the zero-based scan index (fractional for a precursor's `ScanNumber`). Negative-ion runs store `C2` and `C3` negative, so the model takes the magnitude of the voltage. No vendor-library conversion of a negative run confirms this yet; the assurance block reports these values under `inferred`.
 
 Validated variants: m/z type 1 with `C3 = 0`, `dC2 = 0` (any `C2`, `C4`); m/z type 2 with `C7 = 7` and `C3 = C0`, `C4 = C2`; 1/K0 type 2. Any other value of those parameters is applied by the same formula and flagged (`notes`, `check` warning `calibration_unvalidated`, `mz_calibration.unvalidated` in `info`). A frame whose row is missing or of another model type falls back to the acquisition-range approximations timsrust uses, flagged in `notes`, `check` (`calibration_not_applied`) and each spectrum's `extra.mz_calibration`:
 
@@ -84,7 +84,7 @@ Trace 0 `TIC` (`Frames.SummedIntensities`) and trace 1 `BPC` (`Frames.MaxIntensi
 | `MzCalibrationRow` | an `MzCalibration` row: `id`, `model_type`, `digitizer_timebase`, `digitizer_delay`, `t1`, `t2`, `dc1`, `dc2`, `c` (`C0`…); `model` (for a frame's temperatures); `mz_rows` reads the table |
 | `TimsCalibrationRow` | a `TimsCalibration` row: `id`, `model_type`, `c`; `model`; `tims_rows` reads the table |
 | `MzModel` | a frame's m/z model: `calibration_id`, `model_type`, `unvalidated`; `time`, `mz`, `index` (inverse), `describe` |
-| `MobilityModel` | a 1/K0 model: `calibration_id`; `inverse_mobility`, `describe` |
+| `MobilityModel` | a 1/K0 model: `calibration_id`; `inverse_mobility`, `describe`; `negative_voltages` (the ramp voltages are stored negative: a negative-ion run) |
 | `Unvalidated` | which part of a model no reference file validated (`None`: none) |
 | `Selection` | a PASEF selection or DIA window: `frame`, `scan_begin`, `scan_end` (exclusive), `isolation_mz`, `isolation_width`, `collision_energy` |
 | `PrecursorRecord` | a `Precursors` row: `id`, `monoisotopic_mz`, `largest_peak_mz`, `charge`, `scan_number`, `intensity`, `parent_frame` |

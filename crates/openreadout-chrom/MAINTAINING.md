@@ -81,6 +81,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - feature layout `if regular { "2D, evenly spaced times" } else { "2D, uneven times" }`
 - feature dialect `format!("{e} line endings")`
+- feature layout `"headerless export"`
 - feature writer_version `format!("Chromeleon {v}")`
 - feature codec `e`
 - feature layout `format!("{} Hz {kind} in {unit}", t.sample_rate_hz)`

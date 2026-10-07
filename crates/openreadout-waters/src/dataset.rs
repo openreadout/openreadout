@@ -19,6 +19,7 @@ use openreadout_core::source::{Fs, Input};
 use openreadout_core::{Error, Plane, Result};
 use serde_json::{Value, json};
 
+use crate::drift::{DriftIndex, decode_drift_scan, parse_drift_index};
 use crate::layout::{
     CHRO_HEADER, Calibration, ExternInfo, FLAG_WIDE_CALIBRATED, FUNCTION_BLOCK, FUNCTION_DAUGHTER,
     FUNCTION_PDA, FUNCTION_TOF_MS, FUNCTION_TOF_MSMS, FunctionBlock, ScanIndex, StatsLayout,
@@ -86,6 +87,9 @@ pub struct WatersFunction {
     /// The function has drift-resolved data (`_funcNNN.cdt` + `.ind`, ion mobility or SONAR
     /// quadrupole bins); the `.DAT` spectra are those bins summed.
     pub drift_resolved: bool,
+    /// The parsed `_funcNNN.ind` and the name of the `_funcNNN.cdt`, when both are present and
+    /// the index parses.
+    pub drift: Option<(DriftIndex, String)>,
     /// Bytes of `_FUNCnnn.STS`.
     pub stats: Vec<u8>,
 }
@@ -214,7 +218,16 @@ pub struct WatersRawDataset {
     functions_inf_len: Option<u64>,
     /// Spectral scans merged by retention time: (function position, scan position).
     order: Vec<(usize, usize)>,
+    /// The scans of `order` whose function has drift data, in the same order: (function
+    /// position, scan position, first run-1 spectrum index, run-0 spectrum index). Run 1 lists
+    /// one spectrum per drift bin.
+    drift_order: Vec<(usize, usize, u64, u64)>,
+    /// The last scan whose drift bins were decoded: (function, scan) → per bin (m/z, intensity).
+    drift_cache: Option<((usize, usize), DriftSpectra)>,
 }
+
+/// One scan's drift bins as spectra: per bin, m/z and intensity arrays.
+type DriftSpectra = Vec<(Vec<f64>, Vec<f32>)>;
 
 /// Is `path` a MassLynx `.raw` directory (has `_HEADER.TXT` or a `_FUNCnnn.IDX`)?
 pub fn is_waters_dir(path: &Path) -> bool {
@@ -406,13 +419,18 @@ impl WatersRawDataset {
                     k.starts_with("RAMP HIGH ENERGY") || k.contains("COLLISION ENERGY HIGH")
                 })
             });
-            let drift_resolved = files
-                .iter()
-                .any(|(f, _)| f.eq_ignore_ascii_case(&format!("_func{n:03}.cdt")));
+            let cdt = find(&files, &format!("_func{n:03}.cdt"));
+            let drift_resolved = cdt.is_some();
+            let drift = cdt.and_then(|c| {
+                let ind = find(&files, &format!("_func{n:03}.ind"))?;
+                let b = read_capped(fs, &path.join(ind), "drift index").ok()?;
+                Some((parse_drift_index(&b)?, c))
+            });
             functions.push(WatersFunction {
                 number: n,
                 high_energy,
                 drift_resolved,
+                drift,
                 scans,
                 idx_len: *len,
                 idx_record_len: record_len,
@@ -483,7 +501,19 @@ impl WatersRawDataset {
                 .then(functions[a.0].number.cmp(&functions[b.0].number))
                 .then(a.1.cmp(&b.1))
         });
+        let mut drift_order = Vec::new();
+        let mut next = 0u64;
+        for (run0, &(fi, si)) in order.iter().enumerate() {
+            if let Some((ix, _)) = &functions[fi].drift
+                && si < ix.scans.len()
+            {
+                drift_order.push((fi, si, next, run0 as u64));
+                next += ix.bins as u64;
+            }
+        }
         Ok(WatersRawDataset {
+            drift_order,
+            drift_cache: None,
             path: path.to_path_buf(),
             fs: fs.clone(),
             files,
@@ -1047,7 +1077,11 @@ impl WatersRawDataset {
         if f.drift_resolved {
             extra.insert(
                 "drift_bins".into(),
-                json!("summed: the function's drift-resolved data (_funcNNN.cdt) are not decoded; this is the stored drift-summed spectrum"),
+                json!(if f.drift.is_some() {
+                    "summed: the stored sum of the scan's drift bins; run 1 lists one spectrum per bin"
+                } else {
+                    "summed: the stored sum of the scan's drift bins; the drift index (_funcNNN.ind) is missing or unreadable, so the bins are not listed"
+                }),
             );
         }
         Ok(Spectrum {
@@ -1146,6 +1180,243 @@ impl WatersRawDataset {
         sp.mz = pts.iter().map(|p| p.0).collect();
         sp.intensity = pts.iter().map(|p| p.1).collect();
         Ok(sp)
+    }
+
+    /// Spectra in run 1: one per drift bin of every drift-resolved scan.
+    fn drift_count(&self) -> u64 {
+        self.drift_order.last().map_or(0, |&(fi, _, start, _)| {
+            start
+                + self.functions[fi]
+                    .drift
+                    .as_ref()
+                    .map_or(0, |(ix, _)| ix.bins as u64)
+        })
+    }
+
+    /// Run-1 spectrum `k`: its entry in `drift_order` and its drift bin.
+    fn drift_locate(&self, k: u64) -> Result<(usize, usize)> {
+        let n = self.drift_count();
+        if k >= n {
+            return Err(Error::Usage(format!(
+                "spectrum {k} of run 1 does not exist ({n} drift-bin spectra)"
+            )));
+        }
+        let i = self
+            .drift_order
+            .partition_point(|&(_, _, start, _)| start <= k)
+            .saturating_sub(1);
+        let start = self.drift_order[i].2;
+        Ok((i, usize::try_from(k - start).unwrap_or(usize::MAX)))
+    }
+
+    /// Header of run-1 spectrum `k`, without its points: the drift-summed scan's metadata with
+    /// the bin's number, native id and drift time.
+    fn drift_meta(&self, k: u64) -> Result<Spectrum> {
+        let (i, bin) = self.drift_locate(k)?;
+        let (fi, si, _, run0) = self.drift_order[i];
+        let f = &self.functions[fi];
+        let bins = f.drift.as_ref().map_or(0, |(ix, _)| ix.bins);
+        let mut sp = self.meta_at(run0)?;
+        sp.index = k;
+        // The vendor library numbers a drift-resolved function's spectra per bin.
+        sp.scan_number = (si * bins + bin + 1) as u64;
+        sp.native_id = Some(format!(
+            "function={} process=0 scan={}",
+            f.number, sp.scan_number
+        ));
+        sp.extra.remove("drift_bins");
+        sp.extra.remove("stored_tic");
+        sp.extra.insert("scan".into(), json!(si + 1));
+        if self.extern_info.sonar {
+            sp.extra.insert("sonar_bin".into(), json!(bin));
+        } else {
+            sp.extra.insert("drift_bin".into(), json!(bin));
+            // A bin lasts `ADC Pushes Per IMS Increment` pusher periods.
+            if let (Some(hz), Some(pushes)) = (
+                f.stat(si, "Pusher Frequency").filter(|&v| v > 0.0),
+                self.extern_info.pushes_per_drift_bin.filter(|&p| p > 0),
+            ) {
+                sp.extra.insert(
+                    "drift_time_ms".into(),
+                    json!(tidy(bin as f64 * f64::from(pushes) * 1000.0 / hz)),
+                );
+            }
+        }
+        Ok(sp)
+    }
+
+    /// Decode the drift bins of one scan. Each time-of-flight index takes the m/z of the
+    /// drift-summed spectrum's point of the same rank, after checking that the bins sum to that
+    /// spectrum point for point (docs/provenance/waters-raw.md, 2026-10-06).
+    fn decode_drift(&self, fi: usize, si: usize, run0: u64) -> Result<DriftSpectra> {
+        let f = &self.functions[fi];
+        let Some((ix, cdt)) = &f.drift else {
+            return Err(Error::Usage(format!("{} has no drift index", f.label())));
+        };
+        let ds = ix.scans.get(si).ok_or_else(|| {
+            Error::Usage(format!("{} scan {} has no drift data", f.label(), si + 1))
+        })?;
+        let len = ds.byte_len();
+        if len > MAX_SCAN_BYTES {
+            return Err(Error::unsupported(
+                WATERS_ID,
+                format!("drift data of {len} bytes in one scan"),
+                "Scans above 1 GiB are not read.",
+            ));
+        }
+        let path = self.path.join(cdt);
+        let mut h = self.fs.open(&path).map_err(|e| Error::io(&path, e))?;
+        let bytes = read_range(&mut h, &path, ds.offset, len)?;
+        if (bytes.len() as u64) < len {
+            return Err(Error::corrupt_at(
+                WATERS_ID,
+                ds.offset,
+                format!(
+                    "{cdt}: scan {} runs past the end of the file (truncated)",
+                    si + 1
+                ),
+            ));
+        }
+        let what = format!("drift bins of {} scan {}", f.label(), si + 1);
+        let bins = decode_drift_scan(&bytes, ds).map_err(|e| {
+            Error::unsupported(
+                WATERS_ID,
+                format!("{what}: {e}"),
+                "Read the drift-summed spectra of run 0 instead.",
+            )
+        })?;
+        let summed = self.spectrum_at(run0)?;
+        let stored: Vec<(f64, f32)> = summed
+            .mz
+            .iter()
+            .zip(&summed.intensity)
+            .filter(|(_, i)| **i != 0.0)
+            .map(|(&m, &i)| (m, i))
+            .collect();
+        let mut sums: BTreeMap<u64, i64> = BTreeMap::new();
+        for b in &bins {
+            for (&t, &v) in b.tof.iter().zip(&b.intensity) {
+                *sums.entry(t).or_default() += v;
+            }
+        }
+        if sums.len() != stored.len()
+            || sums
+                .values()
+                .zip(&stored)
+                .any(|(&s, &(_, i))| (s as f32).to_bits() != i.to_bits())
+        {
+            return Err(Error::unsupported(
+                WATERS_ID,
+                format!(
+                    "{what}: the bins ({} points) do not sum to the stored drift-summed spectrum ({} points)",
+                    sums.len(),
+                    stored.len()
+                ),
+                "Read the drift-summed spectra of run 0 instead.",
+            ));
+        }
+        let mz_of: BTreeMap<u64, f64> = sums
+            .keys()
+            .copied()
+            .zip(stored.iter().map(|p| p.0))
+            .collect();
+        Ok(bins
+            .iter()
+            .map(|b| {
+                (
+                    b.tof.iter().filter_map(|t| mz_of.get(t).copied()).collect(),
+                    b.intensity.iter().map(|&v| v as f32).collect(),
+                )
+            })
+            .collect())
+    }
+
+    /// Run-1 spectrum `k`: one drift bin of a scan, with its points.
+    fn drift_spectrum(&mut self, k: u64) -> Result<Spectrum> {
+        let mut sp = self.drift_meta(k)?;
+        let (i, bin) = self.drift_locate(k)?;
+        let (fi, si, _, run0) = self.drift_order[i];
+        if self
+            .drift_cache
+            .as_ref()
+            .is_none_or(|(key, _)| *key != (fi, si))
+        {
+            let d = self.decode_drift(fi, si, run0)?;
+            self.drift_cache = Some(((fi, si), d));
+        }
+        let (mz, intensity) = self
+            .drift_cache
+            .as_ref()
+            .and_then(|(_, d)| d.get(bin))
+            .cloned()
+            .unwrap_or_default();
+        let tic: f64 = intensity.iter().map(|&v| f64::from(v)).sum();
+        let base = mz
+            .iter()
+            .zip(&intensity)
+            .fold(None::<(f64, f32)>, |acc, (&m, &v)| match acc {
+                Some(a) if a.1 >= v => Some(a),
+                _ => Some((m, v)),
+            });
+        sp.total_ion_current = Some(tic);
+        sp.base_peak_mz = base.map(|b| b.0);
+        sp.base_peak_intensity = base.map(|b| f64::from(b.1));
+        sp.mz = mz;
+        sp.intensity = intensity;
+        Ok(sp)
+    }
+
+    /// Run 1: the drift bins of every drift-resolved scan, one spectrum each.
+    fn drift_spectra_info(&self) -> SpectraInfo {
+        let mut info = self.spectra_info();
+        let funcs: Vec<&WatersFunction> = self
+            .functions
+            .iter()
+            .filter(|f| f.is_spectral() && f.drift.is_some())
+            .collect();
+        info.index = 1;
+        info.name = Some("drift bins".into());
+        info.scan_count = self.drift_count();
+        info.ms_levels = funcs
+            .iter()
+            .map(|f| f.ms_level())
+            .collect::<BTreeSet<u32>>()
+            .into_iter()
+            .collect();
+        let rts: Vec<f64> = self
+            .drift_order
+            .iter()
+            .map(|&(fi, si, _, _)| f64::from(self.functions[fi].scans[si].rt_min) * 60.0)
+            .collect();
+        info.rt_range_s = match (rts.first(), rts.last()) {
+            (Some(&a), Some(&b)) => Some([a, b]),
+            _ => None,
+        };
+        info.extra.remove("stored_spectra");
+        info.extra.insert(
+            "drift_resolved".into(),
+            json!(if self.extern_info.sonar {
+                "SONAR quadrupole steps"
+            } else {
+                "ion mobility drift time"
+            }),
+        );
+        info.extra.insert(
+            "functions".into(),
+            json!(
+                funcs
+                    .iter()
+                    .map(|f| json!({
+                        "function": f.number,
+                        "kind": f.kind,
+                        "ms_level": f.ms_level(),
+                        "scans": f.drift.as_ref().map_or(0, |(ix, _)| ix.scans.len()),
+                        "bins_per_scan": f.drift.as_ref().map_or(0, |(ix, _)| ix.bins),
+                    }))
+                    .collect::<Vec<_>>()
+            ),
+        );
+        info
     }
 
     fn spectra_info(&self) -> SpectraInfo {
@@ -1255,6 +1526,12 @@ impl Dataset for WatersRawDataset {
                 self.order.len()
             ));
         }
+        if self.drift_count() > 0 {
+            notes.push(format!(
+                "{} drift-bin spectra in run 1: each drift-resolved scan of run 0 split into its bins (_funcNNN.cdt), numbered per bin as the vendor does (scan = (S - 1) x bins + bin + 1)",
+                self.drift_count()
+            ));
+        }
         let undecoded: Vec<String> = self
             .functions
             .iter()
@@ -1299,6 +1576,8 @@ impl Dataset for WatersRawDataset {
                 .collect(),
             spectra: if self.order.is_empty() {
                 Vec::new()
+            } else if self.drift_count() > 0 {
+                vec![self.spectra_info(), self.drift_spectra_info()]
             } else {
                 vec![self.spectra_info()]
             },
@@ -1586,9 +1865,19 @@ impl Dataset for WatersRawDataset {
         first: u64,
         visit: &mut dyn FnMut(openreadout_core::ScanHeader) -> bool,
     ) -> Result<bool> {
+        if run == 1 && self.drift_count() > 0 {
+            for k in first..self.drift_count() {
+                let h = openreadout_core::ScanHeader::from(self.drift_meta(k)?);
+                if !visit(h) {
+                    break;
+                }
+            }
+            return Ok(true);
+        }
         if run != 0 {
             return Err(Error::Usage(format!(
-                "run {run} out of range (a MassLynx .raw holds one run)"
+                "run {run} out of range (this MassLynx .raw holds {} runs)",
+                if self.drift_count() > 0 { 2 } else { 1 }
             )));
         }
         for i in first..self.order.len() as u64 {
@@ -1600,17 +1889,45 @@ impl Dataset for WatersRawDataset {
     }
 
     fn read_spectrum(&mut self, index: u32, spectrum: u64) -> Result<Spectrum> {
+        if index == 1 && self.drift_count() > 0 {
+            return self.drift_spectrum(spectrum);
+        }
         if index != 0 || self.order.is_empty() {
             return Err(Error::Usage(if self.order.is_empty() {
                 "this .raw directory holds no scanning (full-scan) function; MRM/SIR values are tables".to_string()
             } else {
-                format!("run {index} does not exist (MassLynx data has one run, 0)")
+                format!(
+                    "run {index} does not exist (run 0: spectra; run 1, when the data are drift-resolved: drift bins)"
+                )
             }));
         }
         self.spectrum_at(spectrum)
     }
 
     fn find_spectrum(&mut self, run: u32, scan_number: u64) -> Result<Option<u64>> {
+        if run == 1 {
+            // Per-bin scan numbers count within a function; the lowest-numbered one wins.
+            let Some(&(first, ..)) = self
+                .drift_order
+                .iter()
+                .min_by_key(|e| self.functions[e.0].number)
+            else {
+                return Ok(None);
+            };
+            let bins = self.functions[first]
+                .drift
+                .as_ref()
+                .map_or(0, |(ix, _)| ix.bins) as u64;
+            if bins == 0 || scan_number == 0 {
+                return Ok(None);
+            }
+            let (si, bin) = ((scan_number - 1) / bins, (scan_number - 1) % bins);
+            return Ok(self
+                .drift_order
+                .iter()
+                .find(|&&(f, s, _, _)| f == first && s as u64 == si)
+                .map(|&(_, _, start, _)| start + bin));
+        }
         if run != 0 {
             return Ok(None);
         }
@@ -1750,6 +2067,39 @@ impl Dataset for WatersRawDataset {
             for i in probes {
                 if let Err(e) = self.spectrum_at(i) {
                     r.push(Finding::error("undecodable", format!("spectrum {i}: {e}")));
+                }
+            }
+        }
+        if self.drift_count() > 0 {
+            r.performed("drift bins (_funcNNN.cdt): decoded the first and last scan of every drift-resolved function and checked that its bins sum to the stored drift-summed spectrum");
+            let mut probes = Vec::new();
+            for (fi, f) in self.functions.iter().enumerate() {
+                let Some((ix, _)) = &f.drift else { continue };
+                if ix.trailing != 0 {
+                    r.push(Finding::error(
+                        "truncated",
+                        format!(
+                            "_func{:03}.ind: {} bytes after the last whole scan block",
+                            f.number, ix.trailing
+                        ),
+                    ));
+                }
+                let scans: Vec<(usize, u64)> = self
+                    .drift_order
+                    .iter()
+                    .filter(|e| e.0 == fi)
+                    .map(|e| (e.1, e.3))
+                    .collect();
+                if let (Some(&a), Some(&b)) = (scans.first(), scans.last()) {
+                    probes.push((fi, a.0, a.1));
+                    if b != a {
+                        probes.push((fi, b.0, b.1));
+                    }
+                }
+            }
+            for (fi, si, run0) in probes {
+                if let Err(e) = self.decode_drift(fi, si, run0) {
+                    r.push(Finding::error("drift_undecodable", e.to_string()));
                 }
             }
         }

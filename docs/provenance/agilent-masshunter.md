@@ -83,3 +83,23 @@ Dropped: MTBLS6740 (listed in the survey as "auto MS/MS" Agilent) — its `.d` i
 
 **Corpus files:** every development input of this format (`corpus/assurance/evidence.json`); no held-out file. **Prior art consulted:** none.
 **What was done.** No parsing logic changed. The structural instrument feature is the instrument series from the model number (`generation 6200 TOF`, `generation 6400 triple quadrupole`, `generation 6500 Q-TOF`, `generation 6560 ion-mobility Q-TOF`; `instrument_generation`) instead of the exact model, which stays descriptive: the stored spectra follow the series, not the model within it.
+
+## 2026-10-06 — product m/z of dynamic-MRM transitions against the acquisition method (Richard Zimring with Claude as assistant)
+
+Held-out draw D reported product m/z printed to one decimal (254.3 where the depositor's mzML has 254.296) on a 6495 dynamic-MRM run (finding D-L1). No held-out file was opened.
+
+**Corpus file used (new):** `mtbls4722-1` (MetaboLights MTBLS4722, EMBL-EBI terms: a 6470A dynamic-MRM run of 424 transitions, negative ESI, MassHunter 8.0) with the depositor's ProteoWizard 3.0.22110 mzML. **Prior art consulted:** none.
+
+**What was inferred from what:**
+- The acquisition method in the `.d` (`AcqData/Neg6470-2021-11.m/192_1.xml`) lists every transition with its precursor and product m/z as the analyst typed them, with 0 to 3 decimals (`241.01`, `142.07`, `115.1`, `137`). Our product m/z (`scan_window_mz`, the stored f64 of each MRM point list's m/z range) equals the method's value for every distinct (precursor, product) pair, including every product written with two or three decimals. The value MassHunter stores is the method's value; a one-decimal product is one the method states to one decimal.
+- The mzML prints every product 0.004 below that value (`Q3=179.196` for 179.2, `Q3=241.006` for 241.01), as the earlier MetaboLights files showed. Precursors are not shifted.
+- Fourteen transitions repeat a precursor, product and collision energy with an overlapping window; ProteoWizard writes them as separate chromatograms whose points alternate. Their scans carry different `scan_method` values (281 and 284 for 130 > 45), which tell them apart.
+
+**Decided:** no reader change. The corpus harness now tries each `scan_method` group separately when a chromatogram's points come from more than one, and matches products within 0.005 (`srm_product_tolerance`, as for the other MetaboLights MRM files). With that, 425 of the run's 427 chromatograms are rebuilt exactly from our scans.
+
+## 2026-10-06 — Q-TOF profiles in the ion-mobility encoding (MassHunter Acquisition 10.1) (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `mtbls12637-processblank2-pos-77-d` (MetaboLights MTBLS12637, CC0; 6546 LC/Q-TOF, acquisition software "6200 series TOF/6500 series Q-TOF 10.1 (48.0)", 2023) with the depositor's mzML (`mtbls12637-processblank2-pos-77-d-mzml`; vendor-centroided, so used only for peak positions). No held-out file. **Prior art consulted:** none new.
+**Why.** `check` refused the file: "lzf: back-reference before the start of the output" on the first and last scan; `info` listed 1,194 spectra.
+**What was inferred from what.** Each format-1 block of `MSProfile.bin` starts with the two f64 of a profile (26864.0 ns, 0.1 ns) uncompressed, then a u32 0x900C33A0 whose low 24 bits are the record's `PointCount` (799,648) and an i32 −1228, then signed integers of changing width: the layout of the ion-mobility profiles of 2026-09-25 (entry 6 above), not LZF. The record's `UncompressedByteCount` is still 16 + 4 × `PointCount`, which is why the reader took the block for LZF. Decoding every block with `decode_ims_profile` gives, on all 1,194 scans, counts that sum exactly to `TIC` with their maximum equal to `BasePeakValue`. Before the rule was recognised, reading the same stream as 16-bit values gave the same sums but put the base peak 8,191 bins early after every 0x8001 value (a skip of 8,191 that also switches to 4-byte values), which is how the existing rule was confirmed against the file's own base-peak m/z.
+**Rule.** A format-1 block whose u32 at byte 16 has the top byte 0x90 and the record's `PointCount` in its low 24 bits is decoded as an ion-mobility profile; any other block as before (LZF when `ByteCount` differs from `UncompressedByteCount`).

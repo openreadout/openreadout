@@ -87,6 +87,9 @@ pub(crate) struct OraclePlateGroup {
     pub(crate) values: usize,
     #[serde(default)]
     pub(crate) wavelengths: Vec<f64>,
+    /// The distinct times (seconds) of a kinetic read, ascending, when the oracle reads them.
+    #[serde(default)]
+    pub(crate) times_s: Vec<f64>,
     pub(crate) value_xxh3: String,
 }
 #[derive(Deserialize)]
@@ -304,6 +307,9 @@ pub(crate) struct OracleScan {
     pub(crate) filter: Option<String>,
     pub(crate) precursor_mz: Option<f64>,
     pub(crate) precursor_charge: Option<i32>,
+    /// The loss of a constant neutral loss scan (which mzML exports give as the selected ion).
+    #[serde(default)]
+    pub(crate) neutral_loss_mz: Option<f64>,
     /// mzML: list of activation CV names; mzXML: `HCD`, `CID`, ...
     #[serde(default)]
     pub(crate) activation: Option<serde_json::Value>,

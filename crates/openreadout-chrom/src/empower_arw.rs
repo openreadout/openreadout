@@ -34,6 +34,8 @@ pub struct ArwExport {
     pub values: Vec<f64>,
     /// Line ending seen (`CR`, `LF`, `CRLF`).
     pub line_ending: &'static str,
+    /// The export has no header rows (its method selected no fields): data rows only.
+    pub headerless: bool,
 }
 
 impl ArwExport {
@@ -79,6 +81,30 @@ pub fn looks_like_arw(head: &[u8]) -> bool {
         })
 }
 
+/// Does `head` look like an export without its header rows: every complete line two
+/// tab-separated numbers? Such text is only claimed for a file with the `.arw` extension.
+pub fn looks_like_headerless_arw(head: &[u8]) -> bool {
+    let head = head.strip_prefix(b"\xef\xbb\xbf").unwrap_or(head);
+    let Ok(text) = std::str::from_utf8(head) else {
+        return false;
+    };
+    let mut lines: Vec<&str> = text.split(['\r', '\n']).collect();
+    // the last line may be cut by the end of the head
+    if lines.len() > 1 {
+        lines.pop();
+    }
+    let lines: Vec<&str> = lines.into_iter().filter(|l| !l.trim().is_empty()).collect();
+    !lines.is_empty() && lines.iter().all(|l| two_numbers(l).is_some())
+}
+
+/// A data row: a time and a value separated by a tab.
+fn two_numbers(line: &str) -> Option<(f64, f64)> {
+    let mut cells = line.split('\t').map(str::trim);
+    let num = |s: &str| s.parse::<f64>().ok().filter(|x| x.is_finite());
+    let (t, v) = (num(cells.next()?)?, num(cells.next()?)?);
+    cells.next().is_none().then_some((t, v))
+}
+
 fn unquote(s: &str) -> Option<String> {
     let s = s.trim_end_matches(' ');
     s.strip_prefix('"')
@@ -109,8 +135,27 @@ pub fn parse_arw(text: &str) -> std::result::Result<ArwExport, ArwError> {
     } else {
         "LF"
     };
-    let mut lines = text.split(['\r', '\n']).filter(|l| !l.trim().is_empty());
+    let mut lines = text
+        .split(['\r', '\n'])
+        .filter(|l| !l.trim().is_empty())
+        .peekable();
     let corrupt = |m: String| ArwError::Corrupt(m);
+    if lines.peek().is_some_and(|l| two_numbers(l).is_some()) {
+        // no header rows: every line is a data row
+        let mut out = ArwExport {
+            line_ending,
+            headerless: true,
+            ..ArwExport::default()
+        };
+        for (i, line) in lines.enumerate() {
+            let (t, v) = two_numbers(line).ok_or_else(|| {
+                corrupt(format!("data row {} ({line:?}) is not two numbers", i + 1))
+            })?;
+            out.times.push(t);
+            out.values.push(v);
+        }
+        return Ok(out);
+    }
     let names = lines.next().ok_or_else(|| corrupt("empty file".into()))?;
     let values = lines
         .next()
@@ -238,6 +283,9 @@ impl EmpowerArwDataset {
             }
         }
         extra.insert("line_ending".into(), json!(a.line_ending));
+        if a.headerless {
+            extra.insert("headerless".into(), json!(true));
+        }
         let n = a.times.len() as u64;
         let first = a.times[0];
         let last = a.times[a.times.len() - 1];
@@ -320,6 +368,7 @@ impl Dataset for EmpowerArwDataset {
             "fields": self.arw.fields.iter().map(|(k, v)| json!({"name": k, "value": v})).collect::<Vec<_>>(),
             "points": self.arw.times.len(),
             "line_ending": self.arw.line_ending,
+            "headerless": self.arw.headerless,
         }))
     }
 
@@ -437,6 +486,32 @@ mod tests {
         assert_eq!(a.values[2], 1.25);
         assert_eq!(a.line_ending, "CR");
         assert!((a.regular_step().unwrap() - 0.008_333_335).abs() < 1e-8);
+    }
+
+    #[test]
+    fn parses_an_export_without_header_rows() {
+        // a development export (appia-empower-results1844) with its two header rows removed
+        let body = "0\t0\r0.008333333\t0.5\r0.01666667\t1.25\r";
+        assert!(!looks_like_arw(body.as_bytes()));
+        assert!(looks_like_headerless_arw(body.as_bytes()));
+        // the head may end inside a row
+        assert!(looks_like_headerless_arw(b"0\t0\r0.008333333\t0."));
+        let a = parse_arw(body).unwrap();
+        assert!(a.headerless && a.fields.is_empty());
+        assert_eq!(a.times.len(), 3);
+        assert_eq!(a.values[2], 1.25);
+        assert_eq!(a.line_ending, "CR");
+        // three columns, text, or a header further down are not this layout
+        assert!(!looks_like_headerless_arw(b"0\t1\t2\r1\t2\t3\r"));
+        assert!(!looks_like_headerless_arw(b"Time\tValue\r0\t1\r"));
+        assert!(!looks_like_headerless_arw(b""));
+        assert!(matches!(
+            parse_arw("0\t0\r1\tx\r"),
+            Err(ArwError::Corrupt(_))
+        ));
+        let r = crate::EmpowerArwReader;
+        assert!(r.sniff(body.as_bytes(), Path::new("x.arw")).is_some());
+        assert!(r.sniff(body.as_bytes(), Path::new("x.txt")).is_none());
     }
 
     #[test]

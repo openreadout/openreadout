@@ -574,17 +574,19 @@ const PERKINELMER_SP_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const PERKINELMER_SP_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "INFRARED SPECTRUM", 8, 6, 8),
+    a::row(K::Acquisition, "UV/VIS SPECTRUM", 1, 1, 1),
     a::row(K::Acquisition, "beam Ratio", 7, 5, 7),
     a::row(K::Acquisition, "beam Sample", 1, 1, 1),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 8),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 8),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 9),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 9),
     a::row(K::Instrument, "Frontier FT-IR", 1, 1, 1),
     a::row(K::Instrument, "Frontier FT-IR/NIR", 3, 1, 3),
+    a::row(K::Instrument, "Lambda 950", 1, 1, 1),
     a::row(K::Instrument, "Spectrum 100", 1, 1, 1),
     a::row(K::Instrument, "Spectrum One", 1, 1, 1),
     a::row(K::Instrument, "Spectrum Two", 1, 1, 1),
     a::row(K::Instrument, "Spotlight/Spectrum 3 FT-IR", 1, 1, 1),
-    a::row(K::Layout, "2D constant interval DataSet file", 8, 6, 8),
+    a::row(K::Layout, "2D constant interval DataSet file", 9, 7, 9),
 ];
 // END GENERATED perkinelmer-sp
 

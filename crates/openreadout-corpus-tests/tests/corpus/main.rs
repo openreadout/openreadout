@@ -637,6 +637,28 @@ fn check_family(format: &str, id: &str, path: &Path, text: &str) -> Option<Resul
     })
 }
 
+/// The comparison settings a manifest entry sets on its oracle (tolerances, values not compared).
+/// An mzML/mzXML file is compared with pyteomics' reading of that same file, spectrum by spectrum
+/// in file order (a Thermo RAW entry sharing the id maps by scan number instead).
+fn apply_entry_settings(oracle: &mut Oracle, e: &Entry) {
+    if (e.format == "mzml" || e.format == "mzxml" || e.format == "imzml")
+        && let Some(sp) = oracle.spectra.as_mut()
+    {
+        sp.by_index = true;
+    }
+    if let Some(sp) = oracle.spectra.as_mut() {
+        sp.precursor_tolerance = e.precursor_tolerance;
+        sp.export_monoisotopic_max_shift = e.export_monoisotopic_max_shift;
+        sp.peaks_not_compared.clone_from(&e.peaks_not_compared);
+        sp.mz_not_compared.clone_from(&e.mz_not_compared);
+        sp.native_id_not_compared
+            .clone_from(&e.native_id_not_compared);
+        sp.precursor_not_compared
+            .clone_from(&e.precursor_not_compared);
+    }
+    oracle.srm_product_tolerance = e.srm_product_tolerance;
+}
+
 #[test]
 fn corpus_matches_oracle() {
     let root = root();
@@ -752,24 +774,7 @@ fn corpus_matches_oracle() {
             continue;
         }
         let mut oracle: Oracle = serde_json::from_str(&text).unwrap();
-        // An mzML/mzXML file is compared with pyteomics' reading of that same file, spectrum by
-        // spectrum in file order (a Thermo RAW entry sharing the id maps by scan number instead).
-        if (e.format == "mzml" || e.format == "mzxml" || e.format == "imzml")
-            && let Some(sp) = oracle.spectra.as_mut()
-        {
-            sp.by_index = true;
-        }
-        if let Some(sp) = oracle.spectra.as_mut() {
-            sp.precursor_tolerance = e.precursor_tolerance;
-            sp.export_monoisotopic_max_shift = e.export_monoisotopic_max_shift;
-            sp.peaks_not_compared.clone_from(&e.peaks_not_compared);
-            sp.mz_not_compared.clone_from(&e.mz_not_compared);
-            sp.native_id_not_compared
-                .clone_from(&e.native_id_not_compared);
-            sp.precursor_not_compared
-                .clone_from(&e.precursor_not_compared);
-        }
-        oracle.srm_product_tolerance = e.srm_product_tolerance;
+        apply_entry_settings(&mut oracle, e);
         let outcome = if let Some(why) = &e.oracle_skip {
             let status = match reg.open(&path).and_then(|(_, ds)| ds.info()) {
                 Ok(_) => "skip".to_string(),
@@ -923,11 +928,8 @@ fn heldout_agreement_is_recorded() {
             let mut oracle: Option<Oracle> = None;
             if family_for(&e.format, &e.id).is_none() {
                 let mut o: Oracle = serde_json::from_str(&text).unwrap();
-                if (e.format == "mzml" || e.format == "mzxml" || e.format == "imzml")
-                    && let Some(sp) = o.spectra.as_mut()
-                {
-                    sp.by_index = true;
-                }
+                // the same comparison settings as a development file's
+                apply_entry_settings(&mut o, e);
                 oracle = Some(o);
             }
             if let Some(err) = oracle.as_ref().and_then(|o| o.error.clone()) {

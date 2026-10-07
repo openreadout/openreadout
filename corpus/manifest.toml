@@ -7253,6 +7253,100 @@ notes = "DDA-PASEF from a fifth depositor and a timsTOF HT; MS1 and PASEF frames
 bundle = "pxd080079-dda-zip"
 mz_not_compared = "timsrust (the oracle) converts m/z and 1/K0 with the acquisition-range approximation; the reader applies the file's MzCalibration/TimsCalibration models, validated against vendor-library conversions in mz_agreement.rs. Frames, point counts and intensities are compared."
 
+# Negative-ion timsTOF runs (added 2026-10-06 for held-out finding D-M1: negative 1/K0 in a
+# negative-mode DDA-PASEF run). MetaboLights MTBLS13504 holds a negative and a positive run of the
+# same instrument; MTBLS12332 is a negative run from another laboratory.
+
+[[file]]
+id = "mtbls13504-balf-neg-zip"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls13504-HAR_BALF_35704.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13504/FILES/RAW_FILES/HAR_BALF_35704.d.zip"
+sha256 = "3d20379c6c7ee00b8efd14905231b6d376be13432123061aa21fc3331fef22e5"
+size = 67971825
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13504/FILES/i_Investigation.txt (Comment[License] CC0 1.0), 2026-10-06"
+source = "MetaboLights MTBLS13504 (bronchoalveolar lavage fluid metabolomics), RAW_FILES/HAR_BALF_35704.d.zip"
+attribution = "MTBLS13504 submitters (Lai et al., HUST Union Shenzhen Hospital)"
+notes = "timsTOF Pro, timsTOF 3.1, negative-ion DDA-PASEF metabolomics run; unpacked by corpus fetch"
+unpack = true
+
+[[file]]
+id = "mtbls13504-balf-neg"
+format = "bruker-tdf"
+role = "input"
+tier = "standard"
+filename = "HAR_BALF_1-E,4_1_35704.d/analysis.tdf"
+url = ""
+license = "CC0-1.0"
+source = "MetaboLights MTBLS13504, RAW_FILES/HAR_BALF_35704.d.zip"
+attribution = "MTBLS13504 submitters (Lai et al., HUST Union Shenzhen Hospital)"
+notes = "Negative ions in all 4,975 frames (1,659 MS1, 3,316 PASEF); TimsCalibration with negative ramp voltages (C2 -198.25, C3 -53.77). Its positive-ion sibling run is mtbls13504-balf-pos."
+bundle = "mtbls13504-balf-neg-zip"
+mz_not_compared = "timsrust (the oracle) converts m/z and 1/K0 with the acquisition-range approximation; the reader applies the file's MzCalibration/TimsCalibration models. Frames, point counts and intensities are compared."
+
+[[file]]
+id = "mtbls13504-balf-pos-zip"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls13504-LMYu_BALF_35653.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13504/FILES/RAW_FILES/LMYu_BALF_35653.d.zip"
+sha256 = "7e1f60b4c8aa77b9b372aefd1ab3662f66f7c9aab06c4993f5a0e0e8ec09f351"
+size = 21474158
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13504/FILES/i_Investigation.txt (Comment[License] CC0 1.0), 2026-10-06"
+source = "MetaboLights MTBLS13504 (bronchoalveolar lavage fluid metabolomics), RAW_FILES/LMYu_BALF_35653.d.zip"
+attribution = "MTBLS13504 submitters (Lai et al., HUST Union Shenzhen Hospital)"
+notes = "timsTOF Pro, positive-ion DDA-PASEF run of the same study and instrument as mtbls13504-balf-neg; unpacked by corpus fetch"
+unpack = true
+
+[[file]]
+id = "mtbls13504-balf-pos"
+format = "bruker-tdf"
+role = "input"
+tier = "standard"
+filename = "LMYu_BALF_2-A,6_1_35653.d/analysis.tdf"
+url = ""
+license = "CC0-1.0"
+source = "MetaboLights MTBLS13504, RAW_FILES/LMYu_BALF_35653.d.zip"
+attribution = "MTBLS13504 submitters (Lai et al., HUST Union Shenzhen Hospital)"
+notes = "Positive ions; TimsCalibration with positive ramp voltages (C2 195.20, C3 54.57). The reference curve for the negative run mtbls13504-balf-neg."
+bundle = "mtbls13504-balf-pos-zip"
+mz_not_compared = "timsrust (the oracle) converts m/z and 1/K0 with the acquisition-range approximation; the reader applies the file's MzCalibration/TimsCalibration models. Frames, point counts and intensities are compared."
+
+[[file]]
+id = "mtbls12332-tft-neg-zip"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls12332-B10_TFT_2_21-Aug-24_11047.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12332/FILES/RAW_FILES/RP18_neg/B10_TFT_2_21-Aug-24_11047.d.zip"
+sha256 = "299ef6a90e402778c83e367d7ee1c4e4c7a65adcb563a7a12768e716a0cc9d89"
+size = 67545585
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12332/FILES/i_Investigation.txt (no Comment[License]; the MetaboLights terms apply), 2026-10-06"
+source = "MetaboLights MTBLS12332, RAW_FILES/RP18_neg/B10_TFT_2_21-Aug-24_11047.d.zip"
+attribution = "MTBLS12332 submitters (Schermer, Richling et al., RPTU Kaiserslautern)"
+notes = "timsTOF Pro, otofControl 6.2, TDF 3.3, negative-ion DDA-PASEF (RP18) run; unpacked by corpus fetch"
+unpack = true
+
+[[file]]
+id = "mtbls12332-tft-neg"
+format = "bruker-tdf"
+role = "input"
+tier = "standard"
+filename = "B10_TFT_2_21-Aug-24_11047.d/analysis.tdf"
+url = ""
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS12332, RAW_FILES/RP18_neg/B10_TFT_2_21-Aug-24_11047.d.zip"
+attribution = "MTBLS12332 submitters (Schermer, Richling et al., RPTU Kaiserslautern)"
+notes = "Negative ions in all 5,012 frames (2,047 MS1, 2,965 PASEF); TimsCalibration with negative ramp voltages (C2 -193.85, C3 -53.16); MzCalibration model type 2 in a TDF file."
+bundle = "mtbls12332-tft-neg-zip"
+mz_not_compared = "timsrust (the oracle) converts m/z and 1/K0 with the acquisition-range approximation; the reader applies the file's MzCalibration/TimsCalibration models. Frames, point counts and intensities are compared."
+
 
 # ---- ProteoWizard vendor-reader test data (Apache-2.0): Bruker timsTOF files with the ProteoWizard
 # conversions made with Bruker's own library, the calibrated reference for m/z and 1/K0.
@@ -7958,6 +8052,7 @@ license = "Apache-2.0"
 source = "ProteoWizard vendor-reader test data (github.com/ProteoWizard/pwiz, commit 699dd48953f8, pwiz/data/vendor_readers; repository licence Apache-2.0)"
 attribution = "ProteoWizard developers and the laboratories that contributed the test files"
 notes = "SYNAPT G2-Si (UGA404), 2018: HDDDA (ion-mobility DDA), mobility survey and fast DDA functions with drift data in _funcNNN.cdt/.ind, no lock-mass correction. References: pwiz-waters-hddda-short-nolm-mzml (per drift bin), pwiz-waters-hddda-short-nolm-combineims-mzml (drift-combined with per-point drift times)"
+mz_drift_references = ["pwiz-waters-hddda-short-nolm-mzml"]
 parts_url = "https://raw.githubusercontent.com/ProteoWizard/pwiz/699dd48953f81e4b14a02e5ae018a3f13c3b3b54/pwiz/data/vendor_readers/Waters/Reader_Waters_Test.data/HDDDA_Short_noLM.raw/"
 parts = [
   "_FUNC001.DAT  493372a5036ff2f6de5ef1af5d89776f84f8f9907a65e049e063d6c5d418fc7b",
@@ -8014,6 +8109,7 @@ license = "Apache-2.0"
 source = "ProteoWizard vendor-reader test data (github.com/ProteoWizard/pwiz, commit 699dd48953f8, pwiz/data/vendor_readers; repository licence Apache-2.0)"
 attribution = "ProteoWizard developers and the laboratories that contributed the test files"
 notes = "SYNAPT G2-Si (UGA404), 2018: HD-MRM (mobility MS/MS function), drift data in _func001.cdt/.ind. References: pwiz-waters-hdmrm-short-nolm-mzml, pwiz-waters-hdmrm-short-nolm-combineims-mzml"
+mz_drift_references = ["pwiz-waters-hdmrm-short-nolm-mzml"]
 parts_url = "https://raw.githubusercontent.com/ProteoWizard/pwiz/699dd48953f81e4b14a02e5ae018a3f13c3b3b54/pwiz/data/vendor_readers/Waters/Reader_Waters_Test.data/HDMRM_Short_noLM.raw/"
 parts = [
   "_FUNC001.DAT  d7e70cab04e4515e65e31d5cccc2bd98c25ab8ab776a3d2673a0a95314d193a9",
@@ -8066,6 +8162,7 @@ license = "Apache-2.0"
 source = "ProteoWizard vendor-reader test data (github.com/ProteoWizard/pwiz, commit 699dd48953f8, pwiz/data/vendor_readers; repository licence Apache-2.0)"
 attribution = "ProteoWizard developers and the laboratories that contributed the test files"
 notes = "SYNAPT G2-Si (UGA404), 2018: HDMSe (low/high collision energy with ion mobility), drift data in _funcNNN.cdt/.ind, mob_cal.csv. References: pwiz-waters-hdmse-short-nolm-mzml, pwiz-waters-hdmse-short-nolm-combineims-mzml"
+mz_drift_references = ["pwiz-waters-hdmse-short-nolm-mzml"]
 parts_url = "https://raw.githubusercontent.com/ProteoWizard/pwiz/699dd48953f81e4b14a02e5ae018a3f13c3b3b54/pwiz/data/vendor_readers/Waters/Reader_Waters_Test.data/HDMSe_Short_noLM.raw/"
 parts = [
   "_FUNC001.DAT  554b40c29b1d68982c4ea77a23d46f9844b6e26a153c8ac43a9c0288277e16d3",
@@ -8217,6 +8314,7 @@ license = "Apache-2.0"
 source = "ProteoWizard vendor-reader test data (github.com/ProteoWizard/pwiz, commit 699dd48953f8, pwiz/data/vendor_readers; repository licence Apache-2.0)"
 attribution = "ProteoWizard developers and the laboratories that contributed the test files"
 notes = "Xevo G2-XS QTof, 2018: SONAR (scanning quadrupole DIA) with drift-like quadrupole bins in _funcNNN.cdt/.ind, _sonar.inf, _TYPES.INF. References: pwiz-waters-sonar-short-mzml, pwiz-waters-sonar-short-combineims-mzml"
+mz_drift_references = ["pwiz-waters-sonar-short-mzml"]
 parts_url = "https://raw.githubusercontent.com/ProteoWizard/pwiz/699dd48953f81e4b14a02e5ae018a3f13c3b3b54/pwiz/data/vendor_readers/Waters/Reader_Waters_Test.data/SONAR_Short.raw/"
 parts = [
   "_FUNC001.DAT  dfbbd685ab1885972bf2950e2aae03900a6c1bfce280ae11478b5b4fde87be76",
@@ -12191,6 +12289,38 @@ plate_vendor = "BMG_CSV"
 notes = "BMG CLARIOstar MARS export, comma-delimited table view: fluorescence endpoint, multichromatic (638-12/675-12 and 400-15/675-12), 96 wells, 2026"
 
 [[file]]
+id = "bmg-table-bostock-calcein-kinetic"
+format = "plate"
+role = "input"
+tier = "smoke"
+filename = "bmg-table-bostock-calcein-kinetic.csv"
+url = "https://raw.githubusercontent.com/jonathanbostock/phd-thesis/4ad6e849211d00ba475bbef16990204bb4e0175e/other-data/MAC%20%2B%20Brushes/2024-07-10%20Calcein%20Leakage%20Timecourse.csv"
+sha256 = "9a7d0cac5111462b0128d8fb106e5b788bf5c8de3c80973f75a281ef80936268"
+size = 14059
+license = "MIT"
+license_checked = "https://github.com/jonathanbostock/phd-thesis (repository licence MIT, GitHub licence API), 2026-10-06"
+source = "GitHub jonathanbostock/phd-thesis, other-data/MAC + Brushes/2024-07-10 Calcein Leakage Timecourse.csv, pinned to commit 4ad6e84"
+attribution = "Jonathan Bostock"
+plate_vendor = "BMG_CSV"
+notes = "BMG CLARIOstar MARS export, comma-delimited table view of a kinetic read: fluorescence 483-14/530-30, Well Row and Well Col columns, a second header line `,,Time,0 min ,1 min ,…,60 min ` (61 time points), 36 wells, CRLF, 2024. A development file for held-out finding D-H3 (a kinetic table view that returned no values)."
+
+[[file]]
+id = "bmg-table-rpazuki-od600-kinetic"
+format = "plate"
+role = "input"
+tier = "smoke"
+filename = "bmg-table-rpazuki-od600-kinetic.csv"
+url = "https://raw.githubusercontent.com/rpazuki/lab_utils/a93c5028cd86beef9496ac83d49f9a811c465f74/tests/rw_data.csv"
+sha256 = "0a08b4230f2f67cf43798e5b3b0011fd91a35d5c4dd65570f7622d66726ec26d"
+size = 7461
+license = "GPL-3.0"
+license_checked = "https://github.com/rpazuki/lab_utils (repository licence GPL-3.0, GitHub licence API; the CSV is used as data), 2026-10-06"
+source = "GitHub rpazuki/lab_utils, tests/rw_data.csv, pinned to commit a93c502"
+attribution = "Roozbeh Pazuki"
+plate_vendor = "BMG_CSV"
+notes = "BMG MARS export (wizard `Onyx Fast Growth OD`), table view of a kinetic absorbance read at 600 nm: Well Row and Well Col columns, a second header line `,,Time,0 h ,0 h 15 min,…,27 h` (109 time points, printed to the minute: `0 h 60 min`), an empty line after every line, LF, 6 wells, 2025."
+
+[[file]]
 id = "envision-text-gdr-lum384-untitled"
 format = "plate"
 role = "input"
@@ -13875,6 +14005,54 @@ license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on 
 source = "MetaboLights MTBLS449 (fetal metabolic stress in HIV/cART-exposed infants; plasma oxylipins)"
 attribution = "Schoeman J, Bunders M et al. (MetaboLights MTBLS449; doi:10.1093/infdis/jix291)"
 notes = "depositor-made mzML conversion (ProteoWizard) of the .d with the same stem"
+
+# MetaboLights MTBLS4722: a 6470 dynamic-MRM run whose method stores product m/z to up to three
+# decimals (added 2026-10-06 for held-out finding D-L1: product m/z against a ProteoWizard export).
+
+[[file]]
+id = "mtbls4722-1-d"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls4722-1.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS4722/FILES/RAW_FILES/1.d.zip"
+sha256 = "ae83f73767f1822b66f8caf7920e81123ec256cf6fa0941a84da6290dd7dd27b"
+size = 32955629
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS4722/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS4722 (nutrient availability and IDH1 inhibitors in pancreatic tumours), RAW_FILES/1.d.zip"
+attribution = "Vaziri-Gohar A, Cassel J et al. (MetaboLights MTBLS4722)"
+notes = "the zipped .d directory as deposited; extracted into mtbls4722-1-d/ by corpus fetch"
+
+[[file]]
+id = "mtbls4722-1"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls4722-1-d/1.d"
+url = ""
+bundle = "mtbls4722-1-d"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS4722, RAW_FILES/1.d.zip"
+attribution = "Vaziri-Gohar A, Cassel J et al. (MetaboLights MTBLS4722)"
+notes = "Agilent 6470A triple quadrupole (G6470A), MassHunter 8.0, dynamic MRM, negative ESI, 424 transitions whose method (Neg6470-2021-11.m/192_1.xml) gives product m/z with 0 to 3 decimals; the depositor's mzML holds a TIC and 426 SRM chromatograms"
+srm_product_tolerance = 0.005  # the export prints each Q3 target 0.004 below the product m/z the scans record (179.196 for 179.2)
+
+[[file]]
+id = "mtbls4722-1"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls4722-1.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS4722/FILES/DERIVED_FILES/1.mzML"
+sha256 = "e83cd8d814e27fa36920b541aa6f8b64d1b79348754e2d56081808c752eb679f"
+size = 5682275
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS4722, DERIVED_FILES/1.mzML"
+attribution = "Vaziri-Gohar A, Cassel J et al. (MetaboLights MTBLS4722)"
+notes = "depositor-made mzML conversion (ProteoWizard 3.0.22110 with the vendor library) of mtbls4722-1"
 
 [[file]]
 id = "mtbls243-03_D24062013T1259_1399CBU_01QC_A3-d"
@@ -38150,6 +38328,108 @@ source = "GitHub echemdata/galvani (commit d4a5f44, Git LFS), tests/testdata/v11
 attribution = "galvani contributors (test data)"
 notes = "EC-Lab export of echem-galvani-v1150-ca. Ground truth: galvani on the paired .mpr."
 
+# figshare 1228760 (CC-BY-4.0, "galvani test data"): .mpr files whose data module has version 0,
+# with EC-Lab's .mpt export of each (added 2026-10-06 for held-out finding D-G1).
+
+[[file]]
+id = "echem-figshare1228760-bio-logic1"
+format = "biologic-mpr"
+family = "electrochemistry"
+role = "input"
+tier = "standard"
+filename = "echem-figshare1228760-bio-logic1.mpr"
+url = "https://ndownloader.figshare.com/files/1778939"
+sha256 = "2297914c6c90686e74262e9875bd4e2bab83edb7d79db67fb41f419dd69652cb"
+size = 96531
+license = "CC-BY-4.0"
+license_checked = "https://api.figshare.com/v2/articles/1228760 (CC BY 4.0), 2026-10-06"
+source = "figshare 1228760 v5 (galvani test data), bio-logic1.mpr"
+attribution = "Christopher Kerr, Ken Ogata, Matthias Richter, J B Warrington"
+notes = "EC-Lab .mpr of 2011: VMP Set, VMP data and VMP LOG modules of version 0; 3,119 records of 29 bytes (flags, time, control/V/mA, Ewe, dq, P/W). Ground truth: EC-Lab's export (echem-figshare1228760-bio-logic1-mpt) and galvani (GPL, black box)."
+
+[[file]]
+id = "echem-figshare1228760-bio-logic1-mpt"
+format = "biologic-mpt"
+family = "electrochemistry"
+role = "input"
+tier = "standard"
+filename = "echem-figshare1228760-bio-logic1.mpt"
+url = "https://ndownloader.figshare.com/files/1778945"
+sha256 = "0c6275fd5ca4ecec2f06c19ecc1ff532835096cd4c262bf73b61f9bf670029d5"
+size = 466105
+license = "CC-BY-4.0"
+license_checked = "https://api.figshare.com/v2/articles/1228760 (CC BY 4.0), 2026-10-06"
+source = "figshare 1228760 v5 (galvani test data), bio-logic1.mpt"
+attribution = "Christopher Kerr, Ken Ogata, Matthias Richter, J B Warrington"
+notes = "EC-Lab export of echem-figshare1228760-bio-logic1 with a three-line header. Ground truth: galvani on the paired .mpr."
+
+[[file]]
+id = "echem-figshare1228760-bio-logic4"
+format = "biologic-mpr"
+family = "electrochemistry"
+role = "input"
+tier = "standard"
+filename = "echem-figshare1228760-bio-logic4.mpr"
+url = "https://ndownloader.figshare.com/files/1780444"
+sha256 = "29c36e0d628827f542689e45f7ba306a94de56db3798d16f1059708423109871"
+size = 108927
+license = "CC-BY-4.0"
+license_checked = "https://api.figshare.com/v2/articles/1228760 (CC BY 4.0), 2026-10-06"
+source = "figshare 1228760 v5 (galvani test data), bio-logic4.mpr"
+attribution = "Christopher Kerr, Ken Ogata, Matthias Richter, J B Warrington"
+notes = "EC-Lab .mpr of 2011, modules of version 0; 4,137 records of 25 bytes (flags, time, control/V, Ewe, dq). Ground truth: EC-Lab's export (echem-figshare1228760-bio-logic4-mpt) and galvani (GPL, black box)."
+
+[[file]]
+id = "echem-figshare1228760-bio-logic4-mpt"
+format = "biologic-mpt"
+family = "electrochemistry"
+role = "input"
+tier = "standard"
+filename = "echem-figshare1228760-bio-logic4.mpt"
+url = "https://ndownloader.figshare.com/files/1778941"
+sha256 = "511857ab36082a4419acb5a19799717033b4de038d3c2767d74eabef91584817"
+size = 560151
+license = "CC-BY-4.0"
+license_checked = "https://api.figshare.com/v2/articles/1228760 (CC BY 4.0), 2026-10-06"
+source = "figshare 1228760 v5 (galvani test data), bio-logic4.mpt"
+attribution = "Christopher Kerr, Ken Ogata, Matthias Richter, J B Warrington"
+notes = "EC-Lab export of echem-figshare1228760-bio-logic4 with a three-line header. Ground truth: galvani on the paired .mpr."
+
+# figshare 30080953 (Apache-2.0): EC-Lab text exports whose time column holds absolute dates and
+# times (added 2026-10-06 for held-out finding D-H5). No .mpr is deposited with them.
+
+[[file]]
+id = "echem-figshare30080953-cp-mpt"
+format = "biologic-mpt"
+family = "electrochemistry"
+role = "input"
+tier = "standard"
+filename = "echem-figshare30080953-cp.mpt"
+url = "https://ndownloader.figshare.com/files/57770854"
+sha256 = "12ab2b9408e7a1ea8d133714c3a7c4c240fb0f75ab3e079bb61777589894e0f7"
+size = 300283
+license = "Apache-2.0"
+license_checked = "https://api.figshare.com/v2/articles/30080953 (license Apache 2.0), 2026-10-06"
+source = "figshare 30080953 v2 (doi:10.6084/m9.figshare.30080953.v2), 240719_CP_trial10_1MZnCl2_3000RPM_diskn1000_WEn0476_pH0529_03_CP_C01.mpt"
+attribution = "Ashutosh Bhadouria"
+notes = "EC-Lab text export without the header block (line 1 is the column header), Latin-1, CRLF; chronopotentiometry, 721 rows; `time/s` holds dates and times (07/19/2024 16:53:36.5000), `step time/s` seconds. Ground truth: the export's own text read with the Python standard library (no .mpr deposited)."
+
+[[file]]
+id = "echem-figshare30080953-ca-mpt"
+format = "biologic-mpt"
+family = "electrochemistry"
+role = "input"
+tier = "standard"
+filename = "echem-figshare30080953-ca.mpt"
+url = "https://ndownloader.figshare.com/files/57770899"
+sha256 = "69c1f381acdc2a36ada146aa499af8aa9ea4f80b3aa5bddf3c88e6d28af57943"
+size = 2072088
+license = "Apache-2.0"
+license_checked = "https://api.figshare.com/v2/articles/30080953 (license Apache 2.0), 2026-10-06"
+source = "figshare 30080953 v2 (doi:10.6084/m9.figshare.30080953.v2), 240719_CP_trial7_1MZnCl2_3000RPM_diskn1000_WEn0476_pH0528_02_CA_C02.mpt"
+attribution = "Ashutosh Bhadouria"
+notes = "EC-Lab text export without the header block, chronoamperometry, 4,921 rows; `time/s` holds dates and times (07/19/2024 16:30:11.7182 to 16:38:23.7014). Ground truth: the export's own text read with the Python standard library."
+
 [[file]]
 id = "echem-zenodo12205268-ocv-ref"
 format = "biologic-mpr"
@@ -50300,6 +50580,21 @@ notes = "PerkinElmer spectrum (FTIR of extracellular polymeric substances)"
 license_checked = "https://zenodo.org/records/22967314 (licence CC-BY-4.0 in the record metadata), 2026-09-26"
 
 [[file]]
+id = "pesp-figshare32604129-zb-uvvis"
+format = "perkinelmer-sp"
+role = "input"
+tier = "standard"
+filename = "pesp-figshare32604129-zb-uvvis.sp"
+url = "https://ndownloader.figshare.com/files/65370039"
+sha256 = "4b977c4620dd26d495381cb297a9e30f55de83b16d07f27357ebdea0124a0a2d"
+size = 8085
+license = "CC-BY-4.0"
+license_checked = "https://api.figshare.com/v2/articles/32604129 (CC BY 4.0), 2026-10-06"
+source = "figshare 32604129 'Data set supporting the study', ZB.sp"
+attribution = "Vanthini Adoons"
+notes = "A UV-Vis-NIR .sp (added 2026-10-06 for held-out finding D-L2): Lambda 950, PerkinElmer UV WinLab 6.2, diffuse reflectance (%R) from 1000 to 200 nm in 801 points, 2026. Its instrument record (block 123) holds only model, serial and software; the UV-Vis settings are other blocks, and the infrared settings (scans, detector, source, beamsplitter, apodization) are absent. Ground truth: specio (BSD-3, black box); the depositor's ASCII export ZB.asc agrees with the values."
+
+[[file]]
 id = "figshare25325560-vt1-nvt"
 format = "neuralynx"
 role = "input"
@@ -56448,6 +56743,7 @@ license_checked = "https://www.ebi.ac.uk/metabolights/MTBLS15503 (CC0 1.0 Univer
 source = "MetaboLights MTBLS15503 (Targeted lipidomics in Alexander's disease cellular models), RAW_FILES/Blank1.d.zip"
 attribution = "Jové M et al. (University of Lleida)"
 notes = "Agilent 6495 triple quadrupole (absent from development), MassHunter acquisition, dynamic-MRM lipid panel, positive ESI, solvent blank acquired 2024-09-12; the depositor's mzML holds 748 chromatograms (TIC and SRM) and no spectra. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: the depositor's mzML (ProteoWizard 3.0.26239; every sourceFile SHA-1 equals the .d's files), read with pyteomics."
+srm_product_tolerance = 0.005  # set 2026-10-06 after draw D's first run, as for every development MassHunter MRM file: ProteoWizard prints each Q3 target 0.004 below the product m/z the scans and the method record (docs/provenance/agilent-masshunter.md, mtbls4722-1)
 
 [[file]]
 id = "ho-mtbls15503-d-6495"
@@ -57446,6 +57742,7 @@ family = "chromatography"
 role = "heldout"
 tier = "heldout"
 draw = "2026-10-06d"
+exposed = "2026-09-26: the Shimadzu development work opened LUM_IF_L3.lcd of this record (not this file) while choosing development files, before draw D reserved the record; read and not added; nothing was inferred beyond that it holds a PDA field and no 2D chromatogram (docs/provenance/shimadzu.md, 2026-09-26)"
 filename = "heldout/ho-figshare31095109-lcd-lumefantrine/LUM_digIF_S1.lcd"
 url = "https://ndownloader.figshare.com/files/61119622"
 sha256 = "d93d0b7ab3e6b073794ab123efa504d7cad7fdf6d8dce70931a611dfb1a42b75"
@@ -60671,3 +60968,607 @@ license_checked = "https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1129
 source = "BioImage Archive S-BIAD1129: Artificial intelligence-based quantification of lymphocytes in feline small intestinal biopsies, slide ow52 (training/tuning set)"
 attribution = "Judit Magnusson Wulcan; Stefan M Keller (University of California, Davis)"
 notes = "pixel data of ho-biad1129-vsi-feline (stack10001)"
+
+[[file]]
+id = "msv92552-mnx-h340a-ims2-raw-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "msv92552-mnx-h340a-ims2-raw.raw.zip"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?forceDownload=true&file=f.MSV000092552/raw/Raw_Spectrum_Files/20221024_SMFT_MNX_H340A_IMS2.raw.zip"
+sha256 = "0bdf45d17cb47fd7e4f3d89bfaf029c7cc225380494c97b90f68eb0796705902"
+license = "CC0-1.0"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000092552 (dataset license: CC0 1.0 Universal), 2026-10-06"
+source = "MassIVE MSV000092552 (Mnx metal binding by surface-induced dissociation and native ion-mobility MS)"
+attribution = "MassIVE MSV000092552 depositors"
+notes = "the zipped .raw directory as deposited; extracted into msv92552-mnx-h340a-ims2-raw-zip/ by corpus fetch"
+
+[[file]]
+id = "msv92552-mnx-h340a-ims2-raw"
+format = "waters-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+bundle = "msv92552-mnx-h340a-ims2-raw-zip"
+filename = "msv92552-mnx-h340a-ims2-raw-zip/20221024_SMFT_MNX_H340A_IMS2.raw"
+url = ""
+license = "CC0-1.0"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000092552 (dataset license: CC0 1.0 Universal), 2026-10-06"
+source = "MassIVE MSV000092552 (Mnx metal binding by surface-induced dissociation and native ion-mobility MS)"
+attribution = "MassIVE MSV000092552 depositors"
+notes = "SYNAPT G2-Si native ion-mobility MS (_func001.cdt/.ind), paired with the depositor's per-drift-bin mzML"
+oracle_skip = "the export lists one spectrum per drift bin; compared with our run 1 (drift bins) by native id in mz_agreement.rs (mz_drift_references)"
+mz_drift_references = ["msv92552-mnx-h340a-ims2-raw-mzml"]
+
+[[file]]
+id = "msv92552-mnx-h340a-ims2-raw-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "msv92552-mnx-h340a-ims2-raw.mzML"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?forceDownload=true&file=f.MSV000092552/peak/Peak_List_Files/20221024_SMFT_MNX_H340A_IMS2.mzML"
+sha256 = "c8f0efba3fb99dc63dfd089ca605c174e8d9824686027bddfca349288ccf8044"
+license = "CC0-1.0"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000092552 (dataset license: CC0 1.0 Universal), 2026-10-06"
+source = "MassIVE MSV000092552 (Mnx metal binding by surface-induced dissociation and native ion-mobility MS)"
+attribution = "MassIVE MSV000092552 depositors"
+notes = "depositor's ProteoWizard 3.0.23114 conversion with Waters' library: profile, one spectrum per drift bin"
+
+[[file]]
+id = "mtbls12255-k3-pos-raw-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "mtbls12255-k3-pos-raw.raw.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12255/FILES/RAW_FILES/K3_POS.raw.zip"
+sha256 = "756c1a9790f1394e6e78bc1a23ccc9597f3e8e72d782d025d2c065596a891583"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12255/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS12255 (transgenic tobacco expressing synthetic peptides)"
+attribution = "MTBLS12255 submitters (MetaboLights)"
+notes = "the zipped .raw directory as deposited; extracted into mtbls12255-k3-pos-raw-zip/ by corpus fetch"
+
+[[file]]
+id = "mtbls12255-k3-pos-raw"
+format = "waters-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+bundle = "mtbls12255-k3-pos-raw-zip"
+filename = "mtbls12255-k3-pos-raw-zip/K3_POS.raw"
+url = ""
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12255/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS12255 (transgenic tobacco expressing synthetic peptides)"
+attribution = "MTBLS12255 submitters (MetaboLights)"
+notes = "Xevo G2-XS, three functions with a lock-spray reference, paired with the depositor's mzML"
+oracle_skip = "the depositor's mzML holds the vendor library's peak-picked centroids of these profile scans, so no point can be compared; read for the survey only"
+
+[[file]]
+id = "mtbls12255-k3-pos-raw-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "mtbls12255-k3-pos-raw.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12255/FILES/DERIVED_FILES/K3_POS.mzML"
+sha256 = "d460727069f22e4650a94c1c8621ef32daf51a073a77a2458ccc7801fc535cab"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12255/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS12255 (transgenic tobacco expressing synthetic peptides)"
+attribution = "MTBLS12255 submitters (MetaboLights)"
+notes = "depositor's ProteoWizard 3.0.23233 conversion (vendor peak picking)"
+
+[[file]]
+id = "mtbls7324-8sa-lps-16h-3b-raw-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "mtbls7324-8sa-lps-16h-3b-raw.raw.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS7324/FILES/RAW_FILES/NEG/8SA_LPS_16h_3b.raw.zip"
+sha256 = "cf1aa45e2862950dcf71f1ba9eff081a0a15c4e894db9c8319240b243c8cd1d0"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS7324/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS7324 (Ralstonia lipopolysaccharides and tomato metabolome)"
+attribution = "MTBLS7324 submitters (MetaboLights)"
+notes = "the zipped .raw directory as deposited; extracted into mtbls7324-8sa-lps-16h-3b-raw-zip/ by corpus fetch"
+
+[[file]]
+id = "mtbls7324-8sa-lps-16h-3b-raw"
+format = "waters-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+bundle = "mtbls7324-8sa-lps-16h-3b-raw-zip"
+filename = "mtbls7324-8sa-lps-16h-3b-raw-zip/8SA_LPS_16h_3b.raw"
+url = ""
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS7324/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS7324 (Ralstonia lipopolysaccharides and tomato metabolome)"
+attribution = "MTBLS7324 submitters (MetaboLights)"
+notes = "SYNAPT (G1) HDMS, six functions, MS1 and MS/MS, negative mode, paired with the depositor's mzML"
+oracle_skip = "the vendor library labels function 2 (collision energy 10 eV) MS2 with the scan window's centre as precursor and functions 3 to 5 (20 to 40 eV) MS1, a convention the file does not state; the points are compared by native id in mz_agreement.rs"
+mz_references = ["mtbls7324-8sa-lps-16h-3b-raw-mzml"]
+mz_ppm_max = 0.1
+mz_intensity_rel_max = 0.0
+
+[[file]]
+id = "mtbls7324-8sa-lps-16h-3b-raw-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "mtbls7324-8sa-lps-16h-3b-raw.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS7324/FILES/DERIVED_FILES/NEG/8SA_LPS_16h_3b.mzML"
+sha256 = "90c43590a9c74cfc115c7ce12f2a8fffa14165455153462792e153a576d12eb8"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS7324/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS7324 (Ralstonia lipopolysaccharides and tomato metabolome)"
+attribution = "MTBLS7324 submitters (MetaboLights)"
+notes = "depositor's ProteoWizard 3.0.23037 conversion, no peak picking"
+
+[[file]]
+id = "mtbls13129-beejamrit-3-1-gcms-raw-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "mtbls13129-beejamrit-3-1-gcms-raw.raw.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13129/FILES/RAW_FILES/GCMS/Beejamrit-3-1.raw.zip"
+sha256 = "f6ed6325473355871b6ed4266e7b63333c34e74845b27eab65fad65182127859"
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13129/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS13129 (Beejamrit GC-MS and LC-MS characterization)"
+attribution = "MTBLS13129 submitters (MetaboLights)"
+notes = "the zipped .raw directory as deposited; extracted into mtbls13129-beejamrit-3-1-gcms-raw-zip/ by corpus fetch"
+
+[[file]]
+id = "mtbls13129-beejamrit-3-1-gcms-raw"
+format = "waters-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+bundle = "mtbls13129-beejamrit-3-1-gcms-raw-zip"
+filename = "mtbls13129-beejamrit-3-1-gcms-raw-zip/Beejamrit-3-1.raw"
+url = ""
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13129/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS13129 (Beejamrit GC-MS and LC-MS characterization)"
+attribution = "MTBLS13129 submitters (MetaboLights)"
+notes = "a GC-MS single-function MassLynx directory, paired with the depositor's mzML"
+oracle_skip = "the export keeps at most 1,000 points per spectrum (an intensity filter); compared in mz_agreement.rs, where every exported point must match one of ours"
+mz_references = ["mtbls13129-beejamrit-3-1-gcms-raw-mzml"]
+
+[[file]]
+id = "mtbls13129-beejamrit-3-1-gcms-raw-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "mtbls13129-beejamrit-3-1-gcms-raw.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13129/FILES/DERIVED_FILES/GCMS/Beejamrit-3-1.mzML"
+sha256 = "cebc0cb380d9a766950a487d801afda3f5c568aaa6fa8deb7ab2f8a743ca70f7"
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13129/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS13129 (Beejamrit GC-MS and LC-MS characterization)"
+attribution = "MTBLS13129 submitters (MetaboLights)"
+notes = "depositor's mzML (peak picking, top-1000 intensity filter)"
+
+[[file]]
+id = "mtbls12637-processblank2-pos-77-d-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "mtbls12637-processblank2-pos-77-d.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12637/FILES/RAW_FILES/ProcessBlank2_pos_77.d.zip"
+sha256 = "4d4b205a2fa20fe216b4e8931ec84fca39cad389beb57d7651cdc26ac3bade9e"
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12637/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS12637 (high-pressure and ultra-shear processing of juice)"
+attribution = "MTBLS12637 submitters (MetaboLights)"
+notes = "the zipped .d directory as deposited; extracted into mtbls12637-processblank2-pos-77-d-zip/ by corpus fetch"
+
+[[file]]
+id = "mtbls12637-processblank2-pos-77-d"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+bundle = "mtbls12637-processblank2-pos-77-d-zip"
+filename = "mtbls12637-processblank2-pos-77-d-zip/ProcessBlank2_pos_77.d"
+url = ""
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12637/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS12637 (high-pressure and ultra-shear processing of juice)"
+attribution = "MTBLS12637 submitters (MetaboLights)"
+notes = "6546 LC/Q-TOF, 2025, profile, paired with the depositor's mzML"
+oracle_skip = "the export holds the vendor library's peak-picked centroids of these profiles and leaves out the first 139 scans; compared by native id in mz_agreement.rs (every exported centroid within 4 ppm of a profile point), and every scan's counts sum to its TIC with their maximum equal to its base-peak value"
+mz_references = ["mtbls12637-processblank2-pos-77-d-mzml"]
+mz_ppm_max = 4.0
+
+[[file]]
+id = "mtbls12637-processblank2-pos-77-d-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "mtbls12637-processblank2-pos-77-d.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12637/FILES/DERIVED_FILES/ProcessBlank2_pos_77.mzML"
+sha256 = "e73ba56997aa0cea2c3bbe009c42be0f00302dbf1585d574781b2ca0e0fcf603"
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12637/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS12637 (high-pressure and ultra-shear processing of juice)"
+attribution = "MTBLS12637 submitters (MetaboLights)"
+notes = "depositor's mzML conversion"
+
+[[file]]
+id = "mtbls12837-n14-d-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "mtbls12837-n14-d.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12837/FILES/RAW_FILES/n14.d.zip"
+sha256 = "ac349ed7f9eedb31140f7472a13ab29ee93e2e9f5d2f3056719e9ba51aaa2d3e"
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12837/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS12837 (lipid profiling after mTOR inhibition)"
+attribution = "MTBLS12837 submitters (MetaboLights)"
+notes = "the zipped .d directory as deposited; extracted into mtbls12837-n14-d-zip/ by corpus fetch"
+
+[[file]]
+id = "mtbls12837-n14-d"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+bundle = "mtbls12837-n14-d-zip"
+filename = "mtbls12837-n14-d-zip/n14.d"
+url = ""
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12837/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS12837 (lipid profiling after mTOR inhibition)"
+attribution = "MTBLS12837 submitters (MetaboLights)"
+notes = "6545 Q-TOF, polarity switching, paired with the depositor's mzML"
+mz_references = ["mtbls12837-n14-d-mzml"]
+
+[[file]]
+id = "mtbls12837-n14-d-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "mtbls12837-n14-d.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12837/FILES/DERIVED_FILES/n14.mzML"
+sha256 = "558d2559f851b10310b92bcfd454d16b0eda95b0b4e10d2dae55fa9940819699"
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12837/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS12837 (lipid profiling after mTOR inhibition)"
+attribution = "MTBLS12837 submitters (MetaboLights)"
+notes = "depositor's ProteoWizard conversion, centroid"
+
+[[file]]
+id = "mtbls14343-e-1-pos-041-ms2-d-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "mtbls14343-e-1-pos-041-ms2-d.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS14343/FILES/Reference_Method_RP_pos/E_1_pos_041_Human_Endosome_1.3_MS2.d.zip"
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS14343/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS14343 (HUMAN ring trial, standards detection, reverse phase)"
+attribution = "MTBLS14343 submitters (MetaboLights)"
+notes = "the zipped .d directory as deposited; extracted into mtbls14343-e-1-pos-041-ms2-d-zip/ by corpus fetch"
+
+[[file]]
+id = "mtbls14343-e-1-pos-041-ms2-d"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+bundle = "mtbls14343-e-1-pos-041-ms2-d-zip"
+filename = "mtbls14343-e-1-pos-041-ms2-d-zip/E_1_pos_041_Human Endosome_1.3_MS2.d"
+url = ""
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS14343/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS14343 (HUMAN ring trial, standards detection, reverse phase)"
+attribution = "MTBLS14343 submitters (MetaboLights)"
+notes = "6546 auto MS/MS, paired with the depositor's mzML"
+mz_references = ["mtbls14343-e-1-pos-041-ms2-d-mzml"]
+precursor_tolerance = 3e-5
+
+[[file]]
+id = "mtbls14343-e-1-pos-041-ms2-d-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "mtbls14343-e-1-pos-041-ms2-d.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS14343/FILES/Reference_Method_RP_pos/E_1_pos_041_Human_Endosome_1.3_MS2.mzML"
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS14343/i_Investigation.txt (Comment[License]: CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS14343 (HUMAN ring trial, standards detection, reverse phase)"
+attribution = "MTBLS14343 submitters (MetaboLights)"
+notes = "depositor's mzML conversion, MS1 and MS/MS centroid"
+
+[[file]]
+id = "zenodo7897576-dag"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+filename = "zenodo7897576-dag.wiff"
+url = "https://zenodo.org/api/records/7897576/files/190109_XtrIL_IngoAmm_DAG.wiff/content"
+sha256 = "ee485cc5e15f5a519d81f3f52996c673a9b3187159ef93863e5cf5f4a919e449"
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/7897576 (CC0 1.0), 2026-10-06"
+source = "Zenodo 7897576 (lipid analysis of S. cerevisiae expressing ProtA-ScNdc1 constructs; shotgun lipidomics)"
+attribution = "Ingo Amm, Christian Lüchtenborg, Britta Brügger (Heidelberg University)"
+notes = "QTRAP 6500 shotgun lipidomics, constant neutral loss scans, several samples in one .wiff"
+mz_references = ["zenodo7897576-dag-3-mzml"]
+mz_intensity_rel_max = 1e-6
+
+[[file]]
+id = "zenodo7897576-dag-scan"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "companion"
+tier = "full"
+filename = "zenodo7897576-dag.wiff.scan"
+url = "https://zenodo.org/api/records/7897576/files/190109_XtrIL_IngoAmm_DAG.wiff.scan/content"
+sha256 = "78de23e72dd10883bf7665c252d289a5aa13d4432c291e653a5efddefbec1d0e"
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/7897576 (CC0 1.0), 2026-10-06"
+source = "Zenodo 7897576 (lipid analysis of S. cerevisiae expressing ProtA-ScNdc1 constructs; shotgun lipidomics)"
+attribution = "Ingo Amm, Christian Lüchtenborg, Britta Brügger (Heidelberg University)"
+notes = "the .wiff.scan of zenodo7897576-dag"
+
+[[file]]
+id = "zenodo7897576-dag-3-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "zenodo7897576-dag-3-mzml.mzML"
+url = "https://zenodo.org/api/records/7897576/files/190109_XtrIL_IngoAmm_DAG-3.mzML/content"
+sha256 = "c4b02d829559ebb405efecb04d103bc8827bef99cd03d0766861f7cd89e9120a"
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/7897576 (CC0 1.0), 2026-10-06"
+source = "Zenodo 7897576 (lipid analysis of S. cerevisiae expressing ProtA-ScNdc1 constructs; shotgun lipidomics)"
+attribution = "Ingo Amm, Christian Lüchtenborg, Britta Brügger (Heidelberg University)"
+notes = "depositor's ProteoWizard 3.0.20265 conversion of one sample, profile, no peak picking"
+
+[[file]]
+id = "zenodo7897576-lpds"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+filename = "zenodo7897576-lpds.wiff"
+url = "https://zenodo.org/api/records/7897576/files/181031_XtrIL_IngoAmm_LPDS.wiff/content"
+sha256 = "9fa5fb1f36b59480e978b1dfbf78ed80c7e163f726c88dcbb72ab6da45061493"
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/7897576 (CC0 1.0), 2026-10-06"
+source = "Zenodo 7897576 (lipid analysis of S. cerevisiae expressing ProtA-ScNdc1 constructs; shotgun lipidomics)"
+attribution = "Ingo Amm, Christian Lüchtenborg, Britta Brügger (Heidelberg University)"
+notes = "QTRAP 6500 shotgun lipidomics, constant neutral loss and precursor ion scans, several samples in one .wiff"
+oracle_skip = "compared by native id in mz_agreement.rs instead: the export leaves out the 8 scans that hold no points, so a comparison by position would misalign"
+mz_references = ["zenodo7897576-lpds-1-mzml"]
+mz_intensity_rel_max = 1e-6
+
+[[file]]
+id = "zenodo7897576-lpds-scan"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "companion"
+tier = "full"
+filename = "zenodo7897576-lpds.wiff.scan"
+url = "https://zenodo.org/api/records/7897576/files/181031_XtrIL_IngoAmm_LPDS.wiff.scan/content"
+sha256 = "8c729a40228ad30eafa70b9d951bf519ab4e3d9517fa2fd5f1d67b4d95f84d0a"
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/7897576 (CC0 1.0), 2026-10-06"
+source = "Zenodo 7897576 (lipid analysis of S. cerevisiae expressing ProtA-ScNdc1 constructs; shotgun lipidomics)"
+attribution = "Ingo Amm, Christian Lüchtenborg, Britta Brügger (Heidelberg University)"
+notes = "the .wiff.scan of zenodo7897576-lpds"
+
+[[file]]
+id = "zenodo7897576-lpds-1-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "zenodo7897576-lpds-1-mzml.mzML"
+url = "https://zenodo.org/api/records/7897576/files/181031_XtrIL_IngoAmm_LPDS-1.mzML/content"
+sha256 = "2d241a087765051b97a53cab8c90cc9050f8e15c837aacc714cb3b1813ec120c"
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/7897576 (CC0 1.0), 2026-10-06"
+source = "Zenodo 7897576 (lipid analysis of S. cerevisiae expressing ProtA-ScNdc1 constructs; shotgun lipidomics)"
+attribution = "Ingo Amm, Christian Lüchtenborg, Britta Brügger (Heidelberg University)"
+notes = "depositor's ProteoWizard 3.0.20265 conversion of one sample, profile, no peak picking"
+
+[[file]]
+id = "msv97113-cm-5-pos-2"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+filename = "msv97113-cm-5-pos-2.wiff"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?forceDownload=true&file=f.MSV000097113/raw/CM_5_pos_2.wiff"
+sha256 = "f04cdb7b0aa2df96457dc8e49df80c3cfb8e1db620732fc33a4aa80ab5771edf"
+license = "CC0-1.0"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000097113 (dataset license: CC0 1.0 Universal), 2026-10-06"
+source = "MassIVE MSV000097113 (hematopoietic stem cell conditioned media metabolomics)"
+attribution = "MassIVE MSV000097113 depositors"
+notes = "QTRAP 6500 information-dependent acquisition: enhanced MS survey and enhanced product ion scans"
+mz_references = ["msv97113-cm-5-pos-2-mzml"]
+mz_intensity_rel_max = 1e-6
+
+[[file]]
+id = "msv97113-cm-5-pos-2-scan"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "companion"
+tier = "full"
+filename = "msv97113-cm-5-pos-2.wiff.scan"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?forceDownload=true&file=f.MSV000097113/raw/CM_5_pos_2.wiff.scan"
+sha256 = "248fcd2c03acf82d32b66d5d8c3c2edbf39404fdfcc39c2cf30abf16b47922a8"
+license = "CC0-1.0"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000097113 (dataset license: CC0 1.0 Universal), 2026-10-06"
+source = "MassIVE MSV000097113 (hematopoietic stem cell conditioned media metabolomics)"
+attribution = "MassIVE MSV000097113 depositors"
+notes = "the .wiff.scan of msv97113-cm-5-pos-2"
+
+[[file]]
+id = "msv97113-cm-5-pos-2-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "msv97113-cm-5-pos-2-mzml.mzML"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?forceDownload=true&file=f.MSV000097113/peak/CM_5_pos_2.mzML"
+sha256 = "9cd5609cbf61eb9ec8ff15f70e8afd1d4d6848f44b79dc83bd1ce44e468acd6d"
+license = "CC0-1.0"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000097113 (dataset license: CC0 1.0 Universal), 2026-10-06"
+source = "MassIVE MSV000097113 (hematopoietic stem cell conditioned media metabolomics)"
+attribution = "MassIVE MSV000097113 depositors"
+notes = "depositor's ProteoWizard 3.0.23199 conversion, profile, no peak picking"
+
+[[file]]
+id = "msv86784-tp-meoh-epi-3"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+filename = "msv86784-tp-meoh-epi-3.wiff"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?forceDownload=true&file=f.MSV000086784/raw/TP_MeoH_IDA_EMS_EPI_Pos_40_25_CE_3.wiff"
+sha256 = "7e3ab9c27ce805e7a691db5c8ee7b84207a8ad5bd870101c49fa9369a94ada48"
+license = "CC0-1.0"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000086784 (dataset license: CC0 1.0 Universal), 2026-10-06"
+source = "MassIVE MSV000086784 (LC-MS/MS profiling of Triphala)"
+attribution = "MassIVE MSV000086784 depositors"
+notes = "QTRAP 6500 enhanced MS and enhanced product ion scans"
+oracle_skip = "the depositor's mzML holds the vendor library's peak-picked centroids of these profile scans; read for the survey and its index self-check only"
+
+[[file]]
+id = "msv86784-tp-meoh-epi-3-scan"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "companion"
+tier = "full"
+filename = "msv86784-tp-meoh-epi-3.wiff.scan"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?forceDownload=true&file=f.MSV000086784/raw/TP_MeoH_IDA_EMS_EPI_Pos_40_25_CE_3.wiff.scan"
+sha256 = "a7dc800e2d1448df826c47e4f3e9235bcc4e2f482963132d0b3453c6548fed8c"
+license = "CC0-1.0"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000086784 (dataset license: CC0 1.0 Universal), 2026-10-06"
+source = "MassIVE MSV000086784 (LC-MS/MS profiling of Triphala)"
+attribution = "MassIVE MSV000086784 depositors"
+notes = "the .wiff.scan of msv86784-tp-meoh-epi-3"
+
+[[file]]
+id = "msv86784-tp-meoh-epi-3-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "msv86784-tp-meoh-epi-3-mzml.mzML"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?forceDownload=true&file=f.MSV000086784/raw/TP_MeoH_IDA_EMS_EPI_Pos_40_25_CE_3.mzML"
+sha256 = "253f7768261da4c70aba9d49cff6f8b85275a5c5d7e0c0e194ae7147c59bb786"
+license = "CC0-1.0"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000086784 (dataset license: CC0 1.0 Universal), 2026-10-06"
+source = "MassIVE MSV000086784 (LC-MS/MS profiling of Triphala)"
+attribution = "MassIVE MSV000086784 depositors"
+notes = "depositor's ProteoWizard 3.0.20008 conversion (Analyst peak picking)"
+
+[[file]]
+id = "mtbls1969-exosomes"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+filename = "mtbls1969-exosomes.wiff"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1969/FILES/Exosomes.wiff"
+sha256 = "42ab26c4e1f33650512cf35c25aee41d1aca5a77074ba220e7459297847766e4"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1969/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1969 (caveolin1-dependent exosome biogenesis)"
+attribution = "MTBLS1969 submitters (MetaboLights)"
+notes = "API 2000 Q1 full scans, several samples in one .wiff"
+mz_references = ["mtbls1969-exosomes-ko1-mzxml"]
+mz_run = 6
+mz_match = "index"
+mz_intensity_rel_max = 1e-6
+
+[[file]]
+id = "mtbls1969-exosomes-scan"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "companion"
+tier = "full"
+filename = "mtbls1969-exosomes.wiff.scan"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1969/FILES/Exosomes.wiff.scan"
+sha256 = "71278c5d9db36198309bc4ce3d0d609d9b9f91135cd9670c7e735455f44fcd09"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1969/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1969 (caveolin1-dependent exosome biogenesis)"
+attribution = "MTBLS1969 submitters (MetaboLights)"
+notes = "the .wiff.scan of mtbls1969-exosomes"
+
+[[file]]
+id = "mtbls1969-exosomes-ko1-mzxml"
+format = "mzxml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "mtbls1969-exosomes-ko1-mzxml.mzXML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1969/FILES/ExosomesKO1.mzXML"
+sha256 = "d94ca06127c5de46f4d5ee71aa81b79872173363ce09cf3525805f19dd1fa975"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1969/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1969 (caveolin1-dependent exosome biogenesis)"
+attribution = "MTBLS1969 submitters (MetaboLights)"
+notes = "depositor's ProteoWizard 3.0.20274 conversion of sample 7 ('KO1'), profile"
+
+[[file]]
+id = "mtbls1266-swath-neg-wt1"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "input"
+tier = "full"
+filename = "mtbls1266-swath-neg-wt1.wiff"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1266/FILES/DERIVED_FILES/NEG/SWATH-NEG_WT1.wiff"
+sha256 = "36fcafcdbb21f2daeeabd42f8b7561c1ffb9d19b3062cb47fd25c2089e150a8f"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1266/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1266 (MetaboKit, mouse liver)"
+attribution = "MTBLS1266 submitters (MetaboLights)"
+notes = "TripleTOF 6600 SWATH (data-independent MS/MS windows)"
+oracle_skip = "the export is centroided by a vendor tool and labels the product-ion scans collision-induced dissociation; MS level, scan time and precursor (the SWATH window centre) of all 28,657 shared spectra agree (docs/provenance/sciex-wiff.md, 2026-10-06)"
+
+[[file]]
+id = "mtbls1266-swath-neg-wt1-scan"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "companion"
+tier = "full"
+filename = "mtbls1266-swath-neg-wt1.wiff.scan"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1266/FILES/RAW_FILES/NEG/SWATH-NEG_WT1.wiff.scan"
+sha256 = "299ad5655902d8c1e3fa2cbbeb3807623d7a277f003f9f27ff47a8dca2dc851b"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1266/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1266 (MetaboKit, mouse liver)"
+attribution = "MTBLS1266 submitters (MetaboLights)"
+notes = "the .wiff.scan of mtbls1266-swath-neg-wt1"
+
+[[file]]
+id = "mtbls1266-swath-neg-wt1-mzml"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "full"
+filename = "mtbls1266-swath-neg-wt1-mzml.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1266/FILES/DERIVED_FILES/NEG/SWATH-NEG_WT1.wiff.mzML"
+sha256 = "a0f7716216bc7d8546dd83da06d315e3bbd5940750dfca80427d61229db11274"
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1266/i_Investigation.txt (Comment[License]: EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1266 (MetaboKit, mouse liver)"
+attribution = "MTBLS1266 submitters (MetaboLights)"
+notes = "depositor's conversion with a vendor tool, centroided"

@@ -17,7 +17,7 @@ Trace order follows openreadout's documented order (docs/formats/*.md): for OPUS
 spectra, then sample, then reference blocks; plain data before interferograms and phases; then
 the extended type, derivative, part, and the later block (higher offset) first.
 """
-import io, contextlib, warnings
+import io, contextlib, re, warnings
 from pathlib import Path
 
 import numpy as np
@@ -368,11 +368,20 @@ def pesp(p: Path, max_sweeps=1000) -> dict:
     x = np.asarray(s.wavelength, dtype=np.float64)
     t = {"index": 0, "reader": "specio 0.1.0", "sweep_count": 1, "channel_count": 1, "sample_count": int(len(y)),
          "x_first": float(x[0]), "x_last": float(x[-1]), "sweeps": _sweeps([[y]], max_sweeps)}
-    # the instrument texts specio reads by position (absent when its UTF-8 decoding failed)
+    # the instrument texts specio reads by position (absent when its UTF-8 decoding failed). The
+    # infrared settings are taken only when the file holds their blocks (35840 scans, 35841
+    # detector, 35842 source, 35843 beamsplitter, 35845 apodization: a u16 id, an i32 length, then
+    # a 0x75xx member type): a UV-Vis file has none of them, and specio's positions then land on
+    # other settings.
+    raw = p.read_bytes()
+    ir_settings = all(re.search(re.escape(i.to_bytes(2, "little")) + rb"[\x00-\xff]{4}[\x00-\xff]\x75", raw, re.S)
+                      for i in (35840, 35841, 35842, 35843, 35845))
     extra = {}
     for ours, theirs in (("instrument", "instrument_model"), ("instrument_serial", "instrument_serial_number"),
                          ("scans", "accumulations"), ("detector", "detector"), ("source", "source"),
                          ("beamsplitter", "beam_splitter"), ("apodization", "apodization")):
+        if ours in ("scans", "detector", "source", "beamsplitter", "apodization") and not ir_settings:
+            continue
         v = s.meta.get(theirs)
         if isinstance(v, str):
             v = v.strip().lstrip("/").strip()

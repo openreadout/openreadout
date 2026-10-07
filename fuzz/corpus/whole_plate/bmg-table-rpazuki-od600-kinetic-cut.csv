@@ -1,0 +1,22 @@
+User: USER,Path: C:\Program Files (x86)\Data\,Test run no.: 1735,,,,,,,,
+
+Test name: OD600 - xxxxxxx,Date: 15/10/2025,Time: 11:58:41,,,,,,,,
+
+ID1: 1,ID2: Wizard script `Onyx Fast Growth OD`, Prot.1,,,,,,,,
+
+Absorbance,,,,,,,,,,
+
+,,,,,,,,,,
+
+Well Row,Well Col,Content,Raw Data (600),Raw Data (600),Raw Data (600),Raw Data (600),Raw Data (600),Raw Data (600),Raw Data (600),Raw Data (600)
+
+,,Time,0 h ,0 h 15 min,0 h 30 min,0 h 45 min,0 h 60 min,1 h 15 min,1 h 30 min,1 h 45 min
+
+A,1,Sample X1,0.081,0.097,0.097,0.103,0.107,0.102,0.111,0.113
+
+B,1,Sample X13,0.09,0.1,0.101,0.117,0.102,0.093,0.104,0.111
+
+C,1,Sample X25,0.08,0.092,0.094,0.106,0.098,0.104,0.107,0.104
+
+A,2,Sample X2,0.089,0.102,0.104,0.11,0.108,0.106,0.115,0.115
+
