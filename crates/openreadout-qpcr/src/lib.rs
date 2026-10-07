@@ -412,7 +412,10 @@ impl FormatReader for IxoReader {
             false,
             assurance::ROCHE_LIGHTCYCLER_IXO.confidence,
             &[
-                "Read: run and instrument, thermal protocol, detection channels, sample names and per-channel target/type/concentration, raw fluorescence per cycle and melt readings (instrument units, no color compensation), and the vendor's absolute-quantification results (Cp and positive/negative call). Validated on 4 LightCycler 480 QC runs (software 1.5.0 and 1.5.1): every vendor-positive well rises and every negative stays flat in the analysed channel",
+                "Read: run and instrument, thermal protocol, detection channels, sample names and per-channel target/type/concentration, raw fluorescence per cycle and melt readings (instrument units, no color compensation), and the vendor's absolute-quantification results (Cp and positive/negative call). Validated on 4 LightCycler 480 QC runs (software 1.5.0 and 1.5.1) against the depositor's own reader and on 6 plates against the LightCycler 480 software's Cp table and raw-data export",
+                "Fluorescence is the stored reading; the software shows and exports it times ScalingFactor / (RefValue × IntgrTime) of each acquisition, given per channel and cycle in `vendor.export_scale`",
+                "Melt readings are not confirmed by an independent reader (reported in `inferred`)",
+                "The instrument model is read from the run's instrument name only when that names a LightCycler; otherwise it is unset and the name is in `vendor.instrument_name`",
                 "Only `Legacy Absolute Quantification Analysis` results are read (one channel, no ratio); Tm calling, genotyping, relative quantification and other analyses are listed in the vendor tree, not read; a call other than 0 or 2 gives no Cq",
                 "Vendor melt smoothing and derivative arrays (DARZ/FORM binary properties) and the temperature log are not decoded; -dF/dT is computed from the raw melt readings",
                 "Our own Cq (`analyze qpcr --compute-cq`) is not the LightCycler 480's Cp algorithm (not public); use the vendor Cp in `cq`",

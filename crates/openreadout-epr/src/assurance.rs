@@ -84,15 +84,17 @@ const BRUKER_BES3T_VALIDATED: &[Validated] = &[
 // END GENERATED bruker-bes3t
 
 // BEGIN GENERATED bruker-esp (cargo xtask assurance-audit --write; do not edit)
-const BRUKER_ESP_CONFIDENCE: Confidence = Confidence::Low;
+const BRUKER_ESP_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const BRUKER_ESP_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "field-sweep", 2, 2, 3),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 3),
-    a::row(K::FormatVersion, "WinEPR", 2, 2, 3),
-    a::row(K::Layout, "magnetic_field axis", 2, 2, 3),
-    a::row(K::Record, "1D real", 1, 1, 1),
-    a::row(K::Record, "2D real", 1, 1, 2),
-    a::row(K::Writer, "WinEPR", 2, 2, 3),
+    a::row(K::Acquisition, "field-sweep", 15, 5, 15),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 13),
+    a::row(K::FormatVersion, "ESP", 5, 2, 5),
+    a::row(K::FormatVersion, "WinEPR", 10, 5, 10),
+    a::row(K::Layout, "magnetic_field axis", 15, 5, 15),
+    a::row(K::Record, "1D real", 12, 4, 12),
+    a::row(K::Record, "2D real", 3, 3, 3),
+    a::row(K::Writer, "ESP cw", 5, 2, 5),
+    a::row(K::Writer, "WinEPR", 10, 5, 10),
 ];
 // END GENERATED bruker-esp

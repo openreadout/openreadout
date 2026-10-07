@@ -10,6 +10,11 @@
 //! - sampling rates equal the method's `Data_Collection_Rate` settings.
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus --test thermo_detectors -- --nocapture`
+//!
+//! One file has an independent reference, msconvert's mzML of MTBLS773, compared by
+//! `accela_pda_matches_an_independent_conversion`. With `THERMO_DETECTOR_RESULTS=<file>` that
+//! test writes a results line for `cargo xtask assurance-audit refresh` (docs/assurance.md):
+//! the conversion confirms the file's detector traces.
 #![cfg(feature = "corpus")]
 
 use std::path::{Path, PathBuf};
@@ -352,4 +357,11 @@ fn accela_pda_matches_an_independent_conversion() {
         "{:?}",
         rep.findings
     );
+    if let Ok(p) = std::env::var("THERMO_DETECTOR_RESULTS") {
+        let line = serde_json::json!({
+            "id": id, "format": "thermo-raw", "status": "pass", "independent": true,
+            "compared": ["traces"],
+        });
+        std::fs::write(p, format!("{line}\n")).unwrap();
+    }
 }

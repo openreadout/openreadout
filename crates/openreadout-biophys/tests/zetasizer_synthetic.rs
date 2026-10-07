@@ -176,6 +176,11 @@ fn counted(b: &mut Vec<u8>, v: &[f32]) {
 
 /// A record: header, dispersant, material block, sample name, padding, results.
 fn record(kind: u16, number: u32, sample: &str, results: &[u8]) -> Vec<u8> {
+    record_with(kind, number, sample, results, 1)
+}
+
+/// A record whose material block begins with `u32 head`.
+fn record_with(kind: u16, number: u32, sample: &str, results: &[u8], head: u32) -> Vec<u8> {
     let mut b = Vec::new();
     b.extend(13u16.to_le_bytes());
     b.extend(kind.to_le_bytes());
@@ -192,7 +197,8 @@ fn record(kind: u16, number: u32, sample: &str, results: &[u8]) -> Vec<u8> {
     b.extend([0u8; 30]);
     b.extend(string("Polystyrene latex"));
     let mut blk = vec![0u8; 46];
-    blk[..6].copy_from_slice(&[1, 0, 0, 0, 1, 0]);
+    blk[..4].copy_from_slice(&head.to_le_bytes());
+    blk[4..6].copy_from_slice(&[1, 0]);
     blk[32..].copy_from_slice(&[2, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1, 0, 0]);
     b.extend(blk);
     b.extend(string(sample));
@@ -303,9 +309,14 @@ fn reads_size_and_zeta_records() {
         Some("2025-05-08T12:00:00")
     );
     assert_eq!(cell(&mut ds, "temperature", 0).0, 24.5);
-    // size results are withheld until validated against a Zetasizer export
-    assert!(cell(&mut ds, "z_average", 0).0.is_nan());
-    assert!(cell(&mut ds, "peak2_mean", 0).0.is_nan());
+    // size results: Z-average, PdI, intensity peak means and areas; widths withheld
+    assert_eq!(cell(&mut ds, "z_average", 0).0, 150.0);
+    assert_eq!(cell(&mut ds, "pdi", 0).0, f64::from(0.2f32));
+    assert_eq!(cell(&mut ds, "peak1_mean", 0).0, 160.0);
+    assert_eq!(cell(&mut ds, "peak2_mean", 0).0, 5000.0);
+    assert_eq!(cell(&mut ds, "peak2_area", 0).0, 5.0);
+    assert!(cell(&mut ds, "peak1_width", 0).0.is_nan());
+    assert!(cell(&mut ds, "peak3_mean", 0).0.is_nan());
     assert!(cell(&mut ds, "z_average", 1).0.is_nan());
     assert_eq!(cell(&mut ds, "zeta_potential", 1).0, -30.0);
     assert_eq!(cell(&mut ds, "mobility", 1).0, f64::from(-2.35f32));
@@ -314,6 +325,19 @@ fn reads_size_and_zeta_records() {
     assert!(cell(&mut ds, "zeta_peak2_mean", 1).0.is_nan());
     let e = ds.experiment().unwrap();
     assert_eq!(e.instrument.unwrap().serial.as_deref(), Some("MAL1234567"));
+}
+
+#[test]
+fn material_block_beginning_with_two() {
+    let b = file(vec![(
+        "REC1",
+        record_with(1, 1, "latex 2", &size_block(), 2),
+    )]);
+    let mut ds = open(b).unwrap();
+    assert_eq!(
+        cell(&mut ds, "sample_name", 0).1.as_deref(),
+        Some("latex 2")
+    );
 }
 
 #[test]

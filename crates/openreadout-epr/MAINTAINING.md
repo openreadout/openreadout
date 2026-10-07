@@ -37,7 +37,7 @@ Electron paramagnetic resonance data: Bruker BES3T (`bruker-bes3t`: `.DSC` descr
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `bruker-bes3t` | [format note](../../docs/formats/bruker-epr.md), [provenance log](../../docs/provenance/bruker-epr.md) | medium | prior art | 16 / 14 | 11 | - |
-| `bruker-esp` | [format note](../../docs/formats/bruker-epr.md), [provenance log](../../docs/provenance/bruker-epr.md) | low | prior art | 3 / 2 | 2 | - |
+| `bruker-esp` | [format note](../../docs/formats/bruker-epr.md), [provenance log](../../docs/provenance/bruker-epr.md) | high | prior art | 15 / 15 | 5 | - |
 
 ### Source map
 
@@ -77,19 +77,21 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `bruker-bes3t` | record | `2D real` | traces | 3 | 4 | `epr-cwepr-bdpa-2dfieldpower`, `epr-killian-tot-kinetics`, `epr-zenodo14034164-img` |
 | `bruker-bes3t` | sample_layout | `big-endian float64` | traces | 11 | 13 | `epr-cwepr-bdpa-2dfieldpower`, `epr-easyspin-e580-cwx`, `epr-killian-tot-accu` |
 | `bruker-bes3t` | sample_layout | `big-endian float64 complex` | traces | 3 | 3 | `epr-deernet-deer-252cl`, `epr-deernet-white-1b`, `epr-zenodo15590546-deer` |
-| `bruker-esp` | acquisition | `field-sweep` | descriptive | 2 | 3 | `epr-zenodo45520-sige`, `epr-zenodo5925657-angle` |
-| `bruker-esp` | field | `experiment.acquisition.started_at` | descriptive | 2 | 3 | `epr-zenodo45520-sige`, `epr-zenodo5925657-angle` |
-| `bruker-esp` | format_version | `WinEPR` | metadata, traces | 2 | 3 | `epr-zenodo45520-sige`, `epr-zenodo5925657-angle` |
-| `bruker-esp` | layout | `magnetic_field axis` | traces | 2 | 3 | `epr-zenodo45520-sige`, `epr-zenodo5925657-angle` |
-| `bruker-esp` | record | `1D real` | traces | 1 | 1 | `epr-zenodo45520-sige` |
-| `bruker-esp` | record | `2D real` | traces | 1 | 2 | `epr-zenodo5925657-angle` |
-| `bruker-esp` | writer | `WinEPR` | traces | 2 | 3 | `epr-zenodo45520-sige`, `epr-zenodo5925657-angle` |
+| `bruker-esp` | acquisition | `field-sweep` | descriptive | 15 | 15 | `epr-cwepr-emx-winepr`, `epr-cwepr-esp`, `epr-cwepr-winepr` |
+| `bruker-esp` | field | `experiment.acquisition.started_at` | descriptive | 13 | 13 | `epr-cwepr-esp`, `epr-cwepr-winepr`, `epr-easyspin-00011201` |
+| `bruker-esp` | format_version | `ESP` | metadata, traces | 5 | 5 | `epr-cwepr-esp`, `epr-easyspin-00011201`, `epr-easyspin-100416-wt60min` |
+| `bruker-esp` | format_version | `WinEPR` | metadata, traces | 10 | 10 | `epr-cwepr-emx-winepr`, `epr-cwepr-winepr`, `epr-easyspin-emx-2dpowersweep` |
+| `bruker-esp` | layout | `magnetic_field axis` | traces | 15 | 15 | `epr-cwepr-emx-winepr`, `epr-cwepr-esp`, `epr-cwepr-winepr` |
+| `bruker-esp` | record | `1D real` | traces | 12 | 12 | `epr-cwepr-emx-winepr`, `epr-cwepr-esp`, `epr-cwepr-winepr` |
+| `bruker-esp` | record | `2D real` | traces | 3 | 3 | `epr-easyspin-emx-2dpowersweep`, `epr-zenodo5925657-angle`, `epr-zenodo7433815-nq113-angles` |
+| `bruker-esp` | writer | `ESP cw` | traces | 5 | 5 | `epr-cwepr-esp`, `epr-easyspin-00011201`, `epr-easyspin-100416-wt60min` |
+| `bruker-esp` | writer | `WinEPR` | traces | 10 | 10 | `epr-cwepr-emx-winepr`, `epr-cwepr-winepr`, `epr-easyspin-emx-2dpowersweep` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_bes3t`, `whole_esp`
-- corpus inputs by tier: heldout 3, smoke 21, standard 2
+- corpus inputs by tier: heldout 3, smoke 33, standard 2
 - golden snapshots: [`corpus/snapshots/bruker-bes3t.jsonl`](../../corpus/snapshots/bruker-bes3t.jsonl), [`corpus/snapshots/bruker-esp.jsonl`](../../corpus/snapshots/bruker-esp.jsonl)
 
 ### Open new-variant intakes

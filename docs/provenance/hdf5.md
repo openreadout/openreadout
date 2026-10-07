@@ -71,3 +71,22 @@ format-layout inferences. No corpus files changed or added.
 **Corpus files:** the seven development NWB inputs (`dandi000006-anm372907-20170613`, `dandi000027-sub-rat123`, `dandi000034-mouse412804-155542`, `dandi000059-ms10-170314`, `dandi000067-ee-044`, `dandi000126-sub-1`, `dandi000221-hi198-060619`). **Prior art consulted:** the NWB schema documentation (nwb-schema, BSD-3, public) for the `NWBFile` fields; pynwb (BSD-3) run as the second reader.
 **What was found.** The second-opinion harness (`oracle/second_fields/ephys.py`, pynwb) reported gaps on all seven: the session start (with its zone), experimenter, session description and subject id that pynwb reads were only in `notes` and in each trace's `extra.session_start_time`, not in `experiment`. No value was wrong.
 **Changed (mapping only; no parsing logic).** The NWB dataset now gives `experiment.acquisition.started_at` = `session_start_time` (as written, zone included), `acquisition.operator` = `general/experimenter`, `acquisition.comment` = `session_description` and `sample.id` = `general/subject/subject_id`, each with provenance `spec`.
+
+## 2026-10-06 — development files for the generic reader (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `hdf5-zenodo14794967-picoharp-histogram-cl1-det2` (Zenodo 14794967, CC-BY-4.0),
+`hdf5-zenodo4165174-wse2-cb` (Zenodo 4165174, CC-BY-4.0), `hdf5-zenodo7806036-figure7-nexus`
+(Zenodo 7806036, CC-BY-4.0), `hdf5-zenodo15463833-data-pmoke-mag` (Zenodo 15463833, CC-BY-4.0). None
+is NWB, Imaris, EMD, DM5 or mzMLb, so the generic reader claims each.
+
+**Prior art consulted:** none. h5py 3.16 (BSD-3) is the reference reader, run only.
+
+**Ground truth:** `oracle/hdf5_structure_oracle.py` (new) writes `corpus/oracle/hdf5/<id>.json`:
+superblock version, group and dataset counts, top-level names, and every object reached through
+hard links (path, kind, shape, dtype, attribute names and short values). It reports an HDF5 enum as
+`enum` even where h5py maps a FALSE/TRUE enum to NumPy bool. No corpus test reads these files yet.
+
+**Result (by script, with `info --view structure` and `info`):** paths, kinds, shapes, dtypes,
+attribute names and values and the superblock version agree for all 417 objects, except one: a
+scalar variable-length string attribute holding an empty string (`/app/settings` `sample` in the
+PicoHarp file) is listed as `null`; h5py reads `""`.

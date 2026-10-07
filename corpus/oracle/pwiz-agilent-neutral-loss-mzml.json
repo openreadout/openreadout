@@ -1,0 +1,61 @@
+{
+ "id": "pwiz-agilent-neutral-loss-mzml",
+ "file": "RS080806_NL_448.2_001.mzML",
+ "size": 10748,
+ "sha256": "82ebb177bc1d77ec0b74424c2c1796fa04d680480c930dc2004939f5a33d847f",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 134,
+     "channels": [
+      {
+       "xxh3": "8e4c888228bf003d01e7cd97b97f15c5",
+       "first": [
+        0.6799999997019768,
+        1.3569999486207962,
+        2.0340000092983246,
+        2.711000069975853,
+        3.3879999071359634,
+        4.064999967813492,
+        4.741999804973602,
+        5.419000089168549
+       ]
+      },
+      {
+       "xxh3": "92460d038c7d242f971691fbb84e64ca",
+       "first": [
+        8086.0,
+        9260.0,
+        7406.0,
+        12991.0,
+        7045.0,
+        7374.0,
+        7723.0,
+        7945.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 0,
+  "by_index": true,
+  "scans": []
+ }
+}

@@ -44,7 +44,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 | `rdml` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | high | open spec | 9 / 9 | 5 | 1 / 0 |
 | `applied-biosystems-eds` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | high | reverse engineered | 23 / 23 | 15 | 2 / 0 |
 | `bio-rad-pcrd` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | open spec | 0 / 0 | 0 | - |
-| `roche-lightcycler-ixo` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | reverse engineered | 4 / 0 | 0 | - |
+| `roche-lightcycler-ixo` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | medium | reverse engineered | 10 / 10 | 2 | - |
 | `rotor-gene-rex` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | reverse engineered | 1 / 1 | 1 | 1 / 0 |
 | `qpcr-results-export` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | medium | reverse engineered | 9 / 9 | 7 | - |
 
@@ -168,22 +168,22 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `rdml` | record | `melt` | traces | 6 | 6 | `lc96p-pendo-hmuy-24h48h-r12`, `lc96p-pendo-hmuy-24h48h-r34`, `lc96p-pendo-hmuy-hm-dip` |
 | `rdml` | record | `melt derivative` | traces | 6 | 6 | `lc96p-pendo-hmuy-24h48h-r12`, `lc96p-pendo-hmuy-24h48h-r34`, `lc96p-pendo-hmuy-hm-dip` |
 | `rdml` | writer | `LightCycler` | descriptive | 4 | 4 | `lc96p-pendo-hmuy-24h48h-r12`, `lc96p-pendo-hmuy-24h48h-r34`, `lc96p-pendo-hmuy-hm-dip` |
-| `roche-lightcycler-ixo` | dialect | `ixo` | metadata, tables, traces | 0 | 4 |  |
-| `roche-lightcycler-ixo` | field | `experiment.acquisition.started_at` | descriptive | 0 | 4 |  |
-| `roche-lightcycler-ixo` | field | `experiment.instrument.model` | descriptive | 0 | 4 |  |
-| `roche-lightcycler-ixo` | instrument | `LightCycler 480 - LED lamp` | descriptive | 0 | 2 |  |
-| `roche-lightcycler-ixo` | instrument | `LightCycler 480 - Xenon lamp` | descriptive | 0 | 2 |  |
-| `roche-lightcycler-ixo` | record | `amplification` | traces | 0 | 4 |  |
-| `roche-lightcycler-ixo` | record | `melt` | traces | 0 | 4 |  |
+| `roche-lightcycler-ixo` | derivation | `traces[].melt by LightCycler 480 melting-program readings…` | descriptive | 4 | 4 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
+| `roche-lightcycler-ixo` | dialect | `ixo` | metadata, tables, traces | 10 | 10 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
+| `roche-lightcycler-ixo` | field | `experiment.acquisition.started_at` | descriptive | 10 | 10 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
+| `roche-lightcycler-ixo` | field | `experiment.instrument.model` | descriptive | 4 | 4 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
+| `roche-lightcycler-ixo` | instrument | `LightCycler 480 - LED lamp` | descriptive | 2 | 2 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2026a` |
+| `roche-lightcycler-ixo` | instrument | `LightCycler 480 - Xenon lamp` | descriptive | 2 | 2 | `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
+| `roche-lightcycler-ixo` | record | `amplification` | traces | 10 | 10 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
 
-… 10 more values: the generated table in `src/assurance.rs` has all of them.
+… 11 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 7 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_eds`, `whole_ixo`, `whole_pcrd`, `whole_qpcr_export`, `whole_rdml`, `whole_rex`
-- corpus inputs by tier: heldout 10, smoke 32, standard 20
+- corpus inputs by tier: heldout 10, smoke 32, standard 26
 - golden snapshots: [`corpus/snapshots/rdml.jsonl`](../../corpus/snapshots/rdml.jsonl), [`corpus/snapshots/applied-biosystems-eds.jsonl`](../../corpus/snapshots/applied-biosystems-eds.jsonl), [`corpus/snapshots/bio-rad-pcrd.jsonl`](../../corpus/snapshots/bio-rad-pcrd.jsonl), [`corpus/snapshots/roche-lightcycler-ixo.jsonl`](../../corpus/snapshots/roche-lightcycler-ixo.jsonl), [`corpus/snapshots/rotor-gene-rex.jsonl`](../../corpus/snapshots/rotor-gene-rex.jsonl), [`corpus/snapshots/qpcr-results-export.jsonl`](../../corpus/snapshots/qpcr-results-export.jsonl)
 
 ### Open new-variant intakes

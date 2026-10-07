@@ -11,6 +11,7 @@
 #![allow(dead_code)] // each test binary that includes this module uses a part of it
 #![allow(clippy::float_cmp, clippy::many_single_char_names)] // comparison code
 
+use std::collections::BTreeMap;
 use std::path::Path;
 
 use openreadout_core::FormatReader;
@@ -347,11 +348,50 @@ pub fn compare_file(
             .read_table(ti, 0, u64::MAX)
             .map_err(|e| format!("table {ti}: {e}"))?;
         let mut bad = 0;
+        let mut first: Option<String> = None;
         let cells = o["cells"].as_array().unwrap_or(&empty);
+        // `"key": "<column>"`: the oracle lists some of our rows, each found by its value in that
+        // column (an export of some records of a file), instead of row by row
+        let rows: BTreeMap<u64, u64> = match o["key"].as_str() {
+            Some(key) => {
+                let Some(ki) = t.columns.iter().position(|x| x.name == key) else {
+                    problems.push(format!("table {ti}: no key column `{key}`"));
+                    continue;
+                };
+                let mut map = BTreeMap::new();
+                for c in cells {
+                    if let (Some(r), Some(k), Some(v)) =
+                        (c[0].as_u64(), c[1].as_str(), c[2].as_f64())
+                        && k == key
+                    {
+                        match tab.columns[ki].iter().position(|x| *x == v) {
+                            Some(ours) => {
+                                map.insert(r, ours as u64);
+                            }
+                            None => problems.push(format!("table {ti}: no row with {key} {v}")),
+                        }
+                    }
+                }
+                map
+            }
+            None => BTreeMap::new(),
+        };
+        let keyed = o["key"].is_string();
+        let row_of = |r: u64| -> Option<u64> {
+            if keyed {
+                rows.get(&r).copied()
+            } else {
+                Some(r)
+            }
+        };
         for c in cells {
             // a text cell: our column's category at the row
             if let (Some(r), Some(col), Some(want)) = (c[0].as_u64(), c[1].as_str(), c[2].as_str())
             {
+                let Some(r) = row_of(r) else {
+                    bad += 1;
+                    continue;
+                };
                 let got = t.columns.iter().position(|x| x.name == col).and_then(|ci| {
                     let k = tab.columns[ci].get(r as usize).copied()?;
                     let cats = t.columns[ci].extra.get("categories")?.as_array()?;
@@ -375,6 +415,10 @@ pub fn compare_file(
             else {
                 continue;
             };
+            let Some(r) = row_of(r) else {
+                bad += 1;
+                continue;
+            };
             let Some(ci) = t.columns.iter().position(|x| x.name == col) else {
                 bad += 1;
                 continue;
@@ -390,10 +434,17 @@ pub fn compare_file(
             };
             if !close(ours, v, tol_abs, tol_rel) {
                 bad += 1;
+                first.get_or_insert_with(|| format!("row {r} {col}: {ours} vs {v}"));
             }
         }
         if bad > 0 {
-            problems.push(format!("table {ti}: {bad} of {} cells differ", cells.len()));
+            problems.push(format!(
+                "table {ti}: {bad} of {} cells differ{}",
+                cells.len(),
+                first
+                    .map(|f| format!(", first numeric: {f}"))
+                    .unwrap_or_default()
+            ));
         } else {
             done.push(format!("table {ti}: {} cells match", cells.len()));
         }

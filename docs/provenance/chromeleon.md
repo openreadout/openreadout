@@ -69,3 +69,15 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 - **Stored results** on the new archives: all 1,230 (flavokawain), 186 (textiles) and 68 + 21 + 60 (Lim) stored peaks reproduced by our integration within 1e-6 (areas; a stored height of 0 against a rounding residue below 1e-15).
 
 **Prior art.** None consulted; LZMA2 as above.
+
+## 2026-10-06 — five more archives of the Lim record, checked against their stored results (no parsing change) (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `cmbx-lim-cyclohexenone-standards`, `cmbx-lim-s-carvone-reactions`, `cmbx-lim-con-sp22-group-ab`, `cmbx-lim-cyclohexanone-reaction` and `cmbx-lim-ketoisophorone-standards`. All five come from Zenodo 10798153 (Lim et al., CC-BY-4.0), the record of `cmbx-lim-tsoye-48h`, and their md5 values equal the record's.
+
+**Prior art consulted:** none.
+
+**What was compared:** the stored results, as for the other Lim archives (docs/assurance.md, "Vendor-stored results"). `openreadout check` decodes every signal (19, 18, 17, 14 and 50 of them), and each one equals the sequence file's description. Our integration reproduces Chromeleon's stored peaks: 195 of 195, 18 of 18, 19 of 19 and 14 of 14, area and height within 1e-6. In `cmbx-lim-ketoisophorone-standards` it reproduces 82 of 84. The two other peaks are the first two of the injection `blank` on `GC_1`. Peak 1 at 0.020 min has a stored area of 0.3418683 and height 28.470412, and ours are 0.3412786 and 28.470412. Peak 2 at 0.032 min has a stored area of 0.0574033 and height 11.324000, and ours are 0.0579931 and 11.438018. The boundary between the two peaks falls at a different point. This has not been investigated, so that archive would record a stored-result failure.
+
+**For `chromeleon.rs` `ARCHIVES`:** (id, traces, 3D fields, damaged, stored peaks) = (`cmbx-lim-cyclohexenone-standards`, 19, 0, 0, 195), (`cmbx-lim-s-carvone-reactions`, 18, 0, 0, 18), (`cmbx-lim-con-sp22-group-ab`, 17, 0, 0, 19), (`cmbx-lim-cyclohexanone-reaction`, 14, 0, 0, 14). `info` gives the same trace counts.
+
+**Searched without result:** the three development archives that no independent evidence covers. `cmbx-lauterbach-plate-screening` and `cmbx-lauterbach-repuox` hold no stored peaks. The only other file in their record, the PDF report, covers the sequence "2025.11.16 AtRePuOx Conditions" (the in-vivo cascade archive) and none of their injections. `cmbx-baobab-volatiles-ms` has no export in its record; the record's other file is a 1.78 GB archive. A Zenodo search for `filetype:"cmbx"` finds six records: five are in the corpus and one (5717897) is held out. The figshare search finds one article with `.cmbx` files (28560326, already used). That article also holds two Chromeleon ASCII exports that the corpus does not use (`blank-water.txt`, `10x standard mix.txt`). Both are probably injections of the milks archive, which is already confirmed.

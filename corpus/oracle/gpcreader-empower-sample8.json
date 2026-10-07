@@ -1,0 +1,45 @@
+{
+ "id": "gpcreader-empower-sample8",
+ "file": "sample8.arw",
+ "size": 16544,
+ "sha256": "322fd3b5b3061bb1917c478ff32146ec0560c586fdd03c3da4c5435b081e9520",
+ "reader": "chromConverter 0.9.0 read_chroms(format_in = 'waters_arw') (GPL-3.0, black box)",
+ "oracle_note": "every row chromConverter returned (1200)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "value"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 1.0000000001668057,
+   "x_first_min": 0.01666667,
+   "x_last_min": 20.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1200,
+     "channels": [
+      {
+       "xxh3": "c8734a3333f372b8906f2cb316e6737f",
+       "first": [
+        0.771,
+        0.765,
+        0.766,
+        0.767,
+        0.77,
+        0.77,
+        0.768,
+        0.773
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

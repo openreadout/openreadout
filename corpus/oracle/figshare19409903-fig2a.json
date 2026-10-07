@@ -1,0 +1,41 @@
+{
+ "id": "figshare19409903-fig2a",
+ "file": "Fig2a.oif",
+ "size": 6616,
+ "sha256": "fb991adba2b6422ace4074b60ebffd6b49b0af5e0845d5411888498a6c424a19",
+ "max_planes_hashed": 64,
+ "reader": "oiffile 2026.2.8 (BSD-3) planes and geometry; Bio-Formats 8.5.0 misreads this file (see oracle/oif_oiffile_oracle.py)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 566,
+   "size_y": 566,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c1758fd5c3f8a68463aa4458a62a770"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "598ead2b2b878dab6bd4aec8cdbd8620"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "598ead2b2b878dab6bd4aec8cdbd8620"
+    }
+   ]
+  }
+ ]
+}

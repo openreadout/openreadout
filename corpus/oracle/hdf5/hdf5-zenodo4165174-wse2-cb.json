@@ -1,0 +1,64 @@
+{
+ "id": "hdf5-zenodo4165174-wse2-cb",
+ "format": "hdf5",
+ "independent": true,
+ "reader": "h5py 3.16.0 (HDF5 2.0.0, BSD-3-Clause)",
+ "superblock_version": 0,
+ "groups": 1,
+ "datasets": 3,
+ "top_level": [
+  "CB_99_399mb",
+  "ECB_Eb_eV",
+  "delay_ps"
+ ],
+ "objects": [
+  {
+   "path": "/",
+   "kind": "group",
+   "attributes": {}
+  },
+  {
+   "path": "/CB_99_399mb",
+   "kind": "dataset",
+   "shape": [
+    171,
+    351
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "IGORWaveScaling": [
+     0.0,
+     0.0,
+     0.02,
+     -1.0318,
+     0.01,
+     -2.16881476924452
+    ],
+    "IGORWaveType": 4
+   }
+  },
+  {
+   "path": "/ECB_Eb_eV",
+   "kind": "dataset",
+   "shape": [
+    351
+   ],
+   "dtype": "float32",
+   "attributes": {
+    "IGORWaveType": 2
+   }
+  },
+  {
+   "path": "/delay_ps",
+   "kind": "dataset",
+   "shape": [
+    171
+   ],
+   "dtype": "float32",
+   "attributes": {
+    "IGORWaveType": 2
+   }
+  }
+ ],
+ "links": []
+}

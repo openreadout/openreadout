@@ -1,0 +1,3255 @@
+{
+ "id": "hdf5-zenodo7806036-figure7-nexus",
+ "format": "hdf5",
+ "independent": true,
+ "reader": "h5py 3.16.0 (HDF5 2.0.0, BSD-3-Clause)",
+ "superblock_version": 2,
+ "groups": 85,
+ "datasets": 302,
+ "top_level": [
+  "entry1",
+  "entry2",
+  "entry3"
+ ],
+ "objects": [
+  {
+   "path": "/",
+   "kind": "group",
+   "attributes": {
+    "HDF5_version": "1.10.07",
+    "file_name": "Macintosh HD:Users:dominikstemer:Nextcloud:Fritz Haber Institut:[1] Projects:[2023 - Complete] Flat Jet PES:Manuscript:NEXUS Data:Figure 7:Figure7NEXUS.h5",
+    "file_time": "2023-09-14T18:26:12+09:00"
+   }
+  },
+  {
+   "path": "/entry1",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXentry",
+    "default": "/entry1/data"
+   }
+  },
+  {
+   "path": "/entry2",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXentry",
+    "default": "/entry2/data"
+   }
+  },
+  {
+   "path": "/entry3",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXentry",
+    "default": "/entry3/data"
+   }
+  },
+  {
+   "path": "/entry1/calibration",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXprocess"
+   }
+  },
+  {
+   "path": "/entry1/data",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXdata",
+    "axes": "energy",
+    "energy_indices": 0,
+    "signal": "data"
+   }
+  },
+  {
+   "path": "/entry1/definition",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {
+    "URL": "https://fairmat-experimental.github.io/nexus-fairmat-proposal/50433d9039b3f33299bab338998acb5335cd8951/mpes-structure.html",
+    "version": "v2020.10"
+   }
+  },
+  {
+   "path": "/entry1/end_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/entry_identifier",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/experiment_description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/experiment_identifier",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/experiment_institution",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXinstrument"
+   }
+  },
+  {
+   "path": "/entry1/notes",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXnote"
+   }
+  },
+  {
+   "path": "/entry1/program_name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {
+    "version": 1.18
+   }
+  },
+  {
+   "path": "/entry1/revision",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {
+    "comment": "initial write"
+   }
+  },
+  {
+   "path": "/entry1/sample",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample"
+   }
+  },
+  {
+   "path": "/entry1/start_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/title",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/calibration",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXprocess"
+   }
+  },
+  {
+   "path": "/entry2/data",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXdata",
+    "axes": "energy",
+    "energy_indices": 0,
+    "signal": "data"
+   }
+  },
+  {
+   "path": "/entry2/definition",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {
+    "URL": "https://fairmat-experimental.github.io/nexus-fairmat-proposal/50433d9039b3f33299bab338998acb5335cd8951/mpes-structure.html",
+    "version": "v2020.10"
+   }
+  },
+  {
+   "path": "/entry2/end_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/entry_identifier",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/experiment_description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/experiment_identifier",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/experiment_institution",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXinstrument"
+   }
+  },
+  {
+   "path": "/entry2/notes",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXnote"
+   }
+  },
+  {
+   "path": "/entry2/program_name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {
+    "version": 1.18
+   }
+  },
+  {
+   "path": "/entry2/revision",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {
+    "comment": "initial write"
+   }
+  },
+  {
+   "path": "/entry2/sample",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample"
+   }
+  },
+  {
+   "path": "/entry2/start_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/title",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/calibration",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXprocess"
+   }
+  },
+  {
+   "path": "/entry3/data",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXdata",
+    "axes": "energy",
+    "energy_indices": 0,
+    "signal": "data"
+   }
+  },
+  {
+   "path": "/entry3/definition",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {
+    "URL": "https://fairmat-experimental.github.io/nexus-fairmat-proposal/50433d9039b3f33299bab338998acb5335cd8951/mpes-structure.html",
+    "version": "v2020.10"
+   }
+  },
+  {
+   "path": "/entry3/end_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/entry_identifier",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/experiment_description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/experiment_identifier",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/experiment_institution",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXinstrument"
+   }
+  },
+  {
+   "path": "/entry3/notes",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXnote"
+   }
+  },
+  {
+   "path": "/entry3/program_name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {
+    "version": 1.18
+   }
+  },
+  {
+   "path": "/entry3/revision",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {
+    "comment": "initial write"
+   }
+  },
+  {
+   "path": "/entry3/sample",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample"
+   }
+  },
+  {
+   "path": "/entry3/start_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/title",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/calibration/energy_calibration",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXcalibration"
+   }
+  },
+  {
+   "path": "/entry1/data/data",
+   "kind": "dataset",
+   "shape": [
+    141
+   ],
+   "dtype": "float32",
+   "attributes": {
+    "long_name": "ADC Counts",
+    "units": "counts"
+   }
+  },
+  {
+   "path": "/entry1/data/energy",
+   "kind": "dataset",
+   "shape": [
+    141
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "long_name": "Kinetic Energy (eV)",
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry1/data/notes",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXnote"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXelectronanalyser"
+   }
+  },
+  {
+   "path": "/entry1/instrument/base_vectors",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry1/instrument/beam_probe",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXbeam"
+   }
+  },
+  {
+   "path": "/entry1/instrument/energy_resolution",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/monochromator",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXmonochromator"
+   }
+  },
+  {
+   "path": "/entry1/instrument/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/source",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsource"
+   }
+  },
+  {
+   "path": "/entry1/notes/author",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/notes/data",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/notes/date",
+   "kind": "dataset",
+   "shape": [
+    1
+   ],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/notes/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/notes/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/electric_field",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "V"
+   }
+  },
+  {
+   "path": "/entry1/sample/gas_pressure",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mbar"
+   }
+  },
+  {
+   "path": "/entry1/sample/jet_direction",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry1/sample/leaf_normal",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry1/sample/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/nozzle_material",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/preparation_description",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXnote"
+   }
+  },
+  {
+   "path": "/entry1/sample/shape",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/situation",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solute1",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry1/sample/solute2",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry1/sample/solvent1",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry1/sample/solvent2",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry1/sample/temperature",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "K"
+   }
+  },
+  {
+   "path": "/entry1/sample/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/calibration/energy_calibration",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXcalibration"
+   }
+  },
+  {
+   "path": "/entry2/data/data",
+   "kind": "dataset",
+   "shape": [
+    141
+   ],
+   "dtype": "float32",
+   "attributes": {
+    "long_name": "ADC Counts",
+    "units": "counts"
+   }
+  },
+  {
+   "path": "/entry2/data/energy",
+   "kind": "dataset",
+   "shape": [
+    141
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "long_name": "Kinetic Energy (eV)",
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry2/data/notes",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXnote"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXelectronanalyser"
+   }
+  },
+  {
+   "path": "/entry2/instrument/base_vectors",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry2/instrument/beam_probe",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXbeam"
+   }
+  },
+  {
+   "path": "/entry2/instrument/energy_resolution",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/monochromator",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXmonochromator"
+   }
+  },
+  {
+   "path": "/entry2/instrument/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/source",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsource"
+   }
+  },
+  {
+   "path": "/entry2/notes/author",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/notes/data",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/notes/date",
+   "kind": "dataset",
+   "shape": [
+    1
+   ],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/notes/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/notes/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/electric_field",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "V"
+   }
+  },
+  {
+   "path": "/entry2/sample/gas_pressure",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mbar"
+   }
+  },
+  {
+   "path": "/entry2/sample/jet_direction",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry2/sample/leaf_normal",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry2/sample/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/nozzle_material",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/preparation_description",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXnote"
+   }
+  },
+  {
+   "path": "/entry2/sample/shape",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/situation",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solute1",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry2/sample/solute2",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry2/sample/solvent1",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry2/sample/solvent2",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry2/sample/temperature",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "K"
+   }
+  },
+  {
+   "path": "/entry2/sample/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/calibration/energy_calibration",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXcalibration"
+   }
+  },
+  {
+   "path": "/entry3/data/data",
+   "kind": "dataset",
+   "shape": [
+    401
+   ],
+   "dtype": "float32",
+   "attributes": {
+    "long_name": "ADC Counts",
+    "units": "counts"
+   }
+  },
+  {
+   "path": "/entry3/data/energy",
+   "kind": "dataset",
+   "shape": [
+    401
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "long_name": "Kinetic Energy (eV)",
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry3/data/notes",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXnote"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXelectronanalyser"
+   }
+  },
+  {
+   "path": "/entry3/instrument/base_vectors",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry3/instrument/beam_probe",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXbeam"
+   }
+  },
+  {
+   "path": "/entry3/instrument/energy_resolution",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/monochromator",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXmonochromator"
+   }
+  },
+  {
+   "path": "/entry3/instrument/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/source",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsource"
+   }
+  },
+  {
+   "path": "/entry3/notes/author",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/notes/data",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/notes/date",
+   "kind": "dataset",
+   "shape": [
+    1
+   ],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/notes/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/notes/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/electric_field",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "V"
+   }
+  },
+  {
+   "path": "/entry3/sample/gas_pressure",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mbar"
+   }
+  },
+  {
+   "path": "/entry3/sample/jet_direction",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry3/sample/leaf_normal",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry3/sample/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/nozzle_material",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/preparation_description",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXnote"
+   }
+  },
+  {
+   "path": "/entry3/sample/shape",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/situation",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solute1",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry3/sample/solute2",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry3/sample/solvent1",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry3/sample/solvent2",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXsample_component"
+   }
+  },
+  {
+   "path": "/entry3/sample/temperature",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "K"
+   }
+  },
+  {
+   "path": "/entry3/sample/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/calibration/energy_calibration/applied",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/data/notes/data",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/data/notes/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXenergydispersion"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_lens_system",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXcollectioncolumn"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXdetector"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/energy_resolution",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/fast_axes",
+   "kind": "dataset",
+   "shape": [
+    2
+   ],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/serial_number",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/slow_axes",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/base_vectors/beam_axis",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry1/instrument/base_vectors/gravity_axis",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "vector": [
+     0.0,
+     -1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry1/instrument/beam_probe/distance",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "cm"
+   }
+  },
+  {
+   "path": "/entry1/instrument/beam_probe/incident_energy",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry1/instrument/beam_probe/incident_polarization_stokes",
+   "kind": "dataset",
+   "shape": [
+    4
+   ],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/monochromator/energy",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry1/instrument/monochromator/grating",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXmonochromator"
+   }
+  },
+  {
+   "path": "/entry1/instrument/source/current",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mA"
+   }
+  },
+  {
+   "path": "/entry1/instrument/source/mode",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/source/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/source/probe",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/source/top_up",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/source/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/jet_direction/rot_y",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry1/sample/jet_direction/rot_z",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry1/sample/jet_direction/rot_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry1/sample/leaf_normal/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/leaf_normal/rot_none",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry1/instrument/analyser/analyser_lens_system/direction/rot_y",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry1/sample/preparation_description/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solute1/mol_fraction",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mol/L"
+   }
+  },
+  {
+   "path": "/entry1/sample/solute1/solvent",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solute2/chem_id_cas",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solute2/chemical_formula",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solute2/mol_fraction",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mol/L"
+   }
+  },
+  {
+   "path": "/entry1/sample/solute2/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solute2/solvent",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solvent1/chem_id_cas",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solvent1/chemical_formula",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solvent1/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solvent2/chem_id_cas",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solvent2/chemical_formula",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solvent2/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solvent2/ph_adjustment",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/sample/solvent2/ph_value",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/calibration/energy_calibration/applied",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/data/notes/data",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/data/notes/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXenergydispersion"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_lens_system",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXcollectioncolumn"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXdetector"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/energy_resolution",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/fast_axes",
+   "kind": "dataset",
+   "shape": [
+    2
+   ],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/serial_number",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/slow_axes",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/base_vectors/beam_axis",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry2/instrument/base_vectors/gravity_axis",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "vector": [
+     0.0,
+     -1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry2/instrument/beam_probe/distance",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "cm"
+   }
+  },
+  {
+   "path": "/entry2/instrument/beam_probe/incident_energy",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry2/instrument/beam_probe/incident_polarization_stokes",
+   "kind": "dataset",
+   "shape": [
+    4
+   ],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/monochromator/energy",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry2/instrument/monochromator/grating",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXmonochromator"
+   }
+  },
+  {
+   "path": "/entry2/instrument/source/current",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mA"
+   }
+  },
+  {
+   "path": "/entry2/instrument/source/mode",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/source/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/source/probe",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/source/top_up",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/source/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/jet_direction/rot_y",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry2/sample/jet_direction/rot_z",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry2/sample/jet_direction/rot_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry2/sample/leaf_normal/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/leaf_normal/rot_none",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry2/instrument/analyser/analyser_lens_system/direction/rot_y",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry2/sample/preparation_description/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solute1/mol_fraction",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mol/L"
+   }
+  },
+  {
+   "path": "/entry2/sample/solute1/solvent",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solute2/chem_id_cas",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solute2/chemical_formula",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solute2/mol_fraction",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mol/L"
+   }
+  },
+  {
+   "path": "/entry2/sample/solute2/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solute2/solvent",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solvent1/chem_id_cas",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solvent1/chemical_formula",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solvent1/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solvent2/chem_id_cas",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solvent2/chemical_formula",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solvent2/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solvent2/ph_adjustment",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/sample/solvent2/ph_value",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/calibration/energy_calibration/applied",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/data/notes/data",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/data/notes/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXenergydispersion"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_lens_system",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXcollectioncolumn"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXdetector"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/energy_resolution",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/fast_axes",
+   "kind": "dataset",
+   "shape": [
+    2
+   ],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/serial_number",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/slow_axes",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/base_vectors/beam_axis",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry3/instrument/base_vectors/gravity_axis",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "vector": [
+     0.0,
+     -1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry3/instrument/beam_probe/distance",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "cm"
+   }
+  },
+  {
+   "path": "/entry3/instrument/beam_probe/incident_energy",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry3/instrument/beam_probe/incident_polarization_stokes",
+   "kind": "dataset",
+   "shape": [
+    4
+   ],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/monochromator/energy",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry3/instrument/monochromator/grating",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXmonochromator"
+   }
+  },
+  {
+   "path": "/entry3/instrument/source/current",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mA"
+   }
+  },
+  {
+   "path": "/entry3/instrument/source/mode",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/source/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/source/probe",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/source/top_up",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/source/type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/jet_direction/rot_y",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry3/sample/jet_direction/rot_z",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry3/sample/jet_direction/rot_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry3/sample/leaf_normal/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/leaf_normal/rot_none",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry3/instrument/analyser/analyser_lens_system/direction/rot_y",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry3/sample/preparation_description/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solute1/mol_fraction",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mol/L"
+   }
+  },
+  {
+   "path": "/entry3/sample/solute1/solvent",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solute2/chem_id_cas",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solute2/chemical_formula",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solute2/mol_fraction",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mol/L"
+   }
+  },
+  {
+   "path": "/entry3/sample/solute2/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solute2/solvent",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solvent1/chem_id_cas",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solvent1/chemical_formula",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solvent1/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solvent2/chem_id_cas",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solvent2/chemical_formula",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solvent2/name",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solvent2/ph_adjustment",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/sample/solvent2/ph_value",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/diameter",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/direction",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/energy_scan_mode",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/entrance_slit",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXaperture"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/pass_energy",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/scheme",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_lens_system/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_lens_system/direction",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_lens_system/mode",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_lens_system/projection",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_lens_system/scheme",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_lens_system/working_distance",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/amplifier_type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/amplifier_voltage",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "V"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/count_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "ms"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/countrate_correction_applied",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/data",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXdata",
+    "axes": null,
+    "detector_y_indices": 1,
+    "energy_indices": 0,
+    "signal": "raw",
+    "sweep_indices": 2
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/detector_type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/detector_voltage",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "V"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/frame_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "ms"
+   }
+  },
+  {
+   "path": "/entry1/instrument/monochromator/grating/coating_material",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/monochromator/grating/diffraction_order",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "int8",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/monochromator/grating/period",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/diameter",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/direction",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/energy_scan_mode",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/entrance_slit",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXaperture"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/pass_energy",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/scheme",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_lens_system/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_lens_system/direction",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_lens_system/mode",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_lens_system/projection",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_lens_system/scheme",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_lens_system/working_distance",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/amplifier_type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/amplifier_voltage",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "V"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/count_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "ms"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/countrate_correction_applied",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/data",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXdata",
+    "axes": null,
+    "detector_y_indices": 1,
+    "energy_indices": 0,
+    "signal": "raw",
+    "sweep_indices": 2
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/detector_type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/detector_voltage",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "V"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/frame_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "ms"
+   }
+  },
+  {
+   "path": "/entry2/instrument/monochromator/grating/coating_material",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/monochromator/grating/diffraction_order",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "int8",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/monochromator/grating/period",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/diameter",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/direction",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/energy_scan_mode",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/entrance_slit",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXaperture"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/pass_energy",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/scheme",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_lens_system/depends_on",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_lens_system/direction",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXtransformations"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_lens_system/mode",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_lens_system/projection",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_lens_system/scheme",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_lens_system/working_distance",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector/amplifier_type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector/amplifier_voltage",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "V"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector/count_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "ms"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector/countrate_correction_applied",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "enum",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector/data",
+   "kind": "group",
+   "attributes": {
+    "NX_class": "NXdata",
+    "axes": null,
+    "detector_y_indices": 1,
+    "energy_indices": 0,
+    "signal": "raw"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector/detector_type",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector/detector_voltage",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "V"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector/frame_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "ms"
+   }
+  },
+  {
+   "path": "/entry3/instrument/monochromator/grating/coating_material",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/monochromator/grating/diffraction_order",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "int8",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/monochromator/grating/period",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/direction/rot_y",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry1/instrument/analyser/analyser_dispersive_element/direction/rot_z",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/direction/rot_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/entrance_slit/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/entrance_slit/shape",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_dispersive_element/entrance_slit/size",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "\u00b5m"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_lens_system/direction/rot_y",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry1/instrument/analyser/analyser_lens_system/direction/rot_z",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_lens_system/direction/rot_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/analyser_lens_system/direction/trans_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry1/instrument/analyser/analyser_lens_system/direction/rot_y",
+    "transformation_type": "translation",
+    "units": "mm",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/data/detector_y",
+   "kind": "dataset",
+   "shape": [
+    1000
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "long_name": "Y-Scale",
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/data/energy",
+   "kind": "dataset",
+   "shape": [
+    141
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "long_name": "Kinetic Energy (eV)",
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/data/raw",
+   "kind": "dataset",
+   "shape": [
+    141,
+    1000,
+    5
+   ],
+   "dtype": "float32",
+   "attributes": {
+    "long_name": "ADC Counts",
+    "units": "counts"
+   }
+  },
+  {
+   "path": "/entry1/instrument/analyser/electron_detector/data/sweep",
+   "kind": "dataset",
+   "shape": [
+    5
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "long_name": "sweep #",
+    "units": "#"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/direction/rot_y",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry2/instrument/analyser/analyser_dispersive_element/direction/rot_z",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/direction/rot_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/entrance_slit/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/entrance_slit/shape",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_dispersive_element/entrance_slit/size",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "\u00b5m"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_lens_system/direction/rot_y",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry2/instrument/analyser/analyser_lens_system/direction/rot_z",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_lens_system/direction/rot_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/analyser_lens_system/direction/trans_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry2/instrument/analyser/analyser_lens_system/direction/rot_y",
+    "transformation_type": "translation",
+    "units": "mm",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/data/detector_y",
+   "kind": "dataset",
+   "shape": [
+    1000
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "long_name": "Y-Scale",
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/data/energy",
+   "kind": "dataset",
+   "shape": [
+    141
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "long_name": "Kinetic Energy (eV)",
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/data/raw",
+   "kind": "dataset",
+   "shape": [
+    141,
+    1000,
+    2
+   ],
+   "dtype": "float32",
+   "attributes": {
+    "long_name": "ADC Counts",
+    "units": "counts"
+   }
+  },
+  {
+   "path": "/entry2/instrument/analyser/electron_detector/data/sweep",
+   "kind": "dataset",
+   "shape": [
+    2
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "long_name": "sweep #",
+    "units": "#"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/direction/rot_y",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry3/instrument/analyser/analyser_dispersive_element/direction/rot_z",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/direction/rot_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/entrance_slit/description",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/entrance_slit/shape",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "string",
+   "attributes": {}
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_dispersive_element/entrance_slit/size",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "units": "\u00b5m"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_lens_system/direction/rot_y",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry3/instrument/analyser/analyser_lens_system/direction/rot_z",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_lens_system/direction/rot_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": ".",
+    "transformation_type": "rotation",
+    "units": "degrees",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/analyser_lens_system/direction/trans_z",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {
+    "depends_on": "/entry3/instrument/analyser/analyser_lens_system/direction/rot_y",
+    "transformation_type": "translation",
+    "units": "mm",
+    "vector": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector/data/detector_y",
+   "kind": "dataset",
+   "shape": [
+    1000
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "long_name": "Y-Scale",
+    "units": "mm"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector/data/energy",
+   "kind": "dataset",
+   "shape": [
+    401
+   ],
+   "dtype": "float64",
+   "attributes": {
+    "long_name": "Kinetic Energy (eV)",
+    "units": "eV"
+   }
+  },
+  {
+   "path": "/entry3/instrument/analyser/electron_detector/data/raw",
+   "kind": "dataset",
+   "shape": [
+    401,
+    1000
+   ],
+   "dtype": "float32",
+   "attributes": {
+    "long_name": "ADC Counts",
+    "units": "counts"
+   }
+  }
+ ],
+ "links": []
+}

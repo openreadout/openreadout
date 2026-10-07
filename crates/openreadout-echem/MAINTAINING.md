@@ -40,7 +40,7 @@ Electrochemistry and battery-cycler data: BioLogic EC-Lab binary `.mpr` and `.mp
 | --- | --- | --- | --- | --- | --- | --- |
 | `biologic-mpr` | [format note](../../docs/formats/arbin-res.md), [provenance log](../../docs/provenance/arbin-res.md) | high | reverse engineered | 23 / 23 | 6 | - |
 | `biologic-mpt` | [format note](../../docs/formats/arbin-res.md), [provenance log](../../docs/provenance/arbin-res.md) | medium | reverse engineered | 24 / 21 | 4 | - |
-| `gamry-dta` | [format note](../../docs/formats/gamry-dta.md), [provenance log](../../docs/provenance/gamry-dta.md) | medium | prior art | 6 / 5 | 3 | - |
+| `gamry-dta` | [format note](../../docs/formats/gamry-dta.md), [provenance log](../../docs/provenance/gamry-dta.md) | medium | prior art | 6 / 6 | 3 | - |
 | `neware-nda` | [format note](../../docs/formats/neware.md), [provenance log](../../docs/provenance/neware.md) | medium | prior art | 5 / 5 | 2 | - |
 | `neware-ndax` | [format note](../../docs/formats/neware.md), [provenance log](../../docs/provenance/neware.md) | medium | prior art | 4 / 4 | 3 | - |
 | `arbin-res` | [format note](../../docs/formats/arbin-res.md), [provenance log](../../docs/provenance/arbin-res.md) | medium | prior art | 7 / 7 | 4 | - |
