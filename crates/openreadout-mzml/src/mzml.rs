@@ -1448,6 +1448,17 @@ fn decode_one(
     ext: External<'_>,
 ) -> std::result::Result<(Array, bool), ArrayError> {
     let ps = params(bda, groups);
+    if cv::is_text_array(&ps) {
+        // Text, not numbers: listed by name (`other_arrays`), not decoded.
+        return Ok((
+            Array {
+                kind: format!("{} (text)", cv::array_kind(&ps)),
+                values: Vec::new(),
+                time_scale: None,
+            },
+            true,
+        ));
+    }
     let enc = encoding_of(&ps)?;
     let mut want = expected_len(bda, default_len);
     let ibd = match ext {
@@ -1591,6 +1602,9 @@ fn chrom_meta_of(
     let mut arrays = Vec::new();
     for bda in arrays_of(n) {
         let aps = params(bda, groups);
+        if cv::is_text_array(&aps) {
+            continue;
+        }
         let name = cv::array_kind(&aps);
         let unit = if name == "time" {
             Some("s".to_string())
@@ -1939,6 +1953,61 @@ pub(crate) fn descriptor() -> FormatDescriptor {
             "gzip-compressed files (.mzML.gz) are decompressed once at every open (restart points are kept in memory, not saved): `info` costs about two decompressions of the file; mzMLb is its own format id (mzmlb)".into(),
             "Only the first scan of a spectrum and the last precursor are normalized; the rest stay in the element tree".into(),
         ],
+    }
+}
+
+#[cfg(test)]
+mod text_array_tests {
+    use openreadout_core::Dataset;
+
+    /// OpenMS's `MzMLFile_6_uncompressed.mzML` layout: m/z and intensity, then a
+    /// `null-terminated ASCII string` (MS:1001479) meta-data array. The text array used to fail
+    /// the spectrum as corrupt ("no binary data type term").
+    #[test]
+    fn text_arrays_are_listed_not_decoded() {
+        let mzml = r#"<?xml version="1.0" encoding="utf-8"?>
+<mzML xmlns="http://psi.hupo.org/ms/mzml" version="1.1.0">
+ <run id="r">
+  <spectrumList count="1">
+   <spectrum id="index=1" index="0" defaultArrayLength="2">
+    <cvParam cvRef="MS" accession="MS:1000511" name="ms level" value="1"/>
+    <binaryDataArrayList count="3">
+     <binaryDataArray encodedLength="24">
+      <cvParam cvRef="MS" accession="MS:1000514" name="m/z array"/>
+      <cvParam cvRef="MS" accession="MS:1000523" name="64-bit float"/>
+      <cvParam cvRef="MS" accession="MS:1000576" name="no compression"/>
+      <binary>AAAAAAAA8D8AAAAAAAAAQA==</binary>
+     </binaryDataArray>
+     <binaryDataArray encodedLength="12">
+      <cvParam cvRef="MS" accession="MS:1000515" name="intensity array"/>
+      <cvParam cvRef="MS" accession="MS:1000521" name="32-bit float"/>
+      <cvParam cvRef="MS" accession="MS:1000576" name="no compression"/>
+      <binary>AABAQAAAgEA=</binary>
+     </binaryDataArray>
+     <binaryDataArray arrayLength="3" encodedLength="8">
+      <cvParam cvRef="MS" accession="MS:1001479" name="null-terminated ASCII string"/>
+      <cvParam cvRef="MS" accession="MS:1000576" name="no compression"/>
+      <cvParam cvRef="MS" accession="MS:1000786" name="non-standard data array" value="labels"/>
+      <binary>YQBiAGMA</binary>
+     </binaryDataArray>
+    </binaryDataArrayList>
+   </spectrum>
+  </spectrumList>
+ </run>
+</mzML>"#;
+        let dir = tempfile::tempdir().unwrap();
+        let p = dir.path().join("text-array.mzML");
+        std::fs::write(&p, mzml).unwrap();
+        let mut ds = super::MzmlDataset::open(&p).unwrap();
+        let s = ds.spectrum(0).unwrap();
+        assert_eq!(s.mz, vec![1.0, 2.0]);
+        assert_eq!(s.intensity, vec![3.0, 4.0]);
+        assert_eq!(
+            s.extra.get("other_arrays"),
+            Some(&serde_json::json!(["labels (text)"]))
+        );
+        let rep = ds.check().unwrap();
+        assert!(rep.ok, "{:?}", rep.findings);
     }
 }
 

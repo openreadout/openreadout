@@ -1,0 +1,221 @@
+{
+ "id": "rainbow-masshunter-magenta",
+ "file": "magenta.D",
+ "size": 667803,
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api 1.5.3 (black box), hrms=True",
+ "oracle_note": "rainbow's dense bins reduced to the non-zero bins and their zero neighbours; MS level 1 assumed; no scan ids or polarity",
+ "spectra": {
+  "scan_count": 3,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "position=0",
+    "ms_level": 1,
+    "rt_s": 195.394,
+    "polarity": null,
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "total_ion_current": null,
+    "base_peak_mz": null,
+    "n_peaks": 127593,
+    "n_nonzero": 127592,
+    "mz_bits": 64,
+    "xxh3_mz": "390d7b7cbcf0fe36cbe7eadf22294cce",
+    "xxh3_intensity": "5419d299c2a8fdbbda0d5258c0f98c89",
+    "xxh3_mz_nonzero": "3685d890b9d70be770b9dceb4c05411c",
+    "xxh3_intensity_nonzero": "673cfa9fce1ab89bcfa90f9bcf915330",
+    "sum_intensity": 93964129.0,
+    "mz_min": 399.9826529152139,
+    "mz_max": 3197.1403730617512,
+    "first_peaks": [
+     [
+      399.9826529152139,
+      0.0
+     ],
+     [
+      399.9941090894337,
+      206.0
+     ],
+     [
+      400.00556542771204,
+      254.0
+     ],
+     [
+      400.0170219300489,
+      234.0
+     ],
+     [
+      400.02847859644424,
+      204.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      399.9941090894337,
+      206.0
+     ],
+     [
+      400.00556542771204,
+      254.0
+     ],
+     [
+      400.0170219300489,
+      234.0
+     ],
+     [
+      400.02847859644424,
+      204.0
+     ],
+     [
+      400.03993542689807,
+      175.0
+     ]
+    ]
+   },
+   {
+    "index": 1,
+    "scan_number": 2,
+    "native_id": "position=1",
+    "ms_level": 1,
+    "rt_s": 196.361,
+    "polarity": null,
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "total_ion_current": null,
+    "base_peak_mz": null,
+    "n_peaks": 127593,
+    "n_nonzero": 127592,
+    "mz_bits": 64,
+    "xxh3_mz": "074fd105d5fb1f42d0c94454a35696a5",
+    "xxh3_intensity": "c9266a330bbed7d17a82ca2a5ada5abd",
+    "xxh3_mz_nonzero": "3b7ca956051bbb187e05d0fcb6d0745a",
+    "xxh3_intensity_nonzero": "2e7b8d72f994446a29a54fd2fee7a01d",
+    "sum_intensity": 96850008.0,
+    "mz_min": 399.98956492101547,
+    "mz_max": 3197.1956222213694,
+    "first_peaks": [
+     [
+      399.98956492101547,
+      0.0
+     ],
+     [
+      400.00102129320874,
+      341.0
+     ],
+     [
+      400.012477829463,
+      251.0
+     ],
+     [
+      400.02393452977884,
+      161.0
+     ],
+     [
+      400.03539139415585,
+      98.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      400.00102129320874,
+      341.0
+     ],
+     [
+      400.012477829463,
+      251.0
+     ],
+     [
+      400.02393452977884,
+      161.0
+     ],
+     [
+      400.03539139415585,
+      98.0
+     ],
+     [
+      400.0468484225943,
+      123.0
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "scan_number": 3,
+    "native_id": "position=2",
+    "ms_level": 1,
+    "rt_s": 197.328,
+    "polarity": null,
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "total_ion_current": null,
+    "base_peak_mz": null,
+    "n_peaks": 127593,
+    "n_nonzero": 127592,
+    "mz_bits": 64,
+    "xxh3_mz": "103238c84a7c46e6b8f868b5779dc7a3",
+    "xxh3_intensity": "547939e8a4768d3bc29c1f43bd640fd7",
+    "xxh3_mz_nonzero": "0fe6a489ef2662875025c326006385f6",
+    "xxh3_intensity_nonzero": "74f72f7de6a095beca008db0e3308277",
+    "sum_intensity": 76670233.0,
+    "mz_min": 399.9864161247444,
+    "mz_max": 3197.170453210697,
+    "first_peaks": [
+     [
+      399.9864161247444,
+      0.0
+     ],
+     [
+      399.99787240674993,
+      223.0
+     ],
+     [
+      400.0093288528155,
+      214.0
+     ],
+     [
+      400.0207854629409,
+      146.0
+     ],
+     [
+      400.0322422371266,
+      108.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      399.99787240674993,
+      223.0
+     ],
+     [
+      400.0093288528155,
+      214.0
+     ],
+     [
+      400.0207854629409,
+      146.0
+     ],
+     [
+      400.0322422371266,
+      108.0
+     ],
+     [
+      400.04369917537207,
+      119.0
+     ]
+    ]
+   }
+  ]
+ }
+}
