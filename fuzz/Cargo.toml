@@ -505,6 +505,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "sciex_grid"
+path = "fuzz_targets/sciex_grid.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "waters_drift"
 path = "fuzz_targets/waters_drift.rs"
 test = false

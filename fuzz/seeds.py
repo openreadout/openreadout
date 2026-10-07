@@ -537,6 +537,11 @@ def new_format_seeds() -> None:
     if tsf is not None and len(tsf) >= 8:
         total, scans = struct.unpack_from("<II", tsf)
         put("tims_frame", "tdf-dia-frame0.bin", struct.pack("<I", scans) + b"\0" + tsf[8:min(total, 16384)])
+    # Sciex grid scan: the first enhanced MS scan of msv97113-cm-5-pos-2 (MassIVE MSV000097113, CC0),
+    # whose first index record points at the start of the .wiff.scan's data.
+    scan = corpus("msv97113-cm-5-pos-2.wiff.scan")
+    if scan is not None:
+        put("sciex_grid", "ems-scan1.bin", scan[0x2C:0x2C + 2740])
     # Waters drift index + the first scan's .cdt bytes (ProteoWizard test data, Apache-2.0).
     ind = corpus("pwiz-waters/HDMRM_Short_noLM.raw/_func001.ind")
     cdt = corpus("pwiz-waters/HDMRM_Short_noLM.raw/_func001.cdt")
