@@ -1,0 +1,45 @@
+{
+ "id": "figshare31378627-29si-jdx",
+ "file": "figshare31378627-29si-jdx.jdx",
+ "size": 529505,
+ "sha256": "37ae510c4fdcf0ab338843c13a9d0e29bcb87068a37ed9092bdc27b682ecd1b5",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "U2Bi2",
+   "kind": "xydata",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 209716,
+     "channels": [
+      {
+       "xxh3": "cdd4a40ab1dded04ed2317abd885272c",
+       "first": [
+        -5.355060740823753e-05,
+        -9.699732662624156e-05,
+        -0.00014145443466326895,
+        -5.9612940322377625e-05,
+        2.222855401851369e-05,
+        4.849866331312078e-05,
+        7.476877260772788e-05,
+        6.264410677944768e-05
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 209716,
+   "channel_count": 1,
+   "reader": "nmrglue 0.12 jcampdx.read",
+   "second_opinion": {
+    "reader": "jcamp 1.2.2",
+    "agrees": true
+   }
+  }
+ ]
+}

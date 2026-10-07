@@ -1,0 +1,146 @@
+{
+ "id": "dandi001641-ecephys-le31-s1-03",
+ "file": "dandi001641-ecephys-le31-s1-03.nwb",
+ "size": 2491338,
+ "sha256": "b6f110cb6658f2fcdead620055ba231cfc097053b6efec5c4f98a065032de960",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.9.0",
+ "session": {
+  "session_description": "Recording from nucleus accumbens (NAc) and ventral pallidum (VP) of rat during a conditional free-choice task",
+  "identifier": "LE31_S1_03",
+  "session_start_time": "2008-12-31T15:00:00+00:00"
+ },
+ "traces": [],
+ "tables": [
+  {
+   "index": 0,
+   "name": "units",
+   "event_count": 7,
+   "parameter_names": [
+    "id",
+    "Unit_Name",
+    "Area",
+    "Electrode_ID",
+    "Neuron_ID",
+    "spike_times_count",
+    "electrodes_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "cd28e7c26f0a15d594fea66acf0fbe07",
+    "Unit_Name": "cd28e7c26f0a15d594fea66acf0fbe07",
+    "Area": "c12b9c43c692fe707866ef40497c92dc",
+    "Electrode_ID": "07ac3978c01443f2fe6a16eadc855626",
+    "Neuron_ID": "4299c503a6e61069b8e4b9c8841bbe19",
+    "spike_times_count": "2a76fe623c444af5a5795d44f4f9664f",
+    "electrodes_count": "9df50f93c159dfab5da1688da7ec3382"
+   }
+  },
+  {
+   "index": 1,
+   "name": "units/spike_times",
+   "event_count": 225862,
+   "parameter_names": [
+    "unit_row",
+    "unit_id",
+    "spike_time"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "unit_row": "a0ebedfbe073651e5ff6362a2cd60b78",
+    "unit_id": "a0ebedfbe073651e5ff6362a2cd60b78",
+    "spike_time": "3dd7d298ffcc5157fb50dac19419b03c"
+   }
+  },
+  {
+   "index": 2,
+   "name": "intervals/trials",
+   "event_count": 1070,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "block",
+    "tone_on_time",
+    "tone_off_time",
+    "action_on_time",
+    "action_off_time",
+    "pokeC_on_time",
+    "pokeC_off_time",
+    "reward_on_time",
+    "reward_off_time",
+    "state",
+    "action",
+    "reward",
+    "result"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "efe82af33ac9d95aa0ca6d2163b4ae34",
+    "start_time": "60df92e12b949c576fd7569d7793a5e1",
+    "stop_time": "50da30ef84927e1b6f17efef1826911a",
+    "block": "69c20af008bafa58613f583c7c231880",
+    "tone_on_time": "1ded0170064e1fdc38da3c8b2ee04a49",
+    "tone_off_time": "71ad019719fca5134bb2131294f795ab",
+    "action_on_time": "b2ddc8586c49e24b9f87d9e8f1711cf8",
+    "action_off_time": "fd6877a9d9cafaa1c09756be716e4c95",
+    "pokeC_on_time": "7f50d6d38792a249c81accaa224d94ea",
+    "pokeC_off_time": "51592d840ed909fb0a933859f8906102",
+    "reward_on_time": "4c710c898a62f1524ea248e2c0953b07",
+    "reward_off_time": "d24f611244e5a45f9b6c622c1d4e90ca",
+    "state": "f733c7282a8df1e325b10531e2af26e5",
+    "action": "988cc63ad455dd5fca4bc19bb5852852",
+    "reward": "ab5c31923bea15db1b0153ce0bd02ba1",
+    "result": "60f5cc490e44211daa5755d86de91509"
+   }
+  },
+  {
+   "index": 3,
+   "name": "general/extracellular_ephys/electrodes",
+   "event_count": 32,
+   "parameter_names": [
+    "id",
+    "location",
+    "group_name"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "dc0f3de5f692caac7808d1b7fa887d4e",
+    "location": "f576c04b4e39fe1b0de8f91dcea37385",
+    "group_name": "f576c04b4e39fe1b0de8f91dcea37385"
+   }
+  },
+  {
+   "index": 4,
+   "name": "processing/behavior/BlockDesign",
+   "event_count": 8,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "FinishedBlock",
+    "FirstTrial",
+    "LastTrial",
+    "RewardRule_L",
+    "RewardRule_R"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "fe5c1d03ec333dbd47a407b469e348a8",
+    "start_time": "c8921e377726fa69b6e7eb21c0e8d0d7",
+    "stop_time": "d25a96662f917890bedc67afe16d7718",
+    "FinishedBlock": "c9f7d1adf7c707fddd8db6ec7ddf06eb",
+    "FirstTrial": "d90da3361cdee9223cade950638703a0",
+    "LastTrial": "1f1635b40619a4d093773d1cbad56a3f",
+    "RewardRule_L": "65c9c3317e03189dcf7744f13fe60a5b",
+    "RewardRule_R": "962df29f59f0a60074e2951844fa9e9c"
+   }
+  }
+ ]
+}

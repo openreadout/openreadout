@@ -1,0 +1,3221 @@
+{
+ "id": "dandi001746-icephys-mfa180730",
+ "file": "dandi001746-icephys-mfa180730.nwb",
+ "size": 44507656,
+ "sha256": "c5ba9af94b765f2f7b70ebeb79bb8b70f08469950988b45672bb3caf50d79d51",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.5.0",
+ "session": {
+  "session_description": "intracellular firing pattern recording",
+  "identifier": "s173",
+  "session_start_time": [
+   "2018-01-01T01:00:00.000000+08:00"
+  ]
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "CurrentClampSeries001",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries001"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "a7a3d3f5a5b3c8ba5651c040ff1dc0f0",
+       "first": [
+        -0.06646728664190962,
+        -0.06646728664190962,
+        -0.0664367690631025,
+        -0.0664367690631025,
+        -0.06646728664190962,
+        -0.0664367690631025,
+        -0.06640625148429538,
+        -0.06646728664190962
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 1
+  },
+  {
+   "index": 1,
+   "name": "CurrentClampSeries002",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries002"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "31f77ac21c50a7ba2a95a5c63ef2e5bf",
+       "first": [
+        -0.06719970853328053,
+        -0.0671691909544734,
+        -0.06719970853328053,
+        -0.0671691909544734,
+        -0.0671691909544734,
+        -0.0671691909544734,
+        -0.0671691909544734,
+        -0.06719970853328053
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 2
+  },
+  {
+   "index": 2,
+   "name": "CurrentClampSeries003",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries003"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "a2d5fb8ee87d20ca1a7821ed75ec47e8",
+       "first": [
+        -0.06481933738632509,
+        -0.06484985496513221,
+        -0.06484985496513221,
+        -0.06484985496513221,
+        -0.06481933738632509,
+        -0.06484985496513221,
+        -0.06491089012274645,
+        -0.06488037254393933
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 3
+  },
+  {
+   "index": 3,
+   "name": "CurrentClampSeries004",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries004"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "5d7bd4643e0e7b0f52a8a7fdc06cc3d6",
+       "first": [
+        -0.06463623191348236,
+        -0.06457519675586812,
+        -0.06463623191348236,
+        -0.06463623191348236,
+        -0.06463623191348236,
+        -0.06463623191348236,
+        -0.06466674949228948,
+        -0.06463623191348236
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 4
+  },
+  {
+   "index": 4,
+   "name": "CurrentClampSeries005",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries005"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "d415e5a01a161d944a11f2fd6134e34c",
+       "first": [
+        -0.0651245131743963,
+        -0.0651245131743963,
+        -0.0651245131743963,
+        -0.0651245131743963,
+        -0.06509399559558918,
+        -0.06509399559558918,
+        -0.0651245131743963,
+        -0.06515503075320342
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 5
+  },
+  {
+   "index": 5,
+   "name": "CurrentClampSeries006",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries006"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "4d8ace8eb4938894538a03e72c164c5f",
+       "first": [
+        -0.06552124169888887,
+        -0.06552124169888887,
+        -0.06555175927769599,
+        -0.06555175927769599,
+        -0.06555175927769599,
+        -0.06558227685650311,
+        -0.06555175927769599,
+        -0.06552124169888887
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 6
+  },
+  {
+   "index": 6,
+   "name": "CurrentClampSeries007",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries007"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "77967ac32ce5f06ee0201f0fe68e389e",
+       "first": [
+        -0.0652771010684319,
+        -0.06524658348962478,
+        -0.06533813622604615,
+        -0.06530761864723902,
+        -0.0652771010684319,
+        -0.06524658348962478,
+        -0.06536865380485327,
+        -0.06536865380485327
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 7
+  },
+  {
+   "index": 7,
+   "name": "CurrentClampSeries008",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries008"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "12208a48477bba1aa145aa4e84f34ae7",
+       "first": [
+        -0.06567382959292448,
+        -0.0657043471717316,
+        -0.06573486475053872,
+        -0.06567382959292448,
+        -0.06567382959292448,
+        -0.0657043471717316,
+        -0.0657043471717316,
+        -0.06564331201411736
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 8
+  },
+  {
+   "index": 8,
+   "name": "CurrentClampSeries009",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries009"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "cb02efbe0e75fa50d7397b36dd4f929b",
+       "first": [
+        -0.0657043471717316,
+        -0.0657043471717316,
+        -0.06567382959292448,
+        -0.06567382959292448,
+        -0.0657043471717316,
+        -0.06573486475053872,
+        -0.06573486475053872,
+        -0.06567382959292448
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 9
+  },
+  {
+   "index": 9,
+   "name": "CurrentClampSeries010",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries010"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "1fd0101f64066277f7c4802f1c121887",
+       "first": [
+        -0.06558227685650311,
+        -0.06558227685650311,
+        -0.06555175927769599,
+        -0.06555175927769599,
+        -0.06555175927769599,
+        -0.06558227685650311,
+        -0.06555175927769599,
+        -0.06555175927769599
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 10
+  },
+  {
+   "index": 10,
+   "name": "CurrentClampSeries011",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries011"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "79d28dc755d993589f88bff28c21c6d7",
+       "first": [
+        -0.06631469874787402,
+        -0.06637573390548826,
+        -0.06637573390548826,
+        -0.06634521632668114,
+        -0.06637573390548826,
+        -0.06640625148429538,
+        -0.06637573390548826,
+        -0.06634521632668114
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 11
+  },
+  {
+   "index": 11,
+   "name": "CurrentClampSeries012",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries012"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "f557e4ee292903942ce3a423fc32b828",
+       "first": [
+        -0.06591797022338144,
+        -0.06591797022338144,
+        -0.06594848780218857,
+        -0.06591797022338144,
+        -0.06591797022338144,
+        -0.06591797022338144,
+        -0.06591797022338144,
+        -0.06588745264457432
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 12
+  },
+  {
+   "index": 12,
+   "name": "CurrentClampSeries013",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries013"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "4748d80c5fec653239e6e128ac18098b",
+       "first": [
+        -0.06637573390548826,
+        -0.06631469874787402,
+        -0.06634521632668114,
+        -0.06637573390548826,
+        -0.06637573390548826,
+        -0.06631469874787402,
+        -0.06637573390548826,
+        -0.06637573390548826
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 13
+  },
+  {
+   "index": 13,
+   "name": "CurrentClampSeries014",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries014"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "f2a66d7c99bee2c861f1e7a160a34383",
+       "first": [
+        -0.06704712063924492,
+        -0.06698608548163068,
+        -0.0670166030604378,
+        -0.06704712063924492,
+        -0.0670166030604378,
+        -0.0670166030604378,
+        -0.06698608548163068,
+        -0.06698608548163068
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 14
+  },
+  {
+   "index": 14,
+   "name": "CurrentClampSeries015",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries015"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "6120bf5ed5f0901196cae084c2b92651",
+       "first": [
+        -0.06683349758759508,
+        -0.06680298000878795,
+        -0.06680298000878795,
+        -0.06680298000878795,
+        -0.06680298000878795,
+        -0.06680298000878795,
+        -0.06680298000878795,
+        -0.06677246242998083
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 15
+  },
+  {
+   "index": 15,
+   "name": "CurrentClampSeries016",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries016"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "9e94b7ac574360596812d31bda29b188",
+       "first": [
+        -0.0664367690631025,
+        -0.0664367690631025,
+        -0.0664367690631025,
+        -0.0664367690631025,
+        -0.0664367690631025,
+        -0.06640625148429538,
+        -0.0664367690631025,
+        -0.0664367690631025
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 16
+  },
+  {
+   "index": 16,
+   "name": "CurrentClampSeries017",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries017"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "d1d544ecc42a0142af5c4f64f933b024",
+       "first": [
+        -0.06677246242998083,
+        -0.06671142727236659,
+        -0.06677246242998083,
+        -0.06680298000878795,
+        -0.06674194485117371,
+        -0.06674194485117371,
+        -0.06674194485117371,
+        -0.06680298000878795
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 17
+  },
+  {
+   "index": 17,
+   "name": "CurrentClampSeries018",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries018"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "029b8c6b62e9401513345428afa3b217",
+       "first": [
+        -0.06674194485117371,
+        -0.06677246242998083,
+        -0.06677246242998083,
+        -0.06677246242998083,
+        -0.06677246242998083,
+        -0.06677246242998083,
+        -0.06677246242998083,
+        -0.06674194485117371
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 18
+  },
+  {
+   "index": 18,
+   "name": "CurrentClampSeries019",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries019"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "d7f81dcdcd28154ffe4e96543278bb66",
+       "first": [
+        -0.06677246242998083,
+        -0.06677246242998083,
+        -0.06677246242998083,
+        -0.06674194485117371,
+        -0.06680298000878795,
+        -0.06677246242998083,
+        -0.06677246242998083,
+        -0.06677246242998083
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 19
+  },
+  {
+   "index": 19,
+   "name": "CurrentClampSeries020",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries020"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "050764a8314968d50ae15d0e80d69faa",
+       "first": [
+        -0.06597900538099569,
+        -0.06600952295980281,
+        -0.06600952295980281,
+        -0.06597900538099569,
+        -0.06597900538099569,
+        -0.06600952295980281,
+        -0.06597900538099569,
+        -0.06597900538099569
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 20
+  },
+  {
+   "index": 20,
+   "name": "CurrentClampSeries021",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries021"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "a1ea0f9699169ba0afa9886d282e06bf",
+       "first": [
+        -0.06704712063924492,
+        -0.06704712063924492,
+        -0.06710815579685916,
+        -0.06704712063924492,
+        -0.06704712063924492,
+        -0.06704712063924492,
+        -0.06707763821805204,
+        -0.06707763821805204
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 21
+  },
+  {
+   "index": 21,
+   "name": "CurrentClampSeries022",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries022"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "84857b3584f1ff51b3bf63b48b07f2fa",
+       "first": [
+        -0.06704712063924492,
+        -0.0670166030604378,
+        -0.06698608548163068,
+        -0.06698608548163068,
+        -0.06695556790282356,
+        -0.06698608548163068,
+        -0.06698608548163068,
+        -0.06695556790282356
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 22
+  },
+  {
+   "index": 22,
+   "name": "CurrentClampSeries023",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries023"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "b0ef155adc26671ee35c73ab1e782a80",
+       "first": [
+        -0.06695556790282356,
+        -0.06698608548163068,
+        -0.06695556790282356,
+        -0.06695556790282356,
+        -0.06692505032401644,
+        -0.06695556790282356,
+        -0.06692505032401644,
+        -0.06692505032401644
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 23
+  },
+  {
+   "index": 23,
+   "name": "CurrentClampSeries024",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries024"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "09c93b7c265acb4e14d2a4bb47f016fb",
+       "first": [
+        -0.0674438491637375,
+        -0.06738281400612325,
+        -0.06741333158493037,
+        -0.06738281400612325,
+        -0.06741333158493037,
+        -0.0674438491637375,
+        -0.0674438491637375,
+        -0.0674438491637375
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 24
+  },
+  {
+   "index": 24,
+   "name": "CurrentClampSeries025",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries025"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "fed594ec36750dab1a0fe932e84bc1be",
+       "first": [
+        -0.06463623191348236,
+        -0.06466674949228948,
+        -0.0646972670710966,
+        -0.06463623191348236,
+        -0.06466674949228948,
+        -0.06472778464990372,
+        -0.0646972670710966,
+        -0.06466674949228948
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 25
+  },
+  {
+   "index": 25,
+   "name": "CurrentClampSeries026",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries026"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "0631f48643fd64c80553ce6f5c11d34d",
+       "first": [
+        -0.06613159327503129,
+        -0.06616211085383841,
+        -0.06616211085383841,
+        -0.06619262843264553,
+        -0.06616211085383841,
+        -0.06616211085383841,
+        -0.06619262843264553,
+        -0.06613159327503129
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 26
+  },
+  {
+   "index": 26,
+   "name": "CurrentClampSeries027",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries027"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "29b8b92c14ebe78c57339404ac6eca45",
+       "first": [
+        -0.06710815579685916,
+        -0.06710815579685916,
+        -0.06713867337566629,
+        -0.06713867337566629,
+        -0.06713867337566629,
+        -0.06710815579685916,
+        -0.0671691909544734,
+        -0.0671691909544734
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 27
+  },
+  {
+   "index": 27,
+   "name": "CurrentClampSeries028",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries028"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "5b3ac618ee75d4fffed908f412153eb3",
+       "first": [
+        -0.06729126126970189,
+        -0.06729126126970189,
+        -0.06729126126970189,
+        -0.06726074369089477,
+        -0.06729126126970189,
+        -0.06729126126970189,
+        -0.06726074369089477,
+        -0.06729126126970189
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 28
+  },
+  {
+   "index": 28,
+   "name": "CurrentClampSeries029",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries029"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "6d4d404665496835637dff4f0a786df5",
+       "first": [
+        -0.06719970853328053,
+        -0.06723022611208765,
+        -0.06723022611208765,
+        -0.06723022611208765,
+        -0.06723022611208765,
+        -0.06723022611208765,
+        -0.06719970853328053,
+        -0.0671691909544734
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 29
+  },
+  {
+   "index": 29,
+   "name": "CurrentClampSeries030",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries030"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "1d5651f155425b9a15b510e9773976f3",
+       "first": [
+        -0.06668090969355947,
+        -0.06671142727236659,
+        -0.06671142727236659,
+        -0.06668090969355947,
+        -0.06671142727236659,
+        -0.06671142727236659,
+        -0.06668090969355947,
+        -0.06665039211475235
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 30
+  },
+  {
+   "index": 30,
+   "name": "CurrentClampSeries031",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries031"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "17ec4b71dd2cdbe61a584400af1ea945",
+       "first": [
+        -0.06753540190015886,
+        -0.06756591947896598,
+        -0.06753540190015886,
+        -0.06753540190015886,
+        -0.06756591947896598,
+        -0.06753540190015886,
+        -0.06753540190015886,
+        -0.06756591947896598
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 31
+  },
+  {
+   "index": 31,
+   "name": "CurrentClampSeries032",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries032"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "0483f20ed18fa2478d2e53e15b2e1d05",
+       "first": [
+        -0.06723022611208765,
+        -0.06723022611208765,
+        -0.06723022611208765,
+        -0.06726074369089477,
+        -0.06723022611208765,
+        -0.06726074369089477,
+        -0.06719970853328053,
+        -0.06726074369089477
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 32
+  },
+  {
+   "index": 32,
+   "name": "CurrentClampSeries033",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries033"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "4bc8969e1bb2236f62ec6b0d80323d52",
+       "first": [
+        -0.06768798979419446,
+        -0.06771850737300159,
+        -0.06771850737300159,
+        -0.06768798979419446,
+        -0.06768798979419446,
+        -0.06768798979419446,
+        -0.06762695463658022,
+        -0.06771850737300159
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 33
+  },
+  {
+   "index": 33,
+   "name": "CurrentClampSeries034",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries034"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "8b2b24382bea695294738e324e5bbfa3",
+       "first": [
+        -0.06732177884850901,
+        -0.06735229642731613,
+        -0.06735229642731613,
+        -0.06735229642731613,
+        -0.06735229642731613,
+        -0.06729126126970189,
+        -0.06726074369089477,
+        -0.06729126126970189
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 34
+  },
+  {
+   "index": 34,
+   "name": "CurrentClampSeries035",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries035"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "4f570ac4d6c9901f96588c3aa22ea10c",
+       "first": [
+        -0.06698608548163068,
+        -0.0670166030604378,
+        -0.06698608548163068,
+        -0.0670166030604378,
+        -0.06698608548163068,
+        -0.0670166030604378,
+        -0.06704712063924492,
+        -0.0670166030604378
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 35
+  },
+  {
+   "index": 35,
+   "name": "CurrentClampSeries036",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries036"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "3709c22b016d82e72140bfd315ceeca1",
+       "first": [
+        -0.06723022611208765,
+        -0.06723022611208765,
+        -0.06719970853328053,
+        -0.06719970853328053,
+        -0.06723022611208765,
+        -0.06723022611208765,
+        -0.06723022611208765,
+        -0.06723022611208765
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 36
+  },
+  {
+   "index": 36,
+   "name": "CurrentClampSeries037",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries037"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "3c1dc10af4c864d415efc34e474197d3",
+       "first": [
+        -0.06723022611208765,
+        -0.0671691909544734,
+        -0.06719970853328053,
+        -0.06723022611208765,
+        -0.06719970853328053,
+        -0.06719970853328053,
+        -0.06719970853328053,
+        -0.06719970853328053
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 37
+  },
+  {
+   "index": 37,
+   "name": "CurrentClampSeries038",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries038"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "dc1eee9de91d0cf69f2183a3a6a7de20",
+       "first": [
+        -0.06713867337566629,
+        -0.0671691909544734,
+        -0.06713867337566629,
+        -0.0671691909544734,
+        -0.06719970853328053,
+        -0.06713867337566629,
+        -0.06713867337566629,
+        -0.06713867337566629
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 38
+  },
+  {
+   "index": 38,
+   "name": "CurrentClampSeries039",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries039"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "57220e7d72b3c82535284b2889b1a4a0",
+       "first": [
+        -0.06719970853328053,
+        -0.06719970853328053,
+        -0.0671691909544734,
+        -0.06713867337566629,
+        -0.06713867337566629,
+        -0.06719970853328053,
+        -0.06713867337566629,
+        -0.06713867337566629
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 39
+  },
+  {
+   "index": 39,
+   "name": "CurrentClampSeries040",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries040"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "4bd7b5152cf442b17ca25465ad421bf4",
+       "first": [
+        -0.06756591947896598,
+        -0.06753540190015886,
+        -0.06753540190015886,
+        -0.06756591947896598,
+        -0.06750488432135174,
+        -0.06750488432135174,
+        -0.06753540190015886,
+        -0.06756591947896598
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 40
+  },
+  {
+   "index": 40,
+   "name": "CurrentClampSeries041",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries041"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "7e10925403912b1e9a120de294f6775f",
+       "first": [
+        -0.06719970853328053,
+        -0.06723022611208765,
+        -0.06719970853328053,
+        -0.06719970853328053,
+        -0.0671691909544734,
+        -0.06719970853328053,
+        -0.06719970853328053,
+        -0.0671691909544734
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 41
+  },
+  {
+   "index": 41,
+   "name": "CurrentClampSeries042",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries042"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "8886aec4619f24a623ad3cf174822b68",
+       "first": [
+        -0.0674438491637375,
+        -0.06738281400612325,
+        -0.06738281400612325,
+        -0.06741333158493037,
+        -0.06741333158493037,
+        -0.06741333158493037,
+        -0.06741333158493037,
+        -0.06738281400612325
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 42
+  },
+  {
+   "index": 42,
+   "name": "CurrentClampSeries043",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries043"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "0bc6c4b95cfc2c78c387771f55c86169",
+       "first": [
+        -0.06729126126970189,
+        -0.06729126126970189,
+        -0.06726074369089477,
+        -0.06723022611208765,
+        -0.06723022611208765,
+        -0.06726074369089477,
+        -0.06729126126970189,
+        -0.06726074369089477
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 43
+  },
+  {
+   "index": 43,
+   "name": "CurrentClampSeries044",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries044"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "f6351c9d4fc481bcd9b0759d56a5127d",
+       "first": [
+        -0.06738281400612325,
+        -0.06738281400612325,
+        -0.06735229642731613,
+        -0.06735229642731613,
+        -0.06735229642731613,
+        -0.06735229642731613,
+        -0.06738281400612325,
+        -0.06741333158493037
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 44
+  },
+  {
+   "index": 44,
+   "name": "CurrentClampSeries045",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries045"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "21340fdc843bedb016ec3dcd802b4a7d",
+       "first": [
+        -0.0677490249518087,
+        -0.06781006010942295,
+        -0.06777954253061583,
+        -0.06771850737300159,
+        -0.0677490249518087,
+        -0.0677490249518087,
+        -0.06771850737300159,
+        -0.06771850737300159
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 45
+  },
+  {
+   "index": 45,
+   "name": "CurrentClampSeries046",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries046"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "23b21440558e057b4f5cb950c6223a32",
+       "first": [
+        -0.0674438491637375,
+        -0.06738281400612325,
+        -0.06738281400612325,
+        -0.06738281400612325,
+        -0.06738281400612325,
+        -0.06735229642731613,
+        -0.06738281400612325,
+        -0.06738281400612325
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 46
+  },
+  {
+   "index": 46,
+   "name": "CurrentClampSeries047",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries047"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "a678978b717cc388174b077744d12a64",
+       "first": [
+        -0.06753540190015886,
+        -0.06753540190015886,
+        -0.06750488432135174,
+        -0.06750488432135174,
+        -0.06750488432135174,
+        -0.06750488432135174,
+        -0.06747436674254462,
+        -0.06750488432135174
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 47
+  },
+  {
+   "index": 47,
+   "name": "CurrentClampSeries048",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries048"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "b9e6d480e14de2652521a8e273def4bd",
+       "first": [
+        -0.06784057768823007,
+        -0.06787109526703719,
+        -0.06784057768823007,
+        -0.06784057768823007,
+        -0.06784057768823007,
+        -0.06781006010942295,
+        -0.06784057768823007,
+        -0.06787109526703719
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 48
+  },
+  {
+   "index": 48,
+   "name": "CurrentClampSeries049",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries049"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "457a574fc7deda6653eb33f29b327dac",
+       "first": [
+        -0.06820678863391552,
+        -0.06823730621272264,
+        -0.06823730621272264,
+        -0.06823730621272264,
+        -0.06823730621272264,
+        -0.06823730621272264,
+        -0.068328858949144,
+        -0.06826782379152976
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 49
+  },
+  {
+   "index": 49,
+   "name": "CurrentClampSeries050",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries050"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "34bfdd8fb5140e9657b88ec848368d39",
+       "first": [
+        -0.06793213042465143,
+        -0.06796264800345855,
+        -0.06796264800345855,
+        -0.06799316558226567,
+        -0.06799316558226567,
+        -0.06796264800345855,
+        -0.06796264800345855,
+        -0.06793213042465143
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 50
+  },
+  {
+   "index": 50,
+   "name": "CurrentClampStimulusSeries001",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries001"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "40e6eaed8d0bf7a8d3641e62e95a9124",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 1
+  },
+  {
+   "index": 51,
+   "name": "CurrentClampStimulusSeries002",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries002"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "db1fea9a20aada201e8f342bb8e356c6",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 2
+  },
+  {
+   "index": 52,
+   "name": "CurrentClampStimulusSeries003",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries003"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "5436eb915f7884402fb34e585cbbfc32",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 3
+  },
+  {
+   "index": 53,
+   "name": "CurrentClampStimulusSeries004",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries004"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "59fe2ac96da9ddaf2c687baf03af5a4b",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 4
+  },
+  {
+   "index": 54,
+   "name": "CurrentClampStimulusSeries005",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries005"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "4fd92dde383dc2307d56530161afab45",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 5
+  },
+  {
+   "index": 55,
+   "name": "CurrentClampStimulusSeries006",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries006"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "a3683858fcbdb836ed57cc61be9ecdf2",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 6
+  },
+  {
+   "index": 56,
+   "name": "CurrentClampStimulusSeries007",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries007"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "02409b9ea69b65ee3a75ace9f1656601",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 7
+  },
+  {
+   "index": 57,
+   "name": "CurrentClampStimulusSeries008",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries008"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "d23806e94d0d64d1b04b1eb872949385",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 8
+  },
+  {
+   "index": 58,
+   "name": "CurrentClampStimulusSeries009",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries009"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "49251c1aeca66af6e6a8e2e407d1267a",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 9
+  },
+  {
+   "index": 59,
+   "name": "CurrentClampStimulusSeries010",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries010"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "3d511b63337fe3a2c94e8b22b21b6ccf",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 10
+  },
+  {
+   "index": 60,
+   "name": "CurrentClampStimulusSeries011",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries011"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "7cdce54032d2917ea9b97070f20223cd",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 11
+  },
+  {
+   "index": 61,
+   "name": "CurrentClampStimulusSeries012",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries012"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "68eebaacb96bbcc6d0d52248682ef53a",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 12
+  },
+  {
+   "index": 62,
+   "name": "CurrentClampStimulusSeries013",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries013"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "7aabeabdea0a3d9edb992576dfcda891",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 13
+  },
+  {
+   "index": 63,
+   "name": "CurrentClampStimulusSeries014",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries014"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "7353f00c3e0256cc0c55b7b665d8671f",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 14
+  },
+  {
+   "index": 64,
+   "name": "CurrentClampStimulusSeries015",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries015"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "61cc8f3852c50d78c715c4b36eedf5fd",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 15
+  },
+  {
+   "index": 65,
+   "name": "CurrentClampStimulusSeries016",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries016"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "9318df36851c2e56001429bb3bddd3fa",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 16
+  },
+  {
+   "index": 66,
+   "name": "CurrentClampStimulusSeries017",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries017"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "92d106dcd9d081398137883cb757781b",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 17
+  },
+  {
+   "index": 67,
+   "name": "CurrentClampStimulusSeries018",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries018"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "9f9c6a03dc02cf71c14db20a9a64e384",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 18
+  },
+  {
+   "index": 68,
+   "name": "CurrentClampStimulusSeries019",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries019"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "64f9cd5ca4ef97da8b1b68fd0a3ccce0",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 19
+  },
+  {
+   "index": 69,
+   "name": "CurrentClampStimulusSeries020",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries020"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "cf3001400d15eea730136d461acff3f1",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 20
+  },
+  {
+   "index": 70,
+   "name": "CurrentClampStimulusSeries021",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries021"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "0d8e87612cf5528d17ca3ebe3ebaff8b",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 21
+  },
+  {
+   "index": 71,
+   "name": "CurrentClampStimulusSeries022",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries022"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "7ef72b5a8dd574bdea17b51b446bee7a",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 22
+  },
+  {
+   "index": 72,
+   "name": "CurrentClampStimulusSeries023",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries023"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "1741a3193146653e02efe1cfd1e2b1bb",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 23
+  },
+  {
+   "index": 73,
+   "name": "CurrentClampStimulusSeries024",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries024"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "b975217492365585d59f84f0e39ae023",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 24
+  },
+  {
+   "index": 74,
+   "name": "CurrentClampStimulusSeries025",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries025"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "e377c3a6ce4b48b97aac6dd1390e18dc",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 25
+  },
+  {
+   "index": 75,
+   "name": "CurrentClampStimulusSeries026",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries026"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "297c1d8e11ea6d1767ba00470efb05d9",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 26
+  },
+  {
+   "index": 76,
+   "name": "CurrentClampStimulusSeries027",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries027"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "f23edcd088851bb69ae29e78864c205b",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 27
+  },
+  {
+   "index": 77,
+   "name": "CurrentClampStimulusSeries028",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries028"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "0c9ff8357657c574752ac1877b7b7f7e",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 28
+  },
+  {
+   "index": 78,
+   "name": "CurrentClampStimulusSeries029",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries029"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "8554410380ebdde79ede121535597783",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 29
+  },
+  {
+   "index": 79,
+   "name": "CurrentClampStimulusSeries030",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries030"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "1b3ec423cf1c114639b8f794a4521fb5",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 30
+  },
+  {
+   "index": 80,
+   "name": "CurrentClampStimulusSeries031",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries031"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "8cefec7eaa24a55db5381f64672cfc6c",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 31
+  },
+  {
+   "index": 81,
+   "name": "CurrentClampStimulusSeries032",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries032"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "7a4fd0b3c4fde90598aa01d5062c0f36",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 32
+  },
+  {
+   "index": 82,
+   "name": "CurrentClampStimulusSeries033",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries033"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "8b06130cf7fdb5faecbd7c9534c4c1ac",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 33
+  },
+  {
+   "index": 83,
+   "name": "CurrentClampStimulusSeries034",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries034"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "a756c35aa86cbdcb02d485120ed91a82",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 34
+  },
+  {
+   "index": 84,
+   "name": "CurrentClampStimulusSeries035",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries035"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "a71ddf29062f6a77c96e3b6494a3ca26",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 35
+  },
+  {
+   "index": 85,
+   "name": "CurrentClampStimulusSeries036",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries036"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "584640aa08b0264e37688605b722decf",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 36
+  },
+  {
+   "index": 86,
+   "name": "CurrentClampStimulusSeries037",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries037"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "eff66ced16893d78197601a4c63de7c7",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 37
+  },
+  {
+   "index": 87,
+   "name": "CurrentClampStimulusSeries038",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries038"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "55f79cbcc5b5f594031087f8cc4c9714",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 38
+  },
+  {
+   "index": 88,
+   "name": "CurrentClampStimulusSeries039",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries039"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "474d32eca784ccc46c2138a027479827",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 39
+  },
+  {
+   "index": 89,
+   "name": "CurrentClampStimulusSeries040",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries040"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "b207cb75cee8dbdff59cb288295c2a58",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 40
+  },
+  {
+   "index": 90,
+   "name": "CurrentClampStimulusSeries041",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries041"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "b5020a31d72f47eef32feb0d6a91d926",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 41
+  },
+  {
+   "index": 91,
+   "name": "CurrentClampStimulusSeries042",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries042"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "e9b365b9c33d27f3256fbf43a5a586b8",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 42
+  },
+  {
+   "index": 92,
+   "name": "CurrentClampStimulusSeries043",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries043"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "e85d01f5fa9657f2e663a9356031ae1b",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 43
+  },
+  {
+   "index": 93,
+   "name": "CurrentClampStimulusSeries044",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries044"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "e732299bdbc44fbc33bdf68342d3ce72",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 44
+  },
+  {
+   "index": 94,
+   "name": "CurrentClampStimulusSeries045",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries045"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "7f389c1c1c022a67ca7082cceda02bc5",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 45
+  },
+  {
+   "index": 95,
+   "name": "CurrentClampStimulusSeries046",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries046"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "4eb16ecf8b6fedc3afe55a204a1621a9",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 46
+  },
+  {
+   "index": 96,
+   "name": "CurrentClampStimulusSeries047",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries047"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "de823c23db93ac1dd2b44466b0201417",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 47
+  },
+  {
+   "index": 97,
+   "name": "CurrentClampStimulusSeries048",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries048"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "1b7339c8273a67dc1af71427bd7d4fe4",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 48
+  },
+  {
+   "index": 98,
+   "name": "CurrentClampStimulusSeries049",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries049"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "d3d953025d265d2d8bc88d4500e2e616",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 49
+  },
+  {
+   "index": 99,
+   "name": "CurrentClampStimulusSeries050",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries050"
+   ],
+   "sample_rate_hz": 50000.00000000001,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55000,
+     "channels": [
+      {
+       "xxh3": "8a5efa788486b76dda8e3db852494dfd",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 50
+  }
+ ],
+ "pynwb_version": "4.2.0",
+ "pynwb_series_checked": 100,
+ "pynwb_values_agree": true
+}

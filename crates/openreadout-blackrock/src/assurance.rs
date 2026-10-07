@@ -29,6 +29,12 @@ fn observe(info: &FileInfo) -> Observations {
         }
         if t.extra.get("ptp").and_then(serde_json::Value::as_bool) == Some(true) {
             o.feature(K::Layout, "PTP timestamps", &[Scope::Traces]);
+            if a::extra_str(&t.extra, "ptp_timestamps_read") == Some("probed") {
+                o.assumed(
+                    "traces[].sweep_count",
+                    "PTP sweeps taken as gap-free from 64 probed packet timestamps; `openreadout check` reads every timestamp",
+                );
+            }
         }
         if t.sweep_count > 1 {
             o.feature(K::Layout, "paused (several data packets)", &[Scope::Traces]);

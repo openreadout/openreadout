@@ -3167,14 +3167,27 @@ def _abf_command(a):
     if not dacs:
         return None
     n = a.sweepPointCount
+    # a DAC whose epochs run past the end of any sweep is left out (openreadout does not
+    # synthesize it); pyABF then returns a longer waveform or raises a broadcast error
+    waves = {}
+    for d in list(dacs):
+        table = pyabf.waveform.EpochTable(a, ds.nDACNum[d])
+        try:
+            ws = [np.asarray(table.epochWaveformsBySweep[s].getWaveform(), dtype=np.float64)
+                  for s in range(a.sweepCount)]
+        except ValueError:
+            ws = None
+        if ws is None or any(len(y) != n for y in ws):
+            dacs.remove(d)
+        else:
+            waves[d] = ws
+    if not dacs:
+        return None
     sweeps = []
     for s in range(min(a.sweepCount, MAX_SWEEPS)):
         chans = []
         for d in dacs:
-            w = pyabf.waveform.EpochTable(a, ds.nDACNum[d]).epochWaveformsBySweep[s].getWaveform()
-            y = np.asarray(w, dtype=np.float64)
-            if len(y) != n:
-                return None  # epochs past the end of the sweep: openreadout does not synthesize
+            y = waves[d][s]
             chans.append({"xxh3": _trace_hash(y), "first": _first(y)})
         sweeps.append({"sweep": s, "sample_count": n, "channels": chans})
     names = [a.dacNames[d] if d < len(a.dacNames) and a.dacNames[d] else f"DAC{ds.nDACNum[d]}" for d in dacs]
@@ -4931,7 +4944,8 @@ def plexon(p: Path) -> dict:
             un += [unit] * len(ts)
             if len(ts):
                 w0 += list(np.asarray(wf[:, 0, 0], dtype=np.float64) * float(row["wf_gain"]))
-        cols = [("time_s", t), ("channel", ch), ("unit", un), ("w0", w0)]
+        # a file without spikes has no waveform samples to describe: no waveform column
+        cols = [("time_s", t), ("channel", ch), ("unit", un)] + ([("w0", w0)] if t else [])
         tables.append({"index": len(tables), "event_count": len(t), "parameter_names": [], "dtypes": [], "xxh3": None,
                        "sorted_column_hashes": [{"column": c, "count": len(v), "xxh3": _sorted_hash(v)} for c, v in cols]})
     if len(h["event_channels"]):

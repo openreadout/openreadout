@@ -1,0 +1,41 @@
+{
+ "id": "figshare3841308-sirna-bace1-sp",
+ "file": "figshare3841308-sirna-bace1-sp.sp",
+ "size": 5711,
+ "sha256": "5ccbe6e69a70f344d1ab75a1279a51d9b4c6dfde29e92427dcad6b208b3f1728",
+ "max_planes_hashed": 64,
+ "reader": "second implementation (#DATA pairs read with the standard library); not an independent oracle",
+ "independent": false,
+ "traces": [
+  {
+   "index": 0,
+   "reader": "standard library (#DATA pairs)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 231,
+   "x_first": 585.0,
+   "x_last": 700.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 231,
+     "channels": [
+      {
+       "xxh3": "aa2b4fff2367a2b97d1215114efefe93",
+       "first": [
+        29.2587,
+        30.609084,
+        31.156252,
+        30.905077,
+        30.171807,
+        29.620838,
+        29.399318,
+        29.262961
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -59,11 +59,27 @@ pub fn command_plan(f: &AbfFile) -> CommandPlan {
         let o = &f.outputs[i];
         if let Some(r) = output_refusal(o) {
             plan.refused.push(format!("DAC {}: {r}", o.index));
+        } else if let Some(k) =
+            (0..f.sweeps.len()).find(|&k| !epochs_fit(o, k as u32, f.sweeps[k].sample_count))
+        {
+            plan.refused.push(format!(
+                "DAC {}: its epochs run past the end of sweep {k}",
+                o.index
+            ));
         } else {
             plan.outputs.push(i);
         }
     }
     plan
+}
+
+/// Whether the holding period and the epochs of output `o` end inside sweep `sweep` of `n`
+/// samples (what [`command_sweep`] needs to synthesize it).
+fn epochs_fit(o: &OutputChannel, sweep: u32, n: u64) -> bool {
+    epoch_levels(o, sweep)
+        .iter()
+        .try_fold(n / 64, |pos, &(dur, _)| pos.checked_add(dur))
+        .is_some_and(|end| end <= n)
 }
 
 fn output_refusal(o: &OutputChannel) -> Option<String> {
@@ -287,5 +303,33 @@ mod tests {
         // epochs longer than the sweep: not synthesized
         let o = out(vec![epoch(EpochKind::Step, 1.0, 0.0, 400, 0, 0)], false);
         assert!(command_sweep(&o, 0, 128).is_none());
+        assert!(!epochs_fit(&o, 0, 128));
+    }
+
+    #[test]
+    fn epochs_fit_agrees_with_synthesis() {
+        // n/64 pre-sweep samples, then 4 + 3 + 6 epoch samples: fits 13 samples, not 12
+        let o = out(
+            vec![
+                epoch(EpochKind::Step, -50.0, 10.0, 4, 0, 0),
+                epoch(EpochKind::Ramp, 0.0, 0.0, 3, 0, 0),
+                epoch(EpochKind::PulseTrain, 20.0, 0.0, 6, 3, 1),
+            ],
+            false,
+        );
+        for n in [8, 12, 13, 128, 1000] {
+            assert_eq!(
+                epochs_fit(&o, 0, n),
+                command_sweep(&o, 0, n).is_some(),
+                "n={n}"
+            );
+        }
+        // a duration increment per sweep makes a later sweep overrun while sweep 0 fits
+        let mut grow = epoch(EpochKind::Step, 1.0, 0.0, 100, 0, 0);
+        grow.duration_step = 20;
+        let o = out(vec![grow], false);
+        assert!(epochs_fit(&o, 0, 128));
+        assert!(!epochs_fit(&o, 2, 128));
+        assert!(command_sweep(&o, 2, 128).is_none());
     }
 }

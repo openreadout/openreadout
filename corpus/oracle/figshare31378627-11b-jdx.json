@@ -1,0 +1,50 @@
+{
+ "id": "figshare31378627-11b-jdx",
+ "file": "figshare31378627-11b-jdx.jdx",
+ "size": 160680,
+ "sha256": "d6c0af09a8808932e52ba7cae1f140376da4844563fc313e721ba9b1202b2e7d",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "U2Bi3 BPh4 d8THF",
+   "kind": "xydata",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 52430,
+     "channels": [
+      {
+       "xxh3": "055aea73c1e0b70ce9073b935212d2cd",
+       "first": [
+        -0.0001983047809158019,
+        -0.00019421602254640394,
+        -0.00019217164336170493,
+        -4.088758369397977e-06,
+        0.000179905368253511,
+        0.0002351036062403837,
+        4.088758369397977e-06,
+        -0.0002351036062403837
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 52430,
+   "channel_count": 1,
+   "reader": "nmrglue 0.12 jcampdx.read"
+  },
+  {
+   "index": 1,
+   "name": "U2Bi3 BPh4 d8THF",
+   "kind": "peak_table",
+   "data_type": "NMR PEAK TABLE"
+  }
+ ],
+ "notes": [
+  "jcamp: ZeroDivisionError: float division by zero"
+ ]
+}

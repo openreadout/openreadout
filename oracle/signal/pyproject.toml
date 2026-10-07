@@ -12,6 +12,8 @@ dependencies = [
     # Electrophysiology readers: pyABF (MIT) and Neo (BSD-3)
     "pyabf>=2.3.8",
     "neo>=0.14",
+    # NWB intracellular series: h5py (BSD-3)
+    "h5py>=3.10",
     # eFEL (LGPL-3.0): action-potential and passive features. Run as a black box only; its
     # source is never consulted (docs/legal/clean-room-policy.md rule 3).
     "efel>=5.7",

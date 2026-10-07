@@ -1,0 +1,2632 @@
+{
+ "id": "zenodo6817673-eds-msc-0224",
+ "file": "zenodo6817673-eds-msc-0224.eds",
+ "size": 2140681,
+ "sha256": "39a8faffb86c59adb349a535173384a3acda2f493489bb252c73c5686e34dab1",
+ "reader": "Python stdlib (zipfile, ElementTree, json) over the vendor's own result files",
+ "format": "applied-biosystems-eds",
+ "rows": 8,
+ "columns": 12,
+ "records": [
+  {
+   "position": 1,
+   "row": 1,
+   "col": 1,
+   "well": "A1",
+   "target": "GAPDH",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 16.4931,
+   "cq_undetermined": false,
+   "tm": [
+    82.08718
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 44.00831783,
+   "corrected_sum": 37.16406176897,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 15355091.7397,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 2,
+   "row": 1,
+   "col": 2,
+   "well": "A2",
+   "target": "GAPDH",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 15.700387,
+   "cq_undetermined": false,
+   "tm": [
+    81.92478
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 50.79397139,
+   "corrected_sum": 29.3649452083,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 16326830.207,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 3,
+   "row": 1,
+   "col": 3,
+   "well": "A3",
+   "target": "GAPDH",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 16.733334,
+   "cq_undetermined": false,
+   "tm": [
+    81.92201
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 43.55278309,
+   "corrected_sum": 35.56830957637,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 15211878.388414,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 4,
+   "row": 1,
+   "col": 4,
+   "well": "A4",
+   "target": "SOX2",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 32.229263,
+   "cq_undetermined": false,
+   "tm": [
+    75.42687
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 25.28720695,
+   "corrected_sum": 16.493109726926,
+   "vendor_delta_cq": 16.097305,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 18611779.4671,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 7,
+   "row": 1,
+   "col": 7,
+   "well": "A7",
+   "target": "KROX20",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 26.72889,
+   "cq_undetermined": false,
+   "tm": [
+    83.23867,
+    65.36301
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 38.5594716,
+   "corrected_sum": 26.6351973359484,
+   "vendor_delta_cq": 12.1561165,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 25795202.8585,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 8,
+   "row": 1,
+   "col": 8,
+   "well": "A8",
+   "target": "KROX20",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 26.76922,
+   "cq_undetermined": false,
+   "tm": [
+    83.23867
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 37.23077935,
+   "corrected_sum": 26.372814102590002,
+   "vendor_delta_cq": 12.1561165,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 23192971.38675,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 9,
+   "row": 1,
+   "col": 9,
+   "well": "A9",
+   "target": "KROX20",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 31.897058,
+   "cq_undetermined": false,
+   "tm": [
+    82.39624,
+    64.8693
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 19.54790047,
+   "corrected_sum": 6.92602876606,
+   "vendor_delta_cq": 12.1561165,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 13449545.153,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 10,
+   "row": 1,
+   "col": 10,
+   "well": "A10",
+   "target": "PERIAXIN",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 22.749895,
+   "cq_undetermined": false,
+   "tm": [
+    84.50597
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 77.47635658,
+   "corrected_sum": 66.31946264065,
+   "vendor_delta_cq": 6.5662775,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 29721874.2459,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 11,
+   "row": 1,
+   "col": 11,
+   "well": "A11",
+   "target": "PERIAXIN",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 22.802172,
+   "cq_undetermined": false,
+   "tm": [
+    84.69701
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 76.85585743,
+   "corrected_sum": 66.047880513774,
+   "vendor_delta_cq": 6.5662775,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 27878322.78635,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 12,
+   "row": 1,
+   "col": 12,
+   "well": "A12",
+   "target": "PERIAXIN",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 23.073586,
+   "cq_undetermined": false,
+   "tm": [
+    84.37206
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 64.314606805,
+   "corrected_sum": 56.82127354138,
+   "vendor_delta_cq": 6.5662775,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 25059101.26492,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 13,
+   "row": 2,
+   "col": 1,
+   "well": "B1",
+   "target": "GAPDH",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 21.356112,
+   "cq_undetermined": false,
+   "tm": [
+    82.08718
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 38.348039842,
+   "corrected_sum": 35.86207077789,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 17563592.4793,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 14,
+   "row": 2,
+   "col": 2,
+   "well": "B2",
+   "target": "GAPDH",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 21.52854,
+   "cq_undetermined": false,
+   "tm": [
+    81.762375
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 35.42542491,
+   "corrected_sum": 32.84564598258,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 17855733.8147,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 15,
+   "row": 2,
+   "col": 3,
+   "well": "B3",
+   "target": "GAPDH",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 21.450302,
+   "cq_undetermined": false,
+   "tm": [
+    81.92201
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 41.139868533,
+   "corrected_sum": 36.41848102368,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 19742096.6393,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 16,
+   "row": 2,
+   "col": 4,
+   "well": "B4",
+   "target": "SOX2",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 33.598064,
+   "cq_undetermined": false,
+   "tm": [
+    75.58925
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 22.98243621,
+   "corrected_sum": 14.177409484218,
+   "vendor_delta_cq": 12.544974,
+   "vendor_rq": 11.731621,
+   "melt_n": 108,
+   "melt_sum": 21645341.5504,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 19,
+   "row": 2,
+   "col": 7,
+   "well": "B7",
+   "target": "KROX20",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 25.780867,
+   "cq_undetermined": false,
+   "tm": [
+    82.91366
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 46.99802279,
+   "corrected_sum": 39.68132767084,
+   "vendor_delta_cq": 4.4750066,
+   "vendor_rq": 205.23164,
+   "melt_n": 108,
+   "melt_sum": 28328087.54793,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 20,
+   "row": 2,
+   "col": 8,
+   "well": "B8",
+   "target": "KROX20",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 25.658148,
+   "cq_undetermined": false,
+   "tm": [
+    83.076164
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 49.65988844,
+   "corrected_sum": 41.44817130511,
+   "vendor_delta_cq": 4.4750066,
+   "vendor_rq": 205.23164,
+   "melt_n": 108,
+   "melt_sum": 34631997.1245,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 21,
+   "row": 2,
+   "col": 9,
+   "well": "B9",
+   "target": "KROX20",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 26.32096,
+   "cq_undetermined": false,
+   "tm": [
+    82.72082
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 41.69504384,
+   "corrected_sum": 33.892209614406,
+   "vendor_delta_cq": 4.4750066,
+   "vendor_rq": 205.23164,
+   "melt_n": 108,
+   "melt_sum": 26977924.1092,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 22,
+   "row": 2,
+   "col": 10,
+   "well": "B10",
+   "target": "PERIAXIN",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 22.98532,
+   "cq_undetermined": false,
+   "tm": [
+    84.34368
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 80.9879178,
+   "corrected_sum": 69.59832473775,
+   "vendor_delta_cq": 1.7573751,
+   "vendor_rq": 28.03005,
+   "melt_n": 108,
+   "melt_sum": 26010207.0633,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 23,
+   "row": 2,
+   "col": 11,
+   "well": "B11",
+   "target": "PERIAXIN",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 23.199377,
+   "cq_undetermined": false,
+   "tm": [
+    84.37206
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 74.31398318,
+   "corrected_sum": 65.2763548977,
+   "vendor_delta_cq": 1.7573751,
+   "vendor_rq": 28.03005,
+   "melt_n": 108,
+   "melt_sum": 27497183.2506,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 24,
+   "row": 2,
+   "col": 12,
+   "well": "B12",
+   "target": "PERIAXIN",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 23.422382,
+   "cq_undetermined": false,
+   "tm": [
+    84.04711
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 64.11691923,
+   "corrected_sum": 56.68652353617,
+   "vendor_delta_cq": 1.7573751,
+   "vendor_rq": 28.03005,
+   "melt_n": 108,
+   "melt_sum": 24762547.3053,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 25,
+   "row": 3,
+   "col": 1,
+   "well": "C1",
+   "target": "GAPDH",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 17.14096,
+   "cq_undetermined": false,
+   "tm": [
+    81.762375
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 76.433337349,
+   "corrected_sum": 71.24999220463751,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 22891184.6659,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 26,
+   "row": 3,
+   "col": 2,
+   "well": "C2",
+   "target": "GAPDH",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 17.74468,
+   "cq_undetermined": false,
+   "tm": [
+    81.762375
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 76.20314725,
+   "corrected_sum": 63.00092485277,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 23822738.9338,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 27,
+   "row": 3,
+   "col": 3,
+   "well": "C3",
+   "target": "GAPDH",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 17.418446,
+   "cq_undetermined": false,
+   "tm": [
+    81.59726
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 79.93068777,
+   "corrected_sum": 71.54487709761901,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 29564076.4371,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 28,
+   "row": 3,
+   "col": 4,
+   "well": "C4",
+   "target": "SOX2",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 33.7067,
+   "cq_undetermined": false,
+   "tm": [
+    75.58925,
+    68.119835
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 23.91337973,
+   "corrected_sum": 14.035127905768,
+   "vendor_delta_cq": 16.482311,
+   "vendor_rq": 0.7657759,
+   "melt_n": 108,
+   "melt_sum": 23408018.2251,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 31,
+   "row": 3,
+   "col": 7,
+   "well": "C7",
+   "target": "KROX20",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 24.165594,
+   "cq_undetermined": false,
+   "tm": [
+    82.91366
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 60.59238359,
+   "corrected_sum": 51.1073418493,
+   "vendor_delta_cq": 8.231645,
+   "vendor_rq": 15.1839075,
+   "melt_n": 108,
+   "melt_sum": 31314554.93065,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 32,
+   "row": 3,
+   "col": 8,
+   "well": "C8",
+   "target": "KROX20",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 25.697594,
+   "cq_undetermined": false,
+   "tm": [
+    82.588646
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 43.93407076,
+   "corrected_sum": 35.99852182956,
+   "vendor_delta_cq": 8.231645,
+   "vendor_rq": 15.1839075,
+   "melt_n": 108,
+   "melt_sum": 27855148.9863,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 33,
+   "row": 3,
+   "col": 9,
+   "well": "C9",
+   "target": "KROX20",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 27.135834,
+   "cq_undetermined": false,
+   "tm": [
+    82.39624,
+    64.22015
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 31.29259473,
+   "corrected_sum": 24.926482136225,
+   "vendor_delta_cq": 8.231645,
+   "vendor_rq": 15.1839075,
+   "melt_n": 108,
+   "melt_sum": 19837212.9701,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 34,
+   "row": 3,
+   "col": 10,
+   "well": "C10",
+   "target": "PERIAXIN",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 23.684395,
+   "cq_undetermined": false,
+   "tm": [
+    83.85682
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 70.66806328,
+   "corrected_sum": 62.140622889732,
+   "vendor_delta_cq": 6.2319245,
+   "vendor_rq": 1.2608117,
+   "melt_n": 108,
+   "melt_sum": 24171291.3513,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 35,
+   "row": 3,
+   "col": 11,
+   "well": "C11",
+   "target": "PERIAXIN",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 23.731018,
+   "cq_undetermined": false,
+   "tm": [
+    84.20959
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 71.80981595,
+   "corrected_sum": 63.203413763735,
+   "vendor_delta_cq": 6.2319245,
+   "vendor_rq": 1.2608117,
+   "melt_n": 108,
+   "melt_sum": 25551492.1544,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 36,
+   "row": 3,
+   "col": 12,
+   "well": "C12",
+   "target": "PERIAXIN",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 23.584448,
+   "cq_undetermined": false,
+   "tm": [
+    84.20959
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 74.82027209,
+   "corrected_sum": 65.28473097228,
+   "vendor_delta_cq": 6.2319245,
+   "vendor_rq": 1.2608117,
+   "melt_n": 108,
+   "melt_sum": 27778699.5247,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 37,
+   "row": 4,
+   "col": 1,
+   "well": "D1",
+   "target": "GAPDH",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 21.336418,
+   "cq_undetermined": false,
+   "tm": [
+    81.27517
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 40.710238778,
+   "corrected_sum": 36.4142045029,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 16063661.50588,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 38,
+   "row": 4,
+   "col": 2,
+   "well": "D2",
+   "target": "GAPDH",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 20.835752,
+   "cq_undetermined": false,
+   "tm": [
+    81.27517
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 41.3303649299,
+   "corrected_sum": 42.168258480045,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 19629256.3563,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 39,
+   "row": 4,
+   "col": 3,
+   "well": "D3",
+   "target": "GAPDH",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 21.186325,
+   "cq_undetermined": false,
+   "tm": [
+    81.2725
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 49.193459629,
+   "corrected_sum": 43.79517229913,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 21784261.472,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 40,
+   "row": 4,
+   "col": 4,
+   "well": "D4",
+   "target": "SOX2",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 37.6097,
+   "cq_undetermined": false,
+   "tm": [
+    68.119835
+   ],
+   "amp_status_raw": "0",
+   "amp_n": 40,
+   "amp_sum": 6.59239932,
+   "corrected_sum": 2.2203932969699998,
+   "vendor_delta_cq": 17.027975,
+   "vendor_rq": 0.52461433,
+   "melt_n": 108,
+   "melt_sum": 5450768.592,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 43,
+   "row": 4,
+   "col": 7,
+   "well": "D7",
+   "target": "KROX20",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 35.05109,
+   "cq_undetermined": false,
+   "tm": [
+    68.1256,
+    82.26363
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 4.887827382,
+   "corrected_sum": 2.70501104382,
+   "vendor_delta_cq": 14.033662,
+   "vendor_rq": 0.27214637,
+   "melt_n": 108,
+   "melt_sum": 4595269.0992,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 44,
+   "row": 4,
+   "col": 8,
+   "well": "D8",
+   "target": "KROX20",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 33.420254,
+   "cq_undetermined": false,
+   "tm": [
+    68.1256,
+    82.26363
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 6.552430535,
+   "corrected_sum": 5.0441284047199995,
+   "vendor_delta_cq": 14.033662,
+   "vendor_rq": 0.27214637,
+   "melt_n": 108,
+   "melt_sum": 7030800.475767001,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 45,
+   "row": 4,
+   "col": 9,
+   "well": "D9",
+   "target": "KROX20",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 36.988136,
+   "cq_undetermined": false,
+   "tm": [
+    67.62817,
+    81.7471
+   ],
+   "amp_status_raw": "-1",
+   "amp_n": 40,
+   "amp_sum": 2.013232171,
+   "corrected_sum": 1.2375147233100001,
+   "vendor_delta_cq": 14.033662,
+   "vendor_rq": 0.27214637,
+   "melt_n": 108,
+   "melt_sum": 2446128.70108,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 46,
+   "row": 4,
+   "col": 10,
+   "well": "D10",
+   "target": "PERIAXIN",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 30.170668,
+   "cq_undetermined": false,
+   "tm": [
+    83.53225
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 28.300816704,
+   "corrected_sum": 26.7253212394,
+   "vendor_delta_cq": 9.342509,
+   "vendor_rq": 0.14597245,
+   "melt_n": 108,
+   "melt_sum": 19138067.827368,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 47,
+   "row": 4,
+   "col": 11,
+   "well": "D11",
+   "target": "PERIAXIN",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 30.788826,
+   "cq_undetermined": false,
+   "tm": [
+    83.39722
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 25.691151248,
+   "corrected_sum": 22.108920485844,
+   "vendor_delta_cq": 9.342509,
+   "vendor_rq": 0.14597245,
+   "melt_n": 108,
+   "melt_sum": 16713936.8362,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 48,
+   "row": 4,
+   "col": 12,
+   "well": "D12",
+   "target": "PERIAXIN",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 30.42653,
+   "cq_undetermined": false,
+   "tm": [
+    83.23474
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 25.094985753,
+   "corrected_sum": 22.603751961115,
+   "vendor_delta_cq": 9.342509,
+   "vendor_rq": 0.14597245,
+   "melt_n": 108,
+   "melt_sum": 16914104.6421,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 49,
+   "row": 5,
+   "col": 1,
+   "well": "E1",
+   "target": "MPZ",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 17.403467,
+   "cq_undetermined": false,
+   "tm": [
+    83.548805
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 82.796398,
+   "corrected_sum": 66.80284446754,
+   "vendor_delta_cq": 1.0607086,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 17527724.8868,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 50,
+   "row": 5,
+   "col": 2,
+   "well": "E2",
+   "target": "MPZ",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 17.165108,
+   "cq_undetermined": false,
+   "tm": [
+    83.71121
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 94.40399632,
+   "corrected_sum": 78.057396034117,
+   "vendor_delta_cq": 1.0607086,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 22694069.827,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 51,
+   "row": 5,
+   "col": 3,
+   "well": "E3",
+   "target": "MPZ",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 17.54037,
+   "cq_undetermined": false,
+   "tm": [
+    83.38342
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 73.30591832,
+   "corrected_sum": 62.10794778365,
+   "vendor_delta_cq": 1.0607086,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 17832038.7344,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 55,
+   "row": 5,
+   "col": 7,
+   "well": "E7",
+   "target": "CJUN",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 34.137165,
+   "cq_undetermined": false,
+   "tm": [
+    81.4511,
+    65.52551
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 12.98405468,
+   "corrected_sum": 2.50386112191,
+   "vendor_delta_cq": 19.01728,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 4827932.0202,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 56,
+   "row": 5,
+   "col": 8,
+   "well": "E8",
+   "target": "CJUN",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 33.667397,
+   "cq_undetermined": false,
+   "tm": [
+    81.4511,
+    65.52551
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 12.45629771,
+   "corrected_sum": 2.813348958243,
+   "vendor_delta_cq": 19.01728,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 5429559.228,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 57,
+   "row": 5,
+   "col": 9,
+   "well": "E9",
+   "target": "CJUN",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 38.174103,
+   "cq_undetermined": false,
+   "tm": [
+    81.097946,
+    65.51845
+   ],
+   "amp_status_raw": "-1",
+   "amp_n": 40,
+   "amp_sum": 8.67260431,
+   "corrected_sum": 0.78498786005,
+   "vendor_delta_cq": 19.01728,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 2377012.8612,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 58,
+   "row": 5,
+   "col": 10,
+   "well": "E10",
+   "target": "SOX2",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 32.032356,
+   "cq_undetermined": false,
+   "tm": [
+    75.58021
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 23.88625791,
+   "corrected_sum": 14.967472419036,
+   "vendor_delta_cq": 16.097305,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 15777159.291022,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 59,
+   "row": 5,
+   "col": 11,
+   "well": "E11",
+   "target": "SOX2",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 31.31782,
+   "cq_undetermined": false,
+   "tm": [
+    75.76092
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 27.53701925,
+   "corrected_sum": 17.681300093188,
+   "vendor_delta_cq": 16.097305,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 18076283.63181,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 60,
+   "row": 5,
+   "col": 12,
+   "well": "E12",
+   "target": "SOX2",
+   "sample": "CONTROL",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 34.04554,
+   "cq_undetermined": false,
+   "tm": [
+    74.298645
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 13.007473135,
+   "corrected_sum": 7.21002444089,
+   "vendor_delta_cq": 16.097305,
+   "vendor_rq": 1.0,
+   "melt_n": 108,
+   "melt_sum": 12080572.4829,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 61,
+   "row": 6,
+   "col": 1,
+   "well": "F1",
+   "target": "MPZ",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 18.352129,
+   "cq_undetermined": false,
+   "tm": [
+    83.548805
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 79.95724734,
+   "corrected_sum": 70.14790832158,
+   "vendor_delta_cq": -3.0037887,
+   "vendor_rq": 16.731527,
+   "melt_n": 108,
+   "melt_sum": 16857837.67726,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 62,
+   "row": 6,
+   "col": 2,
+   "well": "F2",
+   "target": "MPZ",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 18.213509,
+   "cq_undetermined": false,
+   "tm": [
+    83.548805
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 86.08198537,
+   "corrected_sum": 74.317697255555,
+   "vendor_delta_cq": -3.0037887,
+   "vendor_rq": 16.731527,
+   "melt_n": 108,
+   "melt_sum": 20226483.3887,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 63,
+   "row": 6,
+   "col": 3,
+   "well": "F3",
+   "target": "MPZ",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 18.75795,
+   "cq_undetermined": false,
+   "tm": [
+    83.22104
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 65.09336281,
+   "corrected_sum": 57.70705771497,
+   "vendor_delta_cq": -3.0037887,
+   "vendor_rq": 16.731527,
+   "melt_n": 108,
+   "melt_sum": 16776924.1741,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 67,
+   "row": 6,
+   "col": 7,
+   "well": "F7",
+   "target": "CJUN",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 27.768444,
+   "cq_undetermined": false,
+   "tm": [
+    81.2886,
+    64.225464
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 21.584863578,
+   "corrected_sum": 16.65694325283,
+   "vendor_delta_cq": 6.248491,
+   "vendor_rq": 6978.9336,
+   "melt_n": 108,
+   "melt_sum": 12997118.58284,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 68,
+   "row": 6,
+   "col": 8,
+   "well": "F8",
+   "target": "CJUN",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 27.815346,
+   "cq_undetermined": false,
+   "tm": [
+    81.12609,
+    63.900448
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 23.80257259,
+   "corrected_sum": 17.11688861779,
+   "vendor_delta_cq": 6.248491,
+   "vendor_rq": 6978.9336,
+   "melt_n": 108,
+   "melt_sum": 13820442.4603,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 69,
+   "row": 6,
+   "col": 9,
+   "well": "F9",
+   "target": "CJUN",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 27.496635,
+   "cq_undetermined": false,
+   "tm": [
+    81.097946
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 23.489936219,
+   "corrected_sum": 18.004460512555,
+   "vendor_delta_cq": 6.248491,
+   "vendor_rq": 6978.9336,
+   "melt_n": 108,
+   "melt_sum": 14188373.41817,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 70,
+   "row": 6,
+   "col": 10,
+   "well": "F10",
+   "target": "SOX2",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 33.26803,
+   "cq_undetermined": false,
+   "tm": [
+    75.58021
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 23.2981799,
+   "corrected_sum": 16.31832470055,
+   "vendor_delta_cq": 12.544974,
+   "vendor_rq": 11.731621,
+   "melt_n": 108,
+   "melt_sum": 19756163.115856,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 71,
+   "row": 6,
+   "col": 11,
+   "well": "F11",
+   "target": "SOX2",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 32.61359,
+   "cq_undetermined": false,
+   "tm": [
+    75.59844
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 29.10109755,
+   "corrected_sum": 19.688028862701,
+   "vendor_delta_cq": 12.544974,
+   "vendor_rq": 11.731621,
+   "melt_n": 108,
+   "melt_sum": 23466141.7549,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 72,
+   "row": 6,
+   "col": 12,
+   "well": "F12",
+   "target": "SOX2",
+   "sample": "TNF",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 36.480152,
+   "cq_undetermined": false,
+   "tm": [
+    74.298645
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 7.990578645,
+   "corrected_sum": 3.732375800044,
+   "vendor_delta_cq": 12.544974,
+   "vendor_rq": 11.731621,
+   "melt_n": 108,
+   "melt_sum": 9632661.3615,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 73,
+   "row": 7,
+   "col": 1,
+   "well": "G1",
+   "target": "MPZ",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 20.286798,
+   "cq_undetermined": false,
+   "tm": [
+    83.386406
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 67.00755703,
+   "corrected_sum": 57.73514365588,
+   "vendor_delta_cq": 2.7943566,
+   "vendor_rq": 0.30069068,
+   "melt_n": 108,
+   "melt_sum": 15901898.683834,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 74,
+   "row": 7,
+   "col": 2,
+   "well": "G2",
+   "target": "MPZ",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 19.985006,
+   "cq_undetermined": false,
+   "tm": [
+    83.71121
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 75.0439725,
+   "corrected_sum": 60.5289977618,
+   "vendor_delta_cq": 2.7943566,
+   "vendor_rq": 0.30069068,
+   "melt_n": 108,
+   "melt_sum": 16091127.0143,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 75,
+   "row": 7,
+   "col": 3,
+   "well": "G3",
+   "target": "MPZ",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 20.415352,
+   "cq_undetermined": false,
+   "tm": [
+    83.38342
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 66.82061972,
+   "corrected_sum": 56.40180557565,
+   "vendor_delta_cq": 2.7943566,
+   "vendor_rq": 0.30069068,
+   "melt_n": 108,
+   "melt_sum": 18226524.7564,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 79,
+   "row": 7,
+   "col": 7,
+   "well": "G7",
+   "target": "CJUN",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 27.380787,
+   "cq_undetermined": false,
+   "tm": [
+    81.2886,
+    63.41293
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 25.701692886,
+   "corrected_sum": 19.65519898813,
+   "vendor_delta_cq": 10.783372,
+   "vendor_rq": 301.06058,
+   "melt_n": 108,
+   "melt_sum": 15956434.175444,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 80,
+   "row": 7,
+   "col": 8,
+   "well": "G8",
+   "target": "CJUN",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 28.060028,
+   "cq_undetermined": false,
+   "tm": [
+    80.80108
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 22.455981064,
+   "corrected_sum": 16.07555209932,
+   "vendor_delta_cq": 10.783372,
+   "vendor_rq": 301.06058,
+   "melt_n": 108,
+   "melt_sum": 14008766.8648,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 81,
+   "row": 7,
+   "col": 9,
+   "well": "G9",
+   "target": "CJUN",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 29.213387,
+   "cq_undetermined": false,
+   "tm": [
+    80.93566,
+    63.40872
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 18.608240123999998,
+   "corrected_sum": 12.303448451499,
+   "vendor_delta_cq": 10.783372,
+   "vendor_rq": 301.06058,
+   "melt_n": 108,
+   "melt_sum": 12647731.37682,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 82,
+   "row": 7,
+   "col": 10,
+   "well": "G10",
+   "target": "SOX2",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 33.77128,
+   "cq_undetermined": false,
+   "tm": [
+    75.41792
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 23.15084654,
+   "corrected_sum": 13.576206972773,
+   "vendor_delta_cq": 16.482311,
+   "vendor_rq": 0.7657759,
+   "melt_n": 108,
+   "melt_sum": 22984102.9763,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 83,
+   "row": 7,
+   "col": 11,
+   "well": "G11",
+   "target": "SOX2",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 34.27304,
+   "cq_undetermined": false,
+   "tm": [
+    75.43597
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 21.17515614,
+   "corrected_sum": 11.546851990883,
+   "vendor_delta_cq": 16.482311,
+   "vendor_rq": 0.7657759,
+   "melt_n": 108,
+   "melt_sum": 21733928.816,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 84,
+   "row": 7,
+   "col": 12,
+   "well": "G12",
+   "target": "SOX2",
+   "sample": "TNF MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    60.650795
+   ],
+   "cq_stored": 40.0,
+   "amp_status_raw": "-1",
+   "amp_n": 40,
+   "amp_sum": 2.832525727,
+   "corrected_sum": 0.003535102556,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 1342386.825,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 85,
+   "row": 8,
+   "col": 1,
+   "well": "H1",
+   "target": "MPZ",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 26.372034,
+   "cq_undetermined": false,
+   "tm": [
+    82.8992
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 40.17244557,
+   "corrected_sum": 34.19351596174,
+   "vendor_delta_cq": 5.6190987,
+   "vendor_rq": 0.042441223,
+   "melt_n": 108,
+   "melt_sum": 15330932.9321,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 86,
+   "row": 8,
+   "col": 2,
+   "well": "H2",
+   "target": "MPZ",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 26.545578,
+   "cq_undetermined": false,
+   "tm": [
+    82.73679
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 37.573895957,
+   "corrected_sum": 32.66323524617,
+   "vendor_delta_cq": 5.6190987,
+   "vendor_rq": 0.042441223,
+   "melt_n": 108,
+   "melt_sum": 14665890.4021,
+   "melt_t_sum": 8382.4933
+  },
+  {
+   "position": 87,
+   "row": 8,
+   "col": 3,
+   "well": "H3",
+   "target": "MPZ",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 27.29818,
+   "cq_undetermined": false,
+   "tm": [
+    81.92201
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 25.125966224,
+   "corrected_sum": 22.030788282194,
+   "vendor_delta_cq": 5.6190987,
+   "vendor_rq": 0.042441223,
+   "melt_n": 108,
+   "melt_sum": 12206614.1454,
+   "melt_t_sum": 8380.7346
+  },
+  {
+   "position": 91,
+   "row": 8,
+   "col": 7,
+   "well": "H7",
+   "target": "CJUN",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 39.577248,
+   "cq_undetermined": false,
+   "tm": [
+    80.47607,
+    89.90141,
+    64.38797
+   ],
+   "amp_status_raw": "-1",
+   "amp_n": 40,
+   "amp_sum": -0.9729721961,
+   "corrected_sum": 0.43275670101,
+   "vendor_delta_cq": 16.826141,
+   "vendor_rq": 4.5666604,
+   "melt_n": 108,
+   "melt_sum": 1224387.489,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 92,
+   "row": 8,
+   "col": 8,
+   "well": "H8",
+   "target": "CJUN",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 35.43711,
+   "cq_undetermined": false,
+   "tm": [
+    80.63857,
+    65.037994
+   ],
+   "amp_status_raw": "1",
+   "amp_n": 40,
+   "amp_sum": 0.5208826176,
+   "corrected_sum": 2.10045966926,
+   "vendor_delta_cq": 16.826141,
+   "vendor_rq": 4.5666604,
+   "melt_n": 108,
+   "melt_sum": 3285980.8116,
+   "melt_t_sum": 8389.4419
+  },
+  {
+   "position": 93,
+   "row": 8,
+   "col": 9,
+   "well": "H9",
+   "target": "CJUN",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 38.822563,
+   "cq_undetermined": false,
+   "tm": [
+    80.286514,
+    89.53685,
+    64.22015,
+    73.47048
+   ],
+   "amp_status_raw": "0",
+   "amp_n": 40,
+   "amp_sum": 11.48318499,
+   "corrected_sum": 0.46892058903,
+   "vendor_delta_cq": 16.826141,
+   "vendor_rq": 4.5666604,
+   "melt_n": 108,
+   "melt_sum": 4287444.923,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 94,
+   "row": 8,
+   "col": 10,
+   "well": "H10",
+   "target": "SOX2",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": 38.68525,
+   "cq_undetermined": false,
+   "tm": [
+    74.93106
+   ],
+   "amp_status_raw": "0",
+   "amp_n": 40,
+   "amp_sum": 1.02391300083,
+   "corrected_sum": 1.11910453885,
+   "vendor_delta_cq": 17.027975,
+   "vendor_rq": 0.52461433,
+   "melt_n": 108,
+   "melt_sum": 2168672.16737,
+   "melt_t_sum": 8376.1464
+  },
+  {
+   "position": 95,
+   "row": 8,
+   "col": 11,
+   "well": "H11",
+   "target": "SOX2",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    74.94855,
+    80.14773,
+    87.134125
+   ],
+   "cq_stored": 40.0,
+   "amp_status_raw": "-1",
+   "amp_n": 40,
+   "amp_sum": 0.981454064,
+   "corrected_sum": 0.26319003512,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": 925749.39259,
+   "melt_t_sum": 8387.7405
+  },
+  {
+   "position": 96,
+   "row": 8,
+   "col": 12,
+   "well": "H12",
+   "target": "SOX2",
+   "sample": "MC",
+   "task_raw": "UNKNOWN",
+   "quantity": 1.0,
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    60.0009
+   ],
+   "cq_stored": 40.0,
+   "amp_status_raw": "-1",
+   "amp_n": 40,
+   "amp_sum": -13.607973059999999,
+   "corrected_sum": -0.009012990775,
+   "vendor_delta_cq": null,
+   "vendor_rq": null,
+   "melt_n": 108,
+   "melt_sum": -5410873.442,
+   "melt_t_sum": 8387.7405
+  }
+ ],
+ "cycles": 40,
+ "acquisition_temperatures_c": [
+  60.0
+ ],
+ "acquisition_temperature_c": 60.0,
+ "qslib_multicomponent": {
+  "reader": "qslib (EUPL-1.2, black box)",
+  "stage": 2,
+  "wells": {
+   "A1": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4728336.0139999995
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4308243.182
+    }
+   },
+   "A10": {
+    "SYBR": {
+     "n": 40,
+     "sum": 9768936.458
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5061442.214
+    }
+   },
+   "A11": {
+    "SYBR": {
+     "n": 40,
+     "sum": 9263026.951
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4842201.771
+    }
+   },
+   "A12": {
+    "SYBR": {
+     "n": 40,
+     "sum": 8450197.467
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5303944.976
+    }
+   },
+   "A2": {
+    "SYBR": {
+     "n": 40,
+     "sum": 5482412.557
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4303056.344
+    }
+   },
+   "A3": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4650707.078
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4267553.707
+    }
+   },
+   "A4": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2795133.756
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4426384.545
+    }
+   },
+   "A7": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4939746.146
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5138823.848
+    }
+   },
+   "A8": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4387132.456
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4730983.238
+    }
+   },
+   "A9": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2697303.845
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5527408.45
+    }
+   },
+   "B1": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3943164.3793
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4105896.691
+    }
+   },
+   "B10": {
+    "SYBR": {
+     "n": 40,
+     "sum": 8987855.326
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4449017.137
+    }
+   },
+   "B11": {
+    "SYBR": {
+     "n": 40,
+     "sum": 9569569.199
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5169441.836
+    }
+   },
+   "B12": {
+    "SYBR": {
+     "n": 40,
+     "sum": 8855461.924
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5544841.11
+    }
+   },
+   "B2": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4055495.6802000003
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4571935.945
+    }
+   },
+   "B3": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4663321.727
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4524370.232
+    }
+   },
+   "B4": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2780506.799
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4841513.89
+    }
+   },
+   "B7": {
+    "SYBR": {
+     "n": 40,
+     "sum": 5690083.602
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4858334.116
+    }
+   },
+   "B8": {
+    "SYBR": {
+     "n": 40,
+     "sum": 7002019.065
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5660191.37
+    }
+   },
+   "B9": {
+    "SYBR": {
+     "n": 40,
+     "sum": 5246674.102
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5044042.016
+    }
+   },
+   "C1": {
+    "SYBR": {
+     "n": 40,
+     "sum": 7978209.6503
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4165935.986
+    }
+   },
+   "C10": {
+    "SYBR": {
+     "n": 40,
+     "sum": 8240803.878
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4685442.596
+    }
+   },
+   "C11": {
+    "SYBR": {
+     "n": 40,
+     "sum": 8671890.718
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4859831.965
+    }
+   },
+   "C12": {
+    "SYBR": {
+     "n": 40,
+     "sum": 9475786.011
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5096690.709
+    }
+   },
+   "C2": {
+    "SYBR": {
+     "n": 40,
+     "sum": 8279548.184
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4340659.009
+    }
+   },
+   "C3": {
+    "SYBR": {
+     "n": 40,
+     "sum": 10607220.279
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5309559.14
+    }
+   },
+   "C4": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3111697.44
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5208238.3379999995
+    }
+   },
+   "C7": {
+    "SYBR": {
+     "n": 40,
+     "sum": 7227779.862
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4786984.995
+    }
+   },
+   "C8": {
+    "SYBR": {
+     "n": 40,
+     "sum": 5724096.0
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5240493.184
+    }
+   },
+   "C9": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3664567.8789999997
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4701953.85
+    }
+   },
+   "D1": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4229895.6794300005
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4152382.931
+    }
+   },
+   "D10": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3198684.6791
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4548880.748
+    }
+   },
+   "D11": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2852712.747
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4479690.436
+    }
+   },
+   "D12": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3000938.5699
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4822995.737
+    }
+   },
+   "D2": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4903689.31512
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4740502.887
+    }
+   },
+   "D3": {
+    "SYBR": {
+     "n": 40,
+     "sum": 5819376.258
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4733088.716
+    }
+   },
+   "D4": {
+    "SYBR": {
+     "n": 40,
+     "sum": 751158.745
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4560721.408
+    }
+   },
+   "D7": {
+    "SYBR": {
+     "n": 40,
+     "sum": 576541.6584
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4726487.26
+    }
+   },
+   "D8": {
+    "SYBR": {
+     "n": 40,
+     "sum": 722233.6592
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4434065.568
+    }
+   },
+   "D9": {
+    "SYBR": {
+     "n": 40,
+     "sum": 242119.992
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4832037.537
+    }
+   },
+   "E1": {
+    "SYBR": {
+     "n": 40,
+     "sum": 8710910.452
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4208993.223
+    }
+   },
+   "E10": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2548834.747
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4300621.93
+    }
+   },
+   "E11": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3119344.624
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4561452.916
+    }
+   },
+   "E12": {
+    "SYBR": {
+     "n": 40,
+     "sum": 1835624.33
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5673416.25
+    }
+   },
+   "E2": {
+    "SYBR": {
+     "n": 40,
+     "sum": 11143704.795
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4723000.194
+    }
+   },
+   "E3": {
+    "SYBR": {
+     "n": 40,
+     "sum": 9158310.191
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4997119.105
+    }
+   },
+   "E7": {
+    "SYBR": {
+     "n": 40,
+     "sum": 1353659.572
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4178036.408
+    }
+   },
+   "E8": {
+    "SYBR": {
+     "n": 40,
+     "sum": 1435977.93
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4624075.516
+    }
+   },
+   "E9": {
+    "SYBR": {
+     "n": 40,
+     "sum": 834897.9789999999
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 3856229.853
+    }
+   },
+   "F1": {
+    "SYBR": {
+     "n": 40,
+     "sum": 8121470.819
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4062727.139
+    }
+   },
+   "F10": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2419264.385
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4184975.768
+    }
+   },
+   "F11": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3263766.716
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4513805.249
+    }
+   },
+   "F12": {
+    "SYBR": {
+     "n": 40,
+     "sum": 1081091.624
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5434761.07
+    }
+   },
+   "F2": {
+    "SYBR": {
+     "n": 40,
+     "sum": 9635409.309
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4476941.929
+    }
+   },
+   "F3": {
+    "SYBR": {
+     "n": 40,
+     "sum": 8150377.92
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5003555.356
+    }
+   },
+   "F7": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2383108.903
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4437379.717
+    }
+   },
+   "F8": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2634793.126
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4453558.566
+    }
+   },
+   "F9": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2693090.972
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4606622.248
+    }
+   },
+   "G1": {
+    "SYBR": {
+     "n": 40,
+     "sum": 7185784.325
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4288944.128
+    }
+   },
+   "G10": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3028237.583
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5263970.261
+    }
+   },
+   "G11": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2792014.836
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5304614.61
+    }
+   },
+   "G12": {
+    "SYBR": {
+     "n": 40,
+     "sum": 461015.1415
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 6512200.81
+    }
+   },
+   "G2": {
+    "SYBR": {
+     "n": 40,
+     "sum": 7246945.504
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 3867568.182
+    }
+   },
+   "G3": {
+    "SYBR": {
+     "n": 40,
+     "sum": 8162756.061
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4886586.828
+    }
+   },
+   "G7": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3089430.8585
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4837505.041
+    }
+   },
+   "G8": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2747347.69
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4915658.471
+    }
+   },
+   "G9": {
+    "SYBR": {
+     "n": 40,
+     "sum": 2330396.8955
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5040353.701
+    }
+   },
+   "H1": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4406956.129
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4390276.16
+    }
+   },
+   "H10": {
+    "SYBR": {
+     "n": 40,
+     "sum": 119026.20896199999
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4708401.123
+    }
+   },
+   "H11": {
+    "SYBR": {
+     "n": 40,
+     "sum": 116543.9954
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4768867.723
+    }
+   },
+   "H12": {
+    "SYBR": {
+     "n": 40,
+     "sum": -2051198.194
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 6029836.97
+    }
+   },
+   "H2": {
+    "SYBR": {
+     "n": 40,
+     "sum": 4207904.893
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4477306.27
+    }
+   },
+   "H3": {
+    "SYBR": {
+     "n": 40,
+     "sum": 3626679.894
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5761587.36
+    }
+   },
+   "H7": {
+    "SYBR": {
+     "n": 40,
+     "sum": -137124.51461
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5615575.1
+    }
+   },
+   "H8": {
+    "SYBR": {
+     "n": 40,
+     "sum": 59071.42105999999
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 4769299.911
+    }
+   },
+   "H9": {
+    "SYBR": {
+     "n": 40,
+     "sum": 1522030.614
+    },
+    "ROX": {
+     "n": 40,
+     "sum": 5305370.94
+    }
+   }
+  }
+ }
+}

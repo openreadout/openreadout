@@ -119,6 +119,16 @@ impl NsxDataset {
             extra.insert("recorded_at".into(), json!(t));
         }
         extra.insert("ptp".into(), json!(n.ptp_stride.is_some()));
+        if n.ptp_stride.is_some() {
+            extra.insert(
+                "ptp_timestamps_read".into(),
+                json!(if n.ptp_sweeps_assumed {
+                    "probed"
+                } else {
+                    "all"
+                }),
+            );
+        }
         if let Some(src) = &n.scaling_source {
             extra.insert("scaling_source".into(), json!(src));
         }
