@@ -63,6 +63,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature instrument `m` (descriptive)
 - feature writer_version `v` (descriptive)
 - feature record `format!("device {d}")` (descriptive)
+- undecoded "{f} (not in the data directory)"
 - calibration "time-of-flight to m/z (MSMassCal.bin, DefaultMassCal.xml)"
 
 ### Validated variants and the corpus files that pin them
@@ -122,7 +123,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_masshunter`
-- corpus inputs by tier: full 3, heldout 2, smoke 1, standard 16
+- corpus inputs by tier: full 3, heldout 2, smoke 5, standard 23
 - golden snapshots: [`corpus/snapshots/agilent-masshunter.jsonl`](../../corpus/snapshots/agilent-masshunter.jsonl)
 
 ### Open new-variant intakes
