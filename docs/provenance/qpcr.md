@@ -249,3 +249,46 @@ Outcome with the release binary:
 - `experiment.instrument.model` is "29892" on these plates. The binary takes the model from the
   run's `InstrumentName`, which this lab set to the instrument's serial number. On the QC runs the
   same field holds "LightCycler 480 - LED lamp".
+
+## 2026-10-06 — LightCycler 480: the instrument model, the export scale, and tests against both new oracles (Richard Zimring with Claude as assistant)
+
+Corpus ids: `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b`,
+`ixo-lc480-qc-2026a` (Zenodo 22121623, the depositor's reader as oracle) and
+`ixo-mendeley-diras2-cp1`, `-cp2`, `-cp3`, `-cp4`, `-cp6`, `-cp7` (Mendeley Data
+doi:10.17632/rtsx7zpt4w.1, the LightCycler 480 software's exports as oracle). No held-out file
+was opened.
+
+Prior art: none new. The two oracles of the previous entries
+(`corpus/oracle/qpcr-roche-qcreader/`, `corpus/oracle/qpcr-roche-export/`) and the decompressed
+acquisition stores of the files, listed with Python's `zlib`, `base64` and `re` modules.
+
+What we inferred, from what:
+
+- **Instrument model.** `run/InstrumentName` is "LightCycler 480 - LED lamp" or "LightCycler 480
+  - Xenon lamp" on the QC runs and "29892" on all six Mendeley plates. The depositor's reader
+  calls the QC value the instrument. The Mendeley value equals the run's `InstrumentID`, the
+  instrument's serial number, so the field is a name the lab chose, not always a model. Decision: the reader takes
+  the model from it only when it contains "LightCycler"; otherwise the model is unset (in the
+  instrument fields and in the run, so `experiment.instrument.model` is absent) and the name is
+  kept as `vendor.instrument_name`.
+- **Export scale.** Every `THTCFloAcquisition` of both depositors carries `IntgrTime` (319 on
+  the Mendeley plates; 400 and 1200 on the QC runs), `RefValue` (`$` + hex f64, different in
+  almost every cycle) and `ScalingFactor` (20000 in all files). The previous entry found the
+  software's raw-data export equal to stored × `ScalingFactor` ÷ (`RefValue` × `IntgrTime`); the
+  new test confirms it on all 17,280 readings of each of the six plates (384 wells × 45 cycles). Decision: the curves stay the stored readings. The software's
+  values are a normalization by a reference reading that changes per cycle, and returning
+  them instead would change every value the earlier comparisons and the QC reader confirmed.
+  The reader now gives the factor per channel and amplification cycle in `vendor.export_scale`,
+  so the export can be reproduced and the corpus test can compare with it. A second set of
+  curves was the other choice; it would double the traces of every file for a value one
+  multiplication away.
+- **Melt.** The depositor's reader returns `MeltTemp`, `MeltCurve` and `DiffMeltCurve`, 128
+  points per well from 71.93 to 96.7 °C on the 2017 run, which are the software's resampled
+  analysis. Our melt curves are the raw readings at each acquisition's `Temp`. The two cannot
+  be compared value by value, so melt stays unconfirmed. The qPCR assurance profile now reports a
+  derivation `traces[].melt` for `.ixo` files with melt curves, which keeps those files
+  `partially_validated` until an oracle checks melt (feature scopes cannot separate melt traces
+  from amplification traces).
+
+Tests (`tests/qpcr_roche.rs`, results lines with `QPCR_ROCHE_RESULTS=<file>`):
+`lightcycler480_matches_the_depositors_reader` and `lightcycler480_matches_the_vendor_exports`.
