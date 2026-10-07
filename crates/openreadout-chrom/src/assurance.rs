@@ -443,12 +443,13 @@ const OPENLAB_CDS_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const OPENLAB_CDS_VALIDATED: &[Validated] = &[
     a::row(K::Codec, "InstrumentTrace179", 6, 2, 6),
-    a::row(K::Codec, "Signal179", 12, 3, 12),
+    a::row(K::Codec, "Signal179", 13, 4, 13),
     a::row(K::Codec, "Spectra131", 2, 1, 2),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 12),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 4),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 13),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 5),
     a::row(K::FormatVersion, "signal 131", 2, 1, 2),
-    a::row(K::FormatVersion, "signal 179", 10, 3, 10),
+    a::row(K::FormatVersion, "signal 179", 11, 4, 11),
+    a::row(K::Instrument, "7890B", 1, 1, 1),
     a::row(K::Instrument, "G1364F", 1, 1, 1),
     a::row(K::Instrument, "G7104C", 1, 1, 1),
     a::row(K::Instrument, "G7111B", 3, 1, 3),
@@ -461,16 +462,19 @@ const OPENLAB_CDS_VALIDATED: &[Validated] = &[
     a::row(K::Writer, "Agilent OpenLAB Data Analysis Processing Server", 6, 1, 6),
     a::row(K::Writer, "Agilent OpenLab Data Analysis", 3, 1, 3),
     a::row(K::WriterVersion, "OpenLab CDS 2.5", 3, 1, 3),
+    a::row(K::WriterVersion, "OpenLab CDS 2.6", 1, 1, 1),
     a::row(K::WriterVersion, "OpenLab CDS 2.8", 1, 1, 1),
 ];
 // END GENERATED openlab-cds
 
 // BEGIN GENERATED empower-arw (cargo xtask assurance-audit --write; do not edit)
-const EMPOWER_ARW_CONFIDENCE: Confidence = Confidence::Low;
+const EMPOWER_ARW_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const EMPOWER_ARW_VALIDATED: &[Validated] = &[
-    a::row(K::Dialect, "CR line endings", 6, 1, 6),
-    a::row(K::Layout, "2D, evenly spaced times", 6, 1, 6),
+    a::row(K::Dialect, "CR line endings", 10, 2, 10),
+    a::row(K::Dialect, "CRLF line endings", 13, 2, 13),
+    a::row(K::Layout, "2D, evenly spaced times", 23, 3, 23),
+    a::row(K::Layout, "one field per line", 13, 2, 13),
 ];
 // END GENERATED empower-arw
 
@@ -522,31 +526,31 @@ const SHIMADZU_VALIDATED: &[Validated] = &[
 const CHROMELEON_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const CHROMELEON_VALIDATED: &[Validated] = &[
-    a::row(K::Codec, "3DRawSpc", 2, 2, 2),
+    a::row(K::Codec, "3DRawSpc", 0, 0, 2),
     a::row(K::Codec, "PtsDDCmp", 1, 1, 1),
-    a::row(K::Codec, "PtsLDiff", 9, 5, 11),
+    a::row(K::Codec, "PtsLDiff", 11, 3, 16),
     a::row(K::Codec, "PtsLL2Df", 1, 1, 1),
-    a::row(K::FormatVersion, "stored results 1", 1, 1, 7),
+    a::row(K::FormatVersion, "stored results 1", 1, 1, 12),
     a::row(K::FormatVersion, "stored results 2", 0, 0, 3),
     a::row(K::Instrument, "Acquity.dll", 0, 0, 1),
     a::row(K::Instrument, "DAD3000.dll", 0, 0, 1),
     a::row(K::Instrument, "DC-6000", 1, 1, 2),
     a::row(K::Instrument, "ICS-6000 SP", 1, 1, 2),
     a::row(K::Instrument, "PumpLPG3X00RS.dll", 0, 0, 1),
-    a::row(K::Instrument, "Thermo Scientific Trace GC", 1, 1, 7),
+    a::row(K::Instrument, "Thermo Scientific Trace GC", 1, 1, 12),
     a::row(K::Instrument, "Thermo.MassSpectrometer", 0, 0, 1),
-    a::row(K::Layout, "1 Hz signal in mL/min", 1, 1, 1),
-    a::row(K::Layout, "10 Hz signal in bar", 1, 1, 1),
-    a::row(K::Layout, "100 Hz signal in bar", 1, 1, 1),
-    a::row(K::Layout, "16 Hz signal in psi", 2, 1, 2),
+    a::row(K::Layout, "1 Hz signal in mL/min", 0, 0, 1),
+    a::row(K::Layout, "10 Hz signal in bar", 0, 0, 1),
+    a::row(K::Layout, "100 Hz signal in bar", 0, 0, 1),
+    a::row(K::Layout, "16 Hz signal in psi", 1, 1, 2),
     a::row(K::Layout, "2 Hz signal in nC", 2, 1, 2),
-    a::row(K::Layout, "20 Hz 3D field in mAU", 1, 1, 1),
+    a::row(K::Layout, "20 Hz 3D field in mAU", 0, 0, 1),
     a::row(K::Layout, "20 Hz signal in mAU", 1, 1, 1),
-    a::row(K::Layout, "25 Hz 3D field in mAU", 1, 1, 1),
+    a::row(K::Layout, "25 Hz 3D field in mAU", 0, 0, 1),
     a::row(K::Layout, "25 Hz signal in mAU", 1, 1, 1),
-    a::row(K::Layout, "50 Hz signal in mV", 5, 2, 7),
+    a::row(K::Layout, "50 Hz signal in mV", 9, 2, 12),
     a::row(K::Layout, "irregular signal in counts", 1, 1, 1),
-    a::row(K::WriterVersion, "Chromeleon 7.2", 7, 4, 10),
+    a::row(K::WriterVersion, "Chromeleon 7.2", 11, 4, 15),
     a::row(K::WriterVersion, "Chromeleon 7.3", 2, 1, 2),
 ];
 // END GENERATED chromeleon

@@ -302,15 +302,17 @@ const SARTORIUS_OCTET_FRD_VALIDATED: &[Validated] = &[
 const MALVERN_ZETASIZER_DTS_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
 const MALVERN_ZETASIZER_DTS_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "size record", 0, 0, 5),
-    a::row(K::Acquisition, "zeta record", 1, 1, 1),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 6),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 6),
+    a::row(K::Acquisition, "size record", 0, 0, 14),
+    a::row(K::Acquisition, "zeta record", 1, 1, 8),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 16),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 16),
     a::row(K::FormatVersion, "record schema 10", 0, 0, 1),
-    a::row(K::FormatVersion, "record schema 13", 1, 1, 5),
+    a::row(K::FormatVersion, "record schema 12", 0, 0, 5),
+    a::row(K::FormatVersion, "record schema 13", 1, 1, 13),
     a::row(K::WriterVersion, "Zetasizer 7.02", 0, 0, 1),
-    a::row(K::WriterVersion, "Zetasizer 7.12", 1, 1, 4),
-    a::row(K::WriterVersion, "Zetasizer 7.13", 0, 0, 2),
+    a::row(K::WriterVersion, "Zetasizer 7.10", 0, 0, 6),
+    a::row(K::WriterVersion, "Zetasizer 7.12", 1, 1, 7),
+    a::row(K::WriterVersion, "Zetasizer 7.13", 0, 0, 3),
     a::row(K::WriterVersion, "Zetasizer 8.00", 0, 0, 1),
     a::row(K::WriterVersion, "Zetasizer 8.01", 0, 0, 1),
 ];

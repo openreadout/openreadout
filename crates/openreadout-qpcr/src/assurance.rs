@@ -211,15 +211,16 @@ const BIO_RAD_PCRD_VALIDATED: &[Validated] = &[];
 const ROCHE_LIGHTCYCLER_IXO_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
 const ROCHE_LIGHTCYCLER_IXO_VALIDATED: &[Validated] = &[
-    a::row(K::Dialect, "ixo", 0, 0, 4),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 4),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 4),
+    a::row(K::Dialect, "ixo", 0, 0, 10),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 10),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 10),
+    a::row(K::Instrument, "29892", 0, 0, 6),
     a::row(K::Instrument, "LightCycler 480 - LED lamp", 0, 0, 2),
     a::row(K::Instrument, "LightCycler 480 - Xenon lamp", 0, 0, 2),
-    a::row(K::Record, "amplification", 0, 0, 4),
+    a::row(K::Record, "amplification", 0, 0, 10),
     a::row(K::Record, "melt", 0, 0, 4),
     a::row(K::Record, "melt derivative", 0, 0, 4),
-    a::row(K::Writer, "LightCycler", 0, 0, 4),
+    a::row(K::Writer, "LightCycler", 0, 0, 10),
 ];
 // END GENERATED roche-lightcycler-ixo
 

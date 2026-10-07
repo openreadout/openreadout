@@ -215,6 +215,11 @@ const NWB_VALIDATED: &[Validated] = &[
 // END GENERATED nwb
 
 // BEGIN GENERATED hdf5 (cargo xtask assurance-audit --write; do not edit)
-const HDF5_CONFIDENCE: Confidence = Confidence::Low;
-const HDF5_VALIDATED: &[Validated] = &[];
+const HDF5_CONFIDENCE: Confidence = Confidence::Medium;
+#[rustfmt::skip]
+const HDF5_VALIDATED: &[Validated] = &[
+    a::row(K::Dialect, "generic hdf5", 4, 4, 4),
+    a::row(K::FormatVersion, "superblock version 0", 3, 3, 3),
+    a::row(K::FormatVersion, "superblock version 2", 1, 1, 1),
+];
 // END GENERATED hdf5
