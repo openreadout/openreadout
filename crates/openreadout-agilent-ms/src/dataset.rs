@@ -736,6 +736,14 @@ impl AgilentDataset {
                 "Only uncompressed peak blocks have been seen in corpus files.",
             )
         })?;
+        if n > 0 && Some(bytes.len()) == n.checked_mul(16) && !self.is_gcms_points(blk) {
+            return self.wide_tof_peaks(r, d);
+        }
+        let d = if n > 0 && Some(bytes.len()) == n.checked_mul(8) {
+            crate::layout::eight_byte_abundances(&bytes, n, d, blk.max_y)
+        } else {
+            d
+        };
         // Stored x is m/z when it already equals the block's MinX (quadrupole data, or files
         // without a calibration); otherwise it is a flight time to calibrate.
         let raw_is_mz = match (d.x.first(), blk.min_x) {
@@ -751,6 +759,7 @@ impl AgilentDataset {
         let mz: Vec<f64> = if raw_is_mz
             || blk.format_id == FORMAT_QUAD_PEAK
             || self.is_quad_points(blk)
+            || self.is_gcms_points(blk)
         {
             d.x
         } else {
@@ -759,6 +768,44 @@ impl AgilentDataset {
             })?;
             d.x.iter().map(|&t| cal.mz(t)).collect()
         };
+        Ok(sort_pairs(mz, d.y))
+    }
+
+    /// A centroid list of 16 bytes per point outside GC/MS point lists (a 7200 GC/Q-TOF): f64
+    /// flight times and f64 abundances; MinX holds a flight time too, so the stored x is
+    /// calibrated. The most intense point must land on the record's base-peak m/z, or the
+    /// scan is refused.
+    fn wide_tof_peaks(
+        &self,
+        r: &crate::layout::ScanRecord,
+        d: crate::layout::PeakData,
+    ) -> Result<(Vec<f64>, Vec<f32>)> {
+        let cal = self.calibration(r).ok_or_else(|| {
+            Error::unsupported(
+                FORMAT_ID,
+                "time-of-flight peaks without a calibration",
+                "Neither MSMassCal.bin nor DefaultMassCal.xml holds a calibration for this scan.",
+            )
+        })?;
+        let mz: Vec<f64> = d.x.iter().map(|&t| cal.mz(t)).collect();
+        let top =
+            d.y.iter()
+                .enumerate()
+                .max_by(|a, b| a.1.total_cmp(b.1))
+                .map(|(k, _)| k);
+        if let Some(k) = top
+            && r.base_peak_mz > 0.0
+            && (mz[k] - r.base_peak_mz).abs() > 1e-4 * r.base_peak_mz
+        {
+            return Err(Error::unsupported(
+                FORMAT_ID,
+                format!(
+                    "scan {}: 16-byte centroids whose most intense point calibrates to m/z {:.4}, not the stored base peak {:.4}",
+                    r.scan_id, mz[k], r.base_peak_mz
+                ),
+                "This centroid layout has been decoded on one GC/Q-TOF file only; report the file with `openreadout report`.",
+            ));
+        }
         Ok(sort_pairs(mz, d.y))
     }
 
@@ -775,6 +822,17 @@ impl AgilentDataset {
             && self.peak_path.is_some()
             && blk.point_count > 0
             && blk.point_count.checked_mul(8) == Some(blk.byte_count)
+    }
+
+    /// A block of spectrum format 1 that lies in `MSPeak.bin` because the data directory has no
+    /// `MSProfile.bin` (single-quadrupole GC/MS acquisitions): `16n` bytes, f64 m/z × n then
+    /// f64 abundances × n.
+    fn is_gcms_points(&self, blk: &crate::layout::SpectrumBlock) -> bool {
+        blk.format_id == FORMAT_PROFILE
+            && self.profile_path.is_none()
+            && self.peak_path.is_some()
+            && blk.point_count > 0
+            && blk.point_count.checked_mul(16) == Some(blk.byte_count)
     }
 
     /// The record's profile block (when `MSProfile.bin` exists to hold it) and its point list.
@@ -798,6 +856,7 @@ impl AgilentDataset {
                 b.format_id == FORMAT_PEAK
                     || b.format_id == FORMAT_QUAD_PEAK
                     || self.is_quad_points(b)
+                    || self.is_gcms_points(b)
             })
             .filter(|b| b.byte_count > 0 || b.point_count == 0);
         (profile, peak)
@@ -931,6 +990,23 @@ impl AgilentDataset {
             sp.intensity = intensity;
             return Ok(sp);
         }
+        // A profile kept in an MSProfile.bin the directory does not hold (a partial copy) is
+        // missing data, not an empty spectrum.
+        if peak.is_none()
+            && profile.is_none()
+            && self.profile_path.is_none()
+            && let Some(b) = r
+                .block(FORMAT_PROFILE)
+                .filter(|b| b.point_count > 0 && b.byte_count > 0)
+        {
+            return Err(Error::corrupt(
+                FORMAT_ID,
+                format!(
+                    "scan {}: its profile ({} points) is stored in AcqData/MSProfile.bin, which this data directory does not hold",
+                    r.scan_id, b.point_count
+                ),
+            ));
+        }
         let use_profile = match view {
             SpectrumView::Centroid => peak.is_none() && profile.is_some(),
             _ => profile.is_some(),
@@ -945,6 +1021,10 @@ impl AgilentDataset {
         };
         let mrm_points = blk.is_some_and(|b| self.is_quad_points(b));
         let mut sp = Self::meta_of(r, index, blk, use_profile, mrm_points);
+        if blk.is_some_and(|b| self.is_gcms_points(b)) {
+            // these blocks' MinX/MaxX are not m/z (they hold a twentieth of it)
+            sp.scan_window_mz = None;
+        }
         sp.mz = mz;
         sp.intensity = intensity;
         Ok(sp)
@@ -974,6 +1054,9 @@ impl AgilentDataset {
             profile.is_some() || quad_profile,
             blk.is_some_and(|b| self.is_quad_points(b)),
         ));
+        if blk.is_some_and(|b| self.is_gcms_points(b)) {
+            h.scan_window_mz = None;
+        }
         h.point_count = blk.and_then(|b| u64::try_from(b.point_count).ok());
         Ok(h)
     }
@@ -1130,6 +1213,20 @@ impl AgilentDataset {
         };
         let data = if self.ims.is_some() { "profile" } else { data };
         extra.insert("stored_spectra".into(), json!(data));
+        // Scans whose only data is a profile kept in an MSProfile.bin the directory does not
+        // hold (a partial copy). A centroid-only acquisition still declares profile blocks; its
+        // scans are read from their peak lists.
+        if self.profile_path.is_none()
+            && self.records.iter().any(|r| {
+                let (profile, peak) = self.blocks_of(r);
+                profile.is_none()
+                    && peak.is_none()
+                    && r.block(FORMAT_PROFILE)
+                        .is_some_and(|b| b.point_count > 0 && b.byte_count > 0)
+            })
+        {
+            extra.insert("missing_files".into(), json!(["AcqData/MSProfile.bin"]));
+        }
         if let Some(ims) = &self.ims {
             extra.insert(
                 "ion_mobility".into(),
@@ -1525,7 +1622,7 @@ impl Dataset for AgilentDataset {
                 if b.byte_count <= 0 {
                     continue;
                 }
-                let (file, len) = if b.format_id == FORMAT_PROFILE {
+                let (file, len) = if b.format_id == FORMAT_PROFILE && !self.is_gcms_points(b) {
                     ("MSProfile.bin", prof_len)
                 } else {
                     ("MSPeak.bin", peak_len)
@@ -1537,16 +1634,17 @@ impl Dataset for AgilentDataset {
                 if !ok {
                     bad += 1;
                     if bad <= 5 {
-                        rep.push(Finding::error(
-                            "truncated",
-                            format!(
-                                "scan {}: {file} block of {} bytes at {} runs past the end of the file ({} bytes)",
-                                r.scan_id,
-                                b.byte_count,
-                                b.offset,
-                                len.map_or_else(|| "missing".into(), |l| l.to_string())
+                        let msg = match len {
+                            Some(l) => format!(
+                                "scan {}: {file} block of {} bytes at {} runs past the end of the file ({l} bytes)",
+                                r.scan_id, b.byte_count, b.offset
                             ),
-                        ));
+                            None => format!(
+                                "scan {}: its {file} block of {} bytes cannot be read: the data directory holds no AcqData/{file}",
+                                r.scan_id, b.byte_count
+                            ),
+                        };
+                        rep.push(Finding::error("truncated", msg));
                     }
                 }
             }

@@ -1,0 +1,7783 @@
+{
+ "id": "mtbls5747-vantage-sponge-35",
+ "file": "mtbls5747-vantage-sponge-35.raw",
+ "size": 6135800,
+ "sha256": "408c29921873e927cebd5eb3c2db09e7415c479ddb50ca417fd8bdbc1ea98d1f",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 on the depositor's mzML (mtbls5747-vantage-sponge-35.mzML)",
+ "paired_export": "mtbls5747-vantage-sponge-35.mzML",
+ "export_software": [
+  [
+   "Xcalibur",
+   "2.3.0.1206 SP1"
+  ],
+  [
+   "pwiz",
+   "3.0.19277"
+  ]
+ ],
+ "peak_picking_in_export": false,
+ "images": [],
+ "chromatograms": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "kind": "tic",
+   "polarity": "unknown",
+   "precursor_mz": null,
+   "product_mz": null,
+   "product_lower_offset": null,
+   "product_upper_offset": null,
+   "collision_energy": null,
+   "n_points": 14763,
+   "xxh3_time_min": "129f6e0faa19c0a5cbe90c1f90628df0",
+   "xxh3_intensity": "0e312233f3ca9bff85bcf04a2e678803",
+   "sum_intensity": 61213380.08956623,
+   "first_points": [
+    [
+     0.0012000000569969416,
+     1.7237560749053955
+    ],
+    [
+     0.00139999995008111,
+     1.7543561458587646
+    ],
+    [
+     0.0016166666755452752,
+     2352.35888671875
+    ],
+    [
+     0.0018166666850447655,
+     338.79486083984375
+    ],
+    [
+     0.002033333294093609,
+     1.9029276371002197
+    ]
+   ],
+   "n_nonzero": 14763,
+   "xxh3_time_min_nonzero": "129f6e0faa19c0a5cbe90c1f90628df0",
+   "xxh3_intensity_nonzero": "0e312233f3ca9bff85bcf04a2e678803"
+  },
+  {
+   "index": 1,
+   "id": "SRM SIC 89.113,30.415",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 89.113,
+   "product_mz": 30.415,
+   "product_lower_offset": 0.0009999999999994,
+   "product_upper_offset": 0.0009999999999994,
+   "collision_energy": 0.0,
+   "n_points": 97,
+   "xxh3_time_min": "a2e2f4545c079af1800dc58207fd43d6",
+   "xxh3_intensity": "d7c1c9d739edb247c931dc1b886fa604",
+   "sum_intensity": 5553.622538089752,
+   "first_points": [
+    [
+     0.018783332780003548,
+     0.8807090520858765
+    ],
+    [
+     0.025066666305065155,
+     0.8580651879310608
+    ],
+    [
+     0.03123333305120468,
+     0.8156479001045227
+    ],
+    [
+     0.03763333335518837,
+     0.8729408979415894
+    ],
+    [
+     0.04413333535194397,
+     0.9350609183311462
+    ]
+   ],
+   "n_nonzero": 97,
+   "xxh3_time_min_nonzero": "a2e2f4545c079af1800dc58207fd43d6",
+   "xxh3_intensity_nonzero": "d7c1c9d739edb247c931dc1b886fa604"
+  },
+  {
+   "index": 2,
+   "id": "SRM SIC 89.113,72.173",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 89.113,
+   "product_mz": 72.173,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 97,
+   "xxh3_time_min": "a2e2f4545c079af1800dc58207fd43d6",
+   "xxh3_intensity": "7356aa685d5321dd9b1f0844db32ebfd",
+   "sum_intensity": 1379.7616257667542,
+   "first_points": [
+    [
+     0.018783332780003548,
+     0.820095956325531
+    ],
+    [
+     0.025066666305065155,
+     0.9236756563186646
+    ],
+    [
+     0.03123333305120468,
+     0.9079173803329468
+    ],
+    [
+     0.03763333335518837,
+     0.8578688502311707
+    ],
+    [
+     0.04413333535194397,
+     0.7848857641220093
+    ]
+   ],
+   "n_nonzero": 97,
+   "xxh3_time_min_nonzero": "a2e2f4545c079af1800dc58207fd43d6",
+   "xxh3_intensity_nonzero": "7356aa685d5321dd9b1f0844db32ebfd"
+  },
+  {
+   "index": 3,
+   "id": "SRM SIC 90.064,42.149",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 90.064,
+   "product_mz": 42.149,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "5a31033d8205da2e2076b2f3a4812ece",
+   "xxh3_intensity": "d42d41be27ac68b0e5ab10b0682d0092",
+   "sum_intensity": 17331.044587552547,
+   "first_points": [
+    [
+     0.01898333430290222,
+     0.7475406527519226
+    ],
+    [
+     0.02525000087916851,
+     0.8341711163520813
+    ],
+    [
+     0.03141666576266289,
+     0.9012341499328613
+    ],
+    [
+     0.037816666066646576,
+     0.7953699827194214
+    ],
+    [
+     0.044316668063402176,
+     0.8483654856681824
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "5a31033d8205da2e2076b2f3a4812ece",
+   "xxh3_intensity_nonzero": "d42d41be27ac68b0e5ab10b0682d0092"
+  },
+  {
+   "index": 4,
+   "id": "SRM SIC 90.064,44.179",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 90.064,
+   "product_mz": 44.179,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "5a31033d8205da2e2076b2f3a4812ece",
+   "xxh3_intensity": "9558c98cbc09a35e01bbadb446925bf4",
+   "sum_intensity": 10731.335362493992,
+   "first_points": [
+    [
+     0.01898333430290222,
+     0.8893139362335205
+    ],
+    [
+     0.02525000087916851,
+     0.9037478566169739
+    ],
+    [
+     0.03141666576266289,
+     0.8722798228263855
+    ],
+    [
+     0.037816666066646576,
+     0.8838618993759155
+    ],
+    [
+     0.044316668063402176,
+     0.8809427618980408
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "5a31033d8205da2e2076b2f3a4812ece",
+   "xxh3_intensity_nonzero": "9558c98cbc09a35e01bbadb446925bf4"
+  },
+  {
+   "index": 5,
+   "id": "SRM SIC 104.087,45.202",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 104.087,
+   "product_mz": 45.202,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "950659210093bea3bd8568ffa31d86e2",
+   "xxh3_intensity": "d347e08e34260ee237eecd35c923cac0",
+   "sum_intensity": 44481.9048165977,
+   "first_points": [
+    [
+     0.002966666594147682,
+     0.7795625329017639
+    ],
+    [
+     0.009066666476428509,
+     0.8381861448287964
+    ],
+    [
+     0.015233333222568035,
+     0.8826612830162048
+    ],
+    [
+     0.021516667678952217,
+     0.9201977252960205
+    ],
+    [
+     0.027766667306423187,
+     0.8768941164016724
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "950659210093bea3bd8568ffa31d86e2",
+   "xxh3_intensity_nonzero": "d347e08e34260ee237eecd35c923cac0"
+  },
+  {
+   "index": 6,
+   "id": "SRM SIC 104.087,87.22",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 104.087,
+   "product_mz": 87.22,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "950659210093bea3bd8568ffa31d86e2",
+   "xxh3_intensity": "fe0a083321a64fc5f39a500b3bdccc20",
+   "sum_intensity": 4449.510391652584,
+   "first_points": [
+    [
+     0.002966666594147682,
+     0.957999050617218
+    ],
+    [
+     0.009066666476428509,
+     1.0058648586273193
+    ],
+    [
+     0.015233333222568035,
+     0.8782550692558289
+    ],
+    [
+     0.021516667678952217,
+     0.8917509317398071
+    ],
+    [
+     0.027766667306423187,
+     0.8376773595809937
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "950659210093bea3bd8568ffa31d86e2",
+   "xxh3_intensity_nonzero": "fe0a083321a64fc5f39a500b3bdccc20"
+  },
+  {
+   "index": 7,
+   "id": "SRM SIC 104.113,58.26",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 104.113,
+   "product_mz": 58.26,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 103,
+   "xxh3_time_min": "19352b6f0d1b35ee719b7348a2045c7d",
+   "xxh3_intensity": "93c8add406d84340e30f110cbda55053",
+   "sum_intensity": 31430.849826693535,
+   "first_points": [
+    [
+     0.002033333294093609,
+     0.8808718323707581
+    ],
+    [
+     0.008133333176374435,
+     0.8965543508529663
+    ],
+    [
+     0.014399999752640724,
+     0.8132086992263794
+    ],
+    [
+     0.020666666328907013,
+     0.9292500019073486
+    ],
+    [
+     0.02694999985396862,
+     0.8807571530342102
+    ]
+   ],
+   "n_nonzero": 103,
+   "xxh3_time_min_nonzero": "19352b6f0d1b35ee719b7348a2045c7d",
+   "xxh3_intensity_nonzero": "93c8add406d84340e30f110cbda55053"
+  },
+  {
+   "index": 8,
+   "id": "SRM SIC 104.113,60.384",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 104.113,
+   "product_mz": 60.384,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 103,
+   "xxh3_time_min": "19352b6f0d1b35ee719b7348a2045c7d",
+   "xxh3_intensity": "45d79ac7c77f7b388f946933c80abce1",
+   "sum_intensity": 61433.19164144993,
+   "first_points": [
+    [
+     0.002033333294093609,
+     1.0220558643341064
+    ],
+    [
+     0.008133333176374435,
+     0.8886089324951172
+    ],
+    [
+     0.014399999752640724,
+     0.8262640237808228
+    ],
+    [
+     0.020666666328907013,
+     0.9738514423370361
+    ],
+    [
+     0.02694999985396862,
+     0.8523713946342468
+    ]
+   ],
+   "n_nonzero": 103,
+   "xxh3_time_min_nonzero": "19352b6f0d1b35ee719b7348a2045c7d",
+   "xxh3_intensity_nonzero": "45d79ac7c77f7b388f946933c80abce1"
+  },
+  {
+   "index": 9,
+   "id": "SRM SIC 106.052,42.155",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 106.052,
+   "product_mz": 42.155,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 103,
+   "xxh3_time_min": "35119af61d0799a927ef499823a43eb3",
+   "xxh3_intensity": "00e875f8742506de242cf990362bd35b",
+   "sum_intensity": 3685.36818164587,
+   "first_points": [
+    [
+     0.002233333420008421,
+     0.8051015138626099
+    ],
+    [
+     0.008349999785423279,
+     0.9163341522216797
+    ],
+    [
+     0.014583333395421505,
+     0.8070582151412964
+    ],
+    [
+     0.020866665989160538,
+     0.9221729040145874
+    ],
+    [
+     0.027133332565426826,
+     0.8742364048957825
+    ]
+   ],
+   "n_nonzero": 103,
+   "xxh3_time_min_nonzero": "35119af61d0799a927ef499823a43eb3",
+   "xxh3_intensity_nonzero": "00e875f8742506de242cf990362bd35b"
+  },
+  {
+   "index": 10,
+   "id": "SRM SIC 106.052,60.16",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 106.052,
+   "product_mz": 60.16,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 103,
+   "xxh3_time_min": "35119af61d0799a927ef499823a43eb3",
+   "xxh3_intensity": "8dfe25ffe30e7bb1fdb57debd9e0f095",
+   "sum_intensity": 89.77057838439941,
+   "first_points": [
+    [
+     0.002233333420008421,
+     0.8280639052391052
+    ],
+    [
+     0.008349999785423279,
+     0.8272072076797485
+    ],
+    [
+     0.014583333395421505,
+     0.935949444770813
+    ],
+    [
+     0.020866665989160538,
+     0.8572177290916443
+    ],
+    [
+     0.027133332565426826,
+     0.8811644911766052
+    ]
+   ],
+   "n_nonzero": 103,
+   "xxh3_time_min_nonzero": "35119af61d0799a927ef499823a43eb3",
+   "xxh3_intensity_nonzero": "8dfe25ffe30e7bb1fdb57debd9e0f095"
+  },
+  {
+   "index": 11,
+   "id": "SRM SIC 112.054,40.12",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 112.054,
+   "product_mz": 40.12,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "f1f8f7e44af907dbd7cd003c68888572",
+   "xxh3_intensity": "c0aede23cafb1443fcb4d40207ff1b0e",
+   "sum_intensity": 1582.948681473732,
+   "first_points": [
+    [
+     0.004999999888241291,
+     0.9299891591072083
+    ],
+    [
+     0.011116666719317436,
+     0.8452900648117065
+    ],
+    [
+     0.017083333805203438,
+     0.8778151273727417
+    ],
+    [
+     0.023350000381469727,
+     0.8312128782272339
+    ],
+    [
+     0.02956666611135006,
+     0.7408514022827148
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "f1f8f7e44af907dbd7cd003c68888572",
+   "xxh3_intensity_nonzero": "c0aede23cafb1443fcb4d40207ff1b0e"
+  },
+  {
+   "index": 12,
+   "id": "SRM SIC 112.054,95.251",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 112.054,
+   "product_mz": 95.251,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "f1f8f7e44af907dbd7cd003c68888572",
+   "xxh3_intensity": "815a058614d8d67b506bdb624c88d6ae",
+   "sum_intensity": 20327.702955126762,
+   "first_points": [
+    [
+     0.004999999888241291,
+     0.8697394728660583
+    ],
+    [
+     0.011116666719317436,
+     1385.5975341796875
+    ],
+    [
+     0.017083333805203438,
+     0.8222828507423401
+    ],
+    [
+     0.023350000381469727,
+     0.9515620470046997
+    ],
+    [
+     0.02956666611135006,
+     0.809270977973938
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "f1f8f7e44af907dbd7cd003c68888572",
+   "xxh3_intensity_nonzero": "815a058614d8d67b506bdb624c88d6ae"
+  },
+  {
+   "index": 13,
+   "id": "SRM SIC 113.051,70.096",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 113.051,
+   "product_mz": 70.096,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 114,
+   "xxh3_time_min": "05ae15b3ab3f3ef68d93183f17cb63b3",
+   "xxh3_intensity": "cc914dde629373704ac1534e4c2a142e",
+   "sum_intensity": 2959.0597267746925,
+   "first_points": [
+    [
+     0.32670000195503235,
+     0.8753364086151123
+    ],
+    [
+     0.336083322763443,
+     0.8729940056800842
+    ],
+    [
+     0.3455166816711426,
+     0.8158010840415955
+    ],
+    [
+     0.35491666197776794,
+     0.8138311505317688
+    ],
+    [
+     0.3643166720867157,
+     0.8778507113456726
+    ]
+   ],
+   "n_nonzero": 114,
+   "xxh3_time_min_nonzero": "05ae15b3ab3f3ef68d93183f17cb63b3",
+   "xxh3_intensity_nonzero": "cc914dde629373704ac1534e4c2a142e"
+  },
+  {
+   "index": 14,
+   "id": "SRM SIC 113.051,96.073",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 113.051,
+   "product_mz": 96.073,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 114,
+   "xxh3_time_min": "05ae15b3ab3f3ef68d93183f17cb63b3",
+   "xxh3_intensity": "1330d31cd25d780a8aebc3b887c92389",
+   "sum_intensity": 9158.458972454071,
+   "first_points": [
+    [
+     0.32670000195503235,
+     0.8672001361846924
+    ],
+    [
+     0.336083322763443,
+     11.333236694335938
+    ],
+    [
+     0.3455166816711426,
+     1.0454634428024292
+    ],
+    [
+     0.35491666197776794,
+     0.8997642397880554
+    ],
+    [
+     0.3643166720867157,
+     0.9222702980041504
+    ]
+   ],
+   "n_nonzero": 114,
+   "xxh3_time_min_nonzero": "05ae15b3ab3f3ef68d93183f17cb63b3",
+   "xxh3_intensity_nonzero": "1330d31cd25d780a8aebc3b887c92389"
+  },
+  {
+   "index": 15,
+   "id": "SRM SIC 116.076,68.125",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 116.076,
+   "product_mz": 68.125,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "ef8fd5a0a7a4438a83c0d0063f909eb6",
+   "xxh3_intensity": "07299781f6e38c0d0e2cf329f1b89d95",
+   "sum_intensity": 95.43743580579758,
+   "first_points": [
+    [
+     0.03871666640043259,
+     0.8591010570526123
+    ],
+    [
+     0.045233335345983505,
+     0.7404323816299438
+    ],
+    [
+     0.05139999836683273,
+     0.9466724395751953
+    ],
+    [
+     0.057883333414793015,
+     0.8268072605133057
+    ],
+    [
+     0.06435000151395798,
+     0.9941950440406799
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "ef8fd5a0a7a4438a83c0d0063f909eb6",
+   "xxh3_intensity_nonzero": "07299781f6e38c0d0e2cf329f1b89d95"
+  },
+  {
+   "index": 16,
+   "id": "SRM SIC 116.076,70.144",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 116.076,
+   "product_mz": 70.144,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "ef8fd5a0a7a4438a83c0d0063f909eb6",
+   "xxh3_intensity": "325916ca52f9a1d8c9ee7059d3378754",
+   "sum_intensity": 159211.79923468828,
+   "first_points": [
+    [
+     0.03871666640043259,
+     0.9378673434257507
+    ],
+    [
+     0.045233335345983505,
+     0.8828980326652527
+    ],
+    [
+     0.05139999836683273,
+     0.936753511428833
+    ],
+    [
+     0.057883333414793015,
+     0.8897904753684998
+    ],
+    [
+     0.06435000151395798,
+     0.8656405806541443
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "ef8fd5a0a7a4438a83c0d0063f909eb6",
+   "xxh3_intensity_nonzero": "325916ca52f9a1d8c9ee7059d3378754"
+  },
+  {
+   "index": 17,
+   "id": "SRM SIC 118.08,42.19",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 118.08,
+   "product_mz": 42.19,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "fea551519177783f073537f07af9576e",
+   "xxh3_intensity": "82d1a50e9e4dd9b4cb2f806bf56761ea",
+   "sum_intensity": 569838.5815533996,
+   "first_points": [
+    [
+     0.005216666497290134,
+     8066.4453125
+    ],
+    [
+     0.011316666379570961,
+     8743.1787109375
+    ],
+    [
+     0.017266666516661644,
+     2575.969970703125
+    ],
+    [
+     0.02355000004172325,
+     9790.3134765625
+    ],
+    [
+     0.029750000685453415,
+     4337.13671875
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "fea551519177783f073537f07af9576e",
+   "xxh3_intensity_nonzero": "82d1a50e9e4dd9b4cb2f806bf56761ea"
+  },
+  {
+   "index": 18,
+   "id": "SRM SIC 118.08,58.241",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 118.08,
+   "product_mz": 58.241,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "fea551519177783f073537f07af9576e",
+   "xxh3_intensity": "af59ed85d5cabbe0d5c1849dedc614f8",
+   "sum_intensity": 6358271.049486399,
+   "first_points": [
+    [
+     0.005216666497290134,
+     66493.6171875
+    ],
+    [
+     0.011316666379570961,
+     65210.015625
+    ],
+    [
+     0.017266666516661644,
+     68629.546875
+    ],
+    [
+     0.02355000004172325,
+     88960.2421875
+    ],
+    [
+     0.029750000685453415,
+     68247.796875
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "fea551519177783f073537f07af9576e",
+   "xxh3_intensity_nonzero": "af59ed85d5cabbe0d5c1849dedc614f8"
+  },
+  {
+   "index": 19,
+   "id": "SRM SIC 118.091,55.299",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 118.091,
+   "product_mz": 55.299,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 112,
+   "xxh3_time_min": "f6a3e0c716409d6cc4a33c7a4a7b8f36",
+   "xxh3_intensity": "add340096b7af54f5476563f249f025f",
+   "sum_intensity": 627661.066681385,
+   "first_points": [
+    [
+     0.272516667842865,
+     3144.572265625
+    ],
+    [
+     0.2813666760921478,
+     2103.417236328125
+    ],
+    [
+     0.2900833487510681,
+     4626.32373046875
+    ],
+    [
+     0.2989499866962433,
+     3878.98876953125
+    ],
+    [
+     0.30764999985694885,
+     5928.658203125
+    ]
+   ],
+   "n_nonzero": 112,
+   "xxh3_time_min_nonzero": "f6a3e0c716409d6cc4a33c7a4a7b8f36",
+   "xxh3_intensity_nonzero": "add340096b7af54f5476563f249f025f"
+  },
+  {
+   "index": 20,
+   "id": "SRM SIC 118.091,72.281",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 118.091,
+   "product_mz": 72.281,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 112,
+   "xxh3_time_min": "f6a3e0c716409d6cc4a33c7a4a7b8f36",
+   "xxh3_intensity": "c3cd60097881571843561f2085e324ce",
+   "sum_intensity": 30897.102444648743,
+   "first_points": [
+    [
+     0.272516667842865,
+     1.0226187705993652
+    ],
+    [
+     0.2813666760921478,
+     1.0151628255844116
+    ],
+    [
+     0.2900833487510681,
+     0.9607113599777222
+    ],
+    [
+     0.2989499866962433,
+     0.9141474366188049
+    ],
+    [
+     0.30764999985694885,
+     0.7528903484344482
+    ]
+   ],
+   "n_nonzero": 112,
+   "xxh3_time_min_nonzero": "f6a3e0c716409d6cc4a33c7a4a7b8f36",
+   "xxh3_intensity_nonzero": "c3cd60097881571843561f2085e324ce"
+  },
+  {
+   "index": 21,
+   "id": "SRM SIC 120.059,65.049",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 120.059,
+   "product_mz": 65.049,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "10479efe752cc2e9be979b6e06e75c74",
+   "xxh3_intensity": "2be9556f480e0f5b47627c1da60cf754",
+   "sum_intensity": 763768.8218666911,
+   "first_points": [
+    [
+     4.3857831954956055,
+     314.29071044921875
+    ],
+    [
+     4.391849994659424,
+     4.150859832763672
+    ],
+    [
+     4.397950172424316,
+     402.8153076171875
+    ],
+    [
+     4.404016494750977,
+     653.2017211914062
+    ],
+    [
+     4.410316467285156,
+     104.28109741210938
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "10479efe752cc2e9be979b6e06e75c74",
+   "xxh3_intensity_nonzero": "2be9556f480e0f5b47627c1da60cf754"
+  },
+  {
+   "index": 22,
+   "id": "SRM SIC 120.059,92.056",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 120.059,
+   "product_mz": 92.056,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "10479efe752cc2e9be979b6e06e75c74",
+   "xxh3_intensity": "6693d672a6c14b7a4521883a72345368",
+   "sum_intensity": 1599516.065246582,
+   "first_points": [
+    [
+     4.3857831954956055,
+     1420.6640625
+    ],
+    [
+     4.391849994659424,
+     320.789794921875
+    ],
+    [
+     4.397950172424316,
+     1159.10986328125
+    ],
+    [
+     4.404016494750977,
+     1400.7650146484375
+    ],
+    [
+     4.410316467285156,
+     624.6635131835938
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "10479efe752cc2e9be979b6e06e75c74",
+   "xxh3_intensity_nonzero": "6693d672a6c14b7a4521883a72345368"
+  },
+  {
+   "index": 23,
+   "id": "SRM SIC 120.069,56.149",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 120.069,
+   "product_mz": 56.149,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "8455c26b12ab93d14ebf3e7cb39e1d9d",
+   "xxh3_intensity": "f37de95477936c71f838f875e92942e6",
+   "sum_intensity": 670214.7624436617,
+   "first_points": [
+    [
+     0.0031666667200624943,
+     2024.4058837890625
+    ],
+    [
+     0.009283333085477352,
+     1733.822998046875
+    ],
+    [
+     0.015416666865348816,
+     467.25677490234375
+    ],
+    [
+     0.021700000390410423,
+     60.0648078918457
+    ],
+    [
+     0.027950000017881393,
+     474.7844543457031
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "8455c26b12ab93d14ebf3e7cb39e1d9d",
+   "xxh3_intensity_nonzero": "f37de95477936c71f838f875e92942e6"
+  },
+  {
+   "index": 24,
+   "id": "SRM SIC 120.069,74.138",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 120.069,
+   "product_mz": 74.138,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "8455c26b12ab93d14ebf3e7cb39e1d9d",
+   "xxh3_intensity": "64ff15a7f01d5dcfb0a5e7e96c38d8da",
+   "sum_intensity": 4492.574421226978,
+   "first_points": [
+    [
+     0.0031666667200624943,
+     0.9184794425964355
+    ],
+    [
+     0.009283333085477352,
+     0.8859440684318542
+    ],
+    [
+     0.015416666865348816,
+     0.9028268456459045
+    ],
+    [
+     0.021700000390410423,
+     0.8529520034790039
+    ],
+    [
+     0.027950000017881393,
+     0.8896158933639526
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "8455c26b12ab93d14ebf3e7cb39e1d9d",
+   "xxh3_intensity_nonzero": "64ff15a7f01d5dcfb0a5e7e96c38d8da"
+  },
+  {
+   "index": 25,
+   "id": "SRM SIC 122.026,59.162",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 122.026,
+   "product_mz": 59.162,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 110,
+   "xxh3_time_min": "0d1745523d9562255502e1c35f1222f2",
+   "xxh3_intensity": "32cdb0f76cb035b551bb6a6c016438dd",
+   "sum_intensity": 21756.34970098734,
+   "first_points": [
+    [
+     0.006149999797344208,
+     0.9122238755226135
+    ],
+    [
+     0.012266666628420353,
+     0.8843017816543579
+    ],
+    [
+     0.01810000091791153,
+     0.8734316229820251
+    ],
+    [
+     0.024383332580327988,
+     0.8486551642417908
+    ],
+    [
+     0.030566666275262833,
+     0.8586109280586243
+    ]
+   ],
+   "n_nonzero": 110,
+   "xxh3_time_min_nonzero": "0d1745523d9562255502e1c35f1222f2",
+   "xxh3_intensity_nonzero": "32cdb0f76cb035b551bb6a6c016438dd"
+  },
+  {
+   "index": 26,
+   "id": "SRM SIC 122.026,76.22",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 122.026,
+   "product_mz": 76.22,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 110,
+   "xxh3_time_min": "0d1745523d9562255502e1c35f1222f2",
+   "xxh3_intensity": "2abad47a192f47e4b677e89f1259852b",
+   "sum_intensity": 96.55762922763824,
+   "first_points": [
+    [
+     0.006149999797344208,
+     0.8236512541770935
+    ],
+    [
+     0.012266666628420353,
+     0.9081246852874756
+    ],
+    [
+     0.01810000091791153,
+     0.9015793204307556
+    ],
+    [
+     0.024383332580327988,
+     0.8857030868530273
+    ],
+    [
+     0.030566666275262833,
+     0.8857954740524292
+    ]
+   ],
+   "n_nonzero": 110,
+   "xxh3_time_min_nonzero": "0d1745523d9562255502e1c35f1222f2",
+   "xxh3_intensity_nonzero": "2abad47a192f47e4b677e89f1259852b"
+  },
+  {
+   "index": 27,
+   "id": "SRM SIC 126.036,81.16",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 126.036,
+   "product_mz": 81.16,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 103,
+   "xxh3_time_min": "ba18212156d5fac207efc0c5f652a595",
+   "xxh3_intensity": "722fde62a260b5e5314083986f41841d",
+   "sum_intensity": 87894.75319612026,
+   "first_points": [
+    [
+     0.0024500000290572643,
+     0.8961325287818909
+    ],
+    [
+     0.008550000376999378,
+     0.8334540128707886
+    ],
+    [
+     0.014766667038202286,
+     397.6293029785156
+    ],
+    [
+     0.021050000563263893,
+     0.7675264477729797
+    ],
+    [
+     0.027316667139530182,
+     0.8063035607337952
+    ]
+   ],
+   "n_nonzero": 103,
+   "xxh3_time_min_nonzero": "ba18212156d5fac207efc0c5f652a595",
+   "xxh3_intensity_nonzero": "722fde62a260b5e5314083986f41841d"
+  },
+  {
+   "index": 28,
+   "id": "SRM SIC 126.036,109.209",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 126.036,
+   "product_mz": 109.209,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 103,
+   "xxh3_time_min": "ba18212156d5fac207efc0c5f652a595",
+   "xxh3_intensity": "715ef9894d10a3c79d389e550e71e9db",
+   "sum_intensity": 13496.944544553757,
+   "first_points": [
+    [
+     0.0024500000290572643,
+     474.1195983886719
+    ],
+    [
+     0.008550000376999378,
+     0.8299522995948792
+    ],
+    [
+     0.014766667038202286,
+     56.164920806884766
+    ],
+    [
+     0.021050000563263893,
+     0.838656485080719
+    ],
+    [
+     0.027316667139530182,
+     0.9121206998825073
+    ]
+   ],
+   "n_nonzero": 103,
+   "xxh3_time_min_nonzero": "ba18212156d5fac207efc0c5f652a595",
+   "xxh3_intensity_nonzero": "715ef9894d10a3c79d389e550e71e9db"
+  },
+  {
+   "index": 29,
+   "id": "SRM SIC 132.073,68.06",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 132.073,
+   "product_mz": 68.06,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "0dfd5c08c160ae88de64d2674cd6226b",
+   "xxh3_intensity": "0e8c3595a8c7b5e129fc20a51c67d763",
+   "sum_intensity": 79881.72590962052,
+   "first_points": [
+    [
+     0.031983330845832825,
+     0.8931583166122437
+    ],
+    [
+     0.03836666792631149,
+     183.87379455566406
+    ],
+    [
+     0.044866666197776794,
+     565.3757934570312
+    ],
+    [
+     0.05108333379030228,
+     958.07763671875
+    ],
+    [
+     0.05755000188946724,
+     0.9588369727134705
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "0dfd5c08c160ae88de64d2674cd6226b",
+   "xxh3_intensity_nonzero": "0e8c3595a8c7b5e129fc20a51c67d763"
+  },
+  {
+   "index": 30,
+   "id": "SRM SIC 132.073,86.072",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 132.073,
+   "product_mz": 86.072,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "0dfd5c08c160ae88de64d2674cd6226b",
+   "xxh3_intensity": "02783665121a8239ae8bc97c7104ce94",
+   "sum_intensity": 30146.50451439619,
+   "first_points": [
+    [
+     0.031983330845832825,
+     0.8076612949371338
+    ],
+    [
+     0.03836666792631149,
+     0.9418699145317078
+    ],
+    [
+     0.044866666197776794,
+     0.9148831367492676
+    ],
+    [
+     0.05108333379030228,
+     0.8299459218978882
+    ],
+    [
+     0.05755000188946724,
+     0.7698491215705872
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "0dfd5c08c160ae88de64d2674cd6226b",
+   "xxh3_intensity_nonzero": "02783665121a8239ae8bc97c7104ce94"
+  },
+  {
+   "index": 31,
+   "id": "SRM SIC 132.091,39.262",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 132.091,
+   "product_mz": 39.262,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 157,
+   "xxh3_time_min": "5417b5af8d88cfe0676019ff9621651a",
+   "xxh3_intensity": "7bf3657bf09c6cbc47e8e3dade2b9f6d",
+   "sum_intensity": 6696.58881264925,
+   "first_points": [
+    [
+     0.951533317565918,
+     0.8326884508132935
+    ],
+    [
+     0.961566686630249,
+     352.5213623046875
+    ],
+    [
+     0.9702666401863098,
+     0.7885612845420837
+    ],
+    [
+     0.9786999821662903,
+     0.8561994433403015
+    ],
+    [
+     0.9871666431427002,
+     1876.277587890625
+    ]
+   ],
+   "n_nonzero": 157,
+   "xxh3_time_min_nonzero": "5417b5af8d88cfe0676019ff9621651a",
+   "xxh3_intensity_nonzero": "7bf3657bf09c6cbc47e8e3dade2b9f6d"
+  },
+  {
+   "index": 32,
+   "id": "SRM SIC 132.091,41.253",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 132.091,
+   "product_mz": 41.253,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 157,
+   "xxh3_time_min": "5417b5af8d88cfe0676019ff9621651a",
+   "xxh3_intensity": "b6756a2c79f9485645b50d52a24c1e6f",
+   "sum_intensity": 33832.84622237086,
+   "first_points": [
+    [
+     0.951533317565918,
+     4095.4775390625
+    ],
+    [
+     0.961566686630249,
+     1097.539794921875
+    ],
+    [
+     0.9702666401863098,
+     423.910400390625
+    ],
+    [
+     0.9786999821662903,
+     0.8582442998886108
+    ],
+    [
+     0.9871666431427002,
+     91.91299438476562
+    ]
+   ],
+   "n_nonzero": 157,
+   "xxh3_time_min_nonzero": "5417b5af8d88cfe0676019ff9621651a",
+   "xxh3_intensity_nonzero": "b6756a2c79f9485645b50d52a24c1e6f"
+  },
+  {
+   "index": 33,
+   "id": "SRM SIC 132.092,56.266",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 132.092,
+   "product_mz": 56.266,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 146,
+   "xxh3_time_min": "420f9288f3a2652e3013af2d533ed8ae",
+   "xxh3_intensity": "52f90643d25fb6ed0d757964e8c2c33b",
+   "sum_intensity": 74621.27139043808,
+   "first_points": [
+    [
+     0.8306833505630493,
+     0.6446172595024109
+    ],
+    [
+     0.8417500257492065,
+     0.8440971970558167
+    ],
+    [
+     0.8528333306312561,
+     1646.526123046875
+    ],
+    [
+     0.864133358001709,
+     831.7012329101562
+    ],
+    [
+     0.875249981880188,
+     0.7636364698410034
+    ]
+   ],
+   "n_nonzero": 146,
+   "xxh3_time_min_nonzero": "420f9288f3a2652e3013af2d533ed8ae",
+   "xxh3_intensity_nonzero": "52f90643d25fb6ed0d757964e8c2c33b"
+  },
+  {
+   "index": 34,
+   "id": "SRM SIC 132.092,69.277",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 132.092,
+   "product_mz": 69.277,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 146,
+   "xxh3_time_min": "420f9288f3a2652e3013af2d533ed8ae",
+   "xxh3_intensity": "c814eeec0750d069263b786a91abbd91",
+   "sum_intensity": 19610.763346135616,
+   "first_points": [
+    [
+     0.8306833505630493,
+     0.8376981616020203
+    ],
+    [
+     0.8417500257492065,
+     0.8680018782615662
+    ],
+    [
+     0.8528333306312561,
+     0.8649588823318481
+    ],
+    [
+     0.864133358001709,
+     0.8908196687698364
+    ],
+    [
+     0.875249981880188,
+     0.7847700715065002
+    ]
+   ],
+   "n_nonzero": 146,
+   "xxh3_time_min_nonzero": "420f9288f3a2652e3013af2d533ed8ae",
+   "xxh3_intensity_nonzero": "c814eeec0750d069263b786a91abbd91"
+  },
+  {
+   "index": 35,
+   "id": "SRM SIC 133.031,46.2",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 133.031,
+   "product_mz": 46.2,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "2cf244fa97e166c1bc3f374968e67874",
+   "xxh3_intensity": "03103efc98596c168d89f86c65515774",
+   "sum_intensity": 118.67334777116776,
+   "first_points": [
+    [
+     0.0054166666232049465,
+     0.8172493577003479
+    ],
+    [
+     0.011533332988619804,
+     0.8715283274650574
+    ],
+    [
+     0.01744999922811985,
+     0.7798288464546204
+    ],
+    [
+     0.023733332753181458,
+     0.9127651453018188
+    ],
+    [
+     0.02993333339691162,
+     0.9473625421524048
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "2cf244fa97e166c1bc3f374968e67874",
+   "xxh3_intensity_nonzero": "03103efc98596c168d89f86c65515774"
+  },
+  {
+   "index": 36,
+   "id": "SRM SIC 133.031,74.11",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 133.031,
+   "product_mz": 74.11,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "2cf244fa97e166c1bc3f374968e67874",
+   "xxh3_intensity": "9337fae690e37380fa67d01c71fcc8e3",
+   "sum_intensity": 49183.0786934495,
+   "first_points": [
+    [
+     0.0054166666232049465,
+     139.20614624023438
+    ],
+    [
+     0.011533332988619804,
+     1519.401611328125
+    ],
+    [
+     0.01744999922811985,
+     1348.7362060546875
+    ],
+    [
+     0.023733332753181458,
+     0.6560251712799072
+    ],
+    [
+     0.02993333339691162,
+     88.768798828125
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "2cf244fa97e166c1bc3f374968e67874",
+   "xxh3_intensity_nonzero": "9337fae690e37380fa67d01c71fcc8e3"
+  },
+  {
+   "index": 37,
+   "id": "SRM SIC 133.031,87.139",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 133.031,
+   "product_mz": 87.139,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "2cf244fa97e166c1bc3f374968e67874",
+   "xxh3_intensity": "3a88d4228f90ce810a94c8732792b014",
+   "sum_intensity": 38410.92670297623,
+   "first_points": [
+    [
+     0.0054166666232049465,
+     0.8411456346511841
+    ],
+    [
+     0.011533332988619804,
+     0.8855070471763611
+    ],
+    [
+     0.01744999922811985,
+     0.9300174117088318
+    ],
+    [
+     0.023733332753181458,
+     0.8689815402030945
+    ],
+    [
+     0.02993333339691162,
+     0.9046304225921631
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "2cf244fa97e166c1bc3f374968e67874",
+   "xxh3_intensity_nonzero": "3a88d4228f90ce810a94c8732792b014"
+  },
+  {
+   "index": 38,
+   "id": "SRM SIC 133.098,70.098",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 133.098,
+   "product_mz": 70.098,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 100,
+   "xxh3_time_min": "f70a9363d5de7df96c8f16416ce1cf59",
+   "xxh3_intensity": "e751bf3be6425512886b931d2794f156",
+   "sum_intensity": 6861.5481451153755,
+   "first_points": [
+    [
+     0.0012000000569969416,
+     0.8331658840179443
+    ],
+    [
+     0.007300000172108412,
+     0.9550304412841797
+    ],
+    [
+     0.013650000095367432,
+     0.9231276512145996
+    ],
+    [
+     0.01993333362042904,
+     0.8597261309623718
+    ],
+    [
+     0.026233334094285965,
+     0.8462734818458557
+    ]
+   ],
+   "n_nonzero": 100,
+   "xxh3_time_min_nonzero": "f70a9363d5de7df96c8f16416ce1cf59",
+   "xxh3_intensity_nonzero": "e751bf3be6425512886b931d2794f156"
+  },
+  {
+   "index": 39,
+   "id": "SRM SIC 133.098,116.111",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 133.098,
+   "product_mz": 116.111,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 100,
+   "xxh3_time_min": "f70a9363d5de7df96c8f16416ce1cf59",
+   "xxh3_intensity": "37aed54387133909d62f73f48dc3acdd",
+   "sum_intensity": 87.31075721979141,
+   "first_points": [
+    [
+     0.0012000000569969416,
+     0.8905901312828064
+    ],
+    [
+     0.007300000172108412,
+     0.8737329840660095
+    ],
+    [
+     0.013650000095367432,
+     0.871492326259613
+    ],
+    [
+     0.01993333362042904,
+     0.8764268755912781
+    ],
+    [
+     0.026233334094285965,
+     0.936368465423584
+    ]
+   ],
+   "n_nonzero": 100,
+   "xxh3_time_min_nonzero": "f70a9363d5de7df96c8f16416ce1cf59",
+   "xxh3_intensity_nonzero": "37aed54387133909d62f73f48dc3acdd"
+  },
+  {
+   "index": 40,
+   "id": "SRM SIC 134.055,70.266",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 134.055,
+   "product_mz": 70.266,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "b07714fba0b327bde64441d073933476",
+   "xxh3_intensity": "808e45862b0e3e10b85ce4a469c9f109",
+   "sum_intensity": 30142.80988574028,
+   "first_points": [
+    [
+     0.0033833333291113377,
+     0.8438326120376587
+    ],
+    [
+     0.009483333677053452,
+     0.8944421410560608
+    ],
+    [
+     0.01561666652560234,
+     0.9169869422912598
+    ],
+    [
+     0.02188333310186863,
+     0.8978452682495117
+    ],
+    [
+     0.0281333327293396,
+     0.7671381831169128
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "b07714fba0b327bde64441d073933476",
+   "xxh3_intensity_nonzero": "808e45862b0e3e10b85ce4a469c9f109"
+  },
+  {
+   "index": 41,
+   "id": "SRM SIC 134.055,73.856",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 134.055,
+   "product_mz": 73.856,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "b07714fba0b327bde64441d073933476",
+   "xxh3_intensity": "021018ea4bc7ac46549e47eb28ae20bf",
+   "sum_intensity": 2751.772819161415,
+   "first_points": [
+    [
+     0.0033833333291113377,
+     0.880957305431366
+    ],
+    [
+     0.009483333677053452,
+     0.8204702138900757
+    ],
+    [
+     0.01561666652560234,
+     0.910532534122467
+    ],
+    [
+     0.02188333310186863,
+     0.8954200148582458
+    ],
+    [
+     0.0281333327293396,
+     0.8440411686897278
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "b07714fba0b327bde64441d073933476",
+   "xxh3_intensity_nonzero": "021018ea4bc7ac46549e47eb28ae20bf"
+  },
+  {
+   "index": 42,
+   "id": "SRM SIC 135.052,45.218",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 135.052,
+   "product_mz": 45.218,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "050beb61f2e4f07bf02e3f38ffc1b4c6",
+   "xxh3_intensity": "ad85695fbba38e0f068de192fcf37791",
+   "sum_intensity": 2264.4462861418724,
+   "first_points": [
+    [
+     0.0035833334550261497,
+     0.7692751884460449
+    ],
+    [
+     0.009700000286102295,
+     0.8580664992332458
+    ],
+    [
+     0.015799999237060547,
+     0.7778382301330566
+    ],
+    [
+     0.022066667675971985,
+     0.8893406987190247
+    ],
+    [
+     0.028316667303442955,
+     0.790686309337616
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "050beb61f2e4f07bf02e3f38ffc1b4c6",
+   "xxh3_intensity_nonzero": "ad85695fbba38e0f068de192fcf37791"
+  },
+  {
+   "index": 43,
+   "id": "SRM SIC 135.052,63.24",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 135.052,
+   "product_mz": 63.24,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "050beb61f2e4f07bf02e3f38ffc1b4c6",
+   "xxh3_intensity": "18ed76eff1645f472ed3885aa6063a7e",
+   "sum_intensity": 92.12094432115555,
+   "first_points": [
+    [
+     0.0035833334550261497,
+     0.9355196952819824
+    ],
+    [
+     0.009700000286102295,
+     0.8289968371391296
+    ],
+    [
+     0.015799999237060547,
+     0.7651286125183105
+    ],
+    [
+     0.022066667675971985,
+     0.895086407661438
+    ],
+    [
+     0.028316667303442955,
+     0.8903761506080627
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "050beb61f2e4f07bf02e3f38ffc1b4c6",
+   "xxh3_intensity_nonzero": "18ed76eff1645f472ed3885aa6063a7e"
+  },
+  {
+   "index": 44,
+   "id": "SRM SIC 136.059,56.12",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 136.059,
+   "product_mz": 56.12,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "516304bf0dd9af3c67c33289885ee220",
+   "xxh3_intensity": "eff8bbfdc4af11ecd5d02e095b9a0bd5",
+   "sum_intensity": 4181.325401186943,
+   "first_points": [
+    [
+     0.14266666769981384,
+     0.948434054851532
+    ],
+    [
+     0.1501999944448471,
+     0.8529074192047119
+    ],
+    [
+     0.15788333117961884,
+     0.9158981442451477
+    ],
+    [
+     0.16556666791439056,
+     0.8869057297706604
+    ],
+    [
+     0.17328333854675293,
+     67.92250061035156
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "516304bf0dd9af3c67c33289885ee220",
+   "xxh3_intensity_nonzero": "eff8bbfdc4af11ecd5d02e095b9a0bd5"
+  },
+  {
+   "index": 45,
+   "id": "SRM SIC 136.059,90.105",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 136.059,
+   "product_mz": 90.105,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "516304bf0dd9af3c67c33289885ee220",
+   "xxh3_intensity": "41ee1717d649edec508f3b61345392ca",
+   "sum_intensity": 9948.334249198437,
+   "first_points": [
+    [
+     0.14266666769981384,
+     0.8952747583389282
+    ],
+    [
+     0.1501999944448471,
+     0.8416547179222107
+    ],
+    [
+     0.15788333117961884,
+     0.9132564663887024
+    ],
+    [
+     0.16556666791439056,
+     0.8235172629356384
+    ],
+    [
+     0.17328333854675293,
+     0.8434818387031555
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "516304bf0dd9af3c67c33289885ee220",
+   "xxh3_intensity_nonzero": "41ee1717d649edec508f3b61345392ca"
+  },
+  {
+   "index": 46,
+   "id": "SRM SIC 136.063,65.208",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 136.063,
+   "product_mz": 65.208,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 114,
+   "xxh3_time_min": "8ecf9c37b4cfd4c1c4dfdf5eba40cc98",
+   "xxh3_intensity": "36ef8de22e13367e15917f42a24b4110",
+   "sum_intensity": 64990.00617700815,
+   "first_points": [
+    [
+     0.3166666626930237,
+     0.95902019739151
+    ],
+    [
+     0.32615000009536743,
+     0.9670023918151855
+    ],
+    [
+     0.3355333209037781,
+     0.8042551279067993
+    ],
+    [
+     0.34496667981147766,
+     0.8763607740402222
+    ],
+    [
+     0.3543500006198883,
+     0.8843281865119934
+    ]
+   ],
+   "n_nonzero": 114,
+   "xxh3_time_min_nonzero": "8ecf9c37b4cfd4c1c4dfdf5eba40cc98",
+   "xxh3_intensity_nonzero": "36ef8de22e13367e15917f42a24b4110"
+  },
+  {
+   "index": 47,
+   "id": "SRM SIC 136.063,94.207",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 136.063,
+   "product_mz": 94.207,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 114,
+   "xxh3_time_min": "8ecf9c37b4cfd4c1c4dfdf5eba40cc98",
+   "xxh3_intensity": "89aa2bba334ec7dbb3156e2b0131decd",
+   "sum_intensity": 65900.06139057875,
+   "first_points": [
+    [
+     0.3166666626930237,
+     0.8522256016731262
+    ],
+    [
+     0.32615000009536743,
+     0.918002188205719
+    ],
+    [
+     0.3355333209037781,
+     0.7955313920974731
+    ],
+    [
+     0.34496667981147766,
+     0.864122211933136
+    ],
+    [
+     0.3543500006198883,
+     0.8654734492301941
+    ]
+   ],
+   "n_nonzero": 114,
+   "xxh3_time_min_nonzero": "8ecf9c37b4cfd4c1c4dfdf5eba40cc98",
+   "xxh3_intensity_nonzero": "89aa2bba334ec7dbb3156e2b0131decd"
+  },
+  {
+   "index": 48,
+   "id": "SRM SIC 136.976,110.111",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 136.976,
+   "product_mz": 110.111,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 135,
+   "xxh3_time_min": "eb03b1251d820a65899e3c19e218dd65",
+   "xxh3_intensity": "668fcc3e0eb725abb3d1d2d1be9ea41e",
+   "sum_intensity": 56437.38165062666,
+   "first_points": [
+    [
+     0.6532000303268433,
+     0.7976581454277039
+    ],
+    [
+     0.6636499762535095,
+     0.8921993374824524
+    ],
+    [
+     0.673883318901062,
+     0.8466651439666748
+    ],
+    [
+     0.6840833425521851,
+     0.9008356928825378
+    ],
+    [
+     0.6943166851997375,
+     0.81076580286026
+    ]
+   ],
+   "n_nonzero": 135,
+   "xxh3_time_min_nonzero": "eb03b1251d820a65899e3c19e218dd65",
+   "xxh3_intensity_nonzero": "668fcc3e0eb725abb3d1d2d1be9ea41e"
+  },
+  {
+   "index": 49,
+   "id": "SRM SIC 136.976,119.113",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 136.976,
+   "product_mz": 119.113,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 135,
+   "xxh3_time_min": "eb03b1251d820a65899e3c19e218dd65",
+   "xxh3_intensity": "88142f98fdb0405b92351e54eb34c78d",
+   "sum_intensity": 147023.16117620468,
+   "first_points": [
+    [
+     0.6532000303268433,
+     0.8432425260543823
+    ],
+    [
+     0.6636499762535095,
+     0.9962865710258484
+    ],
+    [
+     0.673883318901062,
+     0.8963799476623535
+    ],
+    [
+     0.6840833425521851,
+     1.0073133707046509
+    ],
+    [
+     0.6943166851997375,
+     0.9910858273506165
+    ]
+   ],
+   "n_nonzero": 135,
+   "xxh3_time_min_nonzero": "eb03b1251d820a65899e3c19e218dd65",
+   "xxh3_intensity_nonzero": "88142f98fdb0405b92351e54eb34c78d"
+  },
+  {
+   "index": 50,
+   "id": "SRM SIC 138.043,65.25",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 138.043,
+   "product_mz": 65.25,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "6eb1efa4b5a92d6366af3e996692c4a6",
+   "xxh3_intensity": "f089fddb307221069bae32d3345bcc0b",
+   "sum_intensity": 178061.75014162064,
+   "first_points": [
+    [
+     2.8060333728790283,
+     703.0092163085938
+    ],
+    [
+     2.8119332790374756,
+     88.38661193847656
+    ],
+    [
+     2.817683458328247,
+     453.3456726074219
+    ],
+    [
+     2.8234167098999023,
+     769.6520385742188
+    ],
+    [
+     2.8293333053588867,
+     511.56793212890625
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "6eb1efa4b5a92d6366af3e996692c4a6",
+   "xxh3_intensity_nonzero": "f089fddb307221069bae32d3345bcc0b"
+  },
+  {
+   "index": 51,
+   "id": "SRM SIC 138.043,77.212",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 138.043,
+   "product_mz": 77.212,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "6eb1efa4b5a92d6366af3e996692c4a6",
+   "xxh3_intensity": "1f3dc7ed2073af03eb946ecf0e26a328",
+   "sum_intensity": 241080.4211281538,
+   "first_points": [
+    [
+     2.8060333728790283,
+     642.4473266601562
+    ],
+    [
+     2.8119332790374756,
+     1014.08056640625
+    ],
+    [
+     2.817683458328247,
+     385.8818664550781
+    ],
+    [
+     2.8234167098999023,
+     427.04083251953125
+    ],
+    [
+     2.8293333053588867,
+     166.87493896484375
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "6eb1efa4b5a92d6366af3e996692c4a6",
+   "xxh3_intensity_nonzero": "1f3dc7ed2073af03eb946ecf0e26a328"
+  },
+  {
+   "index": 52,
+   "id": "SRM SIC 138.061,78.112",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 138.061,
+   "product_mz": 78.112,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "f3997c1841e54844eaf2bf3ac9a254ca",
+   "xxh3_intensity": "1610b9a6e95afb203da1d859588bda9c",
+   "sum_intensity": 34583.65531569719,
+   "first_points": [
+    [
+     0.1503666639328003,
+     0.9291113615036011
+    ],
+    [
+     0.15805000066757202,
+     0.7979912161827087
+    ],
+    [
+     0.16573333740234375,
+     0.9247893691062927
+    ],
+    [
+     0.17345000803470612,
+     0.7878708839416504
+    ],
+    [
+     0.18141666054725647,
+     0.9449893832206726
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "f3997c1841e54844eaf2bf3ac9a254ca",
+   "xxh3_intensity_nonzero": "1610b9a6e95afb203da1d859588bda9c"
+  },
+  {
+   "index": 53,
+   "id": "SRM SIC 138.061,94.201",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 138.061,
+   "product_mz": 94.201,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "f3997c1841e54844eaf2bf3ac9a254ca",
+   "xxh3_intensity": "828a97141b778c0f472467db817994c8",
+   "sum_intensity": 110840.58529525995,
+   "first_points": [
+    [
+     0.1503666639328003,
+     1390.0760498046875
+    ],
+    [
+     0.15805000066757202,
+     0.9624597430229187
+    ],
+    [
+     0.16573333740234375,
+     1336.809814453125
+    ],
+    [
+     0.17345000803470612,
+     0.5749800801277161
+    ],
+    [
+     0.18141666054725647,
+     0.9619664549827576
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "f3997c1841e54844eaf2bf3ac9a254ca",
+   "xxh3_intensity_nonzero": "828a97141b778c0f472467db817994c8"
+  },
+  {
+   "index": 54,
+   "id": "SRM SIC 139.1,81.224",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 139.1,
+   "product_mz": 81.224,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 102,
+   "xxh3_time_min": "45f4bce795b14fc6702f130d088cc394",
+   "xxh3_intensity": "f119a73df2ac5d0a457dc9b8293737fc",
+   "sum_intensity": 89759.23604804277,
+   "first_points": [
+    [
+     0.00139999995008111,
+     0.8965848088264465
+    ],
+    [
+     0.007516666781157255,
+     0.8550569415092468
+    ],
+    [
+     0.013833333738148212,
+     0.880866527557373
+    ],
+    [
+     0.020116666331887245,
+     10.983870506286621
+    ],
+    [
+     0.02641666680574417,
+     496.9651184082031
+    ]
+   ],
+   "n_nonzero": 102,
+   "xxh3_time_min_nonzero": "45f4bce795b14fc6702f130d088cc394",
+   "xxh3_intensity_nonzero": "f119a73df2ac5d0a457dc9b8293737fc"
+  },
+  {
+   "index": 55,
+   "id": "SRM SIC 139.1,122.212",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 139.1,
+   "product_mz": 122.212,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 102,
+   "xxh3_time_min": "45f4bce795b14fc6702f130d088cc394",
+   "xxh3_intensity": "1dba8c3300183f2886c58ae2fc4ed3f1",
+   "sum_intensity": 32340.239414334297,
+   "first_points": [
+    [
+     0.00139999995008111,
+     0.8577713370323181
+    ],
+    [
+     0.007516666781157255,
+     8.428766250610352
+    ],
+    [
+     0.013833333738148212,
+     0.8650854825973511
+    ],
+    [
+     0.020116666331887245,
+     0.8719421625137329
+    ],
+    [
+     0.02641666680574417,
+     0.8432554006576538
+    ]
+   ],
+   "n_nonzero": 102,
+   "xxh3_time_min_nonzero": "45f4bce795b14fc6702f130d088cc394",
+   "xxh3_intensity_nonzero": "1dba8c3300183f2886c58ae2fc4ed3f1"
+  },
+  {
+   "index": 56,
+   "id": "SRM SIC 140.084,81.245",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 140.084,
+   "product_mz": 81.245,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 111,
+   "xxh3_time_min": "aeb22a3aeeb2a187d1c0500ce1a9cee8",
+   "xxh3_intensity": "7215547e3967f66e8f26e2e552b6e5e2",
+   "sum_intensity": 478994.0930505991,
+   "first_points": [
+    [
+     0.22973333299160004,
+     589.3667602539062
+    ],
+    [
+     0.2381666600704193,
+     4964.63916015625
+    ],
+    [
+     0.24651667475700378,
+     1247.0032958984375
+    ],
+    [
+     0.2549166679382324,
+     0.9711947441101074
+    ],
+    [
+     0.2634499967098236,
+     1061.528564453125
+    ]
+   ],
+   "n_nonzero": 111,
+   "xxh3_time_min_nonzero": "aeb22a3aeeb2a187d1c0500ce1a9cee8",
+   "xxh3_intensity_nonzero": "7215547e3967f66e8f26e2e552b6e5e2"
+  },
+  {
+   "index": 57,
+   "id": "SRM SIC 140.084,122.252",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 140.084,
+   "product_mz": 122.252,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 111,
+   "xxh3_time_min": "aeb22a3aeeb2a187d1c0500ce1a9cee8",
+   "xxh3_intensity": "f6897ddffe5898eabd9ec5697a440a58",
+   "sum_intensity": 478105.2095513344,
+   "first_points": [
+    [
+     0.22973333299160004,
+     10.024503707885742
+    ],
+    [
+     0.2381666600704193,
+     1276.09814453125
+    ],
+    [
+     0.24651667475700378,
+     0.9586105942726135
+    ],
+    [
+     0.2549166679382324,
+     2072.751220703125
+    ],
+    [
+     0.2634499967098236,
+     905.9965209960938
+    ]
+   ],
+   "n_nonzero": 111,
+   "xxh3_time_min_nonzero": "aeb22a3aeeb2a187d1c0500ce1a9cee8",
+   "xxh3_intensity_nonzero": "f6897ddffe5898eabd9ec5697a440a58"
+  },
+  {
+   "index": 58,
+   "id": "SRM SIC 142.075,81.042",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 142.075,
+   "product_mz": 81.042,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 102,
+   "xxh3_time_min": "4e569c3927fd461a1d38b33a10584b68",
+   "xxh3_intensity": "6de8d47be5d0bb5bc090e94638c7fc9e",
+   "sum_intensity": 131996.87558329105,
+   "first_points": [
+    [
+     0.0016166666755452752,
+     1016.534912109375
+    ],
+    [
+     0.007716666907072067,
+     567.6749267578125
+    ],
+    [
+     0.014016666449606419,
+     0.5304138660430908
+    ],
+    [
+     0.0203000009059906,
+     1111.234375
+    ],
+    [
+     0.026599999517202377,
+     0.8992516994476318
+    ]
+   ],
+   "n_nonzero": 102,
+   "xxh3_time_min_nonzero": "4e569c3927fd461a1d38b33a10584b68",
+   "xxh3_intensity_nonzero": "6de8d47be5d0bb5bc090e94638c7fc9e"
+  },
+  {
+   "index": 59,
+   "id": "SRM SIC 142.075,124.045",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 142.075,
+   "product_mz": 124.045,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 102,
+   "xxh3_time_min": "4e569c3927fd461a1d38b33a10584b68",
+   "xxh3_intensity": "92210630b17ace7bb0d5e6ba513cd10f",
+   "sum_intensity": 2439255.304431975,
+   "first_points": [
+    [
+     0.0016166666755452752,
+     1335.8238525390625
+    ],
+    [
+     0.007716666907072067,
+     462.5372314453125
+    ],
+    [
+     0.014016666449606419,
+     1627.4337158203125
+    ],
+    [
+     0.0203000009059906,
+     785.711669921875
+    ],
+    [
+     0.026599999517202377,
+     2054.316650390625
+    ]
+   ],
+   "n_nonzero": 102,
+   "xxh3_time_min_nonzero": "4e569c3927fd461a1d38b33a10584b68",
+   "xxh3_intensity_nonzero": "92210630b17ace7bb0d5e6ba513cd10f"
+  },
+  {
+   "index": 60,
+   "id": "SRM SIC 143.14,68.205",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 143.14,
+   "product_mz": 68.205,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "6de1eac4272dc9112aa9f616b9edad3a",
+   "xxh3_intensity": "a7d90819f495a331753cc1880aeb49d8",
+   "sum_intensity": 14963.498303294182,
+   "first_points": [
+    [
+     0.05156666785478592,
+     0.8752402067184448
+    ],
+    [
+     0.0580499991774559,
+     0.8050584197044373
+    ],
+    [
+     0.06451666355133057,
+     0.9064580202102661
+    ],
+    [
+     0.07098333537578583,
+     0.8580642342567444
+    ],
+    [
+     0.07748333364725113,
+     0.9506492018699646
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "6de1eac4272dc9112aa9f616b9edad3a",
+   "xxh3_intensity_nonzero": "a7d90819f495a331753cc1880aeb49d8"
+  },
+  {
+   "index": 61,
+   "id": "SRM SIC 143.14,97.21",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 143.14,
+   "product_mz": 97.21,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "6de1eac4272dc9112aa9f616b9edad3a",
+   "xxh3_intensity": "3a2f7bd13b445462729fbd8bd015d762",
+   "sum_intensity": 28710.330970287323,
+   "first_points": [
+    [
+     0.05156666785478592,
+     0.9015461802482605
+    ],
+    [
+     0.0580499991774559,
+     0.5819006562232971
+    ],
+    [
+     0.06451666355133057,
+     0.8256068825721741
+    ],
+    [
+     0.07098333537578583,
+     75.09178924560547
+    ],
+    [
+     0.07748333364725113,
+     0.9282771348953247
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "6de1eac4272dc9112aa9f616b9edad3a",
+   "xxh3_intensity_nonzero": "3a2f7bd13b445462729fbd8bd015d762"
+  },
+  {
+   "index": 62,
+   "id": "SRM SIC 144.057,113.066",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 144.057,
+   "product_mz": 113.066,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "061f1b789df63417268a6f65758ffe3d",
+   "xxh3_intensity": "ab1a1e0b64bfa59e3173ff1b6b89847e",
+   "sum_intensity": 78537.86228895187,
+   "first_points": [
+    [
+     2.608766794204712,
+     87.20387268066406
+    ],
+    [
+     2.6145334243774414,
+     0.854722797870636
+    ],
+    [
+     2.620466709136963,
+     0.8900111317634583
+    ],
+    [
+     2.6262166500091553,
+     160.65830993652344
+    ],
+    [
+     2.6319832801818848,
+     238.7879638671875
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "061f1b789df63417268a6f65758ffe3d",
+   "xxh3_intensity_nonzero": "ab1a1e0b64bfa59e3173ff1b6b89847e"
+  },
+  {
+   "index": 63,
+   "id": "SRM SIC 144.057,126.063",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 144.057,
+   "product_mz": 126.063,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "061f1b789df63417268a6f65758ffe3d",
+   "xxh3_intensity": "2a6be5b29f0eb9a207488209e6241eaf",
+   "sum_intensity": 171425.71326076984,
+   "first_points": [
+    [
+     2.608766794204712,
+     180.44358825683594
+    ],
+    [
+     2.6145334243774414,
+     109.09883117675781
+    ],
+    [
+     2.620466709136963,
+     0.6246708631515503
+    ],
+    [
+     2.6262166500091553,
+     130.05947875976562
+    ],
+    [
+     2.6319832801818848,
+     70.73167419433594
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "061f1b789df63417268a6f65758ffe3d",
+   "xxh3_intensity_nonzero": "2a6be5b29f0eb9a207488209e6241eaf"
+  },
+  {
+   "index": 64,
+   "id": "SRM SIC 144.099,77.126",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 144.099,
+   "product_mz": 77.126,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "58007bfaaf1f71908d4a46dfc51ad9ef",
+   "xxh3_intensity": "74d5094ee31bf042dff354159adaa692",
+   "sum_intensity": 395542.8360900879,
+   "first_points": [
+    [
+     3.549466609954834,
+     4587.63525390625
+    ],
+    [
+     3.5550999641418457,
+     5686.45556640625
+    ],
+    [
+     3.560849905014038,
+     5068.7431640625
+    ],
+    [
+     3.566333293914795,
+     5793.2451171875
+    ],
+    [
+     3.5720999240875244,
+     4124.80126953125
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "58007bfaaf1f71908d4a46dfc51ad9ef",
+   "xxh3_intensity_nonzero": "74d5094ee31bf042dff354159adaa692"
+  },
+  {
+   "index": 65,
+   "id": "SRM SIC 144.099,117.217",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 144.099,
+   "product_mz": 117.217,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "58007bfaaf1f71908d4a46dfc51ad9ef",
+   "xxh3_intensity": "c9676fc534b09bbeb9eefd5b28813b8b",
+   "sum_intensity": 294745.0438232422,
+   "first_points": [
+    [
+     3.549466609954834,
+     229.11474609375
+    ],
+    [
+     3.5550999641418457,
+     759.0559692382812
+    ],
+    [
+     3.560849905014038,
+     3853.906005859375
+    ],
+    [
+     3.566333293914795,
+     967.0164794921875
+    ],
+    [
+     3.5720999240875244,
+     1845.0743408203125
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "58007bfaaf1f71908d4a46dfc51ad9ef",
+   "xxh3_intensity_nonzero": "c9676fc534b09bbeb9eefd5b28813b8b"
+  },
+  {
+   "index": 66,
+   "id": "SRM SIC 146.141,72.202",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 146.141,
+   "product_mz": 72.202,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 270,
+   "xxh3_time_min": "752b13fe499a8877a22c716a0421c96c",
+   "xxh3_intensity": "4ae1989d9c3f66aa63be69b3efd54e5b",
+   "sum_intensity": 175007.49512183666,
+   "first_points": [
+    [
+     0.0063666668720543385,
+     0.8542119264602661
+    ],
+    [
+     0.012466666288673878,
+     338.2222595214844
+    ],
+    [
+     0.018283333629369736,
+     0.851902425289154
+    ],
+    [
+     0.024566667154431343,
+     0.7891339063644409
+    ],
+    [
+     0.030750000849366188,
+     0.8451724052429199
+    ]
+   ],
+   "n_nonzero": 270,
+   "xxh3_time_min_nonzero": "752b13fe499a8877a22c716a0421c96c",
+   "xxh3_intensity_nonzero": "4ae1989d9c3f66aa63be69b3efd54e5b"
+  },
+  {
+   "index": 67,
+   "id": "SRM SIC 146.141,112.169",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 146.141,
+   "product_mz": 112.169,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 270,
+   "xxh3_time_min": "752b13fe499a8877a22c716a0421c96c",
+   "xxh3_intensity": "be83736ceb27eb664e34af277ab82497",
+   "sum_intensity": 13270.11493331194,
+   "first_points": [
+    [
+     0.0063666668720543385,
+     0.8281485438346863
+    ],
+    [
+     0.012466666288673878,
+     0.9482261538505554
+    ],
+    [
+     0.018283333629369736,
+     0.8877691626548767
+    ],
+    [
+     0.024566667154431343,
+     0.8669975996017456
+    ],
+    [
+     0.030750000849366188,
+     0.8703697323799133
+    ]
+   ],
+   "n_nonzero": 270,
+   "xxh3_time_min_nonzero": "752b13fe499a8877a22c716a0421c96c",
+   "xxh3_intensity_nonzero": "be83736ceb27eb664e34af277ab82497"
+  },
+  {
+   "index": 68,
+   "id": "SRM SIC 146.999,130.183",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 146.999,
+   "product_mz": 130.183,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 103,
+   "xxh3_time_min": "93982a6fc90cffe43296b86ec7c9abac",
+   "xxh3_intensity": "a2959f3360b910e34f336cd6ed11860a",
+   "sum_intensity": 1565.0940940380096,
+   "first_points": [
+    [
+     0.0026499999221414328,
+     0.8510933518409729
+    ],
+    [
+     0.008766666986048222,
+     0.786702573299408
+    ],
+    [
+     0.014949999749660492,
+     0.8444507122039795
+    ],
+    [
+     0.0212333332747221,
+     0.8721833825111389
+    ],
+    [
+     0.027499999850988388,
+     0.8290796279907227
+    ]
+   ],
+   "n_nonzero": 103,
+   "xxh3_time_min_nonzero": "93982a6fc90cffe43296b86ec7c9abac",
+   "xxh3_intensity_nonzero": "a2959f3360b910e34f336cd6ed11860a"
+  },
+  {
+   "index": 69,
+   "id": "SRM SIC 147.073,56.162",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 147.073,
+   "product_mz": 56.162,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "31d2f362597f22b4678aba29014b8f20",
+   "xxh3_intensity": "17a1653f2be15e25e4f83334a0c7cd19",
+   "sum_intensity": 297306.07450300455,
+   "first_points": [
+    [
+     0.003800000064074993,
+     1690.0765380859375
+    ],
+    [
+     0.00989999994635582,
+     2375.20849609375
+    ],
+    [
+     0.015983333811163902,
+     11051.783203125
+    ],
+    [
+     0.02226666733622551,
+     3331.078857421875
+    ],
+    [
+     0.02850000001490116,
+     10852.7177734375
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "31d2f362597f22b4678aba29014b8f20",
+   "xxh3_intensity_nonzero": "17a1653f2be15e25e4f83334a0c7cd19"
+  },
+  {
+   "index": 70,
+   "id": "SRM SIC 147.073,84.111",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 147.073,
+   "product_mz": 84.111,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 270,
+   "xxh3_time_min": "c902180b1f6964baade225ede58aa64f",
+   "xxh3_intensity": "9c7f8b8547ce56c76973c39bdb7070d2",
+   "sum_intensity": 90791.53018426895,
+   "first_points": [
+    [
+     0.006566666532307863,
+     563.7200317382812
+    ],
+    [
+     0.012683333829045296,
+     0.9579147696495056
+    ],
+    [
+     0.01848333328962326,
+     7.372533321380615
+    ],
+    [
+     0.02474999986588955,
+     0.924311101436615
+    ],
+    [
+     0.030916666612029076,
+     0.862717866897583
+    ]
+   ],
+   "n_nonzero": 270,
+   "xxh3_time_min_nonzero": "c902180b1f6964baade225ede58aa64f",
+   "xxh3_intensity_nonzero": "9c7f8b8547ce56c76973c39bdb7070d2"
+  },
+  {
+   "index": 71,
+   "id": "SRM SIC 150.052,56.143",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 150.052,
+   "product_mz": 56.143,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 117,
+   "xxh3_time_min": "bb0c9a6f5b9c5f8296c63c152e5a7e21",
+   "xxh3_intensity": "47dc4b2fe33a2e52427acaab54ce6be1",
+   "sum_intensity": 287.68587815761566,
+   "first_points": [
+    [
+     0.36445000767707825,
+     0.8421851992607117
+    ],
+    [
+     0.37400001287460327,
+     128.25563049316406
+    ],
+    [
+     0.38358333706855774,
+     0.8718855381011963
+    ],
+    [
+     0.3933166563510895,
+     0.893757700920105
+    ],
+    [
+     0.40308332443237305,
+     0.787437379360199
+    ]
+   ],
+   "n_nonzero": 117,
+   "xxh3_time_min_nonzero": "bb0c9a6f5b9c5f8296c63c152e5a7e21",
+   "xxh3_intensity_nonzero": "47dc4b2fe33a2e52427acaab54ce6be1"
+  },
+  {
+   "index": 72,
+   "id": "SRM SIC 150.052,61.1",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 150.052,
+   "product_mz": 61.1,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 117,
+   "xxh3_time_min": "bb0c9a6f5b9c5f8296c63c152e5a7e21",
+   "xxh3_intensity": "7c4eed136cc24893a7e3da497727af10",
+   "sum_intensity": 70971.9257826209,
+   "first_points": [
+    [
+     0.36445000767707825,
+     2705.374267578125
+    ],
+    [
+     0.37400001287460327,
+     7691.24609375
+    ],
+    [
+     0.38358333706855774,
+     912.6571655273438
+    ],
+    [
+     0.3933166563510895,
+     29.26633071899414
+    ],
+    [
+     0.40308332443237305,
+     5385.75439453125
+    ]
+   ],
+   "n_nonzero": 117,
+   "xxh3_time_min_nonzero": "bb0c9a6f5b9c5f8296c63c152e5a7e21",
+   "xxh3_intensity_nonzero": "7c4eed136cc24893a7e3da497727af10"
+  },
+  {
+   "index": 73,
+   "id": "SRM SIC 151.079,59.117",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 151.079,
+   "product_mz": 59.117,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "14ad6c3dd13531f7534769e6789642f9",
+   "xxh3_intensity": "10bd6f5041d208d2c61dc8c5bf8bcbf4",
+   "sum_intensity": 803580.2198771238,
+   "first_points": [
+    [
+     0.003900000127032399,
+     0.8064534664154053
+    ],
+    [
+     0.009999999776482582,
+     533.28173828125
+    ],
+    [
+     0.016083333641290665,
+     0.5729498267173767
+    ],
+    [
+     0.022350000217556953,
+     85.99008178710938
+    ],
+    [
+     0.028583332896232605,
+     0.8423155546188354
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "14ad6c3dd13531f7534769e6789642f9",
+   "xxh3_intensity_nonzero": "10bd6f5041d208d2c61dc8c5bf8bcbf4"
+  },
+  {
+   "index": 74,
+   "id": "SRM SIC 151.079,87.096",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 151.079,
+   "product_mz": 87.096,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "14ad6c3dd13531f7534769e6789642f9",
+   "xxh3_intensity": "72780170c207300e06a67bbcde76a7ef",
+   "sum_intensity": 252213.89007997513,
+   "first_points": [
+    [
+     0.003900000127032399,
+     0.9443218111991882
+    ],
+    [
+     0.009999999776482582,
+     0.8531551957130432
+    ],
+    [
+     0.016083333641290665,
+     0.8138536810874939
+    ],
+    [
+     0.022350000217556953,
+     0.8667771220207214
+    ],
+    [
+     0.028583332896232605,
+     0.8122363090515137
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "14ad6c3dd13531f7534769e6789642f9",
+   "xxh3_intensity_nonzero": "72780170c207300e06a67bbcde76a7ef"
+  },
+  {
+   "index": 75,
+   "id": "SRM SIC 152.064,110.21",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 152.064,
+   "product_mz": 110.21,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 114,
+   "xxh3_time_min": "42077113666d1c8071090b17806192d3",
+   "xxh3_intensity": "894a816e024f8ed42e26765539eb3c85",
+   "sum_intensity": 88774.65774738789,
+   "first_points": [
+    [
+     0.31683334708213806,
+     0.798516571521759
+    ],
+    [
+     0.3263166546821594,
+     0.9592993259429932
+    ],
+    [
+     0.33570000529289246,
+     0.8949902653694153
+    ],
+    [
+     0.34513333439826965,
+     0.9433909058570862
+    ],
+    [
+     0.3545166552066803,
+     0.8643401861190796
+    ]
+   ],
+   "n_nonzero": 114,
+   "xxh3_time_min_nonzero": "42077113666d1c8071090b17806192d3",
+   "xxh3_intensity_nonzero": "894a816e024f8ed42e26765539eb3c85"
+  },
+  {
+   "index": 76,
+   "id": "SRM SIC 152.064,135.202",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 152.064,
+   "product_mz": 135.202,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 114,
+   "xxh3_time_min": "42077113666d1c8071090b17806192d3",
+   "xxh3_intensity": "5f730b1fa2daf25a3a33864cb56ecf5f",
+   "sum_intensity": 99090.56532531977,
+   "first_points": [
+    [
+     0.31683334708213806,
+     0.8270300626754761
+    ],
+    [
+     0.3263166546821594,
+     0.8868182301521301
+    ],
+    [
+     0.33570000529289246,
+     0.9091629385948181
+    ],
+    [
+     0.34513333439826965,
+     0.9591988325119019
+    ],
+    [
+     0.3545166552066803,
+     0.7980915307998657
+    ]
+   ],
+   "n_nonzero": 114,
+   "xxh3_time_min_nonzero": "42077113666d1c8071090b17806192d3",
+   "xxh3_intensity_nonzero": "5f730b1fa2daf25a3a33864cb56ecf5f"
+  },
+  {
+   "index": 77,
+   "id": "SRM SIC 153.045,110.074",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 153.045,
+   "product_mz": 110.074,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 140,
+   "xxh3_time_min": "03a1f26e85088335fad0e08bf5abea00",
+   "xxh3_intensity": "ece75ea69679812534f73ac9e7c600ab",
+   "sum_intensity": 56499.54154545069,
+   "first_points": [
+    [
+     0.7251499891281128,
+     0.9506673812866211
+    ],
+    [
+     0.7356333136558533,
+     0.816319465637207
+    ],
+    [
+     0.7460166811943054,
+     0.8332901000976562
+    ],
+    [
+     0.7564166784286499,
+     5943.17138671875
+    ],
+    [
+     0.7667999863624573,
+     0.8330113291740417
+    ]
+   ],
+   "n_nonzero": 140,
+   "xxh3_time_min_nonzero": "03a1f26e85088335fad0e08bf5abea00",
+   "xxh3_intensity_nonzero": "ece75ea69679812534f73ac9e7c600ab"
+  },
+  {
+   "index": 78,
+   "id": "SRM SIC 153.045,136.06",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 153.045,
+   "product_mz": 136.06,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 140,
+   "xxh3_time_min": "03a1f26e85088335fad0e08bf5abea00",
+   "xxh3_intensity": "b9ec255ac666f6a87c690957de093d8d",
+   "sum_intensity": 197022.63712775707,
+   "first_points": [
+    [
+     0.7251499891281128,
+     0.8222817182540894
+    ],
+    [
+     0.7356333136558533,
+     1.0059659481048584
+    ],
+    [
+     0.7460166811943054,
+     14064.4189453125
+    ],
+    [
+     0.7564166784286499,
+     0.9652518630027771
+    ],
+    [
+     0.7667999863624573,
+     246.58116149902344
+    ]
+   ],
+   "n_nonzero": 140,
+   "xxh3_time_min_nonzero": "03a1f26e85088335fad0e08bf5abea00",
+   "xxh3_intensity_nonzero": "b9ec255ac666f6a87c690957de093d8d"
+  },
+  {
+   "index": 79,
+   "id": "SRM SIC 156.074,83.146",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 156.074,
+   "product_mz": 83.146,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 103,
+   "xxh3_time_min": "f31b73f8408f497b5078ba0f8531ad66",
+   "xxh3_intensity": "925ad4aa2c54a181bc2c737c020b8b3d",
+   "sum_intensity": 195.3481855392456,
+   "first_points": [
+    [
+     0.002749999985098839,
+     0.9094523191452026
+    ],
+    [
+     0.008866666816174984,
+     0.9095642566680908
+    ],
+    [
+     0.015049999579787254,
+     0.9297087788581848
+    ],
+    [
+     0.02133333310484886,
+     0.8802486062049866
+    ],
+    [
+     0.02759999968111515,
+     0.8314086198806763
+    ]
+   ],
+   "n_nonzero": 103,
+   "xxh3_time_min_nonzero": "f31b73f8408f497b5078ba0f8531ad66",
+   "xxh3_intensity_nonzero": "925ad4aa2c54a181bc2c737c020b8b3d"
+  },
+  {
+   "index": 80,
+   "id": "SRM SIC 156.074,110.151",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 156.074,
+   "product_mz": 110.151,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 103,
+   "xxh3_time_min": "f31b73f8408f497b5078ba0f8531ad66",
+   "xxh3_intensity": "cfc98c70cd00ce063d5527fb7102957e",
+   "sum_intensity": 492572.11142116785,
+   "first_points": [
+    [
+     0.002749999985098839,
+     0.8287039995193481
+    ],
+    [
+     0.008866666816174984,
+     0.9113417863845825
+    ],
+    [
+     0.015049999579787254,
+     2716.9580078125
+    ],
+    [
+     0.02133333310484886,
+     0.8284865617752075
+    ],
+    [
+     0.02759999968111515,
+     0.8467255234718323
+    ]
+   ],
+   "n_nonzero": 103,
+   "xxh3_time_min_nonzero": "f31b73f8408f497b5078ba0f8531ad66",
+   "xxh3_intensity_nonzero": "cfc98c70cd00ce063d5527fb7102957e"
+  },
+  {
+   "index": 81,
+   "id": "SRM SIC 162.1,72.041",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 162.1,
+   "product_mz": 72.041,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "8d68f5a5a29545b1d2da738bbbf496ef",
+   "xxh3_intensity": "e40485d342adcc623af735a3d7b336d0",
+   "sum_intensity": 1948.3627162575722,
+   "first_points": [
+    [
+     0.004100000020116568,
+     0.8381121754646301
+    ],
+    [
+     0.010216666385531425,
+     0.858189582824707
+    ],
+    [
+     0.01626666635274887,
+     0.5043096542358398
+    ],
+    [
+     0.02253333292901516,
+     0.9282854199409485
+    ],
+    [
+     0.02876666747033596,
+     0.8457353711128235
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "8d68f5a5a29545b1d2da738bbbf496ef",
+   "xxh3_intensity_nonzero": "e40485d342adcc623af735a3d7b336d0"
+  },
+  {
+   "index": 82,
+   "id": "SRM SIC 162.1,84.086",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 162.1,
+   "product_mz": 84.086,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "8d68f5a5a29545b1d2da738bbbf496ef",
+   "xxh3_intensity": "8eb845b37877f26a639cf84b45c7ca6e",
+   "sum_intensity": 112823.22461742163,
+   "first_points": [
+    [
+     0.004100000020116568,
+     0.8887960910797119
+    ],
+    [
+     0.010216666385531425,
+     0.8524540066719055
+    ],
+    [
+     0.01626666635274887,
+     0.9412000179290771
+    ],
+    [
+     0.02253333292901516,
+     0.8299062848091125
+    ],
+    [
+     0.02876666747033596,
+     0.8725332021713257
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "8d68f5a5a29545b1d2da738bbbf496ef",
+   "xxh3_intensity_nonzero": "8eb845b37877f26a639cf84b45c7ca6e"
+  },
+  {
+   "index": 83,
+   "id": "SRM SIC 162.13,85.016",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 162.13,
+   "product_mz": 85.016,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "24019d84249d1e713e2c60eff22963ea",
+   "xxh3_intensity": "fd21cedee5aaf2941493229ab70e1de8",
+   "sum_intensity": 9471644.699836731,
+   "first_points": [
+    [
+     0.05173333361744881,
+     10861.587890625
+    ],
+    [
+     0.05821666866540909,
+     13620.974609375
+    ],
+    [
+     0.06468333303928375,
+     8334.5322265625
+    ],
+    [
+     0.07114999741315842,
+     10647.0283203125
+    ],
+    [
+     0.07765000313520432,
+     6295.97412109375
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "24019d84249d1e713e2c60eff22963ea",
+   "xxh3_intensity_nonzero": "fd21cedee5aaf2941493229ab70e1de8"
+  },
+  {
+   "index": 84,
+   "id": "SRM SIC 162.13,103.081",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 162.13,
+   "product_mz": 103.081,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "24019d84249d1e713e2c60eff22963ea",
+   "xxh3_intensity": "e85ecc2678e32676139546344e1f441d",
+   "sum_intensity": 279444.8985494971,
+   "first_points": [
+    [
+     0.05173333361744881,
+     1710.501953125
+    ],
+    [
+     0.05821666866540909,
+     0.8631122708320618
+    ],
+    [
+     0.06468333303928375,
+     260.06976318359375
+    ],
+    [
+     0.07114999741315842,
+     0.8023037314414978
+    ],
+    [
+     0.07765000313520432,
+     0.8744696974754333
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "24019d84249d1e713e2c60eff22963ea",
+   "xxh3_intensity_nonzero": "e85ecc2678e32676139546344e1f441d"
+  },
+  {
+   "index": 85,
+   "id": "SRM SIC 166.079,77.197",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 166.079,
+   "product_mz": 77.197,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "aeee5fae23d756f3fdd1bbc6fac78bfd",
+   "xxh3_intensity": "47c0f5c0545c4c5d843b4d510b8bf2d5",
+   "sum_intensity": 1225773.9893960953,
+   "first_points": [
+    [
+     2.481250047683716,
+     320.8340759277344
+    ],
+    [
+     2.4870834350585938,
+     816.6148681640625
+    ],
+    [
+     2.4929332733154297,
+     1440.00634765625
+    ],
+    [
+     2.498800039291382,
+     2.7211084365844727
+    ],
+    [
+     2.5046334266662598,
+     669.4947509765625
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "aeee5fae23d756f3fdd1bbc6fac78bfd",
+   "xxh3_intensity_nonzero": "47c0f5c0545c4c5d843b4d510b8bf2d5"
+  },
+  {
+   "index": 86,
+   "id": "SRM SIC 166.079,103.192",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 166.079,
+   "product_mz": 103.192,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "aeee5fae23d756f3fdd1bbc6fac78bfd",
+   "xxh3_intensity": "7ee8c7b9cbf1702220f12a6caef6869b",
+   "sum_intensity": 965851.4414147139,
+   "first_points": [
+    [
+     2.481250047683716,
+     522.6318969726562
+    ],
+    [
+     2.4870834350585938,
+     716.8933715820312
+    ],
+    [
+     2.4929332733154297,
+     441.6877136230469
+    ],
+    [
+     2.498800039291382,
+     148.34950256347656
+    ],
+    [
+     2.5046334266662598,
+     0.8926864266395569
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "aeee5fae23d756f3fdd1bbc6fac78bfd",
+   "xxh3_intensity_nonzero": "7ee8c7b9cbf1702220f12a6caef6869b"
+  },
+  {
+   "index": 87,
+   "id": "SRM SIC 170.079,134.109",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 170.079,
+   "product_mz": 134.109,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 132,
+   "xxh3_time_min": "d3b1bee8712f61df0f72fbf0e2014e8a",
+   "xxh3_intensity": "6e35e76535917da2eca68bd355a8b528",
+   "sum_intensity": 65376.123027563095,
+   "first_points": [
+    [
+     0.602316677570343,
+     0.8817009925842285
+    ],
+    [
+     0.6124333143234253,
+     0.8287374973297119
+    ],
+    [
+     0.6227333545684814,
+     667.372314453125
+    ],
+    [
+     0.6328166723251343,
+     0.7674946188926697
+    ],
+    [
+     0.6428999900817871,
+     0.8283504247665405
+    ]
+   ],
+   "n_nonzero": 132,
+   "xxh3_time_min_nonzero": "d3b1bee8712f61df0f72fbf0e2014e8a",
+   "xxh3_intensity_nonzero": "6e35e76535917da2eca68bd355a8b528"
+  },
+  {
+   "index": 88,
+   "id": "SRM SIC 170.079,152.131",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 170.079,
+   "product_mz": 152.131,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 132,
+   "xxh3_time_min": "d3b1bee8712f61df0f72fbf0e2014e8a",
+   "xxh3_intensity": "6a2d75c1c5a45b2349dbdee0fff166d0",
+   "sum_intensity": 643298.36275056,
+   "first_points": [
+    [
+     0.602316677570343,
+     0.4877112805843353
+    ],
+    [
+     0.6124333143234253,
+     0.9201037883758545
+    ],
+    [
+     0.6227333545684814,
+     5487.404296875
+    ],
+    [
+     0.6328166723251343,
+     531.4197998046875
+    ],
+    [
+     0.6428999900817871,
+     7112.28369140625
+    ]
+   ],
+   "n_nonzero": 132,
+   "xxh3_time_min_nonzero": "d3b1bee8712f61df0f72fbf0e2014e8a",
+   "xxh3_intensity_nonzero": "6a2d75c1c5a45b2349dbdee0fff166d0"
+  },
+  {
+   "index": 89,
+   "id": "SRM SIC 173.004,81.14",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 173.004,
+   "product_mz": 81.14,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "391e49f27358e68ea917d3d203907ab3",
+   "xxh3_intensity": "f14c15ce36ceea000c52652d6416cfa6",
+   "sum_intensity": 11228.538508713245,
+   "first_points": [
+    [
+     0.00573333352804184,
+     120.67816925048828
+    ],
+    [
+     0.011850000359117985,
+     396.96356201171875
+    ],
+    [
+     0.017733333632349968,
+     1369.386474609375
+    ],
+    [
+     0.024016667157411575,
+     2735.3759765625
+    ],
+    [
+     0.03020000085234642,
+     0.8140342831611633
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "391e49f27358e68ea917d3d203907ab3",
+   "xxh3_intensity_nonzero": "f14c15ce36ceea000c52652d6416cfa6"
+  },
+  {
+   "index": 90,
+   "id": "SRM SIC 173.004,99.156",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 173.004,
+   "product_mz": 99.156,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "391e49f27358e68ea917d3d203907ab3",
+   "xxh3_intensity": "ce76b000306d666f92a324a6e3c27213",
+   "sum_intensity": 23952.860733926296,
+   "first_points": [
+    [
+     0.00573333352804184,
+     1657.1671142578125
+    ],
+    [
+     0.011850000359117985,
+     0.926770806312561
+    ],
+    [
+     0.017733333632349968,
+     0.8661985397338867
+    ],
+    [
+     0.024016667157411575,
+     0.8668935298919678
+    ],
+    [
+     0.03020000085234642,
+     0.8127904534339905
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "391e49f27358e68ea917d3d203907ab3",
+   "xxh3_intensity_nonzero": "ce76b000306d666f92a324a6e3c27213"
+  },
+  {
+   "index": 91,
+   "id": "SRM SIC 175.103,70.138",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 175.103,
+   "product_mz": 70.138,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 103,
+   "xxh3_time_min": "4f2f3a2ffe85908502672aaa3416db16",
+   "xxh3_intensity": "0ef30ced207f1e60ff3c8449305876b7",
+   "sum_intensity": 77866.3350893259,
+   "first_points": [
+    [
+     0.0018166666850447655,
+     337.9688720703125
+    ],
+    [
+     0.00793333351612091,
+     233.97067260742188
+    ],
+    [
+     0.0142000000923872,
+     64.57221221923828
+    ],
+    [
+     0.020483333617448807,
+     0.8293870687484741
+    ],
+    [
+     0.026766667142510414,
+     0.8707164525985718
+    ]
+   ],
+   "n_nonzero": 103,
+   "xxh3_time_min_nonzero": "4f2f3a2ffe85908502672aaa3416db16",
+   "xxh3_intensity_nonzero": "0ef30ced207f1e60ff3c8449305876b7"
+  },
+  {
+   "index": 92,
+   "id": "SRM SIC 175.103,130.139",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 175.103,
+   "product_mz": 130.139,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 103,
+   "xxh3_time_min": "4f2f3a2ffe85908502672aaa3416db16",
+   "xxh3_intensity": "1872d8d44863a79654ecf64c9ff9cf02",
+   "sum_intensity": 5138.710362255573,
+   "first_points": [
+    [
+     0.0018166666850447655,
+     0.8259930610656738
+    ],
+    [
+     0.00793333351612091,
+     0.9159846305847168
+    ],
+    [
+     0.0142000000923872,
+     0.8775264024734497
+    ],
+    [
+     0.020483333617448807,
+     0.8052458167076111
+    ],
+    [
+     0.026766667142510414,
+     0.8496397137641907
+    ]
+   ],
+   "n_nonzero": 103,
+   "xxh3_time_min_nonzero": "4f2f3a2ffe85908502672aaa3416db16",
+   "xxh3_intensity_nonzero": "1872d8d44863a79654ecf64c9ff9cf02"
+  },
+  {
+   "index": 93,
+   "id": "SRM SIC 176.065,77.228",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 176.065,
+   "product_mz": 77.228,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 354,
+   "xxh3_time_min": "d57b7e02b5e31728515ee6f4b39f4f1a",
+   "xxh3_intensity": "0fa1c2727fe575e82bd84dd0361be18c",
+   "sum_intensity": 1992729.314086914,
+   "first_points": [
+    [
+     4.765583515167236,
+     6009.5458984375
+    ],
+    [
+     4.771433353424072,
+     3853.909423828125
+    ],
+    [
+     4.777283191680908,
+     2457.540771484375
+    ],
+    [
+     4.783133506774902,
+     2273.88037109375
+    ],
+    [
+     4.789000034332275,
+     3726.662841796875
+    ]
+   ],
+   "n_nonzero": 354,
+   "xxh3_time_min_nonzero": "d57b7e02b5e31728515ee6f4b39f4f1a",
+   "xxh3_intensity_nonzero": "0fa1c2727fe575e82bd84dd0361be18c"
+  },
+  {
+   "index": 94,
+   "id": "SRM SIC 176.065,130.228",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 176.065,
+   "product_mz": 130.228,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 354,
+   "xxh3_time_min": "d57b7e02b5e31728515ee6f4b39f4f1a",
+   "xxh3_intensity": "d0727157ab5e8e3249b9dd9ff5e4f1e1",
+   "sum_intensity": 494886.42709350586,
+   "first_points": [
+    [
+     4.765583515167236,
+     2308.95361328125
+    ],
+    [
+     4.771433353424072,
+     2853.633544921875
+    ],
+    [
+     4.777283191680908,
+     1355.8505859375
+    ],
+    [
+     4.783133506774902,
+     898.11083984375
+    ],
+    [
+     4.789000034332275,
+     860.0746459960938
+    ]
+   ],
+   "n_nonzero": 354,
+   "xxh3_time_min_nonzero": "d57b7e02b5e31728515ee6f4b39f4f1a",
+   "xxh3_intensity_nonzero": "d0727157ab5e8e3249b9dd9ff5e4f1e1"
+  },
+  {
+   "index": 95,
+   "id": "SRM SIC 176.089,70.221",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 176.089,
+   "product_mz": 70.221,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "72b4e7508439c72cb67760d672da3c3d",
+   "xxh3_intensity": "52f26580f7f69f3491f60ab8bba3be1f",
+   "sum_intensity": 54612.934409856796,
+   "first_points": [
+    [
+     0.005950000137090683,
+     1.4935346841812134
+    ],
+    [
+     0.01205000001937151,
+     0.9542317390441895
+    ],
+    [
+     0.017916666343808174,
+     28.785207748413086
+    ],
+    [
+     0.02419999986886978,
+     256.76416015625
+    ],
+    [
+     0.030383333563804626,
+     0.8331561088562012
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "72b4e7508439c72cb67760d672da3c3d",
+   "xxh3_intensity_nonzero": "52f26580f7f69f3491f60ab8bba3be1f"
+  },
+  {
+   "index": 96,
+   "id": "SRM SIC 176.089,159.25",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 176.089,
+   "product_mz": 159.25,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "72b4e7508439c72cb67760d672da3c3d",
+   "xxh3_intensity": "7494e7880af4a04abcb3df54e91f0b40",
+   "sum_intensity": 11708.400778234005,
+   "first_points": [
+    [
+     0.005950000137090683,
+     0.8838027715682983
+    ],
+    [
+     0.01205000001937151,
+     0.941625714302063
+    ],
+    [
+     0.017916666343808174,
+     0.8541632890701294
+    ],
+    [
+     0.02419999986886978,
+     2715.942138671875
+    ],
+    [
+     0.030383333563804626,
+     1.028145670890808
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "72b4e7508439c72cb67760d672da3c3d",
+   "xxh3_intensity_nonzero": "7494e7880af4a04abcb3df54e91f0b40"
+  },
+  {
+   "index": 97,
+   "id": "SRM SIC 182.105,91.201",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 182.105,
+   "product_mz": 91.201,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 164,
+   "xxh3_time_min": "2bf0b61cacf0dbbf516563f82d7a0082",
+   "xxh3_intensity": "ff50c27d3d218df78fadd085d53ab974",
+   "sum_intensity": 120266.35538709164,
+   "first_points": [
+    [
+     1.10753333568573,
+     64.10222625732422
+    ],
+    [
+     1.114383339881897,
+     0.7851114273071289
+    ],
+    [
+     1.1211999654769897,
+     3.410640239715576
+    ],
+    [
+     1.128016710281372,
+     43.548091888427734
+    ],
+    [
+     1.1348333358764648,
+     0.9543731808662415
+    ]
+   ],
+   "n_nonzero": 164,
+   "xxh3_time_min_nonzero": "2bf0b61cacf0dbbf516563f82d7a0082",
+   "xxh3_intensity_nonzero": "ff50c27d3d218df78fadd085d53ab974"
+  },
+  {
+   "index": 98,
+   "id": "SRM SIC 182.105,136.22",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 182.105,
+   "product_mz": 136.22,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 164,
+   "xxh3_time_min": "2bf0b61cacf0dbbf516563f82d7a0082",
+   "xxh3_intensity": "010c75a29ffa45f7ce849beb6403f5e1",
+   "sum_intensity": 344230.420507133,
+   "first_points": [
+    [
+     1.10753333568573,
+     0.7789868712425232
+    ],
+    [
+     1.114383339881897,
+     0.8076921701431274
+    ],
+    [
+     1.1211999654769897,
+     0.8955842852592468
+    ],
+    [
+     1.128016710281372,
+     379.4967956542969
+    ],
+    [
+     1.1348333358764648,
+     981.7398071289062
+    ]
+   ],
+   "n_nonzero": 164,
+   "xxh3_time_min_nonzero": "2bf0b61cacf0dbbf516563f82d7a0082",
+   "xxh3_intensity_nonzero": "010c75a29ffa45f7ce849beb6403f5e1"
+  },
+  {
+   "index": 99,
+   "id": "SRM SIC 183.115,108.198",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 183.115,
+   "product_mz": 108.198,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 354,
+   "xxh3_time_min": "cbabd032d5e1fe1eb6c2b849f0411795",
+   "xxh3_intensity": "480580bfc8fab9e34b6c88f77a2b5ab8",
+   "sum_intensity": 532733.9749598503,
+   "first_points": [
+    [
+     4.76609992980957,
+     128.42189025878906
+    ],
+    [
+     4.7719502449035645,
+     0.9516144394874573
+    ],
+    [
+     4.777783393859863,
+     248.3859100341797
+    ],
+    [
+     4.783649921417236,
+     164.37318420410156
+    ],
+    [
+     4.7895002365112305,
+     248.01744079589844
+    ]
+   ],
+   "n_nonzero": 354,
+   "xxh3_time_min_nonzero": "cbabd032d5e1fe1eb6c2b849f0411795",
+   "xxh3_intensity_nonzero": "480580bfc8fab9e34b6c88f77a2b5ab8"
+  },
+  {
+   "index": 100,
+   "id": "SRM SIC 183.115,136.198",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 183.115,
+   "product_mz": 136.198,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 354,
+   "xxh3_time_min": "cbabd032d5e1fe1eb6c2b849f0411795",
+   "xxh3_intensity": "1bdd3b079d8728c4c549733db3701e27",
+   "sum_intensity": 1725675.5482357144,
+   "first_points": [
+    [
+     4.76609992980957,
+     729.1691284179688
+    ],
+    [
+     4.7719502449035645,
+     39.374874114990234
+    ],
+    [
+     4.777783393859863,
+     99.78063201904297
+    ],
+    [
+     4.783649921417236,
+     0.9192216396331787
+    ],
+    [
+     4.7895002365112305,
+     434.70623779296875
+    ]
+   ],
+   "n_nonzero": 354,
+   "xxh3_time_min_nonzero": "cbabd032d5e1fe1eb6c2b849f0411795",
+   "xxh3_intensity_nonzero": "1bdd3b079d8728c4c549733db3701e27"
+  },
+  {
+   "index": 101,
+   "id": "SRM SIC 186.016,70.072",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 186.016,
+   "product_mz": 70.072,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "86d17c03511eba83758a533af99fd90d",
+   "xxh3_intensity": "2a96fcbf0b48f3c55353000afddf110f",
+   "sum_intensity": 8694.996444165707,
+   "first_points": [
+    [
+     0.03216666728258133,
+     0.8332362174987793
+    ],
+    [
+     0.0385500006377697,
+     0.941240131855011
+    ],
+    [
+     0.045049998909235,
+     0.8357738256454468
+    ],
+    [
+     0.051233332604169846,
+     0.9579142332077026
+    ],
+    [
+     0.05771666765213013,
+     0.8671886920928955
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "86d17c03511eba83758a533af99fd90d",
+   "xxh3_intensity_nonzero": "2a96fcbf0b48f3c55353000afddf110f"
+  },
+  {
+   "index": 102,
+   "id": "SRM SIC 186.016,87.975",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 186.016,
+   "product_mz": 87.975,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "86d17c03511eba83758a533af99fd90d",
+   "xxh3_intensity": "6fc44c23a95fd6eb48c5718abddf8964",
+   "sum_intensity": 2263.208899438381,
+   "first_points": [
+    [
+     0.03216666728258133,
+     0.9520477652549744
+    ],
+    [
+     0.0385500006377697,
+     0.9279415607452393
+    ],
+    [
+     0.045049998909235,
+     0.9335411190986633
+    ],
+    [
+     0.051233332604169846,
+     0.9795048236846924
+    ],
+    [
+     0.05771666765213013,
+     0.7708612084388733
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "86d17c03511eba83758a533af99fd90d",
+   "xxh3_intensity_nonzero": "6fc44c23a95fd6eb48c5718abddf8964"
+  },
+  {
+   "index": 103,
+   "id": "SRM SIC 191.085,82.1",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 191.085,
+   "product_mz": 82.1,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "dc085fbed73233eafc76431efa1429fb",
+   "xxh3_intensity": "88dbac6f9863e06cd6a9156e18f87eaf",
+   "sum_intensity": 17776.138755261898,
+   "first_points": [
+    [
+     0.004316666629165411,
+     4.531268119812012
+    ],
+    [
+     0.010416666977107525,
+     103.66755676269531
+    ],
+    [
+     0.016449999064207077,
+     0.89082932472229
+    ],
+    [
+     0.022733332589268684,
+     111.74830627441406
+    ],
+    [
+     0.028950000181794167,
+     0.8625769019126892
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "dc085fbed73233eafc76431efa1429fb",
+   "xxh3_intensity_nonzero": "88dbac6f9863e06cd6a9156e18f87eaf"
+  },
+  {
+   "index": 104,
+   "id": "SRM SIC 191.085,128.105",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 191.085,
+   "product_mz": 128.105,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "dc085fbed73233eafc76431efa1429fb",
+   "xxh3_intensity": "ed719a05d94669c89d24c873c70beba2",
+   "sum_intensity": 6878.1980175971985,
+   "first_points": [
+    [
+     0.004316666629165411,
+     0.8316088914871216
+    ],
+    [
+     0.010416666977107525,
+     0.7986994981765747
+    ],
+    [
+     0.016449999064207077,
+     0.9243329167366028
+    ],
+    [
+     0.022733332589268684,
+     0.909153938293457
+    ],
+    [
+     0.028950000181794167,
+     0.8501087427139282
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "dc085fbed73233eafc76431efa1429fb",
+   "xxh3_intensity_nonzero": "ed719a05d94669c89d24c873c70beba2"
+  },
+  {
+   "index": 105,
+   "id": "SRM SIC 195.069,110.118",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 195.069,
+   "product_mz": 110.118,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "eb5a2ca780c468bcea76322682fbec2d",
+   "xxh3_intensity": "7bb3b8436c1967991f468d331fe5d5b0",
+   "sum_intensity": 113514.06989228725,
+   "first_points": [
+    [
+     3.8060333728790283,
+     206.1227264404297
+    ],
+    [
+     3.8118834495544434,
+     1437.6346435546875
+    ],
+    [
+     3.8177499771118164,
+     348.41552734375
+    ],
+    [
+     3.8236000537872314,
+     625.501708984375
+    ],
+    [
+     3.8294498920440674,
+     881.275146484375
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "eb5a2ca780c468bcea76322682fbec2d",
+   "xxh3_intensity_nonzero": "7bb3b8436c1967991f468d331fe5d5b0"
+  },
+  {
+   "index": 106,
+   "id": "SRM SIC 195.069,138.101",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 195.069,
+   "product_mz": 138.101,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "eb5a2ca780c468bcea76322682fbec2d",
+   "xxh3_intensity": "bc48b9d5f8c36ba852d323f41171e6d3",
+   "sum_intensity": 143595.20704081655,
+   "first_points": [
+    [
+     3.8060333728790283,
+     1140.78857421875
+    ],
+    [
+     3.8118834495544434,
+     461.0372619628906
+    ],
+    [
+     3.8177499771118164,
+     1341.9287109375
+    ],
+    [
+     3.8236000537872314,
+     1130.551025390625
+    ],
+    [
+     3.8294498920440674,
+     1081.9449462890625
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "eb5a2ca780c468bcea76322682fbec2d",
+   "xxh3_intensity_nonzero": "bc48b9d5f8c36ba852d323f41171e6d3"
+  },
+  {
+   "index": 107,
+   "id": "SRM SIC 200.051,74.07",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 200.051,
+   "product_mz": 74.07,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "47bf4ec40893929f812c163280e1ef4c",
+   "xxh3_intensity": "d132d79fe3f71d570ff85985733ff309",
+   "sum_intensity": 45687.16710180044,
+   "first_points": [
+    [
+     0.019166667014360428,
+     3492.453125
+    ],
+    [
+     0.025450000539422035,
+     970.906494140625
+    ],
+    [
+     0.031599998474121094,
+     399.7711181640625
+    ],
+    [
+     0.03799999877810478,
+     944.791259765625
+    ],
+    [
+     0.04450000077486038,
+     22.64334487915039
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "47bf4ec40893929f812c163280e1ef4c",
+   "xxh3_intensity_nonzero": "d132d79fe3f71d570ff85985733ff309"
+  },
+  {
+   "index": 108,
+   "id": "SRM SIC 200.051,102.078",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 200.051,
+   "product_mz": 102.078,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "47bf4ec40893929f812c163280e1ef4c",
+   "xxh3_intensity": "e2b4f00feaec2b9d96d98921e8634288",
+   "sum_intensity": 2350.06010890007,
+   "first_points": [
+    [
+     0.019166667014360428,
+     0.8493307828903198
+    ],
+    [
+     0.025450000539422035,
+     0.9166447520256042
+    ],
+    [
+     0.031599998474121094,
+     0.9262534976005554
+    ],
+    [
+     0.03799999877810478,
+     0.9216898679733276
+    ],
+    [
+     0.04450000077486038,
+     0.9051703810691833
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "47bf4ec40893929f812c163280e1ef4c",
+   "xxh3_intensity_nonzero": "e2b4f00feaec2b9d96d98921e8634288"
+  },
+  {
+   "index": 109,
+   "id": "SRM SIC 204.07,134.059",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 204.07,
+   "product_mz": 134.059,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "2620dadf8a67590e36f548d88c0f7f6c",
+   "xxh3_intensity": "841629bde4a0f504b1b26fbb2c914706",
+   "sum_intensity": 73906.18529778719,
+   "first_points": [
+    [
+     2.4103500843048096,
+     154.821044921875
+    ],
+    [
+     2.4161500930786133,
+     1017.4640502929688
+    ],
+    [
+     2.422133445739746,
+     307.9132080078125
+    ],
+    [
+     2.42793345451355,
+     172.15919494628906
+    ],
+    [
+     2.4337334632873535,
+     235.1197509765625
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "2620dadf8a67590e36f548d88c0f7f6c",
+   "xxh3_intensity_nonzero": "841629bde4a0f504b1b26fbb2c914706"
+  },
+  {
+   "index": 110,
+   "id": "SRM SIC 204.07,162.05",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 204.07,
+   "product_mz": 162.05,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "2620dadf8a67590e36f548d88c0f7f6c",
+   "xxh3_intensity": "1ed9588b0d5b09fe616a96a2a7b3e97b",
+   "sum_intensity": 181017.4266951084,
+   "first_points": [
+    [
+     2.4103500843048096,
+     872.642578125
+    ],
+    [
+     2.4161500930786133,
+     83.19977569580078
+    ],
+    [
+     2.422133445739746,
+     313.150146484375
+    ],
+    [
+     2.42793345451355,
+     1295.1424560546875
+    ],
+    [
+     2.4337334632873535,
+     0.878606379032135
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "2620dadf8a67590e36f548d88c0f7f6c",
+   "xxh3_intensity_nonzero": "1ed9588b0d5b09fe616a96a2a7b3e97b"
+  },
+  {
+   "index": 111,
+   "id": "SRM SIC 204.081,96.08",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 204.081,
+   "product_mz": 96.08,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 94,
+   "xxh3_time_min": "d0bb9d1b56df909cd6f558d45a7ecf3b",
+   "xxh3_intensity": "33532a94c36adb68bb2d2c90aca26652",
+   "sum_intensity": 19675.961686998606,
+   "first_points": [
+    [
+     0.11266666650772095,
+     0.8896160125732422
+    ],
+    [
+     0.1200166642665863,
+     0.8951007127761841
+    ],
+    [
+     0.12759999930858612,
+     0.8930411338806152
+    ],
+    [
+     0.13498333096504211,
+     0.8540919423103333
+    ],
+    [
+     0.14233332872390747,
+     1124.1690673828125
+    ]
+   ],
+   "n_nonzero": 94,
+   "xxh3_time_min_nonzero": "d0bb9d1b56df909cd6f558d45a7ecf3b",
+   "xxh3_intensity_nonzero": "33532a94c36adb68bb2d2c90aca26652"
+  },
+  {
+   "index": 112,
+   "id": "SRM SIC 204.081,138.087",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 204.081,
+   "product_mz": 138.087,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 94,
+   "xxh3_time_min": "d0bb9d1b56df909cd6f558d45a7ecf3b",
+   "xxh3_intensity": "696184c8a24245fbf323a5c889208326",
+   "sum_intensity": 27674.887229144573,
+   "first_points": [
+    [
+     0.11266666650772095,
+     0.8966020345687866
+    ],
+    [
+     0.1200166642665863,
+     0.9697250127792358
+    ],
+    [
+     0.12759999930858612,
+     0.9170424938201904
+    ],
+    [
+     0.13498333096504211,
+     0.7861770391464233
+    ],
+    [
+     0.14233332872390747,
+     0.9084733128547668
+    ]
+   ],
+   "n_nonzero": 94,
+   "xxh3_time_min_nonzero": "d0bb9d1b56df909cd6f558d45a7ecf3b",
+   "xxh3_intensity_nonzero": "696184c8a24245fbf323a5c889208326"
+  },
+  {
+   "index": 113,
+   "id": "SRM SIC 205.084,118.198",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 205.084,
+   "product_mz": 118.198,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 170,
+   "xxh3_time_min": "f8e152c5a904ad27ced9aab430ac3c94",
+   "xxh3_intensity": "58e31c1ed42bd82b35238b937f3d432d",
+   "sum_intensity": 157941.92299056053,
+   "first_points": [
+    [
+     3.270066738128662,
+     403.82000732421875
+    ],
+    [
+     3.2760000228881836,
+     89.09022521972656
+    ],
+    [
+     3.281749963760376,
+     621.1807250976562
+    ],
+    [
+     3.2874999046325684,
+     1410.250732421875
+    ],
+    [
+     3.293483257293701,
+     478.23541259765625
+    ]
+   ],
+   "n_nonzero": 170,
+   "xxh3_time_min_nonzero": "f8e152c5a904ad27ced9aab430ac3c94",
+   "xxh3_intensity_nonzero": "58e31c1ed42bd82b35238b937f3d432d"
+  },
+  {
+   "index": 114,
+   "id": "SRM SIC 205.084,146.192",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 205.084,
+   "product_mz": 146.192,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 170,
+   "xxh3_time_min": "f8e152c5a904ad27ced9aab430ac3c94",
+   "xxh3_intensity": "2d20ac9211da3745e4ec3701c643c270",
+   "sum_intensity": 312734.2712364197,
+   "first_points": [
+    [
+     3.270066738128662,
+     4635.34375
+    ],
+    [
+     3.2760000228881836,
+     2831.781005859375
+    ],
+    [
+     3.281749963760376,
+     3283.084716796875
+    ],
+    [
+     3.2874999046325684,
+     1772.0601806640625
+    ],
+    [
+     3.293483257293701,
+     2188.638427734375
+    ]
+   ],
+   "n_nonzero": 170,
+   "xxh3_time_min_nonzero": "f8e152c5a904ad27ced9aab430ac3c94",
+   "xxh3_intensity_nonzero": "2d20ac9211da3745e4ec3701c643c270"
+  },
+  {
+   "index": 115,
+   "id": "SRM SIC 209.12,91.236",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 209.12,
+   "product_mz": 91.236,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "eebf008ae87b3c49a9df9d1aeb95ef0a",
+   "xxh3_intensity": "8851d9248d2b2026a04aaf5616aad0ac",
+   "sum_intensity": 305214.2854156494,
+   "first_points": [
+    [
+     2.329066753387451,
+     1010.3206787109375
+    ],
+    [
+     2.3348500728607178,
+     1060.6124267578125
+    ],
+    [
+     2.3406167030334473,
+     772.847900390625
+    ],
+    [
+     2.3465499877929688,
+     821.1217651367188
+    ],
+    [
+     2.3523166179656982,
+     766.8101806640625
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "eebf008ae87b3c49a9df9d1aeb95ef0a",
+   "xxh3_intensity_nonzero": "8851d9248d2b2026a04aaf5616aad0ac"
+  },
+  {
+   "index": 116,
+   "id": "SRM SIC 209.12,146.193",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 209.12,
+   "product_mz": 146.193,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "eebf008ae87b3c49a9df9d1aeb95ef0a",
+   "xxh3_intensity": "52722989a6755da97654ab1099004aa8",
+   "sum_intensity": 126481.17390435934,
+   "first_points": [
+    [
+     2.329066753387451,
+     255.26321411132812
+    ],
+    [
+     2.3348500728607178,
+     209.4685821533203
+    ],
+    [
+     2.3406167030334473,
+     45.296485900878906
+    ],
+    [
+     2.3465499877929688,
+     574.0025634765625
+    ],
+    [
+     2.3523166179656982,
+     108.67562866210938
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "eebf008ae87b3c49a9df9d1aeb95ef0a",
+   "xxh3_intensity_nonzero": "52722989a6755da97654ab1099004aa8"
+  },
+  {
+   "index": 117,
+   "id": "SRM SIC 215.117,179.26",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 215.117,
+   "product_mz": 179.26,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "32b3bc0bcc6c88af59a9ebc771939c3b",
+   "xxh3_intensity": "b9b32824a8058ff0577b6499ca26ec79",
+   "sum_intensity": 154606.5919356346,
+   "first_points": [
+    [
+     4.386216640472412,
+     907.0481567382812
+    ],
+    [
+     4.3922834396362305,
+     668.831298828125
+    ],
+    [
+     4.398383140563965,
+     685.1937866210938
+    ],
+    [
+     4.404449939727783,
+     257.6894226074219
+    ],
+    [
+     4.410749912261963,
+     166.9965057373047
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "32b3bc0bcc6c88af59a9ebc771939c3b",
+   "xxh3_intensity_nonzero": "b9b32824a8058ff0577b6499ca26ec79"
+  },
+  {
+   "index": 118,
+   "id": "SRM SIC 215.117,197.27",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 215.117,
+   "product_mz": 197.27,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "32b3bc0bcc6c88af59a9ebc771939c3b",
+   "xxh3_intensity": "97b1a9c7b09ed48fafe9207b734dc755",
+   "sum_intensity": 1875065.5903320312,
+   "first_points": [
+    [
+     4.386216640472412,
+     6564.0234375
+    ],
+    [
+     4.3922834396362305,
+     4350.6943359375
+    ],
+    [
+     4.398383140563965,
+     6222.5576171875
+    ],
+    [
+     4.404449939727783,
+     6171.14990234375
+    ],
+    [
+     4.410749912261963,
+     5046.166015625
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "32b3bc0bcc6c88af59a9ebc771939c3b",
+   "xxh3_intensity_nonzero": "97b1a9c7b09ed48fafe9207b734dc755"
+  },
+  {
+   "index": 119,
+   "id": "SRM SIC 219.102,115.057",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 219.102,
+   "product_mz": 115.057,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "f8e3307abbab2f55c68de32f2aa8ea3b",
+   "xxh3_intensity": "82fcc04b73cf65d8fb561b73f06ce3d8",
+   "sum_intensity": 1404433.7697753906,
+   "first_points": [
+    [
+     3.9464333057403564,
+     4773.064453125
+    ],
+    [
+     3.9523000717163086,
+     6519.35888671875
+    ],
+    [
+     3.9581499099731445,
+     7640.07421875
+    ],
+    [
+     3.9639832973480225,
+     3774.801513671875
+    ],
+    [
+     3.970066785812378,
+     6607.80810546875
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "f8e3307abbab2f55c68de32f2aa8ea3b",
+   "xxh3_intensity_nonzero": "82fcc04b73cf65d8fb561b73f06ce3d8"
+  },
+  {
+   "index": 120,
+   "id": "SRM SIC 219.102,160.081",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 219.102,
+   "product_mz": 160.081,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "f8e3307abbab2f55c68de32f2aa8ea3b",
+   "xxh3_intensity": "37715386ab604028ed58738f58776efd",
+   "sum_intensity": 395353.1954650879,
+   "first_points": [
+    [
+     3.9464333057403564,
+     2368.383056640625
+    ],
+    [
+     3.9523000717163086,
+     739.6512451171875
+    ],
+    [
+     3.9581499099731445,
+     2235.36083984375
+    ],
+    [
+     3.9639832973480225,
+     2207.478759765625
+    ],
+    [
+     3.970066785812378,
+     1263.2039794921875
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "f8e3307abbab2f55c68de32f2aa8ea3b",
+   "xxh3_intensity_nonzero": "37715386ab604028ed58738f58776efd"
+  },
+  {
+   "index": 121,
+   "id": "SRM SIC 220.108,184.161",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 220.108,
+   "product_mz": 184.161,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 171,
+   "xxh3_time_min": "b66b139f11256e6180eb8fd557e26a1b",
+   "xxh3_intensity": "925431e9fc37e0e0c9223a967eb2326d",
+   "sum_intensity": 48974.98295712471,
+   "first_points": [
+    [
+     2.9104833602905273,
+     131.21969604492188
+    ],
+    [
+     2.9162166118621826,
+     117.53279113769531
+    ],
+    [
+     2.921950101852417,
+     667.1259765625
+    ],
+    [
+     2.9278833866119385,
+     0.8744216561317444
+    ],
+    [
+     2.9337334632873535,
+     0.8813157677650452
+    ]
+   ],
+   "n_nonzero": 171,
+   "xxh3_time_min_nonzero": "b66b139f11256e6180eb8fd557e26a1b",
+   "xxh3_intensity_nonzero": "925431e9fc37e0e0c9223a967eb2326d"
+  },
+  {
+   "index": 122,
+   "id": "SRM SIC 220.108,202.177",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 220.108,
+   "product_mz": 202.177,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 171,
+   "xxh3_time_min": "b66b139f11256e6180eb8fd557e26a1b",
+   "xxh3_intensity": "964c9bb6766a69825fc417b16214b5f0",
+   "sum_intensity": 1235036.7283935547,
+   "first_points": [
+    [
+     2.9104833602905273,
+     5031.65625
+    ],
+    [
+     2.9162166118621826,
+     5575.80517578125
+    ],
+    [
+     2.921950101852417,
+     2751.06640625
+    ],
+    [
+     2.9278833866119385,
+     2924.532470703125
+    ],
+    [
+     2.9337334632873535,
+     1792.2264404296875
+    ]
+   ],
+   "n_nonzero": 171,
+   "xxh3_time_min_nonzero": "b66b139f11256e6180eb8fd557e26a1b",
+   "xxh3_intensity_nonzero": "964c9bb6766a69825fc417b16214b5f0"
+  },
+  {
+   "index": 123,
+   "id": "SRM SIC 221.091,162.061",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 221.091,
+   "product_mz": 162.061,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "e66a592f12300ae89ed1f313b76ad68d",
+   "xxh3_intensity": "c975f7550270dc31ed827c2067771563",
+   "sum_intensity": 199378.77965080738,
+   "first_points": [
+    [
+     2.4108500480651855,
+     633.0352783203125
+    ],
+    [
+     2.4166667461395264,
+     597.7213134765625
+    ],
+    [
+     2.422633409500122,
+     231.3267059326172
+    ],
+    [
+     2.428433418273926,
+     87.60444641113281
+    ],
+    [
+     2.4342334270477295,
+     1518.998046875
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "e66a592f12300ae89ed1f313b76ad68d",
+   "xxh3_intensity_nonzero": "c975f7550270dc31ed827c2067771563"
+  },
+  {
+   "index": 124,
+   "id": "SRM SIC 221.091,204.072",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 221.091,
+   "product_mz": 204.072,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "e66a592f12300ae89ed1f313b76ad68d",
+   "xxh3_intensity": "dec92d42838e1f24e34148c0a43e915f",
+   "sum_intensity": 186107.43744564056,
+   "first_points": [
+    [
+     2.4108500480651855,
+     1796.766845703125
+    ],
+    [
+     2.4166667461395264,
+     266.8023681640625
+    ],
+    [
+     2.422633409500122,
+     482.8918762207031
+    ],
+    [
+     2.428433418273926,
+     229.13449096679688
+    ],
+    [
+     2.4342334270477295,
+     595.3125
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "e66a592f12300ae89ed1f313b76ad68d",
+   "xxh3_intensity_nonzero": "dec92d42838e1f24e34148c0a43e915f"
+  },
+  {
+   "index": 125,
+   "id": "SRM SIC 222.077,138.099",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 222.077,
+   "product_mz": 138.099,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 94,
+   "xxh3_time_min": "a1cb9624c279b94912366f475fcbaaa4",
+   "xxh3_intensity": "d59f2a49e3acdfc585d63fd675439ddc",
+   "sum_intensity": 7931.793575644493,
+   "first_points": [
+    [
+     0.11283333599567413,
+     0.9085833430290222
+    ],
+    [
+     0.12018333375453949,
+     0.8596386313438416
+    ],
+    [
+     0.1277666687965393,
+     0.8881561160087585
+    ],
+    [
+     0.13513332605361938,
+     0.8736516833305359
+    ],
+    [
+     0.14249999821186066,
+     0.8241915106773376
+    ]
+   ],
+   "n_nonzero": 94,
+   "xxh3_time_min_nonzero": "a1cb9624c279b94912366f475fcbaaa4",
+   "xxh3_intensity_nonzero": "d59f2a49e3acdfc585d63fd675439ddc"
+  },
+  {
+   "index": 126,
+   "id": "SRM SIC 222.077,204.23",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 222.077,
+   "product_mz": 204.23,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 94,
+   "xxh3_time_min": "a1cb9624c279b94912366f475fcbaaa4",
+   "xxh3_intensity": "e48cf8633904335ae75af9df623e5ef8",
+   "sum_intensity": 508040.2905499935,
+   "first_points": [
+    [
+     0.11283333599567413,
+     0.8957980275154114
+    ],
+    [
+     0.12018333375453949,
+     0.767919659614563
+    ],
+    [
+     0.1277666687965393,
+     0.8721597194671631
+    ],
+    [
+     0.13513332605361938,
+     0.5358209013938904
+    ],
+    [
+     0.14249999821186066,
+     410.2919006347656
+    ]
+   ],
+   "n_nonzero": 94,
+   "xxh3_time_min_nonzero": "a1cb9624c279b94912366f475fcbaaa4",
+   "xxh3_intensity_nonzero": "e48cf8633904335ae75af9df623e5ef8"
+  },
+  {
+   "index": 127,
+   "id": "SRM SIC 228.089,95.092",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 228.089,
+   "product_mz": 95.092,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 192,
+   "xxh3_time_min": "ac0c623c06ec5b06085fb95750586036",
+   "xxh3_intensity": "cd389c02779167dd36826d7a382c6fef",
+   "sum_intensity": 59440.75175315142,
+   "first_points": [
+    [
+     0.2552666664123535,
+     0.8765317797660828
+    ],
+    [
+     0.2637999951839447,
+     0.9651085138320923
+    ],
+    [
+     0.2723499834537506,
+     981.8911743164062
+    ],
+    [
+     0.2811833322048187,
+     0.9068103432655334
+    ],
+    [
+     0.289900004863739,
+     0.8583221435546875
+    ]
+   ],
+   "n_nonzero": 192,
+   "xxh3_time_min_nonzero": "ac0c623c06ec5b06085fb95750586036",
+   "xxh3_intensity_nonzero": "cd389c02779167dd36826d7a382c6fef"
+  },
+  {
+   "index": 128,
+   "id": "SRM SIC 228.089,112.123",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 228.089,
+   "product_mz": 112.123,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 192,
+   "xxh3_time_min": "ac0c623c06ec5b06085fb95750586036",
+   "xxh3_intensity": "145ac9301b8b1d2f2463ef59135f3469",
+   "sum_intensity": 13723.331395566463,
+   "first_points": [
+    [
+     0.2552666664123535,
+     0.9034233093261719
+    ],
+    [
+     0.2637999951839447,
+     0.8922417759895325
+    ],
+    [
+     0.2723499834537506,
+     0.9386391639709473
+    ],
+    [
+     0.2811833322048187,
+     0.869282066822052
+    ],
+    [
+     0.289900004863739,
+     0.8257833123207092
+    ]
+   ],
+   "n_nonzero": 192,
+   "xxh3_time_min_nonzero": "ac0c623c06ec5b06085fb95750586036",
+   "xxh3_intensity_nonzero": "145ac9301b8b1d2f2463ef59135f3469"
+  },
+  {
+   "index": 129,
+   "id": "SRM SIC 240.135,165.182",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 240.135,
+   "product_mz": 165.182,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 160,
+   "xxh3_time_min": "481a37c2d65dbe7b8ef9d9567180e6f6",
+   "xxh3_intensity": "e0600f042396bd4e43ad14f481090de5",
+   "sum_intensity": 12459.616646289825,
+   "first_points": [
+    [
+     1.010016679763794,
+     0.738713800907135
+    ],
+    [
+     1.017133355140686,
+     0.8414865136146545
+    ],
+    [
+     1.0241665840148926,
+     0.8624065518379211
+    ],
+    [
+     1.0313832759857178,
+     0.851768970489502
+    ],
+    [
+     1.038450002670288,
+     0.939992368221283
+    ]
+   ],
+   "n_nonzero": 160,
+   "xxh3_time_min_nonzero": "481a37c2d65dbe7b8ef9d9567180e6f6",
+   "xxh3_intensity_nonzero": "e0600f042396bd4e43ad14f481090de5"
+  },
+  {
+   "index": 130,
+   "id": "SRM SIC 240.135,196.218",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 240.135,
+   "product_mz": 196.218,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 160,
+   "xxh3_time_min": "481a37c2d65dbe7b8ef9d9567180e6f6",
+   "xxh3_intensity": "fc786bc69fb6e2c41bb183c2a3ea0cde",
+   "sum_intensity": 61889.81137210131,
+   "first_points": [
+    [
+     1.010016679763794,
+     0.7954423427581787
+    ],
+    [
+     1.017133355140686,
+     0.6845768094062805
+    ],
+    [
+     1.0241665840148926,
+     327.1545104980469
+    ],
+    [
+     1.0313832759857178,
+     0.8964870572090149
+    ],
+    [
+     1.038450002670288,
+     0.9025499224662781
+    ]
+   ],
+   "n_nonzero": 160,
+   "xxh3_time_min_nonzero": "481a37c2d65dbe7b8ef9d9567180e6f6",
+   "xxh3_intensity_nonzero": "fc786bc69fb6e2c41bb183c2a3ea0cde"
+  },
+  {
+   "index": 131,
+   "id": "SRM SIC 243.997,95.103",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 243.997,
+   "product_mz": 95.103,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 188,
+   "xxh3_time_min": "c076540237ea858eb28009b2256dc7dc",
+   "xxh3_intensity": "024fd0502deb7e5cb554a4d6540c7554",
+   "sum_intensity": 53991.997481405735,
+   "first_points": [
+    [
+     0.09841666370630264,
+     0.8069472908973694
+    ],
+    [
+     0.10544999688863754,
+     0.9155492186546326
+    ],
+    [
+     0.11249999701976776,
+     0.9953944087028503
+    ],
+    [
+     0.11986666917800903,
+     0.9129199385643005
+    ],
+    [
+     0.12743332982063293,
+     0.8694577813148499
+    ]
+   ],
+   "n_nonzero": 188,
+   "xxh3_time_min_nonzero": "c076540237ea858eb28009b2256dc7dc",
+   "xxh3_intensity_nonzero": "024fd0502deb7e5cb554a4d6540c7554"
+  },
+  {
+   "index": 132,
+   "id": "SRM SIC 243.997,112.123",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 243.997,
+   "product_mz": 112.123,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 188,
+   "xxh3_time_min": "c076540237ea858eb28009b2256dc7dc",
+   "xxh3_intensity": "ac15cc8be851dbaf7cda4beccbf78019",
+   "sum_intensity": 25553.433023691177,
+   "first_points": [
+    [
+     0.09841666370630264,
+     1.0908749103546143
+    ],
+    [
+     0.10544999688863754,
+     0.8771697878837585
+    ],
+    [
+     0.11249999701976776,
+     0.890598714351654
+    ],
+    [
+     0.11986666917800903,
+     0.849175214767456
+    ],
+    [
+     0.12743332982063293,
+     0.8463523387908936
+    ]
+   ],
+   "n_nonzero": 188,
+   "xxh3_time_min_nonzero": "c076540237ea858eb28009b2256dc7dc",
+   "xxh3_intensity_nonzero": "ac15cc8be851dbaf7cda4beccbf78019"
+  },
+  {
+   "index": 133,
+   "id": "SRM SIC 245.073,97.16",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 245.073,
+   "product_mz": 97.16,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 169,
+   "xxh3_time_min": "b2029bcc704c8b068b7e55396fa4030e",
+   "xxh3_intensity": "9da0207289a9455ba168c028d2319c09",
+   "sum_intensity": 91462.20642966032,
+   "first_points": [
+    [
+     4.076333045959473,
+     1494.0242919921875
+    ],
+    [
+     4.082600116729736,
+     1308.2166748046875
+    ],
+    [
+     4.088700294494629,
+     632.42333984375
+    ],
+    [
+     4.094733238220215,
+     111.64959716796875
+    ],
+    [
+     4.100766658782959,
+     441.18133544921875
+    ]
+   ],
+   "n_nonzero": 169,
+   "xxh3_time_min_nonzero": "b2029bcc704c8b068b7e55396fa4030e",
+   "xxh3_intensity_nonzero": "9da0207289a9455ba168c028d2319c09"
+  },
+  {
+   "index": 134,
+   "id": "SRM SIC 245.073,227.2",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 245.073,
+   "product_mz": 227.2,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 169,
+   "xxh3_time_min": "b2029bcc704c8b068b7e55396fa4030e",
+   "xxh3_intensity": "ed4fc9a832371461f792151634634d4e",
+   "sum_intensity": 2348636.3676757812,
+   "first_points": [
+    [
+     4.076333045959473,
+     9050.0234375
+    ],
+    [
+     4.082600116729736,
+     6907.39111328125
+    ],
+    [
+     4.088700294494629,
+     8251.951171875
+    ],
+    [
+     4.094733238220215,
+     12260.8212890625
+    ],
+    [
+     4.100766658782959,
+     8931.3447265625
+    ]
+   ],
+   "n_nonzero": 169,
+   "xxh3_time_min_nonzero": "b2029bcc704c8b068b7e55396fa4030e",
+   "xxh3_intensity_nonzero": "ed4fc9a832371461f792151634634d4e"
+  },
+  {
+   "index": 135,
+   "id": "SRM SIC 247.082,99.18",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 247.082,
+   "product_mz": 99.18,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 169,
+   "xxh3_time_min": "92edf2ed74575e73eecc7402693807d4",
+   "xxh3_intensity": "a6a95e4901753ca0c3035cacabccb45f",
+   "sum_intensity": 160460.52930003405,
+   "first_points": [
+    [
+     4.076800346374512,
+     43.185264587402344
+    ],
+    [
+     4.083066463470459,
+     40.8347053527832
+    ],
+    [
+     4.089166641235352,
+     0.8582322001457214
+    ],
+    [
+     4.095200061798096,
+     0.8117401003837585
+    ],
+    [
+     4.101233005523682,
+     0.8792926669120789
+    ]
+   ],
+   "n_nonzero": 169,
+   "xxh3_time_min_nonzero": "92edf2ed74575e73eecc7402693807d4",
+   "xxh3_intensity_nonzero": "a6a95e4901753ca0c3035cacabccb45f"
+  },
+  {
+   "index": 136,
+   "id": "SRM SIC 247.082,229.262",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 247.082,
+   "product_mz": 229.262,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 169,
+   "xxh3_time_min": "92edf2ed74575e73eecc7402693807d4",
+   "xxh3_intensity": "6e5300dde627c7c7a6a53e57d0b3ad6d",
+   "sum_intensity": 4405342.4765625,
+   "first_points": [
+    [
+     4.076800346374512,
+     11740.677734375
+    ],
+    [
+     4.083066463470459,
+     12991.11328125
+    ],
+    [
+     4.089166641235352,
+     14881.1005859375
+    ],
+    [
+     4.095200061798096,
+     22811.427734375
+    ],
+    [
+     4.101233005523682,
+     15643.43359375
+    ]
+   ],
+   "n_nonzero": 169,
+   "xxh3_time_min_nonzero": "92edf2ed74575e73eecc7402693807d4",
+   "xxh3_intensity_nonzero": "6e5300dde627c7c7a6a53e57d0b3ad6d"
+  },
+  {
+   "index": 137,
+   "id": "SRM SIC 249.101,158.057",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 249.101,
+   "product_mz": 158.057,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 170,
+   "xxh3_time_min": "be776094b5a49f4a6101207124cbf4f2",
+   "xxh3_intensity": "6a7df95c84d72875f651255aeed5458c",
+   "sum_intensity": 244185.68629455566,
+   "first_points": [
+    [
+     4.270816326141357,
+     1443.1077880859375
+    ],
+    [
+     4.277083396911621,
+     2802.370849609375
+    ],
+    [
+     4.283199787139893,
+     1271.278076171875
+    ],
+    [
+     4.289266586303711,
+     2606.476318359375
+    ],
+    [
+     4.295316696166992,
+     1557.373291015625
+    ]
+   ],
+   "n_nonzero": 170,
+   "xxh3_time_min_nonzero": "be776094b5a49f4a6101207124cbf4f2",
+   "xxh3_intensity_nonzero": "6a7df95c84d72875f651255aeed5458c"
+  },
+  {
+   "index": 138,
+   "id": "SRM SIC 249.101,190.091",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 249.101,
+   "product_mz": 190.091,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 170,
+   "xxh3_time_min": "be776094b5a49f4a6101207124cbf4f2",
+   "xxh3_intensity": "92652438b38a18b9b9326498ab7a01e5",
+   "sum_intensity": 335574.25538635254,
+   "first_points": [
+    [
+     4.270816326141357,
+     1363.8065185546875
+    ],
+    [
+     4.277083396911621,
+     3391.795654296875
+    ],
+    [
+     4.283199787139893,
+     1050.9365234375
+    ],
+    [
+     4.289266586303711,
+     3302.968017578125
+    ],
+    [
+     4.295316696166992,
+     2005.612548828125
+    ]
+   ],
+   "n_nonzero": 170,
+   "xxh3_time_min_nonzero": "be776094b5a49f4a6101207124cbf4f2",
+   "xxh3_intensity_nonzero": "92652438b38a18b9b9326498ab7a01e5"
+  },
+  {
+   "index": 139,
+   "id": "SRM SIC 265.095,122.196",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 265.095,
+   "product_mz": 122.196,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 270,
+   "xxh3_time_min": "609648af477300eb1f79186224d68171",
+   "xxh3_intensity": "5430a6ce9fc6572619b85b7b41820fc7",
+   "sum_intensity": 4479.646743953228,
+   "first_points": [
+    [
+     0.006683333311229944,
+     0.8080013394355774
+    ],
+    [
+     0.012783333659172058,
+     0.9197988510131836
+    ],
+    [
+     0.018583333119750023,
+     0.8908110857009888
+    ],
+    [
+     0.02484999969601631,
+     0.9517322778701782
+    ],
+    [
+     0.031016666442155838,
+     0.9353915452957153
+    ]
+   ],
+   "n_nonzero": 270,
+   "xxh3_time_min_nonzero": "609648af477300eb1f79186224d68171",
+   "xxh3_intensity_nonzero": "5430a6ce9fc6572619b85b7b41820fc7"
+  },
+  {
+   "index": 140,
+   "id": "SRM SIC 265.095,144.184",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 265.095,
+   "product_mz": 144.184,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 270,
+   "xxh3_time_min": "609648af477300eb1f79186224d68171",
+   "xxh3_intensity": "bcbddf2009c5f97b6d760a862232c4fb",
+   "sum_intensity": 13977.520393788815,
+   "first_points": [
+    [
+     0.006683333311229944,
+     0.8435759544372559
+    ],
+    [
+     0.012783333659172058,
+     0.9796520471572876
+    ],
+    [
+     0.018583333119750023,
+     0.8479341864585876
+    ],
+    [
+     0.02484999969601631,
+     0.8407396078109741
+    ],
+    [
+     0.031016666442155838,
+     0.7957656383514404
+    ]
+   ],
+   "n_nonzero": 270,
+   "xxh3_time_min_nonzero": "609648af477300eb1f79186224d68171",
+   "xxh3_intensity_nonzero": "bcbddf2009c5f97b6d760a862232c4fb"
+  },
+  {
+   "index": 141,
+   "id": "SRM SIC 268.091,119.167",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 268.091,
+   "product_mz": 119.167,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 309,
+   "xxh3_time_min": "c262103014ebbf88e345402ddda887cf",
+   "xxh3_intensity": "7447258ba4b70185fad5872f7a4f238e",
+   "sum_intensity": 798823.1636226773,
+   "first_points": [
+    [
+     1.7217999696731567,
+     224.53433227539062
+    ],
+    [
+     1.7279000282287598,
+     970.7643432617188
+    ],
+    [
+     1.7339500188827515,
+     1236.7935791015625
+    ],
+    [
+     1.7400000095367432,
+     1804.7200927734375
+    ],
+    [
+     1.7460333108901978,
+     206.9620361328125
+    ]
+   ],
+   "n_nonzero": 309,
+   "xxh3_time_min_nonzero": "c262103014ebbf88e345402ddda887cf",
+   "xxh3_intensity_nonzero": "7447258ba4b70185fad5872f7a4f238e"
+  },
+  {
+   "index": 142,
+   "id": "SRM SIC 268.091,136.192",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 268.091,
+   "product_mz": 136.192,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 309,
+   "xxh3_time_min": "c262103014ebbf88e345402ddda887cf",
+   "xxh3_intensity": "3b32ae0496db765394daeec20ee41a74",
+   "sum_intensity": 3045106.033307731,
+   "first_points": [
+    [
+     1.7217999696731567,
+     884.0901489257812
+    ],
+    [
+     1.7279000282287598,
+     812.68603515625
+    ],
+    [
+     1.7339500188827515,
+     525.2587280273438
+    ],
+    [
+     1.7400000095367432,
+     2174.4609375
+    ],
+    [
+     1.7460333108901978,
+     468.5877685546875
+    ]
+   ],
+   "n_nonzero": 309,
+   "xxh3_time_min_nonzero": "c262103014ebbf88e345402ddda887cf",
+   "xxh3_intensity_nonzero": "3b32ae0496db765394daeec20ee41a74"
+  },
+  {
+   "index": 143,
+   "id": "SRM SIC 275.039,159.007",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 275.039,
+   "product_mz": 159.007,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "543c836009ee11afe8148a87a566605e",
+   "xxh3_intensity": "dd4666584ad461449bb50983c8e9bb63",
+   "sum_intensity": 40765.31853276491,
+   "first_points": [
+    [
+     2.556183338165283,
+     0.9104360342025757
+    ],
+    [
+     2.5621166229248047,
+     388.46600341796875
+    ],
+    [
+     2.5679500102996826,
+     0.9691703915596008
+    ],
+    [
+     2.573666572570801,
+     0.9088073968887329
+    ],
+    [
+     2.579566717147827,
+     0.8776828050613403
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "543c836009ee11afe8148a87a566605e",
+   "xxh3_intensity_nonzero": "dd4666584ad461449bb50983c8e9bb63"
+  },
+  {
+   "index": 144,
+   "id": "SRM SIC 276.102,96.069",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 276.102,
+   "product_mz": 96.069,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 206,
+   "xxh3_time_min": "fb7755f182fd7a4d78b7a134b4d0019a",
+   "xxh3_intensity": "d8c0475c9967e1f2612654574ba211d1",
+   "sum_intensity": 51262.505799770355,
+   "first_points": [
+    [
+     1.6968666315078735,
+     668.587646484375
+    ],
+    [
+     1.7029666900634766,
+     2.9475598335266113
+    ],
+    [
+     1.7090500593185425,
+     123.29872131347656
+    ],
+    [
+     1.715149998664856,
+     362.4258117675781
+    ],
+    [
+     1.7210832834243774,
+     0.8653212189674377
+    ]
+   ],
+   "n_nonzero": 206,
+   "xxh3_time_min_nonzero": "fb7755f182fd7a4d78b7a134b4d0019a",
+   "xxh3_intensity_nonzero": "d8c0475c9967e1f2612654574ba211d1"
+  },
+  {
+   "index": 145,
+   "id": "SRM SIC 276.102,138.083",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 276.102,
+   "product_mz": 138.083,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 206,
+   "xxh3_time_min": "fb7755f182fd7a4d78b7a134b4d0019a",
+   "xxh3_intensity": "705f33d53d5d2b440ab7755b5a5442b1",
+   "sum_intensity": 66272.12230402231,
+   "first_points": [
+    [
+     1.6968666315078735,
+     0.9645689129829407
+    ],
+    [
+     1.7029666900634766,
+     0.905427098274231
+    ],
+    [
+     1.7090500593185425,
+     139.18817138671875
+    ],
+    [
+     1.715149998664856,
+     489.9368591308594
+    ],
+    [
+     1.7210832834243774,
+     0.9027135968208313
+    ]
+   ],
+   "n_nonzero": 206,
+   "xxh3_time_min_nonzero": "fb7755f182fd7a4d78b7a134b4d0019a",
+   "xxh3_intensity_nonzero": "705f33d53d5d2b440ab7755b5a5442b1"
+  },
+  {
+   "index": 146,
+   "id": "SRM SIC 284.099,135.168",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 284.099,
+   "product_mz": 135.168,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 259,
+   "xxh3_time_min": "5e26705438ef73a20e40791e7b2e77b5",
+   "xxh3_intensity": "4ee8f483cfc047f66493550687a3f637",
+   "sum_intensity": 239535.67472055554,
+   "first_points": [
+    [
+     2.155750036239624,
+     696.0664672851562
+    ],
+    [
+     2.161433219909668,
+     491.8979797363281
+    ],
+    [
+     2.167116641998291,
+     835.6309814453125
+    ],
+    [
+     2.17276668548584,
+     448.9206848144531
+    ],
+    [
+     2.1784331798553467,
+     669.6712646484375
+    ]
+   ],
+   "n_nonzero": 259,
+   "xxh3_time_min_nonzero": "5e26705438ef73a20e40791e7b2e77b5",
+   "xxh3_intensity_nonzero": "4ee8f483cfc047f66493550687a3f637"
+  },
+  {
+   "index": 147,
+   "id": "SRM SIC 284.099,152.199",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 284.099,
+   "product_mz": 152.199,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 259,
+   "xxh3_time_min": "5e26705438ef73a20e40791e7b2e77b5",
+   "xxh3_intensity": "ba84e40b5c713481193b2640110b0f47",
+   "sum_intensity": 232548.77078336477,
+   "first_points": [
+    [
+     2.155750036239624,
+     275.92498779296875
+    ],
+    [
+     2.161433219909668,
+     246.2360382080078
+    ],
+    [
+     2.167116641998291,
+     124.2801513671875
+    ],
+    [
+     2.17276668548584,
+     24.319318771362305
+    ],
+    [
+     2.1784331798553467,
+     137.49290466308594
+    ]
+   ],
+   "n_nonzero": 259,
+   "xxh3_time_min_nonzero": "5e26705438ef73a20e40791e7b2e77b5",
+   "xxh3_intensity_nonzero": "ba84e40b5c713481193b2640110b0f47"
+  },
+  {
+   "index": 148,
+   "id": "SRM SIC 285.084,136.156",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 285.084,
+   "product_mz": 136.156,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "14626f97b3da08d22dc84a3a28f58297",
+   "xxh3_intensity": "d9dcef28e4758f317294cbf9449b75d8",
+   "sum_intensity": 202717.43228316307,
+   "first_points": [
+    [
+     2.5564334392547607,
+     115.77680969238281
+    ],
+    [
+     2.5623667240142822,
+     458.6252136230469
+    ],
+    [
+     2.56820011138916,
+     542.3403930664062
+    ],
+    [
+     2.5739166736602783,
+     307.89007568359375
+    ],
+    [
+     2.5798165798187256,
+     582.6782836914062
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "14626f97b3da08d22dc84a3a28f58297",
+   "xxh3_intensity_nonzero": "d9dcef28e4758f317294cbf9449b75d8"
+  },
+  {
+   "index": 149,
+   "id": "SRM SIC 285.084,153.184",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 285.084,
+   "product_mz": 153.184,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 172,
+   "xxh3_time_min": "14626f97b3da08d22dc84a3a28f58297",
+   "xxh3_intensity": "84f4b4135edd56741eb3ff6667a94481",
+   "sum_intensity": 57731.38898742199,
+   "first_points": [
+    [
+     2.5564334392547607,
+     75.24698638916016
+    ],
+    [
+     2.5623667240142822,
+     0.8390149474143982
+    ],
+    [
+     2.56820011138916,
+     291.0622863769531
+    ],
+    [
+     2.5739166736602783,
+     255.88922119140625
+    ],
+    [
+     2.5798165798187256,
+     0.8743477463722229
+    ]
+   ],
+   "n_nonzero": 172,
+   "xxh3_time_min_nonzero": "14626f97b3da08d22dc84a3a28f58297",
+   "xxh3_intensity_nonzero": "84f4b4135edd56741eb3ff6667a94481"
+  },
+  {
+   "index": 150,
+   "id": "SRM SIC 291.119,70.133",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 291.119,
+   "product_mz": 70.133,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "a2d42d244b8f84bd9269d82eec280b21",
+   "xxh3_intensity": "9e1940d019322d3fd5616fec5bd71fa9",
+   "sum_intensity": 4272.922836005688,
+   "first_points": [
+    [
+     0.019349999725818634,
+     0.8510926365852356
+    ],
+    [
+     0.02563333325088024,
+     0.8820983171463013
+    ],
+    [
+     0.0317833311855793,
+     0.8607970476150513
+    ],
+    [
+     0.03816666826605797,
+     0.8590964078903198
+    ],
+    [
+     0.04466666653752327,
+     0.8043777346611023
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "a2d42d244b8f84bd9269d82eec280b21",
+   "xxh3_intensity_nonzero": "9e1940d019322d3fd5616fec5bd71fa9"
+  },
+  {
+   "index": 151,
+   "id": "SRM SIC 291.119,116.073",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 291.119,
+   "product_mz": 116.073,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "a2d42d244b8f84bd9269d82eec280b21",
+   "xxh3_intensity": "c87ed7f9b58b6f21d2c85e72437793fd",
+   "sum_intensity": 532.3581708669662,
+   "first_points": [
+    [
+     0.019349999725818634,
+     0.8022246956825256
+    ],
+    [
+     0.02563333325088024,
+     0.9495320916175842
+    ],
+    [
+     0.0317833311855793,
+     0.8458435535430908
+    ],
+    [
+     0.03816666826605797,
+     0.9298391938209534
+    ],
+    [
+     0.04466666653752327,
+     0.813171923160553
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "a2d42d244b8f84bd9269d82eec280b21",
+   "xxh3_intensity_nonzero": "c87ed7f9b58b6f21d2c85e72437793fd"
+  },
+  {
+   "index": 152,
+   "id": "SRM SIC 294.121,96.197",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 294.121,
+   "product_mz": 96.197,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 206,
+   "xxh3_time_min": "995410adc9c2b3e88375c6f3391d39da",
+   "xxh3_intensity": "9c49c2e2199477ad7818182645b570a1",
+   "sum_intensity": 90509.7014504075,
+   "first_points": [
+    [
+     1.6972333192825317,
+     510.77557373046875
+    ],
+    [
+     1.7033333778381348,
+     911.79931640625
+    ],
+    [
+     1.7094166278839111,
+     263.6490478515625
+    ],
+    [
+     1.7155166864395142,
+     2945.015869140625
+    ],
+    [
+     1.7214332818984985,
+     0.9155383110046387
+    ]
+   ],
+   "n_nonzero": 206,
+   "xxh3_time_min_nonzero": "995410adc9c2b3e88375c6f3391d39da",
+   "xxh3_intensity_nonzero": "9c49c2e2199477ad7818182645b570a1"
+  },
+  {
+   "index": 153,
+   "id": "SRM SIC 294.121,138.189",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 294.121,
+   "product_mz": 138.189,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 206,
+   "xxh3_time_min": "995410adc9c2b3e88375c6f3391d39da",
+   "xxh3_intensity": "4c6769c57acee98a61256cd3e607cdb1",
+   "sum_intensity": 60522.326931118965,
+   "first_points": [
+    [
+     1.6972333192825317,
+     0.9103320837020874
+    ],
+    [
+     1.7033333778381348,
+     0.6768444180488586
+    ],
+    [
+     1.7094166278839111,
+     427.84344482421875
+    ],
+    [
+     1.7155166864395142,
+     1.069084644317627
+    ],
+    [
+     1.7214332818984985,
+     1.789507508277893
+    ]
+   ],
+   "n_nonzero": 206,
+   "xxh3_time_min_nonzero": "995410adc9c2b3e88375c6f3391d39da",
+   "xxh3_intensity_nonzero": "4c6769c57acee98a61256cd3e607cdb1"
+  },
+  {
+   "index": 154,
+   "id": "SRM SIC 298.081,119.162",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 298.081,
+   "product_mz": 119.162,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 170,
+   "xxh3_time_min": "5fac85d41bbed08204b087ce0ce4fb9f",
+   "xxh3_intensity": "8a7f09272e13acb0a5b1336401457a4e",
+   "sum_intensity": 387100.3937988281,
+   "first_points": [
+    [
+     3.299333333969116,
+     802.3468627929688
+    ],
+    [
+     3.30513334274292,
+     1973.3258056640625
+    ],
+    [
+     3.3109333515167236,
+     1270.30810546875
+    ],
+    [
+     3.3167834281921387,
+     516.1526489257812
+    ],
+    [
+     3.3225834369659424,
+     1105.5736083984375
+    ]
+   ],
+   "n_nonzero": 170,
+   "xxh3_time_min_nonzero": "5fac85d41bbed08204b087ce0ce4fb9f",
+   "xxh3_intensity_nonzero": "8a7f09272e13acb0a5b1336401457a4e"
+  },
+  {
+   "index": 155,
+   "id": "SRM SIC 298.081,136.197",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 298.081,
+   "product_mz": 136.197,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 170,
+   "xxh3_time_min": "5fac85d41bbed08204b087ce0ce4fb9f",
+   "xxh3_intensity": "7884e03cb99594d74e4855897d18fbca",
+   "sum_intensity": 236319.3383271098,
+   "first_points": [
+    [
+     3.299333333969116,
+     1665.2696533203125
+    ],
+    [
+     3.30513334274292,
+     276.369384765625
+    ],
+    [
+     3.3109333515167236,
+     831.9913940429688
+    ],
+    [
+     3.3167834281921387,
+     158.89276123046875
+    ],
+    [
+     3.3225834369659424,
+     1076.28515625
+    ]
+   ],
+   "n_nonzero": 170,
+   "xxh3_time_min_nonzero": "5fac85d41bbed08204b087ce0ce4fb9f",
+   "xxh3_intensity_nonzero": "7884e03cb99594d74e4855897d18fbca"
+  },
+  {
+   "index": 156,
+   "id": "SRM SIC 308.053,76.161",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 308.053,
+   "product_mz": 76.161,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 119,
+   "xxh3_time_min": "eee44ae80ef8c29844008c1655911d08",
+   "xxh3_intensity": "ef186b5354f5bd5419ccc5d7fa16ceb9",
+   "sum_intensity": 106.37679308652878,
+   "first_points": [
+    [
+     0.40343332290649414,
+     0.9585933089256287
+    ],
+    [
+     0.41331666707992554,
+     0.9690089821815491
+    ],
+    [
+     0.42321667075157166,
+     1.0544836521148682
+    ],
+    [
+     0.4331166744232178,
+     0.9167323112487793
+    ],
+    [
+     0.44306665658950806,
+     0.929180383682251
+    ]
+   ],
+   "n_nonzero": 119,
+   "xxh3_time_min_nonzero": "eee44ae80ef8c29844008c1655911d08",
+   "xxh3_intensity_nonzero": "ef186b5354f5bd5419ccc5d7fa16ceb9"
+  },
+  {
+   "index": 157,
+   "id": "SRM SIC 308.053,84.18",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 308.053,
+   "product_mz": 84.18,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 119,
+   "xxh3_time_min": "eee44ae80ef8c29844008c1655911d08",
+   "xxh3_intensity": "d2acd4ae98a92fd85e5175acd86240c1",
+   "sum_intensity": 36317.605104118586,
+   "first_points": [
+    [
+     0.40343332290649414,
+     0.92180335521698
+    ],
+    [
+     0.41331666707992554,
+     0.9884901642799377
+    ],
+    [
+     0.42321667075157166,
+     0.9219091534614563
+    ],
+    [
+     0.4331166744232178,
+     0.8076114058494568
+    ],
+    [
+     0.44306665658950806,
+     0.8462491035461426
+    ]
+   ],
+   "n_nonzero": 119,
+   "xxh3_time_min_nonzero": "eee44ae80ef8c29844008c1655911d08",
+   "xxh3_intensity_nonzero": "d2acd4ae98a92fd85e5175acd86240c1"
+  },
+  {
+   "index": 158,
+   "id": "SRM SIC 325.031,69.144",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 325.031,
+   "product_mz": 69.144,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 112,
+   "xxh3_time_min": "281a1107dbbb1e834d1c04401a8a0859",
+   "xxh3_intensity": "2cfc248b684992c9ec04a85f1d68e5e8",
+   "sum_intensity": 6393.132273852825,
+   "first_points": [
+    [
+     0.2383500039577484,
+     0.8908851146697998
+    ],
+    [
+     0.2467000037431717,
+     0.7667763829231262
+    ],
+    [
+     0.25509998202323914,
+     0.8301070928573608
+    ],
+    [
+     0.2636166512966156,
+     0.7741169929504395
+    ],
+    [
+     0.2721666693687439,
+     0.9853299856185913
+    ]
+   ],
+   "n_nonzero": 112,
+   "xxh3_time_min_nonzero": "281a1107dbbb1e834d1c04401a8a0859",
+   "xxh3_intensity_nonzero": "2cfc248b684992c9ec04a85f1d68e5e8"
+  },
+  {
+   "index": 159,
+   "id": "SRM SIC 325.031,97.153",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 325.031,
+   "product_mz": 97.153,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 112,
+   "xxh3_time_min": "281a1107dbbb1e834d1c04401a8a0859",
+   "xxh3_intensity": "c645b4375268b590164a79e35b99fc45",
+   "sum_intensity": 8614.192854642868,
+   "first_points": [
+    [
+     0.2383500039577484,
+     0.9398782849311829
+    ],
+    [
+     0.2467000037431717,
+     0.8523227572441101
+    ],
+    [
+     0.25509998202323914,
+     0.8223940134048462
+    ],
+    [
+     0.2636166512966156,
+     0.8507515788078308
+    ],
+    [
+     0.2721666693687439,
+     0.8803560733795166
+    ]
+   ],
+   "n_nonzero": 112,
+   "xxh3_time_min_nonzero": "281a1107dbbb1e834d1c04401a8a0859",
+   "xxh3_intensity_nonzero": "c645b4375268b590164a79e35b99fc45"
+  },
+  {
+   "index": 160,
+   "id": "SRM SIC 345.06,122.182",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 345.06,
+   "product_mz": 122.182,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "7fe5d79dbca25dbee521e44f311287cb",
+   "xxh3_intensity": "ec6054cbbd492420b98986bc2fc1c8d3",
+   "sum_intensity": 1906.4217473864555,
+   "first_points": [
+    [
+     0.004533333238214254,
+     0.9038212895393372
+    ],
+    [
+     0.010649999603629112,
+     0.8817967772483826
+    ],
+    [
+     0.016649998724460602,
+     0.8359652161598206
+    ],
+    [
+     0.02291666716337204,
+     0.8688312768936157
+    ],
+    [
+     0.02914999984204769,
+     0.7872818112373352
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "7fe5d79dbca25dbee521e44f311287cb",
+   "xxh3_intensity_nonzero": "ec6054cbbd492420b98986bc2fc1c8d3"
+  },
+  {
+   "index": 161,
+   "id": "SRM SIC 345.06,126.154",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 345.06,
+   "product_mz": 126.154,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "7fe5d79dbca25dbee521e44f311287cb",
+   "xxh3_intensity": "386ea1a795a8114ba520161511085edb",
+   "sum_intensity": 7296.235328257084,
+   "first_points": [
+    [
+     0.004533333238214254,
+     0.951519250869751
+    ],
+    [
+     0.010649999603629112,
+     0.777513861656189
+    ],
+    [
+     0.016649998724460602,
+     0.8185069561004639
+    ],
+    [
+     0.02291666716337204,
+     0.9454243779182434
+    ],
+    [
+     0.02914999984204769,
+     0.9123908877372742
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "7fe5d79dbca25dbee521e44f311287cb",
+   "xxh3_intensity_nonzero": "386ea1a795a8114ba520161511085edb"
+  },
+  {
+   "index": 162,
+   "id": "SRM SIC 348.054,119.16",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 348.054,
+   "product_mz": 119.16,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 114,
+   "xxh3_time_min": "4f4fd531dd07301cf73b9823f9966886",
+   "xxh3_intensity": "6edb65a2c6910ec727f10559680db6fc",
+   "sum_intensity": 12676.046920716763,
+   "first_points": [
+    [
+     0.3170166611671448,
+     0.9449948668479919
+    ],
+    [
+     0.3264999985694885,
+     0.8360329866409302
+    ],
+    [
+     0.33588334918022156,
+     0.9729011654853821
+    ],
+    [
+     0.34531667828559875,
+     0.9206445813179016
+    ],
+    [
+     0.3546999990940094,
+     0.9507831931114197
+    ]
+   ],
+   "n_nonzero": 114,
+   "xxh3_time_min_nonzero": "4f4fd531dd07301cf73b9823f9966886",
+   "xxh3_intensity_nonzero": "6edb65a2c6910ec727f10559680db6fc"
+  },
+  {
+   "index": 163,
+   "id": "SRM SIC 348.054,136.173",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 348.054,
+   "product_mz": 136.173,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 114,
+   "xxh3_time_min": "4f4fd531dd07301cf73b9823f9966886",
+   "xxh3_intensity": "e5f8b5810712b75811053dd4fa720b0b",
+   "sum_intensity": 74873.67036217451,
+   "first_points": [
+    [
+     0.3170166611671448,
+     0.7854440212249756
+    ],
+    [
+     0.3264999985694885,
+     0.8826093673706055
+    ],
+    [
+     0.33588334918022156,
+     0.8237059712409973
+    ],
+    [
+     0.34531667828559875,
+     0.8575523495674133
+    ],
+    [
+     0.3546999990940094,
+     0.9039073586463928
+    ]
+   ],
+   "n_nonzero": 114,
+   "xxh3_time_min_nonzero": "4f4fd531dd07301cf73b9823f9966886",
+   "xxh3_intensity_nonzero": "e5f8b5810712b75811053dd4fa720b0b"
+  },
+  {
+   "index": 164,
+   "id": "SRM SIC 349.037,119.181",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 349.037,
+   "product_mz": 119.181,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 118,
+   "xxh3_time_min": "b22fd906a704495b00aaa6a52cec6173",
+   "xxh3_intensity": "3a91ba0210180eb96a8cf4dc3571bbe2",
+   "sum_intensity": 4053.885561943054,
+   "first_points": [
+    [
+     0.38376668095588684,
+     0.7822058796882629
+    ],
+    [
+     0.3935000002384186,
+     0.8435070514678955
+    ],
+    [
+     0.40326666831970215,
+     0.9520862102508545
+    ],
+    [
+     0.41316667199134827,
+     0.6731290817260742
+    ],
+    [
+     0.42305001616477966,
+     380.2455749511719
+    ]
+   ],
+   "n_nonzero": 118,
+   "xxh3_time_min_nonzero": "b22fd906a704495b00aaa6a52cec6173",
+   "xxh3_intensity_nonzero": "3a91ba0210180eb96a8cf4dc3571bbe2"
+  },
+  {
+   "index": 165,
+   "id": "SRM SIC 349.037,137.153",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 349.037,
+   "product_mz": 137.153,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 118,
+   "xxh3_time_min": "b22fd906a704495b00aaa6a52cec6173",
+   "xxh3_intensity": "0e71fb86fd44e146ca1c4b720b8c8b5c",
+   "sum_intensity": 6013.887259602547,
+   "first_points": [
+    [
+     0.38376668095588684,
+     0.8390565514564514
+    ],
+    [
+     0.3935000002384186,
+     0.7974720001220703
+    ],
+    [
+     0.40326666831970215,
+     0.9793372750282288
+    ],
+    [
+     0.41316667199134827,
+     0.8921059966087341
+    ],
+    [
+     0.42305001616477966,
+     0.9323189854621887
+    ]
+   ],
+   "n_nonzero": 118,
+   "xxh3_time_min_nonzero": "b22fd906a704495b00aaa6a52cec6173",
+   "xxh3_intensity_nonzero": "0e71fb86fd44e146ca1c4b720b8c8b5c"
+  },
+  {
+   "index": 166,
+   "id": "SRM SIC 365.04,184.946",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 365.04,
+   "product_mz": 184.946,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "c599607dbcfdde830c776b37cbce76af",
+   "xxh3_intensity": "44e8bf92559ffac0124a284a9b80c8bd",
+   "sum_intensity": 9967.234147965908,
+   "first_points": [
+    [
+     0.09139999747276306,
+     0.9851230978965759
+    ],
+    [
+     0.09823333472013474,
+     0.8876109719276428
+    ],
+    [
+     0.10526666790246964,
+     0.9030986428260803
+    ],
+    [
+     0.11231666803359985,
+     0.9662377834320068
+    ],
+    [
+     0.11968333274126053,
+     1.0041084289550781
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "c599607dbcfdde830c776b37cbce76af",
+   "xxh3_intensity_nonzero": "44e8bf92559ffac0124a284a9b80c8bd"
+  },
+  {
+   "index": 167,
+   "id": "SRM SIC 365.04,203.029",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 365.04,
+   "product_mz": 203.029,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 108,
+   "xxh3_time_min": "c599607dbcfdde830c776b37cbce76af",
+   "xxh3_intensity": "c000d4cc5d0cab9a30ce556506abf75b",
+   "sum_intensity": 8450.0062417984,
+   "first_points": [
+    [
+     0.09139999747276306,
+     0.8980143666267395
+    ],
+    [
+     0.09823333472013474,
+     0.7850230932235718
+    ],
+    [
+     0.10526666790246964,
+     0.8635672926902771
+    ],
+    [
+     0.11231666803359985,
+     0.999018669128418
+    ],
+    [
+     0.11968333274126053,
+     0.922187864780426
+    ]
+   ],
+   "n_nonzero": 108,
+   "xxh3_time_min_nonzero": "c599607dbcfdde830c776b37cbce76af",
+   "xxh3_intensity_nonzero": "c000d4cc5d0cab9a30ce556506abf75b"
+  },
+  {
+   "index": 168,
+   "id": "SRM SIC 377.1,172.128",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 377.1,
+   "product_mz": 172.128,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "25345d29f1a5fcec541e0c62b1fa538b",
+   "xxh3_intensity": "81bad90296b8f13e20cf2db2ce690709",
+   "sum_intensity": 373284.08002471924,
+   "first_points": [
+    [
+     4.0172834396362305,
+     995.024658203125
+    ],
+    [
+     4.023200035095215,
+     568.3545532226562
+    ],
+    [
+     4.029150009155273,
+     1122.0028076171875
+    ],
+    [
+     4.035083293914795,
+     1393.6298828125
+    ],
+    [
+     4.040999889373779,
+     953.087646484375
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "25345d29f1a5fcec541e0c62b1fa538b",
+   "xxh3_intensity_nonzero": "81bad90296b8f13e20cf2db2ce690709"
+  },
+  {
+   "index": 169,
+   "id": "SRM SIC 377.1,243.176",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 377.1,
+   "product_mz": 243.176,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "25345d29f1a5fcec541e0c62b1fa538b",
+   "xxh3_intensity": "fccc69ce6a3646d8fa8cfd5e45aa7e71",
+   "sum_intensity": 948997.0524902344,
+   "first_points": [
+    [
+     4.0172834396362305,
+     3006.4033203125
+    ],
+    [
+     4.023200035095215,
+     1872.85595703125
+    ],
+    [
+     4.029150009155273,
+     1876.1527099609375
+    ],
+    [
+     4.035083293914795,
+     3355.078857421875
+    ],
+    [
+     4.040999889373779,
+     1680.7081298828125
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "25345d29f1a5fcec541e0c62b1fa538b",
+   "xxh3_intensity_nonzero": "fccc69ce6a3646d8fa8cfd5e45aa7e71"
+  },
+  {
+   "index": 170,
+   "id": "SRM SIC 385.062,88.15",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 385.062,
+   "product_mz": 88.15,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 253,
+   "xxh3_time_min": "a701ef2343e8320d3da9cdf24f889fe5",
+   "xxh3_intensity": "41a6ee23e3f8b1bc05f969e3038e1d2d",
+   "sum_intensity": 11209.076464653015,
+   "first_points": [
+    [
+     1.259933352470398,
+     0.868868887424469
+    ],
+    [
+     1.2664333581924438,
+     0.8669701814651489
+    ],
+    [
+     1.2728832960128784,
+     0.9260678887367249
+    ],
+    [
+     1.2793166637420654,
+     0.8984527587890625
+    ],
+    [
+     1.285783290863037,
+     0.897251307964325
+    ]
+   ],
+   "n_nonzero": 253,
+   "xxh3_time_min_nonzero": "a701ef2343e8320d3da9cdf24f889fe5",
+   "xxh3_intensity_nonzero": "41a6ee23e3f8b1bc05f969e3038e1d2d"
+  },
+  {
+   "index": 171,
+   "id": "SRM SIC 385.062,136.173",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 385.062,
+   "product_mz": 136.173,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 253,
+   "xxh3_time_min": "a701ef2343e8320d3da9cdf24f889fe5",
+   "xxh3_intensity": "e6a0e597a6babbc673439d7b38586a42",
+   "sum_intensity": 35104.55698543787,
+   "first_points": [
+    [
+     1.259933352470398,
+     0.8794282078742981
+    ],
+    [
+     1.2664333581924438,
+     0.7992123365402222
+    ],
+    [
+     1.2728832960128784,
+     0.8718301653862
+    ],
+    [
+     1.2793166637420654,
+     355.9851379394531
+    ],
+    [
+     1.285783290863037,
+     0.8398109674453735
+    ]
+   ],
+   "n_nonzero": 253,
+   "xxh3_time_min_nonzero": "a701ef2343e8320d3da9cdf24f889fe5",
+   "xxh3_intensity_nonzero": "e6a0e597a6babbc673439d7b38586a42"
+  },
+  {
+   "index": 172,
+   "id": "SRM SIC 399.2,136.185",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 399.2,
+   "product_mz": 136.185,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "1511b4e2eb494bd76707de8ff628c94d",
+   "xxh3_intensity": "d9ec811b89597389d0a96ffe7c082c4a",
+   "sum_intensity": 3930.33029204607,
+   "first_points": [
+    [
+     0.0047333333641290665,
+     0.9188177585601807
+    ],
+    [
+     0.010850000195205212,
+     0.837418794631958
+    ],
+    [
+     0.016833333298563957,
+     0.8667939901351929
+    ],
+    [
+     0.023116666823625565,
+     0.8227962851524353
+    ],
+    [
+     0.029316667467355728,
+     0.9069285988807678
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "1511b4e2eb494bd76707de8ff628c94d",
+   "xxh3_intensity_nonzero": "d9ec811b89597389d0a96ffe7c082c4a"
+  },
+  {
+   "index": 173,
+   "id": "SRM SIC 399.2,250.207",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 399.2,
+   "product_mz": 250.207,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 105,
+   "xxh3_time_min": "1511b4e2eb494bd76707de8ff628c94d",
+   "xxh3_intensity": "dcbdc960c7b0f50b491c1368f16aa7f0",
+   "sum_intensity": 91.7421122789383,
+   "first_points": [
+    [
+     0.0047333333641290665,
+     0.880728006362915
+    ],
+    [
+     0.010850000195205212,
+     0.8876901865005493
+    ],
+    [
+     0.016833333298563957,
+     0.8526448607444763
+    ],
+    [
+     0.023116666823625565,
+     0.8443576097488403
+    ],
+    [
+     0.029316667467355728,
+     0.9833009243011475
+    ]
+   ],
+   "n_nonzero": 105,
+   "xxh3_time_min_nonzero": "1511b4e2eb494bd76707de8ff628c94d",
+   "xxh3_intensity_nonzero": "dcbdc960c7b0f50b491c1368f16aa7f0"
+  },
+  {
+   "index": 174,
+   "id": "SRM SIC 424.121,214.144",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 424.121,
+   "product_mz": 214.144,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 266,
+   "xxh3_time_min": "b15c5c2ae959b2b9f3e1232cb4dccbd0",
+   "xxh3_intensity": "4d35dd224688c030b49d8e311e015b2a",
+   "sum_intensity": 19973.98942530155,
+   "first_points": [
+    [
+     0.8193166851997375,
+     0.9470744132995605
+    ],
+    [
+     0.8302333354949951,
+     0.8471671938896179
+    ],
+    [
+     0.8413000106811523,
+     0.8225330710411072
+    ],
+    [
+     0.8523833155632019,
+     0.979231059551239
+    ],
+    [
+     0.8636833429336548,
+     0.8761413097381592
+    ]
+   ],
+   "n_nonzero": 266,
+   "xxh3_time_min_nonzero": "b15c5c2ae959b2b9f3e1232cb4dccbd0",
+   "xxh3_intensity_nonzero": "4d35dd224688c030b49d8e311e015b2a"
+  },
+  {
+   "index": 175,
+   "id": "SRM SIC 424.121,259.176",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 424.121,
+   "product_mz": 259.176,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 266,
+   "xxh3_time_min": "b15c5c2ae959b2b9f3e1232cb4dccbd0",
+   "xxh3_intensity": "ebe8b3620dd0b5c0f9dfa7ce3beeafc6",
+   "sum_intensity": 14738.364641547203,
+   "first_points": [
+    [
+     0.8193166851997375,
+     0.49377214908599854
+    ],
+    [
+     0.8302333354949951,
+     0.8480324149131775
+    ],
+    [
+     0.8413000106811523,
+     0.9082033634185791
+    ],
+    [
+     0.8523833155632019,
+     0.9027688503265381
+    ],
+    [
+     0.8636833429336548,
+     0.9057632088661194
+    ]
+   ],
+   "n_nonzero": 266,
+   "xxh3_time_min_nonzero": "b15c5c2ae959b2b9f3e1232cb4dccbd0",
+   "xxh3_intensity_nonzero": "ebe8b3620dd0b5c0f9dfa7ce3beeafc6"
+  },
+  {
+   "index": 176,
+   "id": "SRM SIC 425.132,84.049",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 425.132,
+   "product_mz": 84.049,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "871cb9669bbebd792c5271221036bdb1",
+   "xxh3_intensity": "b6fba4e89619b04e337b13828ec61198",
+   "sum_intensity": 966.8666785359383,
+   "first_points": [
+    [
+     0.07784999907016754,
+     0.8627851009368896
+    ],
+    [
+     0.08451666682958603,
+     0.7802123427391052
+    ],
+    [
+     0.09123333543539047,
+     0.856456458568573
+    ],
+    [
+     0.09806666523218155,
+     0.7679881453514099
+    ],
+    [
+     0.10509999841451645,
+     0.905910074710846
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "871cb9669bbebd792c5271221036bdb1",
+   "xxh3_intensity_nonzero": "b6fba4e89619b04e337b13828ec61198"
+  },
+  {
+   "index": 177,
+   "id": "SRM SIC 425.132,126.066",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 425.132,
+   "product_mz": 126.066,
+   "product_lower_offset": 0.0009999999999977,
+   "product_upper_offset": 0.0009999999999977,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "871cb9669bbebd792c5271221036bdb1",
+   "xxh3_intensity": "d1b8447e7642b037fb0beee3cf42804b",
+   "sum_intensity": 7607.497498035431,
+   "first_points": [
+    [
+     0.07784999907016754,
+     0.9239518046379089
+    ],
+    [
+     0.08451666682958603,
+     0.93220055103302
+    ],
+    [
+     0.09123333543539047,
+     0.8848653435707092
+    ],
+    [
+     0.09806666523218155,
+     0.7502906918525696
+    ],
+    [
+     0.10509999841451645,
+     0.8524617552757263
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "871cb9669bbebd792c5271221036bdb1",
+   "xxh3_intensity_nonzero": "d1b8447e7642b037fb0beee3cf42804b"
+  },
+  {
+   "index": 178,
+   "id": "SRM SIC 442.121,176.078",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 442.121,
+   "product_mz": 176.078,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "3440d31234412468dd0fa6c1eb7059f6",
+   "xxh3_intensity": "34b29afd9a4eb45b56adccdd4e9fd00a",
+   "sum_intensity": 195872.86164283752,
+   "first_points": [
+    [
+     3.537600040435791,
+     611.2130737304688
+    ],
+    [
+     3.5433499813079834,
+     531.510498046875
+    ],
+    [
+     3.5488834381103516,
+     232.2347412109375
+    ],
+    [
+     3.5544166564941406,
+     1947.4573974609375
+    ],
+    [
+     3.560166597366333,
+     335.18597412109375
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "3440d31234412468dd0fa6c1eb7059f6",
+   "xxh3_intensity_nonzero": "34b29afd9a4eb45b56adccdd4e9fd00a"
+  },
+  {
+   "index": 179,
+   "id": "SRM SIC 442.121,295.125",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 442.121,
+   "product_mz": 295.125,
+   "product_lower_offset": 0.0009999999999764,
+   "product_upper_offset": 0.0009999999999764,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "3440d31234412468dd0fa6c1eb7059f6",
+   "xxh3_intensity": "af6de2fb85d655f172a81541405c91bf",
+   "sum_intensity": 55985.82642322779,
+   "first_points": [
+    [
+     3.537600040435791,
+     622.958740234375
+    ],
+    [
+     3.5433499813079834,
+     465.2618713378906
+    ],
+    [
+     3.5488834381103516,
+     776.9578247070312
+    ],
+    [
+     3.5544166564941406,
+     32.09734344482422
+    ],
+    [
+     3.560166597366333,
+     0.8665242791175842
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "3440d31234412468dd0fa6c1eb7059f6",
+   "xxh3_intensity_nonzero": "af6de2fb85d655f172a81541405c91bf"
+  },
+  {
+   "index": 180,
+   "id": "SRM SIC 474.118,166.061",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 474.118,
+   "product_mz": 166.061,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "17858e7d46673fc98cb5ec9dbb80cd11",
+   "xxh3_intensity": "86f92960894cb33bc831b60ebb4b683a",
+   "sum_intensity": 136475.02869915962,
+   "first_points": [
+    [
+     3.5669333934783936,
+     372.3558349609375
+    ],
+    [
+     3.572683334350586,
+     650.5774536132812
+    ],
+    [
+     3.5785000324249268,
+     721.85107421875
+    ],
+    [
+     3.584416627883911,
+     91.4787368774414
+    ],
+    [
+     3.5901832580566406,
+     810.3815307617188
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "17858e7d46673fc98cb5ec9dbb80cd11",
+   "xxh3_intensity_nonzero": "86f92960894cb33bc831b60ebb4b683a"
+  },
+  {
+   "index": 181,
+   "id": "SRM SIC 474.118,327.094",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 474.118,
+   "product_mz": 327.094,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "17858e7d46673fc98cb5ec9dbb80cd11",
+   "xxh3_intensity": "fbe78329de51ac5246c9adc69c2704d9",
+   "sum_intensity": 76547.99758726358,
+   "first_points": [
+    [
+     3.5669333934783936,
+     179.43853759765625
+    ],
+    [
+     3.572683334350586,
+     294.90533447265625
+    ],
+    [
+     3.5785000324249268,
+     37.781272888183594
+    ],
+    [
+     3.584416627883911,
+     0.8864298462867737
+    ],
+    [
+     3.5901832580566406,
+     0.8925114274024963
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "17858e7d46673fc98cb5ec9dbb80cd11",
+   "xxh3_intensity_nonzero": "fbe78329de51ac5246c9adc69c2704d9"
+  },
+  {
+   "index": 182,
+   "id": "SRM SIC 587.282,299.214",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 587.282,
+   "product_mz": 299.214,
+   "product_lower_offset": 0.0009999999999764,
+   "product_upper_offset": 0.0009999999999764,
+   "collision_energy": 0.0,
+   "n_points": 354,
+   "xxh3_time_min": "827c9acbdaf40260d3141e429c59b2b0",
+   "xxh3_intensity": "c3b5f7c03b515ac62323747cba56986d",
+   "sum_intensity": 34398.712484419346,
+   "first_points": [
+    [
+     5.904666900634766,
+     176.54025268554688
+    ],
+    [
+     5.910233497619629,
+     33.35654067993164
+    ],
+    [
+     5.915816783905029,
+     171.69546508789062
+    ],
+    [
+     5.92140007019043,
+     0.8764488101005554
+    ],
+    [
+     5.926966667175293,
+     147.7095489501953
+    ]
+   ],
+   "n_nonzero": 354,
+   "xxh3_time_min_nonzero": "827c9acbdaf40260d3141e429c59b2b0",
+   "xxh3_intensity_nonzero": "c3b5f7c03b515ac62323747cba56986d"
+  },
+  {
+   "index": 183,
+   "id": "SRM SIC 587.282,464.314",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 587.282,
+   "product_mz": 464.314,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 354,
+   "xxh3_time_min": "827c9acbdaf40260d3141e429c59b2b0",
+   "xxh3_intensity": "ee4b90b8c83f08d225303ea6d972c62c",
+   "sum_intensity": 6021.663522541523,
+   "first_points": [
+    [
+     5.904666900634766,
+     159.10874938964844
+    ],
+    [
+     5.910233497619629,
+     37.66700744628906
+    ],
+    [
+     5.915816783905029,
+     105.83122253417969
+    ],
+    [
+     5.92140007019043,
+     0.9128367900848389
+    ],
+    [
+     5.926966667175293,
+     7.941521644592285
+    ]
+   ],
+   "n_nonzero": 354,
+   "xxh3_time_min_nonzero": "827c9acbdaf40260d3141e429c59b2b0",
+   "xxh3_intensity_nonzero": "ee4b90b8c83f08d225303ea6d972c62c"
+  },
+  {
+   "index": 184,
+   "id": "SRM SIC 613.161,231.165",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 613.161,
+   "product_mz": 231.165,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 266,
+   "xxh3_time_min": "067fb75df667dd339824d5791fdebf83",
+   "xxh3_intensity": "cff19bd764e50e1bcd5fd387c232166a",
+   "sum_intensity": 8522.714846313,
+   "first_points": [
+    [
+     0.8195000290870667,
+     0.7607952952384949
+    ],
+    [
+     0.8304166793823242,
+     1.0726985931396484
+    ],
+    [
+     0.8414833545684814,
+     0.8404472470283508
+    ],
+    [
+     0.852566659450531,
+     0.8464884161949158
+    ],
+    [
+     0.8638666868209839,
+     0.7989320158958435
+    ]
+   ],
+   "n_nonzero": 266,
+   "xxh3_time_min_nonzero": "067fb75df667dd339824d5791fdebf83",
+   "xxh3_intensity_nonzero": "cff19bd764e50e1bcd5fd387c232166a"
+  },
+  {
+   "index": 185,
+   "id": "SRM SIC 613.161,355.206",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 613.161,
+   "product_mz": 355.206,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 266,
+   "xxh3_time_min": "067fb75df667dd339824d5791fdebf83",
+   "xxh3_intensity": "1721277710df88bc4c37270b7dfef81a",
+   "sum_intensity": 8512.118275880814,
+   "first_points": [
+    [
+     0.8195000290870667,
+     0.7187592387199402
+    ],
+    [
+     0.8304166793823242,
+     1.1051253080368042
+    ],
+    [
+     0.8414833545684814,
+     0.8080201745033264
+    ],
+    [
+     0.852566659450531,
+     0.8958975672721863
+    ],
+    [
+     0.8638666868209839,
+     0.8792062997817993
+    ]
+   ],
+   "n_nonzero": 266,
+   "xxh3_time_min_nonzero": "067fb75df667dd339824d5791fdebf83",
+   "xxh3_intensity_nonzero": "1721277710df88bc4c37270b7dfef81a"
+  },
+  {
+   "index": 186,
+   "id": "SRM SIC 628.269,138.055",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 628.269,
+   "product_mz": 138.055,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "ccce64459f14a4fc132f23e276f2ce6e",
+   "xxh3_intensity": "a8a17bdd0a24eb82ed75cf32660a4e81",
+   "sum_intensity": 1968.278997540474,
+   "first_points": [
+    [
+     0.17368333041667938,
+     0.8690671324729919
+    ],
+    [
+     0.18164999783039093,
+     0.8916645050048828
+    ],
+    [
+     0.18960000574588776,
+     0.885429859161377
+    ],
+    [
+     0.1975499987602234,
+     0.7343064546585083
+    ],
+    [
+     0.20551666617393494,
+     0.8679512739181519
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "ccce64459f14a4fc132f23e276f2ce6e",
+   "xxh3_intensity_nonzero": "a8a17bdd0a24eb82ed75cf32660a4e81"
+  },
+  {
+   "index": 187,
+   "id": "SRM SIC 628.269,204.067",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 628.269,
+   "product_mz": 204.067,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 109,
+   "xxh3_time_min": "ccce64459f14a4fc132f23e276f2ce6e",
+   "xxh3_intensity": "71ca4ef083f7690f6360e1434bbef87c",
+   "sum_intensity": 96.17057377099991,
+   "first_points": [
+    [
+     0.17368333041667938,
+     0.8976007699966431
+    ],
+    [
+     0.18164999783039093,
+     0.9203806519508362
+    ],
+    [
+     0.18960000574588776,
+     0.9660545587539673
+    ],
+    [
+     0.1975499987602234,
+     0.9270509481430054
+    ],
+    [
+     0.20551666617393494,
+     0.9212550520896912
+    ]
+   ],
+   "n_nonzero": 109,
+   "xxh3_time_min_nonzero": "ccce64459f14a4fc132f23e276f2ce6e",
+   "xxh3_intensity_nonzero": "71ca4ef083f7690f6360e1434bbef87c"
+  },
+  {
+   "index": 188,
+   "id": "SRM SIC 657.189,557.336",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 657.189,
+   "product_mz": 557.336,
+   "product_lower_offset": 0.0009999999999764,
+   "product_upper_offset": 0.0009999999999764,
+   "collision_energy": 0.0,
+   "n_points": 175,
+   "xxh3_time_min": "9aab3e70c2f4cf3ebc1919dd7f219604",
+   "xxh3_intensity": "314d9369362e09ec228fdec435c5943d",
+   "sum_intensity": 4630.558965623379,
+   "first_points": [
+    [
+     7.035183429718018,
+     17.687236785888672
+    ],
+    [
+     7.040833473205566,
+     3.17761492729187
+    ],
+    [
+     7.046566486358643,
+     127.30591583251953
+    ],
+    [
+     7.052366733551025,
+     1.1692571640014648
+    ],
+    [
+     7.058199882507324,
+     33.593048095703125
+    ]
+   ],
+   "n_nonzero": 175,
+   "xxh3_time_min_nonzero": "9aab3e70c2f4cf3ebc1919dd7f219604",
+   "xxh3_intensity_nonzero": "314d9369362e09ec228fdec435c5943d"
+  },
+  {
+   "index": 189,
+   "id": "SRM SIC 657.189,616.349",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 657.189,
+   "product_mz": 616.349,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 175,
+   "xxh3_time_min": "9aab3e70c2f4cf3ebc1919dd7f219604",
+   "xxh3_intensity": "ead5c139485379947e4a30753891a9ab",
+   "sum_intensity": 303243.2734375,
+   "first_points": [
+    [
+     7.035183429718018,
+     1511.684814453125
+    ],
+    [
+     7.040833473205566,
+     2500.022216796875
+    ],
+    [
+     7.046566486358643,
+     2231.15771484375
+    ],
+    [
+     7.052366733551025,
+     2268.264892578125
+    ],
+    [
+     7.058199882507324,
+     2105.950439453125
+    ]
+   ],
+   "n_nonzero": 175,
+   "xxh3_time_min_nonzero": "9aab3e70c2f4cf3ebc1919dd7f219604",
+   "xxh3_intensity_nonzero": "ead5c139485379947e4a30753891a9ab"
+  },
+  {
+   "index": 190,
+   "id": "SRM SIC 664.078,135.998",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 664.078,
+   "product_mz": 135.998,
+   "product_lower_offset": 0.0009999999999906,
+   "product_upper_offset": 0.0009999999999906,
+   "collision_energy": 0.0,
+   "n_points": 154,
+   "xxh3_time_min": "399e31b0cf935fba1ce6cbf9869fb814",
+   "xxh3_intensity": "6c73e4ce77f7fb68e20734e41dad203a",
+   "sum_intensity": 5064.2748285532,
+   "first_points": [
+    [
+     0.9303833246231079,
+     0.8193542957305908
+    ],
+    [
+     0.941349983215332,
+     0.8617767691612244
+    ],
+    [
+     0.9512500166893005,
+     0.9352494478225708
+    ],
+    [
+     0.9612833261489868,
+     0.8535611629486084
+    ],
+    [
+     0.9699833393096924,
+     0.8426913022994995
+    ]
+   ],
+   "n_nonzero": 154,
+   "xxh3_time_min_nonzero": "399e31b0cf935fba1ce6cbf9869fb814",
+   "xxh3_intensity_nonzero": "6c73e4ce77f7fb68e20734e41dad203a"
+  },
+  {
+   "index": 191,
+   "id": "SRM SIC 664.078,428.04",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 664.078,
+   "product_mz": 428.04,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 154,
+   "xxh3_time_min": "399e31b0cf935fba1ce6cbf9869fb814",
+   "xxh3_intensity": "a5d20a7e9168be46b425adf99b3a90e1",
+   "sum_intensity": 5371.072865188122,
+   "first_points": [
+    [
+     0.9303833246231079,
+     0.7785613536834717
+    ],
+    [
+     0.941349983215332,
+     12.772832870483398
+    ],
+    [
+     0.9512500166893005,
+     0.8748872876167297
+    ],
+    [
+     0.9612833261489868,
+     0.7740916013717651
+    ],
+    [
+     0.9699833393096924,
+     1.0174267292022705
+    ]
+   ],
+   "n_nonzero": 154,
+   "xxh3_time_min_nonzero": "399e31b0cf935fba1ce6cbf9869fb814",
+   "xxh3_intensity_nonzero": "a5d20a7e9168be46b425adf99b3a90e1"
+  },
+  {
+   "index": 192,
+   "id": "SRM SIC 678.235,147.149",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 678.235,
+   "product_mz": 147.149,
+   "product_lower_offset": 0.001,
+   "product_upper_offset": 0.001,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "d9ae2a101a272ada51cd606f7924c3a1",
+   "xxh3_intensity": "be1409ace68773b5754efa7aaa4ca774",
+   "sum_intensity": 19297.90776324272,
+   "first_points": [
+    [
+     3.7474334239959717,
+     0.8666119575500488
+    ],
+    [
+     3.7532832622528076,
+     137.36306762695312
+    ],
+    [
+     3.7591333389282227,
+     153.0302276611328
+    ],
+    [
+     3.7649834156036377,
+     0.864605724811554
+    ],
+    [
+     3.7708165645599365,
+     0.8469865322113037
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "d9ae2a101a272ada51cd606f7924c3a1",
+   "xxh3_intensity_nonzero": "be1409ace68773b5754efa7aaa4ca774"
+  },
+  {
+   "index": 193,
+   "id": "SRM SIC 678.235,359.19",
+   "kind": "srm",
+   "polarity": "positive",
+   "precursor_mz": 678.235,
+   "product_mz": 359.19,
+   "product_lower_offset": 0.0009999999999764,
+   "product_upper_offset": 0.0009999999999764,
+   "collision_energy": 0.0,
+   "n_points": 168,
+   "xxh3_time_min": "d9ae2a101a272ada51cd606f7924c3a1",
+   "xxh3_intensity": "8057a76d3865dc33f8d8089a73ad43a5",
+   "sum_intensity": 8996.448398590088,
+   "first_points": [
+    [
+     3.7474334239959717,
+     0.8769362568855286
+    ],
+    [
+     3.7532832622528076,
+     0.8936293125152588
+    ],
+    [
+     3.7591333389282227,
+     0.8309434652328491
+    ],
+    [
+     3.7649834156036377,
+     0.8608868718147278
+    ],
+    [
+     3.7708165645599365,
+     0.8628384470939636
+    ]
+   ],
+   "n_nonzero": 168,
+   "xxh3_time_min_nonzero": "d9ae2a101a272ada51cd606f7924c3a1",
+   "xxh3_intensity_nonzero": "8057a76d3865dc33f8d8089a73ad43a5"
+  }
+ ]
+}

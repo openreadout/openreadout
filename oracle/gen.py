@@ -4065,6 +4065,38 @@ def agilent_ms(p: Path, q: Path) -> dict:
     return out
 
 
+def agilent_ms_rainbow(p: Path) -> dict:
+    """Ground truth for an Agilent MassHunter .d without a depositor export: its MSProfile.bin
+    scans through rainbow-api (LGPL-3.0, run as a black box only; `uv run --group chrom`) with
+    `hrms=True`. rainbow returns every bin of a scan's grid; the spectra openreadout defines keep
+    the non-zero bins and the zero bins next to them (docs/formats/agilent-masshunter.md), so the
+    same rule is applied here. rainbow reports neither scan ids, MS levels nor polarity: scans
+    are compared by position, native ids are a placeholder (`native_id_not_compared` in the
+    manifest) and the MS level is 1 (the runs this oracle is used on are MS1 profile runs)."""
+    from importlib.metadata import version as pkg_version
+    rb = _rainbow()
+    f = rb.read(str(p), hrms=True).get_file("MSProfile.bin")
+    times = np.asarray(f.xlabels, dtype=np.float64)
+    scans = []
+    for i in range(len(times)):
+        mz, y = f.scan(i)
+        mz = np.asarray(mz, dtype=np.float64)
+        y = np.asarray(y, dtype=np.float64)
+        nz = y != 0
+        keep = nz.copy()
+        keep[1:] |= nz[:-1]
+        keep[:-1] |= nz[1:]
+        rec = {"index": i, "scan_number": i + 1, "native_id": f"position={i}", "ms_level": 1,
+               "rt_s": float(times[i] * 60.0), "polarity": None, "centroided": False,
+               "filter": None, "precursor_mz": None, "precursor_charge": None, "activation": None,
+               "total_ion_current": None, "base_peak_mz": None}
+        rec.update(_peaks(mz[keep], y[keep], 64))
+        scans.append(rec)
+    return {"reader": f"rainbow-api {pkg_version('rainbow-api')} (black box), hrms=True",
+            "oracle_note": "rainbow's dense bins reduced to the non-zero bins and their zero neighbours; MS level 1 assumed; no scan ids or polarity",
+            "spectra": {"scan_count": len(scans), "by_index": True, "scans": scans}}
+
+
 def waters_chromatogram_export(p: Path, q: Path) -> dict:
     """A Waters MRM .raw whose depositor export (mzXML) holds its chromatograms as one-point
     "scans" with m/z 0 and precursor 0: the stored TIC, then one block per transition, each
@@ -5653,8 +5685,8 @@ def main():
                 data = getattr(spectro, sk)(p, MAX_SWEEPS)
             elif p.is_dir() and (p / "AcqData" / "MSScan.bin").exists():
                 if export is None:
-                    raise ValueError("an Agilent MassHunter .d needs --export <depositor mzML> before its path")
-                data = agilent_ms(p, export)
+                    raise ValueError("an Agilent MassHunter .d needs --export <depositor mzML> (or --export rainbow) before its path")
+                data = agilent_ms_rainbow(p) if str(export) == "rainbow" else agilent_ms(p, export)
             elif p.is_dir() and ext == ".d" and not any((p / f).exists() for f in ("analysis.tdf", "analysis.tsf")):
                 data = chemstation(p)
             elif p.is_dir() and ext == ".raw" and export is not None:
