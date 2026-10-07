@@ -21,7 +21,7 @@ use zarrs::filesystem::FilesystemStore;
 use crate::ngff::{self, ChannelRange};
 use crate::{
     CREATOR, Plan, ZarrExportOptions, le_to_native, pixels, write_collection, write_group,
-    zarr_array_builder, zerr,
+    write_options, zarr_array_builder, zerr,
 };
 
 /// The pyramid mode `Auto` stands for, for an OME-Zarr of this image.
@@ -87,8 +87,12 @@ impl BlockSink for ZarrSink<'_> {
                 u64::from(y)..u64::from(y) + u64::from(p.height),
                 u64::from(x)..u64::from(x) + u64::from(p.width),
             ]);
-            a.store_array_subset(&subset, ArrayBytes::new_flen(le_to_native(&data, self.bps)))
-                .map_err(|e| zerr("chunk write", e))?;
+            a.store_array_subset_opt(
+                &subset,
+                ArrayBytes::new_flen(le_to_native(&data, self.bps)),
+                &write_options(),
+            )
+            .map_err(|e| zerr("chunk write", e))?;
         }
         Ok(())
     }

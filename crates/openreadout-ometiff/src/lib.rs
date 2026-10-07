@@ -181,10 +181,28 @@ pub(crate) fn layout_of(pixel_type: PixelType, samples_per_pixel: u32) -> Result
         (PixelType::Float, 1 | 3) => (32, 3),
         (PixelType::Double, 1) => (64, 3),
         (pt, spp) => {
+            // OME-Zarr takes any sample count of these types, but no 64-bit integer or
+            // complex samples either.
+            let zarr_takes_it = matches!(
+                pt,
+                PixelType::Uint8
+                    | PixelType::Uint16
+                    | PixelType::Uint32
+                    | PixelType::Int8
+                    | PixelType::Int16
+                    | PixelType::Int32
+                    | PixelType::Float
+                    | PixelType::Double
+            );
+            let hint = if zarr_takes_it {
+                "OME-TIFF export supports 1-sample int8/16/32, uint8/16/32, float and double planes and 3-sample uint8/16/float planes. Export with `--format ome-zarr` instead: it writes each sample as a channel."
+            } else {
+                "Neither OME-TIFF nor OME-Zarr export writes 64-bit integer or complex samples. `openreadout planes FILE --dump-dir DIR` writes each plane's raw little-endian samples instead."
+            };
             return Err(Error::unsupported(
                 "ome-tiff",
                 format!("{} samples of {} per pixel", spp, pt.ome_name()),
-                "OME-TIFF export supports 1-sample int8/16/32, uint8/16/32, float and double planes and 3-sample uint8/16/float planes; OME-Zarr export takes the others.",
+                hint,
             ));
         }
     };
@@ -426,6 +444,21 @@ fn hash_le(buf: &mut tiff::decoder::DecodingResult) -> u128 {
     h.digest128()
 }
 
+/// The error for an image export of a file that holds no images (a VSI without its folder of
+/// `.ets` pixel files, for example). `writer` names the export, as in [`Error::unsupported`].
+/// The file's first note usually says why, so it goes in the message.
+pub fn no_images_error(info: &openreadout_core::model::FileInfo, writer: &'static str) -> Error {
+    let why = info
+        .notes
+        .first()
+        .map_or_else(String::new, |n| format!(" ({n})"));
+    Error::unsupported(
+        writer,
+        format!("a file with no images{why}"),
+        "The file holds metadata but no image planes, so there is nothing to export. `openreadout info FILE` shows what it does hold.",
+    )
+}
+
 /// Export `ds` (already opened from `input`) to an OME-TIFF at `output`.
 pub fn export_ome_tiff(
     ds: &mut dyn Dataset,
@@ -453,6 +486,9 @@ pub fn export_ome_tiff_with(
         )));
     }
     let info = ds.info()?;
+    if info.images.is_empty() {
+        return Err(no_images_error(&info, "ome-tiff"));
+    }
     let sel = Selection::parse(&opts.select)?;
     let mut written: Vec<WrittenImage<'_>> = Vec::new();
     let mut next_ifd = 0u32;
