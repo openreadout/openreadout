@@ -750,8 +750,10 @@ pub fn decode_profile(
         .and_then(|v| v.checked_add(16))
         .ok_or("profile size overflows")?;
     // Some writers store a non-mobility profile with the run-length encoding of ion-mobility
-    // blocks; `UncompressedByteCount` then holds 0 or the dense size, not an LZF one.
-    if data.len() != need && is_run_length_profile(data, n) {
+    // blocks; `UncompressedByteCount` then holds 0 or the dense size, not an LZF one. A block
+    // in this encoding can be exactly as long as a dense one (6 of rainbow's `amber.D` scans);
+    // read as dense, its header word would be a negative count in bin 0, which no count is.
+    if is_run_length_profile(data, n) {
         return run_length_to_dense(data, n);
     }
     let raw;
@@ -1323,6 +1325,14 @@ mod tests {
         }
         // a header naming another bin count is not taken for this encoding
         assert!(decode_profile(&b, 5, None).is_err());
+        // a run-length block exactly as long as a dense block of the same bin count
+        let mut same = ims_head(3, 0);
+        same.extend_from_slice(&5i32.to_le_bytes());
+        assert_eq!(same.len(), 16 + 4 * 3);
+        assert_eq!(
+            decode_profile(&same, 3, None).unwrap().counts,
+            vec![5, 0, 0]
+        );
     }
 
     /// Single-quadrupole GC/MS point lists (MTBLS12630's 5977): `n` f64 m/z then `n` f64
