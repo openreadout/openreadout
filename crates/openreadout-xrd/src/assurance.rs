@@ -137,16 +137,17 @@ const BRUKER_BRML_VALIDATED: &[Validated] = &[
 const RIGAKU_RAS_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const RIGAKU_RAS_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 4, 4, 5),
-    a::row(K::Field, "experiment.instrument.model", 1, 1, 2),
-    a::row(K::FormatVersion, "RAS 1", 3, 3, 3),
-    a::row(K::FormatVersion, "RAS 1.0000000000", 2, 2, 2),
+    a::row(K::Field, "experiment.acquisition.started_at", 4, 4, 9),
+    a::row(K::Field, "experiment.instrument.model", 1, 1, 4),
+    a::row(K::FormatVersion, "RAS 1", 5, 4, 5),
+    a::row(K::FormatVersion, "RAS 1.0000000000", 2, 2, 4),
     a::row(K::Layout, "2θ/θ scan", 1, 1, 1),
-    a::row(K::Layout, "Theta/2-Theta scan", 1, 1, 1),
+    a::row(K::Layout, "Theta/2-Theta scan", 1, 1, 3),
+    a::row(K::Layout, "TwoThetaOmega scan", 2, 1, 2),
     a::row(K::Layout, "TwoThetaTheta scan", 3, 3, 3),
-    a::row(K::Record, "angle axis", 1, 1, 1),
-    a::row(K::Record, "two_theta axis", 4, 4, 4),
-    a::row(K::SampleLayout, "intensity in counts", 5, 5, 5),
+    a::row(K::Record, "angle axis", 1, 1, 3),
+    a::row(K::Record, "two_theta axis", 6, 5, 6),
+    a::row(K::SampleLayout, "intensity in counts", 7, 6, 9),
 ];
 // END GENERATED rigaku-ras
 

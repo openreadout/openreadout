@@ -81,6 +81,12 @@ elements and as a `RASHeader` of `*KEY`/value pairs). Keys used: `MEAS_SCAN_AXIS
 Axis names written in Shift-JIS by Japanese installations (`2θ/θ`) are recognised. Intensities
 are as stored; attenuation factors other than 1 are flagged (warning `attenuation`) and not applied.
 
+RAS files edited by hand: a data row starting with `#` is a comment. It is not returned, and a
+warning (`commented_rows`) counts the rows; the assurance block reports them as left out. A file
+that ends inside its last data block, without `*RAS_INT_END`, is read when the block holds every
+row `MEAS_DATA_COUNT` declares, commented rows included (warning `missing_end_marker`). A block
+that ends short of its count is corrupt (exit 4), and the error says how many rows it holds.
+
 ## What the readers return
 
 - **One trace per scan** (range, data route, profile): channel `intensity` (counts, or the unit the
