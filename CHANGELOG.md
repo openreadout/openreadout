@@ -26,6 +26,7 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Changed
 
+- LIF: channels are named after the dye LAS X records for them (`DAPI`, `ALEXA 488`), which is also reported as `fluorophore`. Channels without one keep the display colour's name (`Red`), and the colour stays in `color`.
 - The command line and the MCP server share one set of names, and each command does one thing. Each analysis is its own MCP tool (`openreadout_peaks`, `openreadout_nmr_peaks`, `openreadout_dose_response`, ...) instead of `openreadout_analyze` with `kind`. `check` is split into `check`, `planes`, `compare` and `report`, `spectra` into `scans` and `spectrum`, `export --attachment` into `extract`, `batch summarize` into `summarize`, and `search --health` and `--export` into `health` and `export-dataset`. The formats list is the `openreadout://formats` resource, no longer a tool. Many flags and arguments are renamed (`export --format`, `scans --rt-range`, `trace --first-sample`, ...). `info --view full` leaves out the vendor tree unless `--vendor`, and `stats` lists planes only with `--per plane`. JSON output is `schema_version` 2. The [MCP tools page](https://openreadout.github.io/openreadout/reference/mcp.html) has the names, and `docs/surface-2026-10.md` the full old-to-new mapping.
 - The Claude Code plugin, the Codex plugin and the Gemini CLI extension install from their own repository, [openreadout/agent-plugins](https://github.com/openreadout/agent-plugins), which the release workflow updates. Add the Claude Code marketplace again with `/plugin marketplace add openreadout/agent-plugins`.
 - A privacy policy, `PRIVACY.md`, linked from the README, the docs site and the `.mcpb` manifest.
@@ -34,6 +35,7 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- `stats` reads large planes of tiled and pyramid images in strips, so a whole-slide level 0 no longer has to fit in memory (2.9 GB to 0.5 GB peak on a 53,760 × 17,664 NDPI, same results). Slides whose level 0 is over 4 GiB, which `stats` refused before, now work.
 - imzML: spectra that state no MS level are MS1 when the file's `fileContent` names only MS1 spectra, and `check` reports a spectrum whose m/z and intensity arrays differ in length (`bad_array`).
 - Rigaku RASX: reciprocal-space maps returned their scans in text order (`Data10` before `Data2`). They are now in scan order.
 - Sciex `.wiff`: a scheduled MRM file without stored windows returned every transition in every cycle. Each transition now has its expected time ± half the method's detection window; the layout stays unvalidated, because Analyst decides a window's edge cycles in a way the file does not record.

@@ -13,14 +13,15 @@
 //! the true value and `exact` is false. The same counts, merged exactly, give the channel
 //! and image aggregates and the histograms.
 
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{BTreeMap, HashMap, HashSet};
 
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use crate::model::FileInfo;
-use crate::parallel::{PlaneRequest, ReadContext, read_in_order};
+use crate::model::{FileInfo, ImageInfo};
+use crate::parallel::{IN_FLIGHT_BYTES, PlaneRequest, ReadContext, read_in_order};
 use crate::reader::{Dataset, PlaneIndex};
+use crate::region::Region;
 use crate::select::Selection;
 use crate::{Error, PixelType, Plane, Result};
 
@@ -458,98 +459,13 @@ impl Accumulator {
         first: usize,
         step: usize,
     ) -> Self {
-        let mut acc = Accumulator::new(plane.pixel_type).with_level(level);
-        let d = &plane.data;
-        match plane.pixel_type {
-            PixelType::Uint8 => acc.add_dense(
-                d.iter().skip(first).step_by(step).map(|&b| usize::from(b)),
-                256,
-                |i| i as f64,
-            ),
-            PixelType::Int8 => acc.add_dense(
-                d.iter()
-                    .skip(first)
-                    .step_by(step)
-                    .map(|&b| usize::from(b.wrapping_add(128))),
-                256,
-                |i| i as f64 - 128.0,
-            ),
-            PixelType::Uint16 => acc.add_dense(
-                d.as_chunks::<2>()
-                    .0
-                    .iter()
-                    .skip(first)
-                    .step_by(step)
-                    .map(|c| usize::from(u16::from_le_bytes(*c))),
-                65_536,
-                |i| i as f64,
-            ),
-            PixelType::Int16 => acc.add_dense(
-                d.as_chunks::<2>()
-                    .0
-                    .iter()
-                    .skip(first)
-                    .step_by(step)
-                    .map(|c| usize::from(u16::from_le_bytes(*c) ^ 0x8000)),
-                65_536,
-                |i| i as f64 - 32_768.0,
-            ),
-            PixelType::Uint32 => acc.add_sparse(
-                d.as_chunks::<4>()
-                    .0
-                    .iter()
-                    .skip(first)
-                    .step_by(step)
-                    .map(|c| f64::from(u32::from_le_bytes(*c))),
-            ),
-            PixelType::Int32 => acc.add_sparse(
-                d.as_chunks::<4>()
-                    .0
-                    .iter()
-                    .skip(first)
-                    .step_by(step)
-                    .map(|c| f64::from(i32::from_le_bytes(*c))),
-            ),
-            PixelType::Float => acc.add_sparse(
-                d.as_chunks::<4>()
-                    .0
-                    .iter()
-                    .skip(first)
-                    .step_by(step)
-                    .map(|c| f64::from(f32::from_le_bytes(*c))),
-            ),
-            PixelType::Double => {
-                acc.add_sparse(
-                    d.as_chunks::<8>()
-                        .0
-                        .iter()
-                        .skip(first)
-                        .step_by(step)
-                        .map(|c| f64::from_le_bytes(*c)),
-                );
-            }
-            // 64-bit integers and complex samples (whose value is the modulus)
-            pt => acc.add_sparse(
-                d.chunks_exact(pt.bytes_per_sample())
-                    .skip(first)
-                    .step_by(step)
-                    .map(|c| pt.sample_f64(c)),
-            ),
-        }
-        acc
+        let mut feed = SampleFeed::new(plane.pixel_type, level, first, step);
+        feed.feed(&plane.data);
+        feed.finish()
     }
 
-    /// 8/16-bit integers: count by value, then derive everything from the counts (exact).
-    fn add_dense(
-        &mut self,
-        idx: impl Iterator<Item = usize>,
-        size: usize,
-        value: impl Fn(usize) -> f64,
-    ) {
-        let mut counts = vec![0u64; size];
-        for i in idx {
-            counts[i] += 1;
-        }
+    /// 8/16-bit integers: everything derived from the counts by value (exact).
+    fn add_dense(&mut self, counts: &[u64], value: impl Fn(usize) -> f64) {
         let mut part = Accumulator::new(PixelType::Uint8);
         part.saturation = self.saturation;
         part.level = self.level;
@@ -587,51 +503,6 @@ impl Accumulator {
         part.n = n;
         part.mean = mean;
         part.m2 = m2;
-        self.merge(&part);
-    }
-
-    /// Any type: Welford update per sample, counts in a hash map until they are too many.
-    fn add_sparse(&mut self, values: impl Iterator<Item = f64>) {
-        let mut map: HashMap<i64, u64> = HashMap::new();
-        let mut exact = true;
-        let mut part = Accumulator::new(PixelType::Double);
-        part.saturation = self.saturation;
-        part.level = self.level;
-        part.integer = self.integer;
-        for v in values {
-            if !v.is_finite() {
-                part.non_finite += 1;
-                continue;
-            }
-            part.n += 1;
-            let delta = v - part.mean;
-            part.mean += delta / part.n as f64;
-            part.m2 += delta * (v - part.mean);
-            part.min = part.min.min(v);
-            part.max = part.max.max(v);
-            if v == 0.0 {
-                part.zeros += 1;
-            }
-            if Some(v) == part.saturation {
-                part.saturated += 1;
-            }
-            if Some(v) == part.level.map(|l| l.0) {
-                part.at_level += 1;
-            }
-            let k = ordered(v);
-            *map.entry(if exact { k } else { k >> BUCKET_SHIFT })
-                .or_insert(0) += 1;
-            if exact && map.len() > EXACT_KEYS_MAX {
-                exact = false;
-                let mut coarse: HashMap<i64, u64> = HashMap::new();
-                for (k, c) in map.drain() {
-                    *coarse.entry(k >> BUCKET_SHIFT).or_insert(0) += c;
-                }
-                map = coarse;
-            }
-        }
-        part.exact = exact;
-        part.counts = map.into_iter().collect();
         self.merge(&part);
     }
 
@@ -868,6 +739,407 @@ impl Accumulator {
             saturation_source: source.map(str::to_string),
             histogram: self.histogram(bins, scale),
         }
+    }
+}
+
+/// The 8- and 16-bit integer types, whose samples are counted by value.
+#[derive(Debug, Clone, Copy)]
+enum Dense {
+    U8,
+    I8,
+    U16,
+    I16,
+}
+
+impl Dense {
+    fn of(p: PixelType) -> Option<Self> {
+        match p {
+            PixelType::Uint8 => Some(Dense::U8),
+            PixelType::Int8 => Some(Dense::I8),
+            PixelType::Uint16 => Some(Dense::U16),
+            PixelType::Int16 => Some(Dense::I16),
+            _ => None,
+        }
+    }
+
+    fn size(self) -> usize {
+        match self {
+            Dense::U8 | Dense::I8 => 256,
+            Dense::U16 | Dense::I16 => 65_536,
+        }
+    }
+
+    fn value(self, i: usize) -> f64 {
+        match self {
+            Dense::U8 | Dense::U16 => i as f64,
+            Dense::I8 => i as f64 - 128.0,
+            Dense::I16 => i as f64 - 32_768.0,
+        }
+    }
+}
+
+/// Where a [`SampleFeed`] keeps what it has seen so far.
+#[derive(Debug)]
+enum FeedState {
+    /// 8/16-bit integers: a count per value.
+    Dense(Dense, Vec<u64>),
+    /// Any other type: a running Welford accumulator and the value counts, exact until they
+    /// are too many.
+    Sparse {
+        part: Accumulator,
+        map: HashMap<i64, u64>,
+        exact: bool,
+    },
+}
+
+/// Accumulates every `step`-th sample, from sample `first`, of a plane handed over in pieces of
+/// whole pixels, in order (a whole plane, or its full-width strips from top to bottom). The
+/// pieces see the samples in the same order as the whole plane would, and the arithmetic is
+/// the same, so the result is bit for bit that of [`Accumulator::from_plane_at`] or
+/// [`Accumulator::components_at`] on the whole plane.
+#[derive(Debug)]
+pub(crate) struct SampleFeed {
+    acc: Accumulator,
+    pixel_type: PixelType,
+    first: usize,
+    step: usize,
+    state: FeedState,
+}
+
+impl SampleFeed {
+    pub(crate) fn new(
+        pixel_type: PixelType,
+        level: Option<(f64, &'static str)>,
+        first: usize,
+        step: usize,
+    ) -> Self {
+        let acc = Accumulator::new(pixel_type).with_level(level);
+        let state = if let Some(d) = Dense::of(pixel_type) {
+            FeedState::Dense(d, vec![0; d.size()])
+        } else {
+            let mut part = Accumulator::new(PixelType::Double);
+            part.saturation = acc.saturation;
+            part.level = acc.level;
+            part.integer = acc.integer;
+            FeedState::Sparse {
+                part,
+                map: HashMap::new(),
+                exact: true,
+            }
+        };
+        SampleFeed {
+            acc,
+            pixel_type,
+            first,
+            step: step.max(1),
+            state,
+        }
+    }
+
+    /// Accumulate the samples of `d`, which holds whole pixels.
+    pub(crate) fn feed(&mut self, d: &[u8]) {
+        let (first, step) = (self.first, self.step);
+        match &mut self.state {
+            FeedState::Dense(kind, counts) => match kind {
+                Dense::U8 => count_into(
+                    counts,
+                    d.iter().skip(first).step_by(step).map(|&b| usize::from(b)),
+                ),
+                Dense::I8 => count_into(
+                    counts,
+                    d.iter()
+                        .skip(first)
+                        .step_by(step)
+                        .map(|&b| usize::from(b.wrapping_add(128))),
+                ),
+                Dense::U16 => count_into(
+                    counts,
+                    d.as_chunks::<2>()
+                        .0
+                        .iter()
+                        .skip(first)
+                        .step_by(step)
+                        .map(|c| usize::from(u16::from_le_bytes(*c))),
+                ),
+                Dense::I16 => count_into(
+                    counts,
+                    d.as_chunks::<2>()
+                        .0
+                        .iter()
+                        .skip(first)
+                        .step_by(step)
+                        .map(|c| usize::from(u16::from_le_bytes(*c) ^ 0x8000)),
+                ),
+            },
+            FeedState::Sparse { part, map, exact } => {
+                match self.pixel_type {
+                    PixelType::Uint32 => add_sparse(
+                        part,
+                        map,
+                        exact,
+                        d.as_chunks::<4>()
+                            .0
+                            .iter()
+                            .skip(first)
+                            .step_by(step)
+                            .map(|c| f64::from(u32::from_le_bytes(*c))),
+                    ),
+                    PixelType::Int32 => add_sparse(
+                        part,
+                        map,
+                        exact,
+                        d.as_chunks::<4>()
+                            .0
+                            .iter()
+                            .skip(first)
+                            .step_by(step)
+                            .map(|c| f64::from(i32::from_le_bytes(*c))),
+                    ),
+                    PixelType::Float => add_sparse(
+                        part,
+                        map,
+                        exact,
+                        d.as_chunks::<4>()
+                            .0
+                            .iter()
+                            .skip(first)
+                            .step_by(step)
+                            .map(|c| f64::from(f32::from_le_bytes(*c))),
+                    ),
+                    PixelType::Double => add_sparse(
+                        part,
+                        map,
+                        exact,
+                        d.as_chunks::<8>()
+                            .0
+                            .iter()
+                            .skip(first)
+                            .step_by(step)
+                            .map(|c| f64::from_le_bytes(*c)),
+                    ),
+                    // 64-bit integers and complex samples (whose value is the modulus)
+                    pt => add_sparse(
+                        part,
+                        map,
+                        exact,
+                        d.chunks_exact(pt.bytes_per_sample().max(1))
+                            .skip(first)
+                            .step_by(step)
+                            .map(move |c| pt.sample_f64(c)),
+                    ),
+                }
+            }
+        }
+    }
+
+    /// The statistics of every sample fed.
+    pub(crate) fn finish(self) -> Accumulator {
+        let mut acc = self.acc;
+        match self.state {
+            FeedState::Dense(kind, counts) => acc.add_dense(&counts, |i| kind.value(i)),
+            FeedState::Sparse {
+                mut part,
+                map,
+                exact,
+            } => {
+                part.exact = exact;
+                part.counts = map.into_iter().collect();
+                acc.merge(&part);
+            }
+        }
+        acc
+    }
+}
+
+/// Count each index.
+fn count_into(counts: &mut [u64], idx: impl Iterator<Item = usize>) {
+    for i in idx {
+        counts[i] += 1;
+    }
+}
+
+/// Welford update per sample, counts in a hash map until they are too many.
+fn add_sparse(
+    part: &mut Accumulator,
+    map: &mut HashMap<i64, u64>,
+    exact: &mut bool,
+    values: impl Iterator<Item = f64>,
+) {
+    for v in values {
+        if !v.is_finite() {
+            part.non_finite += 1;
+            continue;
+        }
+        part.n += 1;
+        let delta = v - part.mean;
+        part.mean += delta / part.n as f64;
+        part.m2 += delta * (v - part.mean);
+        part.min = part.min.min(v);
+        part.max = part.max.max(v);
+        if v == 0.0 {
+            part.zeros += 1;
+        }
+        if Some(v) == part.saturation {
+            part.saturated += 1;
+        }
+        if Some(v) == part.level.map(|l| l.0) {
+            part.at_level += 1;
+        }
+        let k = ordered(v);
+        *map.entry(if *exact { k } else { k >> BUCKET_SHIFT })
+            .or_insert(0) += 1;
+        if *exact && map.len() > EXACT_KEYS_MAX {
+            *exact = false;
+            let mut coarse: HashMap<i64, u64> = HashMap::new();
+            for (k, c) in map.drain() {
+                *coarse.entry(k >> BUCKET_SHIFT).or_insert(0) += c;
+            }
+            *map = coarse;
+        }
+    }
+}
+
+/// Planes at least this large are read in strips when the reader decodes regions itself
+/// (`compute_stats`).
+const STREAM_MIN_BYTES: u64 = 256 << 20;
+/// Target size of one strip.
+const STRIP_BYTES: u64 = 8 << 20;
+/// Strip edges fall on multiples of this many rows when the level's tile size is unknown
+/// (NDPI restart intervals are 8 or 16 rows high).
+const STRIP_ALIGN_ROWS: u32 = 64;
+/// Most strips decoded at once.
+const STRIPS_IN_FLIGHT: u64 = 4;
+
+/// Decoded bytes of the plane (or region) `r` reads from `im`.
+fn request_bytes(im: &ImageInfo, r: &PlaneRequest) -> u64 {
+    let (w, h) = match r.region {
+        Some(g) => (g.width, g.height),
+        None => crate::region::level_size(im, r.level).unwrap_or((im.size_x, im.size_y)),
+    };
+    u64::from(w)
+        * u64::from(h)
+        * u64::from(im.samples_per_pixel.max(1))
+        * im.pixel_type.bytes_per_sample() as u64
+}
+
+/// The full-width strips, top to bottom, that read `r` piece by piece, and the bytes of the
+/// largest. `None` means `r` is read whole: the plane is under [`STREAM_MIN_BYTES`], or the
+/// image is neither tiled nor a pyramid, so its reader may crop regions out of the whole
+/// plane and would decode it once per strip. Strip edges fall on the tile grid, so each tile
+/// is decoded once.
+fn strips_of(im: &ImageInfo, r: &PlaneRequest) -> Option<(Vec<Region>, u64)> {
+    let bytes = request_bytes(im, r);
+    if bytes < STREAM_MIN_BYTES {
+        return None;
+    }
+    let levels = crate::region::levels_of(im);
+    let pyramid = levels.len() > 1;
+    let level = levels.into_iter().find(|l| l.level == r.level)?;
+    let tile_h = match level.tile_height.filter(|&t| t > 0) {
+        Some(t) => t,
+        None if pyramid => STRIP_ALIGN_ROWS,
+        None => return None,
+    };
+    let area = r
+        .region
+        .unwrap_or_else(|| Region::full(level.size_x, level.size_y));
+    if area.height == 0 {
+        return None;
+    }
+    let row = bytes / u64::from(area.height);
+    let tiles = (STRIP_BYTES / row.saturating_mul(u64::from(tile_h)).max(1)).max(1);
+    let rows = u32::try_from(u64::from(tile_h).saturating_mul(tiles)).unwrap_or(u32::MAX);
+    let bottom = area.y.checked_add(area.height)?;
+    let mut strips = Vec::new();
+    let mut y = area.y;
+    while y < bottom {
+        let next = (y / rows)
+            .saturating_add(1)
+            .saturating_mul(rows)
+            .min(bottom);
+        strips.push(Region::new(area.x, y, area.width, next - y));
+        y = next;
+    }
+    let largest = strips.iter().map(|s| u64::from(s.height)).max()? * row;
+    Some((strips, largest))
+}
+
+/// One read of [`compute_stats`]: a whole plane, or one strip of a plane read in strips.
+struct Unit {
+    /// Index of the plane request it belongs to.
+    request: usize,
+    /// What is read.
+    read: PlaneRequest,
+    /// For a strip, whether it is the plane's last.
+    strip: Option<bool>,
+}
+
+/// What a worker hands back for a [`Unit`]: the accumulators of a whole plane (width,
+/// height, sample type, samples per pixel, pooled, per component), or a strip's pixels.
+enum Piece {
+    Whole(u32, u32, PixelType, u32, Accumulator, Vec<Accumulator>),
+    Strip(Plane),
+}
+
+/// The accumulators of a plane read in strips: one feed for single-sample planes, one per
+/// colour component otherwise (as [`plane_accumulators`]).
+struct StripFeeds {
+    width: u32,
+    height: u32,
+    pixel_type: PixelType,
+    spp: u32,
+    level: Option<(f64, &'static str)>,
+    feeds: Vec<SampleFeed>,
+}
+
+impl StripFeeds {
+    fn new(first: &Plane, level: Option<(f64, &'static str)>) -> Self {
+        let spp = first.samples_per_pixel.max(1);
+        let feeds = if spp == 1 {
+            vec![SampleFeed::new(first.pixel_type, level, 0, 1)]
+        } else {
+            (0..spp as usize)
+                .map(|k| SampleFeed::new(first.pixel_type, level, k, spp as usize))
+                .collect()
+        };
+        StripFeeds {
+            width: first.width,
+            height: 0,
+            pixel_type: first.pixel_type,
+            spp: first.samples_per_pixel,
+            level,
+            feeds,
+        }
+    }
+
+    fn feed(&mut self, p: &Plane) -> Result<()> {
+        if p.width != self.width
+            || p.pixel_type != self.pixel_type
+            || p.samples_per_pixel != self.spp
+        {
+            return Err(Error::Other(
+                "stats: the strips of one plane differ in width or sample type".into(),
+            ));
+        }
+        self.height += p.height;
+        for f in &mut self.feeds {
+            f.feed(&p.data);
+        }
+        Ok(())
+    }
+
+    /// The pooled and per-component accumulators, as [`plane_accumulators`] gives them for
+    /// the whole plane.
+    fn finish(self) -> (Accumulator, Vec<Accumulator>) {
+        let mut accs: Vec<Accumulator> = self.feeds.into_iter().map(SampleFeed::finish).collect();
+        if accs.len() == 1 {
+            return (accs.remove(0), Vec::new());
+        }
+        let mut all = Accumulator::new(self.pixel_type).with_level(self.level);
+        for c in &accs {
+            all.merge(c);
+        }
+        (all, accs)
     }
 }
 
@@ -1151,15 +1423,58 @@ pub fn compute_stats(
             flush(cr, &pl, &mut add);
         }
     } else {
+        // Large planes of tiled levels are read in full-width strips and accumulated as they
+        // arrive, so memory does not grow with the plane (a whole-slide level 0); the others
+        // are read whole. Either way the statistics are the same, bit for bit.
+        let mut units: Vec<Unit> = Vec::with_capacity(requests.len());
+        let mut unit_bytes = 0u64;
+        for (i, r) in requests.iter().enumerate() {
+            let im = info.images.iter().find(|im| im.index == r.image);
+            if let Some((strips, bytes)) = im.and_then(|im| strips_of(im, r)) {
+                let n = strips.len();
+                units.extend(strips.into_iter().enumerate().map(|(k, region)| Unit {
+                    request: i,
+                    read: PlaneRequest {
+                        region: Some(region),
+                        ..*r
+                    },
+                    strip: Some(k + 1 == n),
+                }));
+                // Sized so that at most a few strips are decoded at once, and fewer when a
+                // strip is large (a level stored in tall tiles).
+                unit_bytes = unit_bytes.max(
+                    bytes
+                        .saturating_mul(STRIPS_IN_FLIGHT)
+                        .max(IN_FLIGHT_BYTES / STRIPS_IN_FLIGHT),
+                );
+            } else {
+                units.push(Unit {
+                    request: i,
+                    read: *r,
+                    strip: None,
+                });
+                unit_bytes = unit_bytes.max(im.map_or(plane_bytes, |im| request_bytes(im, r)));
+            }
+        }
+        let reads: Vec<PlaneRequest> = units.iter().map(|u| u.read).collect();
+        // Requests are distinct planes, so (image, index) tells a strip from a whole plane.
+        let streamed: HashSet<(u32, PlaneIndex)> = units
+            .iter()
+            .filter(|u| u.strip.is_some())
+            .map(|u| (u.read.image, u.read.index))
+            .collect();
+        let mut strips: Option<StripFeeds> = None;
         read_in_order(
             ds,
             ctx,
-            &requests,
-            plane_bytes,
+            &reads,
+            unit_bytes,
             &|r, p| {
+                if streamed.contains(&(r.image, r.index)) {
+                    return Ok(Piece::Strip(p));
+                }
                 let (acc, comps) = plane_accumulators(&p, level_of(r.image));
-                Ok((
-                    *r,
+                Ok(Piece::Whole(
                     p.width,
                     p.height,
                     p.pixel_type,
@@ -1168,9 +1483,29 @@ pub fn compute_stats(
                     comps,
                 ))
             },
-            &mut |i, (r, width, height, pixel_type, spp, acc, comps)| {
-                add(r, width, height, pixel_type, spp, acc, comps);
-                ctx.report(i as u64 + 1, total);
+            &mut |k, piece| {
+                let unit = &units[k];
+                let r = requests[unit.request];
+                match piece {
+                    Piece::Whole(width, height, pixel_type, spp, acc, comps) => {
+                        add(r, width, height, pixel_type, spp, acc, comps);
+                    }
+                    Piece::Strip(p) => {
+                        let feeds =
+                            strips.get_or_insert_with(|| StripFeeds::new(&p, level_of(r.image)));
+                        feeds.feed(&p)?;
+                        if unit.strip == Some(true) {
+                            let feeds = strips.take().unwrap_or_else(|| unreachable!());
+                            let (w, h, pixel_type, spp) =
+                                (feeds.width, feeds.height, feeds.pixel_type, feeds.spp);
+                            let (acc, comps) = feeds.finish();
+                            add(r, w, h, pixel_type, spp, acc, comps);
+                        } else {
+                            return Ok(());
+                        }
+                    }
+                }
+                ctx.report(unit.request as u64 + 1, total);
                 Ok(())
             },
         )?;
@@ -1227,6 +1562,84 @@ pub fn compute_stats(
 #[allow(clippy::float_cmp, clippy::many_single_char_names)]
 mod tests {
     use super::*;
+
+    /// Feeding a plane in full-width strips gives the whole plane's statistics bit for bit,
+    /// including a float plane whose distinct values pass the exact-count limit mid-plane.
+    #[test]
+    fn strips_match_the_whole_plane() {
+        let (w, h) = (401u32, 400u32);
+        let n = (w * h) as usize;
+        let mut seed = 7u64;
+        let mut next = move || {
+            seed = seed.wrapping_mul(6_364_136_223_846_793_005).wrapping_add(1);
+            seed >> 33
+        };
+        let planes = [
+            (
+                PixelType::Uint8,
+                3u32,
+                (0..n * 3).map(|_| next() as u8).collect::<Vec<u8>>(),
+            ),
+            (
+                PixelType::Uint16,
+                1,
+                (0..n)
+                    .flat_map(|_| (next() as u16 >> 4).to_le_bytes())
+                    .collect(),
+            ),
+            (
+                PixelType::Float,
+                1,
+                (0..n)
+                    .flat_map(|_| (next() as f32 / 7.0).to_le_bytes())
+                    .collect(),
+            ),
+            (
+                PixelType::Int32,
+                1,
+                (0..n)
+                    .flat_map(|_| (next() as i32 - (1 << 30)).to_le_bytes())
+                    .collect(),
+            ),
+        ];
+        for (pixel_type, spp, data) in planes {
+            let whole = Plane {
+                width: w,
+                height: h,
+                pixel_type,
+                samples_per_pixel: spp,
+                data,
+            };
+            let level = Some((4095.0, "significant_bits"));
+            let (acc, comps) = plane_accumulators(&whole, level);
+            let row = whole.data.len() / h as usize;
+            let mut feeds: Option<StripFeeds> = None;
+            for chunk in whole.data.chunks(row * 37) {
+                let strip = Plane {
+                    width: w,
+                    height: (chunk.len() / row) as u32,
+                    pixel_type,
+                    samples_per_pixel: spp,
+                    data: chunk.to_vec(),
+                };
+                feeds
+                    .get_or_insert_with(|| StripFeeds::new(&strip, level))
+                    .feed(&strip)
+                    .unwrap();
+            }
+            let feeds = feeds.unwrap();
+            assert_eq!(feeds.height, h);
+            let (s_acc, s_comps) = feeds.finish();
+            let json = |a: &Accumulator| {
+                serde_json::to_string(&a.finish(64, HistogramScale::Linear)).unwrap()
+            };
+            assert_eq!(json(&acc), json(&s_acc), "{pixel_type:?}");
+            assert_eq!(comps.len(), s_comps.len());
+            for (a, b) in comps.iter().zip(&s_comps) {
+                assert_eq!(json(a), json(b), "{pixel_type:?} component");
+            }
+        }
+    }
 
     fn plane_u16(v: &[u16]) -> Plane {
         Plane {

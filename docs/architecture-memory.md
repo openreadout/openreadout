@@ -55,6 +55,7 @@ of the largest decoded tile / subblock, `M` = size of the metadata blocks (XML, 
 | `export --format ome-zarr` | O(M + N) + ~3 P | plane, de-interleaved samples, one downsampled level and the chunk buffer |
 | `export --format mzml` | O(spectra) + 2 batches | spectra are read and compressed in batches of at most 256 spectra or 4 Mi points; one batch is compressed while the next is read. The index keeps ~100 B per spectrum |
 | `export --format csv` | one read batch + 2 x threads segments | a read batch holds at most 64 Ki rows and 8 Mi values; rows are formatted and parsed back in segments of at most 4096 rows and 128 Ki values |
+| `stats` | O(M + N) + window x P, or a few strips | each plane is read whole and summarized on a worker. A plane of 256 MiB or more whose image is tiled or a pyramid (its reader decodes regions itself) is read in full-width strips of about 8 MiB, on the tile grid, at most 4 at a time, and accumulated in order, so the results equal those of the whole plane bit for bit (`crates/openreadout-bench/tests/stats_memory.rs`: 64 MiB peak heap on 4 threads for a 256 MiB plane; 0.5 GB peak RSS on a 53,760 × 17,664 RGB NDPI, against 2.9 GB before). `--mip` still holds whole planes |
 | MCP tools, Python `File` | same as the matching command | the Python `read_image` helpers allocate the requested N-d array on purpose |
 
 Time for `info`/`info --view structure` is linear in `N` (one small read per CZI segment in the sequential
