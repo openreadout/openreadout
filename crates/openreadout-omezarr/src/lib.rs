@@ -57,7 +57,7 @@ use serde::{Deserialize, Serialize};
 use zarrs::array::codec::GzipCodec;
 use zarrs::array::{
     Array, ArrayBuilder, ArrayBytes, ArrayMetadataOptions, ArraySubset, BytesToBytesCodecTraits,
-    DataType, data_type,
+    CodecOptions, DataType, data_type,
 };
 use zarrs::filesystem::FilesystemStore;
 use zarrs::group::GroupBuilder;
@@ -150,7 +150,9 @@ fn unsupported_pixel_type(p: PixelType) -> Error {
     Error::unsupported(
         "ome-zarr export",
         format!("pixel type {}", p.ome_name()),
-        "This writer predates the pixel type; export to OME-TIFF or update openreadout.",
+        "Neither OME-Zarr nor OME-TIFF export writes 64-bit integer or complex samples. \
+         `openreadout planes FILE --dump-dir DIR` writes each plane's raw little-endian samples \
+         instead.",
     )
 }
 
@@ -188,6 +190,14 @@ fn zarr_array_builder(
         }
     }
     Ok(b)
+}
+
+/// Chunk write options. Chunks that hold only the fill value (zero) are stored too: `zarrs`
+/// leaves them out by default, and a store whose last chunks are missing looks like an
+/// acquisition still being written to readers that watch stores grow, OpenReadout's among
+/// them, for a few minutes after the export.
+fn write_options() -> CodecOptions {
+    CodecOptions::default().with_store_empty_chunks(true)
 }
 
 /// Plane bytes are little-endian; `zarrs` array bytes are native-endian. Swapping is its
@@ -457,6 +467,12 @@ pub fn export_ome_zarr_with(
     }
     check_output(input, output, opts.overwrite)?;
     let info = ds.info()?;
+    if info.images.is_empty() {
+        return Err(openreadout_ometiff::no_images_error(
+            &info,
+            "ome-zarr export",
+        ));
+    }
     let layout = openreadout_core::plate::plate_layout(ds, &info);
     let (plans, images_skipped) = plans(&info, opts, layout.as_ref())?;
 
@@ -669,9 +685,10 @@ fn write_store(
                             0..u64::from(h),
                             0..u64::from(w),
                         ]);
-                        a.store_array_subset(
+                        a.store_array_subset_opt(
                             &subset,
                             ArrayBytes::new_flen(le_to_native(&data, bps)),
+                            &write_options(),
                         )
                         .map_err(|e| zerr("chunk write", e))?;
                     }

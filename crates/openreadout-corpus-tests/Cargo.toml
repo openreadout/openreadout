@@ -20,6 +20,7 @@ openreadout-batch = { workspace = true }
 openreadout-live = { workspace = true }
 tempfile = { workspace = true }
 rayon = { workspace = true }
+peak_alloc = "0.3"
 glob = { workspace = true }
 openreadout-czi = { workspace = true }
 openreadout-nd2 = { workspace = true }

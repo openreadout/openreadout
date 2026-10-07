@@ -86,3 +86,9 @@ OME-Zarr is an open standard; no vendor format is involved and nothing was rever
 **What was compared.** Every hashed plane of both stores, the label image, the axes, units and scales agree with zarr-python, and the planes of the 0.5 copy of image 6001240 hash the same as the 0.4 copy's. No change to reading was needed.
 
 **Rule changed.** `resolution_levels` gave no tile size for a sharded array whose shard is larger than the image (the 0.5 copy of 6001240), and the shard size for the projection, although region reads decode inner chunks. The tile size of a sharded array is now its inner chunk shape (`ArrayMeta.inner_chunks`).
+
+## 2026-10-07 — Growing stores: finished images count as complete
+
+**Corpus files:** `zenodo20559997-scmx-mip` (an NGFF 0.4 plate with an empty label image), exported to OME-Zarr by OpenReadout during the imaging deep pass (`docs/benchmark/deep-pass-2026-10-imaging.md`); `gdal-empty1bit`, `rsciio-emd-si100-2x1x1-3d` and `rsciio-emd-example-axis-len-1` (all-zero images), exported the same way.
+**Prior art consulted:** none.
+**What changed.** No parsing logic changed. `growing_state` decides whether a directory store is still being written. When it found an unfinished image, it listed the complete planes of that image only, so the planes of images already finished (earlier wells of a plate) were left out and `planes` returned none of them. Every plane of a finished image is now complete. The writer side of the same finding: OpenReadout's OME-Zarr export now stores chunks that hold only zeros, which `zarrs` leaves out by default. A store whose last image was blank looked unfinished for five minutes after the export.

@@ -29,6 +29,8 @@ const MAX_VSI_BYTES: u64 = 512 << 20;
 const MAX_PLANE_BYTES: u64 = 4 << 30;
 /// Decoded tiles kept per image between region reads.
 const REGION_TILE_CACHE_BYTES: usize = 64 << 20;
+/// Decoded tile bytes held at once while a plane or region is assembled.
+const DECODE_BATCH_BYTES: usize = 64 << 20;
 
 /// Which of c, z, t a non-XY dimension feeds.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -800,39 +802,14 @@ impl VsiDataset {
         let spp = s.spp;
         let cache = region.is_some();
         let s = &mut self.images[image as usize];
-        // Cached tiles, then the rest read in file order and decoded in parallel.
-        let mut decoded: Vec<(Tile, std::sync::Arc<Vec<u8>>)> = Vec::with_capacity(tiles.len());
-        let mut raw: Vec<(Tile, Vec<u8>)> = Vec::new();
-        for t in tiles {
-            if cache && let Some(d) = s.cache.get(&t.offset) {
-                decoded.push((t, d));
-            } else {
-                let b = s.ets.tile_bytes(&t)?;
-                raw.push((t, b));
-            }
-        }
-        let ets = &s.ets;
-        let fresh: Vec<Result<(Tile, Vec<u8>)>> = raw
-            .into_par_iter()
-            .map(|(t, b)| ets.decode_tile_bytes(&t, b).map(|d| (t, d)))
-            .collect();
-        for r in fresh {
-            let (t, d) = r?;
-            let d = std::sync::Arc::new(d);
-            if cache {
-                let n = d.len();
-                s.cache.put(t.offset, d.clone(), n);
-            }
-            decoded.push((t, d));
-        }
-        for (t, pix) in &decoded {
+        let paste = |data: &mut Vec<u8>, t: &Tile, pix: &[u8]| {
             let x0 = t.column() * i64::from(tw) + ox;
             let y0 = t.row() * i64::from(th) + oy;
             // Clip the tile to the level (edge tiles overhang it), then to the window.
             let cw = (i64::from(w) - x0).min(i64::from(tw)).max(0) as u32;
             let ch = (i64::from(h) - y0).min(i64::from(th)).max(0) as u32;
             paste_into_region(
-                &mut data,
+                data,
                 win,
                 &PlacedTile {
                     data: pix,
@@ -844,6 +821,41 @@ impl VsiDataset {
                 },
                 px,
             );
+        };
+        // Cached tiles first, then the rest read in file order and decoded in parallel, a
+        // batch at a time: decoding every tile of a whole-slide plane before pasting held the
+        // plane twice (3.6 GB for a 1.9 GB plane).
+        let mut rest: Vec<Tile> = Vec::with_capacity(tiles.len());
+        for t in tiles {
+            if cache && let Some(d) = s.cache.get(&t.offset) {
+                paste(&mut data, &t, &d);
+            } else {
+                rest.push(t);
+            }
+        }
+        let tile_bytes = (tw as usize)
+            .saturating_mul(th as usize)
+            .saturating_mul(px)
+            .max(1);
+        let batch = (DECODE_BATCH_BYTES / tile_bytes).max(rayon::current_num_threads().max(1));
+        for group in rest.chunks(batch) {
+            let mut raw: Vec<(&Tile, Vec<u8>)> = Vec::with_capacity(group.len());
+            for t in group {
+                raw.push((t, s.ets.tile_bytes(t)?));
+            }
+            let ets = &s.ets;
+            let fresh: Vec<Result<(&Tile, Vec<u8>)>> = raw
+                .into_par_iter()
+                .map(|(t, b)| ets.decode_tile_bytes(t, b).map(|d| (t, d)))
+                .collect();
+            for r in fresh {
+                let (t, d) = r?;
+                paste(&mut data, t, &d);
+                if cache {
+                    let n = d.len();
+                    s.cache.put(t.offset, std::sync::Arc::new(d), n);
+                }
+            }
         }
         Ok(Plane {
             width: win.width,
