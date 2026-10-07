@@ -18,7 +18,7 @@ Thermo Fisher `.raw` mass-spectrometry files (`thermo-raw`): Orbitrap, ion trap,
 
 ## Debugging a new file
 
-- `openreadout report RUN.raw` names the file version, instrument generation and analyzers (the fingerprint); `openreadout info RUN.raw --view structure` lists the header chain structures and streams with offsets; `openreadout spectra RUN.raw` the scan headers.
+- `openreadout report RUN.raw` names the file version, instrument generation and analyzers (the fingerprint); `openreadout info RUN.raw --view structure` lists the header chain structures and streams with offsets; `openreadout scans RUN.raw` the scan headers.
 - A new instrument generation usually changes the scan-event preamble or the packet header: `event.rs` and `packet.rs` unit tests (`corpus_filter_examples`, `srm_filter_lists_every_window`, `window_record_round_trip`, `v66_event`) are the templates.
 - Ground truth: the depositor's mzML/mzXML (`oracle-export`, same id); `openreadout-corpus-tests` `mz_agreement` and `thermo_detectors` compare spectra and detector traces. There are no synthetic integration tests: new variants are pinned by corpus files.
 

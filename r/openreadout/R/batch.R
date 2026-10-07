@@ -36,10 +36,8 @@
 #' @param measure `"stats"` (pixel statistics per image and channel), `"trace"` (per trace,
 #'   sweep and channel), `"table"` (FCS: per parameter events, median, mean, sd, min, max; plate
 #'   reads: one row per well), `"gate"` (FlowJo/Gating-ML populations: count, % parent, % total,
-#'   medians) or `"info"` (one row of header metadata per file); or `"summarize"`: the group
-#'   summary (`by`, `values`, `replicate`, `test`, `control`, `where`) of a table file written
-#'   with `output` (or any CSV, TSV, JSON Lines, JSON or Parquet table), `inputs` being that
-#'   file (`openreadout summarize TABLE`).
+#'   medians) or `"info"` (one row of header metadata per file). To summarize a table written
+#'   with `output`, use [openreadout_summarize()].
 #' @param inputs Files, directories or glob patterns.
 #' @param recursive Walk sub-directories.
 #' @param sample_sheets Sample sheets (CSV, TSV, XLSX) or plate layouts to join. The key is chosen
@@ -69,7 +67,6 @@
 #'   `fields`, `from_index`, `query`, `sample`).
 #' @return A data frame, one row per measured item, with attributes `summary` (a data frame, with
 #'   `by`), `columns` (name, type, unit, role, description), `joins`, `inputs`, `warnings`.
-#'   For `"summarize"`, a data frame of group statistics with an attribute `info`.
 #' @examples
 #' \dontrun{
 #' res <- openreadout_batch("table", "runs/", sample_sheets = "samples.csv",
@@ -77,7 +74,6 @@
 #' attr(res, "summary")
 #' openreadout_batch("stats", "plate/", recursive = TRUE, sample_sheets = "layout.xlsx",
 #'          by = "condition", replicate = "well", test = "welch", control = "DMSO")
-#' openreadout_batch("summarize", "rows.parquet", by = c("condition", "dose"), values = "mean")
 #' }
 #' @export
 openreadout_batch <- function(measure, inputs, recursive = FALSE, sample_sheets = NULL, where = NULL,
@@ -86,20 +82,7 @@ openreadout_batch <- function(measure, inputs, recursive = FALSE, sample_sheets 
                      select = NULL, per = NULL, parameters = NULL, compensate = NULL,
                      transform = NULL, workspace = NULL, gatingml = NULL, populations = NULL,
                      medians = NULL, output = NULL, overwrite = FALSE, ...) {
-  measure <- match.arg(measure, c("stats", "trace", "table", "gate", "info", "summarize"))
-  if (measure == "summarize") {
-    if (length(inputs) != 1) .openreadout_abort("measure \"summarize\" takes one table file")
-    if (is.null(by)) .openreadout_abort("measure \"summarize\" needs by")
-    req <- list(table = path.expand(inputs), by = I(as.character(by)),
-                values = if (!is.null(values)) I(as.character(values)), replicate = replicate,
-                test = test, control = control,
-                where = if (!is.null(where)) I(as.character(where)))
-    out <- .from_json_raw(.ic(rs_summarize(.to_json(req))))
-    s <- out$summary
-    df <- .typed_table(s$table$columns, s$table$rows)
-    attr(df, "info") <- s[setdiff(names(s), "table")]
-    return(df)
-  }
+  measure <- match.arg(measure, c("stats", "trace", "table", "gate", "info"))
   arr <- function(v) if (is.null(v)) NULL else I(as.character(v))
   req <- c(list(
     measure = measure,
@@ -209,4 +192,37 @@ openreadout_stats <- function(x, image = NULL, select = character(),
     attr(df, "stats") <- out
     df
   })
+}
+
+#' Group statistics of a saved table
+#'
+#' Summarizes a table written by [openreadout_batch()] with `output` (or any CSV, TSV, JSON
+#' Lines, JSON or Parquet table) by the columns `by`. This is `openreadout summarize TABLE` and
+#' the `openreadout_summarize` MCP tool.
+#'
+#' @param table The table file.
+#' @param by Group by these columns (n, mean, sd, sem, median, min, max, CV % per group).
+#' @param values Value columns to summarize (default: every numeric column).
+#' @param replicate Average rows within each replicate first (a column name).
+#' @param test,control `"welch"` or `"mann-whitney"` against the `control` group (a value of the
+#'   first `by` column).
+#' @param where Row filters `"COLUMN=VALUE"` / `"COLUMN!=VALUE"`.
+#' @return A data frame of group statistics with an attribute `info`.
+#' @examples
+#' \dontrun{
+#' openreadout_summarize("rows.parquet", by = c("condition", "dose"), values = "mean")
+#' }
+#' @export
+openreadout_summarize <- function(table, by, values = NULL, replicate = NULL, test = NULL,
+                                  control = NULL, where = NULL) {
+  if (length(table) != 1) .openreadout_abort("openreadout_summarize() takes one table file")
+  req <- list(table = path.expand(table), by = I(as.character(by)),
+              values = if (!is.null(values)) I(as.character(values)), replicate = replicate,
+              test = test, control = control,
+              where = if (!is.null(where)) I(as.character(where)))
+  out <- .from_json_raw(.ic(rs_summarize(.to_json(req))))
+  s <- out$summary
+  df <- .typed_table(s$table$columns, s$table$rows)
+  attr(df, "info") <- s[setdiff(names(s), "table")]
+  df
 }

@@ -110,7 +110,7 @@ pub fn explain_with(
         ex.suggested_commands.insert(
             pos,
             format!(
-                "openreadout spectra {file} --ms-level 2 --nth 1 --json   # the first MS/MS scan, wherever it falls in the run"
+                "openreadout spectrum {file} --ms-level 2 --nth 1 --json   # the first MS/MS scan, wherever it falls in the run"
             ),
         );
     }
@@ -1937,7 +1937,7 @@ fn answer_ms_levels(info: &FileInfo) -> Answer {
         format!("MS levels present: {}.", parts.join("; "))
     };
     if r.ms_levels.iter().any(|l| *l > 1) {
-        s.push_str(" MS1 and MS/MS scans are interleaved, so do not assume the first scans are MS1: `openreadout spectra FILE --ms-level 2 --nth 1` returns the first MS/MS scan (with its precursor m/z).");
+        s.push_str(" MS1 and MS/MS scans are interleaved, so do not assume the first scans are MS1: `openreadout spectrum FILE --ms-level 2 --nth 1` returns the first MS/MS scan (with its precursor m/z).");
     }
     let mut fields = vec![format!("spectra[{}].ms_levels", r.index)];
     if counts.is_some() {

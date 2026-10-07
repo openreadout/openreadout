@@ -651,7 +651,7 @@
           "const": "pixels"
         },
         {
-          "description": "Mass spectra and scan headers (`spectra`, `analyze chromatogram`, mzML export).",
+          "description": "Mass spectra and scan headers (`scans`, `spectrum`, `analyze chromatogram`, mzML export).",
           "type": "string",
           "const": "spectra"
         },

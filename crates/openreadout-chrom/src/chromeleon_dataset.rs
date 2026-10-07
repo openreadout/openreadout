@@ -1606,7 +1606,7 @@ impl Dataset for ChromeleonDataset {
             .count();
         if stored > 0 || !self.contents.injections.is_empty() {
             notes.push(format!(
-                "Chromeleon's own integration results: {} peak(s) of {stored} chromatogram(s) in tables vendor_peaks (as Chromeleon last saved them; injections without saved results have none); injection details (position, volume, inject time, type, status, methods) in the injections table and traces[].extra; audit trails and methods are attachments (openreadout export --attachment)",
+                "Chromeleon's own integration results: {} peak(s) of {stored} chromatogram(s) in tables vendor_peaks (as Chromeleon last saved them; injections without saved results have none); injection details (position, volume, inject time, type, status, methods) in the injections table and traces[].extra; audit trails and methods are attachments (openreadout extract)",
                 self.rows.len()
             ));
         }

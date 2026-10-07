@@ -46,7 +46,7 @@ pub enum Scope {
     Metadata,
     /// Image planes (`planes`, `stats`, `export` of images, `preview`).
     Pixels,
-    /// Mass spectra and scan headers (`spectra`, `analyze chromatogram`, mzML export).
+    /// Mass spectra and scan headers (`scans`, `spectrum`, `analyze chromatogram`, mzML export).
     Spectra,
     /// Sampled signals (`trace`, electrophysiology, chromatograms, NMR and IR/Raman spectra).
     Traces,

@@ -22,7 +22,7 @@ from . import FILES, Rec, spread
 
 FAMILY = "mass-spectrometry"
 FORMATS = {"thermo-raw", "agilent-masshunter", "waters-raw", "sciex-wiff", "mzml", "mzxml", "mzmlb", "bruker-tdf"}
-SCANS = ("spectra", "--limit", "100000000")
+SCANS = ("scans", "--limit", "100000000")
 
 
 def find_export(entry: dict, path: Path, ctx) -> Path | None:

@@ -40,7 +40,6 @@ Other options:
 - `--exclude GLOB` skips names or root-relative paths (repeatable).
 - `--follow-symlinks` follows symbolic links. By default they are skipped and counted.
 - `--no-pii` skips the personal-data rules.
-- `--health` prints the [storage health report](#storage-health) after the crawl.
 
 Hidden entries are skipped. The index directory must not be inside a crawled directory. A lock keeps two crawls from writing the same index.
 
@@ -311,7 +310,7 @@ An unknown field is a usage error (exit 2) that lists the valid fields.
 ## Storage health
 
 ```bash
-openreadout search /lab/index --health -o health.md
+openreadout health /lab/index -o health.md
 ```
 
 ```text
@@ -339,10 +338,10 @@ Lists are capped at `--max-list N` (default 100); counts are not capped.
 
 ## Export a slice
 
-`search --export` writes the data sets a query selects to open formats, with a datasheet that describes them:
+`export-dataset` writes the data sets a query selects to open formats, with a datasheet that describes them:
 
 ```bash
-openreadout search /lab/index "family=microscopy status=ok" --export dataset/ \
+openreadout export-dataset /lab/index "family=microscopy status=ok" dataset/ \
     --redact --salt-file ~/.openreadout-salt
 ```
 
@@ -533,7 +532,7 @@ Strings that OpenReadout writes itself, such as paths, format ids, reader notes 
 
 ### Redaction
 
-`search --export --redact` and `info --view full --redact` replace every flagged value, and every other string that contains it, with `redacted:` and 16 hex digits of a keyed hash (HMAC-SHA256) of the value. The same value gets the same replacement in every file and every run, so records stay linkable without the name.
+`export-dataset --redact` and `info --view full --redact` replace every flagged value, and every other string that contains it, with `redacted:` and 16 hex digits of a keyed hash (HMAC-SHA256) of the value. The same value gets the same replacement in every file and every run, so records stay linkable without the name.
 
 The key is a salt that you provide, either with `--salt-file FILE` (at least 8 bytes) or the `OPENREADOUT_REDACT_SALT` environment variable. There is no option that takes the salt itself on the command line, so it can't end up in your shell history. OpenReadout doesn't print, log or store it. `--redact` without a salt is a usage error (exit 2).
 

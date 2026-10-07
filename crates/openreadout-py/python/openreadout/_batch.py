@@ -9,7 +9,7 @@ res.summary      # pandas DataFrame: n, mean, sd, sem, median, min, max, cv_perc
 res.joins[0]     # the join report: key chosen, unmatched and ambiguous rows
 res.to_arrow()   # pyarrow.Table of the rows
 
-ic.batch("summarize", "rows.parquet", by=["condition", "dose"], values=["mean"])
+ic.summarize("rows.parquet", by=["condition", "dose"], values=["mean"])
 ic.link("share/")["groups"]
 """
 
@@ -139,18 +139,8 @@ def batch(
     ``test``, ``control``, ``output``, ``per``, ``select``, ``trace``, ``sweep``, ``parameters``,
     ``compensate``, ``transform``, ``populations``, ``from_index``, ``query``, …).
 
-    ``measure="summarize"`` (``openreadout summarize TABLE``) summarizes a table file
-    written with ``output=`` (or any CSV, TSV, JSON Lines, JSON or Parquet table) by ``by``
-    instead, with the options ``values``, ``replicate``, ``test``, ``control``, ``where`` and
-    ``exact_by``; it returns a pandas DataFrame whose ``.attrs["openreadout"]`` holds the rest.
+    To summarize a table written with ``output=``, see :func:`summarize`.
     """
-    if measure == "summarize":
-        tables = _paths(inputs)
-        if len(tables) != 1:
-            raise UsageError("batch('summarize', ...) takes one table file")
-        if not by:
-            raise UsageError("batch('summarize', ...) needs by=")
-        return _summarize(tables[0], by, where=where, **options)
     req: Dict[str, Any] = {
         "measure": measure,
         "inputs": _paths(inputs),
@@ -166,8 +156,8 @@ def batch(
     return BatchResult(json.loads(_native.batch_json(json.dumps(req))))
 
 
-def _summarize(
-    table: str,
+def summarize(
+    table: PathLike,
     by: Sequence[str],
     *,
     values: Optional[Sequence[str]] = None,
@@ -177,8 +167,15 @@ def _summarize(
     where: Optional[Sequence[str]] = None,
     exact_by: bool = False,
 ) -> Any:
+    """Group statistics of a saved table (``openreadout summarize TABLE``): a table written
+    with ``batch(..., output=)`` or any CSV, TSV, JSON Lines, JSON or Parquet table, by the
+    columns ``by``, with ``values``, ``replicate``, ``test``, ``control``, ``where`` and
+    ``exact_by`` as on the command line. Returns a pandas DataFrame whose
+    ``.attrs["openreadout"]`` holds the rest of the summary."""
+    if not by:
+        raise UsageError("summarize() needs by=")
     req = {
-        "table": table,
+        "table": os.fspath(table),
         "by": list(by),
         "values": list(values or []),
         "replicate": replicate,

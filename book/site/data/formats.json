@@ -232,7 +232,7 @@
    "known_gaps": [
     "m/z and 1/K0 apply the file's MzCalibration (types 1, 2) and TimsCalibration (type 2) models, validated to <= 0.065 ppm and 5e-13 V*s/cm2 against vendor-library conversions of five files; other model types fall back to the acquisition-range approximation (tens of ppm off) and say so in notes and check",
     "prm-PASEF frames (MsMsType 10) are summed whole, not split per target window (no public prm-PASEF file to validate against)",
-    "Spectra are raw sums of TOF bins over scans (no smoothing or centroiding); per-scan mobility arrays are not returned by `spectra` (library: TimsDataset::read_frame)",
+    "Spectra are raw sums of TOF bins over scans (no smoothing or centroiding); per-scan mobility arrays are not returned by `spectrum` (library: TimsDataset::read_frame)",
     "TimsCompressionType 1 frames hold more scans than Frames.NumScans; all are read (NumPeaks and SummedIntensities count them; the reference conversion lists only the first NumScans)"
    ],
    "page": "bruker-tdf",

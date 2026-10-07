@@ -4,7 +4,7 @@
 
 The tools are the commands of the command line and return the same JSON as their `--json` output (the `data` part). Each result is sent twice: as `structuredContent`, checked against the tool's output schema, and as one text block with the same JSON for clients that only read text.
 
-When a client connects, the server sends short instructions: indices are zero-based; values are raw as stored unless a tool says it processed them; each file reports an assurance level; only `openreadout_export` writes next to the data; tools and arguments have the command line's names; errors carry a code and a hint.
+When a client connects, the server sends short instructions: indices are zero-based; values are raw as stored unless a tool says it processed them; each file reports an assurance level; only `openreadout_export` and `openreadout_extract` write next to the data; tools and arguments have the command line's names; errors carry a code and a hint.
 
 ## Names
 
@@ -17,7 +17,7 @@ The command pages list each flag. Flags that only make sense in a terminal or a 
 
 ## Tools
 
-The server has 29 tools.
+The server has 32 tools.
 
 | tool | what it does | command |
 | --- | --- | --- |
@@ -29,7 +29,8 @@ The server has 29 tools.
 | `openreadout_stats` | pixel statistics, or per-well statistics of a plate | [stats](commands/stats.md) |
 | `openreadout_trace` | samples and statistics of one sweep of a signal or 1-D spectrum | [trace](commands/trace.md) |
 | `openreadout_table` | rows of a table | [table](commands/table.md) |
-| `openreadout_spectra` | mass-spectrometry scan headers, or one spectrum | [spectra](commands/spectra.md) |
+| `openreadout_scans` | the scan headers of a mass-spectrometry run | [scans](commands/scans.md) |
+| `openreadout_spectrum` | one mass spectrum | [spectrum](commands/spectrum.md) |
 | `openreadout_peaks` | chromatographic peaks; bands and regions of spectra | [analyze peaks](commands/analyze.md#peaks-and-chromatogram) |
 | `openreadout_chromatogram` | TIC, BPC, XIC, SRM and detector chromatograms | [analyze chromatogram](commands/analyze.md#peaks-and-chromatogram) |
 | `openreadout_nmr_peaks` | NMR peaks and integrals | [analyze nmr-peaks](commands/analyze.md#nmr-peaks) |
@@ -44,12 +45,14 @@ The server has 29 tools.
 | `openreadout_growth` | growth rate and doubling time per well | [analyze growth](commands/analyze.md#plate-reader-assays) |
 | `openreadout_assay_qc` | Z′ and other plate quality metrics | [analyze assay-qc](commands/analyze.md#plate-reader-assays) |
 | `openreadout_export` | export to an open format | [export](commands/export.md) |
+| `openreadout_extract` | write one embedded attachment, such as a slide label, to a file | [extract](commands/extract.md) |
 | `openreadout_batch` | one measure over many files as one table | [batch](commands/batch.md) |
+| `openreadout_summarize` | group statistics of a table written earlier | [summarize](commands/summarize.md) |
 | `openreadout_link` | group files of the same sample | [link](commands/link.md) |
 | `openreadout_index` | catalog every data set under directories | [index](commands/index-cmd.md) |
 | `openreadout_search` | query an index | [search](commands/search.md) |
+| `openreadout_health` | damaged, unreadable and duplicate files in an index | [health](commands/health.md) |
 | `openreadout_watch` | follow directories an instrument writes to | [watch](commands/watch.md) |
-| `openreadout_formats` | supported formats and their known gaps | [self formats](commands/self.md) |
 
 Every tool that reads a file takes `file`: an absolute path, or a path relative to the server's working directory. It can also be a data-set directory, such as a Bruker experiment or an Agilent `.D` folder. The output schemas are listed by the server and described in the [JSON output reference](json/index.md).
 
@@ -95,9 +98,13 @@ One window of one sweep, in physical units, with per-channel statistics (includi
 
 Rows of a table: `table`, `first_row`, `max_rows` (default about 5000 values, at most 10000 rows). For FCS files, `compensate`, `transform`, `parameters`, `workspace`, `gatingml`, `sample` and `populations` work as in [`table`](commands/table.md). `filter` takes conditions such as `"FITC-A > 1000"`; with `count: true`, only the number of matching rows is returned.
 
-### openreadout_spectra
+### openreadout_scans and openreadout_spectrum
 
-Mass spectrometry only: IR, Raman, UV-Vis and NMR spectra are traces (`openreadout_trace`). Without `scan`, `spectrum` or `nth`, lists the scan headers of a run without decoding peaks, filtered by `ms_level`, `polarity`, `rt_range` (minutes), `precursor` (within `precursor_tol`, default 0.01 m/z, or `precursor_ppm`), `charge`, `activation` and `scan_filter`. Every match is counted; `limit` (default 100, at most 5000) and `offset` page the list, and `count: true` lists none. With `scan`, `spectrum`, or `ms_level` and `nth`, returns one spectrum's `mz` and `intensity`, at most `max_points` (default 2000); `centroid: true` returns the stored centroid list.
+Mass spectrometry only: IR, Raman, UV-Vis and NMR spectra are traces (`openreadout_trace`).
+
+`openreadout_scans` lists the scan headers of a run without decoding peaks, filtered by `ms_level`, `polarity`, `rt_range` (minutes), `precursor` (within `precursor_tol`, default 0.01 m/z, or `precursor_ppm`), `charge`, `activation` and `scan_filter`. Every match is counted. `limit` (default 100, at most 5000) and `offset` page the list, and `count: true` lists none.
+
+`openreadout_spectrum` returns one spectrum's `mz` and `intensity`, chosen by `scan`, `spectrum`, or `ms_level` and `nth`, with at most `max_points` (default 2000). `centroid: true` returns the stored centroid list.
 
 ### The analysis tools
 
@@ -120,31 +127,36 @@ Writes a new file, reads it back to check it, then gives it its final name. It d
 - `output`: the output path. The default is next to the input.
 - Images: `image`, `select`, `level`, `region` and `wells` (OME-Zarr plates).
 - Tables, traces and spectra: `table`, `trace`, `sweep`, `rows`, `labels` (CSV), `spectra`, `run` and `centroid`.
-- `attachment`: write one embedded attachment, such as a slide label or thumbnail, instead. Names come from `openreadout_info` with `view: "structure"`.
 
 Compression, chunk size, pyramid levels and vendor metadata embedding are command-line options only. The result has no output schema, because its shape depends on the format.
 
+### openreadout_extract
+
+Writes one embedded attachment, such as a slide label or thumbnail, to a new file as stored. `attachment` is a name that `openreadout_info` lists with `view: "structure"`, or `#<index>`. `output` and `overwrite` work as for `openreadout_export`.
+
 ### openreadout_batch
 
-Runs one `measure` over many files and returns one tidy table: `stats`, `trace`, `table`, `info`, `spectra`, `gate`, any analysis (`peaks`, `chromatogram`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, or `assay` with `analysis`), or `summarize` to regroup a table written earlier. Inputs come from `paths` (files, directories or globs, with `recursive`) or from an index (`from_index` and `query`); `formats` limits the formats. `options` holds the measure's settings: for an analysis, the arguments of its tool.
+Runs one `measure` over many files and returns one tidy table: `stats`, `trace`, `table`, `info`, `scans`, `gate`, or any analysis (`peaks`, `chromatogram`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, or `assay` with `analysis`). Inputs come from `paths` (files, directories or globs, with `recursive`) or from an index (`from_index` and `query`); `formats` limits the formats. `options` holds the measure's settings: for an analysis, the arguments of its tool.
 
 `sample_sheets`, `worksheet`, `keys`, `where`, `fields`, `by`, `values`, `replicate`, `exact_by`, `test` and `control` work as the flags of [`batch`](commands/batch.md). `limit` (default 20, at most 500) and `offset` page the rows; `output` writes the whole table to a file. A file that fails becomes a row with an `error`. See [Many files](../guides/batch.md).
+
+### openreadout_summarize
+
+Group statistics of a table that `openreadout_batch` wrote with `output`, or of any CSV, TSV, JSON Lines, JSON or Parquet table. `table` is the file, and `by`, `values`, `replicate`, `test`, `control`, `where`, `exact_by`, `output` and `overwrite` work as the flags of [`summarize`](commands/summarize.md).
 
 ### openreadout_link
 
 Groups files that measured the same sample, from their headers. Every link has its evidence and a confidence. Arguments: `paths`, `no_recursive`, `min_confidence` (`low`, `medium` or `high`; weaker links are listed under `weak_links`), `formats`, `from_index` and `query`.
 
-### openreadout_index, openreadout_search and openreadout_watch
+### openreadout_index, openreadout_search, openreadout_health and openreadout_watch
 
 `openreadout_index` catalogs every data set under `roots` into Parquet tables in `index_dir`, reading headers only. One call stops after `max_files` (default 20000) or `max_seconds` (default 45) and returns `complete: false`; the same call again continues where it stopped. Other arguments: `check` (`headers`, `full` or `none`), `exclude`, `restart`, `full_rescan`, `pii` and `threads`. It writes only inside `index_dir`.
 
 `openreadout_search` queries an index with the query language of [`search`](commands/search.md), for example `format=nd2 objective=60x`. `total` counts every match; `limit` (default 50, at most 1000) caps the results, and `fields: ["all"]` returns every column.
 
+`openreadout_health` reports on the files in an index: truncated or corrupt files, formats it could not read, duplicates (confirmed by hashing their content unless `no_hash: true`), the same experiment stored twice, and personal-data findings. `max_list` (default 50) caps each list; the counts are complete.
+
 `openreadout_watch` looks once at `dirs` per call and returns the events since `cursor`: new data sets, planes and scans, completed and stalled data sets, QC findings (with `qc: true`) and errors. `stall_after` sets the seconds without growth before a data set counts as stalled. Poll with the returned `cursor`. The watcher persists between calls with the same `dirs`. It doesn't lock files. See [Lab shares, indexes and live acquisitions](../guides/lab-shares.md).
-
-### openreadout_formats
-
-No arguments. Returns every supported format with its read and write support, confidence and known gaps.
 
 ## Pictures
 
@@ -156,7 +168,7 @@ Image previews have rulers labelled in full-resolution pixels, and a µm scale b
 
 ## The viewer
 
-In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview), the data shows up in the chat. When the assistant calls `openreadout_info`, `openreadout_preview`, `openreadout_stats`, `openreadout_trace`, `openreadout_spectra`, `openreadout_table` or one of the analysis tools, the client opens the OpenReadout viewer next to the result. What it shows depends on the file:
+In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview), the data shows up in the chat. When the assistant calls `openreadout_info`, `openreadout_preview`, `openreadout_stats`, `openreadout_trace`, `openreadout_scans`, `openreadout_spectrum`, `openreadout_table` or one of the analysis tools, the client opens the OpenReadout viewer next to the result. What it shows depends on the file:
 
 | data | view | what you can do |
 | --- | --- | --- |
@@ -169,7 +181,7 @@ In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/ap
 
 The viewer is one HTML page served as the resource `ui://openreadout/viewer.html`. It runs in the client's sandbox, loads nothing from the network and asks the server for data with the tool `openreadout_view`. That tool is only for the viewer: clients that support MCP Apps hide it from the assistant. Its results are kept small. Pictures are at most 1600 px on their longest side and 750 kB. Plots have at most 4000 points per series, and longer signals are drawn as the minimum and maximum of each slice, so single-sample spikes stay visible. Flow-cytometry plots sample at most 50,000 events. Each result says what was reduced.
 
-The server offers the viewer only to clients that declare the extension `io.modelcontextprotocol/ui` when they connect. Other clients see the 29 tools exactly as before. Set `OPENREADOUT_MCP_APPS=off` to turn the viewer off, or `on` to offer it to a client that supports MCP Apps without declaring it.
+The server offers the viewer only to clients that declare the extension `io.modelcontextprotocol/ui` when they connect. Other clients see the 32 tools exactly as before. Set `OPENREADOUT_MCP_APPS=off` to turn the viewer off, or `on` to offer it to a client that supports MCP Apps without declaring it.
 
 The viewer also tells the client what you are looking at (for example "image 0, channel 1, z 12, region x 400–800"), so you can ask the assistant about it.
 
@@ -181,12 +193,12 @@ Every tool has a title and the four MCP behaviour hints:
 
 | tools | read-only | destructive | idempotent |
 | --- | --- | --- | --- |
-| info, check, compare, preview, stats, trace, table, spectra, the analysis tools, link, search, formats | yes | no | yes |
+| info, check, compare, preview, stats, trace, table, scans, spectrum, the analysis tools, link, search, health | yes | no | yes |
 | watch | yes | no | no |
 | index, report | no | no | yes |
-| export, batch | no | yes | yes |
+| export, extract, batch, summarize | no | yes | yes |
 
-`openreadout_export` and `openreadout_batch` are marked destructive because, with `overwrite: true`, they replace an existing output file. Without it they refuse to touch an existing path. `openreadout_report` writes only when `output` is given. None of the tools reach the network (`openWorldHint` is `false` for all).
+`openreadout_export`, `openreadout_extract`, `openreadout_batch` and `openreadout_summarize` are marked destructive because, with `overwrite: true`, they replace an existing output file. Without it they refuse to touch an existing path. `openreadout_report` writes only when `output` is given. None of the tools reach the network (`openWorldHint` is `false` for all).
 
 ## Progress
 
@@ -204,7 +216,7 @@ Errors are JSON-RPC errors. Their `data` carries `code`, `exit_code` and `hint`,
 
 Resources:
 
-- `openreadout://formats`: the `openreadout_formats` JSON.
+- `openreadout://formats`: every supported format with its read and write support, confidence and known gaps (the JSON of `openreadout self formats`).
 - `openreadout://file/{path}`: the header-only `openreadout_info` JSON, plus the plain-English explanation of `view: "explain"`.
 - `openreadout://preview/{path}`: the default preview as PNG or JPEG, at most 768 px.
 
@@ -238,7 +250,7 @@ Security model:
 - **DNS rebinding.** The `Host` header must name `localhost`, `127.0.0.1` or `[::1]` (or the bound address, with `--allow-remote`). Any other host gets 403.
 - **Browsers.** Any request with an `Origin` header gets 403, so a web page cannot drive the server, even from the same machine.
 - **Token.** When `OPENREADOUT_MCP_TOKEN` is set, every request must carry `Authorization: Bearer <token>`, or it gets 401. The token is compared in constant time. Set one whenever other users or processes on the machine should not reach the server, and always with `--allow-remote`.
-- **What a client can do.** The tools read any file the user running the server can read, and `openreadout_export` writes new files next to them. So can anyone who can reach the port. There is no TLS; put a TLS-terminating proxy in front for anything beyond loopback.
+- **What a client can do.** The tools read any file the user running the server can read, and `openreadout_export` and `openreadout_extract` write new files next to them. So can anyone who can reach the port. There is no TLS; put a TLS-terminating proxy in front for anything beyond loopback.
 - Only `/mcp` is served. Sessions are kept in memory and end when the process stops.
 
 ## Testing a server

@@ -742,7 +742,7 @@ fn rs_spectrum(h: Robj, run: i32, number: f64, by_scan: bool, centroid: bool) ->
     done(res)
 }
 
-/// Scan headers of run `run` without decoding peaks (`openreadout spectra --json` data):
+/// Scan headers of run `run` without decoding peaks (`openreadout scans --json` data):
 /// `filter` is a `ScanFilter` as JSON; `limit` < 0 lists every match.
 #[extendr]
 fn rs_scans(h: Robj, run: i32, filter: &str, offset: f64, limit: f64) -> Robj {

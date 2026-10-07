@@ -46,7 +46,7 @@ import stats
 EVALS = Path(__file__).resolve().parent
 RESULTS = EVALS / "results"
 FACTORS = [1e3, 1e-3, 1e6, 1e-6, 1e4, 1e-4, 60.0, 1 / 60, 1e9, 1e-9]
-# Categories whose answers live in per-plane/scan/sweep data (`stats`, `spectra`, `trace`) or in
+# Categories whose answers live in per-plane/scan/sweep data (`stats`, `scans`, `spectrum`, `trace`) or in
 # written files, not in `info --view full|explain`: the probe cannot tell reader gaps from agent misses there.
 NO_PROBE = ("analysis", "batch", "conversion", "search", "values", "quantitation", "visual")
 
@@ -131,7 +131,7 @@ def probe(q: dict, binary: Path, corpus: Path) -> dict:
         target = wd / q["file"]["stage_as"]
         docs = []
         for cmd in (
-            ["info", str(target), "--view", "full", "--json"],
+            ["info", str(target), "--view", "full", "--vendor", "--json"],
             ["info", str(target), "--view", "explain", "--json"],
         ):
             try:

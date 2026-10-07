@@ -21,11 +21,11 @@ metadata:
 - `stats` — pixel statistics; `--per well` for screening plates.
 - `trace` — one sweep, spectrum or detector trace in physical units.
 - `table` — rows of a table: FCS events, plate reads, the vendor's own peak tables.
-- `spectra` — the scan list of a mass-spectrometry run, or one spectrum (`--scan`, `--index`, `--ms-level L --nth K`).
+- `scans` — the scan list of a mass-spectrometry run; `spectrum` — one spectrum (`--scan`, `--spectrum`, `--ms-level L --nth K`).
 - `analyze KIND` — `peaks`, `chromatogram`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `assay`, `gate`.
-- `export` — OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, ASM, RDML; `--attachment` writes an embedded label or thumbnail.
+- `export` — OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, ASM, RDML; `extract` writes an embedded label or thumbnail as stored.
 - `batch` — one measure over many files as one tidy table joined to a sample sheet; `summarize TABLE --by …`.
-- `link` (files of the same sample), `index` then `search` (catalog and query a share; `search --health`), `watch` (a running acquisition).
+- `link` (files of the same sample), `index` then `search` and `health` (catalog a share, query it, find damaged or duplicate files), `watch` (a running acquisition).
 - `mcp`, `self` (`formats`, `doctor`, `schema`, `skill`, `completions`, `man`).
 
 Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <command>` (MCP tools declare theirs). Formats and their known gaps: `openreadout self formats --json`. MCP tools have the commands' names (`openreadout_check`; `analyze nmr-peaks` is `openreadout_nmr_peaks`) and take the long flags as arguments with `-` as `_` (`--rt-range` is `rt_range`): a repeatable flag is a plural list (`--channel` is `channels`), and `--no-X` is `X: false`.

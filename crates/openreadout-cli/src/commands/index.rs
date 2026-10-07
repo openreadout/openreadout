@@ -225,7 +225,7 @@ fn render_manifest(m: &IndexManifest) -> String {
         s.push_str(&format!("note: {n}\n"));
     }
     s.push_str(&format!(
-        "\nnext: openreadout search {} \"format=czi acquired<2020\"   ·   openreadout search {} --health",
+        "\nnext: openreadout search {} \"format=czi acquired<2020\"   ·   openreadout health {}",
         m.index_dir, m.index_dir
     ));
     s

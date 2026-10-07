@@ -1599,7 +1599,7 @@ impl Dataset for CziDataset {
         }
         if !self.file.attachments.is_empty() {
             notes.push(format!(
-                "{} attachment(s): `info --view structure` lists them, `export --attachment NAME` writes one out",
+                "{} attachment(s): `info --view structure` lists them, `extract FILE NAME` writes one out",
                 self.file.attachments.len()
             ));
         }
@@ -1698,7 +1698,7 @@ impl Dataset for CziDataset {
         for a in self.attachments()? {
             let e = &self.file.attachments[a.index as usize];
             let mut details = json!({"index": a.index, "content_type": a.content_type,
-                "extract": format!("openreadout export FILE --attachment {}", if a.name.is_empty() { format!("#{}", a.index) } else { a.name.clone() }),
+                "extract": format!("openreadout extract FILE {}", if a.name.is_empty() { format!("#{}", a.index) } else { a.name.clone() }),
                 "file_part": e.file_part});
             for (k, v) in a.extra {
                 details[k] = v;

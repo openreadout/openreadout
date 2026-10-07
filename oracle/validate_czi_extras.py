@@ -45,7 +45,7 @@ def main() -> int:
                     totals["attachments"] += 1
                     want = xxhash.xxh3_128_hexdigest(bytes(a.read_segment_data(f).data(raw=True)))
                     out = Path(tmp) / f"a{i}"
-                    got = run(binary, "export", str(p), "--attachment", f"#{i}", "-o", str(out), "--overwrite")
+                    got = run(binary, "extract", str(p), f"#{i}", "-o", str(out), "--overwrite")
                     if got.get("ok") and got["data"]["xxh3"] == want and got["data"]["attachment"]["name"] == a.name:
                         totals["attachment_bytes_ok"] += 1
                     else:

@@ -240,7 +240,7 @@ openreadout info run.raw --ask "what was the gradient?"
 
 A question that matches no topic gets the technique, sample, method and run length.
 
-MS1 and MS/MS scans are interleaved in a run, so "the first MS/MS scan" is not simply the first scan after the MS1 scans. `openreadout spectra FILE --ms-level 2 --nth 1` returns it directly.
+MS1 and MS/MS scans are interleaved in a run, so "the first MS/MS scan" is not simply the first scan after the MS1 scans. `openreadout spectrum FILE --ms-level 2 --nth 1` returns it directly.
 
 ## OME-XML export
 

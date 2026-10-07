@@ -121,13 +121,13 @@ def rheobase(c: Cli) -> tuple[object, str]:
 
 
 def ic50(c: Cli) -> tuple[object, str]:
-    d = c.json("analyze", "assay", "dose-response", f"{D}/viability_plate.xlsx", "--layout", f"{D}/plate_map.csv")
+    d = c.json("analyze", "dose-response", f"{D}/viability_plate.xlsx", "--layout", f"{D}/plate_map.csv")
     worst = max(d["compounds"], key=lambda x: x["ec50"])
     return f"{worst['ec50'] * 1000} nM", "analyze dose-response --layout → compounds[].ec50 (µM)"
 
 
 def screen(c: Cli) -> tuple[object, str]:
-    d = c.json("analyze", "assay", "wells", f"{D}/screen_plate_07.txt", "--normalize", "controls")
+    d = c.json("analyze", "assay-wells", f"{D}/screen_plate_07.txt", "--normalize", "controls")
     comp = {r["sample_id"]: r["compound"] for r in sheet(c.cwd, "compounds.csv")}
     hits = [comp[w["sample"]] for w in d["wells"] if w["sample"] in comp and w["percent_effect"] < 10]
     return ", ".join(sorted(hits)), "analyze assay-wells --normalize controls (POSCON/NEGCON roles) → percent_effect"

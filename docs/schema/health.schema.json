@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "HealthReport",
-  "description": "`openreadout search INDEX --health`.",
+  "description": "`openreadout health INDEX`.",
   "type": "object",
   "properties": {
     "index_dir": {

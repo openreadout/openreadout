@@ -79,6 +79,6 @@ def test_absent_retention_time_is_none_and_nan(tmp_path):
         tic = f.analyze("chromatogram", tic=True)["chromatograms"][0]
         assert tic["rt_min"].tolist() == [1.0]
         assert any("no retention time" in n for n in tic["notes"])
-    res = openreadout.batch("spectra", path)
+    res = openreadout.batch("scans", path)
     rt = res.table["rt_min"]
     assert rt.dtype == np.float64 and rt.iloc[0] == pytest.approx(1.0) and np.isnan(rt.iloc[1])

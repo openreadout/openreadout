@@ -38,10 +38,8 @@ openreadout_batch(
 \item{measure}{\code{"stats"} (pixel statistics per image and channel), \code{"trace"} (per trace,
 sweep and channel), \code{"table"} (FCS: per parameter events, median, mean, sd, min, max; plate
 reads: one row per well), \code{"gate"} (FlowJo/Gating-ML populations: count, \% parent, \% total,
-medians) or \code{"info"} (one row of header metadata per file); or \code{"summarize"}: the group
-summary (\code{by}, \code{values}, \code{replicate}, \code{test}, \code{control}, \code{where}) of a table file written
-with \code{output} (or any CSV, TSV, JSON Lines, JSON or Parquet table), \code{inputs} being that
-file (\verb{openreadout summarize TABLE}).}
+medians) or \code{"info"} (one row of header metadata per file). To summarize a table written
+with \code{output}, use \code{\link[=openreadout_summarize]{openreadout_summarize()}}.}
 
 \item{inputs}{Files, directories or glob patterns.}
 
@@ -92,7 +90,6 @@ population is reported.}
 \value{
 A data frame, one row per measured item, with attributes \code{summary} (a data frame, with
 \code{by}), \code{columns} (name, type, unit, role, description), \code{joins}, \code{inputs}, \code{warnings}.
-For \code{"summarize"}, a data frame of group statistics with an attribute \code{info}.
 }
 \description{
 Runs one measurement over files, directories or glob patterns and returns one tidy table:
@@ -108,6 +105,5 @@ res <- openreadout_batch("table", "runs/", sample_sheets = "samples.csv",
 attr(res, "summary")
 openreadout_batch("stats", "plate/", recursive = TRUE, sample_sheets = "layout.xlsx",
          by = "condition", replicate = "well", test = "welch", control = "DMSO")
-openreadout_batch("summarize", "rows.parquet", by = c("condition", "dose"), values = "mean")
 }
 }

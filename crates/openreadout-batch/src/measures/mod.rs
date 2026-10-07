@@ -1,4 +1,4 @@
-//! The built-in measures: `stats`, `trace`, `table`, `gate`, `info` and `spectra`, and the
+//! The built-in measures: `stats`, `trace`, `table`, `gate`, `info` and `scans`, and the
 //! analyses (`peaks`, `chromatogram`, `assay`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`;
 //! `stats` per well) through [`AnalysisMeasure`].
 
@@ -34,7 +34,7 @@ use crate::measure::Measure;
 #[derive(Debug, Clone, Default)]
 #[non_exhaustive]
 pub struct MeasureSpec {
-    /// `stats`, `trace`, `table`, `gate`, `info`, `spectra` or an analysis.
+    /// `stats`, `trace`, `table`, `gate`, `info`, `scans` or an analysis.
     pub measure: String,
     /// stats: only this image.
     pub image: Option<u32>,

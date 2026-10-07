@@ -1,6 +1,6 @@
 # JSON shapes (schema_version 1)
 
-Authoritative: `openreadout self schema <info|info-format|info-full|info-explain|info-structure|check|planes|compare|export|extract|trace|spectra|spectrum|formats|envelope>` prints the JSON Schema (MCP tools list theirs). This file is the human summary.
+Authoritative: `openreadout self schema <info|info-format|info-full|info-explain|info-structure|check|planes|compare|export|extract|trace|scans|spectrum|formats|envelope>` prints the JSON Schema (MCP tools list theirs). This file is the human summary.
 
 ## `info` → `FileInfo`
 
@@ -53,7 +53,7 @@ traces[] (Bruker NMR: fid/ser then one per pdata/<n>; JCAMP-DX: one per data tab
 }
 ```
 
-## `spectra --scan N` (one spectrum; schema `spectrum`) → `SpectrumOutput`
+## `spectrum --scan N` (one spectrum; schema `spectrum`) → `SpectrumOutput`
 
 `path, format, run, view (primary|centroid), point_count, truncated, spectrum {index, scan_number, ms_level, rt_s, polarity (positive|negative|unknown), centroided, precursor_mz, precursor_charge, scan_filter, total_ion_current, mz[] (f64), intensity[] (f32)}`.
 
@@ -69,7 +69,7 @@ CZI frame records are one per plane, ordered t, z, c: `{frame, c, z, t, acquired
 
 ## `info --view structure` → `Listing`
 
-`path, format, entries[]: {kind, name, offset, size, image, details}`. Kinds: `image`, `metadata`, `block` (LIF), `segment` (FCS: `HEADER`, `TEXT`, `STEXT`, `DATA`, `ANALYSIS`, `OTHERn`, `CRC`, with `details.data_set`), `subblock`/`pyramid-subblock`/`pyramid-level`/`attachment`/`file-part`/`file-header`/`subblock-directory`/`attachment-directory`/`deleted` (CZI; `attachment` rows have `details.index`, `details.content_type` for `export --attachment`), `frame`/`metadata`/`custom-data`/`chunk` (ND2; legacy JPEG 2000 files: `frame`/`metadata`/`box`), `time-domain`/`processed-data`/`parameters`/`file` (Bruker: every file of the experiment directory, `name` relative to it), `block`/`table` (JCAMP-DX), `header`/`metadata`/`attachment`/`method`/`stream`/`index`/`scan` (Thermo RAW; one `scan` row per spectrum with `ms_level`, `rt_s`, `polarity`, `filter` in `details`).
+`path, format, entries[]: {kind, name, offset, size, image, details}`. Kinds: `image`, `metadata`, `block` (LIF), `segment` (FCS: `HEADER`, `TEXT`, `STEXT`, `DATA`, `ANALYSIS`, `OTHERn`, `CRC`, with `details.data_set`), `subblock`/`pyramid-subblock`/`pyramid-level`/`attachment`/`file-part`/`file-header`/`subblock-directory`/`attachment-directory`/`deleted` (CZI; `attachment` rows have `details.index`, `details.content_type` for `extract`), `frame`/`metadata`/`custom-data`/`chunk` (ND2; legacy JPEG 2000 files: `frame`/`metadata`/`box`), `time-domain`/`processed-data`/`parameters`/`file` (Bruker: every file of the experiment directory, `name` relative to it), `block`/`table` (JCAMP-DX), `header`/`metadata`/`attachment`/`method`/`stream`/`index`/`scan` (Thermo RAW; one `scan` row per spectrum with `ms_level`, `rt_s`, `polarity`, `filter` in `details`).
 
 ## `check` → `CheckReport`
 
@@ -99,7 +99,7 @@ CZI frame records are one per plane, ordered t, z, c: `{frame, c, z, t, acquired
 
 `path, format, planes[]: {image, level?, c, z, t, width, height, pixel_type, samples_per_pixel, xxh3}`; `xxh3` is xxh3-128 of the little-endian samples, 32 hex chars; `level` appears only for `--level N` with N > 0.
 
-## `export --attachment` → `ExtractOutput`
+## `extract` → `ExtractOutput`
 
 `path, format, attachment {index, name, content_type, extension, offset, size, extra}, output, bytes_written, xxh3, verified`.
 

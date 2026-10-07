@@ -1243,7 +1243,7 @@ impl Dataset for SciexDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "images",
-            "WIFF files hold spectra and chromatograms; use `spectra` or `trace`.",
+            "WIFF files hold spectra and chromatograms; use `scans`, `spectrum` or `trace`.",
         ))
     }
 

@@ -27,7 +27,7 @@
 //!   [`InfoOutput`].
 //! - [`stats`] and [`trace`] implement those commands; [`batch`] and [`select`] parse their
 //!   inputs. Other command-level operations (`compare`, `info --view explain`,
-//!   `export --attachment`, `--only`) live in the `openreadout-ops` crate.
+//!   `extract`, `--only`) live in the `openreadout-ops` crate.
 //! - [`live`] judges whether an incomplete file is still being written (`acquisition` in
 //!   `info`, `info --view structure`, `check` and `planes`).
 //! - [`bytes`], [`cfb`], [`xml`], [`xmljson`], [`zip`], [`time`] and [`parallel`] are helpers for

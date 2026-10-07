@@ -1630,7 +1630,7 @@ impl Dataset for TimsDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "image planes",
-            "timsTOF data are mass spectra: use `openreadout spectra` or `export --format mzml`.",
+            "timsTOF data are mass spectra: use `openreadout scans` or `export --format mzml`.",
         ))
     }
 
@@ -1706,7 +1706,7 @@ impl Dataset for TimsDataset {
             let (src, sp) = self.spectrum_meta(i)?;
             let mut h = openreadout_core::ScanHeader::from(sp);
             // The stored TIC covers a whole MS frame; a PASEF precursor or DIA window sums
-            // part of one (computed from the peaks by `spectra`, so not listed here).
+            // part of one (computed from the peaks by `scans`, so not listed here).
             if let Part::Frame(fi) = src {
                 let f = &self.frames[fi];
                 h.base_peak_intensity = Some(f.max_intensity as f64).filter(|v| *v > 0.0);

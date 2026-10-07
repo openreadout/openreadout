@@ -121,7 +121,7 @@ Narrow the table with these flags:
 
 ## Analyses over a folder
 
-`openreadout batch MEASURE INPUTS…` runs any measure over many files with the same table flags. The measures are `stats`, `trace`, `table`, `info`, `spectra` and the analyses `peaks`, `chromatogram`, `assay`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr` and `gate`.
+`openreadout batch MEASURE INPUTS…` runs any measure over many files with the same table flags. The measures are `stats`, `trace`, `table`, `info`, `scans` and the analyses `peaks`, `chromatogram`, `assay`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr` and `gate`.
 
 Pass options by name with `--set KEY=VALUE`, or all at once with `--options '{...}'`. A value is read as JSON when it parses. The option names are those of the matching MCP tool. The `rows` option picks which records become rows: for example `peak`, `compound` or `chromatogram` for `peaks`, and `sweep`, `cell` or `spike` for `ephys-features`. Each row holds the same numbers as the single-file `analyze` output.
 

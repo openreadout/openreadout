@@ -256,7 +256,7 @@ layout read from the corpus files (`docs/provenance/tiff.md`).
   `dicom_datetime`) → `acquired_at`; `extra.philips`: `barcode` (`PIM_DP_UFS_BARCODE`, base64,
   `base64_decode`), `device_serial_number`, `interface_version`, `derivation`, `representations`.
 - The XML's `LABELIMAGE`/`MACROIMAGE` `PIM_DP_IMAGE_DATA` (base64 JPEG) are the attachments
-  `label` and `macro` (`attachments`, `export --attachment`).
+  `label` and `macro` (`attachments`, `extract`).
 
 ## Hamamatsu NDPI
 

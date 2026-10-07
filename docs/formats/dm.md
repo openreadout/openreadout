@@ -57,7 +57,7 @@ Complex elements are interleaved (real, imaginary) numbers; on big-endian files 
 
 `bytes_per_pixel`, `pixel_type`, `samples_per_pixel`, `packed_half_plane`, `label`, `from_code` are the helpers behind this table.
 
-**Which entries are images.** Entries not listed in `Thumbnails` are images, in `ImageList` order (index 0 = the first data image). Thumbnails (in every corpus file entry 0, a 384-pixel RGBA preview) are **attachments** (`export --attachment #0` writes their raw pixels; `extra` gives width, height and data type). A file whose only entries are thumbnails exposes them as images.
+**Which entries are images.** Entries not listed in `Thumbnails` are images, in `ImageList` order (index 0 = the first data image). Thumbnails (in every corpus file entry 0, a 384-pixel RGBA preview) are **attachments** (`extract FILE #0` writes their raw pixels; `extra` gives width, height and data type). A file whose only entries are thumbnails exposes them as images.
 
 **Axes** (`axes`, `AxisMap`). Calibrated values along a dimension are (index − `Origin`) × `Scale` (checked on three files: the Ti L3 edge of an STO spectrum at 452.75 eV, a zero-loss peak at −0.003 eV, an apatite plasmon at 23.4 eV). The **spectral** dimension, if any:
 

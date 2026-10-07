@@ -61,7 +61,7 @@ The fields and aliases (`objective`, `pixel`, `channel`, `sample`, `status` and 
 ### Storage health
 
 ```text
-$ openreadout search idx --health -o health.md
+$ openreadout health idx -o health.md
 ...
 | data sets | 10 (470.1 kB) |
 | files seen | 11 |
@@ -81,7 +81,7 @@ The report is Markdown, with sections on integrity, duplicates, the same experim
 `search idx pii=true --fields path,pii_kinds,pii_fields` lists the flagged data sets and the fields that triggered each flag. To share a selection, export it with `--redact`, which replaces every flagged value with a stable salted hash:
 
 ```bash
-openreadout search idx "family=microscopy status=ok" --export dataset/ --redact --salt-file ~/.openreadout-salt
+openreadout export-dataset idx "family=microscopy status=ok" dataset/ --redact --salt-file ~/.openreadout-salt
 ```
 
 ### From an assistant
@@ -92,4 +92,4 @@ openreadout search idx "family=microscopy status=ok" --export dataset/ --redact 
 
 - [Lab shares, indexes and live acquisitions](../guides/lab-shares.md): every column, the query language, [storage health](../guides/lab-shares.md#storage-health) and [personal data](../guides/lab-shares.md#personal-data).
 - [`index`](../reference/commands/index-cmd.md) and [`search`](../reference/commands/search.md) references.
-- JSON: [`search`](../reference/json/search.md), [`search --health`](../reference/json/health.md).
+- JSON: [`search`](../reference/json/search.md), [`health`](../reference/json/health.md).

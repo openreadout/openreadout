@@ -187,13 +187,13 @@
       "type": "object",
       "properties": {
         "index": {
-          "description": "Zero-based spectrum index within its run (`spectra --spectrum`).",
+          "description": "Zero-based spectrum index within its run (`spectrum --spectrum`).",
           "type": "integer",
           "format": "uint64",
           "minimum": 0
         },
         "scan_number": {
-          "description": "Scan number as the instrument counts it (`spectra --scan`).",
+          "description": "Scan number as the instrument counts it (`spectrum --scan`).",
           "type": "integer",
           "format": "uint64",
           "minimum": 0

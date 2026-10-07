@@ -188,6 +188,8 @@ res.table          # pandas DataFrame: one row per file and parameter
 res.summary        # n, mean, sd, sem, median, min, max, cv_percent per condition
 ```
 
+`openreadout.summarize(table, by, ...)` gives the group statistics of a table that `batch(..., output=)` wrote earlier, like [`openreadout summarize`](../reference/commands/summarize.md).
+
 See [Many files: batch tables and sample sheets](batch.md).
 
 ### Errors
