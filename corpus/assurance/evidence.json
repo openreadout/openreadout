@@ -94455,6 +94455,196 @@
       ]
     },
     {
+      "id": "idr0062A-6001240-labels-ngff05",
+      "format": "ome-zarr",
+      "source": "idr idr0062a",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NGFF 0.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "format_version",
+          "Zarr v3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "directory store",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "dtype uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "axes czyx",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "dtype int8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "sharding_indexed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "sharding_indexed/bytes",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "sharding_indexed/blosc",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "bytes",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "zstd",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "idr0066-chicken-embryo-mip-ngff05",
+      "format": "ome-zarr",
+      "source": "idr idr0066",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NGFF 0.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "format_version",
+          "Zarr v3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "directory store",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "dtype uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "axes yx",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "sharding_indexed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "sharding_indexed/bytes",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "sharding_indexed/blosc",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "zenodo13305156-cardio",
       "format": "ome-zarr",
       "source": "zenodo:13305156",
@@ -127392,6 +127582,110 @@
       ]
     },
     {
+      "id": "ome-ndpi-manuel-test3",
+      "format": "tiff",
+      "source": "ome-sample:hamamatsu-ndpi/manuel",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "multi_file",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NDP.scan",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "NDP.scan 2",
+          []
+        ],
+        [
+          "instrument",
+          "C9600-12",
+          []
+        ],
+        [
+          "dialect",
+          "hamamatsu-ndpis",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg (ycbcr)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        8
+      ]
+    },
+    {
       "id": "ome-ndpi-manuel-test3-dapi",
       "format": "tiff",
       "source": "ome-sample:hamamatsu-ndpi/manuel",
@@ -127484,7 +127778,7 @@
       ],
       "inferred": [
         0,
-        5
+        6
       ]
     },
     {
@@ -127580,7 +127874,7 @@
       ],
       "inferred": [
         0,
-        5
+        6
       ]
     },
     {
@@ -127676,7 +127970,7 @@
       ],
       "inferred": [
         0,
-        5
+        6
       ]
     },
     {
@@ -128916,7 +129210,7 @@
       ],
       "inferred": [
         0,
-        5
+        6
       ]
     },
     {
@@ -129643,7 +129937,7 @@
       ],
       "inferred": [
         0,
-        5
+        6
       ]
     },
     {
@@ -129738,7 +130032,7 @@
       ],
       "inferred": [
         0,
-        5
+        6
       ]
     },
     {

@@ -280,3 +280,17 @@ laser, filter, PMT voltage, pixel size, scan mode, scanner software).
 **Corpus files used:** `zenodo12697479-ndpi-izd` (new, Zenodo 12697479, CC-BY-4.0: a 26880 × 16896 H&E slide written by NDP.scan) and `openslide-hamamatsu-cmu-1`. **Prior art consulted:** tifffile 2026.9.20 (BSD-3-Clause) as the oracle, run as a black box.
 
 **Rule implemented:** a whole-page read of a page with NDPI restart offsets goes through the same restart-interval tiling as region reads.
+
+## 2026-10-07 — Hamamatsu NDPI sets (`.ndpis`) read as one multichannel image
+
+**Why.** The October imaging bug hunt (`docs/benchmark/hunt-2026-10-imaging.md`) found that an NDPI set exits 3. NanoZoomer fluorescence scans write one NDPI per filter set and a small text file that lists them.
+
+**Corpus files used:** `ome-ndpi-manuel-test3` (new: `test3.ndpis` from the OME sample directory `Hamamatsu-NDPI/manuel`, CC-BY-4.0, the directory that already gives the three member files `ome-ndpi-manuel-test3-dapi`, `-fitc` and `-tritc`). No other public `.ndpis` was found (OpenSlide's test data has none; Zenodo searches for `ndpis` return nothing).
+
+**Prior art consulted:** tifffile 2026.9.20 (BSD-3-Clause), read as documentation: its NDPI tag registry names tag 65434 `Fluorescence` (the filter set or channel). tifffile does not read `.ndpis` files.
+
+**Inferred from the file** (hex dump and the three members): the set is an INI-style text file, CRLF line ends, ASCII. Line 1 is the section header `[NanoZoomer Digital Pathology Image Set]`, then `NoImages=3` and `Image0=` … `Image2=` with file names relative to the set's folder. Each member is an ordinary NDPI of the same slide: the same size (3968 × 4864), the same pyramid (4 levels), the same slide-centre offsets (tags 65422/65423) and focus points. Each member stores its channel as an 8-bit RGB (YCbCr JPEG) rendering in one display colour: the DAPI file holds its signal in blue, FITC in green, TRITC in red (per-sample means 0.3/0.1/39.6, 0.6/20.6/0.6 and 17.6/0.1/0.3). Tag 65434 holds the channel's name as the file name shows it (`DAPI 2 (387)`, `FITC 2 (485)`, `TRITC 2 (560)`).
+
+**Rule implemented.** A file whose first line is that section header (any extension, `.ndpis` in practice) is read by the TIFF reader as one image with one channel per listed file, in `ImageK` order (`NoImages` of them; without `NoImages`, every `ImageK` key in index order). Each member is opened with the existing NDPI reader and channel `c` is image 0 of member `c` (its focal planes as Z, its pyramid levels as levels). The stored RGB samples are returned as they are (`samples_per_pixel` 3), not reduced to the one sample that carries the signal: which sample that is would be our inference. A channel's name is the member's tag 65434, else the member's file name without `.ndpi`. Members must agree on width, height, pixel type, samples per pixel, Z and T; a member that differs makes the set corrupt (exit 4). A listed file that is not there is reported by `check` as `missing_file`; reading its channel exits 4 with a hint to copy the whole set; the set opens while at least one member opens. Single NDPI files now also name their channel from tag 65434 when it is present.
+
+**Oracle:** tifffile reads each member's series 0; `oracle/gen.py` stacks them as the set's channels.
