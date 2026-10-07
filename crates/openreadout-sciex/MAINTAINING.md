@@ -13,6 +13,7 @@ Legacy Sciex `.wiff` files with their `.wiff.scan` companions (`sciex-wiff`); `.
 ## Invariants and checks
 
 - Every accessor in `layout.rs` is bounds-checked; malformed input yields `None`, an empty list or an error string, never a panic.
+- Memory follows the index records, not the spectra. An MRM cycle can hold a spectrum for each of a thousand precursors. `SpectrumTable` keeps one entry per record, and `mrm_groups` works out a spectrum's transitions when the spectrum is read. `MrmCache` keeps the last cycle's groups and values, so reading spectra in order reads each cycle once. `tests/memory.rs` guards this.
 - `check`: compound file header, FAT, directory; the scan index is whole 54-byte records and every scan lies inside the `.wiff.scan`; the first and last spectrum of every sample decode (TOF: counts sum to the index TIC).
 
 ## Debugging a new file
@@ -113,7 +114,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 ### Tests, fixtures, fuzz targets, snapshots
 
-- integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
+- integration tests: [`tests/memory.rs`](tests/memory.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `sciex_grid`, `whole_sciex`
 - corpus inputs by tier: full 7, heldout 3, smoke 3, standard 3
 - golden snapshots: [`corpus/snapshots/sciex-wiff.jsonl`](../../corpus/snapshots/sciex-wiff.jsonl)
