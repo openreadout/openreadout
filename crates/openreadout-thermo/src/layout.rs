@@ -16,7 +16,7 @@ pub const CHECKSUM_OFFSET: u64 = 148;
 /// Number of leading bytes covered by the header checksum.
 pub const CHECKSUM_SPAN: u64 = 10 * 1024 * 1024;
 /// File versions whose layout we decode and have validated on corpus files.
-pub const SUPPORTED_VERSIONS: [u32; 3] = [63, 64, 66];
+pub const SUPPORTED_VERSIONS: [u32; 6] = [57, 61, 62, 63, 64, 66];
 
 /// One of the two time stamps in the file header.
 #[derive(Debug, Clone, Default)]
@@ -831,13 +831,15 @@ pub struct ScanTemplate {
     pub segment: u32,
     pub event: u32,
     pub preamble: Vec<u8>,
+    /// The reaction and range counts of `scan_event`; before version 66 also its coefficient
+    /// and tail-item counts and closing word.
     pub template_words: Vec<u32>,
     pub scan_range: [f64; 2],
-}
-
-/// Bytes of a template after its preamble, by version.
-fn template_tail_len(version: u32) -> usize {
-    if version >= 66 { 24 } else { 36 }
+    /// The template as a complete scan event of the file's version (empty in most files; with
+    /// reactions, ranges and a compound name in TSQ Altis Plus and Exploris 120 files, with the
+    /// scan range in ISQ and TSQ 9610 files). Runs that store no per-scan events take each
+    /// scan's event from here.
+    pub scan_event: Option<ScanEvent>,
 }
 
 /// The segment/event table between the error log and the per-scan parameter header.
@@ -845,6 +847,16 @@ fn template_tail_len(version: u32) -> usize {
 pub struct MethodTable {
     pub address: u64,
     pub templates: Vec<ScanTemplate>,
+}
+
+impl MethodTable {
+    /// The complete scan event of the template at (`segment`, `event`) (version 66).
+    pub fn template_event(&self, segment: u16, event: u16) -> Option<&ScanEvent> {
+        self.templates
+            .iter()
+            .find(|t| t.segment == u32::from(segment) && t.event == u32::from(event))
+            .and_then(|t| t.scan_event.as_ref())
+    }
 }
 
 const MAX_TEMPLATES: u32 = 10_000;
@@ -871,23 +883,26 @@ pub fn parse_method_table(c: &mut Cursor<'_>, version: u32) -> Result<MethodTabl
             ));
         }
         for ev in 0..nev {
-            let preamble = c.take(preamble_len(version))?.to_vec();
-            let tail = template_tail_len(version);
-            let mut t = ScanTemplate {
+            // A complete scan event (`docs/formats/thermo-raw.md` § Segment/event table).
+            let e = parse_scan_event(c, version)?;
+            // The counts the template was first read as: reactions and ranges, then (before
+            // version 66) coefficients, tail items and the closing word.
+            let mut template_words = vec![e.reactions.len() as u32, e.scan_ranges.len() as u32];
+            if version < 66 {
+                template_words.extend([
+                    e.coefficients.len() as u32,
+                    e.tail_items.len() as u32,
+                    e.tail_words.first().copied().unwrap_or(0),
+                ]);
+            }
+            templates.push(ScanTemplate {
                 segment: s,
                 event: ev,
-                preamble,
-                ..Default::default()
-            };
-            if tail == 36 {
-                t.template_words = vec![c.u32()?, c.u32()?];
-                t.scan_range = [c.f64()?, c.f64()?];
-                t.template_words.extend([c.u32()?, c.u32()?, c.u32()?]);
-            } else {
-                t.template_words = vec![c.u32()?, c.u32()?];
-                t.scan_range = [c.f64()?, c.f64()?];
-            }
-            templates.push(t);
+                preamble: e.preamble.clone(),
+                template_words,
+                scan_range: e.scan_ranges.first().copied().unwrap_or([0.0, 0.0]),
+                scan_event: Some(e),
+            });
         }
     }
     Ok(MethodTable { address, templates })
@@ -948,6 +963,83 @@ mod tests {
             Some("2009-05-07T22:43:00.078")
         );
         assert_eq!(filetime_iso(0), None);
+    }
+
+    /// A method table of one segment from the observed layouts: the ISQ file's version-64
+    /// template (no reaction, one range 35-900) and a TSQ Altis Plus version-66 template (one
+    /// reaction, one product window, a compound name).
+    #[test]
+    fn method_table_templates_are_complete_events() {
+        fn le32(v: &mut Vec<u8>, x: u32) {
+            v.extend_from_slice(&x.to_le_bytes());
+        }
+        fn le64f(v: &mut Vec<u8>, x: f64) {
+            v.extend_from_slice(&x.to_le_bytes());
+        }
+        // version 64 (mtbls758-isq-growth-93)
+        let mut b = Vec::new();
+        le32(&mut b, 1); // segments
+        le32(&mut b, 1); // events
+        let mut pre = vec![0u8; preamble_len(64)];
+        pre[4] = 1; // positive
+        pre[6] = 1; // MS1
+        b.extend_from_slice(&pre);
+        le32(&mut b, 0); // reactions
+        le32(&mut b, 1); // ranges
+        le64f(&mut b, 35.0);
+        le64f(&mut b, 900.0);
+        le32(&mut b, 0); // coefficients
+        le32(&mut b, 0); // tail items
+        le32(&mut b, 0); // closing word
+        le32(&mut b, 0xABCD); // what follows the table
+        let mut c = Cursor::new(&b, 0);
+        let t = parse_method_table(&mut c, 64).unwrap();
+        assert_eq!(t.templates.len(), 1);
+        assert_eq!(t.templates[0].template_words, [0, 1, 0, 0, 0]);
+        assert_eq!(t.templates[0].scan_range, [35.0, 900.0]);
+        assert_eq!(
+            t.template_event(0, 0).map(ScanEvent::scan_range),
+            Some([35.0, 900.0])
+        );
+        assert_eq!(c.u32().unwrap(), 0xABCD);
+
+        // version 66 (mtbls6991-tsq-altis-plus-sar11-40, transition 76.0 > 29.967 `glycine`)
+        let mut b = Vec::new();
+        le32(&mut b, 1);
+        le32(&mut b, 1);
+        let mut pre = vec![0u8; preamble_len(66)];
+        pre[6] = 2;
+        pre[7] = 3; // SRM
+        b.extend_from_slice(&pre);
+        le32(&mut b, 1); // one reaction (56 bytes in v66)
+        le64f(&mut b, 76.0);
+        le64f(&mut b, 0.7);
+        le64f(&mut b, 0.0);
+        le32(&mut b, 12);
+        le32(&mut b, 0);
+        for _ in 0..3 {
+            le64f(&mut b, 0.0);
+        }
+        le32(&mut b, 1);
+        le64f(&mut b, 29.966);
+        le64f(&mut b, 29.968);
+        le32(&mut b, 0);
+        le32(&mut b, 0);
+        le32(&mut b, 0); // closing word
+        let name: Vec<u16> = "glycine".encode_utf16().collect();
+        le32(&mut b, name.len() as u32);
+        for u in name {
+            b.extend_from_slice(&u.to_le_bytes());
+        }
+        le32(&mut b, 0xABCD);
+        let mut c = Cursor::new(&b, 0);
+        let t = parse_method_table(&mut c, 66).unwrap();
+        let e = t.template_event(0, 0).unwrap();
+        assert_eq!(e.reactions[0].precursor_mz, 76.0);
+        assert_eq!(e.scan_range(), [29.966, 29.968]);
+        assert_eq!(e.tail_text, "glycine");
+        assert_eq!(t.templates[0].template_words, [1, 1]);
+        assert_eq!(c.u32().unwrap(), 0xABCD);
     }
 
     #[test]

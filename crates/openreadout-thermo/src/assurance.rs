@@ -44,7 +44,7 @@ pub(crate) fn instrument_generation(model: &str) -> String {
         "generation Orbitrap Exploris"
     } else if m.contains("astral") {
         "generation Orbitrap Astral"
-    } else if ["fusion", "eclipse", "id-x", "ascend", "tribrid"]
+    } else if ["fusion", "eclipse", "id-x", "iq-x", "ascend", "tribrid"]
         .iter()
         .any(|k| m.contains(k))
     {
@@ -55,6 +55,9 @@ pub(crate) fn instrument_generation(model: &str) -> String {
         "generation Exactive"
     } else if m.contains("ltq orbitrap") || m.contains("orbitrap elite") {
         "generation LTQ Orbitrap"
+    } else if m.contains("ltq ft") {
+        // An ion-cyclotron hybrid: its FT profiles use the four-coefficient m/z conversion.
+        "generation LTQ FT"
     } else if m.contains("ltq") || m.contains("velos pro") {
         "generation LTQ ion trap"
     } else if m.contains("tsq") {
@@ -127,6 +130,10 @@ fn observe(info: &FileInfo) -> Observations {
                 }
             }
         }
+        // FAIMS and in-source CID change what an event's tail items mean (and the filter text).
+        for opt in a::extra_values_in(&s.extra, "scan_options") {
+            o.feature(K::Acquisition, opt, &[Scope::Spectra]);
+        }
         let pol = a::extra_values_in(&s.extra, "polarities");
         if pol.len() > 1 {
             o.feature(K::Acquisition, "polarity switching", &[Scope::Spectra]);
@@ -153,63 +160,95 @@ fn observe(info: &FileInfo) -> Observations {
 const THERMO_RAW_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const THERMO_RAW_VALIDATED: &[Validated] = &[
+    a::row(K::Acquisition, "FAIMS", 3, 3, 3),
     a::row(K::Acquisition, "Full lock ms", 1, 1, 1),
-    a::row(K::Acquisition, "Full ms", 21, 17, 22),
+    a::row(K::Acquisition, "Full ms", 33, 29, 34),
     a::row(K::Acquisition, "SIM ms", 1, 1, 1),
     a::row(K::Acquisition, "Z ms", 1, 1, 1),
-    a::row(K::Acquisition, "analyzer FTMS", 26, 18, 27),
-    a::row(K::Acquisition, "analyzer ITMS", 5, 3, 5),
-    a::row(K::Acquisition, "centroid spectra", 10, 8, 12),
-    a::row(K::Acquisition, "ion source ESI", 17, 13, 18),
+    a::row(K::Acquisition, "analyzer ASTMS", 2, 2, 2),
+    a::row(K::Acquisition, "analyzer FTMS", 35, 27, 36),
+    a::row(K::Acquisition, "analyzer ITMS", 10, 8, 10),
+    a::row(K::Acquisition, "analyzer code 6", 4, 4, 4),
+    a::row(K::Acquisition, "centroid spectra", 22, 20, 23),
+    a::row(K::Acquisition, "in-source CID", 1, 1, 2),
+    a::row(K::Acquisition, "ion source EI", 2, 2, 2),
+    a::row(K::Acquisition, "ion source ESI", 21, 17, 22),
     a::row(K::Acquisition, "ion source MALDI", 2, 1, 2),
-    a::row(K::Acquisition, "ion source NSI", 12, 6, 12),
-    a::row(K::Acquisition, "ms1", 21, 17, 22),
-    a::row(K::Acquisition, "ms2", 21, 14, 23),
-    a::row(K::Acquisition, "ms3", 2, 1, 2),
-    a::row(K::Acquisition, "polarity switching", 3, 3, 3),
-    a::row(K::Acquisition, "profile spectra", 26, 17, 26),
-    a::row(K::Field, "experiment.acquisition.started_at", 27, 17, 32),
-    a::row(K::Field, "experiment.instrument.model", 15, 10, 27),
+    a::row(K::Acquisition, "ion source NSI", 19, 13, 19),
+    a::row(K::Acquisition, "ms1", 33, 29, 34),
+    a::row(K::Acquisition, "ms2", 33, 26, 34),
+    a::row(K::Acquisition, "ms3", 3, 2, 3),
+    a::row(K::Acquisition, "ms4", 1, 1, 1),
+    a::row(K::Acquisition, "ms5", 1, 1, 1),
+    a::row(K::Acquisition, "polarity switching", 4, 4, 4),
+    a::row(K::Acquisition, "profile spectra", 34, 25, 34),
+    a::row(K::Field, "experiment.acquisition.started_at", 37, 27, 45),
+    a::row(K::Field, "experiment.instrument.model", 22, 17, 40),
+    a::row(K::FormatVersion, "57", 1, 1, 1),
+    a::row(K::FormatVersion, "61", 1, 1, 1),
+    a::row(K::FormatVersion, "62", 1, 1, 1),
     a::row(K::FormatVersion, "63", 7, 3, 7),
-    a::row(K::FormatVersion, "64", 6, 6, 6),
-    a::row(K::FormatVersion, "66", 18, 12, 19),
+    a::row(K::FormatVersion, "64", 7, 7, 7),
+    a::row(K::FormatVersion, "66", 27, 21, 28),
+    a::row(K::Instrument, "ISQ", 1, 1, 1),
+    a::row(K::Instrument, "LTQ", 1, 1, 1),
+    a::row(K::Instrument, "LTQ FT Ultra", 1, 1, 1),
+    a::row(K::Instrument, "LTQ Orbitrap", 1, 1, 1),
     a::row(K::Instrument, "LTQ Orbitrap Discovery", 6, 2, 6),
     a::row(K::Instrument, "LTQ Orbitrap Velos", 2, 2, 2),
     a::row(K::Instrument, "LTQ Orbitrap XL", 1, 1, 1),
     a::row(K::Instrument, "LTQ Velos", 1, 1, 1),
     a::row(K::Instrument, "LTQ XL", 1, 1, 1),
+    a::row(K::Instrument, "Orbitrap Ascend", 1, 1, 1),
+    a::row(K::Instrument, "Orbitrap Astral", 2, 2, 2),
+    a::row(K::Instrument, "Orbitrap Eclipse", 1, 1, 1),
+    a::row(K::Instrument, "Orbitrap Elite", 1, 1, 1),
     a::row(K::Instrument, "Orbitrap Exploris 120", 1, 1, 1),
     a::row(K::Instrument, "Orbitrap Exploris 240", 2, 2, 2),
     a::row(K::Instrument, "Orbitrap Exploris 480", 1, 1, 1),
     a::row(K::Instrument, "Orbitrap Fusion Lumos", 2, 2, 2),
+    a::row(K::Instrument, "Orbitrap ID-X", 1, 1, 1),
+    a::row(K::Instrument, "Orbitrap IQ-X", 1, 1, 1),
     a::row(K::Instrument, "Q Exactive HF Orbitrap", 3, 3, 3),
     a::row(K::Instrument, "Q Exactive HF-X Orbitrap", 2, 2, 2),
     a::row(K::Instrument, "Q Exactive Plus Orbitrap", 1, 1, 2),
     a::row(K::Instrument, "Stellar", 1, 1, 1),
+    a::row(K::Instrument, "TSQ 9610", 1, 1, 1),
+    a::row(K::Instrument, "TSQ Altis Plus", 1, 1, 1),
     a::row(K::Instrument, "TSQ Vantage Standard", 1, 1, 1),
     a::row(K::Instrument, "Thermo Exactive Orbitrap", 1, 1, 1),
     a::row(K::Instrument, "generation Exactive", 1, 1, 1),
-    a::row(K::Instrument, "generation LTQ Orbitrap", 9, 5, 9),
-    a::row(K::Instrument, "generation LTQ ion trap", 2, 2, 2),
+    a::row(K::Instrument, "generation LTQ FT", 1, 1, 1),
+    a::row(K::Instrument, "generation LTQ Orbitrap", 11, 7, 11),
+    a::row(K::Instrument, "generation LTQ ion trap", 3, 3, 3),
+    a::row(K::Instrument, "generation Orbitrap Astral", 2, 2, 2),
     a::row(K::Instrument, "generation Orbitrap Exploris", 4, 4, 4),
-    a::row(K::Instrument, "generation Orbitrap Tribrid", 2, 2, 2),
+    a::row(K::Instrument, "generation Orbitrap Tribrid", 6, 6, 6),
     a::row(K::Instrument, "generation Q Exactive", 6, 5, 7),
-    a::row(K::Instrument, "generation TSQ", 0, 0, 1),
-    a::row(K::Record, "controller analog", 0, 0, 11),
+    a::row(K::Instrument, "generation TSQ", 3, 3, 3),
+    a::row(K::Record, "controller analog", 0, 0, 15),
     a::row(K::Record, "controller channel", 0, 0, 2),
     a::row(K::Record, "controller pda", 0, 0, 2),
-    a::row(K::WriterVersion, "Xcalibur 1.1", 2, 2, 2),
+    a::row(K::WriterVersion, "Xcalibur 1.0", 2, 2, 2),
+    a::row(K::WriterVersion, "Xcalibur 1.1", 3, 3, 3),
+    a::row(K::WriterVersion, "Xcalibur 2.0", 2, 2, 2),
     a::row(K::WriterVersion, "Xcalibur 2.11", 0, 0, 1),
     a::row(K::WriterVersion, "Xcalibur 2.13", 1, 1, 1),
+    a::row(K::WriterVersion, "Xcalibur 2.2", 1, 1, 1),
     a::row(K::WriterVersion, "Xcalibur 2.3", 1, 1, 1),
     a::row(K::WriterVersion, "Xcalibur 2.4", 7, 3, 7),
     a::row(K::WriterVersion, "Xcalibur 2.5", 1, 1, 1),
     a::row(K::WriterVersion, "Xcalibur 2.6", 4, 4, 4),
+    a::row(K::WriterVersion, "Xcalibur 2.7", 1, 1, 1),
     a::row(K::WriterVersion, "Xcalibur 2.8", 2, 2, 2),
     a::row(K::WriterVersion, "Xcalibur 2.9", 2, 2, 2),
     a::row(K::WriterVersion, "Xcalibur 3.0", 1, 1, 1),
     a::row(K::WriterVersion, "Xcalibur 3.1", 2, 2, 2),
     a::row(K::WriterVersion, "Xcalibur 3.3", 1, 1, 1),
-    a::row(K::WriterVersion, "Xcalibur 4.2", 2, 2, 2),
+    a::row(K::WriterVersion, "Xcalibur 3.4", 1, 1, 1),
+    a::row(K::WriterVersion, "Xcalibur 3.5", 2, 2, 2),
+    a::row(K::WriterVersion, "Xcalibur 4.2", 3, 3, 3),
+    a::row(K::WriterVersion, "Xcalibur 4.3", 1, 1, 1),
+    a::row(K::WriterVersion, "Xcalibur 5.1", 1, 1, 1),
 ];
 // END GENERATED thermo-raw

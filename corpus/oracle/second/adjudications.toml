@@ -300,3 +300,33 @@ ids = ["figshare25325560-csc12-ncs", "figshare25325560-csc37-ncs"]
 fields = ["trace 0 sweep 0 channel 0: *"]
 right = "openreadout"
 why = "the last of the 1,779 records says NumValidSamples 342 (offset 16 of the record): ours keeps those 342 of its 512 samples, nept takes all 512 (170 more samples, and a mean over them); every other record says 512"
+
+[[field]]
+ids = ["pxd000874-ltq-2005-mf01"]
+fields = ["spectrum count", "first retention time", "last retention time"]
+right = "openreadout"
+why = "the depositor's mzXML holds only the 4,580 MS2 scans from scan 9,585 (1,500.8 s) on, which equal ours scan by scan (the corpus test); the run has 15,429 scans from 0.27 s to 6,000 s, and its MS1 scans and first 9,584 scans were not exported"
+
+[[field]]
+ids = ["pxd000792-ltq-orbitrap-yeast-900"]
+fields = ["scan precursor m/z"]
+right = "openreadout"
+why = "converter policy, not a misreading: ours takes the file's `Monoisotopic M/Z` within 3.0 of the isolation target, as current conversions do; ProteoWizard 3.0.4337 took it only within 1.5 of the target as the filter prints it, and names the target otherwise (667.71 ours, 669.38 theirs: 1.67 apart). The corpus test applies that converter's 1.5 (manifest `export_monoisotopic_max_shift`) and then agrees on every scan"
+
+[[field]]
+ids = ["pxd000951-ltqft-he4"]
+fields = ["instrument model"]
+right = "openreadout"
+why = "ours is the model string the raw file's instrument id holds (`LTQ FT Ultra`, with `LTQ FT` as its second string); ReAdW writes the shorter `LTQ FT`: the same instrument, the name less specific"
+
+[[field]]
+ids = ["pxd069324-astral-dia-ihsp-lo2"]
+fields = ["acquisition software version"]
+right = "openreadout"
+why = "the ThermoRawFileParser 1.4.5 mzML lists no acquisition software, only itself; the second reading takes the converter's version 1.4.5. Ours is the instrument software version the raw file's instrument id records (`2.0-2.0.358.11/None`, the Astral's Tune), which the ProteoWizard export of the other Astral file (`msv99294-astral-nanopots-1cell-b9`) also names, as `Xcalibur` 1.1-1.1.118.15/1.1.477.46"
+
+[[field]]
+ids = ["mtbls13066-elite-318a-b5-35nce"]
+fields = ["instrument model"]
+right = "openreadout"
+why = "ours is the model string the raw file's instrument id holds (`Orbitrap Elite`, both strings); the conversion writes the PSI-MS term `LTQ Orbitrap Elite` for the same instrument"

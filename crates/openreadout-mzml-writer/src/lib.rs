@@ -39,10 +39,16 @@ use flate2::Compression;
 use flate2::read::ZlibDecoder;
 use flate2::write::ZlibEncoder;
 use openreadout_core::{Dataset, Error, Result, Spectrum, SpectrumView};
+use rayon::prelude::*;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 const CREATOR_VERSION: &str = env!("CARGO_PKG_VERSION");
+
+/// Spectra read and compressed together, at most.
+const BATCH_SPECTRA: usize = 256;
+/// A batch ends once it holds this many data points (about 100 MB decoded and compressed).
+const BATCH_POINTS: usize = 4 << 20;
 
 /// What to write.
 #[derive(Debug, Clone, Default)]
@@ -147,22 +153,53 @@ pub fn export_mzml(
         let mut offsets = Vec::new();
         let mut hashes = Vec::new();
         let mut points = 0u64;
-        for (k, i) in (first..=last).enumerate() {
-            let sp = ds.read_spectrum_view(opts.run, i, view)?;
-            let id = if agilent_ids {
-                format!("scanId={}", sp.scan_number)
-            } else if vendor_ids {
-                sp.native_id
-                    .clone()
-                    .unwrap_or_else(|| native_id(&sp, false))
-            } else {
-                native_id(&sp, thermo_ids)
-            };
-            offsets.push((id.clone(), w.pos + 6)); // after the six-space indent
-            points += sp.mz.len() as u64;
-            let (xml, hash) = spectrum_xml(&sp, k as u64, &id, !source_configs)?;
-            hashes.push(hash);
-            w.write_str(&xml)?;
+        // Spectra are read in batches. While the threads compress one batch, this thread
+        // reads the next, then writes the compressed batch in order, so the file does not
+        // depend on the thread count.
+        let mut read_batch = |from: u64| -> Result<Vec<(Spectrum, String)>> {
+            let mut batch = Vec::new();
+            let mut batch_points = 0usize;
+            let mut i = from;
+            while i <= last && batch.len() < BATCH_SPECTRA && batch_points < BATCH_POINTS {
+                let sp = ds.read_spectrum_view(opts.run, i, view)?;
+                let id = if agilent_ids {
+                    format!("scanId={}", sp.scan_number)
+                } else if vendor_ids {
+                    sp.native_id
+                        .clone()
+                        .unwrap_or_else(|| native_id(&sp, false))
+                } else {
+                    native_id(&sp, thermo_ids)
+                };
+                batch_points = batch_points.saturating_add(sp.mz.len());
+                batch.push((sp, id));
+                i += 1;
+            }
+            Ok(batch)
+        };
+        let mut batch = read_batch(first)?;
+        let mut k = 0u64;
+        while !batch.is_empty() {
+            let next_from = first + k + batch.len() as u64;
+            let (encoded, next) = rayon::join(
+                || {
+                    batch
+                        .par_iter()
+                        .enumerate()
+                        .map(|(j, (sp, id))| spectrum_xml(sp, k + j as u64, id, !source_configs))
+                        .collect::<Vec<_>>()
+                },
+                || read_batch(next_from),
+            );
+            for ((sp, id), xml) in batch.iter().zip(encoded) {
+                let (xml, hash) = xml?;
+                offsets.push((id.clone(), w.pos + 6)); // after the six-space indent
+                points += sp.mz.len() as u64;
+                hashes.push(hash);
+                w.write_str(&xml)?;
+            }
+            k += batch.len() as u64;
+            batch = next?;
         }
         w.write_str("    </spectrumList>\n")?;
         // The source's chromatograms (mzML inputs: TIC, SRM traces, ...), as they were read.
@@ -1127,33 +1164,104 @@ pub(crate) fn base64_encode(data: &[u8]) -> String {
 
 /// Inverse of [`base64_encode`]; whitespace is ignored.
 pub(crate) fn base64_decode(s: &str) -> Option<Vec<u8>> {
-    let mut vals = Vec::with_capacity(s.len());
-    for c in s.bytes() {
-        let v = match c {
-            b'A'..=b'Z' => c - b'A',
-            b'a'..=b'z' => c - b'a' + 26,
-            b'0'..=b'9' => c - b'0' + 52,
-            b'+' => 62,
-            b'/' => 63,
-            b'=' => 64,
-            b' ' | b'\n' | b'\r' | b'\t' => continue,
-            _ => return None,
-        };
-        vals.push(v);
+    // 0..=63 for the alphabet, PAD for '=', SKIP for whitespace, BAD for anything else.
+    const PAD: u8 = 64;
+    const SKIP: u8 = 65;
+    const BAD: u8 = 66;
+    const TABLE: [u8; 256] = {
+        let mut t = [BAD; 256];
+        let mut i = 0;
+        while i < 64 {
+            t[B64[i] as usize] = i as u8;
+            i += 1;
+        }
+        t[b'=' as usize] = PAD;
+        t[b' ' as usize] = SKIP;
+        t[b'\n' as usize] = SKIP;
+        t[b'\r' as usize] = SKIP;
+        t[b'\t' as usize] = SKIP;
+        t
+    };
+    let mut out = Vec::with_capacity(s.len() / 4 * 3);
+    let mut quad = [0u8; 4];
+    let mut have = 0;
+    for &c in s.as_bytes() {
+        let v = TABLE[usize::from(c)];
+        match v {
+            SKIP => continue,
+            BAD => return None,
+            _ => {}
+        }
+        quad[have] = v;
+        have += 1;
+        if have == 4 {
+            have = 0;
+            let pad = usize::from(quad[2] == PAD) + usize::from(quad[3] == PAD);
+            let n = quad
+                .iter()
+                .fold(0u32, |acc, &v| (acc << 6) | u32::from(v & 63));
+            let bytes = [(n >> 16) as u8, (n >> 8) as u8, n as u8];
+            out.extend_from_slice(&bytes[..3 - pad.min(2)]);
+        }
     }
-    if vals.len() % 4 != 0 {
-        return None;
+    (have == 0).then_some(out)
+}
+
+/// Passes reads through and feeds the first `left` bytes to a SHA-1.
+struct HashingReader<R> {
+    inner: R,
+    sha: Sha1,
+    left: u64,
+}
+
+impl<R: Read> Read for HashingReader<R> {
+    fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+        let n = self.inner.read(buf)?;
+        let hashed = usize::try_from(self.left).map_or(n, |l| l.min(n));
+        self.sha.update(&buf[..hashed]);
+        self.left -= hashed as u64;
+        Ok(n)
     }
-    let mut out = Vec::with_capacity(vals.len() / 4 * 3);
-    for q in vals.chunks(4) {
-        let pad = usize::from(q[2] == 64) + usize::from(q[3] == 64);
-        let n = q
-            .iter()
-            .fold(0u32, |acc, &v| (acc << 6) | u32::from(v & 63));
-        let bytes = [(n >> 16) as u8, (n >> 8) as u8, n as u8];
-        out.extend_from_slice(&bytes[..3 - pad.min(2)]);
-    }
-    Some(out)
+}
+
+/// One spectrum or chromatogram whose arrays are checked off the reading thread.
+struct Pending {
+    chromatogram: bool,
+    index: usize,
+    /// Base64 text of each `<binary>` element; `None` for an empty element.
+    arrays: Vec<Option<Vec<u8>>>,
+}
+
+/// Check that the arrays of each item decode to the bytes whose hash was recorded, on the
+/// rayon threads. Reports the first failing item in file order.
+fn check_arrays(items: &[Pending], w: &Written) -> std::result::Result<(), String> {
+    let results: Vec<std::result::Result<(), String>> = items
+        .par_iter()
+        .map(|p| {
+            if !p.chromatogram && p.arrays.len() != 2 {
+                return Err(format!("spectrum {}: {} arrays", p.index, p.arrays.len()));
+            }
+            let mut h = Vec::new();
+            for a in &p.arrays {
+                let Some(text) = a else { continue };
+                let text = std::str::from_utf8(text).map_err(|_| "bad base64")?;
+                let comp = base64_decode(text).ok_or("bad base64")?;
+                ZlibDecoder::new(comp.as_slice())
+                    .read_to_end(&mut h)
+                    .map_err(|e| format!("zlib: {e}"))?;
+            }
+            let (want, what) = if p.chromatogram {
+                (w.chrom_hashes.get(p.index), "chromatogram")
+            } else {
+                (w.hashes.get(p.index), "spectrum")
+            };
+            if Some(&xxhash_rust::xxh3::xxh3_128(&h)) != want {
+                return Err(format!("{what} {}: arrays differ after writing", p.index));
+            }
+            Ok(())
+        })
+        .collect();
+    results.into_iter().collect()
 }
 
 /// Read the written file back and check it against what we meant to write.
@@ -1177,20 +1285,6 @@ fn verify(path: &Path, w: &Written) -> std::result::Result<(), String> {
         .rposition(|x| x == marker)
         .ok_or("no fileChecksum element")?;
     let covered = len - tail_len + (at + marker.len()) as u64;
-    let mut sha = Sha1::new();
-    file.seek(SeekFrom::Start(0)).map_err(|e| e.to_string())?;
-    let mut chunk = vec![0u8; 1 << 20];
-    let mut left = covered;
-    while left > 0 {
-        let n = (left.min(chunk.len() as u64)) as usize;
-        file.read_exact(&mut chunk[..n])
-            .map_err(|e| e.to_string())?;
-        sha.update(&chunk[..n]);
-        left -= n as u64;
-    }
-    if sha.finish_hex() != w.sha {
-        return Err("SHA-1 checksum does not match the content".into());
-    }
     let mut at_offset = |o: u64, want: &[u8]| -> std::result::Result<bool, String> {
         let mut got = vec![0u8; want.len()];
         file.seek(SeekFrom::Start(o)).map_err(|e| e.to_string())?;
@@ -1213,56 +1307,59 @@ fn verify(path: &Path, w: &Written) -> std::result::Result<(), String> {
     if !at_offset(w.index_offset, b"<indexList")? {
         return Err("indexListOffset does not point at <indexList>".into());
     }
-    // Well-formed XML and every array decodes to the bytes we hashed.
+    // One pass over the file: the SHA-1 of the covered bytes, well-formed XML, and every
+    // array decodes to the bytes we hashed.
     file.seek(SeekFrom::Start(0)).map_err(|e| e.to_string())?;
-    let mut reader = Reader::from_reader(BufReader::with_capacity(1 << 20, file));
+    let mut hashing = HashingReader {
+        inner: file,
+        sha: Sha1::new(),
+        left: covered,
+    };
+    let mut reader = Reader::from_reader(BufReader::with_capacity(1 << 20, &mut hashing));
     let mut buf = Vec::new();
     let mut in_binary = false;
-    let mut arrays: Vec<Vec<u8>> = Vec::new();
+    let mut arrays: Vec<Option<Vec<u8>>> = Vec::new();
+    let mut pending: Vec<Pending> = Vec::new();
+    let mut pending_bytes = 0usize;
     let mut k = 0usize;
     let mut kc = 0usize;
     loop {
         match reader.read_event_into(&mut buf) {
             Ok(Event::Start(e)) if e.name().as_ref() == "binary" => in_binary = true,
             Ok(Event::End(e)) if e.name().as_ref() == "binary" => in_binary = false,
-            Ok(Event::Empty(e)) if e.name().as_ref() == "binary" => arrays.push(Vec::new()),
+            Ok(Event::Empty(e)) if e.name().as_ref() == "binary" => arrays.push(None),
             Ok(Event::Text(t)) if in_binary => {
                 let txt: &str = t.as_ref();
-                let comp = base64_decode(txt).ok_or("bad base64")?;
-                let mut out = Vec::new();
-                ZlibDecoder::new(comp.as_slice())
-                    .read_to_end(&mut out)
-                    .map_err(|e| format!("zlib: {e}"))?;
-                arrays.push(out);
+                pending_bytes += txt.len();
+                arrays.push(Some(txt.as_bytes().to_vec()));
             }
-            Ok(Event::End(e)) if e.name().as_ref() == "spectrum" => {
-                if arrays.len() != 2 {
-                    return Err(format!("spectrum {k}: {} arrays", arrays.len()));
+            Ok(Event::End(e))
+                if e.name().as_ref() == "spectrum" || e.name().as_ref() == "chromatogram" =>
+            {
+                let chromatogram = e.name().as_ref() == "chromatogram";
+                let index = if chromatogram { &mut kc } else { &mut k };
+                pending.push(Pending {
+                    chromatogram,
+                    index: *index,
+                    arrays: std::mem::take(&mut arrays),
+                });
+                *index += 1;
+                if pending.len() >= BATCH_SPECTRA || pending_bytes >= BATCH_POINTS * 4 {
+                    check_arrays(&pending, w)?;
+                    pending.clear();
+                    pending_bytes = 0;
                 }
-                let mut h = arrays[0].clone();
-                h.extend_from_slice(&arrays[1]);
-                if Some(&xxhash_rust::xxh3::xxh3_128(&h)) != w.hashes.get(k) {
-                    return Err(format!("spectrum {k}: arrays differ after writing"));
-                }
-                arrays.clear();
-                k += 1;
-            }
-            Ok(Event::End(e)) if e.name().as_ref() == "chromatogram" => {
-                let mut h = Vec::new();
-                for a in &arrays {
-                    h.extend_from_slice(a);
-                }
-                if Some(&xxhash_rust::xxh3::xxh3_128(&h)) != w.chrom_hashes.get(kc) {
-                    return Err(format!("chromatogram {kc}: arrays differ after writing"));
-                }
-                arrays.clear();
-                kc += 1;
             }
             Ok(Event::Eof) => break,
             Err(e) => return Err(format!("XML error at {}: {e}", reader.buffer_position())),
             _ => {}
         }
         buf.clear();
+    }
+    check_arrays(&pending, w)?;
+    drop(reader);
+    if hashing.left > 0 || hashing.sha.finish_hex() != w.sha {
+        return Err("SHA-1 checksum does not match the content".into());
     }
     if k != w.hashes.len() {
         return Err(format!("{k} spectra read back, {} written", w.hashes.len()));
@@ -1402,94 +1499,24 @@ fn chromatogram_xml(c: &Chromatogram, index: u64) -> Result<(String, u128)> {
 
 /// SHA-1 (FIPS 180-4), used only for the mzML `fileChecksum` element.
 #[derive(Clone)]
-struct Sha1 {
-    h: [u32; 5],
-    buf: Vec<u8>,
-    len: u64,
-}
+struct Sha1(sha1::Sha1);
 
 impl Sha1 {
     fn new() -> Self {
-        Sha1 {
-            h: [
-                0x6745_2301,
-                0xEFCD_AB89,
-                0x98BA_DCFE,
-                0x1032_5476,
-                0xC3D2_E1F0,
-            ],
-            buf: Vec::with_capacity(64),
-            len: 0,
-        }
+        Sha1(sha1::Digest::new())
     }
 
-    fn update(&mut self, mut data: &[u8]) {
-        self.len += data.len() as u64;
-        if !self.buf.is_empty() {
-            let take = (64 - self.buf.len()).min(data.len());
-            self.buf.extend_from_slice(&data[..take]);
-            data = &data[take..];
-            if self.buf.len() == 64 {
-                let block: [u8; 64] = self.buf[..].try_into().expect("64 bytes");
-                self.block(&block);
-                self.buf.clear();
-            }
-        }
-        let (blocks, rest) = data.as_chunks::<64>();
-        for block in blocks {
-            self.block(block);
-        }
-        self.buf.extend_from_slice(rest);
+    fn update(&mut self, data: &[u8]) {
+        sha1::Digest::update(&mut self.0, data);
     }
 
-    #[allow(clippy::many_single_char_names)] // the standard's variable names
-    fn block(&mut self, b: &[u8; 64]) {
-        let mut w = [0u32; 80];
-        for (i, word) in w.iter_mut().take(16).enumerate() {
-            *word = u32::from_be_bytes([b[4 * i], b[4 * i + 1], b[4 * i + 2], b[4 * i + 3]]);
-        }
-        for i in 16..80 {
-            w[i] = (w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16]).rotate_left(1);
-        }
-        let [mut a, mut bb, mut c, mut d, mut e] = self.h;
-        for (i, &wi) in w.iter().enumerate() {
-            let (f, k) = match i {
-                0..=19 => ((bb & c) | (!bb & d), 0x5A82_7999),
-                20..=39 => (bb ^ c ^ d, 0x6ED9_EBA1),
-                40..=59 => ((bb & c) | (bb & d) | (c & d), 0x8F1B_BCDC),
-                _ => (bb ^ c ^ d, 0xCA62_C1D6),
-            };
-            let t = a
-                .rotate_left(5)
-                .wrapping_add(f)
-                .wrapping_add(e)
-                .wrapping_add(k)
-                .wrapping_add(wi);
-            e = d;
-            d = c;
-            c = bb.rotate_left(30);
-            bb = a;
-            a = t;
-        }
-        for (h, v) in self.h.iter_mut().zip([a, bb, c, d, e]) {
-            *h = h.wrapping_add(v);
-        }
-    }
-
-    fn finish_hex(mut self) -> String {
-        let bits = self.len.wrapping_mul(8);
-        let mut pad = vec![0x80u8];
-        let rem = (self.len + 1) % 64;
-        let zeros = if rem <= 56 { 56 - rem } else { 120 - rem };
-        pad.extend(std::iter::repeat_n(0u8, zeros as usize));
-        pad.extend_from_slice(&bits.to_be_bytes());
-        let len = self.len;
-        self.update(&pad);
-        self.len = len;
-        self.h.iter().fold(String::with_capacity(40), |mut s, x| {
-            let _ = write!(s, "{x:08x}");
-            s
-        })
+    fn finish_hex(self) -> String {
+        sha1::Digest::finalize(self.0)
+            .iter()
+            .fold(String::with_capacity(40), |mut s, x| {
+                let _ = write!(s, "{x:02x}");
+                s
+            })
     }
 }
 

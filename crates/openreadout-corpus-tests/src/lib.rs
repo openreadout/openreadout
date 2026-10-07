@@ -12,8 +12,16 @@ pub const TRFP_LAST_EXCLUDING: (u32, u32) = (1, 3);
 
 /// Whether an export written by `export_software` (the oracle's `[id, version]` or
 /// `[type, name, version]` lists) left flagged Thermo peaks out: any ProteoWizard 2.x, or 3.0.x
-/// up to [`PWIZ_LAST_EXCLUDING_BUILD`]; ThermoRawFileParser up to [`TRFP_LAST_EXCLUDING`].
+/// up to [`PWIZ_LAST_EXCLUDING_BUILD`]; ThermoRawFileParser up to [`TRFP_LAST_EXCLUDING`]; any
+/// ReAdW (its last release was in 2009; the 4.0.2 export `pxd000951-ltqft-he4` blanks the flagged
+/// peaks' profile chunks).
 pub fn export_excludes_flagged_peaks(export_software: &[Vec<String>]) -> bool {
+    if export_software
+        .iter()
+        .any(|s| s.iter().any(|x| x == "ReAdW"))
+    {
+        return true;
+    }
     let trfp = export_software.iter().any(|s| {
         s.iter().any(|x| x == "ThermoRawFileParser")
             && s.last().is_some_and(|v| {
@@ -36,6 +44,33 @@ pub fn export_excludes_flagged_peaks(export_software: &[Vec<String>]) -> bool {
             [3, 0, build, ..] => *build <= PWIZ_LAST_EXCLUDING_BUILD,
             _ => false,
         }
+    })
+}
+
+/// The precursor m/z an export names when its converter took the monoisotopic m/z only within
+/// `max_shift` of the isolation target as the filter text prints it (`713.06@cid35.00`;
+/// ProteoWizard 3.0.4337: 1.5), where ours takes it within 3.0: ours within that distance, else
+/// the isolation target (the window's centre). Without `max_shift`, ours.
+#[must_use]
+pub fn export_precursor(
+    ours: Option<f64>,
+    window: Option<[f64; 2]>,
+    filter: Option<&str>,
+    max_shift: Option<f64>,
+) -> Option<f64> {
+    let (Some(ours), Some([lo, hi]), Some(max)) = (ours, window, max_shift) else {
+        return ours;
+    };
+    let target = f64::midpoint(lo, hi);
+    let printed = filter
+        .and_then(|f| f.split_whitespace().rfind(|w| w.contains('@')))
+        .and_then(|w| w.split('@').next())
+        .and_then(|x| x.parse::<f64>().ok())
+        .unwrap_or(target);
+    Some(if (ours - printed).abs() < max {
+        ours
+    } else {
+        target
     })
 }
 
@@ -180,6 +215,34 @@ mod tests {
             "ThermoRawFileParser",
             "1.4.2"
         ]])));
+        assert!(export_excludes_flagged_peaks(&sw(&[&[
+            "conversion",
+            "ReAdW",
+            "4.0.2(build Jul  1 2008 14:23:37)"
+        ]])));
+    }
+
+    #[test]
+    fn old_converter_precursor_rule() {
+        let w = Some([669.0, 670.0]);
+        // 1.67 from the printed target 669.5: the older converter names the target
+        assert_eq!(
+            super::export_precursor(
+                Some(667.83),
+                w,
+                Some("ITMS + c NSI d Full ms2 669.50@cid35.00 [180.00-2000.00]"),
+                Some(1.5)
+            ),
+            Some(669.5)
+        );
+        assert_eq!(
+            super::export_precursor(Some(668.6), w, Some("x 669.50@cid35.00"), Some(1.5)),
+            Some(668.6)
+        );
+        assert_eq!(
+            super::export_precursor(Some(667.83), w, None, None),
+            Some(667.83)
+        );
     }
 
     #[test]

@@ -63454,12 +63454,18 @@
       ]
     },
     {
-      "id": "msv86784-tp-meoh-epi-3-mzml",
+      "id": "msv102435-iqx-leaf-qc-neg-03",
       "format": "mzml",
-      "source": "massive:MSV000086784",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
+      "source": "massive:MSV000102435",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -63472,7 +63478,7 @@
         ],
         [
           "writer",
-          "Analyst",
+          "Xcalibur",
           []
         ],
         [
@@ -63498,64 +63504,7 @@
         ],
         [
           "instrument",
-          "QTRAP 6500",
-          []
-        ],
-        [
-          "record",
-          "total ion current chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "basepeak chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        10
-      ]
-    },
-    {
-      "id": "msv92552-mnx-h340a-ims2-raw-mzml",
-      "format": "mzml",
-      "source": "massive:MSV000092552",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "format_version",
-          "1.1.0",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "MassLynx",
-          []
-        ],
-        [
-          "writer",
-          "ProteoWizard software",
-          []
-        ],
-        [
-          "instrument",
-          "Waters instrument model",
+          "Orbitrap IQ-X",
           []
         ],
         [
@@ -63577,12 +63526,18 @@
       ]
     },
     {
-      "id": "msv97113-cm-5-pos-2-mzml",
+      "id": "msv94528-idx-msnlib-peptide01-b18",
       "format": "mzml",
-      "source": "massive:MSV000097113",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
+      "source": "massive:MSV000094528",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -63595,7 +63550,7 @@
         ],
         [
           "writer",
-          "Analyst",
+          "Xcalibur",
           []
         ],
         [
@@ -63621,7 +63576,7 @@
         ],
         [
           "instrument",
-          "QTRAP 6500",
+          "Orbitrap ID-X",
           []
         ],
         [
@@ -63633,7 +63588,215 @@
         ],
         [
           "record",
-          "basepeak chromatogram",
+          "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "msv97728-tsq9610-gc-crbalf03",
+      "format": "mzml",
+      "source": "massive:MSV000097728",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Xcalibur",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Thermo Electron instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "msv99294-astral-nanopots-1cell-b9",
+      "format": "mzml",
+      "source": "massive:MSV000099294",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Xcalibur",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Orbitrap Astral",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "msv99508-eclipse-faims-ptrc-f03",
+      "format": "mzml",
+      "source": "massive:MSV000099508",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Xcalibur",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Orbitrap Eclipse",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
           [
             "traces"
           ]
@@ -63858,12 +64021,18 @@
       ]
     },
     {
-      "id": "mtbls12637-processblank2-pos-77-d-mzml",
+      "id": "mtbls13066-elite-318a-b5-35nce",
       "format": "mzml",
-      "source": "metabolights:MTBLS12637",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
+      "source": "metabolights:MTBLS13066",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
       "features": [
         [
           "format_version",
@@ -63876,100 +64045,12 @@
         ],
         [
           "writer",
-          "MassHunter Data Acquisition",
+          "Xcalibur",
           []
         ],
         [
           "writer",
           "ProteoWizard software",
-          []
-        ],
-        [
-          "acquisition",
-          "MS1 spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "profile spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "total ion current chromatogram",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "Agilent instrument model",
-          []
-        ],
-        [
-          "record",
-          "total ion current chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "pressure chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "flow rate chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        10
-      ]
-    },
-    {
-      "id": "mtbls1266-swath-neg-wt1-mzml",
-      "format": "mzml",
-      "source": "metabolights:MTBLS1266",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "format_version",
-          "1.1.0",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "Analyst",
-          []
-        ],
-        [
-          "writer",
-          "ProteinPilot Software",
           []
         ],
         [
@@ -63990,141 +64071,7 @@
         ],
         [
           "instrument",
-          "AB SCIEX instrument model",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        8
-      ]
-    },
-    {
-      "id": "mtbls12837-n14-d-mzml",
-      "format": "mzml",
-      "source": "metabolights:MTBLS12837",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "format_version",
-          "1.1.0",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "MassHunter Data Acquisition",
-          []
-        ],
-        [
-          "writer",
-          "ProteoWizard software",
-          []
-        ],
-        [
-          "acquisition",
-          "MS1 spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "centroid spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "total ion current chromatogram",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "Agilent instrument model",
-          []
-        ],
-        [
-          "record",
-          "total ion current chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "pressure chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "flow rate chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        10
-      ]
-    },
-    {
-      "id": "mtbls13129-beejamrit-3-1-gcms-raw-mzml",
-      "format": "mzml",
-      "source": "metabolights:MTBLS13129",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "format_version",
-          "1.1.0",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "MassLynx",
-          []
-        ],
-        [
-          "writer",
-          "ProteoWizard software",
-          []
-        ],
-        [
-          "acquisition",
-          "MS1 spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "Waters instrument model",
+          "LTQ Orbitrap Elite",
           []
         ],
         [
@@ -65394,6 +65341,77 @@
         [
           "record",
           "basepeak chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "selected reaction monitoring chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        9
+      ]
+    },
+    {
+      "id": "mtbls6991-tsq-altis-plus-sar11-40",
+      "format": "mzml",
+      "source": "metabolights:MTBLS6991",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Xcalibur",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "selected reaction monitoring chromatogram",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
           [
             "traces"
           ]
@@ -70059,6 +70077,78 @@
       ]
     },
     {
+      "id": "pxd000792-ltq-orbitrap-yeast-900",
+      "format": "mzml",
+      "source": "pride:PXD000792",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Xcalibur",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "LTQ Orbitrap",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "pxd032908-velos-etd-pep38",
       "format": "mzml",
       "source": "pride:PXD032908",
@@ -70193,6 +70283,85 @@
         [
           "record",
           "basepeak chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "pxd059315-ascend-etd-wkl-1",
+      "format": "mzml",
+      "source": "pride:PXD059315",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Xcalibur",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Orbitrap Ascend",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "pressure chromatogram",
           [
             "traces"
           ]
@@ -70391,6 +70560,81 @@
         [
           "instrument",
           "Orbitrap Fusion Lumos",
+          []
+        ],
+        [
+          "record",
+          "basepeak chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "pxd069324-astral-dia-ihsp-lo2",
+      "format": "mzml",
+      "source": "pride:PXD069324",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "ThermoRawFileParser",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion current chromatogram",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Orbitrap Astral",
           []
         ],
         [
@@ -71573,6 +71817,68 @@
         [
           "instrument",
           "LTQ Orbitrap Velos",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        6
+      ]
+    },
+    {
+      "id": "pxd000874-ltq-2005-mf01",
+      "format": "mzxml",
+      "source": "pride:PXD000874",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.1",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "LTQ",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        6
+      ]
+    },
+    {
+      "id": "pxd000951-ltqft-he4",
+      "format": "mzxml",
+      "source": "pride:PXD000951",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "LTQ FT",
           []
         ]
       ],
@@ -98898,6 +99204,574 @@
       ]
     },
     {
+      "id": "msv102435-iqx-leaf-qc-neg-03",
+      "format": "thermo-raw",
+      "source": "massive:MSV000102435",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.serial",
+        "experiment.instrument.software_version",
+        "experiment.method.parameters.polarity.value"
+      ],
+      "features": [
+        [
+          "format_version",
+          "66",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation Orbitrap Tribrid",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "Orbitrap IQ-X",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 4.3",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer FTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "analyzer ITMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source ESI",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "msv94528-idx-msnlib-peptide01-b18",
+      "format": "thermo-raw",
+      "source": "massive:MSV000094528",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial",
+        "experiment.instrument.software_version",
+        "experiment.method.parameters.polarity.value"
+      ],
+      "features": [
+        [
+          "format_version",
+          "66",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation Orbitrap Tribrid",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "Orbitrap ID-X",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 3.5",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer FTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms3",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms4",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms5",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source ESI",
+          []
+        ],
+        [
+          "record",
+          "controller analog",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "msv97728-tsq9610-gc-crbalf03",
+      "format": "thermo-raw",
+      "source": "massive:MSV000097728",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.serial",
+        "experiment.instrument.software_version",
+        "experiment.method.parameters.polarity.value"
+      ],
+      "features": [
+        [
+          "format_version",
+          "66",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation TSQ",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "TSQ 9610",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 5.1",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer code 6",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source EI",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "msv99294-astral-nanopots-1cell-b9",
+      "format": "thermo-raw",
+      "source": "massive:MSV000099294",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial",
+        "experiment.instrument.software_version",
+        "experiment.method.parameters.polarity.value"
+      ],
+      "features": [
+        [
+          "format_version",
+          "66",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation Orbitrap Astral",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "Orbitrap Astral",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 1.1",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer ASTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "analyzer FTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "FAIMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source NSI",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "msv99508-eclipse-faims-ptrc-f03",
+      "format": "thermo-raw",
+      "source": "massive:MSV000099508",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial",
+        "experiment.instrument.software_version",
+        "experiment.method.parameters.polarity.value"
+      ],
+      "features": [
+        [
+          "format_version",
+          "66",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation Orbitrap Tribrid",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "Orbitrap Eclipse",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 3.5",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer FTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "FAIMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source NSI",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
       "id": "mtbls12283-rumenwall-qc-id-01-neg",
       "format": "thermo-raw",
       "source": "metabolights:MTBLS12283",
@@ -98994,6 +99868,105 @@
           [
             "traces"
           ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "mtbls13066-elite-318a-b5-35nce",
+      "format": "thermo-raw",
+      "source": "metabolights:MTBLS13066",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.serial",
+        "experiment.instrument.software_version",
+        "experiment.method.parameters.polarity.value"
+      ],
+      "features": [
+        [
+          "format_version",
+          "66",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation LTQ Orbitrap",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "Orbitrap Elite",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 2.7",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer FTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source ESI",
+          []
         ],
         [
           "field",
@@ -99649,7 +100622,7 @@
       "independent": true,
       "compared": [
         "metadata",
-        "traces"
+        "spectra"
       ],
       "fields": [
         "experiment.acquisition.started_at",
@@ -99682,6 +100655,13 @@
           "writer_version",
           "Xcalibur 2.3",
           []
+        ],
+        [
+          "acquisition",
+          "analyzer code 6",
+          [
+            "spectra"
+          ]
         ],
         [
           "acquisition",
@@ -100290,6 +101270,103 @@
       ]
     },
     {
+      "id": "mtbls6991-tsq-altis-plus-sar11-40",
+      "format": "thermo-raw",
+      "source": "metabolights:MTBLS6991",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.software_version"
+      ],
+      "features": [
+        [
+          "format_version",
+          "66",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation TSQ",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "TSQ Altis Plus",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 3.4",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer code 6",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "polarity switching",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source ESI",
+          []
+        ],
+        [
+          "record",
+          "controller analog",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
       "id": "mtbls755-hilic-dpoly",
       "format": "thermo-raw",
       "source": "metabolights:MTBLS755",
@@ -100383,6 +101460,87 @@
         [
           "acquisition",
           "ion source ESI",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "mtbls758-isq-growth-93",
+      "format": "thermo-raw",
+      "source": "metabolights:MTBLS758",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "64",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "ISQ",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Xcalibur 1.0",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer code 6",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source EI",
           []
         ],
         [
@@ -101289,6 +102447,13 @@
         ],
         [
           "acquisition",
+          "in-source CID",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
           "ion source NSI",
           []
         ],
@@ -101360,6 +102525,322 @@
         [
           "acquisition",
           "profile spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source NSI",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "pxd000792-ltq-orbitrap-yeast-900",
+      "format": "thermo-raw",
+      "source": "pride:PXD000792",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial",
+        "experiment.instrument.software_version",
+        "experiment.method.parameters.polarity.value"
+      ],
+      "features": [
+        [
+          "format_version",
+          "61",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation LTQ Orbitrap",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "LTQ Orbitrap",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 2.0",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer FTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "analyzer ITMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source NSI",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "pxd000874-ltq-2005-mf01",
+      "format": "thermo-raw",
+      "source": "pride:PXD000874",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.instrument.model",
+        "experiment.instrument.software_version",
+        "experiment.method.parameters.polarity.value"
+      ],
+      "features": [
+        [
+          "format_version",
+          "57",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation LTQ ion trap",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "LTQ",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 1.0",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer ITMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source NSI",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "pxd000951-ltqft-he4",
+      "format": "thermo-raw",
+      "source": "pride:PXD000951",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.instrument.software_version",
+        "experiment.method.parameters.polarity.value"
+      ],
+      "features": [
+        [
+          "format_version",
+          "62",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation LTQ FT",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "LTQ FT Ultra",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 2.2",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer FTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "analyzer ITMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
           [
             "spectra"
           ]
@@ -101566,6 +103047,127 @@
         [
           "acquisition",
           "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source NSI",
+          []
+        ],
+        [
+          "record",
+          "controller analog",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "pxd059315-ascend-etd-wkl-1",
+      "format": "thermo-raw",
+      "source": "pride:PXD059315",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial",
+        "experiment.instrument.software_version",
+        "experiment.method.parameters.polarity.value"
+      ],
+      "features": [
+        [
+          "format_version",
+          "66",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation Orbitrap Tribrid",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "Orbitrap Ascend",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 4.2",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer FTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "analyzer ITMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
           [
             "spectra"
           ]
@@ -101823,6 +103425,133 @@
       ]
     },
     {
+      "id": "pxd069324-astral-dia-ihsp-lo2",
+      "format": "thermo-raw",
+      "source": "pride:PXD069324",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial",
+        "experiment.method.parameters.polarity.value"
+      ],
+      "features": [
+        [
+          "format_version",
+          "66",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation Orbitrap Astral",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "Orbitrap Astral",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 2.0",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer ASTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "analyzer FTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "FAIMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source NSI",
+          []
+        ],
+        [
+          "record",
+          "controller analog",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
       "id": "zenodo19222374-cannabis-neg-h1-1",
       "format": "thermo-raw",
       "source": "zenodo:19222374",
@@ -101894,6 +103623,13 @@
         [
           "acquisition",
           "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "in-source CID",
           [
             "spectra"
           ]
