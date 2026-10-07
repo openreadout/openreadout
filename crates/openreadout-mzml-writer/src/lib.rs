@@ -30,6 +30,7 @@
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]
 
+use std::collections::BTreeSet;
 use std::fmt::Write as _;
 use std::fs::File;
 use std::io::{BufWriter, Read, Write};
@@ -87,6 +88,18 @@ pub struct MzmlExportReport {
     pub view: String,
     /// SHA-1 of the file up to the checksum element, as recorded in it.
     pub sha1: String,
+    /// Spectra left out because the reader refused them, such as the optical
+    /// (electromagnetic radiation) spectra of a PDA detector in an mzML file.
+    #[serde(default, skip_serializing_if = "is_zero")]
+    pub spectra_skipped: u64,
+    /// Why spectra were left out, when some were.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub warnings: Vec<String>,
+}
+
+#[allow(clippy::trivially_copy_pass_by_ref)] // serde passes a reference
+fn is_zero(n: &u64) -> bool {
+    *n == 0
 }
 
 /// Export run `opts.run` of `ds` (read from `input`) to `output` as indexed mzML.
@@ -121,17 +134,17 @@ pub fn export_mzml(
             )));
         }
     };
-    let n = run.scan_count;
+    let scan_count = run.scan_count;
     // `None`: the run has no spectra, and the file holds only its chromatograms.
     let range = match opts.index_range {
-        Some((a, b)) if a <= b && b < n => Some((a, b)),
+        Some((a, b)) if a <= b && b < scan_count => Some((a, b)),
         Some((a, b)) => {
             return Err(Error::Usage(format!(
-                "spectrum range {a}..={b} is outside 0..{n}"
+                "spectrum range {a}..={b} is outside 0..{scan_count}"
             )));
         }
-        None if n == 0 => None,
-        None => Some((0, n - 1)),
+        None if scan_count == 0 => None,
+        None => Some((0, scan_count - 1)),
     };
     // Without spectra the chromatograms are read first: they decide the file content and
     // whether there is anything to write.
@@ -175,7 +188,10 @@ pub fn export_mzml(
             .map_or_else(|| "export".into(), |s| s.to_string_lossy().to_string()),
         std::process::id()
     ));
-    let written = (|| -> Result<Written> {
+    // A spectrum the reader refuses as unsupported (an optical spectrum in an mzML file, say) is
+    // left out. The spectrum count comes before the spectra in the file, so when the first pass
+    // finds such spectra, the file is written again without them.
+    let mut write = |skip: &BTreeSet<u64>| -> Result<(Written, Vec<(u64, Error)>)> {
         let f = File::create(&tmp).map_err(|e| Error::io(&tmp, e))?;
         let mut w = CountingWriter::new(BufWriter::new(f), &tmp);
         let (head, source_configs) = header_xml(
@@ -184,23 +200,39 @@ pub fn export_mzml(
             input,
             thermo_ids,
             vendor_ids,
-            range.map(|(first, last)| last - first + 1),
+            range.map(|(first, last)| last - first + 1 - skip.len() as u64),
             &chrom_types,
         );
         w.write_str(&head)?;
         let mut offsets = Vec::new();
         let mut hashes = Vec::new();
         let mut points = 0u64;
+        let mut refused = Vec::new();
         if let Some((first, last)) = range {
             // Spectra are read in batches. While the threads compress one batch, this thread
             // reads the next, then writes the compressed batch in order, so the file does not
             // depend on the thread count.
-            let mut read_batch = |from: u64| -> Result<Vec<(Spectrum, String)>> {
+            // `read_batch` returns the batch, the index to read next and the spectra it refused.
+            type Batch = (Vec<(Spectrum, String)>, u64, Vec<(u64, Error)>);
+            let mut read_batch = |from: u64| -> Result<Batch> {
                 let mut batch = Vec::new();
+                let mut refused = Vec::new();
                 let mut batch_points = 0usize;
                 let mut i = from;
                 while i <= last && batch.len() < BATCH_SPECTRA && batch_points < BATCH_POINTS {
-                    let sp = ds.read_spectrum_view(opts.run, i, view)?;
+                    if skip.contains(&i) {
+                        i += 1;
+                        continue;
+                    }
+                    let sp = match ds.read_spectrum_view(opts.run, i, view) {
+                        Ok(sp) => sp,
+                        Err(e @ Error::Unsupported { .. }) => {
+                            refused.push((i, e));
+                            i += 1;
+                            continue;
+                        }
+                        Err(e) => return Err(e),
+                    };
                     let id = if agilent_ids {
                         format!("scanId={}", sp.scan_number)
                     } else if vendor_ids {
@@ -214,12 +246,12 @@ pub fn export_mzml(
                     batch.push((sp, id));
                     i += 1;
                 }
-                Ok(batch)
+                Ok((batch, i, refused))
             };
-            let mut batch = read_batch(first)?;
+            let (mut batch, mut next_from, r) = read_batch(first)?;
+            refused.extend(r);
             let mut k = 0u64;
             while !batch.is_empty() {
-                let next_from = first + k + batch.len() as u64;
                 let (encoded, next) = rayon::join(
                     || {
                         batch
@@ -240,7 +272,9 @@ pub fn export_mzml(
                     w.write_str(&xml)?;
                 }
                 k += batch.len() as u64;
-                batch = next?;
+                let r;
+                (batch, next_from, r) = next?;
+                refused.extend(r);
             }
             w.write_str("    </spectrumList>\n")?;
         }
@@ -294,7 +328,7 @@ pub fn export_mzml(
         let sha = w.sha1.clone().finish_hex();
         w.write_str(&format!("{sha}</fileChecksum>\n</indexedmzML>\n"))?;
         w.flush()?;
-        Ok(Written {
+        let written = Written {
             offsets: offsets.into_iter().map(|(_, o)| o).collect(),
             hashes,
             chrom_offsets: chrom_offsets.into_iter().map(|(_, o)| o).collect(),
@@ -302,10 +336,35 @@ pub fn export_mzml(
             points,
             sha,
             index_offset,
-        })
-    })();
-    let written = match written {
-        Ok(v) => v,
+        };
+        Ok((written, refused))
+    };
+    let mut skip = BTreeSet::new();
+    let mut warnings = Vec::new();
+    let mut result = write(&skip);
+    if let Ok((_, refused)) = &mut result
+        && let Some((_, first_error)) = refused.first()
+    {
+        skip = refused.iter().map(|(i, _)| *i).collect();
+        warnings.push(format!(
+            "Left out {} spectra that the reader refused. The first: {first_error}",
+            skip.len()
+        ));
+        let range_len = range.map_or(0, |(first, last)| last - first + 1);
+        result = if skip.len() as u64 == range_len {
+            // Nothing left to write: fail with the reason the first spectrum was refused.
+            Err(refused.swap_remove(0).1)
+        } else {
+            write(&skip)
+        };
+    }
+    let written = match result {
+        Ok((written, refused)) if refused.is_empty() => written,
+        // The second pass refused a spectrum the first one read: the written count is wrong.
+        Ok((_, mut refused)) => {
+            let _ = std::fs::remove_file(&tmp);
+            return Err(refused.swap_remove(0).1);
+        }
         Err(e) => {
             let _ = std::fs::remove_file(&tmp);
             return Err(e);
@@ -335,6 +394,8 @@ pub fn export_mzml(
         verified: true,
         view: if opts.centroid { "centroid" } else { "primary" }.into(),
         sha1: written.sha,
+        spectra_skipped: skip.len() as u64,
+        warnings,
     })
 }
 
@@ -940,6 +1001,16 @@ fn spectrum_xml(
     id: &str,
     analyzer_refs: bool,
 ) -> Result<(String, u128)> {
+    if sp.mz.len() != sp.intensity.len() {
+        return Err(Error::corrupt(
+            "mzml",
+            format!(
+                "spectrum {index}: m/z array has {} values, intensity array {}",
+                sp.mz.len(),
+                sp.intensity.len()
+            ),
+        ));
+    }
     let mut mz_bytes = Vec::with_capacity(sp.mz.len() * 8);
     for v in &sp.mz {
         mz_bytes.extend_from_slice(&v.to_le_bytes());
@@ -1701,6 +1772,25 @@ impl Sha1 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn mismatched_spectrum_arrays_fail_without_indexing() {
+        for (mz, intensity) in [
+            (vec![], vec![1.0, 9.0]),
+            (vec![100.0], vec![1.0, 9.0]),
+            (vec![100.0], vec![]),
+        ] {
+            let sp = Spectrum {
+                mz,
+                intensity,
+                ..Spectrum::default()
+            };
+            let err = spectrum_xml(&sp, 0, "scan=1", false).unwrap_err();
+            assert_eq!(err.exit_code(), 4);
+            assert!(err.hint().is_some());
+        }
+        assert!(spectrum_xml(&Spectrum::default(), 0, "scan=1", false).is_ok());
+    }
 
     #[test]
     fn sha1_known_vectors() {

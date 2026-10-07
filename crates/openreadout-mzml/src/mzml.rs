@@ -801,6 +801,17 @@ impl MzmlDataset {
     /// Decode spectrum `i` completely.
     pub fn spectrum(&self, i: usize) -> Result<Spectrum> {
         let node = self.spectrum_node(None, i, false)?;
+        // A PDA or UV detector's spectrum (MS:1000804 electromagnetic radiation spectrum) has a
+        // wavelength array instead of m/z values, so it is not returned as a mass spectrum.
+        if has(&params(&node, &self.groups), cv::EM_SPECTRUM) {
+            return Err(Error::unsupported(
+                FMT,
+                format!(
+                    "spectrum {i} is an optical (electromagnetic radiation) spectrum, with wavelengths instead of m/z values"
+                ),
+                "It comes from an optical detector such as a PDA, not the mass spectrometer. `openreadout scans FILE --ms-level 1` lists the mass spectra, and `openreadout trace FILE` reads the chromatograms the file stores, which can include the detector's.",
+            ));
+        }
         let offset = self.spectra[i].offset;
         let mut m = self.meta(&node, i);
         let arrays = decode_arrays(&node, &self.groups, m.points, offset, self.external())?;
@@ -816,7 +827,7 @@ impl MzmlDataset {
         }
         let mz = mz.unwrap_or_default();
         let intensity = intensity.unwrap_or_default();
-        if mz.len() != intensity.len() && !mz.is_empty() && !intensity.is_empty() {
+        if mz.len() != intensity.len() {
             return Err(Error::corrupt_at(
                 FMT,
                 offset,
@@ -2033,6 +2044,42 @@ pub(crate) fn descriptor() -> FormatDescriptor {
 #[cfg(test)]
 mod text_array_tests {
     use openreadout_core::Dataset;
+
+    #[test]
+    fn optical_and_missing_mass_arrays_fail_cleanly() {
+        for (kind, code) in [
+            (
+                r#"<cvParam accession="MS:1000804" name="electromagnetic radiation spectrum"/>"#,
+                6,
+            ),
+            (
+                r#"<cvParam accession="MS:1000511" name="ms level" value="1"/>"#,
+                4,
+            ),
+        ] {
+            let xml = format!(
+                r#"<mzML xmlns="http://psi.hupo.org/ms/mzml" version="1.1.0">
+ <run id="r"><spectrumList count="1">
+  <spectrum id="scan=1" index="0" defaultArrayLength="2">
+   {kind}
+   <binaryDataArrayList count="1"><binaryDataArray encodedLength="12">
+    <cvParam accession="MS:1000515" name="intensity array"/>
+    <cvParam accession="MS:1000521" name="32-bit float"/>
+    <cvParam accession="MS:1000576" name="no compression"/>
+    <binary>AABAQAAAgEA=</binary>
+   </binaryDataArray></binaryDataArrayList>
+  </spectrum>
+ </spectrumList></run></mzML>"#
+            );
+            let dir = tempfile::tempdir().unwrap();
+            let path = dir.path().join("spectrum.mzML");
+            std::fs::write(&path, xml).unwrap();
+            let ds = super::MzmlDataset::open(&path).unwrap();
+            let err = ds.spectrum(0).unwrap_err();
+            assert_eq!(err.exit_code(), code, "{err}");
+            assert!(err.hint().is_some());
+        }
+    }
 
     /// OpenMS's `MzMLFile_6_uncompressed.mzML` layout: m/z and intensity, then a
     /// `null-terminated ASCII string` (MS:1001479) meta-data array. The text array used to fail

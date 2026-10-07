@@ -331,6 +331,9 @@ fn compare(h: &ScanHeader, s: &OracleScan, e: &Entry, same_file: bool) -> Vec<St
 fn consistent(ds: &mut dyn Dataset, h: &ScanHeader) -> Vec<String> {
     let sp = match ds.read_spectrum_view(0, h.index, SpectrumView::Primary) {
         Ok(sp) => sp,
+        // The mzML reader refuses an optical spectrum (MS level 0) as a mass spectrum, so there
+        // is nothing to compare the header with.
+        Err(openreadout_core::Error::Unsupported { .. }) if h.ms_level == 0 => return Vec::new(),
         Err(e) => return vec![format!("spectrum {}: {e}", h.index)],
     };
     let mut m = Vec::new();

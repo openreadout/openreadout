@@ -334,11 +334,15 @@ fn vendor_readers_match_vendor_calibrated_conversions() {
                     true
                 });
                 for k in 0..n {
-                    let theirs = reference.read_spectrum(0, k).expect("reference spectrum");
-                    // not a mass spectrum (a UV/Vis spectrum of a detector function)
-                    if theirs.ms_level == 0 {
-                        continue;
-                    }
+                    // Not a mass spectrum: the mzML reader refuses a UV/Vis spectrum of a
+                    // detector function that declares itself optical, and reports MS level 0
+                    // for one that does not.
+                    let theirs = match reference.read_spectrum(0, k) {
+                        Ok(s) if s.ms_level == 0 => continue,
+                        Ok(s) => s,
+                        Err(openreadout_core::Error::Unsupported { .. }) => continue,
+                        Err(e) => panic!("reference spectrum {k}: {e}"),
+                    };
                     let at = match mode {
                         "index" => Some(k).filter(|&k| k < on),
                         "scan-number" => theirs
