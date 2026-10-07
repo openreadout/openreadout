@@ -1,6 +1,6 @@
 //! `export`: images to OME-TIFF or OME-Zarr, tables and traces to CSV, Parquet or Arrow,
 //! spectra to mzML, and the format-specific writers (ASM, NWB, JCAMP-DX, RDML); or one
-//! embedded attachment (`--attachment`).
+//! embedded attachment (`extract`).
 
 use std::path::{Path, PathBuf};
 
@@ -10,7 +10,6 @@ use openreadout_core::{Error, Registry, Result};
 
 use super::batch::{self, Spec, Stdin};
 use super::{nmr, plate, qpcr, wrap};
-use crate::output::fail;
 
 /// Arguments of `export`.
 #[derive(Debug, clap::Args)]
@@ -31,12 +30,6 @@ pub struct ExportArgs {
     /// `.asm.json`, `.parquet`, `.arrow`, `.nwb` or `.jdx`.
     #[arg(short, long)]
     pub output: Option<PathBuf>,
-    /// Write this embedded attachment (thumbnail, label/preview image, time stamps, ...) to a
-    /// new file instead: its name as `info --view structure` shows it (e.g. `Thumbnail`,
-    /// `Label`, `SlidePreview`), or `#<index>`. Default output: `<input stem>.<attachment
-    /// name>.<ext>` next to the input.
-    #[arg(long, value_name = "NAME", conflicts_with = "to")]
-    pub attachment: Option<String>,
     /// CSV, Parquet, Arrow: export this table (FCS data set, plate read, event or peak table) index (see `info`). Default 0.
     #[arg(long)]
     pub table: Option<u32>,
@@ -155,35 +148,55 @@ pub enum Compression {
     Lz4,
 }
 
+/// Arguments of `extract`.
+#[derive(Debug, clap::Args)]
+pub struct ExtractArgs {
+    /// The file that holds the attachment.
+    #[arg(value_name = "FILE")]
+    pub file: PathBuf,
+    /// The attachment: its name as `info --view structure` shows it (e.g. `Thumbnail`, `Label`,
+    /// `SlidePreview`, `TimeStamps`), or `#<index>`.
+    #[arg(value_name = "ATTACHMENT")]
+    pub attachment: String,
+    /// Output path. Default: `<input stem>.<attachment name>.<ext>` next to the input.
+    #[arg(short, long)]
+    pub output: Option<PathBuf>,
+    /// Replace an existing output file.
+    #[arg(long)]
+    pub overwrite: bool,
+    #[arg(long)]
+    pub json: bool,
+}
+
+/// Run `extract`: write one embedded attachment as stored.
+pub fn run_extract(reg: &Registry, a: &ExtractArgs) -> i32 {
+    wrap(
+        a.json,
+        || {
+            extract(
+                reg,
+                &a.file,
+                &a.attachment,
+                a.output.as_deref(),
+                a.overwrite,
+            )
+        },
+        |r| {
+            format!(
+                "wrote {} ({} `{}`, {} bytes, verified={})",
+                r.output, r.attachment.content_type, r.attachment.name, r.bytes_written, r.verified
+            )
+        },
+    )
+}
+
+/// Run `export`.
 pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
-    if let Some(name) = &a.attachment {
-        let [file] = a.files.as_slice() else {
-            return fail(
-                a.json,
-                &Error::Usage("--attachment writes from one file; give one FILE".into()),
-            );
-        };
-        return wrap(
-            a.json,
-            || extract(reg, file, name, a.output.as_deref(), a.overwrite),
-            |r| {
-                format!(
-                    "wrote {} ({} `{}`, {} bytes, verified={})",
-                    r.output,
-                    r.attachment.content_type,
-                    r.attachment.name,
-                    r.bytes_written,
-                    r.verified
-                )
-            },
-        );
-    }
     let ExportArgs {
         files,
         batch,
         to,
         output,
-        attachment: _,
         table,
         rows,
         sweep,

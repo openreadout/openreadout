@@ -40,7 +40,7 @@ Checks this installation: version, build, compiled features, formats and the MCP
 openreadout self schema <OF>
 ```
 
-Prints the JSON Schema of a command's `data` payload. `OF` is one of the names in the [JSON reference](../json/index.md), such as `info`, `info-full`, `compare`, `stats-wells`, `batch-table`, `search-health` or `envelope`.
+Prints the JSON Schema of a command's `data` payload. `OF` is one of the names in the [JSON reference](../json/index.md), such as `info`, `info-full`, `compare`, `stats-wells`, `batch-table`, `health` or `envelope`.
 
 ### skill
 

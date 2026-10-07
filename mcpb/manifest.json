@@ -83,8 +83,12 @@
       "description": "Rows of a table (FCS events, plate reads, event, spike and peak tables); FCS optionally compensated, transformed and gated; filter and count"
     },
     {
-      "name": "openreadout_spectra",
-      "description": "Mass spectrometry: scan headers filtered and counted, or one spectrum's m/z and intensity arrays (scan, spectrum, or ms_level + nth)"
+      "name": "openreadout_scans",
+      "description": "Mass-spectrometry scan headers, filtered and counted, without decoding peaks"
+    },
+    {
+      "name": "openreadout_spectrum",
+      "description": "One mass spectrum's m/z and intensity arrays, by scan number, index, or the nth scan of an MS level"
     },
     {
       "name": "openreadout_peaks",
@@ -140,11 +144,19 @@
     },
     {
       "name": "openreadout_export",
-      "description": "Convert to OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, Allotrope ASM or RDML with read-back verification, or write an embedded attachment"
+      "description": "Convert to OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, Allotrope ASM or RDML with read-back verification"
+    },
+    {
+      "name": "openreadout_extract",
+      "description": "Write an embedded attachment (slide label, thumbnail, time stamps) to a new file as stored"
     },
     {
       "name": "openreadout_batch",
-      "description": "Any measure or analysis over many files as one tidy table, joined to sample sheets and summarized by group; measure=summarize regroups a saved table"
+      "description": "Any measure or analysis over many files as one tidy table, joined to sample sheets and summarized by group"
+    },
+    {
+      "name": "openreadout_summarize",
+      "description": "Group statistics of a saved table, with replicate averaging and tests against a control"
     },
     {
       "name": "openreadout_link",
@@ -159,12 +171,12 @@
       "description": "Search an index: data sets matching a query such as objective=63x channel~GFP acquired<2020"
     },
     {
-      "name": "openreadout_watch",
-      "description": "Watch directories where instruments write: new data sets, planes and scans, completion, stalls and live QC events since a cursor"
+      "name": "openreadout_health",
+      "description": "Storage health of an indexed share: truncated or corrupt files, duplicates, files at risk"
     },
     {
-      "name": "openreadout_formats",
-      "description": "Supported formats and known gaps"
+      "name": "openreadout_watch",
+      "description": "Watch directories where instruments write: new data sets, planes and scans, completion, stalls and live QC events since a cursor"
     }
   ],
   "compatibility": {

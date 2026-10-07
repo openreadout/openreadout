@@ -82,8 +82,8 @@ pub enum SchemaOf {
     Report,
     /// `export`.
     Export,
-    /// `export --attachment`.
-    ExportAttachment,
+    /// `extract`.
+    Extract,
     Preview,
     Stats,
     /// `stats --per well|field`: per-well rows of a multi-well plate.
@@ -91,9 +91,9 @@ pub enum SchemaOf {
     Trace,
     /// `table`: rows of a table, with the processing record for FCS.
     Table,
-    /// `spectra`: scan headers of a mass-spectrometry run.
-    Spectra,
-    /// `spectra --scan|--spectrum|--nth`: one mass spectrum.
+    /// `scans`: scan headers of a mass-spectrometry run.
+    Scans,
+    /// `spectrum`: one mass spectrum.
     Spectrum,
     /// `analyze peaks`: peak tables, targeted peaks and compound rows.
     Peaks,
@@ -114,17 +114,17 @@ pub enum SchemaOf {
     Gate,
     /// `batch`, and the table mode of info, stats, trace, table and analyze gate (`--tidy --json`).
     BatchTable,
-    /// `batch summarize`.
-    BatchSummary,
+    /// `summarize`.
+    Summarize,
     /// `link`.
     Link,
     /// `index.json` (also `index --json`); lists the columns of every table.
     Index,
     Search,
-    /// `search --health`.
-    SearchHealth,
-    /// `search --export`.
-    SearchExport,
+    /// `health`.
+    Health,
+    /// `export-dataset`.
+    ExportDataset,
     /// One `watch` event (the `data` of each line).
     Watch,
     /// `self formats`.
@@ -178,13 +178,13 @@ fn schema(of: SchemaOf) -> String {
         SchemaOf::Compare => schemars::schema_for!(openreadout_ops::compare::CompareOutput),
         SchemaOf::Report => schemars::schema_for!(openreadout_index::report::ReportOutput),
         SchemaOf::Export => schemars::schema_for!(ExportOutput),
-        SchemaOf::ExportAttachment => schemars::schema_for!(ExtractOutput),
+        SchemaOf::Extract => schemars::schema_for!(ExtractOutput),
         SchemaOf::Preview => schemars::schema_for!(openreadout_preview::PreviewOutput),
         SchemaOf::Stats => schemars::schema_for!(openreadout_core::stats::StatsOutput),
         SchemaOf::StatsWells => schemars::schema_for!(openreadout_core::plate::WellStatsOutput),
         SchemaOf::Trace => schemars::schema_for!(openreadout_core::trace::TraceSlice),
         SchemaOf::Table => schemars::schema_for!(openreadout_core::model::TableSlice),
-        SchemaOf::Spectra => schemars::schema_for!(openreadout_core::ScanList),
+        SchemaOf::Scans => schemars::schema_for!(openreadout_core::ScanList),
         SchemaOf::Spectrum => schemars::schema_for!(SpectrumOutput),
         SchemaOf::Peaks => schemars::schema_for!(openreadout_quant::analyze::PeaksOutput),
         SchemaOf::Chromatogram => {
@@ -197,12 +197,12 @@ fn schema(of: SchemaOf) -> String {
         SchemaOf::Assay => schemars::schema_for!(openreadout_assay::AssayOutput),
         SchemaOf::Gate => schemars::schema_for!(openreadout_core::flow::GateOutput),
         SchemaOf::BatchTable => schemars::schema_for!(openreadout_batch::BatchOutput),
-        SchemaOf::BatchSummary => schemars::schema_for!(summarize::SummarizeOutput),
+        SchemaOf::Summarize => schemars::schema_for!(summarize::SummarizeOutput),
         SchemaOf::Link => schemars::schema_for!(openreadout_batch::LinkOutput),
         SchemaOf::Index => schemars::schema_for!(openreadout_index::IndexManifest),
         SchemaOf::Search => schemars::schema_for!(openreadout_index::SearchOutput),
-        SchemaOf::SearchHealth => schemars::schema_for!(openreadout_index::HealthReport),
-        SchemaOf::SearchExport => {
+        SchemaOf::Health => schemars::schema_for!(openreadout_index::HealthReport),
+        SchemaOf::ExportDataset => {
             schemars::schema_for!(openreadout_index::ExportDatasetReport)
         }
         SchemaOf::Watch => schemars::schema_for!(openreadout_live::watch::WatchEvent),

@@ -1,4 +1,4 @@
-//! `index` and `search` (with `--health` and `--export`): a catalog of a lab share
+//! `index`, `search`, `health` and `export-dataset`: a catalog of a lab share
 //! (`openreadout-index`, `book/src/guides/lab-shares.md`).
 
 use std::path::PathBuf;
@@ -61,14 +61,11 @@ pub struct IndexArgs {
     /// Do not look for personal data.
     #[arg(long)]
     pub no_pii: bool,
-    /// Also print the storage health report (as `search --health` does).
-    #[arg(long)]
-    pub health: bool,
     #[arg(long)]
     pub json: bool,
 }
 
-/// `--tables` of `search --export`.
+/// `--tables` of `export-dataset`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, clap::ValueEnum)]
 pub enum TablesArg {
     /// Apache Parquet.
@@ -93,8 +90,7 @@ pub struct SearchArgs {
     /// Sort by a field (`size`, `acquired`, `-size` for descending). Default: path order.
     #[arg(long, value_name = "FIELD", allow_hyphen_values = true)]
     pub sort: Option<String>,
-    /// Most results (0 = all; default 50); with `--export`, most data sets exported (default
-    /// all).
+    /// Most results (0 = all; default 50).
     #[arg(long, value_name = "N")]
     pub limit: Option<usize>,
     /// Fields to return, comma-separated (`path,format,sample,operator`), or `all`.
@@ -105,73 +101,61 @@ pub struct SearchArgs {
     pub jsonl: bool,
     #[arg(long)]
     pub json: bool,
-    /// Storage health report of the whole index instead of results: truncated/corrupt files,
-    /// unreadable formats, duplicates, the same experiment stored twice, files at risk, totals,
-    /// personal data.
-    #[arg(
-        long,
-        help_heading = "Storage health (--health)",
-        conflicts_with = "export"
-    )]
-    pub health: bool,
-    /// With `--health`: do not confirm duplicate candidates by hashing their content (no file
-    /// is read).
-    #[arg(long, requires = "health", help_heading = "Storage health (--health)")]
+}
+
+/// Arguments of `health`.
+#[derive(Debug, clap::Args)]
+pub struct HealthArgs {
+    /// Index directory (from `openreadout index DIR -o INDEX_DIR`).
+    #[arg(value_name = "INDEX_DIR")]
+    pub index: PathBuf,
+    /// Do not confirm duplicate candidates by hashing their content (no file is read).
+    #[arg(long)]
     pub no_hash: bool,
-    /// With `--health`: most entries listed per section (counts are complete).
-    #[arg(
-        long,
-        value_name = "N",
-        default_value_t = 100,
-        help_heading = "Storage health (--health)"
-    )]
+    /// Most entries listed per section (counts are complete).
+    #[arg(long, value_name = "N", default_value_t = 100)]
     pub max_list: usize,
-    /// With `--health`: also write the Markdown report to this file.
-    #[arg(
-        short,
-        long,
-        value_name = "FILE",
-        requires = "health",
-        help_heading = "Storage health (--health)"
-    )]
+    /// Also write the Markdown report to this file.
+    #[arg(short, long, value_name = "FILE")]
     pub output: Option<PathBuf>,
-    /// Export the data sets the query selects as an ML-ready dataset into this directory:
-    /// images to OME-Zarr, tables/traces/spectra to Parquet (or CSV), metadata JSON and a
-    /// datasheet. Resumable (a rerun continues) and verified.
-    #[arg(long, value_name = "OUT", help_heading = "Dataset export (--export)")]
-    pub export: Option<PathBuf>,
-    /// With `--export`: file format for tables, traces and spectra.
-    #[arg(
-        long,
-        value_enum,
-        default_value_t,
-        help_heading = "Dataset export (--export)"
-    )]
+    #[arg(long)]
+    pub json: bool,
+}
+
+/// Arguments of `export-dataset`.
+#[derive(Debug, clap::Args)]
+pub struct ExportDatasetArgs {
+    /// Index directory (from `openreadout index DIR -o INDEX_DIR`).
+    #[arg(value_name = "INDEX_DIR")]
+    pub index: PathBuf,
+    /// The data sets to export, as a `search` query (`""` for everything).
+    #[arg(value_name = "QUERY")]
+    pub query: String,
+    /// Directory to export into: images to OME-Zarr, tables, traces and spectra to Parquet (or
+    /// CSV), metadata JSON and a datasheet. A rerun continues where the last one stopped.
+    #[arg(value_name = "OUT")]
+    pub output: PathBuf,
+    /// Most data sets exported. Default: all.
+    #[arg(long, value_name = "N")]
+    pub limit: Option<usize>,
+    /// File format for tables, traces and spectra.
+    #[arg(long, value_enum, default_value_t)]
     pub tables: TablesArg,
-    /// With `--export`: replace values flagged as personal data with stable salted hashes
-    /// (needs a salt: `--salt-file` or OPENREADOUT_REDACT_SALT).
-    #[arg(long, requires = "export", help_heading = "Dataset export (--export)")]
+    /// Replace values flagged as personal data with stable salted hashes (needs a salt:
+    /// `--salt-file` or OPENREADOUT_REDACT_SALT).
+    #[arg(long)]
     pub redact: bool,
     /// File holding the redaction salt (never printed or stored).
-    #[arg(
-        long,
-        value_name = "FILE",
-        requires = "redact",
-        help_heading = "Dataset export (--export)"
-    )]
+    #[arg(long, value_name = "FILE", requires = "redact")]
     pub salt_file: Option<PathBuf>,
-    /// With `--export`: licence of the whole export (SPDX id); default: the nearest LICENSE
-    /// file of each source.
-    #[arg(
-        long,
-        value_name = "SPDX",
-        requires = "export",
-        help_heading = "Dataset export (--export)"
-    )]
+    /// Licence of the whole export (SPDX id); default: the nearest LICENSE file of each source.
+    #[arg(long, value_name = "SPDX")]
     pub license: Option<String>,
-    /// With `--export`: do not export images (metadata, tables, traces and spectra only).
-    #[arg(long, requires = "export", help_heading = "Dataset export (--export)")]
+    /// Do not export images (metadata, tables, traces and spectra only).
+    #[arg(long)]
     pub no_images: bool,
+    #[arg(long)]
+    pub json: bool,
 }
 
 fn render_manifest(m: &IndexManifest) -> String {
@@ -279,26 +263,7 @@ pub fn index(reg: &Registry, a: &IndexArgs) -> i32 {
     let res = openreadout_index::index(reg, &o, Some(&cb));
     bar.finish();
     match res {
-        Ok(m) => {
-            if a.health {
-                let mut ho = HealthOptions::default();
-                ho.max_list = 50;
-                match openreadout_index::health(&a.output, &ho) {
-                    Ok(h) if !a.json => {
-                        emit(false, &m, render_manifest);
-                        emit(false, &h, render_markdown);
-                    }
-                    Ok(h) => {
-                        let v = serde_json::json!({"index": m, "health": h});
-                        emit(true, &v, |_| String::new());
-                    }
-                    Err(e) => return fail(a.json, &e),
-                }
-                0
-            } else {
-                emit(a.json, &m, render_manifest)
-            }
-        }
+        Ok(m) => emit(a.json, &m, render_manifest),
         Err(e) => fail(a.json, &e),
     }
 }
@@ -391,13 +356,7 @@ fn render_search(o: &SearchOutput) -> String {
 }
 
 /// `openreadout search`.
-pub fn search(reg: &Registry, a: &SearchArgs) -> i32 {
-    if a.health {
-        return health(a);
-    }
-    if a.export.is_some() {
-        return export_dataset(reg, a);
-    }
+pub fn search(a: &SearchArgs) -> i32 {
     let mut r = SearchRequest::default();
     r.query.clone_from(&a.query);
     r.sort.clone_from(&a.sort);
@@ -415,8 +374,8 @@ pub fn search(reg: &Registry, a: &SearchArgs) -> i32 {
     }
 }
 
-/// `openreadout search --health`.
-fn health(a: &SearchArgs) -> i32 {
+/// `openreadout health`.
+pub fn health(a: &HealthArgs) -> i32 {
     let mut o = HealthOptions::default();
     o.hash_duplicates = !a.no_hash;
     o.max_list = a.max_list;
@@ -452,10 +411,10 @@ fn render_export(r: &openreadout_index::ExportDatasetReport) -> String {
     s
 }
 
-fn export_options(a: &SearchArgs) -> Result<ExportDatasetOptions> {
+fn export_options(a: &ExportDatasetArgs) -> Result<ExportDatasetOptions> {
     let mut o = ExportDatasetOptions::default();
     o.query.clone_from(&a.query);
-    o.output = a.export.clone().unwrap_or_default();
+    o.output.clone_from(&a.output);
     o.tables = match a.tables {
         TablesArg::Parquet => TableFormat::Parquet,
         TablesArg::Csv => TableFormat::Csv,
@@ -470,8 +429,8 @@ fn export_options(a: &SearchArgs) -> Result<ExportDatasetOptions> {
     Ok(o)
 }
 
-/// `openreadout search --export`.
-fn export_dataset(reg: &Registry, a: &SearchArgs) -> i32 {
+/// `openreadout export-dataset`.
+pub fn export_dataset(reg: &Registry, a: &ExportDatasetArgs) -> i32 {
     let o = match export_options(a) {
         Ok(o) => o,
         Err(e) => return fail(a.json, &e),

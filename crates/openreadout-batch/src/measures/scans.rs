@@ -1,8 +1,8 @@
-//! `batch spectra`: the scan headers of mass-spectrometry runs (`spectra` over many files), one row
+//! `batch scans`: the scan headers of mass-spectrometry runs (`scans` over many files), one row
 //! per data set × scan passing the filter, read without decoding peaks
 //! (`openreadout_core::scans`).
 //!
-//! Options (the `openreadout_spectra` filters): `run`, `ms_level`, `polarity`, `rt_range`
+//! Options (the `openreadout_scans` filters): `run`, `ms_level`, `polarity`, `rt_range`
 //! ([start, end] minutes), `precursor`, `precursor_tol`, `precursor_ppm`, `charge`,
 //! `activation`, `scan_filter`.
 
@@ -13,7 +13,7 @@ use serde::Deserialize;
 use crate::measure::{Item, Measure};
 use crate::table::{ColumnDoc, Row, Value};
 
-/// `spectra` options.
+/// `scans` options.
 #[derive(Debug, Default, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct ScansOptions {
@@ -43,7 +43,7 @@ impl ScansMeasure {
         let o: ScansOptions =
             serde_json::from_value(serde_json::Value::Object(options.clone())).map_err(|e| {
                 Error::Usage(format!(
-                    "`spectra` options: {e} (valid: run, ms_level, polarity, rt_range, precursor, precursor_tol, precursor_ppm, charge, activation, scan_filter)"
+                    "`scans` options: {e} (valid: run, ms_level, polarity, rt_range, precursor, precursor_tol, precursor_ppm, charge, activation, scan_filter)"
                 ))
             })?;
         let filter = ScanFilter {
@@ -65,7 +65,7 @@ impl ScansMeasure {
 
 impl Measure for ScansMeasure {
     fn id(&self) -> &'static str {
-        "spectra"
+        "scans"
     }
     fn grain(&self) -> Vec<String> {
         vec!["run".into(), "index".into()]
@@ -108,7 +108,7 @@ impl Measure for ScansMeasure {
     fn rows(&self, it: &mut Item<'_>) -> Result<Vec<Row>> {
         if it.info.spectra.is_empty() {
             return Err(super::not_applicable(
-                "spectra",
+                "scans",
                 it.info,
                 "mass spectra",
                 "Use `chromatogram` or `trace` for detector signals.",

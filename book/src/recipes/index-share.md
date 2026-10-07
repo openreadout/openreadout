@@ -92,4 +92,4 @@ openreadout search idx "family=microscopy status=ok" --export dataset/ --redact 
 
 - [Lab shares, indexes and live acquisitions](../guides/lab-shares.md): every column, the query language, [storage health](../guides/lab-shares.md#storage-health) and [personal data](../guides/lab-shares.md#personal-data).
 - [`index`](../reference/commands/index-cmd.md) and [`search`](../reference/commands/search.md) references.
-- JSON: [`search`](../reference/json/search.md), [`search --health`](../reference/json/search-health.md).
+- JSON: [`search`](../reference/json/search.md), [`search --health`](../reference/json/health.md).

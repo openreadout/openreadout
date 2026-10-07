@@ -29,7 +29,7 @@ pub fn list() -> Vec<Resource> {
         Resource::new(FORMATS_URI, "formats")
             .with_title("Supported formats")
             .with_description(
-                "Every format OpenReadout reads or writes, with confidence and known gaps (same JSON as openreadout_formats).",
+                "Every format OpenReadout reads or writes, with confidence and known gaps (the JSON of `openreadout self formats --json`).",
             )
             .with_mime_type("application/json"),
     ]

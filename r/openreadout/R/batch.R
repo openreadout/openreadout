@@ -39,7 +39,7 @@
 #'   medians) or `"info"` (one row of header metadata per file); or `"summarize"`: the group
 #'   summary (`by`, `values`, `replicate`, `test`, `control`, `where`) of a table file written
 #'   with `output` (or any CSV, TSV, JSON Lines, JSON or Parquet table), `inputs` being that
-#'   file (`openreadout batch summarize TABLE`).
+#'   file (`openreadout summarize TABLE`).
 #' @param inputs Files, directories or glob patterns.
 #' @param recursive Walk sub-directories.
 #' @param sample_sheets Sample sheets (CSV, TSV, XLSX) or plate layouts to join. The key is chosen

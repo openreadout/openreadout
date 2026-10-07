@@ -22,7 +22,7 @@ const md = (t?: string) =>
     : "";
 
 // Display order: the envelope first, then by command.
-const ORDER = ["envelope", "info", "info-format", "info-full", "info-explain", "info-structure", "check", "planes", "compare", "report", "export", "export-attachment", "preview", "stats", "stats-wells", "trace", "table", "spectra", "spectrum", "chromatogram", "peaks", "assay", "qpcr", "nmr-peaks", "ephys-features", "spikes", "gate", "batch-table", "batch-summary", "link", "sidecar", "sidecar-file", "index", "search", "search-health", "search-export", "watch", "formats", "doctor"];
+const ORDER = ["envelope", "info", "info-format", "info-full", "info-explain", "info-structure", "check", "planes", "compare", "report", "export", "extract", "preview", "stats", "stats-wells", "trace", "table", "scans", "spectrum", "chromatogram", "peaks", "assay", "qpcr", "nmr-peaks", "ephys-features", "spikes", "gate", "batch-table", "summarize", "link", "sidecar", "sidecar-file", "index", "search", "health", "export-dataset", "watch", "formats", "doctor"];
 const files = readdirSync(dir).filter((f) => f.endsWith(".schema.json"));
 const names = files.map((f) => f.replace(/\.schema\.json$/, ""));
 names.sort((a, b) => (ORDER.indexOf(a) + 1 || 999) - (ORDER.indexOf(b) + 1 || 999) || a.localeCompare(b));

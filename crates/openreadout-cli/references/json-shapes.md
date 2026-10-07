@@ -1,6 +1,6 @@
 # JSON shapes (schema_version 1)
 
-Authoritative: `openreadout self schema <info|info-format|info-full|info-explain|info-structure|check|planes|compare|export|export-attachment|trace|spectra|spectrum|formats|envelope>` prints the JSON Schema (MCP tools list theirs). This file is the human summary.
+Authoritative: `openreadout self schema <info|info-format|info-full|info-explain|info-structure|check|planes|compare|export|extract|trace|spectra|spectrum|formats|envelope>` prints the JSON Schema (MCP tools list theirs). This file is the human summary.
 
 ## `info` → `FileInfo`
 

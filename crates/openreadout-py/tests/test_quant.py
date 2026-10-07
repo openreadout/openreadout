@@ -61,7 +61,7 @@ def test_absent_retention_time_is_none_and_nan(tmp_path):
 
     path = _mzxml_without_rt(tmp_path / "no-rt.mzXML")
     with File(path) as f:
-        scans = f.spectra()["scans"]
+        scans = f.scans()["scans"]
         assert [s["scan_number"] for s in scans] == [1, 2]
         assert scans[0]["rt_s"] == pytest.approx(60.0) and scans[1]["rt_s"] is None
         assert f.read_spectrum(index=1)["rt_s"] is None

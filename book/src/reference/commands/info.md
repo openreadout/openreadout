@@ -70,6 +70,6 @@ openreadout info --view full --sidecar -r --skip-unknown /data/2026-09-21
 
 - [`info`](../json/info.md), [`info --view full`](../json/info-full.md), [`info --view structure`](../json/info-structure.md), [`info --view explain`](../json/info-explain.md), [`info --view format`](../json/info-format.md)
 - [`--sidecar` report](../json/sidecar.md) and [sidecar file](../json/sidecar-file.md)
-- [Batch table](../json/batch-table.md) and [summary](../json/batch-summary.md)
+- [Batch table](../json/batch-table.md) and [summary](../json/summarize.md)
 
 Run `openreadout info --help` for the full help of your installed version.

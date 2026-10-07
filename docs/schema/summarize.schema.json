@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SummarizeOutput",
-  "description": "Output of `batch summarize`.",
+  "description": "Output of `summarize`.",
   "type": "object",
   "properties": {
     "input": {

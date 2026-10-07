@@ -64,8 +64,8 @@ pub enum ToolView {
     Kind(view::ViewKind),
     /// `openreadout_preview`: the image, trace, spectrum or plate its arguments ask for.
     Preview,
-    /// `openreadout_spectra`: one spectrum when the call named one, else the chromatogram.
-    Spectra,
+    /// `openreadout_spectrum`: the spectrum the call named.
+    Spectrum,
     /// `openreadout_chromatogram`, `openreadout_peaks`: the chromatogram the call asked for,
     /// with its peaks.
     Chromatogram,
@@ -78,7 +78,11 @@ pub const TOOL_VIEWS: &[(&str, ToolView)] = &[
     ("openreadout_preview", ToolView::Preview),
     ("openreadout_stats", ToolView::Kind(view::ViewKind::Image)),
     ("openreadout_trace", ToolView::Kind(view::ViewKind::Trace)),
-    ("openreadout_spectra", ToolView::Spectra),
+    (
+        "openreadout_scans",
+        ToolView::Kind(view::ViewKind::Chromatogram),
+    ),
+    ("openreadout_spectrum", ToolView::Spectrum),
     ("openreadout_table", ToolView::Auto),
     ("openreadout_chromatogram", ToolView::Chromatogram),
     ("openreadout_peaks", ToolView::Chromatogram),
@@ -300,20 +304,14 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
                 None
             }
         }
-        ToolView::Spectra => {
+        ToolView::Spectrum => {
             if let Some(v) = args.get("scan") {
                 hint.insert("scan".into(), v.clone());
             }
             if let Some(v) = args.get("spectrum") {
                 hint.insert("index".into(), v.clone());
             }
-            Some(
-                if args.get("scan").is_some() || args.get("spectrum").is_some() {
-                    K::Spectrum
-                } else {
-                    K::Chromatogram
-                },
-            )
+            Some(K::Spectrum)
         }
         ToolView::Chromatogram => {
             for k in ["mz", "ppm"] {

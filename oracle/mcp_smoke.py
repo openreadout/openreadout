@@ -11,7 +11,7 @@ Usage:
                            plate-reader matrix and an OME-Zarr HCS plate, checking chromatogram,
                            the chromatogram, peaks, nmr-peaks, ephys-features, spikes and assay
                            analyses and per-well stats the same way
-             --skip TOOL   do not fail when TOOL was never called (e.g. openreadout_spectra when
+             --skip TOOL   do not fail when TOOL was never called (e.g. openreadout_scans when
                            no input has a spectrum run)
 
 Standard library only (CI runs it with the runner's python3). For each server it checks the
@@ -41,7 +41,7 @@ import urllib.error
 import urllib.request
 
 PROTOCOL = "2025-11-25"
-WRITERS = {"openreadout_export", "openreadout_batch"}
+WRITERS = {"openreadout_export", "openreadout_extract", "openreadout_batch", "openreadout_summarize"}
 # Write only new files of their own (the index directory; a diagnostic bundle only when
 # `output` is given): not read-only, not destructive.
 INDEX_WRITERS = {"openreadout_index", "openreadout_report"}
@@ -57,11 +57,12 @@ PLATE_OPTIONS = {"table", "read", "wavelength_nm", "embedded_layout", "layout_te
 EXPECTED_TOOLS = {
     "openreadout_info", "openreadout_check", "openreadout_compare", "openreadout_report",
     "openreadout_preview", "openreadout_stats", "openreadout_trace", "openreadout_table",
-    "openreadout_spectra", "openreadout_peaks", "openreadout_chromatogram", "openreadout_nmr_peaks",
+    "openreadout_scans", "openreadout_spectrum", "openreadout_peaks", "openreadout_chromatogram", "openreadout_nmr_peaks",
     "openreadout_ephys_features", "openreadout_spikes", "openreadout_qpcr", "openreadout_gate",
     *ASSAY_TOOLS.values(),
     "openreadout_export", "openreadout_batch", "openreadout_link", "openreadout_index",
-    "openreadout_search", "openreadout_watch", "openreadout_formats",
+    "openreadout_search", "openreadout_health", "openreadout_watch", "openreadout_extract",
+    "openreadout_summarize",
 }
 
 
@@ -820,12 +821,10 @@ def surface(c):
     check("error" in r, "prompt without its file argument did not fail")
     print(f"prompts: {sorted(pnames)} render")
 
-    r = c.request("tools/call", {"name": "openreadout_formats", "arguments": {}})[0]
-    check(len(result_json(r, "formats")["formats"]) > 10, "formats tool")
     r = c.request("tools/call", {"name": "openreadout_info", "arguments": {"file": "/nonexistent.czi"}})[0]
     err = r.get("error") or {}
     check(err.get("data", {}).get("exit_code") == 5 and err["data"].get("hint"), f"error case: {r}")
-    print("formats and the error case OK")
+    print("the error case OK")
 
 
 def per_file(c, path, tmp, called):
@@ -934,9 +933,9 @@ def per_file(c, path, tmp, called):
                 sp = result_json(analyze("spikes", max_seconds=1.0)[0], "spikes")
                 print(f"spikes: {sp['spike_count_total']} spikes")
     if info.get("spectra"):
-        s = result_json(call("openreadout_spectra", {"file": path, "spectrum": 0, "max_points": 5})[0], "spectra spectrum")
+        s = result_json(call("openreadout_spectrum", {"file": path, "spectrum": 0, "max_points": 5})[0], "spectrum")
         print(f"spectrum: scan {s['spectrum']['scan_number']}, {s['point_count']} points")
-        sc = result_json(call("openreadout_spectra", {"file": path, "limit": 3})[0], "spectra list")
+        sc = result_json(call("openreadout_scans", {"file": path, "limit": 3})[0], "scans")
         check(sc["returned"] <= 3 and sc["matched"] == sc["scan_count"], "scans: every scan counted, 3 listed")
         print(f"scans: {sc['matched']} scans ({sc['ms_level_counts']}), source {sc['source']}")
         r, notes = c.request("tools/call", {"name": "openreadout_export", "_meta": {"progressToken": "p-mzml"},
@@ -950,10 +949,14 @@ def per_file(c, path, tmp, called):
         print(f"well_stats: {len(ws['rows'])} rows")
     atts = [e for e in ls["entries"] if e["kind"] == "attachment"]
     if atts:
-        r = call("openreadout_export", {"file": path, "attachment": f"#{atts[0]['details']['index']}",
-                                          "output": os.path.join(tmp, "att.bin"), "overwrite": True})[0]
-        check(result_json(r, "export attachment")["verified"], "export attachment not verified")
-        print(f"export attachment: {atts[0]['name']}")
+        r = call("openreadout_extract", {"file": path, "attachment": f"#{atts[0]['details']['index']}",
+                                           "output": os.path.join(tmp, "att.bin"), "overwrite": True})[0]
+        check(result_json(r, "extract")["verified"], "extract: attachment not verified")
+        print(f"extract: {atts[0]['name']}")
+    else:
+        r = call("openreadout_extract", {"file": path, "attachment": "#0",
+                                           "output": os.path.join(tmp, "att.bin")})[0]
+        check(r.get("error", {}).get("data", {}).get("hint"), f"extract without attachments: {r}")
 
 
 def index_and_search(c, tmp, called):
@@ -975,6 +978,12 @@ def index_and_search(c, tmp, called):
         check(s.get("total") == m.get("datasets"), f"search total {s.get('total')} != {m.get('datasets')} data sets")
         print(f"index: {m['datasets']} data sets, {m['crawl']['items']} items, {len(prog)} progress notifications; "
               f"search: {s['total']} matches")
+        r = c.request("tools/call", {"name": "openreadout_health",
+                                     "arguments": {"index_dir": idx, "no_hash": True}})[0]
+        called.add("openreadout_health")
+        h = result_json(r, "health")
+        check(isinstance(h, dict) and h, f"health: {h}")
+        print("health answered")
         r = c.request("tools/call", {"name": "openreadout_watch",
                                      "arguments": {"dirs": [tmp], "since": "all"}})[0]
         called.add("openreadout_watch")
@@ -993,9 +1002,10 @@ def index_and_search(c, tmp, called):
         called.add("openreadout_batch")
         b = result_json(r, "batch info")
         check(b["total_rows"] >= 1, "batch info: no rows")
-        r = c.request("tools/call", {"name": "openreadout_batch",
-                                     "arguments": {"measure": "summarize", "paths": [rows], "by": ["format"]}})[0]
-        result_json(r, "batch summarize")
+        r = c.request("tools/call", {"name": "openreadout_summarize",
+                                     "arguments": {"table": rows, "by": ["format"]}})[0]
+        called.add("openreadout_summarize")
+        result_json(r, "summarize")
         r = c.request("tools/call", {"name": "openreadout_link", "arguments": {"paths": [tmp]}})[0]
         called.add("openreadout_link")
         result_json(r, "link")
@@ -1036,7 +1046,7 @@ def main(argv):
     if http:
         http_security(binary)
     c = Http(binary) if http else Stdio(binary)
-    called = {"openreadout_formats"}
+    called = set()
     t0 = time.time()
     try:
         surface(c)

@@ -1,4 +1,5 @@
-//! `openreadout_export`: conversion to open formats, or one embedded attachment.
+//! `openreadout_export` (conversion to open formats) and `openreadout_extract` (one embedded
+//! attachment).
 
 use std::path::{Path, PathBuf};
 
@@ -30,10 +31,6 @@ pub struct ExportArgs {
     /// Replace an existing output file or directory.
     #[serde(default)]
     pub overwrite: bool,
-    /// Write this embedded attachment instead (a CZI's `Thumbnail`, `Label` or `SlidePreview`
-    /// image, `TimeStamps`; names from openreadout_info view=structure, kind attachment), or
-    /// `#<index>`.
-    pub attachment: Option<String>,
     /// Images: only this image index.
     pub image: Option<u32>,
     /// Images: plane selection strings such as `c=0`, `z=2-5`, `t=0,3`.
@@ -76,6 +73,21 @@ pub struct ExportArgs {
     /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
     #[serde(default)]
     pub strict: Option<bool>,
+}
+
+/// Arguments for `openreadout_extract`.
+#[derive(Debug, Deserialize, schemars::JsonSchema)]
+pub struct ExtractArgs {
+    /// Absolute or working-directory-relative path to the file that holds the attachment.
+    pub file: String,
+    /// The attachment: a name as openreadout_info view=structure lists it (a CZI's
+    /// `Thumbnail`, `Label` or `SlidePreview` image, `TimeStamps`), or `#<index>`.
+    pub attachment: String,
+    /// Output path. Default: `<input stem>.<attachment name>.<ext>` next to the input.
+    pub output: Option<String>,
+    /// Replace an existing output file.
+    #[serde(default)]
+    pub overwrite: bool,
 }
 
 /// `format = "csv"`: one table, or one sweep of a trace.
@@ -303,24 +315,6 @@ fn export_blocking(
 ) -> Result<serde_json::Value, McpError> {
     let reg = with_strict(registry(), a.strict);
     let input = PathBuf::from(&a.file);
-    if let Some(name) = &a.attachment {
-        if a.format.is_some() {
-            return Err(mcp_err(&Error::Usage(
-                "attachment writes the attachment as stored: leave out format".into(),
-            )));
-        }
-        let (det, mut ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
-        let r = openreadout_ops::extract::extract_attachment(
-            ds.as_mut(),
-            &input,
-            det.format_id,
-            name,
-            a.output.as_deref().map(Path::new),
-            a.overwrite,
-        )
-        .map_err(|e| mcp_err(&e))?;
-        return to_value(&r);
-    }
     let mut requested = a.format.as_deref().map(str::to_ascii_lowercase);
     if requested.is_none() {
         let (_, ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
@@ -470,6 +464,37 @@ fn export_blocking(
 #[tool_router(router = export_router, vis = "pub(super)")]
 impl InstrumentServer {
     #[tool(
+        name = "openreadout_extract",
+        annotations(
+            title = "Extract an embedded attachment",
+            read_only_hint = false,
+            destructive_hint = true,
+            idempotent_hint = true,
+            open_world_hint = false
+        ),
+        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_core::model::ExtractOutput>(),
+        description = "Write one attachment a file embeds (a slide label or thumbnail, a preview image, time stamps) to a new file as stored, verified. openreadout_info view=structure lists them."
+    )]
+    pub(crate) fn extract(
+        &self,
+        Parameters(a): Parameters<ExtractArgs>,
+    ) -> Result<CallToolResult, McpError> {
+        let reg = self.reg_for(None);
+        let input = PathBuf::from(&a.file);
+        let (det, mut ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
+        let r = openreadout_ops::extract::extract_attachment(
+            ds.as_mut(),
+            &input,
+            det.format_id,
+            &a.attachment,
+            a.output.as_deref().map(Path::new),
+            a.overwrite,
+        )
+        .map_err(|e| mcp_err(&e))?;
+        Ok(CallToolResult::structured(to_value(&r)?))
+    }
+
+    #[tool(
         name = "openreadout_export",
         annotations(
             title = "Export to an open format",
@@ -478,7 +503,7 @@ impl InstrumentServer {
             idempotent_hint = true,
             open_world_hint = false
         ),
-        description = "Convert to an open format: a new file, read back and verified; the source is never touched. format: ome-tiff (images, default; pyramidal when the source is), ome-zarr (multiscale; plates as OME-NGFF HCS), mzml (mass spectra, default), csv (one table or one sweep of a trace, default for tables and traces), parquet or arrow (tables, traces with every sweep, spectra=true for MS points), nwb (electrophysiology), jcamp (NMR, IR/Raman, chromatograms), asm (plate readers), rdml (qPCR). attachment writes one embedded attachment (thumbnail, label, slide preview) as stored. Sends progress with a progressToken."
+        description = "Convert to an open format: a new file, read back and verified; the source is never touched. format: ome-tiff (images, default; pyramidal when the source is), ome-zarr (multiscale; plates as OME-NGFF HCS), mzml (mass spectra, default), csv (one table or one sweep of a trace, default for tables and traces), parquet or arrow (tables, traces with every sweep, spectra=true for MS points), nwb (electrophysiology), jcamp (NMR, IR/Raman, chromatograms), asm (plate readers), rdml (qPCR). Sends progress with a progressToken."
     )]
     pub(crate) async fn export(
         &self,

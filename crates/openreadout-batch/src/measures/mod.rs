@@ -73,9 +73,8 @@ pub struct MeasureSpec {
     /// stats per well or field: only these wells.
     pub wells: Vec<String>,
     /// The analysis measures (`peaks`, `chromatogram`, `assay`, `nmr-peaks`,
-    /// `ephys-features`, `spikes`, `qpcr`) and `spectra`: the arguments of that analysis's MCP
-    /// tool (or the `openreadout_spectra` filters), plus `rows` (which record list becomes
-    /// rows).
+    /// `ephys-features`, `spikes`, `qpcr`) and `scans`: the arguments of that MCP tool, plus
+    /// `rows` (which record list becomes rows).
     pub options: serde_json::Map<String, serde_json::Value>,
 }
 
@@ -120,7 +119,7 @@ pub fn spec_from_options(
     measure: &str,
     options: serde_json::Map<String, serde_json::Value>,
 ) -> Result<MeasureSpec> {
-    if ANALYSIS_MEASURES.contains(&measure) || measure == "spectra" {
+    if ANALYSIS_MEASURES.contains(&measure) || measure == "scans" {
         return Ok(MeasureSpec {
             measure: measure.to_string(),
             options,
@@ -155,7 +154,7 @@ pub fn spec_from_options(
 
 /// Build the measure `spec` names.
 pub fn build(spec: &MeasureSpec) -> Result<Box<dyn Measure>> {
-    if spec.measure == "spectra" {
+    if spec.measure == "scans" {
         return Ok(Box::new(ScansMeasure::from_options(&spec.options)?));
     }
     if let Some(m) = AnalysisMeasure::build(&spec.measure, &spec.options) {

@@ -786,7 +786,7 @@ class File:
 
     # ----- mass spectra ------------------------------------------------------------------------
 
-    def spectra(
+    def scans(
         self,
         *,
         run: int = 0,
@@ -803,7 +803,7 @@ class File:
         limit: Optional[int] = None,
     ) -> Dict[str, Any]:
         """Scan headers of a mass-spectrometry run, without decoding any peaks (``openreadout
-        spectra``; one spectrum's arrays: :meth:`read_spectrum`). ``info["spectra"]`` lists the
+        scans``; one spectrum's arrays: :meth:`read_spectrum`). ``info["spectra"]`` lists the
         runs.
 
         Every scan passing the filters is counted (``matched``, ``ms_level_counts``,
@@ -830,7 +830,7 @@ class File:
             limit: List at most this many (``0`` only counts).
 
         Returns:
-            The ``ScanList`` document; ``pandas.DataFrame(f.spectra()["scans"])`` makes a table.
+            The ``ScanList`` document; ``pandas.DataFrame(f.scans()["scans"])`` makes a table.
         """
         _check_nonnegative(run=run, offset=offset)
         if limit is not None:

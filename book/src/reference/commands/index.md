@@ -1,6 +1,6 @@
 # Commands
 
-`openreadout` has nineteen commands. Each one has its own page:
+`openreadout` has twenty-four commands. Each one has its own page:
 
 - [`info`](info.md): what a file holds. Reads headers only.
 - [`check`](check.md): validate a file's integrity.
@@ -8,16 +8,21 @@
 - [`compare`](compare.md): compare a file with a second file, such as its export.
 - [`report`](report.md): write a diagnostic bundle for a file OpenReadout cannot read.
 - [`export`](export.md): convert to an open format (OME-TIFF, OME-Zarr, CSV, Parquet, Arrow, mzML, NWB, JCAMP-DX, Allotrope ASM, RDML).
+- [`extract`](extract.md): write one embedded attachment, such as a slide label, to a new file.
 - [`preview`](preview.md): render a PNG or JPEG of an image plane, a trace, a mass spectrum or a plate.
 - [`stats`](stats.md): pixel statistics per plane, channel, image or plate well.
 - [`trace`](trace.md): samples and statistics of one sweep of a 1-D signal.
 - [`table`](table.md): rows of a table, such as FCS events or plate-reader values.
-- [`spectra`](spectra.md): mass-spectrometry scan headers, or one spectrum.
+- [`scans`](scans.md): the scan headers of a mass-spectrometry run.
+- [`spectrum`](spectrum.md): one mass spectrum's arrays.
 - [`analyze`](analyze.md): peaks, chromatograms, NMR peaks, patch-clamp features, spikes, qPCR, flow gating and plate-reader assays, one subcommand each.
 - [`batch`](batch.md): any measure over many files as one tidy table.
+- [`summarize`](summarize.md): group statistics of a saved table.
 - [`link`](link.md): group files that measured the same sample.
 - [`index`](index-cmd.md): catalog every data set under a directory.
-- [`search`](search.md): query an index, report its storage health, or export a selection.
+- [`search`](search.md): query an index.
+- [`health`](health.md): the storage health of an indexed share.
+- [`export-dataset`](export-dataset.md): export what a query selects as an ML-ready dataset.
 - [`watch`](watch.md): follow directories where an instrument is writing.
 - [`self`](self.md): this installation (formats, self-test, JSON Schemas, agent skill, completions, man pages).
 - [`mcp`](mcp.md): run as an MCP server, or configure a client.

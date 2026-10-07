@@ -39,7 +39,7 @@ with openreadout.File("mini.nd2") as f:
 
 `openreadout.info(path)` returns the header metadata without keeping the file open. Like [`openreadout info --view`](../reference/commands/info.md), it takes a view: `view="full"` adds the vendor metadata tree and the provenance of each field, `view="structure"` lists the container's elements, `view="explain"` describes the file in sentences (`ask=` answers a question), and `view="format"` returns only the format.
 
-The functions and methods are named after the CLI commands: `info`, `File.check()`, `File.stats()`, `File.spectra()`, `analyze`, `export`, `batch` and `link`. The `read_*` methods return NumPy arrays.
+The functions and methods are named after the CLI commands: `info`, `File.check()`, `File.stats()`, `File.scans()`, `analyze`, `export`, `batch` and `link`. The `read_*` methods return NumPy arrays.
 
 `mini.nd2` is a small file in the repository at [`crates/openreadout-cli/tests/fixtures/mini.nd2`](https://github.com/openreadout/openreadout/blob/main/crates/openreadout-cli/tests/fixtures/mini.nd2).
 
@@ -103,7 +103,7 @@ with openreadout.File("sample.raw") as f:
     sp = f.read_spectrum(scan=1200)             # or index=1199; centroid=True for the stored centroids
     sp["mz"], sp["intensity"]                   # NumPy arrays
     sp["ms_level"], sp["rt_s"], sp["precursor_mz"]
-    f.spectra(ms_level=2)                       # scan headers, without the peaks
+    f.scans(ms_level=2)                       # scan headers, without the peaks
     f.export("sample.mzML")                     # verified by reading it back
 ```
 

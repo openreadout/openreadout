@@ -364,7 +364,7 @@ dataset/data/<id>.spectra<N>.scans.parquet     one row per spectrum
 - `--license SPDX` sets the licence of the whole export. Without it, each source gets the licence of the nearest `LICENSE`, `LICENCE` or `COPYING` file at or above it, or `unknown`.
 - `--redact` replaces personal data; see [Redaction](#redaction).
 
-The datasheet records the query, counts, formats, techniques, instruments, the date range, every source with its fingerprint and the files written from it, licences and personal-data flags. `openreadout self schema search-export` prints its JSON Schema.
+The datasheet records the query, counts, formats, techniques, instruments, the date range, every source with its fingerprint and the files written from it, licences and personal-data flags. `openreadout self schema export-dataset` prints its JSON Schema.
 
 Each output is written under a temporary name, read back and compared, then renamed. The sources are not modified. A rerun resumes where the last one stopped. The exit code is 1 when a data set could not be exported or an output could not be verified; the datasheet lists it under `skipped` with the reason.
 

@@ -299,9 +299,10 @@ mod tests {
                 "openreadout_dose_response",
                 "openreadout_ephys_features",
                 "openreadout_export",
-                "openreadout_formats",
+                "openreadout_extract",
                 "openreadout_gate",
                 "openreadout_growth",
+                "openreadout_health",
                 "openreadout_index",
                 "openreadout_info",
                 "openreadout_kinetics",
@@ -311,10 +312,12 @@ mod tests {
                 "openreadout_preview",
                 "openreadout_qpcr",
                 "openreadout_report",
+                "openreadout_scans",
                 "openreadout_search",
-                "openreadout_spectra",
+                "openreadout_spectrum",
                 "openreadout_spikes",
                 "openreadout_stats",
+                "openreadout_summarize",
                 "openreadout_table",
                 "openreadout_trace",
                 "openreadout_watch",
@@ -327,7 +330,13 @@ mod tests {
                 .unwrap_or_else(|| panic!("{} has no annotations", t.name));
             // `index` writes only its own index directory and `report` only its own new bundle
             // file: not read-only, not destructive.
-            let overwrites = matches!(t.name.as_ref(), "openreadout_export" | "openreadout_batch");
+            let overwrites = matches!(
+                t.name.as_ref(),
+                "openreadout_export"
+                    | "openreadout_extract"
+                    | "openreadout_batch"
+                    | "openreadout_summarize"
+            );
             let writes =
                 overwrites || t.name == "openreadout_index" || t.name == "openreadout_report";
             assert!(a.title.is_some(), "{}", t.name);

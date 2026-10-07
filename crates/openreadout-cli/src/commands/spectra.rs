@@ -1,8 +1,7 @@
-//! `spectra`: the spectra (scans) of a mass-spectrometry run. Without a selector: the scan
-//! headers — scan number, MS level, retention time, polarity, precursor m/z and charge,
-//! isolation window, activation, filter string — without decoding peaks
-//! (`openreadout_core::scans`). With `--scan`, `--spectrum` or `--ms-level L --nth K`: that one
-//! spectrum's m/z and intensity arrays.
+//! Mass spectrometry: `scans` lists the scan headers of a run (scan number, MS level, retention
+//! time, polarity, precursor m/z and charge, isolation window, activation, filter string)
+//! without decoding peaks (`openreadout_core::scans`); `spectrum` returns one spectrum's m/z and
+//! intensity arrays, picked with `--scan`, `--spectrum` or `--ms-level L --nth K`.
 
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -14,48 +13,16 @@ use openreadout_core::{Error, Registry, Result, ScanHeader, ScanList};
 
 use crate::output::{emit, fail};
 
-/// Arguments of `spectra`.
+/// Arguments of `scans`.
 #[derive(Debug, Clone, clap::Args)]
-pub struct SpectraArgs {
+pub struct ScansArgs {
     /// The mass-spectrometry file (Thermo .raw, mzML/.mzML.gz/mzMLb, mzXML, imzML, Bruker .d,
     /// Agilent .d, Waters .raw, Sciex .wiff, ANDI/MS .cdf, ChemStation .ms).
     pub file: PathBuf,
     /// Run index, for files with more than one run (Sciex samples).
     #[arg(long, default_value_t = 0)]
     pub run: u32,
-    /// One spectrum: this scan number as the instrument counts it (1-based in Thermo files).
-    #[arg(long, value_name = "N", help_heading = "One spectrum", conflicts_with_all = ["spectrum", "nth"])]
-    pub scan: Option<u64>,
-    /// One spectrum: this zero-based spectrum index.
-    #[arg(
-        long,
-        value_name = "I",
-        help_heading = "One spectrum",
-        conflicts_with = "nth"
-    )]
-    pub spectrum: Option<u64>,
-    /// One spectrum: the K-th spectrum (from 1) of `--ms-level` (MS1 and MS/MS scans are
-    /// interleaved; `--ms-level 2 --nth 1` is the first MS/MS scan).
-    #[arg(
-        long,
-        value_name = "K",
-        requires = "ms_level",
-        help_heading = "One spectrum"
-    )]
-    pub nth: Option<u64>,
-    /// One spectrum: the instrument's stored centroid list instead of the profile when a scan
-    /// has both.
-    #[arg(long, help_heading = "One spectrum")]
-    pub centroid: bool,
-    /// One spectrum: leave out the peaks the instrument flags as reference or background ions
-    /// (Thermo .raw, listed in `extra.flagged_peaks` otherwise), as ThermoRawFileParser and
-    /// ProteoWizard before 3.0.20286 do.
-    #[arg(long, help_heading = "One spectrum")]
-    pub exclude_flagged: bool,
-    /// One spectrum: at most this many points (`point_count` still reports the full size).
-    #[arg(long, value_name = "N", help_heading = "One spectrum")]
-    pub max_points: Option<usize>,
-    /// Only scans of this MS level (1 = full scans, 2 = MS/MS); with `--nth`, the level to count in.
+    /// Only scans of this MS level (1 = full scans, 2 = MS/MS).
     #[arg(long, value_name = "N")]
     pub ms_level: Option<u32>,
     /// Only `positive` or `negative` scans.
@@ -100,7 +67,45 @@ pub struct SpectraArgs {
     pub json: bool,
 }
 
-/// Default page size of `spectra` (JSON and text).
+/// Arguments of `spectrum`.
+#[derive(Debug, Clone, clap::Args)]
+#[command(group(clap::ArgGroup::new("which").required(true).args(["scan", "spectrum", "nth"])))]
+pub struct SpectrumArgs {
+    /// The mass-spectrometry file (Thermo .raw, mzML/.mzML.gz/mzMLb, mzXML, imzML, Bruker .d,
+    /// Agilent .d, Waters .raw, Sciex .wiff, ANDI/MS .cdf, ChemStation .ms).
+    pub file: PathBuf,
+    /// Run index, for files with more than one run (Sciex samples).
+    #[arg(long, default_value_t = 0)]
+    pub run: u32,
+    /// This scan number as the instrument counts it (1-based in Thermo files).
+    #[arg(long, value_name = "N", conflicts_with_all = ["spectrum", "nth"])]
+    pub scan: Option<u64>,
+    /// This zero-based spectrum index.
+    #[arg(long, value_name = "I", conflicts_with = "nth")]
+    pub spectrum: Option<u64>,
+    /// With `--ms-level`: the K-th spectrum (from 1) of that level (MS1 and MS/MS scans are
+    /// interleaved; `--ms-level 2 --nth 1` is the first MS/MS scan).
+    #[arg(long, value_name = "K", requires = "ms_level")]
+    pub nth: Option<u64>,
+    /// The MS level `--nth` counts in.
+    #[arg(long, value_name = "N", requires = "nth")]
+    pub ms_level: Option<u32>,
+    /// The instrument's stored centroid list instead of the profile when a scan has both.
+    #[arg(long)]
+    pub centroid: bool,
+    /// Leave out the peaks the instrument flags as reference or background ions (Thermo .raw,
+    /// listed in `extra.flagged_peaks` otherwise), as ThermoRawFileParser and ProteoWizard
+    /// before 3.0.20286 do.
+    #[arg(long)]
+    pub exclude_flagged: bool,
+    /// At most this many points (`point_count` still reports the full size).
+    #[arg(long, value_name = "N")]
+    pub max_points: Option<usize>,
+    #[arg(long)]
+    pub json: bool,
+}
+
+/// Default page size of `scans` (JSON and text).
 pub const DEFAULT_LIMIT: u64 = 50;
 
 /// `--rt-range START:END` (or `START-END`) in minutes → seconds (`None` for an open side).
@@ -137,7 +142,7 @@ pub fn parse_rt_minutes(s: &str) -> Result<(Option<f64>, Option<f64>)> {
     Ok((num(a)?, num(b)?))
 }
 
-impl SpectraArgs {
+impl ScansArgs {
     /// The conditions the arguments set.
     pub fn filter(&self) -> Result<ScanFilter> {
         let (rt_min_s, rt_max_s) = match &self.rt_range {
@@ -161,7 +166,7 @@ impl SpectraArgs {
     }
 }
 
-/// List the scans of `file` (the JSON of `spectra --json`).
+/// List the scans of `file` (the JSON of `scans --json`).
 pub fn scans(
     reg: &Registry,
     file: &Path,
@@ -182,7 +187,7 @@ pub fn scans(
     )
 }
 
-/// CSV columns of `spectra --csv`.
+/// CSV columns of `scans --csv`.
 pub const CSV_COLUMNS: &[&str] = &[
     "index",
     "scan_number",
@@ -250,7 +255,7 @@ pub fn csv_row(h: &ScanHeader) -> String {
     cols.join(",")
 }
 
-fn run_csv(reg: &Registry, a: &SpectraArgs, filter: &ScanFilter) -> Result<()> {
+fn run_csv(reg: &Registry, a: &ScansArgs, filter: &ScanFilter) -> Result<()> {
     let (_, mut ds) = reg.open(&a.file)?;
     let stdout = std::io::stdout();
     let mut out = std::io::BufWriter::new(stdout.lock());
@@ -355,19 +360,8 @@ fn render(o: &ScanList) -> String {
     s.trim_end().to_string()
 }
 
-/// `openreadout spectra`.
-pub fn run(reg: &Registry, a: &SpectraArgs) -> i32 {
-    if a.scan.is_some() || a.spectrum.is_some() || a.nth.is_some() {
-        return run_one(reg, a);
-    }
-    if a.centroid || a.exclude_flagged || a.max_points.is_some() {
-        return fail(
-            a.json,
-            &Error::Usage(
-                "--centroid, --exclude-flagged and --max-points need one spectrum: --scan N, --spectrum I or --ms-level L --nth K".into(),
-            ),
-        );
-    }
+/// `openreadout scans`.
+pub fn run_scans(reg: &Registry, a: &ScansArgs) -> i32 {
     let filter = match a.filter() {
         Ok(f) => f,
         Err(e) => return fail(a.json, &e),
@@ -389,33 +383,18 @@ pub fn run(reg: &Registry, a: &SpectraArgs) -> i32 {
     }
 }
 
-/// `spectra --scan N | --spectrum I | --ms-level L --nth K`: one spectrum.
-fn run_one(reg: &Registry, a: &SpectraArgs) -> i32 {
-    let listing_only = a.polarity.is_some()
-        || a.rt_range.is_some()
-        || a.precursor.is_some()
-        || a.precursor_tol.is_some()
-        || a.precursor_ppm.is_some()
-        || a.charge.is_some()
-        || a.activation.is_some()
-        || a.scan_filter.is_some()
-        || a.offset > 0
-        || a.limit.is_some()
-        || a.count
-        || a.csv;
-    if listing_only {
-        return fail(
-            a.json,
-            &Error::Usage(
-                "the scan filters and --offset/--limit/--count/--csv list scans; leave them out to read one spectrum".into(),
-            ),
-        );
-    }
+/// `openreadout spectrum --scan N | --spectrum I | --ms-level L --nth K`: one spectrum.
+pub fn run_spectrum(reg: &Registry, a: &SpectrumArgs) -> i32 {
     let by = match (a.nth, a.scan, a.spectrum) {
         (Some(k), _, _) => SpectrumBy::Level(a.ms_level.unwrap_or(1), k),
         (None, _, Some(i)) => SpectrumBy::Index(i),
         (None, Some(n), None) => SpectrumBy::Scan(n),
-        (None, None, None) => unreachable!("checked by run"),
+        (None, None, None) => {
+            return fail(
+                a.json,
+                &Error::Usage("give --scan N, --spectrum I or --ms-level L --nth K".into()),
+            );
+        }
     };
     match spectrum(
         reg,
@@ -431,7 +410,7 @@ fn run_one(reg: &Registry, a: &SpectraArgs) -> i32 {
     }
 }
 
-/// How `spectra` picks one spectrum.
+/// How `spectrum` picks one spectrum.
 pub enum SpectrumBy {
     Scan(u64),
     Index(u64),

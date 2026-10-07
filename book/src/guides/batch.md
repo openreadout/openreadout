@@ -136,7 +136,7 @@ The analyses themselves are described in [Recipes](../recipes/index.md).
 
 ## Sample sheets and plate layouts
 
-`--sample-sheet FILE` (also `--sample-sheet` or `--layout`, repeatable) reads two kinds of file.
+`--sample-sheet FILE` (repeatable) reads two kinds of file.
 
 A **sample sheet** is a table with a header row. It can be CSV, TSV or another delimited text file, or a worksheet of an XLSX, XLS, XLSB or ODS workbook. `--worksheet NAME` picks the worksheet. A sheet with `Row` and `Column` number columns gets a `well` column.
 
@@ -184,10 +184,10 @@ Different measurements are not pooled. Columns that say *what* was measured, suc
 
 Rows with an error, rows filtered out and rows without a value are left out and counted.
 
-To regroup a table you saved earlier (CSV, TSV, JSON Lines, JSON or Parquet), use `batch summarize`:
+To regroup a table you saved earlier (CSV, TSV, JSON Lines, JSON or Parquet), use `summarize`:
 
 ```bash
-openreadout batch summarize per_well.parquet --by condition,dose --value mean
+openreadout summarize per_well.parquet --by condition,dose --value mean
 ```
 
 ## Finding the same sample across instruments
@@ -229,7 +229,7 @@ The repository has three ready-made scripts in [`examples/shell/`](https://githu
 - `triage_corruption.sh DIR` prints `OK`, `CORRUPT` or `UNSUPPORTED` per file with the findings, and exits 1 when anything is damaged. Run it on a copy before deleting the original from the acquisition PC.
 - `export_planes.sh OUT FILES…` exports one plane per image (channel 0, middle z, first time point) and checks that each export was verified. `CHANNEL=1 TO=ome-zarr` changes the channel and the format.
 
-From Python, `openreadout.batch()` (with `"summarize"` for `batch summarize`) and `openreadout.link()` take the same options as the commands. See the [Python guide](python.md).
+From Python, `openreadout.batch()` (with `"summarize"` for `summarize`) and `openreadout.link()` take the same options as the commands. See the [Python guide](python.md).
 
 ## Validation
 

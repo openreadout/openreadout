@@ -127,10 +127,12 @@ enum Command {
     /// optionally compensated, transformed and with population membership from a FlowJo
     /// workspace or Gating-ML file.
     Table(commands::flow::TableArgs),
-    /// Mass spectrometry: the scan headers of a run (filters, counts, paging, CSV), or one
-    /// spectrum's m/z and intensity arrays with `--scan`, `--spectrum` or `--ms-level L --nth K`.
+    /// Mass spectrometry: the scan headers of a run, filtered, counted and paged, or as CSV.
     /// IR, Raman, UV-Vis and NMR spectra are traces (`trace`).
-    Spectra(commands::spectra::SpectraArgs),
+    Scans(commands::spectra::ScansArgs),
+    /// Mass spectrometry: one spectrum's m/z and intensity arrays, by `--scan`, `--spectrum` or
+    /// `--ms-level L --nth K`.
+    Spectrum(commands::spectra::SpectrumArgs),
     /// Analyses with documented methods: chromatographic peaks, chromatograms, NMR peaks,
     /// patch-clamp features, extracellular spikes, qPCR, flow-cytometry gating and plate-reader
     /// assays. Each analysis has its own flags and its own MCP tool (`analyze nmr-peaks` is
@@ -138,7 +140,7 @@ enum Command {
     #[command(subcommand)]
     Analyze(AnalyzeKind),
     /// Export to an open format (OME-TIFF, OME-Zarr, CSV, Parquet, Arrow, mzML, NWB,
-    /// JCAMP-DX, Allotrope ASM, RDML), or write one embedded attachment (`--attachment`).
+    /// JCAMP-DX, Allotrope ASM, RDML).
     ///
     /// Images go to OME-TIFF or OME-Zarr; tables (FCS events, spike and event tables, plate
     /// reads, peak tables) and traces (electrophysiology sweeps, NMR FIDs and spectra, JCAMP-DX
@@ -147,14 +149,20 @@ enum Command {
     /// Never modifies the source; the output is read back and verified before it is renamed
     /// into place.
     Export(commands::export::ExportArgs),
+    /// Write one embedded attachment (a slide label or thumbnail, time stamps, ...) to a new
+    /// file as stored. `info --view structure` lists them.
+    Extract(commands::export::ExtractArgs),
     /// Any measure over many files as one tidy table, with sample sheets (`--sample-sheet`) and
-    /// group summaries (`--by`); `batch summarize TABLE` summarizes a saved table.
+    /// group summaries (`--by`).
     ///
-    /// Measures: stats, trace, table, info, spectra (one row per MS scan header), or an analysis
+    /// Measures: stats, trace, table, info, scans (one row per MS scan header), or an analysis
     /// — peaks, chromatogram, assay, nmr-peaks, ephys-features, spikes, qpcr, gate — configured
     /// with the MCP tools' argument names (`--set mz=[195.0877] --set ppm=10`). Rows are exactly the
     /// single-file command's records (one per peak, compound, well, sweep, …).
     Batch(commands::measure::MeasureArgs),
+    /// Group statistics of a saved table (from `batch -o` or `--tidy -o`) by its columns, with
+    /// replicate averaging and tests against a control.
+    Summarize(commands::summarize::SummarizeArgs),
     /// Group files that measured the same sample across instruments and formats (sample ids,
     /// barcodes, plate wells, conversions naming their source, the same acquisition), with the
     /// evidence and a confidence for every link. Headers only.
@@ -162,9 +170,14 @@ enum Command {
     /// Catalog every instrument data set under one or more directories into an index of open
     /// files (Parquet tables + index.json): headers only, parallel, resumable, incremental.
     Index(commands::index::IndexArgs),
-    /// Search an index (`search INDEX_DIR "objective=63x channel~GFP acquired<2020"`), report
-    /// its storage health (`--health`), or export what a query selects as a dataset (`--export`).
+    /// Search an index: `search INDEX_DIR "objective=63x channel~GFP acquired<2020"`.
     Search(commands::index::SearchArgs),
+    /// Storage health of an index: truncated or corrupt files, unreadable formats, duplicates,
+    /// files at risk, totals, personal data.
+    Health(commands::index::HealthArgs),
+    /// Export the data sets a query selects as an ML-ready dataset: images to OME-Zarr, tables,
+    /// traces and spectra to Parquet or CSV, metadata JSON and a datasheet. Resumable.
+    ExportDataset(commands::index::ExportDatasetArgs),
     /// Watch directories for instrument data being written: one JSON line per new data set,
     /// plane, scan or sweep, per completed or stalled data set, per QC finding (`--qc`) and
     /// per error. Polls, opens files read-only and never locks them.

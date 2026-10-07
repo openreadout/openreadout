@@ -557,7 +557,7 @@ fn chromatography_corpus_info_check_and_truncation() {
     // an ANDI/MS spectrum through the spectrum command
     if let Some(p) = corpus("zenodo7729413-SLA_8.cdf") {
         let out = bin()
-            .args(["spectra", "--json", "--scan", "3000"])
+            .args(["spectrum", "--json", "--scan", "3000"])
             .arg(&p)
             .output()
             .unwrap();

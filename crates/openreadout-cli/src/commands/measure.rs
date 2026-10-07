@@ -1,8 +1,8 @@
-//! `batch MEASURE INPUTS…`: any measure — `stats`, `trace`, `table`, `info`, `spectra`, or an
+//! `batch MEASURE PATHS…`: any measure — `stats`, `trace`, `table`, `info`, `scans`, or an
 //! analysis (`peaks`, `chromatogram`, `assay`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`,
-//! `gate`) — over many files as one tidy table, with sample sheets and `--by` summaries; and
-//! `batch summarize TABLE`. Options are named as in MCP (`--set mz=[195.0877] --set ppm=10`),
-//! exactly as `openreadout_batch` takes them.
+//! `gate`) — over many files as one tidy table, with sample sheets and `--by` summaries.
+//! Options are named as in MCP (`--set mz=[195.0877] --set ppm=10`), exactly as
+//! `openreadout_batch` takes them.
 
 use std::path::PathBuf;
 
@@ -17,13 +17,13 @@ use super::tidy::TidyArgs;
 #[derive(Debug, clap::Args)]
 pub struct MeasureArgs {
     /// What to compute per data set: stats (`--set per=well` for plates), trace, table, info,
-    /// spectra (one row per MS scan header), or an analysis: peaks, chromatogram, assay,
-    /// nmr-peaks, ephys-features, spikes, qpcr, gate. `summarize`: group statistics of one saved
-    /// table (`batch summarize rows.parquet --by condition`).
+    /// scans (one row per MS scan header), or an analysis: peaks, chromatogram, assay,
+    /// nmr-peaks, ephys-features, spikes, qpcr, gate. To summarize a saved table, use
+    /// `summarize`.
     #[arg(value_name = "MEASURE")]
     pub measure: String,
-    /// Files, directories (with -r) or glob patterns; for `summarize`, the table file.
-    #[arg(required_unless_present = "from_index", value_name = "INPUT")]
+    /// Files, directories (with -r) or glob patterns.
+    #[arg(required_unless_present = "from_index", value_name = "PATH")]
     pub files: Vec<PathBuf>,
     #[command(flatten)]
     pub batch: BatchArgs,
@@ -67,9 +67,6 @@ pub fn options(a: &MeasureArgs) -> Result<Map<String, Value>> {
 }
 
 pub fn run(reg: &Registry, a: &MeasureArgs) -> i32 {
-    if a.measure == "summarize" {
-        return summarize(a);
-    }
     let measure = options(a)
         .and_then(|o| spec_from_options(&a.measure, o))
         .and_then(|spec| build(&spec));
@@ -80,48 +77,6 @@ pub fn run(reg: &Registry, a: &MeasureArgs) -> i32 {
     let mut tidy = a.tidy.clone();
     tidy.tidy = true;
     super::tidy::run(reg, m.as_ref(), &a.files, &a.batch, &tidy, a.json)
-}
-
-/// `batch summarize TABLE --by COLUMNS`: group statistics of a saved table.
-fn summarize(a: &MeasureArgs) -> i32 {
-    let t = &a.tidy;
-    let table = match a.files.as_slice() {
-        [f] if !t.by.is_empty() => f.clone(),
-        [_] => {
-            return crate::output::fail(
-                a.json,
-                &Error::Usage("batch summarize needs --by COLUMNS".into()),
-            );
-        }
-        _ => {
-            return crate::output::fail(
-                a.json,
-                &Error::Usage("batch summarize takes one TABLE file".into()),
-            );
-        }
-    };
-    if !a.set.is_empty() || a.options.is_some() || !t.sample_sheets.is_empty() {
-        return crate::output::fail(
-            a.json,
-            &Error::Usage(
-                "batch summarize reads a saved table: no --set, --options or --sample-sheet".into(),
-            ),
-        );
-    }
-    super::summarize::run(&super::summarize::SummarizeArgs {
-        table,
-        by: t.by.clone(),
-        values: t.values.clone(),
-        replicate: t.replicate.clone(),
-        test: t.test.clone(),
-        control: t.control.clone(),
-        filters: t.filters.clone(),
-        exact_by: t.exact_by,
-        output: t.output.clone(),
-        overwrite: t.overwrite,
-        csv: t.csv,
-        json: a.json,
-    })
 }
 
 #[cfg(test)]

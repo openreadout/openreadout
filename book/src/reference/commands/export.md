@@ -1,6 +1,6 @@
 # export
 
-`export` converts a file to an open format, or writes one embedded attachment to a new file.
+`export` converts a file to an open format. To write one embedded attachment as it is stored, see [`extract`](extract.md).
 
 ```text
 openreadout export [OPTIONS] <FILE>...
@@ -29,7 +29,6 @@ Each export is written under a temporary name, read back and compared with the s
 - `--spectra`: Parquet and Arrow: export the mass spectra of `--run` (one row per point, plus a per-scan summary file).
 - `--run N`: mzML, Parquet, Arrow: run index. Default 0.
 - `--labels`: CSV: add a second header line with column labels (FCS `$PnS`).
-- `--attachment NAME`: write this embedded attachment (thumbnail, label image, time stamps) instead. Use its name from `info --view structure`, or `#<index>`.
 
 ### Images: pyramids, levels and regions
 
@@ -96,16 +95,8 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 
 A combination that does not fit, such as an image file `--format csv`, exits 6.
 
-## Attachments
-
-Some formats embed whole files. A CZI can carry a `Thumbnail` JPEG, `Label` and `SlidePreview` images, and `TimeStamps`. `info --view structure` lists them with the exact `export --attachment` command. The output defaults to `<input stem>.<name>.<ext>` next to the input.
-
-```bash
-openreadout export slide.czi --attachment Label
-```
-
 ## JSON
 
-[`export`](../json/export.md), [`export --attachment`](../json/export-attachment.md).
+[`export`](../json/export.md).
 
 Run `openreadout export --help` for the full help of your installed version.

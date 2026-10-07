@@ -1020,9 +1020,8 @@ fn czi_ls_lists_attachments_and_extract_writes_them() {
     let dst = dir.join("thumb.jpg");
     let out = bin()
         .args([
-            "export",
+            "extract",
             p.to_str().unwrap(),
-            "--attachment",
             "thumbnail",
             "-o",
             dst.to_str().unwrap(),
@@ -1044,9 +1043,8 @@ fn czi_ls_lists_attachments_and_extract_writes_them() {
     // refusing to overwrite, and unknown names, are usage errors listing what exists
     let again = bin()
         .args([
-            "export",
+            "extract",
             p.to_str().unwrap(),
-            "--attachment",
             "Thumbnail",
             "-o",
             dst.to_str().unwrap(),
@@ -1055,13 +1053,7 @@ fn czi_ls_lists_attachments_and_extract_writes_them() {
         .unwrap();
     assert_eq!(again.status.code(), Some(2));
     let bad = bin()
-        .args([
-            "export",
-            p.to_str().unwrap(),
-            "--attachment",
-            "Nope",
-            "--json",
-        ])
+        .args(["extract", p.to_str().unwrap(), "Nope", "--json"])
         .output()
         .unwrap();
     assert_eq!(bad.status.code(), Some(2));

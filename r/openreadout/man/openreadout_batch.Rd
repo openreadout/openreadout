@@ -41,7 +41,7 @@ reads: one row per well), \code{"gate"} (FlowJo/Gating-ML populations: count, \%
 medians) or \code{"info"} (one row of header metadata per file); or \code{"summarize"}: the group
 summary (\code{by}, \code{values}, \code{replicate}, \code{test}, \code{control}, \code{where}) of a table file written
 with \code{output} (or any CSV, TSV, JSON Lines, JSON or Parquet table), \code{inputs} being that
-file (\verb{openreadout batch summarize TABLE}).}
+file (\verb{openreadout summarize TABLE}).}
 
 \item{inputs}{Files, directories or glob patterns.}
 

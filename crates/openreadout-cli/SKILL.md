@@ -24,7 +24,7 @@ metadata:
 - `spectra` — the scan list of a mass-spectrometry run, or one spectrum (`--scan`, `--index`, `--ms-level L --nth K`).
 - `analyze KIND` — `peaks`, `chromatogram`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `assay`, `gate`.
 - `export` — OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, ASM, RDML; `--attachment` writes an embedded label or thumbnail.
-- `batch` — one measure over many files as one tidy table joined to a sample sheet; `batch summarize TABLE --by …`.
+- `batch` — one measure over many files as one tidy table joined to a sample sheet; `summarize TABLE --by …`.
 - `link` (files of the same sample), `index` then `search` (catalog and query a share; `search --health`), `watch` (a running acquisition).
 - `mcp`, `self` (`formats`, `doctor`, `schema`, `skill`, `completions`, `man`).
 
