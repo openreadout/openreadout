@@ -253,7 +253,7 @@ const TIFF_VALIDATED: &[Validated] = &[
     a::row(K::Dialect, "thermo-eer", 3, 3, 3),
     a::row(K::Dialect, "ventana-bif", 1, 1, 1),
     a::row(K::Dialect, "zeiss-lsm", 3, 2, 3),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 19),
+    a::row(K::Field, "experiment.acquisition.started_at", 11, 5, 19),
     a::row(K::Field, "experiment.instrument.model", 0, 0, 9),
     a::row(K::FormatVersion, "6.0", 97, 20, 98),
     a::row(K::FormatVersion, "6.0+BigTIFF", 15, 7, 15),

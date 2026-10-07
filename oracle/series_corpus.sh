@@ -88,6 +88,17 @@ $PY series_oracle.py --id echem-zenodo12205268-ocv-ref-txt --format biologic-mpt
 $PY series_oracle.py --id echem-zenodo15211416-cv-ferri --format biologic-mpr $C/echem-zenodo15211416-cv-ferri.mpr --galvani --start
 $PY series_oracle.py --id echem-navani-ocv --format biologic-mpr $C/echem-navani-ocv.mpr --galvani --start
 $PY series_oracle.py --id echem-zenodo7245929-peis-mpt --format biologic-mpt $C/echem-zenodo7245929-peis.mpt --mpt $C/echem-zenodo7245929-peis.mpt --second-implementation
+# data module version 0 (figshare 1228760)
+for n in 1 4; do
+  id=echem-figshare1228760-bio-logic$n
+  $PY series_oracle.py --id $id --format biologic-mpr $C/$id.mpr --mpt $C/$id.mpt --galvani --start
+  $PY series_oracle.py --id $id-mpt --format biologic-mpt $C/$id.mpt --galvani $C/$id.mpr
+done
+# time/s written as dates and times, no .mpr deposited (figshare 30080953)
+for s in cp ca; do
+  id=echem-figshare30080953-$s-mpt
+  $PY series_oracle.py --id $id --format biologic-mpt $C/echem-figshare30080953-$s.mpt --mpt $C/echem-figshare30080953-$s.mpt --second-implementation
+done
 # ---- echem_extra
 # galvani cannot read these .mpr files (column ids above 255 in data module 11): the .mpt inputs
 # are checked by a second, standard-library reading of the table

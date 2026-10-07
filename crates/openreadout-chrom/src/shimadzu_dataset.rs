@@ -1757,7 +1757,7 @@ impl Dataset for ShimadzuDataset {
             ));
         }
         if !self.signals.is_empty() {
-            r.performed("every signal stream decoded to its declared point count (block lengths and trailers agree); the PDA field's maximum over wavelengths equals the stored max plot at every time point");
+            r.performed("every signal stream decoded to its declared point count (block lengths and trailers agree); the PDA field's maximum over wavelengths, less the first spectrum, equals the stored max plot at every time point");
         }
         let mut max_plot: Option<Vec<i64>> = None;
         for i in 0..self.signals.len() {
@@ -1791,10 +1791,13 @@ impl Dataset for ShimadzuDataset {
                         }
                         ShimadzuSignalKind::Pda => {
                             if let Some(mp) = &max_plot {
+                                // LabSolutions takes the maximum after subtracting the
+                                // first spectrum (docs/formats/shimadzu.md).
+                                let first = rows.first().cloned().unwrap_or_default();
                                 let bad = rows
                                     .iter()
                                     .zip(mp)
-                                    .filter(|(row, m)| row.iter().max() != Some(m))
+                                    .filter(|(row, m)| pda_max(row, &first) != Some(**m))
                                     .count();
                                 if bad > 0 {
                                     r.push(Finding::error(
@@ -1826,6 +1829,15 @@ impl Dataset for ShimadzuDataset {
     }
 }
 
+/// One PDA spectrum's maximum over wavelengths after subtracting the first spectrum: the value
+/// LabSolutions stores in the max plot.
+fn pda_max(row: &[i64], first: &[i64]) -> Option<i64> {
+    row.iter()
+        .zip(first)
+        .map(|(v, f)| v.saturating_sub(*f))
+        .max()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1845,5 +1857,14 @@ mod tests {
                 ("n".into(), "1".into())
             ]
         );
+    }
+
+    #[test]
+    fn the_max_plot_is_taken_after_the_first_spectrum() {
+        // lcd-tlm-sim: a first spectrum of 66 µAU at every wavelength and a max plot of 0
+        let first = [66, 66, 66];
+        assert_eq!(pda_max(&first, &first), Some(0));
+        assert_eq!(pda_max(&[119, 80, 70], &first), Some(53));
+        assert_eq!(pda_max(&[], &first), None);
     }
 }

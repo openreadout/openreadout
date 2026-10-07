@@ -34,6 +34,14 @@ All notable changes to this project are documented here. The format is based on 
 - Docker build records (`*.dockerbuild`) no longer end up among the release assets.
 - `CITATION.cff` now validates: the dual license is a list of SPDX identifiers.
 - The website's home page and *Connect an assistant* no longer say that there is no release yet.
+- Shimadzu: `check` no longer reports `pda_max_plot_mismatch` on PDA runs whose first spectrum is not zero. LabSolutions takes the max plot after subtracting the first spectrum.
+- Plate exports: an export the reader recognises but whose values it does not read is now `unvalidated` for tables, so `--strict` refuses it. It was `validated`.
+- BMG MARS table views of kinetic reads (a `Time` line under the column titles) return their values with each column's time. They returned no values.
+- EC-Lab `.mpt` exports whose time column holds dates and times are read, with times in seconds from the first row. They were rejected as corrupt.
+- EC-Lab `.mpr` files with a data module of version 0 (EC-Lab 10 and earlier) are read. They were refused.
+- Bruker timsTOF: negative-ion runs no longer get negative 1/K0 values. The assurance block reports these values as derived until a vendor conversion of a negative run confirms them.
+- Waters Empower `.arw` exports without header rows are detected and read; their layout is `unvalidated`.
+- EC-Lab text exports: a column no development file had no longer makes the traces `unvalidated`, since every column is read by the same number parser.
 - TIFF: whole full-resolution planes of NDPI slides between 1 and 4 GiB are read (they exited 4).
 - CZI and VSI: `check` no longer exits 4 on channels stored at only some extra-dimension indices, or on stored tiles that lie just past the image edge.
 - DM: `check` no longer reports `truncated` when the header's root length counts 4 of the 8 end bytes (30 of the 89 development files).

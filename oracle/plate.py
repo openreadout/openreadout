@@ -535,25 +535,44 @@ def bmg_csv_summary(path: Path) -> dict:
     separates calculated data. A spectrum's wavelengths are recorded. Written for exports that
     allotropy 0.1.x rejects."""
     rows = _text_rows(path)
-    header, mode, wls = {}, None, []
+    header, mode, wls, times = {}, None, [], []
     groups: dict = {}
     calc: dict = {}
     titles: list = []
+    off = 2  # first value column: after `Well`, `Content` (or `Well Row`, `Well Col`, `Content`)
     for r in rows:
         first = r[0].strip() if r else ""
         if ":" not in first:
             m = mode_of(first)
             if m and mode is None:
                 mode = m
-        if first == "Well" and len(r) > 2:
-            titles = [c.strip() for c in r[2:]]
+        if first in ("Well", "Well Row") and len(r) > 2:
+            off = 3 if first == "Well Row" else 2
+            titles = [c.strip() for c in r[off:]]
             continue
-        if first == "" and len(r) > 1 and r[1].strip().startswith("Wavelength"):
-            wls = [float(c) for c in r[2:] if c.strip()]
+        label = r[off - 1].strip() if len(r) >= off else ""
+        if first == "" and label.startswith("Wavelength"):
+            wls = [float(c) for c in r[off:] if c.strip()]
             continue
-        w = parse_well(first) if first else None
-        if w and len(r) > 2:
-            for i, c in enumerate(r[2:]):
+        if first == "" and label.startswith("Time"):
+            # a kinetic read: each column's time, `0 h 15 min`, `1 min`, or a number in the
+            # label's unit (`Time [s]`)
+            unit = re.search(r"\[(s|min|h)\]", label)
+            scale = {"s": 1, "min": 60, "h": 3600}
+            for c in r[off:]:
+                c = c.strip()
+                parts = re.findall(r"(\d+(?:\.\d+)?)\s*(h|min|s)\b", c)
+                if parts:
+                    times.append(sum(float(n) * scale[u] for n, u in parts))
+                elif c and unit:
+                    times.append(float(c) * scale[unit.group(1)])
+            continue
+        if off == 3:
+            w = parse_well(first + r[1].strip()) if first and len(r) > 1 else None
+        else:
+            w = parse_well(first) if first else None
+        if w and len(r) > off:
+            for i, c in enumerate(r[off:]):
                 try:
                     v = float(c)
                 except ValueError:
@@ -562,6 +581,9 @@ def bmg_csv_summary(path: Path) -> dict:
                 target = groups if title.startswith("Raw Data") else calc
                 target.setdefault(mode or "fluorescence", []).append((*w, v))
     out = {"groups": _groups(groups, {mode or "fluorescence": wls}), "header": header}
+    if times:
+        for g in out["groups"]:
+            g["times_s"] = sorted(set(times))
     if calc:
         out["calculated_groups"] = _groups(calc, {mode or "fluorescence": wls})
     return out

@@ -22,6 +22,8 @@ pub(crate) fn check_plate(
     // are compared when the oracle separates them (`calculated_groups`).
     let mut groups: BTreeMap<String, PlateGroup> = BTreeMap::new();
     let mut calculated: BTreeMap<String, PlateGroup> = BTreeMap::new();
+    // Per detection mode, the distinct times of the measured values (kinetic reads).
+    let mut times: BTreeMap<String, std::collections::BTreeSet<u64>> = BTreeMap::new();
     for t in &info.tables {
         let reads = t
             .extra
@@ -64,6 +66,13 @@ pub(crate) fn check_plate(
                 continue;
             }
             let v = if v == 0.0 { 0.0 } else { v };
+            let time = tab.columns[5][i];
+            if !is_calc && time.is_finite() {
+                times
+                    .entry(read["mode"].as_str().unwrap_or("unknown").to_string())
+                    .or_default()
+                    .insert(time.to_bits());
+            }
             g.0.push((
                 tab.columns[1][i] as u32 - 1,
                 tab.columns[2][i] as u32 - 1,
@@ -86,6 +95,24 @@ pub(crate) fn check_plate(
         &mut problems,
         &mut summary,
     );
+    // A kinetic read's time axis, when the oracle lists it.
+    for o in oracle.groups.iter().filter(|g| !g.times_s.is_empty()) {
+        let mut ours: Vec<f64> = times
+            .get(&o.mode)
+            .map(|s| s.iter().map(|b| f64::from_bits(*b)).collect())
+            .unwrap_or_default();
+        ours.sort_by(f64::total_cmp);
+        if ours != o.times_s {
+            problems.push(format!(
+                "{}: {} distinct times != oracle {} ({:?} … against {:?} …)",
+                o.mode,
+                ours.len(),
+                o.times_s.len(),
+                ours.iter().take(3).collect::<Vec<_>>(),
+                o.times_s.iter().take(3).collect::<Vec<_>>()
+            ));
+        }
+    }
     if !oracle.calculated_groups.is_empty() {
         compare_plate_groups(
             &calculated,

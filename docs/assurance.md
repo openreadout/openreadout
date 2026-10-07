@@ -98,6 +98,17 @@ the codec value of colour-sensitive codecs (`jpeg (rgb)` is a different value fr
 plane) are not in the assurance block. Readers refuse those with exit 6 when they meet them
 ("right or refuse").
 
+### Data a reader found but did not read
+
+A structure a reader recognises and does not decode is `undecoded`. With a scope it makes those
+outputs `unvalidated`; without one it is left out and the file is `partially_validated`. The plate
+reader reports both since 2026-10-06: an export that yields no values, or a plate block without
+values, is undecoded with the tables scope (draw D's BMG kinetic export was `validated` with no
+values, and three fuzz fixtures without plate data were too), and a read or plate section it refuses
+by name (`multiple_reads_without_mean`, `plate_not_decoded`, `read_not_decoded`, `table_axis_not_decoded`,
+`unsupported_read_type`) is left out. A table with no rows is not enough on its own: event tables
+of electrophysiology files are often empty, and correctly so.
+
 ## Cross-validation on the development corpus
 
 A held-out file comes from a depositor the reader has never seen. The development corpus can
@@ -271,3 +282,16 @@ level. File-level refusals fall from 17 correct files to 15 (0/15 precision, aga
 Orbitrap ID-X, an FT-ICR mzML and the semicolon BMG export are no longer refused. Withholding is
 cheap but not precise: 99 of the 152 files read correctly have a withheld field (measurement time
 96, instrument model 68), because most formats have no oracle that compares those fields.
+
+
+Draw D (2026-10-06, `docs/benchmark/heldout-2026-10-06d.md`) measured 104 new inputs with an
+independent verdict on 93: `--strict` refused 2 of the 6 reader errors that returned data, at a
+precision of 2 of 15, and 13 correctly read files were `unvalidated`. D-H5, D-M1, D-L4, D-G1 and
+D-G4 were then fixed on development files, D-L1 and D-L2 turned out to be oracle conventions, and
+three changes went into the signal: the plate rule above, the ion polarity of
+a timsTOF mobility run as a variant feature (a negative run's 1/K0 is derived by a rule no vendor
+conversion has confirmed, so `--strict` withholds it), and the columns of EC-Lab text exports as
+descriptive features (a text export reads every column with one number parser). Re-measured after
+the fixes (a re-measurement, not a fresh test): 2 of the 3 remaining reader errors that return data
+are refused, at a precision of 2 of 16, and 14 correct files are `unvalidated`, the added one a
+headerless Empower export whose layout no development file confirms.

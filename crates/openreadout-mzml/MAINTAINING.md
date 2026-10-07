@@ -38,7 +38,7 @@ The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; 
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `mzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 106 / 54 | 40 | 3 / 0 |
+| `mzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 107 / 55 | 41 | 3 / 0 |
 | `imzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | low | open spec | 2 / 2 | 1 | - |
 | `mzxml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 8 / 7 | 6 | - |
 | `mzmlb` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | medium | open spec | 4 / 4 | 1 | 1 / 0 |
@@ -99,13 +99,13 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `mzml` | acquisition | `mass spectrum` | spectra, traces | 1 | 1 | `openms-tutorial-gaussfilter` |
 | `mzml` | acquisition | `profile spectrum` | spectra, traces | 1 | 9 | `mtbls1334-STD_neg_MSMS_1min0205` |
 | `mzml` | acquisition | `selected ion monitoring chromatogram` | spectra, traces | 0 | 3 |  |
-| `mzml` | acquisition | `selected reaction monitoring chromatogram` | spectra, traces | 5 | 10 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
-| `mzml` | acquisition | `total ion current chromatogram` | spectra, traces | 5 | 16 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | acquisition | `selected reaction monitoring chromatogram` | spectra, traces | 6 | 11 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | acquisition | `total ion current chromatogram` | spectra, traces | 6 | 17 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
 | `mzml` | codec | `gzip container` | spectra, traces | 3 | 3 | `mzdata-small-gz`, `mzdata-timstof-gz`, `synthetic-mzml-gz-members` |
-| `mzml` | field | `experiment.acquisition.started_at` | descriptive | 49 | 99 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
-| `mzml` | format_version | `1.1.0` | metadata, spectra, traces | 53 | 105 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
+| `mzml` | field | `experiment.acquisition.started_at` | descriptive | 50 | 100 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
+| `mzml` | format_version | `1.1.0` | metadata, spectra, traces | 54 | 106 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
 | `mzml` | instrument | `4000 QTRAP` | descriptive | 0 | 1 |  |
-| `mzml` | instrument | `Agilent instrument model` | descriptive | 5 | 16 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | instrument | `Agilent instrument model` | descriptive | 6 | 17 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
 | `mzml` | instrument | `Applied Biosystems instrument model` | descriptive | 0 | 1 |  |
 | `mzml` | instrument | `Bruker Daltonics timsTOF series` | descriptive | 2 | 9 | `mzdata-diapasef`, `mzdata-timstof-gz` |
 | `mzml` | instrument | `Exactive` | descriptive | 1 | 1 | `mtbls797-dotsha05` |
@@ -144,20 +144,20 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `mzml` | record | `chromatogram` | traces | 0 | 2 |  |
 | `mzml` | record | `electromagnetic radiation chromatogram` | traces | 0 | 1 |  |
 | `mzml` | record | `emission chromatogram` | traces | 0 | 1 |  |
-| `mzml` | record | `flow rate chromatogram` | traces | 0 | 5 |  |
-| `mzml` | record | `pressure chromatogram` | traces | 0 | 11 |  |
+| `mzml` | record | `flow rate chromatogram` | traces | 1 | 6 | `mtbls4722-1` |
+| `mzml` | record | `pressure chromatogram` | traces | 1 | 12 | `mtbls4722-1` |
 | `mzml` | record | `selected ion current chromatogram` | traces | 1 | 1 | `pyteomics-tiny-pwiz` |
 | `mzml` | record | `selected ion monitoring chromatogram` | traces | 0 | 3 |  |
-| `mzml` | record | `selected reaction monitoring chromatogram` | traces | 5 | 11 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | record | `selected reaction monitoring chromatogram` | traces | 6 | 12 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
 | `mzml` | record | `temperature chromatogram` | traces | 0 | 3 |  |
-| `mzml` | record | `total ion current chromatogram` | traces | 16 | 101 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | record | `total ion current chromatogram` | traces | 17 | 102 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
 | `mzml` | writer | `Analyst` | descriptive | 3 | 6 | `mtbls11360-col-0-3-n`, `mtbls6084-sl-st-blank2`, `pxd069939-dda-pbqc-hf75` |
 | `mzml` | writer | `Bioworks` | descriptive | 1 | 1 | `pyteomics-tiny-pwiz` |
 | `mzml` | writer | `Bruker software` | descriptive | 2 | 9 | `mzdata-diapasef`, `mzdata-timstof-gz` |
 | `mzml` | writer | `Compass` | descriptive | 0 | 4 |  |
 | `mzml` | writer | `CompassXtract` | descriptive | 1 | 1 | `pyteomics-tiny-pwiz` |
 | `mzml` | writer | `FileConverter` | descriptive | 1 | 1 | `openms-tutorial-gaussfilter` |
-| `mzml` | writer | `MassHunter Data Acquisition` | descriptive | 5 | 16 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | writer | `MassHunter Data Acquisition` | descriptive | 6 | 17 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
 
 … 32 more values: the generated table in `src/assurance.rs` has all of them.
 

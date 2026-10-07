@@ -9,15 +9,15 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `abf` | high | prior art | 37 | 37 | 10 | 19 | 100% | 14% | 4/0 |
 | `agilent-cary` | medium | reverse engineered | 24 | 20 | 5 | 1 | 100% | 100% | - |
 | `agilent-fpa` | medium | prior art | 13 | 13 | 2 | 1 | 100% | 57% | - |
-| `agilent-masshunter` | high | reverse engineered | 16 | 16 | 6 | 7 | 100% | 100% | - |
+| `agilent-masshunter` | high | reverse engineered | 17 | 17 | 7 | 8 | 100% | 100% | - |
 | `agilent-seahorse-asyr` | low | reverse engineered | 9 | 3 | 1 | 2 | 100% | 100% | - |
 | `andi-chrom` | high | open spec | 25 | 25 | 5 | 3 | 100% | 100% | 1/0 |
 | `applied-biosystems-eds` | high | reverse engineered | 23 | 23 | 15 | 11 | 100% | 100% | 2/0 |
 | `arbin-res` | medium | prior art | 7 | 7 | 4 | 6 | 100% | 0% | - |
 | `atf` | medium | vendor docs | 7 | 7 | 4 | 1 | 100% | 40% | - |
 | `bio-rad-pcrd` | low | open spec | 0 | 0 | 0 | 0 | - | - | - |
-| `biologic-mpr` | high | reverse engineered | 21 | 21 | 5 | 6 | 100% | 100% | - |
-| `biologic-mpt` | medium | reverse engineered | 20 | 19 | 3 | 2 | 100% | 100% | - |
+| `biologic-mpr` | high | reverse engineered | 23 | 23 | 6 | 8 | 100% | 100% | - |
+| `biologic-mpt` | medium | reverse engineered | 24 | 21 | 4 | 2 | 100% | 100% | - |
 | `biorad-scn` | high | reverse engineered | 13 | 13 | 11 | 5 | 100% | 100% | - |
 | `blackrock` | high | vendor docs | 15 | 14 | 3 | 7 | 100% | 8% | - |
 | `bruker-bes3t` | medium | prior art | 16 | 14 | 11 | 1 | 100% | 0% | - |
@@ -26,7 +26,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `bruker-nmr` | high | prior art | 50 | 50 | 25 | 7 | 100% | 31% | 4/0 |
 | `bruker-opus` | high | prior art | 16 | 16 | 5 | 9 | 100% | 50% | 2/0 |
 | `bruker-raw` | high | prior art | 11 | 11 | 11 | 2 | 100% | 0% | - |
-| `bruker-tdf` | high | prior art | 10 | 10 | 5 | 9 | 100% | 56% | - |
+| `bruker-tdf` | high | prior art | 13 | 13 | 7 | 11 | 100% | 56% | - |
 | `ced-spike2` | high | prior art | 17 | 16 | 8 | 20 | 100% | 20% | - |
 | `cellvoyager` | medium | prior art | 3 | 3 | 3 | 1 | 100% | 82% | 0/1 |
 | `chemstation` | high | prior art | 28 | 28 | 9 | 12 | 100% | 96% | 3/0 |
@@ -59,7 +59,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `microcal-itc` | medium | reverse engineered | 10 | 6 | 2 | 5 | 100% | 100% | - |
 | `mirax` | medium | prior art | 7 | 7 | 1 | 6 | 100% | 13% | - |
 | `mrc` | high | open spec | 13 | 13 | 7 | 6 | 100% | 24% | 2/0 |
-| `mzml` | high | open spec | 106 | 54 | 40 | 16 | 100% | 0% | 3/0 |
+| `mzml` | high | open spec | 107 | 55 | 41 | 16 | 100% | 0% | 3/0 |
 | `mzmlb` | medium | open spec | 4 | 4 | 1 | 5 | 100% | 0% | 1/0 |
 | `mzxml` | high | open spec | 8 | 7 | 6 | 4 | 100% | 0% | - |
 | `nd2` | high | prior art | 28 | 27 | 7 | 14 | 100% | 42% | 4/0 |
@@ -77,8 +77,8 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `opera-harmony` | high | prior art | 11 | 11 | 9 | 9 | 100% | 82% | 2/0 |
 | `panalytical-xrdml` | high | open spec | 7 | 7 | 7 | 11 | 100% | 0% | - |
 | `perkinelmer-fsm` | low | prior art | 2 | 2 | 2 | 0 | 100% | 38% | - |
-| `perkinelmer-sp` | medium | prior art | 8 | 8 | 6 | 0 | 100% | 57% | 1/0 |
-| `plate` | medium | prior art | 69 | 59 | 17 | 16 | 100% | 52% | 2/1 |
+| `perkinelmer-sp` | medium | prior art | 9 | 9 | 7 | 0 | 100% | 57% | 1/0 |
+| `plate` | medium | prior art | 71 | 61 | 19 | 16 | 100% | 52% | 2/1 |
 | `plexon` | medium | prior art | 6 | 4 | 1 | 3 | 100% | 54% | - |
 | `qpcr-results-export` | medium | reverse engineered | 9 | 9 | 7 | 0 | 100% | 100% | - |
 | `rdml` | high | open spec | 9 | 9 | 5 | 5 | 100% | 4% | 1/0 |

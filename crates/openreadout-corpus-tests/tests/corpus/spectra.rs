@@ -487,7 +487,7 @@ pub(crate) fn check_chromatograms(
                 Some(b) => vec![b.clone()],
                 None => continue,
             },
-            "srm" => vec![{
+            "srm" => {
                 let (Some(q1), Some(q3)) = (t.precursor_mz, t.product_mz) else {
                     problems.push(format!("{}: no precursor/product", t.id));
                     continue;
@@ -508,7 +508,7 @@ pub(crate) fn check_chromatograms(
                     (Some(a), Some(b)) if a.to_bits() == b.to_bits() => (None, None),
                     w => w,
                 };
-                scans
+                let points = scans
                     .iter()
                     .filter(|s| {
                         // an export that records no polarity for its traces matches either
@@ -525,10 +525,31 @@ pub(crate) fn check_chromatograms(
                     .filter_map(|s| {
                         s.mz.iter()
                             .position(|&m| m >= q3 - lo && m <= q3 + hi)
-                            .map(|k| (s.rt_s.unwrap_or(f64::NAN) / 60.0, s.intensity[k]))
+                            .map(|k| {
+                                let method = s
+                                    .extra
+                                    .get("scan_method")
+                                    .and_then(serde_json::Value::as_i64);
+                                (s.rt_s.unwrap_or(f64::NAN) / 60.0, s.intensity[k], method)
+                            })
                     })
+                    .collect::<Vec<_>>();
+                // Two transitions with the same Q1, Q3 and energy in overlapping windows
+                // interleave: the scans' method id (MassHunter's `scan_method`) tells them apart.
+                let mut methods: Vec<i64> = points.iter().filter_map(|p| p.2).collect();
+                methods.sort_unstable();
+                methods.dedup();
+                let all = points.iter().map(|p| (p.0, p.1)).collect();
+                std::iter::once(all)
+                    .chain(methods.iter().filter(|_| methods.len() > 1).map(|m| {
+                        points
+                            .iter()
+                            .filter(|p| p.2 == Some(*m))
+                            .map(|p| (p.0, p.1))
+                            .collect()
+                    }))
                     .collect()
-            }],
+            }
             _ => continue,
         };
         // Some(true): exact; Some(false): exact on the non-zero points; None: differs.

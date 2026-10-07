@@ -38,7 +38,7 @@ Bruker timsTOF acquisitions (`.d` directories; TDF and TSF; `bruker-tdf`). Proje
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bruker-tdf` | [format note](../../docs/formats/bruker-tdf.md), [provenance log](../../docs/provenance/bruker-tdf.md) | high | prior art | 10 / 10 | 5 | - |
+| `bruker-tdf` | [format note](../../docs/formats/bruker-tdf.md), [provenance log](../../docs/provenance/bruker-tdf.md) | high | prior art | 13 / 13 | 7 | - |
 
 ### Source map
 
@@ -59,6 +59,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `k`
 - feature codec `format!("TimsCompressionType {c}")`
 - feature acquisition `ac`
+- feature acquisition `value`
 - feature layout `format!("{name} model {t}")`
 - feature layout `"not closed properly"`
 - feature layout `"uncheckpointed WAL"`
@@ -74,45 +75,52 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bruker-tdf` | acquisition | `DDA-PASEF` | spectra | 4 | 4 | `pwiz-bruker-hela-pasef`, `pxd075355-dda-pasef`, `pxd080079-dda-pasef` |
+| `bruker-tdf` | acquisition | `DDA-PASEF` | spectra | 7 | 7 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
 | `bruker-tdf` | acquisition | `DIA-PASEF` | spectra | 3 | 3 | `pwiz-bruker-diapasef`, `pxd074950-b1-diapasef`, `timsrust-test-dia` |
 | `bruker-tdf` | acquisition | `line spectra (TSF)` | spectra | 2 | 2 | `pwiz-bruker-maldi-tsf`, `pwiz-bruker-urine-tsf` |
+| `bruker-tdf` | acquisition | `negative ions` | spectra | 1 | 1 | `pwiz-bruker-urine-tsf` |
+| `bruker-tdf` | acquisition | `negative ions with ion mobility` | spectra | 2 | 2 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg` |
 | `bruker-tdf` | acquisition | `other` | spectra | 1 | 1 | `pwiz-bruker-thyroglob-prm` |
+| `bruker-tdf` | acquisition | `positive ions` | spectra | 1 | 1 | `pwiz-bruker-maldi-tsf` |
+| `bruker-tdf` | acquisition | `positive ions with ion mobility` | spectra | 9 | 9 | `mtbls13504-balf-pos`, `pwiz-bruker-diapasef`, `pwiz-bruker-hela-pasef` |
 | `bruker-tdf` | codec | `TimsCompressionType 1` | spectra | 2 | 2 | `pwiz-bruker-hela-pasef`, `pwiz-bruker-thyroglob-prm` |
-| `bruker-tdf` | codec | `TimsCompressionType 2` | spectra | 6 | 6 | `pwiz-bruker-diapasef`, `pxd074950-b1-diapasef`, `pxd075355-dda-pasef` |
+| `bruker-tdf` | codec | `TimsCompressionType 2` | spectra | 9 | 9 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
 | `bruker-tdf` | codec | `TimsCompressionType 3` | spectra | 2 | 2 | `pwiz-bruker-maldi-tsf`, `pwiz-bruker-urine-tsf` |
-| `bruker-tdf` | field | `experiment.acquisition.started_at` | descriptive | 8 | 8 | `pwiz-bruker-diapasef`, `pwiz-bruker-hela-pasef`, `pwiz-bruker-maldi-tsf` |
-| `bruker-tdf` | field | `experiment.instrument.model` | descriptive | 8 | 8 | `pwiz-bruker-diapasef`, `pwiz-bruker-hela-pasef`, `pwiz-bruker-maldi-tsf` |
+| `bruker-tdf` | derivation | `spectra[].inverse_reduced_mobility by negative-ion voltage…` | descriptive | 2 | 2 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg` |
+| `bruker-tdf` | field | `experiment.acquisition.started_at` | descriptive | 11 | 11 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
+| `bruker-tdf` | field | `experiment.instrument.model` | descriptive | 11 | 11 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
 | `bruker-tdf` | format_version | `? ?.?` | metadata, spectra | 2 | 2 | `timsrust-test-dda`, `timsrust-test-dia` |
 | `bruker-tdf` | format_version | `TDF 1.0` | metadata, spectra | 1 | 1 | `pwiz-bruker-thyroglob-prm` |
 | `bruker-tdf` | format_version | `TDF 2.0` | metadata, spectra | 1 | 1 | `pwiz-bruker-hela-pasef` |
 | `bruker-tdf` | format_version | `TDF 3.1` | metadata, spectra | 1 | 1 | `pwiz-bruker-diapasef` |
+| `bruker-tdf` | format_version | `TDF 3.3` | metadata, spectra | 1 | 1 | `mtbls12332-tft-neg` |
+| `bruker-tdf` | format_version | `TDF 3.7` | metadata, spectra | 2 | 2 | `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
 | `bruker-tdf` | format_version | `TDF 3.8` | metadata, spectra | 3 | 3 | `pxd074950-b1-diapasef`, `pxd075355-dda-pasef`, `pxd080079-dda-pasef` |
 | `bruker-tdf` | format_version | `TSF 3.3` | metadata, spectra | 2 | 2 | `pwiz-bruker-maldi-tsf`, `pwiz-bruker-urine-tsf` |
 | `bruker-tdf` | instrument | `<unknown>` | descriptive | 1 | 1 | `pwiz-bruker-thyroglob-prm` |
 | `bruker-tdf` | instrument | `timsTOF` | descriptive | 1 | 1 | `pwiz-bruker-hela-pasef` |
 | `bruker-tdf` | instrument | `timsTOF HT` | descriptive | 2 | 2 | `pxd074950-b1-diapasef`, `pxd080079-dda-pasef` |
-| `bruker-tdf` | instrument | `timsTOF Pro` | descriptive | 1 | 1 | `pwiz-bruker-diapasef` |
+| `bruker-tdf` | instrument | `timsTOF Pro` | descriptive | 4 | 4 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
 | `bruker-tdf` | instrument | `timsTOF Pro 2` | descriptive | 1 | 1 | `pxd075355-dda-pasef` |
 | `bruker-tdf` | instrument | `timsTOF fleX` | descriptive | 1 | 1 | `pwiz-bruker-urine-tsf` |
 | `bruker-tdf` | instrument | `timsTOF fleX MALDI 2` | descriptive | 1 | 1 | `pwiz-bruker-maldi-tsf` |
-| `bruker-tdf` | layout | `MzCalibration model 1` | spectra | 7 | 7 | `pwiz-bruker-diapasef`, `pwiz-bruker-hela-pasef`, `pwiz-bruker-maldi-tsf` |
-| `bruker-tdf` | layout | `MzCalibration model 2` | spectra | 1 | 1 | `pwiz-bruker-urine-tsf` |
-| `bruker-tdf` | layout | `TimsCalibration model 2` | spectra | 6 | 6 | `pwiz-bruker-diapasef`, `pwiz-bruker-hela-pasef`, `pwiz-bruker-thyroglob-prm` |
+| `bruker-tdf` | layout | `MzCalibration model 1` | spectra | 9 | 9 | `mtbls13504-balf-neg`, `mtbls13504-balf-pos`, `pwiz-bruker-diapasef` |
+| `bruker-tdf` | layout | `MzCalibration model 2` | spectra | 2 | 2 | `mtbls12332-tft-neg`, `pwiz-bruker-urine-tsf` |
+| `bruker-tdf` | layout | `TimsCalibration model 2` | spectra | 9 | 9 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
 | `bruker-tdf` | layout | `not closed properly` | spectra | 1 | 1 | `pxd074950-b1-diapasef` |
-| `bruker-tdf` | layout | `tdf` | spectra | 8 | 8 | `pwiz-bruker-diapasef`, `pwiz-bruker-hela-pasef`, `pwiz-bruker-thyroglob-prm` |
+| `bruker-tdf` | layout | `tdf` | spectra | 11 | 11 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
 | `bruker-tdf` | layout | `tsf` | spectra | 2 | 2 | `pwiz-bruker-maldi-tsf`, `pwiz-bruker-urine-tsf` |
 | `bruker-tdf` | layout | `uncheckpointed WAL` | metadata, spectra | 1 | 1 | `pxd074950-b1-diapasef` |
-| `bruker-tdf` | writer_version | `timsControl 3` | descriptive | 2 | 2 | `pwiz-bruker-maldi-tsf`, `pwiz-bruker-urine-tsf` |
+| `bruker-tdf` | writer_version | `timsControl 3` | descriptive | 4 | 4 | `mtbls13504-balf-neg`, `mtbls13504-balf-pos`, `pwiz-bruker-maldi-tsf` |
 | `bruker-tdf` | writer_version | `timsControl 5` | descriptive | 3 | 3 | `pwiz-bruker-hela-pasef`, `pwiz-bruker-thyroglob-prm`, `pxd074950-b1-diapasef` |
-| `bruker-tdf` | writer_version | `timsControl 6` | descriptive | 3 | 3 | `pwiz-bruker-diapasef`, `pxd075355-dda-pasef`, `pxd080079-dda-pasef` |
+| `bruker-tdf` | writer_version | `timsControl 6` | descriptive | 4 | 4 | `mtbls12332-tft-neg`, `pwiz-bruker-diapasef`, `pxd075355-dda-pasef` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `tims_frame`, `tims_sqlite`, `whole_tims`
-- corpus inputs by tier: heldout 2, smoke 7, standard 3
+- corpus inputs by tier: heldout 2, smoke 7, standard 6
 - golden snapshots: [`corpus/snapshots/bruker-tdf.jsonl`](../../corpus/snapshots/bruker-tdf.jsonl)
 
 ### Open new-variant intakes
