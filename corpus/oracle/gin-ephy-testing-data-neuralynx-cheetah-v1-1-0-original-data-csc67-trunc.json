@@ -1,0 +1,46 @@
+{
+ "id": "gin-ephy-testing-data-neuralynx-cheetah-v1-1-0-original-data-csc67-trunc",
+ "file": "gin-ephy-testing-data-neuralynx-cheetah-v1-1-0-original-data-csc67-trunc.ncs",
+ "size": 28912,
+ "sha256": "682fe8a92e7bd4d1305355c69efe3bb75f7a941affe627276c1be0fd56410a90",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 NeuralynxRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "RMH3"
+   ],
+   "channel_units": [
+    "uV"
+   ],
+   "sample_rate_hz": 32768.0,
+   "neo_gain": [
+    -0.030518510385491027
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6144,
+     "channels": [
+      {
+       "xxh3": "5ef59977f4b42c9f9cd7afa5cc079ed8",
+       "first": [
+        -125.52263321552459,
+        -136.63137099584333,
+        -129.00174339947057,
+        -119.41893113842639,
+        -115.72619138178197,
+        -117.22159839067103,
+        -122.25715260427705,
+        -124.08826322740651
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

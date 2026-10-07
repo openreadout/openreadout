@@ -1,0 +1,19 @@
+{
+ "id": "zenodo5139398-3-fe-c",
+ "file": "zenodo5139398-3-fe-c.jdx",
+ "size": 1159804,
+ "sha256": "55926cf83c572ef49c3be0130336d767bfba3c89704d7897968984670019ae66",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "LTQ_FT_Orbitrap - EG3AD L3 CN",
+   "kind": "peak_table",
+   "data_type": "MASS SPECTRUM"
+  }
+ ],
+ "notes": [
+  "jcamp: ValueError: not enough values to unpack (expected 2, got 1)"
+ ]
+}

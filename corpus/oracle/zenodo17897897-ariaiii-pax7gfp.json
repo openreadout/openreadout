@@ -1,0 +1,57 @@
+{
+ "id": "zenodo17897897-ariaiii-pax7gfp",
+ "file": "zenodo17897897-ariaiii-pax7gfp.fcs",
+ "size": 362322,
+ "sha256": "59612aac8094362cfc23b17f467316565a8fdbd5450a67dbe5fef43d1697815c",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.1",
+   "parameter_count": 9,
+   "event_count": 10000,
+   "parameter_names": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "GFP-A",
+    "PE-A",
+    "Time"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "91ec5a2fe4c3801c032931a6cd04000c",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 10000,
+  "xxh3": "91ec5a2fe4c3801c032931a6cd04000c",
+  "agrees_with_flowio": true
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "id": "nmrxiv-s38-13c-udeft-600-ts32",
+ "file": "nmrxiv-s38-13c-udeft-600-ts32",
+ "size": 298865,
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 11998,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sample_rate_hz": 36231.884057971,
+   "nmrglue_shape": [
+    12032
+   ],
+   "nmrglue_dtype": "complex128",
+   "reader": "nmrglue 0.12 bruker.read",
+   "parameters": {
+    "acqus": {
+     "TD": 23996,
+     "NS": 1078,
+     "DS": 4,
+     "NUC1": "13C",
+     "SFO1": 150.953860045213,
+     "BF1": 150.938011554,
+     "SW_h": 36231.884057971,
+     "SW": 240.019593053924,
+     "DTYPA": 0,
+     "BYTORDA": 0,
+     "NC": -5,
+     "AQ_mod": 3,
+     "DECIM": 552,
+     "DSPFVS": 20,
+     "GRPDLY": 68.0126800537109,
+     "PULPROG": "udeft",
+     "SOLVENT": "DMSO",
+     "TE": 300,
+     "DATE": 1532423195,
+     "INSTRUM": "spect",
+     "PROBHD": "5 mm CPTCI 1H-13C/15N/D Z-GRD Z75812/0049\n",
+     "FnTYPE": 0,
+     "FnMODE": 0,
+     "NusTD": 0,
+     "RG": 2050
+    }
+   },
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 11998,
+     "channels": [
+      {
+       "xxh3": "fae42de87c571ca582c72c2eb1391f00",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "ddc3d939ad6014a02e13d6007bd8a269",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

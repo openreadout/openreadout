@@ -48,7 +48,7 @@ Scaling (`cc_scaling`): `scale = (max_analog − min_analog) / (max_digital − 
 
 `0x01`, timestamp (u32 in 2.2/2.3, u64 in 3.0), u32 number of points, then `points` × channels int16, point-major (all channels of a point together). Packets follow each other to the end of the file. A header byte other than 0x01 → `bad_packet`; a packet that declares more points than the file holds → `truncated` (the whole points present stay readable). Each packet is a sweep (`NsxSweep`: `first_packet`, `packet_count`, `sample_count`, `timestamp`); `extra.sweep_starts_s` = timestamp / resolution, `extra.sweep_start_timestamps` the raw ticks; `check` reports `segments` and, when a packet starts before the previous one ended, `clock_reset`.
 
-**PTP (spec 3.0, resolution 10⁹).** When the first packet holds exactly one point, every packet does: the file is a sequence of `13 + 2 × channels`-byte packets (`ptp_stride`, `ptp_packet_count`). Sweeps are gap-free runs: a gap is a timestamp step that departs from the period (period / 30000 s in ns) by more than half a sample. `info` checks only the first and last timestamps and assumes one sweep when they agree; `check` reads every timestamp.
+**PTP (spec 3.0, resolution 10⁹).** When the first packet holds exactly one point, every packet does: the file is a sequence of `13 + 2 × channels`-byte packets (`ptp_stride`, `ptp_packet_count`). Sweeps are gap-free runs: a gap is a timestamp step that departs from the period (period / 30000 s in ns) by more than half a sample. `check` reads every timestamp, and so does `info` when the packets take at most 64 MiB (`PTP_FULL_SCAN_BYTES`). In a larger file `info` probes 64 evenly spaced packets (`PTP_PROBES`): when each sits on the expected time it takes the file as one sweep and reports that as an assumption (`ptp_sweeps_assumed`, trace `extra.ptp_timestamps_read` = `probed`; otherwise `all`), and when one does not it reads every timestamp. The first and last timestamps alone can agree across gaps that cancel out.
 
 ### Spec 2.1 (`NEURALSG`, `SPEC21_HEADER_LEN` = 32)
 
@@ -61,7 +61,7 @@ Scaling (`cc_scaling`): `scale = (max_analog − min_analog) / (max_digital − 
 
 Samples follow directly (no packet header, no timestamp): one sweep of `(size − header) / (2 × channels)` points; bytes of a partial point → `partial_sample`. The file carries no analog range. When a `.nev` with the same name sits next to it, each channel's `NEUEVWAV` digitization factor (nV per count) gives `scale` = factor / 1000 µV (`spec21_factor` replaces 21516 with 152592.547 nV, the overflow Neo documents for old Cerebus systems) and `scaling_source` names the NEV; otherwise values are raw counts (`no_scaling`). Channel names are `chan<id>` below 129 and `ainp<id − 128>` from 129 (`spec21_label`, Neo's convention).
 
-`NsxFile`: `spec`, `version`, `label`, `comment`, `period`, `time_resolution`, `recorded_at`, `header_len`, `channels`, `packets`, `sweeps`, `ptp_stride`, `ptp_packet_count`, `scaling_source`, `file_len`, `findings`; `sample_rate_hz()`, `frame_len()`, `sample_offset()`, `max_sweep_len()`; built by `parse_nsx`.
+`NsxFile`: `spec`, `version`, `label`, `comment`, `period`, `time_resolution`, `recorded_at`, `header_len`, `channels`, `packets`, `sweeps`, `ptp_stride`, `ptp_packet_count`, `ptp_sweeps_assumed`, `scaling_source`, `file_len`, `findings`; `sample_rate_hz()`, `frame_len()`, `sample_offset()`, `max_sweep_len()`; built by `parse_nsx`.
 
 ## NEV (`NevFile`, `parse_nev`)
 
@@ -123,10 +123,10 @@ A directory of `.ns1`–`.ns6` and `.nev` files (plus `SESSION_COMPANIONS`: `.cc
 | `session_files`, `open_session`, `SESSION_COMPANIONS` | recording directories (sessions) |
 | `BlackrockReader`, `NsxDataset`, `NevDataset`, `FORMAT_ID`, `EXTENSIONS`, `SIGNATURES`, `open`, `nsx`, `nev`, `MAX_TABLE_READ`, `MAX_COMMENTS` | entry points and limits |
 | `NsxSpec` { `V21`, `V22`, `V30` }, `name`, `packet_header_len` | NSx spec generations |
-| `NsxFile`, `spec`, `version`, `label`, `comment`, `period`, `time_resolution`, `recorded_at`, `header_len`, `channels`, `packets`, `sweeps`, `ptp_stride`, `ptp_packet_count`, `scaling_source`, `file_len`, `findings`, `sample_rate_hz`, `frame_len`, `sample_offset`, `max_sweep_len`, `parse_nsx` | NSx file |
+| `NsxFile`, `spec`, `version`, `label`, `comment`, `period`, `time_resolution`, `recorded_at`, `header_len`, `channels`, `packets`, `sweeps`, `ptp_stride`, `ptp_packet_count`, `ptp_sweeps_assumed`, `scaling_source`, `file_len`, `findings`, `sample_rate_hz`, `frame_len`, `sample_offset`, `max_sweep_len`, `parse_nsx` | NSx file |
 | `NsxChannel`, `index`, `electrode_id`, `connector`, `pin`, `min_digital`, `max_digital`, `min_analog`, `max_analog`, `units`, `highpass`, `lowpass`, `scale`, `offset` | NSx channels |
 | `NsxPacket`, `data_offset`, `timestamp`, `points`, `NsxSweep`, `first_packet`, `packet_count`, `sample_count` | NSx packets and sweeps |
-| `BASIC_HEADER_LEN`, `CC_LEN`, `SPEC21_HEADER_LEN`, `PERIOD_CLOCK_HZ`, `PTP_RESOLUTION`, `MAX_CHANNELS`, `cc_scaling`, `spec21_label`, `spec21_factor`, `systemtime` | NSx constants and helpers |
+| `BASIC_HEADER_LEN`, `CC_LEN`, `SPEC21_HEADER_LEN`, `PERIOD_CLOCK_HZ`, `PTP_RESOLUTION`, `PTP_FULL_SCAN_BYTES`, `PTP_PROBES`, `MAX_CHANNELS`, `cc_scaling`, `spec21_label`, `spec21_factor`, `systemtime` | NSx constants and helpers |
 | `NevFile`, `signature`, `flags`, `packet_len`, `sample_resolution`, `application`, `ext_headers`, `waveforms`, `labels`, `digital_labels`, `wide_timestamps`, `payload_offset`, `waveform_offset`, `sample_bytes`, `waveform_samples`, `max_waveform_samples`, `uv_per_count`, `parse_nev`, `NEV_BASIC_LEN`, `NEV_EXT_LEN` | NEV file |
 | `ExtHeader`, `id`, `WaveformHeader`, `digitization_nv`, `energy_threshold`, `high_threshold_uv`, `low_threshold_uv`, `sorted_units`, `spike_width` | NEV extended headers |
 | `NevPacket`, `packet_id`, `code`, `digital`, `waveform`, `text`, `nev_packet`, `COMMENT_PACKET`, `MAX_ELECTRODE_ID`, `KIND_DIGITAL`, `KIND_SPIKE`, `KIND_COMMENT`, `KIND_OTHER` | NEV packets and table kinds |

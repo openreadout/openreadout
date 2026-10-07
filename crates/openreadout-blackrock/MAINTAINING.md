@@ -61,6 +61,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature sample_layout `format!("{p}-byte packets")`
 - feature writer `a::writer_name_only(app)` (descriptive)
 - undecoded "damaged data packets"
+- assumed "traces[].sweep_count"
 - calibration "digital units to µV"
 
 ### Validated variants and the corpus files that pin them
@@ -87,7 +88,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_blackrock`
-- corpus inputs by tier: heldout 2, smoke 13, standard 2
+- corpus inputs by tier: full 1, heldout 2, smoke 13, standard 10
 - golden snapshots: [`corpus/snapshots/blackrock.jsonl`](../../corpus/snapshots/blackrock.jsonl)
 
 ### Open new-variant intakes

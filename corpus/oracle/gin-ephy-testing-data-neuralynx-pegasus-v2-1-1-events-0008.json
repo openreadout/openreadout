@@ -1,0 +1,22 @@
+{
+ "id": "gin-ephy-testing-data-neuralynx-pegasus-v2-1-1-events-0008",
+ "file": "gin-ephy-testing-data-neuralynx-pegasus-v2-1-1-events-0008.nev",
+ "size": 19144,
+ "sha256": "c9ac0d0529b6d73b075fbff5df5f94bcafcbdd4dc7be7106149c94ea079d31f7",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 NeuralynxRawIO",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 15,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "timestamp_us": "c4430a5f66271a71a1038583694cd0ac",
+    "event_id": "7783794c6a190eb91f5dc2034a5ee643",
+    "ttl": "389e75cccfdb70e732c9d0d809551488"
+   }
+  }
+ ]
+}

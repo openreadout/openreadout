@@ -1,0 +1,109 @@
+{
+ "id": "zenodo5789256-cot-lu-cnt-ir",
+ "file": "zenodo5789256-cot-lu-cnt-ir.SPA",
+ "size": 139420,
+ "sha256": "665a494b2767d7cb905ec77705d72256e4542135dddb7e927397a521a2dd2a2d",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 7468,
+   "x_first": 4000.123,
+   "x_last": 400.157,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7468,
+     "channels": [
+      {
+       "xxh3": "2714500e14557243c07bdc1506c77c7c",
+       "first": [
+        79.78639221191406,
+        79.79872131347656,
+        79.81184387207031,
+        79.82601165771484,
+        79.84160614013672,
+        79.8589859008789,
+        79.87836456298828,
+        79.89969635009766
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "scans": 32,
+     "background_scans": 32,
+     "laser_wavenumber_cm1": 15798.0
+    }
+   },
+   "x_tolerance": 0.002
+  },
+  {
+   "index": 1,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 12200,
+   "x_first": 0.0,
+   "x_last": 12199.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12200,
+     "channels": [
+      {
+       "xxh3": "0ac7a236d5d8e8d5b7ce5f3e25635d61",
+       "first": [
+        7.602211553603411e-05,
+        8.466478902846575e-05,
+        3.4000840969383717e-05,
+        4.6219793148338795e-05,
+        9.202631190419197e-07,
+        3.042456228286028e-05,
+        -2.954038791358471e-06,
+        1.909967977553606e-05
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "reader": "spectrochempy read_spa(return_ifg)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 12200,
+   "x_first": 0.0,
+   "x_last": 12199.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12200,
+     "channels": [
+      {
+       "xxh3": "cbe5e4b4e3b3de54cfeb91186ffa5ea1",
+       "first": [
+        1.1719821486622095e-05,
+        3.6455749068409204e-05,
+        2.4811015464365482e-06,
+        2.2448657546192408e-05,
+        -2.2552849259227514e-05,
+        1.5594123397022486e-05,
+        -1.5102268662303686e-05,
+        4.2118190322071314e-05
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "acquisition_date": "2021-04-30 10:22:28-07:00"
+}

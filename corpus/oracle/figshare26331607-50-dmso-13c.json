@@ -1,0 +1,110 @@
+{
+ "id": "figshare26331607-50-dmso-13c",
+ "file": "figshare26331607-50-dmso-13c.jdf",
+ "size": 556480,
+ "sha256": "fdaaab48154fd25d2d5221d6b5899e18a4fcc891a836fd0bc9be9a7744598450",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 32768,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 jeol.read",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 32768,
+     "channels": [
+      {
+       "xxh3": "94521166b6bb7a0b6d60084305fe8820",
+       "first": [
+        3.4798281921475573e-09,
+        -0.0001580728168595814,
+        -0.018178819597383204,
+        -0.10611125410986795,
+        0.12691217333845842,
+        0.025303508530459717,
+        0.08184857002847992,
+        -0.032561066213879275
+       ]
+      },
+      {
+       "xxh3": "9a23e5ce0977d2d58fb676b0a4051f7d",
+       "first": [
+        4.7612089704834785e-09,
+        -0.00045030089950207433,
+        0.024176736798056115,
+        -0.012696016787886713,
+        -0.18769721275471693,
+        0.1584965145800559,
+        -0.14576985134232487,
+        0.2982217535919295
+       ]
+      }
+     ]
+    }
+   ],
+   "sample_rate_hz": 39308.17610062893,
+   "parameters": {
+    "extra": {
+     "spectrometer_frequency_mhz": 125.76529768332652,
+     "spectral_width_hz": 39308.17610062893,
+     "scans": 874,
+     "time_domain_size": 32768,
+     "solvent": "DMSO-D6",
+     "pulse_program": "single_pulse_dec"
+    }
+   }
+  }
+ ],
+ "header": {
+  "major_version": 1,
+  "minor_version": 1,
+  "data_format": "one_d",
+  "data_axis_type": [
+   "complex",
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+  "data_points": [
+   32768,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "data_offset_start": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "data_offset_stop": [
+   32767,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "endian": "little_endian",
+  "data_type": "float64"
+ }
+}

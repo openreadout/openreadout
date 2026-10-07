@@ -1,0 +1,54 @@
+{
+ "id": "nmrxiv-s70-dept135-dx",
+ "file": "nmrxiv-s70-dept135-dx.dx",
+ "size": 963679,
+ "sha256": "f8f6f4e019de992d373b213a76da9fbad4d4d713c2da2e1f916cc63d5102171e",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "DEPT-135",
+   "kind": "ntuples",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 65536,
+     "channels": [
+      {
+       "xxh3": "c1f7336fd8898b651bd85968e83fc803",
+       "first": [
+        149312.0,
+        53843.0,
+        52726.0,
+        44804.0,
+        -74662.0,
+        -301737.0,
+        -593277.0,
+        -925791.0
+       ]
+      },
+      {
+       "xxh3": "66b620f6b88ae8c833405018289eb455",
+       "first": [
+        -893881.0,
+        -796433.0,
+        -749777.0,
+        -821000.0,
+        -947430.0,
+        -1029128.0,
+        -1028634.0,
+        -910348.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 65536,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 jcampdx.read"
+  }
+ ]
+}

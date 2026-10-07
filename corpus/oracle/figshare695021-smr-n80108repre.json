@@ -1,0 +1,62 @@
+{
+ "id": "figshare695021-smr-n80108repre",
+ "file": "figshare695021-smr-n80108repre.smr",
+ "size": 16560640,
+ "sha256": "0da899456933648412c15d843ba243c6ad4aebe9d85b6debdfdd99d6801c389b",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 Spike2RawIO (try_signal_grouping=False)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Amplitude"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 5000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2731313,
+     "channels": [
+      {
+       "xxh3": "bb8e46fba1ca4a06c40d6244785c4e93",
+       "first": [
+        86.36474609375,
+        86.822509765625,
+        88.348388671875,
+        86.36474609375,
+        86.517333984375,
+        86.822509765625,
+        86.97509765625,
+        87.432861328125
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 40,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "time_s": "d36de107d04618df9204b07a78927ff5",
+    "tick": "a4747a4568fa9e63c72f4f2c911ee9aa",
+    "channel": "37493ca19907d7689f3054c75c366847",
+    "code0": "578328646d47ec8627835cc26ca9b0e4",
+    "code1": "1e876e21af74efa05db942e18c2a13f6",
+    "code2": "1e876e21af74efa05db942e18c2a13f6",
+    "code3": "1e876e21af74efa05db942e18c2a13f6",
+    "text": "6db6405ef3b9c8f597ab7305ca8a0626"
+   }
+  }
+ ]
+}
