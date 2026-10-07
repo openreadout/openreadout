@@ -186,3 +186,66 @@ Files without a recorded threshold (Bio-Rad CFX, LightCycler 96 and StepOne RDML
 - **Rules:** every value is taken from a column found by its header name, never by position. `Undetermined` (Applied Biosystems) and `NaN`/`N/A` (CFX) are "no Cq" (`cq_status` `undetermined`). A CFX `Content` that is not a CFX well type names no task. Detection needs the vendor's header (the Applied Biosystems header block, or the CFX column names) so that other tables with a `Well` column are not read as qPCR results.
 
 **Validation:** `oracle/qpcr.py` `export_file` reads every export with xlrd, openpyxl or the csv module, written from the files' text and not from the reader, and the corpus test compares every result (well, target, sample, dye, task, Cq or undetermined, Tm) and the count and sums of every amplification and melt curve: 9 of 9 files agree (914 Applied Biosystems results with 36 Undetermined, 242 amplification and 242 melt curves; 192 CFX results, 27 without a Cq). On the two exports with curves our own Cq agrees with the exported Ct (median |d| 0.021 cycles, r 0.99998, on the QuantStudio 3 file; 0.153 cycles, r 0.991, on the ViiA 7 file, where 1 Ct is only the vendor's and 3 only ours).
+
+## 2026-10-06 — a second reader of the four QC runs (Richard Zimring with Claude as assistant)
+
+Corpus ids: `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b`,
+`ixo-lc480-qc-2026a`, and the new `oracle-export` entry `ixo-lc480-qc-reader-en.html` (paired
+with `ixo-lc480-qc-2017a`).
+
+Prior art: the depositor of Zenodo 22121623 (Mihai Ionita) published an offline reader for these
+files beside them, `LightCycler480_Instrument_QC_Verification_English.html`
+(https://zenodo.org/records/22121623, CC-BY-4.0, checked 2026-10-06). It is one HTML page whose
+JavaScript decodes `.ixo` files in the browser. We did not write it and it does not share code
+with our reader.
+
+What we did: `oracle/lc480_qc_reader.mjs` (new) runs the page's script unchanged in a Node `vm`
+context with a stand-in DOM, calls its `decodeIxo()` on each run and writes what it returns to
+`corpus/oracle/qpcr-roche-qcreader/<id>.json`. That covers the instrument name, software version
+and run date, the stored crossing point of each of the 40 PCR wells, the amplification readings
+per channel and cycle, and the stored melting analyses (`MeltTemp`, `MeltCurve`,
+`DiffMeltCurve`, 128 points per well).
+
+One quirk of that reader: it keys acquisition readings by cycle and channel only, so the melting
+programs' readings (stored as cycle 0) overwrite amplification cycle 1. Our standard-library
+decode confirmed that its cycle-1 values are the last Melting B reading and that cycles 2-45 are
+the Cycling program's. The oracle leaves cycle 1 out.
+
+Outcome with the release binary: model (LED and Xenon lamp), software version (1.5.0.39 and
+1.5.1.62) and run date agree for all four runs. All 40 crossing points per run are equal to our
+`cq`, and all 88 per-cycle amplification sums per run are equal (relative difference 0).
+
+Still unconfirmed: our melt records (raw readings) and our `-dF/dT`. The depositor's reader
+returns the software's stored, resampled melt analyses, which our reader does not return, so the
+two cannot be compared value by value.
+
+## 2026-10-06 — a second depositor, with the LightCycler 480 software's own exports (Richard Zimring with Claude as assistant)
+
+Corpus ids: `ixo-mendeley-diras2-cp1`, `-cp2`, `-cp3`, `-cp4`, `-cp6`, `-cp7`, each with two
+`oracle-export` entries (`-ct.txt`, `-raw.txt`).
+
+Source: Mendeley Data doi:10.17632/rtsx7zpt4w.1 (Grünewald, Chiocchetti, Weber, Scholz,
+Schartner, Freudenberg, Reif; CC BY 4.0, read from the Mendeley API on 2026-10-06). Six 384-well
+plates of a mouse primary-neuron expression panel, run on 2015-09-24 and 25 with LightCycler 480
+software 1.5.1.62. For each plate the depositors published the `.ixo`, the software's Cp table
+and the software's raw-data export.
+
+What we did: `oracle/lc480_export_oracle.py` (new) reads the two exports and writes per well the
+sample name, the Cp and the exported fluorescence per cycle to
+`corpus/oracle/qpcr-roche-export/<id>.json`.
+
+Outcome with the release binary:
+- Sample names: 384 of 384 equal on all six plates.
+- Cp: on `cp1`, the only plate whose `.ixo` stores the analysis, all 384 `cq` values agree with
+  the exported Cp within its rounding (wells without a Cp included). The other five `.ixo` files
+  store no analysis, and the binary returns no Cq for them, which is right. Their exported Cp
+  tables come from an analysis the depositors did not save.
+- Fluorescence: our amplification values are the stored readings. The software's raw-data export
+  is scaled. On all six plates, every one of the 17,280 exported readings equals the stored value
+  times the acquisition's `ScalingFactor` divided by its `RefValue` and its `IntgrTime`, within the
+  export's rounding (`scratch/bench/ixo_scale.py`). We inferred that relation from these exports.
+  The reader does not apply it yet. The corpus test has to compare either the stored values (after
+  undoing the scaling) or the scaled ones, once someone decides which one the reader returns.
+- `experiment.instrument.model` is "29892" on these plates. The binary takes the model from the
+  run's `InstrumentName`, which this lab set to the instrument's serial number. On the QC runs the
+  same field holds "LightCycler 480 - LED lamp".

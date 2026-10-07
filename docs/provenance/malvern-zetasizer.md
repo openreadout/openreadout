@@ -60,3 +60,42 @@ lbignell/zetasizer_zs) and an unlicensed viewer whose repository holds only a RE
 - The number and volume "means" of the export are not stored (they follow from the
   distributions, which are not decoded); nor is the diffusion coefficient (it follows from the
   Z-average through Stokes-Einstein).
+
+## 2026-10-06 — public exports of size records from three new depositors (Richard Zimring with Claude as assistant)
+
+Corpus ids:
+- UNC Dataverse doi:10.15139/S3/ADXHMT (Alyssa Holden, CC0-1.0): `zetasizer-unc-adxhmt-lelc-n23`,
+  `zetasizer-unc-adxhmt-lelc-n1`, `zetasizer-unc-adxhmt-stab-n3`, Zetasizer 7.12, size records.
+- Texas Data Repository doi:10.18738/T8/BKRUCG (Laxmicharan Samineni, CC0-1.0):
+  `zetasizer-tdl-bkrucg-ecoli`, Zetasizer 7.13, zeta records.
+- University of Manchester Figshare, six items by James Bird (CC-BY-4.0): doi:10.48420/21387954,
+  21518898, 21922542, 22263982, 22293532 and 21967850 (`zetasizer-figshare<item>-dls`), Zetasizer
+  7.10, size and zeta records.
+
+Each `.dts` comes with the depositor's copy of the Zetasizer records table: Excel files for UNC
+and the Texas repository, the software's CSV export for the Manchester items. Licences were read
+from the repositories' APIs on 2026-10-06.
+
+Pairing: the UNC record attaches the same 54-row table to three `.dts` files. Only "LE and LC
+n=2 and n=3" holds those sample names, so the other two files (Drug Release, Stability n = 2)
+were left out. Several exports list only some records of their file: the depositor exported the
+size records and left out the zeta ones, or left out records. For those,
+`oracle/zetasizer_oracle.py --subset` (new option) drops `rows` and marks the table
+`"key": "record"`, so a comparison has to find each row by its record number. The corpus test
+does not do that yet. `zetasizer_oracle.py` also gained a small `_csv_rows` function for
+comma-separated exports.
+
+Outcome with the release binary (`scratch/bench/cmp_series.py`, record-keyed for the subsets):
+- Record numbers, record kinds, sample names, dates, temperatures, zeta potential, mobility and
+  conductivity agree in every file, with one exception: in `zetasizer-figshare21387954-dls` our
+  `sample_name` is empty for records 7-12, where the export and the file's own strings say
+  "Ti3 MXene Kaikai Noeske Multiple narrow modes 1" to "... 3" and similar names.
+- Z-average, PdI and intensity peaks are NaN in every size record, because the reader withholds
+  size results (format note, "Size results are withheld"). These exports are the public size
+  exports the note asks for. A probe (`scratch/bench/zsize_probe.py`) found each exported
+  (Z-average, PdI) pair exactly once in its `.dts` as two consecutive little-endian `f32`, the
+  start of the size-result block the format note describes: 12 of 12 records in
+  `zetasizer-figshare21387954-dls`, 18 of 18 in `-21922542-dls`, 54 of 54 in
+  `zetasizer-unc-adxhmt-lelc-n23`.
+
+Nothing in the reader was changed or inferred from these files yet.

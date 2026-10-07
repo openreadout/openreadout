@@ -1,0 +1,46 @@
+{
+ "id": "gpcreader-empower-sample1",
+ "file": "sample1.arw",
+ "size": 17837,
+ "sha256": "833c738c589bc3c1a37b3da4a2b49bc455fcbe540013701265018e0ff742e9bb",
+ "reader": "chromConverter 0.9.0 read_chroms(format_in = 'waters_arw') (GPL-3.0, black box)",
+ "oracle_note": "rows chromConverter returned as two numbers (1200); 6 header rows it returned as data rows were left out",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "SATIN-2 "
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 1.0000000001668057,
+   "x_first_min": 0.01666667,
+   "x_last_min": 20.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1200,
+     "channels": [
+      {
+       "xxh3": "26c50b80366ae1e4ba2e403bb9b8e32a",
+       "first": [
+        8.935,
+        8.936,
+        8.94,
+        8.924,
+        8.919,
+        8.928,
+        8.94,
+        8.943
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMMA88.5kDa_THF / SATIN-2 "
+  }
+ ]
+}

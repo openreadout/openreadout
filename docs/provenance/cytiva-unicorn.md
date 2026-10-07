@@ -142,3 +142,21 @@ the export, and retentions shifted by the injection the table is zeroed at:
 The reader now reports the baseline curve of each peak table (`extra.baseline_curve_number`,
 `extra.baseline_trace`) and the corpus test checks height, area and width against the curves
 with these rules.
+
+## 2026-10-06 — three .res files from a third repository (Richard Zimring with Claude as assistant)
+
+Corpus ids: `unicorn-res-pycorngui-koko038`, `unicorn-res-pycorngui-koko135`,
+`unicorn-res-pycorngui-koko029`.
+
+Source: the sample files of PyCornGUI (https://github.com/kotarokelley/PyCornGUI, commit
+98143df, GPL-2.0 as its README, `docs/LICENSE.txt` and `setup.py` state, checked 2026-10-06), a
+GUI by Kotaro Kelley built on PyCORN. The runs are his own size-exclusion runs on an ÄKTApurifier
+(UNICORN 5.01 build 318 in the logbook, "UNICORN 3.10" in the file header) from 2013, 2015 and
+2016. The repository is not one the corpus used before.
+
+Ground truth: PyCORN 0.19 (GPL-2.0), run as a black box through `oracle/fplc_oracle.py`, as for
+the two earlier `.res` files.
+
+Outcome with the release binary: for all 25 curves of the three files, the sample count, the 128
+sampled values, the sum, the maximum and its position agree with PyCORN, and so do the volume
+differences between sampled points. Nothing was inferred from these files.

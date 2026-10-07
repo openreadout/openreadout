@@ -96,3 +96,23 @@ The reader now reads through `core::source` (a local path, a `MemFs` of the `.wi
 ## 2026-10-02: opening through a `.wiff.scan` whose name differs in case
 
 **Corpus files:** `pwiz-sciex-enolase` (`Enolase_repeats_AQv1.4.2.wiff`) and `pwiz-sciex-enolase-scan` (`Enolase_repeats_aqv1.4.2.wiff.scan`), ProteoWizard test data, Apache-2.0. **What was inferred from what:** the published pair differs in the case of its stem. Opening the `.wiff.scan` now finds its `.wiff` case-insensitively, as opening the `.wiff` already found the `.wiff.scan`; on case-sensitive file systems the `.scan` path previously failed with an I/O error.
+
+## 2026-10-06 — four MetaboLights runs: two QTRAP MRM files, a TripleTOF 6600 run and a TripleTOF 5600 calibration run (no parsing change) (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `mtbls2240-bal-214-ecoli` (MTBLS2240, QTRAP 6500, Analyst 1.6.2, ten-sample MRM file), `mtbls3956-arg-1` (MTBLS3956, QTRAP 5500, Analyst 1.6.3, MRM), `mtbls4618-t-i-128-1-hilic-neg` (MTBLS4618, TripleTOF 6600, Analyst TF 1.7.1, data-dependent) and `mtbls851-dry-cal20180201114106110` (MTBLS851, TripleTOF 5600, Analyst TF 1.6), each with its `.wiff.scan` and the depositor's mzML. Every study's `i_Investigation.txt` gives the licence as EMBL-EBI Terms of Use. In every pairing, the export's `sourceFile` SHA-1 equals the `.wiff` (and `.wiff.scan`).
+
+**Prior art consulted:** none. The oracle is the depositor's ProteoWizard conversion, read with pyteomics (`oracle/gen.py --export`).
+
+**How they were found:** EBI search over MetaboLights for QTRAP, SCIEX, AB Sciex, TripleTOF, ZenoTOF, Triple Quad, API 4000/5000 and wiff (585 studies). Each study's FTP listing was then searched for a `.wiff` with a same-stem mzML or mzXML. Studies of human samples were left out.
+
+**What was compared (binary against oracle):**
+- `mtbls2240`: the TIC of sample 1 equals the export's on all 2,162 points. The export also holds a BPC and 189 SRM chromatograms, which the corpus test compares.
+- `mtbls3956`: the export declares 88 chromatograms but holds only the TIC. The TIC equals ours on all 530 points (the sum over every transition, cycle by cycle).
+- `mtbls4618`: all 6,529 exported scans agree on native id, MS level, time, polarity, precursor m/z, TIC and base-peak m/z. The reader has one more scan, the last unfinished cycle, as on the other TripleTOF files.
+- `mtbls851`: time, MS level, polarity, TIC and base-peak m/z agree on all 112 scans. The precursor m/z disagrees. The run is an automatic calibration (`AutoCalNeg.dam`) whose product-ion experiment has a fixed precursor. The export gives 403.11219 (isolation window ±0.5) on all 56 MS/MS scans, and the reader gives none. The reader also gives collision energy −30, where the export has none. The reader takes precursors from `DDERealTimeData`, which only data-dependent experiments fill. A product-ion experiment with a fixed precursor is a variant no development file covered.
+
+**Minor:** the headers-only listing (`spectra --csv`) leaves `base_peak_mz` empty on 156 MS/MS scans of `mtbls4618` whose index stores no base-peak position. Reading the full spectrum (`--index`) gives the export's value.
+
+**Not closed, MRM validation:** the features `scan type MRM`, `stored SRM` and `generation QTRAP` are scoped to `spectra` in the assurance profile. QTRAP oracles hold SRM chromatograms, and the corpus test compares those as `traces` (mtbls6084 and the ProteoWizard QTRAP files report `compared: metadata, traces`). More QTRAP files therefore will not mark these features validated until the SRM-chromatogram comparison counts for the MRM spectra's features. That is a harness change, not missing evidence.
+
+**Not closed, ZenoTOF:** MTBLS13065 (CC0) has ZenoTOF 7600 `.wiff` + `.wiff.scan` pairs with mzML. The smallest is a solvent-standard run, `241122_SolStd_Cal2_R2_NEG_121` (2.7 + 76 MB, mzML 225 MB). The study is about human dried blood spots, although that file holds only a solvent standard. It was not downloaded. The existing ZenoTOF file also shows that the reader does not read the precursor charge or a rolling collision energy, so a ZenoTOF file would probably compare as a failure on those fields. MTBLS12633 and MTBLS14832 exports name `.wiff2` sources, and MTBLS14362 is a patient cohort.
