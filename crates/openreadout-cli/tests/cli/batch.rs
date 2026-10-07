@@ -1,5 +1,5 @@
-//! Batch mode (several inputs, globs, data-set directories, JSON lines), `stats`, `check
-//! --against` and `info --view full --sidecar`, on the synthetic files `self doctor
+//! Batch mode (several inputs, globs, data-set directories, JSON lines), `stats`, `check`,
+//! `compare` and `info --view full --sidecar`, on the synthetic files `self doctor
 //! --write-fixtures` generates.
 
 use std::path::PathBuf;
@@ -17,7 +17,7 @@ fn single_input_with_unicode_and_spaces_is_not_a_batch() {
         (&["info", "--view", "explain"], &tif),
         (&["info", "--view", "structure"], &tif),
         (&["check"], &tif),
-        (&["check", "--planes"], &tif),
+        (&["planes"], &tif),
         (&["info"], &fcs),
         (&["check"], &fcs),
     ] {
@@ -200,7 +200,7 @@ fn stats_json_human_and_selection() {
     let tmp = tempfile::tempdir().unwrap();
     let (_, tif, fcs) = ux_fixtures(tmp.path());
     let out = bin()
-        .args(["stats", "--json", "--bins", "8"])
+        .args(["stats", "--json", "--bins", "8", "--per", "plane"])
         .arg(&tif)
         .output()
         .unwrap();
@@ -231,7 +231,9 @@ fn stats_json_human_and_selection() {
     assert_eq!(s["histogram"]["counts"].as_array().unwrap().len(), 8);
     // Per-plane statistics of plane z=1 only.
     let out = bin()
-        .args(["stats", "--json", "--select", "z=1", "--bins", "0"])
+        .args([
+            "stats", "--json", "--select", "z=1", "--bins", "0", "--per", "plane",
+        ])
         .arg(&tif)
         .output()
         .unwrap();
@@ -242,7 +244,7 @@ fn stats_json_human_and_selection() {
     assert!(planes[0]["stats"].get("histogram").is_none());
     // Human output, log scale, no per-plane table.
     let out = bin()
-        .args(["--color", "never", "stats", "--no-planes", "--scale", "log"])
+        .args(["--color", "never", "stats", "--scale", "log"])
         .arg(&tif)
         .output()
         .unwrap();
@@ -252,7 +254,7 @@ fn stats_json_human_and_selection() {
         s.contains("p50") && s.contains("saturated") && s.contains("image 0"),
         "{s}"
     );
-    // Not an image file: unsupported (6) with a hint towards `trace`/`export --to csv`.
+    // Not an image file: unsupported (6) with a hint towards `trace`/`export --format csv`.
     let out = bin().args(["stats", "--json"]).arg(&fcs).output().unwrap();
     assert_eq!(out.status.code(), Some(6));
     // Too many bins.
@@ -264,7 +266,7 @@ fn stats_json_human_and_selection() {
     assert_eq!(out.status.code(), Some(2));
     // Batch mode and standard input.
     let out = bin()
-        .args(["stats", "--jsonl", "--no-planes"])
+        .args(["stats", "--jsonl"])
         .arg(&tif)
         .arg(&fcs)
         .output()
@@ -294,9 +296,8 @@ fn compare_export_roundtrip_changed_sample_and_tolerance() {
     assert!(out.status.success(), "{}", stderr(&out));
     // Pixel data identical; metadata left out.
     let out = bin()
-        .args(["check", "--json", "--no-metadata"])
+        .args(["compare", "--json", "--no-metadata"])
         .arg(&tif)
-        .arg("--against")
         .arg(&ome)
         .output()
         .unwrap();
@@ -308,9 +309,8 @@ fn compare_export_roundtrip_changed_sample_and_tolerance() {
     assert_eq!(v["data"]["images"][0]["geometry_equal"], true);
     // A file compared with itself, metadata included.
     let out = bin()
-        .args(["check"])
+        .args(["compare"])
         .arg(&tif)
-        .arg("--against")
         .arg(&tif)
         .output()
         .unwrap();
@@ -324,9 +324,8 @@ fn compare_export_roundtrip_changed_sample_and_tolerance() {
     let changed = dir.join("changed.tif");
     std::fs::write(&changed, &bytes).unwrap();
     let out = bin()
-        .args(["check", "--json"])
+        .args(["compare", "--json"])
         .arg(&tif)
-        .arg("--against")
         .arg(&changed)
         .output()
         .unwrap();
@@ -339,9 +338,8 @@ fn compare_export_roundtrip_changed_sample_and_tolerance() {
     assert_eq!(m["z"], 1);
     assert_ne!(m["ours_xxh3"], m["theirs_xxh3"]);
     let out = bin()
-        .args(["check", "--json", "--tolerance", "1"])
+        .args(["compare", "--json", "--tolerance", "1"])
         .arg(&tif)
-        .arg("--against")
         .arg(&changed)
         .output()
         .unwrap();
@@ -350,9 +348,8 @@ fn compare_export_roundtrip_changed_sample_and_tolerance() {
     assert_eq!(v["data"]["planes"]["within_tolerance"], 1);
     // Metadata diff: JSON pointers with ours/theirs.
     let out = bin()
-        .args(["check", "--json", "--no-pixels"])
+        .args(["compare", "--json", "--no-pixels"])
         .arg(&tif)
-        .arg("--against")
         .arg(&fcs)
         .output()
         .unwrap();
@@ -367,9 +364,8 @@ fn compare_export_roundtrip_changed_sample_and_tolerance() {
     );
     // Errors keep their own exit codes.
     let out = bin()
-        .args(["check"])
+        .args(["compare"])
         .arg(&tif)
-        .arg("--against")
         .arg(dir.join("missing.tif"))
         .output()
         .unwrap();
@@ -398,7 +394,7 @@ fn full_info_sidecars_next_to_inputs_and_under_a_directory() {
             .collect()
     };
     let before = std::fs::read(&fcs).unwrap();
-    let out = run(&["--sidecar"]);
+    let out = run(&["--sidecar", "--vendor"]);
     assert!(
         out.status.success(),
         "{}",
@@ -418,11 +414,11 @@ fn full_info_sidecars_next_to_inputs_and_under_a_directory() {
         "the input is never modified"
     );
     // unchanged the second time; the sidecar itself is not an input
-    let v = lines(&run(&["--sidecar"]));
+    let v = lines(&run(&["--sidecar", "--vendor"]));
     assert_eq!(v.len(), 1);
     assert_eq!(v[0]["data"]["status"], "unchanged");
     // other options rewrite it
-    let v = lines(&run(&["--sidecar", "--no-vendor"]));
+    let v = lines(&run(&["--sidecar"]));
     assert_eq!(v[0]["data"]["status"], "written");
     assert!(read_json(&sidecar)["data"].get("vendor").is_none());
     // --sidecar=DIR mirrors the tree

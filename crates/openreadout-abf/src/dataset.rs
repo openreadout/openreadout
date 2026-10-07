@@ -334,7 +334,7 @@ impl Dataset for AbfDataset {
     fn info(&self) -> Result<FileInfo> {
         let f = &self.file;
         let mut notes = vec![format!(
-            "{} sweep(s) × {} channel(s); read samples with `openreadout trace` or export them with `export --to csv`; values are scaled to physical units (value = raw × scale + offset)",
+            "{} sweep(s) × {} channel(s); read samples with `openreadout trace` or export them with `export --format csv`; values are scaled to physical units (value = raw × scale + offset)",
             f.sweeps.len(),
             f.channels.len()
         )];
@@ -484,7 +484,7 @@ impl Dataset for AbfDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "image planes",
-            "ABF files hold sampled signals, not images: use `openreadout trace FILE --sweep N`, `openreadout export FILE --to csv`, or the openreadout_trace MCP tool.",
+            "ABF files hold sampled signals, not images: use `openreadout trace FILE --sweep N`, `openreadout export FILE --format csv`, or the openreadout_trace MCP tool.",
         ))
     }
 

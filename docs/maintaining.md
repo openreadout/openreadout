@@ -19,7 +19,7 @@ A vendor ships a new software version, a lab buys a new instrument, or a codec a
 ```
 user                          maintainer                                   CI / release
 ────                          ──────────                                   ────────────
-openreadout check --report FILE  ──►  triage (severity)
+openreadout report FILE  ──►  triage (severity)
 + vendor export               cargo xtask variant intake FILE --export X   corpus/intake/<id>.toml
 + public deposit (Zenodo)     ground truth: oracle/gen.py                  intake test fails
                               provenance stub → fix the reader             intake test passes
@@ -29,7 +29,7 @@ openreadout check --report FILE  ──►  triage (severity)
 
 ### 1. The user: report, export, deposit
 
-`openreadout check --report FILE` (MCP: `openreadout_check` with `report: true`) writes `openreadout-report-<hash>.json` in the current directory and sends nothing. By default it holds the file's size, signature bytes and SHA-256, every decode stage with its error code, message and byte offset, the assurance fingerprint, the structure map, the key names of the vendor metadata tree and the metadata's numbers; no pixel, spectral or trace values, no sample, image or channel names, no serial numbers, no path (details: [cli.md § `check --report`](../book/src/reference/commands/check.md#--report)). The user reads it and attaches it to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml), which also asks for:
+`openreadout report FILE` (MCP: `openreadout_report`) writes `openreadout-report-<hash>.json` in the current directory and sends nothing. By default it holds the file's size, signature bytes and SHA-256, every decode stage with its error code, message and byte offset, the assurance fingerprint, the structure map, the key names of the vendor metadata tree and the metadata's numbers; no pixel, spectral or trace values, no sample, image or channel names, no serial numbers, no path (details: [cli.md § `report`](../book/src/reference/commands/check.md#--report)). The user reads it and attaches it to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml), which also asks for:
 
 - **a vendor export of the same acquisition** — the ground truth that lets every value be checked, not only that the file opens (OME-TIFF for images, mzML for mass spectrometry, CSV/ASCII/AIA for traces, the software's table export for plates and qPCR);
 - **a public deposit** when possible (see *Getting a file* below).
@@ -81,7 +81,7 @@ Formats whose oracle is a vendor export (Thermo, Sciex, Waters, Agilent MassHunt
 ### 5. Understand, record, fix
 
 1. Read the crate's `MAINTAINING.md`: where does this variant branch? The generated *Validated variants* table names the corpus files closest to the new one.
-2. `openreadout check --report`, `openreadout info --view structure` and `openreadout info --view full` on the new file and on the closest corpus file; diff structure, not values. `openreadout check --report FILE --hex 64 --include-text` gives header excerpts.
+2. `openreadout report`, `openreadout info --view structure` and `openreadout info --view full` on the new file and on the closest corpus file; diff structure, not values. `openreadout report FILE --hex 64 --include-text` gives header excerpts.
 3. **Write the provenance entry first** (clean-room rule 3): corpus files used, prior art consulted (URL and licence), what was inferred from what. Never a vendor SDK, header, DLL or non-public specification; GPL readers only as black boxes ([clean-room policy](legal/clean-room-policy.md)).
 4. Pin the new structure in a unit test built from the observed bytes (every crate's guide names the tests to copy), then change the parser. New public names go in the format note's vocabulary table (`cargo xtask vocab-check`).
 5. If the reader now decodes something it did not, make its assurance profile observe it (a new feature value, or `undecoded`/`assumed` entries) so the next unseen variant is flagged too.
@@ -152,7 +152,7 @@ A reader is deprecated when it cannot be kept honest: its corpus sources disappe
 
 | role | does |
 | --- | --- |
-| reporter | runs `openreadout check --report`, provides an export and, if possible, a deposit |
+| reporter | runs `openreadout report`, provides an export and, if possible, a deposit |
 | triager | labels format and severity within a week, asks for what is missing, runs `variant intake` |
 | format maintainer (per crate, listed in the crate guide's header when there is one) | fixes, reviews snapshots for their formats, keeps the guide's hand-written part true |
 | release manager | runs the pre-release steps above and the release process |

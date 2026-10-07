@@ -10,7 +10,7 @@ openreadout info [OPTIONS] [FILE]...
 
 - `--json`: print the JSON wrapper instead of text.
 - `--view summary|full|structure|explain|format`: what to show. Default `summary`.
-  - `full` adds per-frame records, per-field provenance and the vendor's metadata tree.
+  - `full` adds per-frame records and per-field provenance, and the vendor's metadata tree with `--vendor`.
   - `structure` lists the container: images, planes, blocks, attachments and pyramid levels.
   - `explain` describes the file in plain words, with caveats and suggested next commands.
   - `format` only identifies the format from the file's signature.
@@ -19,9 +19,9 @@ openreadout info [OPTIONS] [FILE]...
 
 ### With `--view full`
 
-- `--no-vendor`: leave out the vendor metadata tree.
+- `--vendor`: include the vendor's metadata tree. It can be megabytes.
 - `--no-provenance`: leave out the provenance map.
-- `--all-frames`: embed every per-frame record (default: the first 100 per image).
+- `--max-frames N`: per-frame records per image. Default 100; `0` leaves them out, `-1` embeds all.
 - `--redact`: replace values flagged as personal data with stable salted hashes. Needs `--salt-file` or `OPENREADOUT_REDACT_SALT`. See [Personal data](../../guides/lab-shares.md#personal-data).
 - `--salt-file FILE`: file holding the redaction salt.
 - `--sidecar[=DIR]`: write each input's full metadata to `<file>.openreadout.json` next to it, or under `DIR` mirroring the input paths, instead of printing it. An up-to-date sidecar is left alone.
@@ -62,7 +62,7 @@ openreadout info --view full --sidecar -r --skip-unknown /data/2026-09-21
 
 ## Notes
 
-- Pyramidal and tiled images report `resolution_levels`: one entry per level, full resolution first, with sizes, downsample factors and tile sizes. Use `--level` and `--region` on `stats`, `preview`, `export` and `check --planes` to read them.
+- Pyramidal and tiled images report `resolution_levels`: one entry per level, full resolution first, with sizes, downsample factors and tile sizes. Use `--level` and `--region` on `stats`, `preview`, `export` and `planes` to read them.
 - A screening plate (Harmony, ImageXpress, CellVoyager, OME-Zarr HCS) is one data set whose images are its fields. `plate.wells[].images` lists the image indices of each well, and `images[i].extra.well` and `field` go the other way. See [`stats --per well`](stats.md) for per-well numbers.
 - How units, timestamps and the experiment model are normalized: [Metadata](../../guides/metadata.md).
 
@@ -70,6 +70,6 @@ openreadout info --view full --sidecar -r --skip-unknown /data/2026-09-21
 
 - [`info`](../json/info.md), [`info --view full`](../json/info-full.md), [`info --view structure`](../json/info-structure.md), [`info --view explain`](../json/info-explain.md), [`info --view format`](../json/info-format.md)
 - [`--sidecar` report](../json/sidecar.md) and [sidecar file](../json/sidecar-file.md)
-- [Batch table](../json/batch-table.md) and [summary](../json/batch-summary.md)
+- [Batch table](../json/batch-table.md) and [summary](../json/summarize.md)
 
 Run `openreadout info --help` for the full help of your installed version.

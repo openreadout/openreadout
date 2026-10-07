@@ -104,7 +104,7 @@ Each request needs one scope, and is refused when that scope is in `strict_refus
 | request | scope |
 | --- | --- |
 | `info`, including `--view full` and `--view explain` | `metadata` |
-| planes and regions: `check --planes`, `stats`, `preview`, image `export` | `pixels` |
+| planes and regions: `planes`, `stats`, `preview`, image `export` | `pixels` |
 | `spectra`, and chromatograms from spectra | `spectra` |
 | `trace`, and analyses on traces | `traces` |
 | `table`, and analyses on tables | `tables` |
@@ -121,6 +121,6 @@ A field is withheld when its value was assumed, when it was derived by a rule th
 
 ## Getting a variant validated
 
-If a file you need is refused or not `validated`, you can help. `openreadout check --report FILE` writes a diagnostic bundle to a local file: the fingerprint, each decoding step with its error, and the file's structure. It holds no pixel, spectral or trace values, and no free text or paths unless you add `--include-text`. `--dry-run` prints it without writing anything. OpenReadout doesn't send it anywhere. Attach the bundle to an issue, ideally with an export of the same file from the vendor's software. See [Contributing](../project/contributing.md).
+If a file you need is refused or not `validated`, you can help. `openreadout report FILE` writes a diagnostic bundle to a local file: the fingerprint, each decoding step with its error, and the file's structure. It holds no pixel, spectral or trace values, and no free text or paths unless you add `--include-text`. `--dry-run` prints it without writing anything. OpenReadout doesn't send it anywhere. Attach the bundle to an issue, ideally with an export of the same file from the vendor's software. See [Contributing](../project/contributing.md).
 
 For maintainers, [docs/assurance.md](https://github.com/openreadout/openreadout/blob/main/docs/assurance.md) explains how the validated sets are derived from the test corpus.

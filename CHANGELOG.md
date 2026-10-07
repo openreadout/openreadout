@@ -16,9 +16,12 @@ All notable changes to this project are documented here. The format is based on 
 - CZI: 12-bit JPEG subblocks and chunked compression (id 7, zstd or LZ4 chunks) are decoded.
 - TIFF: 12-bit JPEG pages are read as uint16, and OME Modulo sub-dimensions (FLIM bins, lambda, angles, tiles) are listed in `images[].extra.modulo`.
 - VSI: ETS tiles with compression code 5 (lossless JPEG, as some VS120 slides store them) are decoded.
+- Sciex QTRAP quadrupole and ion-trap scans: Q1, precursor ion, neutral loss, enhanced MS and enhanced product ion (with precursor charges), validated point for point against the depositors' conversions of five public files.
+- Waters ion-mobility and SONAR acquisitions: the drift bins in `_funcNNN.cdt` are read as run 1, one spectrum per bin with its drift time; the 2,000 bins of four test acquisitions equal the vendor library's conversions.
 
 ### Changed
 
+- The command line and the MCP server share one set of names, and each command does one thing. Each analysis is its own MCP tool (`openreadout_peaks`, `openreadout_nmr_peaks`, `openreadout_dose_response`, ...) instead of `openreadout_analyze` with `kind`. `check` is split into `check`, `planes`, `compare` and `report`, `spectra` into `scans` and `spectrum`, `export --attachment` into `extract`, `batch summarize` into `summarize`, and `search --health` and `--export` into `health` and `export-dataset`. The formats list is the `openreadout://formats` resource, no longer a tool. Many flags and arguments are renamed (`export --format`, `scans --rt-range`, `trace --first-sample`, ...). `info --view full` leaves out the vendor tree unless `--vendor`, and `stats` lists planes only with `--per plane`. JSON output is `schema_version` 2. The [MCP tools page](https://openreadout.github.io/openreadout/reference/mcp.html) has the names, and `docs/surface-2026-10.md` the full old-to-new mapping.
 - The Claude Code plugin, the Codex plugin and the Gemini CLI extension install from their own repository, [openreadout/agent-plugins](https://github.com/openreadout/agent-plugins), which the release workflow updates. Add the Claude Code marketplace again with `/plugin marketplace add openreadout/agent-plugins`.
 - A privacy policy, `PRIVACY.md`, linked from the README, the docs site and the `.mcpb` manifest.
 - The npm package no longer downloads the binary in a postinstall script. The binary comes in a platform package (`@openreadout/cli-darwin-arm64`, `-darwin-x64`, `-linux-arm64`, `-linux-x64`, `-win32-x64`) that the package manager installs as an optional dependency, so it works with pnpm 10, behind proxies and from registry mirrors.
@@ -29,6 +32,8 @@ All notable changes to this project are documented here. The format is based on 
 - SoftMax Pro 6/7 documents (`.sda`) that read two wavelengths, as dual-wavelength ELISAs do, were refused. Each wavelength is now a read of the plate table.
 - Gen5 experiment files written by Gen5 1.x were refused. Their reads are now decoded, and the reader, serial number and Gen5 version of their plate description are read at the right offsets. A refused Gen5 file now says why.
 - Tecan i-control exports with several reads per well returned no values, and German i-control exports were not recognised. Each well's value is now i-control's `Mean`, and a workbook with one export per sheet gives one plate read per sheet.
+- Sciex `.wiff` files with several samples: samples after the first returned the first sample's scan data. Each sample's scans are now read from its own block of the `.wiff.scan`.
+- Agilent MassHunter profiles written by MassHunter Acquisition 10 (for example a 6546 Q-TOF) were refused as corrupt LZF; they use the ion-mobility profile encoding and are read.
 - The Claude Code plugin failed to load because its marketplace entry and `plugin.json` both declared the skill.
 - The Homebrew formula and winget manifests attached to a release no longer start with the template's header comment.
 - Docker build records (`*.dockerbuild`) no longer end up among the release assets.

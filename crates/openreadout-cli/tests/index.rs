@@ -113,22 +113,21 @@ fn index_search_health_export_redact() {
 
     // Health.
     let md = tmp.path().join("health.md");
-    let out = run(&["search", "--health", s(&idx), "--json", "-o", s(&md)]);
+    let out = run(&["health", s(&idx), "--json", "-o", s(&md)]);
     let v = json(&out);
     assert_eq!(v["data"]["duplicates"]["group_count"], 1);
     assert_eq!(v["data"]["integrity"]["problem_count"], 1);
     let text = std::fs::read_to_string(&md).unwrap();
     assert!(text.contains("## Duplicates") && !text.contains("Jane Roe"));
-    let out = run(&["index", s(&share), "-o", s(&idx), "--health"]);
+    let out = run(&["health", s(&idx)]);
     assert!(String::from_utf8_lossy(&out.stdout).contains("# Storage health report"));
 
-    // search --export: redaction needs a salt.
+    // export-dataset: redaction needs a salt.
     let out_dir = tmp.path().join("export");
     let out = run(&[
-        "search",
+        "export-dataset",
         s(&idx),
         "format=fcs -status=truncated",
-        "--export",
         s(&out_dir),
         "--redact",
         "--json",
@@ -137,10 +136,9 @@ fn index_search_health_export_redact() {
     let salt = tmp.path().join("salt");
     std::fs::write(&salt, "a-secret-salt\n").unwrap();
     let out = run(&[
-        "search",
+        "export-dataset",
         s(&idx),
         "format=fcs -status=truncated",
-        "--export",
         s(&out_dir),
         "--redact",
         "--salt-file",
@@ -198,7 +196,7 @@ fn index_search_health_export_redact() {
     assert_eq!(out.status.code(), Some(4));
 
     // Schemas.
-    for of in ["index", "search", "search-health", "search-export"] {
+    for of in ["index", "search", "health", "export-dataset"] {
         let out = run(&["self", "schema", of]);
         assert!(out.status.success(), "{of}");
         let v: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();

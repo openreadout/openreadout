@@ -135,14 +135,21 @@ export class InstrumentFile {
     return this._run((f) => f.trace(trace, sweep, firstSample, count, maxSamples)).then(unwrap);
   }
   /**
-   * `spectra`: the scan headers of run `run` (filters `ms_level`, `polarity`, `rt_range`,
-   * `precursor_mz`, `ppm`, `charge`, `activation`, `scan_filter`; paging `offset`, `limit`), or
-   * with `index` (zero-based) or `scan` (the instrument's scan number) one spectrum
-   * (`centroid`, `max_points`).
+   * `scans`: the scan headers of run `run` (filters `ms_level`, `polarity`, `rt_range`,
+   * `precursor`, `precursor_tol`, `precursor_ppm`, `charge`, `activation`, `scan_filter`;
+   * paging `offset`, `limit`).
    */
-  spectra(options = {}) {
+  scans(options = {}) {
     const json = JSON.stringify(options);
-    return this._run((f) => f.spectra(json)).then(unwrap);
+    return this._run((f) => f.scans(json)).then(unwrap);
+  }
+  /**
+   * `spectrum`: one spectrum of run `run`, by `spectrum` (zero-based) or `scan` (the
+   * instrument's scan number), with `centroid` and `max_points`.
+   */
+  spectrum(options = {}) {
+    const json = JSON.stringify(options);
+    return this._run((f) => f.spectrum(json)).then(unwrap);
   }
   /** Bytes of a lazily read file held in memory so far. */
   get bytesHeld() {

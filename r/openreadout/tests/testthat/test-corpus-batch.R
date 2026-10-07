@@ -15,8 +15,8 @@ test_that("group summaries match pandas and SciPy, and R's t.test / wilcox.test"
   raw <- utils::read.csv(input, stringsAsFactors = FALSE)
   raw <- raw[is.na(raw$error) | raw$error == "", ]
   for (test in c("welch", "mann-whitney")) {
-    s <- openreadout_batch("summarize", input, by = "condition", values = "mean", test = test,
-                           control = "ctrl")
+    s <- openreadout_summarize(input, by = "condition", values = "mean", test = test,
+                               control = "ctrl")
     expect_equal(attr(s, "info")$rows_excluded, 1)
     for (e in o$plain) {
       row <- s[s$condition == e$condition & s$channel_name == e$channel_name, ]

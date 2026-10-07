@@ -15,9 +15,8 @@ openreadout stats [OPTIONS] [FILE]...
 - `--region X,Y,W,H`: only this rectangle of each plane, in the pixels of `--level`.
 - `--bins N`: histogram bins, 0 = none, at most 65536. Default 64.
 - `--scale linear|log`: histogram bin spacing. Default `linear`.
-- `--no-planes`: leave out the per-plane entries.
 - `--mip z|t`: take the maximum-intensity projection first, then the statistics of the projections.
-- `--per channel|image|plane|well|field`: what one row is. `well` gives one row per well and channel of a plate over its fields; `field` one row per well, field and channel. Default `channel`.
+- `--per channel|image|plane|well|field`: what one row is. `channel` (the default) gives channel and image aggregates, and `plane` adds one entry per plane. `well` gives one row per well and channel of a plate over its fields; `field` one row per well, field and channel.
 - `--well WELL`: with `--per well` or `--per field`, only this well (`C05`). Repeatable.
 
 `stats` takes the flags in [Several inputs](index.md#several-inputs) and the [batch table flags](batch.md#batch-table-flags).

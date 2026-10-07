@@ -86,7 +86,7 @@
       ]
     },
     "Acquisition": {
-      "description": "`acquisition` in `info`, `info --view structure`, `check` and `check --planes`: present only for\nfiles that are not finished. See `book/src/guides/lab-shares.md`.",
+      "description": "`acquisition` in `info`, `info --view structure`, `check` and `planes`: present only for\nfiles that are not finished. See `book/src/guides/lab-shares.md`.",
       "type": "object",
       "properties": {
         "state": {

@@ -341,7 +341,7 @@ impl Dataset for IntanDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "image planes",
-            "Intan files hold sampled signals: use `openreadout trace` or `openreadout export --to csv`.",
+            "Intan files hold sampled signals: use `openreadout trace` or `openreadout export --format csv`.",
         ))
     }
 

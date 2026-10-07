@@ -15,11 +15,11 @@ pub fn analysis_commands(info: &FileInfo, file: &str) -> Vec<String> {
         let rgb = info.images.iter().any(|im| im.samples_per_pixel >= 3);
         out.push(if rgb {
             format!(
-                "openreadout stats {file} --no-planes --json   # intensity statistics; channels[].components[] = red, green, blue"
+                "openreadout stats {file} --json   # intensity statistics; channels[].components[] = red, green, blue"
             )
         } else {
             format!(
-                "openreadout stats {file} --no-planes --json   # intensity per channel: mean, percentiles, saturated_count"
+                "openreadout stats {file} --json   # intensity per channel: mean, percentiles, saturated_count"
             )
         });
     }
@@ -75,10 +75,10 @@ pub fn analysis_commands(info: &FileInfo, file: &str) -> Vec<String> {
         match family {
             "plate-reader" => {
                 out.push(format!(
-                    "openreadout analyze assay wells {file} --json   # per-well values with roles, blanks, replicate CV"
+                    "openreadout analyze assay-wells {file} --json   # per-well values with roles, blanks, replicate CV"
                 ));
                 out.push(format!(
-                    "openreadout analyze assay curve {file} --json   # standard curve and back-calculated concentrations"
+                    "openreadout analyze assay-curve {file} --json   # standard curve and back-calculated concentrations"
                 ));
             }
             "flow-cytometry" => out.push(format!(
@@ -144,6 +144,6 @@ mod tests {
         assert!(analysis_commands(&img, "a.czi")[0].contains("components"));
         let mut plate = info("plate-reader", "plate");
         plate.tables.push(Default::default());
-        assert!(analysis_commands(&plate, "p.csv")[0].contains("assay wells"));
+        assert!(analysis_commands(&plate, "p.csv")[0].contains("assay-wells"));
     }
 }

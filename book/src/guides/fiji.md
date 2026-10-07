@@ -20,7 +20,7 @@ If you only need part of a large file, export only that part:
 openreadout export big.nd2 -o pos3_gfp.ome.tiff --image 3 --select c=1 --select t=0-9
 ```
 
-Use OME-TIFF for Fiji. Whether your Fiji opens OME-Zarr (`--to ome-zarr`, which writes OME-NGFF 0.5 on Zarr v3) depends on the version of its Zarr plugins.
+Use OME-TIFF for Fiji. Whether your Fiji opens OME-Zarr (`--format ome-zarr`, which writes OME-NGFF 0.5 on Zarr v3) depends on the version of its Zarr plugins.
 
 ## From a macro
 

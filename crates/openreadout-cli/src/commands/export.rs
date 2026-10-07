@@ -1,6 +1,6 @@
 //! `export`: images to OME-TIFF or OME-Zarr, tables and traces to CSV, Parquet or Arrow,
 //! spectra to mzML, and the format-specific writers (ASM, NWB, JCAMP-DX, RDML); or one
-//! embedded attachment (`--attachment`).
+//! embedded attachment (`extract`).
 
 use std::path::{Path, PathBuf};
 
@@ -10,7 +10,6 @@ use openreadout_core::{Error, Registry, Result};
 
 use super::batch::{self, Spec, Stdin};
 use super::{nmr, plate, qpcr, wrap};
-use crate::output::fail;
 
 /// Arguments of `export`.
 #[derive(Debug, clap::Args)]
@@ -25,18 +24,12 @@ pub struct ExportArgs {
     /// (ABF, ..., NMR, JCAMP-DX, chromatography) files, `mzml` for mass-spectrometry files;
     /// `asm` writes Allotrope plate-reader JSON; `parquet`/`arrow` write tables, traces and
     /// spectra; `nwb` writes electrophysiology traces; `jcamp` writes NMR and 1-D spectra.
-    #[arg(long = "to", value_enum)]
+    #[arg(long = "format", value_enum)]
     pub to: Option<ExportFormat>,
     /// Output path. Defaults to the input name with `.ome.tiff`, `.ome.zarr`, `.csv`, `.mzML`,
     /// `.asm.json`, `.parquet`, `.arrow`, `.nwb` or `.jdx`.
     #[arg(short, long)]
     pub output: Option<PathBuf>,
-    /// Write this embedded attachment (thumbnail, label/preview image, time stamps, ...) to a
-    /// new file instead: its name as `info --view structure` shows it (e.g. `Thumbnail`,
-    /// `Label`, `SlidePreview`), or `#<index>`. Default output: `<input stem>.<attachment
-    /// name>.<ext>` next to the input.
-    #[arg(long, value_name = "NAME", conflicts_with = "to")]
-    pub attachment: Option<String>,
     /// CSV, Parquet, Arrow: export this table (FCS data set, plate read, event or peak table) index (see `info`). Default 0.
     #[arg(long)]
     pub table: Option<u32>,
@@ -155,35 +148,55 @@ pub enum Compression {
     Lz4,
 }
 
+/// Arguments of `extract`.
+#[derive(Debug, clap::Args)]
+pub struct ExtractArgs {
+    /// The file that holds the attachment.
+    #[arg(value_name = "FILE")]
+    pub file: PathBuf,
+    /// The attachment: its name as `info --view structure` shows it (e.g. `Thumbnail`, `Label`,
+    /// `SlidePreview`, `TimeStamps`), or `#<index>`.
+    #[arg(value_name = "ATTACHMENT")]
+    pub attachment: String,
+    /// Output path. Default: `<input stem>.<attachment name>.<ext>` next to the input.
+    #[arg(short, long)]
+    pub output: Option<PathBuf>,
+    /// Replace an existing output file.
+    #[arg(long)]
+    pub overwrite: bool,
+    #[arg(long)]
+    pub json: bool,
+}
+
+/// Run `extract`: write one embedded attachment as stored.
+pub fn run_extract(reg: &Registry, a: &ExtractArgs) -> i32 {
+    wrap(
+        a.json,
+        || {
+            extract(
+                reg,
+                &a.file,
+                &a.attachment,
+                a.output.as_deref(),
+                a.overwrite,
+            )
+        },
+        |r| {
+            format!(
+                "wrote {} ({} `{}`, {} bytes, verified={})",
+                r.output, r.attachment.content_type, r.attachment.name, r.bytes_written, r.verified
+            )
+        },
+    )
+}
+
+/// Run `export`.
 pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
-    if let Some(name) = &a.attachment {
-        let [file] = a.files.as_slice() else {
-            return fail(
-                a.json,
-                &Error::Usage("--attachment writes from one file; give one FILE".into()),
-            );
-        };
-        return wrap(
-            a.json,
-            || extract(reg, file, name, a.output.as_deref(), a.overwrite),
-            |r| {
-                format!(
-                    "wrote {} ({} `{}`, {} bytes, verified={})",
-                    r.output,
-                    r.attachment.content_type,
-                    r.attachment.name,
-                    r.bytes_written,
-                    r.verified
-                )
-            },
-        );
-    }
     let ExportArgs {
         files,
         batch,
         to,
         output,
-        attachment: _,
         table,
         rows,
         sweep,
@@ -219,7 +232,7 @@ pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
         level,
         region,
         pyramid,
-        csv: crate::csv::CsvOptions {
+        csv: openreadout_batch::csv::CsvOptions {
             table,
             rows,
             labels,
@@ -248,7 +261,7 @@ pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
 
 /// Arguments of `export` after parsing.
 struct ExportRequest {
-    /// `None`: the default for the file's kind (see `--to`).
+    /// `None`: the default for the file's kind (see `--format`).
     to: Option<ExportFormat>,
     output: Option<PathBuf>,
     image: Option<u32>,
@@ -265,7 +278,7 @@ struct ExportRequest {
     region: Option<String>,
     /// `auto`, `none`, `source` or `mean`.
     pyramid: String,
-    csv: crate::csv::CsvOptions,
+    csv: openreadout_batch::csv::CsvOptions,
     centroid: bool,
     run: u32,
     /// Parquet/Arrow: the spectra of `run` rather than a table or trace.
@@ -544,7 +557,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
             return Err(Error::unsupported(
                 "export",
                 format!("ASM export of a {} file", ds.info()?.format.name),
-                "`--to asm` writes Allotrope plate-reader JSON and needs a plate-reader export; use `--to csv`, `--to mzml` or `--to ome-tiff`.",
+                "`--format asm` writes Allotrope plate-reader JSON and needs a plate-reader export; use `--format csv`, `--format mzml` or `--format ome-tiff`.",
             ));
         }
         drop(ds);
@@ -562,13 +575,10 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
     let to = if let Some(t) = req.to {
         t
     } else {
-        let info = ds.info()?;
-        if info.images.is_empty() && !info.spectra.is_empty() {
-            ExportFormat::Mzml
-        } else if info.images.is_empty() && (!info.tables.is_empty() || !info.traces.is_empty()) {
-            ExportFormat::Csv
-        } else {
-            ExportFormat::OmeTiff
+        match openreadout_batch::csv::default_export_format(&ds.info()?) {
+            "mzml" => ExportFormat::Mzml,
+            "csv" => ExportFormat::Csv,
+            _ => ExportFormat::OmeTiff,
         }
     };
     let stem = name_base
@@ -606,7 +616,8 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
     }
     if req.spectra {
         return Err(Error::Usage(
-            "--spectra applies to --to parquet and --to arrow (use --to mzml for mzML)".into(),
+            "--spectra applies to --format parquet and --format arrow (use --format mzml for mzML)"
+                .into(),
         ));
     }
     let output = explicit.unwrap_or_else(|| match to {
@@ -615,15 +626,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         ExportFormat::Mzml => openreadout_mzml_writer::default_output(&name_base),
         ExportFormat::Asm => name_base.with_file_name(format!("{stem}.asm.json")),
         ExportFormat::Rdml => openreadout_qpcr::default_rdml_output(&name_base),
-        ExportFormat::Csv => {
-            name_base.with_file_name(match (req.csv.table, req.csv.trace, req.csv.sweep) {
-                (Some(t), _, _) if t > 0 => format!("{stem}.table{t}.csv"),
-                (_, Some(t), Some(s)) if t > 0 => format!("{stem}.trace{t}.sweep{s}.csv"),
-                (_, Some(t), _) if t > 0 => format!("{stem}.trace{t}.csv"),
-                (_, _, Some(s)) if s > 0 => format!("{stem}.sweep{s}.csv"),
-                _ => format!("{stem}.csv"),
-            })
-        }
+        ExportFormat::Csv => openreadout_batch::csv::default_output(&name_base, &req.csv),
         ExportFormat::Parquet | ExportFormat::Arrow | ExportFormat::Nwb | ExportFormat::Jcamp => {
             unreachable!("handled above")
         }
@@ -634,16 +637,12 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         ));
     }
     if to == ExportFormat::Csv {
-        let info = ds.info()?;
-        // A file with tables and traces (spectra with a per-spectrum table): `--trace`/`--sweep`
-        // select a trace, as they do for Parquet/Arrow.
-        let wants_trace =
-            req.csv.table.is_none() && (req.csv.trace.is_some() || req.csv.sweep.is_some());
-        if !info.traces.is_empty() && (info.tables.is_empty() || wants_trace) {
-            return crate::csv::export_trace_csv(ds.as_mut(), &info, file, &output, &req.csv)
-                .map(ExportOutput::TraceCsv);
-        }
-        return crate::csv::export_csv(ds.as_mut(), file, &output, &req.csv).map(ExportOutput::Csv);
+        return Ok(
+            match openreadout_batch::csv::export(ds.as_mut(), file, &output, &req.csv)? {
+                openreadout_batch::csv::CsvReport::Table(r) => ExportOutput::Csv(r),
+                openreadout_batch::csv::CsvReport::Trace(r) => ExportOutput::TraceCsv(r),
+            },
+        );
     }
     if to == ExportFormat::Mzml {
         return openreadout_mzml_writer::export_mzml(ds.as_mut(), file, &output, &{
@@ -662,9 +661,9 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
             "export",
             format!("image export of a {} file", info.format.name),
             if info.tables.is_empty() {
-                "This file holds sampled signals or spectra (traces), not images; use `--to csv` (one sweep per file, `--sweep N`) or `openreadout trace`."
+                "This file holds sampled signals or spectra (traces), not images; use `--format csv` (one sweep per file, `--sweep N`) or `openreadout trace`."
             } else {
-                "This file holds tables (events), not images; use `--to csv`."
+                "This file holds tables (events), not images; use `--format csv`."
             },
         ));
     }
@@ -672,7 +671,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         return Err(Error::unsupported(
             "export",
             format!("image export of a {} file", info.format.name),
-            "This file holds mass spectra, not images; use `--to mzml` (or `--to csv` for chromatograms).",
+            "This file holds mass spectra, not images; use `--format mzml` (or `--format csv` for chromatograms).",
         ));
     }
     let region = req
@@ -702,7 +701,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
     }
     if to == ExportFormat::OmeTiff && (!req.plate.wells.is_empty() || req.plate.skip_incomplete) {
         return Err(Error::Usage(
-            "--well and --skip-incomplete apply to --to ome-zarr and to --to ome-tiff --per-image"
+            "--well and --skip-incomplete apply to --format ome-zarr and to --format ome-tiff --per-image"
                 .into(),
         ));
     }
@@ -767,7 +766,7 @@ fn rows(req: &ExportRequest) -> Result<Option<(u64, Option<u64>)>> {
     req.csv
         .rows
         .as_deref()
-        .map(crate::csv::parse_rows)
+        .map(openreadout_batch::csv::parse_rows)
         .transpose()
 }
 
@@ -820,7 +819,7 @@ fn jcamp_options(req: &ExportRequest) -> Result<openreadout_nmr::JcampExportOpti
     Ok(o)
 }
 
-/// `--to parquet|arrow`.
+/// `--format parquet|arrow`.
 #[cfg(feature = "parquet")]
 fn export_columnar(
     ds: &mut dyn openreadout_core::Dataset,
@@ -900,7 +899,7 @@ fn export_columnar(
                 "Parquet"
             }
         ),
-        "This build was compiled without the `parquet` cargo feature (on by default); rebuild with `--features parquet`, or use `--to csv`.",
+        "This build was compiled without the `parquet` cargo feature (on by default); rebuild with `--features parquet`, or use `--format csv`.",
     ))
 }
 

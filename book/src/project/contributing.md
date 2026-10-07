@@ -1,6 +1,6 @@
 # Contributing
 
-The most useful contribution is a file that OpenReadout reads wrongly or not at all. Run `openreadout check --report FILE` and attach the bundle it writes to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). For code changes, read [`CONTRIBUTING.md`](https://github.com/openreadout/openreadout/blob/main/CONTRIBUTING.md) and the [clean-room policy](clean-room.md) first.
+The most useful contribution is a file that OpenReadout reads wrongly or not at all. Run `openreadout report FILE` and attach the bundle it writes to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). For code changes, read [`CONTRIBUTING.md`](https://github.com/openreadout/openreadout/blob/main/CONTRIBUTING.md) and the [clean-room policy](clean-room.md) first.
 
 ## Maintainer documentation
 

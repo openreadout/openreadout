@@ -20,9 +20,9 @@ use crate::{Error, Result, Spectrum};
 /// Everything about one spectrum except its peaks.
 #[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct ScanHeader {
-    /// Zero-based spectrum index within its run (`spectra --index`).
+    /// Zero-based spectrum index within its run (`spectrum --spectrum`).
     pub index: u64,
-    /// Scan number as the instrument counts it (`spectra --scan`).
+    /// Scan number as the instrument counts it (`spectrum --scan`).
     pub scan_number: u64,
     /// The spectrum's identifier in its file (mzML `id`), when it has one.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -243,7 +243,7 @@ impl ScanFilter {
     }
 }
 
-/// Output of `spectra` (scan list): the matching scans of one run, one page of them listed.
+/// Output of `scans`: the matching scans of one run, one page of them listed.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct ScanList {
     /// The input file.
@@ -369,7 +369,7 @@ pub fn list_scans(
     Ok((src, page))
 }
 
-/// [`list_scans`] as the `spectra` scan-list output: `path` and `format` name the input.
+/// [`list_scans`] as the `scans` output: `path` and `format` name the input.
 pub fn scan_list(
     ds: &mut dyn Dataset,
     path: &str,

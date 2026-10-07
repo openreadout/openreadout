@@ -1488,7 +1488,7 @@
       ]
     },
     "Acquisition2": {
-      "description": "`acquisition` in `info`, `info --view structure`, `check` and `check --planes`: present only for\nfiles that are not finished. See `book/src/guides/lab-shares.md`.",
+      "description": "`acquisition` in `info`, `info --view structure`, `check` and `planes`: present only for\nfiles that are not finished. See `book/src/guides/lab-shares.md`.",
       "type": "object",
       "properties": {
         "state": {
@@ -1938,12 +1938,12 @@
           "const": "metadata"
         },
         {
-          "description": "Image planes (`check --planes`, `stats`, `export` of images, `preview`).",
+          "description": "Image planes (`planes`, `stats`, `export` of images, `preview`).",
           "type": "string",
           "const": "pixels"
         },
         {
-          "description": "Mass spectra and scan headers (`spectra`, `analyze chromatogram`, mzML export).",
+          "description": "Mass spectra and scan headers (`scans`, `spectrum`, `analyze chromatogram`, mzML export).",
           "type": "string",
           "const": "spectra"
         },

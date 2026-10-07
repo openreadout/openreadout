@@ -129,7 +129,7 @@ fn raman_map_info_trace_export_preview() {
     // CSV of one spectrum of the map (the file also has a per-spectrum table)
     let csv = dir.path().join("s2.csv");
     let out = bin()
-        .args(["export", "--to", "csv", "--sweep", "2", "--json", "-o"])
+        .args(["export", "--format", "csv", "--sweep", "2", "--json", "-o"])
         .arg(&csv)
         .arg(&f)
         .output()
@@ -146,7 +146,7 @@ fn raman_map_info_trace_export_preview() {
     // without --sweep/--trace the table is exported
     let tab = dir.path().join("t.csv");
     let out = bin()
-        .args(["export", "--to", "csv", "--json", "-o"])
+        .args(["export", "--format", "csv", "--json", "-o"])
         .arg(&tab)
         .arg(&f)
         .output()
@@ -161,7 +161,9 @@ fn raman_map_info_trace_export_preview() {
     // JCAMP-DX with the irregular Raman-shift axis as XY pairs
     let jdx = dir.path().join("s1.jdx");
     let out = bin()
-        .args(["export", "--to", "jcamp", "--sweep", "1", "--json", "-o"])
+        .args([
+            "export", "--format", "jcamp", "--sweep", "1", "--json", "-o",
+        ])
         .arg(&jdx)
         .arg(&f)
         .output()
@@ -179,7 +181,7 @@ fn raman_map_info_trace_export_preview() {
     // the map as OME-TIFF and a preview of one band
     let tif = dir.path().join("map.ome.tif");
     let out = bin()
-        .args(["export", "--to", "ome-tiff", "--json", "-o"])
+        .args(["export", "--format", "ome-tiff", "--json", "-o"])
         .arg(&tif)
         .arg(&f)
         .output()

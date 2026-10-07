@@ -71,7 +71,7 @@ This follows the specification (note 6) and mrcfile's `is_image_stack` / `is_vol
 
 ## Extended header
 
-Kept raw as attachment `#0` (`export --attachment #0`, content type = EXTTYP). Decoded as far as we know:
+Kept raw as attachment `#0` (`extract FILE #0`, content type = EXTTYP). Decoded as far as we know:
 
 - **FEI1 / FEI2** (Thermo Fisher / FEI EPU, Tomography, Velox exports): one metadata block per section, all the same size; the first block's first word is the block size (`FEI1_BLOCK_LEN` = 768, `FEI2_BLOCK_LEN` = 888 for metadata version 2). Values use the header's byte order; the four bitmask words are always little-endian. Layout from mrcfile's `dtypes.py` (BSD-3-Clause); names are ours (table below). The bitmask words that say which fields are set are reported raw and not interpreted. Blocks are per-frame records (`frames`, `info --view full` → `images[0].extra.frames`) with `section`, the shared `t`/`z` indices, `stage_x_um`/`stage_y_um`/`stage_z_um` (from metres), `exposure_ms` (from the integration time in seconds) and `acquired_at`, followed by every field below; the first block is `extra.fei_metadata`. SerialEM and integer/real records carry `section`, `t` and `z` too.
 - **SERI** (SerialEM): `nint` bytes per section; `nreal` flags select items stored in flag order: 1 tilt × 100 (short) → `tilt_angle_deg`; 2 piece coordinates (3 unsigned shorts) → `piece_coordinates`; 4 stage X/Y × 25 (shorts) → `stage_x_um`, `stage_y_um`; 8 magnification / 100 → `magnification`; 16 intensity × 25000 → `intensity`; 32 dose as a two-short float → `exposure_dose_e_per_a2`; 64–1024 reserved (skipped by size).

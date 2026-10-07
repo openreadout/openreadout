@@ -14,7 +14,7 @@ Keep this page current when a reader changes how it reads.
    and under `MAX_METADATA_BYTES` (512 MiB), else the file is reported as corrupt
    (`openreadout_core::limits::checked_metadata_len`).
 3. **Pixels are read one plane at a time.** `read_plane` returns a single (c, z, t) plane;
-   `check --planes`, `export` and the MCP/Python front ends loop over planes and drop each before
+   `planes`, `export` and the MCP/Python front ends loop over planes and drop each before
    reading the next. A plane larger than the plane limit — 256x the file size, at least
    1 GiB and at most 4 GiB, or `OPENREADOUT_MAX_PLANE_BYTES=<bytes>` when set (still at most 4 GiB) — is
    refused with `unsupported_feature` instead of being allocated (`limits::plane_len`), so a
@@ -50,11 +50,11 @@ of the largest decoded tile / subblock, `M` = size of the metadata blocks (XML, 
 | `info`, `info --view structure` | O(M + N) | headers only; no pixel bytes are read. CZI keeps ~200 B per directory entry and 32 B per segment header; ND2 ~100 B per chunk-map entry; LIF ~80 B per memory block; PLX a few bytes per data block (`BlockList`) |
 | `info --view full` | O(M + N) + vendor JSON | the vendor tree is the XML/LV metadata converted to JSON (typically 3-8x the XML size) |
 | `check` | O(M + N) | reads one 256-byte subblock header (CZI) / 16-byte chunk header (ND2) per record; never decodes pixels; findings are O(problems) |
-| `check --planes` | O(M + N) + P + T + compressed(T) | one plane at a time; CZI mosaics stitch tiles into the plane buffer, so one decoded tile and its compressed bytes coexist with the plane |
-| `export --to ome-tiff` | O(M + N) + ~2-3 P | the plane, its compressed strip in the TIFF encoder, and during read-back verification one decoded IFD |
-| `export --to ome-zarr` | O(M + N) + ~3 P | plane, de-interleaved samples, one downsampled level and the chunk buffer |
-| `export --to mzml` | O(spectra) + 2 batches | spectra are read and compressed in batches of at most 256 spectra or 4 Mi points; one batch is compressed while the next is read. The index keeps ~100 B per spectrum |
-| `export --to csv` | one read batch + 2 x threads segments | a read batch holds at most 64 Ki rows and 8 Mi values; rows are formatted and parsed back in segments of at most 4096 rows and 128 Ki values |
+| `planes` | O(M + N) + P + T + compressed(T) | one plane at a time; CZI mosaics stitch tiles into the plane buffer, so one decoded tile and its compressed bytes coexist with the plane |
+| `export --format ome-tiff` | O(M + N) + ~2-3 P | the plane, its compressed strip in the TIFF encoder, and during read-back verification one decoded IFD |
+| `export --format ome-zarr` | O(M + N) + ~3 P | plane, de-interleaved samples, one downsampled level and the chunk buffer |
+| `export --format mzml` | O(spectra) + 2 batches | spectra are read and compressed in batches of at most 256 spectra or 4 Mi points; one batch is compressed while the next is read. The index keeps ~100 B per spectrum |
+| `export --format csv` | one read batch + 2 x threads segments | a read batch holds at most 64 Ki rows and 8 Mi values; rows are formatted and parsed back in segments of at most 4096 rows and 128 Ki values |
 | MCP tools, Python `File` | same as the matching command | the Python `read_image` helpers allocate the requested N-d array on purpose |
 
 Time for `info`/`info --view structure` is linear in `N` (one small read per CZI segment in the sequential
@@ -74,14 +74,14 @@ other builds (wall times are indicative only).
 | --- | --- | --- |
 | `info` | 7.5 MiB | 0.1 s warm (4.7 s cold) |
 | `check` (8 529 subblock headers verified) | 8.8 MiB | 0.12 s |
-| `check --planes --select c=0 --select z=0 --select t=0` (one plane) | 7.4 MiB | 0.05 s — refused, exit 6: the stitched plane is 39.6 GB, above the 4 GiB limit |
+| `planes --select c=0 --select z=0 --select t=0` (one plane) | 7.4 MiB | 0.05 s — refused, exit 6: the stitched plane is 39.6 GB, above the 4 GiB limit |
 
 A plane that does fit, `aics-variable-scene-shape-first-scene-pyramid.czi` (412 MiB, one plane =
 7 705 x 6 183 x uint16 = 95 MB stitched from zstd tiles):
 
 | command | max RSS | ≈ |
 | --- | --- | --- |
-| `check --planes --select c=0` | 111 MiB | P + 16 MiB |
+| `planes --select c=0` | 111 MiB | P + 16 MiB |
 | `export --select c=0` (OME-TIFF, deflate, read-back verified) | 203 MiB | 2.1 P |
 
 `ome-imagesc-110520-AMR1.lif` (2.8 GB, 27 images, 735 planes): `info` 28 MiB, `check` 27 MiB
@@ -90,7 +90,7 @@ A plane that does fit, `aics-variable-scene-shape-first-scene-pyramid.czi` (412 
 ## Known limits
 
 - A CZI mosaic plane is materialized whole (stitched). Whole-slide scans whose level-0 plane
-  exceeds available RAM need a tiled/region API (not yet available); `check --planes`/`export`
+  exceeds available RAM need a tiled/region API (not yet available); `planes`/`export`
   refuse planes above the cap rather than exhausting memory.
 - `N` is not bounded by a constant: a CZI with millions of subblocks costs a few hundred MB
   for `info`. Real files have 10^2-10^5 subblocks.

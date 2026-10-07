@@ -1,4 +1,4 @@
-//! Allotrope Simple Model (ASM) plate-reader JSON output (`export --to asm`).
+//! Allotrope Simple Model (ASM) plate-reader JSON output (`export --format asm`).
 //!
 //! Target: the public ASM plate-reader model `REC/2025/03`. The shape follows allotropy's
 //! MIT-licensed output for the same exports (docs/provenance/plate-readers.md); the schema
@@ -29,7 +29,7 @@ use crate::model::{Block, Channel, Export, Mode, ReadType};
 pub const ASM_MANIFEST: &str =
     "http://purl.allotrope.org/manifests/plate-reader/REC/2025/03/plate-reader.manifest";
 
-/// Output of `export --to asm`.
+/// Output of `export --format asm`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct AsmExportReport {
     /// The plate-reader export that was converted.

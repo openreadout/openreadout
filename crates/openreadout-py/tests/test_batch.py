@@ -59,11 +59,11 @@ def test_table_batch_with_sample_sheet_and_summary(corpus, tmp_path):
 
 def test_summarize_and_link(tmp_path):
     src = REPO / "corpus/oracle/batch/summarize-input.csv"
-    df = ic.batch("summarize", src, by=["condition"], values=["mean"], test="welch", control="ctrl")
+    df = ic.summarize(src, by=["condition"], values=["mean"], test="welch", control="ctrl")
     assert list(df.columns[:3]) == ["condition", "channel_name", "value"]
     assert len(df) == 6
     assert df.attrs["openreadout"]["rows_excluded"] == 1
     with pytest.raises(ValueError):
-        ic.batch("summarize", src, by=["nope"])
+        ic.summarize(src, by=["nope"])
     out = ic.link(tmp_path)
     assert out["groups"] == []

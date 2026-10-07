@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ExportDatasetReport",
-  "description": "`datasheet.json`, and the payload of `search --export --json`.",
+  "description": "`datasheet.json`, and the payload of `export-dataset --json`.",
   "type": "object",
   "properties": {
     "schema_version": {

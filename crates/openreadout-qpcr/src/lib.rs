@@ -357,7 +357,7 @@ impl FormatReader for RexReader {
             false,
             assurance::ROTOR_GENE_REX.confidence,
             &[
-                "No Cq values: Rotor-Gene files keep raw channel readings and the run setup; the analysis lives in the vendor software (`analyze qpcr --cq` computes Cq)",
+                "No Cq values: Rotor-Gene files keep raw channel readings and the run setup; the analysis lives in the vendor software (`analyze qpcr --compute-cq` computes Cq)",
                 "Melt channels are read when the file records them as readings of a melt step; gain optimisation and other auxiliary readings are listed only",
             ],
         )
@@ -415,7 +415,7 @@ impl FormatReader for IxoReader {
                 "Read: run and instrument, thermal protocol, detection channels, sample names and per-channel target/type/concentration, raw fluorescence per cycle and melt readings (instrument units, no color compensation), and the vendor's absolute-quantification results (Cp and positive/negative call). Validated on 4 LightCycler 480 QC runs (software 1.5.0 and 1.5.1): every vendor-positive well rises and every negative stays flat in the analysed channel",
                 "Only `Legacy Absolute Quantification Analysis` results are read (one channel, no ratio); Tm calling, genotyping, relative quantification and other analyses are listed in the vendor tree, not read; a call other than 0 or 2 gives no Cq",
                 "Vendor melt smoothing and derivative arrays (DARZ/FORM binary properties) and the temperature log are not decoded; -dF/dT is computed from the raw melt readings",
-                "Our own Cq (`analyze qpcr --cq`) is not the LightCycler 480's Cp algorithm (not public); use the vendor Cp in `cq`",
+                "Our own Cq (`analyze qpcr --compute-cq`) is not the LightCycler 480's Cp algorithm (not public); use the vendor Cp in `cq`",
                 "The closing checksum line is kept (`vendor.trailer`), not verified",
             ],
         )

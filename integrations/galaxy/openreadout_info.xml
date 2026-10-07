@@ -11,11 +11,11 @@
 openreadout
 #if $detail.mode == 'full'
     info '$input_name' --view full
-    #if not $detail.vendor
-        --no-vendor
+    #if $detail.vendor
+        --vendor
     #end if
     #if $detail.all_frames
-        --all-frames
+        --max-frames -1
     #end if
 #elif $detail.mode == 'check'
     check '$input_name'

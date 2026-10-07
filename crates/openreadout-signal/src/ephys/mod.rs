@@ -761,7 +761,7 @@ pub fn analyze_extracellular(
                 fmt_g(settings.high_hz),
                 fmt_g(fs)
             ),
-            "Spike detection needs a broadband signal sampled well above the pass band (typically >= 20 kHz); use `--band LOW:HIGH` within the Nyquist range, or pick the wideband trace (`openreadout info`).",
+            "Spike detection needs a broadband signal sampled well above the pass band (typically >= 20 kHz); use `--band-hz LOW:HIGH` within the Nyquist range, or pick the wideband trace (`openreadout info`).",
         ));
     }
     let channels: Vec<u32> = if req.channels.is_empty() {

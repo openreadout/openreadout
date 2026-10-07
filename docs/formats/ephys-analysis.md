@@ -1,6 +1,6 @@
 # Electrophysiology analysis
 
-`openreadout analyze ephys-features` measures patch-clamp recordings (action potentials, rheobase, input resistance and membrane-test values), and `openreadout analyze spikes` detects spikes in extracellular recordings. The MCP tool `openreadout_analyze` runs the same analyses (kinds `ephys-features` and `spikes`). Both work on top of the electrophysiology readers (ABF, ATF, NWB, Neuralynx, Blackrock, SpikeGLX, Intan, Plexon). This page describes how each value is computed and lists the analysis vocabulary.
+`openreadout analyze ephys-features` measures patch-clamp recordings (action potentials, rheobase, input resistance and membrane-test values), and `openreadout analyze spikes` detects spikes in extracellular recordings. The MCP tools `openreadout_ephys_features` and `openreadout_spikes` run the same analyses. Both work on top of the electrophysiology readers (ABF, ATF, NWB, Neuralynx, Blackrock, SpikeGLX, Intan, Plexon). This page describes how each value is computed and lists the analysis vocabulary.
 
 Code: `crates/openreadout-signal/src/ephys/`. Provenance:
 [`docs/provenance/ephys-analysis.md`](../provenance/ephys-analysis.md).
@@ -19,7 +19,7 @@ epochs follow, epoch `e` lasting `duration + sweep·duration_step` samples at
 epoch whose level changes between sweeps, else the first step that differs from holding.
 Recordings without an epoch table (gap-free, other formats) get spike and sweep features only.
 
-**Spikes** (per sweep, whole sweep): an upward crossing of `--peak-threshold` (−20 mV) starts a
+**Spikes** (per sweep, whole sweep): an upward crossing of `--peak-threshold-mv` (−20 mV) starts a
 spike, the next downward crossing ends it, the peak is the maximum in between (eFEL's
 `Spikecount` definition). Onset (threshold): first sample after the previous spike's AHP minimum
 from which dV/dt ≥ `--dvdt-threshold` (10 V/s) for 5 samples. Per spike: `peak_time_s`, `peak_mv`,
@@ -59,7 +59,7 @@ compartment behind a series resistance); per cell the medians.
 
 ## `analyze spikes` (extracellular)
 
-Per channel and sweep: Butterworth band-pass (`--band 300:6000`, `--order 5`; the high edge is
+Per channel and sweep: Butterworth band-pass (`--band-hz 300:6000`, `--order 5`; the high edge is
 clamped to 0.45 × the sampling rate), zero phase (forward-backward with odd-reflection padding and
 steady-state initial conditions); noise = median(|x|)/0.6745 of the filtered sweep; a spike is a
 sample beyond `--threshold` (5) × noise in the `--sign` direction (`neg`) that is the extreme within
@@ -92,7 +92,7 @@ longer grows with the channel count; `--max-seconds` bounds the length analysed.
   give spike features without a stimulus.
 - Ramps, trains and user-list protocols are not used for rheobase/f–I.
 - Spike detection is a voltage-crossing rule; spikes that do not reach −20 mV (depolarisation
-  block, dendritic recordings) need `--peak-threshold`.
+  block, dendritic recordings) need `--peak-threshold-mv`.
 - Extracellular detection reads each sweep whole (`--max-seconds` limits it); no whitening,
   common-average referencing or sorting.
 

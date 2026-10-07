@@ -981,7 +981,7 @@ impl Dataset for DmDataset {
         let thumbs = self.images.iter().filter(|i| i.thumbnail).count();
         if thumbs > 0 && self.exposed.len() < self.images.len() {
             notes.push(format!(
-                "{thumbs} thumbnail image(s) in ImageList are exposed as attachments, not images (`export --attachment`)"
+                "{thumbs} thumbnail image(s) in ImageList are exposed as attachments, not images (`extract`)"
             ));
         }
         for &k in &self.exposed {

@@ -1,6 +1,6 @@
 //! The analysis half of `doctor`'s self-test: small synthetic inputs written in memory for the
 //! analysis readers and commands (mzML + `chromatogram` + `peaks`, RDML + `qpcr`, a long-form
-//! plate CSV + `assay curve`, Gating-ML + `gate`, JCAMP-DX spectra, and a `batch` table over the
+//! plate CSV + `assay-curve`, Gating-ML + `gate`, JCAMP-DX spectra, and a `batch` table over the
 //! other fixtures). Every expected value is computed here from what was written, never from the
 //! reader. No corpus file is embedded or needed.
 

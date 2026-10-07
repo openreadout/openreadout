@@ -141,7 +141,7 @@ test_that("mzML spectra match pyteomics (m/z f64 and intensity f32 hashes)", {
   f <- openreadout_open(corpus_file(o$file))
   on.exit(openreadout_close(f))
   for (s in utils::head(o$spectra$scans, 12)) {
-    sp <- openreadout_spectra(f, index = s$index + 1)
+    sp <- openreadout_spectrum(f, spectrum = s$index + 1)
     m <- attr(sp, "spectrum")
     expect_equal(m$scan_number, s$scan_number)
     expect_equal(m$ms_level, s$ms_level)
@@ -150,7 +150,7 @@ test_that("mzML spectra match pyteomics (m/z f64 and intensity f32 hashes)", {
     expect_equal(xxh3(sp$mz, "f64"), s$xxh3_mz)
     expect_equal(xxh3(sp$intensity, "f32"), s$xxh3_intensity)
     if (!is.null(s$precursor_mz)) expect_equal(m$precursor_mz, s$precursor_mz, tolerance = 1e-9)
-    by_scan <- openreadout_spectra(f, scan = s$scan_number)
+    by_scan <- openreadout_spectrum(f, scan = s$scan_number)
     expect_identical(by_scan$mz, sp$mz)
   }
 })

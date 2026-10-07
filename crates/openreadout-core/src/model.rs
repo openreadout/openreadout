@@ -414,7 +414,7 @@ pub struct Dump {
 /// A file embedded in the container (thumbnail, label image, time stamps, ...).
 #[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct AttachmentInfo {
-    /// Zero-based index, usable with `export --attachment #<index>`.
+    /// Zero-based index, usable with `extract FILE #<index>`.
     pub index: u32,
     /// Name as stored in the container (e.g. `Thumbnail`, `Label`).
     pub name: String,
@@ -432,7 +432,7 @@ pub struct AttachmentInfo {
     pub extra: BTreeMap<String, serde_json::Value>,
 }
 
-/// Output of `export --attachment`.
+/// Output of `extract`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct ExtractOutput {
     /// The input file.
@@ -649,7 +649,7 @@ pub enum DetectConfidence {
     ExtensionOnly,
 }
 
-/// One row of `check --planes`.
+/// One row of `planes`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct PlaneHash {
     /// Image index.
@@ -684,7 +684,7 @@ fn is_zero(v: &u32) -> bool {
     *v == 0
 }
 
-/// Output of `check --planes`.
+/// Output of `planes`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct PlanesOutput {
     /// The input file.
@@ -800,7 +800,7 @@ pub struct TableFilterSummary {
     pub values: String,
 }
 
-/// Output of `export --to csv`.
+/// Output of `export --format csv`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct TableExportReport {
     /// The input file.
@@ -825,7 +825,7 @@ pub struct TableExportReport {
     pub verified: bool,
 }
 
-/// Output of `export --to csv` for a trace (one sweep: a time column plus one column per channel).
+/// Output of `export --format csv` for a trace (one sweep: a time column plus one column per channel).
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct TraceExportReport {
     /// The input file.
@@ -938,7 +938,7 @@ pub struct Spectrum {
     pub intensity: Vec<f32>,
 }
 
-/// Output of `spectra --scan`/`--index`: one spectrum with its arrays.
+/// Output of `spectrum`: one spectrum with its arrays.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct SpectrumOutput {
     /// The input file.

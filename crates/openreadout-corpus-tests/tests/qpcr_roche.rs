@@ -10,7 +10,7 @@
 //!   vendor export exists, so the decode is also checked against the vendor's calls: every
 //!   position called positive rises in the analysed channel, every one called negative stays flat.
 //!
-//! Both are exported to RDML and read back. `analyze qpcr --cq` agreement with the vendor Cq is
+//! Both are exported to RDML and read back. `analyze qpcr --compute-cq` agreement with the vendor Cq is
 //! printed (a method difference: the file does not say how the vendor computed its Cq).
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus --test qpcr_roche -- --nocapture`
@@ -70,7 +70,7 @@ fn print_cq_agreement(id: &str, ds: &QpcrDataset) {
     let rep = qpcr_report(ds, &req).unwrap();
     if let Some(c) = rep.cq_comparison {
         eprintln!(
-            "{id}: qpcr --cq vs vendor Cq: {} both, {} both undetermined, {} only vendor, {} only ours, median |d| {:?}, mean d {:?}, max |d| {:?}",
+            "{id}: qpcr --compute-cq vs vendor Cq: {} both, {} both undetermined, {} only vendor, {} only ours, median |d| {:?}, mean d {:?}, max |d| {:?}",
             c.both_cq,
             c.both_undetermined,
             c.only_vendor,
