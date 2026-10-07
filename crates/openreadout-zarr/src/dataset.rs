@@ -1331,7 +1331,7 @@ impl Dataset for ZarrDataset {
             ));
         }
         if self.images.iter().any(|i| i.levels.len() > 1) {
-            notes.push("pyramid levels are readable with `check --planes --level N`".into());
+            notes.push("pyramid levels are readable with `planes --level N`".into());
         }
         let plane_count = images.iter().map(|i| i.plane_count).sum();
         let size_bytes = match self.store.kind {

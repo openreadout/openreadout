@@ -267,7 +267,7 @@ pub(crate) fn parse_rex(xml: &str) -> Result<QpcrData> {
             ..Target::default()
         });
     }
-    d.notes.push("Rotor-Gene run files keep raw readings only: no Cq, threshold or Tm from the vendor analysis (compute Cq with `analyze qpcr --cq`)".into());
+    d.notes.push("Rotor-Gene run files keep raw readings only: no Cq, threshold or Tm from the vendor analysis (compute Cq with `analyze qpcr --compute-cq`)".into());
     d.runs.push(Run {
         name: d.name.clone().unwrap_or_else(|| "run".into()),
         instrument: Some("Rotor-Gene".into()),

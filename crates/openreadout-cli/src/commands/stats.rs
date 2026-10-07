@@ -59,15 +59,12 @@ pub struct StatsArgs {
     /// Histogram bin spacing.
     #[arg(long, value_enum, default_value_t)]
     pub scale: ScaleArg,
-    /// Leave out the per-plane entries (channel and image aggregates only).
-    #[arg(long)]
-    pub no_planes: bool,
     /// Maximum-intensity projection first (per pixel, the largest value over the selected z
     /// planes, or time points), then the statistics of the projections: `--mip z --select c=1`
     /// = the MIP of channel 1.
     #[arg(long, value_enum, value_name = "AXIS")]
     pub mip: Option<MipArg>,
-    /// Rows: per image and `channel` (default), per `image` or per `plane` (batch table); `well`:
+    /// Rows: per image and `channel` (default), per `image`, or also one entry per `plane`; `well`:
     /// a multi-well plate (high-content screening) as one row per (well, channel) over the
     /// well's fields of view (never-acquired planes left out, missing files skipped and
     /// counted); `field`: one row per (well, field, channel).
@@ -142,7 +139,7 @@ pub fn run(reg: &Registry, a: &StatsArgs) -> i32 {
             ScaleArg::Linear => HistogramScale::Linear,
             ScaleArg::Log => HistogramScale::Log,
         };
-        stats_request.per_plane = !a.no_planes;
+        stats_request.per_plane = a.per == PerArg::Plane;
         stats_request.mip = a.mip.map(|m| match m {
             MipArg::Z => openreadout_core::stats::Projection::Z,
             MipArg::T => openreadout_core::stats::Projection::T,

@@ -905,7 +905,7 @@ impl WatersRawDataset {
         if f.is_spectral() {
             extra.insert(
                 "spectra".into(),
-                json!("this function's scans are spectra of run 0 (openreadout spectra)"),
+                json!("this function's scans are spectra of run 0 (openreadout scans)"),
             );
         }
         TableInfo {
@@ -1740,7 +1740,7 @@ impl Dataset for WatersRawDataset {
         Err(Error::unsupported(
             WATERS_ID,
             "image planes",
-            "Waters .raw directories hold spectra and chromatograms: use `openreadout spectra` or `openreadout trace`.",
+            "Waters .raw directories hold spectra and chromatograms: use `openreadout scans` or `openreadout trace`.",
         ))
     }
 

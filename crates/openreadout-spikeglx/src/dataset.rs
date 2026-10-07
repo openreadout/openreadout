@@ -368,7 +368,7 @@ impl Dataset for SpikeGlxDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "image planes",
-            "SpikeGLX files hold sampled signals: use `openreadout trace` or `openreadout export --to csv`.",
+            "SpikeGLX files hold sampled signals: use `openreadout trace` or `openreadout export --format csv`.",
         ))
     }
 

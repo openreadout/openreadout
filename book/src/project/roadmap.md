@@ -4,7 +4,7 @@ OpenReadout reads the raw files that lab instruments write and turns them into J
 
 ## What comes next
 
-- **More versions of the formats already read.** Most work goes into new variants: a new vendor software release, instrument generation or codec. If OpenReadout fails on one of your files, run `openreadout check --report FILE` and attach the bundle to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml).
+- **More versions of the formats already read.** Most work goes into new variants: a new vendor software release, instrument generation or codec. If OpenReadout fails on one of your files, run `openreadout report FILE` and attach the bundle to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml).
 - **New formats.** We pick them by how many labs depend on them and whether there are public sample files to test against. [Bench instruments without open readers](bench-instruments-survey.md) lists candidates. Requests are welcome as issues.
 - **Writers for experiment set-up files**, such as acquisition worklists and analysis workspaces. Not for raw data.
 

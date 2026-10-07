@@ -1,4 +1,4 @@
-//! NWB 2.x writer (`export --to nwb`): the traces of an electrophysiology file (ABF sweeps,
+//! NWB 2.x writer (`export --format nwb`): the traces of an electrophysiology file (ABF sweeps,
 //! Neuralynx, Blackrock, SpikeGLX, Intan, ...) as plain `TimeSeries` under `/acquisition/`, one
 //! per trace, sweep and unit (channels that share a unit share a series, `data` of shape
 //! `[samples, channels]` in physical units as float64, `starting_time` + `rate`). Session fields
@@ -73,7 +73,7 @@ pub struct NwbSeriesReport {
     pub starting_time_s: f64,
 }
 
-/// Output of `export --to nwb`.
+/// Output of `export --format nwb`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct NwbExportReport {
     /// The input file.
@@ -251,7 +251,7 @@ pub fn export_nwb(
             if info.tables.is_empty() {
                 "NWB export writes sampled signals (traces); this file holds none. `info` lists what it holds."
             } else {
-                "NWB export writes sampled signals (traces); export tables with `--to csv` or `--to parquet`."
+                "NWB export writes sampled signals (traces); export tables with `--format csv` or `--format parquet`."
             },
         ));
     }
@@ -262,7 +262,7 @@ pub fn export_nwb(
         return Err(Error::unsupported(
             NWB_FORMAT_ID,
             format!("NWB export of a {} file", info.format.name),
-            "NWB is a neurophysiology format; export NMR and other spectra with `--to jcamp`, chromatograms with `--to csv` or `--to parquet`.",
+            "NWB is a neurophysiology format; export NMR and other spectra with `--format jcamp`, chromatograms with `--format csv` or `--format parquet`.",
         ));
     }
     let traces: Vec<TraceInfo> = match opts.trace {
@@ -376,7 +376,7 @@ pub fn export_nwb(
             return Err(Error::unsupported(
                 NWB_FORMAT_ID,
                 format!("trace {} without a sample rate", t.index),
-                "NWB TimeSeries here are regularly sampled (starting_time + rate); export this trace with `--to csv` or `--to parquet`.",
+                "NWB TimeSeries here are regularly sampled (starting_time + rate); export this trace with `--format csv` or `--format parquet`.",
             ));
         };
         let start = t.start_s.unwrap_or(0.0) + *a as f64 / rate;

@@ -182,7 +182,7 @@ impl FormatReader for TiffReader {
             extensions: EXTENSIONS.iter().map(|s| (*s).to_string()).collect(),
             family: "microscopy".into(),
             can_read: true,
-            // `export --to ome-tiff` writes OME-TIFF (openreadout-ometiff).
+            // `export --format ome-tiff` writes OME-TIFF (openreadout-ometiff).
             can_write: true,
             confidence: assurance::TIFF.confidence,
             known_gaps: vec![

@@ -36,6 +36,8 @@ serde_json = { workspace = true }
 schemars = { workspace = true }
 rayon = { workspace = true }
 glob = { workspace = true }
+# hashes of the values a CSV export wrote and read back
+xxhash-rust = { workspace = true }
 
 [dev-dependencies]
 tempfile = { workspace = true }

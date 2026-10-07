@@ -1,4 +1,4 @@
-//! `export --attachment`: write one embedded attachment's raw bytes to a new file, verified by
+//! `extract`: write one embedded attachment's raw bytes to a new file, verified by
 //! read-back. Shared by the CLI and the MCP server.
 
 use std::path::{Path, PathBuf};

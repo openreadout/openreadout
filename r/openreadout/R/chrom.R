@@ -1,5 +1,5 @@
 # openreadout_analyze() kinds "chromatogram" and "peaks": the options of `analyze chromatogram`
-# / `analyze peaks` (MCP `openreadout_analyze`;
+# / `analyze peaks` (MCP `openreadout_chromatogram` and `openreadout_peaks`;
 # https://openreadout.github.io/openreadout/guides/quantitation.html), with R's 1-based indices.
 
 .source_query <- function(tic, bpc, mz, ppm, da, transitions, traces, channel, run, ms_level,

@@ -228,7 +228,7 @@ impl WellInfo {
 pub struct Layout {
     /// Wells the layout names.
     pub wells: BTreeMap<(u32, u32), WellInfo>,
-    /// Where each part came from (`embedded:Well ID`, `file:layout.csv`, `--blank`, …).
+    /// Where each part came from (`embedded:Well ID`, `file:layout.csv`, `--blank-wells`, …).
     pub sources: Vec<String>,
     /// Unit written next to concentrations (`microg/ml`), when one is.
     pub concentration_unit: Option<String>,

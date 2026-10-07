@@ -53,7 +53,7 @@ pub struct PerImageFile {
     pub verified: bool,
 }
 
-/// Output of `export --to ome-tiff --per-image`.
+/// Output of `export --format ome-tiff --per-image`.
 #[derive(Debug, Clone, Serialize, JsonSchema)]
 pub struct PerImageExport {
     /// The file that was read.

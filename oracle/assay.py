@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Ground truth for `openreadout analyze assay` (plate analysis), computed WITHOUT OpenReadout.
+"""Ground truth for the plate-reader assays of `openreadout analyze` (plate analysis), computed WITHOUT OpenReadout.
 
 Usage:
     oracle/.venv/bin/python oracle/assay.py            # write corpus/oracle/assay/*.json

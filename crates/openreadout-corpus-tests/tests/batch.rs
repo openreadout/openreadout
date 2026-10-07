@@ -7,7 +7,7 @@
 //!   FlowIO scale values and NumPy; plate rows (one per well) against allotropy's ASM values;
 //! - `stats --tidy`: per image and channel mean, min, max and median of ND2 files against nd2
 //!   and NumPy; `trace --tidy`: per-sweep statistics of ABF files against pyABF;
-//! - `batch summarize`: a seeded table against pandas and SciPy (Welch, Mann–Whitney), with and
+//! - `summarize`: a seeded table against pandas and SciPy (Welch, Mann–Whitney), with and
 //!   without replicate averaging;
 //! - sample sheets and plate layouts written with openpyxl and csv, read back;
 //! - `link`: vendor files and their depositor-made mzML conversions (pairs recorded in

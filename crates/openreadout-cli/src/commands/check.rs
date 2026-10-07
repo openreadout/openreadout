@@ -1,5 +1,5 @@
-//! `check`: integrity (the default), plane hashes (`--planes`), a comparison with a second
-//! file (`--against`, in `compare.rs`) and the diagnostic bundle (`--report`, in `report.rs`).
+//! `check` (integrity) and `planes` (plane hashes). Comparing two files is `compare`
+//! (`compare.rs`), the diagnostic bundle is `report` (`report.rs`).
 
 use std::path::{Path, PathBuf};
 
@@ -8,16 +8,13 @@ use openreadout_core::reader::PlaneIndex;
 use openreadout_core::{Error, Registry, Result};
 
 use super::batch::{self, BatchArgs, Spec, Stdin};
-use super::compare::CompareOpts;
-use super::report::ReportOpts;
-use super::{compare, live_err, render_assurance_line, report};
-use crate::output::fail;
+use super::{live_err, render_assurance_line};
 
 /// Arguments of `check`.
 #[derive(Debug, clap::Args)]
 pub struct CheckArgs {
     /// Files, directories or glob patterns; several make a batch (see `--recursive`,
-    /// `--jsonl`). `-` reads standard input. `--against` and `--report` take one file.
+    /// `--jsonl`). `-` reads standard input.
     #[arg(required = true, value_name = "FILE")]
     pub files: Vec<PathBuf>,
     #[command(flatten)]
@@ -25,117 +22,81 @@ pub struct CheckArgs {
     /// Check headers and structure only (offsets, declared sizes and counts, missing parts):
     /// no decompression, no decoding, no checksums over the data. What `index` runs on every
     /// data set.
-    #[arg(long, conflicts_with_all = ["planes", "against", "report"])]
+    #[arg(long)]
     pub headers_only: bool,
     #[arg(long)]
     pub json: bool,
-    /// Read every plane (or the `--select`ion) and print its dimensions and xxh3-128 hash.
-    /// Reads all pixel data.
-    #[arg(long, help_heading = "Plane hashes (--planes)", conflicts_with_all = ["against", "report"])]
-    pub planes: bool,
-    /// With `--planes`: also write each plane's raw little-endian samples to
-    /// `DIR/image<i>_c<c>_z<z>_t<t>.bin`.
-    #[arg(
-        long,
-        value_name = "DIR",
-        requires = "planes",
-        help_heading = "Plane hashes (--planes)"
-    )]
-    pub dump_dir: Option<PathBuf>,
-    /// With `--planes`: only this rectangle of each plane, `X,Y,WIDTH,HEIGHT` in the pixel
-    /// coordinates of `--level`. Tiled readers decode only the tiles it touches.
-    #[arg(
-        long,
-        value_name = "X,Y,W,H",
-        requires = "planes",
-        help_heading = "Plane hashes (--planes)"
-    )]
-    pub region: Option<String>,
-    /// `--planes`, `--against`: only this image index.
-    #[arg(long, help_heading = "Plane hashes (--planes)")]
-    pub image: Option<u32>,
-    /// `--planes`, `--against`: plane selection, e.g. `c=0`, `z=2-5`, `t=0,3`. Repeatable. With
-    /// `--against`, a second file holding only the selected planes (an export with the same
-    /// `--select`) is matched to them in order.
-    #[arg(long = "select", help_heading = "Plane hashes (--planes)")]
-    pub select: Vec<String>,
-    /// `--planes`, `--against`: pyramid level (0 = full resolution).
-    #[arg(long, default_value_t = 0, help_heading = "Plane hashes (--planes)")]
-    pub level: u32,
-    #[command(flatten)]
-    pub compare: CompareOpts,
-    #[command(flatten)]
-    pub report: ReportOpts,
 }
 
-pub fn run(reg: &Registry, a: &CheckArgs) -> i32 {
-    let one = || -> Result<&PathBuf> {
-        match a.files.as_slice() {
-            [f] => Ok(f),
-            _ => Err(Error::Usage("--against and --report take one FILE".into())),
-        }
-    };
-    if let Some(other) = &a.compare.against {
-        let file = match one() {
-            Ok(f) => f,
-            Err(e) => return fail(a.json, &e),
-        };
-        return compare::run(
-            reg,
-            &compare::CompareArgs {
-                a: file,
-                b: other,
-                image: a.image,
-                select: &a.select,
-                level: a.level,
-                opts: &a.compare,
-                json: a.json,
-            },
-        );
-    }
-    if a.report.report {
-        return match one() {
-            Ok(f) => report::run(reg, f, &a.report, a.json),
-            Err(e) => fail(a.json, &e),
-        };
-    }
+/// Arguments of `planes`.
+#[derive(Debug, clap::Args)]
+pub struct PlanesArgs {
+    /// Files, directories or glob patterns; several make a batch (see `--recursive`,
+    /// `--jsonl`). `-` reads standard input.
+    #[arg(required = true, value_name = "FILE")]
+    pub files: Vec<PathBuf>,
+    #[command(flatten)]
+    pub batch: BatchArgs,
+    #[arg(long)]
+    pub json: bool,
+    /// Only this image index.
+    #[arg(long)]
+    pub image: Option<u32>,
+    /// Plane selection, e.g. `c=0`, `z=2-5`, `t=0,3`. Repeatable.
+    #[arg(long = "select")]
+    pub select: Vec<String>,
+    /// Pyramid level (0 = full resolution).
+    #[arg(long, default_value_t = 0)]
+    pub level: u32,
+    /// Only this rectangle of each plane, `X,Y,WIDTH,HEIGHT` in the pixel coordinates of
+    /// `--level`. Tiled readers decode only the tiles it touches.
+    #[arg(long, value_name = "X,Y,W,H")]
+    pub region: Option<String>,
+    /// Also write each plane's raw little-endian samples to `DIR/image<i>_c<c>_z<z>_t<t>.bin`.
+    #[arg(long, value_name = "DIR")]
+    pub dump_dir: Option<PathBuf>,
+}
+
+/// Run `planes`.
+pub fn run_planes(reg: &Registry, a: &PlanesArgs) -> i32 {
     let spec = Spec {
         json: a.json,
         batch: &a.batch,
         stdin: Stdin::Spool,
     };
-    if a.planes {
-        return batch::run(
-            reg,
-            &a.files,
-            spec,
-            &mut |i| {
-                live_err(i.path, || {
-                    let region = a
-                        .region
-                        .as_deref()
-                        .map(openreadout_core::Region::parse)
-                        .transpose()?;
-                    planes(
-                        reg,
-                        i,
-                        a.image,
-                        &a.select,
-                        a.level,
-                        region,
-                        a.dump_dir.as_deref(),
-                    )
-                })
-            },
-            &render_planes,
-        );
-    }
-    if a.image.is_some() || !a.select.is_empty() || a.level != 0 {
-        return fail(
-            a.json,
-            &Error::Usage("--image, --select and --level go with --planes or --against".into()),
-        );
-    }
+    batch::run(
+        reg,
+        &a.files,
+        spec,
+        &mut |i| {
+            live_err(i.path, || {
+                let region = a
+                    .region
+                    .as_deref()
+                    .map(openreadout_core::Region::parse)
+                    .transpose()?;
+                planes(
+                    reg,
+                    i,
+                    a.image,
+                    &a.select,
+                    a.level,
+                    region,
+                    a.dump_dir.as_deref(),
+                )
+            })
+        },
+        &render_planes,
+    )
+}
+
+/// Run `check`.
+pub fn run(reg: &Registry, a: &CheckArgs) -> i32 {
+    let spec = Spec {
+        json: a.json,
+        batch: &a.batch,
+        stdin: Stdin::Spool,
+    };
     batch::run(
         reg,
         &a.files,

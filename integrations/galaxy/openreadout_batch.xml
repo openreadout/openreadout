@@ -33,7 +33,7 @@ openreadout '$measure.name' inputs/ --tidy
 #end for
     -o table.csv
 #if str($summary.by).strip()
-    && openreadout batch summarize table.csv
+    && openreadout summarize table.csv
         --by '$summary.by'
     #if str($summary.values).strip()
         --value '$summary.values'
@@ -172,7 +172,7 @@ A **sample sheet** or **plate layout** (CSV, tabular or XLSX) is joined to the r
 chosen from the data (the file name, the sample id recorded in the file, the well, a barcode, ...).
 Give the sheet a column with the dataset names (e.g. ``tube_a.fcs``) to join on file names.
 
-The optional **group summary** (``openreadout batch summarize``) reports n, mean, sd, sem, median, min,
+The optional **group summary** (``openreadout summarize``) reports n, mean, sd, sem, median, min,
 max and CV % per group, and a Welch t-test or Mann-Whitney U test of each group against a control.
 
 @HELP_FOOTER@

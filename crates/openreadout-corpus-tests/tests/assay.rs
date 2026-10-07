@@ -1,4 +1,4 @@
-//! Plate analysis (`openreadout analyze assay`) against SciPy, R nls/drc/growthcurver and the Gen5
+//! Plate analysis (the plate-reader assays of `openreadout analyze`) against SciPy, R nls/drc/growthcurver and the Gen5
 //! and SkanIt vendor results: the cases in `corpus/oracle/assay/*.json` (`oracle/assay.py`). The
 //! same harness runs in `cargo test -p openreadout-assay`; here it runs under `--features corpus`
 //! with the corpus files present.

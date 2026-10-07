@@ -5,7 +5,7 @@ Times, on the same files with a warm page cache and several repetitions (median,
 
 * metadata: `openreadout info --json` vs `showinf -nopix` vs bioio (or the format's usual
   Python reader: flowio, pyabf, pyteomics) loading the same header metadata;
-* export:   `openreadout export --to ome-tiff` vs `bfconvert` vs bioio `BioImage.save`, all
+* export:   `openreadout export --format ome-tiff` vs `bfconvert` vs bioio `BioImage.save`, all
   writing an uncompressed OME-TIFF (plus OpenReadout with its default deflate);
 * scaling:  `openreadout export` with `--threads 1/2/4/8` (wall time and peak RSS).
 

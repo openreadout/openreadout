@@ -2,7 +2,7 @@
 joined to a sample sheet or plate layout, optionally summarized by group.
 
     openreadout <measure> FILES... --tidy [--sample-sheet SHEET] EXTRA -o TABLE   (measure gate: analyze gate)
-    openreadout batch summarize TABLE SUMMARIZE -o SUMMARY    (when output.summary is declared)
+    openreadout summarize TABLE SUMMARIZE -o SUMMARY    (when output.summary is declared)
 """
 
 __author__ = "Richard Zimring"
@@ -43,4 +43,4 @@ command = "analyze gate" if measure == "gate" else measure
 shell("openreadout {command} {files:q} --tidy {sheet_opt} {extra} -o {table:q} {log}")
 if summary:
     log_append = snakemake.log_fmt_shell(stdout=True, stderr=True, append=True)
-    shell("openreadout batch summarize {table:q} {summarize} -o {summary:q} {log_append}")
+    shell("openreadout summarize {table:q} {summarize} -o {summary:q} {log_append}")

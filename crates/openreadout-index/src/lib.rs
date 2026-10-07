@@ -23,7 +23,7 @@
 //! On top of an index: [`search()`] (a small query language, [`query`]), [`health()`]
 //! (storage health report) and [`export_dataset`] (an ML-ready slice with a datasheet). [`pii`] finds personal
 //! data in header metadata and redacts it. [`report`] builds the privacy-reviewed diagnostic
-//! bundle of `openreadout check --report` for a file a reader refused or could not validate.
+//! bundle of `openreadout report` for a file a reader refused or could not validate.
 //!
 //! # Example
 //!

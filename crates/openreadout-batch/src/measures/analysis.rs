@@ -20,8 +20,8 @@ use serde_json::{Map, Value as J};
 use crate::measure::{Item, Measure};
 use crate::table::{ColumnDoc, Row, Value};
 
-/// The analysis measures by name (the `kind`s of `openreadout_analyze` other than `gate`,
-/// which is a built-in measure).
+/// The analysis measures by name (the `openreadout analyze` subcommands other than `gate`,
+/// which is a built-in measure, with the plate-reader assays as one measure, `assay`).
 pub const ANALYSIS_MEASURES: [&str; 7] = [
     "peaks",
     "chromatogram",
@@ -32,7 +32,7 @@ pub const ANALYSIS_MEASURES: [&str; 7] = [
     "qpcr",
 ];
 
-/// `qpcr` options (`openreadout_analyze` kind `qpcr`).
+/// `qpcr` options (the arguments of `openreadout_qpcr`).
 #[derive(Debug, Default, Clone, Deserialize, Serialize, JsonSchema)]
 pub struct QpcrQuery {
     /// Only this well (`A1`).
@@ -108,7 +108,9 @@ pub struct AnalysisMeasure {
 
 /// The property names a query type accepts (from its JSON Schema, following `allOf` and
 /// `$ref`, which is how `#[serde(flatten)]` fields appear).
-fn accepted_keys<T: JsonSchema>() -> BTreeSet<String> {
+/// The argument names a schema accepts: its properties, through references and `allOf`/`anyOf`/
+/// `oneOf` (flattened structs).
+pub fn accepted_keys<T: JsonSchema>() -> BTreeSet<String> {
     let schema = serde_json::to_value(schemars::schema_for!(T)).unwrap_or(J::Null);
     let mut keys = BTreeSet::new();
     let defs = schema

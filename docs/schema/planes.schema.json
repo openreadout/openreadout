@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "PlanesOutput",
-  "description": "Output of `check --planes`.",
+  "description": "Output of `planes`.",
   "type": "object",
   "properties": {
     "path": {
@@ -38,7 +38,7 @@
   ],
   "$defs": {
     "PlaneHash": {
-      "description": "One row of `check --planes`.",
+      "description": "One row of `planes`.",
       "type": "object",
       "properties": {
         "image": {
@@ -223,7 +223,7 @@
       ]
     },
     "Acquisition": {
-      "description": "`acquisition` in `info`, `info --view structure`, `check` and `check --planes`: present only for\nfiles that are not finished. See `book/src/guides/lab-shares.md`.",
+      "description": "`acquisition` in `info`, `info --view structure`, `check` and `planes`: present only for\nfiles that are not finished. See `book/src/guides/lab-shares.md`.",
       "type": "object",
       "properties": {
         "state": {

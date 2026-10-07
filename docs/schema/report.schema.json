@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ReportOutput",
-  "description": "What `openreadout check FILE --report` prints under `--json`.",
+  "description": "What `openreadout report FILE` prints under `--json`.",
   "type": "object",
   "properties": {
     "output": {
@@ -646,12 +646,12 @@
           "const": "metadata"
         },
         {
-          "description": "Image planes (`check --planes`, `stats`, `export` of images, `preview`).",
+          "description": "Image planes (`planes`, `stats`, `export` of images, `preview`).",
           "type": "string",
           "const": "pixels"
         },
         {
-          "description": "Mass spectra and scan headers (`spectra`, `analyze chromatogram`, mzML export).",
+          "description": "Mass spectra and scan headers (`scans`, `spectrum`, `analyze chromatogram`, mzML export).",
           "type": "string",
           "const": "spectra"
         },

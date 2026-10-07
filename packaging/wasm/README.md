@@ -11,7 +11,7 @@ const words = await f.info({ view: "explain", ask: "Which objective?" });  // `i
 const report = await f.check();             // integrity report
 const { meta, png } = await f.preview();    // PNG bytes of image 0 (or a trace, spectrum or plate)
 const rows = await f.table(0, { maxRows: 10 });
-const ms2 = await f.spectra({ ms_level: 2 });   // scan headers; { index: 0 } for one spectrum
+const ms2 = await f.scans({ ms_level: 2 });     // scan headers; f.spectrum({ spectrum: 0 }) for one
 ```
 
 Each method is named after a CLI command and returns the same JSON as that command with `--json`; `info({ view })` takes the views of `info --view` (`summary`, `full`, `structure`, `explain`, `format`). On failure it rejects with an `InstrumentError` that carries the CLI's `code`, `exitCode` and `hint`. The types are in `index.d.ts`.

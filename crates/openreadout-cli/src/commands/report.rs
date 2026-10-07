@@ -1,55 +1,53 @@
-//! `openreadout check FILE --report`: a privacy-reviewed diagnostic bundle for a new-variant issue
+//! `openreadout report FILE`: a privacy-reviewed diagnostic bundle for a new-variant issue
 //! (`openreadout_index::report`, docs/maintaining.md). Written to a local file; nothing is sent.
 
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use openreadout_core::{Error, Registry};
 use openreadout_index::report::{self, ReportOptions, ReportOutput};
 
 use crate::output::{emit, fail, json_text};
 
-/// `check --report`: the diagnostic bundle's options.
+/// Arguments of `report`.
 #[derive(Debug, Clone, Default, clap::Args)]
-#[command(next_help_heading = "Diagnostic bundle (--report)")]
-pub struct ReportOpts {
-    /// Write a privacy-reviewed diagnostic bundle for a file that was refused, failed or is not
-    /// `validated`, to attach to a new-variant issue: the assurance fingerprint, every decode
-    /// stage with its error, the structure map and the metadata's numbers. No pixel, spectral
-    /// or trace values; no free text or path unless `--include-text`. Written to a local file;
-    /// nothing is sent (docs/maintaining.md).
+pub struct ReportArgs {
+    /// The file (or data-set directory) that was refused, failed or is not `validated`.
+    #[arg(value_name = "FILE")]
+    pub file: PathBuf,
     #[arg(long)]
-    pub report: bool,
+    pub json: bool,
     /// Where to write the bundle. Default: `openreadout-report-<hash>.json` in the current
     /// directory (the file's name is never used).
-    #[arg(short, long, value_name = "PATH", requires = "report")]
+    #[arg(short, long, value_name = "PATH")]
     pub output: Option<PathBuf>,
     /// Print the bundle exactly as it would be written, and write nothing.
-    #[arg(long, requires = "report")]
+    #[arg(long)]
     pub dry_run: bool,
     /// Replace an existing bundle at the output path.
-    #[arg(long, requires = "report")]
+    #[arg(long)]
     pub overwrite: bool,
     /// Keep free text from the file (sample, image and channel names, comments). The path and
     /// personal data (operators, e-mail addresses, phone numbers, patient ids) are still replaced.
-    #[arg(long, requires = "report")]
+    #[arg(long)]
     pub include_text: bool,
     /// Add hex excerpts of N bytes (at most 256) of the file head and of up to 32 structure
     /// headers; printable text in them is masked unless --include-text.
-    #[arg(long, value_name = "N", default_value_t = 0, requires = "report")]
+    #[arg(long, value_name = "N", default_value_t = 0)]
     pub hex: usize,
     /// Run the full integrity check (decodes and checksums data) instead of headers only.
-    #[arg(long, requires = "report")]
+    #[arg(long)]
     pub full_check: bool,
     /// Leave out the file's SHA-256.
-    #[arg(long, requires = "report")]
+    #[arg(long)]
     pub no_hash: bool,
     /// Do not decode a first plane, sweep, spectrum or table rows.
-    #[arg(long, requires = "report")]
+    #[arg(long)]
     pub no_first_read: bool,
 }
 
-/// Run `check --report` on `file`.
-pub fn run(reg: &Registry, file: &Path, a: &ReportOpts, json: bool) -> i32 {
+/// Run `report`.
+pub fn run(reg: &Registry, a: &ReportArgs) -> i32 {
+    let (file, json) = (a.file.as_path(), a.json);
     let mut opts = ReportOptions::default();
     opts.include_text = a.include_text;
     opts.hex_bytes = a.hex.min(report::MAX_HEX_BYTES);

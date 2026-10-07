@@ -8,7 +8,7 @@ OpenReadout is software that runs on your own computer. It doesn't collect, stor
 - It makes no network connections. The release binaries contain no networking code, and `cargo deny` checks this in CI.
 - It has no telemetry, no analytics, no crash reporting and no update check.
 - It writes only the files you ask it to write, such as exports or an AI client's MCP configuration. It doesn't modify the files it reads.
-- `openreadout check --report` writes a diagnostic bundle to a local file. It doesn't send the bundle anywhere. You decide whether to attach it to an issue, and you can read it first with `--dry-run`.
+- `openreadout report` writes a diagnostic bundle to a local file. It doesn't send the bundle anywhere. You decide whether to attach it to an issue, and you can read it first with `--dry-run`.
 
 ## The MCP server
 

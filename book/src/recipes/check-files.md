@@ -72,10 +72,10 @@ Each line is a JSON wrapper with the file's `path`; the verdict is `data.ok`.
 
 ### After an export
 
-`check --against` reads both files and answers "is this export the same data as the source?":
+`compare` reads both files and answers "is this export the same data as the source?":
 
 ```text
-$ openreadout check mini.nd2 --against mini.ome.tiff; echo "exit=$?"
+$ openreadout compare mini.nd2 mini.ome.tiff; echo "exit=$?"
 mini.nd2 (nd2)
 mini.ome.tiff (tiff)
 => identical
@@ -89,11 +89,11 @@ It exits 0 when the files are identical and 1 when they differ. See [Convert to 
 
 ### A file OpenReadout cannot read
 
-`check --report` writes a diagnostic bundle you can attach to a bug report without sharing the file. It holds the structure map, every decode stage and its error, and the metadata's numbers, but no pixel, trace or table values, no path and no free text:
+`report` writes a diagnostic bundle you can attach to a bug report without sharing the file. It holds the structure map, every decode stage and its error, and the metadata's numbers, but no pixel, trace or table values, no path and no free text:
 
 ```text
-$ openreadout check cut.nd2 --report
-openreadout 0.1.0 check --report (bundle version 1)
+$ openreadout report cut.nd2
+openreadout 0.1.0 report (bundle version 1)
   wrote openreadout-report-8cd292920dc7.json (17526 bytes). Nothing was sent anywhere.
   privacy: structure only (19 strings from the file replaced)
   ...
@@ -110,4 +110,4 @@ The MCP tool is `openreadout_check`, with `file`. It returns the same `ok` and f
 
 - [`check` reference](../reference/commands/check.md): plane hashes, tolerances and every flag.
 - [Lab shares, indexes and live acquisitions](../guides/lab-shares.md#files-still-being-written): files that are still being written.
-- JSON: [`check`](../reference/json/check.md), [`check --against`](../reference/json/check-against.md), [`check --report`](../reference/json/check-report.md).
+- JSON: [`check`](../reference/json/check.md), [`compare`](../reference/json/compare.md), [`report`](../reference/json/report.md).

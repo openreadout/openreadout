@@ -671,7 +671,7 @@ impl Dataset for HekaDataset {
         Err(Error::unsupported(
             HEKA_FORMAT_ID,
             "image planes",
-            "PatchMaster files hold sampled signals, not images: use `openreadout trace FILE --trace N --sweep M` or `export --to csv`.",
+            "PatchMaster files hold sampled signals, not images: use `openreadout trace FILE --trace N --sweep M` or `export --format csv`.",
         ))
     }
 

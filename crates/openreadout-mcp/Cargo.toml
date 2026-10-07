@@ -27,6 +27,9 @@ openreadout-mzml-writer = { workspace = true }
 openreadout-preview = { workspace = true }
 openreadout-index = { workspace = true }
 openreadout-batch = { workspace = true }
+# the argument types of the analysis tools (their input schemas)
+openreadout-quant = { workspace = true }
+openreadout-assay = { workspace = true }
 openreadout-live = { workspace = true }
 rayon = { workspace = true }
 openreadout-hdf5 = { workspace = true }

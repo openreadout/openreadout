@@ -1751,7 +1751,7 @@ impl Dataset for MzmlDataset {
     }
 
     fn provenance(&self) -> ProvenanceMap {
-        // Keys are paths into `info`; per-spectrum fields (`spectra --scan N --json`) are all read
+        // Keys are paths into `info`; per-spectrum fields (`spectrum --scan N --json`) are all read
         // from PSI-MS terms (Source::Spec) and documented in docs/formats/mzml.md.
         let mut m = ProvenanceMap::new();
         for k in [
@@ -1862,7 +1862,7 @@ impl Dataset for MzmlDataset {
         Err(Error::unsupported(
             FMT,
             "image planes",
-            "mzML holds mass spectra, not images: use `openreadout spectra` or `export --to mzml`.",
+            "mzML holds mass spectra, not images: use `openreadout scans` or `export --format mzml`.",
         ))
     }
 

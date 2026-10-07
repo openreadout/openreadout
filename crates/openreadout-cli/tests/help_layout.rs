@@ -69,7 +69,7 @@ fn own_flags_come_before_shared_ones() {
         (&["trace"], &["--trace", "--sweep", "--json"]),
         (&["info"], &["--json", "--view", "--max-images"]),
         (&["analyze", "gate"], &["--json"]),
-        (&["export"], &["--to", "--output", "--run", "--json"]),
+        (&["export"], &["--format", "--output", "--run", "--json"]),
     ] {
         let text = help(cmd);
         let options = section(&text, "Options:");

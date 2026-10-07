@@ -1,4 +1,4 @@
-"""Analysis-tier plate-analysis questions (`openreadout analyze assay`): standard-curve concentrations,
+"""Analysis-tier plate-analysis questions (the plate-reader assays of `openreadout analyze`): standard-curve concentrations,
 IC50, Z′, kinetic rates and doubling times, the way a scientist asks them.
 
 Answers are computed here with SciPy (BSD-3), NumPy, openpyxl (MIT) and plain-Python parsing of the

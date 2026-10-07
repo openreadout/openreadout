@@ -1,4 +1,4 @@
-//! Compare two files (`openreadout check A --against B`, MCP `openreadout_check` with `against`): a
+//! Compare two files (`openreadout compare A B`, MCP `openreadout_check` with `against`): a
 //! diff of the normalized metadata as JSON-pointer paths, image geometry, channel names, physical
 //! sizes, and every selected plane by xxh3-128 (or, with a tolerance, by the largest absolute
 //! sample difference). Typical use: an original and its OME-TIFF export.
@@ -224,7 +224,7 @@ pub struct PlaneComparison {
     pub mismatches: Vec<PlaneMismatch>,
 }
 
-/// Output of `check --against`.
+/// Output of `compare`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct CompareOutput {
     /// Nothing compared differs: metadata (unless skipped), geometry, channel names,

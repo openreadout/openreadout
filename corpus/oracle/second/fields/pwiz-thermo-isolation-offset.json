@@ -12,7 +12,7 @@
    "field": "spectrum count",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],
@@ -24,7 +24,7 @@
    "field": "MS2 spectrum count",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],
@@ -36,7 +36,7 @@
    "field": "first retention time",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],
@@ -49,7 +49,7 @@
    "field": "last retention time",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],
@@ -74,7 +74,7 @@
    "field": "scan MS level",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],
@@ -90,7 +90,7 @@
    "field": "scan retention time",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],
@@ -107,7 +107,7 @@
    "field": "scan polarity",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],
@@ -123,7 +123,7 @@
    "field": "scan precursor m/z",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],
@@ -140,7 +140,7 @@
    "field": "scan precursor charge",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],

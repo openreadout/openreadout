@@ -1,4 +1,4 @@
-//! Plane selection syntax shared by `export` and `check --planes`: `c=0`, `z=2-5`, `t=0,3,7`.
+//! Plane selection syntax shared by `export` and `planes`: `c=0`, `z=2-5`, `t=0,3,7`.
 
 use crate::{Error, Result};
 

@@ -64,7 +64,7 @@ fn growing_file_is_in_progress_not_corrupt() {
     let v: Value = serde_json::from_str(&out).unwrap();
     assert_eq!(v["data"]["ok"], true);
     assert_eq!(v["data"]["findings"][0]["code"], "acquisition_in_progress");
-    let (code, out) = run(&["check", "--planes", fs, "--json"]);
+    let (code, out) = run(&["planes", fs, "--json"]);
     assert_eq!(code, 0);
     let v: Value = serde_json::from_str(&out).unwrap();
     assert_eq!(v["data"]["planes"].as_array().unwrap().len(), 3);

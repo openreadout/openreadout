@@ -11,7 +11,7 @@ Shared: `text.rs` (ASCII in principle, UTF-8 or Latin-1 in practice). NMR proces
 - **JEOL** (`jeol_header.rs`, `jeol_dataset.rs`): a 1360-byte big-endian header (identifier `JEOL.NMR`, byte order of the rest, dimensions, data type and layout, axis types, sizes, valid ranges, units, section offsets), 64-byte parameter records, data sections (submatrices), and the context section after the data (the experiment text; only its `sample_id` line is read, for ids longer than the 16-byte text parameters).
 - **Spinsolve** (`spinsolve.rs`): the experiment directory of any file in it (`resolve_spinsolve_dir_in`; folders of experiments are listed), `acqu.par`/`proc.par` (`name = value`, `ParFile`), `Phase()` of `processing.script`, and every Prospa data file (32-byte header `PROS DATA V1.1`, data type 501 complex / 503 x + real / 504 x + complex, rows back to back). The FID (`data.1d`, `fid.1d`, `data.2d` with `nrPnts` points) comes first; an x block becomes `extra.axis` only when its spacing matches the dwell time or the spectral width. **Software versions branch** on the data type of `data.1d` (1.41: 504 with a time block; 2.0x: 501).
 - **JCAMP-DX** (`jcamp_parse.rs`, `jcamp_asdf.rs`, `jcamp_dataset.rs`): labeled data records in nested blocks; tables `(X++(Y..Y))` in ASDF (AFFN, PAC, SQZ, DIF, DUP with Y and X check-points) or AFFN groups `(XY..XY)`; NTUPLES pages (NMR 5.01 complex data), PEAK TABLE, XYPOINTS. **JCAMP-DX versions and data classes branch here** (`data_type`, `data_class`, 4.24 vs 5.01 NTUPLES).
-- **Writer** (`jcamp_write.rs`): `export --to jcamp` writes XYDATA in DIFDUP with Y checks (or AFFN), or NTUPLES pages; factors chosen to round-trip exactly when possible; verified by read-back.
+- **Writer** (`jcamp_write.rs`): `export --format jcamp` writes XYDATA in DIFDUP with Y checks (or AFFN), or NTUPLES pages; factors chosen to round-trip exactly when possible; verified by read-back.
 
 ## Invariants and checks
 
@@ -63,7 +63,7 @@ Shared: `text.rs` (ASCII in principle, UTF-8 or Latin-1 in practice). NMR proces
 | [`src/jcamp_asdf.rs`](src/jcamp_asdf.rs) | Tabular data decoding: ASDF (AFFN, PAC, SQZ, DIF, DUP; JCAMP-DX 4.24 §5) for `(X++(Y..Y))` tables, and AFFN groups for `(XY..XY)` tables |
 | [`src/jcamp_dataset.rs`](src/jcamp_dataset.rs) | `Dataset` for JCAMP-DX: one trace per data table (XYDATA, NTUPLES, PEAK TABLE, XYPOINTS) |
 | [`src/jcamp_parse.rs`](src/jcamp_parse.rs) | JCAMP-DX structure: labeled data records (LDRs) grouped into (possibly nested) blocks |
-| [`src/jcamp_write.rs`](src/jcamp_write.rs) | JCAMP-DX writer (`export --to jcamp`): one trace (an NMR FID or spectrum, a JCAMP-DX spectrum, a chromatogram, ...) as `##XYDATA=(X++(Y..Y))` when it has one channel and one |
+| [`src/jcamp_write.rs`](src/jcamp_write.rs) | JCAMP-DX writer (`export --format jcamp`): one trace (an NMR FID or spectrum, a JCAMP-DX spectrum, a chromatogram, ...) as `##XYDATA=(X++(Y..Y))` when it has one channel and one |
 | [`src/jeol_dataset.rs`](src/jeol_dataset.rs) | `Dataset` for a JEOL Delta `.jdf` file: one trace (an FID or a processed spectrum) whose sweeps are the rows of a 2D data set |
 | [`src/jeol_header.rs`](src/jeol_header.rs) | JEOL Delta `.jdf` file header and parameter section |
 | [`src/lib.rs`](src/lib.rs) | Readers for NMR data |

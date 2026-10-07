@@ -39,7 +39,7 @@ with openreadout.File("mini.nd2") as f:
 
 `openreadout.info(path)` returns the header metadata without keeping the file open. Like [`openreadout info --view`](../reference/commands/info.md), it takes a view: `view="full"` adds the vendor metadata tree and the provenance of each field, `view="structure"` lists the container's elements, `view="explain"` describes the file in sentences (`ask=` answers a question), and `view="format"` returns only the format.
 
-The functions and methods are named after the CLI commands: `info`, `File.check()`, `File.stats()`, `File.spectra()`, `analyze`, `export`, `batch` and `link`. The `read_*` methods return NumPy arrays.
+The functions and methods are named after the CLI commands: `info`, `File.check()`, `File.stats()`, `File.scans()`, `analyze`, `export`, `batch` and `link`. The `read_*` methods return NumPy arrays.
 
 `mini.nd2` is a small file in the repository at [`crates/openreadout-cli/tests/fixtures/mini.nd2`](https://github.com/openreadout/openreadout/blob/main/crates/openreadout-cli/tests/fixtures/mini.nd2).
 
@@ -103,7 +103,7 @@ with openreadout.File("sample.raw") as f:
     sp = f.read_spectrum(scan=1200)             # or index=1199; centroid=True for the stored centroids
     sp["mz"], sp["intensity"]                   # NumPy arrays
     sp["ms_level"], sp["rt_s"], sp["precursor_mz"]
-    f.spectra(ms_level=2)                       # scan headers, without the peaks
+    f.scans(ms_level=2)                       # scan headers, without the peaks
     f.export("sample.mzML")                     # verified by reading it back
 ```
 
@@ -111,7 +111,7 @@ with openreadout.File("sample.raw") as f:
 
 ### Analyses
 
-`openreadout.analyze(path, kind, **options)` runs the analyses of [`openreadout analyze`](../reference/commands/analyze.md): `kind` is `"peaks"`, `"chromatogram"`, `"nmr-peaks"`, `"ephys-features"`, `"spikes"`, `"qpcr"`, `"assay"` or `"gate"`. It returns the same dict as the command's `--json` data. The keyword arguments are the options of the MCP tool `openreadout_analyze` for that kind (see [MCP tools](../reference/mcp.md)); write the option `from` as `from_=`. A dose-response fit on a test plate from the repository:
+`openreadout.analyze(path, kind, **options)` runs the analyses of [`openreadout analyze`](../reference/commands/analyze.md): `kind` is `"peaks"`, `"chromatogram"`, `"nmr-peaks"`, `"ephys-features"`, `"spikes"`, `"qpcr"`, `"assay"` or `"gate"`. It returns the same dict as the command's `--json` data. The keyword arguments are the arguments of that analysis's MCP tool (see [MCP tools](../reference/mcp.md); for `"assay"`, `analysis=` picks the analysis and the plate options are plain keyword arguments); write the option `from` as `from_=`. A dose-response fit on a test plate from the repository:
 
 ```python
 r = openreadout.analyze("assay-synth-dose-response.csv", "assay", analysis="dose-response",
@@ -141,7 +141,7 @@ For the methods, see [Chromatograms and peaks](quantitation.md), [Plate-reader a
 
 ### Arrow and pandas
 
-`File.to_arrow()` returns a `pyarrow.Table` with the same columns and metadata as `openreadout export --to parquet`, without writing a file. Without arguments it returns the spectra of a mass-spectrometry file, else table 0, else trace 0:
+`File.to_arrow()` returns a `pyarrow.Table` with the same columns and metadata as `openreadout export --format parquet`, without writing a file. Without arguments it returns the spectra of a mass-spectrometry file, else table 0, else trace 0:
 
 ```python
 with openreadout.File("cell.abf") as f:
@@ -187,6 +187,8 @@ res = openreadout.batch("table", ["runs/"], sample_sheets=["samples.csv"],
 res.table          # pandas DataFrame: one row per file and parameter
 res.summary        # n, mean, sd, sem, median, min, max, cv_percent per condition
 ```
+
+`openreadout.summarize(table, by, ...)` gives the group statistics of a table that `batch(..., output=)` wrote earlier, like [`openreadout summarize`](../reference/commands/summarize.md).
 
 See [Many files: batch tables and sample sheets](batch.md).
 

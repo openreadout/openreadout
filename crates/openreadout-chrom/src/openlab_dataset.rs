@@ -1416,7 +1416,7 @@ impl Dataset for OpenLabDataset {
         Err(Error::unsupported(
             OPENLAB_ID,
             "image planes",
-            "OpenLab CDS injections hold chromatograms and instrument curves: use `openreadout analyze chromatogram --trace N`, `analyze peaks`, or `export --to csv`.",
+            "OpenLab CDS injections hold chromatograms and instrument curves: use `openreadout analyze chromatogram --trace N`, `analyze peaks`, or `export --format csv`.",
         ))
     }
 

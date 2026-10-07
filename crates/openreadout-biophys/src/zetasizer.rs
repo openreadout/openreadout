@@ -334,7 +334,7 @@ pub(crate) fn parse(bytes: &[u8], path: &Path) -> Result<SeriesFile> {
         return Err(Error::unsupported(
             FORMAT_ID,
             "a Header stream with an unknown identifier",
-            "report the file with `openreadout check FILE --report`",
+            "report the file with `openreadout report FILE`",
         ));
     }
     let mut streams: Vec<(u32, &openreadout_core::cfb::CfbEntry)> = cfb

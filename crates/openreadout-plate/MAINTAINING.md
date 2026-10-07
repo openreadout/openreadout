@@ -1,6 +1,6 @@
 # Maintaining `openreadout-plate`
 
-Microplate-reader exports (`plate`): the text, CSV and workbook files plate-reader software writes, plus SoftMax Pro binary documents (`.pda`, `.sda`) and Gen5 experiment files (`.xpt`); every plate read becomes one long-form table; `export --to asm` writes Allotrope Simple Model JSON. Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Notes: [docs/formats/plate-readers.md](../../docs/formats/plate-readers.md); provenance: [docs/provenance/plate-readers.md](../../docs/provenance/plate-readers.md) (allotropy's MIT-licensed test fixtures and expected outputs as ground truth; the ASM schema is not copied — its licence forbids modified copies).
+Microplate-reader exports (`plate`): the text, CSV and workbook files plate-reader software writes, plus SoftMax Pro binary documents (`.pda`, `.sda`) and Gen5 experiment files (`.xpt`); every plate read becomes one long-form table; `export --format asm` writes Allotrope Simple Model JSON. Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Notes: [docs/formats/plate-readers.md](../../docs/formats/plate-readers.md); provenance: [docs/provenance/plate-readers.md](../../docs/provenance/plate-readers.md) (allotropy's MIT-licensed test fixtures and expected outputs as ground truth; the ASM schema is not copied — its licence forbids modified copies).
 
 ## Decode pipeline
 
@@ -17,7 +17,7 @@ Microplate-reader exports (`plate`): the text, CSV and workbook files plate-read
 
 ## Debugging a new file
 
-- `openreadout check FILE --report` names the dialect, container and delimiter, software and read modes (the fingerprint); `openreadout info FILE --view full --json` → `vendor` shows the header lines as parsed.
+- `openreadout report FILE` names the dialect, container and delimiter, software and read modes (the fingerprint); `openreadout info FILE --view full --json` → `vendor` shows the header lines as parsed.
 - A new software version usually moves a header line or a matrix title: each dialect module's unit tests hold a minimal export of every layout seen (e.g. `gen5.rs` `headerless_with_procedure_and_unnamed_kinetic_read`, `tecan_csv.rs` `sparkcontrol_endpoint_list_and_kinetic_rows`, `softmax_pda.rs` `wrong_well_count_is_refused_and_cuts_never_panic`).
 - There are no integration tests in this crate: corpus exports (allotropy fixtures and public repositories) pin it, with oracles from `oracle/plate.py` and `oracle/plate_exports.py` (`uv run --group plate`); ASM output is validated by `oracle/asm_validate.py`.
 
@@ -43,7 +43,7 @@ Microplate-reader exports (`plate`): the text, CSV and workbook files plate-read
 
 | file | what it does (its module documentation) |
 | --- | --- |
-| [`src/asm.rs`](src/asm.rs) | Allotrope Simple Model (ASM) plate-reader JSON output (`export --to asm`) |
+| [`src/asm.rs`](src/asm.rs) | Allotrope Simple Model (ASM) plate-reader JSON output (`export --format asm`) |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`): the variant features of a plate-reader export (dialect, container and delimiter, software, read modes and types) and the feature values |
 | [`src/dataset.rs`](src/dataset.rs) | `Dataset` implementation: one long-form table per plate read, the vendor header, a listing, and integrity checks |
 | [`src/datetime.rs`](src/datetime.rs) | Dates, clock times and durations as plate-reader exports write them, to ISO-8601 |

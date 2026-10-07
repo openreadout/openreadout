@@ -395,7 +395,7 @@ impl Dataset for SessionDataset {
         Err(Error::unsupported(
             self.format,
             "image planes",
-            "A recording session holds sampled signals and event tables: use `openreadout trace` for signals and `openreadout export --to csv --table N` for tables.",
+            "A recording session holds sampled signals and event tables: use `openreadout trace` for signals and `openreadout export --format csv --table N` for tables.",
         ))
     }
 

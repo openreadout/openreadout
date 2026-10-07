@@ -8,7 +8,7 @@ use openreadout_core::{Error, Result};
 use crate::FORMAT_ID;
 
 /// Largest attachment payload we read into memory for interpretation (not for
-/// `export --attachment`).
+/// `extract`).
 pub const MAX_INTERPRETED_ATTACHMENT: u64 = 64 * 1024 * 1024;
 
 /// One `CZEVL` record.
@@ -93,7 +93,7 @@ pub fn parse_event_list(b: &[u8]) -> Result<Vec<EventRecord>> {
     Ok(out)
 }
 
-/// File extension for an attachment's content type (for `export --attachment`).
+/// File extension for an attachment's content type (for `extract`).
 pub fn extension_for(content_file_type: &str) -> &'static str {
     match content_file_type.to_ascii_uppercase().as_str() {
         "JPG" | "JPEG" => "jpg",

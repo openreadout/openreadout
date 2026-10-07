@@ -786,16 +786,16 @@ class File:
 
     # ----- mass spectra ------------------------------------------------------------------------
 
-    def spectra(
+    def scans(
         self,
         *,
         run: int = 0,
         ms_level: Optional[int] = None,
         polarity: Optional[str] = None,
         rt_range: Optional[Tuple[float, float]] = None,
-        precursor_mz: Optional[float] = None,
-        tol: Optional[float] = None,
-        ppm: Optional[float] = None,
+        precursor: Optional[float] = None,
+        precursor_tol: Optional[float] = None,
+        precursor_ppm: Optional[float] = None,
         charge: Optional[int] = None,
         activation: Optional[str] = None,
         scan_filter: Optional[str] = None,
@@ -803,7 +803,7 @@ class File:
         limit: Optional[int] = None,
     ) -> Dict[str, Any]:
         """Scan headers of a mass-spectrometry run, without decoding any peaks (``openreadout
-        spectra``; one spectrum's arrays: :meth:`read_spectrum`). ``info["spectra"]`` lists the
+        scans``; one spectrum's arrays: :meth:`read_spectrum`). ``info["spectra"]`` lists the
         runs.
 
         Every scan passing the filters is counted (``matched``, ``ms_level_counts``,
@@ -819,10 +819,10 @@ class File:
             ms_level: Only scans of this MS level (2 = MS/MS).
             polarity: ``"positive"`` or ``"negative"``.
             rt_range: Retention-time window ``(start, end)`` in minutes.
-            precursor_mz: Only MS/MS scans with a precursor within ``tol`` (m/z, default 0.01)
-                or ``ppm`` of this.
-            tol: Absolute precursor tolerance in m/z.
-            ppm: Relative precursor tolerance in ppm.
+            precursor: Only MS/MS scans with a precursor within ``precursor_tol`` (m/z,
+                default 0.01) or ``precursor_ppm`` of this m/z.
+            precursor_tol: Absolute precursor tolerance in m/z.
+            precursor_ppm: Relative precursor tolerance in ppm.
             charge: Only precursors of this charge state.
             activation: ``"HCD"``, ``"CID"``, ... (case-insensitive).
             scan_filter: Only scans whose filter string contains this text.
@@ -830,7 +830,7 @@ class File:
             limit: List at most this many (``0`` only counts).
 
         Returns:
-            The ``ScanList`` document; ``pandas.DataFrame(f.spectra()["scans"])`` makes a table.
+            The ``ScanList`` document; ``pandas.DataFrame(f.scans()["scans"])`` makes a table.
         """
         _check_nonnegative(run=run, offset=offset)
         if limit is not None:
@@ -839,9 +839,9 @@ class File:
         for key, val in (
             ("ms_level", ms_level),
             ("polarity", polarity.lower() if polarity else None),
-            ("precursor_mz", precursor_mz),
-            ("precursor_tol_mz", tol),
-            ("precursor_tol_ppm", ppm),
+            ("precursor_mz", precursor),
+            ("precursor_tol_mz", precursor_tol),
+            ("precursor_tol_ppm", precursor_ppm),
             ("charge", charge),
             ("activation", activation),
             ("filter_contains", scan_filter),
@@ -912,7 +912,7 @@ class File:
     ) -> pyarrow.Table:
         """A table, trace or mass-spectrometry run as a :class:`pyarrow.Table` (needs ``pyarrow``).
 
-        The columns and metadata are those of ``openreadout export --to parquet``:
+        The columns and metadata are those of ``openreadout export --format parquet``:
 
         - tables (FCS events, spike/event tables, plate reads, peak tables): one column per
           table column in its stored type; plate ``well`` columns are dictionaries of well names;

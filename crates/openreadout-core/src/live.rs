@@ -125,7 +125,7 @@ impl AcquisitionState {
     }
 }
 
-/// `acquisition` in `info`, `info --view structure`, `check` and `check --planes`: present only for
+/// `acquisition` in `info`, `info --view structure`, `check` and `planes`: present only for
 /// files that are not finished. See `book/src/guides/lab-shares.md`.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct Acquisition {
@@ -294,7 +294,7 @@ pub fn annotate_error(path: &Path, err: crate::Error) -> crate::Error {
     }
 }
 
-/// The complete planes of `ws` as a set (`check --planes` on a file still being written reads only
+/// The complete planes of `ws` as a set (`planes` on a file still being written reads only
 /// these).
 pub fn complete_set(ws: &WriteState) -> std::collections::HashSet<(u32, PlaneIndex)> {
     ws.complete.iter().copied().collect()

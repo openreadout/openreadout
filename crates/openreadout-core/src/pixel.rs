@@ -188,7 +188,7 @@ pub(crate) fn plane_too_large(
             bytes as f64 / f64::from(1u32 << 30),
             MAX_PLANE_BYTES >> 30
         ),
-        "Read a downsampled pyramid level instead (`info` lists `pyramid_levels`; `check --planes --level N`, `preview`), or pick another image with `--image`.",
+        "Read a downsampled pyramid level instead (`info` lists `pyramid_levels`; `planes --level N`, `preview`), or pick another image with `--image`.",
     )
 }
 

@@ -35,7 +35,7 @@ fn not_images() -> Error {
     Error::unsupported(
         FORMAT_ID,
         "image planes",
-        "Blackrock files hold signals (NSx) or events (NEV), not images: use `openreadout trace` or `openreadout export --to csv`.",
+        "Blackrock files hold signals (NSx) or events (NEV), not images: use `openreadout trace` or `openreadout export --format csv`.",
     )
 }
 

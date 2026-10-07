@@ -1,6 +1,6 @@
 # export
 
-`export` converts a file to an open format, or writes one embedded attachment to a new file.
+`export` converts a file to an open format. To write one embedded attachment as it is stored, see [`extract`](extract.md).
 
 ```text
 openreadout export [OPTIONS] <FILE>...
@@ -12,7 +12,7 @@ Each export is written under a temporary name, read back and compared with the s
 
 ### Target and output
 
-- `--to FORMAT`: target format: `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `asm`, `parquet`, `arrow`, `nwb`, `jcamp` or `rdml`. The default depends on the file; see [Export formats](#export-formats).
+- `--format FORMAT`: target format: `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `asm`, `parquet`, `arrow`, `nwb`, `jcamp` or `rdml`. The default depends on the file; see [Export formats](#export-formats).
 - `-o`, `--output PATH`: output path. Default: the input name with the target's extension. With several inputs, a directory.
 - `--overwrite`: replace an existing output file or OME-Zarr store.
 - `--compression MODE`: images `none`, `deflate` (default) or `lzw`; Parquet `none`, `snappy` (default) or `lz4`; Arrow `none` (default) or `lz4`.
@@ -29,7 +29,6 @@ Each export is written under a temporary name, read back and compared with the s
 - `--spectra`: Parquet and Arrow: export the mass spectra of `--run` (one row per point, plus a per-scan summary file).
 - `--run N`: mzML, Parquet, Arrow: run index. Default 0.
 - `--labels`: CSV: add a second header line with column labels (FCS `$PnS`).
-- `--attachment NAME`: write this embedded attachment (thumbnail, label image, time stamps) instead. Use its name from `info --view structure`, or `#<index>`.
 
 ### Images: pyramids, levels and regions
 
@@ -63,16 +62,16 @@ wrote doctor.ome.tiff (1 images, 2 planes, 2207 bytes, verified=true)
 ```
 
 ```bash
-openreadout export slide.czi --to ome-zarr                       # pyramid kept
+openreadout export slide.czi --format ome-zarr                       # pyramid kept
 openreadout export slide.svs --region 20000,15000,4096,4096 -o roi.ome.tiff
-openreadout export sample.fcs --to parquet
-openreadout export run.raw --to mzml --centroid
+openreadout export sample.fcs --format parquet
+openreadout export run.raw --format mzml --centroid
 openreadout export -r --skip-unknown raw/ -o ome/                # keeps the folder layout
 ```
 
 ## Export formats
 
-| `--to` | for | default output |
+| `--format` | for | default output |
 | --- | --- | --- |
 | `ome-tiff` | images (default) | `<stem>.ome.tiff` |
 | `ome-zarr` | images, plates | `<stem>.ome.zarr` |
@@ -94,18 +93,10 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 - **ASM** is Allotrope Simple Model plate-reader JSON, one document per plate and well.
 - **RDML** is RDML 1.3 with the plate setup, Cq values, amplification curves and melt data.
 
-A combination that does not fit, such as an image file `--to csv`, exits 6.
-
-## Attachments
-
-Some formats embed whole files. A CZI can carry a `Thumbnail` JPEG, `Label` and `SlidePreview` images, and `TimeStamps`. `info --view structure` lists them with the exact `export --attachment` command. The output defaults to `<input stem>.<name>.<ext>` next to the input.
-
-```bash
-openreadout export slide.czi --attachment Label
-```
+A combination that does not fit, such as an image file `--format csv`, exits 6.
 
 ## JSON
 
-[`export`](../json/export.md), [`export --attachment`](../json/export-attachment.md).
+[`export`](../json/export.md).
 
 Run `openreadout export --help` for the full help of your installed version.

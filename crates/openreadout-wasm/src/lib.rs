@@ -18,7 +18,7 @@
 //!
 //! [`Files`] holds several files (a dropped folder) so multi-file data sets resolve their
 //! siblings. Every operation returns the `--json` envelope of the CLI command of the same name
-//! as a string: `{"ok":true,"schema_version":"1","tool":{…},"data":{…}}` or `{"ok":false,…,
+//! as a string: `{"ok":true,"schema_version":"2","tool":{…},"data":{…}}` or `{"ok":false,…,
 //! "error":{code,message,hint,exit_code}}`.
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]
@@ -152,7 +152,7 @@ fn envelope<T: Serialize>(r: Result<T, Error>) -> String {
     };
     s.unwrap_or_else(|e| {
         format!(
-            r#"{{"ok":false,"schema_version":"1","error":{{"code":"error","message":"JSON serialization failed: {e}","exit_code":1}}}}"#
+            r#"{{"ok":false,"schema_version":"2","error":{{"code":"error","message":"JSON serialization failed: {e}","exit_code":1}}}}"#
         )
     })
 }
@@ -696,55 +696,63 @@ impl InstrumentFile {
         envelope(r)
     }
 
-    /// `spectra --json`. Without `index` and `scan`: the scan headers of run `run`, without
-    /// decoding peaks, filtered by `ms_level`, `polarity`, `rt_range` (`[start, end]` minutes),
-    /// `precursor_mz` (with `ppm`), `charge`, `activation` and `scan_filter`, every match
-    /// counted and `limit` (default 100) listed from the `offset`-th. With `index` (zero-based)
-    /// or `scan` (the instrument's scan number): that spectrum (the instrument's centroid list
-    /// with `centroid`), its arrays cut to `max_points` points (default 100000). `options` is a
-    /// JSON object with those keys and `run` (default 0).
-    pub fn spectra(&mut self, options: Option<String>) -> String {
-        let o = match parse_options::<SpectraOptions>("spectra", options.as_deref()) {
+    /// `scans --json`: the scan headers of run `run`, without decoding peaks, filtered by
+    /// `ms_level`, `polarity`, `rt_range` (`[start, end]` minutes), `precursor` (with
+    /// `precursor_tol` or `precursor_ppm`), `charge`, `activation` and `scan_filter`, every match
+    /// counted and `limit` (default 100) listed from the `offset`-th. `options` is a JSON object
+    /// with those keys and `run` (default 0).
+    pub fn scans(&mut self, options: Option<String>) -> String {
+        let o = match parse_options::<ScansOptions>("scans", options.as_deref()) {
+            Ok(o) => o,
+            Err(e) => return envelope::<()>(Err(e)),
+        };
+        let path = self.name();
+        let filter = openreadout_core::ScanFilter {
+            ms_level: o.ms_level,
+            polarity: o.polarity.map(|p| p.to_ascii_lowercase()),
+            rt_min_s: o.rt_range.map(|r| r[0] * 60.0),
+            rt_max_s: o.rt_range.map(|r| r[1] * 60.0),
+            precursor_mz: o.precursor,
+            precursor_tol_mz: o.precursor_tol,
+            precursor_tol_ppm: o.precursor_ppm,
+            charge: o.charge,
+            activation: o.activation,
+            filter_contains: o.scan_filter,
+        };
+        envelope(self.with_dataset(|ds, format| {
+            openreadout_core::scans::scan_list(
+                ds,
+                &path,
+                format,
+                o.run,
+                &filter,
+                o.offset,
+                o.limit.unwrap_or(100),
+            )
+        }))
+    }
+
+    /// `spectrum --json`: one spectrum of run `run`, by `spectrum` (the zero-based index) or
+    /// `scan` (the instrument's scan number), the instrument's centroid list with `centroid`,
+    /// its arrays cut to `max_points` points (default 100000). `options` is a JSON object with
+    /// those keys.
+    pub fn spectrum(&mut self, options: Option<String>) -> String {
+        let o = match parse_options::<SpectrumOptions>("spectrum", options.as_deref()) {
             Ok(o) => o,
             Err(e) => return envelope::<()>(Err(e)),
         };
         let path = self.name();
         let run = o.run;
-        if o.index.is_none() && o.scan.is_none() {
-            let filter = openreadout_core::ScanFilter {
-                ms_level: o.ms_level,
-                polarity: o.polarity.map(|p| p.to_ascii_lowercase()),
-                rt_min_s: o.rt_range.map(|r| r[0] * 60.0),
-                rt_max_s: o.rt_range.map(|r| r[1] * 60.0),
-                precursor_mz: o.precursor_mz,
-                precursor_tol_mz: None,
-                precursor_tol_ppm: o.ppm,
-                charge: o.charge,
-                activation: o.activation,
-                filter_contains: o.scan_filter,
-            };
-            return envelope(self.with_dataset(|ds, format| {
-                openreadout_core::scans::scan_list(
-                    ds,
-                    &path,
-                    format,
-                    run,
-                    &filter,
-                    o.offset,
-                    o.limit.unwrap_or(100),
-                )
-            }));
-        }
         let view = if o.centroid {
             SpectrumView::Centroid
         } else {
             SpectrumView::Primary
         };
         let r = self.with_dataset(|ds, format| {
-            let mut sp = match (o.index, o.scan) {
+            let mut sp = match (o.spectrum, o.scan) {
                 (Some(i), None) => ds.read_spectrum_view(run, i, view)?,
                 (None, Some(n)) => openreadout_core::reader::spectrum_by_scan(ds, run, n, view)?,
-                _ => return Err(Error::Usage("give at most one of index and scan".into())),
+                _ => return Err(Error::Usage("give one of spectrum and scan".into())),
             };
             let point_count = sp.mz.len() as u64;
             let keep = usize::try_from(o.max_points.unwrap_or(100_000)).unwrap_or(usize::MAX);
@@ -784,25 +792,33 @@ impl Default for InfoOptions {
     }
 }
 
-/// `options` of [`InstrumentFile::spectra`].
+/// `options` of [`InstrumentFile::scans`].
 #[derive(Default, Deserialize)]
 #[serde(default, deny_unknown_fields)]
-struct SpectraOptions {
+struct ScansOptions {
     run: u32,
-    index: Option<u64>,
-    scan: Option<u64>,
-    centroid: bool,
-    max_points: Option<u64>,
     ms_level: Option<u32>,
     polarity: Option<String>,
     rt_range: Option<[f64; 2]>,
-    precursor_mz: Option<f64>,
-    ppm: Option<f64>,
+    precursor: Option<f64>,
+    precursor_tol: Option<f64>,
+    precursor_ppm: Option<f64>,
     charge: Option<i32>,
     activation: Option<String>,
     scan_filter: Option<String>,
     offset: u64,
     limit: Option<u64>,
+}
+
+/// `options` of [`InstrumentFile::spectrum`].
+#[derive(Default, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+struct SpectrumOptions {
+    run: u32,
+    spectrum: Option<u64>,
+    scan: Option<u64>,
+    centroid: bool,
+    max_points: Option<u64>,
 }
 
 /// A JSON object of options (absent or blank: the defaults).

@@ -39,9 +39,12 @@ pub struct SidecarOptions {
     pub vendor: bool,
     /// The provenance map is included.
     pub provenance: bool,
-    /// Every per-frame record is included (`--all-frames`).
-    pub all_frames: bool,
+    /// Per-frame records per image (`--max-frames`; -1 = all).
+    pub max_frames: i64,
 }
+
+/// Per-frame records `info --view full` embeds per image when `--max-frames` is not given.
+pub const DEFAULT_MAX_FRAMES: i64 = openreadout_core::reader::DEFAULT_FRAME_RECORDS as i64;
 
 /// Sidecar bookkeeping: what it was made from and when.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
