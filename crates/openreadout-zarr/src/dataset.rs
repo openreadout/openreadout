@@ -1221,6 +1221,14 @@ impl ZarrDataset {
             let (nc, nz, nt) = (im.info.size_c, im.info.size_z, im.info.size_t);
             expected += u64::from(nc) * u64::from(nz) * u64::from(nt);
             if stored.iter().all(|s| *s) {
+                // A finished image (an earlier well of a plate): all of its planes are complete.
+                for t in 0..nt {
+                    for c in 0..nc {
+                        for z in 0..nz {
+                            ws.complete.push((image as u32, PlaneIndex { c, z, t }));
+                        }
+                    }
+                }
                 continue;
             }
             // An image with no chunk yet has not started (a plate acquired well by well).

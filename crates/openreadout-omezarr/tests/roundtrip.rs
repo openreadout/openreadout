@@ -67,6 +67,8 @@ impl Dataset for Fake {
                         PixelType::Uint8 => data.push((v % 256) as u8),
                         PixelType::Uint16 => data.extend_from_slice(&(v as u16).to_le_bytes()),
                         PixelType::Float => data.extend_from_slice(&(v as f32 * 0.5).to_le_bytes()),
+                        // uint32 images are blank, like an empty label image
+                        PixelType::Uint32 => data.extend_from_slice(&0u32.to_le_bytes()),
                         _ => unreachable!(),
                     }
                 }
@@ -397,4 +399,92 @@ fn exports_read_back_hash_identical_through_the_ome_zarr_reader() {
             .starts_with("0.5 (NGFF, Zarr v3")
     );
     assert_eq!(info.images[0].channels[1].name.as_deref(), Some("ch1"));
+}
+
+#[test]
+fn a_blank_image_does_not_make_the_export_look_unfinished() {
+    use openreadout_core::reader::FormatReader;
+    // Found by the October 2026 deep pass: an OME-Zarr label image with no labels exported
+    // without chunk files, and the reader took the fresh store for an acquisition in
+    // progress, so `planes` returned nothing for five minutes.
+    let dir = tempfile::tempdir().unwrap();
+    let blank = ImageInfo::new(1, 40, 30, PixelType::Uint32).finish();
+    let mut ds = Fake {
+        images: vec![gray(0, 64, 48, 1, 1, 1), blank],
+    };
+    let out = dir.path().join("blank.ome.zarr");
+    let opts = {
+        let mut zarr_export_options = ZarrExportOptions::default();
+        zarr_export_options.levels = Some(1);
+        zarr_export_options
+    };
+    export_ome_zarr(&mut ds, Path::new("fake.bin"), &out, &opts).unwrap();
+    assert!(
+        out.join("1").join("0").join("c").is_dir(),
+        "blank chunks are stored"
+    );
+    let back = openreadout_zarr::ZarrReader.open(&out).unwrap();
+    assert!(
+        back.write_state().is_none(),
+        "a finished export is not growing"
+    );
+    assert_reads_back(&out, &mut ds, 1);
+}
+
+#[test]
+fn a_store_growing_image_by_image_keeps_its_finished_images() {
+    use openreadout_core::reader::FormatReader;
+    // A plate written well by well: the first image is finished, the second has no chunk
+    // files yet. The finished image's planes are complete. Before the October 2026 deep
+    // pass only planes of unfinished images were counted, so here none were.
+    let dir = tempfile::tempdir().unwrap();
+    let mut ds = Fake {
+        images: vec![gray(0, 64, 48, 2, 1, 1), gray(1, 64, 48, 2, 1, 1)],
+    };
+    let out = dir.path().join("growing.ome.zarr");
+    let opts = {
+        let mut zarr_export_options = ZarrExportOptions::default();
+        zarr_export_options.levels = Some(1);
+        zarr_export_options
+    };
+    export_ome_zarr(&mut ds, Path::new("fake.bin"), &out, &opts).unwrap();
+    std::fs::remove_dir_all(out.join("1").join("0").join("c")).unwrap();
+    let back = openreadout_zarr::ZarrReader.open(&out).unwrap();
+    let ws = back
+        .write_state()
+        .expect("the second image is not written yet");
+    let mut complete: Vec<(u32, u32, u32, u32)> = ws
+        .complete
+        .iter()
+        .map(|(i, p)| (*i, p.c, p.z, p.t))
+        .collect();
+    complete.sort_unstable();
+    assert_eq!(complete, vec![(0, 0, 0, 0), (0, 1, 0, 0)]);
+    assert_eq!(ws.expected_planes, Some(4));
+}
+
+#[test]
+fn a_file_with_no_images_is_refused_with_a_reason() {
+    // Found by the October 2026 deep pass on metadata-only VSI files: both image exports
+    // said "selection matches no planes" (exit 2) with a hint about `--select`.
+    let dir = tempfile::tempdir().unwrap();
+    let mut ds = Fake { images: vec![] };
+    let e = export_ome_zarr(
+        &mut ds,
+        Path::new("fake.bin"),
+        &dir.path().join("none.ome.zarr"),
+        &ZarrExportOptions::default(),
+    )
+    .unwrap_err();
+    assert_eq!(e.exit_code(), 6, "{e}");
+    assert!(e.to_string().contains("no images"), "{e}");
+    let e = openreadout_ometiff::export_ome_tiff(
+        &mut ds,
+        Path::new("fake.bin"),
+        &dir.path().join("none.ome.tiff"),
+        &openreadout_ometiff::ExportOptions::default(),
+    )
+    .unwrap_err();
+    assert_eq!(e.exit_code(), 6, "{e}");
+    assert!(e.hint().is_some_and(|h| h.contains("info FILE")), "{e}");
 }
