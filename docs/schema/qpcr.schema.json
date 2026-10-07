@@ -348,7 +348,7 @@
           "format": "double"
         },
         "computed_cq": {
-          "description": "Our threshold Cq (with `compute_cq`).",
+          "description": "Our Cq (with `compute_cq`).",
           "type": [
             "number",
             "null"
@@ -356,7 +356,7 @@
           "format": "double"
         },
         "computed_threshold": {
-          "description": "Threshold our Cq used.",
+          "description": "Threshold our Cq used (none with `second-derivative`).",
           "type": [
             "number",
             "null"
@@ -364,7 +364,7 @@
           "format": "double"
         },
         "computed_cq_status": {
-          "description": "`determined` or `undetermined` for our Cq (with `compute_cq`; a curve that never crosses\nthe threshold, or crosses it only at the last read, is undetermined).",
+          "description": "`determined` or `undetermined` for our Cq (with `compute_cq`; a curve that never crosses\nthe threshold, or crosses it only at the last read, is undetermined, and so is one that\nrises too little for `second-derivative`). Absent when the method could not analyse the\ncurve.",
           "type": [
             "string",
             "null"
@@ -490,11 +490,15 @@
       ]
     },
     "CqComparison": {
-      "description": "Our threshold Cq against the vendor's, over every curve with a vendor result.",
+      "description": "Our Cq against the vendor's, over every curve with a vendor result.",
       "type": "object",
       "properties": {
+        "cq_method": {
+          "description": "The method used.",
+          "$ref": "#/$defs/CqMethod"
+        },
         "method": {
-          "description": "How our Cq was computed.",
+          "description": "How our Cq was computed, in words.",
           "type": "string"
         },
         "curves": {
@@ -591,6 +595,7 @@
         }
       },
       "required": [
+        "cq_method",
         "method",
         "curves",
         "both_cq",
@@ -598,6 +603,26 @@
         "only_vendor",
         "only_ours",
         "vendor_threshold_used"
+      ]
+    },
+    "CqMethod": {
+      "description": "How our Cq is computed (none of the methods reads the vendor's Cq or call).",
+      "oneOf": [
+        {
+          "description": "Where the baseline-corrected curve crosses a threshold.",
+          "type": "string",
+          "const": "threshold"
+        },
+        {
+          "description": "A threshold crossing with only the threshold and baseline the file stores.",
+          "type": "string",
+          "const": "stored-threshold"
+        },
+        {
+          "description": "The maximum of the second derivative, as the LightCycler 480 places its Cp.",
+          "type": "string",
+          "const": "second-derivative"
+        }
       ]
     },
     "RelativeQuantity": {
