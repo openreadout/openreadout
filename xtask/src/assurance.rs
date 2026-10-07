@@ -375,7 +375,11 @@ fn observe(
     let result = joined.and_then(|j| j.oracle.as_ref());
     let stored = joined.and_then(|j| j.stored.as_ref());
     let (stored_result, stored_result_compared, stored_result_features) = match stored {
-        Some(r) => (Some(r.status.clone()), r.compared.clone(), r.features.clone()),
+        Some(r) => (
+            Some(r.status.clone()),
+            r.compared.clone(),
+            r.features.clone(),
+        ),
         None => (None, Vec::new(), None),
     };
     let (oracle, independent, compared, fields) = match result {
@@ -1283,14 +1287,21 @@ mod tests {
         );
         // Naming the integrated signals' features confirms those and no other trace feature.
         let mut g = f.clone();
-        g.features.push(("layout".into(), "10 Hz signal in bar".into(), vec!["traces".into()]));
+        g.features.push((
+            "layout".into(),
+            "10 Hz signal in bar".into(),
+            vec!["traces".into()],
+        ));
         g.stored_result_features = Some(vec![("sample_layout".into(), "f64".into())]);
         let ev = Evidence {
             files: vec![g],
             ..Evidence::default()
         };
         let per = by_format(&ev);
-        assert_eq!(per["fmt"].rows[&("sample_layout".into(), "f64".into())].files, 1);
+        assert_eq!(
+            per["fmt"].rows[&("sample_layout".into(), "f64".into())].files,
+            1
+        );
         assert_eq!(
             per["fmt"].rows[&("layout".into(), "10 Hz signal in bar".into())].files,
             0

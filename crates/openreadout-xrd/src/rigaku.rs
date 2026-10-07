@@ -483,7 +483,11 @@ pub(crate) fn parse_rasx(zip: &ZipIndex) -> Result<SeriesFile> {
     // `Data2` before `Data10`: by the folder's number, then the profile's, then the name
     profiles.sort_by_key(|n| {
         let (dir, file) = n.rsplit_once('/').unwrap_or(("", n.as_str()));
-        (trailing_number(dir), trailing_number(file.trim_end_matches(".txt")), n.clone())
+        (
+            trailing_number(dir),
+            trailing_number(file.trim_end_matches(".txt")),
+            n.clone(),
+        )
     });
     let mut scans = Vec::new();
     let mut headers = Vec::new();
@@ -575,10 +579,17 @@ mod tests {
         assert_eq!(trailing_number("Profile0"), 0);
         assert_eq!(trailing_number("Data"), u64::MAX);
         assert_eq!(trailing_number(""), u64::MAX);
-        let mut v = vec!["Data10/Profile10.txt", "Data2/Profile2.txt", "Data1/Profile1.txt"];
+        let mut v = vec![
+            "Data10/Profile10.txt",
+            "Data2/Profile2.txt",
+            "Data1/Profile1.txt",
+        ];
         v.sort_by_key(|n| {
             let (dir, file) = n.rsplit_once('/').unwrap_or(("", n));
-            (trailing_number(dir), trailing_number(file.trim_end_matches(".txt")))
+            (
+                trailing_number(dir),
+                trailing_number(file.trim_end_matches(".txt")),
+            )
         });
         assert_eq!(v[2], "Data10/Profile10.txt");
     }

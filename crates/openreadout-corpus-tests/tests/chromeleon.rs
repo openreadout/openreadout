@@ -17,7 +17,11 @@
 //! features (codec, layout) of the signals Chromeleon integrated, so a pressure or flow signal
 //! in the same archive is not confirmed by peaks found on a detector signal.
 #![cfg(feature = "corpus")]
-#![allow(clippy::float_cmp, clippy::cast_possible_truncation, clippy::cast_sign_loss)]
+#![allow(
+    clippy::float_cmp,
+    clippy::cast_possible_truncation,
+    clippy::cast_sign_loss
+)]
 
 use std::path::{Path, PathBuf};
 

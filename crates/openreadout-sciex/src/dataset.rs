@@ -25,8 +25,8 @@ use crate::layout::{
     SCAN_TYPE_TOF_PRODUCT, STREAM_PREAMBLE, decode_grid_scan, decode_tdc, dependent_charges,
     expand_zero_runs, index_trailing, log_fields, parse_device_channels, parse_device_data,
     parse_experiment_header, parse_index, parse_mass_ranges, parse_smrm_window_s, parse_windows,
-    precursor_slot,
-    sample_strings, tdc_step, tof_calibration, tof_default_calibration, tof_mz, utf16_runs,
+    precursor_slot, sample_strings, tdc_step, tof_calibration, tof_default_calibration, tof_mz,
+    utf16_runs,
 };
 use crate::{FORMAT_ID, SciexWiffReader};
 
@@ -400,7 +400,8 @@ impl SciexDataset {
             )
             .map(|b| parse_windows(&b))
             .filter(|w| !w.is_empty());
-            let windows_from_method = windows.is_none() && !derived_windows(&experiments).is_empty();
+            let windows_from_method =
+                windows.is_none() && !derived_windows(&experiments).is_empty();
             let windows = windows.unwrap_or_else(|| derived_windows(&experiments));
             let log = read_stream(&cfb, &mut f, &path, &format!("{dir}/Log"))
                 .map(|b| utf16_runs(&b, 2).join("\n"));

@@ -62,7 +62,11 @@ fn observe(info: &FileInfo) -> Observations {
         // scheduled MRM whose windows are the method's expected times ± the detection window,
         // not windows the sample stores
         if a::extra_str(&s.extra, "scheduled_windows") == Some("from the method") {
-            o.feature(K::Layout, "scheduled MRM, method windows", &[Scope::Spectra]);
+            o.feature(
+                K::Layout,
+                "scheduled MRM, method windows",
+                &[Scope::Spectra],
+            );
         }
         if let Some(st) = a::extra_str(&s.extra, "stored_spectra") {
             o.feature(K::Acquisition, format!("stored {st}"), &[Scope::Spectra]);

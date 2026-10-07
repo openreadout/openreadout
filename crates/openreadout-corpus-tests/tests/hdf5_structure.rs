@@ -114,7 +114,10 @@ fn listings_match_h5py() {
                     }
                 }
             }
-            let ours = e.details["attributes"].as_object().cloned().unwrap_or_default();
+            let ours = e.details["attributes"]
+                .as_object()
+                .cloned()
+                .unwrap_or_default();
             let theirs = x["attributes"].as_object().cloned().unwrap_or_default();
             let mut a: Vec<&String> = ours.keys().collect();
             let mut b: Vec<&String> = theirs.keys().collect();

@@ -194,8 +194,7 @@ pub fn parse_arw(text: &str) -> std::result::Result<ArwExport, ArwError> {
         .first()
         .and_then(|l| l.split('\t').nth(1))
         .is_some_and(|v| unquote(v).is_none());
-    if (header.len() > 2 || first_value_unquoted)
-        && header.iter().all(|l| field_line(l).is_some())
+    if (header.len() > 2 || first_value_unquoted) && header.iter().all(|l| field_line(l).is_some())
     {
         let mut out = ArwExport {
             fields: header.iter().filter_map(|l| field_line(l)).collect(),
