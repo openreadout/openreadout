@@ -579,7 +579,7 @@ mod tests {
         assert_eq!(trailing_number("Profile0"), 0);
         assert_eq!(trailing_number("Data"), u64::MAX);
         assert_eq!(trailing_number(""), u64::MAX);
-        let mut v = vec![
+        let mut v = [
             "Data10/Profile10.txt",
             "Data2/Profile2.txt",
             "Data1/Profile1.txt",
