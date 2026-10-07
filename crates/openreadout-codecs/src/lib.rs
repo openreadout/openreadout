@@ -23,6 +23,8 @@
 //! | `deflate` | [`zlib_decode`] |
 //! | `lz4` | [`lz4_block_decode`], [`lz4_sized_decode`], [`hdf5_lz4_decode`] and LZ4 inside Blosc |
 //!
+//! [`chunked_decode`] (CZI chunked compression) uses the `zstd` and `lz4` features.
+//!
 //! [`unshuffle_hilo`], [`packbits_decode`], [`lzf_decode`], [`blosc_decode`], [`blosclz_decode`] and
 //! [`lzma2_decode`] (raw LZMA2 chunks) need no feature.
 //!
@@ -43,8 +45,11 @@
 #![warn(missing_docs)]
 
 mod blosc;
+mod chunked;
 #[cfg(feature = "jpeg2000")]
 mod j2k;
+#[cfg(feature = "jpeg")]
+mod jpeg12;
 #[cfg(feature = "jpegxl")]
 mod jxl;
 #[cfg(feature = "lerc")]
@@ -57,6 +62,7 @@ pub use blosc::{
     BloscCompressor, BloscHeader, blosc_decode, blosc_header, blosclz_decode, hdf5_lz4_decode,
     lz4_block_decode, lz4_sized_decode, snappy_decode,
 };
+pub use chunked::chunked_decode;
 pub use lzma::lzma2_decode;
 
 /// Codec failure.
@@ -358,9 +364,11 @@ impl std::io::Write for LimitedWriter {
     }
 }
 
-/// Decode a JPEG stream (ITU-T T.81): baseline and progressive 8-bit, lossless (SOF3) up to 16 bit.
-/// Returns gray (`channels == 1`) or R,G,B (`channels == 3`) samples; 16-bit samples little-endian.
-/// 12-bit DCT streams and CMYK are rejected with a decode error.
+/// Decode a JPEG stream (ITU-T T.81): baseline and progressive 8-bit, sequential 12-bit
+/// (extended process, Huffman coding, no chroma subsampling), lossless (SOF3) up to 16 bit.
+/// Returns gray (`channels == 1`) or R,G,B (`channels == 3`) samples; samples above 8 bits
+/// come back as little-endian u16. Progressive or subsampled 12-bit streams and CMYK are
+/// rejected with an error.
 pub fn jpeg_decode(data: &[u8]) -> Result<Raster> {
     jpeg_decode_with(data, None, MAX_UNSIZED_OUTPUT)
 }
@@ -377,6 +385,11 @@ pub fn jpeg_decode_limited(data: &[u8], max_bytes: usize) -> Result<Raster> {
 fn jpeg_decode_with(data: &[u8], color: Option<JpegColor>, max_bytes: usize) -> Result<Raster> {
     #[cfg(feature = "jpeg")]
     {
+        // jpeg-decoder stops at 8-bit DCT samples; 12-bit sequential streams have their own
+        // decoder (`jpeg12`).
+        if jpeg12::frame_precision(data) == Some(12) {
+            return jpeg12::decode(data, color, max_bytes);
+        }
         let mut dec = jpeg_decoder::Decoder::new(data);
         // A frame header can declare 65535 x 65535 x 4 samples; cap what the decoder allocates.
         dec.set_max_decoding_buffer_size(MAX_UNSIZED_OUTPUT);
@@ -671,6 +684,11 @@ pub struct JpegMarkers {
     pub component_ids: Vec<u8>,
     /// Horizontal and vertical sampling factors per component (1 = full resolution).
     pub sampling: Vec<(u8, u8)>,
+    /// The coding process of the frame: the low nibble of its `SOF` marker (0 baseline,
+    /// 1 extended sequential, 2 progressive, 3 lossless, 9 and up arithmetic coding).
+    pub process: u8,
+    /// Sample precision of the frame in bits (8 or 12 for DCT, 2 to 16 for lossless).
+    pub precision: u8,
 }
 
 impl JpegMarkers {
@@ -744,6 +762,8 @@ pub fn jpeg_markers(data: &[u8], tables: Option<&[u8]>) -> Result<JpegMarkers> {
                     m.adobe_transform = Some(seg[11]);
                 }
                 0xC0..=0xCF if !matches!(mk, 0xC4 | 0xC8 | 0xCC) => {
+                    m.process = mk & 0x0F;
+                    m.precision = seg.first().copied().unwrap_or(0);
                     if let Some(&n) = seg.get(5) {
                         let comps = seg.get(6..6 + 3 * usize::from(n)).unwrap_or_default();
                         m.component_ids = comps.as_chunks::<3>().0.iter().map(|c| c[0]).collect();

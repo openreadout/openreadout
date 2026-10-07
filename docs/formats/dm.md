@@ -11,7 +11,7 @@ A DM file is a short header followed by a **tree of tags**: *groups* (directorie
 | bytes (DM3 / DM4) | our field | content |
 | --- | --- | --- |
 | 0–3 | `version` | 3 or 4, big-endian |
-| 4–7 / 4–11 | `root_length` | bytes of the root tag group, big-endian (file length − `header_len` − 8 in every corpus file) |
+| 4–7 / 4–11 | `root_length` | bytes of the root tag group, big-endian: file length − `header_len` − 8 in 59 of the 89 development files, file length − `header_len` − 4 in the other 30 (rsciio's and Nion's test files, `zenodo13913066-*`, `ncem-dm-08-carbon-dm3`; DM3 and DM4 alike) |
 | 8–11 / 12–15 | `little_endian` | 1 = tag values little-endian, 0 = big-endian |
 | – | `header_len` | 12 (DM3) / 16 (DM4): where the root group starts |
 
@@ -105,7 +105,7 @@ A `.dm5` file is HDF5 (the extension plus an HDF5 signature is a definite detect
 
 | code | severity | meaning |
 | --- | --- | --- |
-| `truncated` | error | root length larger than the file, or a pixel array runs past the end (exit 4) |
+| `truncated` | error | root length larger than file length − header − 4, or a pixel array runs past the end (exit 4) |
 | `tag_directory` | error | the tag tree cannot be parsed to the end |
 | `missing_data` | error | an `ImageList` entry has no `Data` array |
 | `dimension_mismatch` | error | `Dimensions` × bytes per pixel ≠ `Data` size |

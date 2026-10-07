@@ -192,7 +192,7 @@ impl FormatReader for TiffReader {
                 "EER (Falcon electron-event movies): frames are decoded to counts on the sensor grid; the sub-pixel (super-resolution) positions of events are not used, the gain reference is not applied, and the TIFF Orientation is reported, not applied".into(),
                 "Planes larger than 4 GiB (whole-slide level 0) are read by region (`--region`), not whole; NDPI level 0 is read by its JPEG restart intervals (baseline JPEG only)".into(),
                 "NDPI files larger than 4 GiB (offset high bytes in tag 65324) and LSM files larger than 4 GiB (wrapped strip offsets) are not supported".into(),
-                "OME Modulo annotations (FLIM/lambda sub-dimensions along C/Z/T) are not expanded; the OME sizes are reported as stored".into(),
+                "OME Modulo annotations (FLIM/lambda/angle sub-dimensions along C/Z/T) are reported in images[].extra.modulo with the sub-dimension's size and labels; planes keep the stored C/Z/T indices (the sub-dimension varies fastest within its parent axis)".into(),
                 "Micro-Manager multi-file datasets without OME-XML and other TIFF dialects fall back to plain-TIFF behaviour (pages as Z)".into(),
                 "MetaMorph STK: only uncompressed stacks; `.nd` series: file names are built from the .nd keys (`_w<i><name>_s<j>_t<k>`), stage positions become separate images, no time increment is derived from the member files".into(),
                 "Nikon NIS-Elements TIFF exports: files are grouped by the `xy`/`c` tokens of their names (validated on one public export; `t`/`z` tokens inferred); the LV and XML metadata blocks (objective, channel names, text information) are not decoded; the pixel size tag's meaning is inferred".into(),

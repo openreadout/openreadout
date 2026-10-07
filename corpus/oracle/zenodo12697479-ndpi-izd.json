@@ -1,0 +1,50 @@
+{
+ "id": "zenodo12697479-ndpi-izd",
+ "file": "zenodo12697479-ndpi-izd.ndpi",
+ "size": 82146156,
+ "sha256": "e58ced9198b6bc59f101599774dad78c70b1b8fd11751d1ea0a2c79fe7a2c665",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ndpi",
+ "flags": [
+  "ndpi"
+ ],
+ "page_count": 8,
+ "series_count": 3,
+ "images": [
+  {
+   "index": 0,
+   "name": "ID2",
+   "kind": "ndpi",
+   "axes": "YXS",
+   "shape": [
+    16896,
+    26880,
+    3
+   ],
+   "size_x": 26880,
+   "size_y": 16896,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 6,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.22075542506457094,
+    "y": 0.22075542506457094
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d1930d9033fcbf7aa084f68f41aaeb0c",
+     "mean": 207.22202066528848
+    }
+   ]
+  }
+ ]
+}

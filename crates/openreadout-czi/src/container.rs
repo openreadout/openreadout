@@ -169,7 +169,12 @@ pub enum CompressionId {
     JpegXr,
     Zstd0,
     Zstd1,
-    Chunked(u32),
+    /// Id 7: zstd or LZ4 chunks behind a small header (libCZI's chunked compression).
+    Chunked,
+    /// Ids 100–999: raw data of a particular camera.
+    CameraRaw(u32),
+    /// Ids from 1000: raw data of a particular system.
+    SystemRaw(u32),
     Unknown(u32),
 }
 
@@ -183,7 +188,9 @@ impl CompressionId {
             4 => CompressionId::JpegXr,
             5 => CompressionId::Zstd0,
             6 => CompressionId::Zstd1,
-            v if v == 7 || v >= 1000 => CompressionId::Chunked(v),
+            7 => CompressionId::Chunked,
+            100..=999 => CompressionId::CameraRaw(v),
+            1000.. => CompressionId::SystemRaw(v),
             o => CompressionId::Unknown(o),
         }
     }
@@ -196,7 +203,9 @@ impl CompressionId {
             CompressionId::JpegXr => "jpeg_xr".into(),
             CompressionId::Zstd0 => "zstd0".into(),
             CompressionId::Zstd1 => "zstd1".into(),
-            CompressionId::Chunked(v) => format!("chunked({v})"),
+            CompressionId::Chunked => "chunked".into(),
+            CompressionId::CameraRaw(v) => format!("camera_raw({v})"),
+            CompressionId::SystemRaw(v) => format!("system_raw({v})"),
             CompressionId::Unknown(v) => format!("unknown({v})"),
         }
     }

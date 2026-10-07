@@ -26,6 +26,8 @@ pub enum EtsCompression {
     Jpeg,
     /// 3: JPEG 2000 codestream.
     Jpeg2000,
+    /// 5: lossless JPEG stream (SOF3), seen in VS120 slides.
+    JpegLossless,
     /// Any other code (not seen in the corpus).
     Other(u32),
 }
@@ -36,6 +38,7 @@ impl EtsCompression {
             0 => EtsCompression::Raw,
             2 => EtsCompression::Jpeg,
             3 => EtsCompression::Jpeg2000,
+            5 => EtsCompression::JpegLossless,
             other => EtsCompression::Other(other),
         }
     }
@@ -44,6 +47,7 @@ impl EtsCompression {
             EtsCompression::Raw => "raw".into(),
             EtsCompression::Jpeg => "jpeg".into(),
             EtsCompression::Jpeg2000 => "jpeg2000".into(),
+            EtsCompression::JpegLossless => "jpeg-lossless".into(),
             EtsCompression::Other(c) => format!("code {c}"),
         }
     }
@@ -365,16 +369,19 @@ impl EtsFile {
                 return Ok(v);
             }
             // Bound the frame by the tile size (with slack for MCU padding) before decoding.
-            EtsCompression::Jpeg => openreadout_codecs::jpeg_decode_limited(
+            EtsCompression::Jpeg | EtsCompression::JpegLossless => openreadout_codecs::jpeg_decode_limited(
                 &raw,
                 expected.saturating_mul(4).max(1 << 20),
             ),
-            EtsCompression::Jpeg2000 => openreadout_codecs::jpeg2000_decode(&raw),
+            EtsCompression::Jpeg2000 => openreadout_codecs::jpeg2000_decode_limited(
+                &raw,
+                expected.saturating_mul(4).max(1 << 20),
+            ),
             EtsCompression::Other(c) => {
                 return Err(Error::unsupported(
                     FORMAT_ID,
                     format!("ETS compression code {c}"),
-                    "Only raw (0), JPEG (2) and JPEG 2000 (3) ETS tiles are decoded.",
+                    "Only raw (0), JPEG (2), JPEG 2000 (3) and lossless JPEG (5) ETS tiles are decoded.",
                 ));
             }
         }
@@ -490,5 +497,12 @@ mod tests {
         let px = e.decode_tile(&t).unwrap();
         assert_eq!(px, [4, 0, 5, 0, 6, 0, 7, 0]);
         std::fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn compression_codes() {
+        assert_eq!(EtsCompression::from_code(5), EtsCompression::JpegLossless);
+        assert_eq!(EtsCompression::JpegLossless.name(), "jpeg-lossless");
+        assert_eq!(EtsCompression::from_code(8), EtsCompression::Other(8));
     }
 }

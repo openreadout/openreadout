@@ -71,7 +71,10 @@ fn codec_fixtures_fail_cleanly() {
             }
             "jpeg2000" => {
                 // As fuzz_targets/codec_jpeg2000.rs: the whole fixture is the codestream.
-                let _ = openreadout_codecs::jpeg2000_decode(&data);
+                assert!(
+                    openreadout_codecs::jpeg2000_decode(&data).is_err(),
+                    "{name}: an implausible image must be refused before decoding"
+                );
             }
             other => panic!("fixture {name}: unknown codec prefix {other}"),
         });

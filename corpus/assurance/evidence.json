@@ -36226,6 +36226,66 @@
       ]
     },
     {
+      "id": "synthetic-bgr48-chunked-zstd",
+      "format": "czi",
+      "source": "synthetic",
+      "synthetic": true,
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "chunked",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored bgr48",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "pylibCZIrw",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "pylibCZIrw 6.1",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
       "id": "synthetic-bgr48-uncompressed",
       "format": "czi",
       "source": "synthetic",
@@ -36278,6 +36338,73 @@
           "writer_version",
           "pylibCZIrw 6.1",
           []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "synthetic-gray16-chunked-zstd-hilo",
+      "format": "czi",
+      "source": "synthetic",
+      "synthetic": true,
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "chunked",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "pylibCZIrw",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "pylibCZIrw 6.1",
+          []
+        ],
+        [
+          "layout",
+          "multi_scene",
+          [
+            "metadata"
+          ]
         ]
       ],
       "inferred": [
@@ -36345,6 +36472,13 @@
           [
             "metadata"
           ]
+        ],
+        [
+          "codec",
+          "jpeg lossless",
+          [
+            "pixels"
+          ]
         ]
       ],
       "inferred": [
@@ -36357,9 +36491,12 @@
       "format": "czi",
       "source": "synthetic",
       "synthetic": true,
-      "oracle": "skip",
+      "oracle": "pass",
       "independent": true,
-      "compared": [],
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
       "features": [
         [
           "format_version",
@@ -36408,6 +36545,13 @@
           "multi_scene",
           [
             "metadata"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg 12-bit",
+          [
+            "pixels"
           ]
         ]
       ],
@@ -36647,6 +36791,73 @@
         [
           "codec",
           "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "mosaic",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "pylibCZIrw",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "pylibCZIrw 6.1",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "synthetic-gray8-chunked-lz4",
+      "format": "czi",
+      "source": "synthetic",
+      "synthetic": true,
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "chunked",
           [
             "pixels"
           ]
@@ -103862,9 +104073,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -103960,9 +104168,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -104036,9 +104241,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -104181,9 +104383,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -104467,9 +104666,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -104543,9 +104739,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -104702,9 +104895,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -104845,9 +105035,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -107137,9 +107324,7 @@
       "source": "github:osgeo/gdal",
       "oracle": "skip",
       "independent": true,
-      "compared": [
-        "metadata"
-      ],
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -107932,9 +108117,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -108007,9 +108189,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -108075,9 +108254,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -108151,9 +108327,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -108219,9 +108392,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -108289,9 +108459,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -108357,9 +108524,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -108499,9 +108663,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -109509,9 +109670,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -109593,9 +109751,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -109679,9 +109834,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -109742,9 +109894,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -109815,9 +109964,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -109848,6 +109994,302 @@
             "metadata",
             "pixels"
           ]
+        ],
+        [
+          "dialect",
+          "ome-tiff",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "ome-modulo-flim-along-c",
+      "format": "tiff",
+      "source": "ome-sample:ome-tiff/2016-06",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "format_version",
+          "OME-XML 2016-06",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Bio-Formats",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "Bio-Formats 5",
+          []
+        ],
+        [
+          "dialect",
+          "ome-tiff",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "ome-modulo-flim-along-t-tcspc",
+      "format": "tiff",
+      "source": "ome-sample:ome-tiff/2016-06",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "format_version",
+          "OME-XML 2016-06",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Bio-Formats",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "Bio-Formats 5",
+          []
+        ],
+        [
+          "dialect",
+          "ome-tiff",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "ome-modulo-lambda-along-z-and-t",
+      "format": "tiff",
+      "source": "ome-sample:ome-tiff/2016-06",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "format_version",
+          "OME-XML 2016-06",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Bio-Formats",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "Bio-Formats 5",
+          []
+        ],
+        [
+          "dialect",
+          "ome-tiff",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "ome-modulo-spim-along-z",
+      "format": "tiff",
+      "source": "ome-sample:ome-tiff/2016-06",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "format_version",
+          "OME-XML 2016-06",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Bio-Formats",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "Bio-Formats 5",
+          []
         ],
         [
           "dialect",
@@ -110110,9 +110552,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -110199,9 +110638,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -110290,9 +110726,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -110379,9 +110812,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -110470,9 +110900,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -110560,9 +110987,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -110648,9 +111072,6 @@
       "independent": true,
       "compared": [
         "metadata"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -110746,9 +111167,6 @@
       "independent": true,
       "compared": [
         "metadata"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -110846,9 +111264,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -110937,9 +111352,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -111557,6 +111969,102 @@
       ],
       "inferred": [
         1,
+        5
+      ]
+    },
+    {
+      "id": "zenodo12697479-ndpi-izd",
+      "format": "tiff",
+      "source": "zenodo:12697479",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NDP.scan",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "NDP.scan 3",
+          []
+        ],
+        [
+          "instrument",
+          "C13239-01",
+          []
+        ],
+        [
+          "dialect",
+          "hamamatsu-ndpi",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg (ycbcr)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
         5
       ]
     },
@@ -112547,6 +113055,89 @@
       ]
     },
     {
+      "id": "bia2666-vsi-24B0759-t6",
+      "format": "vsi",
+      "source": "bioimage-archive:S-BIAD2666",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0x00030003",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg-lossless",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "size from vsi_layout",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "OLYMPUS VS-ASW",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "OLYMPUS VS-ASW 2",
+          []
+        ],
+        [
+          "codec",
+          "jpeg",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        18,
+        18
+      ]
+    },
+    {
       "id": "figshare11833368-vsi-meta-extended-9b-sicon-aph",
       "format": "vsi",
       "source": "figshare 11833368",
@@ -112739,9 +113330,6 @@
       "compared": [
         "metadata"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -112825,9 +113413,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -112904,9 +113489,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -112982,9 +113564,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -113092,9 +113671,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -113201,9 +113777,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -113280,9 +113853,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -113358,9 +113928,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -113590,9 +114157,6 @@
         "metadata",
         "pixels"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "format_version",
@@ -113668,9 +114232,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
@@ -113754,9 +114315,6 @@
       "compared": [
         "metadata",
         "pixels"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
       ],
       "features": [
         [
