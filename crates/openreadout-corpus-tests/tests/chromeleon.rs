@@ -13,12 +13,16 @@
 //! results line of evidence class `vendor_stored_result` for `cargo xtask assurance-audit
 //! refresh` (docs/assurance.md § Vendor-stored results): Chromeleon computed those peaks from
 //! the same raw signal, so reproducing them from our decoded signal independently confirms the
-//! signal's values, time axis and scaling (`traces`), and nothing else.
+//! signal's values, time axis and scaling (`traces`), and nothing else. The line names the
+//! features (codec, layout) of the signals Chromeleon integrated, so a pressure or flow signal
+//! in the same archive is not confirmed by peaks found on a detector signal.
 #![cfg(feature = "corpus")]
-#![allow(clippy::float_cmp)]
+#![allow(clippy::float_cmp, clippy::cast_possible_truncation, clippy::cast_sign_loss)]
 
 use std::path::{Path, PathBuf};
 
+use openreadout_core::FileInfo;
+use openreadout_core::assurance::Scope;
 use openreadout_core::model::TraceInfo;
 use openreadout_core::{Dataset, FormatReader, Registry};
 
@@ -34,7 +38,7 @@ fn corpus_dir() -> PathBuf {
 const MIN_STORED_PEAKS: usize = 10;
 
 /// (id, traces, of which 3D fields, signals damaged as deposited, stored peaks)
-const ARCHIVES: [(&str, usize, usize, usize, usize); 11] = [
+const ARCHIVES: [(&str, usize, usize, usize, usize); 16] = [
     ("cmbx-lauterbach-invivo-cascade", 57, 0, 0, 15),
     ("cmbx-lauterbach-plate-screening", 57, 0, 0, 0),
     ("cmbx-lauterbach-repuox", 33, 0, 0, 0),
@@ -47,7 +51,22 @@ const ARCHIVES: [(&str, usize, usize, usize, usize); 11] = [
     ("cmbx-lim-r-carvone-reactions", 28, 0, 0, 60),
     ("cmbx-flavokawain-skrining-20221109", 598, 78, 0, 1230),
     ("cmbx-textiles-2019-088", 26, 2, 0, 186),
+    ("cmbx-lim-cyclohexenone-standards", 19, 0, 0, 195),
+    ("cmbx-lim-s-carvone-reactions", 18, 0, 0, 18),
+    ("cmbx-lim-con-sp22-group-ab", 17, 0, 0, 19),
+    ("cmbx-lim-cyclohexanone-reaction", 14, 0, 0, 14),
+    ("cmbx-lim-ketoisophorone-standards", 50, 0, 0, 84),
 ];
+
+/// Stored peaks our integration does not reproduce, per archive, and why. Such an archive's
+/// results line is a failure: the disagreement is recorded, not hidden.
+const UNREPRODUCED: [(&str, usize, &str); 1] = [(
+    "cmbx-lim-ketoisophorone-standards",
+    2,
+    "injection blank, GC_1: a peak that starts at the first sample, and its rider. Their areas \
+     differ from ours by the same amount in opposite directions and the rider's height by 1 %, \
+     so the rider's skim line is not the straight line between its stored ends. Not explained.",
+)];
 
 fn open(id: &str) -> Option<Box<dyn Dataset>> {
     let path = corpus_dir().join(format!("chromeleon/{id}.cmbx"));
@@ -84,6 +103,9 @@ fn every_signal_equals_its_sequence_description() {
             .iter()
             .filter(|f| !matches!(f.severity, openreadout_core::model::Severity::Info))
             .filter(|f| !matches!(f.code.as_str(), "bad_member" | "bad_signal" | "bad_blob"))
+            .filter(|f| {
+                !(f.code == "vendor_peak_mismatch" && UNREPRODUCED.iter().any(|u| u.0 == id))
+            })
             .collect();
         assert!(bad.is_empty(), "{id}: {bad:?}");
         let performed = rep.checks_performed.join(" ");
@@ -107,9 +129,10 @@ fn every_signal_equals_its_sequence_description() {
             assert!(performed.contains(&want), "{id}: {performed}");
         }
         if peaks > 0 {
-            let want = format!("{peaks} of {peaks} stored peaks reproduced");
+            let missing = UNREPRODUCED.iter().find(|u| u.0 == id).map_or(0, |u| u.1);
+            let want = format!("{} of {peaks} stored peaks reproduced", peaks - missing);
             if peaks >= MIN_STORED_PEAKS {
-                let status = if performed.contains(&want) {
+                let status = if missing == 0 && performed.contains(&want) {
                     "pass"
                 } else {
                     "FAIL"
@@ -118,6 +141,7 @@ fn every_signal_equals_its_sequence_description() {
                     &serde_json::json!({
                         "id": id, "format": "chromeleon", "status": status, "independent": true,
                         "compared": ["traces"], "evidence": "vendor_stored_result",
+                        "features": integrated_features(ds.as_mut(), &info),
                         "detail": format!("{peaks} stored peaks: area and height within 1e-6 relative")
                     })
                     .to_string(),
@@ -146,6 +170,41 @@ fn every_signal_equals_its_sequence_description() {
     if let Ok(p) = std::env::var("VENDOR_RESULTS") {
         std::fs::write(p, results).unwrap();
     }
+}
+
+/// The trace features (codec, layout, ...) of the signals Chromeleon integrated, as the
+/// assurance profile names them: stored peaks confirm those signals and no others, so the
+/// results line lists them (`features`) and the audit validates only these.
+fn integrated_features(ds: &mut dyn Dataset, info: &FileInfo) -> Vec<[String; 2]> {
+    let Some(t) = info
+        .tables
+        .iter()
+        .find(|t| t.name.as_deref() == Some("vendor_peaks"))
+    else {
+        return Vec::new();
+    };
+    let rows = ds.read_table(t.index, 0, t.row_count).unwrap();
+    let integrated: std::collections::BTreeSet<u64> = rows.columns[0]
+        .iter()
+        .filter(|v| v.is_finite() && **v >= 0.0)
+        .map(|v| v.round() as u64)
+        .collect();
+    let mut sub = info.clone();
+    sub.traces
+        .retain(|t| integrated.contains(&u64::from(t.index)));
+    sub.tables.clear();
+    let profile = openreadout_chrom::ChromeleonReader
+        .assurance()
+        .expect("chromeleon has an assurance profile");
+    let mut out: Vec<[String; 2]> = (profile.observe)(&sub)
+        .features
+        .into_iter()
+        .filter(|f| f.scope.contains(&Scope::Traces))
+        .map(|f| [f.kind.as_str().to_string(), f.value])
+        .collect();
+    out.sort();
+    out.dedup();
+    out
 }
 
 fn trace<'a>(info: &'a [TraceInfo], name: &str) -> &'a TraceInfo {
