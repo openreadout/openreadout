@@ -1,6 +1,6 @@
 # Check a qPCR run
 
-Use this after a qPCR run to see the Cq of every well, the efficiency and R² of a standard curve, and relative expression by ΔΔCq. It reads RDML files, Applied Biosystems `.eds`, Rotor-Gene `.rex` and LightCycler 480 `.ixo`.
+Use this after a qPCR run to see the Cq of every well, the efficiency and R² of a standard curve, and relative expression by ΔΔCq. It reads RDML files, Applied Biosystems `.eds`, Rotor-Gene `.rex` and LightCycler 480 `.ixo`, and the results tables that Applied Biosystems and Bio-Rad CFX software export (`.xls`, `.xlsx`, `.csv`). For a Bio-Rad `.pcrd`, which is encrypted, export the Quantification Cq Results or an RDML file from CFX Maestro.
 
 ## Run it
 

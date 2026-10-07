@@ -1,0 +1,1971 @@
+{
+ "id": "qpcrx-ab-qs7flex-hmsc-stdcurve",
+ "file": "qpcrx-ab-qs7flex-hmsc-stdcurve.xls",
+ "size": 35840,
+ "sha256": "25e344a1063078e2303af3418edb6af349056b048363b31b74899906ba67693e",
+ "reader": "xlrd / openpyxl / csv over the export (independent of OpenReadout)",
+ "format": "qpcr-results-export",
+ "layout": "applied-biosystems",
+ "rows": 16,
+ "columns": 24,
+ "records": [
+  {
+   "row": 1,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "NTC",
+   "dye": null,
+   "cq": 24.648162841796875,
+   "cq_undetermined": false,
+   "tm": [
+    76.27711486816406
+   ]
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.823278427124023,
+   "cq_undetermined": false,
+   "tm": [
+    86.04778289794922
+   ]
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "NTC",
+   "dye": null,
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    82.74687957763672,
+    61.09295654296875,
+    74.82471466064453
+   ]
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.380535125732422,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 1,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "NTC",
+   "dye": null,
+   "cq": 38.181861877441406,
+   "cq_undetermined": false,
+   "tm": [
+    74.56063842773438
+   ]
+  },
+  {
+   "row": 1,
+   "col": 6,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.763816833496094,
+   "cq_undetermined": false,
+   "tm": [
+    83.2750244140625
+   ]
+  },
+  {
+   "row": 1,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "NTC",
+   "dye": null,
+   "cq": 37.330047607421875,
+   "cq_undetermined": false,
+   "tm": [
+    77.72950744628906
+   ]
+  },
+  {
+   "row": 1,
+   "col": 8,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 21.471769332885742,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 1,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "NTC",
+   "dye": null,
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    82.35076904296875,
+    61.35702896118164,
+    91.06515502929688
+   ]
+  },
+  {
+   "row": 1,
+   "col": 10,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 19.3676815032959,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 1,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "NTC",
+   "dye": null,
+   "cq": null,
+   "cq_undetermined": true,
+   "tm": [
+    81.69058990478516,
+    61.35702896118164,
+    91.59330749511719
+   ]
+  },
+  {
+   "row": 1,
+   "col": 12,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.183502197265625,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.62446403503418,
+   "cq_undetermined": false,
+   "tm": [
+    86.04778289794922
+   ]
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.523029327392578,
+   "cq_undetermined": false,
+   "tm": [
+    86.17982482910156
+   ]
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.39824104309082,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.49512481689453,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 2,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.660449981689453,
+   "cq_undetermined": false,
+   "tm": [
+    83.2750244140625
+   ]
+  },
+  {
+   "row": 2,
+   "col": 6,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 26.8642578125,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031
+   ]
+  },
+  {
+   "row": 2,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.794666290283203,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 2,
+   "col": 8,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.986328125,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 2,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.563987731933594,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 2,
+   "col": 10,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 19.788352966308594,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 2,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.81247329711914,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 2,
+   "col": 12,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 17.17105484008789,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 19.20753288269043,
+   "cq_undetermined": false,
+   "tm": [
+    86.04778289794922
+   ]
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.41132354736328,
+   "cq_undetermined": false,
+   "tm": [
+    86.17982482910156
+   ]
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 22.74273109436035,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 3,
+   "col": 4,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 19.956804275512695,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 3,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 29.7935791015625,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031
+   ]
+  },
+  {
+   "row": 3,
+   "col": 6,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.97442054748535,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031
+   ]
+  },
+  {
+   "row": 3,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 22.634992599487305,
+   "cq_undetermined": false,
+   "tm": [
+    82.4828109741211
+   ]
+  },
+  {
+   "row": 3,
+   "col": 8,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 21.092527389526367,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 3,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 20.981618881225586,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 3,
+   "col": 10,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 19.182222366333008,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 3,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 19.39388084411621,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 3,
+   "col": 12,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 17.944091796875,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 4,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.757953643798828,
+   "cq_undetermined": false,
+   "tm": [
+    86.17982482910156
+   ]
+  },
+  {
+   "row": 4,
+   "col": 2,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.686767578125,
+   "cq_undetermined": false,
+   "tm": [
+    86.04778289794922
+   ]
+  },
+  {
+   "row": 4,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.45499610900879,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 4,
+   "col": 4,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.242202758789062,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 4,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.790922164916992,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031
+   ]
+  },
+  {
+   "row": 4,
+   "col": 6,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 28.027347564697266,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031
+   ]
+  },
+  {
+   "row": 4,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.881208419799805,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 4,
+   "col": 8,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 21.192686080932617,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 4,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.846187591552734,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 4,
+   "col": 10,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 19.39737892150879,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 4,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 17.1387996673584,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 4,
+   "col": 12,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 17.540302276611328,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 5,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 18.36927604675293,
+   "cq_undetermined": false,
+   "tm": [
+    86.17982482910156
+   ]
+  },
+  {
+   "row": 5,
+   "col": 2,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.687335968017578,
+   "cq_undetermined": false,
+   "tm": [
+    86.17982482910156
+   ]
+  },
+  {
+   "row": 5,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 21.881858825683594,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 5,
+   "col": 4,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.242002487182617,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 5,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 27.763072967529297,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031
+   ]
+  },
+  {
+   "row": 5,
+   "col": 6,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.991104125976562,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031
+   ]
+  },
+  {
+   "row": 5,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 21.777076721191406,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 5,
+   "col": 8,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 21.424137115478516,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 5,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 20.092382431030273,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 5,
+   "col": 10,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 19.943918228149414,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 5,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 18.53066062927246,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 5,
+   "col": 12,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.15284538269043,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 6,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.67189598083496,
+   "cq_undetermined": false,
+   "tm": [
+    86.17982482910156
+   ]
+  },
+  {
+   "row": 6,
+   "col": 2,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.231002807617188,
+   "cq_undetermined": false,
+   "tm": [
+    86.17982482910156
+   ]
+  },
+  {
+   "row": 6,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.180587768554688,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 6,
+   "col": 4,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 19.992082595825195,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 6,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 24.00033187866211,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031,
+    74.69268035888672
+   ]
+  },
+  {
+   "row": 6,
+   "col": 6,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.883684158325195,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031
+   ]
+  },
+  {
+   "row": 6,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.718353271484375,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 6,
+   "col": 8,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 19.837772369384766,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 6,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.445545196533203,
+   "cq_undetermined": false,
+   "tm": [
+    82.21873474121094
+   ]
+  },
+  {
+   "row": 6,
+   "col": 10,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.67021942138672,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 6,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 17.24907875061035,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 6,
+   "col": 12,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 17.378381729125977,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 7,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 17.469829559326172,
+   "cq_undetermined": false,
+   "tm": [
+    86.17982482910156
+   ]
+  },
+  {
+   "row": 7,
+   "col": 2,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.589399337768555,
+   "cq_undetermined": false,
+   "tm": [
+    86.17982482910156
+   ]
+  },
+  {
+   "row": 7,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 21.077775955200195,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 7,
+   "col": 4,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.328895568847656,
+   "cq_undetermined": false,
+   "tm": [
+    82.4828109741211
+   ]
+  },
+  {
+   "row": 7,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 27.970163345336914,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031
+   ]
+  },
+  {
+   "row": 7,
+   "col": 6,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.188133239746094,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031
+   ]
+  },
+  {
+   "row": 7,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 20.93416976928711,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 7,
+   "col": 8,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.060100555419922,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 7,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 19.417396545410156,
+   "cq_undetermined": false,
+   "tm": [
+    82.21873474121094
+   ]
+  },
+  {
+   "row": 7,
+   "col": 10,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 17.567136764526367,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 7,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 18.753416061401367,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 7,
+   "col": 12,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.340145111083984,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 8,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.447362899780273,
+   "cq_undetermined": false,
+   "tm": [
+    86.17982482910156
+   ]
+  },
+  {
+   "row": 8,
+   "col": 2,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.621400833129883,
+   "cq_undetermined": false,
+   "tm": [
+    86.17982482910156
+   ]
+  },
+  {
+   "row": 8,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.20907974243164,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 8,
+   "col": 4,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.35939598083496,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 8,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.46192169189453,
+   "cq_undetermined": false,
+   "tm": [
+    83.2750244140625
+   ]
+  },
+  {
+   "row": 8,
+   "col": 6,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.58646583557129,
+   "cq_undetermined": false,
+   "tm": [
+    83.40705871582031
+   ]
+  },
+  {
+   "row": 8,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 21.299421310424805,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 8,
+   "col": 8,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.562259674072266,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 8,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.036060333251953,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 8,
+   "col": 10,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.000486373901367,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 8,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.594161987304688,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 8,
+   "col": 12,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.907766342163086,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 9,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 16.44835090637207,
+   "cq_undetermined": false,
+   "tm": [
+    86.04778289794922
+   ]
+  },
+  {
+   "row": 9,
+   "col": 2,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.648378372192383,
+   "cq_undetermined": false,
+   "tm": [
+    86.04778289794922
+   ]
+  },
+  {
+   "row": 9,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 20.13251304626465,
+   "cq_undetermined": false,
+   "tm": [
+    82.4828109741211
+   ]
+  },
+  {
+   "row": 9,
+   "col": 4,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.3135929107666,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 9,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 27.058151245117188,
+   "cq_undetermined": false,
+   "tm": [
+    83.2750244140625
+   ]
+  },
+  {
+   "row": 9,
+   "col": 6,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.247182846069336,
+   "cq_undetermined": false,
+   "tm": [
+    83.2750244140625
+   ]
+  },
+  {
+   "row": 9,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 20.044166564941406,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 9,
+   "col": 8,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.378965377807617,
+   "cq_undetermined": false,
+   "tm": [
+    82.6148452758789
+   ]
+  },
+  {
+   "row": 9,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 18.41575813293457,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 9,
+   "col": 10,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.08382797241211,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 9,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 16.880970001220703,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 9,
+   "col": 12,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.658124923706055,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 10,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.57548713684082,
+   "cq_undetermined": false,
+   "tm": [
+    86.04778289794922
+   ]
+  },
+  {
+   "row": 10,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.3117733001709,
+   "cq_undetermined": false,
+   "tm": [
+    82.4828109741211
+   ]
+  },
+  {
+   "row": 10,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 23.420551300048828,
+   "cq_undetermined": false,
+   "tm": [
+    83.2750244140625,
+    76.54118347167969
+   ]
+  },
+  {
+   "row": 10,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.39188575744629,
+   "cq_undetermined": false,
+   "tm": [
+    82.4828109741211
+   ]
+  },
+  {
+   "row": 10,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.761676788330078,
+   "cq_undetermined": false,
+   "tm": [
+    82.21873474121094
+   ]
+  },
+  {
+   "row": 10,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.666425704956055,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 11,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 15.585285186767578,
+   "cq_undetermined": false,
+   "tm": [
+    85.9157485961914
+   ]
+  },
+  {
+   "row": 11,
+   "col": 2,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.642745971679688,
+   "cq_undetermined": false,
+   "tm": [
+    85.9157485961914
+   ]
+  },
+  {
+   "row": 11,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 19.354793548583984,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 11,
+   "col": 4,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.298391342163086,
+   "cq_undetermined": false,
+   "tm": [
+    82.4828109741211
+   ]
+  },
+  {
+   "row": 11,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 26.298011779785156,
+   "cq_undetermined": false,
+   "tm": [
+    83.14299011230469
+   ]
+  },
+  {
+   "row": 11,
+   "col": 6,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.600698471069336,
+   "cq_undetermined": false,
+   "tm": [
+    83.14299011230469
+   ]
+  },
+  {
+   "row": 11,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 19.179458618164062,
+   "cq_undetermined": false,
+   "tm": [
+    82.4828109741211
+   ]
+  },
+  {
+   "row": 11,
+   "col": 8,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 21.13172149658203,
+   "cq_undetermined": false,
+   "tm": [
+    82.4828109741211
+   ]
+  },
+  {
+   "row": 11,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 17.541791915893555,
+   "cq_undetermined": false,
+   "tm": [
+    82.21873474121094
+   ]
+  },
+  {
+   "row": 11,
+   "col": 10,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 19.17494010925293,
+   "cq_undetermined": false,
+   "tm": [
+    82.21873474121094
+   ]
+  },
+  {
+   "row": 11,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 15.978310585021973,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 11,
+   "col": 12,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.844560623168945,
+   "cq_undetermined": false,
+   "tm": [
+    81.16244506835938
+   ]
+  },
+  {
+   "row": 12,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.537967681884766,
+   "cq_undetermined": false,
+   "tm": [
+    85.9157485961914
+   ]
+  },
+  {
+   "row": 12,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.362138748168945,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 12,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 27.7559871673584,
+   "cq_undetermined": false,
+   "tm": [
+    83.14299011230469
+   ]
+  },
+  {
+   "row": 12,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 21.10002899169922,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 12,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.995132446289062,
+   "cq_undetermined": false,
+   "tm": [
+    82.21873474121094
+   ]
+  },
+  {
+   "row": 12,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.482986450195312,
+   "cq_undetermined": false,
+   "tm": [
+    81.03041076660156
+   ]
+  },
+  {
+   "row": 13,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 14.673722267150879,
+   "cq_undetermined": false,
+   "tm": [
+    85.7837142944336
+   ]
+  },
+  {
+   "row": 13,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 18.63911247253418,
+   "cq_undetermined": false,
+   "tm": [
+    82.21873474121094
+   ]
+  },
+  {
+   "row": 13,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 25.58832550048828,
+   "cq_undetermined": false,
+   "tm": [
+    83.01095581054688
+   ]
+  },
+  {
+   "row": 13,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 18.35759162902832,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 13,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 16.696489334106445,
+   "cq_undetermined": false,
+   "tm": [
+    82.08670043945312
+   ]
+  },
+  {
+   "row": 13,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 15.090184211730957,
+   "cq_undetermined": false,
+   "tm": [
+    81.03041076660156
+   ]
+  },
+  {
+   "row": 14,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.520954132080078,
+   "cq_undetermined": false,
+   "tm": [
+    85.7837142944336
+   ]
+  },
+  {
+   "row": 14,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 20.438135147094727,
+   "cq_undetermined": false,
+   "tm": [
+    82.21873474121094
+   ]
+  },
+  {
+   "row": 14,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 26.448259353637695,
+   "cq_undetermined": false,
+   "tm": [
+    83.01095581054688
+   ]
+  },
+  {
+   "row": 14,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 18.6261043548584,
+   "cq_undetermined": false,
+   "tm": [
+    82.35076904296875
+   ]
+  },
+  {
+   "row": 14,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 17.23542594909668,
+   "cq_undetermined": false,
+   "tm": [
+    82.21873474121094
+   ]
+  },
+  {
+   "row": 14,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "UNKNOWN",
+   "dye": null,
+   "cq": 16.112802505493164,
+   "cq_undetermined": false,
+   "tm": [
+    81.03041076660156
+   ]
+  },
+  {
+   "row": 15,
+   "col": 1,
+   "target": "36B4",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 14.605278015136719,
+   "cq_undetermined": false,
+   "tm": [
+    85.65167236328125
+   ]
+  },
+  {
+   "row": 15,
+   "col": 3,
+   "target": "Tcad",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 18.28140640258789,
+   "cq_undetermined": false,
+   "tm": [
+    82.08670043945312
+   ]
+  },
+  {
+   "row": 15,
+   "col": 5,
+   "target": "ADAM12",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 24.906177520751953,
+   "cq_undetermined": false,
+   "tm": [
+    83.01095581054688
+   ]
+  },
+  {
+   "row": 15,
+   "col": 7,
+   "target": "Col1a1",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 17.616268157958984,
+   "cq_undetermined": false,
+   "tm": [
+    82.21873474121094
+   ]
+  },
+  {
+   "row": 15,
+   "col": 9,
+   "target": "ANP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 15.970301628112793,
+   "cq_undetermined": false,
+   "tm": [
+    82.08670043945312
+   ]
+  },
+  {
+   "row": 15,
+   "col": 11,
+   "target": "BNP",
+   "sample": null,
+   "task_raw": "STANDARD",
+   "dye": null,
+   "cq": 14.364629745483398,
+   "cq_undetermined": false,
+   "tm": [
+    81.03041076660156
+   ]
+  }
+ ]
+}

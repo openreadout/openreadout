@@ -4,7 +4,9 @@
 //! - chromConverter (GPL-3.0, run as a black box by `oracle/shimadzu_oracle.py`): `chromatogram`
 //!   {name, n, xxh3} — the stored points of our trace of that name (`extra.stream_label` or its
 //!   name; the vendor's leading t = 0 point left out, values divided back by `extra.raw_scale`)
-//!   must be chromConverter's, bit for bit (xxh3-128 of the little-endian f64 values);
+//!   must be chromConverter's, bit for bit (xxh3-128 of the little-endian f64 values); with
+//!   `pda` {times, wavelengths_nm, xxh3}, our `PDA spectra` trace must hold chromConverter's
+//!   whole PDA field (every value back in stored µAU, bit for bit);
 //! - the vendor's own LabSolutions ASCII export of the same run (`shimadzu_export`, written by
 //!   `oracle/shimadzu_export.py`, also for held-out inputs through `oracle/gen_heldout.py`): every
 //!   `[LC Chromatogram(<detector>)]` section must be one of our traces (matched by
@@ -83,6 +85,9 @@ pub fn compare_file(id: &str, path: &Path, oracle: &Value) -> Result<String, Str
             }
         }
     }
+    if let Some(pda) = oracle["pda"].as_object() {
+        compare_pda(ds.as_mut(), &info, pda, &mut problems, &mut done);
+    }
     if let Some(chroms) = oracle["shimadzu_export"]["chromatograms"].as_array() {
         for c in chroms {
             compare_export_chromatogram(ds.as_mut(), &info, c, &mut problems, &mut done);
@@ -113,6 +118,78 @@ pub fn compare_file(id: &str, path: &Path, oracle: &Value) -> Result<String, Str
 /// `status`): matched by `extra.export_section` (newer layout), else in order (older layout:
 /// the file names no status log). Same number of points, the export's unit, and every value
 /// (the printed number times the multiplier) within half a printed unit.
+/// The whole PDA field against chromConverter's PDA matrix (`pda`: time points, wavelengths and
+/// the xxh3-128 of every value in stored units, µAU, time point by time point): our `PDA spectra`
+/// trace has one channel per wavelength in mAU, so each value times 1000, rounded, must give the
+/// stored integer back.
+fn compare_pda(
+    ds: &mut dyn openreadout_core::Dataset,
+    info: &openreadout_core::FileInfo,
+    pda: &serde_json::Map<String, Value>,
+    problems: &mut Vec<String>,
+    done: &mut Vec<String>,
+) {
+    let Some(t) = info
+        .traces
+        .iter()
+        .find(|t| t.name.as_deref() == Some("PDA spectra"))
+    else {
+        problems.push("no PDA spectra trace".into());
+        return;
+    };
+    let times = pda["times"].as_u64().unwrap_or(0);
+    let wavelengths: Vec<f64> = pda["wavelengths_nm"]
+        .as_array()
+        .map(|a| a.iter().filter_map(Value::as_f64).collect())
+        .unwrap_or_default();
+    if t.sample_count != times || t.channels.len() != wavelengths.len() {
+        problems.push(format!(
+            "PDA field: {} spectra of {} wavelengths, chromConverter {times} of {}",
+            t.sample_count,
+            t.channels.len(),
+            wavelengths.len()
+        ));
+        return;
+    }
+    let ours_nm: Vec<Option<f64>> = t
+        .channels
+        .iter()
+        .map(|c| c.name.trim_end_matches(" nm").parse::<f64>().ok())
+        .collect();
+    if ours_nm
+        .iter()
+        .zip(&wavelengths)
+        .any(|(a, b)| a.is_none_or(|a| (a - b).abs() > 0.006))
+    {
+        problems.push("PDA field: wavelengths differ from chromConverter's".into());
+        return;
+    }
+    let tr = match ds.read_trace(t.index, 0, 0, times) {
+        Ok(tr) => tr,
+        Err(e) => {
+            problems.push(format!("PDA field: read failed: {e}"));
+            return;
+        }
+    };
+    let n = usize::try_from(times).unwrap_or(0);
+    let mut bytes = Vec::with_capacity(n * tr.channels.len() * 8);
+    for i in 0..n {
+        for ch in &tr.channels {
+            let v = ch.get(i).copied().unwrap_or(f64::NAN);
+            bytes.extend_from_slice(&(v * 1000.0).round().to_le_bytes());
+        }
+    }
+    let hash = format!("{:032x}", xxhash_rust::xxh3::xxh3_128(&bytes));
+    if Some(hash.as_str()) == pda["xxh3"].as_str() {
+        done.push(format!(
+            "PDA field: {times} spectra x {} wavelengths bit-exact against chromConverter",
+            wavelengths.len()
+        ));
+    } else {
+        problems.push("PDA field: values differ from chromConverter's".into());
+    }
+}
+
 fn compare_export_status(
     ds: &mut dyn openreadout_core::Dataset,
     info: &openreadout_core::FileInfo,

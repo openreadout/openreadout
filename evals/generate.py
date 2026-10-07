@@ -89,7 +89,14 @@ FAMILIES = {
         "empower-arw",
     },
     "plates": {"plate"},
-    "qpcr": {"rdml", "applied-biosystems-eds", "bio-rad-pcrd", "rotor-gene-rex", "roche-lightcycler-ixo"},
+    "qpcr": {
+        "rdml",
+        "applied-biosystems-eds",
+        "bio-rad-pcrd",
+        "rotor-gene-rex",
+        "roche-lightcycler-ixo",
+        "qpcr-results-export",
+    },
     "hcs": {"opera-harmony", "imagexpress", "cellvoyager"},
     "spectroscopy": {"bruker-opus", "thermo-omnic", "renishaw-wdf", "perkinelmer-sp"}
     | {"galactic-spc", "witec-project"},

@@ -1,0 +1,24 @@
+{
+ "id": "tecan-icontrol-multiread-segments-tread",
+ "file": "tecan-icontrol-multiread-segments-tread.xlsx",
+ "size": 347713,
+ "sha256": "8c8c3ab7b4b5d0128e0db8fa12ebf956705511bd810fcc4ccfdf490f88a57c74",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py icontrol_summary (independent reader; allotropy has no i-control parser)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 24,
+    "values": 3432,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "b8e68e7d93f374e367693c5731cc73df"
+   }
+  ],
+  "header": {
+   "software_version": "2.0.10.0",
+   "model": "infinite 200Pro"
+  }
+ }
+}

@@ -176,13 +176,25 @@ impl QpcrDataset {
             let z = ZipIndex::open(input.fs(), path, RDML_FORMAT_ID)?;
             if crate::eds::layout(&z).is_some() {
                 EDS_FORMAT_ID
+            } else if z
+                .members
+                .iter()
+                .any(|m| m.name.eq_ignore_ascii_case("xl/workbook.xml"))
+            {
+                crate::EXPORT_FORMAT_ID
             } else {
                 RDML_FORMAT_ID
             }
+        } else if crate::export::is_workbook(&head) {
+            crate::EXPORT_FORMAT_ID
         } else if String::from_utf8_lossy(&head).contains("<RexHeader>") {
             REX_FORMAT_ID
         } else if String::from_utf8_lossy(&head).contains("signature=\"IXOS\"") {
             IXO_FORMAT_ID
+        } else if crate::export::read_sheets(head.clone())
+            .is_ok_and(|(_, s)| crate::export::classify(&s).is_some())
+        {
+            crate::EXPORT_FORMAT_ID
         } else {
             RDML_FORMAT_ID
         };
@@ -254,6 +266,10 @@ impl QpcrDataset {
             IXO_FORMAT_ID => {
                 let bytes = fs.read(path).map_err(|e| Error::io(path, e))?;
                 crate::ixo::parse_ixo(&bytes)?
+            }
+            crate::EXPORT_FORMAT_ID => {
+                let bytes = fs.read(path).map_err(|e| Error::io(path, e))?;
+                crate::export::parse(path, bytes)?
             }
             _ => {
                 let bytes = fs.read(path).map_err(|e| Error::io(path, e))?;
@@ -663,6 +679,12 @@ impl QpcrDataset {
         let mut extra: BTreeMap<String, Value> = BTreeMap::new();
         let d = &self.data;
         extra.insert("dialect".into(), json!(d.dialect.id()));
+        // results exports: the container the table was read from
+        if let Some(c) = d.vendor.get("container").and_then(Value::as_str)
+            && matches!(d.dialect, Dialect::AbExport | Dialect::CfxExport)
+        {
+            extra.insert("export_container".into(), json!(c));
+        }
         let mut instrument = serde_json::Map::new();
         for (k, v) in [
             ("manufacturer", &d.instrument.manufacturer),
