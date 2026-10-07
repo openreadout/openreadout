@@ -1,0 +1,54 @@
+{
+ "id": "figshare26030764-cg-nap-atb-acemehta-01",
+ "file": "figshare26030764-CG-NAP_aTB_AceMehta_01.oib",
+ "size": 2519040,
+ "sha256": "8c6a58613204ef114fee6093f132bd52b6a0e70f529a6f11353859a71055a9c9",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box); planes cross-checked with oiffile 2026.2.8",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series 1",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.082,
+    "y": 0.082
+   },
+   "channel_names": [
+    "CH1",
+    "CH2",
+    "CH3"
+   ],
+   "oiffile_agrees": true,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d93bfbe3b5af1ae434b87d5ae0c86bb1",
+     "mean": 414.28997802734375
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "270e73545266b2767e75b1abee1a3e97",
+     "mean": 406.99450302124023
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "68d4821f805a878537f0612837c1e4a5",
+     "mean": 234.89937591552734
+    }
+   ]
+  }
+ ]
+}

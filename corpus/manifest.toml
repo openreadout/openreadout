@@ -36780,7 +36780,7 @@ license = "MIT"
 license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-09-26"
 source = "GitHub StollLab/EasySpin (commit d46e5ef), EMX_2Dpowersweep.par"
 attribution = "EasySpin test files"
-notes = "WinEPR (EMX) 2D microwave-power sweep. No independent export: structure only (self-consistency)."
+notes = "WinEPR (EMX) 2D microwave-power sweep. Ground truth: cwepr (BSD-2-Clause, black box) through oracle/esp_cwepr_oracle.py."
 
 [[file]]
 id = "epr-easyspin-emx-2dpowersweep-spc"
@@ -37696,7 +37696,7 @@ license = "CC-BY-4.0"
 license_checked = "https://zenodo.org/records/18522047 (CC-BY-4.0, Zenodo API), 2026-09-26"
 source = "Zenodo record 18522047, 5YSZ_aged-2.ras"
 attribution = "Nakamura, Keisuke"
-notes = "RAS of dental zirconia (Japanese-locale header: the axis name is Shift-JIS, MEAS_DATA_COUNT written as a decimal). geddes refuses its count field; read, not compared."
+notes = "RAS of dental zirconia (Japanese-locale header: the axis name is Shift-JIS, MEAS_DATA_COUNT written as a decimal). geddes refuses its count field; ground truth: xrayutilities (GPL, run as a black box) through oracle/rigaku_oracle.py."
 
 [[file]]
 id = "ho-zenodo17575248-xrd-ras-gyp"
@@ -37744,7 +37744,7 @@ license = "CC-BY-4.0"
 license_checked = "https://zenodo.org/records/20341379 (CC-BY-4.0, Zenodo API), 2026-09-26"
 source = "Zenodo record 20341379, AS48.rasx"
 attribution = "Selim, Abdul; Jakl, Michal; Mergl, Martin"
-notes = "SmartLab XE RASX without root.xml, HyPix3000, 5-120° 2θ. No independent reader opens it (geddes needs root.xml): read, not compared."
+notes = "SmartLab XE RASX without root.xml, HyPix3000, 5-120° 2θ. geddes needs root.xml; ground truth: FAIRmat readers-xrd (Apache-2.0) through oracle/rigaku_oracle.py."
 
 # ---- electrochemistry: BioLogic EC-Lab .mpr/.mpt (openreadout-echem), added 2026-09-26
 
@@ -38634,7 +38634,7 @@ license = "MIT"
 license_checked = "https://github.com/ECSHackWeek/impedance.py/blob/6a269c4ef79b27cf52d1773fa6a8041af497cce1/LICENSE (MIT, GitHub licence API), 2026-09-26"
 source = "GitHub ECSHackWeek/impedance.py (commit 6a269c4), data/exampleDataGamryABORT.DTA"
 attribution = "impedance.py contributors (example data)"
-notes = "An aborted EISPOT run (the impedance table stops early and an abort record follows). gamry-parser refuses it: read, not compared."
+notes = "An aborted EISPOT run (the impedance table stops early and an abort record follows). gamry-parser refuses it; ground truth: impedance.py readGamry (MIT, black box, oracle/gamry_impedancepy.py) for the frequencies and impedances."
 
 [[file]]
 id = "ho-zenodo15528138-echem-dta-cell07"
@@ -62007,7 +62007,7 @@ notes = "binary arrays of i2nca-pc"
 [[file]]
 id = "i2nca-cc"
 format = "imzml"
-role = "input"
+role = "corrupt"
 tier = "smoke"
 filename = "imzml/i2nca-cc.imzML"
 url = "https://raw.githubusercontent.com/cKNUSPeR/i2nca/517c91e38bc29b54813158eb2a03920362c40eaf/i2nca/tests/testdata/cc.imzML"
@@ -62017,7 +62017,7 @@ license = "GPL-3.0"
 license_checked = "LICENSE of cKNUSPeR/i2nca @517c91e (GPL-3.0, GitHub API license.spdx_id; corpus entries already use GPL-3.0-or-later), 2026-10-06"
 source = "GitHub cKNUSPeR/i2nca @517c91e, i2nca/tests/testdata/ (test data of the i2nca quality-control package)"
 attribution = "i2nca authors (cKNUSPeR)"
-notes = "MALFORMED as deposited: declared continuous (one shared m/z array) but its 8 spectra give m/z arrays of 1,990-1,999 values and intensity arrays of other lengths. pyimzML fails (IndexError), so there is no oracle. openreadout `spectra --index 1` refuses it (exit 4, m/z 1999 vs intensity 1997) but `check` reports OK (exit 0): a candidate for the malformed-file tests, not for validation"
+notes = "MALFORMED as deposited: declared continuous (one shared m/z array) but its 8 spectra give m/z arrays of 1,990-1,999 values and intensity arrays of other lengths. pyimzML fails (IndexError), so there is no oracle. A malformed-file case: `spectra --index 1` refuses it (exit 4, m/z 1999 vs intensity 1997) and `check` reports `bad_array`"
 
 [[file]]
 id = "i2nca-cc-ibd"
@@ -62527,6 +62527,7 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS4618 (serine metabolism and ROS in macrolide-resistant Streptococcus suis)"
 attribution = "MTBLS4618 submitters (MetaboLights)"
 notes = "TripleTOF 6600, Analyst TF 1.7.1, TOF MS + data-dependent product-ion experiments, negative HILIC, 6,530 scans (S. suis extract). The export's sourceFile SHA-1 values (217bb4c6..., 4d8e2ff9...) are this .wiff and .wiff.scan. Sanity check: all 6,529 exported scans agree on native id, MS level, time, polarity, precursor m/z, TIC and (from the full spectrum) base-peak m/z; the reader has one more scan (the last cycle)"
+peaks_not_compared = "the export holds the vendor library's peak-picked centroids (ABI/Analyst peak picking); the reader returns the stored TDC profile"
 
 [[file]]
 id = "mtbls4618-t-i-128-1-hilic-neg-scan"
@@ -62576,6 +62577,7 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS851 (Untargeted In Silico Compound Classification: chemodiversity in bryophytes)"
 attribution = "MTBLS851 submitters (MetaboLights)"
 notes = "TripleTOF 5600, Analyst TF 1.6, automatic calibration run (method AutoCalNeg.dam): TOF MS + a TOF product-ion experiment with a fixed precursor, negative, 112 scans. DISAGREES on precursor m/z: the export gives 403.11219 (isolation window +-0.5, selected ion 403.11219) on all 56 product-ion scans, the reader none (and collision energy -30 where the export has none). Times, MS levels, polarity, TIC and base-peak m/z agree on all 112 scans. Add once the reader reads (or withholds) a non-data-dependent product-ion precursor"
+peaks_not_compared = "the export holds the vendor library's peak-picked centroids (ABI/Analyst peak picking); the reader returns the stored TDC profile"
 
 [[file]]
 id = "mtbls851-dry-cal20180201114106110-scan"
@@ -62608,3 +62610,1207 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS851 (Untargeted In Silico Compound Classification: chemodiversity in bryophytes)"
 attribution = "MTBLS851 submitters (MetaboLights)"
 notes = "depositor-made mzML (ProteoWizard 3.0.19142, vendor peak picking) of dry_Cal20180201114106110.wiff: 56 MS1 and 56 MS/MS centroid spectra"
+
+# ---- EPR: Bruker ESP/EMX (WinEPR and ESP) .par/.spc, ground truth cwepr 0.5.1 (oracle/esp_cwepr_oracle.py), added 2026-10-06
+
+[[file]]
+id = "epr-zenodo7433815-dmttf-20k"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-zenodo7433815-dmttf-20k.par"
+url = "https://zenodo.org/api/records/7433815/files/20220216_DMTTF_NO2_20K_0p2G_15dB_60d.par/content"
+sha256 = "0d5260b916fe7f7dbce136ec0c36024327f000f69f76446a922cdbf7f3b20245"
+size = 412
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/7433815 (CC-BY-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo record 7433815 'A tetrathiafulvalene salt of the nitrite (NO2-) anion: investigations of the spin-Peierls phase', 20220216_DMTTF_NO2_20K_0p2G_15dB_60d.par"
+attribution = "Sylvain Bertaina, Marc Fourmigué, Maylis Orio"
+notes = "EMX (WinEPR, \"DOS Format\") cw field sweep of (DMTTF)2NO2 at 20 K, 1024 points, 3333-3353 G. The record also holds the depositor's own Python converter (EPRconverter.py, float32 little-endian); ground truth: cwepr."
+
+[[file]]
+id = "epr-zenodo7433815-dmttf-20k-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-zenodo7433815-dmttf-20k.spc"
+url = "https://zenodo.org/api/records/7433815/files/20220216_DMTTF_NO2_20K_0p2G_15dB_60d.spc/content"
+sha256 = "80d16bc10f018c7f667ceebdc99a1899d7150729575c8a49abd6590cedc628f2"
+size = 4096
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/7433815 (CC-BY-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo record 7433815 'A tetrathiafulvalene salt of the nitrite (NO2-) anion: investigations of the spin-Peierls phase', 20220216_DMTTF_NO2_20K_0p2G_15dB_60d.spc"
+attribution = "Sylvain Bertaina, Marc Fourmigué, Maylis Orio"
+notes = "data file of epr-zenodo7433815-dmttf-20k"
+
+[[file]]
+id = "epr-zenodo7433815-dmttf-150k"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-zenodo7433815-dmttf-150k.par"
+url = "https://zenodo.org/api/records/7433815/files/20220216_DMTTF_NO2_150K_0p2G_15dB_60d.par/content"
+sha256 = "1dc579cc81ed60a7e444f82303102c31636b6237ba7c27d0020dc8d4246f00f8"
+size = 399
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/7433815 (CC-BY-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo record 7433815 'A tetrathiafulvalene salt of the nitrite (NO2-) anion: investigations of the spin-Peierls phase', 20220216_DMTTF_NO2_150K_0p2G_15dB_60d.par"
+attribution = "Sylvain Bertaina, Marc Fourmigué, Maylis Orio"
+notes = "EMX (WinEPR) cw field sweep at 150 K, 1024 points, 3318-3368 G. Ground truth: cwepr."
+
+[[file]]
+id = "epr-zenodo7433815-dmttf-150k-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-zenodo7433815-dmttf-150k.spc"
+url = "https://zenodo.org/api/records/7433815/files/20220216_DMTTF_NO2_150K_0p2G_15dB_60d.spc/content"
+sha256 = "b3f2a185eb22c2cf38a3ed0f58cabbbef15d8419aaa46d0904ab37c44d76ea12"
+size = 4096
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/7433815 (CC-BY-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo record 7433815 'A tetrathiafulvalene salt of the nitrite (NO2-) anion: investigations of the spin-Peierls phase', 20220216_DMTTF_NO2_150K_0p2G_15dB_60d.spc"
+attribution = "Sylvain Bertaina, Marc Fourmigué, Maylis Orio"
+notes = "data file of epr-zenodo7433815-dmttf-150k"
+
+[[file]]
+id = "epr-zenodo7433815-nq113-angles"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-zenodo7433815-nq113-angles.par"
+url = "https://zenodo.org/api/records/7433815/files/2022_07_28_NQ113_15dB_0p2G_300K_angles.par/content"
+sha256 = "98bc3657aa0ceb14e61dd56745eb06198b8ce83f50105fcccf63335f870285be"
+size = 500
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/7433815 (CC-BY-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo record 7433815 'A tetrathiafulvalene salt of the nitrite (NO2-) anion: investigations of the spin-Peierls phase', 2022_07_28_NQ113_15dB_0p2G_300K_angles.par"
+attribution = "Sylvain Bertaina, Marc Fourmigué, Maylis Orio"
+notes = "EMX (WinEPR) 2D field x angle sweep at 300 K: 37 sweeps of 1024 points (SSX/SSY), angle axis 0-180 deg. Ground truth: cwepr values cut into SSY sweeps of SSX values (sweeps 0, 18, 36; no abscissa)."
+
+[[file]]
+id = "epr-zenodo7433815-nq113-angles-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-zenodo7433815-nq113-angles.spc"
+url = "https://zenodo.org/api/records/7433815/files/2022_07_28_NQ113_15dB_0p2G_300K_angles.spc/content"
+sha256 = "95700ea57c36380021e5bff0341c3dfd1448181fc6abdf0bacd1e2d01aaa1f20"
+size = 151552
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/7433815 (CC-BY-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo record 7433815 'A tetrathiafulvalene salt of the nitrite (NO2-) anion: investigations of the spin-Peierls phase', 2022_07_28_NQ113_15dB_0p2G_300K_angles.spc"
+attribution = "Sylvain Bertaina, Marc Fourmigué, Maylis Orio"
+notes = "data file of epr-zenodo7433815-nq113-angles"
+
+[[file]]
+id = "epr-easyspin-esp"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-easyspin-esp.par"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/esp.par"
+sha256 = "2315d16c0474b688b0451de603e3df97b0e647b891ec9862caa27bcf1319a984"
+size = 287
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/esp.par"
+attribution = "EasySpin test files"
+notes = "ESP (big-endian int32, no \"DOS Format\" line) cw field sweep, RES 8192, 3463-3513 G, dated 12.Dec.2001. Ground truth: cwepr (ESP decoding)."
+
+[[file]]
+id = "epr-easyspin-esp-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-easyspin-esp.spc"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/esp.spc"
+sha256 = "141eb8bf29977c1d8b09f3d4f2d18442adae137ccfbb90ca9ef88125068cb0fb"
+size = 32768
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/esp.spc"
+attribution = "EasySpin test files"
+notes = "data file of epr-easyspin-esp"
+
+[[file]]
+id = "epr-easyspin-sample2"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-easyspin-sample2.par"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/SAMPLE2.PAR"
+sha256 = "7131dec8f31aa4212426cfe0e0452053c30ecb972a07993eec708b9ce9788a16"
+size = 359
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/SAMPLE2.PAR"
+attribution = "EasySpin test files"
+notes = "ESP (big-endian) cw spectrum, 2048 points over 2000 G (JSS 2). The instrument clock wrote JDA 20-JUL-1900, which is read as the acquisition date. Ground truth: cwepr."
+
+[[file]]
+id = "epr-easyspin-sample2-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-easyspin-sample2.spc"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/SAMPLE2.SPC"
+sha256 = "f69106c5b91ced83e0485e1b593b0f4bbaab8d2ad1707026c7ed67d0af48f730"
+size = 8192
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/SAMPLE2.SPC"
+attribution = "EasySpin test files"
+notes = "data file of epr-easyspin-sample2"
+
+[[file]]
+id = "epr-easyspin-100416-wt60min"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-easyspin-100416-wt60min.par"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/100416_wt60min.par"
+sha256 = "0a88ef9f6a0a0aea26fdb1ba76e05efa013bba3b22a64ed44a28ca5247421864"
+size = 304
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/100416_wt60min.par"
+attribution = "EasySpin test files"
+notes = "ESP (big-endian) cw spectrum, 1024 points over 1000 G, 16-APR-2010, 20 K. Ground truth: cwepr."
+
+[[file]]
+id = "epr-easyspin-100416-wt60min-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-easyspin-100416-wt60min.spc"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/100416_wt60min.spc"
+sha256 = "51cd36c107d68c82903616484b57fcf2d6048f6b2d630786370bbcde9505fe89"
+size = 4096
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/100416_wt60min.spc"
+attribution = "EasySpin test files"
+notes = "data file of epr-easyspin-100416-wt60min"
+
+[[file]]
+id = "epr-easyspin-00011201"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-easyspin-00011201.par"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/00011201.par"
+sha256 = "3739194f7a7a14d55d370a0d356a9072b649168a1c71ba73fd1fc2397eb3731e"
+size = 239
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/00011201.par"
+attribution = "EasySpin test files"
+notes = "ESP (big-endian) cw spectrum, 1024 points over 4000 G (JDA 12-JAN-1900, an unset instrument clock). Ground truth: cwepr."
+
+[[file]]
+id = "epr-easyspin-00011201-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-easyspin-00011201.spc"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/00011201.spc"
+sha256 = "a322b41f0a61a83a84f9658fee32836c6873adf58d479dfbe58b9c929fcb53b1"
+size = 4096
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/00011201.spc"
+attribution = "EasySpin test files"
+notes = "data file of epr-easyspin-00011201"
+
+[[file]]
+id = "epr-easyspin-emx-field1d"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-easyspin-emx-field1d.par"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/EMX_field1d.par"
+sha256 = "afbf2e940fd229f109cda0d2211383c614e1526aa4f3bbdb27866f37fb68148d"
+size = 430
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/EMX_field1d.par"
+attribution = "EasySpin test files"
+notes = "EMX (WinEPR) 1D field sweep, 1024 points, 3410-3550 G, 2012-03-15. Ground truth: cwepr."
+
+[[file]]
+id = "epr-easyspin-emx-field1d-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-easyspin-emx-field1d.spc"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/EMX_field1d.spc"
+sha256 = "1d75ee60f023f3fa1f2f9473a25635346f1249b4eda55e0b30a5bd874a05820b"
+size = 4096
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/EMX_field1d.spc"
+attribution = "EasySpin test files"
+notes = "data file of epr-easyspin-emx-field1d"
+
+[[file]]
+id = "epr-easyspin-frem-gly"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-easyspin-frem-gly.par"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/frem_gly.par"
+sha256 = "f0d917b08f6c70f4edff17b5831a98617609934f0cd95f5ba7392ead8b9554cf"
+size = 414
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/frem_gly.par"
+attribution = "EasySpin test files"
+notes = "WinEPR (\"DOS Format\") cw spectrum of Fremy salt in glycerol, 4096 points over 60.02 G, 1995. Ground truth: cwepr."
+
+[[file]]
+id = "epr-easyspin-frem-gly-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-easyspin-frem-gly.spc"
+url = "https://raw.githubusercontent.com/StollLab/EasySpin/d46e5ef96d092d78c99e9a561d84308e1ca9331d/tests/eprfiles/frem_gly.spc"
+sha256 = "01366e5821de107770149e2a022012e60c87e079ffa21defcdab950c8a4d7efb"
+size = 16384
+license = "MIT"
+license_checked = "https://github.com/StollLab/EasySpin/blob/d46e5ef96d092d78c99e9a561d84308e1ca9331d/LICENSE.md (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub StollLab/EasySpin (commit d46e5ef), tests/eprfiles/frem_gly.spc"
+attribution = "EasySpin test files"
+notes = "data file of epr-easyspin-frem-gly"
+
+[[file]]
+id = "epr-cwepr-esp"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-cwepr-esp.par"
+url = "https://raw.githubusercontent.com/tillbiskup/cwepr/707eb6097e9e36479aa43d772c743bd9f030c05a/tests/io/testdata/ESP.par"
+sha256 = "d5f15692da5c56d9b9fcc88fe0df26affcacf09e39b8ddb8b395fdd4f7d49926"
+size = 267
+license = "BSD-2-Clause"
+license_checked = "https://github.com/tillbiskup/cwepr/blob/707eb6097e9e36479aa43d772c743bd9f030c05a/LICENSE (BSD-2-Clause, GitHub licence API), 2026-10-06"
+source = "GitHub tillbiskup/cwepr (commit 707eb60), tests/io/testdata/ESP.par"
+attribution = "cwepr test data (Till Biskup et al.)"
+notes = "ESP (big-endian) cw spectrum, 1024 points, 1999-04-04 (an empty 2 mm tube). Ground truth: cwepr, the package these test files belong to."
+
+[[file]]
+id = "epr-cwepr-esp-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-cwepr-esp.spc"
+url = "https://raw.githubusercontent.com/tillbiskup/cwepr/707eb6097e9e36479aa43d772c743bd9f030c05a/tests/io/testdata/ESP.spc"
+sha256 = "f39faf029b144e5e98cc55691f9d086838074d10e1a349b7ae9e49e667b2ca06"
+size = 4096
+license = "BSD-2-Clause"
+license_checked = "https://github.com/tillbiskup/cwepr/blob/707eb6097e9e36479aa43d772c743bd9f030c05a/LICENSE (BSD-2-Clause, GitHub licence API), 2026-10-06"
+source = "GitHub tillbiskup/cwepr (commit 707eb60), tests/io/testdata/ESP.spc"
+attribution = "cwepr test data (Till Biskup et al.)"
+notes = "data file of epr-cwepr-esp"
+
+[[file]]
+id = "epr-cwepr-winepr"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-cwepr-winepr.par"
+url = "https://raw.githubusercontent.com/tillbiskup/cwepr/707eb6097e9e36479aa43d772c743bd9f030c05a/tests/io/testdata/winepr.par"
+sha256 = "f104221679da17b6b7e9e33179e00c714ed7443b1ec46e8a5bad79cf172e1fdb"
+size = 432
+license = "BSD-2-Clause"
+license_checked = "https://github.com/tillbiskup/cwepr/blob/707eb6097e9e36479aa43d772c743bd9f030c05a/LICENSE (BSD-2-Clause, GitHub licence API), 2026-10-06"
+source = "GitHub tillbiskup/cwepr (commit 707eb60), tests/io/testdata/winepr.par"
+attribution = "cwepr test data (Till Biskup et al.)"
+notes = "WinEPR cw spectrum, 2048 points, 2021-10-15. Ground truth: cwepr."
+
+[[file]]
+id = "epr-cwepr-winepr-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-cwepr-winepr.spc"
+url = "https://raw.githubusercontent.com/tillbiskup/cwepr/707eb6097e9e36479aa43d772c743bd9f030c05a/tests/io/testdata/winepr.spc"
+sha256 = "bb1d240421a4ccb0dfa4db9aac8f60e293fd0dfb29e9389f60f2e51337f801c3"
+size = 8192
+license = "BSD-2-Clause"
+license_checked = "https://github.com/tillbiskup/cwepr/blob/707eb6097e9e36479aa43d772c743bd9f030c05a/LICENSE (BSD-2-Clause, GitHub licence API), 2026-10-06"
+source = "GitHub tillbiskup/cwepr (commit 707eb60), tests/io/testdata/winepr.spc"
+attribution = "cwepr test data (Till Biskup et al.)"
+notes = "data file of epr-cwepr-winepr"
+
+[[file]]
+id = "epr-cwepr-emx-winepr"
+format = "bruker-esp"
+family = "epr"
+role = "input"
+tier = "smoke"
+filename = "epr-cwepr-emx-winepr.par"
+url = "https://raw.githubusercontent.com/tillbiskup/cwepr/707eb6097e9e36479aa43d772c743bd9f030c05a/tests/io/testdata/EMX-winEPR.par"
+sha256 = "47f9dfea679ea96c76423678887055425113679c0615835fe3fbff730c12dc8b"
+size = 327
+license = "BSD-2-Clause"
+license_checked = "https://github.com/tillbiskup/cwepr/blob/707eb6097e9e36479aa43d772c743bd9f030c05a/LICENSE (BSD-2-Clause, GitHub licence API), 2026-10-06"
+source = "GitHub tillbiskup/cwepr (commit 707eb60), tests/io/testdata/EMX-winEPR.par"
+attribution = "cwepr test data (Till Biskup et al.)"
+notes = "EMX WinEPR cw spectrum, 1024 points (no date in the .par). Ground truth: cwepr. Its .info sidecar is not taken."
+
+[[file]]
+id = "epr-cwepr-emx-winepr-spc"
+format = "bruker-esp"
+family = "epr"
+role = "part"
+tier = "smoke"
+filename = "epr-cwepr-emx-winepr.spc"
+url = "https://raw.githubusercontent.com/tillbiskup/cwepr/707eb6097e9e36479aa43d772c743bd9f030c05a/tests/io/testdata/EMX-winEPR.spc"
+sha256 = "52b735eecac0029594aa79b76e35bb02ac4cd66c5592f72de73733bdf8b55bf1"
+size = 4096
+license = "BSD-2-Clause"
+license_checked = "https://github.com/tillbiskup/cwepr/blob/707eb6097e9e36479aa43d772c743bd9f030c05a/LICENSE (BSD-2-Clause, GitHub licence API), 2026-10-06"
+source = "GitHub tillbiskup/cwepr (commit 707eb60), tests/io/testdata/EMX-winEPR.spc"
+attribution = "cwepr test data (Till Biskup et al.)"
+notes = "data file of epr-cwepr-emx-winepr"
+
+# ---- XRD: Rigaku RASX, ground truth FAIRmat readers-xrd (oracle/rigaku_oracle.py), added 2026-10-06
+
+[[file]]
+id = "xrd-fairmat-rasx-zno-ald"
+format = "rigaku-rasx"
+family = "diffraction"
+role = "input"
+tier = "smoke"
+filename = "xrd-fairmat-rasx-zno-ald.rasx"
+url = "https://raw.githubusercontent.com/FAIRmat-NFDI/readers-xrd/3f3eb8b307ed13a494ad44f3f3998f8c9120219b/tests/data/ZnO-ALD-training_001_1_0-000_0-000.rasx"
+sha256 = "5cefe27fd845669f0dc4626a313c1d56ab55e8198bdf7be99e6740aa490b1829"
+size = 28959
+license = "Apache-2.0"
+license_checked = "https://github.com/FAIRmat-NFDI/readers-xrd/blob/3f3eb8b307ed13a494ad44f3f3998f8c9120219b/LICENSE (Apache-2.0, GitHub licence API), 2026-10-06"
+source = "GitHub FAIRmat-NFDI/readers-xrd (commit 3f3eb8b), tests/data/ZnO-ALD-training_001_1_0-000_0-000.rasx"
+attribution = "FAIRmat-NFDI (readers-xrd test data)"
+notes = "RASX 2θ/θ line scan (axis TwoThetaTheta), 7001 points 20-90°, with root.xml. Ground truth: fairmat-readers-xrd read_rigaku_rasx."
+
+[[file]]
+id = "xrd-fairmat-rasx-omega2theta-ht"
+format = "rigaku-rasx"
+family = "diffraction"
+role = "input"
+tier = "smoke"
+filename = "xrd-fairmat-rasx-omega2theta-ht.rasx"
+url = "https://raw.githubusercontent.com/FAIRmat-NFDI/readers-xrd/3f3eb8b307ed13a494ad44f3f3998f8c9120219b/tests/data/Omega-2Theta_scan_high_temperature.rasx"
+sha256 = "475618060f3d10024c218034925e2d890a0dfd527cb2ee05bfd88f6856ead48b"
+size = 17032
+license = "Apache-2.0"
+license_checked = "https://github.com/FAIRmat-NFDI/readers-xrd/blob/3f3eb8b307ed13a494ad44f3f3998f8c9120219b/LICENSE (Apache-2.0, GitHub licence API), 2026-10-06"
+source = "GitHub FAIRmat-NFDI/readers-xrd (commit 3f3eb8b), tests/data/Omega-2Theta_scan_high_temperature.rasx"
+attribution = "FAIRmat-NFDI (readers-xrd test data)"
+notes = "RASX ω/2θ line scan (axis TwoThetaOmega) at high temperature, 1042 points 44-49°. Ground truth: fairmat-readers-xrd."
+
+[[file]]
+id = "xrd-fairmat-rasx-rsm111"
+format = "rigaku-rasx"
+family = "diffraction"
+role = "input"
+tier = "smoke"
+filename = "xrd-fairmat-rasx-rsm111.rasx"
+url = "https://raw.githubusercontent.com/FAIRmat-NFDI/readers-xrd/3f3eb8b307ed13a494ad44f3f3998f8c9120219b/tests/data/RSM_111_sdd%3D350.rasx"
+sha256 = "98941574b0ceeaa3e20c38f24bf997f55b2c387d9f8322846e7c7f1ec1e64c65"
+size = 2368723
+license = "Apache-2.0"
+license_checked = "https://github.com/FAIRmat-NFDI/readers-xrd/blob/3f3eb8b307ed13a494ad44f3f3998f8c9120219b/LICENSE (Apache-2.0, GitHub licence API), 2026-10-06"
+source = "GitHub FAIRmat-NFDI/readers-xrd (commit 3f3eb8b), tests/data/RSM_111_sdd=350.rasx"
+attribution = "FAIRmat-NFDI (readers-xrd test data)"
+notes = "RASX reciprocal-space map: 401 Data<k>/Profile<k>.txt scans of 301 points (2θ 36.544-42.544°, ω 17.702-21.702°). Ground truth: fairmat-readers-xrd, scans 0, 200 and 400 in Data<k> order. FAILS on 2026-10-06: openreadout orders the scans by folder name as text (Data0, Data1, Data10, Data100, ...), so its trace 200 holds Data279."
+
+[[file]]
+id = "xrd-figshare32834120-ras-bc"
+format = "rigaku-ras"
+family = "diffraction"
+role = "input"
+tier = "standard"
+filename = "xrd-figshare32834120-ras-bc.ras"
+url = "https://ndownloader.figshare.com/files/66568625"
+sha256 = "1e18db5f65b30a05a5a12240b6631e7ed49c93e4859c8bb7871899df96dc7079"
+size = 217282
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/32834120 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 32834120 'Data from the Study on the Effects of Modified Biochar on Water Movement and Nitrogen Leaching', BC.ras (file 66568625)"
+attribution = "Gengmin Jiang"
+notes = "SmartLab RAS (RAS 1) 2θ/θ scan of biochar, 7501 points 5-80°, 2025-11-11 09:26:08 local time. The same measurement is in the record as BC.rasx (xrd-figshare32834120-rasx-bc): the two agree value for value. Ground truth: xrayutilities RASFile."
+
+[[file]]
+id = "xrd-figshare32834120-rasx-bc"
+format = "rigaku-rasx"
+family = "diffraction"
+role = "input"
+tier = "standard"
+filename = "xrd-figshare32834120-rasx-bc.rasx"
+url = "https://ndownloader.figshare.com/files/66568634"
+sha256 = "688615100d67d262567df1e0500fd46a15241693dfa81c1ef499bdce93aaea56"
+size = 35032
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/32834120 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 32834120 'Data from the Study on the Effects of Modified Biochar on Water Movement and Nitrogen Leaching', BC.rasx (file 66568634)"
+attribution = "Gengmin Jiang"
+notes = "SmartLab RASX of the same scan as xrd-figshare32834120-ras-bc (start 2025-11-11T01:26:08Z, the RAS file's local 09:26:08 at UTC+8). Ground truth: fairmat-readers-xrd."
+
+[[file]]
+id = "xrd-figshare31861468-rasx-mos2cqd"
+format = "rigaku-rasx"
+family = "diffraction"
+role = "input"
+tier = "standard"
+filename = "xrd-figshare31861468-rasx-mos2cqd.rasx"
+url = "https://ndownloader.figshare.com/files/63139693"
+sha256 = "4a978745931544868d43d566527c85f68bb07e4fab65f1a845e044597e2a1254"
+size = 41640
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/31861468 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 31861468 'Dataset for Nitrogen-Engineered MoS2 Quantum Dots', mos2cqd.rasx (file 63139693)"
+attribution = "Yonggen Tan"
+notes = "SmartLab XE RASX powder scan, 3502 points 10-80.02°, 2025-04-18. Ground truth: fairmat-readers-xrd."
+
+[[file]]
+id = "xrd-figshare28490114-rasx-prosser-cultivated"
+format = "rigaku-rasx"
+family = "diffraction"
+role = "input"
+tier = "standard"
+filename = "xrd-figshare28490114-rasx-prosser-cultivated.rasx"
+url = "https://ndownloader.figshare.com/files/52611128"
+sha256 = "d1ff20ffa9b8339cc0b20756146ba4da9da43d7d81033fd487ea4c26305b4a0f"
+size = 45136
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/28490114 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 28490114 'Soil Chem Phys Prop', Prosser_cultivated.rasx (file 52611128)"
+attribution = "Tamas Varga, Thomas W. Wietsma, et al."
+notes = "SmartLab RASX soil scan, 9801 points 2-100°, 2022-07-28. Ground truth: fairmat-readers-xrd."
+
+# ---- Olympus FluoView OIF, ground truth Bio-Formats + oiffile (gen.py) or oiffile alone (oracle/oif_oiffile_oracle.py), added 2026-10-06
+
+[[file]]
+id = "zenodo4421962-bead6-50x-noosc"
+format = "oif"
+role = "input"
+tier = "smoke"
+filename = "olympus-fv/zenodo4421962-oif/bead6/50x_noosc.oif"
+url = "https://zenodo.org/api/records/4421962/files/OIF.zip/container/OIF/bead6/50x_noosc.oif"
+sha256 = "3b93440df409f47c5f58d5db7f346b22839c6ed10dd4f767d67c9c8a5bc6bc33"
+size = 52788
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/4421962 (CC0-1.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4421962 'Fibrin fiber fluctuation', OIF.zip"
+attribution = "Qingda Hu, Elliot Botvinick"
+notes = "member OIF/bead6/50x_noosc.oif of OIF.zip (another bead than the Bead12 and Bead4 files); FV1000 OIF, 2 channels (CH2, TD1) 256x256 uint16. Ground truth: Bio-Formats, oiffile agrees."
+
+[[file]]
+id = "zenodo4421962-bead6-50x-noosc-s-447810712-1688080602-roi"
+format = "oif"
+role = "part"
+tier = "smoke"
+filename = "olympus-fv/zenodo4421962-oif/bead6/50x_noosc.oif.files/s_447810712-1688080602.roi"
+url = "https://zenodo.org/api/records/4421962/files/OIF.zip/container/OIF/bead6/50x_noosc.oif.files/s_447810712-1688080602.roi"
+sha256 = "c119741f9880fca98287a1b0843509784a9896a2157ea0f3ace2b341feff46ab"
+size = 160
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/4421962 (CC0-1.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4421962 'Fibrin fiber fluctuation', OIF.zip"
+attribution = "Qingda Hu, Elliot Botvinick"
+notes = "file of the zenodo4421962-bead6-50x-noosc data folder"
+
+[[file]]
+id = "zenodo4421962-bead6-50x-noosc-s-c001-pty"
+format = "oif"
+role = "part"
+tier = "smoke"
+filename = "olympus-fv/zenodo4421962-oif/bead6/50x_noosc.oif.files/s_C001.pty"
+url = "https://zenodo.org/api/records/4421962/files/OIF.zip/container/OIF/bead6/50x_noosc.oif.files/s_C001.pty"
+sha256 = "1fead4021ffee68535bd9ab7c91b44521489066a4c4bfa40b012ec196f86c282"
+size = 4210
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/4421962 (CC0-1.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4421962 'Fibrin fiber fluctuation', OIF.zip"
+attribution = "Qingda Hu, Elliot Botvinick"
+notes = "file of the zenodo4421962-bead6-50x-noosc data folder"
+
+[[file]]
+id = "zenodo4421962-bead6-50x-noosc-s-c001-tif"
+format = "oif"
+role = "part"
+tier = "smoke"
+filename = "olympus-fv/zenodo4421962-oif/bead6/50x_noosc.oif.files/s_C001.tif"
+url = "https://zenodo.org/api/records/4421962/files/OIF.zip/container/OIF/bead6/50x_noosc.oif.files/s_C001.tif"
+sha256 = "22c7e1608363a5a06637ea022ce54c6990f2a7bfbd3c1b119e0a450206eae842"
+size = 131412
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/4421962 (CC0-1.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4421962 'Fibrin fiber fluctuation', OIF.zip"
+attribution = "Qingda Hu, Elliot Botvinick"
+notes = "file of the zenodo4421962-bead6-50x-noosc data folder"
+
+[[file]]
+id = "zenodo4421962-bead6-50x-noosc-s-c002-pty"
+format = "oif"
+role = "part"
+tier = "smoke"
+filename = "olympus-fv/zenodo4421962-oif/bead6/50x_noosc.oif.files/s_C002.pty"
+url = "https://zenodo.org/api/records/4421962/files/OIF.zip/container/OIF/bead6/50x_noosc.oif.files/s_C002.pty"
+sha256 = "f507ba8530934401ea1ad6ee331379e45a31ee6729f2f942de9e4d3b0dc8bab8"
+size = 4214
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/4421962 (CC0-1.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4421962 'Fibrin fiber fluctuation', OIF.zip"
+attribution = "Qingda Hu, Elliot Botvinick"
+notes = "file of the zenodo4421962-bead6-50x-noosc data folder"
+
+[[file]]
+id = "zenodo4421962-bead6-50x-noosc-s-c002-tif"
+format = "oif"
+role = "part"
+tier = "smoke"
+filename = "olympus-fv/zenodo4421962-oif/bead6/50x_noosc.oif.files/s_C002.tif"
+url = "https://zenodo.org/api/records/4421962/files/OIF.zip/container/OIF/bead6/50x_noosc.oif.files/s_C002.tif"
+sha256 = "d667bf525a10abf18ccef463cb6bf77f38b438f5e7037f49bfd3ab1115835699"
+size = 131412
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/4421962 (CC0-1.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4421962 'Fibrin fiber fluctuation', OIF.zip"
+attribution = "Qingda Hu, Elliot Botvinick"
+notes = "file of the zenodo4421962-bead6-50x-noosc data folder"
+
+[[file]]
+id = "zenodo4421962-bead6-50x-noosc-s-lut1-lut"
+format = "oif"
+role = "part"
+tier = "smoke"
+filename = "olympus-fv/zenodo4421962-oif/bead6/50x_noosc.oif.files/s_LUT1.lut"
+url = "https://zenodo.org/api/records/4421962/files/OIF.zip/container/OIF/bead6/50x_noosc.oif.files/s_LUT1.lut"
+sha256 = "b897979bce9a9bd2f561796a17877dcac9410178c61ea6718b10d3b2653b4065"
+size = 262748
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/4421962 (CC0-1.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4421962 'Fibrin fiber fluctuation', OIF.zip"
+attribution = "Qingda Hu, Elliot Botvinick"
+notes = "file of the zenodo4421962-bead6-50x-noosc data folder"
+
+[[file]]
+id = "zenodo4421962-bead6-50x-noosc-s-lut2-lut"
+format = "oif"
+role = "part"
+tier = "smoke"
+filename = "olympus-fv/zenodo4421962-oif/bead6/50x_noosc.oif.files/s_LUT2.lut"
+url = "https://zenodo.org/api/records/4421962/files/OIF.zip/container/OIF/bead6/50x_noosc.oif.files/s_LUT2.lut"
+sha256 = "e93fe3d7393a629ac23904c3097081f6e3fb76419579b75a5f760b47fb6bf927"
+size = 262748
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/4421962 (CC0-1.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4421962 'Fibrin fiber fluctuation', OIF.zip"
+attribution = "Qingda Hu, Elliot Botvinick"
+notes = "file of the zenodo4421962-bead6-50x-noosc data folder"
+
+[[file]]
+id = "zenodo4421962-bead6-50x-noosc-s-thumb-bmp"
+format = "oif"
+role = "part"
+tier = "smoke"
+filename = "olympus-fv/zenodo4421962-oif/bead6/50x_noosc.oif.files/s_Thumb.bmp"
+url = "https://zenodo.org/api/records/4421962/files/OIF.zip/container/OIF/bead6/50x_noosc.oif.files/s_Thumb.bmp"
+sha256 = "bd8682547cb6c5ba35a6db118102e94f965a47b10db6cf7c9b91236e875178ff"
+size = 39958
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/4421962 (CC0-1.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4421962 'Fibrin fiber fluctuation', OIF.zip"
+attribution = "Qingda Hu, Elliot Botvinick"
+notes = "file of the zenodo4421962-bead6-50x-noosc data folder"
+
+[[file]]
+id = "zenodo4421962-bead6-50x-noosc-s-thumb-pty"
+format = "oif"
+role = "part"
+tier = "smoke"
+filename = "olympus-fv/zenodo4421962-oif/bead6/50x_noosc.oif.files/s_Thumb.pty"
+url = "https://zenodo.org/api/records/4421962/files/OIF.zip/container/OIF/bead6/50x_noosc.oif.files/s_Thumb.pty"
+sha256 = "4c3174081d170a8f40c0a1a103fa3d8d9b486db465e575fd56bb6120cd9786b9"
+size = 2274
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/4421962 (CC0-1.0, Zenodo API), 2026-10-06"
+source = "Zenodo 4421962 'Fibrin fiber fluctuation', OIF.zip"
+attribution = "Qingda Hu, Elliot Botvinick"
+notes = "file of the zenodo4421962-bead6-50x-noosc data folder"
+
+[[file]]
+id = "figshare19409903-fig2a"
+format = "oif"
+role = "input"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif"
+url = "https://ndownloader.figshare.com/files/36681471"
+sha256 = "fb991adba2b6422ace4074b60ebffd6b49b0af5e0845d5411888498a6c424a19"
+size = 6616
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), Fig2a.oif (file 36681471)"
+attribution = "Peter Corridon"
+notes = "OIF FileVersion 1.2.3.0 (FileType \"Color32Bit\", axes calibrated in pixels, ValidBitCounts=8): 3 channels (Blue, Green, Red) 566x566 stored as 16-bit TIFFs with values up to 255. figshare keeps the .oif.files folder flat: the folder is the 12 files uploaded right after the ROI file the .oif names (their sizes add up to the .oif's TotalFileSize). Bio-Formats 8.5.0 reads these planes as uint8 with values that are neither the stored samples nor their bytes; ground truth: oiffile alone (oracle/oif_oiffile_oracle.py). Rat kidney scaffolds (two-photon intravital)."
+
+[[file]]
+id = "figshare19409903-fig2a-s-c001-pty"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_C001.pty"
+url = "https://ndownloader.figshare.com/files/36681474"
+sha256 = "2bd7a15e9c0425c8da526ba4032bd218cec74e9e0ba498155284e740c7b14f38"
+size = 2430
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C001.pty (file 36681474)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681474)"
+
+[[file]]
+id = "figshare19409903-fig2a-s-2022811184322413031-roi"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_2022811184322413031.roi"
+url = "https://ndownloader.figshare.com/files/36681477"
+sha256 = "4fb58b3c940743b15423740f0d1b0741f51a213223c72892796ade5822001807"
+size = 158
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_2022811184322413031.roi (file 36681477)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681477)"
+
+[[file]]
+id = "figshare19409903-fig2a-s-c002-pty"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_C002.pty"
+url = "https://ndownloader.figshare.com/files/36681480"
+sha256 = "7db27951ffa91486e0daa34c23478a2b74ec62c29b05566994a9c5e778fb825c"
+size = 2430
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C002.pty (file 36681480)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681480)"
+
+[[file]]
+id = "figshare19409903-fig2a-s-c1-lut"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_C1.lut"
+url = "https://ndownloader.figshare.com/files/36681483"
+sha256 = "05c85fb94e5f7fb10c17c4cc4554715dbcd009314f676cad6abcbadcc727d0b1"
+size = 262312
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C1.lut (file 36681483)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681483)"
+
+[[file]]
+id = "figshare19409903-fig2a-s-c2-lut"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_C2.lut"
+url = "https://ndownloader.figshare.com/files/36681486"
+sha256 = "630491fcc0d14a58ea0646661f5e1279450c3b8c26f2f27ff18b8b60916bec3e"
+size = 262312
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C2.lut (file 36681486)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681486)"
+
+[[file]]
+id = "figshare19409903-fig2a-s-c001-tif"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_C001.tif"
+url = "https://ndownloader.figshare.com/files/36681489"
+sha256 = "b8c6c10662938a395ad525eede15fbc79ae861b9578f60839a2c076ac6ae0b2f"
+size = 641096
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C001.tif (file 36681489)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681489)"
+
+[[file]]
+id = "figshare19409903-fig2a-s-c002-tif"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_C002.tif"
+url = "https://ndownloader.figshare.com/files/36681492"
+sha256 = "261c6f0c83aa28343ca2e1ed8d61881f58e22d290816002207719e443030d2a0"
+size = 641096
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C002.tif (file 36681492)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681492)"
+
+[[file]]
+id = "figshare19409903-fig2a-s-c3-lut"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_C3.lut"
+url = "https://ndownloader.figshare.com/files/36681495"
+sha256 = "e955dbfbb512ecde62ca196e9ed1d6e179e1e590709d010768212f361dbd6dfc"
+size = 262312
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C3.lut (file 36681495)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681495)"
+
+[[file]]
+id = "figshare19409903-fig2a-s-c003-pty"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_C003.pty"
+url = "https://ndownloader.figshare.com/files/36681498"
+sha256 = "dcc58e300106d63da054d2f65da289b21d4b643a485e786cd7c5dad80be292f7"
+size = 2430
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C003.pty (file 36681498)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681498)"
+
+[[file]]
+id = "figshare19409903-fig2a-s-c003-tif"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_C003.tif"
+url = "https://ndownloader.figshare.com/files/36681501"
+sha256 = "261c6f0c83aa28343ca2e1ed8d61881f58e22d290816002207719e443030d2a0"
+size = 641096
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C003.tif (file 36681501)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681501)"
+
+[[file]]
+id = "figshare19409903-fig2a-s-thumb-bmp"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_Thumb.bmp"
+url = "https://ndownloader.figshare.com/files/36681504"
+sha256 = "b90ea35c4d0f5adf45b313f1c3426b4b0e53c0bebe81456247742f42d70a3c1a"
+size = 39958
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_Thumb.bmp (file 36681504)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681504)"
+
+[[file]]
+id = "figshare19409903-fig2a-s-thumb-pty"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2a.oif.files/s_Thumb.pty"
+url = "https://ndownloader.figshare.com/files/36681507"
+sha256 = "4c3174081d170a8f40c0a1a103fa3d8d9b486db465e575fd56bb6120cd9786b9"
+size = 2274
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_Thumb.pty (file 36681507)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2a data folder (figshare file 36681507)"
+
+[[file]]
+id = "figshare19409903-fig2b"
+format = "oif"
+role = "input"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif"
+url = "https://ndownloader.figshare.com/files/36681468"
+sha256 = "821f9fff3055cc9ac9c0cb773b50287634f2291ec5829910700a1a4e78f25c20"
+size = 6630
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), Fig2b.oif (file 36681468)"
+attribution = "Peter Corridon"
+notes = "OIF FileVersion 1.2.3.0 (FileType \"Color32Bit\", axes calibrated in pixels, ValidBitCounts=8): 3 channels (Blue, Green, Red) 1136x1136 stored as 16-bit TIFFs with values up to 255. figshare keeps the .oif.files folder flat: the folder is the 12 files uploaded right after the ROI file the .oif names (their sizes add up to the .oif's TotalFileSize). Bio-Formats 8.5.0 reads these planes as uint8 with values that are neither the stored samples nor their bytes; ground truth: oiffile alone (oracle/oif_oiffile_oracle.py). Rat kidney scaffolds (two-photon intravital)."
+
+[[file]]
+id = "figshare19409903-fig2b-s-20228111857343285171-roi"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_20228111857343285171.roi"
+url = "https://ndownloader.figshare.com/files/36681510"
+sha256 = "419df7fe5d9191b1abb47f7615fad4614b5fbdc6f4f21fb37366dbae08b0fef4"
+size = 160
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_20228111857343285171.roi (file 36681510)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681510)"
+
+[[file]]
+id = "figshare19409903-fig2b-s-c1-lut"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_C1.lut"
+url = "https://ndownloader.figshare.com/files/36681513"
+sha256 = "05c85fb94e5f7fb10c17c4cc4554715dbcd009314f676cad6abcbadcc727d0b1"
+size = 262312
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C1.lut (file 36681513)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681513)"
+
+[[file]]
+id = "figshare19409903-fig2b-s-c001-pty"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_C001.pty"
+url = "https://ndownloader.figshare.com/files/36681516"
+sha256 = "d1b686fd042ba28f400491e4756428883550b70168bfcb4ad089815dc1a8df1f"
+size = 2436
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C001.pty (file 36681516)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681516)"
+
+[[file]]
+id = "figshare19409903-fig2b-s-c001-tif"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_C001.tif"
+url = "https://ndownloader.figshare.com/files/36681519"
+sha256 = "25d6552a571649694bd2b1557506a107e5f0babed9128b79b13ff30c84e2cf82"
+size = 2581624
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C001.tif (file 36681519)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681519)"
+
+[[file]]
+id = "figshare19409903-fig2b-s-c2-lut"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_C2.lut"
+url = "https://ndownloader.figshare.com/files/36681522"
+sha256 = "630491fcc0d14a58ea0646661f5e1279450c3b8c26f2f27ff18b8b60916bec3e"
+size = 262312
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C2.lut (file 36681522)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681522)"
+
+[[file]]
+id = "figshare19409903-fig2b-s-c002-pty"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_C002.pty"
+url = "https://ndownloader.figshare.com/files/36681525"
+sha256 = "f6f99a4bb3bde9be3116f75d2071c77d62271bb38637f1940e569bbebcac007a"
+size = 2436
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C002.pty (file 36681525)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681525)"
+
+[[file]]
+id = "figshare19409903-fig2b-s-c002-tif"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_C002.tif"
+url = "https://ndownloader.figshare.com/files/36681528"
+sha256 = "e7bc22c5d708dcc9d7d7422903ac265df40b38dfa92dc3fd65dfdd736cfce95d"
+size = 2581624
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C002.tif (file 36681528)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681528)"
+
+[[file]]
+id = "figshare19409903-fig2b-s-c3-lut"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_C3.lut"
+url = "https://ndownloader.figshare.com/files/36681531"
+sha256 = "e955dbfbb512ecde62ca196e9ed1d6e179e1e590709d010768212f361dbd6dfc"
+size = 262312
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C3.lut (file 36681531)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681531)"
+
+[[file]]
+id = "figshare19409903-fig2b-s-c003-pty"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_C003.pty"
+url = "https://ndownloader.figshare.com/files/36681534"
+sha256 = "f7a6286c5e1c99e48d2f1d68611cbeb75dc08dcbf711f8fa58648f1bba74a9a9"
+size = 2436
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C003.pty (file 36681534)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681534)"
+
+[[file]]
+id = "figshare19409903-fig2b-s-c003-tif"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_C003.tif"
+url = "https://ndownloader.figshare.com/files/36681537"
+sha256 = "e7bc22c5d708dcc9d7d7422903ac265df40b38dfa92dc3fd65dfdd736cfce95d"
+size = 2581624
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_C003.tif (file 36681537)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681537)"
+
+[[file]]
+id = "figshare19409903-fig2b-s-thumb-bmp"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_Thumb.bmp"
+url = "https://ndownloader.figshare.com/files/36681540"
+sha256 = "48dbfd31a6b445ea83c3531e33c02a1380aa8eac0f489ebba40921af07cb27cd"
+size = 39958
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_Thumb.bmp (file 36681540)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681540)"
+
+[[file]]
+id = "figshare19409903-fig2b-s-thumb-pty"
+format = "oif"
+role = "part"
+tier = "standard"
+filename = "olympus-fv/figshare19409903-oif/Fig2b.oif.files/s_Thumb.pty"
+url = "https://ndownloader.figshare.com/files/36681543"
+sha256 = "4c3174081d170a8f40c0a1a103fa3d8d9b486db465e575fd56bb6120cd9786b9"
+size = 2274
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/19409903 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 19409903 'Intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys' (v9), s_Thumb.pty (file 36681543)"
+attribution = "Peter Corridon"
+notes = "file of the figshare19409903-fig2b data folder (figshare file 36681543)"
+
+# ---- Olympus FluoView OIB, ground truth Bio-Formats + oiffile (gen.py), added 2026-10-06
+
+[[file]]
+id = "figshare26030764-cg-nap-atb-acemehta-01"
+format = "oib"
+family = "microscopy"
+role = "input"
+tier = "standard"
+filename = "olympus-fv/figshare26030764-CG-NAP_aTB_AceMehta_01.oib"
+url = "https://ndownloader.figshare.com/files/47033065"
+sha256 = "8c6a58613204ef114fee6093f132bd52b6a0e70f529a6f11353859a71055a9c9"
+size = 2519040
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26030764 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 26030764 '210140714_CG-NAP_aTB_AceMehta_01.oib'"
+attribution = "Shinya Ohta"
+notes = "FV1000 OIB (FluoView 4.2), 3 channels 512x512 uint16, 0.082 um pixels, acquired 2014-07-15. Ground truth: Bio-Formats, oiffile agrees."
+
+[[file]]
+id = "figshare12325037-vcfs-prox1-ctnt-x20-f1"
+format = "oib"
+family = "microscopy"
+role = "input"
+tier = "standard"
+filename = "olympus-fv/figshare12325037-VCFs_PROX1_cTnT_x20_F1.oib"
+url = "https://ndownloader.figshare.com/files/22723805"
+sha256 = "963e435a4810421be42f8a17501fda44b118c554c426a19a3feaa2aee18f6603"
+size = 7241728
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/12325037 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 12325037 'Figure 6. C-F / + VCF / 190821_VCFs_PROX1_cTnT_x20_F1'"
+attribution = "Takahiro Iwamiya, Bertrand-David Segard"
+notes = "FV1000 OIB (FluoView 4.2.2.9), 3 channels (CHS1, CHS2, OP4CH) 1024x1024 uint16, 0.621 um pixels, acquired 2019-08-22 13:31:56.369; rat heart slices. The image name stored inside is 190821_Control_PROX1_cTnT_x20_F1. The depositor put each image in its own figshare item (siblings 12325106, 12325178, 12325196, 12325322, 12325415, 12325454, 12325505, 12325613, 12325823, 12325826, 12325832, 12325841, 12325889, 12325895): one depositor. Ground truth: Bio-Formats, oiffile agrees."
+
+[[file]]
+id = "figshare12325037-vcfs-prox1-ctnt-x20-f1-txt"
+format = "oib"
+family = "microscopy"
+role = "oracle-export"
+tier = "standard"
+filename = "olympus-fv/figshare12325037-VCFs_PROX1_cTnT_x20_F1.txt"
+url = "https://ndownloader.figshare.com/files/22723754"
+sha256 = "bea1581a86b1241fc99716e643b7fc11880e6a0c5770a31cfc2c8f43350ebeec"
+size = 2390
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/12325037 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 12325037, 190821_VCFs_PROX1_cTnT_x20_F1.txt"
+attribution = "Takahiro Iwamiya, Bertrand-David Segard"
+notes = "FluoView's own text export of the acquisition settings of figshare12325037-vcfs-prox1-ctnt-x20-f1: Date \"8/22/2019 1:31:56.369 PM\", System Name FLUOVIEW FV1000, System Version 4.2.2.9, 1024x1024, 0.621 um/pixel, objective UPLSAPO20X NA 0.75, lasers 405/488/635 nm, channel dyes and PMT settings. A second opinion for the acquisition time and instrument model. (The record's per-channel TIFFs are 8-bit RGB renderings and are not taken.)"
+
+[[file]]
+id = "figshare31929921-a-03-05-syn488-btx555"
+format = "oib"
+family = "microscopy"
+role = "input"
+tier = "standard"
+filename = "olympus-fv/figshare31929921-A_03_05_Syn488_Btx555.oib"
+url = "https://ndownloader.figshare.com/files/63415740"
+sha256 = "fd21fe18682e7764d383919a4c1f5988d27fc4ba2ad31a43b84c9b2432f63d99"
+size = 47112192
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/31929921 (CC BY 4.0, figshare API), 2026-10-06"
+source = "Figshare 31929921 'Confocal images of tongue blade NMJs from Kemp et al 2026'"
+attribution = "Matthew Fogarty"
+notes = "FV1000 OIB, 2 channels (CH1, CH3) x 11 z 1024x1024 uint16, 0.621 um pixels, 2.5 um z step, acquired 2025-09-11; rat tongue neuromuscular junctions (the smallest of the item's 132 OIB files, 47 MB). Ground truth: Bio-Formats, oiffile agrees."
+
+# ---- WinWCP .wcp, ground truth Neo WinWcpRawIO (gen.py, or oracle/winwcp_oracle.py where Neo cannot parse RTIME), added 2026-10-06
+
+[[file]]
+id = "winwcp-myokit-wcp-file"
+format = "winwcp"
+family = "electrophysiology"
+role = "input"
+tier = "smoke"
+filename = "winwcp-myokit-wcp-file.wcp"
+url = "https://raw.githubusercontent.com/myokit/myokit/d1782828c8d1b0fa0657692a560e7df6d9d5faf7/myokit/tests/data/formats/wcp-file.wcp"
+sha256 = "08a1ec222aa9980ffbcb36acb026934a764244227657f7493dd7e801cafc970e"
+size = 25600
+license = "BSD-3-Clause"
+license_checked = "https://github.com/myokit/myokit/blob/d1782828c8d1b0fa0657692a560e7df6d9d5faf7/LICENSE.txt (BSD-3-Clause, read; GitHub licence API says NOASSERTION), 2026-10-06"
+source = "GitHub myokit/myokit (commit d178282), myokit/tests/data/formats/wcp-file.wcp"
+attribution = "Myokit test data (Michael Clerx et al.)"
+notes = "WinWCP file version 9, 11 records x 2 channels (Im pA, Vm mV) x 256 samples at 1 kHz, recorded 2014-11-21 14:18:28. Ground truth: Neo WinWcpRawIO (gen.py)."
+
+[[file]]
+id = "winwcp-xarray-graph-example"
+format = "winwcp"
+family = "electrophysiology"
+role = "input"
+tier = "smoke"
+filename = "winwcp-xarray-graph-example.wcp"
+url = "https://raw.githubusercontent.com/marcel-goldschen-ohm/xarray-graph/ec5f7f0c1b13c95d9b811002da02a83541796bb5/examples/WinWCP.wcp"
+sha256 = "3c6227d12905b8e7691db65c132eecfa0f8214b715288252daccf30a382a3bf2"
+size = 2208768
+license = "MIT"
+license_checked = "https://github.com/marcel-goldschen-ohm/xarray-graph/blob/ec5f7f0c1b13c95d9b811002da02a83541796bb5/LICENSE (MIT, GitHub licence API), 2026-10-06"
+source = "GitHub marcel-goldschen-ohm/xarray-graph (commit ec5f7f0), examples/WinWCP.wcp"
+attribution = "Marcel Goldschen-Ohm (xarray-graph example data)"
+notes = "WinWCP V5.8.1, file version 9, 11 records x 2 channels (Im pA, Vm mV) x 49,920 samples at 20.83 kHz. RTIME holds a time without a date (17:24:56.377, CTIME 3-13-2025): openreadout reports no start time. Neo cannot parse that RTIME; ground truth: oracle/winwcp_oracle.py (Neo with that one date parse made lenient)."
+
+# ---- generic HDF5 (hdf5), ground truth h5py object tree (oracle/hdf5_structure_oracle.py; no corpus comparison yet), added 2026-10-06
+
+[[file]]
+id = "hdf5-zenodo14794967-picoharp-histogram-cl1-det2"
+format = "hdf5"
+role = "input"
+tier = "smoke"
+filename = "hdf5/zenodo14794967-picoharp-histogram-cl1-det2.h5"
+url = "https://zenodo.org/api/records/14794967/files/240112_121049_picoharp_histogram_cl1_det2.h5/content"
+sha256 = "bd77b00345460059e07f6c3d27c5d3eeb90d23e0123da40965ba6f36edb7bbb4"
+size = 103836
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/14794967 (CC-BY-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo record 14794967 'Optical characterization click detectors', 240112_121049_picoharp_histogram_cl1_det2.h5"
+attribution = "Davide Piccinotti"
+notes = "ScopeFoundry HDF5 of a PicoHarp histogram measurement: 18 objects (app/settings, hardware/*/settings, measurement/*), superblock 0. A scalar empty variable-length string attribute (/app/settings sample = \"\") is listed as null by openreadout."
+
+[[file]]
+id = "hdf5-zenodo4165174-wse2-cb"
+format = "hdf5"
+role = "input"
+tier = "smoke"
+filename = "hdf5/zenodo4165174-wse2-cb.h5"
+url = "https://zenodo.org/api/records/4165174/files/WSe2_CB.h5/content"
+sha256 = "9caa9dce55c64da2e905e3c4a8057e2385070903f7b76451ea47ba2f871497ed"
+size = 484400
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/4165174 (CC-BY-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo record 4165174 'Time-resolved core-level photoemission data of tungsten diselenide', WSe2_CB.h5"
+attribution = "Maciej Dendzik, R. Patrick Xian, et al."
+notes = "Binned photoemission data: 4 objects, superblock 0."
+
+[[file]]
+id = "hdf5-zenodo7806036-figure7-nexus"
+format = "hdf5"
+role = "input"
+tier = "smoke"
+filename = "hdf5/zenodo7806036-figure7-nexus.h5"
+url = "https://zenodo.org/api/records/7806036/files/Figure7NEXUS.h5/content"
+sha256 = "11aa2861c39be91cdfcb7cc6c750a7aa496ec8082fc587a2cf420f1b83b1e510"
+size = 1701886
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/7806036 (CC-BY-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo record 7806036 'Photoelectron Spectroscopy from a Liquid Flatjet - data', Figure7NEXUS.h5"
+attribution = "Dominik Stemer, Tillmann Buttersack, et al."
+notes = "NeXus (NXentry) HDF5 of liquid-jet photoelectron spectra: 387 objects with many attributes, FALSE/TRUE enum datasets, superblock 2."
+
+[[file]]
+id = "hdf5-zenodo15463833-data-pmoke-mag"
+format = "hdf5"
+role = "input"
+tier = "smoke"
+filename = "hdf5/zenodo15463833-data-pmoke-mag.h5"
+url = "https://zenodo.org/api/records/15463833/files/data_PMOKE_mag.h5/content"
+sha256 = "7ee712f32fe96b6a1f35373d9d6009217f084e62eed30326dfc2871b2f5cd43d"
+size = 5184
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/15463833 (CC-BY-4.0, Zenodo API), 2026-10-06"
+source = "Zenodo record 15463833 'A novel spectroscopic probe of ultrafast magnetization dynamics in the extreme ultraviolet spectral range', data_PMOKE_mag.h5"
+attribution = "Johanna Richter, Somnath Jana, et al."
+notes = "Seven float64 vectors of 20 values at the root, superblock 0."

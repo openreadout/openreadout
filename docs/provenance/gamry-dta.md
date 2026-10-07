@@ -21,3 +21,9 @@ independent reader in the oracle.
   `OCVCURVE` (open-circuit record before the run), others by name. Column names: `Pt`, `T`/`Time`
   (s), `Vf` (V vs. Ref.), `Im` (A), `Vu`, `Sig`, `Ach`, `IERange`, `Over` (a text of flags),
   `Cycle`, `Freq`, `Zreal`, `Zimag`, `Zsig`, `Zmod`, `Zphz`, `Idc`, `Vdc`, `Vm`, `Temp`.
+
+## 2026-10-06 — a second reader for the aborted impedance run (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** `echem-impedancepy-eis-abort` (GitHub ECSHackWeek/impedance.py @6a269c4, MIT). **Prior art consulted:** impedance.py 1.7 (MIT, https://github.com/ECSHackWeek/impedance.py), run as a black box: `impedance.preprocessing.readGamry` returns the file's frequencies and complex impedances. Its source was not read.
+
+**What was compared, and found:** gamry-parser refuses this file, so it had no oracle and its impedance table was unconfirmed (its `FRACURVE` table still is). `oracle/gamry_impedancepy.py` (new) writes impedance.py's 72 frequencies and impedances (`Freq`, `Zreal`, `Zimag`) as a series oracle, compared by column label. No parsing logic changed.
