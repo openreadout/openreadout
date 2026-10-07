@@ -74,6 +74,15 @@ fn observe(info: &FileInfo) -> Observations {
         if let Some(st) = a::extra_str(&s.extra, "stored_spectra") {
             o.feature(K::Acquisition, format!("stored {st}"), &[Scope::Spectra]);
         }
+        if let Some(files) = s.extra.get("missing_files").and_then(|v| v.as_array()) {
+            for f in files.iter().filter_map(|f| f.as_str()) {
+                o.undecoded(
+                    format!("{f} (not in the data directory)"),
+                    &[Scope::Spectra],
+                    "scan records point into this file; their spectra cannot be read",
+                );
+            }
+        }
         if s.extra.contains_key("ion_mobility") {
             o.feature(
                 K::Layout,
