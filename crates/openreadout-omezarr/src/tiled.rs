@@ -37,8 +37,10 @@ pub(crate) fn resolve_mode(im: &ImageInfo, opts: &ZarrExportOptions) -> PyramidM
     }
 }
 
-/// True when this image goes through the streaming writer (the in-memory writer handles whole
-/// planes up to 4 GiB with computed mean levels, as before).
+/// True when this image goes through the streaming writer: a downsampled level, a region, the
+/// source's own pyramid, or a plane larger than one streaming block. The in-memory writer holds
+/// a plane several times over (decoded, deinterleaved, compressed, read back), so it only takes
+/// planes up to that size.
 pub(crate) fn needs_tiled(im: &ImageInfo, opts: &ZarrExportOptions) -> bool {
     let whole = u64::from(im.size_x)
         * u64::from(im.size_y)
@@ -47,7 +49,7 @@ pub(crate) fn needs_tiled(im: &ImageInfo, opts: &ZarrExportOptions) -> bool {
     opts.level > 0
         || opts.region.is_some()
         || resolve_mode(im, opts) == PyramidMode::Source
-        || whole > openreadout_core::pixel::MAX_PLANE_BYTES
+        || whole > openreadout_ometiff::pyramid::BLOCK_BYTES
 }
 
 /// Writes blocks of one plane into the level arrays of one image.

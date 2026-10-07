@@ -305,6 +305,38 @@ impl Dataset for SyntheticImage {
             data,
         })
     }
+    /// Copies only the region's rows, so a streaming export never holds a whole plane.
+    fn read_region(
+        &mut self,
+        image: u32,
+        i: PlaneIndex,
+        level: u32,
+        region: openreadout_core::region::Region,
+    ) -> Result<Plane> {
+        if level > 0 {
+            let plane = self.read_plane_level(image, i, level)?;
+            return openreadout_core::region::crop(plane, region, "synthetic");
+        }
+        region.check_within(self.width, self.height, "synthetic")?;
+        let row = self.width as usize * 2;
+        let (x, w) = (region.x as usize * 2, region.width as usize * 2);
+        let mut data = Vec::with_capacity(w * region.height as usize);
+        for y in region.y..region.y + region.height {
+            let start = y as usize * row + x;
+            data.extend_from_slice(&self.template[start..start + w]);
+        }
+        if region.x == 0 && region.y == 0 {
+            let n = (i.t * self.size_z + i.z) * self.size_c + i.c;
+            data[..2].copy_from_slice(&(n as u16).to_le_bytes());
+        }
+        Ok(Plane {
+            width: region.width,
+            height: region.height,
+            pixel_type: PixelType::Uint16,
+            samples_per_pixel: 1,
+            data,
+        })
+    }
     fn check(&mut self) -> Result<CheckReport> {
         Ok(CheckReport::new("synthetic", "synthetic"))
     }

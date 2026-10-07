@@ -39,6 +39,7 @@ All notable changes to this project are documented here. The format is based on 
 ### Fixed
 
 - mzML: optical spectra (a PDA detector's, with a wavelength array instead of m/z) no longer make `export --format mzml` panic. `spectrum` refuses them with exit 6 and a hint, and the mzML export leaves them out and reports how many in `spectra_skipped`.
+- OME-Zarr export streams planes larger than 256 MiB block by block instead of above 4 GiB. A 20563 × 20164 RGB plane now peaks at 0.9 GB instead of 2.9 GB, and the store is byte-identical.
 - Gen5 Excel exports: kinetic tables that start in column B are read, every worksheet that holds a Gen5 export becomes its own table, and `check` reports worksheets that no reader read (`worksheet_not_read`).
 - Rigaku `.ras` files edited by hand are read: data rows commented out with `#` are left out with a warning, and a file that lost its `*RAS_INT_END` trailer is read when every declared row is there.
 - JASCO flat `.jws` files with two channels (circular dichroism and HT voltage, J-810) are read. They were refused with exit 6.
