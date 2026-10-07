@@ -424,6 +424,12 @@
           "format": "uint64",
           "minimum": 0
         },
+        "chromatograms_written": {
+          "description": "Chromatograms written (TIC, SRM and the like).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
         "points_written": {
           "description": "Data points (m/z-intensity pairs) written, over all spectra.",
           "type": "integer",
@@ -454,6 +460,7 @@
         "output",
         "format",
         "spectra_written",
+        "chromatograms_written",
         "points_written",
         "bytes_written",
         "verified",

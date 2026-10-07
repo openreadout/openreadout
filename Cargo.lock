@@ -2184,6 +2184,7 @@ dependencies = [
  "openreadout-lif",
  "openreadout-live",
  "openreadout-mzml",
+ "openreadout-mzml-writer",
  "openreadout-nd2",
  "openreadout-neuralynx",
  "openreadout-nmr",
@@ -2747,6 +2748,7 @@ name = "openreadout-sciex"
 version = "0.1.0"
 dependencies = [
  "openreadout-core",
+ "peak_alloc",
  "serde_json",
  "tempfile",
 ]

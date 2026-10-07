@@ -130,7 +130,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 | --- | --- |
 | reader crates with a maintainer guide (`MAINTAINING.md`, generated facts checked by `cargo xtask guides`) | 40 of 40 |
 | golden-output snapshots of committed fixtures (`cargo test`) | 110 |
-| golden-output snapshots of development-corpus files | 2191 |
+| golden-output snapshots of development-corpus files | 2193 |
 | committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3594 |
 | fuzz targets (`fuzz/fuzz_targets/`) | 138 |
-| Rust source files under `crates/` | 788 |
+| Rust source files under `crates/` | 791 |
