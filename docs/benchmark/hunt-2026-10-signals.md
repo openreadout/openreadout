@@ -32,7 +32,7 @@ session parts and bundles; 97 on the smoke tier). We left out the rest:
 | family | inputs added | formats |
 | --- | --- | --- |
 | electrophysiology | 101 | ABF 44 (ABF 1.83–2.9, Clampex 9–11, gap-free, episodic, event-driven), NWB 11 (icephys and ecephys, NWB 2.2–2.9), Blackrock 9, Neuralynx 8, Spike2 7, Plexon 5, Intan 5, ATF 4, PatchMaster 4, SpikeGLX 4 |
-| NMR | 35 | Bruker 12 (TopSpin 3.2–4.5, Avance III HD, NEO, solid-state MAS, DOSY, ROESY), JEOL 11, JCAMP-DX 11, Varian 1 |
+| NMR | 35 | Bruker 12 (TopSpin 3.2–4.5, III HD and NEO consoles, solid-state MAS, DOSY, ROESY), JEOL 11, JCAMP-DX 11, Varian 1 |
 | optical spectroscopy | 29 | OPUS 10, PerkinElmer `.sp` 7 (FTIR, UV-Vis, fluorescence, and three saved as text), OMNIC 5, JASCO 2, WITec 2, SPC 1 |
 | flow cytometry | 13 | FCS from LSRFortessa, FACSAria II/III, FACSVerse, Attune NxT, CytoFLEX, NovoCyte, MA900, Aurora |
 | bench instruments | 25 | EC-Lab `.mpr` 8 and `.mpt` 5, qPCR `.eds` 5, Biacore `.bme` 2, XRD 6 (XRDML, BRML, RAW, RAS), EPR BES3T 4 |
