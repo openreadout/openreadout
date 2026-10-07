@@ -115,8 +115,9 @@ impl FormatReader for CziReader {
             can_write: false,
             confidence: assurance::CZI.confidence,
             known_gaps: vec![
-                "JPEG (id 1) subblocks decode with jpeg-decoder, which differs from libjpeg-turbo by up to a few grey levels on lossy streams (lossless JPEG is bit-exact); 12-bit DCT JPEG is not decoded".into(),
-                "JPEG-lossless (id 3), chunked (id 7) and camera/system raw (id >= 100) subblocks are not decoded (no public sample)".into(),
+                "JPEG (id 1) subblocks decode with jpeg-decoder (8-bit) and our own 12-bit decoder, which differ from libjpeg-turbo by up to a few grey levels on lossy streams (lossless JPEG is bit-exact); 12-bit progressive or chroma-subsampled JPEG is not decoded".into(),
+                "Chunked subblocks (id 7) are validated on synthetic files only (imagecodecs-written; no public file uses id 7); the HiLo split over more than one chunk is refused because libCZI's documentation and imagecodecs read it differently".into(),
+                "JPEG-lossless (id 3) and camera/system raw (id >= 100) subblocks are not decoded (no public sample)".into(),
                 "Multi-file documents: part discovery (`<name> (<k>).czi`) is inferred from synthetic fixtures; no public multi-file CZI was available".into(),
                 "Dimensions H, I, R, V, B that vary are one image per combination of coordinates; validated on H only (SIM phases; Airyscan-era multi-track files where some channels exist at H = 0 only, the others read as 0 and listed in extra.absent_channels); no public file varies along I, R, V or B".into(),
                 "Scenes above 4 GiB are read by region (`--region`), not whole; pyramid levels and regions are read with `--level`/`--region`, and `export` copies the pyramid".into(),

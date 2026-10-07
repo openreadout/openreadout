@@ -35,7 +35,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `cytiva-biacore-bme` | medium | prior art | 6 | 6 | 3 | 2 | 100% | 100% | - |
 | `cytiva-unicorn-res` | low | reverse engineered | 2 | 2 | 2 | 1 | 100% | 100% | - |
 | `cytiva-unicorn-zip` | medium | prior art | 11 | 11 | 4 | 2 | 100% | 100% | - |
-| `czi` | medium | prior art | 90 | 84 | 25 | 23 | 100% | 30% | 3/1 |
+| `czi` | medium | prior art | 93 | 88 | 25 | 23 | 100% | 30% | 3/1 |
 | `dcimg` | medium | prior art | 15 | 15 | 3 | 2 | 100% | 38% | - |
 | `dm` | high | prior art | 89 | 89 | 15 | 15 | 100% | 38% | 2/0 |
 | `emd` | high | prior art | 32 | 32 | 9 | 16 | 100% | 76% | 1/0 |
@@ -95,10 +95,10 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `ta-universal-analysis` | medium | reverse engineered | 7 | 6 | 2 | 1 | 100% | 100% | - |
 | `thermo-omnic` | medium | prior art | 27 | 27 | 9 | 0 | 100% | 29% | 2/0 |
 | `thermo-raw` | medium | reverse engineered | 45 | 44 | 33 | 26 | 100% | 61% | 2/2 |
-| `tiff` | high | open spec | 113 | 112 | 22 | 38 | 100% | 10% | 5/0 |
+| `tiff` | high | open spec | 118 | 117 | 23 | 39 | 100% | 10% | 5/0 |
 | `varian-nmr` | high | prior art | 12 | 12 | 6 | 4 | 100% | 53% | 1/0 |
-| `vsi` | high | prior art | 27 | 11 | 9 | 14 | 100% | 100% | - |
-| `waters-raw` | high | reverse engineered | 22 | 21 | 9 | 6 | 100% | 81% | - |
+| `vsi` | high | prior art | 28 | 12 | 10 | 16 | 100% | 100% | - |
+| `waters-raw` | high | reverse engineered | 18 | 18 | 6 | 5 | 100% | 81% | - |
 | `winwcp` | low | prior art | 2 | 2 | 1 | 3 | 100% | 22% | - |
 | `witec-project` | high | prior art | 12 | 12 | 7 | 3 | 100% | 43% | - |
 | `zvi` | high | reverse engineered | 16 | 15 | 12 | 2 | 100% | 100% | 1/0 |

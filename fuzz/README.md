@@ -94,7 +94,7 @@ listed names in a scratch directory (`whole_bundle`).
 | `tims_frame` | TDF frame blobs (zstd, four byte planes) and TSF line spectra; first 4 bytes: scan count or peak count, byte 4: which |
 | `jcamp_asdf` | JCAMP-DX ASDF (SQZ/DIF/DUP) tables, grouped decoding and the line lexer |
 | `mzml_binary` | base64, zlib/zstd and MS-Numpress arrays; the first byte picks value type, compression and byte order |
-| `codec_zstd0`, `codec_zstd1`, `codec_hilo`, `codec_jpegxr`, `codec_lzw`, `codec_zlib`, `codec_jpeg`, `codec_jpeg2000`, `codec_packbits`, `codec_lzma2`, `codec_webp`, `codec_jpegxl` | each `openreadout-codecs` entry point (first 3 bytes: expected decoded length or, for JPEG, the frame-size bound; WebP and JPEG XL decode with a 64 MiB limit; `codec_jpeg` also drives the `jpeg_markers` scanner) |
+| `codec_zstd0`, `codec_zstd1`, `codec_hilo`, `codec_jpegxr`, `codec_lzw`, `codec_zlib`, `codec_jpeg`, `codec_jpeg2000`, `codec_packbits`, `codec_lzma2`, `codec_webp`, `codec_jpegxl`, `codec_chunked` | each `openreadout-codecs` entry point (first 3 bytes: expected decoded length or, for JPEG, the frame-size bound; WebP and JPEG XL decode with a 64 MiB limit; `codec_jpeg` also drives the `jpeg_markers` scanner and, with 12-bit seeds, the 12-bit decoder) |
 | `ome_xml` | OME-XML builder from a JSON `FileInfo` (asserts the output is well-formed 7-bit XML) |
 | `selection` | `--select` parser |
 
@@ -139,6 +139,8 @@ dependency (one here, three in `crates/openreadout-codecs/tests/fixtures/malform
 | 2026-09-24 | campaign 3: the 38 targets added or substantially changed since campaign 2 (`fuzz/run.sh 90 …`, listed in the table below) | 90 s each | 10.0 million in all | 8 causes in 5 targets, all fixed with regression fixtures: `whole_wdf` (2), `whole_mzmlb` (2, one found on the rerun), `whole_waters` (2, one a division by zero that also crashed release builds), `codec_jpeg2000` (1), `assay_input` (1); the five reran clean for 90 s. Lowest coverage: `whole_sciex` 222 edges and `whole_oib` 804 (seeds need rework) |
 | 2026-09-24 | `whole_masshunter` (new, two MetaboLights directory seeds) | 90 s | 19,031 | 0 (coverage 5,550 edges) |
 | 2026-09-24 | second round: `core_zip`, `quant_bands` (new) and 13 targets whose readers had changed (qPCR, OpenLab CDS, Gen5, Shimadzu, WiRE, Harmony, CZI/VSI/NDPI pyramids, ND2, auto baseline) | 90 s each | 3.8 million in all | 1 cause: `whole_vsi` plane-size check overflow, fixed with a regression fixture; clean on rerun |
+| 2026-10-06 | `codec_jpeg` with 12-bit seeds (new 12-bit sequential decoder) and `codec_chunked` (new, CZI chunked compression, 3 seeds) | 5 min each | 0.46 and 3.7 million | 0 |
+| 2026-10-06 | `codec_jpeg2000` after CI's fuzz smoke ran out of memory on a 246-byte codestream declaring 32776 × 9992 samples (the fallback decoder allocated about 2 GB): declared samples are now capped at 65536 per codestream byte (`crates/openreadout-codecs/tests/fixtures/malformed/jpeg2000-fuzz-327-megapixels-from-246-bytes.bin`) | 5 min, `-rss_limit_mb=2048 -malloc_limit_mb=2048` | 236,562 | 0 |
 
 ### Last recorded run per target (to 2026-09-24)
 

@@ -148,15 +148,30 @@ The directory entry's `pixel_type` is authoritative for the subblock; the XML `P
 | id | our name | payload | status |
 | --- | --- | --- | --- |
 | 0 | `uncompressed` | raw samples, row-major, no padding | supported |
-| 1 | `jpeg` | a complete JPEG stream (SOI … EOI); 3-sample streams decode to R,G,B (no B/R swap, as czifile) | supported via `jpeg-decoder`: 8-bit baseline/progressive gray and YCbCr, lossless (SOF3) up to 16 bit; 12-bit DCT is exit 6 |
-| 2 | `lzw` | LZW (TIFF flavour) | planned |
+| 1 | `jpeg` | a complete JPEG stream (SOI … EOI); 3-sample streams decode to R,G,B (no B/R swap, as czifile) | supported: 8-bit baseline/progressive gray and YCbCr and lossless (SOF3) up to 16 bit via `jpeg-decoder`; 12-bit sequential DCT (SOF1) by our own decoder in `openreadout-codecs` (gray, or colour without chroma subsampling); 12-bit progressive or subsampled streams are exit 6 |
+| 2 | `lzw` | LZW (TIFF flavour) | supported |
 | 3 | `jpeg_lossless` | undocumented; no public sample | not supported (exit 6) |
 | 4 | `jpeg_xr` | JPEG XR codestream, starts `49 49 BC 01` | supported via `openreadout-jpegxr` (our safe port of jxrlib's decoder; bit-exact with jxrlib/imagecodecs on every corpus subblock); alpha planes, CMYK and packed pixel formats are exit 6 |
 | 5 | `zstd0` | plain zstd frame, starts `28 B5 2F FD` | supported |
 | 6 | `zstd1` | small header then a zstd frame | supported |
-| 7, ≥ 1000 | `chunked` / system raw | experimental chunked container; camera/system raw | not supported (exit 6) |
+| 7 | `chunked` | header entries (varint id, varint length, payload; id 0 ends them), then the compressed chunks back to back: see "Chunked compression" below | supported: zstd and LZ4 chunks; the HiLo split only when the subblock is one chunk |
+| 100–999 | `camera_raw(N)` | raw data of a particular camera | not supported (exit 6) |
+| ≥ 1000 | `system_raw(N)` | raw data of a particular system | not supported (exit 6) |
 
 JPEG decoding differs from libjpeg-turbo (czifile's decoder) by rounding in the inverse DCT and chroma upsampling: on the synthetic fixtures the largest per-sample difference is 1 grey level for 8-bit gray and 3 for 4:2:0 colour. Lossless JPEG is bit-exact. The corpus harness therefore compares lossy JPEG fixtures against czifile's decoded planes with a tolerance (`pixel_tolerance` in `corpus/manifest.toml`).
+
+### Chunked compression (id 7)
+
+From libCZI's public documentation page on chunked compression, checked against streams written by imagecodecs (BSD-3-Clause; czifile 2026.8.16 decodes id 7 with it). Numbers are varints: little-endian groups of seven bits, the high bit set on every byte but the last. The header is a list of entries `id, length, payload`, ended by id 0:
+
+| id | payload | |
+| --- | --- | --- |
+| 1 | compressed size of each chunk (varints) | required |
+| 2 | codec, one byte: 0 zstd, 1 LZ4 (raw block) | zstd when absent |
+| 3 | decompressed chunk sizes (varints): `[C]` every chunk C bytes; `[C, L]` every chunk but the last C bytes, the last L; or one size per chunk | required |
+| 4 | preprocessing, one byte: 0 none, 1 HiLo | none when absent |
+
+The chunks follow the header in order and are decompressed one by one. HiLo (all low bytes of the 16-bit samples, then all high bytes) is undone only when the subblock is a single chunk: the documentation says the decoder reverses it after decompressing the chunks, while imagecodecs (czifile's decoder) splits each chunk on its own, and the two readings differ when there are several chunks. HiLo over several chunks, other ids, other size lists, codecs and preprocessing values are refused (exit 6). The decoded chunks, joined, must fill the subblock's geometry exactly.
 
 ### Resolution protocol (decoded bitmap vs directory entry)
 
@@ -230,7 +245,7 @@ No public multi-file CZI exists in the corpus; this section is inferred from the
 | `SubBlockHeader`, `metadata_size`, `attachment_size`, `data_size`, `header_len`, `entry` | subblock header |
 | `AttachmentEntry`, `content_guid`, `content_file_type`, `name` | attachment directory |
 | `PixelTypeId` { `Gray8`, `Gray16`, `Gray32Float`, `Bgr24`, `Bgr48`, `Bgr96Float`, `Bgra32`, `Gray64ComplexFloat`, `Bgr192ComplexFloat`, `Gray32`, `Gray64`, `Unknown` }, `sample_type`, `samples_per_pixel`, `bytes_per_pixel` | pixel types |
-| `CompressionId` { `Uncompressed`, `Jpeg`, `Lzw`, `JpegLossless`, `JpegXr`, `Zstd0`, `Zstd1`, `Chunked`, `Unknown` } | compression ids |
+| `CompressionId` { `Uncompressed`, `Jpeg`, `Lzw`, `JpegLossless`, `JpegXr`, `Zstd0`, `Zstd1`, `Chunked`, `CameraRaw`, `SystemRaw`, `Unknown` } | compression ids |
 | `detector_id`, `detectors` | `DetectorSettings/Detector/@Id` of a channel; `Information/Instrument/Detectors` id → label (`Manufacturer/Model`, else `@Name`, else `Type`), the image's `instrument.detector` (distinct labels of its channels joined by ` + `) |
 | `Scene`, `scene_index`, `scene_name`, `level0`, `bounds`, `min_x`, `min_y`, `width`, `height`, `size_z`, `size_c`, `size_t`, `pyramid_levels`, `other_dims`, `extra_index`, `extra_varying`, `extra_key`, `ExtraKey`, `absent_channels` | per-scene geometry; `absent_channels`: channels with no subblock at the image's H/I/R/V/B coordinates (read as 0); `extra_index`/`extra_varying`: the image's H/I/R/V/B coordinates and which of them vary within the scene |
 | `Bounds`, `ImageXml`, `ChannelXml`, `ObjectiveXml`, `ScalingXml`, `channel_name`, `excitation_nm`, `emission_nm`, `color_argb`, `fluor`, `exposure_ns`, `acquisition_mode`, `illumination_type`, `objective_name`, `lens_na`, `nominal_magnification`, `immersion`, `microscope_name`, `user_name`, `application_name`, `application_version`, `acquisition_time`, `distance_x`, `distance_y`, `distance_z` | normalized XML fields |

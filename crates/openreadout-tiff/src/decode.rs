@@ -300,6 +300,8 @@ impl PageLayout {
             return native(PixelType::Uint8);
         }
         match (self.bits_per_sample, self.sample_format) {
+            // 12-bit JPEG: the codec returns whole 16-bit samples, not packed bits.
+            (12, 1 | 4) if self.compression == 7 => native(PixelType::Uint16),
             (8, 1 | 4) => native(PixelType::Uint8),
             (8, 2) => native(PixelType::Int8),
             (16, 1 | 4) => native(PixelType::Uint16),
@@ -514,6 +516,12 @@ pub fn read_page(
     }
     if layout.compression == 7 {
         jpeg_page_supported(layout)?;
+    }
+    if let Some(starts) = &layout.ndpi_mcu_starts {
+        // A whole-slide JPEG strip: read it by restart intervals, as `read_region` does, not
+        // as one JPEG frame of the whole page.
+        let t = crate::ndpi::tiled_layout(src, layout, starts)?;
+        return read_page(src, &t, select);
     }
     let out_spp = match select {
         SampleSelect::All => spp,
@@ -1091,7 +1099,8 @@ fn decode_fetched(
     let native = matches!(
         layout.compression,
         33003 | 33004 | 33005 | 34712 | 65000..=65002
-    ) || crate::chunk_codecs::handles(layout.compression);
+    ) || crate::chunk_codecs::handles(layout.compression)
+        || (layout.compression == 7 && bps == 2);
     let mut data = match layout.compression {
         1 => raw,
         5 => lzw_decode(&raw, 0).map_err(codec_err)?,
@@ -1099,11 +1108,11 @@ fn decode_fetched(
         32773 => packbits_decode(&raw, expected).map_err(codec_err)?,
         50000 => zstd_decode(&raw, 0).map_err(codec_err)?,
         7 => {
-            if bps != 1 {
+            if !(bps == 1 || (bps == 2 && layout.bits_per_sample == 12)) {
                 return Err(Error::unsupported(
                     FORMAT_ID,
                     format!("{}-bit JPEG", layout.bits_per_sample),
-                    "Only 8-bit JPEG is decoded.",
+                    "Only 8-bit and 12-bit JPEG are decoded.",
                 ));
             }
             // An NDPI restart interval has no header of its own: frame it before the markers

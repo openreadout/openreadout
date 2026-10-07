@@ -116,10 +116,17 @@ fn observe(info: &FileInfo) -> Observations {
 /// as its own image at the stored size, with the logical pixel size divided by the ratio
 /// (`docs/formats/czi.md`); the variant is fingerprinted so the evidence says which files
 /// validate it.
+///
+/// Also the JPEG coding processes beyond 8-bit sequential DCT (`jpeg 12-bit`, `jpeg lossless`):
+/// they share the compression id with ordinary JPEG but take other decoding paths.
 pub(crate) fn internal<'a>(
     level0: impl Iterator<Item = &'a crate::DirectoryEntry>,
+    jpeg_processes: &std::collections::BTreeSet<String>,
 ) -> Observations {
     let mut o = Observations::default();
+    for p in jpeg_processes {
+        o.feature(K::Codec, p, &[Scope::Pixels]);
+    }
     let super_resolved = level0
         .filter(|e| {
             let over = |d: char| {
@@ -143,12 +150,15 @@ pub(crate) fn internal<'a>(
 const CZI_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const CZI_VALIDATED: &[Validated] = &[
-    a::row(K::Codec, "jpeg", 4, 0, 5),
+    a::row(K::Codec, "chunked", 3, 0, 3),
+    a::row(K::Codec, "jpeg", 5, 0, 5),
+    a::row(K::Codec, "jpeg 12-bit", 1, 0, 1),
+    a::row(K::Codec, "jpeg lossless", 1, 0, 1),
     a::row(K::Codec, "jpeg_xr", 13, 6, 15),
     a::row(K::Codec, "uncompressed", 62, 18, 64),
     a::row(K::Codec, "zstd0", 1, 1, 1),
     a::row(K::Codec, "zstd1", 4, 3, 4),
-    a::row(K::FormatVersion, "1.0", 84, 25, 90),
+    a::row(K::FormatVersion, "1.0", 88, 25, 93),
     a::row(K::Instrument, "Andor1, AxioObserver", 3, 3, 3),
     a::row(K::Instrument, "Axio Imager.Z1", 1, 1, 1),
     a::row(K::Instrument, "Axio Imager.Z2", 1, 1, 3),
@@ -165,23 +175,23 @@ const CZI_VALIDATED: &[Validated] = &[
     a::row(K::Instrument, "LSM 780, AxioObserver", 3, 3, 3),
     a::row(K::Instrument, "LSM 880, AxioObserver", 2, 2, 2),
     a::row(K::Layout, "extra dimension H", 3, 3, 3),
-    a::row(K::Layout, "mosaic", 28, 8, 30),
+    a::row(K::Layout, "mosaic", 29, 8, 31),
     a::row(K::Layout, "multi_file", 1, 0, 1),
-    a::row(K::Layout, "multi_scene", 33, 10, 34),
+    a::row(K::Layout, "multi_scene", 35, 10, 35),
     a::row(K::Layout, "pyramid", 22, 8, 23),
     a::row(K::Layout, "super-resolved rendering", 3, 1, 3),
     a::row(K::SampleLayout, "stored bgr24", 11, 5, 12),
-    a::row(K::SampleLayout, "stored bgr48", 4, 1, 4),
-    a::row(K::SampleLayout, "stored gray16", 54, 18, 57),
-    a::row(K::SampleLayout, "stored gray8", 15, 7, 16),
-    a::row(K::SampleLayout, "uint16", 54, 18, 57),
-    a::row(K::SampleLayout, "uint16x3", 4, 1, 4),
-    a::row(K::SampleLayout, "uint8", 15, 7, 16),
+    a::row(K::SampleLayout, "stored bgr48", 5, 1, 5),
+    a::row(K::SampleLayout, "stored gray16", 56, 18, 58),
+    a::row(K::SampleLayout, "stored gray8", 16, 7, 17),
+    a::row(K::SampleLayout, "uint16", 56, 18, 58),
+    a::row(K::SampleLayout, "uint16x3", 5, 1, 5),
+    a::row(K::SampleLayout, "uint8", 16, 7, 17),
     a::row(K::SampleLayout, "uint8x3", 11, 5, 12),
     a::row(K::Writer, "ZEN", 7, 6, 7),
     a::row(K::Writer, "ZEN black", 17, 11, 17),
     a::row(K::Writer, "ZEN blue", 44, 10, 47),
-    a::row(K::Writer, "pylibCZIrw", 14, 0, 16),
+    a::row(K::Writer, "pylibCZIrw", 18, 0, 19),
     a::row(K::WriterVersion, "ZEN 3.10", 3, 3, 3),
     a::row(K::WriterVersion, "ZEN 3.13", 1, 1, 1),
     a::row(K::WriterVersion, "ZEN 3.8", 2, 1, 2),
@@ -199,6 +209,6 @@ const CZI_VALIDATED: &[Validated] = &[
     a::row(K::WriterVersion, "ZEN blue 3.5", 6, 1, 6),
     a::row(K::WriterVersion, "ZEN blue 3.6", 18, 1, 18),
     a::row(K::WriterVersion, "ZEN blue 3.7", 2, 2, 2),
-    a::row(K::WriterVersion, "pylibCZIrw 6.1", 14, 0, 16),
+    a::row(K::WriterVersion, "pylibCZIrw 6.1", 18, 0, 19),
 ];
 // END GENERATED czi
