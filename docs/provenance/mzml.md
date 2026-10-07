@@ -122,7 +122,7 @@ Corpus: every mzML, mzXML and imzML file (`cargo test -p openreadout-corpus-test
 
 **Found:** `i2nca-cc` declares continuous storage, but its eight spectra have m/z arrays of 1,990 to 1,999 values and intensity arrays of other lengths. pyimzML fails on it, so it has no oracle. `openreadout spectra --index 1` refuses it (exit 4, "m/z array has 1999 values, intensity array 1997"), while `openreadout check` reports the file OK (exit 0). It is proposed as a malformed-file case, not as validation.
 
-**Inferred:** nothing new. The Zenodo 2628280 record names its imzML `conrol.imzml` and its binary file `control.ibd`. The corpus stores both under one stem so that a reader finds the `.ibd`, as the specification requires.
+**Inferred:** nothing new. In the Zenodo 2628280 record the imzML and its binary file `control.ibd` have different stems (the imzML's is misspelled). The corpus stores both under one stem so that a reader finds the `.ibd`, as the specification requires.
 
 ## 2026-10-06 — `check` compares the m/z and intensity array lengths (Richard Zimring with Claude as assistant)
 
