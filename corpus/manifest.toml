@@ -67316,6 +67316,7 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS5747 (sponge exudates and reef picoplankton), mtab_Fiore_sponge_2021_0623_35.raw"
 attribution = "MTBLS5747 depositors (MetaboLights)"
 notes = "TSQ Vantage, Xcalibur 2.3 SP1, file version 64, SRM, 14,763 scans, 2021; the depositor's mzML holds 194 chromatograms"
+srm_energy_not_compared = "the export (ProteoWizard 3.0.19277) gives every one of its 193 SRM traces a collision energy of 0.0, while every scan's reaction records 25.0 and the method's SRM table lists 5 to 51 V per transition, so the export's 0.0 does not tell the transitions apart (docs/provenance/thermo-raw.md, 2026-10-07)"
 
 [[file]]
 id = "mtbls5747-vantage-sponge-35"

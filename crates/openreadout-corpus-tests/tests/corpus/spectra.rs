@@ -457,7 +457,8 @@ pub(crate) fn check_spectra(
 
 /// Rebuild every chromatogram of the export from our spectra: the TIC from each scan's total
 /// ion current, an SRM trace from the peak inside the product window of each scan whose
-/// precursor and polarity match. A trace is "exact" when its point count and intensity hash
+/// precursor, polarity and collision energy match (the energy unless `energy_not_compared`
+/// gives a reason to leave it out). A trace is "exact" when its point count and intensity hash
 /// match and every time agrees within 1e-9 min; "exact on its signal" when only the export's
 /// zero-intensity padding differs and the non-zero (time, intensity) points hash identically.
 pub(crate) fn check_chromatograms(
@@ -465,6 +466,7 @@ pub(crate) fn check_chromatograms(
     info: &openreadout_core::FileInfo,
     traces: &[OracleChromatogram],
     product_tolerance: Option<f64>,
+    energy_not_compared: Option<&str>,
 ) -> Result<String, String> {
     use openreadout_core::SpectrumView;
     let n = info.spectra.first().map_or(0, |s| s.scan_count);
@@ -540,9 +542,10 @@ pub(crate) fn check_chromatograms(
                         // an export that records no polarity for its traces matches either
                         (s.polarity == t.polarity || t.polarity == "unknown")
                             && s.precursor_mz.is_some_and(|p| (p - q1).abs() <= 1e-3)
-                            && t.collision_energy.is_none_or(|ce| {
-                                s.collision_energy.is_none_or(|x| (x - ce).abs() <= 1e-6)
-                            })
+                            && (energy_not_compared.is_some()
+                                || t.collision_energy.is_none_or(|ce| {
+                                    s.collision_energy.is_none_or(|x| (x - ce).abs() <= 1e-6)
+                                }))
                             && s.rt_s.is_some_and(|t| {
                                 start.is_none_or(|a| t / 60.0 >= a - 1e-6)
                                     && end.is_none_or(|b| t / 60.0 <= b + 1e-6)
@@ -624,10 +627,13 @@ pub(crate) fn check_chromatograms(
             ));
         }
     }
-    let msg = format!(
+    let mut msg = format!(
         "{n} scans; {exact}/{} chromatograms rebuilt exactly from the spectra (TIC/BPC: or our traces), {padded} exact on their non-zero points (the export pads them with zeros from a neighbouring transition)",
         traces.len()
     );
+    if let Some(why) = energy_not_compared {
+        let _ = write!(msg, "; SRM collision energy not compared ({why})");
+    }
     if problems.is_empty() {
         Ok(msg)
     } else {

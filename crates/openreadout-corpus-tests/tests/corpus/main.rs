@@ -90,6 +90,10 @@ struct Entry {
     /// the product m/z the scans record (added to the export's isolation offsets; default 1e-4).
     #[serde(default)]
     srm_product_tolerance: Option<f64>,
+    /// SRM chromatograms: the export's collision energy is not the one the scans record, so
+    /// scans are matched to traces without it; the text says why.
+    #[serde(default)]
+    srm_energy_not_compared: Option<String>,
     /// Spectra: the export holds peaks the vendor library computed (peak picking) that the
     /// reader does not reproduce; the text says why. Metadata, total ion current and base-peak
     /// m/z are compared instead of the peak lists.
@@ -352,7 +356,13 @@ fn check_one(
         if matches!(info.format.id.as_str(), "mzml" | "mzxml") {
             return check_chromatogram_traces(ds.as_mut(), &info, tr);
         }
-        return check_chromatograms(ds.as_mut(), &info, tr, oracle.srm_product_tolerance);
+        return check_chromatograms(
+            ds.as_mut(),
+            &info,
+            tr,
+            oracle.srm_product_tolerance,
+            oracle.srm_energy_not_compared.as_deref(),
+        );
     }
     let mut problems = Vec::new();
     let ImageTally {
@@ -670,6 +680,9 @@ fn apply_entry_settings(oracle: &mut Oracle, e: &Entry) {
             .clone_from(&e.window_centre_precursor);
     }
     oracle.srm_product_tolerance = e.srm_product_tolerance;
+    oracle
+        .srm_energy_not_compared
+        .clone_from(&e.srm_energy_not_compared);
 }
 
 /// `CORPUS_ONLY` holds one id substring or several separated by commas.

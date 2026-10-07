@@ -16,6 +16,9 @@ pub(crate) struct Oracle {
     /// Set from the manifest entry (`srm_product_tolerance`), not read from the oracle file.
     #[serde(skip)]
     pub(crate) srm_product_tolerance: Option<f64>,
+    /// Set from the manifest entry (`srm_energy_not_compared`), not read from the oracle file.
+    #[serde(skip)]
+    pub(crate) srm_energy_not_compared: Option<String>,
     /// ND2 only: channels, acquisition start and sampled per-frame records from the `nd2` package.
     #[serde(default)]
     pub(crate) nd2_meta: Option<Nd2Meta>,
