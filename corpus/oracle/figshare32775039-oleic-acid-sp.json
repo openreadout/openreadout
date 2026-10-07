@@ -1,0 +1,51 @@
+{
+ "id": "figshare32775039-oleic-acid-sp",
+ "file": "figshare32775039-oleic-acid-sp.sp",
+ "size": 29426,
+ "sha256": "aa6893ef5f102e552295b4460b147fbe2105c8b7281613059ab5a733bb418027",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3351,
+   "x_first": 4000.0,
+   "x_last": 650.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3351,
+     "channels": [
+      {
+       "xxh3": "1a76b9a47bbf30d01f7691532191697a",
+       "first": [
+        99.73142181169956,
+        99.73722850811149,
+        99.74068937367012,
+        99.74034745383892,
+        99.73713262756011,
+        99.73281321426795,
+        99.73062274371995,
+        99.73010388930531
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Frontier FT-IR",
+     "instrument_serial": "100186",
+     "scans": 12,
+     "detector": "MIR TGS",
+     "source": "MIR",
+     "beamsplitter": "OptKBr",
+     "apodization": "Strong"
+    }
+   }
+  }
+ ]
+}

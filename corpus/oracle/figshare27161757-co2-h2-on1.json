@@ -1,0 +1,197 @@
+{
+ "id": "figshare27161757-co2-h2-on1",
+ "file": "figshare27161757-co2-h2-on1.0",
+ "size": 59920,
+ "sha256": "25b2195cc6e4bcbeabd7b881ad8844abbc60bccb230070b33d9e4ce607590441",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3215,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3215,
+     "channels": [
+      {
+       "xxh3": "1fb67cbb481f94496b7fca40a79e6566",
+       "first": [
+        0.011923533864319324,
+        0.011923533864319324,
+        0.011923533864319324,
+        0.011923533864319324,
+        0.011923533864319324,
+        0.011923533864319324,
+        0.011923533864319324,
+        0.011923533864319324
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3998.878393554687,
+   "x_last": 899.6753173828124,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.8,
+     "apodization": "B3",
+     "beamsplitter": "?",
+     "source": "MIR",
+     "detector": "LN-MCT Narrow [Internal Pos.1]",
+     "instrument": "VERTEX",
+     "sample_name": "20220622_CO2_H2_on1",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "a_2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3215,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3215,
+     "channels": [
+      {
+       "xxh3": "f44b2f3759ebec81c9132604fcc66991",
+       "first": [
+        0.011632396839559078,
+        0.011520100757479668,
+        0.011475524865090847,
+        0.011509467847645283,
+        0.01161184348165989,
+        0.011748498305678368,
+        0.011875777505338192,
+        0.011965733952820301
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3998.878393554687,
+   "x_last": 899.6753173828124,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.8,
+     "apodization": "B3",
+     "beamsplitter": "?",
+     "source": "MIR",
+     "detector": "LN-MCT Narrow [Internal Pos.1]",
+     "instrument": "VERTEX",
+     "sample_name": "20220622_CO2_H2_on1",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3215,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3215,
+     "channels": [
+      {
+       "xxh3": "35af3dbe94eda2b4001091c473d030a6",
+       "first": [
+        0.006997585296630859,
+        0.00697827385738492,
+        0.006945586763322353,
+        0.006909557618200779,
+        0.006880388595163822,
+        0.00686173839494586,
+        0.006850801408290863,
+        0.006845059804618359
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3998.878393554687,
+   "x_last": 899.6753173828124,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.8,
+     "apodization": "B3",
+     "beamsplitter": "?",
+     "source": "MIR",
+     "detector": "LN-MCT Narrow [Internal Pos.1]",
+     "instrument": "VERTEX",
+     "sample_name": "20220622_CO2_H2_on1",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "scans": 64
+    }
+   }
+  },
+  {
+   "index": 3,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3215,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3215,
+     "channels": [
+      {
+       "xxh3": "43034ef23c5d736487d3f07c7e667161",
+       "first": [
+        0.007187545299530029,
+        0.007165856659412384,
+        0.00713155884295702,
+        0.007095119450241327,
+        0.007066832855343819,
+        0.007049894891679287,
+        0.0070407213643193245,
+        0.007036278024315834
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3998.878393554687,
+   "x_last": 899.6753173828124,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.8,
+     "apodization": "B3",
+     "beamsplitter": "?",
+     "source": "MIR",
+     "detector": "LN-MCT Narrow [Internal Pos.1]",
+     "instrument": "VERTEX",
+     "sample_name": "20220622_CO2_H2_on1",
+     "operator": "Default",
+     "aperture": "6 mm"
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

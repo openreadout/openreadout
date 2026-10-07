@@ -274,9 +274,12 @@ impl JeolDataset {
         let mut head = vec![0u8; JDF_HEADER_BYTES];
         let n = f.read(&mut head).map_err(|e| Error::io(path, e))?;
         if n < 8 || &head[..8] != b"JEOL.NMR" {
-            return Err(Error::UnknownFormat {
-                path: path.to_path_buf(),
-            });
+            // only reached through the `.jdf` extension: a damaged or misnamed file
+            return Err(Error::corrupt_at(
+                JEOL_FORMAT_ID,
+                0,
+                "not a JEOL Delta file: it does not start with `JEOL.NMR`",
+            ));
         }
         let header = JdfHeader::parse(&head[..n]).ok_or_else(|| {
             Error::corrupt_at(

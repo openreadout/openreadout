@@ -1,0 +1,152 @@
+{
+ "id": "figshare19248036-adipocyte-extract",
+ "file": "figshare19248036-adipocyte-extract.0",
+ "size": 42912,
+ "sha256": "3bf86cd25b0ceefbb898619867af4ef34c5fda257255699179c9afc02322f6ec",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1651,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1651,
+     "channels": [
+      {
+       "xxh3": "7c80aa509de6fd9ec67b6b54f9885171",
+       "first": [
+        -0.05922140181064606,
+        -0.05897640809416771,
+        -0.0588441826403141,
+        -0.058678630739450455,
+        -0.058624353259801865,
+        -0.05890937149524689,
+        -0.0590326301753521,
+        -0.058900557458400726
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3995.968412528086,
+   "x_last": 599.0864544284766,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11711.808502,
+     "apodization": "B3",
+     "beamsplitter": "ZnSe",
+     "source": "MIR",
+     "detector": "LN-MCT Mid [External Pos.1]",
+     "instrument": "Lumos",
+     "instrument_serial": "457",
+     "sample_name": "B medium mature",
+     "operator": "Administrator",
+     "scans": 16
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1651,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1651,
+     "channels": [
+      {
+       "xxh3": "b67099e0388a13d962b6bb45030e4480",
+       "first": [
+        0.30735158920288086,
+        0.3043656349182129,
+        0.303138792514801,
+        0.30375802516937256,
+        0.30789828300476074,
+        0.3113606870174408,
+        0.31026118993759155,
+        0.3085944652557373
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3995.968412528086,
+   "x_last": 599.0864544284766,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11711.808502,
+     "apodization": "B3",
+     "beamsplitter": "ZnSe",
+     "source": "MIR",
+     "detector": "LN-MCT Mid [External Pos.1]",
+     "instrument": "Lumos",
+     "instrument_serial": "457",
+     "sample_name": "B medium mature",
+     "operator": "Administrator",
+     "scans": 16
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1657,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1657,
+     "channels": [
+      {
+       "xxh3": "11e925e4755a3d291c9eb50a4db1286a",
+       "first": [
+        0.2689666152000427,
+        0.27068889141082764,
+        0.27154338359832764,
+        0.2710367441177368,
+        0.26817238330841064,
+        0.26571691036224365,
+        0.264726459980011,
+        0.26536834239959717
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4004.203277881057,
+   "x_last": 594.9690217519947,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11711.808502,
+     "apodization": "B3",
+     "beamsplitter": "ZnSe",
+     "source": "MIR",
+     "detector": "LN-MCT Mid [External Pos.1]",
+     "instrument": "Lumos",
+     "instrument_serial": "457",
+     "sample_name": "B medium mature",
+     "operator": "Administrator",
+     "scans": 64
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

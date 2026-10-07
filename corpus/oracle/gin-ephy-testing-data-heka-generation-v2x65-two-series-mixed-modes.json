@@ -1,0 +1,144 @@
+{
+ "id": "gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes",
+ "file": "gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes.dat",
+ "size": 242464,
+ "sha256": "8b656077a3de24f533c799c7a8afee673a734560771b73a5e3f4d1e1477d7364",
+ "max_planes_hashed": 64,
+ "reader": "load-heka-python 1.3.0 (commit 185f6ed)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 2,
+   "channel_count": 1,
+   "channel_names": [
+    "Vmon-2"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 24999.999999999996,
+   "name": "cClamp2",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 22500,
+     "channels": [
+      {
+       "xxh3": "49bc2989affc4c6fa7a94bbc79786507",
+       "first": [
+        -0.0711875,
+        -0.07109375,
+        -0.07115625,
+        -0.07112500000000001,
+        -0.0711875,
+        -0.0711875,
+        -0.07125000000000001,
+        -0.07125000000000001
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 1,
+     "sample_count": 22500,
+     "channels": [
+      {
+       "xxh3": "cd166d8aecb18ecaf27662a9018ab0ae",
+       "first": [
+        -0.07171875,
+        -0.0715625,
+        -0.07165625,
+        -0.0714375,
+        -0.07128125,
+        -0.0714375,
+        -0.0713125,
+        -0.07146875
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "sweep_count": 2,
+   "channel_count": 2,
+   "channel_names": [
+    "Imon-2",
+    "Adc2"
+   ],
+   "channel_units": [
+    "A",
+    "V"
+   ],
+   "sample_rate_hz": 24999.999999999996,
+   "name": "VC_halo",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 17500,
+     "channels": [
+      {
+       "xxh3": "fda8ee9459a5bf716fe8e760e5739e5a",
+       "first": [
+        5.0000000000000005e-12,
+        3.1250000000000005e-12,
+        3.1250000000000005e-12,
+        2.8125000000000004e-12,
+        2.1875e-12,
+        2.5000000000000003e-12,
+        3.1250000000000005e-12,
+        4.687500000000001e-12
+       ]
+      },
+      {
+       "xxh3": "a517a17f82d096b86d6ff82b7f168f5d",
+       "first": [
+        0.0075,
+        0.0078125,
+        0.0075,
+        0.0071875,
+        0.0071875,
+        0.008125,
+        0.0071875,
+        0.0071875
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 1,
+     "sample_count": 17500,
+     "channels": [
+      {
+       "xxh3": "1d3583745b7f532fe966c7ea42a7cddf",
+       "first": [
+        8.437500000000002e-12,
+        5.625000000000001e-12,
+        5.3125e-12,
+        6.250000000000001e-12,
+        6.562500000000001e-12,
+        7.8125e-12,
+        7.8125e-12,
+        8.437500000000002e-12
+       ]
+      },
+      {
+       "xxh3": "c56ebbe0d135e7f2cb533b901408bca0",
+       "first": [
+        0.0071875,
+        0.0075,
+        0.0071875,
+        0.0075,
+        0.0071875,
+        0.0078125,
+        0.0075,
+        0.0075
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

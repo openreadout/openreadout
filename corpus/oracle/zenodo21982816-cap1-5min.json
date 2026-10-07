@@ -1,0 +1,76 @@
+{
+ "id": "zenodo21982816-cap1-5min",
+ "file": "zenodo21982816-cap1-5min.fcs",
+ "size": 7030139,
+ "sha256": "f8d4e18408db981f4c0b42e3b4d8dd60d03442e58b64c3f38d610ca61cc90258",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 16,
+   "event_count": 109797,
+   "parameter_names": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "488C-515-A",
+    "488B-586-A",
+    "488A-695-A",
+    "Ratio: 488B-586-A/488C-515-A",
+    "Ratio: 488A-695-A/488C-515-A",
+    "Ratio: 488B-586-A/488C-515-A",
+    "Ratio: 488A-695-A/488C-515-A",
+    "Ratio: 488B-586-A/488C-515-A",
+    "Ratio: 488A-695-A/488C-515-A",
+    "Time"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "00d0ee010740bf5699e3a61af2aaac28",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "error": "ValueError: Shape of passed values is (109797, 16), indices imply (109797, 0)"
+ }
+}

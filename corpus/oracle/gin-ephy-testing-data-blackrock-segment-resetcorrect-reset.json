@@ -1,0 +1,47 @@
+{
+ "id": "gin-ephy-testing-data-blackrock-segment-resetcorrect-reset",
+ "file": "gin-ephy-testing-data-blackrock-segment-resetcorrect-reset.nev",
+ "size": 1112860,
+ "sha256": "4b67a9c0bc8d2fa85807f3cdc60c921997858fabaf77e57aaecc48b5f2e599d5",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 BlackrockRawIO",
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 13079,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_column_hashes": [
+    {
+     "column": "time_s",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 13079,
+     "xxh3": "8cca6a32d5a6704aa7d5cbd051d30f03"
+    },
+    {
+     "column": "packet_id",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 13079,
+     "xxh3": "01d0b4332752d92f282da8380edd84d6"
+    },
+    {
+     "column": "code",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 13079,
+     "xxh3": "cc95fb84685ca82e0740db7157ad4725"
+    },
+    {
+     "column": "w0",
+     "where_column": "kind",
+     "where_value": 1.0,
+     "count": 13079,
+     "xxh3": "11af16ee1cdc100e98fe7fa457d4552c"
+    }
+   ]
+  }
+ ]
+}

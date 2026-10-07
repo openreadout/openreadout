@@ -1,0 +1,16 @@
+{
+ "id": "nmrxiv-s1-cosy-dx",
+ "file": "nmrxiv-s1-cosy-dx.dx",
+ "size": 2066527,
+ "sha256": "6d4ef959166fc46d8baba72216b0e93cd8445298050b7349d2c487a09c2abab3",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "COSY sw-optimized, mc, gp, BBI",
+   "kind": "ntuples",
+   "data_type": "ND NMR SPECTRUM"
+  }
+ ]
+}

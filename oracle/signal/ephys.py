@@ -8,6 +8,10 @@
   with spike_count_stimint >= 1; input resistance = least-squares slope of
   (steady_state_voltage_stimend - voltage_base) against the step over spike-free negative steps;
   tau = median eFEL time_constant over those steps; sag = eFEL sag_ratio1 of the most negative.
+- Current clamp (NWB, `NWB_CURRENT_CLAMP`): every `CurrentClampSeries` under `/acquisition`, its
+  samples read with h5py (data x conversion + offset, in volts, shown in mV), its rate from
+  `starting_time@rate`; eFEL's spike_count, peak_time, peak_voltage and AP_begin_voltage over the
+  whole sweep (NWB carries no epoch table, so there is no stimulus window).
 - Voltage clamp membrane tests (ABF): pyABF's own memtest (pyabf.tools.memtest: Ih, Ra, Rm, Cm).
 - Extracellular: samples read with Neo (BSD-3; the first segment only), band-pass filtered by SpikeInterface
   (bandpass_filter, 300-6000 Hz, order 5 Butterworth, forward-backward), noise = median(|x|)/0.6745
@@ -29,6 +33,7 @@ CORPUS = os.environ.get("OPENREADOUT_CORPUS_DIR", os.path.join(os.path.dirname(_
 OUT = os.path.join(os.path.dirname(__file__), "..", "..", "corpus", "oracle", "ephys-analysis")
 
 CURRENT_CLAMP = ["pyabf-171116sh-0018", "pyabf-2019-07-24-0055-fsi", "pyabf-190619b-0003"]
+NWB_CURRENT_CLAMP = ["dandi001544-icephys-cc328"]
 MEMTEST = ["pyabf-18808025-memtest", "pyabf-171116sh-0011"]
 EXTRACELLULAR = [
     # (id, file, neo io, stream/notes)
@@ -111,6 +116,34 @@ def current_clamp(eid):
     }
 
 
+def nwb_current_clamp(eid):
+    import efel
+    import h5py
+    series = []
+    with h5py.File(os.path.join(CORPUS, eid + ".nwb"), "r") as f:
+        for name in sorted(f["acquisition"]):
+            g = f["acquisition"][name]
+            nt = g.attrs.get("neurodata_type")
+            nt = nt.decode() if isinstance(nt, bytes) else nt
+            if nt != "CurrentClampSeries":
+                continue
+            d = g["data"]
+            conv = float(d.attrs.get("conversion", 1.0))
+            off = float(d.attrs.get("offset", 0.0))
+            v = (np.asarray(d[()], dtype=float) * conv + off) * 1000.0
+            fs = float(g["starting_time"].attrs["rate"])
+            t = np.arange(v.size) / fs * 1000.0
+            trace = {"T": t, "V": v, "stim_start": [0.0], "stim_end": [float(t[-1])]}
+            feats = ["spike_count", "peak_time", "peak_voltage", "AP_begin_voltage"]
+            res = efel.get_feature_values([trace], feats, raise_warnings=False)[0]
+            row = {"name": name, "sample_rate_hz": fs, "samples": int(v.size)}
+            for k in feats:
+                row[k] = clean(res.get(k))
+            series.append(row)
+    return {"id": eid, "tool": "h5py %s + eFEL %s" % (h5py.__version__, getattr(efel, "__version__", "?")),
+            "series": series}
+
+
 def memtest(eid):
     import pyabf
     import pyabf.tools.memtest
@@ -176,6 +209,12 @@ def main():
         json.dump(o, open(os.path.join(OUT, eid + ".json"), "w"), indent=1)
         print(eid, "stimulus epoch", o["stimulus_epoch"], "cell", o["cell"],
               "counts", [(r["spike_count"] or [None])[0] for r in o["sweeps"]])
+    for eid in NWB_CURRENT_CLAMP:
+        if only and eid not in only:
+            continue
+        o = nwb_current_clamp(eid)
+        json.dump(o, open(os.path.join(OUT, eid + ".nwb-cc.json"), "w"), indent=1)
+        print(eid, len(o["series"]), "series, counts", [(r["spike_count"] or [None])[0] for r in o["series"]])
     for eid in MEMTEST:
         if only and eid not in only:
             continue
