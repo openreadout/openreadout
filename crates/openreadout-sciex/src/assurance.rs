@@ -73,11 +73,6 @@ fn observe(info: &FileInfo) -> Observations {
             .and_then(serde_json::Value::as_array)
         {
             for e in ex {
-                // a product-ion experiment whose precursor is set in the method, not chosen
-                // data-dependently: a different place in the file holds it
-                if e.get("fixed_precursor_mz").is_some() {
-                    o.feature(K::Acquisition, "fixed precursor", &[Scope::Spectra]);
-                }
                 if let Some(t) = e.get("scan_type").and_then(serde_json::Value::as_str) {
                     o.feature(K::Acquisition, format!("scan type {t}"), &[Scope::Spectra]);
                     if t.contains("TOF") {
@@ -131,39 +126,42 @@ fn observe(info: &FileInfo) -> Observations {
 const SCIEX_WIFF_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const SCIEX_WIFF_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "fixed precursor", 1, 1, 1),
-    a::row(K::Acquisition, "scan type MRM", 3, 2, 5),
-    a::row(K::Acquisition, "scan type TOF MS", 5, 5, 6),
-    a::row(K::Acquisition, "scan type TOF product ion", 5, 5, 6),
-    a::row(K::Acquisition, "stored SRM", 3, 2, 5),
-    a::row(K::Acquisition, "stored profile", 5, 5, 6),
-    a::row(K::Field, "experiment.acquisition.started_at", 9, 8, 11),
-    a::row(K::Field, "experiment.instrument.model", 2, 2, 11),
+    a::row(K::Acquisition, "scan type MRM", 0, 0, 3),
+    a::row(K::Acquisition, "scan type Q1 scan", 1, 1, 1),
+    a::row(K::Acquisition, "scan type TOF MS", 3, 3, 5),
+    a::row(K::Acquisition, "scan type TOF product ion", 3, 3, 5),
+    a::row(K::Acquisition, "scan type enhanced MS", 1, 1, 2),
+    a::row(K::Acquisition, "scan type enhanced product ion", 1, 1, 2),
+    a::row(K::Acquisition, "scan type neutral loss", 2, 1, 2),
+    a::row(K::Acquisition, "scan type precursor ion", 1, 1, 1),
+    a::row(K::Acquisition, "stored SRM", 0, 0, 3),
+    a::row(K::Acquisition, "stored profile", 7, 6, 10),
+    a::row(K::Field, "experiment.acquisition.started_at", 6, 5, 13),
+    a::row(K::Field, "experiment.instrument.model", 2, 2, 13),
     a::row(K::Instrument, "4000 Q TRAP", 1, 1, 1),
+    a::row(K::Instrument, "API 2000", 1, 1, 1),
     a::row(K::Instrument, "QStar XL", 1, 1, 1),
     a::row(K::Instrument, "QTRAP 5500", 1, 1, 1),
-    a::row(K::Instrument, "QTRAP 6500", 1, 1, 2),
-    a::row(K::Instrument, "QTRAP 6500+", 1, 1, 1),
-    a::row(K::Instrument, "Triple TOF 5600", 1, 1, 1),
+    a::row(K::Instrument, "QTRAP 6500", 2, 2, 3),
+    a::row(K::Instrument, "QTRAP 6500+", 2, 2, 2),
     a::row(K::Instrument, "TripleTOF 5600+", 1, 1, 1),
-    a::row(K::Instrument, "TripleTOF 6600", 2, 2, 2),
+    a::row(K::Instrument, "TripleTOF 6600", 1, 1, 2),
     a::row(K::Instrument, "ZenoTOF 7600+ system", 1, 1, 1),
     a::row(K::Instrument, "generation QSTAR", 1, 1, 1),
-    a::row(K::Instrument, "generation QTRAP", 3, 2, 5),
-    a::row(K::Instrument, "generation TripleTOF", 4, 4, 4),
+    a::row(K::Instrument, "generation QTRAP", 3, 2, 7),
+    a::row(K::Instrument, "generation TripleTOF", 2, 2, 3),
     a::row(K::Instrument, "generation ZenoTOF", 0, 0, 1),
-    a::row(K::Layout, "scheduled MRM, method windows", 0, 0, 1),
     a::row(K::Layout, "single file (Scan stream)", 1, 1, 1),
-    a::row(K::Writer, "Analyst", 4, 3, 5),
+    a::row(K::Writer, "Analyst", 7, 5, 8),
     a::row(K::Writer, "Analyst QS", 1, 1, 1),
-    a::row(K::Writer, "Analyst TF", 4, 4, 4),
+    a::row(K::Writer, "Analyst TF", 2, 2, 3),
     a::row(K::Writer, "SCIEX OS", 1, 1, 1),
     a::row(K::WriterVersion, "Analyst 1.4", 1, 1, 1),
-    a::row(K::WriterVersion, "Analyst 1.6", 1, 1, 2),
+    a::row(K::WriterVersion, "Analyst 1.5", 1, 1, 1),
+    a::row(K::WriterVersion, "Analyst 1.6", 3, 2, 4),
     a::row(K::WriterVersion, "Analyst 1.7", 2, 2, 2),
     a::row(K::WriterVersion, "Analyst QS 1.1", 1, 1, 1),
-    a::row(K::WriterVersion, "Analyst TF 1.6", 1, 1, 1),
-    a::row(K::WriterVersion, "Analyst TF 1.7", 1, 1, 1),
+    a::row(K::WriterVersion, "Analyst TF 1.7", 0, 0, 1),
     a::row(K::WriterVersion, "Analyst TF 1.8", 2, 2, 2),
     a::row(K::WriterVersion, "SCIEX OS 3.4", 1, 1, 1),
 ];

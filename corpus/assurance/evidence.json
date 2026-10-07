@@ -4515,6 +4515,235 @@
       ]
     },
     {
+      "id": "mtbls12637-processblank2-pos-77-d",
+      "format": "agilent-masshunter",
+      "source": "metabolights mtbls12637",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MSScan layout 6",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation 6500 Q-TOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "G6546A",
+          []
+        ],
+        [
+          "writer_version",
+          "6200 series TOF/6500 series Q-TOF 10.1 (48.0)",
+          []
+        ],
+        [
+          "acquisition",
+          "device QTOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type 1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "total ion current",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base peak",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument reading",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "device BinPump",
+          []
+        ],
+        [
+          "record",
+          "device DAD",
+          []
+        ],
+        [
+          "record",
+          "device HiP-ALS",
+          []
+        ],
+        [
+          "record",
+          "device TCC",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        10
+      ]
+    },
+    {
+      "id": "mtbls12837-n14-d",
+      "format": "agilent-masshunter",
+      "source": "metabolights mtbls12837",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MSScan layout 6",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation 6500 Q-TOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "G6545A",
+          []
+        ],
+        [
+          "writer_version",
+          "6200 series TOF/6500 series Q-TOF B.09.00 (B9044.1 SP1)",
+          []
+        ],
+        [
+          "acquisition",
+          "device QTOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored centroid",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type 1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "total ion current",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base peak",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument reading",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "device BinPump",
+          []
+        ],
+        [
+          "record",
+          "device HiP-ALS",
+          []
+        ],
+        [
+          "record",
+          "device IsoPump",
+          []
+        ],
+        [
+          "record",
+          "device TCC",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        10
+      ]
+    },
+    {
       "id": "mtbls1334-STD_neg_MSMS_1min0205",
       "format": "agilent-masshunter",
       "source": "metabolights mtbls1334",
@@ -4598,6 +4827,123 @@
           [
             "traces"
           ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        10
+      ]
+    },
+    {
+      "id": "mtbls14343-e-1-pos-041-ms2-d",
+      "format": "agilent-masshunter",
+      "source": "metabolights mtbls14343",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MSScan layout 6",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation 6500 Q-TOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "G6546A",
+          []
+        ],
+        [
+          "writer_version",
+          "6200 series TOF/6500 series Q-TOF 10.1 (48.0)",
+          []
+        ],
+        [
+          "acquisition",
+          "device QTOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored centroid",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type 1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type 512",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "total ion current",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base peak",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument reading",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "device BinPump",
+          []
+        ],
+        [
+          "record",
+          "device HiP-ALS",
+          []
+        ],
+        [
+          "record",
+          "device TCC",
+          []
         ],
         [
           "field",
@@ -21759,290 +22105,12 @@
       ]
     },
     {
-      "id": "epr-cwepr-emx-winepr",
-      "format": "bruker-esp",
-      "source": "github:tillbiskup/cwepr",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "WinEPR",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "1D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "WinEPR",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "epr-cwepr-esp",
-      "format": "bruker-esp",
-      "source": "github:tillbiskup/cwepr",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "ESP",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "1D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "ESP cw",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "epr-cwepr-winepr",
-      "format": "bruker-esp",
-      "source": "github:tillbiskup/cwepr",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "WinEPR",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "1D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "WinEPR",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "epr-easyspin-00011201",
-      "format": "bruker-esp",
-      "source": "github:stolllab/easyspin",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "ESP",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "1D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "ESP cw",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "epr-easyspin-100416-wt60min",
-      "format": "bruker-esp",
-      "source": "github:stolllab/easyspin",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "ESP",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "1D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "ESP cw",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
       "id": "epr-easyspin-emx-2dpowersweep",
       "format": "bruker-esp",
       "source": "github:stolllab/easyspin",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -22074,225 +22142,6 @@
         [
           "writer",
           "WinEPR",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "epr-easyspin-emx-field1d",
-      "format": "bruker-esp",
-      "source": "github:stolllab/easyspin",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "WinEPR",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "1D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "WinEPR",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "epr-easyspin-esp",
-      "format": "bruker-esp",
-      "source": "github:stolllab/easyspin",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "ESP",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "1D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "ESP cw",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "epr-easyspin-frem-gly",
-      "format": "bruker-esp",
-      "source": "github:stolllab/easyspin",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "WinEPR",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "1D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "WinEPR",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "epr-easyspin-sample2",
-      "format": "bruker-esp",
-      "source": "github:stolllab/easyspin",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "ESP",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "1D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "ESP cw",
           [
             "traces"
           ]
@@ -22368,174 +22217,6 @@
       "id": "epr-zenodo5925657-angle",
       "format": "bruker-esp",
       "source": "zenodo:5925657",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "WinEPR",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "2D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "WinEPR",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "epr-zenodo7433815-dmttf-150k",
-      "format": "bruker-esp",
-      "source": "zenodo:7433815",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "WinEPR",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "1D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "WinEPR",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "epr-zenodo7433815-dmttf-20k",
-      "format": "bruker-esp",
-      "source": "zenodo:7433815",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "WinEPR",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "magnetic_field axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "field-sweep",
-          []
-        ],
-        [
-          "record",
-          "1D real",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "WinEPR",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "epr-zenodo7433815-nq113-angles",
-      "format": "bruker-esp",
-      "source": "zenodo:7433815",
       "oracle": "pass",
       "independent": true,
       "compared": [
@@ -32539,20 +32220,6 @@
       "stored_result_compared": [
         "traces"
       ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "2 Hz signal in nC"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.3"
-        ]
-      ],
       "features": [
         [
           "writer_version",
@@ -32617,20 +32284,6 @@
       "stored_result_compared": [
         "traces"
       ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "2 Hz signal in nC"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.3"
-        ]
-      ],
       "features": [
         [
           "writer_version",
@@ -32694,20 +32347,6 @@
       "stored_result": "pass",
       "stored_result_compared": [
         "traces"
-      ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLL2Df"
-        ],
-        [
-          "layout",
-          "25 Hz signal in mAU"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
       ],
       "fixed_refuses": [
         "traces"
@@ -32800,20 +32439,6 @@
       "stored_result": "pass",
       "stored_result_compared": [
         "traces"
-      ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
       ],
       "features": [
         [
@@ -32949,284 +32574,6 @@
       "stored_result_compared": [
         "traces"
       ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
-      ],
-      "features": [
-        [
-          "writer_version",
-          "Chromeleon 7.2",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "codec",
-          "PtsLDiff",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "Thermo Scientific Trace GC",
-          []
-        ],
-        [
-          "format_version",
-          "stored results 1",
-          [
-            "tables"
-          ]
-        ]
-      ],
-      "inferred": [
-        26,
-        26
-      ]
-    },
-    {
-      "id": "cmbx-lim-con-sp22-group-ab",
-      "format": "chromeleon",
-      "source": "zenodo:10798153",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "stored_result": "pass",
-      "stored_result_compared": [
-        "traces"
-      ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
-      ],
-      "features": [
-        [
-          "writer_version",
-          "Chromeleon 7.2",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "codec",
-          "PtsLDiff",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "Thermo Scientific Trace GC",
-          []
-        ],
-        [
-          "format_version",
-          "stored results 1",
-          [
-            "tables"
-          ]
-        ]
-      ],
-      "inferred": [
-        26,
-        26
-      ]
-    },
-    {
-      "id": "cmbx-lim-cyclohexanone-reaction",
-      "format": "chromeleon",
-      "source": "zenodo:10798153",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "stored_result": "pass",
-      "stored_result_compared": [
-        "traces"
-      ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
-      ],
-      "features": [
-        [
-          "writer_version",
-          "Chromeleon 7.2",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "codec",
-          "PtsLDiff",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "Thermo Scientific Trace GC",
-          []
-        ],
-        [
-          "format_version",
-          "stored results 1",
-          [
-            "tables"
-          ]
-        ]
-      ],
-      "inferred": [
-        26,
-        26
-      ]
-    },
-    {
-      "id": "cmbx-lim-cyclohexenone-standards",
-      "format": "chromeleon",
-      "source": "zenodo:10798153",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "stored_result": "pass",
-      "stored_result_compared": [
-        "traces"
-      ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
-      ],
-      "features": [
-        [
-          "writer_version",
-          "Chromeleon 7.2",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "codec",
-          "PtsLDiff",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "Thermo Scientific Trace GC",
-          []
-        ],
-        [
-          "format_version",
-          "stored results 1",
-          [
-            "tables"
-          ]
-        ]
-      ],
-      "inferred": [
-        26,
-        26
-      ]
-    },
-    {
-      "id": "cmbx-lim-ketoisophorone-standards",
-      "format": "chromeleon",
-      "source": "zenodo:10798153",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "stored_result": "FAIL",
-      "stored_result_compared": [
-        "traces"
-      ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
-      ],
       "features": [
         [
           "writer_version",
@@ -33278,20 +32625,6 @@
       "stored_result": "pass",
       "stored_result_compared": [
         "traces"
-      ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
       ],
       "features": [
         [
@@ -33345,86 +32678,6 @@
       "stored_result_compared": [
         "traces"
       ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
-      ],
-      "features": [
-        [
-          "writer_version",
-          "Chromeleon 7.2",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "codec",
-          "PtsLDiff",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "Thermo Scientific Trace GC",
-          []
-        ],
-        [
-          "format_version",
-          "stored results 1",
-          [
-            "tables"
-          ]
-        ]
-      ],
-      "inferred": [
-        26,
-        26
-      ]
-    },
-    {
-      "id": "cmbx-lim-s-carvone-reactions",
-      "format": "chromeleon",
-      "source": "zenodo:10798153",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "stored_result": "pass",
-      "stored_result_compared": [
-        "traces"
-      ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
-      ],
       "features": [
         [
           "writer_version",
@@ -33477,20 +32730,6 @@
       "stored_result_compared": [
         "traces"
       ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsLDiff"
-        ],
-        [
-          "layout",
-          "50 Hz signal in mV"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
-      ],
       "features": [
         [
           "writer_version",
@@ -33542,24 +32781,6 @@
       "stored_result": "pass",
       "stored_result_compared": [
         "traces"
-      ],
-      "stored_result_features": [
-        [
-          "codec",
-          "PtsDDCmp"
-        ],
-        [
-          "layout",
-          "20 Hz signal in mAU"
-        ],
-        [
-          "layout",
-          "irregular signal in counts"
-        ],
-        [
-          "writer_version",
-          "Chromeleon 7.2"
-        ]
       ],
       "fixed_refuses": [
         "traces"
@@ -34820,327 +34041,6 @@
         [
           "record",
           "events fractions",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        3,
-        3
-      ]
-    },
-    {
-      "id": "unicorn-res-pycorngui-koko029",
-      "format": "cytiva-unicorn-res",
-      "source": "github:kotarokelley/pycorngui",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "tables",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "UNICORN 3",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "record",
-          "curve uv",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve conductivity",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve conductivity_percent",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve concentration_b",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve pressure",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve flow",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve temperature",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "events logbook",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "record",
-          "events fractions",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "record",
-          "events injections",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        3,
-        3
-      ]
-    },
-    {
-      "id": "unicorn-res-pycorngui-koko038",
-      "format": "cytiva-unicorn-res",
-      "source": "github:kotarokelley/pycorngui",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "tables",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "UNICORN 3",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "record",
-          "curve uv",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve conductivity",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve conductivity_percent",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve concentration_b",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve pressure",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve flow",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve temperature",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "events logbook",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "record",
-          "events fractions",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "record",
-          "events injections",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        3,
-        3
-      ]
-    },
-    {
-      "id": "unicorn-res-pycorngui-koko135",
-      "format": "cytiva-unicorn-res",
-      "source": "github:kotarokelley/pycorngui",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "tables",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "UNICORN 3",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "record",
-          "curve uv",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve conductivity",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve conductivity_percent",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve concentration_b",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve pressure",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve flow",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "curve temperature",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "events logbook",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "record",
-          "events fractions",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "record",
-          "events injections",
           [
             "tables"
           ]
@@ -50085,675 +48985,6 @@
       ]
     },
     {
-      "id": "gpcreader-empower-calib1",
-      "format": "empower-arw",
-      "source": "github:polychem-mk/gpcreader",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "gpcreader-empower-calib2",
-      "format": "empower-arw",
-      "source": "github:polychem-mk/gpcreader",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "gpcreader-empower-sample1",
-      "format": "empower-arw",
-      "source": "github:polychem-mk/gpcreader",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "gpcreader-empower-sample2",
-      "format": "empower-arw",
-      "source": "github:polychem-mk/gpcreader",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "gpcreader-empower-sample3",
-      "format": "empower-arw",
-      "source": "github:polychem-mk/gpcreader",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "gpcreader-empower-sample4",
-      "format": "empower-arw",
-      "source": "github:polychem-mk/gpcreader",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "gpcreader-empower-sample5",
-      "format": "empower-arw",
-      "source": "github:polychem-mk/gpcreader",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CR line endings",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "gpcreader-empower-sample6",
-      "format": "empower-arw",
-      "source": "github:polychem-mk/gpcreader",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CR line endings",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "gpcreader-empower-sample7",
-      "format": "empower-arw",
-      "source": "github:polychem-mk/gpcreader",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CR line endings",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "gpcreader-empower-sample8",
-      "format": "empower-arw",
-      "source": "github:polychem-mk/gpcreader",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CR line endings",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "hplcrs-empower-46739",
-      "format": "empower-arw",
-      "source": "github:archercatneo/hplc",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "hplcrs-empower-46751",
-      "format": "empower-arw",
-      "source": "github:archercatneo/hplc",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "hplcrs-empower-46779",
-      "format": "empower-arw",
-      "source": "github:archercatneo/hplc",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "hplcrs-empower-46783",
-      "format": "empower-arw",
-      "source": "github:archercatneo/hplc",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "hplcrs-empower-46795",
-      "format": "empower-arw",
-      "source": "github:archercatneo/hplc",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "hplcrs-empower-46799",
-      "format": "empower-arw",
-      "source": "github:archercatneo/hplc",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
-      "id": "hplcrs-empower-46804",
-      "format": "empower-arw",
-      "source": "github:archercatneo/hplc",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "assumed": [
-        "traces[].channels[].unit"
-      ],
-      "features": [
-        [
-          "layout",
-          "2D, evenly spaced times",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "dialect",
-          "CRLF line endings",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "one field per line",
-          [
-            "traces"
-          ]
-        ]
-      ],
-      "inferred": [
-        4,
-        4
-      ]
-    },
-    {
       "id": "fcsparser-cyflow-cube-8",
       "format": "fcs",
       "source": "github:eyurtsev/fcsparser",
@@ -54222,13 +52453,9 @@
       "id": "echem-impedancepy-eis-abort",
       "format": "gamry-dta",
       "source": "github:ecshackweek/impedance.py",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "tables",
-        "traces"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -54820,126 +53047,6 @@
       "inferred": [
         0,
         1
-      ]
-    },
-    {
-      "id": "hdf5-zenodo14794967-picoharp-histogram-cl1-det2",
-      "format": "hdf5",
-      "source": "zenodo:14794967",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata"
-      ],
-      "features": [
-        [
-          "dialect",
-          "generic hdf5",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "superblock version 0",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        0
-      ]
-    },
-    {
-      "id": "hdf5-zenodo15463833-data-pmoke-mag",
-      "format": "hdf5",
-      "source": "zenodo:15463833",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata"
-      ],
-      "features": [
-        [
-          "dialect",
-          "generic hdf5",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "superblock version 0",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        0
-      ]
-    },
-    {
-      "id": "hdf5-zenodo4165174-wse2-cb",
-      "format": "hdf5",
-      "source": "zenodo:4165174",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata"
-      ],
-      "features": [
-        [
-          "dialect",
-          "generic hdf5",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "superblock version 0",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        0
-      ]
-    },
-    {
-      "id": "hdf5-zenodo7806036-figure7-nexus",
-      "format": "hdf5",
-      "source": "zenodo:7806036",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata"
-      ],
-      "features": [
-        [
-          "dialect",
-          "generic hdf5",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "superblock version 2",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        0
       ]
     },
     {
@@ -56039,240 +54146,6 @@
       ]
     },
     {
-      "id": "i2nca-cp",
-      "format": "imzml",
-      "source": "github:cknusper/i2nca",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "custom unreleased software tool",
-          []
-        ],
-        [
-          "acquisition",
-          "MS1 spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "profile spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "continuous",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "universally unique identifier",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "ibd SHA-1",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "imaging (.ibd)",
-          [
-            "spectra"
-          ]
-        ]
-      ],
-      "inferred": [
-        0,
-        7
-      ]
-    },
-    {
-      "id": "i2nca-pc",
-      "format": "imzml",
-      "source": "github:cknusper/i2nca",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "custom unreleased software tool",
-          []
-        ],
-        [
-          "acquisition",
-          "MS1 spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "centroid spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "processed",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "universally unique identifier",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "ibd SHA-1",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "imaging (.ibd)",
-          [
-            "spectra"
-          ]
-        ]
-      ],
-      "inferred": [
-        0,
-        7
-      ]
-    },
-    {
-      "id": "i2nca-pp",
-      "format": "imzml",
-      "source": "github:cknusper/i2nca",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "custom unreleased software tool",
-          []
-        ],
-        [
-          "acquisition",
-          "MS1 spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "profile spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "processed",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "universally unique identifier",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "ibd SHA-1",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "imaging (.ibd)",
-          [
-            "spectra"
-          ]
-        ]
-      ],
-      "inferred": [
-        0,
-        7
-      ]
-    },
-    {
       "id": "imzml-example-continuous",
       "format": "imzml",
       "source": "github:alexandrovteam/pyimzml",
@@ -56451,538 +54324,6 @@
           "field",
           "experiment.acquisition.started_at",
           []
-        ]
-      ],
-      "inferred": [
-        0,
-        7
-      ]
-    },
-    {
-      "id": "kineticmsi-hd-rep6",
-      "format": "imzml",
-      "source": "github:mseidelfed/kineticmsi",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "SCiLS Lab",
-          []
-        ],
-        [
-          "acquisition",
-          "universally unique identifier",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "processed",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "ibd MD5",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "mass spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "solariX",
-          []
-        ],
-        [
-          "layout",
-          "imaging (.ibd)",
-          [
-            "spectra"
-          ]
-        ]
-      ],
-      "inferred": [
-        0,
-        7
-      ]
-    },
-    {
-      "id": "kineticmsi-wt-rep1",
-      "format": "imzml",
-      "source": "github:mseidelfed/kineticmsi",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "SCiLS Lab",
-          []
-        ],
-        [
-          "acquisition",
-          "universally unique identifier",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "processed",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "ibd MD5",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "mass spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "solariX",
-          []
-        ],
-        [
-          "layout",
-          "imaging (.ibd)",
-          [
-            "spectra"
-          ]
-        ]
-      ],
-      "inferred": [
-        0,
-        7
-      ]
-    },
-    {
-      "id": "metaspace-untreated-3-434",
-      "format": "imzml",
-      "source": "github:metaspace2020/metaspace",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "pyimzml",
-          []
-        ],
-        [
-          "acquisition",
-          "MS1 spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "processed",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "universally unique identifier",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "ibd SHA-1",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "imaging (.ibd)",
-          [
-            "spectra"
-          ]
-        ]
-      ],
-      "inferred": [
-        0,
-        7
-      ]
-    },
-    {
-      "id": "zenodo1560646-mouse-kidney-cut",
-      "format": "imzml",
-      "source": "zenodo:1560646",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "custom unreleased software tool",
-          []
-        ],
-        [
-          "acquisition",
-          "MS1 spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "profile spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "universally unique identifier",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "ibd SHA-1",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "continuous",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "imaging (.ibd)",
-          [
-            "spectra"
-          ]
-        ]
-      ],
-      "inferred": [
-        0,
-        7
-      ]
-    },
-    {
-      "id": "zenodo17374882-spheroid-section01",
-      "format": "imzml",
-      "source": "zenodo:17374882",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "mass spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "centroid spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "continuous",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "universally unique identifier",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "ibd SHA-1",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "Unknown",
-          []
-        ],
-        [
-          "layout",
-          "imaging (.ibd)",
-          [
-            "spectra"
-          ]
-        ]
-      ],
-      "inferred": [
-        0,
-        7
-      ]
-    },
-    {
-      "id": "zenodo17374882-spheroid-section46",
-      "format": "imzml",
-      "source": "zenodo:17374882",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "mass spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "centroid spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "continuous",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "universally unique identifier",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "ibd SHA-1",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "Unknown",
-          []
-        ],
-        [
-          "layout",
-          "imaging (.ibd)",
-          [
-            "spectra"
-          ]
-        ]
-      ],
-      "inferred": [
-        0,
-        7
-      ]
-    },
-    {
-      "id": "zenodo2628280-nglycan-control",
-      "format": "imzml",
-      "source": "zenodo:2628280",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "custom unreleased software tool",
-          []
-        ],
-        [
-          "acquisition",
-          "MS1 spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "profile spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "universally unique identifier",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "ibd SHA-1",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "continuous",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "imaging (.ibd)",
-          [
-            "spectra"
-          ]
         ]
       ],
       "inferred": [
@@ -64345,542 +61686,6 @@
       ]
     },
     {
-      "id": "zetasizer-figshare21387954-dls",
-      "format": "malvern-zetasizer-dts",
-      "source": "university of manchester figshare doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "writer_version",
-          "Zetasizer 7.10",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 12",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "size record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        1,
-        1
-      ]
-    },
-    {
-      "id": "zetasizer-figshare21518898-dls",
-      "format": "malvern-zetasizer-dts",
-      "source": "university of manchester figshare doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "writer_version",
-          "Zetasizer 7.10",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 12",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "size record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "zeta record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        1,
-        1
-      ]
-    },
-    {
-      "id": "zetasizer-figshare21922542-dls",
-      "format": "malvern-zetasizer-dts",
-      "source": "university of manchester figshare doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "writer_version",
-          "Zetasizer 7.10",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 12",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "size record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "zeta record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 13",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        1,
-        1
-      ]
-    },
-    {
-      "id": "zetasizer-figshare21967850-dls",
-      "format": "malvern-zetasizer-dts",
-      "source": "university of manchester figshare doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "writer_version",
-          "Zetasizer 7.10",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 13",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "zeta record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "size record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        1,
-        1
-      ]
-    },
-    {
-      "id": "zetasizer-figshare22263982-dls",
-      "format": "malvern-zetasizer-dts",
-      "source": "university of manchester figshare doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "writer_version",
-          "Zetasizer 7.10",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 12",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "zeta record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 13",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "size record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        1,
-        1
-      ]
-    },
-    {
-      "id": "zetasizer-figshare22293532-dls",
-      "format": "malvern-zetasizer-dts",
-      "source": "university of manchester figshare doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "writer_version",
-          "Zetasizer 7.10",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 12",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "zeta record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 13",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "size record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        1,
-        1
-      ]
-    },
-    {
-      "id": "zetasizer-tdl-bkrucg-ecoli",
-      "format": "malvern-zetasizer-dts",
-      "source": "texas data repository doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "writer_version",
-          "Zetasizer 7.13",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 13",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "zeta record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        1,
-        1
-      ]
-    },
-    {
-      "id": "zetasizer-unc-adxhmt-lelc-n1",
-      "format": "malvern-zetasizer-dts",
-      "source": "unc dataverse doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "writer_version",
-          "Zetasizer 7.12",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 13",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "size record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        1,
-        1
-      ]
-    },
-    {
-      "id": "zetasizer-unc-adxhmt-lelc-n23",
-      "format": "malvern-zetasizer-dts",
-      "source": "unc dataverse doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "writer_version",
-          "Zetasizer 7.12",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 13",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "size record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        1,
-        1
-      ]
-    },
-    {
-      "id": "zetasizer-unc-adxhmt-stab-n3",
-      "format": "malvern-zetasizer-dts",
-      "source": "unc dataverse doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "writer_version",
-          "Zetasizer 7.12",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "format_version",
-          "record schema 13",
-          [
-            "metadata",
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "size record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "acquisition",
-          "zeta record",
-          [
-            "tables"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        1,
-        1
-      ]
-    },
-    {
       "id": "zetasizer-zenodo10944781-dls",
       "format": "malvern-zetasizer-dts",
       "source": "zenodo:10944781",
@@ -66966,6 +63771,129 @@
       ]
     },
     {
+      "id": "msv86784-tp-meoh-epi-3-mzml",
+      "format": "mzml",
+      "source": "massive:MSV000086784",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Analyst",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "basepeak chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "msv92552-mnx-h340a-ims2-raw-mzml",
+      "format": "mzml",
+      "source": "massive:MSV000092552",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassLynx",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "instrument",
+          "Waters instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "msv94528-idx-msnlib-peptide01-b18",
       "format": "mzml",
       "source": "massive:MSV000094528",
@@ -67029,6 +63957,79 @@
         [
           "record",
           "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "msv97113-cm-5-pos-2-mzml",
+      "format": "mzml",
+      "source": "massive:MSV000097113",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Analyst",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "basepeak chromatogram",
           [
             "traces"
           ]
@@ -67332,6 +64333,56 @@
       ]
     },
     {
+      "id": "mtbls12255-k3-pos-raw-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS12255",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassLynx",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "instrument",
+          "Waters instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "mtbls12283-rumenwall-qc-id-01-neg",
       "format": "mzml",
       "source": "metabolights:MTBLS12283",
@@ -67411,6 +64462,236 @@
       ]
     },
     {
+      "id": "mtbls12637-processblank2-pos-77-d-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS12637",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassHunter Data Acquisition",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "total ion current chromatogram",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Agilent instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "flow rate chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "mtbls1266-swath-neg-wt1-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS1266",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Analyst",
+          []
+        ],
+        [
+          "writer",
+          "ProteinPilot Software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "AB SCIEX instrument model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        8
+      ]
+    },
+    {
+      "id": "mtbls12837-n14-d-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS12837",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassHunter Data Acquisition",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "total ion current chromatogram",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Agilent instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "flow rate chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "mtbls13066-elite-318a-b5-35nce",
       "format": "mzml",
       "source": "metabolights:MTBLS13066",
@@ -67462,6 +64743,64 @@
         [
           "instrument",
           "LTQ Orbitrap Elite",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "mtbls13129-beejamrit-3-1-gcms-raw-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS13129",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassLynx",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Waters instrument model",
           []
         ],
         [
@@ -67778,6 +65117,102 @@
         [
           "record",
           "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "mtbls14343-e-1-pos-041-ms2-d-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS14343",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassHunter Data Acquisition",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "total ion current chromatogram",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Agilent instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "flow rate chromatogram",
           [
             "traces"
           ]
@@ -68174,84 +65609,6 @@
       ]
     },
     {
-      "id": "mtbls2240-bal-214-ecoli",
-      "format": "mzml",
-      "source": "metabolights:MTBLS2240",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1.0",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "Analyst",
-          []
-        ],
-        [
-          "writer",
-          "ProteoWizard software",
-          []
-        ],
-        [
-          "acquisition",
-          "selected reaction monitoring chromatogram",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "QTRAP 6500",
-          []
-        ],
-        [
-          "record",
-          "total ion current chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "basepeak chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "selected reaction monitoring chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        9
-      ]
-    },
-    {
       "id": "mtbls243-03_D24062013T1259_1399CBU_01QC_A3",
       "format": "mzml",
       "source": "metabolights mtbls243",
@@ -68315,70 +65672,6 @@
         [
           "record",
           "selected reaction monitoring chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        9
-      ]
-    },
-    {
-      "id": "mtbls3956-arg-1",
-      "format": "mzml",
-      "source": "metabolights:MTBLS3956",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1.0",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "Analyst",
-          []
-        ],
-        [
-          "writer",
-          "ProteoWizard software",
-          []
-        ],
-        [
-          "acquisition",
-          "selected reaction monitoring chromatogram",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "QTRAP 5500",
-          []
-        ],
-        [
-          "record",
-          "total ion current chromatogram",
           [
             "traces"
           ]
@@ -68722,85 +66015,6 @@
       ]
     },
     {
-      "id": "mtbls4618-t-i-128-1-hilic-neg",
-      "format": "mzml",
-      "source": "metabolights:MTBLS4618",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1.0",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "Analyst",
-          []
-        ],
-        [
-          "writer",
-          "ProteoWizard software",
-          []
-        ],
-        [
-          "acquisition",
-          "MS1 spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "MSn spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "TripleTOF 6600",
-          []
-        ],
-        [
-          "record",
-          "total ion current chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "basepeak chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        10
-      ]
-    },
-    {
       "id": "mtbls4722-1",
       "format": "mzml",
       "source": "metabolights:MTBLS4722",
@@ -69055,6 +66269,56 @@
       "fields": [
         "experiment.acquisition.started_at"
       ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassLynx",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "instrument",
+          "Waters instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "mtbls7324-8sa-lps-16h-3b-raw-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS7324",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -69519,85 +66783,6 @@
         [
           "record",
           "total ion current chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        10
-      ]
-    },
-    {
-      "id": "mtbls851-dry-cal20180201114106110",
-      "format": "mzml",
-      "source": "metabolights:MTBLS851",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.1.0",
-          [
-            "metadata",
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "writer",
-          "Analyst",
-          []
-        ],
-        [
-          "writer",
-          "ProteoWizard software",
-          []
-        ],
-        [
-          "acquisition",
-          "MS1 spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "acquisition",
-          "MSn spectrum",
-          [
-            "spectra",
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "TripleTOF 5600",
-          []
-        ],
-        [
-          "record",
-          "total ion current chromatogram",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "record",
-          "basepeak chromatogram",
           [
             "traces"
           ]
@@ -70182,16 +67367,9 @@
       "id": "pwiz-agilent-apci-piscan-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -70263,16 +67441,9 @@
       "id": "pwiz-agilent-gfb-4scan-timesegs-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -70375,16 +67546,9 @@
       "id": "pwiz-agilent-ims-allions-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -70456,16 +67620,9 @@
       "id": "pwiz-agilent-ims-ccs-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -70537,16 +67694,9 @@
       "id": "pwiz-agilent-ims-chrom-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -70618,16 +67768,9 @@
       "id": "pwiz-agilent-mmi-piscan-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -70699,16 +67842,9 @@
       "id": "pwiz-agilent-mrm-neg-c5-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -70779,16 +67915,9 @@
       "id": "pwiz-agilent-neutral-loss-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -70844,16 +67973,9 @@
       "id": "pwiz-agilent-reserpine-ms2sim-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -70924,16 +68046,9 @@
       "id": "pwiz-agilent-thyrxox-ts-diff-scan-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71036,16 +68151,9 @@
       "id": "pwiz-agilent-tof-sulfas-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71132,16 +68240,9 @@
       "id": "pwiz-bruker-diapasef-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71209,16 +68310,9 @@
       "id": "pwiz-bruker-hela-pasef-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71294,16 +68388,9 @@
       "id": "pwiz-bruker-maldi-tsf-centroid-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71371,16 +68458,9 @@
       "id": "pwiz-bruker-maldi-tsf-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71448,16 +68528,9 @@
       "id": "pwiz-bruker-thyroglob-prm-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71525,16 +68598,9 @@
       "id": "pwiz-bruker-urine-tsf-centroid-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71630,16 +68696,9 @@
       "id": "pwiz-bruker-urine-tsf-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71743,16 +68802,9 @@
       "id": "pwiz-sciex-enolase-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71822,16 +68874,9 @@
       "id": "pwiz-sciex-pressuretrace-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71915,16 +68960,9 @@
       "id": "pwiz-thermo-bsa-ft-etd-centroid-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71980,16 +69018,9 @@
       "id": "pwiz-thermo-bsa-ft-etd-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72045,16 +69076,9 @@
       "id": "pwiz-thermo-bsa-ft-hcd-centroid-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72110,16 +69134,9 @@
       "id": "pwiz-thermo-bsa-ft-hcd-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72175,16 +69192,9 @@
       "id": "pwiz-thermo-ft-hcd-msx-centroid-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72240,16 +69250,9 @@
       "id": "pwiz-thermo-ft-hcd-msx-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72305,16 +69308,9 @@
       "id": "pwiz-thermo-isolation-offset-centroid-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72370,16 +69366,9 @@
       "id": "pwiz-thermo-isolation-offset-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72435,16 +69424,9 @@
       "id": "pwiz-thermo-it-hcd-sps-centroid-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72500,16 +69482,9 @@
       "id": "pwiz-thermo-it-hcd-sps-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72565,16 +69540,9 @@
       "id": "pwiz-thermo-ltqvelos-centroid-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72653,16 +69621,9 @@
       "id": "pwiz-thermo-ltqvelos-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72741,16 +69702,9 @@
       "id": "pwiz-thermo-source-cid-centroid-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72806,16 +69760,9 @@
       "id": "pwiz-thermo-source-cid-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72871,16 +69818,9 @@
       "id": "pwiz-waters-091204-nfdm-008-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -72944,16 +69884,9 @@
       "id": "pwiz-waters-160109-mix1-calcurve-070-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73024,16 +69957,9 @@
       "id": "pwiz-waters-atehlstlsek-lm-684-3469-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73097,16 +70023,9 @@
       "id": "pwiz-waters-atehlstlsek-lm-785-8426-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73170,16 +70089,9 @@
       "id": "pwiz-waters-atehlstlsek-profile-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73243,13 +70155,9 @@
       "id": "pwiz-waters-dda-isolationwindow-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73308,16 +70216,9 @@
       "id": "pwiz-waters-hddda-short-nolm-combineims-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73381,16 +70282,9 @@
       "id": "pwiz-waters-hddda-short-nolm-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73454,16 +70348,9 @@
       "id": "pwiz-waters-hdmrm-short-nolm-combineims-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73519,16 +70406,9 @@
       "id": "pwiz-waters-hdmrm-short-nolm-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73584,16 +70464,9 @@
       "id": "pwiz-waters-hdmse-short-nolm-combineims-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73649,16 +70522,9 @@
       "id": "pwiz-waters-hdmse-short-nolm-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73714,13 +70580,9 @@
       "id": "pwiz-waters-minimal-dda-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73779,16 +70641,9 @@
       "id": "pwiz-waters-mse-short-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73844,16 +70699,9 @@
       "id": "pwiz-waters-qc-lcms2-2-23-268-1-1-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -73938,16 +70786,9 @@
       "id": "pwiz-waters-sonar-short-combineims-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -74003,16 +70844,9 @@
       "id": "pwiz-waters-sonar-short-mzml",
       "format": "mzml",
       "source": "github:proteowizard/pwiz",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -75259,6 +72093,144 @@
       ]
     },
     {
+      "id": "zenodo7897576-dag-3-mzml",
+      "format": "mzml",
+      "source": "zenodo:7897576",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Analyst",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "constant neutral loss spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 5500",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "basepeak chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo7897576-lpds-1-mzml",
+      "format": "mzml",
+      "source": "zenodo:7897576",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Analyst",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "precursor ion spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "constant neutral loss spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "basepeak chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "mzdata-small-mzmlb",
       "format": "mzmlb",
       "source": "github:mobiusklein/mzdata",
@@ -75594,15 +72566,40 @@
       ]
     },
     {
+      "id": "mtbls1969-exosomes-ko1-mzxml",
+      "format": "mzxml",
+      "source": "metabolights:MTBLS1969",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "3.2",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "API 2000",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        6
+      ]
+    },
+    {
       "id": "mtbls225-tqs-rln-20140623-056-export",
       "format": "mzxml",
       "source": "metabolights:MTBLS225",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -83038,222 +80035,6 @@
       ]
     },
     {
-      "id": "figshare12325037-vcfs-prox1-ctnt-x20-f1",
-      "format": "oib",
-      "source": "figshare 12325037 'figure 6. c-f / + vcf / 190821_vcfs_prox1_ctnt_x20_f1'",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "pixels"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.2.6.0",
-          [
-            "metadata",
-            "pixels"
-          ]
-        ],
-        [
-          "sample_layout",
-          "uint16",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "writer",
-          "FluoView",
-          []
-        ],
-        [
-          "writer_version",
-          "FluoView 4.2",
-          []
-        ],
-        [
-          "instrument",
-          "FLUOVIEW FV1000",
-          []
-        ],
-        [
-          "codec",
-          "none",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "acquisition",
-          "scan XY",
-          [
-            "metadata",
-            "pixels"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        6,
-        14
-      ]
-    },
-    {
-      "id": "figshare26030764-cg-nap-atb-acemehta-01",
-      "format": "oib",
-      "source": "figshare 26030764 '210140714_cg-nap_atb_acemehta_01.oib'",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "pixels"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.2.6.0",
-          [
-            "metadata",
-            "pixels"
-          ]
-        ],
-        [
-          "sample_layout",
-          "uint16",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "writer",
-          "FluoView",
-          []
-        ],
-        [
-          "writer_version",
-          "FluoView 4.0",
-          []
-        ],
-        [
-          "instrument",
-          "FLUOVIEW FV1000",
-          []
-        ],
-        [
-          "codec",
-          "none",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "acquisition",
-          "scan XY",
-          [
-            "metadata",
-            "pixels"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        6,
-        14
-      ]
-    },
-    {
-      "id": "figshare31929921-a-03-05-syn488-btx555",
-      "format": "oib",
-      "source": "figshare 31929921 'confocal images of tongue blade nmjs from kemp et al 2026'",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "pixels"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.2.6.0",
-          [
-            "metadata",
-            "pixels"
-          ]
-        ],
-        [
-          "sample_layout",
-          "uint16",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "writer",
-          "FluoView",
-          []
-        ],
-        [
-          "writer_version",
-          "FluoView 4.2",
-          []
-        ],
-        [
-          "instrument",
-          "FLUOVIEW FV1000",
-          []
-        ],
-        [
-          "codec",
-          "none",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "acquisition",
-          "scan XYZ",
-          [
-            "metadata",
-            "pixels"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        6,
-        14
-      ]
-    },
-    {
       "id": "zenodo11075037-rics-h1-45-1",
       "format": "oib",
       "source": "zenodo:11075037",
@@ -83786,94 +80567,6 @@
       ]
     },
     {
-      "id": "figshare19409903-fig2a",
-      "format": "oif",
-      "source": "figshare 19409903 'intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys'",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "pixels"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.2.3.0",
-          [
-            "metadata",
-            "pixels"
-          ]
-        ],
-        [
-          "sample_layout",
-          "uint16",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "writer",
-          "FluoView",
-          []
-        ],
-        [
-          "codec",
-          "none",
-          [
-            "pixels"
-          ]
-        ]
-      ],
-      "inferred": [
-        3,
-        11
-      ]
-    },
-    {
-      "id": "figshare19409903-fig2b",
-      "format": "oif",
-      "source": "figshare 19409903 'intravital microscopy datasets examining key nephron segments of transplanted decellularized kidneys'",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "pixels"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.2.3.0",
-          [
-            "metadata",
-            "pixels"
-          ]
-        ],
-        [
-          "sample_layout",
-          "uint16",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "writer",
-          "FluoView",
-          []
-        ],
-        [
-          "codec",
-          "none",
-          [
-            "pixels"
-          ]
-        ]
-      ],
-      "inferred": [
-        3,
-        11
-      ]
-    },
-    {
       "id": "zenodo4421962-bead12-50x",
       "format": "oif",
       "source": "zenodo:4421962",
@@ -84013,78 +80706,6 @@
           "layout",
           "reference_image",
           [
-            "pixels"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        6,
-        14
-      ]
-    },
-    {
-      "id": "zenodo4421962-bead6-50x-noosc",
-      "format": "oif",
-      "source": "zenodo:4421962",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "pixels"
-      ],
-      "features": [
-        [
-          "format_version",
-          "1.2.6.0",
-          [
-            "metadata",
-            "pixels"
-          ]
-        ],
-        [
-          "sample_layout",
-          "uint16",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "writer",
-          "FluoView",
-          []
-        ],
-        [
-          "writer_version",
-          "FluoView 4.2",
-          []
-        ],
-        [
-          "instrument",
-          "FLUOVIEW FV1000",
-          []
-        ],
-        [
-          "codec",
-          "none",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "acquisition",
-          "scan XY",
-          [
-            "metadata",
             "pixels"
           ]
         ],
@@ -86883,58 +83504,6 @@
         [
           "field",
           "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        16,
-        19
-      ]
-    },
-    {
-      "id": "pygecko-openlab-fkb-fa-060-ri",
-      "format": "openlab-cds",
-      "source": "github:felixkatz77/pygecko",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "signal 179",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "codec",
-          "Signal179",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "instrument",
-          "7890B",
-          []
-        ],
-        [
-          "writer_version",
-          "OpenLab CDS 2.6",
-          []
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
           []
         ]
       ],
@@ -91294,12 +87863,9 @@
       "id": "gen5xpt-cytation5-elisa-ifng",
       "format": "plate",
       "source": "zenodo:14230362",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "tables"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "dialect",
@@ -91375,12 +87941,9 @@
       "id": "gen5xpt-cytation5-elisa-region",
       "format": "plate",
       "source": "zenodo:14230362",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "tables"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "dialect",
@@ -91456,12 +88019,9 @@
       "id": "gen5xpt-gen5v1-synergyh1-cdneg",
       "format": "plate",
       "source": "figshare 33174608",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "tables"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "dialect",
@@ -91532,12 +88092,9 @@
       "id": "gen5xpt-gen5v1-synergyh1-cdpos",
       "format": "plate",
       "source": "figshare 33174608",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "tables"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "dialect",
@@ -91608,12 +88165,9 @@
       "id": "gen5xpt-gen5v1-synergyh1-dextran",
       "format": "plate",
       "source": "figshare 33174608",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "tables"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "dialect",
@@ -91762,12 +88316,9 @@
       "id": "gen5xpt-synergyh1-fl-kinetic",
       "format": "plate",
       "source": "zenodo:12108530",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "tables"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "dialect",
@@ -91843,12 +88394,9 @@
       "id": "gen5xpt-synergyht-abs-calibration",
       "format": "plate",
       "source": "zenodo:17453979",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "tables"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "dialect",
@@ -96610,62 +93158,6 @@
       ]
     },
     {
-      "id": "xrd-figshare32834120-ras-bc",
-      "format": "rigaku-ras",
-      "source": "figshare 32834120 'data from the study on the effects of modified biochar on water movement and nitrogen leaching'",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "record",
-          "two_theta axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "sample_layout",
-          "intensity in counts",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "TwoThetaTheta scan",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "format_version",
-          "RAS 1",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
       "id": "xrd-nims-ras",
       "format": "rigaku-ras",
       "source": "github:nims-mdpf/m-dac_xrd",
@@ -96840,8 +93332,7 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
-        "metadata",
-        "traces"
+        "metadata"
       ],
       "fields": [
         "experiment.acquisition.started_at"
@@ -96879,54 +93370,6 @@
         [
           "field",
           "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "xrd-fairmat-rasx-omega2theta-ht",
-      "format": "rigaku-rasx",
-      "source": "github:fairmat-nfdi/readers-xrd",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "record",
-          "two_theta axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "sample_layout",
-          "intensity in counts",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "TwoThetaOmega scan",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
           []
         ]
       ],
@@ -96988,254 +93431,13 @@
       ]
     },
     {
-      "id": "xrd-fairmat-rasx-rsm111",
-      "format": "rigaku-rasx",
-      "source": "github:fairmat-nfdi/readers-xrd",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "record",
-          "two_theta axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "sample_layout",
-          "intensity in counts",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "TwoTheta scan",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "xrd-fairmat-rasx-zno-ald",
-      "format": "rigaku-rasx",
-      "source": "github:fairmat-nfdi/readers-xrd",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "record",
-          "two_theta axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "sample_layout",
-          "intensity in counts",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "TwoThetaTheta scan",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "xrd-figshare28490114-rasx-prosser-cultivated",
-      "format": "rigaku-rasx",
-      "source": "figshare 28490114 'soil chem phys prop'",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "record",
-          "two_theta axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "sample_layout",
-          "intensity in counts",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "TwoThetaTheta scan",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "xrd-figshare31861468-rasx-mos2cqd",
-      "format": "rigaku-rasx",
-      "source": "figshare 31861468 'dataset for nitrogen-engineered mos2 quantum dots'",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "record",
-          "two_theta axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "sample_layout",
-          "intensity in counts",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "TwoThetaTheta scan",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
-      "id": "xrd-figshare32834120-rasx-bc",
-      "format": "rigaku-rasx",
-      "source": "figshare 32834120 'data from the study on the effects of modified biochar on water movement and nitrogen leaching'",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "record",
-          "two_theta axis",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "sample_layout",
-          "intensity in counts",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "TwoThetaTheta scan",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        0,
-        1
-      ]
-    },
-    {
       "id": "xrd-zenodo20341379-rasx-as48",
       "format": "rigaku-rasx",
       "source": "zenodo:20341379",
       "oracle": "pass",
       "independent": true,
       "compared": [
-        "metadata",
-        "traces"
+        "metadata"
       ],
       "fields": [
         "experiment.acquisition.started_at",
@@ -97515,306 +93717,6 @@
         [
           "record",
           "melt derivative",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        13,
-        28
-      ]
-    },
-    {
-      "id": "ixo-mendeley-diras2-cp1",
-      "format": "roche-lightcycler-ixo",
-      "source": "mendeley data doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "dialect",
-          "ixo",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "instrument",
-          "29892",
-          []
-        ],
-        [
-          "writer",
-          "LightCycler",
-          []
-        ],
-        [
-          "record",
-          "amplification",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        13,
-        28
-      ]
-    },
-    {
-      "id": "ixo-mendeley-diras2-cp2",
-      "format": "roche-lightcycler-ixo",
-      "source": "mendeley data doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "dialect",
-          "ixo",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "instrument",
-          "29892",
-          []
-        ],
-        [
-          "writer",
-          "LightCycler",
-          []
-        ],
-        [
-          "record",
-          "amplification",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        13,
-        28
-      ]
-    },
-    {
-      "id": "ixo-mendeley-diras2-cp3",
-      "format": "roche-lightcycler-ixo",
-      "source": "mendeley data doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "dialect",
-          "ixo",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "instrument",
-          "29892",
-          []
-        ],
-        [
-          "writer",
-          "LightCycler",
-          []
-        ],
-        [
-          "record",
-          "amplification",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        13,
-        28
-      ]
-    },
-    {
-      "id": "ixo-mendeley-diras2-cp4",
-      "format": "roche-lightcycler-ixo",
-      "source": "mendeley data doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "dialect",
-          "ixo",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "instrument",
-          "29892",
-          []
-        ],
-        [
-          "writer",
-          "LightCycler",
-          []
-        ],
-        [
-          "record",
-          "amplification",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        13,
-        28
-      ]
-    },
-    {
-      "id": "ixo-mendeley-diras2-cp6",
-      "format": "roche-lightcycler-ixo",
-      "source": "mendeley data doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "dialect",
-          "ixo",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "instrument",
-          "29892",
-          []
-        ],
-        [
-          "writer",
-          "LightCycler",
-          []
-        ],
-        [
-          "record",
-          "amplification",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        13,
-        28
-      ]
-    },
-    {
-      "id": "ixo-mendeley-diras2-cp7",
-      "format": "roche-lightcycler-ixo",
-      "source": "mendeley data doi",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
-      "features": [
-        [
-          "dialect",
-          "ixo",
-          [
-            "metadata",
-            "traces",
-            "tables"
-          ]
-        ],
-        [
-          "instrument",
-          "29892",
-          []
-        ],
-        [
-          "writer",
-          "LightCycler",
-          []
-        ],
-        [
-          "record",
-          "amplification",
           [
             "traces"
           ]
@@ -98220,6 +94122,149 @@
       ]
     },
     {
+      "id": "msv86784-tp-meoh-epi-3",
+      "format": "sciex-wiff",
+      "source": "massive:MSV000086784",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "writer",
+          "Analyst",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Analyst 1.6",
+          []
+        ],
+        [
+          "instrument",
+          "generation QTRAP",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500",
+          []
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type enhanced MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type enhanced product ion",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "msv97113-cm-5-pos-2",
+      "format": "sciex-wiff",
+      "source": "massive:MSV000097113",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "writer",
+          "Analyst",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Analyst 1.6",
+          []
+        ],
+        [
+          "instrument",
+          "generation QTRAP",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500",
+          []
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type enhanced MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type enhanced product ion",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
       "id": "mtbls11360-col-0-3-n",
       "format": "sciex-wiff",
       "source": "metabolights:MTBLS11360",
@@ -98299,157 +94344,12 @@
       ]
     },
     {
-      "id": "mtbls2240-bal-214-ecoli",
+      "id": "mtbls1266-swath-neg-wt1",
       "format": "sciex-wiff",
-      "source": "metabolights:MTBLS2240",
-      "oracle": "skip",
-      "independent": true,
+      "source": "metabolights:MTBLS1266",
+      "oracle": "none",
+      "independent": false,
       "compared": [],
-      "features": [
-        [
-          "writer",
-          "Analyst",
-          [
-            "metadata",
-            "spectra"
-          ]
-        ],
-        [
-          "writer_version",
-          "Analyst 1.6",
-          []
-        ],
-        [
-          "instrument",
-          "generation QTRAP",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "instrument",
-          "QTRAP 6500",
-          []
-        ],
-        [
-          "layout",
-          "scheduled MRM, method windows",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "acquisition",
-          "stored SRM",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "acquisition",
-          "scan type MRM",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        9,
-        9
-      ]
-    },
-    {
-      "id": "mtbls3956-arg-1",
-      "format": "sciex-wiff",
-      "source": "metabolights:MTBLS3956",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
-      "features": [
-        [
-          "writer",
-          "Analyst",
-          [
-            "metadata",
-            "spectra"
-          ]
-        ],
-        [
-          "writer_version",
-          "Analyst 1.6",
-          []
-        ],
-        [
-          "instrument",
-          "generation QTRAP",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "instrument",
-          "QTRAP 5500",
-          []
-        ],
-        [
-          "acquisition",
-          "stored SRM",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "acquisition",
-          "scan type MRM",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        9,
-        9
-      ]
-    },
-    {
-      "id": "mtbls4618-t-i-128-1-hilic-neg",
-      "format": "sciex-wiff",
-      "source": "metabolights:MTBLS4618",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
         [
           "writer",
@@ -98514,6 +94414,66 @@
       ]
     },
     {
+      "id": "mtbls1969-exosomes",
+      "format": "sciex-wiff",
+      "source": "metabolights:MTBLS1969",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "writer",
+          "Analyst",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Analyst 1.5",
+          []
+        ],
+        [
+          "instrument",
+          "API 2000",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type Q1 scan",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
       "id": "mtbls6084-sl-st-blank2",
       "format": "sciex-wiff",
       "source": "metabolights:MTBLS6084",
@@ -98521,8 +94481,7 @@
       "independent": true,
       "compared": [
         "metadata",
-        "traces",
-        "spectra"
+        "traces"
       ],
       "fields": [
         "experiment.acquisition.started_at",
@@ -98585,89 +94544,6 @@
       ]
     },
     {
-      "id": "mtbls851-dry-cal20180201114106110",
-      "format": "sciex-wiff",
-      "source": "metabolights:MTBLS851",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "spectra"
-      ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
-      "features": [
-        [
-          "writer",
-          "Analyst TF",
-          [
-            "metadata",
-            "spectra"
-          ]
-        ],
-        [
-          "writer_version",
-          "Analyst TF 1.6",
-          []
-        ],
-        [
-          "instrument",
-          "generation TripleTOF",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "instrument",
-          "Triple TOF 5600",
-          []
-        ],
-        [
-          "acquisition",
-          "stored profile",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "acquisition",
-          "scan type TOF MS",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "acquisition",
-          "fixed precursor",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "acquisition",
-          "scan type TOF product ion",
-          [
-            "spectra"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ],
-        [
-          "field",
-          "experiment.instrument.model",
-          []
-        ]
-      ],
-      "inferred": [
-        9,
-        9
-      ]
-    },
-    {
       "id": "pwiz-sciex-enolase",
       "format": "sciex-wiff",
       "source": "github:proteowizard/pwiz",
@@ -98675,8 +94551,7 @@
       "independent": true,
       "compared": [
         "metadata",
-        "traces",
-        "spectra"
+        "traces"
       ],
       "fields": [
         "experiment.acquisition.started_at",
@@ -98746,8 +94621,7 @@
       "independent": true,
       "compared": [
         "metadata",
-        "traces",
-        "spectra"
+        "traces"
       ],
       "fields": [
         "experiment.acquisition.started_at",
@@ -99023,6 +94897,144 @@
         [
           "acquisition",
           "scan type TOF product ion",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "zenodo7897576-dag",
+      "format": "sciex-wiff",
+      "source": "zenodo:7897576",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "writer",
+          "Analyst",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Analyst 1.6",
+          []
+        ],
+        [
+          "instrument",
+          "generation QTRAP",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 5500",
+          []
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type neutral loss",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "zenodo7897576-lpds",
+      "format": "sciex-wiff",
+      "source": "zenodo:7897576",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "writer",
+          "Analyst",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Analyst 1.6",
+          []
+        ],
+        [
+          "instrument",
+          "generation QTRAP",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500+",
+          []
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type precursor ion",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type neutral loss",
           [
             "spectra"
           ]
@@ -107860,8 +103872,7 @@
       "independent": true,
       "compared": [
         "metadata",
-        "spectra",
-        "traces"
+        "spectra"
       ],
       "fields": [
         "experiment.acquisition.started_at",
@@ -120418,6 +116429,218 @@
       ]
     },
     {
+      "id": "msv92552-mnx-h340a-ims2-raw",
+      "format": "waters-raw",
+      "source": "massive msv000092552",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "01.00",
+          [
+            "metadata",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "generation Synapt",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "SYNAPTG2-Si",
+          []
+        ],
+        [
+          "acquisition",
+          "MOBILITY MS FUNCTION",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "8-byte values",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "MassLynx 4.2 SCN1003",
+          []
+        ],
+        [
+          "acquisition",
+          "stored mixed",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "drift bins (ion mobility drift time)",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        17
+      ]
+    },
+    {
+      "id": "mtbls12255-k3-pos-raw",
+      "format": "waters-raw",
+      "source": "metabolights mtbls12255",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "01.00",
+          [
+            "metadata",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "generation Xevo QTOF",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "XEVO-G2XSQTOF",
+          []
+        ],
+        [
+          "acquisition",
+          "TOF PARENT FUNCTION",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "8-byte values",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "MassLynx 4.1",
+          []
+        ],
+        [
+          "acquisition",
+          "stored mixed",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "analog channel",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        17
+      ]
+    },
+    {
+      "id": "mtbls13129-beejamrit-3-1-gcms-raw",
+      "format": "waters-raw",
+      "source": "metabolights mtbls13129",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "01.00",
+          [
+            "metadata",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "6-byte values",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored mixed",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        17
+      ]
+    },
+    {
       "id": "mtbls15166-brain-b1-raw",
       "format": "waters-raw",
       "source": "metabolights mtbls15166",
@@ -120691,6 +116914,80 @@
         [
           "field",
           "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        17
+      ]
+    },
+    {
+      "id": "mtbls7324-8sa-lps-16h-3b-raw",
+      "format": "waters-raw",
+      "source": "metabolights mtbls7324",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "01.00",
+          [
+            "metadata",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "TOF MS FUNCTION",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "12-byte values",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "REFERENCE",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "MassLynx 4.1",
+          []
+        ],
+        [
+          "acquisition",
+          "stored centroid",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "analog channel",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
           []
         ]
       ],
@@ -121231,6 +117528,7 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
+        "spectra",
         "metadata"
       ],
       "fields": [
@@ -121300,6 +117598,13 @@
           ]
         ],
         [
+          "record",
+          "drift bins (ion mobility drift time)",
+          [
+            "spectra"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -121322,6 +117627,7 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
+        "spectra",
         "metadata"
       ],
       "fields": [
@@ -121383,6 +117689,13 @@
           ]
         ],
         [
+          "record",
+          "drift bins (ion mobility drift time)",
+          [
+            "spectra"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -121405,6 +117718,7 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
+        "spectra",
         "metadata"
       ],
       "fields": [
@@ -121461,6 +117775,13 @@
         [
           "acquisition",
           "stored mixed",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "drift bins (ion mobility drift time)",
           [
             "spectra"
           ]
@@ -121704,6 +118025,7 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
+        "spectra",
         "metadata"
       ],
       "fields": [
@@ -121760,6 +118082,13 @@
         [
           "acquisition",
           "stored mixed",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "drift bins (SONAR quadrupole steps)",
           [
             "spectra"
           ]
@@ -121955,80 +118284,6 @@
           "field",
           "experiment.acquisition.started_at",
           []
-        ]
-      ],
-      "inferred": [
-        2,
-        9
-      ]
-    },
-    {
-      "id": "winwcp-myokit-wcp-file",
-      "format": "winwcp",
-      "source": "github:myokit/myokit",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "9",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "layout",
-          "2 channels",
-          [
-            "traces"
-          ]
-        ],
-        [
-          "field",
-          "experiment.acquisition.started_at",
-          []
-        ]
-      ],
-      "inferred": [
-        2,
-        9
-      ]
-    },
-    {
-      "id": "winwcp-xarray-graph-example",
-      "format": "winwcp",
-      "source": "github:marcel-goldschen-ohm/xarray-graph",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "traces"
-      ],
-      "features": [
-        [
-          "format_version",
-          "9",
-          [
-            "metadata",
-            "traces"
-          ]
-        ],
-        [
-          "writer_version",
-          "V5.8.1",
-          []
-        ],
-        [
-          "layout",
-          "2 channels",
-          [
-            "traces"
-          ]
         ]
       ],
       "inferred": [
