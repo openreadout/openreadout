@@ -168,7 +168,8 @@ openreadout analyze qpcr [OPTIONS] <FILE>
 The input is an RDML file (also a LightCycler 96 `.lc96p`), an Applied Biosystems `.eds`, a Rotor-Gene `.rex` or a LightCycler 480 `.ixo`.
 
 - `--well WELL`, `--target TARGET`, `--sample SAMPLE`, `--run RUN`: only these records.
-- `--compute-cq`: also compute a threshold Cq for every curve and compare it with the vendor's.
+- `--compute-cq`: also compute our own Cq for every curve and compare it with the vendor's.
+- `--cq-method METHOD`: with `--compute-cq`, how to compute it. `threshold` finds where the baseline-corrected curve crosses a threshold. `stored-threshold` does the same with only the threshold and baseline the file stores. `second-derivative` finds the maximum of the second derivative, as the LightCycler 480 does. Default: `second-derivative` for LightCycler 480 `.ixo` files without `--threshold` or a baseline window, else `threshold`.
 - `--threshold T`: with `--compute-cq`, the threshold in baseline-corrected units.
 - `--baseline-start CYCLE`, `--baseline-end CYCLE`: with `--compute-cq`, the baseline window in cycles.
 - `--ddcq`: relative quantification (2^−ΔΔCq) per sample and target.

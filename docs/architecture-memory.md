@@ -88,6 +88,17 @@ A plane that does fit, `aics-variable-scene-shape-first-scene-pyramid.czi` (412 
 `ome-imagesc-110520-AMR1.lif` (2.8 GB, 27 images, 735 planes): `info` 28 MiB, `check` 27 MiB
 (dominated by the multi-MB XML header and its parsed tree).
 
+`mtbls11852-api4000-ku4.wiff` (14.5 MB with its `.wiff.scan`, 25 samples of MRM cycles with
+about 1,170 precursors each, so 1.2 million spectra per sample). The Sciex reader keeps one
+entry per index record (cycle) and works out a spectrum's transitions when it reads it, caching
+the last cycle's values (2026-10-07):
+
+| command | before | after |
+| --- | --- | --- |
+| `info` | 1.7 GiB, 2.9 s | 31 MiB, 1.6 s |
+| `analyze chromatogram` (TIC, 1.2 M points) | 5.4 GiB, 16 s | 287 MiB, 1.9 s |
+| `export --format mzml` (4.1 GB of mzML) | 1.8 GiB, 50 s | 196 MiB, 43 s |
+
 ## Known limits
 
 - A CZI mosaic plane is materialized whole (stitched). Whole-slide scans whose level-0 plane

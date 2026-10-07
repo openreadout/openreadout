@@ -6,6 +6,7 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Added
 
+- `analyze qpcr --compute-cq` (`openreadout_qpcr` `compute_cq`) can compute Cq by `--cq-method` (`cq_method`) `stored-threshold` or `second-derivative`, and LightCycler 480 `.ixo` files now default to `second-derivative`, which is 0.03 cycles from the instrument's Cp on average instead of 2.3.
 - An interactive viewer in the chat for clients with MCP Apps (Claude Desktop, claude.ai, ChatGPT, the Codex app, VS Code): image planes, sweeps, NMR spectra, chromatograms with their spectra, plates and flow-cytometry plots, and a file viewer for vendor files opened in the ChatGPT and Codex desktop apps.
 - A Codex plugin and marketplace (`codex plugin marketplace add openreadout/agent-plugins`) and a Gemini CLI extension (`gemini extensions install https://github.com/openreadout/agent-plugins`).
 - Thermo `.raw` files from current instruments are validated against their depositors' conversions: Orbitrap Astral (Astral-analyzer `ASTMS` scans, DIA), Ascend, Eclipse, IQ-X and ID-X, FAIMS compensation voltages (`cv=`), TSQ Altis Plus SRM runs, TSQ 9610 and ISQ GC full scans, and file versions 57, 61 and 62 (LTQ, LTQ Orbitrap and LTQ FT runs from 2005–2008).
@@ -53,6 +54,8 @@ All notable changes to this project are documented here. The format is based on 
 - Gen5 experiment files written by Gen5 1.x were refused. Their reads are now decoded, and the reader, serial number and Gen5 version of their plate description are read at the right offsets. A refused Gen5 file now says why.
 - Tecan i-control exports with several reads per well returned no values, and German i-control exports were not recognised. Each well's value is now i-control's `Mean`, and a workbook with one export per sheet gives one plate read per sheet.
 - Sciex `.wiff` files with several samples: samples after the first returned the first sample's scan data. Each sample's scans are now read from its own block of the `.wiff.scan`.
+- Sciex MRM `.wiff` files with hundreds of precursors per cycle used memory in proportion to their spectra: a 14.5 MB API 4000 file with 30 million spectra took 1.8 GB to open and 5.8 GB for `analyze chromatogram`. It now takes 33 MB and 300 MB, and the chromatogram takes 2 s instead of 16 s.
+- `export --format mzml` refused mzML and Waters MRM files that hold chromatograms and no spectra. It now writes their chromatograms (Waters MRM tables as a TIC and one SRM chromatogram per transition) with no spectrum list. Chromatogram precursors now carry the activation the mzML schema requires, and a run id made from a file name with spaces is a valid XML ID.
 - Agilent MassHunter profiles written by MassHunter Acquisition 10 (for example a 6546 Q-TOF) were refused as corrupt LZF; they use the ion-mobility profile encoding and are read.
 - The Claude Code plugin failed to load because its marketplace entry and `plugin.json` both declared the skill.
 - The Homebrew formula and winget manifests attached to a release no longer start with the template's header comment.

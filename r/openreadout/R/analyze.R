@@ -79,8 +79,9 @@
 #' A qPCR run (RDML, Applied Biosystems `.eds`, Qiagen Rotor-Gene `.rex`; `x` is a path): one
 #' record per well and target with sample, target, dye, task, quantity, the instrument's Cq,
 #' replicate statistics and melting temperatures. Options: `well`, `target`, `sample`, `run`
-#' (only these records); `compute_cq` (recompute Cq with `threshold` and `baseline =
-#' c(first, last)` cycles, and compare); `ddcq` (relative quantities against
+#' (only these records); `compute_cq` (recompute Cq and compare; `cq_method` is "threshold",
+#' "stored-threshold" or "second-derivative", with `threshold` and `baseline = c(first, last)`
+#' cycles for the threshold methods); `ddcq` (relative quantities against
 #' `reference_targets` and `control_sample`); `standard_curve` (slope, R², efficiency per
 #' target); `max_records`; `undetermined_cq` (the Cq at which undetermined wells count).
 #'

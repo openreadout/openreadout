@@ -75,6 +75,8 @@ pub struct MzmlExportReport {
     pub format: String,
     /// Spectra written.
     pub spectra_written: u64,
+    /// Chromatograms written (TIC, SRM and the like).
+    pub chromatograms_written: u64,
     /// Data points (m/z-intensity pairs) written, over all spectra.
     pub points_written: u64,
     /// Size of the written file in bytes.
@@ -106,26 +108,55 @@ pub fn export_mzml(
         )));
     }
     let info = ds.info()?;
-    let run = info.spectra.get(opts.run as usize).ok_or_else(|| {
-        Error::Usage(format!(
-            "run {} does not exist ({} spectra runs in this file)",
-            opts.run,
-            info.spectra.len()
-        ))
-    })?;
+    // A file without spectra runs (Waters MRM) can still hold chromatograms.
+    let no_run = openreadout_core::SpectraInfo::default();
+    let run = match info.spectra.get(opts.run as usize) {
+        Some(run) => run,
+        None if info.spectra.is_empty() && opts.run == 0 && opts.index_range.is_none() => &no_run,
+        None => {
+            return Err(Error::Usage(format!(
+                "run {} does not exist ({} spectra runs in this file)",
+                opts.run,
+                info.spectra.len()
+            )));
+        }
+    };
     let n = run.scan_count;
-    let (first, last) = match opts.index_range {
-        Some((a, b)) if a <= b && b < n => (a, b),
+    // `None`: the run has no spectra, and the file holds only its chromatograms.
+    let range = match opts.index_range {
+        Some((a, b)) if a <= b && b < n => Some((a, b)),
         Some((a, b)) => {
             return Err(Error::Usage(format!(
                 "spectrum range {a}..={b} is outside 0..{n}"
             )));
         }
-        None if n == 0 => {
-            return Err(Error::Usage("the run has no spectra".into()));
-        }
-        None => (0, n - 1),
+        None if n == 0 => None,
+        None => Some((0, n - 1)),
     };
+    // Without spectra the chromatograms are read first: they decide the file content and
+    // whether there is anything to write.
+    let mut early_chroms = if range.is_some() {
+        None
+    } else {
+        let chroms = chromatograms(ds, &info, true)?;
+        if chroms.is_empty() {
+            return Err(Error::Usage(
+                "the run has no spectra and no chromatograms to write as mzML; `openreadout info` lists its traces and tables, which `export --format csv` writes"
+                    .into(),
+            ));
+        }
+        Some(chroms)
+    };
+    let chrom_types: Vec<(String, String)> =
+        early_chroms.as_deref().map_or_else(Vec::new, |chroms| {
+            let mut types: Vec<(String, String)> = Vec::new();
+            for c in chroms {
+                if !types.iter().any(|(a, _)| *a == c.accession) {
+                    types.push((c.accession.clone(), c.name.clone()));
+                }
+            }
+            types
+        });
     let view = if opts.centroid {
         SpectrumView::Centroid
     } else {
@@ -147,63 +178,77 @@ pub fn export_mzml(
     let written = (|| -> Result<Written> {
         let f = File::create(&tmp).map_err(|e| Error::io(&tmp, e))?;
         let mut w = CountingWriter::new(BufWriter::new(f), &tmp);
-        let (head, source_configs) =
-            header_xml(&info, run, input, thermo_ids, vendor_ids, last - first + 1);
+        let (head, source_configs) = header_xml(
+            &info,
+            run,
+            input,
+            thermo_ids,
+            vendor_ids,
+            range.map(|(first, last)| last - first + 1),
+            &chrom_types,
+        );
         w.write_str(&head)?;
         let mut offsets = Vec::new();
         let mut hashes = Vec::new();
         let mut points = 0u64;
-        // Spectra are read in batches. While the threads compress one batch, this thread
-        // reads the next, then writes the compressed batch in order, so the file does not
-        // depend on the thread count.
-        let mut read_batch = |from: u64| -> Result<Vec<(Spectrum, String)>> {
-            let mut batch = Vec::new();
-            let mut batch_points = 0usize;
-            let mut i = from;
-            while i <= last && batch.len() < BATCH_SPECTRA && batch_points < BATCH_POINTS {
-                let sp = ds.read_spectrum_view(opts.run, i, view)?;
-                let id = if agilent_ids {
-                    format!("scanId={}", sp.scan_number)
-                } else if vendor_ids {
-                    sp.native_id
-                        .clone()
-                        .unwrap_or_else(|| native_id(&sp, false))
-                } else {
-                    native_id(&sp, thermo_ids)
-                };
-                batch_points = batch_points.saturating_add(sp.mz.len());
-                batch.push((sp, id));
-                i += 1;
+        if let Some((first, last)) = range {
+            // Spectra are read in batches. While the threads compress one batch, this thread
+            // reads the next, then writes the compressed batch in order, so the file does not
+            // depend on the thread count.
+            let mut read_batch = |from: u64| -> Result<Vec<(Spectrum, String)>> {
+                let mut batch = Vec::new();
+                let mut batch_points = 0usize;
+                let mut i = from;
+                while i <= last && batch.len() < BATCH_SPECTRA && batch_points < BATCH_POINTS {
+                    let sp = ds.read_spectrum_view(opts.run, i, view)?;
+                    let id = if agilent_ids {
+                        format!("scanId={}", sp.scan_number)
+                    } else if vendor_ids {
+                        sp.native_id
+                            .clone()
+                            .unwrap_or_else(|| native_id(&sp, false))
+                    } else {
+                        native_id(&sp, thermo_ids)
+                    };
+                    batch_points = batch_points.saturating_add(sp.mz.len());
+                    batch.push((sp, id));
+                    i += 1;
+                }
+                Ok(batch)
+            };
+            let mut batch = read_batch(first)?;
+            let mut k = 0u64;
+            while !batch.is_empty() {
+                let next_from = first + k + batch.len() as u64;
+                let (encoded, next) = rayon::join(
+                    || {
+                        batch
+                            .par_iter()
+                            .enumerate()
+                            .map(|(j, (sp, id))| {
+                                spectrum_xml(sp, k + j as u64, id, !source_configs)
+                            })
+                            .collect::<Vec<_>>()
+                    },
+                    || read_batch(next_from),
+                );
+                for ((sp, id), xml) in batch.iter().zip(encoded) {
+                    let (xml, hash) = xml?;
+                    offsets.push((id.clone(), w.pos + 6)); // after the six-space indent
+                    points += sp.mz.len() as u64;
+                    hashes.push(hash);
+                    w.write_str(&xml)?;
+                }
+                k += batch.len() as u64;
+                batch = next?;
             }
-            Ok(batch)
-        };
-        let mut batch = read_batch(first)?;
-        let mut k = 0u64;
-        while !batch.is_empty() {
-            let next_from = first + k + batch.len() as u64;
-            let (encoded, next) = rayon::join(
-                || {
-                    batch
-                        .par_iter()
-                        .enumerate()
-                        .map(|(j, (sp, id))| spectrum_xml(sp, k + j as u64, id, !source_configs))
-                        .collect::<Vec<_>>()
-                },
-                || read_batch(next_from),
-            );
-            for ((sp, id), xml) in batch.iter().zip(encoded) {
-                let (xml, hash) = xml?;
-                offsets.push((id.clone(), w.pos + 6)); // after the six-space indent
-                points += sp.mz.len() as u64;
-                hashes.push(hash);
-                w.write_str(&xml)?;
-            }
-            k += batch.len() as u64;
-            batch = next?;
+            w.write_str("    </spectrumList>\n")?;
         }
-        w.write_str("    </spectrumList>\n")?;
         // The source's chromatograms (mzML inputs: TIC, SRM traces, ...), as they were read.
-        let chroms = chromatograms(ds, &info)?;
+        let chroms = match early_chroms.take() {
+            Some(chroms) => chroms,
+            None => chromatograms(ds, &info, false)?,
+        };
         let mut chrom_offsets = Vec::new();
         let mut chrom_hashes = Vec::new();
         if !chroms.is_empty() {
@@ -221,14 +266,18 @@ pub fn export_mzml(
         }
         w.write_str("  </run>\n</mzML>\n")?;
         let index_offset = w.pos + 2;
+        // An index lists at least one offset, so a file without spectra has no spectrum index.
         let mut idx = format!(
-            "  <indexList count=\"{}\">\n    <index name=\"spectrum\">\n",
-            if chroms.is_empty() { 1 } else { 2 }
+            "  <indexList count=\"{}\">\n",
+            usize::from(range.is_some()) + usize::from(!chroms.is_empty())
         );
-        for (id, off) in &offsets {
-            let _ = writeln!(idx, "      <offset idRef=\"{}\">{off}</offset>", escape(id));
+        if range.is_some() {
+            idx.push_str("    <index name=\"spectrum\">\n");
+            for (id, off) in &offsets {
+                let _ = writeln!(idx, "      <offset idRef=\"{}\">{off}</offset>", escape(id));
+            }
+            idx.push_str("    </index>\n");
         }
-        idx.push_str("    </index>\n");
         if !chroms.is_empty() {
             idx.push_str("    <index name=\"chromatogram\">\n");
             for (id, off) in &chrom_offsets {
@@ -280,6 +329,7 @@ pub fn export_mzml(
         output: output.display().to_string(),
         format: "mzml".into(),
         spectra_written: written.hashes.len() as u64,
+        chromatograms_written: written.chrom_hashes.len() as u64,
         points_written: written.points,
         bytes_written,
         verified: true,
@@ -557,7 +607,8 @@ fn header_xml(
     input: &Path,
     thermo: bool,
     vendor_ids: bool,
-    count: u64,
+    count: Option<u64>,
+    chrom_types: &[(String, String)],
 ) -> (String, bool) {
     let mut levels = run.ms_levels.clone();
     levels.sort_unstable();
@@ -592,6 +643,9 @@ fn header_xml(
     }
     if levels.iter().any(|&l| l > 1) {
         let _ = writeln!(s, "      {}", cv("MS:1000580", "MSn spectrum", ""));
+    }
+    for (acc, name) in chrom_types {
+        let _ = writeln!(s, "      {}", cv(&escape(acc), &escape(name), ""));
     }
     s.push_str("    </fileContent>\n    <sourceFileList count=\"1\">\n");
     let _ = writeln!(
@@ -797,25 +851,41 @@ fn header_xml(
         .extra
         .get("run_id")
         .and_then(|v| v.as_str())
-        .filter(|r| {
-            r.chars()
-                .next()
-                .is_some_and(|c| c.is_ascii_alphabetic() || c == '_')
-                && r.chars()
-                    .all(|c| c.is_ascii_alphanumeric() || matches!(c, '_' | '-' | '.'))
-        })
-        .map_or(id.clone(), str::to_string);
+        .filter(|r| xml_id(r) == *r)
+        .map_or_else(|| xml_id(&id), str::to_string);
     let _ = writeln!(
         s,
         "  <run id=\"{}\" defaultInstrumentConfigurationRef=\"IC1\"{start} defaultSourceFileRef=\"RAW1\">",
         escape(&run_id)
     );
-    let _ = writeln!(
-        s,
-        "    <spectrumList count=\"{count}\" defaultDataProcessingRef=\"openreadout_conversion\">"
-    );
+    // A spectrumList holds at least one spectrum: a run without spectra has none.
+    if let Some(count) = count {
+        let _ = writeln!(
+            s,
+            "    <spectrumList count=\"{count}\" defaultDataProcessingRef=\"openreadout_conversion\">"
+        );
+    }
     let _ = info;
     (s, !configs.is_empty())
+}
+
+/// `s` as a valid XML ID (`xs:ID`): characters other than ASCII letters, digits, `_`, `-` and
+/// `.` become `_`, and an ID that does not start with a letter or `_` gets a leading `_`.
+fn xml_id(s: &str) -> String {
+    let mut id: String = s
+        .chars()
+        .map(|c| {
+            if c.is_ascii_alphanumeric() || matches!(c, '_' | '-' | '.') {
+                c
+            } else {
+                '_'
+            }
+        })
+        .collect();
+    if !id.starts_with(|c: char| c.is_ascii_alphabetic() || c == '_') {
+        id.insert(0, '_');
+    }
+    id
 }
 
 /// `(analyzer token, activation token, energy, windows)` parsed from a scan filter.
@@ -1373,7 +1443,8 @@ fn verify(path: &Path, w: &Written) -> std::result::Result<(), String> {
     Ok(())
 }
 
-/// A chromatogram to write: a source trace that is an mzML chromatogram.
+/// A chromatogram to write: a source trace that is an mzML chromatogram, or a column of an MRM
+/// table.
 struct Chromatogram {
     id: String,
     accession: String,
@@ -1385,13 +1456,17 @@ struct Chromatogram {
     counts_unit: &'static str,
     precursor_mz: Option<f64>,
     product_mz: Option<f64>,
+    /// Scan polarity term, `(accession, name)`.
+    polarity: Option<(&'static str, &'static str)>,
 }
 
 /// The traces the reader marks as chromatograms (`extra.chromatogram_type_accession`, set by
-/// the mzML reader), with their `time` and `intensity` channels.
+/// the mzML reader), with their `time` and `intensity` channels. With `tables`, also the MRM
+/// tables (Waters): their stored TIC and each `Q1 > Q3` column.
 fn chromatograms(
     ds: &mut dyn Dataset,
     info: &openreadout_core::FileInfo,
+    tables: bool,
 ) -> Result<Vec<Chromatogram>> {
     let mut out = Vec::new();
     for t in &info.traces {
@@ -1432,9 +1507,99 @@ fn chromatograms(
             counts_unit,
             precursor_mz: f("precursor_mz"),
             product_mz: f("product_mz"),
+            polarity: None,
         });
     }
+    if tables {
+        table_chromatograms(ds, info, &mut out)?;
+    }
     Ok(out)
+}
+
+/// Q1 and Q3 of an MRM column named `Q1 > Q3`.
+fn transition_of(name: &str) -> Option<(f64, f64)> {
+    let (a, b) = name.split_once('>')?;
+    Some((a.trim().parse().ok()?, b.trim().parse().ok()?))
+}
+
+/// Chromatograms from the tables with a retention-time column (`rt_min`): the stored TIC
+/// (`tic_stored`) and one SRM chromatogram per `Q1 > Q3` column.
+fn table_chromatograms(
+    ds: &mut dyn Dataset,
+    info: &openreadout_core::FileInfo,
+    out: &mut Vec<Chromatogram>,
+) -> Result<()> {
+    let mut ids: std::collections::HashSet<String> = out.iter().map(|c| c.id.clone()).collect();
+    for t in &info.tables {
+        let Some(rt) = t.columns.iter().position(|c| c.name == "rt_min") else {
+            continue;
+        };
+        let wanted: Vec<(usize, Option<(f64, f64)>)> = t
+            .columns
+            .iter()
+            .enumerate()
+            .filter_map(|(k, c)| {
+                if c.name == "tic_stored" {
+                    Some((k, None))
+                } else {
+                    transition_of(&c.name).map(|q| (k, Some(q)))
+                }
+            })
+            .collect();
+        if wanted.is_empty() {
+            continue;
+        }
+        let table = ds.read_table(t.index, 0, t.row_count)?;
+        let Some(minutes) = table.columns.get(rt) else {
+            continue;
+        };
+        let time_s: Vec<f64> = minutes.iter().map(|m| m * 60.0).collect();
+        let label = t
+            .name
+            .clone()
+            .unwrap_or_else(|| format!("table {}", t.index));
+        let polarity = match t.extra.get("polarity").and_then(|v| v.as_str()) {
+            Some("positive") => Some(("MS:1000130", "positive scan")),
+            Some("negative") => Some(("MS:1000129", "negative scan")),
+            _ => None,
+        };
+        for (k, q) in wanted {
+            let Some(values) = table.columns.get(k) else {
+                continue;
+            };
+            let (accession, name, base) = match q {
+                None => (
+                    "MS:1000235",
+                    "total ion current chromatogram",
+                    format!("TIC {label}"),
+                ),
+                Some(_) => (
+                    "MS:1001473",
+                    "selected reaction monitoring chromatogram",
+                    format!("SRM {label} {}", t.columns[k].name),
+                ),
+            };
+            // ids are unique within the file (a method can list a transition twice)
+            let mut id = base.clone();
+            let mut n = 1;
+            while !ids.insert(id.clone()) {
+                n += 1;
+                id = format!("{base} ({n})");
+            }
+            out.push(Chromatogram {
+                id,
+                accession: accession.into(),
+                name: name.into(),
+                time_s: time_s.clone(),
+                intensity: values.clone(),
+                counts_unit: "number of detector counts",
+                precursor_mz: q.map(|q| q.0),
+                product_mz: q.map(|q| q.1),
+                polarity,
+            });
+        }
+    }
+    Ok(())
 }
 
 /// One `<chromatogram>` element (64-bit time in seconds and intensity, zlib) and the xxh3-128
@@ -1455,11 +1620,24 @@ fn chromatogram_xml(c: &Chromatogram, index: u64) -> Result<(String, u128)> {
         c.time_s.len()
     );
     let _ = writeln!(s, "{i}{}", cv(&escape(&c.accession), &escape(&c.name), ""));
+    if let Some((acc, name)) = c.polarity {
+        let _ = writeln!(s, "{i}{}", cv(acc, name, ""));
+    }
     for (el, v) in [("precursor", c.precursor_mz), ("product", c.product_mz)] {
         if let Some(v) = v {
+            // The schema requires a precursor's activation. An SRM precursor is fragmented by
+            // collision-induced dissociation; other chromatograms do not say how.
+            let activation = match el {
+                "precursor" if c.accession == "MS:1001473" => format!(
+                    "\n{i}  <activation>\n{i}    {}\n{i}  </activation>",
+                    cv("MS:1000133", "collision-induced dissociation", "")
+                ),
+                "precursor" => format!("\n{i}  <activation/>"),
+                _ => String::new(),
+            };
             let _ = writeln!(
                 s,
-                "{i}<{el}>\n{i}  <isolationWindow>\n{i}    {}\n{i}  </isolationWindow>\n{i}</{el}>",
+                "{i}<{el}>\n{i}  <isolationWindow>\n{i}    {}\n{i}  </isolationWindow>{activation}\n{i}</{el}>",
                 cv_unit(
                     "MS:1000827",
                     "isolation window target m/z",
