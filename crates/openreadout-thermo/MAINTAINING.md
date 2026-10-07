@@ -145,8 +145,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `thermo-raw` | instrument | `generation Q Exactive` | spectra | 6 | 7 | `mtbls13880-bcells-lipidomics-pos-cko-ab`, `mtbls14308-mwy251008a-mix01`, `mtbls755-hilic-dpoly` |
 | `thermo-raw` | instrument | `generation TSQ` | spectra | 3 | 3 | `msv97728-tsq9610-gc-crbalf03`, `mtbls1822-tsq-74`, `mtbls6991-tsq-altis-plus-sar11-40` |
 | `thermo-raw` | record | `controller analog` | traces | 0 | 15 |  |
-| `thermo-raw` | record | `controller channel` | traces | 0 | 2 |  |
-| `thermo-raw` | record | `controller pda` | traces | 0 | 2 |  |
+| `thermo-raw` | record | `controller channel` | traces | 1 | 2 | `mtbls773-001-blank-start` |
+| `thermo-raw` | record | `controller pda` | traces | 1 | 2 | `mtbls773-001-blank-start` |
 | `thermo-raw` | writer_version | `Xcalibur 1.0` | descriptive | 2 | 2 | `mtbls758-isq-growth-93`, `pxd000874-ltq-2005-mf01` |
 | `thermo-raw` | writer_version | `Xcalibur 1.1` | descriptive | 3 | 3 | `msv99294-astral-nanopots-1cell-b9`, `mtbls797-dotsha05`, `pwiz-thermo-source-cid` |
 | `thermo-raw` | writer_version | `Xcalibur 2.0` | descriptive | 2 | 2 | `pxd000792-ltq-orbitrap-yeast-900`, `pxd069324-astral-dia-ihsp-lo2` |

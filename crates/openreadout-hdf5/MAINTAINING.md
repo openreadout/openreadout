@@ -39,7 +39,7 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 | --- | --- | --- | --- | --- | --- | --- |
 | `ims` | [format note](../../docs/formats/ims.md), [provenance log](../../docs/provenance/ims.md) | high | vendor docs | 10 / 10 | 5 | 1 / 0 |
 | `nwb` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | high | open spec | 11 / 11 | 11 | 1 / 0 |
-| `hdf5` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | low | open spec | 0 / 0 | 0 | - |
+| `hdf5` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | medium | open spec | 4 / 4 | 4 | - |
 
 ### Source map
 
@@ -79,6 +79,9 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
+| `hdf5` | dialect | `generic hdf5` | metadata, tables, traces | 4 | 4 | `hdf5-zenodo14794967-picoharp-histogram-cl1-det2`, `hdf5-zenodo15463833-data-pmoke-mag`, `hdf5-zenodo4165174-wse2-cb` |
+| `hdf5` | format_version | `superblock version 0` | descriptive | 3 | 3 | `hdf5-zenodo14794967-picoharp-histogram-cl1-det2`, `hdf5-zenodo15463833-data-pmoke-mag`, `hdf5-zenodo4165174-wse2-cb` |
+| `hdf5` | format_version | `superblock version 2` | descriptive | 1 | 1 | `hdf5-zenodo7806036-figure7-nexus` |
 | `ims` | acquisition | `SpinningDiskConfocal` | descriptive | 3 | 3 | `ome-imaris-convallaria-3c-10t`, `ome-imaris-convallaria-3c-1t`, `ome-imaris-convallaria-3c-1t-2x2grid` |
 | `ims` | codec | `hdf5 deflate` | pixels | 6 | 6 | `imariswriter-minimal-ims`, `ome-imaris-convallaria-3c-1t-2x2grid`, `ome-imaris-retina-large` |
 | `ims` | codec | `hdf5 lz4` | pixels | 2 | 2 | `ome-imaris-cropped-cdm3d-lz4`, `ome-imaris-cropped-retina-lz4` |
@@ -132,7 +135,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/fixtures.rs`](tests/fixtures.rs), [`tests/nwb_export.rs`](tests/nwb_export.rs)
 - committed fixtures: 11 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_hdf5`, `whole_ims`, `whole_nwb`
-- corpus inputs by tier: heldout 8, smoke 13, standard 8
+- corpus inputs by tier: heldout 8, smoke 17, standard 8
 - golden snapshots: [`corpus/snapshots/ims.jsonl`](../../corpus/snapshots/ims.jsonl), [`corpus/snapshots/nwb.jsonl`](../../corpus/snapshots/nwb.jsonl)
 
 ### Open new-variant intakes

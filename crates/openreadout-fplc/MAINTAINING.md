@@ -39,7 +39,7 @@ Cytiva ÄKTA / UNICORN protein-purification results: UNICORN 3–5 `.res` files 
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `cytiva-unicorn-res` | [format note](../../docs/formats/cytiva-unicorn.md), [provenance log](../../docs/provenance/cytiva-unicorn.md) | low | reverse engineered | 2 / 2 | 2 | - |
+| `cytiva-unicorn-res` | [format note](../../docs/formats/cytiva-unicorn.md), [provenance log](../../docs/provenance/cytiva-unicorn.md) | medium | reverse engineered | 5 / 5 | 3 | - |
 | `cytiva-unicorn-zip` | [format note](../../docs/formats/cytiva-unicorn.md), [provenance log](../../docs/provenance/cytiva-unicorn.md) | medium | prior art | 11 / 11 | 4 | - |
 
 ### Source map
@@ -68,20 +68,20 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `cytiva-unicorn-res` | field | `experiment.acquisition.started_at` | descriptive | 2 | 2 | `unicorn-res-pycorn-sample1`, `unicorn-res-unicornr-sample` |
-| `cytiva-unicorn-res` | field | `experiment.instrument.model` | descriptive | 2 | 2 | `unicorn-res-pycorn-sample1`, `unicorn-res-unicornr-sample` |
-| `cytiva-unicorn-res` | format_version | `UNICORN 3` | metadata, tables, traces | 2 | 2 | `unicorn-res-pycorn-sample1`, `unicorn-res-unicornr-sample` |
-| `cytiva-unicorn-res` | record | `curve concentration_b` | traces | 2 | 2 | `unicorn-res-pycorn-sample1`, `unicorn-res-unicornr-sample` |
-| `cytiva-unicorn-res` | record | `curve conductivity` | traces | 2 | 2 | `unicorn-res-pycorn-sample1`, `unicorn-res-unicornr-sample` |
-| `cytiva-unicorn-res` | record | `curve conductivity_percent` | traces | 1 | 1 | `unicorn-res-unicornr-sample` |
-| `cytiva-unicorn-res` | record | `curve flow` | traces | 1 | 1 | `unicorn-res-unicornr-sample` |
+| `cytiva-unicorn-res` | field | `experiment.acquisition.started_at` | descriptive | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
+| `cytiva-unicorn-res` | field | `experiment.instrument.model` | descriptive | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
+| `cytiva-unicorn-res` | format_version | `UNICORN 3` | metadata, tables, traces | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
+| `cytiva-unicorn-res` | record | `curve concentration_b` | traces | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
+| `cytiva-unicorn-res` | record | `curve conductivity` | traces | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
+| `cytiva-unicorn-res` | record | `curve conductivity_percent` | traces | 4 | 4 | `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038`, `unicorn-res-pycorngui-koko135` |
+| `cytiva-unicorn-res` | record | `curve flow` | traces | 4 | 4 | `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038`, `unicorn-res-pycorngui-koko135` |
 | `cytiva-unicorn-res` | record | `curve ph` | traces | 1 | 1 | `unicorn-res-pycorn-sample1` |
-| `cytiva-unicorn-res` | record | `curve pressure` | traces | 2 | 2 | `unicorn-res-pycorn-sample1`, `unicorn-res-unicornr-sample` |
-| `cytiva-unicorn-res` | record | `curve temperature` | traces | 2 | 2 | `unicorn-res-pycorn-sample1`, `unicorn-res-unicornr-sample` |
-| `cytiva-unicorn-res` | record | `curve uv` | traces | 2 | 2 | `unicorn-res-pycorn-sample1`, `unicorn-res-unicornr-sample` |
-| `cytiva-unicorn-res` | record | `events fractions` | tables | 2 | 2 | `unicorn-res-pycorn-sample1`, `unicorn-res-unicornr-sample` |
-| `cytiva-unicorn-res` | record | `events injections` | tables | 1 | 1 | `unicorn-res-unicornr-sample` |
-| `cytiva-unicorn-res` | record | `events logbook` | tables | 2 | 2 | `unicorn-res-pycorn-sample1`, `unicorn-res-unicornr-sample` |
+| `cytiva-unicorn-res` | record | `curve pressure` | traces | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
+| `cytiva-unicorn-res` | record | `curve temperature` | traces | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
+| `cytiva-unicorn-res` | record | `curve uv` | traces | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
+| `cytiva-unicorn-res` | record | `events fractions` | tables | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
+| `cytiva-unicorn-res` | record | `events injections` | tables | 4 | 4 | `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038`, `unicorn-res-pycorngui-koko135` |
+| `cytiva-unicorn-res` | record | `events logbook` | tables | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
 | `cytiva-unicorn-zip` | field | `experiment.acquisition.started_at` | descriptive | 10 | 10 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b` |
 | `cytiva-unicorn-zip` | field | `experiment.instrument.model` | descriptive | 11 | 11 | `unicorn-zip-allotropy-1`, `unicorn-zip-allotropy-single-uv`, `unicorn-zip-fs-cd20-sec-a` |
 | `cytiva-unicorn-zip` | format_version | `UNICORN 100` | metadata, tables, traces | 1 | 1 | `unicorn-zip-allotropy-1` |
@@ -106,7 +106,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_unicorn_res`, `whole_unicorn_zip`
-- corpus inputs by tier: heldout 1, smoke 7, standard 6
+- corpus inputs by tier: heldout 1, smoke 8, standard 8
 - golden snapshots: [`corpus/snapshots/cytiva-unicorn-res.jsonl`](../../corpus/snapshots/cytiva-unicorn-res.jsonl), [`corpus/snapshots/cytiva-unicorn-zip.jsonl`](../../corpus/snapshots/cytiva-unicorn-zip.jsonl)
 
 ### Open new-variant intakes

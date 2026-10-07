@@ -228,19 +228,19 @@ const BIO_RAD_PCRD_VALIDATED: &[Validated] = &[];
 // END GENERATED bio-rad-pcrd
 
 // BEGIN GENERATED roche-lightcycler-ixo (cargo xtask assurance-audit --write; do not edit)
-const ROCHE_LIGHTCYCLER_IXO_CONFIDENCE: Confidence = Confidence::Low;
+const ROCHE_LIGHTCYCLER_IXO_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const ROCHE_LIGHTCYCLER_IXO_VALIDATED: &[Validated] = &[
-    a::row(K::Dialect, "ixo", 0, 0, 10),
+    a::row(K::Derivation, "traces[].melt by LightCycler 480 melting-program readings at each acquisition's temperature", 0, 0, 4),
+    a::row(K::Dialect, "ixo", 10, 2, 10),
     a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 10),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 10),
-    a::row(K::Instrument, "29892", 0, 0, 6),
-    a::row(K::Instrument, "LightCycler 480 - LED lamp", 0, 0, 2),
-    a::row(K::Instrument, "LightCycler 480 - Xenon lamp", 0, 0, 2),
-    a::row(K::Record, "amplification", 0, 0, 10),
-    a::row(K::Record, "melt", 0, 0, 4),
-    a::row(K::Record, "melt derivative", 0, 0, 4),
-    a::row(K::Writer, "LightCycler", 0, 0, 10),
+    a::row(K::Field, "experiment.instrument.model", 4, 1, 4),
+    a::row(K::Instrument, "LightCycler 480 - LED lamp", 2, 1, 2),
+    a::row(K::Instrument, "LightCycler 480 - Xenon lamp", 2, 1, 2),
+    a::row(K::Record, "amplification", 10, 2, 10),
+    a::row(K::Record, "melt", 4, 1, 4),
+    a::row(K::Record, "melt derivative", 4, 1, 4),
+    a::row(K::Writer, "LightCycler", 10, 2, 10),
 ];
 // END GENERATED roche-lightcycler-ixo
 

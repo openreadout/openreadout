@@ -43,11 +43,11 @@ Shared: `binary.rs` (Pascal strings, bounded whole-file reads, date and number f
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `chemstation` | [format note](../../docs/formats/chemstation.md), [provenance log](../../docs/provenance/chemstation.md) | high | prior art | 28 / 28 | 9 | 3 / 0 |
-| `openlab-cds` | [format note](../../docs/formats/openlab-cds.md), [provenance log](../../docs/provenance/openlab-cds.md) | medium | reverse engineered | 12 / 12 | 3 | - |
+| `openlab-cds` | [format note](../../docs/formats/openlab-cds.md), [provenance log](../../docs/provenance/openlab-cds.md) | medium | reverse engineered | 13 / 13 | 4 | - |
 | `andi-chrom` | [format note](../../docs/formats/andi-chrom.md), [provenance log](../../docs/provenance/andi-chrom.md) | high | open spec | 25 / 25 | 5 | 1 / 0 |
-| `empower-arw` | [format note](../../docs/formats/empower-arw.md), [provenance log](../../docs/provenance/empower-arw.md) | low | reverse engineered | 6 / 6 | 1 | - |
+| `empower-arw` | [format note](../../docs/formats/empower-arw.md), [provenance log](../../docs/provenance/empower-arw.md) | medium | reverse engineered | 23 / 23 | 3 | - |
 | `shimadzu` | [format note](../../docs/formats/shimadzu.md), [provenance log](../../docs/provenance/shimadzu.md) | medium | reverse engineered | 14 / 11 | 6 | 0 / 1 |
-| `chromeleon` | [format note](../../docs/formats/chromeleon.md), [provenance log](../../docs/provenance/chromeleon.md) | medium | reverse engineered | 12 / 2 | 2 | - |
+| `chromeleon` | [format note](../../docs/formats/chromeleon.md), [provenance log](../../docs/provenance/chromeleon.md) | medium | reverse engineered | 17 / 2 | 2 | - |
 
 ### Source map
 
@@ -82,6 +82,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `if regular { "2D, evenly spaced times" } else { "2D, uneven times" }`
 - feature dialect `format!("{e} line endings")`
 - feature layout `"headerless export"`
+- feature layout `"one field per line"`
 - feature writer_version `format!("Chromeleon {v}")`
 - feature codec `e`
 - feature layout `format!("{} Hz {kind} in {unit}", t.sample_rate_hz)`
@@ -169,16 +170,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `chemstation` | writer_version | `ChemStation 7` | descriptive | 1 | 1 | `autolab-001-p1-a1-a1-d` |
 | `chromeleon` | codec | `3DRawSpc` | traces | 0 | 2 |  |
 | `chromeleon` | codec | `PtsDDCmp` | traces | 0 | 1 |  |
-| `chromeleon` | codec | `PtsLDiff` | traces | 2 | 11 | `cmbx-figshare-milks-sugars`, `cmbx-lauterbach-invivo-cascade` |
+| `chromeleon` | codec | `PtsLDiff` | traces | 2 | 16 | `cmbx-figshare-milks-sugars`, `cmbx-lauterbach-invivo-cascade` |
 | `chromeleon` | codec | `PtsLL2Df` | traces | 0 | 1 |  |
-| `chromeleon` | format_version | `stored results 1` | tables | 1 | 7 | `cmbx-lauterbach-invivo-cascade` |
+| `chromeleon` | format_version | `stored results 1` | tables | 1 | 12 | `cmbx-lauterbach-invivo-cascade` |
 | `chromeleon` | format_version | `stored results 2` | tables | 0 | 3 |  |
 | `chromeleon` | instrument | `Acquity.dll` | descriptive | 0 | 1 |  |
 | `chromeleon` | instrument | `DAD3000.dll` | descriptive | 0 | 1 |  |
 | `chromeleon` | instrument | `DC-6000` | descriptive | 1 | 2 | `cmbx-figshare-milks-sugars` |
 | `chromeleon` | instrument | `ICS-6000 SP` | descriptive | 1 | 2 | `cmbx-figshare-milks-sugars` |
 | `chromeleon` | instrument | `PumpLPG3X00RS.dll` | descriptive | 0 | 1 |  |
-| `chromeleon` | instrument | `Thermo Scientific Trace GC` | descriptive | 1 | 7 | `cmbx-lauterbach-invivo-cascade` |
+| `chromeleon` | instrument | `Thermo Scientific Trace GC` | descriptive | 1 | 12 | `cmbx-lauterbach-invivo-cascade` |
 | `chromeleon` | instrument | `Thermo.MassSpectrometer` | descriptive | 0 | 1 |  |
 | `chromeleon` | layout | `1 Hz signal in mL/min` | traces | 0 | 1 |  |
 | `chromeleon` | layout | `10 Hz signal in bar` | traces | 0 | 1 |  |
@@ -189,32 +190,32 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `chromeleon` | layout | `20 Hz signal in mAU` | traces | 0 | 1 |  |
 | `chromeleon` | layout | `25 Hz 3D field in mAU` | traces | 0 | 1 |  |
 | `chromeleon` | layout | `25 Hz signal in mAU` | traces | 0 | 1 |  |
-| `chromeleon` | layout | `50 Hz signal in mV` | traces | 1 | 7 | `cmbx-lauterbach-invivo-cascade` |
+| `chromeleon` | layout | `50 Hz signal in mV` | traces | 1 | 12 | `cmbx-lauterbach-invivo-cascade` |
 | `chromeleon` | layout | `irregular signal in counts` | traces | 0 | 1 |  |
-| `chromeleon` | writer_version | `Chromeleon 7.2` | metadata, traces | 1 | 10 | `cmbx-lauterbach-invivo-cascade` |
+| `chromeleon` | writer_version | `Chromeleon 7.2` | metadata, traces | 1 | 15 | `cmbx-lauterbach-invivo-cascade` |
 | `chromeleon` | writer_version | `Chromeleon 7.3` | metadata, traces | 1 | 2 | `cmbx-figshare-milks-sugars` |
-| `empower-arw` | dialect | `CR line endings` | traces | 6 | 6 | `appia-empower-results1844`, `appia-empower-results1845`, `appia-empower-results1848` |
-| `empower-arw` | layout | `2D, evenly spaced times` | traces | 6 | 6 | `appia-empower-results1844`, `appia-empower-results1845`, `appia-empower-results1848` |
+| `empower-arw` | dialect | `CR line endings` | traces | 10 | 10 | `appia-empower-results1844`, `appia-empower-results1845`, `appia-empower-results1848` |
+| `empower-arw` | dialect | `CRLF line endings` | traces | 13 | 13 | `gpcreader-empower-calib1`, `gpcreader-empower-calib2`, `gpcreader-empower-sample1` |
+| `empower-arw` | layout | `2D, evenly spaced times` | traces | 23 | 23 | `appia-empower-results1844`, `appia-empower-results1845`, `appia-empower-results1848` |
+| `empower-arw` | layout | `one field per line` | traces | 13 | 13 | `gpcreader-empower-calib1`, `gpcreader-empower-calib2`, `gpcreader-empower-sample1` |
 | `openlab-cds` | codec | `InstrumentTrace179` | traces | 6 | 6 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
-| `openlab-cds` | codec | `Signal179` | traces | 12 | 12 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
+| `openlab-cds` | codec | `Signal179` | traces | 13 | 13 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
 | `openlab-cds` | codec | `Spectra131` | traces | 2 | 2 | `cct-openlab-meoh1`, `cct-openlab-sirslt-norbert` |
-| `openlab-cds` | field | `experiment.acquisition.started_at` | descriptive | 12 | 12 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
-| `openlab-cds` | field | `experiment.instrument.model` | descriptive | 4 | 4 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
+| `openlab-cds` | field | `experiment.acquisition.started_at` | descriptive | 13 | 13 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
+| `openlab-cds` | field | `experiment.instrument.model` | descriptive | 5 | 5 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
 | `openlab-cds` | format_version | `signal 131` | metadata, traces | 2 | 2 | `cct-openlab-meoh1`, `cct-openlab-sirslt-norbert` |
-| `openlab-cds` | format_version | `signal 179` | metadata, traces | 10 | 10 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
+| `openlab-cds` | format_version | `signal 179` | metadata, traces | 11 | 11 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
+| `openlab-cds` | instrument | `7890B` | descriptive | 1 | 1 | `pygecko-openlab-fkb-fa-060-ri` |
 | `openlab-cds` | instrument | `G1364F` | descriptive | 1 | 1 | `cct-openlab-sirslt-norbert` |
 | `openlab-cds` | instrument | `G7104C` | descriptive | 1 | 1 | `cct-openlab-sirslt-norbert` |
-| `openlab-cds` | instrument | `G7111B` | descriptive | 3 | 3 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
-| `openlab-cds` | instrument | `G7115A` | descriptive | 1 | 1 | `cct-openlab-sirslt-norbert` |
-| `openlab-cds` | instrument | `G7116A` | descriptive | 3 | 3 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `cct-openlab-sirslt-norbert` |
 
-… 26 more values: the generated table in `src/assurance.rs` has all of them.
+… 30 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
 - fuzz targets (`fuzz/fuzz_targets/`): `chrom_cfb`, `chrom_netcdf`, `whole_andi`, `whole_chemstation`, `whole_chromeleon`, `whole_empower_arw`, `whole_openlab`, `whole_shimadzu`
-- corpus inputs by tier: full 3, heldout 19, smoke 61, standard 33
+- corpus inputs by tier: full 3, heldout 19, smoke 62, standard 55
 - golden snapshots: [`corpus/snapshots/chemstation.jsonl`](../../corpus/snapshots/chemstation.jsonl), [`corpus/snapshots/openlab-cds.jsonl`](../../corpus/snapshots/openlab-cds.jsonl), [`corpus/snapshots/andi-chrom.jsonl`](../../corpus/snapshots/andi-chrom.jsonl), [`corpus/snapshots/empower-arw.jsonl`](../../corpus/snapshots/empower-arw.jsonl), [`corpus/snapshots/shimadzu.jsonl`](../../corpus/snapshots/shimadzu.jsonl), [`corpus/snapshots/chromeleon.jsonl`](../../corpus/snapshots/chromeleon.jsonl)
 
 ### Open new-variant intakes
