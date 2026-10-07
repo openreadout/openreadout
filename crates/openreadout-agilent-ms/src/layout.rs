@@ -737,7 +737,9 @@ fn run_length_to_dense(data: &[u8], n: usize) -> Result<ProfileData, String> {
 }
 
 /// Decode an `MSProfile.bin` block (LZF-compressed unless its byte counts are equal):
-/// f64 first flight time, f64 bin width, then `n` i32 counts.
+/// f64 first flight time, f64 bin width, then `n` i32 counts. A block in the ion-mobility
+/// encoding (its u32 at byte 16 is [`IMS_PROFILE_FLAGS`] and `n` in the low 24 bits; written by
+/// MassHunter Acquisition 10) is decoded with [`decode_ims_profile`].
 pub fn decode_profile(
     data: &[u8],
     n: usize,
@@ -748,8 +750,8 @@ pub fn decode_profile(
         .and_then(|v| v.checked_add(16))
         .ok_or("profile size overflows")?;
     // Some writers store a non-mobility profile with the run-length encoding of ion-mobility
-    // blocks; `UncompressedByteCount` then holds the dense size, not an LZF one.
-    if is_run_length_profile(data, n) {
+    // blocks; `UncompressedByteCount` then holds 0 or the dense size, not an LZF one.
+    if data.len() != need && is_run_length_profile(data, n) {
         return run_length_to_dense(data, n);
     }
     let raw;
@@ -1442,5 +1444,28 @@ mod tests {
         let at = |t: f64| (0.001 * (t - 1000.0)).powi(2);
         assert!((c.mz(2500.0) - (at(2500.0) - 1e-4 * 2500f64.powi(1))).abs() < 1e-12);
         assert!((c.mz(5000.0) - (at(5000.0) - 1e-4 * 3000.0)).abs() < 1e-12);
+    }
+
+    /// A Q-TOF profile block in the ion-mobility encoding (MassHunter Acquisition 10): counts 5
+    /// and 7 at bins 2 and 3, a skip of one bin that switches to 2-byte values, 9 at bin 5.
+    #[test]
+    fn profile_in_ion_mobility_encoding() {
+        let n = 10usize;
+        let mut b = Vec::new();
+        b.extend(26864.0f64.to_le_bytes());
+        b.extend(0.1f64.to_le_bytes());
+        b.extend((0x9000_0000u32 | n as u32).to_le_bytes());
+        b.extend((-2i32).to_le_bytes());
+        for v in [5i32, 7, -6] {
+            b.extend(v.to_le_bytes());
+        }
+        b.extend(9i16.to_le_bytes());
+        let p = decode_profile(&b, n, Some(16 + 4 * n as i64)).unwrap();
+        assert_eq!(p.counts, [0, 0, 5, 7, 0, 9, 0, 0, 0, 0]);
+        assert_eq!((p.first_x, p.step_x), (26864.0, 0.1));
+        // another point count in the header: not this encoding (and not valid LZF either)
+        let mut other = b.clone();
+        other[16..20].copy_from_slice(&(0x9000_0000u32 | 0x0b).to_le_bytes());
+        assert!(decode_profile(&other, n, Some(16 + 4 * n as i64)).is_err());
     }
 }

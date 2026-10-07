@@ -4515,6 +4515,235 @@
       ]
     },
     {
+      "id": "mtbls12637-processblank2-pos-77-d",
+      "format": "agilent-masshunter",
+      "source": "metabolights mtbls12637",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MSScan layout 6",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation 6500 Q-TOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "G6546A",
+          []
+        ],
+        [
+          "writer_version",
+          "6200 series TOF/6500 series Q-TOF 10.1 (48.0)",
+          []
+        ],
+        [
+          "acquisition",
+          "device QTOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type 1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "total ion current",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base peak",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument reading",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "device BinPump",
+          []
+        ],
+        [
+          "record",
+          "device DAD",
+          []
+        ],
+        [
+          "record",
+          "device HiP-ALS",
+          []
+        ],
+        [
+          "record",
+          "device TCC",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        10
+      ]
+    },
+    {
+      "id": "mtbls12837-n14-d",
+      "format": "agilent-masshunter",
+      "source": "metabolights mtbls12837",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MSScan layout 6",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation 6500 Q-TOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "G6545A",
+          []
+        ],
+        [
+          "writer_version",
+          "6200 series TOF/6500 series Q-TOF B.09.00 (B9044.1 SP1)",
+          []
+        ],
+        [
+          "acquisition",
+          "device QTOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored centroid",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type 1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "total ion current",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base peak",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument reading",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "device BinPump",
+          []
+        ],
+        [
+          "record",
+          "device HiP-ALS",
+          []
+        ],
+        [
+          "record",
+          "device IsoPump",
+          []
+        ],
+        [
+          "record",
+          "device TCC",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        10
+      ]
+    },
+    {
       "id": "mtbls1334-STD_neg_MSMS_1min0205",
       "format": "agilent-masshunter",
       "source": "metabolights mtbls1334",
@@ -4598,6 +4827,123 @@
           [
             "traces"
           ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        10
+      ]
+    },
+    {
+      "id": "mtbls14343-e-1-pos-041-ms2-d",
+      "format": "agilent-masshunter",
+      "source": "metabolights mtbls14343",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MSScan layout 6",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation 6500 Q-TOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "G6546A",
+          []
+        ],
+        [
+          "writer_version",
+          "6200 series TOF/6500 series Q-TOF 10.1 (48.0)",
+          []
+        ],
+        [
+          "acquisition",
+          "device QTOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored centroid",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type 1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type 512",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "total ion current",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base peak",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument reading",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "device BinPump",
+          []
+        ],
+        [
+          "record",
+          "device HiP-ALS",
+          []
+        ],
+        [
+          "record",
+          "device TCC",
+          []
         ],
         [
           "field",
@@ -63425,6 +63771,129 @@
       ]
     },
     {
+      "id": "msv86784-tp-meoh-epi-3-mzml",
+      "format": "mzml",
+      "source": "massive:MSV000086784",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Analyst",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "basepeak chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "msv92552-mnx-h340a-ims2-raw-mzml",
+      "format": "mzml",
+      "source": "massive:MSV000092552",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassLynx",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "instrument",
+          "Waters instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "msv94528-idx-msnlib-peptide01-b18",
       "format": "mzml",
       "source": "massive:MSV000094528",
@@ -63488,6 +63957,79 @@
         [
           "record",
           "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "msv97113-cm-5-pos-2-mzml",
+      "format": "mzml",
+      "source": "massive:MSV000097113",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Analyst",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "basepeak chromatogram",
           [
             "traces"
           ]
@@ -63791,6 +64333,56 @@
       ]
     },
     {
+      "id": "mtbls12255-k3-pos-raw-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS12255",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassLynx",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "instrument",
+          "Waters instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "mtbls12283-rumenwall-qc-id-01-neg",
       "format": "mzml",
       "source": "metabolights:MTBLS12283",
@@ -63870,6 +64462,236 @@
       ]
     },
     {
+      "id": "mtbls12637-processblank2-pos-77-d-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS12637",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassHunter Data Acquisition",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "total ion current chromatogram",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Agilent instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "flow rate chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "mtbls1266-swath-neg-wt1-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS1266",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Analyst",
+          []
+        ],
+        [
+          "writer",
+          "ProteinPilot Software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "AB SCIEX instrument model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        8
+      ]
+    },
+    {
+      "id": "mtbls12837-n14-d-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS12837",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassHunter Data Acquisition",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "total ion current chromatogram",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Agilent instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "flow rate chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "mtbls13066-elite-318a-b5-35nce",
       "format": "mzml",
       "source": "metabolights:MTBLS13066",
@@ -63921,6 +64743,64 @@
         [
           "instrument",
           "LTQ Orbitrap Elite",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "mtbls13129-beejamrit-3-1-gcms-raw-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS13129",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassLynx",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Waters instrument model",
           []
         ],
         [
@@ -64237,6 +65117,102 @@
         [
           "record",
           "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "mtbls14343-e-1-pos-041-ms2-d-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS14343",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassHunter Data Acquisition",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "total ion current chromatogram",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "Agilent instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "pressure chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "flow rate chromatogram",
           [
             "traces"
           ]
@@ -65293,6 +66269,56 @@
       "fields": [
         "experiment.acquisition.started_at"
       ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MassLynx",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "instrument",
+          "Waters instrument model",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "mtbls7324-8sa-lps-16h-3b-raw-mzml",
+      "format": "mzml",
+      "source": "metabolights:MTBLS7324",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "format_version",
@@ -71067,6 +72093,144 @@
       ]
     },
     {
+      "id": "zenodo7897576-dag-3-mzml",
+      "format": "mzml",
+      "source": "zenodo:7897576",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Analyst",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "constant neutral loss spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 5500",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "basepeak chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo7897576-lpds-1-mzml",
+      "format": "mzml",
+      "source": "zenodo:7897576",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Analyst",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "acquisition",
+          "precursor ion spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "constant neutral loss spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500",
+          []
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "basepeak chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "mzdata-small-mzmlb",
       "format": "mzmlb",
       "source": "github:mobiusklein/mzdata",
@@ -71393,6 +72557,34 @@
         [
           "instrument",
           "Orbitrap Exploris 120",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        6
+      ]
+    },
+    {
+      "id": "mtbls1969-exosomes-ko1-mzxml",
+      "format": "mzxml",
+      "source": "metabolights:MTBLS1969",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "3.2",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "API 2000",
           []
         ]
       ],
@@ -92930,6 +94122,149 @@
       ]
     },
     {
+      "id": "msv86784-tp-meoh-epi-3",
+      "format": "sciex-wiff",
+      "source": "massive:MSV000086784",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "writer",
+          "Analyst",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Analyst 1.6",
+          []
+        ],
+        [
+          "instrument",
+          "generation QTRAP",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500",
+          []
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type enhanced MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type enhanced product ion",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "msv97113-cm-5-pos-2",
+      "format": "sciex-wiff",
+      "source": "massive:MSV000097113",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "writer",
+          "Analyst",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Analyst 1.6",
+          []
+        ],
+        [
+          "instrument",
+          "generation QTRAP",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500",
+          []
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type enhanced MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type enhanced product ion",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
       "id": "mtbls11360-col-0-3-n",
       "format": "sciex-wiff",
       "source": "metabolights:MTBLS11360",
@@ -92988,6 +94323,136 @@
         [
           "acquisition",
           "scan type TOF product ion",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "mtbls1266-swath-neg-wt1",
+      "format": "sciex-wiff",
+      "source": "metabolights:MTBLS1266",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "writer",
+          "Analyst TF",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Analyst TF 1.7",
+          []
+        ],
+        [
+          "instrument",
+          "generation TripleTOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "TripleTOF 6600",
+          []
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type TOF MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type TOF product ion",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "mtbls1969-exosomes",
+      "format": "sciex-wiff",
+      "source": "metabolights:MTBLS1969",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "writer",
+          "Analyst",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Analyst 1.5",
+          []
+        ],
+        [
+          "instrument",
+          "API 2000",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type Q1 scan",
           [
             "spectra"
           ]
@@ -93432,6 +94897,144 @@
         [
           "acquisition",
           "scan type TOF product ion",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "zenodo7897576-dag",
+      "format": "sciex-wiff",
+      "source": "zenodo:7897576",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "writer",
+          "Analyst",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Analyst 1.6",
+          []
+        ],
+        [
+          "instrument",
+          "generation QTRAP",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 5500",
+          []
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type neutral loss",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "zenodo7897576-lpds",
+      "format": "sciex-wiff",
+      "source": "zenodo:7897576",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "writer",
+          "Analyst",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Analyst 1.6",
+          []
+        ],
+        [
+          "instrument",
+          "generation QTRAP",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "QTRAP 6500+",
+          []
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type precursor ion",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type neutral loss",
           [
             "spectra"
           ]
@@ -114826,6 +116429,218 @@
       ]
     },
     {
+      "id": "msv92552-mnx-h340a-ims2-raw",
+      "format": "waters-raw",
+      "source": "massive msv000092552",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "01.00",
+          [
+            "metadata",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "generation Synapt",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "SYNAPTG2-Si",
+          []
+        ],
+        [
+          "acquisition",
+          "MOBILITY MS FUNCTION",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "8-byte values",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "MassLynx 4.2 SCN1003",
+          []
+        ],
+        [
+          "acquisition",
+          "stored mixed",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "drift bins (ion mobility drift time)",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        17
+      ]
+    },
+    {
+      "id": "mtbls12255-k3-pos-raw",
+      "format": "waters-raw",
+      "source": "metabolights mtbls12255",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "01.00",
+          [
+            "metadata",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "generation Xevo QTOF",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "XEVO-G2XSQTOF",
+          []
+        ],
+        [
+          "acquisition",
+          "TOF PARENT FUNCTION",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "8-byte values",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "MassLynx 4.1",
+          []
+        ],
+        [
+          "acquisition",
+          "stored mixed",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "analog channel",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        17
+      ]
+    },
+    {
+      "id": "mtbls13129-beejamrit-3-1-gcms-raw",
+      "format": "waters-raw",
+      "source": "metabolights mtbls13129",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "01.00",
+          [
+            "metadata",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "6-byte values",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored mixed",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        17
+      ]
+    },
+    {
       "id": "mtbls15166-brain-b1-raw",
       "format": "waters-raw",
       "source": "metabolights mtbls15166",
@@ -115099,6 +116914,80 @@
         [
           "field",
           "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        17
+      ]
+    },
+    {
+      "id": "mtbls7324-8sa-lps-16h-3b-raw",
+      "format": "waters-raw",
+      "source": "metabolights mtbls7324",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "01.00",
+          [
+            "metadata",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "TOF MS FUNCTION",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "12-byte values",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "REFERENCE",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "MassLynx 4.1",
+          []
+        ],
+        [
+          "acquisition",
+          "stored centroid",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "analog channel",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
           []
         ]
       ],
@@ -115639,6 +117528,7 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
+        "spectra",
         "metadata"
       ],
       "fields": [
@@ -115708,6 +117598,13 @@
           ]
         ],
         [
+          "record",
+          "drift bins (ion mobility drift time)",
+          [
+            "spectra"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -115730,6 +117627,7 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
+        "spectra",
         "metadata"
       ],
       "fields": [
@@ -115791,6 +117689,13 @@
           ]
         ],
         [
+          "record",
+          "drift bins (ion mobility drift time)",
+          [
+            "spectra"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -115813,6 +117718,7 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
+        "spectra",
         "metadata"
       ],
       "fields": [
@@ -115869,6 +117775,13 @@
         [
           "acquisition",
           "stored mixed",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "drift bins (ion mobility drift time)",
           [
             "spectra"
           ]
@@ -116112,6 +118025,7 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
+        "spectra",
         "metadata"
       ],
       "fields": [
@@ -116168,6 +118082,13 @@
         [
           "acquisition",
           "stored mixed",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "drift bins (SONAR quadrupole steps)",
           [
             "spectra"
           ]

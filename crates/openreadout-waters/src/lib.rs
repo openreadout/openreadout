@@ -50,6 +50,9 @@
 mod assurance;
 #[doc(hidden)]
 pub mod dataset;
+
+#[doc(hidden)]
+pub mod drift;
 #[doc(hidden)]
 pub mod layout;
 
