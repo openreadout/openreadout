@@ -62021,7 +62021,7 @@ license = "GPL-3.0"
 license_checked = "LICENSE of cKNUSPeR/i2nca @517c91e (GPL-3.0, GitHub API license.spdx_id; corpus entries already use GPL-3.0-or-later), 2026-10-06"
 source = "GitHub cKNUSPeR/i2nca @517c91e, i2nca/tests/testdata/ (test data of the i2nca quality-control package)"
 attribution = "i2nca authors (cKNUSPeR)"
-notes = "MALFORMED as deposited: declared continuous (one shared m/z array) but its 8 spectra give m/z arrays of 1,990-1,999 values and intensity arrays of other lengths. pyimzML fails (IndexError), so there is no oracle. A malformed-file case: `spectra --index 1` refuses it (exit 4, m/z 1999 vs intensity 1997) and `check` reports `bad_array`"
+notes = "MALFORMED as deposited: declared continuous (one shared m/z array) but its 8 spectra give m/z arrays of 1,990-1,999 values and intensity arrays of other lengths. pyimzML fails (IndexError), so there is no oracle. A malformed-file case: `spectrum --index 1` refuses it (exit 4, m/z 1999 vs intensity 1997) and `check` reports `bad_array`"
 
 [[file]]
 id = "i2nca-cc-ibd"

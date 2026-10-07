@@ -120,7 +120,7 @@ Corpus: every mzML, mzXML and imzML file (`cargo test -p openreadout-corpus-test
 
 **What was compared:** pyimzML reads every pixel of ten files. The release binary agreed with it on every pixel compared (30 sampled pixels per file, all pixels of the four-pixel i2nca files): the m/z and intensity arrays bit for bit and the pixel positions. The corpus test compares every pixel.
 
-**Found:** `i2nca-cc` declares continuous storage, but its eight spectra have m/z arrays of 1,990 to 1,999 values and intensity arrays of other lengths. pyimzML fails on it, so it has no oracle. `openreadout spectra --index 1` refuses it (exit 4, "m/z array has 1999 values, intensity array 1997"), while `openreadout check` reports the file OK (exit 0). It is proposed as a malformed-file case, not as validation.
+**Found:** `i2nca-cc` declares continuous storage, but its eight spectra have m/z arrays of 1,990 to 1,999 values and intensity arrays of other lengths. pyimzML fails on it, so it has no oracle. `openreadout spectrum --index 1` refuses it (exit 4, "m/z array has 1999 values, intensity array 1997"), while `openreadout check` reports the file OK (exit 0). It is proposed as a malformed-file case, not as validation.
 
 **Inferred:** nothing new. In the Zenodo 2628280 record the imzML and its binary file `control.ibd` have different stems (the imzML's is misspelled). The corpus stores both under one stem so that a reader finds the `.ibd`, as the specification requires.
 
