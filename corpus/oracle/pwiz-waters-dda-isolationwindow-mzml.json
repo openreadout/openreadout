@@ -1,0 +1,118 @@
+{
+ "id": "pwiz-waters-dda-isolationwindow-mzml",
+ "file": "DDA_IsolationWindow.mzML",
+ "size": 13724,
+ "sha256": "129ad75985c3d3b939ce9e4a7563f0f55a5000e8fa4371bfce3cf741dae881d9",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "function"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "0e39ce221bf50c8d56925c715d09706d",
+       "first": [
+        60.0,
+        60.0
+       ]
+      },
+      {
+       "xxh3": "99a4d6792566364eab5818513a61cbed",
+       "first": [
+        1.0,
+        1.0
+       ]
+      },
+      {
+       "xxh3": "cd5d4ed9d0bb36b22029723e30b63531",
+       "first": [
+        1.0,
+        2.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 2,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "function=1 process=0 scan=1",
+    "ms_level": 1,
+    "rt_s": 60.0,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "isolation_target_mz": null,
+    "activation": null,
+    "collision_energy": null,
+    "total_ion_current": 1.0,
+    "base_peak_mz": 1.0,
+    "n_peaks": 0,
+    "n_nonzero": 0,
+    "mz_bits": null,
+    "xxh3_mz": "99aa06d3014798d86001c324468d497f",
+    "xxh3_intensity": "99aa06d3014798d86001c324468d497f",
+    "xxh3_mz_nonzero": "99aa06d3014798d86001c324468d497f",
+    "xxh3_intensity_nonzero": "99aa06d3014798d86001c324468d497f",
+    "sum_intensity": 0.0,
+    "mz_min": null,
+    "mz_max": null,
+    "first_peaks": [],
+    "first_nonzero_peaks": []
+   },
+   {
+    "index": 1,
+    "scan_number": 1,
+    "native_id": "function=2 process=0 scan=1",
+    "ms_level": 2,
+    "rt_s": 60.0,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 500.0,
+    "precursor_charge": null,
+    "isolation_target_mz": 500.0,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": null,
+    "total_ion_current": 1.0,
+    "base_peak_mz": 1.0,
+    "n_peaks": 0,
+    "n_nonzero": 0,
+    "mz_bits": null,
+    "xxh3_mz": "99aa06d3014798d86001c324468d497f",
+    "xxh3_intensity": "99aa06d3014798d86001c324468d497f",
+    "xxh3_mz_nonzero": "99aa06d3014798d86001c324468d497f",
+    "xxh3_intensity_nonzero": "99aa06d3014798d86001c324468d497f",
+    "sum_intensity": 0.0,
+    "mz_min": null,
+    "mz_max": null,
+    "first_peaks": [],
+    "first_nonzero_peaks": []
+   }
+  ]
+ }
+}

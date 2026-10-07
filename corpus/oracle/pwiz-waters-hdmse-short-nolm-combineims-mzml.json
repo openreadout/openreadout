@@ -1,0 +1,202 @@
+{
+ "id": "pwiz-waters-hdmse-short-nolm-combineims-mzml",
+ "file": "HDMSe_Short_noLM-combineIMS.mzML",
+ "size": 1922615,
+ "sha256": "abf5c88bc933307cab98711d7904179fefa265fcc237b0d9f8d0411250813758",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "function"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "3bf65021959fd8d8c0df5006060cb002",
+       "first": [
+        2.2100000828504562,
+        2.7250000834465027
+       ]
+      },
+      {
+       "xxh3": "a9bda415bd2e5a20b27ab1ec17187ecf",
+       "first": [
+        1612688.0,
+        1101528.0
+       ]
+      },
+      {
+       "xxh3": "cd5d4ed9d0bb36b22029723e30b63531",
+       "first": [
+        1.0,
+        2.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 2,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "merged=1 function=1 block=1",
+    "ms_level": 1,
+    "rt_s": 2.21000008284,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "isolation_target_mz": null,
+    "activation": null,
+    "collision_energy": null,
+    "total_ion_current": 1612688.0,
+    "base_peak_mz": 445.112976,
+    "n_peaks": 241100,
+    "n_nonzero": 122672,
+    "mz_bits": 32,
+    "xxh3_mz": "aeba3fbc29ecfdba38305dd384b68cb5",
+    "xxh3_intensity": "29411b416bf7d487e9e941a62e091777",
+    "xxh3_mz_nonzero": "2bda7732e9471f35222e305516d947f7",
+    "xxh3_intensity_nonzero": "de8412ea5e6038e782d2fcc7068e51ba",
+    "sum_intensity": 1612688.0,
+    "mz_min": 49.97978210449219,
+    "mz_max": 2000.115966796875,
+    "first_peaks": [
+     [
+      49.97978210449219,
+      0.0
+     ],
+     [
+      312.4836730957031,
+      0.0
+     ],
+     [
+      312.49139404296875,
+      9.0
+     ],
+     [
+      312.4991149902344,
+      5.0
+     ],
+     [
+      312.5068054199219,
+      0.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      312.49139404296875,
+      9.0
+     ],
+     [
+      312.4991149902344,
+      5.0
+     ],
+     [
+      207.9536895751953,
+      9.0
+     ],
+     [
+      207.95997619628906,
+      5.0
+     ],
+     [
+      58.97959899902344,
+      8.0
+     ]
+    ]
+   },
+   {
+    "index": 1,
+    "scan_number": 2,
+    "native_id": "merged=2 function=2 block=1",
+    "ms_level": 2,
+    "rt_s": 2.7250000834200003,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 1025.0,
+    "precursor_charge": null,
+    "isolation_target_mz": 1025.0,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 4.0,
+    "total_ion_current": 1101528.0,
+    "base_peak_mz": 341.014862,
+    "n_peaks": 189271,
+    "n_nonzero": 95175,
+    "mz_bits": 32,
+    "xxh3_mz": "a7409bc331a48882a7a11cf6f246c5fe",
+    "xxh3_intensity": "b1280f9d00448414e5868c7c0e51668f",
+    "xxh3_mz_nonzero": "0586189fd5cb43ca10df3701bcaf6b45",
+    "xxh3_intensity_nonzero": "2bf8ca7febba3e1fb428b4166d7cfc1c",
+    "sum_intensity": 1101528.0,
+    "mz_min": 49.97978210449219,
+    "mz_max": 2000.115966796875,
+    "first_peaks": [
+     [
+      49.97978210449219,
+      0.0
+     ],
+     [
+      1974.222412109375,
+      0.0
+     ],
+     [
+      1974.24169921875,
+      8.0
+     ],
+     [
+      1974.2611083984375,
+      4.0
+     ],
+     [
+      1974.280517578125,
+      0.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      1974.24169921875,
+      8.0
+     ],
+     [
+      1974.2611083984375,
+      4.0
+     ],
+     [
+      62.96317672729492,
+      10.0
+     ],
+     [
+      62.96664047241211,
+      10.0
+     ],
+     [
+      259.7505187988281,
+      2.0
+     ]
+    ]
+   }
+  ]
+ }
+}
