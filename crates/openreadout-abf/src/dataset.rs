@@ -20,6 +20,10 @@ use openreadout_core::bytes::read_block;
 /// Samples per channel decoded per read call at most (bounds memory of one `read_trace`).
 pub const MAX_READ_SAMPLES: u64 = 1 << 26;
 
+/// Sweeps `entries` lists one by one; the rest are summed up in one entry (a damaged header can
+/// declare millions).
+const MAX_SWEEP_ENTRIES: usize = 10_000;
+
 /// An opened ABF file.
 #[derive(Debug)]
 pub struct AbfDataset {
@@ -450,7 +454,7 @@ impl Dataset for AbfDataset {
             })
             .collect();
         let row = f.channels.len() as u64 * f.sample_format.width();
-        for (i, s) in f.sweeps.iter().enumerate() {
+        for (i, s) in f.sweeps.iter().enumerate().take(MAX_SWEEP_ENTRIES) {
             out.push(LsEntry {
                 kind: "sweep".into(),
                 name: format!("sweep {i}"),
@@ -458,6 +462,19 @@ impl Dataset for AbfDataset {
                 size: Some(s.sample_count * row),
                 image: None,
                 details: json!({"samples_per_channel": s.sample_count, "start_s": s.start_s}),
+            });
+        }
+        if f.sweeps.len() > MAX_SWEEP_ENTRIES {
+            out.push(LsEntry {
+                kind: "sweep".into(),
+                name: format!(
+                    "{} more sweeps (not listed)",
+                    f.sweeps.len() - MAX_SWEEP_ENTRIES
+                ),
+                offset: None,
+                size: None,
+                image: None,
+                details: json!({"sweep_count": f.sweeps.len(), "listed": MAX_SWEEP_ENTRIES}),
             });
         }
         Ok(out)

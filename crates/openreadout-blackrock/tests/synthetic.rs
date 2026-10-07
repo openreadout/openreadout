@@ -165,12 +165,15 @@ fn ptp_gaps_that_cancel_out_still_split_sweeps() {
     }
     let p = write(&d, "e.ns2", &b);
     let mut ds = open(&p);
-    let t = ds.info().unwrap().traces[0].clone();
-    assert_eq!(t.extra["ptp_timestamps_read"], "all");
-    assert_eq!(t.sweep_count, 3);
-    assert_eq!(t.extra["sweep_sample_counts"], serde_json::json!([3, 3, 2]));
-    let r = ds.check().unwrap();
-    assert!(r.findings.iter().any(|f| f.code == "segments"));
+    let trace = ds.info().unwrap().traces[0].clone();
+    assert_eq!(trace.extra["ptp_timestamps_read"], "all");
+    assert_eq!(trace.sweep_count, 3);
+    assert_eq!(
+        trace.extra["sweep_sample_counts"],
+        serde_json::json!([3, 3, 2])
+    );
+    let report = ds.check().unwrap();
+    assert!(report.findings.iter().any(|f| f.code == "segments"));
 }
 
 fn nev(version: (u8, u8), waveform_nv: u16) -> Vec<u8> {
