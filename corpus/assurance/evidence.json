@@ -34270,6 +34270,9 @@
       "inferred": [
         2,
         2
+      ],
+      "fixed_refuses": [
+        "traces"
       ]
     },
     {
@@ -34317,6 +34320,9 @@
       "inferred": [
         2,
         2
+      ],
+      "fixed_refuses": [
+        "traces"
       ]
     },
     {

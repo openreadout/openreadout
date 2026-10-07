@@ -44,6 +44,10 @@ fn observe(info: &FileInfo) -> Observations {
             o.feature(K::Layout, "volume-grid curve", &[Scope::Traces]);
         }
     }
+    // `check` could not read a curve: the curves it lists, if any, hold no confirmed values
+    if let Some(note) = a::note_with(info, "the file is damaged (") {
+        o.undecoded("curves", &[Scope::Traces], note);
+    }
     for t in &info.tables {
         if a::extra_str(&t.extra, "kind") == Some("vendor_peaks") {
             o.feature(K::Record, "UNICORN peak table", &[Scope::Tables]);
@@ -99,3 +103,31 @@ const CYTIVA_UNICORN_ZIP_VALIDATED: &[Validated] = &[
     a::row(K::Record, "events logbook", 11, 4, 11),
 ];
 // END GENERATED cytiva-unicorn-zip
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn unreadable_curves_leave_the_traces_unvalidated() {
+        let mut info: FileInfo = serde_json::from_value(serde_json::json!({
+            "path": "run.zip",
+            "size_bytes": 0,
+            "format": {
+                "id": "cytiva-unicorn-zip", "name": "", "vendor": "", "extensions": [],
+                "family": "chromatography", "can_read": true, "can_write": false,
+                "confidence": "medium", "known_gaps": []
+            },
+            "images": [],
+            "plane_count": 0
+        }))
+        .expect("a minimal FileInfo");
+        assert!(observe(&info).undecoded.is_empty());
+        info.notes.push(
+            "the file is damaged (curve `UV`: `CoordinateData.Amplitudes`: no serialization header); run `check` for the list".into(),
+        );
+        let o = observe(&info);
+        assert_eq!(o.undecoded.len(), 1);
+        assert_eq!(o.undecoded[0].scope, vec![Scope::Traces]);
+    }
+}

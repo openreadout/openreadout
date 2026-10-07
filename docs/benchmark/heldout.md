@@ -53,7 +53,10 @@ cargo xtask heldout-check                                       # the rules belo
    develop or debug a reader: no hex dumps, no differential comparisons, no reading its oracle JSON
    while writing a parser. No provenance log (`docs/provenance/*.md`), format note
    (`docs/formats/*.md`) or reader source (`crates/*/src`) cites a held-out corpus id, download URL
-   or file name. `cargo xtask heldout-check` (also a test in `cargo test -p xtask` and a CI step)
+   or file name, and none names a held-out source record by its number ("figshare 31095109",
+   "MTBLS12457", "Zenodo 4563053", "S-BIAD1129"). Only the reserved record itself counts: another
+   record by the same lab has another number (rule 3), a line that says the record is held out is a
+   disclosure and passes, and the records of `exposed` entries are left out (rule 7). `cargo xtask heldout-check` (also a test in `cargo test -p xtask` and a CI step)
    fails if one does.
 2. **A held-out failure is fixed on a new file.** The generalization report
    (`docs/benchmark/heldout-<date>.md`) lists what fails, with severity, so the failures can be
