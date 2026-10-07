@@ -225,6 +225,29 @@ pub(crate) fn compare_images(
                 ));
             }
         }
+        if !o.modulo.is_empty() {
+            let ours: BTreeMap<String, u32> = im
+                .extra
+                .get("modulo")
+                .and_then(|v| v.as_array())
+                .into_iter()
+                .flatten()
+                .filter_map(|m| {
+                    Some((
+                        m.get("along")?.as_str()?.to_string(),
+                        u32::try_from(m.get("size")?.as_u64()?).ok()?,
+                    ))
+                })
+                .collect();
+            if ours == o.modulo {
+                names_ok += ours.len();
+            } else {
+                problems.push(format!(
+                    "image {}: modulo sizes {ours:?} != oracle {:?}",
+                    o.index, o.modulo
+                ));
+            }
+        }
         if geo != ogeo {
             continue;
         }

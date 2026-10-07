@@ -40,7 +40,7 @@ Stack directories are named `stack<id>`, the id matching a stack record in the `
 | 8 | u32 | `sample_type` | 2 → `uint8`, 4 → `uint16` (others: exit 6) |
 | 12 | u32 | `samples_per_pixel` | 1, or 3 (RGB, interleaved) |
 | 16 | u32 | `color_space` | 1 (gray) / 4 (RGB); meaning otherwise unknown |
-| 20 | u32 | `compression` | `EtsCompression`: 0 `Raw` (little-endian samples), 2 `Jpeg` (baseline JFIF stream), 3 `Jpeg2000` (J2K codestream `FF4F FF51`) |
+| 20 | u32 | `compression` | `EtsCompression`: 0 `Raw` (little-endian samples), 2 `Jpeg` (baseline JFIF stream), 3 `Jpeg2000` (J2K codestream `FF4F FF51`), 5 `JpegLossless` (a JFIF stream with an SOF3 lossless frame, components R, G, B as coded; seen in VS120 slides); other codes exit 6 (slideio, BSD-3, lists 8 PNG and 9 BMP) |
 | 24 | u32 | `quality` | 90, 100 |
 | 28, 32, 36 | u32 | `tile_width`, `tile_height`, `tile_depth` | 512 × 512 × 1 on slides; the whole plane in the fluorescence files |
 | 108 | u32 | `background` | `0x00EEEEEE` / `0x00FFFFFF` (RGB), `0xFFFF` / `0x0FFF` (16-bit): value of tiles that are not stored |
@@ -133,7 +133,7 @@ Focus maps, focus points and sample masks appear as stack records without an ETS
 
 ## Integrity checks (`check`)
 
-Record tree (`bad_record_tree`, `no_stacks`), missing `_<stem>_` directory (`missing_ets_directory`), stack without ETS (`missing_ets`), unreadable ETS (`bad_ets`), several ETS files (`unexpected_ets_files`), unnamed stack directory (`unnamed_stack`), tile table or tile data past the end of the file (`truncated`), tiles outside the image or pyramid (`tile_out_of_range`), planes without tiles (`missing_planes`), `.vsi`/ETS size disagreement (`dimension_mismatch`), unknown dimension kind (`unknown_dimension_kind`), unknown sample type (`unsupported_sample_type`), and one decoded tile per image (`bad_tile`, `unsupported_tile`). Any error → exit 4.
+Record tree (`bad_record_tree`, `no_stacks`), missing `_<stem>_` directory (`missing_ets_directory`), stack without ETS (`missing_ets`), unreadable ETS (`bad_ets`), several ETS files (`unexpected_ets_files`), unnamed stack directory (`unnamed_stack`), tile table or tile data past the end of the file (`truncated`), tiles outside the image or pyramid (`tile_out_of_range`; a tile that lies past an edge by less than one tile, because the tile grid's origin is not a multiple of the tile size, is cropped away and counted in one `tiles_off_canvas` info finding instead), planes without tiles (`missing_planes`), `.vsi`/ETS size disagreement (`dimension_mismatch`), unknown dimension kind (`unknown_dimension_kind`), unknown sample type (`unsupported_sample_type`), and one decoded tile per image (`bad_tile`, `unsupported_tile`). Any error → exit 4.
 
 ## Vocabulary (every public identifier in `openreadout-vsi` must appear here)
 
@@ -143,7 +143,7 @@ Record tree (`bad_record_tree`, `no_stacks`), missing `_<stem>_` directory (`mis
 | `VsiReader`, `VsiDataset`, `FORMAT_ID`, `open` | reader and opened dataset |
 | `SIS_MAGIC`, `ETS_MAGIC`, `looks_like_ets`, `EtsFile`, `path`, `file_len`, `header`, `tiles`, `table_problem`, `levels`, `read_tile_bytes`, `decode_tile` | ETS file |
 | `EtsHeader`, `coord_count`, `ets_offset`, `ets_size`, `table_offset`, `tile_count`, `version`, `sample_type`, `samples_per_pixel`, `color_space`, `compression`, `quality`, `tile_width`, `tile_height`, `tile_depth`, `background`, `sizes`, `pixel_type`, `extra_dims`, `entry_size` | ETS headers |
-| `EtsCompression` { `Raw`, `Jpeg`, `Jpeg2000`, `Other` }, `from_code`, `name` | tile compression |
+| `EtsCompression` { `Raw`, `Jpeg`, `Jpeg2000`, `JpegLossless`, `Other` }, `from_code`, `name` | tile compression |
 | `Tile`, `coords`, `offset`, `len`, `column`, `row`, `level`, `extra` | tile table entry |
 | `TREE_OFFSET`, `VOLUME_MAGIC`, `FLAG_INDEXED`, `FLAG_VOLUME`, `FLAG_INLINE`, `FLAG_ARRAY` | record-tree constants |
 | `TagTree`, `data`, `root`, `problems`, `record_count`, `parse`, `bytes`, `text`, `number`, `int64`, `ints`, `floats`, `quantity`, `to_json`, `find` | the record tree and value accessors |

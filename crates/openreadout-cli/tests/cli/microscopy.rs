@@ -1285,7 +1285,10 @@ fn czi_jpeg_and_resolution_protocol_fixtures() {
             .args(["planes", p.to_str().unwrap(), "--json"])
             .output()
             .unwrap();
-        assert_eq!(out.status.code(), Some(6), "12-bit DCT JPEG is unsupported");
+        assert!(out.status.success(), "12-bit DCT JPEG decodes");
+        let planes = json(&out)["data"]["planes"].as_array().unwrap().clone();
+        assert_eq!(planes.len(), 8);
+        assert_eq!(planes[0]["pixel_type"], "uint16");
     }
     if let Some(p) = corpus("synthetic-jxr-mismatch-bgr48-as-bgr24.czi") {
         let out = bin()
