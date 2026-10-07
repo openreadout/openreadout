@@ -45,6 +45,13 @@ pub(crate) const EXTENSION_ONLY: &str = "only the file extension matched this fo
 /// The hint for such a failure.
 pub(crate) const EXTENSION_ONLY_HINT: &str = "The file's first bytes do not look like this format, only its extension does: it may be another kind of file with the same extension, or damaged from the start. `openreadout info --view format FILE` shows what was detected.";
 
+/// Readers put this phrase in the message when a file that a multi-file data set lists is not
+/// there (an OME-TIFF member, an NDPI set's NDPI, a MetaMorph `.nd` file).
+pub const MISSING_MEMBER: &str = "of the data set is missing";
+
+/// The hint for such a failure.
+pub(crate) const MISSING_MEMBER_HINT: &str = "A file this data set lists is not next to the file you opened. Copy the whole data set (the file you opened and every file it names) into one folder, keeping the names; `openreadout check FILE` lists what is missing.";
+
 /// Result alias used throughout `OpenReadout`.
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -137,6 +144,9 @@ impl Error {
             Error::Corrupt { detail, .. } if detail.contains(EXTENSION_ONLY) => {
                 Some(EXTENSION_ONLY_HINT.into())
             }
+            Error::Corrupt { detail, .. } if detail.contains(MISSING_MEMBER) => {
+                Some(MISSING_MEMBER_HINT.into())
+            }
             Error::Corrupt { .. } => Some(
                 "Run `openreadout check <file>` for a full integrity report. The file may be truncated by an interrupted acquisition or copy."
                     .into(),
@@ -205,6 +215,10 @@ mod tests {
             Error::io("x", std::io::Error::other("y")),
             Error::Other("Parquet read-back: bad".into()),
             Error::Other("anything".into()),
+            Error::corrupt(
+                "tiff",
+                format!("file 'a.ndpi' {MISSING_MEMBER} (looked for a.ndpi)"),
+            ),
         ];
         for e in &errors {
             assert!(e.hint().is_some_and(|h| h.len() > 10), "{e}");
@@ -214,5 +228,6 @@ mod tests {
         assert!(hint(4).contains("--overwrite"));
         assert!(hint(5).contains("c=0"));
         assert!(hint(8).contains("verification"));
+        assert!(hint(10).contains("whole data set"));
     }
 }

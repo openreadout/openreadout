@@ -22,6 +22,7 @@ One reader (`tiff`, crate `openreadout-tiff`) handles the TIFF container and eve
 | `micro-manager` (`MicroManager`) | tag 51123 on a file with no OME-XML/ImageJ description | as `plain` |
 | `plain` (`Plain`) | anything else | pages grouped by identical geometry, each group one image with its pages as Z |
 | `metamorph-nd` (`MetamorphNd`) | the opened file is a `.nd` text file starting with `"NDInfoFile"` | one per stage position; wavelengths as C, time points as T, each file's planes as Z |
+| `hamamatsu-ndpis` (no `Flavor`: `NdpisDataset`) | the opened file is a text file whose first line is `[NanoZoomer Digital Pathology Image Set]` | one; each listed NDPI is a channel (§ NDPI sets) |
 
 Micro-Manager JSON (tag 51123) is also read on top of any other flavor (pixel size, channel, exposure, camera, time). When a flavor's metadata is inconsistent (e.g. OME-XML that does not parse), the reader falls back to `plain` and says so in `notes`.
 
@@ -68,7 +69,7 @@ Classic: u16 entry count, 12-byte entries, u32 next-IFD offset. BigTIFF: u64 cou
 | 65325–65333 | (NIS-Elements) | time, pixel size, stage position, metadata blocks of a NIS-Elements TIFF export (below) |
 | 50838/50839 | (ImageJ metadata) | ImageJ binary metadata: info, slice labels, display ranges |
 | 51123 | (Micro-Manager metadata) | JSON per plane |
-| 65420–65449 | (NDPI) | NDPI flag, magnification, slide-centre offsets, focal-plane Z offset, slide label, scanner serial |
+| 65420–65449 | (NDPI) | NDPI flag, magnification, slide-centre offsets, focal-plane Z offset, slide label, fluorescence filter set (channel name), scanner serial |
 
 ### Pixel data
 
@@ -263,6 +264,14 @@ layout read from the corpus files (`docs/provenance/tiff.md`).
 
 Tag 65420 marks the file. 65421 = source-lens magnification (> 0 pyramid page, −1 macro, −2 map); 65422/65423 = X/Y offset of the image centre from the slide centre (nm); 65424 = focal-plane Z offset (nm); 65427 = slide label; 65442 = scanner serial. The largest pyramid page is the image, same-size pyramid pages are focal planes (Z), smaller ones pyramid levels. Physical size from X/YResolution (centimetres). Levels are single JPEG strips; files over 4 GiB (offset high bits in tag 65324) are not supported. The full-resolution page (too large to decode whole) is read by its JPEG restart intervals: tag 65426 lists the byte offset of every interval relative to the strip (65432: their high 32 bits), and the page is a grid of `restart interval × MCU width` by `MCU height` tiles (2048 × 8 in the corpus slide). A tile is decoded as a small JPEG: the page's header up to the start of scan with the frame size set to one tile and the restart interval (DRI) removed (`jpeg_frame`), the interval's bytes without their trailing RST marker, and EOI. Only baseline/sequential JPEG; a progressive full-resolution page is refused (exit 6).
 
+Tag 65434 names a fluorescence file's filter set (`DAPI 2 (387)`); it becomes the name of the image's channel.
+
+### NDPI sets (`.ndpis`)
+
+NanoZoomer fluorescence scans write one NDPI per filter set and a short text file that lists them (`NdpisFile`, `parse_ndpis`): a first line `[NanoZoomer Digital Pathology Image Set]`, then `key=value` lines, `NoImages=N` and `Image0=` to `Image<N-1>=` with file names relative to the set's folder. Without `NoImages`, every `ImageK` key counts up to the first gap. The set is one image (`NdpisDataset`): channel `c` is image 0 of the file `ImageK` names with K = c, opened by the NDPI reader above, so its focal planes are Z and its pyramid levels are the set's levels. The stored samples are returned as they are: the corpus files hold an 8-bit RGB rendering of their channel in its display colour (DAPI in blue, FITC in green, TRITC in red), so `samples_per_pixel` is 3. A channel's name is the member's tag 65434, else its file name without `.ndpi`. Metadata (pixel size, objective, instrument, time, attachments) comes from the first member that opens. `images[].extra.files` lists the members; `info --view full` → `vendor.ndpis` holds the set's keys and `vendor.members` each member's tags.
+
+Members must agree on width, height, sample type, samples per pixel, Z and T, or the set is corrupt (exit 4). The set opens while at least one member opens. A missing member is a `missing_file` finding of `check`, and reading its channel exits 4 with a hint to copy the whole set; a member that does not open as a TIFF is `unreadable_file`.
+
 ## PerkinElmer QPTIFF (Vectra / inForm)
 
 Each page's `ImageDescription` is an XML `PerkinElmer-QPI-ImageDescription` (`QpiPage`): `ImageType` (`FullResolution`, `Thumbnail`, `ReducedResolution`, `Overview`, `Label`), `Name` (channel name), `Color` (`R,G,B`), `Objective`, `ExposureTime` (unit not documented publicly; raw values under `images[].extra.qpi_exposure_time_raw`), `SlideID`, `AcquisitionSoftware`, `InstrumentType`, and (deep) `Magnification`, `PixelSizeMicrons`. Consecutive full-resolution pages of equal size are the channels; `ReducedResolution` pages are pyramid levels; the rest are attachments. Pixel size from `PixelSizeMicrons`, else X/YResolution.
@@ -304,7 +313,7 @@ Tag 51123 holds per-plane JSON. `PixelSizeUm` fills the pixel size when nothing 
 
 ## Integrity checks (`check`)
 
-Codes (EER: `eer_bad_frame`, `eer_dose_mismatch`, `eer_events`, § EER): `truncated` (IFD, field value, strip/tile or contiguous stack past end of file), `bad_ifd_offset`, `ifd_cycle`, `too_many_ifds`, `bad_field`, `bad_page`, `missing_chunks` (fewer offsets/counts than the geometry needs), `sparse_chunks` (info), `unsupported_samples` / `unsupported_compression` (warnings; the structure is valid; `unsupported_samples` also covers JPEG colour codings that are refused, see "JPEG colour"), `jpeg_colour_ambiguous` (warning), `bad_chunk` (a JPEG page whose first chunk has no readable frame header), `missing_planes` (planes not mapped to any IFD), `bad_tiffdata` (IFD index beyond the referenced file), `missing_file` / `unreadable_file` (OME sibling or metadata file), `uuid_mismatch` (warning), `short_acquisition` (LSM with fewer pages than declared). NIS-Elements export files are opened like OME-TIFF members; a (position, c, z, t) without a file is `missing_planes`. Contiguous stacks (ImageJ virtual stacks, STK files, STK members of a `.nd` series) must end inside their file (`truncated`); `.nd` members are opened like OME-TIFF members (`missing_file`, `unreadable_file`). Any error → exit 4.
+Codes (EER: `eer_bad_frame`, `eer_dose_mismatch`, `eer_events`, § EER): `truncated` (IFD, field value, strip/tile or contiguous stack past end of file), `bad_ifd_offset`, `ifd_cycle`, `too_many_ifds`, `bad_field`, `bad_page`, `missing_chunks` (fewer offsets/counts than the geometry needs), `sparse_chunks` (info), `unsupported_samples` / `unsupported_compression` (warnings; the structure is valid; `unsupported_samples` also covers JPEG colour codings that are refused, see "JPEG colour"), `jpeg_colour_ambiguous` (warning), `bad_chunk` (a JPEG page whose first chunk has no readable frame header), `missing_planes` (planes not mapped to any IFD), `bad_tiffdata` (IFD index beyond the referenced file), `missing_file` / `unreadable_file` (OME sibling or metadata file, a file an NDPI set lists), `uuid_mismatch` (warning), `short_acquisition` (LSM with fewer pages than declared). NIS-Elements export files are opened like OME-TIFF members; a (position, c, z, t) without a file is `missing_planes`. Contiguous stacks (ImageJ virtual stacks, STK files, STK members of a `.nd` series) must end inside their file (`truncated`); `.nd` members are opened like OME-TIFF members (`missing_file`, `unreadable_file`). Any error → exit 4.
 
 ## Oracle mapping (corpus harness)
 
@@ -331,6 +340,7 @@ Codes (EER: `eer_bad_frame`, `eer_dose_mismatch`, `eer_events`, § EER): `trunca
 | `SampleSelect` { `All`, `One` }, `read_page`, `MAX_PLANE_BYTES`, `is_decoded` | plane decoding; `is_decoded` tells whether chunks of a compression code are decoded |
 | `read_region`, `ChunkCache`, `jpeg_frame`, `ndpi_mcu_starts` | region decoding: the chunks a rectangle overlaps, decoded-chunk cache, NDPI per-interval JPEG header and restart-interval offsets |
 | `NdpiHeader`, `header`, `tile_width`, `tile_height`, `MCU_STARTS`, `MCU_STARTS_HIGH`, `parse_header`, `tiled_layout`, `frame` | NDPI full-resolution page read by restart intervals |
+| `NdpisFile`, `keys`, `images`, `NDPIS_HEADER`, `parse_ndpis`, `NdpisDataset` | NDPI sets (§ NDPI sets); `open` as elsewhere |
 | `JpegDecision`, `color`, `conflict`, `jpeg_color`, `jpeg_page_supported` | JPEG colour choice per chunk (§ JPEG colour) |
 | `SampleSelect` { `All`, `One` }, `read_page`, `MAX_PLANE_BYTES` | plane decoding |
 | `OmeDocument`, `parse`, `parse_ome_xml`, `schema`, `creator`, `binary_only`, `images`, `instruments`, `annotations` | parsed OME-XML |

@@ -34,7 +34,7 @@ Readers used (all run as black boxes):
         -> oracle/spectro.py: brukeropus (MIT), SpectroChemPy (CeCILL-B), renishawWiRE (MIT), specio (BSD-3)
   .txt .csv .xlsx .xls (plate-reader exports) -> allotropy (MIT) ASM JSON summarized per detection
         mode (oracle/plate.py); Tecan i-control exports -> an independent reader in plate.py
-  TIFF family (.tif .tiff .btf .tf2 .tf8 .svs .ndpi .lsm .qptiff .stk, *.companion.ome)
+  TIFF family (.tif .tiff .btf .tf2 .tf8 .svs .ndpi .lsm .qptiff .stk, *.companion.ome; .ndpis sets: each listed NDPI)
         -> tifffile (BSD-3); see tiff() for the series/axes mapping
   .nd   (MetaMorph series) -> Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box), planes
         cross-checked with tifffile on the member STK/TIFF files
@@ -2823,6 +2823,36 @@ def oif_(p: Path) -> dict:
     if ref_error:
         out["oiffile_error"] = ref_error
     return out
+
+
+def ndpi_set(p: Path) -> dict:
+    """Hamamatsu NDPI set (`.ndpis`): an INI-style text file whose `ImageK=` lines (`NoImages`
+    of them) name one NDPI per channel. tifffile reads each member's series 0 (`tiff`); the set
+    is one image whose channel c is member c's plane, stored samples kept. Channel names are
+    tifffile's NDPI tag 65434 (`Fluorescence`), else the member's file name without `.ndpi`."""
+    import tifffile
+    lines = [ln.strip() for ln in p.read_text(encoding="utf-8", errors="replace").lstrip("﻿").splitlines() if ln.strip()]
+    if not lines or lines[0] != "[NanoZoomer Digital Pathology Image Set]":
+        raise ValueError("not an NDPI set")
+    kv = dict(ln.split("=", 1) for ln in lines[1:] if "=" in ln)
+    kv = {k.strip(): v.strip() for k, v in kv.items()}
+    names = [kv[f"Image{k}"] for k in range(int(kv["NoImages"]))]
+    members = [tiff(p.parent / n) for n in names]
+    base = dict(members[0]["images"][0])
+    planes, channel_names = [], []
+    for c, (n, m) in enumerate(zip(names, members)):
+        im = m["images"][0]
+        for key in ("size_x", "size_y", "size_z", "size_t", "samples_per_pixel", "pixel_type"):
+            if im[key] != base[key]:
+                raise ValueError(f"{n}: {key} {im[key]} != {base[key]}")
+        planes += [{**pl, "c": c} for pl in im["planes"] if pl["c"] == 0]
+        with tifffile.TiffFile(p.parent / n) as tf:
+            tag = tf.pages[0].tags.get(65434)
+            label = str(tag.value).strip() if tag is not None else ""
+        channel_names.append(label or re.sub(r"\.ndpi$", "", n, flags=re.I).rstrip())
+    base.update(size_c=len(names), planes=planes, check_channel_names=channel_names, kind="ndpis")
+    return {"reader": members[0]["reader"] + " (each listed NDPI; the set file parsed in gen.py)",
+            "kind": "ndpis", "files": names, "images": [base]}
 
 
 def metamorph_nd(p: Path) -> dict:
@@ -5668,7 +5698,7 @@ def main():
         # A .lifext sidecar shares its stem with its .lif; its oracle id gets a -lifext suffix.
         fid = given_id or re.sub(r"\.(lif|lof|xlif|xlef|xlcf|czi|nd2|fcs|lmd|abf|atf|jdx|dx|jcamp|jcm|raw|wiff|mzml|mzxml|imzml|mrc|mrcs|map|rec|st|ali|dm3|dm4|dm5|ser|emd|oir|vsi|zip|zarr|ims|nwb|zvi|oib|oif|jdf|dat|spc|mrxs)$", "",
                                  re.sub(r"\.lifext$", "-lifext", p.name, flags=re.I), flags=re.I)
-        if (is_tiff or ext in (".nd", ".dcimg")) and not given_id:
+        if (is_tiff or ext in (".nd", ".dcimg", ".ndpis")) and not given_id:
             fid = _corpus_id(p)
         elif ext[1:] in EPHYS and not given_id:
             fid = p.name.replace(".", "-")  # multi-file formats share stems: keep the extension
@@ -5737,6 +5767,8 @@ def main():
                 data = openlab_cds.dx(p)
             elif ext in (".jdx", ".dx", ".jcamp", ".jcm"):
                 data = jcampdx(p)
+            elif ext == ".ndpis":
+                data = ndpi_set(p)
             else:
                 data = tiff(p) if is_tiff else dispatch.get(ext[1:], lif)(p)
         except Exception as e:  # record failures too: they are information
