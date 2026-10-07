@@ -81,22 +81,22 @@ const PANALYTICAL_XRDML_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const PANALYTICAL_XRDML_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "measurement Repeated scan", 2, 2, 2),
-    a::row(K::Acquisition, "measurement Scan", 5, 5, 5),
-    a::row(K::Field, "experiment.acquisition.started_at", 7, 7, 7),
-    a::row(K::Field, "experiment.instrument.model", 7, 7, 7),
+    a::row(K::Acquisition, "measurement Scan", 7, 7, 7),
+    a::row(K::Field, "experiment.acquisition.started_at", 7, 7, 9),
+    a::row(K::Field, "experiment.instrument.model", 7, 7, 9),
     a::row(K::FormatVersion, "1.3", 1, 1, 1),
     a::row(K::FormatVersion, "1.5", 2, 2, 2),
-    a::row(K::FormatVersion, "1.6", 2, 2, 2),
-    a::row(K::FormatVersion, "2.1", 1, 1, 1),
+    a::row(K::FormatVersion, "1.6", 3, 3, 3),
+    a::row(K::FormatVersion, "2.1", 2, 2, 2),
     a::row(K::FormatVersion, "2.3", 1, 1, 1),
     a::row(K::Layout, "2Theta-Omega scan", 1, 1, 1),
-    a::row(K::Layout, "Gonio scan", 4, 4, 6),
-    a::row(K::Record, "two_theta axis", 5, 5, 7),
-    a::row(K::SampleLayout, "intensity in counts", 5, 5, 7),
+    a::row(K::Layout, "Gonio scan", 6, 6, 8),
+    a::row(K::Record, "two_theta axis", 7, 7, 9),
+    a::row(K::SampleLayout, "intensity in counts", 7, 7, 9),
     a::row(K::WriterVersion, "Data Collector 4.1", 1, 1, 1),
     a::row(K::WriterVersion, "Data Collector 4.4a", 1, 1, 1),
-    a::row(K::WriterVersion, "Data Collector 5.4", 2, 2, 2),
-    a::row(K::WriterVersion, "Data Collector 6.1b", 1, 1, 1),
+    a::row(K::WriterVersion, "Data Collector 5.4", 3, 3, 3),
+    a::row(K::WriterVersion, "Data Collector 6.1b", 2, 2, 2),
     a::row(K::WriterVersion, "Data Collector 7.5b", 1, 1, 1),
     a::row(K::WriterVersion, "X'Pert Data Collector 2.2f", 1, 1, 1),
 ];
@@ -106,13 +106,13 @@ const PANALYTICAL_XRDML_VALIDATED: &[Validated] = &[
 const BRUKER_RAW_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const BRUKER_RAW_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 11),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 12),
     a::row(K::FormatVersion, "RAW1.01", 4, 4, 4),
-    a::row(K::FormatVersion, "RAW4.00", 7, 7, 7),
-    a::row(K::Layout, "2Theta scan", 11, 11, 11),
-    a::row(K::Record, "two_theta axis", 11, 11, 11),
+    a::row(K::FormatVersion, "RAW4.00", 8, 8, 8),
+    a::row(K::Layout, "2Theta scan", 12, 12, 12),
+    a::row(K::Record, "two_theta axis", 12, 12, 12),
     a::row(K::SampleLayout, "8-byte records", 1, 1, 1),
-    a::row(K::SampleLayout, "intensity in counts", 11, 11, 11),
+    a::row(K::SampleLayout, "intensity in counts", 12, 12, 12),
 ];
 // END GENERATED bruker-raw
 
@@ -120,13 +120,13 @@ const BRUKER_RAW_VALIDATED: &[Validated] = &[
 const BRUKER_BRML_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const BRUKER_BRML_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 4, 4, 4),
+    a::row(K::Field, "experiment.acquisition.started_at", 4, 4, 5),
     a::row(K::Field, "experiment.instrument.model", 3, 3, 3),
-    a::row(K::Layout, "2Theta scan (Measured)", 4, 4, 4),
+    a::row(K::Layout, "2Theta scan (Measured)", 5, 5, 5),
     a::row(K::Record, "absorber factors", 1, 1, 1),
-    a::row(K::Record, "two_theta axis", 4, 4, 4),
-    a::row(K::SampleLayout, "intensity in counts", 4, 4, 4),
-    a::row(K::WriterVersion, "DIFFRAC 6.5.0.0", 1, 1, 1),
+    a::row(K::Record, "two_theta axis", 5, 5, 5),
+    a::row(K::SampleLayout, "intensity in counts", 5, 5, 5),
+    a::row(K::WriterVersion, "DIFFRAC 6.5.0.0", 2, 2, 2),
     a::row(K::WriterVersion, "DIFFRAC 8.6.1.0", 1, 1, 1),
     a::row(K::WriterVersion, "DIFFRAC 8.6.3.0", 1, 1, 1),
     a::row(K::WriterVersion, "DIFFRAC 8.7.3.0", 1, 1, 1),

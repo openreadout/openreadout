@@ -1,5 +1,5 @@
 {
- "version": "openreadout 0.1.0",
+ "version": "openreadout 0.2.0",
  "fields": [
   "Light microscopy",
   "Electron microscopy",
@@ -150,7 +150,7 @@
    "family": "mass-spectrometry",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "high",
    "known_gaps": [
     "Pixels are exposed as spectra with `extra.position`; no ion images are rendered",
     "The .ibd MD5 (IMS:1000090) is not verified; its SHA-1 (IMS:1000091) and UUID are"
@@ -338,7 +338,7 @@
    "family": "microscopy",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Derived without a specification from 12 corpus data sets (FV1000/FV1200, FluoView 4.2): 16-bit grey planes, uncompressed or LZW; 8-bit and colour planes follow the TIFF reader but no corpus file has them",
     "Plane file names with axis letters other than C, Z, T and L become separate images (inferred, no corpus file)",
@@ -359,7 +359,7 @@
    "family": "microscopy",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "medium",
    "known_gaps": [
     "Derived without a specification from 12 corpus data sets (FV1000/FV1200, FluoView 4.2): 16-bit grey planes, uncompressed or LZW; 8-bit and colour planes follow the TIFF reader but no corpus file has them",
     "Plane file names with axis letters other than C, Z, T and L become separate images (inferred, no corpus file)",
@@ -478,12 +478,15 @@
    "family": "qpcr",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "medium",
    "known_gaps": [
-    "Read: run and instrument, thermal protocol, detection channels, sample names and per-channel target/type/concentration, raw fluorescence per cycle and melt readings (instrument units, no color compensation), and the vendor's absolute-quantification results (Cp and positive/negative call). Validated on 4 LightCycler 480 QC runs (software 1.5.0 and 1.5.1): every vendor-positive well rises and every negative stays flat in the analysed channel",
+    "Read: run and instrument, thermal protocol, detection channels, sample names and per-channel target/type/concentration, raw fluorescence per cycle and melt readings (instrument units, no color compensation), and the vendor's absolute-quantification results (Cp and positive/negative call). Validated on 4 LightCycler 480 QC runs (software 1.5.0 and 1.5.1) against the depositor's own reader and on 6 plates against the LightCycler 480 software's Cp table and raw-data export",
+    "Fluorescence is the stored reading; the software shows and exports it times ScalingFactor / (RefValue × IntgrTime) of each acquisition, given per channel and cycle in `vendor.export_scale`",
+    "Melt readings are not confirmed by an independent reader (reported in `inferred`)",
+    "The instrument model is read from the run's instrument name only when that names a LightCycler; otherwise it is unset and the name is in `vendor.instrument_name`",
     "Only `Legacy Absolute Quantification Analysis` results are read (one channel, no ratio); Tm calling, genotyping, relative quantification and other analyses are listed in the vendor tree, not read; a call other than 0 or 2 gives no Cq",
     "Vendor melt smoothing and derivative arrays (DARZ/FORM binary properties) and the temperature log are not decoded; -dF/dT is computed from the raw melt readings",
-    "Our own Cq (`analyze qpcr --compute-cq`) is not the LightCycler 480's Cp algorithm (not public); use the vendor Cp in `cq`",
+    "Our own Cq (`analyze qpcr --compute-cq`) is the second-derivative maximum: on average a few hundredths of a cycle from the LightCycler 480's Cp, up to 0.35 cycles; the vendor Cp is in `cq`",
     "The closing checksum line is kept (`vendor.trailer`), not verified"
    ],
    "page": "qpcr",
@@ -712,7 +715,7 @@
    "family": "electrophysiology",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "medium",
    "known_gaps": [
     "The channel zero level (YZ) is reported, not subtracted (as Neo does); both public files have 0",
     "Record status (accepted/rejected), type and group are reported per sweep; rejected records are not dropped",
@@ -777,7 +780,7 @@
    "family": "mass-spectrometry",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     ".wiff2 (SCIEX OS) files are encrypted and are refused (exit 6); convert them with the vendor's software",
     "Validated on MRM files (QTRAP 6500+ scheduled MRM, Analyst 1.7.2: 165 SRM chromatograms bit-exact; QTRAP 6500; a 2007 ten-sample Analyst file with one value per transition per cycle) and LC device traces, and on TripleTOF 6600 and 5600+ data-dependent files (Analyst TF; scan times, MS levels, polarity, precursors, TIC and base-peak m/z against the export); other scan types (Q1/Q3 scans, enhanced product ion, MRM³, SWATH variable windows) are listed but not decoded",
@@ -933,7 +936,7 @@
    "family": "chromatography",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "medium",
    "known_gaps": [
     "Read: 2D exports (a row of quoted field names, a row of their values, then time/value rows) as one trace with every exported field; equal to Appia's reading of the same files. Empower keeps its native raw data in its database: exports (this ASCII export and AIA/netCDF, read by andi-chrom) are how data leaves it",
     "Multi-column (3D PDA) exports are refused (exit 6): no public example with a licence; export PDA data as AIA/netCDF or as single-wavelength channels",
@@ -1019,6 +1022,7 @@
     "ome.tiff",
     "svs",
     "ndpi",
+    "ndpis",
     "lsm",
     "qptiff",
     "btf",
@@ -1135,7 +1139,7 @@
    "family": "electron-microscopy",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Complex element data (types 9, 10) is described but not decoded",
     "Series whose elements differ in size are listed but not read",
@@ -1388,7 +1392,8 @@
    "known_gaps": [
     "One spectrum per file (2D constant-interval data sets); Spotlight image files (.fsm) are read by the perkinelmer-fsm reader",
     "Instrument settings are named from their values in the corpus (scans, resolution, detector, source, beamsplitter, apodization, laser wavenumber); other settings are in the vendor tree by member id",
-    "UV-Vis (.sp from Lambda instruments, x in nm) follows the same layout by inference; no public UV-Vis .sp file was available"
+    "UV-Vis (.sp from Lambda instruments, x in nm) follows the same layout by inference; no public UV-Vis .sp file was available",
+    "Text .sp files (`PE … ASCII PEDS`, e.g. from an LS55): only the x and y pairs and the technique code are read; the other header lines are kept unnamed in the vendor tree"
    ],
    "page": "perkinelmer-sp",
    "field": "IR, Raman and UV-Vis"
@@ -1631,9 +1636,11 @@
    "family": "particle-sizing",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "medium",
    "known_gaps": [
     "Size and zeta results are returned as stored; the size distributions, correlation functions and phase plots are not decoded",
+    "Size peak widths and the number and volume peaks are stored but withheld: no Zetasizer export in the corpus holds them to check against",
+    "Size results are confirmed on Zetasizer software 7.10 and 7.12 only",
     "Number and volume means and the diffusion coefficient the software exports are computed at export and are not returned",
     "Molecular-weight, protein-mobility and other record kinds are listed, not decoded",
     "ZS Xplorer .zmes files are not read"
@@ -1690,7 +1697,7 @@
    "family": "chromatography",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "medium",
    "known_gaps": [
     "Validated on two files (ÄKTAprime 2009, Ettan LC 2017), both with the `UNICORN 3.10` layout text; other UNICORN 3-5 systems (ÄKTA explorer, purifier, FPLC) are expected to share the layout but have no public sample",
     "Times are the sample index × the curve's interval from the method start; a sub-sample start offset some curves carry is read as milliseconds (unvalidated, < 1 sample)",
@@ -1753,7 +1760,7 @@
    "family": "epr",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "high",
    "known_gaps": [
     "The .spc file has no header: its layout (little-endian float32 for WinEPR, big-endian int32 for ESP) and point count come from the .par file; a data set without its .par file is not recognised",
     "Values are returned as stored: no normalization by scans, gain or conversion time"
@@ -1846,7 +1853,7 @@
    "family": "diffraction",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "medium",
    "known_gaps": [
     "Intensities are returned as stored; the attenuation column is a separate channel and is not applied (a file with factors other than 1 is flagged)",
     "Area-detector images stored in a .rasx are not read"
@@ -2048,7 +2055,7 @@
    "family": "container",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "medium",
    "known_gaps": [
     "Structure only: groups, datasets (shape, type) and attributes are listed; no dataset is decoded as an image, table or trace",
     "HDF4 (`.hdf` without the HDF5 signature) is not read"

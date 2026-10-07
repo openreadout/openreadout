@@ -324,19 +324,19 @@ const MALVERN_ZETASIZER_DTS_VALIDATED: &[Validated] = &[
 const CYTIVA_BIACORE_BME_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const CYTIVA_BIACORE_BME_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "1 Hz", 1, 1, 1),
-    a::row(K::Acquisition, "10 Hz", 5, 3, 5),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 6),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 6),
-    a::row(K::FormatVersion, "result file 4", 5, 3, 5),
-    a::row(K::FormatVersion, "result file 5", 1, 1, 1),
-    a::row(K::Record, "evaluation item AffinityScreen", 3, 3, 3),
+    a::row(K::Acquisition, "1 Hz", 2, 2, 2),
+    a::row(K::Acquisition, "10 Hz", 6, 4, 6),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 8),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 8),
+    a::row(K::FormatVersion, "result file 4", 6, 4, 6),
+    a::row(K::FormatVersion, "result file 5", 2, 2, 2),
+    a::row(K::Record, "evaluation item AffinityScreen", 4, 4, 4),
     a::row(K::Record, "evaluation item ConcentrationAnalysis", 1, 1, 1),
     a::row(K::Record, "evaluation item KineticScreen", 1, 1, 1),
     a::row(K::Record, "evaluation item KineticsAffinity", 2, 1, 2),
-    a::row(K::Record, "evaluation item Plot", 6, 3, 6),
-    a::row(K::Record, "evaluation item ReportPointTable", 6, 3, 6),
-    a::row(K::Record, "evaluation item Sensorgram", 6, 3, 6),
-    a::row(K::Record, "flow-cell curve (Segment)", 6, 3, 6),
+    a::row(K::Record, "evaluation item Plot", 8, 5, 8),
+    a::row(K::Record, "evaluation item ReportPointTable", 8, 5, 8),
+    a::row(K::Record, "evaluation item Sensorgram", 8, 5, 8),
+    a::row(K::Record, "flow-cell curve (Segment)", 8, 5, 8),
 ];
 // END GENERATED cytiva-biacore-bme

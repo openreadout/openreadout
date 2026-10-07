@@ -73,12 +73,16 @@ fn observe(info: &FileInfo) -> Observations {
 const PLEXON_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const PLEXON_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 4, 1, 6),
+    a::row(K::Field, "experiment.acquisition.started_at", 4, 1, 11),
     a::row(K::FormatVersion, "PL2", 0, 0, 2),
     a::row(K::FormatVersion, "PLX 101", 2, 1, 2),
-    a::row(K::FormatVersion, "PLX 106", 2, 1, 2),
+    a::row(K::FormatVersion, "PLX 103", 1, 1, 1),
+    a::row(K::FormatVersion, "PLX 105", 1, 1, 1),
+    a::row(K::FormatVersion, "PLX 106", 2, 1, 3),
+    a::row(K::FormatVersion, "PLX 107", 1, 1, 2),
     a::row(K::Record, "PL2 continuous", 0, 0, 2),
-    a::row(K::Record, "PLX continuous", 2, 1, 2),
+    a::row(K::Record, "PLX continuous", 5, 1, 6),
     a::row(K::Writer, "OmniPlex", 1, 1, 3),
+    a::row(K::Writer, "SC", 0, 0, 1),
 ];
 // END GENERATED plexon

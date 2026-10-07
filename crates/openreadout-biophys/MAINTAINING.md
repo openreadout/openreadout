@@ -41,7 +41,7 @@ Each module is a self-contained parser plus its `Dataset`; `lib.rs` holds the fo
 | --- | --- | --- | --- | --- | --- | --- |
 | `microcal-itc` | [format note](../../docs/formats/microcal-itc.md), [provenance log](../../docs/provenance/microcal-itc.md) | medium | reverse engineered | 10 / 6 | 2 | - |
 | `cytiva-biacore-blr` | [format note](../../docs/formats/cytiva-biacore.md), [provenance log](../../docs/provenance/cytiva-biacore.md) | medium | prior art | 9 / 9 | 2 | - |
-| `cytiva-biacore-bme` | [format note](../../docs/formats/cytiva-biacore.md), [provenance log](../../docs/provenance/cytiva-biacore.md) | medium | prior art | 6 / 6 | 3 | - |
+| `cytiva-biacore-bme` | [format note](../../docs/formats/cytiva-biacore.md), [provenance log](../../docs/provenance/cytiva-biacore.md) | medium | prior art | 8 / 8 | 5 | - |
 | `agilent-seahorse-asyr` | [format note](../../docs/formats/agilent-seahorse.md), [provenance log](../../docs/provenance/agilent-seahorse.md) | low | reverse engineered | 9 / 3 | 1 | - |
 | `sartorius-octet-frd` | [format note](../../docs/formats/sartorius-octet.md), [provenance log](../../docs/provenance/sartorius-octet.md) | medium | prior art | 6 / 6 | 2 | - |
 | `malvern-zetasizer-dts` | [format note](../../docs/formats/malvern-zetasizer.md), [provenance log](../../docs/provenance/malvern-zetasizer.md) | medium | reverse engineered | 16 / 11 | 4 | - |
@@ -104,20 +104,20 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `cytiva-biacore-blr` | record | `flow-cell curve (Segment)` | traces | 9 | 9 | `biacore-allotropy-ed-fig1a-b2`, `biacore-allotropy-ed-fig1a-b3`, `biacore-allotropy-ed-fig6a-immob` |
 | `cytiva-biacore-blr` | record | `reference-subtracted curve (XYData)` | traces | 7 | 7 | `biacore-allotropy-ed-fig1a-b2`, `biacore-allotropy-ed-fig1a-b3`, `biacore-allotropy-fig2c-prongs` |
 | `cytiva-biacore-blr` | record | `report point table` | tables | 9 | 9 | `biacore-allotropy-ed-fig1a-b2`, `biacore-allotropy-ed-fig1a-b3`, `biacore-allotropy-ed-fig6a-immob` |
-| `cytiva-biacore-bme` | acquisition | `1 Hz` | traces | 1 | 1 | `biacore-bme-allotropy-example2` |
-| `cytiva-biacore-bme` | acquisition | `10 Hz` | traces | 5 | 5 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example3`, `biacore-bme-allotropy-example4` |
-| `cytiva-biacore-bme` | field | `experiment.acquisition.started_at` | descriptive | 6 | 6 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
-| `cytiva-biacore-bme` | field | `experiment.instrument.model` | descriptive | 6 | 6 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
-| `cytiva-biacore-bme` | format_version | `result file 4` | metadata, tables, traces | 5 | 5 | `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3`, `biacore-bme-allotropy-example4` |
-| `cytiva-biacore-bme` | format_version | `result file 5` | metadata, tables, traces | 1 | 1 | `biacore-bme-allotropy-example1` |
-| `cytiva-biacore-bme` | record | `evaluation item AffinityScreen` | tables | 3 | 3 | `biacore-bme-allotropy-example1`, `biacore-bme-zenodo2548710-usp5-plate1`, `biacore-bme-zenodo3518127-usp5-fl` |
+| `cytiva-biacore-bme` | acquisition | `1 Hz` | traces | 2 | 2 | `biacore-bme-allotropy-example2`, `zenodo5036545-bme-bclxl` |
+| `cytiva-biacore-bme` | acquisition | `10 Hz` | traces | 6 | 6 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example3`, `biacore-bme-allotropy-example4` |
+| `cytiva-biacore-bme` | field | `experiment.acquisition.started_at` | descriptive | 8 | 8 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
+| `cytiva-biacore-bme` | field | `experiment.instrument.model` | descriptive | 8 | 8 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
+| `cytiva-biacore-bme` | format_version | `result file 4` | metadata, tables, traces | 6 | 6 | `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3`, `biacore-bme-allotropy-example4` |
+| `cytiva-biacore-bme` | format_version | `result file 5` | metadata, tables, traces | 2 | 2 | `biacore-bme-allotropy-example1`, `zenodo5036545-bme-bclxl` |
+| `cytiva-biacore-bme` | record | `evaluation item AffinityScreen` | tables | 4 | 4 | `biacore-bme-allotropy-example1`, `biacore-bme-zenodo2548710-usp5-plate1`, `biacore-bme-zenodo3518127-usp5-fl` |
 | `cytiva-biacore-bme` | record | `evaluation item ConcentrationAnalysis` | tables | 1 | 1 | `biacore-bme-allotropy-example2` |
 | `cytiva-biacore-bme` | record | `evaluation item KineticScreen` | tables | 1 | 1 | `biacore-bme-allotropy-example1` |
 | `cytiva-biacore-bme` | record | `evaluation item KineticsAffinity` | tables | 2 | 2 | `biacore-bme-allotropy-example3`, `biacore-bme-allotropy-example4` |
-| `cytiva-biacore-bme` | record | `evaluation item Plot` | tables | 6 | 6 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
-| `cytiva-biacore-bme` | record | `evaluation item ReportPointTable` | tables | 6 | 6 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
-| `cytiva-biacore-bme` | record | `evaluation item Sensorgram` | tables | 6 | 6 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
-| `cytiva-biacore-bme` | record | `flow-cell curve (Segment)` | traces | 6 | 6 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
+| `cytiva-biacore-bme` | record | `evaluation item Plot` | tables | 8 | 8 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
+| `cytiva-biacore-bme` | record | `evaluation item ReportPointTable` | tables | 8 | 8 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
+| `cytiva-biacore-bme` | record | `evaluation item Sensorgram` | tables | 8 | 8 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
+| `cytiva-biacore-bme` | record | `flow-cell curve (Segment)` | traces | 8 | 8 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
 | `genepix-gpr` | format_version | `ATF 1.0 (GenePix Results 1.4)` | metadata, tables | 4 | 4 | `gpr-zenodo22128078-s1`, `gpr-zenodo22128078-s2`, `gpr-zenodo22128078-s3` |
 | `genepix-gpr` | format_version | `ATF 1.0 (GenePix Results 3)` | metadata, tables | 1 | 1 | `gpr-zenodo21015949-ab4` |
 | `genepix-gpr` | layout | `2 wavelengths` | tables | 1 | 1 | `gpr-zenodo21015949-ab4` |

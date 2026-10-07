@@ -36,7 +36,7 @@ Intan Technologies RHD2000 (`.rhd`) and RHS2000 (`.rhs`) recordings (`intan`). P
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `intan` | [format note](../../docs/formats/intan.md), [provenance log](../../docs/provenance/intan.md) | high | vendor docs | 12 / 12 | 3 | - |
+| `intan` | [format note](../../docs/formats/intan.md), [provenance log](../../docs/provenance/intan.md) | high | vendor docs | 17 / 17 | 3 | - |
 
 ### Source map
 
@@ -67,26 +67,26 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `intan` | acquisition | `board mode 0` | descriptive | 3 | 3 | `intan-rhd-test-1-rhd`, `intan-time-split-121054-rhd`, `zenodo13862969-marathon-ec39b8-data-240815-144702-rhd` |
-| `intan` | acquisition | `board mode 13` | descriptive | 4 | 4 | `intan-fpc-rhd-multistim-240514`, `intan-fps-rhd-231117`, `intan-test-tetrode-163225-rhd` |
-| `intan` | acquisition | `board mode 14` | descriptive | 5 | 5 | `intan-fpc-rhs-stim-250327`, `intan-fps-rhs-240329`, `intan-rhs-fpc-multistim-240514-082243-rhs` |
+| `intan` | acquisition | `board mode 0` | descriptive | 5 | 5 | `gin-ephy-testing-data-intan-one-file-per-signal-type-rhd`, `gin-ephy-testing-data-intan-time-split-with-digital-stream-time-split-with-digital-stream-240205-120954`, `intan-rhd-test-1-rhd` |
+| `intan` | acquisition | `board mode 13` | descriptive | 6 | 6 | `gin-ephy-testing-data-intan-one-file-per-channel-rhd`, `gin-ephy-testing-data-intan-test-tetrode-240502-162925-test-tetrode-240502-162925`, `intan-fpc-rhd-multistim-240514` |
+| `intan` | acquisition | `board mode 14` | descriptive | 6 | 6 | `gin-ephy-testing-data-intan-one-file-per-channel-rhs`, `intan-fpc-rhs-stim-250327`, `intan-fps-rhs-240329` |
 | `intan` | format_version | `1.0` | metadata, traces | 2 | 2 | `intan-rhs-stim-intantestfile-rhs`, `intan-rhs-test-1-rhs` |
 | `intan` | format_version | `1.5` | metadata, traces | 1 | 1 | `intan-rhd-test-1-rhd` |
-| `intan` | format_version | `3.0` | metadata, traces | 1 | 1 | `zenodo22180105-0305-a-230112-200648-rhd` |
-| `intan` | format_version | `3.3` | metadata, traces | 8 | 8 | `intan-fpc-rhd-multistim-240514`, `intan-fpc-rhs-stim-250327`, `intan-fps-rhd-231117` |
-| `intan` | instrument | `rhd2000` | traces | 7 | 7 | `intan-fpc-rhd-multistim-240514`, `intan-fps-rhd-231117`, `intan-rhd-test-1-rhd` |
-| `intan` | instrument | `rhs2000` | traces | 5 | 5 | `intan-fpc-rhs-stim-250327`, `intan-fps-rhs-240329`, `intan-rhs-fpc-multistim-240514-082243-rhs` |
-| `intan` | layout | `one_file_per_channel` | traces | 2 | 2 | `intan-fpc-rhd-multistim-240514`, `intan-fpc-rhs-stim-250327` |
-| `intan` | layout | `one_file_per_signal_type` | traces | 2 | 2 | `intan-fps-rhd-231117`, `intan-fps-rhs-240329` |
-| `intan` | layout | `traditional (one file)` | traces | 8 | 8 | `intan-rhd-test-1-rhd`, `intan-rhs-fpc-multistim-240514-082243-rhs`, `intan-rhs-stim-intantestfile-rhs` |
-| `intan` | record | `amplifier signal` | traces | 11 | 11 | `intan-fpc-rhd-multistim-240514`, `intan-fps-rhd-231117`, `intan-fps-rhs-240329` |
-| `intan` | record | `auxiliary signal` | traces | 4 | 4 | `intan-fpc-rhd-multistim-240514`, `intan-fps-rhd-231117`, `intan-time-split-121054-rhd` |
-| `intan` | record | `board_adc signal` | traces | 7 | 7 | `intan-fpc-rhd-multistim-240514`, `intan-fps-rhd-231117`, `intan-fps-rhs-240329` |
+| `intan` | format_version | `3.0` | metadata, traces | 2 | 2 | `gin-ephy-testing-data-intan-one-file-per-signal-type-rhd`, `zenodo22180105-0305-a-230112-200648-rhd` |
+| `intan` | format_version | `3.3` | metadata, traces | 12 | 12 | `gin-ephy-testing-data-intan-one-file-per-channel-rhd`, `gin-ephy-testing-data-intan-one-file-per-channel-rhs`, `gin-ephy-testing-data-intan-test-tetrode-240502-162925-test-tetrode-240502-162925` |
+| `intan` | instrument | `rhd2000` | traces | 11 | 11 | `gin-ephy-testing-data-intan-one-file-per-channel-rhd`, `gin-ephy-testing-data-intan-one-file-per-signal-type-rhd`, `gin-ephy-testing-data-intan-test-tetrode-240502-162925-test-tetrode-240502-162925` |
+| `intan` | instrument | `rhs2000` | traces | 6 | 6 | `gin-ephy-testing-data-intan-one-file-per-channel-rhs`, `intan-fpc-rhs-stim-250327`, `intan-fps-rhs-240329` |
+| `intan` | layout | `one_file_per_channel` | traces | 4 | 4 | `gin-ephy-testing-data-intan-one-file-per-channel-rhd`, `gin-ephy-testing-data-intan-one-file-per-channel-rhs`, `intan-fpc-rhd-multistim-240514` |
+| `intan` | layout | `one_file_per_signal_type` | traces | 3 | 3 | `gin-ephy-testing-data-intan-one-file-per-signal-type-rhd`, `intan-fps-rhd-231117`, `intan-fps-rhs-240329` |
+| `intan` | layout | `traditional (one file)` | traces | 10 | 10 | `gin-ephy-testing-data-intan-test-tetrode-240502-162925-test-tetrode-240502-162925`, `gin-ephy-testing-data-intan-time-split-with-digital-stream-time-split-with-digital-stream-240205-120954`, `intan-rhd-test-1-rhd` |
+| `intan` | record | `amplifier signal` | traces | 15 | 15 | `gin-ephy-testing-data-intan-one-file-per-channel-rhd`, `gin-ephy-testing-data-intan-one-file-per-signal-type-rhd`, `gin-ephy-testing-data-intan-test-tetrode-240502-162925-test-tetrode-240502-162925` |
+| `intan` | record | `auxiliary signal` | traces | 7 | 7 | `gin-ephy-testing-data-intan-one-file-per-channel-rhd`, `gin-ephy-testing-data-intan-one-file-per-signal-type-rhd`, `gin-ephy-testing-data-intan-time-split-with-digital-stream-time-split-with-digital-stream-240205-120954` |
+| `intan` | record | `board_adc signal` | traces | 9 | 9 | `gin-ephy-testing-data-intan-one-file-per-channel-rhd`, `gin-ephy-testing-data-intan-one-file-per-signal-type-rhd`, `intan-fpc-rhd-multistim-240514` |
 | `intan` | record | `board_dac signal` | traces | 4 | 4 | `intan-fps-rhs-240329`, `intan-rhs-fpc-multistim-240514-082243-rhs`, `intan-rhs-stim-intantestfile-rhs` |
-| `intan` | record | `dc_amplifier signal` | traces | 2 | 2 | `intan-fpc-rhs-stim-250327`, `intan-fps-rhs-240329` |
-| `intan` | record | `digital_in signal` | traces | 11 | 11 | `intan-fpc-rhd-multistim-240514`, `intan-fpc-rhs-stim-250327`, `intan-fps-rhd-231117` |
-| `intan` | record | `digital_out signal` | traces | 4 | 4 | `intan-fpc-rhd-multistim-240514`, `intan-fps-rhs-240329`, `intan-rhs-fpc-multistim-240514-082243-rhs` |
-| `intan` | record | `stimulation signal` | traces | 5 | 5 | `intan-fpc-rhs-stim-250327`, `intan-fps-rhs-240329`, `intan-rhs-fpc-multistim-240514-082243-rhs` |
+| `intan` | record | `dc_amplifier signal` | traces | 3 | 3 | `gin-ephy-testing-data-intan-one-file-per-channel-rhs`, `intan-fpc-rhs-stim-250327`, `intan-fps-rhs-240329` |
+| `intan` | record | `digital_in signal` | traces | 15 | 15 | `gin-ephy-testing-data-intan-one-file-per-channel-rhd`, `gin-ephy-testing-data-intan-one-file-per-channel-rhs`, `gin-ephy-testing-data-intan-one-file-per-signal-type-rhd` |
+| `intan` | record | `digital_out signal` | traces | 5 | 5 | `gin-ephy-testing-data-intan-one-file-per-signal-type-rhd`, `intan-fpc-rhd-multistim-240514`, `intan-fps-rhs-240329` |
+| `intan` | record | `stimulation signal` | traces | 6 | 6 | `gin-ephy-testing-data-intan-one-file-per-channel-rhs`, `intan-fpc-rhs-stim-250327`, `intan-fps-rhs-240329` |
 | `intan` | record | `supply signal` | traces | 1 | 1 | `intan-rhd-test-1-rhd` |
 
 ### Tests, fixtures, fuzz targets, snapshots

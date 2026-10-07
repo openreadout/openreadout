@@ -35,7 +35,7 @@ Neuralynx Cheetah/Pegasus files: NCS continuous channels, NEV events, NSE/NST/NT
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `neuralynx` | [format note](../../docs/formats/neuralynx.md), [provenance log](../../docs/provenance/neuralynx.md) | high | vendor docs | 22 / 22 | 3 | - |
+| `neuralynx` | [format note](../../docs/formats/neuralynx.md), [provenance log](../../docs/provenance/neuralynx.md) | high | vendor docs | 30 / 29 | 4 | - |
 
 ### Source map
 
@@ -64,25 +64,28 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `neuralynx` | field | `experiment.acquisition.started_at` | descriptive | 22 | 22 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `figshare25325560-events-nev` |
+| `neuralynx` | field | `experiment.acquisition.started_at` | descriptive | 29 | 29 | `figshare17136182-neuralynx-m1-129`, `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs` |
 | `neuralynx` | format_version | `3.1.0` | metadata, tables, traces | 1 | 1 | `zenodo4992158-events-nev` |
-| `neuralynx` | format_version | `3.2` | metadata, tables, traces | 3 | 3 | `figshare25325560-events-nev`, `nlx-cheetah-v5-7-4-events-nev`, `nlx-cheetah-v5-7-4-session` |
-| `neuralynx` | format_version | `3.3.0` | metadata, tables, traces | 4 | 4 | `figshare25325560-vt1-nvt`, `nlx-cheetah-v5-6-3-tt1-ntt`, `zenodo4992158-tt1-ntt` |
+| `neuralynx` | format_version | `3.2` | metadata, tables, traces | 5 | 6 | `figshare25325560-events-nev`, `gin-ephy-testing-data-neuralynx-cheetah-v6-3-2-incomplete-blocks-events`, `gin-ephy-testing-data-neuralynx-pegasus-v2-1-1-events-0008` |
+| `neuralynx` | format_version | `3.3.0` | metadata, tables, traces | 7 | 7 | `figshare25325560-vt1-nvt`, `gin-ephy-testing-data-neuralynx-cheetah-v1-1-0-original-data-csc67-trunc`, `gin-ephy-testing-data-neuralynx-cheetah-v5-6-3-original-data-csc1` |
 | `neuralynx` | format_version | `3.4` | metadata, tables, traces | 7 | 7 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `nlx-cheetah-v5-7-4-csc1-ncs` |
-| `neuralynx` | format_version | `no -FileVersion` | metadata, tables, traces | 8 | 8 | `nlx-bml-csc1-trunc-ncs`, `nlx-bml-unfilledsplit-ncs`, `nlx-cheetah-v4-0-2-csc14-trunc-ncs` |
+| `neuralynx` | format_version | `no -FileVersion` | metadata, tables, traces | 10 | 10 | `figshare17136182-neuralynx-m1-129`, `gin-ephy-testing-data-neuralynx-neuraview-v2-original-data-neuravieweventmarkers-sample`, `nlx-bml-csc1-trunc-ncs` |
 | `neuralynx` | instrument | `DigitalLynx` | descriptive | 1 | 1 | `nlx-cheetah-v5-4-0-csc5-trunc-ncs` |
-| `neuralynx` | instrument | `DigitalLynxSX` | descriptive | 6 | 6 | `nlx-cheetah-v5-5-1-session`, `nlx-cheetah-v5-5-1-stet3a-nse`, `nlx-cheetah-v5-5-1-tet3a-ncs` |
-| `neuralynx` | layout | `segmented by every record timestamp` | traces | 8 | 8 | `nlx-bml-unfilledsplit-ncs`, `nlx-cheetah-v4-0-2-csc14-trunc-ncs`, `nlx-cheetah-v5-5-1-session` |
-| `neuralynx` | layout | `segmented by first and last record (one gap-free run…` | traces | 6 | 6 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `nlx-bml-csc1-trunc-ncs` |
-| `neuralynx` | record | `ncs` | traces | 13 | 13 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `nlx-bml-csc1-trunc-ncs` |
-| `neuralynx` | record | `nev` | tables | 6 | 6 | `figshare25325560-events-nev`, `nlx-cheetah-v5-5-1-events-nev`, `nlx-cheetah-v5-5-1-session` |
+| `neuralynx` | instrument | `DigitalLynxSX` | descriptive | 9 | 9 | `gin-ephy-testing-data-neuralynx-cheetah-v1-1-0-original-data-csc67-trunc`, `gin-ephy-testing-data-neuralynx-cheetah-v5-6-3-original-data-csc1`, `gin-ephy-testing-data-neuralynx-cheetah-v5-6-3-original-data-tt2` |
+| `neuralynx` | layout | `segmented by every record timestamp` | traces | 9 | 9 | `gin-ephy-testing-data-neuralynx-cheetah-v5-6-3-original-data-csc1`, `nlx-bml-unfilledsplit-ncs`, `nlx-cheetah-v4-0-2-csc14-trunc-ncs` |
+| `neuralynx` | layout | `segmented by first and last record (one gap-free run…` | traces | 7 | 7 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `gin-ephy-testing-data-neuralynx-cheetah-v1-1-0-original-data-csc67-trunc` |
+| `neuralynx` | record | `ncs` | traces | 15 | 15 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `gin-ephy-testing-data-neuralynx-cheetah-v1-1-0-original-data-csc67-trunc` |
+| `neuralynx` | record | `nev` | tables | 10 | 11 | `figshare17136182-neuralynx-m1-129`, `figshare25325560-events-nev`, `gin-ephy-testing-data-neuralynx-cheetah-v6-3-2-incomplete-blocks-events` |
 | `neuralynx` | record | `nse` | tables | 2 | 2 | `nlx-cheetah-v5-5-1-session`, `nlx-cheetah-v5-5-1-stet3a-nse` |
-| `neuralynx` | record | `ntt` | tables | 3 | 3 | `nlx-cheetah-v5-6-3-tt1-ntt`, `zenodo4992158-tt1-ntt`, `zenodo4992158-tt14-ntt` |
+| `neuralynx` | record | `ntt` | tables | 4 | 4 | `gin-ephy-testing-data-neuralynx-cheetah-v5-6-3-original-data-tt2`, `nlx-cheetah-v5-6-3-tt1-ntt`, `zenodo4992158-tt1-ntt` |
 | `neuralynx` | record | `nvt` | tables | 1 | 1 | `figshare25325560-vt1-nvt` |
-| `neuralynx` | writer | `Cheetah` | descriptive | 20 | 20 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `figshare25325560-events-nev` |
+| `neuralynx` | writer | `Cheetah` | descriptive | 25 | 25 | `figshare17136182-neuralynx-m1-129`, `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs` |
+| `neuralynx` | writer | `Pegasus` | descriptive | 1 | 2 | `gin-ephy-testing-data-neuralynx-pegasus-v2-1-1-events-0008` |
+| `neuralynx` | writer_version | `Cheetah 1` | descriptive | 1 | 1 | `gin-ephy-testing-data-neuralynx-cheetah-v1-1-0-original-data-csc67-trunc` |
 | `neuralynx` | writer_version | `Cheetah 4` | descriptive | 1 | 1 | `nlx-cheetah-v4-0-2-csc14-trunc-ncs` |
-| `neuralynx` | writer_version | `Cheetah 5` | descriptive | 12 | 12 | `nlx-cheetah-v5-4-0-csc5-trunc-ncs`, `nlx-cheetah-v5-5-1-events-nev`, `nlx-cheetah-v5-5-1-session` |
-| `neuralynx` | writer_version | `Cheetah 6` | descriptive | 7 | 7 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `figshare25325560-events-nev` |
+| `neuralynx` | writer_version | `Cheetah 5` | descriptive | 15 | 15 | `figshare17136182-neuralynx-m1-129`, `gin-ephy-testing-data-neuralynx-cheetah-v5-6-3-original-data-csc1`, `gin-ephy-testing-data-neuralynx-cheetah-v5-6-3-original-data-tt2` |
+| `neuralynx` | writer_version | `Cheetah 6` | descriptive | 8 | 8 | `figshare25325560-csc12-ncs`, `figshare25325560-csc37-ncs`, `figshare25325560-events-nev` |
+| `neuralynx` | writer_version | `Pegasus 2` | descriptive | 1 | 2 | `gin-ephy-testing-data-neuralynx-pegasus-v2-1-1-events-0008` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 

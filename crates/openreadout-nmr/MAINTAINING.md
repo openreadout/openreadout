@@ -45,10 +45,10 @@ Shared: `text.rs` (ASCII in principle, UTF-8 or Latin-1 in practice). NMR proces
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bruker-nmr` | [format note](../../docs/formats/bruker-nmr.md), [provenance log](../../docs/provenance/bruker-nmr.md) | high | prior art | 50 / 50 | 25 | 4 / 0 |
-| `jcamp-dx` | [format note](../../docs/formats/jcamp-dx.md), [provenance log](../../docs/provenance/jcamp-dx.md) | high | open spec | 22 / 21 | 4 | 1 / 0 |
-| `varian-nmr` | [format note](../../docs/formats/varian-nmr.md), [provenance log](../../docs/provenance/varian-nmr.md) | high | prior art | 12 / 12 | 6 | 1 / 0 |
-| `jeol-jdf` | [format note](../../docs/formats/jeol-jdf.md), [provenance log](../../docs/provenance/jeol-jdf.md) | high | prior art | 14 / 14 | 8 | 2 / 0 |
+| `bruker-nmr` | [format note](../../docs/formats/bruker-nmr.md), [provenance log](../../docs/provenance/bruker-nmr.md) | high | prior art | 62 / 61 | 35 | 4 / 0 |
+| `jcamp-dx` | [format note](../../docs/formats/jcamp-dx.md), [provenance log](../../docs/provenance/jcamp-dx.md) | high | open spec | 33 / 32 | 13 | 1 / 0 |
+| `varian-nmr` | [format note](../../docs/formats/varian-nmr.md), [provenance log](../../docs/provenance/varian-nmr.md) | high | prior art | 13 / 13 | 7 | 1 / 0 |
+| `jeol-jdf` | [format note](../../docs/formats/jeol-jdf.md), [provenance log](../../docs/provenance/jeol-jdf.md) | high | prior art | 25 / 25 | 18 | 2 / 0 |
 | `magritek-spinsolve` | [format note](../../docs/formats/magritek-spinsolve.md), [provenance log](../../docs/provenance/magritek-spinsolve.md) | medium | prior art | 26 / 26 | 2 | - |
 
 ### Source map
@@ -114,88 +114,88 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bruker-nmr` | acquisition | `2D` | traces | 5 | 5 | `nmrglue-bruker-2d`, `nmrglue-bruker-3d`, `nmrxiv-s501-6` |
+| `bruker-nmr` | acquisition | `2D` | traces | 13 | 14 | `nmrglue-bruker-2d`, `nmrglue-bruker-3d`, `nmrxiv-s1407-hsqc-neo600-ts414` |
 | `bruker-nmr` | acquisition | `AQ_mod 1` | traces | 4 | 4 | `nmrxiv-s1132-2`, `nmrxiv-s1247-15`, `nmrxiv-s596-1` |
-| `bruker-nmr` | acquisition | `AQ_mod 3` | traces | 46 | 46 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
-| `bruker-nmr` | acquisition | `encoding Echo-Antiecho` | traces | 1 | 1 | `nmrxiv-s837-21` |
-| `bruker-nmr` | acquisition | `encoding States-TPPI` | traces | 2 | 2 | `nmrxiv-s501-6`, `nmrxiv-s837-24` |
-| `bruker-nmr` | acquisition | `encoding undefined` | traces | 2 | 2 | `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
-| `bruker-nmr` | acquisition | `non-uniform sampling` | traces | 1 | 1 | `nmrxiv-s837-21` |
-| `bruker-nmr` | field | `experiment.acquisition.started_at` | descriptive | 50 | 50 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
-| `bruker-nmr` | field | `experiment.instrument.model` | descriptive | 13 | 13 | `nmrxiv-s1439-1h-nmr`, `nmrxiv-s1462-13c-nmr`, `nmrxiv-s1462-1h-nmr` |
-| `bruker-nmr` | layout | `fid` | traces | 45 | 45 | `nmrglue-bruker-1d`, `nmrxiv-s1082-80`, `nmrxiv-s1082-81` |
-| `bruker-nmr` | layout | `ser` | traces | 5 | 5 | `nmrglue-bruker-2d`, `nmrglue-bruker-3d`, `nmrxiv-s501-6` |
-| `bruker-nmr` | record | `group delay from DSPFVS/DECIM table` | descriptive | 6 | 6 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
-| `bruker-nmr` | record | `group delay from GRPDLY` | descriptive | 44 | 44 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
-| `bruker-nmr` | record | `processed_spectrum` | traces | 44 | 44 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
-| `bruker-nmr` | record | `time_domain` | traces | 50 | 50 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
-| `bruker-nmr` | sample_layout | `big-endian` | traces | 6 | 6 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
-| `bruker-nmr` | sample_layout | `float64` | traces | 8 | 8 | `nmrxiv-s275-1`, `nmrxiv-s275-13`, `nmrxiv-s702-1` |
-| `bruker-nmr` | sample_layout | `int32` | traces | 50 | 50 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
-| `bruker-nmr` | sample_layout | `little-endian` | traces | 47 | 47 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
-| `bruker-nmr` | writer | `TopSpin` | metadata, traces | 47 | 47 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
+| `bruker-nmr` | acquisition | `AQ_mod 3` | traces | 57 | 58 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
+| `bruker-nmr` | acquisition | `encoding Echo-Antiecho` | traces | 4 | 5 | `nmrxiv-s1407-hsqc-neo600-ts414`, `nmrxiv-s1617-hsqc-600-ts420`, `nmrxiv-s572-hsqc-stbhome600-ts35` |
+| `bruker-nmr` | acquisition | `encoding QF` | traces | 2 | 2 | `nmrxiv-s1517-hmqc-av600neo-ts440`, `nmrxiv-s519-dosy-400-ts35pl7` |
+| `bruker-nmr` | acquisition | `encoding States-TPPI` | traces | 4 | 4 | `nmrxiv-s2331-noesy-neo600cryo-ts450`, `nmrxiv-s314-roesy-500-ts411`, `nmrxiv-s501-6` |
+| `bruker-nmr` | acquisition | `encoding undefined` | traces | 3 | 3 | `nmrglue-bruker-2d`, `nmrglue-bruker-3d`, `nmrxiv-s1608-rpdlf-mas-ts363` |
+| `bruker-nmr` | acquisition | `non-uniform sampling` | traces | 3 | 3 | `nmrxiv-s1407-hsqc-neo600-ts414`, `nmrxiv-s1517-hmqc-av600neo-ts440`, `nmrxiv-s837-21` |
+| `bruker-nmr` | field | `experiment.acquisition.started_at` | descriptive | 61 | 62 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
+| `bruker-nmr` | field | `experiment.instrument.model` | descriptive | 18 | 18 | `nmrxiv-s1407-hsqc-neo600-ts414`, `nmrxiv-s1439-1h-nmr`, `nmrxiv-s1462-13c-nmr` |
+| `bruker-nmr` | layout | `fid` | traces | 48 | 48 | `nmrglue-bruker-1d`, `nmrxiv-s1082-80`, `nmrxiv-s1082-81` |
+| `bruker-nmr` | layout | `ser` | traces | 13 | 14 | `nmrglue-bruker-2d`, `nmrglue-bruker-3d`, `nmrxiv-s1407-hsqc-neo600-ts414` |
+| `bruker-nmr` | record | `group delay from DSPFVS/DECIM table` | descriptive | 7 | 7 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
+| `bruker-nmr` | record | `group delay from GRPDLY` | descriptive | 54 | 55 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
+| `bruker-nmr` | record | `processed_spectrum` | traces | 54 | 55 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
+| `bruker-nmr` | record | `time_domain` | traces | 61 | 62 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
+| `bruker-nmr` | sample_layout | `big-endian` | traces | 7 | 7 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
+| `bruker-nmr` | sample_layout | `float64` | traces | 10 | 10 | `nmrxiv-s1617-hsqc-600-ts420`, `nmrxiv-s2331-noesy-neo600cryo-ts450`, `nmrxiv-s275-1` |
+| `bruker-nmr` | sample_layout | `int32` | traces | 61 | 62 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
+| `bruker-nmr` | sample_layout | `little-endian` | traces | 58 | 59 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
+| `bruker-nmr` | writer | `TopSpin` | metadata, traces | 58 | 59 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
 | `bruker-nmr` | writer | `XWIN-NMR` | metadata, traces | 3 | 3 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
 | `bruker-nmr` | writer_version | `TopSpin 1` | descriptive | 2 | 2 | `nmrxiv-s596-1`, `nmrxiv-s597-1` |
 | `bruker-nmr` | writer_version | `TopSpin 2` | descriptive | 9 | 9 | `nmrxiv-s1132-2`, `nmrxiv-s1250-1`, `nmrxiv-s1250-2` |
-| `bruker-nmr` | writer_version | `TopSpin 3` | descriptive | 27 | 27 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
-| `bruker-nmr` | writer_version | `TopSpin 4` | descriptive | 9 | 9 | `nmrxiv-s275-1`, `nmrxiv-s275-13`, `nmrxiv-s702-1` |
+| `bruker-nmr` | writer_version | `TopSpin 3` | descriptive | 33 | 34 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
+| `bruker-nmr` | writer_version | `TopSpin 4` | descriptive | 14 | 14 | `nmrxiv-s1407-hsqc-neo600-ts414`, `nmrxiv-s1517-hmqc-av600neo-ts440`, `nmrxiv-s1617-hsqc-600-ts420` |
 | `bruker-nmr` | writer_version | `XWIN-NMR 3` | descriptive | 3 | 3 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
 | `jcamp-dx` | acquisition | `CONTINUOUS MASS SPECTRUM` | traces | 0 | 1 |  |
-| `jcamp-dx` | acquisition | `INFRARED SPECTRUM` | traces | 5 | 5 | `jcamp-isas-pe1800`, `jcamp-isas-specfile`, `jcamp-lancashire-compound` |
-| `jcamp-dx` | acquisition | `MASS SPECTRUM` | traces | 2 | 3 | `jcamp-isas-ms1`, `jcamp-lancashire-pktab1` |
-| `jcamp-dx` | acquisition | `ND NMR SPECTRUM` | traces | 0 | 1 |  |
+| `jcamp-dx` | acquisition | `INFRARED SPECTRUM` | traces | 6 | 6 | `jcamp-isas-pe1800`, `jcamp-isas-specfile`, `jcamp-lancashire-compound` |
+| `jcamp-dx` | acquisition | `MASS SPECTRUM` | traces | 2 | 4 | `jcamp-isas-ms1`, `jcamp-lancashire-pktab1` |
+| `jcamp-dx` | acquisition | `ND NMR SPECTRUM` | traces | 0 | 4 |  |
 | `jcamp-dx` | acquisition | `NMR FID` | traces | 1 | 1 | `jcamp-isas-testfid` |
-| `jcamp-dx` | acquisition | `NMR SPECTRUM` | traces | 8 | 9 | `jcamp-isas-brukaffn`, `jcamp-isas-brukdif`, `jcamp-isas-brukntup` |
+| `jcamp-dx` | acquisition | `NMR PEAK TABLE` | traces | 1 | 1 | `figshare31378627-11b-jdx` |
+| `jcamp-dx` | acquisition | `NMR SPECTRUM` | traces | 13 | 14 | `figshare31378627-11b-jdx`, `figshare31378627-1h-jdx`, `figshare31378627-29si-jdx` |
+| `jcamp-dx` | acquisition | `NMRPEAKTABLE` | traces | 1 | 1 | `nmrxiv-s1169-1f-hc-jcamp` |
+| `jcamp-dx` | acquisition | `NMRSPECTRUM` | traces | 1 | 1 | `nmrxiv-s1169-1f-hc-jcamp` |
 | `jcamp-dx` | acquisition | `UV-VISIBLE SPECTRUM` | traces | 1 | 1 | `jcamp-lancashire-dupinc1` |
 | `jcamp-dx` | acquisition | `UV/VIS SPECTRUM` | traces | 1 | 1 | `jcamp-lancashire-blckpac1` |
-| `jcamp-dx` | field | `experiment.acquisition.started_at` | descriptive | 3 | 3 | `nmrxiv-s200-hsqc`, `nmrxiv-s200-qhnmr`, `zenodo5374178-menthol-jdx` |
+| `jcamp-dx` | field | `experiment.acquisition.started_at` | descriptive | 8 | 8 | `figshare31378627-11b-jdx`, `figshare31378627-1h-jdx`, `figshare31378627-29si-jdx` |
 | `jcamp-dx` | field | `experiment.instrument.model` | descriptive | 17 | 18 | `jcamp-isas-brukaffn`, `jcamp-isas-brukdif`, `jcamp-isas-brukntup` |
-| `jcamp-dx` | format_version | `4.24` | metadata, traces | 8 | 8 | `jcamp-isas-pe1800`, `jcamp-isas-specfile`, `jcamp-lancashire-blckpac1` |
+| `jcamp-dx` | format_version | `4.24` | metadata, traces | 9 | 9 | `jcamp-isas-pe1800`, `jcamp-isas-specfile`, `jcamp-lancashire-blckpac1` |
 | `jcamp-dx` | format_version | `5` | metadata, traces | 1 | 1 | `jcamp-lancashire-pktab1` |
 | `jcamp-dx` | format_version | `5.0` | metadata, traces | 6 | 6 | `jcamp-isas-brukaffn`, `jcamp-isas-brukdif`, `jcamp-isas-brukntup` |
 | `jcamp-dx` | format_version | `5.00` | metadata, traces | 3 | 4 | `jcamp-isas-ms1`, `jcamp-isas-ms2`, `jcamp-isas-testfid` |
-| `jcamp-dx` | format_version | `6.0` | metadata, traces | 3 | 3 | `nmrxiv-s200-hsqc`, `nmrxiv-s200-qhnmr`, `zenodo5374178-menthol-jdx` |
-| `jcamp-dx` | layout | `ntuples` | traces | 2 | 4 | `jcamp-isas-brukntup`, `jcamp-isas-testfid` |
-| `jcamp-dx` | layout | `peak_table` | traces | 2 | 3 | `jcamp-isas-ms1`, `jcamp-lancashire-pktab1` |
-| `jcamp-dx` | layout | `xydata` | traces | 14 | 15 | `jcamp-isas-brukaffn`, `jcamp-isas-brukdif`, `jcamp-isas-brukpac` |
-| `jeol-jdf` | acquisition | `2D` | traces | 3 | 3 | `nmrxiv-s200-cosy-jdf`, `nmrxiv-s200-hmbc-jdf`, `nmrxiv-s200-hsqc-jdf` |
-| `jeol-jdf` | acquisition | `encoding complex` | traces | 2 | 2 | `nmrxiv-s200-hmbc-jdf`, `nmrxiv-s200-hsqc-jdf` |
-| `jeol-jdf` | acquisition | `encoding real_complex` | traces | 1 | 1 | `nmrxiv-s200-cosy-jdf` |
-| `jeol-jdf` | field | `experiment.acquisition.started_at` | descriptive | 14 | 14 | `nmrxiv-s1243-esinica`, `nmrxiv-s200-13c-jdf`, `nmrxiv-s200-cosy-jdf` |
-| `jeol-jdf` | field | `experiment.instrument.model` | descriptive | 13 | 13 | `nmrxiv-s1243-esinica`, `nmrxiv-s200-13c-jdf`, `nmrxiv-s200-cosy-jdf` |
-| `jeol-jdf` | format_version | `JDF 1.1` | metadata, traces | 2 | 2 | `zenodo5223412-13c-2a-jdf`, `zenodo5223412-1h-3b-jdf` |
-| `jeol-jdf` | format_version | `JDF 1.2` | metadata, traces | 12 | 12 | `nmrxiv-s1243-esinica`, `nmrxiv-s200-13c-jdf`, `nmrxiv-s200-cosy-jdf` |
+| `jcamp-dx` | format_version | `5.01` | metadata, traces | 1 | 1 | `zenodo15320476-lichen-hyt-1` |
+| `jcamp-dx` | format_version | `6.0` | metadata, traces | 12 | 12 | `figshare31378627-11b-jdx`, `figshare31378627-1h-jdx`, `figshare31378627-29si-jdx` |
+| `jcamp-dx` | layout | `ntuples` | traces | 4 | 9 | `jcamp-isas-brukntup`, `jcamp-isas-testfid`, `nmrxiv-s70-dept135-dx` |
+| `jcamp-dx` | layout | `peak_table` | traces | 4 | 6 | `figshare31378627-11b-jdx`, `jcamp-isas-ms1`, `jcamp-lancashire-pktab1` |
+| `jcamp-dx` | layout | `xydata` | traces | 19 | 20 | `figshare31378627-11b-jdx`, `figshare31378627-1h-jdx`, `figshare31378627-29si-jdx` |
+| `jeol-jdf` | acquisition | `2D` | traces | 5 | 5 | `figshare29098781-hmbc`, `nmrxiv-s200-cosy-jdf`, `nmrxiv-s200-hmbc-jdf` |
+| `jeol-jdf` | acquisition | `encoding complex` | traces | 3 | 3 | `nmrxiv-s200-hmbc-jdf`, `nmrxiv-s200-hsqc-jdf`, `zenodo19692590-discomycin-hsqc` |
+| `jeol-jdf` | acquisition | `encoding real_complex` | traces | 2 | 2 | `figshare29098781-hmbc`, `nmrxiv-s200-cosy-jdf` |
+| `jeol-jdf` | field | `experiment.acquisition.started_at` | descriptive | 25 | 25 | `figshare22587166-standar-carbon`, `figshare26331607-50-dmso-13c`, `figshare29098781-hmbc` |
+| `jeol-jdf` | field | `experiment.instrument.model` | descriptive | 19 | 19 | `nmrxiv-s1243-esinica`, `nmrxiv-s1641-1h-jdf`, `nmrxiv-s200-13c-jdf` |
+| `jeol-jdf` | format_version | `JDF 1.1` | metadata, traces | 3 | 3 | `figshare26331607-50-dmso-13c`, `zenodo5223412-13c-2a-jdf`, `zenodo5223412-1h-3b-jdf` |
+| `jeol-jdf` | format_version | `JDF 1.2` | metadata, traces | 22 | 22 | `figshare22587166-standar-carbon`, `figshare29098781-hmbc`, `figshare31112728-benalu-proton` |
 | `jeol-jdf` | instrument | `JNM-ECX400` | descriptive | 2 | 2 | `zenodo5223412-13c-2a-jdf`, `zenodo5223412-1h-3b-jdf` |
-| `jeol-jdf` | instrument | `JNM-ECZ400S/L1` | descriptive | 6 | 6 | `nmrxiv-s200-13c-jdf`, `nmrxiv-s200-cosy-jdf`, `nmrxiv-s200-hmbc-jdf` |
+| `jeol-jdf` | instrument | `JNM-ECX500` | descriptive | 1 | 1 | `zenodo21792170-p11-proton` |
+| `jeol-jdf` | instrument | `JNM-ECZ400S/L1` | descriptive | 7 | 7 | `nmrxiv-s200-13c-jdf`, `nmrxiv-s200-cosy-jdf`, `nmrxiv-s200-hmbc-jdf` |
 | `jeol-jdf` | instrument | `JNM-ECZ500R/M1` | descriptive | 3 | 3 | `nmrxiv-s1243-esinica`, `nmrxiv-s908-aihe0`, `nmrxiv-s908-zgig30` |
+| `jeol-jdf` | instrument | `JNM-ECZ500R/S1` | descriptive | 2 | 2 | `nmrxiv-s1641-1h-jdf`, `zenodo10463168-pn3-1h` |
+| `jeol-jdf` | instrument | `JNM-ECZ600R/S1` | descriptive | 2 | 2 | `zenodo19692590-discomycin-carbon`, `zenodo19692590-discomycin-hsqc` |
 | `jeol-jdf` | instrument | `NM-70020R4S1` | descriptive | 1 | 1 | `zenodo15045202-gk-ia-mbba-proton-ft-jdf` |
 | `jeol-jdf` | instrument | `NM-70050G4` | descriptive | 1 | 1 | `zenodo15473381-o-1-1-200-scans-proton-jdf` |
-| `jeol-jdf` | layout | `one_d` | traces | 11 | 11 | `nmrxiv-s1243-esinica`, `nmrxiv-s200-13c-jdf`, `nmrxiv-s200-qhnmr-jdf` |
-| `jeol-jdf` | layout | `two_d` | traces | 3 | 3 | `nmrxiv-s200-cosy-jdf`, `nmrxiv-s200-hmbc-jdf`, `nmrxiv-s200-hsqc-jdf` |
-| `jeol-jdf` | record | `processed_spectrum` | traces | 3 | 3 | `nmrxiv-s908-aihe0`, `nmrxiv-s908-zgig30`, `zenodo15045202-gk-ia-mbba-proton-ft-jdf` |
-| `jeol-jdf` | record | `time_domain` | traces | 11 | 11 | `nmrxiv-s1243-esinica`, `nmrxiv-s200-13c-jdf`, `nmrxiv-s200-cosy-jdf` |
-| `jeol-jdf` | sample_layout | `axis complex` | traces | 13 | 13 | `nmrxiv-s1243-esinica`, `nmrxiv-s200-13c-jdf`, `nmrxiv-s200-hmbc-jdf` |
-| `jeol-jdf` | sample_layout | `axis real_complex` | traces | 1 | 1 | `nmrxiv-s200-cosy-jdf` |
-| `jeol-jdf` | sample_layout | `float64` | traces | 14 | 14 | `nmrxiv-s1243-esinica`, `nmrxiv-s200-13c-jdf`, `nmrxiv-s200-cosy-jdf` |
-| `jeol-jdf` | writer_version | `Delta 4` | descriptive | 2 | 2 | `zenodo5223412-13c-2a-jdf`, `zenodo5223412-1h-3b-jdf` |
-| `jeol-jdf` | writer_version | `Delta 5` | descriptive | 6 | 6 | `nmrxiv-s1243-esinica`, `nmrxiv-s200-13c-jdf`, `nmrxiv-s200-cosy-jdf` |
-| `jeol-jdf` | writer_version | `Delta 6` | descriptive | 6 | 6 | `nmrxiv-s908-aihe0`, `nmrxiv-s908-zgig30`, `zenodo10621204-compound3-1h-jdf` |
+| `jeol-jdf` | layout | `one_d` | traces | 20 | 20 | `figshare22587166-standar-carbon`, `figshare26331607-50-dmso-13c`, `figshare31112728-benalu-proton` |
+| `jeol-jdf` | layout | `two_d` | traces | 5 | 5 | `figshare29098781-hmbc`, `nmrxiv-s200-cosy-jdf`, `nmrxiv-s200-hmbc-jdf` |
+| `jeol-jdf` | record | `processed_spectrum` | traces | 5 | 5 | `figshare22587166-standar-carbon`, `nmrxiv-s908-aihe0`, `nmrxiv-s908-zgig30` |
+| `jeol-jdf` | record | `time_domain` | traces | 20 | 20 | `figshare26331607-50-dmso-13c`, `figshare29098781-hmbc`, `figshare31112728-benalu-proton` |
+| `jeol-jdf` | sample_layout | `axis complex` | traces | 22 | 22 | `figshare22587166-standar-carbon`, `figshare26331607-50-dmso-13c`, `figshare31112728-benalu-proton` |
+| `jeol-jdf` | sample_layout | `axis real` | traces | 1 | 1 | `zenodo17507756-dpfgse-0h` |
+| `jeol-jdf` | sample_layout | `axis real_complex` | traces | 2 | 2 | `figshare29098781-hmbc`, `nmrxiv-s200-cosy-jdf` |
+| `jeol-jdf` | sample_layout | `float64` | traces | 25 | 25 | `figshare22587166-standar-carbon`, `figshare26331607-50-dmso-13c`, `figshare29098781-hmbc` |
+| `jeol-jdf` | writer_version | `Delta 4` | descriptive | 3 | 3 | `figshare26331607-50-dmso-13c`, `zenodo5223412-13c-2a-jdf`, `zenodo5223412-1h-3b-jdf` |
+| `jeol-jdf` | writer_version | `Delta 5` | descriptive | 10 | 10 | `nmrxiv-s1243-esinica`, `nmrxiv-s1641-1h-jdf`, `nmrxiv-s200-13c-jdf` |
+| `jeol-jdf` | writer_version | `Delta 6` | descriptive | 9 | 9 | `nmrxiv-s908-aihe0`, `nmrxiv-s908-zgig30`, `zenodo10463168-pn3-1h` |
 | `magritek-spinsolve` | field | `experiment.acquisition.started_at` | descriptive | 26 | 26 | `spinsolve-zenodo15131439-20dec-s1-241220-102617`, `spinsolve-zenodo15131439-20dec-s1-241220-104521`, `spinsolve-zenodo15131439-20dec-s2-241220-112656` |
 | `magritek-spinsolve` | field | `experiment.instrument.model` | descriptive | 24 | 24 | `spinsolve-zenodo15131439-20dec-s1-241220-102617`, `spinsolve-zenodo15131439-20dec-s1-241220-104521`, `spinsolve-zenodo15131439-20dec-s2-241220-112656` |
 | `magritek-spinsolve` | instrument | `C43` | descriptive | 10 | 10 | `spinsolve-zenodo15131439-20dec-s1-241220-102617`, `spinsolve-zenodo15131439-20dec-s1-241220-104521`, `spinsolve-zenodo15131439-20dec-s2-241220-112656` |
 | `magritek-spinsolve` | instrument | `C60Ultra` | descriptive | 10 | 10 | `spinsolve-zenodo20597567-250606-151948-slic`, `spinsolve-zenodo20597567-250610-125455-t1`, `spinsolve-zenodo20597567-250701-174641-slic` |
 | `magritek-spinsolve` | instrument | `C80Ultra` | descriptive | 3 | 3 | `spinsolveproc-proton`, `spinsolveproc-t1`, `spinsolveproc-t2` |
-| `magritek-spinsolve` | instrument | `P60Grad` | descriptive | 1 | 1 | `spinsolveproc-pgste` |
-| `magritek-spinsolve` | layout | `1d` | traces | 14 | 14 | `spinsolve-zenodo15131439-20dec-s1-241220-102617`, `spinsolve-zenodo15131439-20dec-s1-241220-104521`, `spinsolve-zenodo15131439-20dec-s2-241220-112656` |
-| `magritek-spinsolve` | layout | `2d` | traces | 13 | 13 | `spinsolve-zenodo20597567-250606-151948-slic`, `spinsolve-zenodo20597567-250610-125455-t1`, `spinsolve-zenodo20597567-250701-174641-slic` |
-| `magritek-spinsolve` | record | `spectrum` | traces | 1 | 1 | `spinsolveproc-pgste` |
-| `magritek-spinsolve` | record | `time_domain` | traces | 24 | 24 | `spinsolve-zenodo15131439-20dec-s1-241220-102617`, `spinsolve-zenodo15131439-20dec-s1-241220-104521`, `spinsolve-zenodo15131439-20dec-s2-241220-112656` |
-| `magritek-spinsolve` | sample_layout | `data type 501` | traces | 24 | 24 | `spinsolve-zenodo15131439-20dec-s1-241220-102617`, `spinsolve-zenodo15131439-20dec-s1-241220-104521`, `spinsolve-zenodo15131439-20dec-s2-241220-112656` |
-| `magritek-spinsolve` | sample_layout | `data type 503` | traces | 1 | 1 | `spinsolveproc-pgste` |
-| `magritek-spinsolve` | sample_layout | `data type 504` | traces | 3 | 3 | `spinsolveproc-pgste`, `spinsolveproc-proton`, `spinsolveproc-t2bulk` |
-| `magritek-spinsolve` | writer_version | `Spinsolve 1.41` | descriptive | 3 | 3 | `spinsolveproc-proton`, `spinsolveproc-t1`, `spinsolveproc-t2` |
 
-… 17 more values: the generated table in `src/assurance.rs` has all of them.
+… 26 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 

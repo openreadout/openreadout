@@ -37,7 +37,7 @@ Blackrock Neurotech NSx continuous files and NEV event files (`blackrock`). Proj
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `blackrock` | [format note](../../docs/formats/blackrock.md), [provenance log](../../docs/provenance/blackrock.md) | high | vendor docs | 15 / 14 | 3 | - |
+| `blackrock` | [format note](../../docs/formats/blackrock.md), [provenance log](../../docs/provenance/blackrock.md) | high | vendor docs | 24 / 21 | 5 | - |
 
 ### Source map
 
@@ -68,20 +68,20 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `blackrock` | format_version | `NEV 2.1` | metadata, tables | 3 | 3 | `brk-2-1-l101210-001-nev`, `brk-2-1-session`, `zenodo344634-spankyutah020-nev` |
-| `blackrock` | format_version | `NEV 2.3` | metadata, tables | 3 | 3 | `brk-filespec2-3001-nev`, `brk-pause-correct-nev`, `zenodo5039601-v118-cohousing002-nev` |
-| `blackrock` | format_version | `NEV 3.0` | metadata, tables | 2 | 2 | `brk-3-0-session`, `brk-file-spec-3-0-nev` |
-| `blackrock` | format_version | `NSx 2.1` | metadata, traces | 2 | 3 | `brk-2-1-l101210-001-ns2`, `brk-2-1-session` |
-| `blackrock` | format_version | `NSx 2.2/2.3` | metadata, traces | 3 | 3 | `brk-filespec2-3001-ns5`, `brk-pause-correct-ns2`, `brk-reset-ns2` |
-| `blackrock` | format_version | `NSx 3.0` | metadata, traces | 3 | 3 | `brk-3-0-session`, `brk-file-spec-3-0-ns6`, `brk-ptp-20231027-125608-001-ns2` |
-| `blackrock` | layout | `PTP timestamps` | traces | 1 | 1 | `brk-ptp-20231027-125608-001-ns2` |
-| `blackrock` | layout | `paused (several data packets)` | traces | 2 | 2 | `brk-pause-correct-ns2`, `brk-reset-ns2` |
-| `blackrock` | record | `BREVENTS` | tables | 2 | 2 | `brk-3-0-session`, `brk-file-spec-3-0-nev` |
-| `blackrock` | record | `NEURALEV` | tables | 6 | 6 | `brk-2-1-l101210-001-nev`, `brk-2-1-session`, `brk-filespec2-3001-nev` |
-| `blackrock` | sample_layout | `104-byte packets` | tables | 5 | 5 | `brk-2-1-l101210-001-nev`, `brk-2-1-session`, `brk-filespec2-3001-nev` |
-| `blackrock` | sample_layout | `108-byte packets` | tables | 2 | 2 | `brk-3-0-session`, `brk-file-spec-3-0-nev` |
-| `blackrock` | sample_layout | `84-byte packets` | tables | 1 | 1 | `brk-pause-correct-nev` |
-| `blackrock` | writer | `File Dialog` | descriptive | 8 | 8 | `brk-2-1-l101210-001-nev`, `brk-2-1-session`, `brk-3-0-session` |
+| `blackrock` | format_version | `NEV 2.1` | metadata, tables | 4 | 4 | `brk-2-1-l101210-001-nev`, `brk-2-1-session`, `gin-ephy-testing-data-blackrock-blackrock-2-1-l101210-001-02` |
+| `blackrock` | format_version | `NEV 2.3` | metadata, tables | 5 | 5 | `brk-filespec2-3001-nev`, `brk-pause-correct-nev`, `gin-ephy-testing-data-blackrock-segment-resetcorrect-reset` |
+| `blackrock` | format_version | `NEV 3.0` | metadata, tables | 3 | 4 | `brk-3-0-session`, `brk-file-spec-3-0-nev`, `gin-ephy-testing-data-blackrock-3-0-ptp` |
+| `blackrock` | format_version | `NSx 2.1` | metadata, traces | 2 | 4 | `brk-2-1-l101210-001-ns2`, `brk-2-1-session` |
+| `blackrock` | format_version | `NSx 2.2/2.3` | metadata, traces | 6 | 6 | `brk-filespec2-3001-ns5`, `brk-pause-correct-ns2`, `brk-reset-ns2` |
+| `blackrock` | format_version | `NSx 3.0` | metadata, traces | 4 | 5 | `brk-3-0-session`, `brk-file-spec-3-0-ns6`, `brk-ptp-20231027-125608-001-ns2` |
+| `blackrock` | layout | `PTP timestamps` | traces | 2 | 3 | `brk-ptp-20231027-125608-001-ns2`, `gin-ephy-testing-data-blackrock-3-0-ptp` |
+| `blackrock` | layout | `paused (several data packets)` | traces | 2 | 3 | `brk-pause-correct-ns2`, `brk-reset-ns2` |
+| `blackrock` | record | `BREVENTS` | tables | 3 | 4 | `brk-3-0-session`, `brk-file-spec-3-0-nev`, `gin-ephy-testing-data-blackrock-3-0-ptp` |
+| `blackrock` | record | `NEURALEV` | tables | 9 | 9 | `brk-2-1-l101210-001-nev`, `brk-2-1-session`, `brk-filespec2-3001-nev` |
+| `blackrock` | sample_layout | `104-byte packets` | tables | 6 | 6 | `brk-2-1-l101210-001-nev`, `brk-2-1-session`, `brk-filespec2-3001-nev` |
+| `blackrock` | sample_layout | `108-byte packets` | tables | 3 | 4 | `brk-3-0-session`, `brk-file-spec-3-0-nev`, `gin-ephy-testing-data-blackrock-3-0-ptp` |
+| `blackrock` | sample_layout | `84-byte packets` | tables | 3 | 3 | `brk-pause-correct-nev`, `gin-ephy-testing-data-blackrock-segment-resetcorrect-reset`, `gin-ephy-testing-data-blackrock-segment-resetfail-reset-fail` |
+| `blackrock` | writer | `File Dialog` | descriptive | 12 | 13 | `brk-2-1-l101210-001-nev`, `brk-2-1-session`, `brk-3-0-session` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 

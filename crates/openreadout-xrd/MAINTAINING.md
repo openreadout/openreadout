@@ -38,9 +38,9 @@ X-ray diffraction scans: PANalytical XRDML (`panalytical-xrdml`, `xrdml.rs`), Br
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `panalytical-xrdml` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | high | open spec | 7 / 7 | 7 | - |
-| `bruker-raw` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | high | prior art | 11 / 11 | 11 | - |
-| `bruker-brml` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | medium | reverse engineered | 4 / 4 | 4 | - |
+| `panalytical-xrdml` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | high | open spec | 9 / 9 | 9 | - |
+| `bruker-raw` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | high | prior art | 12 / 12 | 12 | - |
+| `bruker-brml` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | medium | reverse engineered | 5 / 5 | 5 | - |
 | `rigaku-ras` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | medium | reverse engineered | 9 / 7 | 6 | - |
 | `rigaku-rasx` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | medium | reverse engineered | 8 / 8 | 5 | - |
 
@@ -67,40 +67,40 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bruker-brml` | field | `experiment.acquisition.started_at` | descriptive | 4 | 4 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
+| `bruker-brml` | field | `experiment.acquisition.started_at` | descriptive | 5 | 5 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
 | `bruker-brml` | field | `experiment.instrument.model` | descriptive | 3 | 3 | `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori`, `xrd-zenodo6362954-brml-opa` |
-| `bruker-brml` | layout | `2Theta scan (Measured)` | traces | 4 | 4 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
+| `bruker-brml` | layout | `2Theta scan (Measured)` | traces | 5 | 5 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
 | `bruker-brml` | record | `absorber factors` | traces | 1 | 1 | `xrd-fairmat-brml-2thomega` |
-| `bruker-brml` | record | `two_theta axis` | traces | 4 | 4 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
-| `bruker-brml` | sample_layout | `intensity in counts` | traces | 4 | 4 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
-| `bruker-brml` | writer_version | `DIFFRAC 6.5.0.0` | descriptive | 1 | 1 | `xrd-fairmat-brml-2thomega` |
+| `bruker-brml` | record | `two_theta axis` | traces | 5 | 5 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
+| `bruker-brml` | sample_layout | `intensity in counts` | traces | 5 | 5 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
+| `bruker-brml` | writer_version | `DIFFRAC 6.5.0.0` | descriptive | 2 | 2 | `xrd-fairmat-brml-2thomega`, `zenodo14263889-brml-ru-eth` |
 | `bruker-brml` | writer_version | `DIFFRAC 8.6.1.0` | descriptive | 1 | 1 | `xrd-zenodo6362954-brml-opa` |
 | `bruker-brml` | writer_version | `DIFFRAC 8.6.3.0` | descriptive | 1 | 1 | `xrd-zenodo10891027-brml-eptachori` |
 | `bruker-brml` | writer_version | `DIFFRAC 8.7.3.0` | descriptive | 1 | 1 | `xrd-matterviz-brml-ybco` |
-| `bruker-raw` | field | `experiment.acquisition.started_at` | descriptive | 11 | 11 | `xrd-fairmat-raw4-scrambled`, `xrd-geddes-raw4-v5converter`, `xrd-xylib-raw1-bt86` |
+| `bruker-raw` | field | `experiment.acquisition.started_at` | descriptive | 12 | 12 | `xrd-fairmat-raw4-scrambled`, `xrd-geddes-raw4-v5converter`, `xrd-xylib-raw1-bt86` |
 | `bruker-raw` | format_version | `RAW1.01` | metadata, traces | 4 | 4 | `xrd-xylib-raw1-bt86`, `xrd-zenodo14852801-raw1-strings`, `xrd-zenodo17012484-raw1-mudstone` |
-| `bruker-raw` | format_version | `RAW4.00` | metadata, traces | 7 | 7 | `xrd-fairmat-raw4-scrambled`, `xrd-geddes-raw4-v5converter`, `xrd-zenodo10891027-raw4-eptachori` |
-| `bruker-raw` | layout | `2Theta scan` | traces | 11 | 11 | `xrd-fairmat-raw4-scrambled`, `xrd-geddes-raw4-v5converter`, `xrd-xylib-raw1-bt86` |
-| `bruker-raw` | record | `two_theta axis` | traces | 11 | 11 | `xrd-fairmat-raw4-scrambled`, `xrd-geddes-raw4-v5converter`, `xrd-xylib-raw1-bt86` |
+| `bruker-raw` | format_version | `RAW4.00` | metadata, traces | 8 | 8 | `xrd-fairmat-raw4-scrambled`, `xrd-geddes-raw4-v5converter`, `xrd-zenodo10891027-raw4-eptachori` |
+| `bruker-raw` | layout | `2Theta scan` | traces | 12 | 12 | `xrd-fairmat-raw4-scrambled`, `xrd-geddes-raw4-v5converter`, `xrd-xylib-raw1-bt86` |
+| `bruker-raw` | record | `two_theta axis` | traces | 12 | 12 | `xrd-fairmat-raw4-scrambled`, `xrd-geddes-raw4-v5converter`, `xrd-xylib-raw1-bt86` |
 | `bruker-raw` | sample_layout | `8-byte records` | traces | 1 | 1 | `xrd-fairmat-raw4-scrambled` |
-| `bruker-raw` | sample_layout | `intensity in counts` | traces | 11 | 11 | `xrd-fairmat-raw4-scrambled`, `xrd-geddes-raw4-v5converter`, `xrd-xylib-raw1-bt86` |
+| `bruker-raw` | sample_layout | `intensity in counts` | traces | 12 | 12 | `xrd-fairmat-raw4-scrambled`, `xrd-geddes-raw4-v5converter`, `xrd-xylib-raw1-bt86` |
 | `panalytical-xrdml` | acquisition | `measurement Repeated scan` | descriptive | 2 | 2 | `xrd-yadg-210520step1`, `xrd-zenodo5484779-rutile-nb5` |
-| `panalytical-xrdml` | acquisition | `measurement Scan` | descriptive | 5 | 5 | `xrd-zenodo14246011-0p1fe-unheated`, `xrd-zenodo15498085-nn`, `xrd-zenodo15557974-car24014` |
-| `panalytical-xrdml` | field | `experiment.acquisition.started_at` | descriptive | 7 | 7 | `xrd-yadg-210520step1`, `xrd-zenodo14246011-0p1fe-unheated`, `xrd-zenodo15498085-nn` |
-| `panalytical-xrdml` | field | `experiment.instrument.model` | descriptive | 7 | 7 | `xrd-yadg-210520step1`, `xrd-zenodo14246011-0p1fe-unheated`, `xrd-zenodo15498085-nn` |
+| `panalytical-xrdml` | acquisition | `measurement Scan` | descriptive | 7 | 7 | `xrd-zenodo14246011-0p1fe-unheated`, `xrd-zenodo15498085-nn`, `xrd-zenodo15557974-car24014` |
+| `panalytical-xrdml` | field | `experiment.acquisition.started_at` | descriptive | 9 | 9 | `xrd-yadg-210520step1`, `xrd-zenodo14246011-0p1fe-unheated`, `xrd-zenodo15498085-nn` |
+| `panalytical-xrdml` | field | `experiment.instrument.model` | descriptive | 9 | 9 | `xrd-yadg-210520step1`, `xrd-zenodo14246011-0p1fe-unheated`, `xrd-zenodo15498085-nn` |
 | `panalytical-xrdml` | format_version | `1.3` | metadata, traces | 1 | 1 | `xrd-zenodo15498085-nn` |
 | `panalytical-xrdml` | format_version | `1.5` | metadata, traces | 2 | 2 | `xrd-zenodo14246011-0p1fe-unheated`, `xrd-zenodo5484779-rutile-nb5` |
-| `panalytical-xrdml` | format_version | `1.6` | metadata, traces | 2 | 2 | `xrd-yadg-210520step1`, `xrd-zenodo4635553-sand-818-28` |
-| `panalytical-xrdml` | format_version | `2.1` | metadata, traces | 1 | 1 | `xrd-zenodo15557974-car24014` |
+| `panalytical-xrdml` | format_version | `1.6` | metadata, traces | 3 | 3 | `xrd-yadg-210520step1`, `xrd-zenodo4635553-sand-818-28`, `zenodo4892237-xrdml-xrd-918` |
+| `panalytical-xrdml` | format_version | `2.1` | metadata, traces | 2 | 2 | `xrd-zenodo15557974-car24014`, `zenodo15558000-xrdml-2024-2097` |
 | `panalytical-xrdml` | format_version | `2.3` | metadata, traces | 1 | 1 | `xrd-zenodo20826400-kpc-low` |
 | `panalytical-xrdml` | layout | `2Theta-Omega scan` | traces | 1 | 1 | `xrd-zenodo20826400-kpc-low` |
-| `panalytical-xrdml` | layout | `Gonio scan` | traces | 4 | 6 | `xrd-yadg-210520step1`, `xrd-zenodo15498085-nn`, `xrd-zenodo15557974-car24014` |
-| `panalytical-xrdml` | record | `two_theta axis` | traces | 5 | 7 | `xrd-yadg-210520step1`, `xrd-zenodo15498085-nn`, `xrd-zenodo15557974-car24014` |
-| `panalytical-xrdml` | sample_layout | `intensity in counts` | traces | 5 | 7 | `xrd-yadg-210520step1`, `xrd-zenodo15498085-nn`, `xrd-zenodo15557974-car24014` |
+| `panalytical-xrdml` | layout | `Gonio scan` | traces | 6 | 8 | `xrd-yadg-210520step1`, `xrd-zenodo15498085-nn`, `xrd-zenodo15557974-car24014` |
+| `panalytical-xrdml` | record | `two_theta axis` | traces | 7 | 9 | `xrd-yadg-210520step1`, `xrd-zenodo15498085-nn`, `xrd-zenodo15557974-car24014` |
+| `panalytical-xrdml` | sample_layout | `intensity in counts` | traces | 7 | 9 | `xrd-yadg-210520step1`, `xrd-zenodo15498085-nn`, `xrd-zenodo15557974-car24014` |
 | `panalytical-xrdml` | writer_version | `Data Collector 4.1` | descriptive | 1 | 1 | `xrd-zenodo5484779-rutile-nb5` |
 | `panalytical-xrdml` | writer_version | `Data Collector 4.4a` | descriptive | 1 | 1 | `xrd-zenodo14246011-0p1fe-unheated` |
-| `panalytical-xrdml` | writer_version | `Data Collector 5.4` | descriptive | 2 | 2 | `xrd-yadg-210520step1`, `xrd-zenodo4635553-sand-818-28` |
-| `panalytical-xrdml` | writer_version | `Data Collector 6.1b` | descriptive | 1 | 1 | `xrd-zenodo15557974-car24014` |
+| `panalytical-xrdml` | writer_version | `Data Collector 5.4` | descriptive | 3 | 3 | `xrd-yadg-210520step1`, `xrd-zenodo4635553-sand-818-28`, `zenodo4892237-xrdml-xrd-918` |
+| `panalytical-xrdml` | writer_version | `Data Collector 6.1b` | descriptive | 2 | 2 | `xrd-zenodo15557974-car24014`, `zenodo15558000-xrdml-2024-2097` |
 | `panalytical-xrdml` | writer_version | `Data Collector 7.5b` | descriptive | 1 | 1 | `xrd-zenodo20826400-kpc-low` |
 | `panalytical-xrdml` | writer_version | `X'Pert Data Collector 2.2f` | descriptive | 1 | 1 | `xrd-zenodo15498085-nn` |
 | `rigaku-ras` | field | `experiment.acquisition.started_at` | descriptive | 7 | 9 | `xrd-figshare32834120-ras-bc`, `xrd-nims-ras`, `xrd-zenodo11161891-ras-cowo4` |

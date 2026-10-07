@@ -34,7 +34,7 @@ Plexon PLX ("Plexon 1") and PL2 electrophysiology recordings (`plexon`). Project
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `plexon` | [format note](../../docs/formats/plexon.md), [provenance log](../../docs/provenance/plexon.md) | medium | prior art | 6 / 4 | 1 | - |
+| `plexon` | [format note](../../docs/formats/plexon.md), [provenance log](../../docs/provenance/plexon.md) | medium | prior art | 11 / 7 | 1 | - |
 
 ### Source map
 
@@ -63,13 +63,17 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `plexon` | field | `experiment.acquisition.started_at` | descriptive | 4 | 6 | `plexon-4chdemoplx-plx`, `plexon-file-plexon-1-plx`, `plexon-file-plexon-2-plx` |
+| `plexon` | field | `experiment.acquisition.started_at` | descriptive | 7 | 11 | `gin-ephy-testing-data-plexon-plx-header-version-version-103-spikes-field-potentials-and-events`, `gin-ephy-testing-data-plexon-plx-header-version-version-105-field-potentials`, `gin-ephy-testing-data-plexon-plx-header-version-version-107-spikes-continuous-and-events` |
 | `plexon` | format_version | `PL2` | metadata, tables, traces | 0 | 2 |  |
 | `plexon` | format_version | `PLX 101` | metadata, tables, traces | 2 | 2 | `plexon-file-plexon-1-plx`, `plexon-file-plexon-2-plx` |
-| `plexon` | format_version | `PLX 106` | metadata, tables, traces | 2 | 2 | `plexon-4chdemoplx-plx`, `plexon-file-plexon-3-plx` |
+| `plexon` | format_version | `PLX 103` | metadata, tables, traces | 1 | 1 | `gin-ephy-testing-data-plexon-plx-header-version-version-103-spikes-field-potentials-and-events` |
+| `plexon` | format_version | `PLX 105` | metadata, tables, traces | 1 | 1 | `gin-ephy-testing-data-plexon-plx-header-version-version-105-field-potentials` |
+| `plexon` | format_version | `PLX 106` | metadata, tables, traces | 2 | 3 | `plexon-4chdemoplx-plx`, `plexon-file-plexon-3-plx` |
+| `plexon` | format_version | `PLX 107` | metadata, tables, traces | 1 | 2 | `gin-ephy-testing-data-plexon-plx-header-version-version-107-spikes-continuous-and-events` |
 | `plexon` | record | `PL2 continuous` | traces | 0 | 2 |  |
-| `plexon` | record | `PLX continuous` | traces | 2 | 2 | `plexon-4chdemoplx-plx`, `plexon-file-plexon-3-plx` |
+| `plexon` | record | `PLX continuous` | traces | 5 | 6 | `gin-ephy-testing-data-plexon-plx-header-version-version-103-spikes-field-potentials-and-events`, `gin-ephy-testing-data-plexon-plx-header-version-version-105-field-potentials`, `gin-ephy-testing-data-plexon-plx-header-version-version-107-spikes-continuous-and-events` |
 | `plexon` | writer | `OmniPlex` | descriptive | 1 | 3 | `plexon-4chdemoplx-plx` |
+| `plexon` | writer | `SC` | descriptive | 0 | 1 |  |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
