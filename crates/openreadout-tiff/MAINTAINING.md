@@ -38,7 +38,7 @@ The TIFF family (`tiff`): TIFF 6.0 and BigTIFF, with OME-TIFF (single and multi-
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `tiff` | [format note](../../docs/formats/tiff.md), [provenance log](../../docs/provenance/tiff.md) | high | open spec | 118 / 117 | 23 | 5 / 0 |
+| `tiff` | [format note](../../docs/formats/tiff.md), [provenance log](../../docs/provenance/tiff.md) | high | open spec | 148 / 147 | 51 | 5 / 0 |
 
 ### Source map
 
@@ -100,59 +100,65 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `tiff` | codec | `deflate` | pixels | 6 | 6 | `aics-tiff-actk`, `aics-tiff-s-1-t-1-c-1-z-1-ome-tiff-tiles`, `aics-tiff-s-1-t-1-c-10-z-1-ome-tiff-tiles` |
+| `tiff` | codec | `deflate` | pixels | 8 | 8 | `aics-tiff-actk`, `aics-tiff-s-1-t-1-c-1-z-1-ome-tiff-tiles`, `aics-tiff-s-1-t-1-c-10-z-1-ome-tiff-tiles` |
 | `tiff` | codec | `eer 7+2+2` | pixels | 3 | 3 | `empiar11906-falcon4i-eer`, `empiar12080-falcon4-eer`, `empiar13509-falcon4i-eer` |
 | `tiff` | codec | `jpeg (minisblack)` | pixels | 4 | 4 | `gdal-byte-jpg-tablesmodezero`, `gdal-byte-ovr-jpeg-tablesmode1`, `gdal-byte-ovr-jpeg-tablesmode3` |
-| `tiff` | codec | `jpeg (rgb)` | pixels | 1 | 3 | `openslide-aperio-cmu-1-small-region` |
-| `tiff` | codec | `jpeg (ycbcr)` | pixels | 4 | 8 | `openslide-leica-1`, `openslide-leica-fluorescence-1`, `zenodo12697479-ndpi-izd` |
-| `tiff` | codec | `jpeg-2000 (rgb)` | pixels | 1 | 2 | `openslide-aperio-jp2k-33003-1` |
+| `tiff` | codec | `jpeg (rgb)` | pixels | 1 | 4 | `openslide-aperio-cmu-1-small-region` |
+| `tiff` | codec | `jpeg (ycbcr)` | pixels | 8 | 13 | `ome-ndpi-manuel-test3-dapi`, `ome-ndpi-manuel-test3-fitc`, `ome-ndpi-manuel-test3-tritc` |
+| `tiff` | codec | `jpeg-2000 (rgb)` | pixels | 1 | 3 | `openslide-aperio-jp2k-33003-1` |
 | `tiff` | codec | `jpeg-xl (rgb)` | pixels | 1 | 1 | `gdal-jxl-rgbsmall-tiled-separate` |
-| `tiff` | codec | `lzw` | pixels | 5 | 5 | `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff`, `aics-tiff-4c-3z-pyramid` |
-| `tiff` | codec | `none` | pixels | 75 | 75 | `aics-OverViewScan-ome-tiff`, `aics-tiff-image-stack-tpzc-50tp-2p-5z-3c-512k-1-mmstack-2-pos000-000`, `aics-tiff-image-stack-tpzc-50tp-2p-5z-3c-512k-1-mmstack-2-pos001-000` |
+| `tiff` | codec | `lzw` | pixels | 7 | 8 | `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff`, `aics-tiff-4c-3z-pyramid` |
+| `tiff` | codec | `none` | pixels | 93 | 93 | `aics-OverViewScan-ome-tiff`, `aics-tiff-image-stack-tpzc-50tp-2p-5z-3c-512k-1-mmstack-2-pos000-000`, `aics-tiff-image-stack-tpzc-50tp-2p-5z-3c-512k-1-mmstack-2-pos001-000` |
 | `tiff` | codec | `old-jpeg (ycbcr)` | pixels | 0 | 1 |  |
 | `tiff` | codec | `packbits` | pixels | 4 | 4 | `gdal-contig-strip`, `gdal-contig-tiled`, `gdal-separate-tiled` |
-| `tiff` | codec | `predictor 2` | pixels | 2 | 2 | `aics-tiff-4c-3z-pyramid`, `gdal-bug4468` |
+| `tiff` | codec | `predictor 2` | pixels | 5 | 5 | `aics-tiff-4c-3z-pyramid`, `gdal-bug4468`, `zenodo18601952-sem-tins` |
 | `tiff` | codec | `webp (rgb)` | pixels | 2 | 2 | `gdal-tif-webp`, `gdal-webp-rgbsmall-tiled` |
-| `tiff` | codec | `zstd` | pixels | 1 | 1 | `gdal-byte-zstd` |
-| `tiff` | dialect | `aperio-svs` | metadata, pixels | 4 | 4 | `openslide-aperio-cmu-1`, `openslide-aperio-cmu-1-jp2k-33005`, `openslide-aperio-cmu-1-small-region` |
-| `tiff` | dialect | `hamamatsu-ndpi` | metadata, pixels | 2 | 2 | `openslide-hamamatsu-cmu-1`, `zenodo12697479-ndpi-izd` |
-| `tiff` | dialect | `imagej` | metadata, pixels | 4 | 4 | `aics-tiff-s-1-t-1-c-1-z-1`, `aics-tiff-s-1-t-10-c-3-z-1`, `gel-zenodo5773282-resaved-no-md-tags` |
-| `tiff` | dialect | `leica-scn` | metadata, pixels | 2 | 2 | `openslide-leica-1`, `openslide-leica-fluorescence-1` |
+| `tiff` | codec | `zstd` | pixels | 2 | 2 | `gdal-byte-zstd`, `zenodo18686988-aydin-tribolium` |
+| `tiff` | dialect | `aperio-svs` | metadata, pixels | 6 | 6 | `openslide-aperio-cmu-1`, `openslide-aperio-cmu-1-jp2k-33005`, `openslide-aperio-cmu-1-small-region` |
+| `tiff` | dialect | `hamamatsu-ndpi` | metadata, pixels | 6 | 6 | `ome-ndpi-manuel-test3-dapi`, `ome-ndpi-manuel-test3-fitc`, `ome-ndpi-manuel-test3-tritc` |
+| `tiff` | dialect | `imagej` | metadata, pixels | 10 | 10 | `aics-tiff-s-1-t-1-c-1-z-1`, `aics-tiff-s-1-t-10-c-3-z-1`, `gel-zenodo5773282-resaved-no-md-tags` |
+| `tiff` | dialect | `leica-scn` | metadata, pixels | 3 | 3 | `openslide-leica-1`, `openslide-leica-fluorescence-1`, `zenodo19009239-aperio-fl-scn` |
 | `tiff` | dialect | `metamorph-nd` | metadata, pixels | 4 | 4 | `metamorph-figshare7583960-nd`, `metamorph-ssbd232-drd2-4well-dish2-nd`, `metamorph-ssbd232-vec35-dish1-nd` |
 | `tiff` | dialect | `metamorph-stk` | metadata, pixels | 2 | 2 | `metamorph-figshare12981617-ed4a-sdc405-stk`, `metamorph-figshare7583960-w1-t1-stk` |
 | `tiff` | dialect | `metaseries` | metadata, pixels | 1 | 1 | `metamorph-zenodo13642395-test-timelapse-20240816-s1-t1` |
 | `tiff` | dialect | `nis-elements` | metadata, pixels | 1 | 1 | `nis-zenodo7677827-xy01c1` |
 | `tiff` | dialect | `ome-companion` | metadata, pixels | 1 | 1 | `ome-companion-multifile-companion` |
-| `tiff` | dialect | `ome-tiff` | metadata, pixels | 40 | 40 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
+| `tiff` | dialect | `ome-tiff` | metadata, pixels | 43 | 43 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
 | `tiff` | dialect | `perkinelmer-qptiff` | metadata, pixels | 2 | 2 | `ome-qptiff-hande-compressed-scan1`, `ome-qptiff-hne-3-component` |
 | `tiff` | dialect | `philips-tiff` | metadata, pixels | 2 | 2 | `openslide-philips-1`, `openslide-philips-4` |
-| `tiff` | dialect | `plain` | metadata, pixels | 45 | 46 | `aics-tiff-4c-3z-pyramid`, `empiar13509-falcon4i-gain`, `gdal-1bit-2bands` |
+| `tiff` | dialect | `plain` | metadata, pixels | 51 | 52 | `aics-tiff-4c-3z-pyramid`, `empiar13509-falcon4i-gain`, `gdal-1bit-2bands` |
 | `tiff` | dialect | `thermo-eer` | metadata, pixels | 3 | 3 | `empiar11906-falcon4i-eer`, `empiar12080-falcon4-eer`, `empiar13509-falcon4i-eer` |
 | `tiff` | dialect | `ventana-bif` | metadata, pixels | 1 | 1 | `openslide-ventana-1` |
-| `tiff` | dialect | `zeiss-lsm` | metadata, pixels | 3 | 3 | `zenodo14510432-lsm-10-01`, `zenodo5781661-lsm-time-1-43`, `zenodo5781661-lsm-z0-7-st-1321` |
-| `tiff` | field | `experiment.acquisition.started_at` | descriptive | 19 | 19 | `empiar11906-falcon4i-eer`, `empiar13509-falcon4i-eer`, `metamorph-figshare12981617-ed4a-sdc405-stk` |
-| `tiff` | field | `experiment.instrument.model` | descriptive | 9 | 9 | `openslide-aperio-cmu-1`, `openslide-aperio-cmu-1-jp2k-33005`, `openslide-aperio-cmu-1-small-region` |
-| `tiff` | format_version | `6.0` | metadata, pixels | 97 | 98 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
-| `tiff` | format_version | `6.0+BigTIFF` | metadata, pixels | 15 | 15 | `aics-tiff-actk`, `empiar11906-falcon4i-eer`, `empiar12080-falcon4-eer` |
+| `tiff` | dialect | `zeiss-lsm` | metadata, pixels | 11 | 11 | `zenodo10046394-macrostomum`, `zenodo13625087-phasor-unmix`, `zenodo14510432-lsm-10-01` |
+| `tiff` | field | `experiment.acquisition.started_at` | descriptive | 26 | 26 | `empiar11906-falcon4i-eer`, `empiar13509-falcon4i-eer`, `metamorph-figshare12981617-ed4a-sdc405-stk` |
+| `tiff` | field | `experiment.instrument.model` | descriptive | 16 | 16 | `ome-ndpi-manuel-test3-dapi`, `ome-ndpi-manuel-test3-fitc`, `ome-ndpi-manuel-test3-tritc` |
+| `tiff` | format_version | `6.0` | metadata, pixels | 125 | 126 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
+| `tiff` | format_version | `6.0+BigTIFF` | metadata, pixels | 17 | 17 | `aics-tiff-actk`, `empiar11906-falcon4i-eer`, `empiar12080-falcon4-eer` |
 | `tiff` | format_version | `MetaMorph ND 1.0` | metadata, pixels | 1 | 1 | `metamorph-figshare7583960-nd` |
 | `tiff` | format_version | `MetaMorph ND 2.0` | metadata, pixels | 3 | 3 | `metamorph-ssbd232-drd2-4well-dish2-nd`, `metamorph-ssbd232-vec35-dish1-nd`, `metamorph-zenodo13642395-nd` |
 | `tiff` | format_version | `OME-XML 2015-01` | metadata | 2 | 2 | `mm-thomas-test-stack`, `mm-thomas-test2-stack` |
-| `tiff` | format_version | `OME-XML 2016-06` | metadata | 39 | 39 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
+| `tiff` | format_version | `OME-XML 2016-06` | metadata | 42 | 42 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
 | `tiff` | instrument | `Amersham TYPHOON` | descriptive | 1 | 1 | `gel-zenodo17516010-typhoon-phosphor` |
 | `tiff` | instrument | `Amersham Typhoon` | descriptive | 1 | 1 | `gel-zenodo15688057-typhoon-fluorescence` |
+| `tiff` | instrument | `Aperio Leica Biosystems FL` | descriptive | 1 | 1 | `zenodo19009239-aperio-fl-scn` |
 | `tiff` | instrument | `C13239-01` | descriptive | 1 | 1 | `zenodo12697479-ndpi-izd` |
+| `tiff` | instrument | `C9600-01` | descriptive | 1 | 1 | `zenodo13137435-leptin-ndpi` |
+| `tiff` | instrument | `C9600-12` | descriptive | 3 | 3 | `ome-ndpi-manuel-test3-dapi`, `ome-ndpi-manuel-test3-fitc`, `ome-ndpi-manuel-test3-tritc` |
 | `tiff` | instrument | `Eclipse TE300` | descriptive | 6 | 6 | `ome-tubhiswt-2d-tubhiswt-c0`, `ome-tubhiswt-2d-tubhiswt-c1`, `ome-tubhiswt-3d-tubhiswt-c0` |
+| `tiff` | instrument | `LYRA3 GMU 118-0085` | descriptive | 1 | 1 | `zenodo17230216-sem-tio2` |
 | `tiff` | instrument | `Leica SCN400` | descriptive | 1 | 1 | `openslide-leica-1` |
 | `tiff` | instrument | `Leica SCN400F` | descriptive | 1 | 1 | `openslide-leica-fluorescence-1` |
 | `tiff` | instrument | `NanoZoomer` | descriptive | 1 | 1 | `openslide-hamamatsu-cmu-1` |
 | `tiff` | instrument | `ScanScope CPAPERIOCS` | descriptive | 3 | 3 | `openslide-aperio-cmu-1`, `openslide-aperio-cmu-1-jp2k-33005`, `openslide-aperio-cmu-1-small-region` |
 | `tiff` | instrument | `ScanScope SS1283` | descriptive | 1 | 1 | `openslide-aperio-jp2k-33003-1` |
+| `tiff` | instrument | `ScanScope SS1639` | descriptive | 1 | 1 | `zenodo14243592-adhm-svs` |
+| `tiff` | instrument | `ScanScope SS7497` | descriptive | 1 | 1 | `zenodo15587142-pancreatitis-cd11b` |
 | `tiff` | instrument | `Typhoon FLA 9500` | descriptive | 1 | 1 | `gel-zenodo5786227-typhoon-fla9500` |
 | `tiff` | instrument | `VENTANA DP 200` | descriptive | 1 | 1 | `openslide-ventana-1` |
 | `tiff` | layout | `multi_file` | metadata, pixels | 17 | 17 | `aics-tiff-image-stack-tpzc-50tp-2p-5z-3c-512k-1-mmstack-2-pos000-000`, `aics-tiff-image-stack-tpzc-50tp-2p-5z-3c-512k-1-mmstack-2-pos001-000`, `metamorph-figshare7583960-nd` |
-| `tiff` | layout | `pyramid` | pixels | 10 | 17 | `aics-OverViewScan-ome-tiff`, `aics-variable-scene-shape-first-scene-pyramid-ome-tiff`, `gdal-byte-ovr-jpeg-tablesmode1` |
-| `tiff` | layout | `strips` | pixels | 93 | 94 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
-| `tiff` | layout | `tiles` | pixels | 15 | 22 | `aics-OverViewScan-ome-tiff`, `aics-tiff-s-1-t-1-c-1-z-1-ome-tiff-tiles`, `aics-tiff-s-1-t-1-c-10-z-1-ome-tiff-tiles` |
+| `tiff` | layout | `pyramid` | pixels | 14 | 25 | `aics-OverViewScan-ome-tiff`, `aics-variable-scene-shape-first-scene-pyramid-ome-tiff`, `gdal-byte-ovr-jpeg-tablesmode1` |
+| `tiff` | layout | `strips` | pixels | 118 | 120 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
+| `tiff` | layout | `tiles` | pixels | 16 | 26 | `aics-OverViewScan-ome-tiff`, `aics-tiff-s-1-t-1-c-1-z-1-ome-tiff-tiles`, `aics-tiff-s-1-t-1-c-10-z-1-ome-tiff-tiles` |
 | `tiff` | sample_layout | `1 bits per sample` | pixels | 6 | 6 | `gdal-1bit-2bands`, `gdal-empty1bit`, `gdal-oddsize-1bit2b` |
 | `tiff` | sample_layout | `10 bits per sample` | pixels | 1 | 1 | `gdal-int10` |
 | `tiff` | sample_layout | `12 bits per sample` | pixels | 1 | 1 | `gdal-int12` |
@@ -164,31 +170,25 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `tiff` | sample_layout | `complex-integer samples` | pixels | 4 | 4 | `gdal-cint-sar`, `gdal-cint16`, `gdal-cint32` |
 | `tiff` | sample_layout | `double` | pixels | 2 | 2 | `aics-tiff-actk`, `gdal-dbl-min` |
 | `tiff` | sample_layout | `double-complex` | pixels | 3 | 3 | `gdal-cfloat64`, `gdal-cint32`, `gdal-complex-int32` |
-| `tiff` | sample_layout | `float` | pixels | 8 | 8 | `empiar13509-falcon4i-gain`, `gdal-float16`, `gdal-float24` |
+| `tiff` | sample_layout | `float` | pixels | 10 | 10 | `empiar13509-falcon4i-gain`, `gdal-float16`, `gdal-float24` |
 | `tiff` | sample_layout | `half-float samples` | pixels | 1 | 1 | `gdal-float16` |
 | `tiff` | sample_layout | `int64` | pixels | 1 | 1 | `gdal-int64` |
 | `tiff` | sample_layout | `int8` | pixels | 13 | 13 | `ome-artificial-4d-series-tiff`, `ome-artificial-multi-channel-4d-series-btf`, `ome-artificial-multi-channel-4d-series-tiff` |
-| `tiff` | sample_layout | `interleaved samples` | pixels | 17 | 25 | `aics-tiff-4c-3z-pyramid`, `aics-tiff-s-1-t-1-c-2-z-1-rgb`, `gdal-1bit-2bands` |
-| `tiff` | sample_layout | `planar samples` | pixels | 6 | 6 | `gdal-jxl-rgbsmall-tiled-separate`, `gdal-md-dg`, `gdal-separate-tiled` |
-| `tiff` | sample_layout | `uint16` | pixels | 28 | 28 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
+| `tiff` | sample_layout | `interleaved samples` | pixels | 23 | 34 | `aics-tiff-4c-3z-pyramid`, `aics-tiff-s-1-t-1-c-2-z-1-rgb`, `gdal-1bit-2bands` |
+| `tiff` | sample_layout | `planar samples` | pixels | 12 | 12 | `gdal-jxl-rgbsmall-tiled-separate`, `gdal-md-dg`, `gdal-separate-tiled` |
+| `tiff` | sample_layout | `uint16` | pixels | 39 | 39 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
+| `tiff` | sample_layout | `uint32` | pixels | 1 | 2 | `zenodo22261325-flim-fret2` |
 | `tiff` | sample_layout | `uint64` | pixels | 1 | 1 | `gdal-uint64` |
-| `tiff` | sample_layout | `uint8` | pixels | 36 | 36 | `aics-OverViewScan-ome-tiff`, `aics-variable-scene-shape-first-scene-pyramid-ome-tiff`, `empiar11906-falcon4i-eer` |
-| `tiff` | sample_layout | `uint8x2` | pixels | 2 | 2 | `gdal-1bit-2bands`, `gdal-oddsize-1bit2b` |
-| `tiff` | sample_layout | `uint8x3` | pixels | 14 | 22 | `aics-tiff-4c-3z-pyramid`, `aics-tiff-s-1-t-1-c-2-z-1-rgb`, `gdal-cielab` |
-| `tiff` | sample_layout | `uint8x4` | pixels | 1 | 1 | `gdal-bug4468` |
-| `tiff` | writer | `Amersham TYPHOON Scanner Control Software` | metadata, pixels | 1 | 1 | `gel-zenodo17516010-typhoon-phosphor` |
-| `tiff` | writer | `Amersham Typhoon Scanner Control Software` | metadata, pixels | 1 | 1 | `gel-zenodo15688057-typhoon-fluorescence` |
-| `tiff` | writer | `Aperio Image Library` | metadata, pixels | 4 | 4 | `openslide-aperio-cmu-1`, `openslide-aperio-cmu-1-jp2k-33005`, `openslide-aperio-cmu-1-small-region` |
-| `tiff` | writer | `Bio-Formats` | metadata, pixels | 32 | 32 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
+| `tiff` | sample_layout | `uint8` | pixels | 43 | 43 | `aics-OverViewScan-ome-tiff`, `aics-variable-scene-shape-first-scene-pyramid-ome-tiff`, `empiar11906-falcon4i-eer` |
 
-… 29 more values: the generated table in `src/assurance.rs` has all of them.
+… 43 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/corpus_pages.rs`](tests/corpus_pages.rs), [`tests/eer.rs`](tests/eer.rs), [`tests/fixtures.rs`](tests/fixtures.rs), [`tests/jpeg12.rs`](tests/jpeg12.rs), [`tests/jpeg2000_pages.rs`](tests/jpeg2000_pages.rs), [`tests/jpeg_colour.rs`](tests/jpeg_colour.rs), [`tests/metamorph.rs`](tests/metamorph.rs), [`tests/nis.rs`](tests/nis.rs), [`tests/other_codecs.rs`](tests/other_codecs.rs)
 - committed fixtures: 65 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_tiff`
-- corpus inputs by tier: full 1, heldout 10, smoke 89, standard 36
+- corpus inputs by tier: full 1, heldout 10, smoke 89, standard 66
 - golden snapshots: [`corpus/snapshots/tiff.jsonl`](../../corpus/snapshots/tiff.jsonl)
 
 ### Open new-variant intakes

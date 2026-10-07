@@ -366,6 +366,9 @@ impl EtsFile {
                 }
                 let mut v = raw;
                 v.truncate(expected);
+                if spp == 3 {
+                    bgr_to_rgb(&mut v, bps);
+                }
                 return Ok(v);
             }
             // Bound the frame by the tile size (with slack for MCU padding) before decoding.
@@ -423,9 +426,31 @@ impl EtsFile {
     }
 }
 
+/// Raw three-sample tiles store each pixel as blue, green, red (docs/provenance/vsi.md,
+/// 2026-10-06): exchange the first and third sample of every pixel. `bps` is bytes per sample.
+fn bgr_to_rgb(v: &mut [u8], bps: usize) {
+    let px = 3 * bps;
+    for p in v.chunks_exact_mut(px) {
+        for b in 0..bps {
+            p.swap(b, 2 * bps + b);
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn raw_rgb_tiles_are_returned_red_green_blue() {
+        let mut v8 = vec![1, 2, 3, 4, 5, 6];
+        bgr_to_rgb(&mut v8, 1);
+        assert_eq!(v8, [3, 2, 1, 6, 5, 4]);
+        // 16-bit samples keep their little-endian byte order
+        let mut v16 = vec![1, 0x10, 2, 0x20, 3, 0x30];
+        bgr_to_rgb(&mut v16, 2);
+        assert_eq!(v16, [3, 0x30, 2, 0x20, 1, 0x10]);
+    }
 
     /// A minimal ETS: 2×2 raw u16 tiles of a 3×3 image, one extra dimension of 2, one level.
     pub(crate) fn write_small_ets(path: &Path) {

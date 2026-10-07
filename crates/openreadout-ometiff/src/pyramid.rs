@@ -167,7 +167,13 @@ pub fn plan(
     match mode {
         PyramidMode::Source => {
             let max = levels.map_or(usize::MAX, |n| n.max(1) as usize);
-            for l in src_levels.iter().filter(|l| l.level > level) {
+            // A level with another number of z planes (Imaris downsamples z too) cannot be a
+            // sub-resolution of the same planes; it and the levels after it are not copied.
+            for l in src_levels
+                .iter()
+                .filter(|l| l.level > level)
+                .take_while(|l| l.size_z == base.size_z)
+            {
                 if out.levels.len() >= max {
                     break;
                 }
@@ -645,5 +651,19 @@ mod tests {
         );
         assert_eq!("mean".parse::<PyramidMode>().unwrap(), PyramidMode::Mean);
         assert!("median".parse::<PyramidMode>().is_err());
+    }
+
+    /// Imaris halves z at its lower levels (zenodo4433202-ovule-732: 219 planes, then 109):
+    /// such a level is not copied, since the export's planes are level-0 planes.
+    #[test]
+    fn source_levels_with_fewer_z_planes_are_not_copied() {
+        let mut im = ImageInfo::new(0, 256, 256, PixelType::Uint8);
+        im.size_z = 219;
+        im.pyramid_levels = 2;
+        let mut l1 = ResolutionLevel::new(1, 128, 128, 256, 256);
+        l1.size_z = Some(109);
+        im.resolution_levels = vec![ResolutionLevel::new(0, 256, 256, 256, 256), l1];
+        let p = plan(&im, 0, None, PyramidMode::Source, None, 512).unwrap();
+        assert_eq!(p.levels.len(), 1);
     }
 }

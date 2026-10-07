@@ -1,0 +1,73 @@
+{
+ "id": "zenodo17257407-bf-issue-anna",
+ "file": "zenodo17257407-bf-issue-anna.ims",
+ "size": 34597934,
+ "sha256": "bad968cec89a54de461a87e88882b23b014cc00f69be19f1eb071de3d3cb0962",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.10048828125000053,
+    "y": 0.10049804687499986,
+    "z": null
+   },
+   "channel_names": [
+    "640_Cy5_CF40_Zyla",
+    "488_GFP_CF40_Zyla",
+    "561_RFP_CF40_Zyla",
+    "405_DAPI_CF40_Zyla"
+   ],
+   "filters": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c9d7d41f5cf704ab7dbe875c1deab5c0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8e4052d97fd5bca942eed761231b1db0"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f8ae622ebd4a1818a1539dc8ca06236f"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e1afa9dd2db815a50df22a7987ac5b21"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 2048,
+   "height": 2048,
+   "size_z": 1,
+   "size_t": 1,
+   "size_c": 4,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint16",
+   "thumbnail": "false"
+  }
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "id": "zenodo5714530-autophagy-do45",
+ "file": "zenodo5714530-autophagy-do45.czi",
+ "size": 2970656,
+ "sha256": "7a68fb355e801fd93534b6266626fea58a8421f914bce97a03b479332d2665ab",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 506,
+   "size_y": 506,
+   "size_z": 1,
+   "size_c": 5,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    5,
+    506,
+    506
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.06680678419808858,
+    "y": 0.06680678419808858,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6bd7794091cae8f416e39822631d0f3f"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3c33108c4afe32b301c80a537102ba77"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3e3449caef7625a6f6b7b083fddb0d6e"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cc7e42f4d747eeb711671b8e2409ce57"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1905b3e0375c02f8479a7b69f5af7643"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.06680678419808858,
+  "y": 0.06680678419808858,
+  "z": null
+ },
+ "subblock_count": 5,
+ "compression_ids": [
+  0
+ ]
+}

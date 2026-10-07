@@ -1,0 +1,88 @@
+{
+ "id": "zenodo19893921-dsx-efi-vsi",
+ "file": "PES-001-A_fractured_edge_porestack_20x.vsi",
+ "size": 398475,
+ "sha256": "a2ed5ab4ff52fd96d7c4d05796f61ddf7196d93973461f9c9756aeb9f56084f6",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "MIX",
+   "size_x": 2048,
+   "size_y": 1500,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.15853569994200817,
+    "y": 0.15853569994200817
+   },
+   "channel_names": [
+    "MIX"
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2026-04-24T22:02:39",
+   "resolutions": 1,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6b3fd87d29dbc7e71a5fb1a18bc70749",
+     "mean": 147.167341796875
+    }
+   ],
+   "levels": [],
+   "level_sizes": [
+    [
+     2048,
+     1500
+    ]
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Height Map",
+   "size_x": 2048,
+   "size_y": 1500,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.15853569994200817,
+    "y": 0.15853569994200817
+   },
+   "channel_names": [
+    "MIX"
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2026-04-24T22:02:39",
+   "resolutions": 1,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "288a47dbacd41b066d0c4c550d9a4e41",
+     "mean": 38249.65708300781
+    }
+   ],
+   "levels": [],
+   "level_sizes": [
+    [
+     2048,
+     1500
+    ]
+   ]
+  }
+ ]
+}

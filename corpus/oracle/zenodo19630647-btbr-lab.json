@@ -1,0 +1,811 @@
+{
+ "id": "zenodo19630647-btbr-lab",
+ "file": "zenodo19630647-btbr-lab.ims",
+ "size": 35569313,
+ "sha256": "db8a701c79f6bdc1bf9ad3f59dfcf8df929f8687d85d48b995da1e9387d505fa",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 8,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.1369042968750005,
+    "y": 0.1369042968750005,
+    "z": 1.5
+   },
+   "channel_names": [
+    "DAPI",
+    "Alx568",
+    "TD"
+   ],
+   "filters": [
+    1
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "de3a71b59746353b71a056515cf40bf1"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "0ed5a84af6c6023b5a229113f80f3ae1"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "c1a5e4a7fdcccbed841a5fff21c824bc"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "67b11dd6ee1e14fe0c6d50d8ee3d988b"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "f0d505b17b29312b1b4e6adc12ec98c4"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "150996da0d839673e04121e492f4ed4d"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "60f22c21e9a6929c3560324b9a4d681b"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "52e59153f82372aa7d7601292d2d5934"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3dcee241b147dae6a3ff255b83280d3b"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "cfa6e4b50e3c3d946a2990ddc36b06a9"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "3a24224a2fd515d4072994478e0962f8"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "b2ce50c781c2cb97cb8f04218886653a"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "8de34c872e071fd767291185e4fad704"
+    },
+    {
+     "c": 1,
+     "z": 5,
+     "t": 0,
+     "xxh3": "54050b9727e16f0cf98dad6ed08240e2"
+    },
+    {
+     "c": 1,
+     "z": 6,
+     "t": 0,
+     "xxh3": "883d719178f17e484265b3e7c2dd3ff1"
+    },
+    {
+     "c": 1,
+     "z": 7,
+     "t": 0,
+     "xxh3": "9fff0e3aa3cb7bad3e0259e8c5143ad4"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e2d8794eb2234560e9e214edc526a467"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "4ba80b3117c69ec74fa12970684c7dc8"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "ef37b554ce4799a4196143720f153940"
+    },
+    {
+     "c": 2,
+     "z": 3,
+     "t": 0,
+     "xxh3": "f01529b3c1d08452ff10313c663ccf5a"
+    },
+    {
+     "c": 2,
+     "z": 4,
+     "t": 0,
+     "xxh3": "0922733070441658c3ee5d24064dce8e"
+    },
+    {
+     "c": 2,
+     "z": 5,
+     "t": 0,
+     "xxh3": "e263142e3f308c1bd7d8485d65bc5ae9"
+    },
+    {
+     "c": 2,
+     "z": 6,
+     "t": 0,
+     "xxh3": "5f174416e114d697c605ce96fc9061ac"
+    },
+    {
+     "c": 2,
+     "z": 7,
+     "t": 0,
+     "xxh3": "4256757403188e79e1b2d3a672fc4c36"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 512,
+     "size_y": 512,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "d15f5ecc21cd05190a233ba0fd4eeca9"
+      },
+      {
+       "c": 0,
+       "z": 1,
+       "t": 0,
+       "xxh3": "a7e90aacc2a58cd63a90791e47d01d6d"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 256,
+     "size_y": 256,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "0220aba28f589c110646b277a32d912e"
+      },
+      {
+       "c": 0,
+       "z": 1,
+       "t": 0,
+       "xxh3": "3fb2f45e193e1ae6e3bd424dc5aa3121"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "tables": [
+  {
+   "index": 0,
+   "name": "Surfaces 1: Surface statistics",
+   "event_count": 51,
+   "parameter_names": [
+    "ID",
+    "Time",
+    "Area",
+    "BoundingBoxAA Length X",
+    "BoundingBoxAA Length Y",
+    "BoundingBoxAA Length Z",
+    "BoundingBoxOO Length A",
+    "BoundingBoxOO Length B",
+    "BoundingBoxOO Length C",
+    "Center of Homogeneous Mass X",
+    "Center of Homogeneous Mass Y",
+    "Center of Homogeneous Mass Z",
+    "Center of Image Mass X [Channel=1]",
+    "Center of Image Mass X [Channel=2]",
+    "Center of Image Mass X [Channel=3]",
+    "Center of Image Mass Y [Channel=1]",
+    "Center of Image Mass Y [Channel=2]",
+    "Center of Image Mass Y [Channel=3]",
+    "Center of Image Mass Z [Channel=1]",
+    "Center of Image Mass Z [Channel=2]",
+    "Center of Image Mass Z [Channel=3]",
+    "Distance from Origin",
+    "Distance to Image Border XY",
+    "Distance to Image Border XYZ",
+    "Ellipsoid Axis A X",
+    "Ellipsoid Axis A Y",
+    "Ellipsoid Axis A Z",
+    "Ellipsoid Axis B X",
+    "Ellipsoid Axis B Y",
+    "Ellipsoid Axis B Z",
+    "Ellipsoid Axis C X",
+    "Ellipsoid Axis C Y",
+    "Ellipsoid Axis C Z",
+    "Ellipsoid Axis Length A",
+    "Ellipsoid Axis Length B",
+    "Ellipsoid Axis Length C",
+    "Ellipticity (oblate)",
+    "Ellipticity (prolate)",
+    "Generation",
+    "Intensity Center [Channel=1]",
+    "Intensity Center [Channel=2]",
+    "Intensity Center [Channel=3]",
+    "Intensity Max [Channel=1]",
+    "Intensity Max [Channel=2]",
+    "Intensity Max [Channel=3]",
+    "Intensity Mean [Channel=1]",
+    "Intensity Mean [Channel=2]",
+    "Intensity Mean [Channel=3]",
+    "Intensity Median [Channel=1]",
+    "Intensity Median [Channel=2]",
+    "Intensity Median [Channel=3]",
+    "Intensity Min [Channel=1]",
+    "Intensity Min [Channel=2]",
+    "Intensity Min [Channel=3]",
+    "Intensity StdDev [Channel=1]",
+    "Intensity StdDev [Channel=2]",
+    "Intensity StdDev [Channel=3]",
+    "Intensity Sum [Channel=1]",
+    "Intensity Sum [Channel=2]",
+    "Intensity Sum [Channel=3]",
+    "Intensity Sum of Square [Channel=1]",
+    "Intensity Sum of Square [Channel=2]",
+    "Intensity Sum of Square [Channel=3]",
+    "Number of Disconnected Components",
+    "Number of Triangles",
+    "Number of Voxels",
+    "Position X",
+    "Position Y",
+    "Position Z",
+    "Sphericity",
+    "Time",
+    "Time Index",
+    "Volume"
+   ],
+   "dtypes": [
+    "int64",
+    "int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "503f6487aebb1e83832c3588959155e2"
+  },
+  {
+   "index": 1,
+   "name": "Surfaces 1: Overall statistics",
+   "event_count": 2,
+   "parameter_names": [
+    "ID",
+    "Time",
+    "Number of Disconnected Components per Time Point",
+    "Number of Surfaces per Time Point",
+    "Total Number of Disconnected Components",
+    "Total Number of Surfaces",
+    "Total Number of Triangles",
+    "Total Number of Voxels"
+   ],
+   "dtypes": [
+    "int64",
+    "int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "88a6741b9985862e98619b79cb48df25"
+  },
+  {
+   "index": 2,
+   "name": "Surfaces 1: BlockInfo",
+   "event_count": 184,
+   "parameter_names": [
+    "ParentBlockIndex",
+    "RelativeBlockPathBegin",
+    "RelativeBlockPathEnd",
+    "SplitOffsetsBegin",
+    "SplitOffsetsEnd",
+    "NodeBegin",
+    "NodeEnd",
+    "LeafBegin",
+    "LeafEnd"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "99fb28a692e4e3c2e2d48324586e3d04"
+  },
+  {
+   "index": 3,
+   "name": "Surfaces 1: BlockPath",
+   "event_count": 8,
+   "parameter_names": [
+    "Data"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "f57aee6e1541f7fff6482d367b3b03c9"
+  },
+  {
+   "index": 4,
+   "name": "Surfaces 1: CategoryFunction",
+   "event_count": 1,
+   "parameter_names": [
+    "ID"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "2c0a8a99dc147d5445c3b49d035665b2"
+  },
+  {
+   "index": 5,
+   "name": "Surfaces 1: FactorFunction",
+   "event_count": 69,
+   "parameter_names": [
+    "ID_List"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "0bba541c995d5c3b55ba9ee4d6f1966c"
+  },
+  {
+   "index": 6,
+   "name": "Surfaces 1: FactorListFunction",
+   "event_count": 15,
+   "parameter_names": [
+    "ID"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "8118d71daddb47d25d62ed7b4f6a4131"
+  },
+  {
+   "index": 7,
+   "name": "Surfaces 1: LevelInfo",
+   "event_count": 177,
+   "parameter_names": [
+    "SamplingX",
+    "SamplingY",
+    "SamplingZ"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "ffba9d6cf7655d5462d5f2b8ed93d054"
+  },
+  {
+   "index": 8,
+   "name": "Surfaces 1: SplitOffset",
+   "event_count": 133,
+   "parameter_names": [
+    "Data"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "cc6677b2c2582c5956ff5c2cbbc59975"
+  },
+  {
+   "index": 9,
+   "name": "Surfaces 1: StatisticsTypeFunction",
+   "event_count": 42,
+   "parameter_names": [
+    "ID",
+    "ID_Category",
+    "ID_FactorList"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "a3356c8c8d4d46bc663f8af521749377"
+  },
+  {
+   "index": 10,
+   "name": "Surfaces 1: StatisticsValueFunction",
+   "event_count": 1428,
+   "parameter_names": [
+    "ID_Time",
+    "ID_Object",
+    "ID_StatisticsType",
+    "ValueX",
+    "ValueY"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "47c5b4e914fc0f75697df464f4518b5f"
+  },
+  {
+   "index": 11,
+   "name": "Surfaces 1: StatisticsValueTimeOffsetFunction",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "IndexBegin",
+    "IndexEnd"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "6262cb2a6a9304ae52f413d5b690b3a8"
+  },
+  {
+   "index": 12,
+   "name": "Surfaces 1: SurfaceModel",
+   "event_count": 51,
+   "parameter_names": [
+    "ID_Time",
+    "ID",
+    "NumberOfLevels",
+    "SizeX",
+    "SizeY",
+    "SizeZ",
+    "ExtendMinX",
+    "ExtendMinY",
+    "ExtendMinZ",
+    "ExtendMaxX",
+    "ExtendMaxY",
+    "ExtendMaxZ",
+    "DataCountPerChildNode",
+    "Threshold",
+    "LevelInfoBegin",
+    "LevelInfoEnd",
+    "BlockInfoBegin",
+    "BlockInfoEnd"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "efcae20ab029dcb44109e0fa454b4a17"
+  },
+  {
+   "index": 13,
+   "name": "Surfaces 1: SurfaceModelInfo",
+   "event_count": 51,
+   "parameter_names": [
+    "LevelCount",
+    "BlockCount",
+    "NodeCount",
+    "DataCount",
+    "NodeAndDataBytes",
+    "Volume",
+    "Area",
+    "Sphericity",
+    "PositionX",
+    "PositionY",
+    "PositionZ",
+    "CenterOfMassX",
+    "CenterOfMassY",
+    "CenterOfMassZ",
+    "EllipsoidAxisAX",
+    "EllipsoidAxisAY",
+    "EllipsoidAxisAZ",
+    "EllipsoidAxisBX",
+    "EllipsoidAxisBY",
+    "EllipsoidAxisBZ",
+    "EllipsoidAxisCX",
+    "EllipsoidAxisCY",
+    "EllipsoidAxisCZ",
+    "EllipsoidAxisLengthX",
+    "EllipsoidAxisLengthY",
+    "EllipsoidAxisLengthZ",
+    "EllipticityProlate",
+    "EllipticityOblate",
+    "NumberOfTriangles",
+    "NumberOfSplittedSurfaceParts",
+    "Orientation00",
+    "Orientation01",
+    "Orientation02",
+    "Orientation03",
+    "OrientedBoundingBoxMinX",
+    "OrientedBoundingBoxMinY",
+    "OrientedBoundingBoxMinZ",
+    "OrientedBoundingBoxMaxX",
+    "OrientedBoundingBoxMaxY",
+    "OrientedBoundingBoxMaxZ"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "f2fc9b6cb8dbaf0df29f1a17c6bf93ca"
+  },
+  {
+   "index": 14,
+   "name": "Surfaces 1: SurfaceTimeOffset",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "IndexBegin",
+    "IndexEnd"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "f1156b485514d60db6d4c36c7d7c66d8"
+  },
+  {
+   "index": 15,
+   "name": "Surfaces 1: Time",
+   "event_count": 1,
+   "parameter_names": [
+    "ID",
+    "Birth",
+    "Death",
+    "IDTimeBegin"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "e474c4bfc383509718eced7c1478b57b"
+  },
+  {
+   "index": 16,
+   "name": "Surfaces 1: TimeBegin",
+   "event_count": 1,
+   "parameter_names": [
+    "ID"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "2c0a8a99dc147d5445c3b49d035665b2"
+  },
+  {
+   "index": 17,
+   "name": "Surfaces 1: TrackSegment0",
+   "event_count": 51,
+   "parameter_names": [
+    "ID",
+    "FirstObjectId",
+    "Position"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "c1d462138b944a20b9f404562f0669bd"
+  },
+  {
+   "index": 18,
+   "name": "Surfaces 1: TrackSegment0_Focus",
+   "event_count": 51,
+   "parameter_names": [
+    "ID",
+    "FirstObjectId",
+    "Position"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64"
+   ],
+   "xxh3": "c1d462138b944a20b9f404562f0669bd"
+  }
+ ],
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 1024,
+   "height": 1024,
+   "size_z": 8,
+   "size_t": 1,
+   "size_c": 3,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint16",
+   "thumbnail": "false"
+  },
+  {
+   "series": 1,
+   "samples": 1,
+   "width": 512,
+   "height": 512,
+   "size_z": 8,
+   "size_t": 1,
+   "size_c": 3,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint16",
+   "thumbnail": "true"
+  },
+  {
+   "series": 2,
+   "samples": 1,
+   "width": 256,
+   "height": 256,
+   "size_z": 8,
+   "size_t": 1,
+   "size_c": 3,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint16",
+   "thumbnail": "true"
+  }
+ ]
+}

@@ -1,0 +1,79 @@
+{
+ "id": "zenodo20131691-bn-eels",
+ "file": "zenodo20131691-bn-eels.dm4",
+ "size": 348962,
+ "sha256": "a643cbd1c37de502889b78e32ea7ead872c84421ff126ebc6038aa393d9e4e9b",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "EELS_005_006",
+   "size_x": 2048,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "36f93eb323aa7b038a7c6450f86e9528"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "EELS_005_006",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "Counts"
+   ],
+   "ppm_first": 80.00000012715645,
+   "ppm_last": 694.100024529298,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2048,
+     "channels": [
+      {
+       "xxh3": "6bca1c3d614f72ca17fa63dd3e720fdf",
+       "first": [
+        2049146.875,
+        1975489.625,
+        1928861.0,
+        1909361.25,
+        1870857.625,
+        1857541.125,
+        1839599.625,
+        1813944.5
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}

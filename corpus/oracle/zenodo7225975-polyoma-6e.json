@@ -1,0 +1,219 @@
+{
+ "id": "zenodo7225975-polyoma-6e",
+ "file": "zenodo7225975-polyoma-6e.lif",
+ "size": 30850619,
+ "sha256": "90cb79deb742a1fd83b5147a47af8fab899514e1129def468fd7f47ef1951178",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "D295N del297 Lateral ventricle",
+   "path": "D295N del297 Lateral ventricle",
+   "size_x": 1600,
+   "size_y": 1200,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    4,
+    1200,
+    1600
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.3142857410881801,
+    "y": 0.31428573811509586,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "94d24bceec5a37fd125ca9484f00e9bf"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "90a8103d0ff5ca0ee85844b66bae540a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "97585dab126365bd99b098e6d6917cfd"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "76f18f29b0cb27d4e1ed310221239afc"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "A2 Lateral ventricle",
+   "path": "A2 Lateral ventricle",
+   "size_x": 1600,
+   "size_y": 1200,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    4,
+    1200,
+    1600
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.3142857410881801,
+    "y": 0.31428573811509586,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "def0d883876271163e47634ac185fef4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7aa14db4d4ea974fe09e5ab89b674c8b"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d008f69b4b490b4c85de0630307164ab"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8f4a60bafa021fe5c12437a8a0d8a07b"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "A2 Third ventricle",
+   "path": "A2 Third ventricle",
+   "size_x": 1600,
+   "size_y": 1200,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    4,
+    1200,
+    1600
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.3142857410881801,
+    "y": 0.31428573811509586,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b90c35433d38d1a0853a932628002537"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4bdbae5d42037284502ac3249030d711"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "659645f8fa49a4f8548132ca31d66ac5"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2426858e0c46b9efc8b8d7ba67bea079"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "D295N del297 Third ventricle",
+   "path": "D295N del297 Third ventricle",
+   "size_x": 1600,
+   "size_y": 1200,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    4,
+    1200,
+    1600
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.3142857410881801,
+    "y": 0.31428573811509586,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5a9fc11366462a314aec9cc9dfb77f80"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a530d159f16dddb6dfef7edef0090729"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e34394036913fcacb873e416724825c3"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3577138a7c3844888192da414cabf5d1"
+    }
+   ]
+  }
+ ]
+}

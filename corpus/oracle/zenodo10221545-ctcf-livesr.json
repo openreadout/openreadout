@@ -1,0 +1,51 @@
+{
+ "id": "zenodo10221545-ctcf-livesr",
+ "file": "zenodo10221545-ctcf-livesr.czi",
+ "size": 1841344,
+ "sha256": "f0539b72b8991199ce74b5526ed76dbdac6fb0fe45845c48264e226716ec7918",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.06097274987101919,
+    "y": 0.06097274987101919,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fd5da868cb51fca983f163eadd73c649"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.06097274987101919,
+  "y": 0.06097274987101919,
+  "z": 0.0
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

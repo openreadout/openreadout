@@ -1,0 +1,68 @@
+{
+ "id": "zenodo5895076-polymersome-spot",
+ "file": "zenodo5895076-polymersome-spot.ims",
+ "size": 720594,
+ "sha256": "979982e23221b08ee69f4ae73b0d296633ba5d750afa4134c5c8097026af3128",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 430,
+   "size_y": 430,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "channel_names": [
+    "Hoechst",
+    "FITC",
+    "AF680"
+   ],
+   "filters": [
+    1
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "39903ea8db20bf5c25e7e9f6f5da37c8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "605eb20e1cbdb9c7cd5cc4867e2c4505"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "56ce8a18a7fe166f611cf0e2093f9c26"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 430,
+   "height": 430,
+   "size_z": 1,
+   "size_t": 1,
+   "size_c": 3,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint8",
+   "thumbnail": "false"
+  }
+ ]
+}

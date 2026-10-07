@@ -40,10 +40,10 @@ Shared helpers: `util.rs` (bounded reads, endian-aware numbers, half floats, OLE
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `mrc` | [format note](../../docs/formats/mrc.md), [provenance log](../../docs/provenance/mrc.md) | high | open spec | 13 / 13 | 7 | 2 / 0 |
-| `dm` | [format note](../../docs/formats/dm.md), [provenance log](../../docs/provenance/dm.md) | high | prior art | 89 / 89 | 15 | 2 / 0 |
-| `ser` | [format note](../../docs/formats/ser.md), [provenance log](../../docs/provenance/ser.md) | medium | prior art | 21 / 21 | 4 | 1 / 0 |
-| `emd` | [format note](../../docs/formats/emd.md), [provenance log](../../docs/provenance/emd.md) | high | prior art | 32 / 32 | 9 | 1 / 0 |
+| `mrc` | [format note](../../docs/formats/mrc.md), [provenance log](../../docs/provenance/mrc.md) | high | open spec | 23 / 23 | 17 | 2 / 0 |
+| `dm` | [format note](../../docs/formats/dm.md), [provenance log](../../docs/provenance/dm.md) | high | prior art | 114 / 114 | 39 | 2 / 0 |
+| `ser` | [format note](../../docs/formats/ser.md), [provenance log](../../docs/provenance/ser.md) | high | prior art | 22 / 22 | 5 | 1 / 0 |
+| `emd` | [format note](../../docs/formats/emd.md), [provenance log](../../docs/provenance/emd.md) | high | prior art | 37 / 37 | 14 | 1 / 0 |
 
 ### Source map
 
@@ -105,95 +105,95 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dm` | acquisition | `DIFFRACTION` | descriptive | 3 | 3 | `rsciio-dm-2d-test-diffraction-pattern-dm3`, `zenodo13821437-Figure-2e`, `zenodo8045363-fem-TbCoSiN-stack` |
+| `dm` | acquisition | `DIFFRACTION` | descriptive | 6 | 6 | `rsciio-dm-2d-test-diffraction-pattern-dm3`, `zenodo13821437-Figure-2e`, `zenodo3878707-oam-gif` |
 | `dm` | acquisition | `GIF SCANNING` | descriptive | 2 | 2 | `rsciio-dm-3d-eels-si-dm4`, `zenodo7401985-ADF-Image` |
-| `dm` | acquisition | `IMAGING` | descriptive | 3 | 3 | `ncem-dm-08-carbon-dm3`, `zenodo11471263-wte2-HRTEM`, `zenodo8398370-NF-0001` |
-| `dm` | acquisition | `SCANNING` | descriptive | 12 | 12 | `rsciio-dm-1d-test-eds-spectrum-dm3`, `rsciio-dm-1d-test-eels-spectrum-dm3`, `rsciio-dm-1d-test-monarccl-spectrum-ccd-dm4` |
+| `dm` | acquisition | `IMAGING` | descriptive | 8 | 8 | `ncem-dm-08-carbon-dm3`, `ome-dm4-smallmontage0000`, `ome-dm4-smallmontage0001` |
+| `dm` | acquisition | `Imaging` | descriptive | 1 | 1 | `zenodo1478664-sorter-47r` |
+| `dm` | acquisition | `SCANNING` | descriptive | 21 | 21 | `rsciio-dm-1d-test-eds-spectrum-dm3`, `rsciio-dm-1d-test-eels-spectrum-dm3`, `rsciio-dm-1d-test-monarccl-spectrum-ccd-dm4` |
 | `dm` | acquisition | `STEM` | descriptive | 2 | 2 | `zenodo13913066-CS-Co-EELS-SI`, `zenodo13913066-Core-DF` |
-| `dm` | field | `experiment.acquisition.started_at` | descriptive | 10 | 10 | `rsciio-dm-2d-multi-signal-dm3`, `rsciio-dm-2d-test-diffraction-pattern-dm3`, `rsciio-dm-2d-test-monarccl-spectrum-si-dm4` |
-| `dm` | field | `experiment.instrument.model` | descriptive | 20 | 20 | `ncem-dm-08-carbon-dm3`, `rsciio-dm-1d-test-eds-spectrum-dm3`, `rsciio-dm-1d-test-eels-spectrum-dm3` |
-| `dm` | format_version | `DM3` | metadata, pixels | 40 | 40 | `ncem-dm-08-carbon-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm3` |
-| `dm` | format_version | `DM4` | metadata, pixels | 41 | 41 | `ncem-dm-dmtest-3d-int16-64-65-66-dm4`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm4`, `nion-dm-ref-f-0-1-dm4` |
+| `dm` | field | `experiment.acquisition.started_at` | descriptive | 22 | 22 | `ome-dm4-smallmontage0000`, `ome-dm4-smallmontage0001`, `rsciio-dm-2d-multi-signal-dm3` |
+| `dm` | field | `experiment.instrument.model` | descriptive | 38 | 38 | `ncem-dm-08-carbon-dm3`, `ome-dm4-smallmontage0000`, `ome-dm4-smallmontage0001` |
+| `dm` | format_version | `DM3` | metadata, pixels | 51 | 51 | `ncem-dm-08-carbon-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm3` |
+| `dm` | format_version | `DM4` | metadata, pixels | 55 | 55 | `ncem-dm-dmtest-3d-int16-64-65-66-dm4`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm4`, `nion-dm-ref-f-0-1-dm4` |
 | `dm` | format_version | `DM5` | metadata, pixels | 8 | 8 | `nion-dm-ref-f-0-1-dm5`, `nion-dm-ref-f-0-2-dm5`, `nion-dm-ref-f-1-1-dm5` |
 | `dm` | instrument | `FEI Tecnai` | descriptive | 3 | 3 | `rsciio-dm-2d-test-diffraction-pattern-dm3`, `zenodo13913066-CS-Co-EELS-SI`, `zenodo13913066-Core-DF` |
-| `dm` | instrument | `FEI Tecnai Remote` | descriptive | 6 | 6 | `rsciio-dm-1d-test-eds-spectrum-dm3`, `rsciio-dm-1d-test-eels-spectrum-dm3`, `rsciio-dm-2d-multi-signal-dm3` |
-| `dm` | instrument | `FEI Tecnai Remote TCPIP` | descriptive | 2 | 2 | `zenodo20131420-SI-nanoFe`, `zenodo7401985-ADF-Image` |
-| `dm` | instrument | `JEOL COM` | descriptive | 3 | 3 | `zenodo11471263-wte2-HRTEM`, `zenodo2580185-Gatan-STEM-Image`, `zenodo8398370-NF-0001` |
+| `dm` | instrument | `FEI Tecnai Remote` | descriptive | 7 | 7 | `rsciio-dm-1d-test-eds-spectrum-dm3`, `rsciio-dm-1d-test-eels-spectrum-dm3`, `rsciio-dm-2d-multi-signal-dm3` |
+| `dm` | instrument | `FEI Tecnai Remote TCPIP` | descriptive | 6 | 6 | `ome-dm4-smallmontage0000`, `ome-dm4-smallmontage0001`, `zenodo14602797-lunar-eels` |
+| `dm` | instrument | `FEI Titan` | descriptive | 1 | 1 | `zenodo6385528-ge-nanowire` |
+| `dm` | instrument | `JEOL COM` | descriptive | 11 | 11 | `zenodo10848941-go-zno`, `zenodo1108559-diamond-1c`, `zenodo11471263-wte2-HRTEM` |
+| `dm` | instrument | `JEOL COM, F200` | descriptive | 1 | 1 | `zenodo17113003-picker-si` |
 | `dm` | instrument | `NCEM TEAM 0.5` | descriptive | 1 | 1 | `ncem-dm-08-carbon-dm3` |
-| `dm` | instrument | `TitanX` | descriptive | 2 | 2 | `zenodo13821437-Figure-2e`, `zenodo8045363-fem-TbCoSiN-stack` |
+| `dm` | instrument | `Tecnai F20` | descriptive | 1 | 1 | `zenodo1478664-sorter-47r` |
+| `dm` | instrument | `Titan Holo` | descriptive | 1 | 1 | `zenodo3878707-oam-gif` |
+| `dm` | instrument | `TitanX` | descriptive | 3 | 3 | `zenodo13821437-Figure-2e`, `zenodo8045363-fem-TbCoSiN-stack`, `zenodo8216192-chirality-probe` |
 | `dm` | instrument | `Unknown` | descriptive | 2 | 2 | `zenodo8190744-EELS-STO`, `zenodo8403583-apatite-lowloss-SI` |
 | `dm` | instrument | `Zeiss SEM COM` | descriptive | 3 | 3 | `rsciio-dm-1d-test-monarccl-spectrum-ccd-dm4`, `rsciio-dm-2d-test-monarccl-spectrum-si-dm4`, `rsciio-dm-2d-test-monocl-spectrum-si-dm4` |
-| `dm` | layout | `1-D` | pixels | 13 | 13 | `nion-dm-ref-f-0-1-dm3`, `nion-dm-ref-f-0-1-dm4`, `nion-dm-ref-f-0-1-dm5` |
-| `dm` | layout | `2-D` | pixels | 49 | 49 | `ncem-dm-08-carbon-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm4` |
-| `dm` | layout | `3-D` | pixels | 29 | 29 | `ncem-dm-dmtest-3d-int16-64-65-66-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm4`, `nion-dm-ref-f-1-1-dm3` |
+| `dm` | layout | `1-D` | pixels | 17 | 17 | `nion-dm-ref-f-0-1-dm3`, `nion-dm-ref-f-0-1-dm4`, `nion-dm-ref-f-0-1-dm5` |
+| `dm` | layout | `2-D` | pixels | 67 | 67 | `ncem-dm-08-carbon-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm4` |
+| `dm` | layout | `3-D` | pixels | 32 | 32 | `ncem-dm-dmtest-3d-int16-64-65-66-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm4`, `nion-dm-ref-f-1-1-dm3` |
 | `dm` | sample_layout | `binary` | pixels | 2 | 2 | `rsciio-dm-2d-test-14-dm3`, `rsciio-dm-2d-test-14-dm4` |
 | `dm` | sample_layout | `complex128` | pixels | 4 | 4 | `rsciio-dm-2d-test-13-dm3`, `rsciio-dm-2d-test-13-dm4`, `rsciio-dm-2d-test-28-dm4` |
 | `dm` | sample_layout | `complex64` | pixels | 4 | 4 | `rsciio-dm-2d-test-27-dm4`, `rsciio-dm-2d-test-3-dm3`, `rsciio-dm-2d-test-3-dm4` |
-| `dm` | sample_layout | `float32` | pixels | 49 | 49 | `ncem-dm-08-carbon-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm4` |
+| `dm` | sample_layout | `float32` | pixels | 65 | 65 | `ncem-dm-08-carbon-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm4` |
 | `dm` | sample_layout | `float64` | pixels | 2 | 2 | `rsciio-dm-2d-test-12-dm3`, `rsciio-dm-2d-test-12-dm4` |
-| `dm` | sample_layout | `int16` | pixels | 4 | 4 | `ncem-dm-dmtest-3d-int16-64-65-66-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm4`, `rsciio-dm-2d-test-1-dm3` |
-| `dm` | sample_layout | `int32` | pixels | 5 | 5 | `rsciio-dm-2d-test-7-dm3`, `rsciio-dm-2d-test-7-dm4`, `rsciio-dm-2d-test-diffraction-pattern-dm3` |
+| `dm` | sample_layout | `int16` | pixels | 5 | 5 | `ncem-dm-dmtest-3d-int16-64-65-66-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm4`, `rsciio-dm-2d-test-1-dm3` |
+| `dm` | sample_layout | `int32` | pixels | 7 | 7 | `rsciio-dm-2d-test-7-dm3`, `rsciio-dm-2d-test-7-dm4`, `rsciio-dm-2d-test-diffraction-pattern-dm3` |
 | `dm` | sample_layout | `int8` | pixels | 2 | 2 | `rsciio-dm-2d-test-9-dm3`, `rsciio-dm-2d-test-9-dm4` |
-| `dm` | sample_layout | `packed-complex64` | pixels | 1 | 1 | `rsciio-dm-2d-test-fft-packed-complex8-dm4` |
+| `dm` | sample_layout | `packed-complex64` | pixels | 2 | 2 | `rsciio-dm-2d-test-fft-packed-complex8-dm4`, `zenodo22456798-lpbf-fft` |
 | `dm` | sample_layout | `rgba` | pixels | 4 | 4 | `rsciio-dm-1d-test-23-dm3`, `rsciio-dm-2d-test-23-dm3`, `rsciio-dm-2d-test-23-dm4` |
-| `dm` | sample_layout | `uint16` | pixels | 6 | 6 | `rsciio-dm-2d-multi-signal-dm3`, `rsciio-dm-2d-test-10-dm3`, `rsciio-dm-2d-test-10-dm4` |
-| `dm` | sample_layout | `uint32` | pixels | 6 | 6 | `rsciio-dm-1d-test-eds-spectrum-dm3`, `rsciio-dm-2d-test-11-dm3`, `rsciio-dm-2d-test-11-dm4` |
+| `dm` | sample_layout | `uint16` | pixels | 8 | 8 | `rsciio-dm-2d-multi-signal-dm3`, `rsciio-dm-2d-test-10-dm3`, `rsciio-dm-2d-test-10-dm4` |
+| `dm` | sample_layout | `uint32` | pixels | 9 | 9 | `rsciio-dm-1d-test-eds-spectrum-dm3`, `rsciio-dm-2d-test-11-dm3`, `rsciio-dm-2d-test-11-dm4` |
 | `dm` | sample_layout | `uint8` | pixels | 2 | 2 | `rsciio-dm-2d-test-6-dm3`, `rsciio-dm-2d-test-6-dm4` |
-| `dm` | writer | `Gatan DigitalMicrograph` | descriptive | 89 | 89 | `ncem-dm-08-carbon-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm4` |
+| `dm` | writer | `Gatan DigitalMicrograph` | descriptive | 114 | 114 | `ncem-dm-08-carbon-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm4` |
 | `dm` | writer_version | `Gatan DigitalMicrograph 2.31` | descriptive | 6 | 6 | `rsciio-dm-1d-test-eds-spectrum-dm3`, `rsciio-dm-1d-test-eels-spectrum-dm3`, `rsciio-dm-2d-test-stem-image-dm3` |
-| `dm` | writer_version | `Gatan DigitalMicrograph 2.32` | descriptive | 4 | 4 | `rsciio-dm-2d-multi-signal-dm3`, `rsciio-dm-3d-eels-si-dm4`, `zenodo8403583-apatite-HAADF` |
+| `dm` | writer_version | `Gatan DigitalMicrograph 2.32` | descriptive | 5 | 5 | `rsciio-dm-2d-multi-signal-dm3`, `rsciio-dm-3d-eels-si-dm4`, `zenodo8188933-irradiated-df` |
 | `dm` | writer_version | `Gatan DigitalMicrograph 3.0` | descriptive | 2 | 2 | `ncem-dm-dmtest-3d-int16-64-65-66-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm4` |
 | `dm` | writer_version | `Gatan DigitalMicrograph 3.20` | descriptive | 2 | 2 | `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm4` |
-| `dm` | writer_version | `Gatan DigitalMicrograph 3.21` | descriptive | 1 | 1 | `zenodo2580185-Gatan-STEM-Image` |
-| `dm` | writer_version | `Gatan DigitalMicrograph 3.43` | descriptive | 1 | 1 | `zenodo8398370-NF-0001` |
+| `dm` | writer_version | `Gatan DigitalMicrograph 3.21` | descriptive | 3 | 3 | `zenodo14894490-hfn-pillar`, `zenodo2580185-Gatan-STEM-Image`, `zenodo6532308-nanowire-line` |
+| `dm` | writer_version | `Gatan DigitalMicrograph 3.22` | descriptive | 1 | 1 | `zenodo17454201-ice-si` |
+| `dm` | writer_version | `Gatan DigitalMicrograph 3.31` | descriptive | 2 | 2 | `ome-dm4-smallmontage0000`, `ome-dm4-smallmontage0001` |
+| `dm` | writer_version | `Gatan DigitalMicrograph 3.40` | descriptive | 1 | 1 | `zenodo22456798-lpbf-fft` |
+| `dm` | writer_version | `Gatan DigitalMicrograph 3.42` | descriptive | 1 | 1 | `zenodo8002432-periplasmic` |
+| `dm` | writer_version | `Gatan DigitalMicrograph 3.43` | descriptive | 4 | 4 | `zenodo10848941-go-zno`, `zenodo14602797-lunar-eels`, `zenodo17176730-bf-issue-4366` |
 | `dm` | writer_version | `Gatan DigitalMicrograph 3.44` | descriptive | 1 | 1 | `zenodo7401985-ADF-Image` |
 | `dm` | writer_version | `Gatan DigitalMicrograph 3.50` | descriptive | 1 | 1 | `rsciio-dm-2d-test-monarccl-spectrum-si-dm4` |
-| `dm` | writer_version | `Gatan DigitalMicrograph 3.51` | descriptive | 1 | 1 | `rsciio-dm-2d-test-fft-packed-complex8-dm4` |
-| `dm` | writer_version | `Gatan DigitalMicrograph 3.53` | descriptive | 2 | 2 | `zenodo18016957-hBN-spectra-overlaid`, `zenodo20131420-SI-nanoFe` |
+| `dm` | writer_version | `Gatan DigitalMicrograph 3.51` | descriptive | 3 | 3 | `rsciio-dm-2d-test-fft-packed-complex8-dm4`, `zenodo15381627-crphys-eels`, `zenodo18373896-hzo-ptycho` |
+| `dm` | writer_version | `Gatan DigitalMicrograph 3.53` | descriptive | 5 | 5 | `zenodo17113003-picker-si`, `zenodo18016957-hBN-spectra-overlaid`, `zenodo20131420-SI-nanoFe` |
 | `dm` | writer_version | `Gatan DigitalMicrograph 3.60` | descriptive | 1 | 1 | `zenodo14541027-SAED1-TEM-0003` |
 | `emd` | codec | `event stream uint16` | pixels | 1 | 1 | `zenodo20131712-0017-SI-Nano-1.4um` |
-| `emd` | field | `experiment.acquisition.started_at` | descriptive | 17 | 17 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro` |
-| `emd` | field | `experiment.instrument.model` | descriptive | 17 | 17 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro` |
+| `emd` | field | `experiment.acquisition.started_at` | descriptive | 22 | 22 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro` |
+| `emd` | field | `experiment.instrument.model` | descriptive | 22 | 22 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro` |
 | `emd` | format_version | `Berkeley EMD` | metadata, pixels | 4 | 4 | `rsciio-emd-si100-1x1x3-zstart5.43`, `rsciio-emd-si100-2x1x1-3d`, `rsciio-emd-si100-3d` |
 | `emd` | format_version | `Berkeley EMD 0.2` | metadata, pixels | 5 | 5 | `ncem-emd-acquisition-18`, `ncem-emd-pt-saed-d910mm-single`, `ncem-emd-type1-stringdims` |
 | `emd` | format_version | `Berkeley EMD null.null` | metadata, pixels | 4 | 4 | `rsciio-emd-example-image`, `rsciio-emd-example-metadata`, `rsciio-emd-example-signal` |
-| `emd` | format_version | `Velox 10` | metadata, pixels | 5 | 5 | `zenodo20040988-0050-STEM-15.4nm`, `zenodo20131420-0028-Camera-Micro`, `zenodo20131420-0030-STEM-Nano-2.79um` |
-| `emd` | format_version | `Velox 11` | metadata, pixels | 4 | 4 | `zenodo18267156-STEM-EELS-1-DyScO3`, `zenodo19965490-graphene-2`, `zenodo21895889-0041-STEM-HAADF-BF` |
+| `emd` | format_version | `Velox 10` | metadata, pixels | 6 | 6 | `zenodo20040988-0050-STEM-15.4nm`, `zenodo20131420-0028-Camera-Micro`, `zenodo20131420-0030-STEM-Nano-2.79um` |
+| `emd` | format_version | `Velox 11` | metadata, pixels | 5 | 5 | `zenodo17464971-coreshell-mag`, `zenodo18267156-STEM-EELS-1-DyScO3`, `zenodo19965490-graphene-2` |
 | `emd` | format_version | `Velox 7` | metadata, pixels | 2 | 2 | `zenodo18685575-1238-42kx-LAADF`, `zenodo18685575-1243-164kx-LAADF` |
-| `emd` | format_version | `Velox 8` | metadata, pixels | 5 | 5 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro` |
-| `emd` | format_version | `Velox 9` | metadata, pixels | 3 | 3 | `rsciio-emd-fei-example-dpc-titles`, `rsciio-emd-fftcomplexeven`, `rsciio-emd-fftcomplexodd` |
-| `emd` | instrument | `Spectra` | descriptive | 9 | 9 | `rsciio-emd-fftcomplexeven`, `rsciio-emd-fftcomplexodd`, `zenodo18267156-STEM-EELS-1-DyScO3` |
-| `emd` | instrument | `Titan` | descriptive | 8 | 8 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro` |
+| `emd` | format_version | `Velox 8` | metadata, pixels | 6 | 6 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro` |
+| `emd` | format_version | `Velox 9` | metadata, pixels | 5 | 5 | `rsciio-emd-fei-example-dpc-titles`, `rsciio-emd-fftcomplexeven`, `rsciio-emd-fftcomplexodd` |
+| `emd` | instrument | `Spectra` | descriptive | 11 | 11 | `rsciio-emd-fftcomplexeven`, `rsciio-emd-fftcomplexodd`, `zenodo13893137-alcumg-haadf` |
+| `emd` | instrument | `Talos F200S` | descriptive | 1 | 1 | `zenodo3878805-ceta-holo` |
+| `emd` | instrument | `Titan` | descriptive | 9 | 9 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro` |
+| `emd` | instrument | `Titan Cubed` | descriptive | 1 | 1 | `zenodo17464971-coreshell-mag` |
 | `emd` | layout | `eds spectrum image` | pixels | 1 | 1 | `zenodo20131712-0017-SI-Nano-1.4um` |
 | `emd` | layout | `eels spectrum image` | metadata, pixels | 1 | 1 | `zenodo18267156-STEM-EELS-1-DyScO3` |
-| `emd` | layout | `multi-frame` | pixels | 2 | 2 | `rsciio-emd-fei-example-tem-stack`, `zenodo20131712-0017-SI-Nano-1.4um` |
-| `emd` | record | `detector BF` | descriptive | 1 | 1 | `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro` |
+| `emd` | layout | `multi-frame` | pixels | 4 | 4 | `rsciio-emd-fei-example-tem-stack`, `zenodo13893137-alcumg-haadf`, `zenodo20131712-0017-SI-Nano-1.4um` |
+| `emd` | record | `detector BF` | descriptive | 2 | 2 | `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro`, `zenodo6414955-sigma3` |
 | `emd` | record | `detector BF-S` | descriptive | 1 | 1 | `zenodo21895889-0041-STEM-HAADF-BF` |
-| `emd` | record | `detector BM-Ceta` | descriptive | 5 | 5 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `rsciio-emd-fei-example-complex-fft` |
+| `emd` | record | `detector BM-Ceta` | descriptive | 6 | 6 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `rsciio-emd-fei-example-complex-fft` |
 | `emd` | record | `detector DF-S` | descriptive | 1 | 1 | `zenodo18267156-STEM-EELS-1-DyScO3` |
-| `emd` | record | `detector DF2` | descriptive | 1 | 1 | `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro` |
-| `emd` | record | `detector DF4` | descriptive | 2 | 2 | `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro`, `rsciio-emd-fei-example-dpc-titles` |
+| `emd` | record | `detector DF2` | descriptive | 2 | 2 | `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro`, `zenodo6414955-sigma3` |
+| `emd` | record | `detector DF4` | descriptive | 4 | 4 | `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro`, `rsciio-emd-fei-example-dpc-titles`, `zenodo17464971-coreshell-mag` |
 | `emd` | record | `detector EELS Strip Detector` | descriptive | 1 | 1 | `zenodo18267156-STEM-EELS-1-DyScO3` |
-| `emd` | record | `detector HAADF` | descriptive | 10 | 10 | `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro`, `rsciio-emd-fftcomplexeven`, `rsciio-emd-fftcomplexodd` |
-| `emd` | record | `detector SuperXG2` | descriptive | 1 | 1 | `zenodo20131712-0017-SI-Nano-1.4um` |
-| `emd` | record | `detector SuperXG23 + SuperXG21 + SuperXG24 + SuperXG22` | descriptive | 1 | 1 | `zenodo20131712-0017-SI-Nano-1.4um` |
-| `emd` | record | `eds spectra` | traces | 3 | 3 | `zenodo20131712-0002-Spectrum-Micro`, `zenodo20131712-0017-SI-Nano-1.4um`, `zenodo21895889-0043-Spectrum-EDS` |
-| `emd` | sample_layout | `complex` | pixels | 4 | 4 | `rsciio-emd-fei-example-complex-fft`, `rsciio-emd-fei-example-dpc-titles`, `rsciio-emd-fftcomplexeven` |
-| `emd` | sample_layout | `double` | pixels | 1 | 1 | `rsciio-emd-example-axis-len-1` |
-| `emd` | sample_layout | `float` | pixels | 7 | 7 | `rsciio-emd-fei-example-dpc-titles`, `rsciio-emd-si100-1x1x3-zstart5.43`, `rsciio-emd-si100-2x1x1-3d` |
-| `emd` | sample_layout | `int16` | pixels | 4 | 4 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `rsciio-emd-fei-example-tem-stack` |
-| `emd` | sample_layout | `int32` | pixels | 5 | 5 | `ncem-emd-pt-saed-d910mm-single`, `rsciio-emd-example-image`, `rsciio-emd-example-metadata` |
-| `emd` | sample_layout | `int64` | pixels | 2 | 2 | `ncem-emd-type1-stringdims`, `rsciio-emd-example-bytes-string-metadata` |
-| `emd` | sample_layout | `uint16` | pixels | 13 | 13 | `ncem-emd-acquisition-18`, `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro`, `rsciio-emd-fei-example-dpc-titles` |
 
-… 50 more values: the generated table in `src/assurance.rs` has all of them.
+… 64 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic_emd.rs`](tests/synthetic_emd.rs), [`tests/synthetic_mrc.rs`](tests/synthetic_mrc.rs)
 - committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_dm`, `whole_emd`, `whole_mrc`, `whole_ser`
-- corpus inputs by tier: heldout 22, smoke 134, standard 21
+- corpus inputs by tier: heldout 22, smoke 134, standard 62
 - golden snapshots: [`corpus/snapshots/mrc.jsonl`](../../corpus/snapshots/mrc.jsonl), [`corpus/snapshots/dm.jsonl`](../../corpus/snapshots/dm.jsonl), [`corpus/snapshots/ser.jsonl`](../../corpus/snapshots/ser.jsonl), [`corpus/snapshots/emd.jsonl`](../../corpus/snapshots/emd.jsonl)
 
 ### Open new-variant intakes

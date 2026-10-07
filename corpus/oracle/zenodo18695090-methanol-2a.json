@@ -1,0 +1,39 @@
+{
+ "id": "zenodo18695090-methanol-2a",
+ "file": "zenodo18695090-methanol-2a.dm3",
+ "size": 11110779,
+ "sha256": "adbcd014b23eab47c01e806f6bbd69b5bcd518f3d1359cb6206b5c952260c69e",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "6",
+   "size_x": 2004,
+   "size_y": 1335,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 2.6162896305322647e-05,
+    "y": 2.6162896305322647e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f22cfce1522dd68ee1efc8a9b53ca344"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}
