@@ -123,3 +123,17 @@ Corpus: every mzML, mzXML and imzML file (`cargo test -p openreadout-corpus-test
 **Found:** `i2nca-cc` declares continuous storage, but its eight spectra have m/z arrays of 1,990 to 1,999 values and intensity arrays of other lengths. pyimzML fails on it, so it has no oracle. `openreadout spectra --index 1` refuses it (exit 4, "m/z array has 1999 values, intensity array 1997"), while `openreadout check` reports the file OK (exit 0). It is proposed as a malformed-file case, not as validation.
 
 **Inferred:** nothing new. The Zenodo 2628280 record names its imzML `conrol.imzml` and its binary file `control.ibd`. The corpus stores both under one stem so that a reader finds the `.ibd`, as the specification requires.
+
+## 2026-10-06 — `check` compares the m/z and intensity array lengths (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** `i2nca-cc` (GitHub cKNUSPeR/i2nca @517c91e, GPL-3.0), now a `corrupt` entry. **Prior art consulted:** none.
+
+**What was found, and decided:** reading a spectrum already refused one whose m/z and intensity arrays differ in length (exit 4), but `check` decoded each array on its own and reported the file OK. `check` now applies the same rule to every spectrum and reports `bad_array`, so the two agree. Nothing about the layout was inferred.
+
+## 2026-10-06 — imzML: the MS level a file states only in `fileContent` (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** `metaspace-untreated-3-434` (metaspace2020/metaspace test data, Apache-2.0), and for comparison `imzml-example-continuous`, `i2nca-pp`, `kineticmsi-hd-rep6`, `zenodo17374882-spheroid-section01`. **Prior art consulted:** the imzML 1.1 specification (open, imzml.org) for the meaning of `fileContent`.
+
+**What was found:** `metaspace-untreated-3-434` names `MS1 spectrum` only in `fileDescription/fileContent`, not on its spectra, and the reader reported MS level 0 (not stated) for its 4,850 spectra. The files that state the level on each spectrum or in a referenceable group were read as 1. Files that name no spectrum kind at all (`kineticmsi-*`, the spheroid sections) stay 0. The oracle had hard-coded MS level 1 for every imzML pixel, because pyimzML does not report it. It now takes the level from the file's own cvParams with the reader's rule (a non-zero `ms level`, else 1 when `MS1 spectrum` is named, else 0), and the oracles were regenerated.
+
+**Decided:** in an imzML file, a spectrum that states no MS level takes level 1 when `fileContent` names `MS1 spectrum` and no other spectrum kind (centroid and profile describe the representation and are not counted). mzML files are unchanged: their `fileContent` lists every kind in the run.

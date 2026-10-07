@@ -3911,11 +3911,18 @@ def imzml_(p: Path) -> dict:
     from importlib.metadata import version as pkg_version
     from pyimzml.ImzMLParser import ImzMLParser
     scans = []
+    # pyimzML does not report the MS level: take it from the file's own cvParams (`MS1 spectrum`
+    # or a non-zero `ms level`, usually in a referenceableParamGroup); 0 when the file states neither
+    text = p.read_text(encoding="utf-8", errors="replace")
+    lv = re.search(r'accession="MS:1000511"[^>]*value="(\d+)"', text)
+    ms_level = int(lv.group(1)) if lv else 0
+    if ms_level == 0 and 'accession="MS:1000579"' in text:
+        ms_level = 1
     with ImzMLParser(str(p)) as parser:
         for i, xyz in enumerate(parser.coordinates):
             mz, it = parser.getspectrum(i)
             scans.append({
-                "index": i, "scan_number": i + 1, "ms_level": 1, "rt_s": None, "polarity": None,
+                "index": i, "scan_number": i + 1, "ms_level": ms_level, "rt_s": None, "polarity": None,
                 "centroided": None, "filter": None, "precursor_mz": None, "precursor_charge": None,
                 "activation": None, "position": list(xyz),
                 **_peaks(mz, it, int(np.asarray(mz).dtype.itemsize * 8)),

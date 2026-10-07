@@ -95,6 +95,8 @@ pub struct MzmlDataset {
     notes: Vec<String>,
     summaries: OnceLock<std::result::Result<Vec<Summary>, String>>,
     chrom_meta: OnceLock<std::result::Result<Vec<ChromMeta>, String>>,
+    /// imzML: the MS level of a spectrum that states none (`default_ms_level`).
+    level_default: OnceLock<u32>,
     /// imzML: the `.ibd` file holding the arrays.
     imaging: Option<Imaging>,
     /// mzMLb: the HDF5 datasets holding the arrays.
@@ -297,6 +299,7 @@ impl MzmlDataset {
             notes,
             summaries: OnceLock::new(),
             chrom_meta: OnceLock::new(),
+            level_default: OnceLock::new(),
             imaging: None,
             hdf5: None,
             fs: fs.clone(),
@@ -317,6 +320,41 @@ impl MzmlDataset {
     /// Length of the XML document in bytes.
     pub(crate) fn file_len(&self) -> u64 {
         self.file_len
+    }
+
+    /// The MS level of an imzML spectrum that states none: 1 when the file's `fileContent` names
+    /// MS1 spectra and no other spectrum type (an imaging file's spectra are one kind), else 0
+    /// (not stated). mzML files keep 0: their `fileContent` lists every kind in the run.
+    fn default_ms_level(&self) -> u32 {
+        *self.level_default.get_or_init(|| {
+            if self.imaging.is_none() {
+                return 0;
+            }
+            let fc: Vec<Param> = self
+                .header_node("fileDescription")
+                .and_then(|f| f.child("fileContent"))
+                .map(|c| params(c, &self.groups))
+                .unwrap_or_default();
+            // spectrum kinds, not their representation (`centroid spectrum`, `profile spectrum`)
+            let kinds = fc
+                .iter()
+                .filter(|p| {
+                    p.name.ends_with("spectrum")
+                        && !matches!(p.name.as_str(), "centroid spectrum" | "profile spectrum")
+                })
+                .count();
+            u32::from(kinds == 1 && find(&fc, cv::MS1_SPECTRUM).is_some())
+        })
+    }
+
+    /// `interpret`, with the file's default MS level for a spectrum that states none.
+    fn meta(&self, n: &Node, i: usize) -> Meta {
+        let mut m = interpret(n, &self.groups, i as u64);
+        if m.ms_level == 0 {
+            m.ms_level = self.default_ms_level();
+            m.spectrum.ms_level = m.ms_level;
+        }
+        m
     }
 
     fn header_node(&self, tag: &str) -> Option<&Node> {
@@ -383,7 +421,7 @@ impl MzmlDataset {
                             let node = self
                                 .spectrum_node(Some(&mut f), i, true)
                                 .map_err(|e| e.to_string())?;
-                            let m = interpret(&node, &self.groups, i as u64);
+                            let m = self.meta(&node, i);
                             Ok(Summary {
                                 ms_level: m.ms_level,
                                 rt_s: m.rt,
@@ -736,7 +774,7 @@ impl MzmlDataset {
         let start = usize::try_from(first).unwrap_or(usize::MAX);
         for i in start..self.spectra.len() {
             let n = self.spectrum_node(Some(&mut f), i, true)?;
-            let m = interpret(&n, &self.groups, i as u64);
+            let m = self.meta(&n, i);
             let mut h = openreadout_core::ScanHeader::from(m.spectrum);
             h.point_count = Some(m.points);
             if !visit(h) {
@@ -750,7 +788,7 @@ impl MzmlDataset {
     pub fn spectrum(&self, i: usize) -> Result<Spectrum> {
         let node = self.spectrum_node(None, i, false)?;
         let offset = self.spectra[i].offset;
-        let mut m = interpret(&node, &self.groups, i as u64);
+        let mut m = self.meta(&node, i);
         let arrays = decode_arrays(&node, &self.groups, m.points, offset, self.external())?;
         let mut mz = None;
         let mut intensity = None;
@@ -1558,11 +1596,27 @@ fn decode_arrays_checked(
     ext: External<'_>,
 ) -> std::result::Result<usize, ArrayError> {
     let mut enc_bad = 0;
+    let (mut mz, mut intensity) = (None, None);
     for bda in arrays_of(n) {
-        let (_, ok) = decode_one(bda, groups, points, ext)?;
+        let (a, ok) = decode_one(bda, groups, points, ext)?;
         if !ok {
             enc_bad += 1;
         }
+        match a.kind.as_str() {
+            "mz" if mz.is_none() => mz = Some(a.values.len()),
+            "intensity" if intensity.is_none() => intensity = Some(a.values.len()),
+            _ => {}
+        }
+    }
+    // the pair `spectrum` refuses (an imzML whose .ibd lengths disagree, for one)
+    if let (Some(m), Some(i)) = (mz, intensity)
+        && m != i
+        && m > 0
+        && i > 0
+    {
+        return Err(ArrayError::Layout(format!(
+            "m/z array has {m} values, intensity array {i}"
+        )));
     }
     Ok(enc_bad)
 }
