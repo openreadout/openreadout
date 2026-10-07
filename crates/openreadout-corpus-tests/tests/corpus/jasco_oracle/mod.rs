@@ -49,6 +49,9 @@ fn yunits_name(y: &str) -> &'static [&'static str] {
             "single_beam_reference",
             "single_beam_sample",
         ],
+        // CD exports name each column with its unit: `CD[mdeg]`, `HT[V]`
+        _ if y.starts_with("CD[") => &["circular_dichroism"],
+        _ if y.starts_with("HT[") => &["ht_voltage"],
         _ => &[],
     }
 }
@@ -259,6 +262,47 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
                 ));
             } else if !samples.is_empty() {
                 done.push(format!("{} export rows match (x, y)", samples.len()));
+            }
+            // Further y columns (a CD export's `HT[V]`): one per further trace, in order.
+            let units = e.get("yunits").and_then(Value::as_array).unwrap_or(&empty);
+            for (k, unit) in units.iter().enumerate().skip(1) {
+                let Some(t) = info.traces.get(k) else {
+                    problems.push(format!(
+                        "the export has {} y columns, we have {} traces",
+                        units.len(),
+                        info.traces.len()
+                    ));
+                    break;
+                };
+                let unit = unit.as_str().unwrap_or("");
+                if !yunits_name(unit).contains(&t.extra["y_quantity"].as_str().unwrap_or("")) {
+                    problems.push(format!(
+                        "trace {k} is {}, export column {unit}",
+                        t.extra["y_quantity"]
+                    ));
+                }
+                let tr = ds
+                    .read_trace(k as u32, 0, 0, u64::MAX)
+                    .map_err(|e| format!("read failed: {e}"))?;
+                let ys = tr.channels.last().cloned().unwrap_or_default();
+                let bad = samples
+                    .iter()
+                    .filter(|s| {
+                        let (Some(i), Some(y)) = (s[0].as_u64(), s[2 + k].as_f64()) else {
+                            return true;
+                        };
+                        ys.get(i as usize)
+                            .is_none_or(|o| (o - y).abs() > 5e-6 * y.abs() + 1e-12)
+                    })
+                    .count();
+                if bad > 0 {
+                    problems.push(format!(
+                        "trace {k}: {bad} of {} export rows differ",
+                        samples.len()
+                    ));
+                } else {
+                    done.push(format!("trace {k}: {} export rows match", samples.len()));
+                }
             }
         } else {
             done.push("export of another acquisition: instrument facts only".into());
