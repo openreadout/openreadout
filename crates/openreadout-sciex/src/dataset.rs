@@ -2,9 +2,10 @@
 //! file at open, scan data read lazily from `.wiff.scan`.
 //! Vocabulary and derivation: `docs/formats/sciex-wiff.md`, `docs/provenance/sciex-wiff.md`.
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 use std::io::{Read, Seek, SeekFrom};
 use std::path::{Path, PathBuf};
+use std::sync::{Mutex, PoisonError};
 
 use openreadout_core::bytes::{le_f64, le_u32};
 use openreadout_core::cfb::Cfb;
@@ -85,25 +86,65 @@ impl Experiment {
     }
 }
 
-/// What one spectrum of a sample is made of.
-#[derive(Debug, Clone, PartialEq, Eq)]
-enum SpectrumRef {
-    /// Transitions (indices into the experiment's ranges) sharing one Q1 in one cycle.
-    Srm { record: u32, transitions: Vec<u32> },
-    /// A TOF scan (one index record).
-    Tof { record: u32 },
-    /// A quadrupole or ion-trap scan stored as counts on an m/z grid (one index record).
-    Grid { record: u32 },
+/// What the spectra of one index record are made of.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum ScanKind {
+    /// MRM: one spectrum per Q1 among the cycle's scheduled transitions ([`mrm_groups`]).
+    Srm,
+    /// A TOF scan.
+    Tof,
+    /// A quadrupole or ion-trap scan stored as counts on an m/z grid.
+    Grid,
 }
 
-impl SpectrumRef {
-    fn record(&self) -> u32 {
-        match self {
-            SpectrumRef::Srm { record, .. }
-            | SpectrumRef::Tof { record }
-            | SpectrumRef::Grid { record } => *record,
-        }
+/// The spectra of one index record, numbered from `first`.
+#[derive(Debug, Clone, Copy)]
+struct RecordSpectra {
+    first: u64,
+    record: u32,
+    kind: ScanKind,
+}
+
+/// The spectra of a sample, kept per index record. An MRM cycle can hold a spectrum for each of
+/// hundreds of precursors, so the reader works out a spectrum's transitions when it reads the
+/// spectrum, and memory grows with the index records rather than with the spectra.
+#[derive(Debug, Clone, Default)]
+struct SpectrumTable {
+    records: Vec<RecordSpectra>,
+    len: u64,
+}
+
+impl SpectrumTable {
+    fn len(&self) -> u64 {
+        self.len
     }
+
+    fn is_empty(&self) -> bool {
+        self.len == 0
+    }
+
+    /// The record that holds spectrum `i`, and the spectrum's position among its spectra.
+    fn get(&self, i: u64) -> Option<(&RecordSpectra, usize)> {
+        if i >= self.len {
+            return None;
+        }
+        let k = self
+            .records
+            .partition_point(|r| r.first <= i)
+            .checked_sub(1)?;
+        let r = self.records.get(k)?;
+        Some((r, usize::try_from(i - r.first).ok()?))
+    }
+}
+
+/// The MRM record read last: its transitions grouped by Q1 and, once read, its values. Readers
+/// go through the spectra in order, and all the spectra of a cycle share its record.
+#[derive(Debug)]
+struct MrmCache {
+    run: u32,
+    record: u32,
+    groups: Vec<Vec<u32>>,
+    row: Option<Vec<f32>>,
 }
 
 /// One sample (`SampleSubtree/SampleN`): a run.
@@ -138,7 +179,7 @@ pub struct Sample {
     /// blocks following each other; `None` when the block header is not where the earlier
     /// samples' data end.
     scan_base: Option<u64>,
-    spectra: Vec<SpectrumRef>,
+    spectra: SpectrumTable,
     /// LC devices recorded with the sample: their channels and values (one per sample time).
     pub devices: Vec<Device>,
 }
@@ -163,6 +204,7 @@ pub struct SciexDataset {
     software: Option<String>,
     method_path: Option<String>,
     notes: Vec<String>,
+    mrm_cache: Mutex<Option<MrmCache>>,
 }
 
 fn read_stream<R: Read + Seek>(cfb: &Cfb, f: &mut R, path: &Path, name: &str) -> Option<Vec<u8>> {
@@ -460,11 +502,11 @@ impl SciexDataset {
                 charges,
                 scan_stream,
                 scan_base: None,
-                spectra: Vec::new(),
+                spectra: SpectrumTable::default(),
                 devices,
             };
             let have_scan = scan_path.is_some() || s.scan_stream.is_some();
-            s.spectra = spectrum_refs(&s, &experiments, have_scan);
+            s.spectra = spectrum_table(&s, &experiments, have_scan);
             samples.push(s);
         }
         // `.wiff.scan` holds one block per sample: a 24-byte header, then the scans its index
@@ -543,6 +585,7 @@ impl SciexDataset {
             software,
             method_path,
             notes,
+            mrm_cache: Mutex::new(None),
         })
     }
 
@@ -631,16 +674,13 @@ impl SciexDataset {
     /// come from the index record).
     fn spectrum_or_header(&self, run: u32, index: u64, decode: bool) -> Result<Spectrum> {
         let s = self.sample(run)?;
-        let r = usize::try_from(index)
-            .ok()
-            .and_then(|i| s.spectra.get(i))
-            .ok_or_else(|| {
-                Error::Usage(format!(
-                    "spectrum {index} does not exist ({} spectra in run {run})",
-                    s.spectra.len()
-                ))
-            })?;
-        let record = r.record();
+        let (entry, pos) = s.spectra.get(index).ok_or_else(|| {
+            Error::Usage(format!(
+                "spectrum {index} does not exist ({} spectra in run {run})",
+                s.spectra.len()
+            ))
+        })?;
+        let record = entry.record;
         let rec = s
             .index
             .get(record as usize)
@@ -648,7 +688,8 @@ impl SciexDataset {
         let (cycle, exp) = self
             .experiment_of(record)
             .ok_or_else(|| Error::corrupt(FORMAT_ID, "no experiment described in the method"))?;
-        let bytes = if decode {
+        // MRM cycles are read below, once for all the spectra they hold.
+        let bytes = if decode && entry.kind != ScanKind::Srm {
             self.read_scan_bytes(s, rec)?
         } else {
             Vec::new()
@@ -673,30 +714,61 @@ impl SciexDataset {
             centroided: false,
             ..Spectrum::default()
         };
-        match r {
-            SpectrumRef::Srm { transitions, .. } => {
+        match entry.kind {
+            ScanKind::Srm => {
                 let n = exp.ranges.len();
-                let row = if decode {
-                    expand_zero_runs(&bytes, (2 * n).min(MAX_ROW)).map_err(|e| {
-                        Error::corrupt_at(FORMAT_ID, SCAN_FILE_HEADER + u64::from(rec.offset), e)
-                    })?
-                } else {
-                    vec![0.0; 2 * n]
+                let mut cache = self
+                    .mrm_cache
+                    .lock()
+                    .unwrap_or_else(PoisonError::into_inner);
+                if !cache
+                    .as_ref()
+                    .is_some_and(|c| c.run == run && c.record == record)
+                {
+                    *cache = None;
+                }
+                let cached = cache.get_or_insert_with(|| MrmCache {
+                    run,
+                    record,
+                    groups: mrm_groups(s, exp, record as usize),
+                    row: None,
+                });
+                let transitions = cached.groups.get(pos).cloned().ok_or_else(|| {
+                    Error::corrupt(
+                        FORMAT_ID,
+                        format!("index record {record} holds no MRM spectrum {pos}"),
+                    )
+                })?;
+                if decode && cached.row.is_none() {
+                    let bytes = self.read_scan_bytes(s, rec)?;
+                    cached.row =
+                        Some(expand_zero_runs(&bytes, (2 * n).min(MAX_ROW)).map_err(|e| {
+                            Error::corrupt_at(
+                                FORMAT_ID,
+                                SCAN_FILE_HEADER + u64::from(rec.offset),
+                                e,
+                            )
+                        })?);
+                }
+                // A header read has no values: it takes them as 2n zeros.
+                let row: &[f32] = match &cached.row {
+                    Some(row) if decode => row,
+                    _ => &[],
                 };
+                let row_len = if decode { row.len() } else { 2 * n };
                 // A cycle holds the transitions' values after as many leading values (zero in
                 // every corpus file: QTRAP 6500/6500+, Analyst 1.6-1.7), or (older Analyst
                 // files) the transitions' values alone.
-                let base = if row.len() == 2 * n {
+                let base = if row_len == 2 * n {
                     n
-                } else if row.len() == n {
+                } else if row_len == n {
                     0
                 } else {
                     return Err(Error::corrupt_at(
                         FORMAT_ID,
                         SCAN_FILE_HEADER + u64::from(rec.offset),
                         format!(
-                            "MRM cycle holds {} values, the method lists {n} transitions (expected {n} or {})",
-                            row.len(),
+                            "MRM cycle holds {row_len} values, the method lists {n} transitions (expected {n} or {})",
                             2 * n
                         ),
                     ));
@@ -705,9 +777,11 @@ impl SciexDataset {
                     .iter()
                     .map(|&t| {
                         let m = &exp.ranges[t as usize];
-                        (f64::from(m.second_mz), row[base + t as usize], t)
+                        let v = row.get(base + t as usize).copied().unwrap_or(0.0);
+                        (f64::from(m.second_mz), v, t)
                     })
                     .collect();
+                drop(cache);
                 pts.sort_by(|a, b| a.0.total_cmp(&b.0));
                 let first = &exp.ranges[transitions[0] as usize];
                 let ces: BTreeSet<u32> = transitions
@@ -752,7 +826,7 @@ impl SciexDataset {
                     sp.intensity = pts.iter().map(|p| p.1).collect();
                 }
             }
-            SpectrumRef::Tof { .. } => {
+            ScanKind::Tof => {
                 let width = s.tdc_width_ns.ok_or_else(|| {
                     Error::unsupported(
                         FORMAT_ID,
@@ -860,7 +934,7 @@ impl SciexDataset {
                 sp.mz = mz;
                 sp.intensity = it;
             }
-            SpectrumRef::Grid { .. } => {
+            ScanKind::Grid => {
                 self.fill_grid(s, rec, exp, cycle, &bytes, decode, &mut sp, &mut extra)?;
                 sp.native_id = Some(native);
             }
@@ -1005,8 +1079,9 @@ impl SciexDataset {
     fn spectra_info(&self, s: &Sample) -> SpectraInfo {
         let times: Vec<f64> = s
             .spectra
+            .records
             .iter()
-            .filter_map(|r| s.index.get(r.record() as usize))
+            .filter_map(|r| s.index.get(r.record as usize))
             .map(|r| r.time_ms / 1000.0)
             .collect();
         let rt_range_s = if times.is_empty() {
@@ -1019,8 +1094,9 @@ impl SciexDataset {
         };
         let levels: BTreeSet<u32> = s
             .spectra
+            .records
             .iter()
-            .filter_map(|r| self.experiment_of(r.record()))
+            .filter_map(|r| self.experiment_of(r.record))
             .map(|(_, e)| e.ms_level())
             .collect();
         let mut extra = BTreeMap::new();
@@ -1092,7 +1168,7 @@ impl SciexDataset {
                     .file_stem()
                     .map(|n| n.to_string_lossy().into_owned())
             }),
-            scan_count: s.spectra.len() as u64,
+            scan_count: s.spectra.len(),
             ms_levels: levels.into_iter().collect(),
             rt_range_s,
             instrument: Some(InstrumentInfo {
@@ -1298,70 +1374,92 @@ fn derived_windows(experiments: &[Experiment]) -> Vec<(u32, u32)> {
 }
 
 /// The spectra of a sample, in index order: one per (cycle, Q1) for MRM experiments (the
-/// scheduled transitions only), one per non-empty record for TOF experiments.
-// Scan times and window bounds are whole milliseconds (u32 in the file), so exact float
-// comparison is intended.
-#[allow(clippy::float_cmp)]
-fn spectrum_refs(sample: &Sample, experiments: &[Experiment], have_scan: bool) -> Vec<SpectrumRef> {
-    let mut out = Vec::new();
+/// scheduled transitions only), one per non-empty record for TOF and grid experiments.
+fn spectrum_table(sample: &Sample, experiments: &[Experiment], have_scan: bool) -> SpectrumTable {
+    let mut table = SpectrumTable::default();
     if experiments.is_empty() || !have_scan {
-        return out;
+        return table;
     }
     let n_exp = experiments.len() as u32;
-    let first_time = sample.index.first().map(|first| first.time_ms);
+    let mut q1s = HashSet::new();
     for (i, rec) in sample.index.iter().enumerate() {
         if rec.byte_len == 0 {
             continue;
         }
         let i = i as u32;
         let exp = &experiments[(i % n_exp) as usize];
-        match exp.scan_type() {
+        let (kind, count) = match exp.scan_type() {
             Some(SCAN_TYPE_MRM) => {
-                let time = rec.time_ms;
-                let boundary_switch = rec.tic == 0.0 && Some(time) != first_time;
-                let active: Vec<u32> = (0..exp.ranges.len() as u32)
-                    .filter(|&k| match sample.windows.get(k as usize) {
-                        Some(&(start, end)) if !sample.windows.is_empty() => {
-                            let (start, end) = (f64::from(start), f64::from(end));
-                            start <= time
-                                && time <= end
-                                && !(boundary_switch && (time == start || time == end))
-                        }
-                        _ => sample.windows.is_empty(),
-                    })
-                    .collect();
-                // group by Q1, in transition order of each group's first member
-                let mut groups: Vec<(u32, Vec<u32>)> = Vec::new();
-                for k in active {
-                    let q1 = exp.ranges[k as usize].first_mz.to_bits();
-                    match groups.iter_mut().find(|group| group.0 == q1) {
-                        Some(group) => group.1.push(k),
-                        None => groups.push((q1, vec![k])),
-                    }
-                }
-                for (_, transitions) in groups {
-                    out.push(SpectrumRef::Srm {
-                        record: i,
-                        transitions,
-                    });
-                }
+                q1s.clear();
+                for_each_scheduled(sample, exp, i as usize, |_, q1| {
+                    q1s.insert(q1);
+                });
+                (ScanKind::Srm, q1s.len() as u32)
             }
-            Some(SCAN_TYPE_TOF_MS | SCAN_TYPE_TOF_PRODUCT) => {
-                out.push(SpectrumRef::Tof { record: i });
-            }
+            Some(SCAN_TYPE_TOF_MS | SCAN_TYPE_TOF_PRODUCT) => (ScanKind::Tof, 1),
             Some(
                 SCAN_TYPE_Q1
                 | SCAN_TYPE_PRECURSOR_ION
                 | SCAN_TYPE_NEUTRAL_LOSS
                 | SCAN_TYPE_ENHANCED_PRODUCT_ION
                 | SCAN_TYPE_ENHANCED_MS,
-            ) => {
-                out.push(SpectrumRef::Grid { record: i });
+            ) => (ScanKind::Grid, 1),
+            _ => continue,
+        };
+        if count == 0 {
+            continue;
+        }
+        table.records.push(RecordSpectra {
+            first: table.len,
+            record: i,
+            kind,
+        });
+        table.len += u64::from(count);
+    }
+    table
+}
+
+/// The transitions of MRM record `i` that its scheduling windows make active, with the bits of
+/// their Q1, in transition order.
+// Scan times and window bounds are whole milliseconds (u32 in the file), so exact float
+// comparison is intended.
+#[allow(clippy::float_cmp)]
+fn for_each_scheduled(sample: &Sample, exp: &Experiment, i: usize, mut f: impl FnMut(u32, u32)) {
+    let Some(rec) = sample.index.get(i) else {
+        return;
+    };
+    let first_time = sample.index.first().map(|first| first.time_ms);
+    let time = rec.time_ms;
+    let boundary_switch = rec.tic == 0.0 && Some(time) != first_time;
+    for (k, range) in exp.ranges.iter().enumerate() {
+        let active = match sample.windows.get(k) {
+            Some(&(start, end)) => {
+                let (start, end) = (f64::from(start), f64::from(end));
+                start <= time && time <= end && !(boundary_switch && (time == start || time == end))
             }
-            _ => {}
+            None => sample.windows.is_empty(),
+        };
+        if active {
+            f(k as u32, range.first_mz.to_bits());
         }
     }
-    out
+}
+
+/// The active transitions of MRM record `i` grouped by Q1: one group per spectrum, in
+/// transition order of each group's first member.
+fn mrm_groups(sample: &Sample, exp: &Experiment, i: usize) -> Vec<Vec<u32>> {
+    let mut groups: Vec<Vec<u32>> = Vec::new();
+    let mut by_q1: HashMap<u32, usize> = HashMap::new();
+    for_each_scheduled(sample, exp, i, |k, q1| {
+        let g = *by_q1.entry(q1).or_insert_with(|| {
+            groups.push(Vec::new());
+            groups.len() - 1
+        });
+        if let Some(group) = groups.get_mut(g) {
+            group.push(k);
+        }
+    });
+    groups
 }
 
 impl Dataset for SciexDataset {
@@ -1633,11 +1731,14 @@ impl Dataset for SciexDataset {
             if s.spectra.is_empty() {
                 continue;
             }
-            let last = s.spectra.len() as u64 - 1;
+            let last = s.spectra.len() - 1;
             for i in [0, last] {
                 match self.spectrum_of(run as u32, i) {
                     Ok(sp) => {
-                        if matches!(s.spectra[i as usize], SpectrumRef::Tof { .. }) {
+                        if s.spectra
+                            .get(i)
+                            .is_some_and(|(r, _)| r.kind == ScanKind::Tof)
+                        {
                             let sum: f64 = sp.intensity.iter().map(|&v| f64::from(v)).sum();
                             let tic = sp.total_ion_current.unwrap_or(0.0);
                             if (sum - tic).abs() > 1e-6 * tic.abs().max(1.0) {
@@ -1735,7 +1836,7 @@ impl Dataset for SciexDataset {
         first: u64,
         visit: &mut dyn FnMut(openreadout_core::ScanHeader) -> bool,
     ) -> Result<bool> {
-        let n = self.sample(run)?.spectra.len() as u64;
+        let n = self.sample(run)?.spectra.len();
         for i in first..n {
             let h = openreadout_core::ScanHeader::from(self.spectrum_or_header(run, i, false)?);
             if !visit(h) {
@@ -1762,6 +1863,6 @@ impl Dataset for SciexDataset {
             return Ok(None);
         };
         // Scan numbers are positions + 1 (see `spectrum_of`).
-        Ok((scan_number >= 1 && scan_number <= s.spectra.len() as u64).then(|| scan_number - 1))
+        Ok((scan_number >= 1 && scan_number <= s.spectra.len()).then(|| scan_number - 1))
     }
 }
