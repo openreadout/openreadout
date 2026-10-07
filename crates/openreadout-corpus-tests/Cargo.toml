@@ -31,6 +31,7 @@ openreadout-agilent-ms = { workspace = true }
 openreadout-sciex = { workspace = true }
 openreadout-waters = { workspace = true }
 openreadout-mzml = { workspace = true }
+openreadout-mzml-writer = { workspace = true }
 openreadout-bruker-tims = { workspace = true }
 openreadout-plate = { workspace = true }
 openreadout-qpcr = { workspace = true }
