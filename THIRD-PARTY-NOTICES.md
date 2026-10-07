@@ -3273,7 +3273,7 @@ Used by:
 - [openreadout-blackrock 0.2.0](https://github.com/openreadout/openreadout)
 - [openreadout-bruker-tims 0.2.0](https://github.com/openreadout/openreadout)
 - [openreadout-chrom 0.2.0](https://github.com/openreadout/openreadout)
-- [openreadout 0.1.0](https://github.com/openreadout/openreadout)
+- [openreadout 0.2.0](https://github.com/openreadout/openreadout)
 - [openreadout-codecs 0.2.0](https://github.com/openreadout/openreadout)
 - [openreadout-core 0.2.0](https://github.com/openreadout/openreadout)
 - [openreadout-czi 0.2.0](https://github.com/openreadout/openreadout)
