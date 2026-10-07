@@ -89,7 +89,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_bes3t`, `whole_esp`
-- corpus inputs by tier: heldout 3, smoke 17, standard 2
+- corpus inputs by tier: heldout 3, smoke 21, standard 2
 - golden snapshots: [`corpus/snapshots/bruker-bes3t.jsonl`](../../corpus/snapshots/bruker-bes3t.jsonl), [`corpus/snapshots/bruker-esp.jsonl`](../../corpus/snapshots/bruker-esp.jsonl)
 
 ### Open new-variant intakes
