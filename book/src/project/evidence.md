@@ -71,7 +71,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `oib` | high | prior art | 10 | 10 | 8 | 4 | 100% | 43% | 1/0 |
 | `oif` | medium | prior art | 5 | 5 | 2 | 4 | 100% | 38% | - |
 | `oir` | high | prior art | 16 | 16 | 8 | 5 | 100% | 40% | 1/0 |
-| `ome-zarr` | high | open spec | 8 | 8 | 6 | 2 | 100% | 0% | - |
+| `ome-zarr` | high | open spec | 10 | 10 | 8 | 4 | 100% | 0% | - |
 | `open-ephys` | high | vendor docs | 17 | 17 | 3 | 6 | 100% | 10% | - |
 | `openlab-cds` | medium | reverse engineered | 13 | 13 | 4 | 7 | 100% | 84% | - |
 | `opera-harmony` | high | prior art | 11 | 11 | 9 | 9 | 100% | 82% | 2/0 |
@@ -96,7 +96,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `ta-universal-analysis` | medium | reverse engineered | 7 | 6 | 2 | 1 | 100% | 100% | - |
 | `thermo-omnic` | medium | prior art | 27 | 27 | 9 | 0 | 100% | 29% | 2/0 |
 | `thermo-raw` | medium | reverse engineered | 53 | 44 | 33 | 26 | 100% | 61% | 2/2 |
-| `tiff` | high | open spec | 148 | 147 | 51 | 46 | 100% | 9% | 5/0 |
+| `tiff` | high | open spec | 149 | 148 | 51 | 46 | 100% | 9% | 5/0 |
 | `varian-nmr` | high | prior art | 12 | 12 | 6 | 4 | 100% | 53% | 1/0 |
 | `vsi` | high | prior art | 29 | 13 | 11 | 18 | 100% | 100% | - |
 | `waters-raw` | high | reverse engineered | 22 | 21 | 9 | 6 | 100% | 81% | - |

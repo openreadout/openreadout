@@ -18,7 +18,7 @@ Knowledge basis: 15 open spec, 47 prior art, 27 reverse engineered, 8 vendor doc
 
 ## Corpus
 
-4431 manifest entries; 2003 development inputs of 97 formats from 759 depositors (distinct source records: a Zenodo record, a study, a repository) (304 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 26 distinct (every entry has one).
+4434 manifest entries; 2006 development inputs of 97 formats from 761 depositors (distinct source records: a Zenodo record, a study, a repository) (306 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 26 distinct (every entry has one).
 
 | tier | entries | declared size |
 | --- | --- | --- |
@@ -26,11 +26,11 @@ Knowledge basis: 15 open spec, 47 prior art, 27 reverse engineered, 8 vendor doc
 | heldout | 730 | 6.6 GB |
 | hold | 26 | 132.6 MB |
 | smoke | 1913 | 1.1 GB |
-| standard | 1643 | 24.2 GB |
+| standard | 1646 | 24.2 GB |
 
 ## Assurance evidence
 
-From `corpus/assurance/evidence.json` (development files only): 1979 files read; 1874 compared with an oracle, 1874 agree (100%); 1846 confirmed by an independent reader. 2423 distinct variant-feature values observed, 2264 of them validated (93%); the others make files that use them `partially_validated` or `unvalidated`.
+From `corpus/assurance/evidence.json` (development files only): 1982 files read; 1877 compared with an oracle, 1877 agree (100%); 1849 confirmed by an independent reader. 2436 distinct variant-feature values observed, 2277 of them validated (93%); the others make files that use them `partially_validated` or `unvalidated`.
 
 Development files `info` cannot read (3): `pcrd-cfx-primerpickr` (bio-rad-pcrd), `gen5prt-elisa-reader` (plate), `softmax5-cuvette-spectra-s2` (plate).
 
@@ -130,7 +130,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 | --- | --- |
 | reader crates with a maintainer guide (`MAINTAINING.md`, generated facts checked by `cargo xtask guides`) | 40 of 40 |
 | golden-output snapshots of committed fixtures (`cargo test`) | 109 |
-| golden-output snapshots of development-corpus files | 1982 |
-| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3403 |
+| golden-output snapshots of development-corpus files | 1985 |
+| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3406 |
 | fuzz targets (`fuzz/fuzz_targets/`) | 138 |
-| Rust source files under `crates/` | 787 |
+| Rust source files under `crates/` | 789 |
