@@ -36,6 +36,9 @@ pub struct ArwExport {
     pub line_ending: &'static str,
     /// The export has no header rows (its method selected no fields): data rows only.
     pub headerless: bool,
+    /// The header holds one `"name"<TAB>value` field per line instead of a names row and a
+    /// values row.
+    pub one_field_per_line: bool,
 }
 
 impl ArwExport {
@@ -79,6 +82,30 @@ pub fn looks_like_arw(head: &[u8]) -> bool {
             s.split('\t')
                 .all(|c| c.len() >= 2 && c.starts_with('"') && c.ends_with('"'))
         })
+}
+
+/// Does `head` start like an export with one field per line whose first value is a number
+/// (`"Sample Set Id"<TAB>2597`)? Such text is only claimed for a file with the `.arw` extension.
+pub fn looks_like_arw_field_lines(head: &[u8]) -> bool {
+    let head = head.strip_prefix(b"\xef\xbb\xbf").unwrap_or(head);
+    let Some(first) = head.split(|&b| b == b'\r' || b == b'\n').next() else {
+        return false;
+    };
+    std::str::from_utf8(first).is_ok_and(|s| {
+        field_line(s).is_some_and(|(_, v)| v.parse::<f64>().is_ok_and(f64::is_finite))
+    })
+}
+
+/// A header line of the one-field-per-line layout: a quoted name and a value (quoted or not).
+fn field_line(line: &str) -> Option<(String, String)> {
+    let mut cells = line.split('\t');
+    let name = unquote(cells.next()?).filter(|n| !n.is_empty())?;
+    let value = cells.next()?;
+    if cells.next().is_some() {
+        return None;
+    }
+    let value = unquote(value).unwrap_or_else(|| value.trim().to_string());
+    Some((name, value))
 }
 
 /// Does `head` look like an export without its header rows: every complete line two
@@ -153,6 +180,38 @@ pub fn parse_arw(text: &str) -> std::result::Result<ArwExport, ArwError> {
             })?;
             out.times.push(t);
             out.values.push(v);
+        }
+        return Ok(out);
+    }
+    // The header is every line before the first row of two numbers. More than two header
+    // lines, or a first line whose value is not quoted, of two cells each with a quoted name:
+    // one field per line. Otherwise a names row and a values row.
+    let header: Vec<&str> = lines
+        .clone()
+        .take_while(|l| two_numbers(l).is_none())
+        .collect();
+    let first_value_unquoted = header
+        .first()
+        .and_then(|l| l.split('\t').nth(1))
+        .is_some_and(|v| unquote(v).is_none());
+    if (header.len() > 2 || first_value_unquoted)
+        && header.iter().all(|l| field_line(l).is_some())
+    {
+        let mut out = ArwExport {
+            fields: header.iter().filter_map(|l| field_line(l)).collect(),
+            line_ending,
+            one_field_per_line: true,
+            ..ArwExport::default()
+        };
+        for (i, line) in lines.skip(header.len()).enumerate() {
+            let (t, v) = two_numbers(line).ok_or_else(|| {
+                corrupt(format!("data row {} ({line:?}) is not two numbers", i + 1))
+            })?;
+            out.times.push(t);
+            out.values.push(v);
+        }
+        if out.times.is_empty() {
+            return Err(corrupt("no data rows".into()));
         }
         return Ok(out);
     }
@@ -286,6 +345,9 @@ impl EmpowerArwDataset {
         if a.headerless {
             extra.insert("headerless".into(), json!(true));
         }
+        if a.one_field_per_line {
+            extra.insert("one_field_per_line".into(), json!(true));
+        }
         let n = a.times.len() as u64;
         let first = a.times[0];
         let last = a.times[a.times.len() - 1];
@@ -369,6 +431,7 @@ impl Dataset for EmpowerArwDataset {
             "points": self.arw.times.len(),
             "line_ending": self.arw.line_ending,
             "headerless": self.arw.headerless,
+            "one_field_per_line": self.arw.one_field_per_line,
         }))
     }
 
@@ -443,7 +506,11 @@ impl Dataset for EmpowerArwDataset {
 
     fn check(&mut self) -> Result<CheckReport> {
         let mut r = CheckReport::new(self.path.display().to_string(), EMPOWER_ARW_ID);
-        r.performed("header: quoted field names and as many values");
+        r.performed(if self.arw.one_field_per_line {
+            "header: one quoted field name and its value per line"
+        } else {
+            "header: quoted field names and as many values"
+        });
         r.performed(format!(
             "{} data rows: two numbers each (time min, value)",
             self.arw.times.len()
@@ -512,6 +579,37 @@ mod tests {
         let r = crate::EmpowerArwReader;
         assert!(r.sniff(body.as_bytes(), Path::new("x.arw")).is_some());
         assert!(r.sniff(body.as_bytes(), Path::new("x.txt")).is_none());
+    }
+
+    #[test]
+    fn parses_an_export_with_one_field_per_line() {
+        // the layout of gpcreader-empower-sample1 (first value a number) and of the HPLC-RS
+        // exports (every value quoted), shortened
+        let gpc = "\"Sample Set Id\"\t2597\r\n\"SampleName\"\t\"PMMA88.5kDa_THF\"\r\n\"Injection\"\t1\r\n\"Channel\"\t\"SATIN-2 \"\r\n0.01666667\t8.935\r\n0.03333333\t8.936\r\n";
+        assert!(!looks_like_arw(gpc.as_bytes()));
+        assert!(looks_like_arw_field_lines(gpc.as_bytes()));
+        let a = parse_arw(gpc).unwrap();
+        assert!(a.one_field_per_line && !a.headerless);
+        assert_eq!(a.field("Sample Set Id"), Some("2597"));
+        assert_eq!(a.field("Channel"), Some("SATIN-2 "));
+        assert_eq!(a.times.len(), 2);
+        assert_eq!(a.values[1], 8.936);
+        let r = crate::EmpowerArwReader;
+        assert!(r.sniff(gpc.as_bytes(), Path::new("x.arw")).is_some());
+        assert!(r.sniff(gpc.as_bytes(), Path::new("x.txt")).is_none());
+        let hplc = "\"SampleName\"\t\"9. PC-12\"\r\n\"System Name\"\t\"Alliance 2\"\r\n\"Date Acquired\"\t\"5/15/2025 10:18:57 PM BST\"\r\n0\t0.0002456665\r\n0.01666667\t0.0003662109\r\n";
+        let a = parse_arw(hplc).unwrap();
+        assert!(a.one_field_per_line);
+        assert_eq!(a.field("System Name"), Some("Alliance 2"));
+        assert_eq!(a.times, vec![0.0, 0.016_666_67]);
+        // two quoted lines stay a names row and a values row
+        let a = parse_arw(SAMPLE).unwrap();
+        assert!(!a.one_field_per_line);
+        // a header line of three cells is not this layout
+        assert!(parse_arw("\"A\"\t\"x\"\r\"B\"\t\"y\"\t\"z\"\r\"C\"\t\"w\"\r0\t1\r").is_err());
+        for cut in 0..gpc.len() {
+            let _ = parse_arw(&gpc[..cut]);
+        }
     }
 
     #[test]

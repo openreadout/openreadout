@@ -67,6 +67,13 @@ fn observe_empower_arw(info: &FileInfo) -> Observations {
         {
             o.feature(K::Layout, "headerless export", &[Scope::Traces]);
         }
+        if t.extra
+            .get("one_field_per_line")
+            .and_then(serde_json::Value::as_bool)
+            == Some(true)
+        {
+            o.feature(K::Layout, "one field per line", &[Scope::Traces]);
+        }
     }
     o.assumed(
         "traces[].channels[].unit",
