@@ -327,7 +327,7 @@ pub fn parse_device_data(b: &[u8], channels: usize) -> Vec<Vec<f64>> {
 }
 
 /// What `ExperimentHeader` says about an experiment.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[derive(Debug, Clone, Copy, PartialEq, Default)]
 pub struct ExperimentHeader {
     /// Scan type code (u16 at 0x7A): [`SCAN_TYPE_MRM`], [`SCAN_TYPE_TOF_MS`], …
     pub scan_type: u16,
@@ -335,6 +335,9 @@ pub struct ExperimentHeader {
     pub polarity: u16,
     /// Number of mass ranges (u32 at 0xB0).
     pub range_count: u32,
+    /// The f64 at 0x2A: the selected precursor m/z of a product-ion experiment that is not
+    /// data-dependent (a calibration run); other values elsewhere (`docs/formats/sciex-wiff.md`).
+    pub fixed_mz: Option<f64>,
 }
 
 /// Parse `ExperimentHeader`.
@@ -343,7 +346,17 @@ pub fn parse_experiment_header(b: &[u8]) -> Option<ExperimentHeader> {
         scan_type: le_u16(b, 0x7A)?,
         polarity: le_u16(b, 0x56)?,
         range_count: le_u32(b, 0xB0)?,
+        fixed_mz: le_f64(b, 0x2A),
     })
+}
+
+/// An MRM experiment's `sMRM` stream: the detection window in seconds (u32 at 0x28) when the
+/// experiment is scheduled (u32 at 0x24 is 1); `None` when it is not.
+pub fn parse_smrm_window_s(b: &[u8]) -> Option<u32> {
+    (le_u32(b, 0x24)? == 1)
+        .then(|| le_u32(b, 0x28))
+        .flatten()
+        .filter(|&w| w > 0)
 }
 
 /// Scheduled-MRM windows (`sMRMPro_adw_Times`): (start ms, end ms) per transition.

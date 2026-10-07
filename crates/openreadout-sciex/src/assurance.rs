@@ -59,6 +59,11 @@ fn observe(info: &FileInfo) -> Observations {
                 o.context(K::Instrument, m);
             }
         }
+        // scheduled MRM whose windows are the method's expected times ± the detection window,
+        // not windows the sample stores
+        if a::extra_str(&s.extra, "scheduled_windows") == Some("from the method") {
+            o.feature(K::Layout, "scheduled MRM, method windows", &[Scope::Spectra]);
+        }
         if let Some(st) = a::extra_str(&s.extra, "stored_spectra") {
             o.feature(K::Acquisition, format!("stored {st}"), &[Scope::Spectra]);
         }
@@ -68,6 +73,11 @@ fn observe(info: &FileInfo) -> Observations {
             .and_then(serde_json::Value::as_array)
         {
             for e in ex {
+                // a product-ion experiment whose precursor is set in the method, not chosen
+                // data-dependently: a different place in the file holds it
+                if e.get("fixed_precursor_mz").is_some() {
+                    o.feature(K::Acquisition, "fixed precursor", &[Scope::Spectra]);
+                }
                 if let Some(t) = e.get("scan_type").and_then(serde_json::Value::as_str) {
                     o.feature(K::Acquisition, format!("scan type {t}"), &[Scope::Spectra]);
                     if t.contains("TOF") {
