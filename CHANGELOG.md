@@ -54,6 +54,7 @@ All notable changes to this project are documented here. The format is based on 
 - ABF: `info` no longer lists a command trace that cannot be read (epochs that run past the end of the sweep), which also made `export --format nwb` fail.
 - Blackrock: `info` could take a PTP file as one gap-free sweep when a forward jump and a clock reset cancelled out. It now reads every timestamp of files up to 64 MiB and reports the sweep layout as assumed in larger ones.
 - PerkinElmer `.sp` files saved as text (`PE … ASCII PEDS`, e.g. from an LS55) were called corrupt. Their spectra are now read.
+- JEOL: a `.jdf` file whose `JEOL.NMR` signature is damaged now exits 4 (corrupt) instead of 3 (unknown format).
 - ABF: a damaged header that declares millions of sweeps no longer exhausts memory when the file's structure is listed.
 - `analyze spikes` and `trace` held every channel of a long recording in memory at once (1.7 GB and 830 MB on a 234 MB, 65-channel `.ns6`). They now read in bounded pages (1.0 GB and 190 MB).
 
