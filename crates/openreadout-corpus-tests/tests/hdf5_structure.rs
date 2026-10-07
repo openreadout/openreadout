@@ -11,6 +11,7 @@
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test hdf5_structure -- --nocapture`
 #![cfg(feature = "corpus")]
+#![allow(clippy::float_cmp)] // equal values first, then a relative tolerance
 
 use std::path::{Path, PathBuf};
 
