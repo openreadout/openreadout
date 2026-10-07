@@ -41,7 +41,7 @@ is corrupt (exit 4).
 ## Mapping to the data model
 
 - One trace named `<SampleName> / <Channel>` (or the channel alone), one channel named after
-  `Channel` (else `value`), `dtype` `float64`, no unit. Evenly spaced times: `sample_rate_hz`,
+  `Channel` without surrounding spaces (else `value`), `dtype` `float64`, no unit. Evenly spaced times: `sample_rate_hz`,
   `start_s` and `extra.axis` (retention time, minutes); otherwise `sample_rate_hz` 0 and a first
   channel `time` (minutes).
 - `extra`: `fields` (every exported name and value), `headerless` and `one_field_per_line` (only when true), and from them `sample_name`, `channel`,

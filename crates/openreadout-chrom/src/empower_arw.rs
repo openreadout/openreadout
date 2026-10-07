@@ -353,7 +353,13 @@ impl EmpowerArwDataset {
         let last = a.times[a.times.len() - 1];
         extra.insert("x_start_min".into(), json!(tidy(first)));
         extra.insert("x_end_min".into(), json!(tidy(last)));
-        let channel_name = a.field("Channel").unwrap_or("value").to_string();
+        // trailing spaces (GPCreader's `"SATIN-2 "`) are not part of the name
+        let channel_name = a
+            .field("Channel")
+            .map(str::trim)
+            .filter(|c| !c.is_empty())
+            .unwrap_or("value")
+            .to_string();
         let value = SignalChannelInfo {
             index: 0,
             name: channel_name.clone(),
