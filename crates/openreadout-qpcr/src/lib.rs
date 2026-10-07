@@ -60,9 +60,9 @@ use openreadout_core::{Error, Result};
 pub use dataset::{CQ_STATUSES, QpcrDataset, RESULT_COLUMNS};
 pub use rdml_write::{RDML_WRITE_VERSION, RdmlExportReport, default_rdml_output, export_rdml};
 pub use report::{
-    CQ_DETERMINED, CQ_NO_RESULT, CQ_UNDETERMINED, CqComparison, CqCounts, QpcrAssayRecord,
-    QpcrReport, QpcrReportRequest, RelativeQuantity, StandardCurveFit, TargetCqSummary,
-    qpcr_report,
+    CQ_DETERMINED, CQ_NO_RESULT, CQ_UNDETERMINED, CqComparison, CqCounts, CqMethod,
+    QpcrAssayRecord, QpcrReport, QpcrReportRequest, RelativeQuantity, StandardCurveFit,
+    TargetCqSummary, qpcr_report,
 };
 
 /// Format id of RDML files.

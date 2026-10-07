@@ -5,7 +5,7 @@
 use std::path::{Path, PathBuf};
 
 use openreadout_core::{Error, Registry, Result};
-use openreadout_qpcr::{QpcrDataset, QpcrReport, QpcrReportRequest, qpcr_report};
+use openreadout_qpcr::{CqMethod, QpcrDataset, QpcrReport, QpcrReportRequest, qpcr_report};
 
 use crate::output::{emit, fail};
 
@@ -32,6 +32,10 @@ pub struct QpcrArgs {
     /// (agreement statistics under `cq_comparison`).
     #[arg(long)]
     pub cq: bool,
+    /// With --cq: existing estimator, independently stored settings, or an empirical
+    /// second-derivative estimator calibrated on LC480 QC runs.
+    #[arg(long, requires = "cq", value_parser = ["threshold", "stored-threshold", "second-derivative"])]
+    pub method: Option<String>,
     /// With `--cq`: threshold in baseline-corrected fluorescence units (default: the file's own
     /// where it records the threshold in force, else 10 SD of the baseline).
     #[arg(long, requires = "cq")]
@@ -93,6 +97,11 @@ fn report(reg: &Registry, a: &QpcrArgs) -> Result<QpcrReport> {
     req.sample.clone_from(&a.sample);
     req.run.clone_from(&a.run);
     req.compute_cq = a.cq;
+    req.method = match a.method.as_deref() {
+        Some("stored-threshold") => CqMethod::StoredThreshold,
+        Some("second-derivative") => CqMethod::SecondDerivative,
+        _ => CqMethod::Threshold,
+    };
     req.threshold = a.threshold;
     req.baseline = a.baseline.as_deref().map(baseline).transpose()?;
     req.relative = a.ddcq;
