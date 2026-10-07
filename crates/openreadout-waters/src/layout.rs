@@ -473,6 +473,11 @@ pub struct ExternInfo {
     pub software_version: Option<String>,
     /// `Lock Mass` of the lock-spray section.
     pub lock_mass: Option<f64>,
+    /// `ADC Pushes Per IMS Increment`: pusher periods per drift bin.
+    pub pushes_per_drift_bin: Option<u32>,
+    /// A function section says `UseSONARMode TRUE`: the drift-resolved bins of this
+    /// acquisition are quadrupole steps (SONAR), not ion-mobility drift times.
+    pub sonar: bool,
 }
 
 fn polarity_word(v: &str) -> Option<&'static str> {
@@ -543,6 +548,12 @@ pub fn parse_extern(text: &str) -> ExternInfo {
         };
         if k.eq_ignore_ascii_case("Lock Mass") {
             out.lock_mass = v.parse().ok();
+        }
+        if k.eq_ignore_ascii_case("ADC Pushes Per IMS Increment") {
+            out.pushes_per_drift_bin = v.parse().ok();
+        }
+        if k.eq_ignore_ascii_case("UseSONARMode") && v.eq_ignore_ascii_case("TRUE") {
+            out.sonar = true;
         }
         match cur {
             Some(func) => {
