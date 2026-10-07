@@ -549,7 +549,9 @@ impl Registry {
     /// Detect and open.
     pub fn open(&self, path: &Path) -> Result<(Detection, Box<dyn Dataset>)> {
         let (reader, det) = self.detect(path)?;
-        let ds = reader.open(path)?;
+        let ds = reader
+            .open(path)
+            .map_err(|e| extension_only_context(e, &det))?;
         Ok((det, self.guard(ds)?))
     }
 
@@ -566,7 +568,9 @@ impl Registry {
     /// as unsupported (exit 6).
     pub fn open_input(&self, input: &Input) -> Result<(Detection, Box<dyn Dataset>)> {
         let (reader, det) = self.detect_input(input)?;
-        let ds = reader.open_input(input)?;
+        let ds = reader
+            .open_input(input)
+            .map_err(|e| extension_only_context(e, &det))?;
         Ok((det, self.guard(ds)?))
     }
 
@@ -591,6 +595,39 @@ impl Registry {
         best.ok_or_else(|| Error::UnknownFormat {
             path: name.to_path_buf(),
         })
+    }
+}
+
+/// A reader chosen only for the file's extension that then fails to open it says so: the file
+/// may be another kind of file with that extension (a JSON model named `.emd`, a Java object
+/// stream named `.ser`, a library catalogue named `.mrc`), not a damaged one.
+fn extension_only_context(e: Error, det: &Detection) -> Error {
+    if det.confidence != DetectConfidence::ExtensionOnly {
+        return e;
+    }
+    match e {
+        Error::Corrupt {
+            format,
+            detail,
+            offset,
+        } => Error::Corrupt {
+            format,
+            detail: format!("{detail} ({})", crate::error::EXTENSION_ONLY),
+            offset,
+        },
+        Error::Unsupported {
+            format,
+            feature,
+            hint,
+        } => Error::Unsupported {
+            format,
+            feature: format!("{feature} ({})", crate::error::EXTENSION_ONLY),
+            hint: Some(match hint {
+                Some(h) => format!("{} {h}", crate::error::EXTENSION_ONLY_HINT),
+                None => crate::error::EXTENSION_ONLY_HINT.into(),
+            }),
+        },
+        other => other,
     }
 }
 
@@ -667,6 +704,41 @@ mod tests {
         let code = |i: &Input| reg.detect_input(i).map(|_| ()).unwrap_err().exit_code();
         assert_eq!(code(&empty), 4);
         assert_eq!(code(&empty.with_path("other.po")), 5);
+    }
+
+    /// Matches `.ext` files by name only and finds them corrupt.
+    #[derive(Debug)]
+    struct ByName;
+
+    impl FormatReader for ByName {
+        fn descriptor(&self) -> FormatDescriptor {
+            FormatDescriptor {
+                extensions: vec!["ext".into()],
+                ..PathOnly.descriptor()
+            }
+        }
+        fn sniff(&self, _head: &[u8], path: &Path) -> Option<Detection> {
+            (path.extension()? == "ext").then_some(Detection {
+                format_id: "by-name",
+                confidence: DetectConfidence::ExtensionOnly,
+                note: None,
+            })
+        }
+        fn open(&self, _path: &Path) -> Result<Box<dyn Dataset>> {
+            Err(Error::corrupt("by-name", "no signature"))
+        }
+    }
+
+    #[test]
+    fn extension_only_failures_say_only_the_extension_matched() {
+        let reg = Registry::new().with(Box::new(ByName));
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("model.ext");
+        std::fs::write(&path, b"{\"json\": true}").unwrap();
+        let err = reg.open(&path).map(|_| ()).unwrap_err();
+        assert_eq!(err.exit_code(), 4);
+        assert!(err.to_string().contains("only the file extension matched"), "{err}");
+        assert!(err.hint().unwrap().contains("another kind of file"));
     }
 }
 
