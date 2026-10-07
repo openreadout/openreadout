@@ -80,6 +80,7 @@ The second release. In short:
 - Agilent GC/MSD data directories (5975, 5977) returned every spectrum empty with no error. Their points, kept in `MSPeak.bin`, are now read.
 - Agilent 7010C GC triple-quadrupole full scans had wrong abundances (f32 values read as integers).
 - An Agilent data directory missing the `MSProfile.bin` its scans point into returned empty spectra. Such scans are now an error, and `info` names the missing file.
+- Agilent data directories deposited with an empty `MSProfile.bin` (a 6224 TOF run) failed as corrupt partway through. Their scans now read from `MSPeak.bin`.
 - Agilent `.d` directories whose `MSScan.xsd` prefixes its type names (`mstns:`) were refused as corrupt.
 - Agilent MassHunter profiles written by MassHunter Acquisition 10 (for example a 6546 Q-TOF) were refused as corrupt LZF; they use the ion-mobility profile encoding and are read.
 - Empower `.arw`: channel names no longer keep trailing spaces.

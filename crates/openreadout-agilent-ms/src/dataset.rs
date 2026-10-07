@@ -421,7 +421,10 @@ impl AgilentDataset {
             trailing_bytes,
             scan_file_len: scan.len() as u64,
             peak_path: find_file(fs, &acq, "MSPeak.bin"),
-            profile_path: find_file(fs, &acq, "MSProfile.bin"),
+            // An empty MSProfile.bin (as some centroid-only directories are deposited) holds no
+            // profile, so the scans read from MSPeak.bin as if it were absent.
+            profile_path: find_file(fs, &acq, "MSProfile.bin")
+                .filter(|p| fs.metadata(p).is_ok_and(|m| m.len() > 0)),
             mass_cal,
             defaults,
             contents,
@@ -1002,7 +1005,7 @@ impl AgilentDataset {
             return Err(Error::corrupt(
                 FORMAT_ID,
                 format!(
-                    "scan {}: its profile ({} points) is stored in AcqData/MSProfile.bin, which this data directory does not hold",
+                    "scan {}: its profile ({} points) is stored in AcqData/MSProfile.bin, which is missing or empty in this data directory",
                     r.scan_id, b.point_count
                 ),
             ));
