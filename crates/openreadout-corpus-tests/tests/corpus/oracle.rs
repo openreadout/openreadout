@@ -87,6 +87,9 @@ pub(crate) struct OraclePlateGroup {
     pub(crate) values: usize,
     #[serde(default)]
     pub(crate) wavelengths: Vec<f64>,
+    /// The distinct times (seconds) of a kinetic read, ascending, when the oracle reads them.
+    #[serde(default)]
+    pub(crate) times_s: Vec<f64>,
     pub(crate) value_xxh3: String,
 }
 #[derive(Deserialize)]

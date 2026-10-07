@@ -1,0 +1,24 @@
+{
+ "id": "tecan-icontrol-multiread-kinetic-tread",
+ "file": "tecan-icontrol-multiread-kinetic-tread.xlsx",
+ "size": 26846,
+ "sha256": "8d8acbb17f44ae169899a8d5c0d212dd73ec92338b3f7e6cf5f6dca2b6859337",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py icontrol_summary (independent reader; allotropy has no i-control parser)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "absorbance",
+    "wells": 6,
+    "values": 120,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "e372a07ab218f10cc5d1512e688f3798"
+   }
+  ],
+  "header": {
+   "software_version": "2.0.10.0",
+   "model": "infinite 200Pro"
+  }
+ }
+}

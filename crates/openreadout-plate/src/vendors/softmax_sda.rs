@@ -371,13 +371,11 @@ fn plate(sec: &Node, ex: &mut Export) -> Result<Block, String> {
                 .collect()
         })
         .unwrap_or_default();
-    if wl_list.len() != 1 {
+    if wl_list.is_empty() {
         return Err(format!(
-            "{label}: {} wavelengths (one is validated)",
-            wl_list.len()
+            "{label}: no wavelength list (a reader settings layout that is not validated)"
         ));
     }
-    let wl = wl_list[0];
     let items = data.kids();
     let ints: Vec<Option<i32>> = items[1..6].iter().map(Node::i32_).collect();
     let (Some(cols), Some(rows)) = (ints[3], ints[4]) else {
@@ -388,6 +386,16 @@ fn plate(sec: &Node, ex: &mut Export) -> Result<Block, String> {
     };
     if cols == 0 || rows == 0 || cols > 48 || rows > 32 {
         return Err(format!("{label}: plate size {rows} x {cols}"));
+    }
+    // the third number of the data object counts the wavelengths (1, or 2 for a dual-wavelength
+    // read)
+    if let Some(nw) = ints[2]
+        && usize::try_from(nw).ok() != Some(wl_list.len())
+    {
+        return Err(format!(
+            "{label}: the data hold {nw} wavelengths, the settings list {}",
+            wl_list.len()
+        ));
     }
     let spec = settings.path(&["Plate", "Microplate", "PlateSpecification"]);
     if let Some(spec) = spec {
@@ -409,95 +417,103 @@ fn plate(sec: &Node, ex: &mut Export) -> Result<Block, String> {
             ));
         }
     }
-    let wls = items
+    // one entry per read (`0`, …), each holding one entry per wavelength in list order
+    let reads = items
         .iter()
         .find(|k| matches!(k.val, Val::Obj(_)) && k.kids().first().is_some_and(|f| f.name == "0"));
-    let wls = wls.map(Node::kids).unwrap_or_default();
-    if wls.len() != 1 {
-        return Err(format!(
-            "{label}: {} wavelength data sets (one is validated)",
-            wls.len()
-        ));
+    let reads = reads.map(Node::kids).unwrap_or_default();
+    if reads.len() != 1 {
+        return Err(format!("{label}: {} reads (one is validated)", reads.len()));
     }
-    let reads = wls[0]
+    let per_wavelength = reads[0]
         .kids()
         .iter()
         .find(|k| matches!(k.val, Val::Obj(_)))
         .map(Node::kids)
         .unwrap_or_default();
-    if reads.len() != 1 {
+    if per_wavelength.len() != wl_list.len() {
         return Err(format!(
-            "{label}: {} reads per wavelength (one is validated)",
-            reads.len()
+            "{label}: {} wavelength entries in the read for {} wavelengths",
+            per_wavelength.len(),
+            wl_list.len()
         ));
     }
-    let rd = reads[0].kids();
-    let temp = rd.iter().find_map(|k| match k.val {
-        Val::F32(t) => Some(f64::from(t)),
-        _ => None,
-    });
-    let raw = rd.iter().find_map(|k| match k.val {
-        Val::Bytes(b) => Some(b),
-        _ => None,
-    });
     let n = (rows * cols) as usize;
-    let Some(raw) = raw.filter(|b| b.len() == n * 8) else {
-        return Err(format!(
-            "{label}: the value array is not {rows} x {cols} numbers"
-        ));
-    };
     let mut block = Block::new(name.clone(), name.clone());
     block.rows = rows;
     block.cols = cols;
     block.declared_wells = Some(rows * cols);
     block.read_type = Some(ReadType::Endpoint);
-    block.temperature_c = temp.map(|t| (t * 100.0).round() / 100.0);
     let unit = match mode {
         Mode::Absorbance => "OD",
         Mode::Fluorescence => "RFU",
         _ => "RLU",
     };
-    let mut ch = Channel::new(mode_label(mode, wl), mode);
-    ch.unit = Some(unit.into());
-    match mode {
-        Mode::Absorbance => ch.wavelength_nm = wl.child("Wavelength").and_then(Node::f64_),
-        Mode::Fluorescence => {
-            ch.excitation_nm = wl.child("ExcitationWavelength").and_then(Node::f64_);
-            ch.emission_nm = wl.child("EmissionWavelength").and_then(Node::f64_);
-            if let Some(cut) = wl.child("CutoffFilter").and_then(Node::f64_) {
-                ch.settings.insert("cutoff_nm".into(), json!(cut));
+    for (k, (wl, entry)) in wl_list.iter().zip(per_wavelength).enumerate() {
+        let rd = entry.kids();
+        if rd.first().and_then(Node::i32_) != i32::try_from(k).ok() {
+            return Err(format!("{label}: wavelength entry {k} is not numbered {k}"));
+        }
+        let temp = rd.iter().find_map(|x| match x.val {
+            Val::F32(t) => Some(f64::from(t)),
+            _ => None,
+        });
+        let raw = rd.iter().find_map(|x| match x.val {
+            Val::Bytes(b) => Some(b),
+            _ => None,
+        });
+        let Some(raw) = raw.filter(|b| b.len() == n * 8) else {
+            return Err(format!(
+                "{label}: the value array of wavelength {} is not {rows} x {cols} numbers",
+                k + 1
+            ));
+        };
+        if block.temperature_c.is_none() {
+            block.temperature_c = temp.map(|t| (t * 100.0).round() / 100.0);
+        }
+        let mut ch = Channel::new(mode_label(mode, wl), mode);
+        ch.unit = Some(unit.into());
+        match mode {
+            Mode::Absorbance => ch.wavelength_nm = wl.child("Wavelength").and_then(Node::f64_),
+            Mode::Fluorescence => {
+                ch.excitation_nm = wl.child("ExcitationWavelength").and_then(Node::f64_);
+                ch.emission_nm = wl.child("EmissionWavelength").and_then(Node::f64_);
+                if let Some(cut) = wl.child("CutoffFilter").and_then(Node::f64_) {
+                    ch.settings.insert("cutoff_nm".into(), json!(cut));
+                }
+            }
+            _ => {
+                let all = wl.child("IsAll").and_then(Node::bool_) == Some(true);
+                ch.emission_nm = wl
+                    .child("Wavelength")
+                    .and_then(Node::f64_)
+                    .filter(|w| *w > 0.0 && !all);
             }
         }
-        _ => {
-            let all = wl.child("IsAll").and_then(Node::bool_) == Some(true);
-            ch.emission_nm = wl
-                .child("Wavelength")
-                .and_then(Node::f64_)
-                .filter(|w| *w > 0.0 && !all);
+        if let Some(s) = settings.child("SensitivitySettings") {
+            if matches!(mode, Mode::Fluorescence)
+                && let Some(bottom) = s.child("IsReadFromBottom").and_then(Node::bool_)
+            {
+                ch.settings.insert(
+                    "optics".into(),
+                    json!(if bottom { "Bottom" } else { "Top" }),
+                );
+            }
+            if s.child("IsFlashesPerReadEnable").and_then(Node::bool_) == Some(true)
+                && let Some(f) = s.child("FlashesPerRead").and_then(Node::i32_)
+            {
+                ch.settings.insert("reads_per_well".into(), json!(f));
+            }
+        }
+        let chi = block.channel(ch);
+        for (i, v) in raw.as_chunks::<8>().0.iter().enumerate() {
+            let v = f64::from_le_bytes(*v);
+            let (r, col) = ((i / cols as usize) as u32, (i % cols as usize) as u32);
+            let text = (!v.is_finite()).then(|| "no value".to_string());
+            block.push_value(r, col, chi, None, v, text);
         }
     }
-    if let Some(s) = settings.child("SensitivitySettings") {
-        if matches!(mode, Mode::Fluorescence)
-            && let Some(bottom) = s.child("IsReadFromBottom").and_then(Node::bool_)
-        {
-            ch.settings.insert(
-                "optics".into(),
-                json!(if bottom { "Bottom" } else { "Top" }),
-            );
-        }
-        if s.child("IsFlashesPerReadEnable").and_then(Node::bool_) == Some(true)
-            && let Some(f) = s.child("FlashesPerRead").and_then(Node::i32_)
-        {
-            ch.settings.insert("reads_per_well".into(), json!(f));
-        }
-    }
-    let chi = block.channel(ch);
-    for (i, v) in raw.as_chunks::<8>().0.iter().enumerate() {
-        let v = f64::from_le_bytes(*v);
-        let (r, col) = ((i / cols as usize) as u32, (i % cols as usize) as u32);
-        let text = (!v.is_finite()).then(|| "no value".to_string());
-        block.push_value(r, col, chi, None, v, text);
-    }
+
     // the well-flag bytes after the reads: all zero in every corpus file (meaning unknown)
     if let Some(flags) = items.iter().rev().find_map(|k| match k.val {
         Val::Bytes(f) if f.len() == n => Some(f),
@@ -716,6 +732,112 @@ mod tests {
         assert_eq!((b.obs[1].row, b.obs[1].col), (0, 1));
         assert_eq!(b.temperature_c, Some(25.0));
         // cutting the document anywhere never panics
+        for cut in 0..doc.len() {
+            let _ = parse(&doc[..cut]);
+        }
+    }
+
+    fn bytes(b: &[u8]) -> Vec<u8> {
+        let mut v = (b.len() as u64).to_le_bytes().to_vec();
+        v.extend_from_slice(b);
+        v
+    }
+
+    /// A one-well absorbance plate read at `wavelengths` (450 and 570 nm in a dual-wavelength
+    /// ELISA document), the data object saying `stated` wavelengths.
+    fn absorbance_document(wavelengths: &[f64], stated: i32) -> Vec<u8> {
+        let list: Vec<Vec<u8>> = wavelengths
+            .iter()
+            .enumerate()
+            .map(|(k, w)| {
+                obj(
+                    &format!("Wavelength{k}"),
+                    &[entry(0x08, "Wavelength", &w.to_le_bytes())],
+                )
+            })
+            .collect();
+        let settings = obj(
+            "ReaderSettings",
+            &[
+                obj("ReadType", &[entry(0x0c, "value__", &0i32.to_le_bytes())]),
+                obj("ReadMode", &[entry(0x0c, "value__", &1i32.to_le_bytes())]),
+                obj("WavelengthSettings", &[obj("WavelengthList", &list)]),
+            ],
+        );
+        let mut nested = b"\x0bBinary File\x01\0\0\0".to_vec();
+        nested.extend_from_slice(&settings);
+        let per_wavelength: Vec<Vec<u8>> = wavelengths
+            .iter()
+            .enumerate()
+            .map(|(k, w)| {
+                obj(
+                    &k.to_string(),
+                    &[
+                        entry(0x0c, "", &(k as i32).to_le_bytes()),
+                        entry(0x1c, "", &23.4f32.to_le_bytes()),
+                        entry(0x08, "", &0f64.to_le_bytes()),
+                        entry(0x10, "", &bytes(&(w / 1000.0).to_le_bytes())),
+                        entry(0x10, "", &bytes(&0f64.to_le_bytes())),
+                    ],
+                )
+            })
+            .collect();
+        let data = obj(
+            "",
+            &[
+                entry(0x04, "", &string("P1")),
+                entry(0x0c, "", &0i32.to_le_bytes()),
+                entry(0x0c, "", &1i32.to_le_bytes()),
+                entry(0x0c, "", &stated.to_le_bytes()),
+                entry(0x0c, "", &1i32.to_le_bytes()),
+                entry(0x0c, "", &1i32.to_le_bytes()),
+                entry(0x08, "", &0f64.to_le_bytes()),
+                entry(0x08, "", &0f64.to_le_bytes()),
+                obj(
+                    "",
+                    &[obj(
+                        "0",
+                        &[
+                            entry(0x0c, "", &0i32.to_le_bytes()),
+                            obj("", &per_wavelength),
+                        ],
+                    )],
+                ),
+                entry(0x10, "", &bytes(&[0])),
+            ],
+        );
+        let section = obj(
+            "",
+            &[
+                entry(0x04, "Name", &string("P1")),
+                entry(0x10, "", &bytes(&nested)),
+                data,
+            ],
+        );
+        let mut doc = b"\x0bBinary File\x01\0\0\0".to_vec();
+        doc.extend_from_slice(&entry(
+            0x04,
+            "",
+            &string("SoftMaxPro.DataPersistence.SerializablePlateSectionData"),
+        ));
+        doc.extend_from_slice(&section);
+        doc
+    }
+
+    #[test]
+    fn two_wavelengths_become_two_reads() {
+        let doc = absorbance_document(&[450.0, 570.0], 2);
+        let ex = parse(&doc).unwrap();
+        assert!(ex.findings.is_empty(), "{:?}", ex.findings);
+        let b = &ex.blocks[0];
+        let wl: Vec<Option<f64>> = b.channels.iter().map(|c| c.wavelength_nm).collect();
+        assert_eq!(wl, vec![Some(450.0), Some(570.0)]);
+        let v: Vec<(u32, f64)> = b.obs.iter().map(|o| (o.channel, o.value)).collect();
+        assert_eq!(v, vec![(0, 0.45), (1, 0.57)]);
+        // a data object that counts other wavelengths than the settings list is refused
+        let ex = parse(&absorbance_document(&[450.0, 570.0], 1)).unwrap();
+        assert!(ex.blocks.is_empty());
+        assert!(ex.findings.iter().any(|f| f.code == "plate_not_decoded"));
         for cut in 0..doc.len() {
             let _ = parse(&doc[..cut]);
         }

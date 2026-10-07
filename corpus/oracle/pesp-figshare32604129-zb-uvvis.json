@@ -1,0 +1,46 @@
+{
+ "id": "pesp-figshare32604129-zb-uvvis",
+ "file": "pesp-figshare32604129-zb-uvvis.sp",
+ "size": 8085,
+ "sha256": "4b977c4620dd26d495381cb297a9e30f55de83b16d07f27357ebdea0124a0a2d",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 801,
+   "x_first": 1000.0,
+   "x_last": 200.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 801,
+     "channels": [
+      {
+       "xxh3": "a62c197956859eb9abe52dbe89ccc0ac",
+       "first": [
+        52.43753172358786,
+        52.45719020571589,
+        52.45114566225572,
+        52.46487121131062,
+        52.45489946753557,
+        52.44827645957998,
+        52.46089691792682,
+        52.465110645182676
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Lambda 950",
+     "instrument_serial": "950N9060902"
+    }
+   }
+  }
+ ]
+}

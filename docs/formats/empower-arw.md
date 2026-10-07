@@ -19,8 +19,14 @@ The value's unit is not in the export (it is the detector's: mV, AU, EU for fluo
 Times are printed to 7 significant digits, so an evenly sampled run shows steps that differ in
 the last digit; points within 10⁻⁶ of the grid (relative to the time) are a regular trace.
 
+An export method that selects no fields writes the data rows alone. Such a file is read when it
+has the `.arw` extension and its first lines are all two tab-separated numbers (`extra.headerless`
+true, no fields, the channel named `value`). Nothing else in it names Empower, so without the
+extension it is not claimed. No public export of this layout was found, so the assurance layout
+`headerless export` is unvalidated and `--strict` refuses its trace.
+
 Detection: a first line of tab-separated, double-quoted cells (with or without the `.arw`
-extension). Rows of more than two columns (a multi-wavelength PDA export) are refused (exit 6);
+extension), or rows of two numbers in a file named `.arw`. Rows of more than two columns (a multi-wavelength PDA export) are refused (exit 6);
 a header whose value count differs from its name count, or a data row that is not two numbers,
 is corrupt (exit 4).
 
@@ -30,7 +36,7 @@ is corrupt (exit 4).
   `Channel` (else `value`), `dtype` `float64`, no unit. Evenly spaced times: `sample_rate_hz`,
   `start_s` and `extra.axis` (retention time, minutes); otherwise `sample_rate_hz` 0 and a first
   channel `time` (minutes).
-- `extra`: `fields` (every exported name and value), and from them `sample_name`, `channel`,
+- `extra`: `fields` (every exported name and value), `headerless` (only when true), and from them `sample_name`, `channel`,
   `sample_set`, `instrument_method`, `processing_method`, `vial`, `injection`,
   `injection_volume`, `acquired_by`, `acquired_at` when exported; `line_ending`, `x_start_min`,
   `x_end_min`, `time_channel`.
@@ -54,5 +60,5 @@ is corrupt (exit 4).
 | --- | --- |
 | `EmpowerArwReader`, `EmpowerArwDataset`, `EMPOWER_ARW_ID`, `open`, `export` | reader, opened export, the id `empower-arw`, open by path, the parsed export |
 | `MAX_ARW_BYTES` | largest export read (512 MiB) |
-| `ArwExport`, `fields`, `times`, `values`, `line_ending`, `field`, `regular_step` | a parsed export: header names and values, points, line ending; a named field's value; the step of an evenly spaced export |
-| `ArwError` { `Corrupt`, `Unsupported` }, `parse_arw`, `looks_like_arw` | why an export was not read; the parser; detection |
+| `ArwExport`, `fields`, `times`, `values`, `line_ending`, `headerless`, `field`, `regular_step` | a parsed export: header names and values, points, line ending, whether it has no header rows; a named field's value; the step of an evenly spaced export |
+| `ArwError` { `Corrupt`, `Unsupported` }, `parse_arw`, `looks_like_arw`, `looks_like_headerless_arw` | why an export was not read; the parser; detection of an export with and without its header rows |

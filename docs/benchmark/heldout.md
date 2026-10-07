@@ -130,6 +130,14 @@ added for the bench formats after draw C have no `draw` yet.
 
 Exposures of held-out files to development work, recorded so the reader of a held-out score can judge it.
 
+- **2026-10-06, a LabSolutions record draw D reserved had been opened in development.** While
+  fixing draw D's findings, the fixing workstream noticed that `docs/provenance/shimadzu.md`
+  (2026-09-26) lists figshare 31095109 among records it looked at and did not add: the Shimadzu
+  work had opened `LUM_IF_L3.lcd` of that record. Draw D later held out another file of the record
+  (`ho-figshare31095109-lcd-lumefantrine`), which now carries `exposed` (rule 7).
+  `cargo xtask heldout-check` did not catch the mention: it looks for held-out ids, download URLs
+  and file names, and the log names only the record and another of its files.
+
 - **2026-10-06, draw D adjudication looked inside a few held-out files.** To classify the draw-D
   disagreements, the measuring workstream (which changes no reader) read the cell concentration line
   of the ITC file's text header, the first rows of the TA Universal Analysis export, the first and

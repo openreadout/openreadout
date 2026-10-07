@@ -38,12 +38,7 @@
    "parameters": {
     "extra": {
      "instrument": "Lambda 25",
-     "instrument_serial": "501S10081703",
-     "scans": 1,
-     "detector": 1,
-     "source": 0,
-     "beamsplitter": 0,
-     "apodization": 0
+     "instrument_serial": "501S10081703"
     }
    }
   }

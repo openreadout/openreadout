@@ -59,6 +59,14 @@ fn observe_empower_arw(info: &FileInfo) -> Observations {
         if let Some(e) = a::extra_str(&t.extra, "line_ending") {
             o.feature(K::Dialect, format!("{e} line endings"), &[Scope::Traces]);
         }
+        // detected by the extension and rows of numbers alone (no field names it Empower's)
+        if t.extra
+            .get("headerless")
+            .and_then(serde_json::Value::as_bool)
+            == Some(true)
+        {
+            o.feature(K::Layout, "headerless export", &[Scope::Traces]);
+        }
     }
     o.assumed(
         "traces[].channels[].unit",
@@ -486,20 +494,20 @@ const SHIMADZU_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "LC-MS mrm", 2, 1, 6),
     a::row(K::Acquisition, "LC-MS product ion scan", 2, 1, 2),
     a::row(K::Acquisition, "LC-MS sim", 1, 1, 1),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 12),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 14),
     a::row(K::FormatVersion, "3.00", 2, 2, 2),
-    a::row(K::FormatVersion, "5.01", 7, 3, 10),
+    a::row(K::FormatVersion, "5.01", 9, 5, 12),
     a::row(K::Instrument, "SFID1", 1, 1, 1),
     a::row(K::Instrument, "SPD-20A", 1, 1, 3),
     a::row(K::Instrument, "SPD-20AV", 1, 1, 1),
     a::row(K::Layout, "chromatogram (f64) in LSS Raw Data", 1, 1, 1),
     a::row(K::Layout, "chromatogram in LC Raw Data", 2, 2, 2),
     a::row(K::Layout, "chromatogram in LSS Raw Data", 0, 0, 2),
-    a::row(K::Layout, "pda max plot in PDA 3D Raw Data", 2, 2, 2),
-    a::row(K::Layout, "pda spectra in PDA 3D Raw Data", 2, 2, 2),
+    a::row(K::Layout, "pda max plot in PDA 3D Raw Data", 4, 4, 4),
+    a::row(K::Layout, "pda spectra in PDA 3D Raw Data", 4, 4, 4),
     a::row(K::Layout, "status trace in LC Raw Data", 2, 2, 2),
-    a::row(K::Layout, "status trace in LSS Raw Data", 6, 3, 9),
-    a::row(K::Record, "vendor peak table", 1, 1, 5),
+    a::row(K::Layout, "status trace in LSS Raw Data", 8, 5, 11),
+    a::row(K::Record, "vendor peak table", 1, 1, 7),
 ];
 // END GENERATED shimadzu
 

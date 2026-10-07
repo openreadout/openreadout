@@ -527,6 +527,12 @@ pub(crate) fn parse_mpr(b: &[u8]) -> Result<SeriesFile> {
     let s = data.body;
     let n = usize::try_from(read(b, s, le_u32)?).map_err(|_| corrupt(s, "point count"))?;
     let (ids, first) = match data.version {
+        // older EC-Lab: one byte per column id, records from byte 100
+        0 => {
+            let k = usize::from(*slice(b, s + 4, 1)?.first().unwrap_or(&0));
+            let ids: Vec<u16> = slice(b, s + 5, k)?.iter().map(|&i| u16::from(i)).collect();
+            (ids, 100)
+        }
         2 | 3 => {
             let k = usize::from(*slice(b, s + 4, 1)?.first().unwrap_or(&0));
             let ids: Vec<u16> = (0..k)
@@ -545,7 +551,7 @@ pub(crate) fn parse_mpr(b: &[u8]) -> Result<SeriesFile> {
             return Err(Error::unsupported(
                 MPR_FORMAT_ID,
                 format!("data module version {v}"),
-                "Only data modules of versions 2, 3, 10 and 11 are read; export the file as text (.mpt) from EC-Lab.",
+                "Only data modules of versions 0, 2, 3, 10 and 11 are read; export the file as text (.mpt) from EC-Lab.",
             ));
         }
     };
@@ -630,15 +636,18 @@ pub(crate) fn parse_mpr(b: &[u8]) -> Result<SeriesFile> {
     });
     let mut vendor = Map::new();
     if let Some(log) = mods.iter().find(|m| m.short == "VMP LOG") {
-        if log.len > 593
-            && let Some(v) = le_f64(b, log.body + 585)
+        // the acquisition start: +465 in the log of a file whose data module has version 0, +585
+        // in later files (their logs can also have version 0)
+        let (at, why) = if data.version == 0 {
+            (465, "VMP LOG +465 (OLE date, local time)")
+        } else {
+            (585, "VMP LOG +585 (OLE date, local time)")
+        };
+        if log.len >= at + 8
+            && let Some(v) = le_f64(b, log.body + at)
             && let Some(t) = ole_local(v)
         {
-            facts.set(
-                "acquisition.started_at",
-                &t,
-                "VMP LOG +585 (OLE date, local time)",
-            );
+            facts.set("acquisition.started_at", &t, why);
             vendor.insert("acquisition_started".into(), json!(t));
         }
         if let Some(ch) = b.get(log.body + 9) {
@@ -758,6 +767,16 @@ pub(crate) fn parse_mpt(bytes: &[u8]) -> Result<SeriesFile> {
         .find(|l| !l.trim().is_empty())
         .map(|l| l.contains(',') && !l.contains('.'));
     let mut bad_rows = 0usize;
+    // Columns written as absolute date-times (EC-Lab's export option for `time/s`), decided on
+    // the first data row: the cells' date fields and clock seconds, per column.
+    let first_row: Vec<&str> = lines[header_lines..]
+        .iter()
+        .find(|l| !l.trim().is_empty())
+        .map(|l| l.split('\t').collect())
+        .unwrap_or_default();
+    let mut stamps: Vec<Option<Vec<Stamp>>> = (0..labels.len())
+        .map(|ci| first_row.get(ci).and_then(|v| stamp(v)).map(|_| Vec::new()))
+        .collect();
     for (k, l) in lines[header_lines..].iter().enumerate() {
         if l.trim().is_empty() {
             continue;
@@ -780,6 +799,18 @@ pub(crate) fn parse_mpt(bytes: &[u8]) -> Result<SeriesFile> {
         }
         for (ci, v) in f.iter().take(labels.len()).enumerate() {
             let v = v.trim();
+            if let Some(Some(st)) = stamps.get_mut(ci) {
+                st.push(stamp(v).ok_or_else(|| {
+                    Error::corrupt(
+                        MPT_FORMAT_ID,
+                        format!(
+                            "row {}: `{v}` is not a date and time like the first row's",
+                            k + 1
+                        ),
+                    )
+                })?);
+                continue;
+            }
             // decimal comma locales: `1,234E-003`
             let p = if comma == Some(true) {
                 v.replace(',', ".").parse::<f64>()
@@ -795,6 +826,32 @@ pub(crate) fn parse_mpt(bytes: &[u8]) -> Result<SeriesFile> {
         }
     }
     let mut findings = Vec::new();
+    // Date-time columns become seconds from their first row; the first row's date and time is
+    // kept as the start of the data.
+    let mut data_start: Option<(String, bool)> = None;
+    for (ci, st) in stamps.iter().enumerate() {
+        let Some(st) = st else { continue };
+        let Some((secs, start, order_assumed)) = stamps_to_seconds(st) else {
+            return Err(Error::corrupt(
+                MPT_FORMAT_ID,
+                format!(
+                    "column `{}`: its dates are neither all month/day/year nor all day/month/year",
+                    labels[ci]
+                ),
+            ));
+        };
+        findings.push(Finding::info(
+            "absolute_times",
+            format!(
+                "column `{}` holds dates and times (first {start}); returned as seconds from its first row",
+                labels[ci]
+            ),
+        ));
+        if data_start.is_none() {
+            data_start = Some((start, order_assumed));
+        }
+        cols[ci] = secs;
+    }
     if !dropped.is_empty() {
         findings.push(Finding::info(
             "announced_columns_without_data",
@@ -828,6 +885,7 @@ pub(crate) fn parse_mpt(bytes: &[u8]) -> Result<SeriesFile> {
         .instrument_kind("CHMO:0002427");
     let mut vendor = Map::new();
     let mut technique = None;
+    let mut header_start = false;
     if has_header {
         // the technique line sits inside the header block (a short header has none: line 3 is
         // then the column header or a data row)
@@ -874,6 +932,7 @@ pub(crate) fn parse_mpt(bytes: &[u8]) -> Result<SeriesFile> {
                 &s,
                 "`Acquisition started on :` header line (month/day/year, local time)",
             );
+            header_start = true;
         }
         if let Some(u) = get("User") {
             facts.set("acquisition.operator", &u, "`User :` header line");
@@ -917,6 +976,26 @@ pub(crate) fn parse_mpt(bytes: &[u8]) -> Result<SeriesFile> {
         vendor.insert("header".into(), Value::Object(hdr));
     }
     let mut observations = openreadout_core::assurance::Observations::default();
+    if let Some((start, order_assumed)) = &data_start {
+        observations.feature(
+            FeatureKind::Layout,
+            "absolute time column",
+            &[Scope::Traces],
+        );
+        if !header_start {
+            facts.set(
+                "acquisition.started_at",
+                start,
+                "first row of the date-time column (local time)",
+            );
+            if *order_assumed {
+                observations.assumed(
+                    "experiment.acquisition.started_at",
+                    "the date-time column's dates fit both month/day/year and day/month/year; month/day/year was assumed, as in EC-Lab's header",
+                );
+            }
+        }
+    }
     observations.feature(
         FeatureKind::Dialect,
         if has_header {
@@ -956,7 +1035,9 @@ pub(crate) fn parse_mpt(bytes: &[u8]) -> Result<SeriesFile> {
             findings,
             observations,
             provenance_source: Source::Inferred,
-            checks: vec![format!("{n} rows parsed, every value a number")],
+            checks: vec![format!(
+                "{n} rows parsed, every value a number (a date and time in a date-time column)"
+            )],
         },
     ))
 }
@@ -989,6 +1070,88 @@ fn leading(v: &str) -> Option<(f64, String)> {
 }
 
 /// `MM/DD/YYYY HH:MM:SS.fff` (EC-Lab's US format) as ISO-8601 local time.
+/// A date and clock time as an `.mpt` cell writes it (`07/19/2024 16:53:36.5000`): the two date
+/// fields in file order, the year, and seconds since midnight.
+#[derive(Debug, Clone, Copy, PartialEq)]
+struct Stamp {
+    a: u32,
+    b: u32,
+    year: i64,
+    secs: f64,
+}
+
+fn stamp(cell: &str) -> Option<Stamp> {
+    let (date, time) = cell.trim().split_once(' ')?;
+    let mut dates = date.split('/');
+    let (a, b, year): (u32, u32, i64) = (
+        dates.next()?.parse().ok()?,
+        dates.next()?.parse().ok()?,
+        dates.next()?.parse().ok()?,
+    );
+    let mut clock = time.trim().split(':');
+    let (hour, minute, sec): (u32, u32, f64) = (
+        clock.next()?.parse().ok()?,
+        clock.next()?.parse().ok()?,
+        clock.next()?.parse().ok()?,
+    );
+    let valid = dates.next().is_none()
+        && clock.next().is_none()
+        && (1..=31).contains(&a)
+        && (1..=31).contains(&b)
+        && (1900..=9999).contains(&year)
+        && hour <= 23
+        && minute <= 59
+        && (0.0..61.0).contains(&sec);
+    valid.then(|| Stamp {
+        a,
+        b,
+        year,
+        secs: f64::from(hour) * 3600.0 + f64::from(minute) * 60.0 + sec,
+    })
+}
+
+/// A date-time column as seconds from its first row, its first date-time (ISO-8601, local
+/// time) and whether the order of day and month was assumed. When both orders fit every date,
+/// month/day/year is taken (EC-Lab's header writes dates that way) unless only day/month/year
+/// keeps the times from running backwards. `None` when neither order fits every date.
+fn stamps_to_seconds(st: &[Stamp]) -> Option<(Vec<f64>, String, bool)> {
+    let first = st.first()?;
+    let md = |s: &Stamp, month_first: bool| if month_first { (s.a, s.b) } else { (s.b, s.a) };
+    let fits = |month_first: bool| st.iter().all(|s| (1..=12).contains(&md(s, month_first).0));
+    // Seconds from the first stamp, with the day difference and the clock time kept apart so
+    // that a fraction of a second is not lost against the size of a date in seconds.
+    let absolute = |month_first: bool| -> Vec<f64> {
+        let day = |s: &Stamp| {
+            let (m, d) = md(s, month_first);
+            openreadout_core::time::days_from_civil(s.year, m, d)
+        };
+        let d0 = day(first);
+        st.iter()
+            .map(|s| (day(s) - d0) as f64 * 86400.0 + (s.secs - first.secs))
+            .collect()
+    };
+    let rising = |v: &[f64]| v.windows(2).all(|w| w[1] >= w[0]);
+    let (mdy, dmy) = (fits(true), fits(false));
+    let month_first = match (mdy, dmy) {
+        (true, false) => true,
+        (false, true) => false,
+        (false, false) => return None,
+        (true, true) => rising(&absolute(true)) || !rising(&absolute(false)),
+    };
+    let elapsed = absolute(month_first);
+    let (m, d) = md(first, month_first);
+    let s = first.secs.floor() as u32;
+    let start = format!(
+        "{:04}-{m:02}-{d:02}T{:02}:{:02}:{:02}",
+        first.year,
+        s / 3600,
+        s / 60 % 60,
+        s % 60
+    );
+    let assumed = mdy && dmy && first.a != first.b;
+    Some((elapsed, start, assumed))
+}
+
 fn mpt_time(s: &str) -> Option<String> {
     let (date, time) = s.trim().split_once(' ')?;
     let parts: Vec<&str> = date.split('/').collect();
@@ -1018,6 +1181,85 @@ fn mpt_time(s: &str) -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A module with the 57-byte header of version-0 files.
+    fn module(short: &str, version: u32, body: &[u8]) -> Vec<u8> {
+        let mut m = b"MODULE".to_vec();
+        m.extend(format!("{short:<10}").as_bytes());
+        m.extend(format!("{short:<25}").as_bytes());
+        m.extend(u32::try_from(body.len()).unwrap().to_le_bytes());
+        m.extend(version.to_le_bytes());
+        m.extend(b"10/29/11");
+        m.extend(body);
+        m
+    }
+
+    #[test]
+    fn data_module_version_0() {
+        // echem-figshare1228760-bio-logic4: u8 column count, u8 ids (flags, time, control/V,
+        // Ewe, dq), records from byte 100 of the body; the start at VMP LOG +465
+        let mut data = 2u32.to_le_bytes().to_vec();
+        data.extend([10, 1, 2, 3, 21, 31, 65, 4, 19, 6, 7]);
+        data.resize(100, 0);
+        for (t, e) in [(0.0f64, 0.83f32), (1.0, 0.84)] {
+            data.push(0x0b);
+            data.extend(t.to_le_bytes());
+            data.extend(0.5f32.to_le_bytes());
+            data.extend(e.to_le_bytes());
+            data.extend(0.0f64.to_le_bytes());
+        }
+        let mut log = vec![0u8; 473];
+        log[2] = 0x04;
+        log[465..473].copy_from_slice(&40_845.814_120_370_37f64.to_le_bytes());
+        let mut b = MPR_MAGIC.to_vec();
+        b.resize(0x34, b' ');
+        b.extend(module("VMP Set", 0, &[0x04, 0, 0, 0]));
+        b.extend(module("VMP data", 0, &data));
+        b.extend(module("VMP LOG", 0, &log));
+        let f = parse_mpr(&b).unwrap();
+        let t = &f.traces[0];
+        let ewe = t.channels.iter().position(|c| c.name == "ewe").unwrap();
+        assert_eq!(
+            t.sweeps[0][ewe],
+            vec![f64::from(0.83f32), f64::from(0.84f32)]
+        );
+        let mode = t.channels.iter().position(|c| c.name == "mode").unwrap();
+        assert_eq!(t.sweeps[0][mode], vec![3.0, 3.0]);
+        let started = serde_json::to_value(&f.experiment).unwrap();
+        assert!(started.to_string().contains("2011-10-29T19:32:20"));
+        // a body one byte short of the records is corrupt
+        data.pop();
+        let mut short = MPR_MAGIC.to_vec();
+        short.resize(0x34, b' ');
+        short.extend(module("VMP data", 0, &data));
+        assert!(parse_mpr(&short).is_err());
+    }
+
+    #[test]
+    fn absolute_time_column() {
+        // echem-figshare30080953-cp-mpt: a headerless export whose time/s holds date-times
+        let t = "mode\tox/red\ttime/s\tEwe/V\n1\t0\t07/19/2024 16:53:36.5000\t-7.4302989E-001\n1\t0\t07/19/2024 16:53:36.5500\t-7.43E-001\n1\t0\t07/19/2024 16:53:37.0000\t-7.42E-001\n";
+        let f = parse_mpt(t.as_bytes()).unwrap();
+        assert_eq!(f.traces[0].channels[0].name, "time");
+        let v = &f.traces[0].sweeps[0][0];
+        assert_eq!(v[0], 0.0);
+        assert!((v[1] - 0.05).abs() < 1e-9 && (v[2] - 0.5).abs() < 1e-9);
+        // across midnight; both orders fit and only month/day keeps the times rising
+        let st: Vec<Stamp> = ["01/02/2022 23:59:59", "01/03/2022 00:00:01"]
+            .iter()
+            .map(|s| stamp(s).unwrap())
+            .collect();
+        let (secs, start, assumed) = stamps_to_seconds(&st).unwrap();
+        assert_eq!(secs, vec![0.0, 2.0]);
+        assert_eq!(start, "2022-01-02T23:59:59");
+        assert!(assumed);
+        // day/month/year when a first field is above 12
+        let st = [stamp("19/07/2024 10:00:00").unwrap()];
+        assert_eq!(stamps_to_seconds(&st).unwrap().1, "2024-07-19T10:00:00");
+        // a date-time column with a number in it is corrupt
+        let bad = "time/s\tEwe/V\n07/19/2024 16:53:36.5000\t1\n12.5\t1\n";
+        assert!(parse_mpt(bad.as_bytes()).is_err());
+    }
 
     #[test]
     fn labels_and_times() {
