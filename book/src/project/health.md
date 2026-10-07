@@ -18,21 +18,21 @@ Knowledge basis: 15 open spec, 47 prior art, 26 reverse engineered, 8 vendor doc
 
 ## Corpus
 
-3985 manifest entries; 1678 development inputs of 95 formats from 541 depositors (distinct source records: a Zenodo record, a study, a repository) (276 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
+4003 manifest entries; 1692 development inputs of 95 formats from 550 depositors (distinct source records: a Zenodo record, a study, a repository) (280 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
 
 | tier | entries | declared size |
 | --- | --- | --- |
 | full | 77 | 48.2 GB |
 | heldout | 730 | 6.6 GB |
 | hold | 26 | 132.6 MB |
-| smoke | 1839 | 1.1 GB |
-| standard | 1313 | 19.8 GB |
+| smoke | 1841 | 1.1 GB |
+| standard | 1329 | 20.0 GB |
 
 Formats without a development-corpus input of their own id (read through a sibling format's files, or not yet in the corpus): `hdf5`.
 
 ## Assurance evidence
 
-From `corpus/assurance/evidence.json` (development files only): 1654 files read; 1539 compared with an oracle, 1539 agree (100%); 1513 confirmed by an independent reader. 2255 distinct variant-feature values observed, 2143 of them validated (95%); the others make files that use them `partially_validated` or `unvalidated`.
+From `corpus/assurance/evidence.json` (development files only): 1668 files read; 1553 compared with an oracle, 1553 agree (100%); 1525 confirmed by an independent reader. 2270 distinct variant-feature values observed, 2159 of them validated (95%); the others make files that use them `partially_validated` or `unvalidated`.
 
 Development files `info` cannot read (3): `pcrd-cfx-primerpickr` (bio-rad-pcrd), `gen5prt-elisa-reader` (plate), `softmax5-cuvette-spectra-s2` (plate).
 
@@ -51,7 +51,7 @@ Variant values the development corpus reaches but no independent reader confirms
 | `jcamp-dx` | acquisition=`CONTINUOUS MASS SPECTRUM`, acquisition=`ND NMR SPECTRUM` |
 | `malvern-zetasizer-dts` | acquisition=`size record`, format_version=`record schema 10`, writer_version=`Zetasizer 7.02`, writer_version=`Zetasizer 7.13`, writer_version=`Zetasizer 8.00`, writer_version=`Zetasizer 8.01` |
 | `microcal-itc` | writer=`MicroCalITC`, writer_version=`ITC200 1.25`, writer_version=`MicroCalITC 1.29` |
-| `mzml` | acquisition=`SRM spectrum`, acquisition=`electromagnetic radiation spectrum`, acquisition=`selected ion monitoring chromatogram`, instrument=`4000 QTRAP`, instrument=`Applied Biosystems instrument model`, instrument=`LTQ Velos`, instrument=`Stellar`, record=`absorption chromatogram`, record=`chromatogram`, record=`electromagnetic radiation chromatogram`, record=`emission chromatogram`, record=`flow rate chromatogram`, record=`pressure chromatogram`, record=`selected ion monitoring chromatogram`, record=`temperature chromatogram`, writer=`Compass` |
+| `mzml` | acquisition=`SRM spectrum`, acquisition=`electromagnetic radiation spectrum`, acquisition=`selected ion monitoring chromatogram`, instrument=`4000 QTRAP`, instrument=`Applied Biosystems instrument model`, instrument=`LTQ Velos`, instrument=`Stellar`, record=`absorption chromatogram`, record=`chromatogram`, record=`electromagnetic radiation chromatogram`, record=`emission chromatogram`, record=`selected ion monitoring chromatogram`, record=`temperature chromatogram`, writer=`Compass` |
 | `mzxml` | format_version=`2.1` |
 | `plate` | instrument=`Cytation3`, instrument=`Cytation5`, instrument=`SpectraMax M5`, instrument=`Synergy HT`, layout=`container gen5-experiment`, writer_version=`Gen5 2` |
 | `plexon` | format_version=`PL2`, record=`PL2 continuous` |
@@ -96,7 +96,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 | --- | --- |
 | reader crates with a maintainer guide (`MAINTAINING.md`, generated facts checked by `cargo xtask guides`) | 40 of 40 |
 | golden-output snapshots of committed fixtures (`cargo test`) | 107 |
-| golden-output snapshots of development-corpus files | 1657 |
-| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3058 |
+| golden-output snapshots of development-corpus files | 1671 |
+| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3071 |
 | fuzz targets (`fuzz/fuzz_targets/`) | 134 |
-| Rust source files under `crates/` | 776 |
+| Rust source files under `crates/` | 778 |

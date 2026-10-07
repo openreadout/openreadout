@@ -59,7 +59,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `microcal-itc` | medium | reverse engineered | 10 | 6 | 2 | 5 | 100% | 100% | - |
 | `mirax` | medium | prior art | 7 | 7 | 1 | 6 | 100% | 13% | - |
 | `mrc` | high | open spec | 13 | 13 | 7 | 6 | 100% | 24% | 2/0 |
-| `mzml` | high | open spec | 106 | 54 | 40 | 16 | 100% | 0% | 3/0 |
+| `mzml` | high | open spec | 107 | 55 | 41 | 16 | 100% | 0% | 3/0 |
 | `mzmlb` | medium | open spec | 4 | 4 | 1 | 5 | 100% | 0% | 1/0 |
 | `mzxml` | high | open spec | 8 | 7 | 6 | 4 | 100% | 0% | - |
 | `nd2` | high | prior art | 28 | 27 | 7 | 14 | 100% | 42% | 4/0 |
