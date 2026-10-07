@@ -60964,3 +60964,2047 @@ license_checked = "https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1129
 source = "BioImage Archive S-BIAD1129: Artificial intelligence-based quantification of lymphocytes in feline small intestinal biopsies, slide ow52 (training/tuning set)"
 attribution = "Judit Magnusson Wulcan; Stefan M Keller (University of California, Davis)"
 notes = "pixel data of ho-biad1129-vsi-feline (stack10001)"
+
+# ---------- Imaging bug hunt, 2026-10 (development files; docs/benchmark/hunt-2026-10-imaging.md) ----------
+
+[[file]]
+id = "zenodo21426640-droplet-pdms"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo21426640-droplet-pdms.czi"
+url = "https://zenodo.org/api/records/21426640/files/Fig-5f-PDMS%204mm.czi/content"
+sha256 = "904cee66981cdda3f86250e6051002e44e39d895e5db6de5fcf7d2a048192468"
+size = 10743680
+md5 = "87944a67ca7f734f552b45964e2fb6e1"
+license = "CC-BY-4.0"
+source = "Zenodo record 21426640: A simple, reproducible, and rapid droplet culture method for the formation and characterization of microbial biofilms"
+attribution = "Zhang, Sixuan, Lee, Mihyun, Ren, Qun"
+notes = "1 image; image 0 5118 x 1024, z 1, c 1, t 1, uint16; Carl Zeiss Microscopy LSM 780, AxioObserver; AIMApplication 14.0.29.201"
+
+[[file]]
+id = "zenodo19890985-piezo-capins"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo19890985-piezo-capins.czi"
+url = "https://zenodo.org/api/records/19890985/files/Figure%204%20B%20-%20CaPINS.czi/content"
+sha256 = "8957a9c24768e89bd9148777b167b0803d63458528f6bb4bafb0a7d1d0417070"
+size = 4950464
+md5 = "94d280c542e895a41aa1fb23c250108d"
+license = "CC-BY-4.0"
+source = "Zenodo record 19890985: Dataset underlying article: Submolecular modulation of PIEZO1 mechanotransduction with wireless tailor-made nanoswitches"
+attribution = "Teixeira, Simão, Pardo, Alberto, Taboada, pablo, Bijonowski, Brent"
+notes = "1 image; image 0 1024 x 1024, z 1, c 3, t 1, uint8; Carl Zeiss Microscopy Axio Observer.Z1 / 7; ZEN (blue edition) 3.6.095.09000"
+
+[[file]]
+id = "zenodo17652131-gpnmb-dan"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo17652131-gpnmb-dan.czi"
+url = "https://zenodo.org/api/records/17652131/files/Figure%202I_DAN_TMEM192-GFP-Alex488_LAMP1_Alex647_Cell-4.czi/content"
+sha256 = "940858ad6d87b5b81233c807bbeb1807cac689d9241d6381d7aa60ec555e2fb0"
+size = 17267872
+md5 = "a584ad861308ce3ecaca489023bde692"
+license = "CC-BY-4.0"
+source = "Zenodo record 17652131: Datasets in \"Bidirectional regulation of glycoprotein nonmetastatic melanoma protein B by β-glucocerebrosidase deficiency in GBA1 isogenic dopaminergic neurons from a patient with Gaucher disease and parkinsonism\""
+attribution = "Chen, Yu"
+notes = "1 image; image 0 508 x 508, z 11, c 3, t 1, uint16; Carl Zeiss Microscopy LSM 880, AxioObserver; AIMApplication 14.0.18.201"
+
+[[file]]
+id = "zenodo17350040-prophigel-max"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo17350040-prophigel-max.czi"
+url = "https://zenodo.org/api/records/17350040/files/Figure%206D-ProPhiGel.max.czi/content"
+sha256 = "a0ef5d69b76269e95d4743bef0f65c9924a443cced606b17f4c5b978f34ff61a"
+size = 2228096
+md5 = "5698a4a5c0714e71ede100640dfd26bb"
+license = "CC-BY-4.0"
+source = "Zenodo record 17350040: Dual-Layer Living Hydrogel Enables Sequential, On-Demand Delivery of Phages and Probiotics for Synergistic Wound Infection Therapy"
+attribution = "Tao, Siyuan, Ren, Qun"
+notes = "1 image; image 0 1024 x 1024, z 1, c 2, t 1, uint8; Carl Zeiss Microscopy LSM 780, AxioObserver; AIMApplication 14.0.29.201"
+
+[[file]]
+id = "zenodo17181554-kinesin-mut017"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo17181554-kinesin-mut017.czi"
+url = "https://zenodo.org/api/records/17181554/files/mut017.czi/content"
+sha256 = "6a761b0e014cea8623aa088282784107d142daceb8859d19a7b593d17d0c88f9"
+size = 2137056
+md5 = "775d5b1734f56db53394cdcb17025a67"
+license = "CC-BY-4.0"
+source = "Zenodo record 17181554: The Hook-like Adaptor and Cargo-binding (HAC) Domain in the Kinesin-2 Tail Enables Adaptor Assembly and Cargo Recognition"
+attribution = "Jiang, Xuguang, Danev, Radostin, Ichinose, Sotaro, Niu, Baichun"
+notes = "1 image; image 0 1024 x 250, z 1, c 4, t 1, uint16; Carl Zeiss Microscopy LSM 880, AxioObserver; AIMApplication 14.0.27.201"
+
+[[file]]
+id = "zenodo16950892-nodose-sum"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo16950892-nodose-sum.czi"
+url = "https://zenodo.org/api/records/16950892/files/2-BP%20nodose%206%20no%20ethanol%2020x%204x%20SUM.czi/content"
+sha256 = "3b52e80e9e703309ec3f56b9a3486dba5bb0ecefc601675ec8d7ac37038e42a1"
+size = 24023456
+md5 = "024e443ccb4a63c6efdb74e5069a0cb7"
+license = "CC-BY-4.0"
+source = "Zenodo record 16950892: Cnr1 and Phox2b expression in nodose ganglia of alcohol drinking mice"
+attribution = "Kunos, George, Godlewski, Grzegorz, Herrerias, Alexa, Thyagarajan, Arthi"
+notes = "1 image; image 0 1940 x 1940, z 1, c 3, t 1, uint16; Carl Zeiss Microscopy Axio Observer.Z1 / 7; ZEN 3.10.103.03000"
+
+[[file]]
+id = "zenodo13736595-ycharos-fus"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo13736595-ycharos-fus.czi"
+url = "https://zenodo.org/api/records/13736595/files/FUS_IF_NBP2-52874.czi/content"
+sha256 = "eb27e33d3643fd86bb1663f48f8e59372ce056e0c7f7b03c9be16179483f1bd1"
+size = 14753120
+md5 = "4bb026d8a93542367f3f9eb3c1f6a8f2"
+license = "CC-BY-4.0"
+source = "Zenodo record 13736595: Dataset for RNA-binding protein FUS antibody screening study"
+attribution = "Laflamme, Carl"
+notes = "1 image; image 0 1912 x 1912, z 1, c 4, t 1, uint8; Carl Zeiss Microscopy LSM 880, AxioObserver; AIMApplication 14.0.18.201"
+
+[[file]]
+id = "zenodo12515325-nanocompartment-spf"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo12515325-nanocompartment-spf.czi"
+url = "https://zenodo.org/api/records/12515325/files/Control_5-Single%20Pixel%20Filter-01.czi/content"
+sha256 = "9dcb6083bd39b354de76db338565814f616a197bb8de8cff95c9549d8556d556"
+size = 4236192
+md5 = "cae9623e9b433e6f05931cbc6e1283ab"
+license = "CC-BY-4.0"
+source = "Zenodo record 12515325: Glycooligomer-Functionalized Catalytic Nanocompartments Co-Loaded with Enzymes Support Parallel Reactions and Promote Cell Internalization"
+attribution = "Maria, Korpidou, Jonas, Becker, Shabnam, Tarvirdipour, Ionel Adrian, Dinu"
+notes = "1 image; image 0 1024 x 1024, z 1, c 2, t 1, uint16; Carl Zeiss Microscopy LSM 880 IndiMo, AxioObserver; ZEN 3.2 (blue edition) 3.2.0.0000"
+
+[[file]]
+id = "zenodo10989097-gat-colon"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo10989097-gat-colon.czi"
+url = "https://zenodo.org/api/records/10989097/files/ms_distal_colon_nNOS_Hu_10X.czi/content"
+sha256 = "5af4c71f6cce9729b73371fb128f831611c8f4624d526ecf25c1018f22ae8825"
+size = 9105920
+md5 = "890952f2e8222c09b2624bb7923482f0"
+license = "CC-BY-4.0"
+source = "Zenodo record 10989097: Image datasets associated with Gut Analysis Toolbox"
+attribution = "Pradeep, Rajasekhar"
+notes = "1 image; image 0 1388 x 1040, z 1, c 3, t 1, uint16; Carl Zeiss Microscopy Axio Imager.Z1; ZEN 2012 (blue edition) 1.1.2.0"
+
+[[file]]
+id = "zenodo10798945-esat6"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo10798945-esat6.czi"
+url = "https://zenodo.org/api/records/10798945/files/ESAT_4.5.czi/content"
+sha256 = "27541cbe87d8e8221cc9a6b78e0b1ad0a19cc88fd262a4e9fbab431f2b56781e"
+size = 1400416
+md5 = "30d09e18200ff984b19bbb6669b35260"
+license = "CC-BY-4.0"
+source = "Zenodo record 10798945: ESAT-6 undergoes self-association at phagosomal pH and an ESAT-6 specific nanobody restricts M. tuberculosis growth in macrophages"
+attribution = "Bates, Timothy, Trank-Greene, Mila, Nguyenla, Xammy, Anastas, Aidan"
+notes = "1 image; image 0 607 x 607, z 1, c 1, t 1, uint16; Carl Zeiss Microscopy Axio Observer.Z1 / 7; ZEN (blue edition) 3.5.093.00003"
+
+[[file]]
+id = "zenodo10080888-zebrafish-aif1l"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo10080888-zebrafish-aif1l.czi"
+url = "https://zenodo.org/api/records/10080888/files/aif1l-60e-emb1.czi/content"
+sha256 = "82862f5cdfc2128b057865fae5b6791125407e466b6c599f5f2ed68be4a3343d"
+size = 14835328
+md5 = "e660a01a13eaa40c6e46ad7d477f8ff0"
+license = "CC-BY-4.0"
+source = "Zenodo record 10080888: Cell-type-specific mRNA transcription and degradation kinetics in zebrafish embryogenesis from metabolically labeled scRNAseq"
+attribution = "Fishman, Lior, Modak, Avani, Nechooshtan, Gal, Razin, Tayla"
+notes = "1 image; image 0 2560 x 1920, z 1, c 1, t 1, uint8 x 3 samples; Carl Zeiss Microscopy Other Microscope; ZEN 3.8.99.01000"
+
+[[file]]
+id = "zenodo10221545-ctcf-livesr"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo10221545-ctcf-livesr.czi"
+url = "https://zenodo.org/api/records/10221545/files/642_3.czi/content"
+sha256 = "f0539b72b8991199ce74b5526ed76dbdac6fb0fe45845c48264e226716ec7918"
+size = 1841344
+md5 = "116d700e0ee86bd231ae1a27c5131a98"
+license = "CC-BY-4.0"
+source = "Zenodo record 10221545: live cell super-resolution data_dual_color_cell_line_CTCF_E-2_deletion"
+attribution = "Du, Manyu"
+notes = "1 image; image 0 512 x 512, z 1, c 1, t 1, uint16; Carl Zeiss Microscopy Andor1, AxioObserver; AIMApplication 16.0.17.306"
+
+[[file]]
+id = "zenodo10219682-sim-mip"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo10219682-sim-mip.czi"
+url = "https://zenodo.org/api/records/10219682/files/SCR33k_ROI12_SIM_Maximum%20intensity%20projection.czi/content"
+sha256 = "b845d572f60c599adb85822c594eec556d38232b571991d6b35627d23cb4521b"
+size = 25492128
+md5 = "44771c268b3fbf0d1d84c17bb26dcefb"
+license = "CC-BY-4.0"
+source = "Zenodo record 10219682: structured illumination micrscopy data to quatify the condensate size"
+attribution = "Du, Manyu"
+notes = "1 image; image 0 2048 x 2048, z 1, c 3, t 1, uint16; Carl Zeiss Microscopy Andor1, AxioObserver; AIMApplication 16.0.17.306"
+
+[[file]]
+id = "zenodo7011051-airyscan2"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo7011051-airyscan2.czi"
+url = "https://zenodo.org/api/records/7011051/files/P1_116_MOI1_50nM_JFX549_500nM_SiRDNA_40X_SR_SinglePlane_001_2D.czi/content"
+sha256 = "6b935c6e342ebff5a2ee02d44326443a8b092b3805e9f33f9f6ca66ab3334b1b"
+size = 2451232
+md5 = "cb4f0086d73655833ca5d724746144cb"
+license = "CC-BY-4.0"
+source = "Zenodo record 7011051: LSM900 Airyscan2 images"
+attribution = "Claudia Cattoglio, Carlo Vetralla"
+notes = "1 image; image 0 488 x 488, z 1, c 4, t 1, uint16; Carl Zeiss Microscopy Axio Observer.Z1 / 7; ZEN 3.1 (blue edition) 3.1.0.00005"
+
+[[file]]
+id = "zenodo7017487-frap3d"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo7017487-frap3d.czi"
+url = "https://zenodo.org/api/records/7017487/files/P1_32_50nM_JFX549_SF650_FRAP-0001-02.czi/content"
+sha256 = "349b10a7776bb8e8b661d8c048f3cfaa23a132b83451b5e5274bc28d0f7ebf1c"
+size = 35869152
+md5 = "54fef61a1c77c73755bd5094c01b124c"
+license = "CC-BY-4.0"
+source = "Zenodo record 7017487: 3D FRAP movies"
+attribution = "Claudia Cattoglio, Carlo Vetralla"
+notes = "1 image; image 0 114 x 114, z 13, c 1, t 97, uint16; Carl Zeiss Microscopy Axio Observer.Z1 / 7; ZEN 3.1 (blue edition) 3.1.0.00005"
+
+[[file]]
+id = "zenodo8420587-igem-leiden"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo8420587-igem-leiden.czi"
+url = "https://zenodo.org/api/records/8420587/files/bact%20iGEM%20WT%202-16.czi/content"
+sha256 = "94be7cb25193d10e9eacce42ae646e6a7a8380888b4b37041b4c59d00eacae8f"
+size = 20826464
+md5 = "0177afe1efd9683608c66d21d5991892"
+license = "CC-BY-4.0"
+source = "Zenodo record 8420587: iGEM Leiden 2023 - Fluorescence microscopy pictures for PHA visualization"
+attribution = "PHAse Out"
+notes = "1 image; image 0 2464 x 2078, z 1, c 2, t 1, uint16; Carl Zeiss Microscopy Axio Imager.M2; ZEN (blue edition) 3.6.095.07000"
+
+[[file]]
+id = "zenodo8358320-import-issue"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo8358320-import-issue.czi"
+url = "https://zenodo.org/api/records/8358320/files/Import%20issue.czi/content"
+sha256 = "cebc53f524d6c10eee1f2c081f83c3e7fe42e6f8a6fe713c7c79100228f322da"
+size = 32027968
+md5 = "882cecd89fb6468cb6f3ae7e358c50be"
+license = "CC-BY-4.0"
+source = "Zenodo record 8358320: CZI import issue example"
+attribution = "Morten Juhl"
+notes = "1 image; image 0 2752 x 2208, z 1, c 2, t 1, uint16; Carl Zeiss Microscopy Axio Observer.Z1 / 7; ZEN (blue edition) 3.6.095.04000"
+
+[[file]]
+id = "zenodo8321543-zen-black-3d"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo8321543-zen-black-3d.czi"
+url = "https://zenodo.org/api/records/8321543/files/3Dexample.czi/content"
+sha256 = "b64c0fb0ace782fa7bccb2594e23484c4aabdc2e0c85673c0e832b0f65765db8"
+size = 12768576
+md5 = "667ee2a05414c66d18554e533b89e8b1"
+license = "CC-BY-4.0"
+source = "Zenodo record 8321543: Example czi ZEN black file"
+attribution = "Paulo JB Girao"
+notes = "1 image; image 0 1432 x 972, z 4, c 2, t 1, uint8; Carl Zeiss Microscopy LSM 880 Indimo, Axio Imager 2; AIMApplication 14.0.0.201"
+
+[[file]]
+id = "zenodo8164709-syk-lsmcr"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo8164709-syk-lsmcr.czi"
+url = "https://zenodo.org/api/records/8164709/files/IF_SYK_951%20%28ab244701%29.lsmCR.czi/content"
+sha256 = "ea46b975387190af2d44bb9e383e8a9414636fbb038d0219996bf6f50f9afbd1"
+size = 2018592
+md5 = "cb3d0063a0b166a08beb109d066396aa"
+license = "CC-BY-4.0"
+source = "Zenodo record 8164709: Dataset for the Tyrosine-protein kinase SYK antibody screening study"
+attribution = "Southern, Kathleen"
+notes = "1 image; image 0 1000 x 500, z 1, c 4, t 1, uint8; Carl Zeiss Microscopy; ZEN (blue edition) 3.4.91.00000"
+
+[[file]]
+id = "zenodo7921367-pollentube"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo7921367-pollentube.czi"
+url = "https://zenodo.org/api/records/7921367/files/MeLDAP_InPollenTube_10.czi/content"
+sha256 = "bb885bdfbafd1b6500d099fffc578cb57e7acb99a6f6d3b485e05d0b665a73cb"
+size = 2158304
+md5 = "8ec78698571bd7bbf058788e6472f67c"
+license = "CC-BY-4.0"
+source = "Zenodo record 7921367: Light and confocal micrographs on the response of Mesotaenium endlicherianum SAG 12.97 to a bifactorial environmental gradient, the accumulation of lipid droplets, and the heterologous expression and localisation of signature LD protein homologs to tobacco pollen tubes"
+attribution = "Fürst-Jansen, Janine, Sun, Siqi, Darienko, Tatyana, Krone, Denis"
+notes = "1 image; image 0 512 x 116, z 1, c 3, t 1, uint16; Carl Zeiss Microscopy Axio Observer.Z1 / 7; ZEN (blue edition) 3.5.093.00000"
+
+[[file]]
+id = "zenodo7430767-smfish-dacv"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo7430767-smfish-dacv.czi"
+url = "https://zenodo.org/api/records/7430767/files/WT%20DACV%2010.5%20vegfc_647%20pcam_594%20gapdh_488%20E1%20seriel%202.czi/content"
+sha256 = "d572c1a35343004412ab416024bfebbc1e4fff54675de1f2e1be4254f845c49b"
+size = 2292960
+md5 = "af0671f3a87b3809c4b2b9892623fd94"
+license = "CC-BY-4.0"
+source = "Zenodo record 7430767: smFISH Image Analysis .czi files - The blood vasculature instructs lymphatics patterning in a SOX7 dependent manner."
+attribution = "Richard Harwood"
+notes = "1 image; image 0 512 x 512, z 1, c 3, t 1, uint16; Carl Zeiss Microscopy Axio Observer.Z1 / 7; ZEN 2.6 (blue edition) 2.6.76.00000"
+
+[[file]]
+id = "zenodo6865142-sim-synapsed"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo6865142-sim-synapsed.czi"
+url = "https://zenodo.org/api/records/6865142/files/SIM%20Synapsed%20homologs%20of%20meiotic%20mouse%20chromosomes%20full%20FOV.czi/content"
+sha256 = "b8ab0d964021dea89d787aea02fed5ac76b4d273fafbf4187bdd42bf18fd7b9f"
+size = 13198272
+md5 = "2590bb0fee38d30ce067fb8b9cc4ea8e"
+license = "CC-BY-4.0"
+source = "Zenodo record 6865142: Synapsed homologs of meiotic mouse chromosomes visualized by TIRFM"
+attribution = "Marco Barchi"
+notes = "1 image; image 0 2560 x 2560, z 1, c 1, t 1, uint16; Carl Zeiss Microscopy Andor1, AxioObserver; AIMApplication 16.0.4.306"
+
+[[file]]
+id = "zenodo6685822-heliorhodopsin"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo6685822-heliorhodopsin.czi"
+url = "https://zenodo.org/api/records/6685822/files/Fig1B_right.czi/content"
+sha256 = "e569bf9dad09654620224810686aa2e470040e8496d9fa4e4f538a1d94979c8f"
+size = 570656
+md5 = "2f7a602dbe87e8aca294b940a0b43244"
+license = "CC0-1.0"
+source = "Zenodo record 6685822: Proton-transporting heliorhodopsins from marine giant viruses"
+attribution = "Kandori, Hideki"
+notes = "1 image; image 0 512 x 512, z 1, c 2, t 1, uint8; Carl Zeiss Microscopy LSM 880, AxioObserver; AIMApplication 14.0.9.201"
+
+[[file]]
+id = "zenodo5908580-cdt1"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo5908580-cdt1.czi"
+url = "https://zenodo.org/api/records/5908580/files/Figure3C-top-eGFPCdt1.czi/content"
+sha256 = "4127357408a42bbcb62847e46d9cc53cc6d742c8d65410acc8d764099c8b62e8"
+size = 11579904
+md5 = "12c6eefe9b13d1917aaeee9368dccf5e"
+license = "CC0-1.0"
+source = "Zenodo record 5908580: Molecular determinants of phase separation for Drosophila DNA replication licensing factors"
+attribution = "Parker, Matthew"
+notes = "1 image; image 0 1024 x 1024, z 11, c 1, t 1, uint8; Carl Zeiss Microscopy LSM 710, AxioObserver; AIMApplication 14.0.14.201"
+
+[[file]]
+id = "zenodo5574569-kapb"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo5574569-kapb.czi"
+url = "https://zenodo.org/api/records/5574569/files/Fig7A_KapB_siRNA2_110pmol_Image%2060.czi/content"
+sha256 = "e1d5019e4f6b1dd75c0c9fab4d18a03b64371788c2f9ca9aad2754178b9a5ed5"
+size = 3379936
+md5 = "69e1ef59a044868675bb483b622d0018"
+license = "CC-BY-4.0"
+source = "Zenodo record 5574569: Karyopherin compensation fortifies the nuclear pore complex against nucleocytoplasmic leakage"
+attribution = "Joanna Kalita, Larisa E. Kapinos, Tiantian Zheng, Chantal Rencurel"
+notes = "1 image; image 0 1024 x 1024, z 1, c 3, t 1, uint8; Carl Zeiss Microscopy LSM 880, AxioObserver; AIMApplication 14.0.18.201"
+
+[[file]]
+id = "zenodo5823010-inflammasome"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo5823010-inflammasome.czi"
+url = "https://zenodo.org/api/records/5823010/files/2_mouse_04_03.czi/content"
+sha256 = "31a42d668cce24480ff3dfd91ff17198d2204448fa072d20fee18b6959ab672b"
+size = 3342976
+md5 = "1bd664cacac3b344131f49675999bed3"
+license = "CC0-1.0"
+source = "Zenodo record 5823010: Immunofluorescence images: Inflammasome activation leads to cDC1-independent cross-priming of CD8 T cells by epithelial cell derived antigen"
+attribution = "Deets, Katherine, Vance, Russell"
+notes = "1 image; image 0 1024 x 1024, z 1, c 3, t 1, uint8; Carl Zeiss Microscopy LSM 710, Axio Imager 2; AIMApplication 14.0.18.201"
+
+[[file]]
+id = "zenodo5714530-autophagy-do45"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo5714530-autophagy-do45.czi"
+url = "https://zenodo.org/api/records/5714530/files/dO%2045%20min%20nr%207.czi/content"
+sha256 = "7a68fb355e801fd93534b6266626fea58a8421f914bce97a03b479332d2665ab"
+size = 2970656
+md5 = "bc22799694693e53571933ad1e8b2be1"
+license = "CC-BY-4.0"
+source = "Zenodo record 5714530: Novel and conventional inhibitors of canonical autophagy differently affect LC3-associated phagocytosis"
+attribution = "Stempels, Femmy C., Janssens, Maaike H., ter Beest, Martin, Mesman, Rob J."
+notes = "1 image; image 0 506 x 506, z 1, c 5, t 1, uint16; Carl Zeiss Microscopy Axio Observer.Z1 / 7; ZEN 2.3 (blue edition) 2.3.69.1018"
+
+[[file]]
+id = "zenodo5602160-celegans-nlp45"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo5602160-celegans-nlp45.czi"
+url = "https://zenodo.org/api/records/5602160/files/nlp-45%20L2%201%20Tail.czi/content"
+sha256 = "e43aaedb47f2960e75e39d7e8e00a8e4c214d00417e52d5ab7e0ac80b155c0b4"
+size = 21446272
+md5 = "02e0017bfd530438c545a9fb8fd12107"
+license = "CC-BY-4.0"
+source = "Zenodo record 5602160: Temporal transitions in the post-mitotic nervous system of Caenorhabditis elegans"
+attribution = "HaoSheng Sun, Oliver Hobert"
+notes = "1 image; image 0 632 x 156, z 18, c 6, t 1, uint16; Carl Zeiss Microscopy LSM 880, AxioObserver; AIMApplication 14.0.21.201"
+
+[[file]]
+id = "zenodo17487086-glycopaint-bf"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo17487086-glycopaint-bf.nd2"
+url = "https://zenodo.org/api/records/17487086/files/221012-Exp-1-A1-2-BF.nd2/content"
+sha256 = "ed5eea46290a374eae9a514bed3ee2b4483ebaf596182c42b10bbb3a8c8af165"
+size = 708608
+md5 = "9396666737beab0a1ef14d963212e5f7"
+license = "CC-BY-4.0"
+source = "Zenodo record 17487086: Glyco-PAINT reference"
+attribution = "Bakker, Hans"
+notes = "1 image; image 0 512 x 512, z 1, c 1, t 1, uint16; Nikon; NIS-Elements 5.21.03 (Build 1489)"
+
+[[file]]
+id = "zenodo15641410-barley-arabido"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo15641410-barley-arabido.nd2"
+url = "https://zenodo.org/api/records/15641410/files/ArabidoGCaptured2.nd2/content"
+sha256 = "622b3059c93aac5ef5bfd06510f350136e5211e771a0ea179c232d74da8cc097"
+size = 1310720
+md5 = "b0eec658f1c55b0d90fa5bf394d616a9"
+license = "CC-BY-4.0"
+source = "Zenodo record 15641410: Cellular localization of barley (Hordeum vulgare L., cv. Golden Promise) mitochondrial transcription termination factors in Arabidopsis protoplasts"
+attribution = "Świda-Barteczka, Aleksandra"
+notes = "1 image; image 0 512 x 512, z 1, c 2, t 1, uint16; Nikon; NIS-Elements 5.21.03 (Build 1489)"
+
+[[file]]
+id = "zenodo14649225-pff-s3c"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo14649225-pff-s3c.nd2"
+url = "https://zenodo.org/api/records/14649225/files/Supplemental%20Figure%203C%20PFF-Contralateral-TH.nd2/content"
+sha256 = "5d320348c0507cb711bb1e2e0fd8cd53aa7914c445af46b56280598c460f942e"
+size = 1765070
+md5 = "b7871a0476c7c186e9597f033ecc5a11"
+license = "CC-BY-4.0"
+source = "Zenodo record 14649225: Source data for Chen et al (2024) entitled \"Motor Cortical Neuronal Hyperexcitability Associated with α-Synuclein Aggregation\""
+attribution = "Chu, Hong-Yuan, Chen, Liqiang, Chehade, Hiba Douja"
+notes = "1 image; image 0 1330 x 1327, z 1, c 1, t 1, uint8"
+
+[[file]]
+id = "zenodo14243556-adhm-pir"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo14243556-adhm-pir.nd2"
+url = "https://zenodo.org/api/records/14243556/files/2050-0169_slide-1_slice-2_CL_pir_10x.nd2/content"
+sha256 = "b2098c9ff1cb40039a0893442e40a9e4ec92667a49ccb1d94337815cb86fda65"
+size = 6524928
+md5 = "be5ea3fa21fd967a37f7dd52430b843b"
+license = "CC-BY-4.0"
+source = "Zenodo record 14243556: adhm.202401303_Supp.Fig5"
+attribution = "Nowakowska-Desplantes, Marta"
+notes = "1 image; image 0 1024 x 1024, z 1, c 3, t 1, uint16; Nikon; NIS-Elements 4.60.00 (Build 1171)"
+
+[[file]]
+id = "zenodo13335999-synuclein-4c"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo13335999-synuclein-4c.nd2"
+url = "https://zenodo.org/api/records/13335999/files/Figure%204C_Bioinert_Buffer_4h_Image2.nd2/content"
+sha256 = "7f437acc6bc250f826c6019b04a06fd6a5f86859a5444b317b8b78ead57518f9"
+size = 8249344
+md5 = "bb90b9a435da2c167b4d15c7d8aec5aa"
+license = "CC-BY-4.0"
+source = "Zenodo record 13335999: Thrush et al._Surface Wetting Is a Key Determinant of α-Synuclein Condensate Maturation_Source Data"
+attribution = "Thrush, Rebecca J., Vadukul, Devkee M., Allerton, Sian C., Storch, Marko"
+notes = "1 image; image 0 1416 x 1416, z 1, c 2, t 1, uint16; Nikon; NIS-Elements 5.42.06 (Build 1821)"
+
+[[file]]
+id = "zenodo13821490-brdu"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo13821490-brdu.nd2"
+url = "https://zenodo.org/api/records/13821490/files/BrdU.nd2/content"
+sha256 = "eebf3aa4a00eda7e000394f7414dca104fafe8e8fc1ecf7b39d59d7359ac0d3f"
+size = 11763712
+md5 = "4970c2557b2c8a17380ab89cdc0f9274"
+license = "CC-BY-4.0"
+source = "Zenodo record 13821490: Pre-existing natural variations of adult neurogenesis and anxiety predict hierarchical social status of inbred male mice."
+attribution = "Toni, Nicolas"
+notes = "1 image; image 0 2323 x 1246, z 1, c 2, t 1, uint16; Nikon; NIS-Elements 5.21.02 (Build 1487)"
+
+[[file]]
+id = "zenodo14590332-color-problems"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo14590332-color-problems.nd2"
+url = "https://zenodo.org/api/records/14590332/files/nd172.nd2/content"
+sha256 = "e2ebdbf3bc0574144c7228847da1496008d9ae277ed1f2e1a992fa3d928ee806"
+size = 63258624
+md5 = "3326b4185b7c93f1e07659a1c5f08495"
+license = "CC-BY-4.0"
+source = "Zenodo record 14590332: nd2 file color problems"
+attribution = "Aye"
+notes = "1 image; image 0 1024 x 1024, z 15, c 2, t 1, uint16; Nikon; NIS-Elements 5.30.05 (Build 1559)"
+
+[[file]]
+id = "zenodo17186598-skewed"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo17186598-skewed.nd2"
+url = "https://zenodo.org/api/records/17186598/files/Experiment_0001.nd2/content"
+sha256 = "cdba1aa1625a9a93cd0ee00628400ef049a7034f90cd6a33161e502846e099aa"
+size = 49790976
+md5 = "1dba820f0b6d33d5f4f3234683562565"
+license = "CC-BY-4.0"
+source = "Zenodo record 17186598: ND2 files opening in FIJI using BioFormats in a skewed / diagonal format - an example"
+attribution = "Goldstein, Bob"
+notes = "1 image; image 0 1750 x 1664, z 17, c 1, t 1, uint8; Nikon; NIS-Elements 6.10.01 (Build 2027)"
+
+[[file]]
+id = "zenodo15236968-nimbus"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo15236968-nimbus.nd2"
+url = "https://zenodo.org/api/records/15236968/files/My%20First%20Nimbus%20Dataset.nd2/content"
+sha256 = "34b00a286a7ed0a3bd1bb8d721d809a997eb5270b0717c3a14c690c70227ef80"
+size = 86446080
+md5 = "0888a54084f005954afcd9a2496eacbe"
+license = "CC-BY-4.0"
+source = "Zenodo record 15236968: My first Nimbus dataset"
+attribution = "Raj, Arjun"
+notes = "1 image; image 0 3789 x 3782, z 1, c 3, t 1, uint16; Nikon; NIS-Elements 5.11.03 (Build 1373)"
+
+[[file]]
+id = "zenodo14007546-fdaa"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo14007546-fdaa.nd2"
+url = "https://zenodo.org/api/records/14007546/files/SB8_all_small025.nd2/content"
+sha256 = "46ea9743b4aafd8e311687bb4183c1322f869bb6d99c9da4553136423d2c0abb"
+size = 33759232
+md5 = "871e73c9d1a6b5902c230710a0bc1321"
+license = "CC-BY-4.0"
+source = "Zenodo record 14007546: FDAA stained cells thesis data"
+attribution = "Hardo, Georgeos"
+notes = "1 image; image 0 2304 x 1800, z 1, c 4, t 1, uint16; Nikon; NIS-Elements 5.21.01 (Build 1483)"
+
+[[file]]
+id = "zenodo15679243-leadingstrand"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo15679243-leadingstrand.nd2"
+url = "https://zenodo.org/api/records/15679243/files/leadingstrand_noATP_001.nd2/content"
+sha256 = "951d083dfa3e237795989dfcde90132459b27afd322d1b05131a522103a25368"
+size = 58388480
+md5 = "5a8d809fe5c6e0b5fb28b4bcd0225bad"
+license = "CC-BY-4.0"
+source = "Zenodo record 15679243: ATP is dispensable for E. coli DNA replication and eukaryotic helicase activity"
+attribution = "Spenkelink, Lisanne"
+notes = "1 image; image 0 512 x 512, z 1, c 2, t 55, uint16; Nikon; NIS-Elements 4.30.02 (Build 1053)"
+
+[[file]]
+id = "zenodo18078402-bee-ventral"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo18078402-bee-ventral.nd2"
+url = "https://zenodo.org/api/records/18078402/files/NCSU_0045895_ventral.nd2/content"
+sha256 = "97f619fa24a9156270af4a7a4c7e5f1b7f05702c5b97235e999b382d664294be"
+size = 12972032
+md5 = "12df7e57bc24d60d6108d4b83407ed73"
+license = "CC-BY-4.0"
+source = "Zenodo record 18078402: Andrena barbara\tUNHC_0045895"
+attribution = "Mikó, István"
+notes = "1 image; image 0 487 x 256, z 50, c 1, t 1, uint16; Nikon; NIS-Elements 5.21.03 (Build 1489)"
+
+[[file]]
+id = "zenodo15493140-fiji811-cropped"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo15493140-fiji811-cropped.nd2"
+url = "https://zenodo.org/api/records/15493140/files/169_Cropped.nd2/content"
+sha256 = "35d9cb31cf1e826a3b88d1891a8b4b75b84e4352af50d9434fab36fc977ae88b"
+size = 138366976
+md5 = "ab43def8f0f172d1f25d427c355832a2"
+license = "CC-BY-4.0"
+source = "Zenodo record 15493140: Nd2 does not open in Fiji Bio_formats 8.1.1 (additional files)"
+attribution = "Bustos, Jonatan"
+notes = "1 image; image 0 919 x 877, z 57, c 1, t 1, uint8 x 3 samples; Nikon; NIS-Elements 5.42.04 (Build 1814)"
+
+[[file]]
+id = "zenodo15046688-n1-bugged-raw"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo15046688-n1-bugged-raw.nd2"
+url = "https://zenodo.org/api/records/15046688/files/N1_file_bugged_raw-version.nd2/content"
+sha256 = "741d3d8e7b7b9dc73b62b206283854dce00ae4b6f891862e5eef0307ff5e0429"
+size = 94576640
+md5 = "d9dc59fa4cedca1aea1cfffad8cdf78b"
+license = "CC-BY-4.0"
+source = "Zenodo record 15046688: Reconstructed images of a 2DSIM multiposition acquisition."
+attribution = "Romette, Louis"
+notes = "5 images; image 0 3072 x 3072, z 1, c 1, t 1, uint16; Nikon; NIS-Elements 5.42.07 (Build 1828)"
+
+[[file]]
+id = "zenodo10277961-mrap1"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "zenodo10277961-mrap1.nd2"
+url = "https://zenodo.org/api/records/10277961/files/MRAP1%20KO%20DN_10X03.nd2/content"
+sha256 = "e5580afa1e3331656ac4822eeb351de5ce6a5493446fbdf8d21f232355efe87c"
+size = 17801216
+md5 = "235e527219d39d49b516c8c2cc7bcd19"
+license = "CC-BY-4.0"
+source = "Zenodo record 10277961: Nd2 Color Correction Help"
+attribution = "hfriedman97"
+notes = "1 image; image 0 2880 x 2048, z 1, c 1, t 1, uint8 x 3 samples; Nikon; NIS-Elements 5.11.01 (Build 1367)"
+
+[[file]]
+id = "zenodo20760621-stellaris-metadata"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo20760621-stellaris-metadata.lif"
+url = "https://zenodo.org/api/records/20760621/files/MetadataIssue.lif/content"
+sha256 = "cbc077a76cde2ab531dcfc859210812d2723ec4cfe5e3ae537aa90a51e4af49d"
+size = 96625537
+md5 = "cd8a77a84c96ec7488f0116c056bc740"
+license = "CC-BY-4.0"
+source = "Zenodo record 20760621: A LIF file from the Leica Stellaris in which no channel names or similar information can be read via BioFormats"
+attribution = "Kirschnick, Nils"
+notes = "1 image; image 0 1024 x 1024, z 23, c 4, t 1, uint8; Leica Microsystems DMI8-CS; LAS X 4.9.0.30221"
+
+[[file]]
+id = "zenodo6643649-ki67-untreated"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo6643649-ki67-untreated.lif"
+url = "https://zenodo.org/api/records/6643649/files/Untreated.lif/content"
+sha256 = "c2fb01a0040f246d9f123d67e40840cde1c2f380117a2fc96d5ecff8ed36403c"
+size = 21573343
+md5 = "1d3557ee59066822ec4f95066d7ceb55"
+license = "CC-BY-4.0"
+source = "Zenodo record 6643649: DS4_KI67_RawData"
+attribution = "Schmidt, Broder, Rohatgi, Rajat, Brandman, Onn"
+notes = "5 images; image 0 1024 x 1024, z 1, c 4, t 1, uint8; Leica Microsystems DMI6000B-CS; LAS X 3.5.0.18371"
+
+[[file]]
+id = "zenodo5576217-nmj-starved"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo5576217-nmj-starved.lif"
+url = "https://zenodo.org/api/records/5576217/files/STARVED_Atg8mCherry_L4.lif/content"
+sha256 = "e58812eec48089fb8db5b9eeab44f7b48abecebb9e61458fc86e659127615cbf"
+size = 13238047
+md5 = "8520fcdbdc9f24910290d4b924ebc03d"
+license = "CC-BY-4.0"
+source = "Zenodo record 5576217: Dataset of: Macros to Quantify Exosome release and Autophagy at the Neuromuscular Junction of Drosophila Melanogaster"
+attribution = "Sanchez-Mirasierra, Irene, Hernandez-Diaz, Sergio, Ghimire, Saurav, Montecinos-Oliva, Carla"
+notes = "6 images; image 0 1024 x 1024, z 1, c 2, t 1, uint8; Leica Microsystems TCS SP5"
+
+[[file]]
+id = "zenodo6259698-ob-f8211"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo6259698-ob-f8211.lif"
+url = "https://zenodo.org/api/records/6259698/files/Experiment_002%20F8211%20L_OB.lif/content"
+sha256 = "90f0659e4d8fcf60795278206aa3a3be8bda92b808e2027f61009a863a091f18"
+size = 18484241
+md5 = "8d9449acb1620a21d736e33596ee586a"
+license = "CC-BY-4.0"
+source = "Zenodo record 6259698: Target-specific control of olfactory bulb periglomerular cells by GABAergic and cholinergic basal forebrain inputs"
+attribution = "De Saint Jan Didier"
+notes = "9 images; image 0 512 x 512, z 1, c 2, t 1, uint8; Leica Microsystems TCS SP5"
+
+[[file]]
+id = "zenodo7509202-ileum-ctrl"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo7509202-ileum-ctrl.lif"
+url = "https://zenodo.org/api/records/7509202/files/Fig%205A-2B%20Ileum%20Ctrl.lif/content"
+sha256 = "817baf3ef3e7a79bb7aba05399051b230ea5f50d66441523b0e19c1665adc724"
+size = 25602075
+md5 = "379706ce55245130df2135c420df86cd"
+license = "CC-BY-4.0"
+source = "Zenodo record 7509202: Confocal Microscopy Imaging of Peptidoglycan Uptake in the Mouse Intestine"
+attribution = "Wheeler, Richard, Gomperts Boneca, Ivo, Dias Bastos, Paulo, Disson, Olivier"
+notes = "3 images; image 0 1024 x 1024, z 1, c 4, t 1, uint16; Leica Microsystems TCS SP5"
+
+[[file]]
+id = "zenodo7225975-polyoma-6e"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo7225975-polyoma-6e.lif"
+url = "https://zenodo.org/api/records/7225975/files/Figure_6E.lif/content"
+sha256 = "90cb79deb742a1fd83b5147a47af8fab899514e1129def468fd7f47ef1951178"
+size = 30850619
+md5 = "250fca330da2c1f1ad95a62e6b95b616"
+license = "CC0-1.0"
+source = "Zenodo record 7225975: T cell deficiency precipitates antibody evasion and emergence of neurovirulent polyomavirus"
+attribution = "Lukacher, Aron, Lauver, Matthew, Jin, Ge, Ayers, Katelyn"
+notes = "4 images; image 0 1600 x 1200, z 1, c 4, t 1, uint8; Leica Microsystems DM4000B-CA; LAS X 3.6.1.23246"
+
+[[file]]
+id = "zenodo5895076-polymersome-unstain"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo5895076-polymersome-unstain.lif"
+url = "https://zenodo.org/api/records/5895076/files/Figure1_Experiment_Unstain_0016File_60x.lif/content"
+sha256 = "ec7e7ed93e6d06be0e00be3280cb93c1282ce0afb04d4d6f842b0ff783eaa194"
+size = 37223019
+md5 = "0921176be476126253daf7b168af7180"
+license = "CC-BY-4.0"
+source = "Zenodo record 5895076: Polymersomes-mediated delivery of CSF1R inhibitor to tumor associated macrophages promotes M2 to M1-like macrophage repolarization"
+attribution = "Rodriguez-Perdigon, Manuel, Jimaja, Sètuhn, Haeni, Laetitia, Bruns, Nico"
+notes = "14 images; image 0 1024 x 1024, z 1, c 3, t 1, uint8; Leica Microsystems TCS SP5"
+
+[[file]]
+id = "zenodo7840078-bodipy-mcf7"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo7840078-bodipy-mcf7.lif"
+url = "https://zenodo.org/api/records/7840078/files/221006%20MCF-7%20with%20B2PI%20and%20B2P%2017%20and%204%20h001.lif/content"
+sha256 = "56645c0aafe266e7faab3cae9ad4f4baa3bd7ef6dec5aeb984c346240e02a6c4"
+size = 47074525
+md5 = "b406068fdd42830231ee69cb6f3773f2"
+license = "CC-BY-4.0"
+source = "Zenodo record 7840078: In Cellulo Light-Induced Dynamics in a BODIPY-Perylene Dyad"
+attribution = "Tingxiang Yang, Ruben Arturo Arellano-Reyes, Rhianne C. Curley, Keshav Kumar Jha"
+notes = "13 images; image 0 1024 x 1024, z 1, c 2, t 1, uint8; Leica Microsystems DMI8-CS; LAS X 3.5.5.19976"
+
+[[file]]
+id = "zenodo19217336-dnge-notjammed"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo19217336-dnge-notjammed.lif"
+url = "https://zenodo.org/api/records/19217336/files/confocal_DNGE503_notjammed_210126.lif/content"
+sha256 = "4dad6877bacf5158cd0af51875370b11751b6f56b8e7a123920263d95f0c1de7"
+size = 60137807
+md5 = "ffcb4c492da6de6d1f11e41049ad623c"
+license = "CC-BY-4.0"
+source = "Zenodo record 19217336: Dataset for \"Elastomers Combining Damping Efficiency With Rapid Recovery\""
+attribution = "Amstad, Esther, Molleyres, Alain, Baur, Eva"
+notes = "15 images; image 0 1024 x 1024, z 1, c 1, t 1, uint8; Leica Microsystems DM6B-Z-CS; LAS X 3.5.10.29396"
+
+[[file]]
+id = "zenodo18462868-raman-spombe"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo18462868-raman-spombe.lif"
+url = "https://zenodo.org/api/records/18462868/files/Spombe_dea2.lif/content"
+sha256 = "6909ef2cfb78c3fbec5a7e3e6e00301beb04eff18641021470e62cd6c843452e"
+size = 69123737
+md5 = "4f4ce98a383fd9a3dd04c28cbf97e57e"
+license = "CC-BY-4.0"
+source = "Zenodo record 18462868: Raman microscopy of live Schizosaccharomyces pombe yeast"
+attribution = "Arcadia Science"
+notes = "64 images; image 0 512 x 512, z 1, c 2, t 1, uint16; Leica Microsystems DMI8-CS; LAS X 4.8.2.29567"
+
+[[file]]
+id = "zenodo19055391-iliocaudalis-11b"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo19055391-iliocaudalis-11b.lif"
+url = "https://zenodo.org/api/records/19055391/files/11B%20ICA%20Group%202.lif/content"
+sha256 = "551b876b961db0b243866d1f4d5c79c1a6ea821ef09eeea55dcb8bd7d19d2689"
+size = 34509503
+md5 = "374e1756248cf2c3ad007df635fbefc0"
+license = "CC-BY-4.0"
+source = "Zenodo record 19055391: Mouse Iliocaudalis Laminin Ibuprofen/Carnitine Project"
+attribution = "Burnett, Lindsey"
+notes = "2 images; image 0 3896 x 1040, z 1, c 2, t 1, uint16; Leica Microsystems DM6000B"
+
+[[file]]
+id = "zenodo18303030-mclid-p21"
+format = "oir"
+role = "corrupt"
+tier = "standard"
+filename = "zenodo18303030-mclid-p21.oir"
+url = "https://zenodo.org/api/records/18303030/files/P21deltaCterm_0005.oir/content"
+sha256 = "53192d4c12361d76778fadfb3f67ae6d387e42f303753d8053197281746257aa"
+size = 173839049
+md5 = "58ace156f38fb6d0cd72b11276416879"
+license = "CC-BY-4.0"
+source = "Zenodo record 18303030: "
+attribution = ""
+notes = "FV3000 z stack (FLUOVIEW 2), 1024 x 1024 x 78 uint16 plus a reference image; the last plane holds 81920 of 2097152 bytes (acquisition stopped), so check must report incomplete_plane"
+
+[[file]]
+id = "zenodo4449687-hela-h2b"
+format = "ims"
+role = "input"
+tier = "standard"
+filename = "zenodo4449687-hela-h2b.ims"
+url = "https://zenodo.org/api/records/4449687/files/HeLa_H2BmCherry_GFPtubulin_Mitotracker.ims/content"
+sha256 = "d963dc371ab3213200a17e451e0c681ca24979045a66868c52395f1028bee8f6"
+size = 8167080
+md5 = "6b9c75456f51484a80cc3e37ee333848"
+license = "CC-BY-4.0"
+source = "Zenodo record 4449687: HeLa_H2BmCherry_GFPtubulin_Mitotracker"
+attribution = "Guiet, Romain"
+notes = "1 image; image 0 125 x 125, z 13, c 3, t 10, uint8; Oxford Instruments / Bitplane (Imaris); Imaris 9.5"
+
+[[file]]
+id = "zenodo5895076-polymersome-spot"
+format = "ims"
+role = "input"
+tier = "standard"
+filename = "zenodo5895076-polymersome-spot.ims"
+url = "https://zenodo.org/api/records/5895076/files/FigureS2_Experiment_4hBLZ-PMuptake_0016File_60x_m_Preview023Snapshot1_SPOT.ims/content"
+sha256 = "979982e23221b08ee69f4ae73b0d296633ba5d750afa4134c5c8097026af3128"
+size = 720594
+md5 = "e2b436cab32131386db114ba1755c4f1"
+license = "CC-BY-4.0"
+source = "Zenodo record 5895076: Polymersomes-mediated delivery of CSF1R inhibitor to tumor associated macrophages promotes M2 to M1-like macrophage repolarization"
+attribution = "Rodriguez-Perdigon, Manuel, Jimaja, Sètuhn, Haeni, Laetitia, Bruns, Nico"
+notes = "1 image; image 0 430 x 430, z 1, c 3, t 1, uint8; Oxford Instruments / Bitplane (Imaris); Imaris 9.7"
+
+[[file]]
+id = "zenodo19666865-exm-artifact"
+format = "ims"
+role = "input"
+tier = "standard"
+filename = "zenodo19666865-exm-artifact.ims"
+url = "https://zenodo.org/api/records/19666865/files/Artifact_5x-ExM_CTX1..ims/content"
+sha256 = "6b8bdd09f1cfcf20eaecbf3956fec89a88a56b48362f6aed8a2c7fd17cc4c6c2"
+size = 7720171
+md5 = "923eb3f1516b114f0edaaae67128f671"
+license = "CC-BY-4.0"
+source = "Zenodo record 19666865: Expansion Microscopy of Banked Brain Tissue Data 2/3"
+attribution = "Sparks Brain Preservation"
+notes = "1 image; image 0 2000 x 2000, z 1, c 1, t 1, uint16; Oxford Instruments / Bitplane (Imaris); Imaris 10.2"
+
+[[file]]
+id = "zenodo17257407-bf-issue-anna"
+format = "ims"
+role = "input"
+tier = "standard"
+filename = "zenodo17257407-bf-issue-anna.ims"
+url = "https://zenodo.org/api/records/17257407/files/Anna_test.ims/content"
+sha256 = "bad968cec89a54de461a87e88882b23b014cc00f69be19f1eb071de3d3cb0962"
+size = 34597934
+md5 = "1dc0b35d5836a8d8038aaad95a8cf857"
+license = "CC-BY-4.0"
+source = "Zenodo record 17257407: Test data for Bioformats Issue #116781"
+attribution = "Rappe, Anna"
+notes = "1 image; image 0 2048 x 2048, z 1, c 4, t 1, uint16; Oxford Instruments / Bitplane (Imaris); Imaris 5.5.0"
+
+[[file]]
+id = "zenodo19630647-btbr-lab"
+format = "ims"
+role = "input"
+tier = "standard"
+filename = "zenodo19630647-btbr-lab.ims"
+url = "https://zenodo.org/api/records/19630647/files/B6.12.3.C1%20-%20LAB%20%28Pla2g4e%29.ims/content"
+sha256 = "db8a701c79f6bdc1bf9ad3f59dfcf8df929f8687d85d48b995da1e9387d505fa"
+size = 35569313
+md5 = "c7640e83dd2950eed07f8fc9d11f1a58"
+license = "CC-BY-4.0"
+source = "Zenodo record 19630647: Immuhistochemical analyses of lipid droplets and metabolic factors in the BTBR mouse model of autism placenta"
+attribution = "Viscomi, Maria Pia, Sampino, Silvestre"
+notes = "1 image; image 0 1024 x 1024, z 8, c 3, t 1, uint16; Oxford Instruments / Bitplane (Imaris); Imaris 9.8"
+
+[[file]]
+id = "zenodo4433202-ovule-732"
+format = "ims"
+role = "input"
+tier = "standard"
+filename = "zenodo4433202-ovule-732.ims"
+url = "https://zenodo.org/api/records/4433202/files/EM_C_732.ims/content"
+sha256 = "abddea6dd1ee41680e121a5a5c9d053e460595f4ed2fd1b2b2c3ffd3ca402399"
+size = 47484079
+md5 = "c529b059fc8b9204ef9897b2a38cc59b"
+license = "CC0-1.0"
+source = "Zenodo record 4433202: Arabidopsis ovule primordium stages 0-I to 2-II, wild-type Col_0, Ws-4 and botero (bot1-7) mutant"
+attribution = "Baroux, Célia, Mendocilla-Sato, Ethel, Autran, Daphné"
+notes = "1 image; image 0 256 x 256, z 219, c 2, t 1, uint8; Oxford Instruments / Bitplane (Imaris); Imaris 9.5"
+
+[[file]]
+id = "zenodo16894639-laurdan-spectra"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo16894639-laurdan-spectra.lsm"
+url = "https://zenodo.org/api/records/16894639/files/04%20NIH3T3LAURDAN8meanspectra.lsm/content"
+sha256 = "27173be5b57a1a0f40ad6e89df1fd1d6d20bdd1e0a80e469acb47cf0bc103a1c"
+size = 5349198
+md5 = "d0a65f57b2bbcf8d6c15900fe15377b9"
+license = "CC-BY-4.0"
+source = "Zenodo record 16894639: Hyperspectral and Fluorescence Lifetime Imaging Microscopy of LAURDAN-Stained NIH-3T3 Cells"
+attribution = "Malacrida, Leonel, Pannunzio, Bruno"
+notes = "1 image; image 0 256 x 256, z 1, c 32, t 1, uint16; Carl Zeiss"
+
+[[file]]
+id = "zenodo13625087-phasor-unmix"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo13625087-phasor-unmix.lsm"
+url = "https://zenodo.org/api/records/13625087/files/34_Hoechst_Golgi_Mito_Lyso_CellMAsk_404_488_561_633_SP.lsm/content"
+sha256 = "5c0b7d76c274fd64891fca2507013b7c8c9979d8131ce282fac55fd24fbb38bd"
+size = 2861117
+md5 = "6f244a03d7cd430b9384910cfcf99f1e"
+license = "CC-BY-4.0"
+source = "Zenodo record 13625087: Phasor-based multi-harmonic unmixing for in-vivo hyperspectral imaging"
+attribution = "Malacrida, Leonel"
+notes = "1 image; image 0 256 x 256, z 1, c 28, t 1, uint8; Carl Zeiss"
+
+[[file]]
+id = "zenodo8417894-phasorpy-paramecium"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo8417894-phasorpy-paramecium.lsm"
+url = "https://zenodo.org/api/records/8417894/files/paramecium.lsm/content"
+sha256 = "b3b3b80be244a41352c56390191a50e4010d52e5ca341dc51bd1d7c89f10cedf"
+size = 8954502
+md5 = "08bfc9885540a039ccab06361d605b74"
+license = "CC-BY-4.0"
+source = "Zenodo record 8417894: PhasorPy test files"
+attribution = "Gohlke, Christoph"
+notes = "1 image; image 0 512 x 512, z 1, c 30, t 1, uint8; Carl Zeiss"
+
+[[file]]
+id = "zenodo14918442-aqp2-fsk"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo14918442-aqp2-fsk.lsm"
+url = "https://zenodo.org/api/records/14918442/files/MCD4_Fsk.lsm/content"
+sha256 = "aa4c654be8cba880949df59c7e697939c36d3c6a0375a93dec187a896d749ecb"
+size = 6499206
+md5 = "4bb83e99070c20141929aea9bd43fa4a"
+license = "CC-BY-4.0"
+source = "Zenodo record 14918442: Single cell segmentation-based quantification of the water channel aquaporin-2 (AQP2) redistribution from intracellular vesicles to the plasma membrane in renal principal cells"
+attribution = "Janssen, Celine, Nadar, Gayathri, Soykan, Tolga, Lehmann, Martin"
+notes = "1 image; image 0 1024 x 1024, z 1, c 3, t 1, uint16; Carl Zeiss"
+
+[[file]]
+id = "zenodo7709903-sqstm1"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo7709903-sqstm1.lsm"
+url = "https://zenodo.org/api/records/7709903/files/SQSTM1_IF_MAB8028R.lsm/content"
+sha256 = "8ca0a3d35307aca7e17803b871106ac9350c8b3a73ac3f9870a5fec9d43e1ac8"
+size = 7734612
+md5 = "efe574cfae738acece697e7c99d575b7"
+license = "CC-BY-4.0"
+source = "Zenodo record 7709903: Dataset for the Sequestosome-1 antibody screening study"
+attribution = "Laflamme, Carl"
+notes = "1 image; image 0 1584 x 1584, z 1, c 3, t 1, uint8; Carl Zeiss"
+
+[[file]]
+id = "zenodo7151866-p58-2009"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo7151866-p58-2009.lsm"
+url = "https://zenodo.org/api/records/7151866/files/090224-p58-flo-top.lsm/content"
+sha256 = "2bc74113dfeda279e67bee39ff04a4d5d18de2e7408bf07edcc3ebd49ee1ff6b"
+size = 25550358
+md5 = "2e2a99ccc84e05910d70a78433f41319"
+license = "CC-BY-4.0"
+source = "Zenodo record 7151866: p58"
+attribution = "Pradeep Das"
+notes = "1 image; image 0 576 x 576, z 67, c 1, t 1, uint8; Carl Zeiss"
+
+[[file]]
+id = "zenodo16916709-brachiopod"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo16916709-brachiopod.lsm"
+url = "https://zenodo.org/api/records/16916709/files/Lan_Larval_Chitin_DMSO_control_01.lsm/content"
+sha256 = "1be24265fc7a7a678784f4e205cf03a228c447a15298e4d38fa7335312bc4869"
+size = 16870718
+md5 = "f8fcd67f954999acedc363e8116304a0"
+license = "CC-BY-4.0"
+source = "Zenodo record 16916709: Brachiopod genome unveils the evolution of BMP signalling in bilaterian body patterning"
+attribution = "Lewin, Thomas D., Sakagami, Tosuke, Shimizu, Keisuke, Kao, Li-Jung"
+notes = "1 image; image 0 512 x 512, z 20, c 3, t 1, uint8; Carl Zeiss"
+
+[[file]]
+id = "zenodo10046394-macrostomum"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo10046394-macrostomum.lsm"
+url = "https://zenodo.org/api/records/10046394/files/Suppl%20Fig%201A.lsm/content"
+sha256 = "373d55e60988435cdcec9fe4c8fc7d425040841b5eb698854774379ef7f35361"
+size = 22051215
+md5 = "a9301a3dea4d16a9bfa2638400a32f61"
+license = "CC-BY-4.0"
+source = "Zenodo record 10046394: Optimized protocols for RNA interference in Macrostomum lignano."
+attribution = "VICOGNE, Jérôme, Mouton, Stijn"
+notes = "1 image; image 0 3318 x 3304, z 1, c 1, t 1, uint16; Carl Zeiss"
+
+[[file]]
+id = "zenodo15587142-pancreatitis-cd11b"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo15587142-pancreatitis-cd11b.svs"
+url = "https://zenodo.org/api/records/15587142/files/11564%24CD11b%20Positive%20Control.svs/content"
+sha256 = "50bc6a3abfa0510e76c5d2fc59b826acd2bb96b89642a0ea524b7e3d2dc161da"
+size = 70174861
+md5 = "be8bee6d2aec513927d6b61a3f73d638"
+license = "CC-BY-4.0"
+source = "Zenodo record 15587142: 11564 and 14628 IHC CD11b+ Mouse Pancreatitis"
+attribution = "Way, Jeffrey"
+notes = "1 image; image 0 19919 x 20587, z 1, c 1, t 1, uint8 x 3 samples; Aperio ScanScope SS7497; Aperio Image Library v12.0.15"
+
+[[file]]
+id = "zenodo14243592-adhm-svs"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo14243592-adhm-svs.svs"
+url = "https://zenodo.org/api/records/14243592/files/41_S1_2-5_20x.svs/content"
+sha256 = "bad404ba18e6839e13250a9e65f191c0b518801651a5bc80438962cff64d7b73"
+size = 76197887
+md5 = "6457675d30a187d94c9dfe29e05effa6"
+license = "CC-BY-4.0"
+source = "Zenodo record 14243592: adhm.202401303_Supp.Fig7"
+attribution = "Nowakowska-Desplantes, Marta"
+notes = "1 image; image 0 59760 x 26513, z 1, c 1, t 1, uint8 x 3 samples; Aperio ScanScope SS1639; Aperio Image Library v12.0.15"
+
+[[file]]
+id = "zenodo13137435-leptin-ndpi"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo13137435-leptin-ndpi.ndpi"
+url = "https://zenodo.org/api/records/13137435/files/231115165553.ndpi/content"
+sha256 = "d54510320bda80758fd1f3f3af1a9ea7e7ff0964df5b6fb876a78278d2bbb5fd"
+size = 229622285
+md5 = "8019bca2037e08f5a666eea21639be30"
+license = "CC-BY-4.0"
+source = "Zenodo record 13137435: Leptin Receptors in Mouse Forebrain"
+attribution = "John, Kara, Cade, Canepa"
+notes = "1 image; image 0 53760 x 17664, z 1, c 1, t 1, uint8 x 3 samples; Hamamatsu C9600-01; NDP.scan 3.2.17"
+
+[[file]]
+id = "zenodo19009239-aperio-fl-scn"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo19009239-aperio-fl-scn.scn"
+url = "https://zenodo.org/api/records/19009239/files/RP383-316.072%204-Aortic%20Root%20-PF-10um%20ORO.scn/content"
+sha256 = "1f2b8bb9a2136569e4b95802f11c4b8b9b5e6a709087c7ecf4ed2256ca63d061"
+size = 139786467
+md5 = "86dde1086850ebcc71d423fabb32147e"
+license = "CC-BY-4.0"
+source = "Zenodo record 19009239: "
+attribution = ""
+notes = "2 images; image 0 5720 x 12695, z 1, c 1, t 1, uint8 x 3 samples; Leica Aperio Leica Biosystems FL; 1.0"
+pixel_tolerance = 3
+lossy = true
+
+[[file]]
+id = "zenodo19102039-cas9-block12"
+format = "mrc"
+role = "input"
+tier = "standard"
+filename = "zenodo19102039-cas9-block12.mrc"
+url = "https://zenodo.org/api/records/19102039/files/block_12.mrc/content"
+sha256 = "bbcc2b230655d63bb2a400df93e387f0c8549ef296015d1a75d05ac1c4283a9f"
+size = 1050624
+md5 = "ce355ca3ebabe5ba6a83661037bb6bed"
+license = "CC-BY-4.0"
+source = "Zenodo record 19102039: Engineered Cas9 complexes establish an experimentally grounded benchmark for heterogeneous cryoEM reconstruction methods"
+attribution = "Grassetti, Andrew, Kinman, Laurel, Davis, Joseph H."
+notes = "1 image; image 0 64 x 64, z 64, c 1, t 1, float"
+
+[[file]]
+id = "zenodo13134260-tomo-tilt"
+format = "mrc"
+role = "input"
+tier = "standard"
+filename = "zenodo13134260-tomo-tilt.mrc"
+url = "https://zenodo.org/api/records/13134260/files/tilt_series.mrc/content"
+sha256 = "544f5ffd2797bf4745457ff3648933c477e341dc1b0f527de740d7cfca838398"
+size = 3932224
+md5 = "456e0f1c3116248a6fe000ae926fdaf3"
+license = "CC-BY-4.0"
+source = "Zenodo record 13134260: Test data for tomography"
+attribution = "Rosalind Franklin Institute"
+notes = "1 image; image 0 160 x 135, z 91, c 1, t 1, uint16"
+
+[[file]]
+id = "zenodo20804244-ribotunnel"
+format = "mrc"
+role = "input"
+tier = "standard"
+filename = "zenodo20804244-ribotunnel.mrc"
+url = "https://zenodo.org/api/records/20804244/files/tunnel_6A.mrc/content"
+sha256 = "c8ea69d3165a5d2bd5d423e1b7158e7cb0b79615d342e4a3c446f7ec0a1945a0"
+size = 1840624
+md5 = "358369d1c2525a439919560a16ee9faf"
+license = "CC-BY-4.0"
+source = "Zenodo record 20804244: Ribotunnel"
+attribution = "Włodarski, Tomasz"
+notes = "1 image; image 0 73 x 84, z 1, c 1, t 75, float"
+
+[[file]]
+id = "zenodo15871573-carbon-ctf"
+format = "mrc"
+role = "input"
+tier = "standard"
+filename = "zenodo15871573-carbon-ctf.mrc"
+url = "https://zenodo.org/api/records/15871573/files/Dec06_21.44.55-4-s4.mrc/content"
+sha256 = "0f8eb8e4bd0fb58498d9a3907e0d218015ea953edfcdc794fd595eb0f06d1385"
+size = 28478984
+md5 = "46aa6b233f288d6af801b6216b3aa4c5"
+license = "CC-BY-4.0"
+source = "Zenodo record 15871573: Micrographs of carbon for CTF fitting testing"
+attribution = "Elferich, Johannes, MASTRONARDE, DAVID"
+notes = "1 image; image 0 3710 x 3838, z 1, c 1, t 1, int16"
+
+[[file]]
+id = "zenodo7222413-ifta"
+format = "mrc"
+role = "input"
+tier = "standard"
+filename = "zenodo7222413-ifta.mrc"
+url = "https://zenodo.org/api/records/7222413/files/IFTAtrain.mrc/content"
+sha256 = "8b09ba5d12beaaaaa59d692d65de2eb252eeabd5376f84ce8731e76846b587f2"
+size = 745144
+md5 = "b0b544bb9d77e7a15f1f25c1a6bb8414"
+license = "CC-BY-4.0"
+source = "Zenodo record 7222413: An integrative modeling approach reveals the 3D structure of the Intraflagellar Transport A (IFT-A) complex"
+attribution = "Caitlyn L McCafferty, Ophelia Papoulas, Mareike A Jordan, Gabriel Hoogerbrugge"
+notes = "1 image; image 0 30 x 117, z 1, c 1, t 53, float"
+
+[[file]]
+id = "zenodo15579074-hif2-cryosparc"
+format = "mrc"
+role = "input"
+tier = "standard"
+filename = "zenodo15579074-hif2-cryosparc.mrc"
+url = "https://zenodo.org/api/records/15579074/files/cryosparc_P144_J104_class_00_final_volume%20%281%29.mrc/content"
+sha256 = "ccead6aeef673c3a2cf9ed1ba83fc9bdced5d65b08f8052a87d32b5743c8b2fa"
+size = 8389632
+md5 = "8575caa6406d4ef2bc0dcaed9448c15c"
+license = "CC-BY-4.0"
+source = "Zenodo record 15579074: Cryo-EM Map of HIF-2 bound to a TACC3 Fragment (788-838)"
+attribution = "Closson, Joseph D."
+notes = "1 image; image 0 128 x 128, z 1, c 1, t 128, float"
+
+[[file]]
+id = "zenodo10814409-chlamy-seg"
+format = "mrc"
+role = "input"
+tier = "standard"
+filename = "zenodo10814409-chlamy-seg.mrc"
+url = "https://zenodo.org/api/records/10814409/files/S1_M3c_StOI_grow2_1_mesh_data_seg.mrc/content"
+sha256 = "45f82cdba6773402d364b0b2074a5e74382ddf21cc83e968b5e5642b174b6ec7"
+size = 11339008
+md5 = "878d4b3fc076dfc01e788cc08f9c9201"
+license = "CC-BY-4.0"
+source = "Zenodo record 10814409: Membrane mesh and tomogram of the Chlamydomonas chloroplast"
+attribution = "Lamm, Lorenz"
+notes = "1 image; image 0 266 x 333, z 128, c 1, t 1, int8"
+
+[[file]]
+id = "zenodo4783151-chemoarray-relion"
+format = "mrc"
+role = "input"
+tier = "standard"
+filename = "zenodo4783151-chemoarray-relion.mrc"
+url = "https://zenodo.org/api/records/4783151/files/postprocess_11A.mrc/content"
+sha256 = "5ff55d91f23779da0f51ef71521e4d4c405b324c51ec82e267bdc63c8f7a4b20"
+size = 32001024
+md5 = "552b4bf9d8b4e8a0be1b98aed61234c0"
+license = "CC-BY-4.0"
+source = "Zenodo record 4783151: A (nominally) 11 Å reconstruction of the in situ E. coli chemosensory array"
+attribution = "Burt, Alister"
+notes = "1 image; image 0 200 x 200, z 1, c 1, t 200, float"
+
+[[file]]
+id = "zenodo14172249-lafm-gltph"
+format = "mrc"
+role = "corrupt"
+tier = "standard"
+filename = "zenodo14172249-lafm-gltph.mrc"
+url = "https://zenodo.org/api/records/14172249/files/GltPh-IFSo1_3D-LAFM.mrc/content"
+sha256 = "e089bada0d16a27eecddd32071cbcc3da1c1bae53edabc7a44c61882dcbf750d"
+size = 50580772
+md5 = "0514f53ee4071a3b04ff133bdb17466b"
+license = "CC-BY-4.0"
+source = "Zenodo record 14172249: "
+attribution = ""
+notes = "MRC2014 density map from 3D localization AFM (EXTTYP AFM1), 471 x 471 x 57 float32; the file is 16 bytes shorter than its header says (the last section is incomplete), so check must report it truncated"
+
+[[file]]
+id = "zenodo23184057-cryonet-0775"
+format = "mrc"
+role = "input"
+tier = "standard"
+filename = "zenodo23184057-cryonet-0775.mrc"
+url = "https://zenodo.org/api/records/23184057/files/0775.mrc/content"
+sha256 = "95703206787e7fb93f56422e49d665125633a2c3b33f29943a0453956c87630d"
+size = 3553144
+md5 = "641bb08767cd1e1ce0febe9cdc617f1e"
+license = "CC-BY-4.0"
+source = "Zenodo record 23184057: CryoNet.Refine model checkpoint and example data"
+attribution = "Huang, Fuyao"
+notes = "1 image; image 0 66 x 117, z 115, c 1, t 1, float"
+
+[[file]]
+id = "zenodo16423583-leopard-dws"
+format = "mrc"
+role = "input"
+tier = "standard"
+filename = "zenodo16423583-leopard-dws.mrc"
+url = "https://zenodo.org/api/records/16423583/files/xenon_131_000_0.0_DWS_cropped_4.mrc/content"
+sha256 = "2e0c708b1e5882d9d3f752009df97d46139df59c667a5d7749a42d700bf2b4d8"
+size = 4195328
+md5 = "7dc16fca29a2815d18904cf571a3db65"
+license = "CC-BY-4.0"
+source = "Zenodo record 16423583: Leopard-EM Constrained Search Tutorial"
+attribution = "Joshua, Dickerson, Matthew, Giammar, Hall, Laina, Bronwyn, Lucas"
+notes = "1 image; image 0 1024 x 1024, z 1, c 1, t 1, float"
+
+[[file]]
+id = "zenodo6793320-spim-spade"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo6793320-spim-spade.dm3"
+url = "https://zenodo.org/api/records/6793320/files/hadfspade10spim9_1000nm.dm3/content"
+sha256 = "e8432ca90a26accb418f9abdebf4aeed08c42ea35d7358af378fb035e5fd7cdc"
+size = 71215
+md5 = "c7f73e27e71aaad23be8c0c553d62552"
+license = "CC-BY-4.0"
+source = "Zenodo record 6793320: Accompanying dataset to ACS Appl. Nano Mater. 2022, 5, 4, 5508–5515 : Nanoscale Mapping of Light Emission in Nanospade-Based InGaAs Quantum Wells Integrated on Si(100): Implications for Dual Light-Emitting Devices"
+attribution = "Gueniat, Lucas, Tappy, Nicolas, Balgarkashi, Akshay, Charvin, Titouan"
+notes = "1 image; image 0 128 x 128, z 1, c 1, t 1, float; Gatan DigitalMicrograph"
+
+[[file]]
+id = "zenodo6532308-nanowire-line"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo6532308-nanowire-line.dm3"
+url = "https://zenodo.org/api/records/6532308/files/Fig6-c-spectrum-line-HADF-0.6x0.6um.dm3/content"
+sha256 = "916357599db5ce5301496d9280a96fea0f19f659956eacad394c20c968020f91"
+size = 867556
+md5 = "ca0a3f5b6503ac9d86b34feac2e2b017"
+license = "CC-BY-4.0"
+source = "Zenodo record 6532308: Micromagnetics of magnetic chemical modulations in soft-magnetic cylindrical nanowires"
+attribution = "L. Alvaro-Gomez, S. Ruiz-Gómez, C. Fernández-González, M. Schöbitz"
+notes = "1 image; image 0 256 x 256, z 1, c 1, t 1, uint32; FEI Tecnai Remote; Gatan DigitalMicrograph 3.21.1374.0"
+
+[[file]]
+id = "zenodo8010278-epdf-zeroloss"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo8010278-epdf-zeroloss.dm3"
+url = "https://zenodo.org/api/records/8010278/files/Fig-S3_Fe-O%28as-synthesized%29_ROI-11%20ZeroLoss%20spectrum.dm3/content"
+sha256 = "0d11c6018e01c481354cb58b320985f492737e063c2aa8910b46d9428327696f"
+size = 322175
+md5 = "b0be9b2e45d14cc200ffcbe030b4fd55"
+license = "CC-BY-4.0"
+source = "Zenodo record 8010278: Background optimization of powder electron diffraction to implement e-PDF technique and study the local structure of iron oxide nanocrystals"
+attribution = "Naga Vishnu Vardhan Mogili, Nathália Carolina Verissimo, AM Milinda Abeykoon, Emil S. Bozin"
+notes = "1 image; image 0 2048 x 1, z 1, c 1, t 1, float; JEOL COM; Gatan DigitalMicrograph"
+
+[[file]]
+id = "zenodo1108559-diamond-1c"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo1108559-diamond-1c.dm3"
+url = "https://zenodo.org/api/records/1108559/files/Figure%201c.dm3/content"
+sha256 = "86669e6efd93d662133ec3522c7c16f082820debe37ad4b4faad58ba6ffefb6a"
+size = 1650753
+md5 = "44383cccec489b936e21cf1ec967a284"
+license = "CC-BY-4.0"
+source = "Zenodo record 1108559: Imaging the atomic structure and local chemistry of platelets in natural type Ia diamond"
+attribution = "E.J Olivier"
+notes = "1 image; image 0 512 x 512, z 1, c 1, t 1, uint32; JEOL COM; Gatan DigitalMicrograph"
+
+[[file]]
+id = "zenodo3878707-oam-gif"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo3878707-oam-gif.dm3"
+url = "https://zenodo.org/api/records/3878707/files/007_l%3D%2B10_V1_-4.85_V2_%2B9_V3_-9_C-9.2_L%2B4.6_onGIF.dm3/content"
+sha256 = "4d0923773897180de6fb84f2d8084167e2d8673cfc923950e778b95a0f480a26"
+size = 1655812
+md5 = "e0c96be7960d13201e007cbdfb34cdf0"
+license = "CC-BY-4.0"
+source = "Zenodo record 3878707: OAM spectra- Batch 1"
+attribution = "Tavabi, Amir, Rosi, Paolo, Gazzadi, Gian Carlo, Frabboni, Stefano"
+notes = "1 image; image 0 512 x 512, z 1, c 1, t 1, int32; Titan Holo; Gatan DigitalMicrograph"
+
+[[file]]
+id = "zenodo1478664-sorter-47r"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo1478664-sorter-47r.dm3"
+url = "https://zenodo.org/api/records/1478664/files/47R.dm3/content"
+sha256 = "9261089fa9a3e1065e58c105d5a96187dec8dd3cd0f41238e30d10baf2fd986b"
+size = 2260359
+md5 = "e8f61b56ebdd814df43f08b02b6f0a3f"
+license = "CC-BY-4.0"
+source = "Zenodo record 1478664: Characterization of a sorter1 hologram"
+attribution = "Balboni, Roberto, Rosi, Paolo, Gian Carlo Gazzadi, Grillo, Vincenzo"
+notes = "1 image; image 0 1024 x 1024, z 1, c 1, t 1, int16; Tecnai F20; Gatan DigitalMicrograph"
+
+[[file]]
+id = "zenodo10635128-quartz"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo10635128-quartz.dm3"
+url = "https://zenodo.org/api/records/10635128/files/Quartz-Andreas-A8-0068.dm3/content"
+sha256 = "c758943af7fa4fc46f0129ef3a7cfa57ee0e257326f257ee692c973bd7a24eca"
+size = 3088040
+md5 = "2823f340769cb3451062f4bd8fe0c6cd"
+license = "CC-BY-4.0"
+source = "Zenodo record 10635128: Research data supporting \"Evidence of Dislocation Mixed Climb in Quartz from the Moine and Main Central Thrusts: an Electron Tomography Study\""
+attribution = "Weidner, Timmo, MUSSI, Alexandre, Castelnau, Olivier, Kronenberg, Andreas"
+notes = "1 image; image 0 1002 x 668, z 1, c 1, t 1, float; Gatan DigitalMicrograph"
+
+[[file]]
+id = "zenodo6385528-ge-nanowire"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo6385528-ge-nanowire.dm3"
+url = "https://zenodo.org/api/records/6385528/files/Figure%203e.dm3/content"
+sha256 = "79bb2c57bf8f1d1cbb74f12c8547938c7aee9d3037c9d48508c5ff188a2e0be7"
+size = 4802768
+md5 = "e5575f17d4b5b512f5da80f888eeae29"
+license = "CC-BY-4.0"
+source = "Zenodo record 6385528: Growth and analysis of the tetragonal (ST12) germanium nanowires"
+attribution = "Garcia-Gil, A., Biswas, S., Holmes, J. D."
+notes = "1 image; image 0 1024 x 1024, z 1, c 1, t 1, int32; FEI Titan; Gatan DigitalMicrograph"
+
+[[file]]
+id = "zenodo18373896-hzo-ptycho"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo18373896-hzo-ptycho.dm3"
+url = "https://zenodo.org/api/records/18373896/files/Slices_CDW_Thickness.dm3/content"
+sha256 = "12cb5ae43ea745efdd13a0561b7f1e3b4ec1ada7ab46cb6a48abbca1ba013662"
+size = 5919004
+md5 = "8e24b80f038f26084c8d809e3b319d89"
+license = "CC-BY-4.0"
+source = "Zenodo record 18373896: Precise structure and polarization determination of Hf0.5Zr0.5O2 with electron ptychography"
+attribution = "Gao, Xiaoyue"
+notes = "1 image; image 0 300 x 300, z 1, c 1, t 16, float; Gatan DigitalMicrograph 3.51.3720.0"
+
+[[file]]
+id = "zenodo8188933-irradiated-df"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo8188933-irradiated-df.dm3"
+url = "https://zenodo.org/api/records/8188933/files/1dpa%20thin%20DF%20invert.dm3/content"
+sha256 = "830108652c22bb349f18780dda8166fce2c28751238b8c03b18266fb730ce65a"
+size = 7519557
+md5 = "a0066b9a60c5a262ced835397dbf2650"
+license = "CC-BY-4.0"
+source = "Zenodo record 8188933: Elastic Strain Associated with Irradiation-Induced Defects in Self-ion Irradiated Tungsten"
+attribution = "He, Guanze, Yu, Hongbing, Karamched, Phani, Liu, Junliang"
+notes = "1 image; image 0 1315 x 1315, z 1, c 1, t 1, float; Gatan DigitalMicrograph 2.32.888.0"
+
+[[file]]
+id = "zenodo18695090-methanol-2a"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo18695090-methanol-2a.dm3"
+url = "https://zenodo.org/api/records/18695090/files/Figure%202a.dm3/content"
+sha256 = "adbcd014b23eab47c01e806f6bbd69b5bcd518f3d1359cb6206b5c952260c69e"
+size = 11110779
+md5 = "750d20344429c432ec3ce7a1f33bf0b4"
+license = "CC-BY-4.0"
+source = "Zenodo record 18695090: Data set for Photocatalytic methanol dehydrogenation promoted synergistically by atomically dispersed Pd and clustered Pd"
+attribution = "Gao, Zhuyan, MONTINI, Tiziano, Mu, Junju, Luo, Nengchao"
+notes = "1 image; image 0 2004 x 1335, z 1, c 1, t 1, float; JEOL COM; Gatan DigitalMicrograph"
+
+[[file]]
+id = "zenodo20131691-bn-eels"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo20131691-bn-eels.dm4"
+url = "https://zenodo.org/api/records/20131691/files/EELS_005_006.dm4/content"
+sha256 = "a643cbd1c37de502889b78e32ea7ead872c84421ff126ebc6038aa393d9e4e9b"
+size = 348962
+md5 = "eb2ea3896af4c8d2dbd2da313c3c755d"
+license = "CC-BY-4.0"
+source = "Zenodo record 20131691: Amorphous Boron Nitride_Encapsulated_OxidisedGraphene"
+attribution = "Houston, Austin"
+notes = "1 image; image 0 2048 x 1, z 1, c 1, t 1, float; FEI Tecnai Remote TCPIP; Gatan DigitalMicrograph 3.53.4136.0"
+
+[[file]]
+id = "zenodo17113003-picker-si"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo17113003-picker-si.dm4"
+url = "https://zenodo.org/api/records/17113003/files/%282%29%20Picker%20of%20STEM%20SI.dm4/content"
+sha256 = "1c985576e808ecd8f3ad77f3e4de7fe1891f00710422a35eafdb42314665b131"
+size = 515668
+md5 = "45afb6954f34785aede608577bcfb6e4"
+license = "CC-BY-4.0"
+source = "Zenodo record 17113003: testdata"
+attribution = "Fujian Science & Technology Innovation Laboratory for Optoelectronic Information of China"
+notes = "2 images; image 0 1980 x 1, z 1, c 1, t 1, float; JEOL COM, F200; Gatan DigitalMicrograph 3.53.4137.0"
+
+[[file]]
+id = "zenodo14602797-lunar-eels"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo14602797-lunar-eels.dm4"
+url = "https://zenodo.org/api/records/14602797/files/EELS%20LL__200kV_14kX__2516.dm4/content"
+sha256 = "a1740a9fefd38efd4a4265b869b66ae34c8fbb5f3b0702ffcfca9514873270d7"
+size = 516407
+md5 = "ef73a3e4661ad1343a4e7ee3317ac957"
+license = "CC-BY-4.0"
+source = "Zenodo record 14602797: Localized Alteration and Contamination of Lunar Regolith Particles upon Exposure to Earth Atmosphere"
+attribution = "Zhi, Cao, Pan, Yan"
+notes = "2 images; image 0 1980 x 1, z 1, c 1, t 1, float; FEI Tecnai Remote TCPIP; Gatan DigitalMicrograph 3.43.3213.0"
+
+[[file]]
+id = "zenodo15381627-crphys-eels"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo15381627-crphys-eels.dm4"
+url = "https://zenodo.org/api/records/15381627/files/illumination_0min_R220610_S1_R5_EELS.dm4/content"
+sha256 = "ab99ee4c5301d09a03bad349c2ca86511143400e21e25ee775477bc0f62e7837"
+size = 605836
+md5 = "e16da473ec8377d520c8d841b088975f"
+license = "CC-BY-4.0"
+source = "Zenodo record 15381627: CR-PHYS-SCI-D-25-00083R1-EELS"
+attribution = "Fan, Qingyuan"
+notes = "1 image; image 0 28 x 28, z 1, c 1, t 1, float; Gatan DigitalMicrograph 3.51.3720.0"
+
+[[file]]
+id = "zenodo21447249-magvector-df"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo21447249-magvector-df.dm4"
+url = "https://zenodo.org/api/records/21447249/files/DF%20Image.dm4/content"
+sha256 = "b6b25d9b585a5fdfd63506d88119b02eefe7b01def181c4d0edeeef3f398f484"
+size = 205666
+md5 = "5d76e62514c01932f2ceeaa5e1dba152"
+license = "CC-BY-4.0"
+source = "Zenodo record 21447249: SourceData for atomic resolved 3D magnetic vector"
+attribution = "Wang, Qi, Zhong, Xiaoyan"
+notes = "1 image; image 0 100 x 30, z 1, c 1, t 1, float; JEOL COM; Gatan DigitalMicrograph 3.53.4137.0"
+
+[[file]]
+id = "zenodo8002432-periplasmic"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo8002432-periplasmic.dm4"
+url = "https://zenodo.org/api/records/8002432/files/Fig.3C.dm4/content"
+sha256 = "f06148fd8eb1ae8acfd7114bffc4c8b33f23151188df8ff5289a0f7ebd0d70e2"
+size = 1133125
+md5 = "c1f20859befb1a06c7b626623aab9222"
+license = "CC-BY-4.0"
+source = "Zenodo record 8002432: Data for: Periplasmic biomineralization for semi-artificial photosynthesis"
+attribution = "Gao, Xiang"
+notes = "1 image; image 0 512 x 512, z 1, c 1, t 1, uint16; JEOL COM; Gatan DigitalMicrograph 3.42.3048.0"
+
+[[file]]
+id = "zenodo8216192-chirality-probe"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo8216192-chirality-probe.dm4"
+url = "https://zenodo.org/api/records/8216192/files/probe.dm4/content"
+sha256 = "61f929f93fc9cab27e722fc4013227361f0dbe489f5fa428bb04fb93aa2fb1a3"
+size = 1672993
+md5 = "202bea0c30f9054679ffe8e68395cc4c"
+license = "CC-BY-4.0"
+source = "Zenodo record 8216192: Encoding multistate charge order and chirality in endotaxial heterostructures"
+attribution = "Husremovic, Samra, Ribet, Stephanie, Bustillo, Karen, Ophus, Colin"
+notes = "1 image; image 0 512 x 512, z 1, c 1, t 1, float; TitanX; Gatan DigitalMicrograph"
+
+[[file]]
+id = "zenodo14894490-hfn-pillar"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo14894490-hfn-pillar.dm4"
+url = "https://zenodo.org/api/records/14894490/files/STEM%20of%20pillar%2C%20HfN1.22%2C%20115kx%2002_1.dm4/content"
+sha256 = "1f070c9243afd6ac874fc13ffa0c4824ab1cb01d830a3d89d88f1289d2c88073"
+size = 2703668
+md5 = "448ff685ddf00a3988146195dbe089fd"
+license = "CC-BY-4.0"
+source = "Zenodo record 14894490: Dataset for manuscript titled \"Metal-like ductility and high hardness in nitrogen-rich HfN thin films by point defect superstructuring\""
+attribution = "Lorentzon, Marcus, Ghafoor, Naureen"
+notes = "1 image; image 0 1024 x 1024, z 1, c 1, t 1, uint16; Gatan DigitalMicrograph 3.21.1374.0"
+
+[[file]]
+id = "zenodo10848941-go-zno"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo10848941-go-zno.dm4"
+url = "https://zenodo.org/api/records/10848941/files/Sample_1_0007.dm4/content"
+sha256 = "31e686741e2646eb952ee52fa075ad385537387d28df7a4180e49a60712479db"
+size = 4802630
+md5 = "1011ab22d7b554322176bf835b59541d"
+license = "CC-BY-4.0"
+source = "Zenodo record 10848941: TEM data for GO/ZnO nanostructures"
+attribution = "Iatsunskyi, Igor"
+notes = "1 image; image 0 1024 x 1024, z 1, c 1, t 1, uint32; JEOL COM; Gatan DigitalMicrograph 3.43.3213.0"
+
+[[file]]
+id = "zenodo22456798-lpbf-fft"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo22456798-lpbf-fft.dm4"
+url = "https://zenodo.org/api/records/22456798/files/FFT%20of%200030%20-%20JIA%20CHI%201.05%20Mx%20Radial%20Wiener%28Crop%231%28DCFI%28Ceta%29%29%29.dm4/content"
+sha256 = "6e9908688ef9e8b8c1755f88924a09716be78421255cc9d6c798a7bd63d055ec"
+size = 4810056
+md5 = "c9584d8122fb73b5a7a21e811eb07443"
+license = "CC-BY-4.0"
+source = "Zenodo record 22456798: LPBF-fabricated high-strength steels (HSSs) are notoriously plagued by the strength-ductility trade-off. Here, we report a nano-TiN addition strategy and achieve an outstanding strength-ductility synergy (ultimate tensile strength of 2314 MPa and elongation of 15.1%), which surpasses all reported LPBF-manufactured as-built HSSs. TiN exhibits synergistic effects on precipitation strengthening and heterogeneous nucleation. As a precipitate, TiN serves as an effective pinning site for dislocations and markedly increases the dislocation density. The synergy of precipitation strengthening, dislocation strengthening, and grain boundary strengthening leads to a 70% increase in yield strength (YS). Functioning as a nucleating agent, TiN refines prior austenite grains during solidification and triggers bainite transformation during intrinsic post-thermal cycling, leading to the formation of ultra-fine equiaxed regions and bainitic ferrite, respectively. During plastic deformation, substantial strain gradients develop at the soft bainitic ferrite/hard martensite interfaces, inducing a pronounced back stress strengthening effect. Quantitative calculation reveals that back stress strengthening, in synergy with dislocation strengthening and transformation-induced plasticity (TRIP) effect, significantly contributes to the work hardening rate (WHR). The excellent work-hardening capacity prevents the material from ductility degradation. This study overcomes the strength–ductility trade-off in LPBF-manufactured HSSs by introducing nano-TiN and harnessing its synergistic effects of precipitation strengthening and heterogeneous nucleation."
+attribution = "shang, jingyan"
+notes = "1 image; image 0 513 x 1024, z 1, c 1, t 1, complex; Gatan DigitalMicrograph 3.40.2804.0"
+
+[[file]]
+id = "zenodo17454201-ice-si"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo17454201-ice-si.dm4"
+url = "https://zenodo.org/api/records/17454201/files/EELS%20Spectrum%20Image%20%28low-loss%29.dm4/content"
+sha256 = "70abd5d5649643db5868a2620e5b41bca0bf653b3d98b6b18966f68c09733770"
+size = 17088243
+md5 = "67ea842332809fafa6847775bbe6e8d7"
+license = "CC-BY-4.0"
+source = "Zenodo record 17454201: Source dataset for Kinetics of stacking order evolution during heterogeneous ice formation"
+attribution = "Huang, Xudan, Yuan, Zifeng, Lo, Chon-Hei, Sun, Huacong"
+notes = "1 image; image 0 66 x 31, z 1, c 2048, t 1, float; JEOL COM; Gatan DigitalMicrograph 3.22.1461.0"
+
+[[file]]
+id = "zenodo17176730-bf-issue-4366"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "zenodo17176730-bf-issue-4366.dm4"
+url = "https://zenodo.org/api/records/17176730/files/test.dm4/content"
+sha256 = "253452cfa3cf9f4a6e2a7d34df15f2fee39fba3a24b512727773cfcdce891736"
+size = 67677577
+md5 = "aa3d1ec872d38a1bb4991ac774a550a0"
+license = "CC-BY-4.0"
+source = "Zenodo record 17176730: Test data for Bioformats Issue #4366"
+attribution = "Alxneit, Ivo"
+notes = "1 image; image 0 4095 x 4094, z 1, c 1, t 1, float; JEOL COM; Gatan DigitalMicrograph 3.43.3213.0"
+
+[[file]]
+id = "zenodo17466079-coreshell-ser"
+format = "ser"
+role = "input"
+tier = "standard"
+filename = "zenodo17466079-coreshell-ser_1.ser"
+url = "https://zenodo.org/api/records/17466079/files/Figure3b_up_1.ser/content"
+sha256 = "b7863a0efcea2cb31cc26bc719df4f20c6b8fe4069731f8e34caf33ddb5503c3"
+size = 8390656
+md5 = "1b1db2948de3a430e933f10f1df5b019"
+license = "CC-BY-4.0"
+source = "Zenodo record 17466079: TEM metadata for \"Core–Shell Colloidal Nanocomposites for Local Temperature Monitoring during Photothermal Heating\""
+attribution = "Kavak, Safiyye, Bals, Sara"
+notes = "1 image; image 0 2048 x 2048, z 1, c 1, t 1, uint16; Microscope TitanCubed 300 kV D3320 SuperTwin; TIA / ES Vision"
+
+[[file]]
+id = "zenodo17466079-coreshell-ser-emi"
+format = "ser"
+role = "part"
+tier = "standard"
+filename = "zenodo17466079-coreshell-ser.emi"
+url = "https://zenodo.org/api/records/17466079/files/Figure3b_up.emi/content"
+sha256 = "60b4f9f2ed628c3e1911ebc5b986f91fb23c2dbd79d101dc49c1f1eacf73f1e4"
+size = 16795166
+md5 = "a06fa6b919ec4f7b628c617ab158f3cc"
+license = "CC-BY-4.0"
+source = "Zenodo record 17466079: TEM metadata for \"Core–Shell Colloidal Nanocomposites for Local Temperature Monitoring during Photothermal Heating\""
+attribution = "Kavak, Safiyye, Bals, Sara"
+notes = "TIA .emi sidecar of zenodo17466079-coreshell-ser"
+
+[[file]]
+id = "zenodo20131691-bn-velox"
+format = "emd"
+role = "input"
+tier = "standard"
+filename = "zenodo20131691-bn-velox.emd"
+url = "https://zenodo.org/api/records/20131691/files/0011%20-%2020240808%201805%20STEM%20Nano%2015.8%20%C2%B5m.emd/content"
+sha256 = "826c19f55a6c1fa8a181054ab940badfdabda3c51a55f0f67ca466cfc2969d0d"
+size = 2373429
+md5 = "60dc651c7cea14125a7f0521460df75c"
+license = "CC-BY-4.0"
+source = "Zenodo record 20131691: Amorphous Boron Nitride_Encapsulated_OxidisedGraphene"
+attribution = "Houston, Austin"
+notes = "1 image; image 0 1024 x 1024, z 1, c 1, t 1, uint16; FEI Company Spectra; Velox 3.17.1"
+
+[[file]]
+id = "zenodo13893137-alcumg-haadf"
+format = "emd"
+role = "input"
+tier = "standard"
+filename = "zenodo13893137-alcumg-haadf.emd"
+url = "https://zenodo.org/api/records/13893137/files/2017%203x%200.5h%201412%20STEM%20HAADF.emd/content"
+sha256 = "4ff5a3fab15cb715a4ab1927dd742f45b39578ab45af2c137fd1cf3b7587b0a7"
+size = 23830580
+md5 = "ea8333b4c2e4991433026f26cf7f224c"
+license = "CC0-1.0"
+source = "Zenodo record 13893137: Dataset: Enhancing homogenous precipitation and strengthening effectiveness in AlCuMg alloy"
+attribution = "Chrominski, Witold, Christensen, Emil, Choińska, Emilia, Holmestad, Randi"
+notes = "3 images; image 0 512 x 512, z 1, c 1, t 20, uint16; FEI Company Spectra; Velox 3.12.1"
+
+[[file]]
+id = "zenodo6414955-sigma3"
+format = "emd"
+role = "input"
+tier = "standard"
+filename = "zenodo6414955-sigma3.emd"
+url = "https://zenodo.org/api/records/6414955/files/Sigma3_ORI.emd/content"
+sha256 = "39c6b2ac21ef1e3eb2f7d120bb49d0ee5639cc9a80a26eeb33813759965bba67"
+size = 28883920
+md5 = "986f7d23a80d5b1f27b40489a96c7c02"
+license = "CC-BY-4.0"
+source = "Zenodo record 6414955: Datasets for the paper \"Microstates and defects of incoherent Σ3 [111] twin boundaries in aluminum\""
+attribution = "Saood, Saba, Brink, Tobias, Liebscher, Christian H., Dehm, Gerhard"
+notes = "5 images; image 0 256 x 256, z 1, c 1, t 30, uint16; FEI Company Titan; Velox 2.15.3"
+
+[[file]]
+id = "zenodo17464971-coreshell-mag"
+format = "emd"
+role = "input"
+tier = "standard"
+filename = "zenodo17464971-coreshell-mag.emd"
+url = "https://zenodo.org/api/records/17464971/files/FigS6c.emd/content"
+sha256 = "7f184a0950d0a9ec5a4ed39e0e3420393aa2dad23675bd4ae8c74851602c84d5"
+size = 18032922
+md5 = "1eb6a01a073e07059a96037478afe2c6"
+license = "CC-BY-4.0"
+source = "Zenodo record 17464971: TEM metadata for \"Hybrid core–shell nanoparticles for cell-specific magnetic separation and photothermal heating\"-2"
+attribution = "Kavak, Safiyye, Bals, Sara"
+notes = "3 images; image 0 2048 x 2048, z 1, c 1, t 1, uint16; FEI Company Titan Cubed; Velox 2.11.1"
+
+[[file]]
+id = "zenodo3878805-ceta-holo"
+format = "emd"
+role = "input"
+tier = "standard"
+filename = "zenodo3878805-ceta-holo.emd"
+url = "https://zenodo.org/api/records/3878805/files/ACQUIRE%20Camera%20Ceta%201033.emd/content"
+sha256 = "86c6264e9964550f671aa87a243ba18643a99538b4865df26f1666a320adb57c"
+size = 33791882
+md5 = "d0a9e6a56fd3115a1ac5a983192ae876"
+license = "CC-BY-4.0"
+source = "Zenodo record 3878805: Image and diffractions of a Synthetic-holographic protein"
+attribution = "Rosi, Paolo, Frabboni, Stefano, Gazzadi, Gian Carlo, Rotunno, Enzo"
+notes = "1 image; image 0 4096 x 4096, z 1, c 1, t 1, int16; FEI Company Talos F200S; Velox 1.15.1"
+
+[[file]]
+id = "zenodo20559997-scmx-mip"
+format = "ome-zarr"
+role = "input"
+tier = "standard"
+filename = "zenodo20559997-scmx-mip.zarr.zip"
+url = "https://zenodo.org/api/records/20559997/files/20200812-CardiomyocyteDifferentiation14-Cycle1_mip.zarr.zip/content"
+sha256 = "65436b5ae0389726ee122224b752ed0ae3487d5632c174ba14a77f7163471dd0"
+size = 16861207
+md5 = "26270ab734046a44589f52ff4474bee8"
+license = "CC-BY-4.0"
+source = "Zenodo record 20559997: OME-Zarr scMultipleX Test dataset"
+attribution = "Luethi, Joel"
+notes = "3 images; image 0 5120 x 2160, z 1, c 1, t 1, uint16"
+
+[[file]]
+id = "zenodo22261325-flim-fret2"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo22261325-flim-fret2.tif"
+url = "https://zenodo.org/api/records/22261325/files/FRET_Construct_2.ome.tif/content"
+sha256 = "6438ad4a2108c1fa1d573131c5a514f61122300b1f56fdd3700e4b9e8223c746"
+size = 312389
+md5 = "76db48c374a4bf69c1cebd9131fefc35"
+license = "CC-BY-4.0"
+source = "Zenodo record 22261325: FLIM-FRET Phasor Analysis Training Dataset"
+attribution = "Pannunzio, Bruno"
+notes = "4 images; image 0 256 x 256, z 1, c 1, t 1, float"
+
+[[file]]
+id = "zenodo22820799-luxar-cells3d"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo22820799-luxar-cells3d.tif"
+url = "https://zenodo.org/api/records/22820799/files/cells3d_nuclei.ome.tif/content"
+sha256 = "ba57ab34cc14ad02130c4a1ed4e9ccf1f456b8811c9b01019865468863aa4ce6"
+size = 6015706
+md5 = "2738f626709e4eb93ddb93092f1973fe"
+license = "CC-BY-SA-4.0"
+source = "Zenodo record 22820799: Luxar benchmark volumes: sixteen of the seventeen microscopy volumes analysed in the Luxar manuscript (as consumed by the analyses)"
+attribution = "Royer, Loïc A., Lange, Merlin, Jacobo, Adrian, Keller, Philipp J."
+notes = "1 image; image 0 256 x 256, z 60, c 1, t 1, float"
+
+[[file]]
+id = "zenodo21991618-motility"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo21991618-motility.tif"
+url = "https://zenodo.org/api/records/21991618/files/motility_assay_sequence_01.tif/content"
+sha256 = "b66df32f5568d058554c94af69cc4d9b733a10983fef49e99e574bbcc03db039"
+size = 15733710
+md5 = "f783377c3bc4d2e25ef3bdf8bd9a7ddc"
+license = "CC-BY-4.0"
+source = "Zenodo record 21991618: Raw epifluorescence microscopy sequence of labelled actin filaments in an in vitro motility assay"
+attribution = "Starodubtsev, Illya, Gerzen, Oksana, Tretyakov, Semen, Zhigulina, Maria"
+notes = "1 image; image 0 512 x 512, z 30, c 1, t 1, uint16; tifffile.py"
+
+[[file]]
+id = "zenodo10471496-polcam-tcell"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo10471496-polcam-tcell.tif"
+url = "https://zenodo.org/api/records/10471496/files/Tcell_NR4A_EPI_stack.tif/content"
+sha256 = "7efcc784f698775651deab169d4592da0a2eabb4e17ec510fc3e2b2004a6fd47"
+size = 21302158
+md5 = "ad5d575ab66810ca945f73794ab9dea1"
+license = "CC-BY-4.0"
+source = "Zenodo record 10471496: Polarisation camera movies of T cells on a cover glass"
+attribution = "Bruggeman, Ezra"
+notes = "1 image; image 0 298 x 298, z 116, c 1, t 1, uint16"
+
+[[file]]
+id = "zenodo6850745-arabidopsis-confocal"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo6850745-arabidopsis-confocal.tif"
+url = "https://zenodo.org/api/records/6850745/files/Confocal%20image%20series%20of%20an%20early-stage%20Arabidopsis%20thaliana%20lateral%20root%20primordium.tif/content"
+sha256 = "604605c0f2ca4a5815d0fbd1c8bc11fcb87ce2ef2b4d6c78c660647c1fb701dc"
+size = 2888933
+md5 = "5e7245b5b213daf191e73da54cd4dd39"
+license = "CC-BY-4.0"
+source = "Zenodo record 6850745: Volumetric imaging of Arabidopsis thaliana root cells"
+attribution = "Héctor H. Torres-Martínez"
+notes = "1 image; image 0 256 x 256, z 11, c 2, t 1, uint16"
+
+[[file]]
+id = "zenodo58804-openspim"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo58804-openspim.tif"
+url = "https://zenodo.org/api/records/58804/files/12861_2016_122_MOESM5_ESM.tif/content"
+sha256 = "d0735dafbad19cc003b8500a79d9ecd8db4dd27538f7a23d0f5fc4ca73f85816"
+size = 2702968
+md5 = "68e5d081b0d23ebe625f5be27f81fcf1"
+license = "CC-BY-4.0"
+source = "Zenodo record 58804: Light-sheet microscopy for everyone? Experience of building an OpenSPIM to study flatworm development"
+attribution = "Girstmair, Johannes, Zakrzewski, Anne, Lapraz, François, Handberg-Thorsager, Mette"
+notes = "1 image; image 0 1822 x 1140, z 1, c 1, t 1, uint8 x 3 samples; Adobe Photoshop CS6 (Windows)"
+
+[[file]]
+id = "zenodo1204334-metamorph-smart34"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo1204334-metamorph-smart34.TIF"
+url = "https://zenodo.org/api/records/1204334/files/smart34_s31_10X_SAHA_GFP.TIF/content"
+sha256 = "e4716d306035df0ca0c946cdc71b75d0eb9a02821730ab75433249b9ba758713"
+size = 183027
+md5 = "8fb49605b1afa1c478b4bd57a71cbe5a"
+license = "CC-BY-4.0"
+source = "Zenodo record 1204334: Dataset of \"Single-Cell RNA-Seq Reveals Transcriptional Heterogeneity  in Latent and Reactivated HIV-infected Cells\""
+attribution = "Cristinelli Sara, Golumbeanu Monica, Ciuffi Angela"
+notes = "1 image; image 0 348 x 260, z 1, c 1, t 1, uint16; MetaMorph 7.1.4.0"
+
+[[file]]
+id = "zenodo7659210-rab12-max"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo7659210-rab12-max.tif"
+url = "https://zenodo.org/api/records/7659210/files/3T3_bltp1ko_pRab568_Golgi488_01_w1561%20Confocal_s5.TIF_max.tif/content"
+sha256 = "dd481294e46d80389bf487f36dff373663da880cb15e3716dc7809a7d37286ab"
+size = 524459
+md5 = "1ece99a73559d1cad8761ae700e98cde"
+license = "CC-BY-4.0"
+source = "Zenodo record 7659210: Genome-wide screen reveals Rab12 GTPase as a critical activator of pathogenic LRRK2 kinase"
+attribution = "Dhekne, Herschel Shrikant, Tonelli, Francesca, Yeshaw, Wondwossen M, Chiang, Claire Y"
+notes = "1 image; image 0 512 x 512, z 1, c 1, t 1, uint16"
+
+[[file]]
+id = "zenodo5410324-huvec-sd"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo5410324-huvec-sd.tif"
+url = "https://zenodo.org/api/records/5410324/files/201029_HUVEC-mNG_PXN_TEM_spinningdisk_channel_05.tif/content"
+sha256 = "10a8ca70b36a53c5bdfdacfe09fc8690a14ed7e570e84aa79846c01c8e440424"
+size = 10197352
+md5 = "b5bd4da3d7a388fff525bd49e71efaeb"
+license = "CC-BY-4.0"
+source = "Zenodo record 5410324: TIRF imaging data of neutrophils migrating underneath endothelial cells"
+attribution = "Mahlandt, Eike, Goedhart, Joachim"
+notes = "1 image; image 0 2253 x 2253, z 1, c 1, t 1, uint16"
+
+[[file]]
+id = "zenodo18686988-aydin-tribolium"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo18686988-aydin-tribolium.tif"
+url = "https://zenodo.org/api/records/18686988/files/Myers_Tribolium_nGFP_0.1_0.2_0.5_20_13_late.tif/content"
+sha256 = "5702b5765d165c29e6a960a9b61aa34d4476a3ece238d89c61ee67297b4f5f69"
+size = 19215040
+md5 = "5ee80ec5807caeb3de5d3806eda7c1be"
+license = "CC-BY-4.0"
+source = "Zenodo record 18686988: Aydin Example Datasets: Microscopy and Natural Images for Image Denoising Benchmarks"
+attribution = "Royer, Loic A., Solak, Ahmet Can"
+notes = "1 image; image 0 665 x 773, z 48, c 1, t 1, uint16; tifffile.py"
+
+[[file]]
+id = "zenodo15757766-phenocycler-mask"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo15757766-phenocycler-mask.tif"
+url = "https://zenodo.org/api/records/15757766/files/mask-cutout.ome.tif/content"
+sha256 = "6bd32fec6f68b106ebed4bc956f553e93900d1e6423c73ad5ea3736905cd4218"
+size = 52663553
+md5 = "18d162852c2e0f5c3757ea9c2c224896"
+license = "CC-BY-4.0"
+source = "Zenodo record 15757766: Demo Cutout Dataset of Multimodal Tissue Profiling (PhenoCycler, H&E, and Cell Segmentation)"
+attribution = "Domanskyi, Sergii"
+notes = "1 image; image 0 51120 x 54418, z 1, c 1, t 1, uint32"
+
+[[file]]
+id = "zenodo17230216-sem-tio2"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo17230216-sem-tio2.tif"
+url = "https://zenodo.org/api/records/17230216/files/sol%20450%2010kv%20100kx.tif/content"
+sha256 = "2d8e9723f86664f1bf054a47689a7f7b59b5724fee37f68814f848f38209c296"
+size = 2645180
+md5 = "ec0c00f235c27b91d460dc05a961eca0"
+license = "CC-BY-4.0"
+source = "Zenodo record 17230216: Evaluation of nano/micro structured TiO2 films for greywater treatment and E. coli inactivation"
+attribution = "Pedroza-Rodriguez, Aura Marina, Rincón Barón, Luz Adriana, Salcedo Reyes, Juan Carlos, Velez, Camilo"
+notes = "1 image; image 0 1536 x 858, z 1, c 1, t 1, uint16; TESCAN - http://www.tescan.com/ LYRA3 GMU 118-0085"
+
+[[file]]
+id = "zenodo18601952-sem-tins"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo18601952-sem-tins.tif"
+url = "https://zenodo.org/api/records/18601952/files/TiNS_ref.tif/content"
+sha256 = "3f675e489bf88d0c7b9cdf216ba5995b585e20b65a8ef6608c1a5d3634f81df2"
+size = 514806
+md5 = "79f6008ce82d96980add9e2e51b36959"
+license = "CC-BY-4.0"
+source = "Zenodo record 18601952: Title: Enhanced photocatalytic hydrogen evolution of ultrasonicated TiO₂ nanosheets – the overlooked influence of ultra-low vanadium decoration"
+attribution = "Orangpour, Setareh, Kutin, Yury, Selve, Victor R., Hartwich, Patrick"
+notes = "1 image; image 0 1280 x 720, z 1, c 1, t 1, uint8 x 3 samples"
+
+[[file]]
+id = "zenodo17272402-microct-maize"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "zenodo17272402-microct-maize.tif"
+url = "https://zenodo.org/api/records/17272402/files/Maize%20vegetal%20parenchyma%208-bit0020.tif/content"
+sha256 = "8924bba895c10c1751a8feb50238fc504ee1bcc83dd23f69075400969e95daa6"
+size = 4194562
+md5 = "7c3f180eeda85d3aa0d3515d20598852"
+license = "CC-BY-4.0"
+source = "Zenodo record 17272402: Micro-CT data maize tamale with vegetable fat (detail of parenchyma)"
+attribution = "Cagnato, Clarissa"
+notes = "1 image; image 0 2048 x 2048, z 1, c 1, t 1, uint8"
+
+[[file]]
+id = "ome-ndpi-manuel-test3-dapi"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "ome-ndpi-manuel/test3-DAPI 2 (387) .ndpi"
+url = "https://downloads.openmicroscopy.org/images/Hamamatsu-NDPI/manuel/test3-DAPI%202%20%28387%29%20.ndpi"
+sha256 = "9294d31f304f20ef1df1e08650d3f225b8ed44db8b2dc0d52f584449f85bdca2"
+size = 3544235
+license = "CC-BY-4.0"
+source = "OME sample images, Hamamatsu-NDPI/manuel (readme: CC-BY-4.0)"
+attribution = "Manuel Stritt"
+notes = "1 image; image 0 3968 x 4864, z 1, c 1, t 1, uint8 x 3 samples; Hamamatsu C9600-12; NDP.scan 2.5.89"
+pixel_tolerance = 3
+lossy = true
+
+[[file]]
+id = "ome-ndpi-manuel-test3-fitc"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "ome-ndpi-manuel/test3-FITC 2 (485).ndpi"
+url = "https://downloads.openmicroscopy.org/images/Hamamatsu-NDPI/manuel/test3-FITC%202%20%28485%29.ndpi"
+sha256 = "455069a02a761ecfedb93492f103dec8c5b23b7c46fd47e9d8d22191ea803018"
+size = 4484083
+license = "CC-BY-4.0"
+source = "OME sample images, Hamamatsu-NDPI/manuel (readme: CC-BY-4.0)"
+attribution = "Manuel Stritt"
+notes = "1 image; image 0 3968 x 4864, z 1, c 1, t 1, uint8 x 3 samples; Hamamatsu C9600-12; NDP.scan 2.5.89"
+pixel_tolerance = 3
+lossy = true
+
+[[file]]
+id = "ome-ndpi-manuel-test3-tritc"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "ome-ndpi-manuel/test3-TRITC 2 (560).ndpi"
+url = "https://downloads.openmicroscopy.org/images/Hamamatsu-NDPI/manuel/test3-TRITC%202%20%28560%29.ndpi"
+sha256 = "f02985d30aa38060e83c9477a4435cb81b2a0a234d3d664195dfc5a4e2657be8"
+size = 3064887
+license = "CC-BY-4.0"
+source = "OME sample images, Hamamatsu-NDPI/manuel (readme: CC-BY-4.0)"
+attribution = "Manuel Stritt"
+notes = "1 image; image 0 3968 x 4864, z 1, c 1, t 1, uint8 x 3 samples; Hamamatsu C9600-12; NDP.scan 2.5.89"
+pixel_tolerance = 3
+lossy = true
+
+[[file]]
+id = "ome-dm4-smallmontage0000"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "ome-dm4-imagesc36590/SmallMontage0000.dm4"
+url = "https://downloads.openmicroscopy.org/images/Gatan/imagesc-36590/SmallMontage0000.dm4"
+sha256 = "c7feddc50a37b8b5a585c9199fb00c2abacd960ec974c73297e3e1ea10e4f160"
+size = 4811140
+license = "CC-BY-4.0"
+source = "OME sample images, Gatan/imagesc-36590 (readme: CC-BY-4.0)"
+attribution = "Jean-Marc (image.sc forum)"
+notes = "1 image; image 0 1024 x 1024, z 1, c 1, t 1, float; FEI Tecnai Remote TCPIP; Gatan DigitalMicrograph 3.31.2269.0"
+
+[[file]]
+id = "ome-dm4-smallmontage0001"
+format = "dm"
+role = "input"
+tier = "standard"
+filename = "ome-dm4-imagesc36590/SmallMontage0001.dm4"
+url = "https://downloads.openmicroscopy.org/images/Gatan/imagesc-36590/SmallMontage0001.dm4"
+sha256 = "bb78045439da50ce269c2a23899d1ca74352d5a3acda9a45efe090a3430fa1cb"
+size = 4811349
+license = "CC-BY-4.0"
+source = "OME sample images, Gatan/imagesc-36590 (readme: CC-BY-4.0)"
+attribution = "Jean-Marc (image.sc forum)"
+notes = "1 image; image 0 1024 x 1024, z 1, c 1, t 1, float; FEI Tecnai Remote TCPIP; Gatan DigitalMicrograph 3.31.2269.0"
+
+[[file]]
+id = "zenodo19893921-dsx-efi"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "zenodo19893921-dsx-efi.zip"
+url = "https://zenodo.org/api/records/19893921/files/PES-001-A_fractured_edge_porestack_20x.zip/content"
+sha256 = "071abed79e34e8dcfa330e7017f34cac81595b6ce1ecabce7c7fba53903f1739"
+size = 13764299
+md5 = "3f14d06fab284f340571fbb62aa81ee4"
+strip = 0
+license = "CC-BY-4.0"
+source = "Zenodo record 19893921: DSX-2000 EFI height-map .vsi sample for Bio-Formats CellSensReader testing"
+attribution = "Ferland, Brenden"
+
+[[file]]
+id = "zenodo19893921-dsx-efi-vsi"
+format = "vsi"
+role = "input"
+tier = "standard"
+bundle = "zenodo19893921-dsx-efi"
+filename = "zenodo19893921-dsx-efi/PES-001-A_fractured_edge_porestack_20x.vsi"
+license = "CC-BY-4.0"
+source = "Zenodo record 19893921, PES-001-A_fractured_edge_porestack_20x.vsi"
+attribution = "Ferland, Brenden"
+notes = "2 images; image 0 2048 x 1500, z 1, c 1, t 1, uint8 x 3 samples; Olympus/Evident DSX2000 Tilt Frame (Motorized Nosepiece Zoom Head); PRECiV ADM 3.1.1"
+
+# ---------- end of the imaging bug hunt files ----------

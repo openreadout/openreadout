@@ -1,0 +1,40 @@
+{
+ "id": "zenodo6793320-spim-spade",
+ "file": "zenodo6793320-spim-spade.dm3",
+ "size": 71215,
+ "sha256": "e8432ca90a26accb418f9abdebf4aeed08c42ea35d7358af378fb035e5fd7cdc",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 0,
+   "name": null,
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.00515625,
+    "y": 0.00515625,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f72433e00bca22e6714fc18ac06af5fd"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.DataType'"
+ ]
+}

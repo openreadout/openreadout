@@ -1,0 +1,113 @@
+{
+ "id": "zenodo15641410-barley-arabido",
+ "file": "zenodo15641410-barley-arabido.nd2",
+ "size": 1310720,
+ "sha256": "622b3059c93aac5ef5bfd06510f350136e5211e771a0ea179c232d74da8cc097",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 512, 'X': 512}",
+   "physical_size_um": {
+    "x": 0.12871237189701384,
+    "y": 0.12871237189701384,
+    "z": null
+   },
+   "channel_names": [
+    "EGFP",
+    "Alexa Fluor 660 goat anti-mouse IgG antibody/pH 7.2"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "85b9aba2a4612d533ceb4ee4b332e854"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0a6b3a7f8beadf834fb7f38a6a6bba76"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "EGFP",
+    "color": "#00FF00",
+    "excitation_nm": 488.0,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ]
+   },
+   {
+    "name": "Alexa Fluor 660 goat anti-mouse IgG antibody/pH 7.2",
+    "color": "#E10000",
+    "excitation_nm": 641.1,
+    "emission_nm": 700.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1911631.1303770102,
+    "tags": {
+     "Camera_CH1LaserPower": 0.0,
+     "Camera_CH1PMTHighVoltage": 17,
+     "Camera_CH2LaserPower": 4.0,
+     "Camera_CH2PMTHighVoltage": 126,
+     "Camera_CH3LaserPower": 1.0,
+     "Camera_CH3PMTHighVoltage": 30,
+     "Camera_CH4LaserPower": 0.4625,
+     "Camera_CH4PMTHighVoltage": 22,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 100,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 2733,
+     "PFS_STATUS": 3,
+     "X": -326.70000000000005,
+     "Y": -1018.8000000000001,
+     "Z": 2035.1000000000001,
+     "Z1": 2035.1000000000001,
+     "Z2": 0.0
+    }
+   }
+  ],
+  "acquired_at": "2025-06-03T09:09:04.600Z",
+  "acquired_at_unix_ms": 1748941744600
+ },
+ "text_info": {
+  "description": "Camera Name: Nikon A1plus\r\nNumerical Aperture: 1.25\r\nRefractive Index: 1.333\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: EGFP\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  \r\t\t{GaAsP}: R-CH1/2/3;T-CH1/2/3/4;\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: Through\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 595/50\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 4.0\r\n  \t{PMT HV}: 126\t{PMT Offset}: 0\r\n  CH4\t{Laser Wavelength}: 641.1\t{Laser Power}: 0.5\r\n  \t{PMT HV}: 22\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 65.13\r\n  {HV LinearCorrection}: On\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 4.831\r\n  {Scan Speed}: 1\r\n  {Channel Series Mode}: Line 4->1\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 24\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 24\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 24\r\n  {Head type}: Legacy (FOV18)\r\n  \r\n\r\n Microscope Settings:   Nikon LU4A, Shutter(AOTF): Closed\r\n  Nikon LU4A, Shutter(638 nm): Closed\r\n  Nikon LU4A, Shutter(405 nm): Closed\r\n  Nikon LU4A, Shutter(Argon): Closed\r\n  Nikon LU4A, Shutter(543 nm): Closed\r\n  Nikon LU4A, Shutter(SH5): Closed\r\n  Nikon LU4A, MultiLaser(LU4A):\r\n     Line:1; ExW:638; Power:  0.0; Off\r\n     Line:2; ExW:405; Power:  0.0; Off\r\n     Line:3; ExW:457; Power:  0.0; Off\r\n     Line:4; ExW:477; Power:  0.0; Off\r\n     Line:5; ExW:488; Power:100.0; On\r\n     Line:6; ExW:514; Power:  0.0; Off\r\n     Line:7; ExW:543; Power:  0.0; Off\r\n  \r\n  LU4A Fiber Output:\r\n     Port 1: Off  (TIRF)\r\n     Port 2: On  (Confocal)\r\n  \r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 6\r\n  Nikon Ti, FilterChanger(Turret2): 1\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch On\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 0.5\r\n  LightPath: L100\r\n  PFS, state: Off\r\n  PFS, offset: 2733\r\n  PFS, mirror: Inserted\r\n  PFS, mirror: Inserted\r\n  \r\n  Zoom: 1.00x\r\n  pE-300, Shutter(pE-300): Closed\r\n  pE-300, MultiLaser(pE-300):\r\n     Line:1; ExW:370; Power: 78.0; On\r\n     Line:2; ExW:460; Power:100.0; Off\r\n     Line:3; ExW:550; Power: 55.0; Off\r\n\r\nPlane #2:\r\n Name: Alexa Fluor 660 goat anti-mouse IgG antibody/pH 7.2\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  \r\t\t{GaAsP}: R-CH1/2/3;T-CH1/2/3/4;\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: Through\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 595/50\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 4.0\r\n  \t{PMT HV}: 126\t{PMT Offset}: 0\r\n  CH4\t{Laser Wavelength}: 641.1\t{Laser Power}: 0.5\r\n  \t{PMT HV}: 22\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 65.13\r\n  {HV LinearCorrection}: On\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 4.831\r\n  {Scan Speed}: 1\r\n  {Channel Series Mode}: Line 4->1\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 24\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 24\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 24\r\n  {Head type}: Legacy (FOV18)\r\n  \r\n\r\n Microscope Settings:   Nikon LU4A, Shutter(AOTF): Closed\r\n  Nikon LU4A, Shutter(638 nm): Closed\r\n  Nikon LU4A, Shutter(405 nm): Closed\r\n  Nikon LU4A, Shutter(Argon): Closed\r\n  Nikon LU4A, Shutter(543 nm): Closed\r\n  Nikon LU4A, Shutter(SH5): Closed\r\n  Nikon LU4A, MultiLaser(LU4A):\r\n     Line:1; ExW:638; Power:  0.0; Off\r\n     Line:2; ExW:405; Power:  0.0; Off\r\n     Line:3; ExW:457; Power:  0.0; Off\r\n     Line:4; ExW:477; Power:  0.0; Off\r\n     Line:5; ExW:488; Power:100.0; On\r\n     Line:6; ExW:514; Power:  0.0; Off\r\n     Line:7; ExW:543; Power:  0.0; Off\r\n  \r\n  LU4A Fiber Output:\r\n     Port 1: Off  (TIRF)\r\n     Port 2: On  (Confocal)\r\n  \r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 6\r\n  Nikon Ti, FilterChanger(Turret2): 1\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch On\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 0.5\r\n  LightPath: L100\r\n  PFS, state: Off\r\n  PFS, offset: 2733\r\n  PFS, mirror: Inserted\r\n  PFS, mirror: Inserted\r\n  \r\n  Zoom: 1.00x\r\n  pE-300, Shutter(pE-300): Closed\r\n  pE-300, MultiLaser(pE-300):\r\n     Line:1; ExW:370; Power: 78.0; On\r\n     Line:2; ExW:460; Power:100.0; Off\r\n     Line:3; ExW:550; Power: 55.0; Off\r\n\r\n",
+  "capturing": "Nikon A1plus\r\n              \r\n{Scanner Selection}: Galvano\r\n{Detector Selection}: DU4\r\n\r\t\t{GaAsP}: R-CH1/2/3;T-CH1/2/3/4;\r\n{Optical Path Mode}: Manual\r\n{First Dichroic Mirror}: 405/488/561/640\r\n{First Filter Cube}: Through\r\n{Second Filter Cube}: 525/50\r\n{Third Filter Cube}: 595/50\r\nCH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 4.0\r\n\t{PMT HV}: 126\t{PMT Offset}: 0\r\nCH4\t{Laser Wavelength}: 641.1\t{Laser Power}: 0.5\r\n\t{PMT HV}: 22\t{PMT Offset}: 0\r\n{Pinhole Size(um)}: 65.13\r\n{HV LinearCorrection}: On\r\n{Scan Direction}: One way\r\n{Scanner Zoom}: 4.831\r\n{Scan Speed}: 1\r\n{Channel Series Mode}: Line 4->1\r\n{Line Skip}: None\r\n{Frame Skip}: 0\r\n{Line Average Mode}: None\r\n{Line Average/Integrate Count}: 0\r\nStim1\t{Type}: Nothing\r\n\t{Scan Speed}: 24\r\nStim2\t{Type}: Nothing\r\n\t{Scan Speed}: 24\r\nStim3\t{Type}: Nothing\r\n\t{Scan Speed}: 24\r\n{Head type}: Legacy (FOV18)\r\n\r\n",
+  "date": "03-Jun-25  11:09:04",
+  "optics": "Apo 40x WI \u03bbS DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=2, heightPx=512, pixelDataType='unsigned', sequenceCount=1, widthBytes=2048, widthPx=512, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

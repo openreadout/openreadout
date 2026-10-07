@@ -1,0 +1,53 @@
+{
+ "id": "zenodo15871573-carbon-ctf",
+ "file": "zenodo15871573-carbon-ctf.mrc",
+ "size": 28478984,
+ "sha256": "0f8eb8e4bd0fb58498d9a3907e0d218015ea953edfcdc794fd595eb0f06d1385",
+ "max_planes_hashed": 64,
+ "reader": "mrcfile 1.5.4",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 3710,
+   "size_y": 3838,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int16",
+   "layout": "image-stack",
+   "physical_size_um": {
+    "x": 0.0002571000042115903,
+    "y": 0.00025710000122133923,
+    "z": null
+   },
+   "mrcfile_voxel_size_angstrom": [
+    2.571000099182129,
+    2.571000099182129,
+    2.571000099182129
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "783e582f2812b92e9f631c1075db85c5"
+    }
+   ]
+  }
+ ],
+ "header": {
+  "mode": 1,
+  "ispg": 0,
+  "nsymbt": 0,
+  "exttyp": "    ",
+  "nversion": 20140,
+  "mapcrs": [
+   1,
+   2,
+   3
+  ],
+  "imod_stamp": true,
+  "imod_flags": 13
+ },
+ "fei_first_block": null
+}

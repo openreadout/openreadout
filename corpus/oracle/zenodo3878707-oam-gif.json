@@ -1,0 +1,39 @@
+{
+ "id": "zenodo3878707-oam-gif",
+ "file": "zenodo3878707-oam-gif.dm3",
+ "size": 1655812,
+ "sha256": "4d0923773897180de6fb84f2d8084167e2d8673cfc923950e778b95a0f480a26",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "007_l=+10_V1_-4.85_V2_+9_V3_-9_C-9.2_L+4.6_onGIF",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 7,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0b0aaf5ecb7ecf543c3525f7102f0bde"
+    }
+   ],
+   "pixel_type": "int32"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

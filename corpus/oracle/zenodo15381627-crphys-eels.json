@@ -1,0 +1,39 @@
+{
+ "id": "zenodo15381627-crphys-eels",
+ "file": "zenodo15381627-crphys-eels.dm4",
+ "size": 605836,
+ "sha256": "ab99ee4c5301d09a03bad349c2ca86511143400e21e25ee775477bc0f62e7837",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "R220610_S1_R5_EELS",
+   "size_x": 28,
+   "size_y": 28,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.005003494676202536,
+    "y": 0.005003494676202536,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "11c3af475802dde1d4130202a5d1c6f7"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

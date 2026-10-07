@@ -1,0 +1,95 @@
+{
+ "id": "zenodo8321543-zen-black-3d",
+ "file": "zenodo8321543-zen-black-3d.czi",
+ "size": 12768576,
+ "sha256": "b64c0fb0ace782fa7bccb2594e23484c4aabdc2e0c85673c0e832b0f65765db8",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1432,
+   "size_y": 972,
+   "size_z": 4,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CZYX",
+   "shape": [
+    2,
+    4,
+    972,
+    1432
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 1.6605316419276783,
+    "y": 1.6605316419276783,
+    "z": 1.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0554f9c45fec6c038c8d11b7f57c895f"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "0d08a7bc54695da7480dd708281dc673"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "9dac41dfcaf4d8a21f3036fb4fb8fc1d"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "dd60139c745b85eae5ad82e149239a3c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d5e8f3b8c62713fdb707c18275de122e"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "5ef99c0d93ed37150fa7d360ec058dd7"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "2ddef9b8ace8ae854a002a1a832f3c55"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "fd2b4c54bafdb9eda86ab7625bb5043b"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 1.6605316419276783,
+  "y": 1.6605316419276783,
+  "z": 1.0
+ },
+ "subblock_count": 48,
+ "compression_ids": [
+  0
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "id": "zenodo17466079-coreshell-ser",
+ "file": "zenodo17466079-coreshell-ser_1.ser",
+ "size": 8390656,
+ "sha256": "b7863a0efcea2cb31cc26bc719df4f20c6b8fe4069731f8e34caf33ddb5503c3",
+ "max_planes_hashed": 64,
+ "reader": "ncempy.io.ser (GPL, black box)",
+ "series_version": 544,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 2.5174818531429858e-05,
+    "y": 2.5174818531429858e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "69e337a5462c21124edace8ce91e4fc4"
+    }
+   ]
+  }
+ ],
+ "emi": {
+  "AcceleratingVoltage": 300000,
+  "Microscope []": "Microscope TitanCubed 300 kV D3320 SuperTwin",
+  "Magnification [x]": 1800000
+ }
+}

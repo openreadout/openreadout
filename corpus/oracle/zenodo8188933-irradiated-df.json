@@ -1,0 +1,39 @@
+{
+ "id": "zenodo8188933-irradiated-df",
+ "file": "zenodo8188933-irradiated-df.dm3",
+ "size": 7519557,
+ "sha256": "830108652c22bb349f18780dda8166fce2c28751238b8c03b18266fb730ce65a",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "DF invert",
+   "size_x": 1315,
+   "size_y": 1315,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.0003812450468540192,
+    "y": 0.0003812450468540192,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f5a43e2072b8902832c51bff002692c8"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

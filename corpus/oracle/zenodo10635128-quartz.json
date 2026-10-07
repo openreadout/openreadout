@@ -1,0 +1,39 @@
+{
+ "id": "zenodo10635128-quartz",
+ "file": "zenodo10635128-quartz.dm3",
+ "size": 3088040,
+ "sha256": "c758943af7fa4fc46f0129ef3a7cfa57ee0e257326f257ee692c973bd7a24eca",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "Quartz-Andreas-A8-0068",
+   "size_x": 1002,
+   "size_y": 668,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.015072347596287727,
+    "y": 0.015072347596287727,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "222afcd3c667f4dddb2f126893b606a6"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

@@ -1,0 +1,239 @@
+{
+ "id": "zenodo15046688-n1-bugged-raw",
+ "file": "zenodo15046688-n1-bugged-raw.nd2",
+ "size": 94576640,
+ "sha256": "741d3d8e7b7b9dc73b62b206283854dce00ae4b6f891862e5eef0307ff5e0429",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 3072,
+   "size_y": 3072,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'Y': 3072, 'X': 3072}",
+   "physical_size_um": {
+    "x": 0.064701731315406,
+    "y": 0.064701731315406,
+    "z": null
+   },
+   "channel_names": [
+    "SIM3_488"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2aa0f695df84967f60bd302a747502d8"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 3072,
+   "size_y": 3072,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'Y': 3072, 'X': 3072}",
+   "physical_size_um": {
+    "x": 0.064701731315406,
+    "y": 0.064701731315406,
+    "z": null
+   },
+   "channel_names": [
+    "SIM3_488"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "20559594d2ee92f2830fcccb6740f220"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "size_x": 3072,
+   "size_y": 3072,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'Y': 3072, 'X': 3072}",
+   "physical_size_um": {
+    "x": 0.064701731315406,
+    "y": 0.064701731315406,
+    "z": null
+   },
+   "channel_names": [
+    "SIM3_488"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "239e009ffcd2ca6e004576a9b5a7ccd1"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "size_x": 3072,
+   "size_y": 3072,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'Y': 3072, 'X': 3072}",
+   "physical_size_um": {
+    "x": 0.064701731315406,
+    "y": 0.064701731315406,
+    "z": null
+   },
+   "channel_names": [
+    "SIM3_488"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4e036184a2ef3f31dff17ab3711e9f59"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "size_x": 3072,
+   "size_y": 3072,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'P': 5, 'Y': 3072, 'X': 3072}",
+   "physical_size_um": {
+    "x": 0.064701731315406,
+    "y": 0.064701731315406,
+    "z": null
+   },
+   "channel_names": [
+    "SIM3_488"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ea3d6b5c5d02484d7f11bec6c05aa2bf"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "SIM3_488",
+    "color": "#00FF00",
+    "excitation_nm": null,
+    "emission_nm": 520.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "camera"
+    ]
+   }
+  ],
+  "frame_count": 5,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1810.2262765616179,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 4956,
+     "PFS_STATUS": 1,
+     "X": 974.9000000000001,
+     "Y": -7989.1,
+     "Z": 3115.66,
+     "Z1": 3115.66
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 6028.786335155368,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 4852,
+     "PFS_STATUS": 1,
+     "X": 460.40000000000003,
+     "Y": -1064.7,
+     "Z": 3121.7200000000003,
+     "Z1": 3121.7200000000003
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 9586.066364452243,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 4809,
+     "PFS_STATUS": 1,
+     "X": -1615.4,
+     "Y": -5479.5,
+     "Z": 3121.52,
+     "Z1": 3121.52
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 13293.506305858493,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 5115,
+     "PFS_STATUS": 1,
+     "X": -1625.5,
+     "Y": -5534.8,
+     "Z": 3121.92,
+     "Z1": 3121.92
+    }
+   },
+   {
+    "index": 4,
+    "time_ms": 17314.546344920993,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 4769,
+     "PFS_STATUS": 1,
+     "X": 1148.4,
+     "Y": -8160.3,
+     "Z": 3115.38,
+     "Z1": 3115.38
+    }
+   }
+  ],
+  "acquired_at": "2025-03-14T11:03:16.578Z",
+  "acquired_at_unix_ms": 1741950196578
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: XY(5)\r\nCamera Name: Fusion, SN:500218\r\nNumerical Aperture: 1,49\r\nRefractive Index: 1,515\r\n Name: SIM3_488\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 200 ms\r\n  Binning: 1x1\r\n  Scan Mode: Ultra-quiet\r\n  Temperature: -8.0\u00b0C\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 2 (SIM 405/488/561/640)\r\n  Nikon Ti2, FilterChanger(Turret-Up): 5 (Empty)\r\n  Nikon Ti2, FilterChanger(EM Wheel1): 2 (EM525/50)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  LightPath: R100\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  LAPP Upper Ports:\r\n     Port 1: On  (EPI)\r\n  \r\n  CorrectionCollar :\r\n     Position: 5000\r\n  LU-NV Switcher:\r\n     Port 2: On  (MM)\r\n  \r\n  PhysicalFromDeviceBuilder, FilterChanger(TuCam): 1",
+  "capturing": "Fusion, SN:500218\r\nExposure: 200 ms\r\nBinning: 1x1\r\nScan Mode: Ultra-quiet\r\nTemperature: -8.0\u00b0C\r\nDenoise.ai OFF\r\nClarify.ai OFF",
+  "date": "14/03/2025  12:03:16",
+  "optics": "SR HP Apo TIRF 100xAC Oil"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=1, heightPx=3072, pixelDataType='unsigned', sequenceCount=5, widthBytes=6144, widthPx=3072, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

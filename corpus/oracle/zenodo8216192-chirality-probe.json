@@ -1,0 +1,39 @@
+{
+ "id": "zenodo8216192-chirality-probe",
+ "file": "zenodo8216192-chirality-probe.dm4",
+ "size": 1672993,
+ "sha256": "61f929f93fc9cab27e722fc4013227361f0dbe489f5fa428bb04fb93aa2fb1a3",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "probe",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f277e66ceba20cc2e2c9d2f374dde59e"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

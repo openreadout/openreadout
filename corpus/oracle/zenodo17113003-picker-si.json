@@ -1,0 +1,139 @@
+{
+ "id": "zenodo17113003-picker-si",
+ "file": "zenodo17113003-picker-si.dm4",
+ "size": 515668,
+ "sha256": "1c985576e808ecd8f3ad77f3e4de7fe1891f00710422a35eafdb42314665b131",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "(2) Spectrum of EELS LL SI",
+   "size_x": 1980,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e5213309d7a3b581967467d8364b660e"
+    }
+   ],
+   "pixel_type": "float"
+  },
+  {
+   "index": 1,
+   "image_list_index": 2,
+   "name": "(2) Spectrum of EELS HL SI",
+   "size_x": 1980,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5d394f9dbae7242e753a8d8b99f8de61"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "(2) Spectrum of EELS LL SI",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "e-"
+   ],
+   "ppm_first": -60.00000238418579,
+   "ppm_last": 533.7000212073326,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1980,
+     "channels": [
+      {
+       "xxh3": "158f5225f99316a46a1c9957f0f3ce7b",
+       "first": [
+        305.3995361328125,
+        51.94989013671875,
+        109.32390594482422,
+        468.17291259765625,
+        398.03814697265625,
+        484.1625061035156,
+        224.33961486816406,
+        353.7657470703125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "(2) Spectrum of EELS HL SI",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "e-"
+   ],
+   "ppm_first": 470.0000064690903,
+   "ppm_last": 1063.7000300606087,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1980,
+     "channels": [
+      {
+       "xxh3": "8fe4f008dffecca9b353326d91274ee3",
+       "first": [
+        223630.65625,
+        225820.890625,
+        228396.859375,
+        227139.515625,
+        226233.265625,
+        224298.421875,
+        222184.859375,
+        221023.84375
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "id": "zenodo13137435-leptin-ndpi",
+ "file": "zenodo13137435-leptin-ndpi.ndpi",
+ "size": 229622285,
+ "sha256": "d54510320bda80758fd1f3f3af1a9ea7e7ff0964df5b6fb876a78278d2bbb5fd",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ndpi",
+ "flags": [
+  "ndpi"
+ ],
+ "page_count": 8,
+ "series_count": 3,
+ "images": [
+  {
+   "index": 0,
+   "name": "Somatostatin2 Aud Cortex 488 + DAPI Exp2",
+   "kind": "ndpi",
+   "axes": "YXS",
+   "shape": [
+    17664,
+    53760,
+    3
+   ],
+   "size_x": 53760,
+   "size_y": 17664,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 6,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.4543595801717479,
+    "y": 0.4543595801717479
+   },
+   "planes_skipped": "series is 2848849920 bytes (> ORACLE_TIFF_MAX_BYTES)",
+   "planes": []
+  }
+ ]
+}
