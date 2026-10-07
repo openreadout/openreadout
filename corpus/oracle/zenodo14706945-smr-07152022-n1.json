@@ -1,0 +1,128 @@
+{
+ "id": "zenodo14706945-smr-07152022-n1",
+ "file": "zenodo14706945-smr-07152022-n1.smr",
+ "size": 52892672,
+ "sha256": "217841ca53a44a5f9bdd9c4f988011d9031b4ca6625f328f49734eca7c9a3b48",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 Spike2RawIO (try_signal_grouping=False)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Temp"
+   ],
+   "channel_units": [
+    "*C"
+   ],
+   "sample_rate_hz": 100.25062656641605,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 138164,
+     "channels": [
+      {
+       "xxh3": "f16d8987bfb6d75c8734995ce682f67f",
+       "first": [
+        10.0982666015625,
+        10.1104736328125,
+        10.10589599609375,
+        10.10589599609375,
+        10.107421875,
+        10.1043701171875,
+        10.1104736328125,
+        10.1104736328125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "record"
+   ],
+   "channel_units": [
+    "g"
+   ],
+   "sample_rate_hz": 9523.809523809523,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 13125524,
+     "channels": [
+      {
+       "xxh3": "75ec405c75885c745f29ef481c3a463f",
+       "first": [
+        -0.6409237038387801,
+        -0.6414456636484829,
+        -0.6414456636484829,
+        -0.6414456636484829,
+        -0.6415761536009086,
+        -0.6404017440290772,
+        -0.6406627239339286,
+        -0.6410541937912058
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ME1"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 9523.809523809523,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 13125524,
+     "channels": [
+      {
+       "xxh3": "0555cea8b646fc1b4d6e802cf3ca8db2",
+       "first": [
+        -52.1392822265625,
+        -52.1240234375,
+        -52.1240234375,
+        -52.1392822265625,
+        -52.154541015625,
+        -52.154541015625,
+        -52.1240234375,
+        -52.18505859375
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 1,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "time_s": "5aa92ca0cd5a139e37de413497e1bd23",
+    "tick": "13326b5db2864553daa68ff2abcfa292",
+    "channel": "679e90a3b4c6e18be57408d4e078da1e",
+    "code0": "df992bac4780df27c5a5f84bc66140a6",
+    "code1": "2c0a8a99dc147d5445c3b49d035665b2",
+    "code2": "2c0a8a99dc147d5445c3b49d035665b2",
+    "code3": "2c0a8a99dc147d5445c3b49d035665b2",
+    "text": "2c0a8a99dc147d5445c3b49d035665b2"
+   }
+  }
+ ]
+}

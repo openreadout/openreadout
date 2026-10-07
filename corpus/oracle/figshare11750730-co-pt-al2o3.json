@@ -1,0 +1,108 @@
+{
+ "id": "figshare11750730-co-pt-al2o3",
+ "file": "figshare11750730-co-pt-al2o3.1",
+ "size": 31000,
+ "sha256": "8612604e489aead25d3fcfc8970fcf0712e34407d341e87ccdd2538f2cdfed0f",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3526,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3526,
+     "channels": [
+      {
+       "xxh3": "86312b860d5c12247d890f7da32ed847",
+       "first": [
+        -0.034575942903757095,
+        -0.03447337821125984,
+        -0.034352995455265045,
+        -0.03424568846821785,
+        -0.034199658781290054,
+        -0.03425224497914314,
+        -0.034404460340738297,
+        -0.03462069109082222
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3998.7516625103763,
+   "x_last": 599.7645367932129,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.29931,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Mid 12H [Internal]",
+     "instrument": "TENSOR 27",
+     "instrument_serial": "2655",
+     "sample_name": "20190412_Pt Al2O3_25\u00b0C 2%CO in Ar after red",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "a_2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3526,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3526,
+     "channels": [
+      {
+       "xxh3": "a82b060e133ac1007f1dcb4cc4fb8667",
+       "first": [
+        -0.03393617272377014,
+        -0.033924560993909836,
+        -0.03395973891019821,
+        -0.034012310206890106,
+        -0.03406074643135071,
+        -0.03409666195511818,
+        -0.034125182777643204,
+        -0.034165557473897934
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3998.7516625103763,
+   "x_last": 599.7645367932129,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15798.29931,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Mid 12H [Internal]",
+     "instrument": "TENSOR 27",
+     "instrument_serial": "2655",
+     "sample_name": "20190412_Pt Al2O3_25\u00b0C 2%CO in Ar after red",
+     "operator": "Default",
+     "aperture": "6 mm",
+     "scans": 128
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

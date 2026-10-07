@@ -1,0 +1,40 @@
+{
+ "id": "figshare28581463-polyimide-sp",
+ "file": "figshare28581463-polyimide-sp.sp",
+ "size": 29392,
+ "sha256": "59075b61ce2021c939ef6945cc8cdce9706ebfbe8e52e08a577ed964a9ab9229",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3351,
+   "x_first": 4000.0,
+   "x_last": 650.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3351,
+     "channels": [
+      {
+       "xxh3": "5706e7368243f626e033b1c51821f509",
+       "first": [
+        0.014019186854597354,
+        0.014052937855189018,
+        0.0140866971168907,
+        0.0141204562110544,
+        0.014151240209553606,
+        0.0141694060757116,
+        0.014180001620570426,
+        0.014191931081774856
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

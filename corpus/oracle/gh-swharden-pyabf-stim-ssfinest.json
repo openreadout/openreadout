@@ -1,0 +1,59 @@
+{
+ "id": "gh-swharden-pyabf-stim-ssfinest",
+ "file": "gh-swharden-pyabf-stim-ssfinest.atf",
+ "size": 1356785,
+ "sha256": "33e2faf909ccb2f1a4b2a59b9f9d274daa528656b02e2866f0e70cd84b652aab",
+ "max_planes_hashed": 64,
+ "reader": "pyabf 2.3.8 ATF (values re-read as float64)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "Signal 00",
+    "Signal 01"
+   ],
+   "channel_units": [
+    "pA",
+    "nA"
+   ],
+   "sample_rate_hz": 49999.99999999999,
+   "pyabf_rate_hz": 50000,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 111001,
+     "channels": [
+      {
+       "xxh3": "c2fc61e25c20b7fb8b92fac162bd0ac7",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "41d7034a4d2b71d0b1737af917b87cec",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

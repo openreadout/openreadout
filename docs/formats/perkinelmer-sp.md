@@ -26,6 +26,18 @@ From byte 44: blocks of a u16 id, an int32 body length and the body. A body is e
 
 The instrument settings are named from their values across the corpus (our reading; specio reads the same texts by position): 35840 scans, 35841 detector, 35842 source, 35843 beamsplitter, 35844 resolution (cm⁻¹, flagged float64), 35845 apodization (`Strong`, `Filler`), 35846 spectrum type, 35847 beam type, 35849 phase correction, 35854 accessory, 35882 laser wavenumber (15798 cm⁻¹, HeNe).
 
+## ASCII form (`PEDS`)
+
+PerkinElmer software can also save a `.sp` file as text, as FL WinLab does for an LS55 fluorescence spectrometer. The first line is `PE`, a technique code (`FL`), `SPECTRUM`, `ASCII`, `PEDS` and a version (`1.60`); detection needs `PE`, `ASCII` and `PEDS` on that line. One value per line follows (file name, dates, times, operator, instrument settings), then three blocks marked by a line of their own:
+
+| block | lines | our use |
+| --- | --- | --- |
+| `#HDR` | two values (`-1`, `-1`) | none |
+| `#GR` | 1 x unit (`NM`), 2 y unit (empty), 3 and 4 a factor and an offset that do not apply to `#DATA`, 5 first x, 6 x interval, 7 number of points, 8 unknown, 9 largest y, 10 smallest y | the axis from lines 1 and 2; lines 5, 6, 7, 9 and 10 are checked against `#DATA` |
+| `#DATA` | one `x<TAB>y` pair per line | the trace, as written |
+
+A file whose `#GR` point count, first x, interval or y range disagrees with its `#DATA` pairs is refused as corrupt (exit 4). The trace's `data_type` is `FLUORESCENCE SPECTRUM` for technique `FL` with x in nm. Its `extra` holds `technique_code`, `data_interval`, `x_units_text` and `y_units_text`; `format_version` is `PEDS <version>`. The other header lines are not named (their meanings are not certain from three files of one instrument); `info --view full` lists them under `header_lines`.
+
 ## Data model
 
 One trace, one sweep, one channel (float64): x evenly from the first to the last value over the points.
@@ -41,7 +53,8 @@ One trace, one sweep, one channel (float64): x evenly from the first to the last
 | `scans`, `resolution_cm1`, `laser_wavenumber_cm1` | 35840, 35844, 35882 |
 | `data_interval` | 35700 |
 | `acquired_at`, `operator` | the history record whose operation is `Created as New Dataset` (else the oldest): its date (`Thu Mar 09 09:19:21 2006`, with `(GMT+1:00)` when recorded) and user |
-| `x_units_text`, `y_units_text` | 35703, 35704 |
+| `x_units_text`, `y_units_text` | 35703, 35704 (`#GR` lines 1 and 2 in the ASCII form) |
+| `technique_code` | ASCII form: the code after `PE` on the first line (`FL`) |
 
 **Experiment.** `sample.id` = the data set name, instrument (PerkinElmer, model, serial), `method.parameters`: `resolution`, `scans`, `laser_wavenumber`, `detector`, `source`, `beamsplitter`, `apodization`, `accessory`; `acquisition.started_at`, `operator`, `comment` (the history record's description, e.g. the microscope position).
 
@@ -49,7 +62,7 @@ One trace, one sweep, one channel (float64): x evenly from the first to the last
 
 ## Validation
 
-**specio 0.1.0** (BSD-3) on the 5 corpus files: every value bit for bit and the x-axis ends (specio 0.1 needs `collections.Iterable` restored on Python ≥ 3.10, and its instrument-text step fails on Latin-1 bytes; the oracle makes only that metadata step lenient). No vendor export of these files is public.
+**specio 0.1.0** (BSD-3) on the 5 corpus files: every value bit for bit and the x-axis ends (specio 0.1 needs `collections.Iterable` restored on Python ≥ 3.10, and its instrument-text step fails on Latin-1 bytes; the oracle makes only that metadata step lenient). No vendor export of these files is public. The three ASCII files (figshare 3841308) are compared with their `#DATA` pairs read by the Python standard library (`oracle/spectro.py` `pesp_ascii`), a second implementation rather than an independent reader.
 
 ## Known gaps
 

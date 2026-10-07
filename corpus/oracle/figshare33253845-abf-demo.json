@@ -1,0 +1,70 @@
+{
+ "id": "figshare33253845-abf-demo",
+ "file": "figshare33253845-abf-demo.abf",
+ "size": 26963968,
+ "sha256": "c460159465f204eb2c3f705f0fd2dd0ae53532116d979e771d3bffe2d425738e",
+ "max_planes_hashed": 64,
+ "reader": "pyabf 2.3.8",
+ "traces": [
+  {
+   "index": 0,
+   "abf_version": "2.9.0.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "IN 0"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 250000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sample_count": 13472256,
+   "data_format": "int16",
+   "gain": [
+    0.30517576675492886
+   ],
+   "offset": [
+    0.0
+   ],
+   "protocol": "ZXJ-250kHZ-5kHZ-record data-10min",
+   "created": "2026-07-23T16:00:00.985",
+   "tag_comments": [
+    "Holding on 'Cmd 0' => 50 mV",
+    "Holding on 'Cmd 0' => -50 mV"
+   ],
+   "f32_max_abs_diff": 0.0009765625,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 13472256,
+     "channels": [
+      {
+       "xxh3": "2b307f250221d53194dfe853f6a8032c",
+       "first": [
+        -137.329095039718,
+        -137.329095039718,
+        -137.63427080647293,
+        -137.63427080647293,
+        -137.63427080647293,
+        -137.63427080647293,
+        -137.63427080647293,
+        -137.329095039718
+       ],
+       "first_f32_pyabf": [
+        -137.3291015625,
+        -137.3291015625,
+        -137.63427734375,
+        -137.63427734375,
+        -137.63427734375,
+        -137.63427734375,
+        -137.63427734375,
+        -137.3291015625
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

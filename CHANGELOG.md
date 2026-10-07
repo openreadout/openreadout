@@ -52,6 +52,8 @@ All notable changes to this project are documented here. The format is based on 
 - Gen5 experiment files written by Gen5 1.x were refused. Their reads are now decoded, and the reader, serial number and Gen5 version of their plate description are read at the right offsets. A refused Gen5 file now says why.
 - Tecan i-control exports with several reads per well returned no values, and German i-control exports were not recognised. Each well's value is now i-control's `Mean`, and a workbook with one export per sheet gives one plate read per sheet.
 - Sciex `.wiff` files with several samples: samples after the first returned the first sample's scan data. Each sample's scans are now read from its own block of the `.wiff.scan`.
+- Sciex MRM `.wiff` files with hundreds of precursors per cycle used memory in proportion to their spectra: a 14.5 MB API 4000 file with 30 million spectra took 1.8 GB to open and 5.8 GB for `analyze chromatogram`. It now takes 33 MB and 300 MB, and the chromatogram takes 2 s instead of 16 s.
+- `export --format mzml` refused mzML and Waters MRM files that hold chromatograms and no spectra. It now writes their chromatograms (Waters MRM tables as a TIC and one SRM chromatogram per transition) with no spectrum list. Chromatogram precursors now carry the activation the mzML schema requires, and a run id made from a file name with spaces is a valid XML ID.
 - Agilent MassHunter profiles written by MassHunter Acquisition 10 (for example a 6546 Q-TOF) were refused as corrupt LZF; they use the ion-mobility profile encoding and are read.
 - The Claude Code plugin failed to load because its marketplace entry and `plugin.json` both declared the skill.
 - The Homebrew formula and winget manifests attached to a release no longer start with the template's header comment.
@@ -69,6 +71,13 @@ All notable changes to this project are documented here. The format is based on 
 - TIFF: whole full-resolution planes of NDPI slides between 1 and 4 GiB are read (they exited 4).
 - CZI and VSI: `check` no longer exits 4 on channels stored at only some extra-dimension indices, or on stored tiles that lie just past the image edge.
 - DM: `check` no longer reports `truncated` when the header's root length counts 4 of the 8 end bytes (30 of the 89 development files).
+- `analyze ephys-features` refused every NWB intracellular series, because NWB spells its units `volts` and `amperes`. It now reads them.
+- ABF: `info` no longer lists a command trace that cannot be read (epochs that run past the end of the sweep), which also made `export --format nwb` fail.
+- Blackrock: `info` could take a PTP file as one gap-free sweep when a forward jump and a clock reset cancelled out. It now reads every timestamp of files up to 64 MiB and reports the sweep layout as assumed in larger ones.
+- PerkinElmer `.sp` files saved as text (`PE … ASCII PEDS`, e.g. from an LS55) were called corrupt. Their spectra are now read.
+- JEOL: a `.jdf` file whose `JEOL.NMR` signature is damaged now exits 4 (corrupt) instead of 3 (unknown format).
+- ABF: a damaged header that declares millions of sweeps no longer exhausts memory when the file's structure is listed.
+- `analyze spikes` and `trace` held every channel of a long recording in memory at once (1.7 GB and 830 MB on a 234 MB, 65-channel `.ns6`). They now read in bounded pages (1.0 GB and 190 MB).
 
 ## [0.1.0] - 2026-10-02
 

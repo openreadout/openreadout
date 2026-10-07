@@ -1,0 +1,55 @@
+{
+ "id": "figshare29990276-pbio-raman-spc",
+ "file": "figshare29990276-pbio-raman-spc.spc",
+ "size": 13344,
+ "sha256": "c661b5da67ce0d56ef8c7e38b81a9837763e747e242b2deedabb40653850c879",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_spc",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sample_count": 1600,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1600,
+     "channels": [
+      {
+       "xxh3": "9f674e4d395b5114a4dce27bdc8cf38f",
+       "first": [
+        -74.40889739990234,
+        -71.444091796875,
+        -68.48037719726562,
+        -65.51774597167969,
+        -62.55620574951172,
+        -59.59574890136719,
+        -56.636375427246094,
+        -53.67808532714844
+       ]
+      },
+      {
+       "xxh3": "94400641cead6ccfab99cdae7513c5dd",
+       "first": [
+        -0.3070068359375,
+        -0.09051513671875,
+        0.207763671875,
+        0.43902587890625,
+        0.19854736328125,
+        -0.1566162109375,
+        -0.2894287109375,
+        -0.1978759765625
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "second_opinion": {
+  "reader": "spc-io 0.2.1 (MIT)",
+  "values_agree": true
+ }
+}

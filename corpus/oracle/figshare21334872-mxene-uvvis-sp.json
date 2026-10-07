@@ -1,0 +1,46 @@
+{
+ "id": "figshare21334872-mxene-uvvis-sp",
+ "file": "figshare21334872-mxene-uvvis-sp.sp",
+ "size": 5501,
+ "sha256": "edc71c86dbce4267c4cb0ab824ea6e1455bc4ee802b64cdc778f787743430fb2",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 501,
+   "x_first": 700.0,
+   "x_last": 200.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 501,
+     "channels": [
+      {
+       "xxh3": "ab6c138ac7e6ad98d11b3e0932386f77",
+       "first": [
+        1.7576901305044659,
+        1.7534901684934263,
+        1.7494946287793194,
+        1.7456271837241069,
+        1.7415238272036717,
+        1.738177633944568,
+        1.734100322248266,
+        1.7303648974886048
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Lambda 25",
+     "instrument_serial": "501S10081703"
+    }
+   }
+  }
+ ]
+}

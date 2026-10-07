@@ -80,8 +80,11 @@ pyABF memtest, Neo + SpikeInterface 0.105). Results:
 **Performance** (release build): `analyze ephys-features` on `pyabf-2019-07-24-0055-fsi`
 (17 sweeps × 60,000 samples, 948 spikes) 0.02 s, 12 MB; `analyze spikes` on `brk-filespec2-3001.ns5`
 (10 channels × 900,300 samples at 30 kHz) 0.47 s, 168 MB; on `intan-rhd-test-1.rhd` (192
-channels × 30,000 samples) 0.30 s, 91 MB. Memory is one sweep of all channels plus one filtered
-channel; `--max-seconds` bounds it on long continuous recordings.
+channels × 30,000 samples) 0.30 s, 91 MB; on `figshare30728969-ns6-50mw002.ns6` (65 channels ×
+1.8 million samples at 30 kHz, 234 MB) 21 s, 1.0 GB. `analyze spikes` reads the channels in groups
+of at most 512 MiB of samples (`SPIKES_READ_BYTES`) and filters one channel at a time, and readers
+are asked for at most 8 Mi values per call (`openreadout_core::trace::READ_VALUES`), so memory no
+longer grows with the channel count; `--max-seconds` bounds the length analysed.
 
 ## Known gaps
 
@@ -116,6 +119,7 @@ channel; `--max-seconds` bounds it on long continuous recordings.
 | `analyze_cell`, `analyze_extracellular` | entry points |
 | `SpikesRequest`, `channels`, `max_seconds`, `max_times` | `analyze spikes` request |
 | `SpikesReport`, `ChannelSpikes`, `noise`, `threshold`, `duration_s`, `times`, `times_truncated`, `SpikeTime`, `sample`, `time_s`, `amplitude` | `analyze spikes` output |
+| `SPIKES_READ_BYTES` | most bytes of samples `analyze spikes` reads at once |
 | `DetectSettings`, `low_hz`, `high_hz`, `order`, `sign`, `exclude_ms`, `PeakSign` { `Neg`, `Pos`, `Both` } | extracellular detection settings |
 | `mad_noise`, `bandpass`, `detect_peaks` | extracellular detection steps |
 | `Section`, `bandpass_sos`, `filtfilt` | Butterworth band-pass and zero-phase filtering |

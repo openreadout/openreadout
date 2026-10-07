@@ -320,6 +320,11 @@ impl batch::Item for ExportOutput {
             ExportOutput::TraceCsv(r) => {
                 format!("{} samples -> {}", r.samples_written, name(&r.output))
             }
+            ExportOutput::Spectra(r) if r.spectra_written == 0 => format!(
+                "{} chromatograms -> {}",
+                r.chromatograms_written,
+                name(&r.output)
+            ),
             ExportOutput::Spectra(r) => {
                 format!("{} spectra -> {}", r.spectra_written, name(&r.output))
             }
@@ -387,6 +392,15 @@ fn render_export(r: &ExportOutput) -> String {
             r.first_sample,
             r.first_sample + r.samples_written,
             r.channels_written,
+            r.bytes_written,
+            r.verified
+        ),
+        ExportOutput::Spectra(r) if r.chromatograms_written > 0 => format!(
+            "wrote {} ({} spectra, {} points, {} chromatograms, {} bytes, verified={})",
+            r.output,
+            r.spectra_written,
+            r.points_written,
+            r.chromatograms_written,
             r.bytes_written,
             r.verified
         ),

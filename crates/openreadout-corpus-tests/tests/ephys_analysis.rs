@@ -5,6 +5,9 @@
 //!   window, peak times and voltages, onset voltage, half-width, AHP, first-spike latency,
 //!   adaptation index, baseline and steady-state voltage, sag and time constant against eFEL; per
 //!   cell, the rheobase, input resistance, time constant and sag derived from eFEL's numbers;
+//! - current clamp in NWB: per `CurrentClampSeries`, spike counts, peak times and voltages and
+//!   onset voltages against eFEL on the samples h5py reads (no stimulus window: NWB has no epoch
+//!   table);
 //! - voltage clamp: holding current, access and membrane resistance and capacitance against
 //!   pyABF's memtest;
 //! - extracellular: per-channel spike counts and times against SpikeInterface's band-pass filter
@@ -44,7 +47,9 @@ fn oracle_files(suffix: &str) -> Vec<PathBuf> {
             let n = p.file_name().and_then(|n| n.to_str()).unwrap_or_default();
             n.ends_with(suffix)
                 && (suffix != ".json"
-                    || (!n.ends_with(".memtest.json") && !n.ends_with(".spikes.json")))
+                    || (!n.ends_with(".memtest.json")
+                        && !n.ends_with(".spikes.json")
+                        && !n.ends_with(".nwb-cc.json")))
         })
         .collect();
     v.sort();
@@ -105,6 +110,8 @@ fn open(p: &Path) -> Box<dyn Dataset> {
         openreadout_abf::AbfReader.open(p).unwrap()
     } else if n.ends_with(".ns5") || n.ends_with(".ns6") {
         openreadout_blackrock::BlackrockReader.open(p).unwrap()
+    } else if n.ends_with(".nwb") {
+        openreadout_hdf5::NwbReader.open(p).unwrap()
     } else if n.ends_with(".rhd") || n.ends_with(".rhs") {
         openreadout_intan::IntanReader.open(p).unwrap()
     } else {
@@ -305,6 +312,112 @@ fn current_clamp_matches_efel() {
         }
         if med(d_thr) > 1.5 || med(rel_hw) > 0.05 {
             failures.push(format!("{}: onset/half-width disagree", o.id));
+        }
+    }
+    assert!(failures.is_empty(), "{failures:#?}");
+}
+
+#[derive(Deserialize)]
+struct NwbSeries {
+    name: String,
+    samples: u64,
+    spike_count: Vals,
+    peak_time: Vals,
+    peak_voltage: Vals,
+    #[serde(rename = "AP_begin_voltage")]
+    ap_begin_voltage: Vals,
+}
+#[derive(Deserialize)]
+struct NwbOracle {
+    id: String,
+    series: Vec<NwbSeries>,
+}
+
+#[test]
+fn nwb_current_clamp_matches_efel() {
+    let dir = files_dir();
+    let mut failures = Vec::new();
+    for p in oracle_files(".nwb-cc.json") {
+        let o: NwbOracle = serde_json::from_str(&std::fs::read_to_string(&p).unwrap()).unwrap();
+        let path = dir.join(format!("{}.nwb", o.id));
+        if !path.exists() {
+            continue;
+        }
+        let mut ds = open(&path);
+        let info = ds.info().unwrap();
+        let (mut n_series, mut n_spk, mut near_peak) = (0usize, 0usize, 0usize);
+        let (mut d_peak_v, mut d_thr) = (0.0_f64, Vec::new());
+        for es in &o.series {
+            let Some(t) = info
+                .traces
+                .iter()
+                .find(|t| t.name.as_deref() == Some(es.name.as_str()))
+            else {
+                failures.push(format!("{}: no trace named {}", o.id, es.name));
+                continue;
+            };
+            if t.sample_count != es.samples {
+                failures.push(format!(
+                    "{} {}: {} samples vs h5py {}",
+                    o.id, es.name, t.sample_count, es.samples
+                ));
+            }
+            let req = CellRequest {
+                trace: t.index,
+                ..CellRequest::default()
+            };
+            let r = match ephys::analyze_cell(ds.as_mut(), &info, &req) {
+                Ok(r) => r,
+                Err(e) => {
+                    failures.push(format!("{} {}: {e}", o.id, es.name));
+                    continue;
+                }
+            };
+            n_series += 1;
+            if r.clamp_mode != "current_clamp" {
+                failures.push(format!("{} {}: clamp mode {}", o.id, es.name, r.clamp_mode));
+            }
+            let sample_ms = 1000.0 / r.sample_rate_hz;
+            let theirs_n = first(&es.spike_count).unwrap_or(0.0) as usize;
+            if r.spike_count_total != theirs_n {
+                failures.push(format!(
+                    "{} {}: {} spikes vs eFEL {theirs_n}",
+                    o.id, es.name, r.spike_count_total
+                ));
+                continue;
+            }
+            let (pt, pv, th) = (
+                all(&es.peak_time),
+                all(&es.peak_voltage),
+                all(&es.ap_begin_voltage),
+            );
+            for (k, s) in r.spikes.iter().enumerate() {
+                n_spk += 1;
+                if pt
+                    .get(k)
+                    .is_some_and(|t| (s.peak_time_s * 1000.0 - t).abs() <= sample_ms + 1e-6)
+                {
+                    near_peak += 1;
+                }
+                if let Some(v) = pv.get(k) {
+                    d_peak_v = d_peak_v.max((s.peak_mv - v).abs());
+                }
+                if let Some(v) = th.get(k) {
+                    d_thr.push((s.threshold_mv - v).abs());
+                }
+            }
+        }
+        println!(
+            "{}: {n_series}/{} series analysed; {n_spk} spikes, {near_peak} peaks within one sample of eFEL's, max |d peak V| {d_peak_v:.4} mV, median |d onset V| {:.3} mV",
+            o.id,
+            o.series.len(),
+            med(d_thr.clone()),
+        );
+        if n_series != o.series.len() || near_peak != n_spk || d_peak_v > 0.5 {
+            failures.push(format!("{}: peaks disagree with eFEL", o.id));
+        }
+        if med(d_thr) > 1.5 {
+            failures.push(format!("{}: onset voltages disagree with eFEL", o.id));
         }
     }
     assert!(failures.is_empty(), "{failures:#?}");

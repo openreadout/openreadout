@@ -1,0 +1,62 @@
+{
+ "id": "figshare695021-smr-n90120re",
+ "file": "figshare695021-smr-n90120re.smr",
+ "size": 25402880,
+ "sha256": "b043cd6af0bbca2e053f0db3bead9aaa31f6b83de0babd70421ffa460acefa62",
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 Spike2RawIO (try_signal_grouping=False)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Neuron"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 20000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4213854,
+     "channels": [
+      {
+       "xxh3": "cbc6d7b18fd6e8756830d7948785b430",
+       "first": [
+        -36.126708984375,
+        -36.279296875,
+        -35.97412109375,
+        -35.97412109375,
+        -35.97412109375,
+        -35.97412109375,
+        -35.821533203125,
+        -35.97412109375
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 48,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "time_s": "4075603137cda6e43773558af4cedd3e",
+    "tick": "bd1ecf6b47385b8919af42041697f9a2",
+    "channel": "e0e71e5a030d5eced253d2b5a6934cb6",
+    "code0": "c5451a67ea0274ac87865f9f175cbdd3",
+    "code1": "47fae6c87f37ddc0f188c17ee19bc4fa",
+    "code2": "01c33e5e5979cac4a5fdadd5f8980617",
+    "code3": "01c33e5e5979cac4a5fdadd5f8980617",
+    "text": "d0adca456a8570d658ef191e1d83fb7c"
+   }
+  }
+ ]
+}

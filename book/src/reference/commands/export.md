@@ -87,7 +87,7 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 - **OME-Zarr** is an OME-NGFF 0.5 (Zarr v3) store with 5-D `t, c, z, y, x` arrays. Several images become a `bioformats2raw.layout` collection; a screening plate becomes an HCS plate. Except for plates, `OME/METADATA.ome.xml` keeps what OME-NGFF has no place for: objective, instrument, acquisition mode, exposures.
 - **CSV** of a table writes column names on line 1 and raw stored values. FCS values are not compensated or scaled. CSV of a trace starts with a `time_s` column (or the trace's own axis, such as `chemical_shift_ppm`) followed by one column per channel in physical units.
 - **Parquet and Arrow** keep each column's stored type. Units, labels, provenance and the source's `info` are stored as field and file metadata.
-- **mzML** is indexed mzML 1.1.0, one spectrum per scan of the chosen run. An mzML source also keeps its chromatograms (TIC, SRM traces) and its exact instrument, component and software terms.
+- **mzML** is indexed mzML 1.1.0, one spectrum per scan of the chosen run. An mzML source also keeps its chromatograms (TIC, SRM traces) and its exact instrument, component and software terms. A run with chromatograms and no spectra (an MRM-only mzML, a Waters MRM `.raw`) is written as its chromatograms alone, a Waters MRM table as a TIC and one SRM chromatogram per transition.
 - **NWB** writes one `TimeSeries` per trace, sweep and unit, in physical units.
 - **JCAMP-DX** is version 5.01 or 6.00. Values round-trip exactly when they are integer multiples of one factor; the report says whether they did.
 - **ASM** is Allotrope Simple Model plate-reader JSON, one document per plate and well.

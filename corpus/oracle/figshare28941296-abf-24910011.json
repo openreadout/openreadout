@@ -1,0 +1,67 @@
+{
+ "id": "figshare28941296-abf-24910011",
+ "file": "figshare28941296-abf-24910011.abf",
+ "size": 3043328,
+ "sha256": "465c05453188478e15ed302427b3d30a11bb942ec5d17c9bef49f39152f5161f",
+ "max_planes_hashed": 64,
+ "reader": "pyabf 2.3.8",
+ "traces": [
+  {
+   "index": 0,
+   "abf_version": "2.9.0.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Im_scaled"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 10000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sample_count": 756433,
+   "data_format": "float32",
+   "gain": [
+    0.03051757667549289
+   ],
+   "offset": [
+    0.0
+   ],
+   "protocol": "V clamp gapfree",
+   "created": "2024-09-10T15:54:25.731",
+   "tag_comments": [],
+   "f32_max_abs_diff": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 756433,
+     "channels": [
+      {
+       "xxh3": "da98e278c602cedfd325022912d7ae14",
+       "first": [
+        -56.66770553588867,
+        -57.505653381347656,
+        -58.10284423828125,
+        -58.0959587097168,
+        -57.75814437866211,
+        -57.75505828857422,
+        -58.00814437866211,
+        -58.020957946777344
+       ],
+       "first_f32_pyabf": [
+        -56.66770553588867,
+        -57.505653381347656,
+        -58.10284423828125,
+        -58.0959587097168,
+        -57.75814437866211,
+        -57.75505828857422,
+        -58.00814437866211,
+        -58.020957946777344
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,104 @@
+{
+ "id": "gh-swharden-pyabf-stim-capacitance5",
+ "file": "gh-swharden-pyabf-stim-capacitance5.atf",
+ "size": 8780294,
+ "sha256": "9080da565d3896e70250c62799a09f18440451d6b453e94ff090738a5af37c2a",
+ "max_planes_hashed": 64,
+ "reader": "pyabf 2.3.8 ATF (values re-read as float64)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 5,
+   "channel_names": [
+    "Signal 00",
+    "Signal 01",
+    "Signal 02",
+    "Signal 03",
+    "Signal 04"
+   ],
+   "channel_units": [
+    "pA",
+    "mV",
+    "mV",
+    "mV",
+    "mV"
+   ],
+   "sample_rate_hz": 49999.99999999999,
+   "pyabf_rate_hz": 50000,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 421251,
+     "channels": [
+      {
+       "xxh3": "5bfdb348bc4010678eee383f3d25ad27",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "5bfdb348bc4010678eee383f3d25ad27",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "5bfdb348bc4010678eee383f3d25ad27",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "5bfdb348bc4010678eee383f3d25ad27",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      {
+       "xxh3": "5bfdb348bc4010678eee383f3d25ad27",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

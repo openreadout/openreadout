@@ -1,0 +1,446 @@
+{
+ "id": "dandi000987-ecephys-a7802",
+ "file": "dandi000987-ecephys-a7802.nwb",
+ "size": 90737982,
+ "sha256": "a8fab363364b636728f1de35145a8c9ccaed4fbe7ba78f194d4a2bdff7c9a212",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.6.0",
+ "session": {
+  "session_description": "Freely behaving mouse retrosplenial cortex data as it explores a partial circular arena, followed by the full circular arena. Exploration periods are interleaved with sleep in the home cage.",
+  "identifier": "A7802-210317",
+  "session_start_time": "2024-05-09T19:05:45.691993+00:00"
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "rx",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "rx"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 434347,
+     "channels": [
+      {
+       "xxh3": "8262a76506364cf8ddcb6e97d7eb88fc",
+       "first": [
+        4278.96675,
+        4278.97505,
+        4278.9834,
+        4278.99175,
+        4279.00005,
+        4279.0084,
+        4279.01675,
+        4279.02505
+       ]
+      },
+      {
+       "xxh3": "5baf6c06450b3f6972fe7f489e2c951e",
+       "first": [
+        6.226110317925738,
+        6.143788739616065,
+        6.084408344953258,
+        6.1190794501704655,
+        6.217319007216981,
+        6.188932466117062,
+        6.247328687067961,
+        0.004668214697016282
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "ry",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "ry"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 434347,
+     "channels": [
+      {
+       "xxh3": "8262a76506364cf8ddcb6e97d7eb88fc",
+       "first": [
+        4278.96675,
+        4278.97505,
+        4278.9834,
+        4278.99175,
+        4279.00005,
+        4279.0084,
+        4279.01675,
+        4279.02505
+       ]
+      },
+      {
+       "xxh3": "fc610319f3423ac98f77bd29215a76ce",
+       "first": [
+        0.9107244624900446,
+        0.8115966026674339,
+        3.6702652758565644,
+        0.8072749579999865,
+        0.904117483700035,
+        0.8806220882024896,
+        0.9385734770869343,
+        0.9454649969048967
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "rz",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "rz"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 434347,
+     "channels": [
+      {
+       "xxh3": "8262a76506364cf8ddcb6e97d7eb88fc",
+       "first": [
+        4278.96675,
+        4278.97505,
+        4278.9834,
+        4278.99175,
+        4279.00005,
+        4279.0084,
+        4279.01675,
+        4279.02505
+       ]
+      },
+      {
+       "xxh3": "abc39df3ba0967bde58de1d06f36ddb7",
+       "first": [
+        5.835184228947653,
+        6.012202171389368,
+        1.8055799376353505,
+        6.088437193185391,
+        6.138934245927983,
+        6.0868103019764375,
+        6.138355808907287,
+        6.104554697962321
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "x",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "x"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 434347,
+     "channels": [
+      {
+       "xxh3": "8262a76506364cf8ddcb6e97d7eb88fc",
+       "first": [
+        4278.96675,
+        4278.97505,
+        4278.9834,
+        4278.99175,
+        4279.00005,
+        4279.0084,
+        4279.01675,
+        4279.02505
+       ]
+      },
+      {
+       "xxh3": "82fe83aec08e331614184c0fd35dcf62",
+       "first": [
+        -0.187167,
+        -0.186785,
+        -0.186052,
+        -0.186004,
+        -0.18553,
+        -0.185372,
+        -0.185075,
+        -0.185061
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "y",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "y"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 434347,
+     "channels": [
+      {
+       "xxh3": "8262a76506364cf8ddcb6e97d7eb88fc",
+       "first": [
+        4278.96675,
+        4278.97505,
+        4278.9834,
+        4278.99175,
+        4279.00005,
+        4279.0084,
+        4279.01675,
+        4279.02505
+       ]
+      },
+      {
+       "xxh3": "aef68066c197e8e287a682709b0abe8a",
+       "first": [
+        0.051978,
+        0.051953,
+        0.052691,
+        0.051888,
+        0.05213,
+        0.051731,
+        0.051721,
+        0.050934
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "z",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "z"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 434347,
+     "channels": [
+      {
+       "xxh3": "8262a76506364cf8ddcb6e97d7eb88fc",
+       "first": [
+        4278.96675,
+        4278.97505,
+        4278.9834,
+        4278.99175,
+        4279.00005,
+        4279.0084,
+        4279.01675,
+        4279.02505
+       ]
+      },
+      {
+       "xxh3": "cd3c0937643cef139aa0b423772f8a44",
+       "first": [
+        -0.046103,
+        -0.045865,
+        -0.045854,
+        -0.045475,
+        -0.045305,
+        -0.044798,
+        -0.044423,
+        -0.043691
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "name": "units",
+   "event_count": 50,
+   "parameter_names": [
+    "id",
+    "location",
+    "group",
+    "spike_times_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "d1c4688f8dfdd354906efa0c58444836",
+    "location": "f82f5a0f9ec856f63466368051e524a3",
+    "group": "f82f5a0f9ec856f63466368051e524a3",
+    "spike_times_count": "f67b1730a7028d602019d7fae0f43159"
+   }
+  },
+  {
+   "index": 1,
+   "name": "units/spike_times",
+   "event_count": 5964882,
+   "parameter_names": [
+    "unit_row",
+    "unit_id",
+    "spike_time"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "unit_row": "3cc77e4acee4375b42e3d52f07e753ac",
+    "unit_id": "3cc77e4acee4375b42e3d52f07e753ac",
+    "spike_time": "53a5edaafe0372e63d18506bc31f2327"
+   }
+  },
+  {
+   "index": 2,
+   "name": "intervals/DOWN",
+   "event_count": 7722,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "tags_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "380daf161435647f477badddc55818ce",
+    "start_time": "45a73b4e5a036433bcc9afb61b263a49",
+    "stop_time": "74ce8a838181a7bb5fad62b22638f4c2",
+    "tags_count": "c9f961af5817d8347f7cf3e39968352a"
+   }
+  },
+  {
+   "index": 3,
+   "name": "intervals/SWS",
+   "event_count": 22,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "tags_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "a9966d750fe966fc6ecca2f4e2ea738e",
+    "start_time": "12bd604a46a5f159c3972de75ddd82f1",
+    "stop_time": "92aa69f9622dae02febbf1ea54e60710",
+    "tags_count": "14c95f65182bb146361ad6a7cc89994f"
+   }
+  },
+  {
+   "index": 4,
+   "name": "intervals/UP",
+   "event_count": 7721,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "tags_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "4f0466aa6e15a13e8c86a4b1246a3449",
+    "start_time": "36269434bfa52da9c12ed9bced725abd",
+    "stop_time": "61bec30cca109708c4c06894cc071b74",
+    "tags_count": "fb3c0ad212809638e7299402c514410c"
+   }
+  },
+  {
+   "index": 5,
+   "name": "intervals/epochs",
+   "event_count": 5,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "tags_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "9e1befeb37478d2318e42156bcefc9ce",
+    "start_time": "cc33d5e259017c13e9fbfdfd35b26068",
+    "stop_time": "008984d9dc036fd770cd2862e0c79dc5",
+    "tags_count": "1d713bb39c5a7eeff0bc4e4e44e1a736"
+   }
+  },
+  {
+   "index": 6,
+   "name": "intervals/position_time_support",
+   "event_count": 2,
+   "parameter_names": [
+    "id",
+    "start_time",
+    "stop_time",
+    "tags_count"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "117f627aa058ede2fba430a78bffd779",
+    "start_time": "0b9f8fc70d3580e7221e9a06df120b93",
+    "stop_time": "0f76e0285081eb8d4cbae88972bafd5f",
+    "tags_count": "99a4d6792566364eab5818513a61cbed"
+   }
+  },
+  {
+   "index": 7,
+   "name": "general/extracellular_ephys/electrodes",
+   "event_count": 64,
+   "parameter_names": [
+    "id",
+    "location",
+    "group_name",
+    "x",
+    "y",
+    "z",
+    "imp",
+    "filtering"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "4dd0593681c2e8276cfa7cdc319a8755",
+    "location": "3258ca92e0a00944b2987a9d949e807c",
+    "group_name": "3258ca92e0a00944b2987a9d949e807c",
+    "x": "3258ca92e0a00944b2987a9d949e807c",
+    "y": "3258ca92e0a00944b2987a9d949e807c",
+    "z": "3258ca92e0a00944b2987a9d949e807c",
+    "imp": "3258ca92e0a00944b2987a9d949e807c",
+    "filtering": "3258ca92e0a00944b2987a9d949e807c"
+   }
+  }
+ ]
+}
