@@ -97,11 +97,12 @@ DSX writer and others).
   53,760 × 17,664 RGB NDPI, while `export` streams the same file in tiles. Fixed after the hunt:
   `stats` reads large planes of tiled levels in strips, with the same results
   (`docs/architecture-memory.md`).
-- **NDPI sets** (`.ndpis`, one NDPI per fluorescence channel) exit 3. Reading the set as one
-  multichannel image is a new feature.
-- **OME-Zarr 0.5** still has no development file. IDR publishes 0.5 stores
-  (`zarr/v0.5/idr0062A/6001240_labels.zarr`, 34 MB, CC-BY 4.0) that the manifest could list
-  file by file (`parts_url`); we ran out of time to add one.
+- **NDPI sets** (`.ndpis`, one NDPI per fluorescence channel) exited 3. Since 2026-10-07 a set
+  is read as one image with a channel per listed file (`ome-ndpi-manuel-test3`,
+  `docs/provenance/tiff.md`).
+- **OME-Zarr 0.5** had no development file. Since 2026-10-07 two of IDR's NGFF 0.5 sample stores
+  are in the corpus (`idr0062A-6001240-labels-ngff05`, `idr0066-chicken-embryo-mip-ngff05`,
+  `docs/provenance/ome-zarr.md`); both agree with zarr-python.
 - **Not surveyed for lack of small public files from new records:** DCIMG (the new OME record
   holds 1.6 GB files), EER, MetaMorph `.nd`, QPTIFF, BIF, and the formats another workstream owns
   (OIB/OIF, MIRAX, ImageXpress, CellVoyager).

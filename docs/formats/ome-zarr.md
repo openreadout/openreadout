@@ -1,6 +1,6 @@
 # OME-Zarr (OME-NGFF)
 
-OME-Zarr is the chunked image format of the open OME-NGFF specification. OpenReadout reads OME-Zarr stores (Zarr v2 and v3, NGFF 0.1–0.5) with every pyramid level, physical sizes and channel metadata, and `export --format ome-zarr` writes them. Everything here comes from the published specifications (https://ngff.openmicroscopy.org, https://zarr-specs.readthedocs.io), not from reverse engineering. It was checked on public Fractal stores and synthetic stores written by zarr-python and ome-zarr-py, with zarr-python (`oracle/gen.py`) as the reference reader. Provenance: `docs/provenance/ome-zarr.md`.
+OME-Zarr is the chunked image format of the open OME-NGFF specification. OpenReadout reads OME-Zarr stores (Zarr v2 and v3, NGFF 0.1–0.5) with every pyramid level, physical sizes and channel metadata, and `export --format ome-zarr` writes them. Everything here comes from the published specifications (https://ngff.openmicroscopy.org, https://zarr-specs.readthedocs.io), not from reverse engineering. It was checked on public NGFF 0.4 stores (Fractal, Euro-BioImaging and others), the Image Data Resource's public NGFF 0.5 sample stores (sharded Zarr v3) and synthetic stores written by zarr-python and ome-zarr-py, with zarr-python (`oracle/gen.py`) as the reference reader. Provenance: `docs/provenance/ome-zarr.md`.
 
 Format id `ome-zarr`, crate `openreadout-zarr`.
 
@@ -98,7 +98,7 @@ Chunk presence is counted for up to 100 000 chunks per array (evenly sampled bey
 | `ZarrReader`, `ZarrDataset`, `FORMAT_ID`, `open`, `images`, `info` | format reader, opened store (core `Dataset`), the id `ome-zarr`, open, the images, an image's normalized info |
 | `ZarrImage`, `multiscale`, `roles`, `levels`, `omero`, `labels` | one image: its multiscales entry, axis roles, level arrays, `omero` block, label names |
 | `AxisRole`, `axis_roles` | t/c/z/y/x role of an array dimension (`Other` for the rest) |
-| `ArrayMeta`, `array_meta`, `path`, `shape`, `chunks`, `dtype`, `pixel_type`, `codecs`, `format` | array metadata read from `.zarray` / `zarr.json` |
+| `ArrayMeta`, `array_meta`, `path`, `shape`, `chunks`, `inner_chunks`, `dtype`, `pixel_type`, `codecs`, `format` | array metadata read from `.zarray` / `zarr.json`; `inner_chunks` is the inner chunk shape of a sharded array, the tile size `resolution_levels` reports |
 | `ZarrFormat`, `number` | Zarr version 2 or 3 |
 | `GroupAttrs`, `group_attrs`, `ngff`, `raw` | a group's NGFF attributes and the whole attribute document |
 | `Multiscale`, `multiscales`, `group`, `name`, `version`, `axes`, `implied_axes`, `method` | one `multiscales` entry |

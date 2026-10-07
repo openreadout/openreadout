@@ -45,6 +45,8 @@ pub(crate) const NDPI_Y_OFFSET_NM: u16 = 65423;
 pub(crate) const NDPI_Z_OFFSET_NM: u16 = 65424;
 pub(crate) const NDPI_SLIDE_LABEL: u16 = 65427;
 pub(crate) const NDPI_SCANNER_SERIAL: u16 = 65442;
+/// NDPI: the fluorescence filter set (channel) name, as tifffile names tag 65434.
+pub(crate) const NDPI_FLUORESCENCE: u16 = 65434;
 
 /// Spec name of a tag, for listings and the vendor tree.
 pub(crate) fn name(tag: u16) -> Option<&'static str> {

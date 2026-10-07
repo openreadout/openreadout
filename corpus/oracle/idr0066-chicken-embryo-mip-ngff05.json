@@ -1,0 +1,171 @@
+{
+ "id": "idr0066-chicken-embryo-mip-ngff05",
+ "file": "ExpD_chicken_embryo_MIP.ome.zarr",
+ "size": 27057162,
+ "max_planes_hashed": 64,
+ "reader": "zarr-python 3.4.0 (NGFF metadata interpreted in gen.py)",
+ "kind": "image",
+ "ngff_version": "0.5",
+ "zarr_format": 3,
+ "labels": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "/",
+   "size_x": 6510,
+   "size_y": 8978,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "axes": [
+    "y",
+    "x"
+   ],
+   "physical_size_um": {
+    "x": 1.6,
+    "y": 1.6,
+    "z": null
+   },
+   "time_increment_s": null,
+   "channel_names": [
+    "Cy3"
+   ],
+   "level_sizes": [
+    [
+     6510,
+     8978
+    ],
+    [
+     3255,
+     4489
+    ],
+    [
+     1627,
+     2244
+    ],
+    [
+     813,
+     1122
+    ],
+    [
+     406,
+     561
+    ],
+    [
+     203,
+     280
+    ],
+    [
+     101,
+     140
+    ],
+    [
+     50,
+     70
+    ]
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0e11c11c5308a4796b5d75c6e17716d5"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 3255,
+     "size_y": 4489,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "50896bbfc160f8c23c2333bf84329ac2"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 1627,
+     "size_y": 2244,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "98ee70444ac93a22545f6b1b0a01ccac"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 813,
+     "size_y": 1122,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "7cab6d2a39b8e8dc06261df746363179"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 406,
+     "size_y": 561,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "6caf327afd521a3f8e5917859b387f1b"
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 203,
+     "size_y": 280,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "4580d0c618705ebcdbf8b59dac386f5c"
+      }
+     ]
+    },
+    {
+     "level": 6,
+     "size_x": 101,
+     "size_y": 140,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "5f96ff9a291a2036cf8e59e2748df585"
+      }
+     ]
+    },
+    {
+     "level": 7,
+     "size_x": 50,
+     "size_y": 70,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "88673abe024e9f0bfa7bf1bcdbbe9a93"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

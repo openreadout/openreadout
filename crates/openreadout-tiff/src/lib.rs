@@ -83,6 +83,8 @@ pub mod metamorph;
 mod nd;
 mod ndpi;
 #[doc(hidden)]
+pub mod ndpis;
+#[doc(hidden)]
 pub mod nis;
 #[doc(hidden)]
 pub mod ome;
@@ -123,9 +125,9 @@ pub use ome::{
 pub const FORMAT_ID: &str = "tiff";
 
 /// Extensions of the TIFF family (lowercase, without the dot).
-pub const EXTENSIONS: [&str; 15] = [
-    "tif", "tiff", "ome.tif", "ome.tiff", "svs", "ndpi", "lsm", "qptiff", "btf", "stk", "nd",
-    "eer", "scn", "bif", "gel",
+pub const EXTENSIONS: [&str; 16] = [
+    "tif", "tiff", "ome.tif", "ome.tiff", "svs", "ndpi", "ndpis", "lsm", "qptiff", "btf", "stk",
+    "nd", "eer", "scn", "bif", "gel",
 ];
 
 /// The TIFF-family reader.
@@ -156,6 +158,17 @@ pub(crate) fn is_nd_path(fs: &Fs, path: &Path) -> bool {
                 Ok(looks_like_nd(&head[..n]))
             })
             .unwrap_or(false)
+}
+
+/// A Hamamatsu NDPI set: a text file whose first line is the set header.
+fn is_ndpis(fs: &Fs, path: &Path) -> bool {
+    fs.open(path)
+        .and_then(|mut f| {
+            let mut head = [0u8; 64];
+            let n = f.read(&mut head)?;
+            Ok(ndpis::looks_like_ndpis(&head[..n]))
+        })
+        .unwrap_or(false)
 }
 
 fn looks_like_nd(head: &[u8]) -> bool {
@@ -220,6 +233,16 @@ impl FormatReader for TiffReader {
                 ),
             });
         }
+        if ndpis::looks_like_ndpis(head) {
+            return Some(Detection {
+                format_id: FORMAT_ID,
+                confidence: DetectConfidence::Definite,
+                note: Some(
+                    "Hamamatsu NDPI set (the NDPI files it lists are read as the channels of one image)"
+                        .into(),
+                ),
+            });
+        }
         if (is_companion_path(path) || has_extension(path, &["ome", "xml"]))
             && looks_like_ome_xml(head)
         {
@@ -237,6 +260,9 @@ impl FormatReader for TiffReader {
     }
 
     fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
+        if is_ndpis(input.fs(), input.path()) {
+            return Ok(Box::new(ndpis::NdpisDataset::open(input)?));
+        }
         Ok(Box::new(TiffDataset::open(input)?))
     }
 

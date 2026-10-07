@@ -256,6 +256,11 @@ impl TiffDataset {
             ..InstrumentInfo::default()
         });
         info.acquired_at = text_value(&page0, tags::DATE_TIME).and_then(|d| tiff_datetime(&d));
+        if let Some(name) = text_value(&page0, tags::NDPI_FLUORESCENCE)
+            && let Some(ch) = info.channels.first_mut()
+        {
+            ch.name = Some(name);
+        }
         let mut ndpi = Map::new();
         for (tag, key) in [
             (tags::NDPI_X_OFFSET_NM, "x_offset_from_slide_center_nm"),
@@ -283,6 +288,7 @@ impl TiffDataset {
             ("images[].objective.nominal_magnification", Source::PriorArt),
             ("images[].pyramid_levels", Source::PriorArt),
             ("images[].size_z", Source::PriorArt),
+            ("images[].channels[].name", Source::PriorArt),
         ]);
         Ok(())
     }

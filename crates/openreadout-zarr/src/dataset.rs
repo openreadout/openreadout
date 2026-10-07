@@ -47,6 +47,9 @@ pub struct ArrayMeta {
     pub path: String,
     pub shape: Vec<u64>,
     pub chunks: Vec<u64>,
+    /// The inner chunk shape of a sharded array (`sharding_indexed`), the unit a read decodes;
+    /// empty when the array is not sharded (then `chunks` is that unit).
+    pub inner_chunks: Vec<u64>,
     /// Data type as the metadata spells it (`<u2`, `uint16`, ...).
     pub dtype: String,
     pub pixel_type: Option<PixelType>,
@@ -148,6 +151,7 @@ pub fn array_meta(store: &Store, path: &str) -> Result<Option<ArrayMeta>> {
                 .or_else(|| doc.get("chunk_shape")),
         );
         let mut codecs = Vec::new();
+        let mut inner_chunks = Vec::new();
         for c in doc
             .get("codecs")
             .and_then(Value::as_array)
@@ -157,6 +161,9 @@ pub fn array_meta(store: &Store, path: &str) -> Result<Option<ArrayMeta>> {
             let name = c.get("name").and_then(Value::as_str).unwrap_or("?");
             codecs.push(name.to_string());
             if name == "sharding_indexed" {
+                if inner_chunks.is_empty() {
+                    inner_chunks = u64_list(c.pointer("/configuration/chunk_shape"));
+                }
                 for inner in c
                     .pointer("/configuration/codecs")
                     .and_then(Value::as_array)
@@ -174,6 +181,7 @@ pub fn array_meta(store: &Store, path: &str) -> Result<Option<ArrayMeta>> {
             path: path.to_string(),
             shape: u64_list(doc.get("shape")),
             chunks,
+            inner_chunks,
             pixel_type: pixel_type_of(&dtype),
             dtype,
             codecs,
@@ -206,6 +214,7 @@ pub fn array_meta(store: &Store, path: &str) -> Result<Option<ArrayMeta>> {
         path: path.to_string(),
         shape: u64_list(doc.get("shape")),
         chunks: u64_list(doc.get("chunks")),
+        inner_chunks: Vec::new(),
         pixel_type: pixel_type_of(&dtype),
         dtype,
         codecs,
@@ -418,7 +427,15 @@ fn image_info(
             .map_or(absent, |v| u32::try_from(v).unwrap_or(u32::MAX))
     };
     let (w0, h0, z0) = (im.size_x, im.size_y, size(AxisRole::Z));
-    let tiled = along(&l0.chunks, AxisRole::X, w0) < w0 || along(&l0.chunks, AxisRole::Y, h0) < h0;
+    // What a read decodes: the inner chunks of a sharded array, else its chunks.
+    let unit = |l: &ArrayMeta| -> Vec<u64> {
+        if l.inner_chunks.is_empty() {
+            l.chunks.clone()
+        } else {
+            l.inner_chunks.clone()
+        }
+    };
+    let tiled = along(&unit(l0), AxisRole::X, w0) < w0 || along(&unit(l0), AxisRole::Y, h0) < h0;
     if levels.len() > 1 || tiled {
         im.resolution_levels = levels
             .iter()
@@ -429,8 +446,8 @@ fn image_info(
                     along(&l.shape, AxisRole::Y, 1),
                 );
                 let mut r = ResolutionLevel::new(i as u32, w, h, w0, h0).with_tile(
-                    along(&l.chunks, AxisRole::X, w),
-                    along(&l.chunks, AxisRole::Y, h),
+                    along(&unit(l), AxisRole::X, w),
+                    along(&unit(l), AxisRole::Y, h),
                 );
                 let z = along(&l.shape, AxisRole::Z, 1);
                 if z != z0 {
@@ -1481,20 +1498,24 @@ impl Dataset for ZarrDataset {
                 }),
             });
             for (l, meta) in im.levels.iter().enumerate() {
+                let mut details = json!({
+                    "level": l,
+                    "shape": meta.shape,
+                    "chunks": meta.chunks,
+                    "dtype": meta.dtype,
+                    "codecs": meta.codecs,
+                    "scale": im.multiscale.levels.get(l).map(|x| x.scale.clone()),
+                });
+                if !meta.inner_chunks.is_empty() {
+                    details["inner_chunks"] = json!(meta.inner_chunks);
+                }
                 out.push(LsEntry {
                     kind: "pyramid-level".into(),
                     name: meta.path.clone(),
                     offset: None,
                     size: None,
                     image: Some(i as u32),
-                    details: json!({
-                        "level": l,
-                        "shape": meta.shape,
-                        "chunks": meta.chunks,
-                        "dtype": meta.dtype,
-                        "codecs": meta.codecs,
-                        "scale": im.multiscale.levels.get(l).map(|x| x.scale.clone()),
-                    }),
+                    details,
                 });
             }
             for lab in &im.labels {
