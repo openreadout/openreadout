@@ -67,7 +67,9 @@ Returns one row per peak (\code{chromatogram}, \code{area_unit}, \code{number}, 
 A qPCR run (RDML, Applied Biosystems \code{.eds}, Qiagen Rotor-Gene \code{.rex}; \code{x} is a path): one
 record per well and target with sample, target, dye, task, quantity, the instrument's Cq,
 replicate statistics and melting temperatures. Options: \code{well}, \code{target}, \code{sample}, \code{run}
-(only these records); \code{compute_cq} (recompute Cq with \code{threshold} and \code{baseline = c(first, last)} cycles, and compare); \code{ddcq} (relative quantities against
+(only these records); \code{compute_cq} (recompute Cq and compare; \code{cq_method} is "threshold",
+"stored-threshold" or "second-derivative", with \code{threshold} and \code{baseline = c(first, last)}
+cycles for the threshold methods); \code{ddcq} (relative quantities against
 \code{reference_targets} and \code{control_sample}); \code{standard_curve} (slope, R², efficiency per
 target); \code{max_records}; \code{undetermined_cq} (the Cq at which undetermined wells count).
 

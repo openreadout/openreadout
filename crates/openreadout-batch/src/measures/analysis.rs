@@ -43,9 +43,12 @@ pub struct QpcrQuery {
     pub sample: Option<String>,
     /// Only this run.
     pub run: Option<String>,
-    /// Also compute our own threshold Cq.
+    /// Also compute our own Cq.
     #[serde(default)]
     pub compute_cq: bool,
+    /// How `compute_cq` computes Cq; default: `second-derivative` for LightCycler 480 `.ixo`
+    /// files without a threshold or baseline window, else `threshold`.
+    pub cq_method: Option<openreadout_qpcr::CqMethod>,
     /// Threshold for `compute_cq`.
     pub threshold: Option<f64>,
     /// Baseline window for `compute_cq`, first cycle.
@@ -591,6 +594,7 @@ impl Measure for AnalysisMeasure {
                 req.sample.clone_from(&q.sample);
                 req.run.clone_from(&q.run);
                 req.compute_cq = q.compute_cq;
+                req.cq_method = q.cq_method;
                 req.threshold = q.threshold;
                 req.baseline = match (q.baseline_start, q.baseline_end) {
                     (Some(s), Some(e)) if s >= 1 && e > s => Some((s, e)),

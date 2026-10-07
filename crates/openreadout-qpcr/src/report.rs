@@ -1,4 +1,4 @@
-//! `openreadout analyze qpcr`: named per-well records, and the analyses — our own threshold Cq
+//! `openreadout analyze qpcr`: named per-well records, and the analyses — our own Cq
 //! compared with the vendor's, ΔΔCq relative quantification, standard curves.
 
 use std::collections::BTreeMap;
@@ -8,9 +8,37 @@ use serde::{Deserialize, Serialize};
 
 use openreadout_core::{Error, Result};
 
-use crate::analysis::{Baseline, linear_fit, mean_sd, threshold_cq};
+use crate::analysis::{
+    Baseline, CqCall, linear_fit, mean_sd, second_derivative_cq, stored_threshold_cq, threshold_cq,
+};
 use crate::dataset::QpcrDataset;
 use crate::model::{Assay, Dialect, Reaction, Run};
+
+/// How our Cq is computed (none of the methods reads the vendor's Cq or call).
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "kebab-case")]
+pub enum CqMethod {
+    /// Where the baseline-corrected curve crosses a threshold.
+    #[default]
+    Threshold,
+    /// A threshold crossing with only the threshold and baseline the file stores.
+    StoredThreshold,
+    /// The maximum of the second derivative, as the LightCycler 480 places its Cp.
+    SecondDerivative,
+}
+
+impl CqMethod {
+    /// The method used when the request names none: `second-derivative` for LightCycler 480
+    /// files, whose Cp is a second-derivative maximum, unless a threshold or baseline is
+    /// given; `threshold` otherwise.
+    fn default_for(dialect: Dialect, req: &QpcrReportRequest) -> Self {
+        if dialect == Dialect::Ixo && req.threshold.is_none() && req.baseline.is_none() {
+            Self::SecondDerivative
+        } else {
+            Self::Threshold
+        }
+    }
+}
 
 /// What `qpcr_report` returns: filters, and which analyses to run.
 #[derive(Debug, Clone, Default)]
@@ -24,8 +52,11 @@ pub struct QpcrReportRequest {
     pub sample: Option<String>,
     /// Only this run (RDML files with several plates).
     pub run: Option<String>,
-    /// Compute our own threshold Cq for every curve and compare it with the vendor's.
+    /// Compute our own Cq for every curve and compare it with the vendor's.
     pub compute_cq: bool,
+    /// How to compute our Cq; default: `second-derivative` for LightCycler 480 files without
+    /// a threshold or baseline in the request, else `threshold`.
+    pub cq_method: Option<CqMethod>,
     /// Threshold for our Cq (baseline-corrected units); default: the file's own threshold where
     /// it records the one in force, else automatic (10 SD of the baseline).
     pub threshold: Option<f64>,
@@ -139,24 +170,28 @@ pub struct QpcrAssayRecord {
     /// Relative quantity as the vendor computed it.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub vendor_rq: Option<f64>,
-    /// Our threshold Cq (with `compute_cq`).
+    /// Our Cq (with `compute_cq`).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub computed_cq: Option<f64>,
-    /// Threshold our Cq used.
+    /// Threshold our Cq used (none with `second-derivative`).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub computed_threshold: Option<f64>,
     /// `determined` or `undetermined` for our Cq (with `compute_cq`; a curve that never crosses
-    /// the threshold, or crosses it only at the last read, is undetermined).
+    /// the threshold, or crosses it only at the last read, is undetermined, and so is one that
+    /// rises too little for `second-derivative`). Absent when the method could not analyse the
+    /// curve.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub computed_cq_status: Option<String>,
     /// Number of cycles in the amplification curve.
     pub cycles: u32,
 }
 
-/// Our threshold Cq against the vendor's, over every curve with a vendor result.
+/// Our Cq against the vendor's, over every curve with a vendor result.
 #[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
 pub struct CqComparison {
-    /// How our Cq was computed.
+    /// The method used.
+    pub cq_method: CqMethod,
+    /// How our Cq was computed, in words.
     pub method: String,
     /// Curves compared.
     pub curves: u64,
@@ -378,6 +413,37 @@ fn settings(a: &Assay, dialect: Dialect, req: &QpcrReportRequest) -> (Option<f64
     )
 }
 
+/// `stored-threshold` on one assay: the request's threshold, else the one the file records as
+/// in force; the request's baseline window, else the vendor's corrected curve, background line
+/// or baseline window. `None` when one of them is missing, or a window is too short (the
+/// `threshold` method would replace it with a default one).
+fn stored_threshold_call(a: &Assay, req: &QpcrReportRequest) -> Option<CqCall> {
+    let c = a.amplification.as_ref()?;
+    let threshold = req
+        .threshold
+        .or(a.threshold.filter(|_| a.threshold_used))
+        .filter(|t| t.is_finite() && *t > 0.0)?;
+    let window = |(start, end): (u32, u32)| {
+        let long_enough = start >= 1
+            && start.checked_add(2).is_some_and(|min_end| end >= min_end)
+            && (end as usize) < c.cycles.len();
+        long_enough.then_some(Baseline::Window(start, end))
+    };
+    let (curve, baseline) = match (req.baseline, &c.corrected, a.background) {
+        (Some(w), _, _) => (&c.fluorescence, window(w)?),
+        (None, Some(corrected), _) => (corrected, Baseline::Line(0.0, 0.0)),
+        (None, None, Some(b)) => (
+            &c.fluorescence,
+            Baseline::Line(b, a.background_slope.unwrap_or(0.0)),
+        ),
+        (None, None, None) => (
+            &c.fluorescence,
+            window((a.baseline_start?, a.baseline_end?))?,
+        ),
+    };
+    stored_threshold_cq(&c.cycles, curve, threshold, baseline)
+}
+
 fn record(run: &Run, rx: &Reaction, a: Option<&Assay>) -> QpcrAssayRecord {
     let mut r = QpcrAssayRecord {
         run: run.name.clone(),
@@ -469,6 +535,13 @@ fn pearson(x: &[f64], y: &[f64]) -> Option<f64> {
 
 /// Records, analyses and notes for one opened file.
 pub fn qpcr_report(ds: &QpcrDataset, req: &QpcrReportRequest) -> Result<QpcrReport> {
+    if req.cq_method == Some(CqMethod::SecondDerivative)
+        && (req.threshold.is_some() || req.baseline.is_some())
+    {
+        return Err(Error::Usage(
+            "the second-derivative Cq method takes no threshold or baseline window: leave them out, or use the threshold or stored-threshold method".into(),
+        ));
+    }
     let data = &ds.data;
     let mut out = QpcrReport {
         path: ds.path().display().to_string(),
@@ -563,7 +636,15 @@ pub fn qpcr_report(ds: &QpcrDataset, req: &QpcrReportRequest) -> Result<QpcrRepo
     }
     // ---- our Cq
     if req.compute_cq {
-        let mut cmp = CqComparison::default();
+        let method = req
+            .cq_method
+            .unwrap_or_else(|| CqMethod::default_for(data.dialect, req));
+        let mut cmp = CqComparison {
+            cq_method: method,
+            ..CqComparison::default()
+        };
+        // curves the method could not analyse (no computed Cq or call)
+        let mut unanalysed = 0usize;
         let mut diffs = Vec::new();
         let (mut xs, mut ys) = (Vec::new(), Vec::new());
         for (rec, assay) in &mut rows {
@@ -571,8 +652,24 @@ pub fn qpcr_report(ds: &QpcrDataset, req: &QpcrReportRequest) -> Result<QpcrRepo
             let Some(c) = &assay.amplification else {
                 continue;
             };
-            let (thr, base, vendor_thr) = settings(assay, data.dialect, req);
-            let Some(mut call) = threshold_cq(&c.cycles, &c.fluorescence, thr, base) else {
+            // (Cq, threshold) of an analysed curve, and whether the threshold is the file's
+            let (call, vendor_threshold) = match method {
+                CqMethod::Threshold => {
+                    let (thr, base, from_file) = settings(assay, data.dialect, req);
+                    let call = threshold_cq(&c.cycles, &c.fluorescence, thr, base);
+                    (call.map(|c| (c.cq, Some(c.threshold))), from_file)
+                }
+                CqMethod::StoredThreshold => (
+                    stored_threshold_call(assay, req).map(|c| (c.cq, Some(c.threshold))),
+                    req.threshold.is_none(),
+                ),
+                CqMethod::SecondDerivative => (
+                    second_derivative_cq(&c.cycles, &c.fluorescence).map(|cq| (cq, None)),
+                    false,
+                ),
+            };
+            let Some((mut cq, threshold)) = call else {
+                unanalysed += 1;
                 continue;
             };
             // the vendor's rule: a Cq at (or past) the last cycle is no Cq
@@ -582,15 +679,15 @@ pub fn qpcr_report(ds: &QpcrDataset, req: &QpcrReportRequest) -> Result<QpcrRepo
                 .copied()
                 .filter(|x| x.is_finite())
                 .reduce(f64::max);
-            if let (Some(q), Some(l)) = (call.cq, last)
+            if let (Some(q), Some(l)) = (cq, last)
                 && q >= l
             {
-                call.cq = None;
+                cq = None;
             }
-            rec.computed_cq = call.cq;
-            rec.computed_threshold = Some(call.threshold);
+            rec.computed_cq = cq;
+            rec.computed_threshold = threshold;
             rec.computed_cq_status = Some(
-                if call.cq.is_some() {
+                if cq.is_some() {
                     CQ_DETERMINED
                 } else {
                     CQ_UNDETERMINED
@@ -601,10 +698,10 @@ pub fn qpcr_report(ds: &QpcrDataset, req: &QpcrReportRequest) -> Result<QpcrRepo
                 continue;
             }
             cmp.curves += 1;
-            if vendor_thr {
+            if vendor_threshold {
                 cmp.vendor_threshold_used += 1;
             }
-            match (assay.cq, call.cq) {
+            match (assay.cq, cq) {
                 (Some(v), Some(o)) => {
                     cmp.both_cq += 1;
                     diffs.push(o - v);
@@ -627,17 +724,34 @@ pub fn qpcr_report(ds: &QpcrDataset, req: &QpcrReportRequest) -> Result<QpcrRepo
             cmp.median_abs_difference = median(&mut abs);
             cmp.pearson_r = pearson(&xs, &ys);
         }
-        cmp.method = format!(
-            "threshold cycle on the stored fluorescence after subtracting a least-squares baseline line; threshold = {}; baseline = {}",
-            match req.threshold {
-                Some(t) => format!("{t} (given)"),
-                None => "the file's own where it records the threshold in force (JSON-layout .eds per well, RDML quantFluor), for SDS/7500-layout .eds the vendor's automatic threshold recovered as the median of its ΔRn at its Cq per target (log-interpolated), else 10 x SD of the baseline residuals".into(),
-            },
-            match req.baseline {
-                Some((s, e)) => format!("cycles {s}-{e} (given)"),
-                None => "the file's own: the per-well window (JSON-layout .eds, refitted by us), the background line (RDML bgFluor/bgFluorSlp; SDS/7500-layout .eds: the vendor's fitted line recovered as Rn - ΔRn); else a least-squares line through cycles 3-15 ended 3 cycles before the curve's Cq; crossings interpolated in log(fluorescence)".into(),
-            }
-        );
+        cmp.method = match method {
+            CqMethod::Threshold => format!(
+                "threshold cycle on the stored fluorescence after subtracting a least-squares baseline line; threshold = {}; baseline = {}",
+                match req.threshold {
+                    Some(t) => format!("{t} (given)"),
+                    None => "the file's own where it records the threshold in force (JSON-layout .eds per well, RDML quantFluor), for SDS/7500-layout .eds the vendor's automatic threshold recovered as the median of its ΔRn at its Cq per target (log-interpolated), else 10 x SD of the baseline residuals".into(),
+                },
+                match req.baseline {
+                    Some((s, e)) => format!("cycles {s}-{e} (given)"),
+                    None => "the file's own: the per-well window (JSON-layout .eds, refitted by us), the background line (RDML bgFluor/bgFluorSlp; SDS/7500-layout .eds: the vendor's fitted line recovered as Rn - ΔRn); else a least-squares line through cycles 3-15 ended 3 cycles before the curve's Cq; crossings interpolated in log(fluorescence)".into(),
+                }
+            ),
+            CqMethod::StoredThreshold => "stored-threshold: the threshold the file records as in force (or the given one), on the vendor's baseline-corrected curve where the file stores one, else after subtracting the file's background line or baseline window (or the given window); the crossing is a cubic through the two readings on either side in log(fluorescence), else log-linear; curves without these settings get no Cq".into(),
+            CqMethod::SecondDerivative => "second-derivative: the maximum of the second derivative (a quadratic fitted to nine cycles), placed between cycles by a quadratic through the seven values around it; no Cq when the curve rises less than 50 SD of its cycles 3-15 baseline".into(),
+        };
+        if unanalysed > 0 && method != CqMethod::Threshold {
+            out.notes.push(format!(
+                "{unanalysed} curves have no computed Cq or call: {}",
+                if method == CqMethod::StoredThreshold {
+                    "the file records no threshold in force or no baseline for them"
+                } else {
+                    "their second-derivative maximum falls in the first or last 7 cycles, too close to the ends for the fit, or the run has fewer than 18 cycles"
+                }
+            ));
+        }
+        if method == CqMethod::SecondDerivative {
+            out.notes.push("second-derivative Cq is within a few hundredths of a cycle of the LightCycler 480's Cp on average (up to 0.35 cycles); it does not reproduce other instruments' Cq".into());
+        }
         out.cq_comparison = Some(cmp);
     }
     // ---- Cq statuses and per-target means (undetermined left out unless substituted)
@@ -1023,6 +1137,84 @@ fn standard_curves(ds: &QpcrDataset, notes: &mut Vec<String>) -> Vec<StandardCur
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn stored_threshold_is_independent_of_stored_cq_and_calls() {
+        let mut assay = Assay {
+            threshold: Some(8.0),
+            threshold_used: true,
+            amplification: Some(crate::model::Curve {
+                cycles: vec![1.0, 2.0, 3.0, 4.0],
+                fluorescence: vec![101.0, 104.0, 116.0, 164.0],
+                corrected: Some(vec![1.0, 4.0, 16.0, 64.0]),
+                quantity: "Rn",
+            }),
+            ..Assay::default()
+        };
+        let req = QpcrReportRequest::default();
+        let original = stored_threshold_call(&assay, &req).unwrap();
+        assert!((original.cq.unwrap() - 2.5).abs() < 1e-12);
+        assay.cq = Some(37.0);
+        assay.cq_undetermined = true;
+        assay.estimated_threshold = Some(4000.0);
+        assert_eq!(stored_threshold_call(&assay, &req), Some(original));
+        assay.threshold_used = false;
+        assert!(stored_threshold_call(&assay, &req).is_none());
+        let mut override_req = req;
+        override_req.threshold = Some(8.0);
+        assert!(
+            (stored_threshold_call(&assay, &override_req)
+                .unwrap()
+                .cq
+                .unwrap()
+                - 2.5)
+                .abs()
+                < 1e-12
+        );
+    }
+
+    #[test]
+    fn stored_threshold_baseline_override_uses_raw_curve() {
+        let assay = Assay {
+            threshold: Some(8.0),
+            threshold_used: true,
+            amplification: Some(crate::model::Curve {
+                cycles: (1..=8).map(f64::from).collect(),
+                fluorescence: vec![100.0, 100.0, 100.0, 104.0, 116.0, 164.0, 356.0, 1124.0],
+                corrected: Some(vec![0.0; 8]),
+                ..crate::model::Curve::default()
+            }),
+            ..Assay::default()
+        };
+        let mut req = QpcrReportRequest::default();
+        assert_eq!(stored_threshold_call(&assay, &req).unwrap().cq, None);
+        req.baseline = Some((1, 3));
+        assert_eq!(stored_threshold_call(&assay, &req).unwrap().cq, Some(4.5));
+        req.baseline = Some((1, 2));
+        assert!(stored_threshold_call(&assay, &req).is_none());
+    }
+
+    #[test]
+    fn stored_threshold_requires_baseline_and_distinguishes_negative() {
+        let mut assay = Assay {
+            threshold: Some(10.0),
+            threshold_used: true,
+            amplification: Some(crate::model::Curve {
+                cycles: vec![1.0, 2.0, 3.0, 4.0],
+                fluorescence: vec![100.0; 4],
+                ..crate::model::Curve::default()
+            }),
+            ..Assay::default()
+        };
+        let req = QpcrReportRequest::default();
+        assert!(stored_threshold_call(&assay, &req).is_none());
+        assay.background = Some(100.0);
+        assert_eq!(stored_threshold_call(&assay, &req).unwrap().cq, None);
+        assay.background = None;
+        assay.baseline_start = Some(u32::MAX);
+        assay.baseline_end = Some(u32::MAX);
+        assert!(stored_threshold_call(&assay, &req).is_none());
+    }
 
     #[test]
     fn stats_helpers() {
