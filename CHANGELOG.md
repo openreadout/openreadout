@@ -28,6 +28,11 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- Agilent GC/MSD data directories (5975, 5977) returned every spectrum empty with no error. Their points, kept in `MSPeak.bin`, are now read.
+- Agilent 7010C GC triple-quadrupole full scans had wrong abundances (f32 values read as integers).
+- An Agilent data directory missing the `MSProfile.bin` its scans point into returned empty spectra. Such scans are now an error, and `info` names the missing file.
+- Agilent `.d` directories whose `MSScan.xsd` prefixes its type names (`mstns:`) were refused as corrupt.
+- mzML spectra that carry a text array (`null-terminated ASCII string`) failed as corrupt.
 - SoftMax Pro 6/7 documents (`.sda`) that read two wavelengths, as dual-wavelength ELISAs do, were refused. Each wavelength is now a read of the plate table.
 - Gen5 experiment files written by Gen5 1.x were refused. Their reads are now decoded, and the reader, serial number and Gen5 version of their plate description are read at the right offsets. A refused Gen5 file now says why.
 - Tecan i-control exports with several reads per well returned no values, and German i-control exports were not recognised. Each well's value is now i-control's `Mean`, and a workbook with one export per sheet gives one plate read per sheet.

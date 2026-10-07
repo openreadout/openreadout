@@ -1213,12 +1213,16 @@ impl AgilentDataset {
         };
         let data = if self.ims.is_some() { "profile" } else { data };
         extra.insert("stored_spectra".into(), json!(data));
-        // Profiles kept in an MSProfile.bin the directory does not hold (a partial copy).
+        // Scans whose only data is a profile kept in an MSProfile.bin the directory does not
+        // hold (a partial copy). A centroid-only acquisition still declares profile blocks; its
+        // scans are read from their peak lists.
         if self.profile_path.is_none()
             && self.records.iter().any(|r| {
-                r.block(FORMAT_PROFILE).is_some_and(|b| {
-                    b.point_count > 0 && b.byte_count > 0 && !self.is_gcms_points(b)
-                })
+                let (profile, peak) = self.blocks_of(r);
+                profile.is_none()
+                    && peak.is_none()
+                    && r.block(FORMAT_PROFILE)
+                        .is_some_and(|b| b.point_count > 0 && b.byte_count > 0)
             })
         {
             extra.insert("missing_files".into(), json!(["AcqData/MSProfile.bin"]));
