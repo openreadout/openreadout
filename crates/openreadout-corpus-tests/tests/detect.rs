@@ -159,11 +159,14 @@ fn detect_matches_manifest() {
                 e.role.as_str(),
                 "companion" | "analysis" | "oracle-export" | "sidecar"
             );
-            // A vendor export in a spreadsheet (a qPCR `.xls` Results export) may be claimed,
+            // A vendor export in a spreadsheet may be claimed,
             // without a signature, by the plate reader that opens workbooks.
             let weak_claim = e.role == "oracle-export" && unsure.contains(&p);
+            // A qPCR run's Results export is itself a readable file (`qpcr-results-export`).
+            let export_reader =
+                e.role == "oracle-export" && f.as_deref() == Some("qpcr-results-export");
             if f.as_deref() != Some(e.format.as_str())
-                && !(may_be_unknown && (f.is_none() || weak_claim))
+                && !(may_be_unknown && (f.is_none() || weak_claim || export_reader))
             {
                 problems.push(format!(
                     "{} ({}, role {}): detected as {f:?}",
