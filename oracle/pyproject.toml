@@ -15,7 +15,7 @@ dependencies = [
     "bioio",
     "bioio-nd2",
     "bioio-ome-tiff",
-    # OME-Zarr (NGFF 0.5 / Zarr v3) validation of `export --to ome-zarr` (Python >= 3.11 only):
+    # OME-Zarr (NGFF 0.5 / Zarr v3) validation of `export --format ome-zarr` (Python >= 3.11 only):
     "ome-zarr>=0.11; python_version >= '3.11'",
     "bioio-ome-zarr>=3; python_version >= '3.11'",
     "zarr>=3; python_version >= '3.11'",
@@ -23,7 +23,7 @@ dependencies = [
     "flowio>=1.4.0",
     "fcsparser>=0.2.4",
     # Plate readers: allotropy (MIT, Benchling) converts vendor exports to Allotrope ASM JSON;
-    # jsonschema validates our `export --to asm` output against the unmodified ASM schema.
+    # jsonschema validates our `export --format asm` output against the unmodified ASM schema.
     "jsonschema",
     # Olympus/Evident OIR: oirfile (BSD-3), Python >= 3.12 only. VSI has no permissive Python
     # reader; Bio-Formats bftools (GPL) is run as a black box from oracle/bftools by gen.py.
@@ -66,9 +66,9 @@ dependencies = [
     # Imaris IMS, NWB and generic HDF5: h5py (BSD-3) with hdf5plugin (MIT) for the LZ4 filter 32004
     "h5py",
     "hdf5plugin",
-    # Open exports: pyarrow (Apache-2.0) reads `export --to parquet|arrow`; pynwb (BSD-3) and
-    # nwbinspector (BSD-3) read and inspect `export --to nwb` (nmrglue and jcamp above read
-    # `export --to jcamp`).
+    # Open exports: pyarrow (Apache-2.0) reads `export --format parquet|arrow`; pynwb (BSD-3) and
+    # nwbinspector (BSD-3) read and inspect `export --format nwb` (nmrglue and jcamp above read
+    # `export --format jcamp`).
     "pyarrow>=17",
     "pynwb>=2.8",
     "nwbinspector>=0.6",
@@ -106,7 +106,7 @@ dependencies = [
 [dependency-groups]
 plate = ["allotropy==0.1.147"]
 chrom = ["rainbow-api>=1.5.2"]
-# qPCR: rdmlpython (MIT, RDML consortium) reads and validates RDML (including `export --to rdml`);
+# qPCR: rdmlpython (MIT, RDML consortium) reads and validates RDML (including `export --format rdml`);
 # qslib (EUPL-1.2, copyleft) is run as a black box only, as a second reader of QuantStudio .eds.
 #   uv run --group qpcr python qpcr.py <file>
 qpcr = ["rdmlpython>=1.7.2", "qslib>=0.15", "xlrd>=2.0"]  # xlrd (BSD-3): vendor .xls result exports (held-out cross-checks)

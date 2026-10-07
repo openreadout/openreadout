@@ -55,7 +55,7 @@ output:
           description: Groovy Map describing the batch
       - "*.summary.csv":
           type: file
-          description: Group summary (only when `task.ext.args2` holds `openreadout batch summarize` options)
+          description: Group summary (only when `task.ext.args2` holds `openreadout summarize` options)
           pattern: "*.summary.csv"
           ontologies:
             - edam: "http://edamontology.org/format_3752"

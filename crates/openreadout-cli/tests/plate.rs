@@ -47,7 +47,7 @@ fn plate_reader_export_info_check_csv_asm() {
     // CSV: well names, NaN for the overflow cell, read back and verified
     let csv = dir.join("reads.csv");
     let out = bin()
-        .args(["export", "--to", "csv", "--json", "-o"])
+        .args(["export", "--format", "csv", "--json", "-o"])
         .arg(&csv)
         .arg(&f)
         .output()
@@ -65,7 +65,7 @@ fn plate_reader_export_info_check_csv_asm() {
     // ASM plate-reader JSON
     let asm = dir.join("reads.asm.json");
     let out = bin()
-        .args(["export", "--to", "asm", "--json", "-o"])
+        .args(["export", "--format", "asm", "--json", "-o"])
         .arg(&asm)
         .arg(&f)
         .output()

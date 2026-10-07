@@ -315,11 +315,11 @@ fn write_output(
         }
         "csv" => {
             let mut t = openreadout_quant::dataset::ChromatogramTable::new(out);
-            crate::csv::export_csv(
+            openreadout_batch::csv::export_csv(
                 &mut t,
                 input,
                 output,
-                &crate::csv::CsvOptions {
+                &openreadout_batch::csv::CsvOptions {
                     table: Some(0),
                     rows: None,
                     labels: false,

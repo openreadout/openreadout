@@ -477,7 +477,7 @@ impl Dataset for AtfDataset {
         Err(Error::unsupported(
             ATF_FORMAT_ID,
             "image planes",
-            "ATF files hold sampled signals: use `openreadout trace` or `openreadout export --to csv`.",
+            "ATF files hold sampled signals: use `openreadout trace` or `openreadout export --format csv`.",
         ))
     }
 

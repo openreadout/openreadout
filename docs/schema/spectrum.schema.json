@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SpectrumOutput",
-  "description": "Output of `spectra --scan`/`--index`: one spectrum with its arrays.",
+  "description": "Output of `spectrum`: one spectrum with its arrays.",
   "type": "object",
   "properties": {
     "path": {

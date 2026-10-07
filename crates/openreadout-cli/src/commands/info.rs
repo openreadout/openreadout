@@ -55,16 +55,21 @@ pub struct InfoArgs {
     /// there are; `plate.wells[].images` indexes every field).
     #[arg(long, value_name = "N")]
     pub max_images: Option<usize>,
-    /// `--view full`: omit the (often large) vendor metadata tree.
+    /// `--view full`: include the vendor's raw metadata tree (it can be megabytes).
     #[arg(long, help_heading = "--view full")]
-    pub no_vendor: bool,
+    pub vendor: bool,
     /// `--view full`: omit the provenance map.
     #[arg(long, help_heading = "--view full")]
     pub no_provenance: bool,
-    /// `--view full`: embed every per-frame record under `images[].extra.frames` (default:
-    /// the first 100 per image).
-    #[arg(long, help_heading = "--view full")]
-    pub all_frames: bool,
+    /// `--view full`: per-frame records per image under `images[].extra.frames`. Default 100;
+    /// 0 leaves them out, -1 embeds all.
+    #[arg(
+        long,
+        value_name = "N",
+        allow_negative_numbers = true,
+        help_heading = "--view full"
+    )]
+    pub max_frames: Option<i64>,
     /// `--view full`: replace values flagged as personal data (operator names, e-mails,
     /// phone numbers, patient-like ids, dates of birth, free-text comments) with stable
     /// salted hashes. Needs a salt: `--salt-file` or OPENREADOUT_REDACT_SALT
@@ -103,12 +108,12 @@ pub fn run(reg: &Registry, a: &InfoArgs) -> i32 {
         a.view
     };
     let full_only =
-        a.no_vendor || a.no_provenance || a.all_frames || a.redact || a.sidecar.is_some();
+        a.vendor || a.no_provenance || a.max_frames.is_some() || a.redact || a.sidecar.is_some();
     if full_only && view != InfoView::Full {
         return fail(
             a.json,
             &Error::Usage(
-                "--no-vendor, --no-provenance, --all-frames, --redact and --sidecar go with --view full".into(),
+                "--vendor, --no-provenance, --max-frames, --redact and --sidecar go with --view full".into(),
             ),
         );
     }
@@ -170,9 +175,9 @@ pub fn run(reg: &Registry, a: &InfoArgs) -> i32 {
 /// `info --view full`: print the dump (optionally redacted), or write sidecars.
 fn run_full<'a>(reg: &Registry, a: &'a InfoArgs, spec: impl Fn(Stdin) -> Spec<'a>) -> i32 {
     let options = sidecar::SidecarOptions {
-        vendor: !a.no_vendor,
+        vendor: a.vendor,
         provenance: !a.no_provenance,
-        all_frames: a.all_frames,
+        max_frames: a.max_frames.unwrap_or(sidecar::DEFAULT_MAX_FRAMES),
     };
     if let Some(dir) = &a.sidecar {
         return batch::run(
@@ -236,8 +241,11 @@ pub(crate) fn dump(
 ) -> Result<Dump> {
     let (_, ds) = reg.open(file)?;
     let mut info = ds.info()?;
-    let limit = (!options.all_frames).then_some(openreadout_core::reader::DEFAULT_FRAME_RECORDS);
-    openreadout_core::reader::attach_frames(ds.as_ref(), &mut info, limit)?;
+    // max_frames: -1 (any negative) embeds every record, 0 none.
+    let limit = usize::try_from(options.max_frames).ok();
+    if limit != Some(0) {
+        openreadout_core::reader::attach_frames(ds.as_ref(), &mut info, limit)?;
+    }
     let mut summary = InfoOutput::new(ds.as_ref(), info);
     summary.cap_images(max_images);
     Ok(Dump {

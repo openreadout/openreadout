@@ -142,7 +142,7 @@ fn unicorn_export_through_the_cli() {
     // CSV of the curve: time, volume and value columns
     let csv = dir.path().join("uv.csv");
     let out = bin()
-        .args(["export", "--to", "csv", "--trace", "0", "--json", "-o"])
+        .args(["export", "--format", "csv", "--trace", "0", "--json", "-o"])
         .arg(&csv)
         .arg(&f)
         .output()

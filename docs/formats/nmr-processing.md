@@ -1,6 +1,6 @@
 # NMR processing
 
-OpenReadout can turn NMR FIDs into spectra, pick peaks and integrate regions. This works on top of the Bruker, Varian/Agilent, JEOL, Magritek Spinsolve and JCAMP-DX readers. Use it with `openreadout analyze nmr-peaks`, with `--process` on `trace`, `export` and `preview`, or through the MCP tool `openreadout_analyze` (kind `nmr-peaks`). This page describes the processing steps, their defaults and how they were validated. It is not a file format; its vocabulary table covers the analysis code. Code: `crates/openreadout-signal/src/nmr/`. Provenance: [`docs/provenance/nmr-processing.md`](https://github.com/openreadout/openreadout/blob/main/docs/provenance/nmr-processing.md).
+OpenReadout can turn NMR FIDs into spectra, pick peaks and integrate regions. This works on top of the Bruker, Varian/Agilent, JEOL, Magritek Spinsolve and JCAMP-DX readers. Use it with `openreadout analyze nmr-peaks`, with `--process` on `trace`, `export` and `preview`, or through the MCP tool `openreadout_nmr_peaks`. This page describes the processing steps, their defaults and how they were validated. It is not a file format; its vocabulary table covers the analysis code. Code: `crates/openreadout-signal/src/nmr/`. Provenance: [`docs/provenance/nmr-processing.md`](https://github.com/openreadout/openreadout/blob/main/docs/provenance/nmr-processing.md).
 
 ## What it does
 
@@ -11,7 +11,7 @@ OpenReadout can turn NMR FIDs into spectra, pick peaks and integrate regions. Th
   `--from fid` always processes the FID; `--from processed` only uses a stored spectrum.
 - `trace/export/preview --process` present every complex FID trace as its processed spectrum
   (same trace index; channels `real`, `imag`, or `magnitude`; `extra.kind = processed_spectrum`,
-  `extra.axis` in ppm), so `export --process --to jcamp|csv|parquet` writes the spectrum.
+  `extra.axis` in ppm), so `export --process --format jcamp|csv|parquet` writes the spectrum.
 
 Only 1-D processing is done: a `ser` or arrayed FID is processed row by row (`--sweep`), the
 indirect dimension of 2-D data is not transformed.

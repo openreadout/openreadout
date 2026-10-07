@@ -1,7 +1,7 @@
 //! `cargo xtask variant intake|status|check`: the maintainer side of the new-variant loop
 //! (docs/maintaining.md).
 //!
-//! A user whose file is refused or not validated runs `openreadout check FILE --report` and files
+//! A user whose file is refused or not validated runs `openreadout report FILE` and files
 //! the bundle in a new-variant issue, ideally with a vendor export of the same file and a public
 //! deposit. `variant intake` turns what arrives into the pieces a fix needs:
 //!
@@ -512,7 +512,7 @@ fn provenance_stub(r: &Record, filename: &str, a: &IntakeArgs) -> String {
     s
 }
 
-/// What intake asks the CLI (`check --report`, `info --view format`), as JSON.
+/// What intake asks the CLI (`report`, `info --view format`), as JSON.
 type Cli<'a> = &'a dyn Fn(&[&str], &Path) -> Result<serde_json::Value>;
 
 fn intake(root: &Path, corpus: &Path, a: &IntakeArgs) -> Result<()> {
@@ -547,16 +547,10 @@ fn intake_with(root: &Path, corpus: &Path, a: &IntakeArgs, cli: Cli<'_>) -> Resu
     let report = if let Some(b) = &bundle {
         b.clone()
     } else {
-        let v = cli(
-            &["check", "--report", "--dry-run", "--json", "--include-text"],
-            input,
-        )?;
+        let v = cli(&["report", "--dry-run", "--json", "--include-text"], input)?;
         let r = v["data"]["report"].clone();
         if !r.is_object() {
-            bail!(
-                "openreadout check --report failed on {}: {v}",
-                input.display()
-            );
+            bail!("openreadout report failed on {}: {v}", input.display());
         }
         r
     };
@@ -600,7 +594,7 @@ fn intake_with(root: &Path, corpus: &Path, a: &IntakeArgs, cli: Cli<'_>) -> Resu
     }
 }
 
-/// The input as a `check --report` bundle (alone or in its JSON envelope), if it is one.
+/// The input as a `report` bundle (alone or in its JSON envelope), if it is one.
 fn read_bundle(input: &Path) -> Option<serde_json::Value> {
     if !(input.is_file() && input.extension().is_some_and(|e| e == "json")) {
         return None;
@@ -963,7 +957,7 @@ fn next_steps(
         }
     }
     step(format!(
-        "Reproduce: cargo test -p openreadout-corpus-tests --features corpus --test intake (fails now: expects opens, level >= {}, an oracle); inspect with openreadout info --view structure|full or openreadout check --report: {}",
+        "Reproduce: cargo test -p openreadout-corpus-tests --features corpus --test intake (fails now: expects opens, level >= {}, an oracle); inspect with openreadout info --view structure|full or openreadout report: {}",
         r.expect.min_level,
         crate::corpus_dir().join(filename).display()
     ));
@@ -1144,7 +1138,7 @@ mod tests {
         let export = src.path().join("new.ome.tiff");
         fs::write(&export, b"export").unwrap();
         let cli = |args: &[&str], _: &Path| -> Result<serde_json::Value> {
-            Ok(if args.contains(&"--report") {
+            Ok(if args.first() == Some(&"report") {
                 serde_json::json!({"data": {"report": report()}})
             } else {
                 serde_json::json!({"data": {"format": "tiff"}})

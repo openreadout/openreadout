@@ -59,7 +59,7 @@ PROBES = {
     "detect": ["info", "--view", "format"],
     "info": ["info"],
     "check": ["check"],
-    "dump": ["info", "--view", "full"],
+    "dump": ["info", "--view", "full", "--vendor"],
 }
 
 

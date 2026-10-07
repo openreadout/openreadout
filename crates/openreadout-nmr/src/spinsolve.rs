@@ -1095,7 +1095,7 @@ impl Dataset for SpinsolveDataset {
         Err(Error::unsupported(
             SPINSOLVE_FORMAT_ID,
             "image planes",
-            "Spinsolve NMR data are traces (FIDs and spectra), not images: use `openreadout trace`, `openreadout analyze nmr-peaks`, or `openreadout export --to csv`.",
+            "Spinsolve NMR data are traces (FIDs and spectra), not images: use `openreadout trace`, `openreadout analyze nmr-peaks`, or `openreadout export --format csv`.",
         ))
     }
 

@@ -9,7 +9,7 @@ info <- openreadout_info("run42.czi")                   # metadata: images, chan
 img  <- openreadout_read_image("run42.czi", image = 2)  # array [x, y, z, c, t]
 ev   <- openreadout_table("tube1.fcs")                  # FCS events, one column per parameter
 tr   <- openreadout_trace("cell3.abf", sweep = 3)       # time_s and one column per channel
-sp   <- openreadout_spectra("sample.raw", scan = 1200)  # mz and intensity
+sp   <- openreadout_spectrum("sample.raw", scan = 1200)  # mz and intensity
 xic  <- openreadout_analyze("sample.raw", "chromatogram", mz = 195.0877, ppm = 5)
 pk   <- openreadout_analyze("run.D", "peaks", traces = 1)  # one row per integrated peak
 openreadout_export("run42.czi", "run42.ome.tiff")       # verified by reading it back
@@ -54,7 +54,8 @@ Data:
 - `openreadout_levels(x, image)`: the pyramid levels of an image.
 - `openreadout_table(x, table, first_row, n_max)`: FCS events, plate reads, and peak and event tables, as a data frame.
 - `openreadout_trace(x, trace, sweep, first_sample, n_max)`: one row per sample, with the x axis and one column per channel in physical units.
-- `openreadout_spectra(x, scan, index, run, centroid, ms_level, ...)`: the scan headers of a mass-spectrometry run, or with `scan` or `index` one mass spectrum.
+- `openreadout_scans(x, run, ms_level, ...)`: the scan headers of a mass-spectrometry run.
+- `openreadout_spectrum(x, scan, spectrum, run, centroid)`: one mass spectrum.
 - `openreadout_stats(x, image, select, per, wells)`: pixel statistics per channel, image or plane; `per = "well"` (or `"field"`) gives per-well statistics of a screening plate.
 
 Analyses:
@@ -63,7 +64,7 @@ Analyses:
 
 Many files and export:
 
-- `openreadout_batch(measure, inputs, sample_sheets, where, by, ...)`: one tidy table over many files, with a group summary. See [Many files](batch.md). `openreadout_batch("summarize", table, by, ...)` gives the group statistics of a table written earlier.
+- `openreadout_batch(measure, inputs, sample_sheets, where, by, ...)`: one tidy table over many files, with a group summary. See [Many files](batch.md). `openreadout_summarize(table, by, ...)` gives the group statistics of a table written earlier.
 - `openreadout_link(paths)`: files of the same sample across instruments.
 - `openreadout_export(x, output, to, ...)`: OME-TIFF, OME-Zarr, mzML, Parquet, Arrow or RDML, chosen from the file extension and verified by reading it back.
 

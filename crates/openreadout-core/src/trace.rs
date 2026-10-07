@@ -514,7 +514,7 @@ fn axis_window(
                     "an axis window on trace {}: it has no axis and no time base",
                     req.trace
                 ),
-                "Use --first/--count (sample indices).",
+                "Use --first-sample/--count (sample indices).",
             ));
         }
     };

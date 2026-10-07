@@ -110,7 +110,7 @@ pub fn explain_with(
         ex.suggested_commands.insert(
             pos,
             format!(
-                "openreadout spectra {file} --ms-level 2 --nth 1 --json   # the first MS/MS scan, wherever it falls in the run"
+                "openreadout spectrum {file} --ms-level 2 --nth 1 --json   # the first MS/MS scan, wherever it falls in the run"
             ),
         );
     }
@@ -218,9 +218,8 @@ fn explain_info(info: &FileInfo) -> Explanation {
     ex.suggested_commands.splice(0..0, next);
     ex.suggested_commands
         .push(format!("openreadout check {file}"));
-    ex.suggested_commands.push(format!(
-        "openreadout info {file} --view full --json --no-vendor"
-    ));
+    ex.suggested_commands
+        .push(format!("openreadout info {file} --view full --json"));
 
     for n in &info.notes {
         ex.caveats.push(sentence(n));
@@ -338,7 +337,7 @@ fn explain_images(info: &FileInfo, file: &str, ex: &mut Explanation) {
     });
     if big {
         ex.suggested_commands.push(format!(
-            "openreadout export {file} --to ome-zarr   # large or pyramidal: a chunked, multiscale copy for napari/viewers"
+            "openreadout export {file} --format ome-zarr   # large or pyramidal: a chunked, multiscale copy for napari/viewers"
         ));
     }
     // A multi-well plate (one image per field of view): per-well numbers and a plate export.
@@ -348,7 +347,7 @@ fn explain_images(info: &FileInfo, file: &str, ex: &mut Explanation) {
             "openreadout stats {file} --per well --select c=0   # per-well intensities of channel 0 (tidy rows; --csv)"
         ));
         ex.suggested_commands.push(format!(
-            "openreadout export {file} --to ome-zarr --skip-incomplete   # an OME-NGFF HCS plate (fields whose files are missing left out)"
+            "openreadout export {file} --format ome-zarr --skip-incomplete   # an OME-NGFF HCS plate (fields whose files are missing left out)"
         ));
     } else {
         ex.suggested_commands.push(format!(
@@ -385,11 +384,11 @@ fn explain_images(info: &FileInfo, file: &str, ex: &mut Explanation) {
         .any(|i| i.extra.contains_key("frame_records_total"))
     {
         ex.suggested_commands.push(format!(
-            "openreadout info {file} --view full --json --no-vendor --all-frames   # per-frame timestamps and stage positions"
+            "openreadout info {file} --view full --json --max-frames -1   # per-frame timestamps and stage positions"
         ));
     }
     ex.suggested_commands.push(format!(
-        "openreadout check {file} --planes --json   # pixel hashes, to compare copies"
+        "openreadout planes {file} --json   # pixel hashes, to compare copies"
     ));
 }
 
@@ -771,7 +770,7 @@ fn timing_paragraph(images: &[ImageInfo]) -> Option<String> {
         .sum();
     if records > 0 {
         parts.push(format!(
-            "The file keeps a record for each of its {} (acquisition time, stage position and similar; `info --view full --all-frames` lists them).",
+            "The file keeps a record for each of its {} (acquisition time, stage position and similar; `info --view full --max-frames -1` lists them).",
             count_u64(records, "frame")
         ));
     }
@@ -1182,17 +1181,17 @@ fn flow_parameter_kinds(t: &TableInfo) -> String {
 
 fn table_commands(info: &FileInfo, file: &str, ex: &mut Explanation) {
     ex.suggested_commands.push(format!(
-        "openreadout export {file} --to csv --labels   # events as a spreadsheet (one row per event)"
+        "openreadout export {file} --format csv --labels   # events as a spreadsheet (one row per event)"
     ));
     if info.tables.len() > 1 {
         ex.suggested_commands.push(format!(
-            "openreadout export {file} --to csv --table 1   # the second of {} data sets",
+            "openreadout export {file} --format csv --table 1   # the second of {} data sets",
             info.tables.len()
         ));
     }
     if info.tables.iter().any(|t| t.row_count > 100_000) {
         ex.suggested_commands.push(format!(
-            "openreadout export {file} --to csv --rows 0-9999   # the first 10,000 events only"
+            "openreadout export {file} --format csv --rows 0-9999   # the first 10,000 events only"
         ));
     }
     if info.format.family == "flow-cytometry" {
@@ -1938,7 +1937,7 @@ fn answer_ms_levels(info: &FileInfo) -> Answer {
         format!("MS levels present: {}.", parts.join("; "))
     };
     if r.ms_levels.iter().any(|l| *l > 1) {
-        s.push_str(" MS1 and MS/MS scans are interleaved, so do not assume the first scans are MS1: `openreadout spectra FILE --ms-level 2 --nth 1` returns the first MS/MS scan (with its precursor m/z).");
+        s.push_str(" MS1 and MS/MS scans are interleaved, so do not assume the first scans are MS1: `openreadout spectrum FILE --ms-level 2 --nth 1` returns the first MS/MS scan (with its precursor m/z).");
     }
     let mut fields = vec![format!("spectra[{}].ms_levels", r.index)];
     if counts.is_some() {
@@ -2562,7 +2561,7 @@ mod tests {
         );
         assert!(
             e.suggested_commands[0].contains("components")
-                && e.suggested_commands[1].contains("--to ome-zarr"),
+                && e.suggested_commands[1].contains("--format ome-zarr"),
             "{:?}",
             e.suggested_commands
         );
@@ -2612,7 +2611,7 @@ mod tests {
         assert!(
             e.suggested_commands
                 .iter()
-                .any(|c| c.contains("--all-frames"))
+                .any(|c| c.contains("--max-frames -1"))
         );
         assert!(
             !e.suggested_commands
@@ -2685,7 +2684,7 @@ mod tests {
         assert!(
             e.suggested_commands[0].contains("table") && e.suggested_commands[0].contains("--tidy")
         );
-        assert!(e.suggested_commands[1].contains("--to csv --labels"));
+        assert!(e.suggested_commands[1].contains("--format csv --labels"));
         assert!(
             e.suggested_commands
                 .iter()

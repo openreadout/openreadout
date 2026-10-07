@@ -1564,7 +1564,7 @@ impl Dataset for AgilentDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "images",
-            "MassHunter data holds spectra and signals; use `spectra` or `trace`.",
+            "MassHunter data holds spectra and signals; use `scans`, `spectrum` or `trace`.",
         ))
     }
 

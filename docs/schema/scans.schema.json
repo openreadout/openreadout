@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ScanList",
-  "description": "Output of `spectra` (scan list): the matching scans of one run, one page of them listed.",
+  "description": "Output of `scans`: the matching scans of one run, one page of them listed.",
   "type": "object",
   "properties": {
     "path": {
@@ -187,13 +187,13 @@
       "type": "object",
       "properties": {
         "index": {
-          "description": "Zero-based spectrum index within its run (`spectra --index`).",
+          "description": "Zero-based spectrum index within its run (`spectrum --spectrum`).",
           "type": "integer",
           "format": "uint64",
           "minimum": 0
         },
         "scan_number": {
-          "description": "Scan number as the instrument counts it (`spectra --scan`).",
+          "description": "Scan number as the instrument counts it (`spectrum --scan`).",
           "type": "integer",
           "format": "uint64",
           "minimum": 0

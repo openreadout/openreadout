@@ -5,7 +5,7 @@ Use this when a plate reader has measured a dilution series of one or more compo
 ## Run it
 
 ```text
-$ openreadout analyze assay dose-response assay-synth-dose-response.csv --layout assay-synth-dose-response-layout.csv
+$ openreadout analyze dose-response assay-synth-dose-response.csv --layout assay-synth-dose-response-layout.csv
 assay-synth-dose-response.csv — dose-response of read 1 `RLU`
 layout: assay-synth-dose-response-layout.csv (negative 8, positive 8, sample 80)
 outliers (grubbs): F10 (flagged, kept)
@@ -53,7 +53,7 @@ A12,positive,,
 `--normalize controls` converts every well to percent effect between the negative (0 %) and positive (100 %) controls before fitting. The IC50 values stay the same; `top`, `bottom` and the Hill slope are now in percent effect:
 
 ```text
-$ openreadout analyze assay dose-response assay-synth-dose-response.csv --layout assay-synth-dose-response-layout.csv --normalize controls
+$ openreadout analyze dose-response assay-synth-dose-response.csv --layout assay-synth-dose-response-layout.csv --normalize controls
 ...
 CPD-A: IC50 0.235142 (95% CI 0.199935–0.27655), Hill 0.964425, top 99.994519, bottom 0.107985
 ```
@@ -62,12 +62,12 @@ CPD-A: IC50 0.235142 (95% CI 0.199935–0.27655), Hill 0.964425, top 99.994519, 
 
 ### Plate quality only
 
-`analyze assay qc` reports the same quality block without fitting. Without a layout, mark the controls with flags:
+`analyze assay-qc` reports the same quality block without fitting. Without a layout, mark the controls with flags:
 
 ```text
-$ openreadout analyze assay qc assay-synth-dose-response.csv --positive A12:H12 --negative A11:H11
+$ openreadout analyze assay-qc assay-synth-dose-response.csv --positive-wells A12:H12 --negative-wells A11:H11
 assay-synth-dose-response.csv — qc of read 1 `RLU`
-layout: --positive, --negative (negative 8, positive 8, unassigned 80)
+layout: --positive-wells, --negative-wells (negative 8, positive 8, unassigned 80)
 ...
 quality: Z′ 0.889149 (excellent), S/B 51.933796, S/N 28.672203, SSMD -28.621679, median replicate CV 6.990138%
 ```
@@ -77,7 +77,7 @@ Z′ is the same. The median replicate CV differs from the run above because, wi
 ### Tables and a plot
 
 ```text
-$ openreadout analyze assay dose-response assay-synth-dose-response.csv --layout assay-synth-dose-response-layout.csv --csv dr --preview dr.png
+$ openreadout analyze dose-response assay-synth-dose-response.csv --layout assay-synth-dose-response-layout.csv --csv dr --plot dr.png
 ...
 wrote dr.samples.csv
 wrote dr.compounds.csv
@@ -98,10 +98,10 @@ plates/plate1.csv  plate   CPD-B     IC50  1.8251     -1.5585
 ...
 ```
 
-The MCP tool is `openreadout_analyze` with `kind: "assay"`, `analysis: "dose-response"` and `layout`.
+The MCP tool is `openreadout_dose_response`, with `file` and `layout`.
 
 ## More
 
 - [Plate-reader assays](../guides/plate-analysis.md): layouts, roles, the fit and every output field.
-- [`analyze` reference](../reference/commands/analyze.md#assay): every flag.
+- [`analyze` reference](../reference/commands/analyze.md#plate-reader-assays): every flag.
 - JSON: [`assay`](../reference/json/assay.md).

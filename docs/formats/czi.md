@@ -104,10 +104,10 @@ Payloads we interpret or expose (corpus evidence in `docs/provenance/czi.md`):
 | --- | --- | --- | --- |
 | `CZTIMS` | `TimeStamps` | u32 `size` (unreliable across writers), u32 `count`, `count` × f64 seconds | `parse_time_stamps` → `images[].extra.time_stamps_s` (per T, relative clock) and `planes[].extra.time_stamp_s` |
 | `CZEVL` | `EventList` | u32 `size`, u32 `count`, then records: i32 `entry_size`, f64 `time_s`, i32 `event_code`, i32 text size, text (NUL-terminated) | `parse_event_list` → `images[].extra.events` (`kind`: `marker`, `interval_change`, `bleach_start`, `bleach_stop`, `trigger`) |
-| `JPG` | `Thumbnail` | a JPEG file | listed; `export --attachment` writes it (`.jpg`) |
-| `CZI` | `Label`, `SlidePreview` | a complete embedded CZI file | listed; `export --attachment` writes it (`.czi`), which every command then reads |
-| `Zip-Comp` | `Profile` | gzip-compressed XML | listed; `export --attachment` writes it (`.gz`) |
-| anything else | | opaque | listed; `export --attachment` writes it (`.bin`, `.xml` for `CZEXP`/`CZHWS`) |
+| `JPG` | `Thumbnail` | a JPEG file | listed; `extract` writes it (`.jpg`) |
+| `CZI` | `Label`, `SlidePreview` | a complete embedded CZI file | listed; `extract` writes it (`.czi`), which every command then reads |
+| `Zip-Comp` | `Profile` | gzip-compressed XML | listed; `extract` writes it (`.gz`) |
+| anything else | | opaque | listed; `extract` writes it (`.bin`, `.xml` for `CZEXP`/`CZHWS`) |
 
 `extension_for` maps content types to file extensions. Payloads larger than `MAX_INTERPRETED_ATTACHMENT` (64 MiB) are never interpreted, only extracted.
 
@@ -211,7 +211,7 @@ METADATA/Tags/{AcquisitionTime, StageXPosition, StageYPosition, FocusPosition, D
 
 Colours are `#AARRGGBB`; we drop the alpha byte. Where the image channel lacks a colour, name, dye or wavelength, the `DisplaySetting` channel with the same `Id` fills it (by position when no ids match).
 
-Normalized extras per image (`images[].extra`): `experimenter` (`{user_name}`: `Document/UserName`, else `User/DisplayName`), `scene` (`index`, `center_position_um`, `contour_size_um`, `well` {`name`, `id`, `row_index`, `column_index`}), `experiment` (`version`, `acquisition_blocks`, `active_setups`, `time_series_cycles`, `time_series_interval_s`), `time_stamps_s`, `events`, `pyramid`. Per-frame records in `info --view full` (`images[].extra.frames`, the core's `Dataset::frames`; one record per plane, ordered t, then z, then c; first 100 per image unless `--all-frames`): `frame` (running index), `c`, `z`, `t`, `acquired_at` (subblock `AcquisitionTime`), `time_ms` (milliseconds since the image's earliest record, from those times when every record has one, else from the time stamps), `stage_x_um`/`stage_y_um`/`stage_z_um` (subblock `StageXPosition`/`StageYPosition`/`FocusPosition`), `exposure_ms` (subblock `DetectorState`, else the channel's `ExposureTime`), `time_stamp_s` (the `TimeStamps` value for that T). Field names follow the ND2 frame records.
+Normalized extras per image (`images[].extra`): `experimenter` (`{user_name}`: `Document/UserName`, else `User/DisplayName`), `scene` (`index`, `center_position_um`, `contour_size_um`, `well` {`name`, `id`, `row_index`, `column_index`}), `experiment` (`version`, `acquisition_blocks`, `active_setups`, `time_series_cycles`, `time_series_interval_s`), `time_stamps_s`, `events`, `pyramid`. Per-frame records in `info --view full` (`images[].extra.frames`, the core's `Dataset::frames`; one record per plane, ordered t, then z, then c; first 100 per image unless `--max-frames -1`): `frame` (running index), `c`, `z`, `t`, `acquired_at` (subblock `AcquisitionTime`), `time_ms` (milliseconds since the image's earliest record, from those times when every record has one, else from the time stamps), `stage_x_um`/`stage_y_um`/`stage_z_um` (subblock `StageXPosition`/`StageYPosition`/`FocusPosition`), `exposure_ms` (subblock `DetectorState`, else the channel's `ExposureTime`), `time_stamp_s` (the `TimeStamps` value for that T). Field names follow the ND2 frame records.
 
 ## Image geometry
 
@@ -257,7 +257,7 @@ No public multi-file CZI exists in the corpus; this section is inferred from the
 | `min_z`, `min_c`, `min_t`, `tile_count` | per-scene index origins and tile count |
 | `Level`, `levels`, `scale_x`, `scale_y`, `level_scale_range`, `AxisScale`, `STORED_SIZE_SLACK`, `snap_factor`, `level_place` | pyramid levels: downsampling factors, grouping of subblocks and the level pixel grid |
 | `FilePart`, `parts`, `present`, `part_problem`, `part_file`, `part_path`, `master_path` | multi-file documents: following parts and their discovery |
-| `ATTACHMENT_DATA_OFFSET`, `MAX_INTERPRETED_ATTACHMENT`, `extension_for` | attachment payload offset, interpretation size cap, extension for `export --attachment` |
+| `ATTACHMENT_DATA_OFFSET`, `MAX_INTERPRETED_ATTACHMENT`, `extension_for` | attachment payload offset, interpretation size cap, extension for `extract` |
 | `EventRecord`, `time_s`, `event_code`, `event_kind`, `description`, `parse_event_list`, `parse_time_stamps` | `CZEVL` and `CZTIMS` attachment payloads |
 | `ValidMask`, `MASK_CHUNK_GUID`, `mask_width`, `mask_height`, `stride`, `bits`, `is_valid`, `all_valid`, `parse_valid_mask` | valid-pixel mask in a subblock attachment |
 | `Conformed`, `conform`, `adjustments` | resolution protocol: a decoded bitmap brought to the declared size and pixel type |

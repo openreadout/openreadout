@@ -1,6 +1,6 @@
 # HDF5 (generic) and NWB 2.x
 
-HDF5 is a general container format. Neurodata Without Borders (NWB 2.x) is the open neurophysiology standard built on it. For an NWB file OpenReadout returns the time series as traces, the tables (units, trials, electrodes) and the session and subject metadata, and `export --to nwb` writes electrophysiology traces to NWB. Any other HDF5 file that no specific reader claims gets a structure listing (groups, datasets, attributes) but no images or traces. Derived from the open HDF5 file format as exposed by the pure-Rust `hdf5-pure` crate and the NWB 2 schema (open standard, https://nwb-schema.readthedocs.io), checked on public DANDI files and synthetic files with h5py as the reference reader. Provenance: `docs/provenance/hdf5.md`. Crate `openreadout-hdf5` (modules `generic`, `nwb`, shared `h5util`).
+HDF5 is a general container format. Neurodata Without Borders (NWB 2.x) is the open neurophysiology standard built on it. For an NWB file OpenReadout returns the time series as traces, the tables (units, trials, electrodes) and the session and subject metadata, and `export --format nwb` writes electrophysiology traces to NWB. Any other HDF5 file that no specific reader claims gets a structure listing (groups, datasets, attributes) but no images or traces. Derived from the open HDF5 file format as exposed by the pure-Rust `hdf5-pure` crate and the NWB 2 schema (open standard, https://nwb-schema.readthedocs.io), checked on public DANDI files and synthetic files with h5py as the reference reader. Provenance: `docs/provenance/hdf5.md`. Crate `openreadout-hdf5` (modules `generic`, `nwb`, shared `h5util`).
 
 HDF5 is a container: EMD (`openreadout-em`), Imaris (`ims`, `docs/formats/ims.md`) and NWB claim their files definitely; any other file with the HDF5 signature falls to the generic reader (`Likely`, registered after them, before the plate-reader fallback).
 
@@ -44,7 +44,7 @@ A read returns at most `MAX_TABLE_ROWS` rows, or more for narrow tables within `
 
 `check`: required session fields present (`session`, warning), timestamps as long as the data (`timestamps`, error), a time base (`time_base`, warning), the last sample readable (`data`, error), truncation (`truncated`), electrode rows inside the electrodes table and one per channel (`electrodes`), every table's last row readable (`table`, error), neurodata objects that could not be described (`unreadable`, error, the list `unreadable`).
 
-## Writing NWB (`export --to nwb`; `export_nwb`, `nwb_write.rs`)
+## Writing NWB (`export --format nwb`; `export_nwb`, `nwb_write.rs`)
 
 The traces of an electrophysiology file become plain `TimeSeries` under `/acquisition/` of an NWB 2.x file (`nwb_version` `2.7.0`), written with `hdf5-pure` (superblock v2/v3, latest-format object headers):
 

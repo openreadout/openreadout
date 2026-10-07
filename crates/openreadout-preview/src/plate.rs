@@ -118,7 +118,7 @@ pub fn plate_grid(
         return Err(Error::unsupported(
             "preview",
             format!("preview of table {ti} (no well columns)"),
-            "Plate previews need columns named like wells (A1..P24) or `well` / `row`+`column` columns. Read other tables as rows with the MCP tool openreadout_table or `openreadout export FILE --to csv`.",
+            "Plate previews need columns named like wells (A1..P24) or `well` / `row`+`column` columns. Read other tables as rows with the MCP tool openreadout_table or `openreadout export FILE --format csv`.",
         ));
     }
     let rows = t.row_count.min(MAX_ROWS);
@@ -177,7 +177,7 @@ pub fn plate_grid(
         let what = keep_one_measurement(&t, &tab.columns, &mut vals);
         if let Some(w) = &what {
             notes.push(format!(
-                "showing {w}; read the other rows with openreadout_table or `openreadout export FILE --to csv`"
+                "showing {w}; read the other rows with openreadout_table or `openreadout export FILE --format csv`"
             ));
         }
         let positions: Vec<Option<(u32, u32)>> = if let Some(wc) = well_col {

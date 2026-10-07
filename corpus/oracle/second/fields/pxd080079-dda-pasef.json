@@ -172,7 +172,7 @@
    "field": "scan precursor m/z",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],
@@ -388,7 +388,7 @@
    "field": "scan precursor charge",
    "scope": "spectra",
    "cmd": [
-    "spectra",
+    "scans",
     "--limit",
     "100000000"
    ],

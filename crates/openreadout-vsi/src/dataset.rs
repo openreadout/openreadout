@@ -907,7 +907,7 @@ impl Dataset for VsiDataset {
             notes.push("the _<name>_ directory with the .ets pixel files was not found next to the .vsi: only metadata is available".into());
         }
         if images.iter().any(|i| i.pyramid_levels > 1) {
-            notes.push("whole-slide stacks are pyramids: read a downsampled level with `check --planes --level N` (level sizes in images[].extra.pyramid)".into());
+            notes.push("whole-slide stacks are pyramids: read a downsampled level with `planes --level N` (level sizes in images[].extra.pyramid)".into());
         }
         let described_only: Vec<String> = self
             .meta

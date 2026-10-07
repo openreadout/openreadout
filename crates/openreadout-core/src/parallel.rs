@@ -27,7 +27,7 @@ pub type Progress<'a> = dyn Fn(u64, u64) + Sync + 'a;
 /// Upper bound on the estimated decoded bytes of one window of planes.
 pub const IN_FLIGHT_BYTES: u64 = 1 << 30;
 
-/// Optional helpers for long-running plane loops (export, `check --planes`, `stats`).
+/// Optional helpers for long-running plane loops (export, `planes`, `stats`).
 #[derive(Clone, Copy, Default)]
 pub struct ReadContext<'a> {
     /// Opens extra handles for parallel decoding. `None` decodes sequentially.

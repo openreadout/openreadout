@@ -18,7 +18,7 @@ Axon Binary Format (`abf`: ABF 1 and ABF 2) and Axon Text File (`atf`) electroph
 
 ## Debugging a new file
 
-- `openreadout check FILE --report` and `openreadout info FILE --view full --json` → `vendor` shows the decoded sections by their ABF names; `openreadout info FILE --view structure` lists the section map with offsets and sizes (ABF 2).
+- `openreadout report FILE` and `openreadout info FILE --view full --json` → `vendor` shows the decoded sections by their ABF names; `openreadout info FILE --view structure` lists the section map with offsets and sizes (ABF 2).
 - A new ABF 2 version usually adds a section or grows an existing entry size: compare `ls` of the new file with a corpus file of the same acquisition mode (`corpus/snapshots/abf.jsonl` lists the corpus's versions).
 - `tests/synthetic.rs` builds ABF 1 and ABF 2 files byte by byte from the layout in the format note (`slot`, `put_*` helpers): the quickest way to pin a new field or reproduce a layout without a corpus file.
 - The oracle is pyABF (`oracle/gen.py`, dispatch on `.abf`/`.atf`); it reads the same headers independently.

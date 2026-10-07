@@ -1,5 +1,6 @@
-//! What to analyse and how: the request shared by the CLI (`openreadout analyze assay …`), the
-//! MCP tool (`openreadout_analyze` kind `assay`) and the Python binding (`openreadout.assay`).
+//! What to analyse and how: the request shared by the CLI (`openreadout analyze assay-wells`, `dose-response`, …), the
+//! MCP tools (`openreadout_assay_wells`, `openreadout_dose_response`, ...) and the Python binding
+//! (`openreadout.assay`).
 
 use serde::{Deserialize, Serialize};
 
@@ -41,26 +42,26 @@ impl Analysis {
     }
 }
 
-/// How a kinetic read becomes one value per well for endpoint analyses (wells, curve,
+/// How a kinetic read becomes one value per well in the endpoint analyses (wells, curve,
 /// dose-response, qc).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, schemars::JsonSchema)]
 #[serde(rename_all = "kebab-case")]
 pub enum Reduce {
-    /// The first time point.
+    /// first time point
     First,
-    /// The last time point.
+    /// last time point
     Last,
-    /// The largest value.
+    /// largest value
     Max,
-    /// The smallest value.
+    /// smallest value
     Min,
-    /// The mean over all time points.
+    /// mean over all time points
     Mean,
-    /// The largest windowed slope (value units per minute; `window` points).
+    /// largest slope over `window` points, per minute
     MaxSlope,
-    /// The least-squares slope over all time points (value units per minute).
+    /// least-squares slope over all time points, per minute
     MeanSlope,
-    /// Trapezoidal area under the curve (value × s).
+    /// area under the curve (value × s)
     Auc,
 }
 
@@ -86,14 +87,14 @@ impl Reduce {
 )]
 #[serde(rename_all = "kebab-case")]
 pub enum BlankMode {
-    /// Subtract the mean of the blank wells when the layout has blanks, else nothing.
+    /// the mean of the blank wells when there are blanks
     #[default]
     Auto,
-    /// Subtract the mean of the blank wells (an error without blanks).
+    /// the mean of the blank wells (an error without blanks)
     Mean,
-    /// Subtract the median of the blank wells (an error without blanks).
+    /// the median of the blank wells (an error without blanks)
     Median,
-    /// Never subtract.
+    /// nothing
     None,
 }
 
@@ -103,15 +104,14 @@ pub enum BlankMode {
 )]
 #[serde(rename_all = "kebab-case")]
 pub enum OutlierRule {
-    /// Grubbs' test (groups of at least three wells): the value farthest from the mean is an
-    /// outlier when |x − mean| / SD exceeds the two-sided critical value at alpha = threshold
-    /// (default 0.05); one outlier per group.
+    /// Grubbs' test, two-sided, at alpha = threshold (default 0.05), one outlier per group of
+    /// three or more wells
     #[default]
     Grubbs,
-    /// Modified z-score (Iglewicz–Hoaglin; groups of at least five wells, the MAD of fewer is
-    /// degenerate): |0.6745 (x − median) / MAD| > threshold (default 3.5).
+    /// modified z-score |0.6745 (x − median) / MAD| > threshold (default 3.5), groups of five
+    /// or more wells
     Mad,
-    /// No outlier flagging.
+    /// no outlier flagging
     None,
 }
 
@@ -134,11 +134,11 @@ pub enum FitOn {
 )]
 #[serde(rename_all = "kebab-case")]
 pub enum Normalize {
-    /// Fit the (blank-subtracted) signal.
+    /// the (blank-subtracted) signal
     #[default]
     None,
-    /// Percent effect: 100 (y − mean(negative)) / (mean(positive) − mean(negative)); the
-    /// negative control is no effect (vehicle), the positive control full effect.
+    /// percent effect: 0 % = the negative control (vehicle) mean, 100 % = the positive control
+    /// mean
     Controls,
 }
 
@@ -180,7 +180,7 @@ pub struct AssayRequest {
     /// the layout cannot place (a vehicle is no effect in one assay and full signal in another).
     pub roles: std::collections::BTreeMap<String, String>,
     /// Blank subtraction. Default `auto`.
-    pub blank: BlankMode,
+    pub blank_subtraction: BlankMode,
     /// Outlier rule within replicate groups. Default `grubbs`.
     pub outliers: OutlierRule,
     /// Outlier threshold: alpha (`grubbs`, default 0.05) or modified z-score cut-off (`mad`,
@@ -230,7 +230,7 @@ impl Default for AssayRequest {
             empty_wells: None,
             standards: None,
             roles: std::collections::BTreeMap::new(),
-            blank: BlankMode::Auto,
+            blank_subtraction: BlankMode::Auto,
             outliers: OutlierRule::Grubbs,
             outlier_threshold: None,
             exclude_outliers: false,

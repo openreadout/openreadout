@@ -1,10 +1,10 @@
-//! `batch spectra`: the scan headers of mass-spectrometry runs (`spectra` over many files), one row
+//! `batch scans`: the scan headers of mass-spectrometry runs (`scans` over many files), one row
 //! per data set × scan passing the filter, read without decoding peaks
 //! (`openreadout_core::scans`).
 //!
-//! Options (the MCP `openreadout_scans` arguments without `file`, `offset` and `limit`):
-//! `run`, `ms_level`, `polarity`, `rt_range` ([start, end] minutes), `precursor_mz`, `tol`,
-//! `ppm`, `charge`, `activation`, `scan_filter`.
+//! Options (the `openreadout_scans` filters): `run`, `ms_level`, `polarity`, `rt_range`
+//! ([start, end] minutes), `precursor`, `precursor_tol`, `precursor_ppm`, `charge`,
+//! `activation`, `scan_filter`.
 
 use openreadout_core::scans::{ScanFilter, visit_scans};
 use openreadout_core::{Error, Result};
@@ -13,7 +13,7 @@ use serde::Deserialize;
 use crate::measure::{Item, Measure};
 use crate::table::{ColumnDoc, Row, Value};
 
-/// `spectra` options.
+/// `scans` options.
 #[derive(Debug, Default, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct ScansOptions {
@@ -22,9 +22,9 @@ struct ScansOptions {
     ms_level: Option<u32>,
     polarity: Option<String>,
     rt_range: Option<[f64; 2]>,
-    precursor_mz: Option<f64>,
-    tol: Option<f64>,
-    ppm: Option<f64>,
+    precursor: Option<f64>,
+    precursor_tol: Option<f64>,
+    precursor_ppm: Option<f64>,
     charge: Option<i32>,
     activation: Option<String>,
     scan_filter: Option<String>,
@@ -43,7 +43,7 @@ impl ScansMeasure {
         let o: ScansOptions =
             serde_json::from_value(serde_json::Value::Object(options.clone())).map_err(|e| {
                 Error::Usage(format!(
-                    "`spectra` options: {e} (valid: run, ms_level, polarity, rt_range, precursor_mz, tol, ppm, charge, activation, scan_filter)"
+                    "`scans` options: {e} (valid: run, ms_level, polarity, rt_range, precursor, precursor_tol, precursor_ppm, charge, activation, scan_filter)"
                 ))
             })?;
         let filter = ScanFilter {
@@ -51,9 +51,9 @@ impl ScansMeasure {
             polarity: o.polarity.map(|p| p.to_ascii_lowercase()),
             rt_min_s: o.rt_range.map(|r| r[0] * 60.0),
             rt_max_s: o.rt_range.map(|r| r[1] * 60.0),
-            precursor_mz: o.precursor_mz,
-            precursor_tol_mz: o.tol,
-            precursor_tol_ppm: o.ppm,
+            precursor_mz: o.precursor,
+            precursor_tol_mz: o.precursor_tol,
+            precursor_tol_ppm: o.precursor_ppm,
             charge: o.charge,
             activation: o.activation,
             filter_contains: o.scan_filter,
@@ -65,7 +65,7 @@ impl ScansMeasure {
 
 impl Measure for ScansMeasure {
     fn id(&self) -> &'static str {
-        "spectra"
+        "scans"
     }
     fn grain(&self) -> Vec<String> {
         vec!["run".into(), "index".into()]
@@ -108,7 +108,7 @@ impl Measure for ScansMeasure {
     fn rows(&self, it: &mut Item<'_>) -> Result<Vec<Row>> {
         if it.info.spectra.is_empty() {
             return Err(super::not_applicable(
-                "spectra",
+                "scans",
                 it.info,
                 "mass spectra",
                 "Use `chromatogram` or `trace` for detector signals.",

@@ -860,7 +860,7 @@ impl Dataset for NwbDataset {
         Err(Error::unsupported(
             NWB_FORMAT_ID,
             "images",
-            "NWB files are read as traces (`trace`, `export --to csv`); ImageSeries are listed, not decoded.",
+            "NWB files are read as traces (`trace`, `export --format csv`); ImageSeries are listed, not decoded.",
         ))
     }
 

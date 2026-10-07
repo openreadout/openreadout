@@ -22,8 +22,8 @@ pub struct PreviewArgs {
     /// middle z, t=0. Several channels imply a composite.
     #[serde(default)]
     pub select: Vec<String>,
-    /// Maximum-intensity projection axis: `z` (or `t`), over the selected range if any.
-    pub mip: Option<String>,
+    /// Maximum-intensity projection, over the selected range if any.
+    pub mip: Option<openreadout_preview::Axis>,
     /// Blend all (or the selected) channels additively in their colours.
     #[serde(default)]
     pub composite: bool,
@@ -36,18 +36,15 @@ pub struct PreviewArgs {
     pub region: Option<openreadout_core::Region>,
     /// Longest side in pixels, rulers included (default 768, max 2048).
     pub max_size: Option<u32>,
-    /// Image previews: coordinate rulers in full-resolution pixels and a scale bar around the
-    /// picture (default true); false = the bare plane.
-    pub axes: Option<bool>,
-    /// Image previews: faint grid lines at the ruler ticks over the data (default false).
+    /// Image previews: what frames the picture.
     #[serde(default)]
-    pub grid: bool,
+    pub axes: openreadout_preview::Axes,
     /// `auto` (default), `min-max`, `percentile:LO,HI` (e.g. `percentile:1,99`) or `raw`.
     pub contrast: Option<String>,
-    /// `gray` or `channel-color` (default: gray for one channel, channel colours for composites).
-    pub lut: Option<String>,
-    /// `png` (default) or `jpeg`.
-    pub format: Option<String>,
+    /// Colour lookup. Default: gray for one channel, channel colours for composites.
+    pub lut: Option<openreadout_preview::Lut>,
+    /// Encoding. Default png (sent as JPEG when a PNG would be too large).
+    pub format: Option<openreadout_preview::Encoding>,
     /// Trace preview: trace index (see openreadout_info traces[]).
     pub trace: Option<u32>,
     /// Trace preview: sweep index.
@@ -92,11 +89,7 @@ fn preview_blocking(
         let mut preview_request = pv::PreviewRequest::default();
         preview_request.image = a.image;
         preview_request.select = a.select.clone();
-        preview_request.mip = a
-            .mip
-            .as_deref()
-            .map(|s| parse(s.parse::<pv::Axis>()))
-            .transpose()?;
+        preview_request.mip = a.mip;
         preview_request.composite = a.composite;
         preview_request.level = a.level;
         preview_request.region = a.region;
@@ -110,11 +103,7 @@ fn preview_blocking(
                 .unwrap_or("auto")
                 .parse::<pv::Contrast>(),
         )?;
-        preview_request.lut = a
-            .lut
-            .as_deref()
-            .map(|s| parse(s.parse::<pv::Lut>()))
-            .transpose()?;
+        preview_request.lut = a.lut;
         preview_request.trace = a.trace;
         preview_request.sweep = a.sweep;
         preview_request.channels = a.channels.clone();
@@ -124,11 +113,10 @@ fn preview_blocking(
         preview_request.centroid = a.centroid;
         preview_request.table = a.table;
         preview_request.column = a.column.clone();
-        preview_request.axes = a.axes.unwrap_or(true);
-        preview_request.grid = a.grid;
+        a.axes.apply(&mut preview_request);
         preview_request
     };
-    let encoding = parse(a.format.as_deref().unwrap_or("png").parse::<pv::Encoding>())?;
+    let encoding = a.format.unwrap_or_default();
     let reg = with_strict(registry(), a.strict);
     let (_, mut ds) = reg.open(Path::new(&a.file)).map_err(|e| mcp_err(&e))?;
     let info = ds.info().map_err(|e| mcp_err(&e))?;

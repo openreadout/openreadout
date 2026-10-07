@@ -612,7 +612,7 @@ def test_spectra_match_oracle_headers(corpus: Corpus) -> None:
         ).read_text()
     )["spectra"]["scans"]
     with File(path) as f:
-        every = f.spectra()
+        every = f.scans()
         assert every["source"] == "headers" and every["matched"] == len(truth)
         for ours, theirs in zip(every["scans"], truth, strict=True):
             assert ours["scan_number"] == theirs["scan_number"]
@@ -623,15 +623,15 @@ def test_spectra_match_oracle_headers(corpus: Corpus) -> None:
                     abs(ours["precursor_mz"] - theirs["precursor_mz"])
                     < 1e-6 * theirs["precursor_mz"]
                 )
-        ms2 = f.spectra(ms_level=2, limit=2)
+        ms2 = f.scans(ms_level=2, limit=2)
         assert ms2["returned"] == 2 and ms2["truncated"]
         assert ms2["matched"] == sum(1 for s in truth if s["ms_level"] == 2)
-        near = f.spectra(precursor_mz=84.08, tol=0.01, limit=0)
+        near = f.scans(precursor=84.08, precursor_tol=0.01, limit=0)
         assert near["returned"] == 0 and near["matched"] >= 1
-        early = f.spectra(rt_range=(0.0, 0.05))
+        early = f.scans(rt_range=(0.0, 0.05))
         assert all(s["rt_s"] <= 3.0 for s in early["scans"])
         with pytest.raises(UsageError):
-            f.spectra(rt_range=(5.0, 1.0))
+            f.scans(rt_range=(5.0, 1.0))
 
 
 def test_read_spectrum_on_image_file_is_unsupported(corpus: Corpus) -> None:

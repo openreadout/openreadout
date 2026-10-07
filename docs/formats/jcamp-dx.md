@@ -1,6 +1,6 @@
 # JCAMP-DX
 
-JCAMP-DX is the open IUPAC text format for spectra, exported by many instruments and programs for IR, NMR, mass and other spectra. OpenReadout returns each data table as a trace with its x axis and the descriptive records, and `export --to jcamp` writes NMR and other 1-D spectra as JCAMP-DX. Derived from the public IUPAC JCAMP-DX protocols (IR 4.24, 1988; NMR, 1993; MS, 1994; 5.01, 1999) and checked on public test files (ISAS Dortmund test suite, R. J. Lancashire's public-domain files, MestReNova 14 exports); nmrglue's `jcampdx` (BSD-3) and the `jcamp` package (MIT) were read as prior art and serve as reference readers. Provenance: `docs/provenance/jcamp-dx.md`.
+JCAMP-DX is the open IUPAC text format for spectra, exported by many instruments and programs for IR, NMR, mass and other spectra. OpenReadout returns each data table as a trace with its x axis and the descriptive records, and `export --format jcamp` writes NMR and other 1-D spectra as JCAMP-DX. Derived from the public IUPAC JCAMP-DX protocols (IR 4.24, 1988; NMR, 1993; MS, 1994; 5.01, 1999) and checked on public test files (ISAS Dortmund test suite, R. J. Lancashire's public-domain files, MestReNova 14 exports); nmrglue's `jcampdx` (BSD-3) and the `jcamp` package (MIT) were read as prior art and serve as reference readers. Provenance: `docs/provenance/jcamp-dx.md`.
 
 Format id `jcamp-dx`, family `spectroscopy`; extensions `jdx`, `dx`, `jcamp`, `jcm`. Section numbers (§) refer to the 4.24 protocol unless stated.
 
@@ -92,7 +92,7 @@ Records of the enclosing LINK block apply to its children (a compound file's sha
 | `nmrxiv-s200-qhnmr` | MestReNova 14.0.1 (JCAMP-DX 6.0) | LINK + XYDATA 104858 points | X written in whole Hz |
 | `nmrxiv-s200-hsqc` | MestReNova 14.0.1 | nD NMR SPECTRUM NTUPLES, 1024 pages `F1=` × 820 points `(F2++(Y..Y))` | `##FIRST=` repeated in every page |
 
-## Writing (`export --to jcamp`; `export_jcamp`, `jcamp_write.rs`)
+## Writing (`export --format jcamp`; `export_jcamp`, `jcamp_write.rs`)
 
 One trace per file, JCAMP-DX 5.01 (the NMR protocol's layout, readable by the IR/MS protocol readers):
 

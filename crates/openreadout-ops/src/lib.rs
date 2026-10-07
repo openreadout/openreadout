@@ -3,10 +3,10 @@
 //! ([`Dataset`](openreadout_core::Dataset), [`FileInfo`](openreadout_core::FileInfo),
 //! [`Experiment`](openreadout_core::Experiment)).
 //!
-//! - [`compare`]: `check --against`, a diff of two files' metadata and planes.
+//! - [`compare`]: `compare`, a diff of two files' metadata and planes.
 //! - [`explain`](mod@explain): `info --view explain`, a plain-English account of a file and
 //!   answers to questions about it.
-//! - [`extract`]: `export --attachment`, one embedded attachment written to a new file.
+//! - [`extract`]: `extract`, which writes one embedded attachment to a new file.
 //! - [`project`]: `--only`, keep the JSON values an agent asked for by pointer.
 #![forbid(unsafe_code)]
 #![deny(missing_docs)]

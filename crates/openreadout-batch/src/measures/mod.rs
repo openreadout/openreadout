@@ -1,4 +1,4 @@
-//! The built-in measures: `stats`, `trace`, `table`, `gate`, `info` and `spectra`, and the
+//! The built-in measures: `stats`, `trace`, `table`, `gate`, `info` and `scans`, and the
 //! analyses (`peaks`, `chromatogram`, `assay`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`;
 //! `stats` per well) through [`AnalysisMeasure`].
 
@@ -10,7 +10,9 @@ mod stats;
 mod table;
 mod trace;
 
-pub use analysis::{ANALYSIS_MEASURES, AnalysisMeasure, QpcrQuery, WellStatsQuery, parse_options};
+pub use analysis::{
+    ANALYSIS_MEASURES, AnalysisMeasure, QpcrQuery, WellStatsQuery, accepted_keys, parse_options,
+};
 pub use gate::GateMeasure;
 pub use info::{DEFAULT_INFO_FIELDS, InfoMeasure};
 pub use scans::ScansMeasure;
@@ -32,7 +34,7 @@ use crate::measure::Measure;
 #[derive(Debug, Clone, Default)]
 #[non_exhaustive]
 pub struct MeasureSpec {
-    /// `stats`, `trace`, `table`, `gate`, `info`, `spectra` or an analysis.
+    /// `stats`, `trace`, `table`, `gate`, `info`, `scans` or an analysis.
     pub measure: String,
     /// stats: only this image.
     pub image: Option<u32>,
@@ -71,9 +73,8 @@ pub struct MeasureSpec {
     /// stats per well or field: only these wells.
     pub wells: Vec<String>,
     /// The analysis measures (`peaks`, `chromatogram`, `assay`, `nmr-peaks`,
-    /// `ephys-features`, `spikes`, `qpcr`) and `spectra`: the `openreadout_analyze` options of
-    /// that kind (or the `openreadout_spectra` filters), plus `rows` (which record list becomes
-    /// rows).
+    /// `ephys-features`, `spikes`, `qpcr`) and `scans`: the arguments of that MCP tool, plus
+    /// `rows` (which record list becomes rows).
     pub options: serde_json::Map<String, serde_json::Value>,
 }
 
@@ -118,7 +119,7 @@ pub fn spec_from_options(
     measure: &str,
     options: serde_json::Map<String, serde_json::Value>,
 ) -> Result<MeasureSpec> {
-    if ANALYSIS_MEASURES.contains(&measure) || measure == "spectra" {
+    if ANALYSIS_MEASURES.contains(&measure) || measure == "scans" {
         return Ok(MeasureSpec {
             measure: measure.to_string(),
             options,
@@ -153,7 +154,7 @@ pub fn spec_from_options(
 
 /// Build the measure `spec` names.
 pub fn build(spec: &MeasureSpec) -> Result<Box<dyn Measure>> {
-    if spec.measure == "spectra" {
+    if spec.measure == "scans" {
         return Ok(Box::new(ScansMeasure::from_options(&spec.options)?));
     }
     if let Some(m) = AnalysisMeasure::build(&spec.measure, &spec.options) {

@@ -16,23 +16,23 @@ metadata:
 ## Commands
 
 - `info` — what a file holds, from its headers (fast on multi-gigabyte files); `--view full | structure | explain | format`, `--ask "QUESTION"`.
-- `check` — integrity (exit 4 = damaged); `--against B` compares two files; `--planes` hashes planes; `--report` writes a diagnostic bundle.
+- `check` — integrity (exit 4 = damaged); `compare A B` — are two files (a source and its export) the same data; `planes` — plane hashes; `report` — a diagnostic bundle for a file that is refused or not validated.
 - `preview` — a PNG of an image, trace, spectrum or plate; Read the PNG to see it.
 - `stats` — pixel statistics; `--per well` for screening plates.
 - `trace` — one sweep, spectrum or detector trace in physical units.
 - `table` — rows of a table: FCS events, plate reads, the vendor's own peak tables.
-- `spectra` — the scan list of a mass-spectrometry run, or one spectrum (`--scan`, `--index`, `--ms-level L --nth K`).
+- `scans` — the scan list of a mass-spectrometry run; `spectrum` — one spectrum (`--scan`, `--spectrum`, `--ms-level L --nth K`).
 - `analyze KIND` — `peaks`, `chromatogram`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `assay`, `gate`.
-- `export` — OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, ASM, RDML; `--attachment` writes an embedded label or thumbnail.
-- `batch` — one measure over many files as one tidy table joined to a sample sheet; `batch summarize TABLE --by …`.
-- `link` (files of the same sample), `index` then `search` (catalog and query a share; `search --health`), `watch` (a running acquisition).
+- `export` — OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, ASM, RDML; `extract` writes an embedded label or thumbnail as stored.
+- `batch` — one measure over many files as one tidy table joined to a sample sheet; `summarize TABLE --by …`.
+- `link` (files of the same sample), `index` then `search` and `health` (catalog a share, query it, find damaged or duplicate files), `watch` (a running acquisition).
 - `mcp`, `self` (`formats`, `doctor`, `schema`, `skill`, `completions`, `man`).
 
-Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <command>` (MCP tools declare theirs). Formats and their known gaps: `openreadout self formats --json`. MCP tools take the CLI flags as arguments; `analyze KIND` is `openreadout_analyze` with `kind` and `options`.
+Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <command>` (MCP tools declare theirs). Formats and their known gaps: `openreadout self formats --json`. MCP tools have the commands' names (`openreadout_check`; `analyze nmr-peaks` is `openreadout_nmr_peaks`) and take the long flags as arguments with `-` as `_` (`--rt-range` is `rt_range`): a repeatable flag is a plural list (`--channel` is `channels`), and `--no-X` is `X: false`.
 
 ## Output
 
-- `--json` prints `{"ok": true, "schema_version": "1", "tool": {...}, "data": {...}}`; errors are `{"ok": false, "error": {"code", "message", "hint", "exit_code"}}`, and the `hint` says what to do next. Exit codes: 0 ok · 1 error (`check --against`: the files differ) · 2 usage · 3 unknown format · 4 corrupt or truncated · 5 I/O · 6 known format, unsupported feature.
+- `--json` prints `{"ok": true, "schema_version": "2", "tool": {...}, "data": {...}}`; errors are `{"ok": false, "error": {"code", "message", "hint", "exit_code"}}`, and the `hint` says what to do next. Exit codes: 0 ok · 1 error (`compare`: the files differ) · 2 usage · 3 unknown format · 4 corrupt or truncated · 5 I/O · 6 known format, unsupported feature.
 - Replies are summary-first: a capped list says it was `truncated` and names the flag that pages it. `--only /pointer,…` (JSON pointers into `data`, `*` for every element) returns just those values.
 - Several paths, directories (`-r`) or quoted globs make a batch; `--jsonl` prints one envelope per input, and a failing file does not stop the run. `--tidy`, `--sample-sheet` and `--by` turn `info`, `stats`, `trace`, `table` and `analyze gate` into one table; check its `joins[]` (key used, unmatched rows) before the numbers.
 
@@ -45,11 +45,11 @@ Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <
 - **Units**: µm, nm, s unless a field name ends in `_ms`/`_min`; `rt_min`/`apex_rt_min` are minutes. Peak areas are signal×min unless `--area-seconds` (vendor reports use ×s).
 - **Saturation** is at 2^bits − 1 when the file records the detector bit depth (16383 for 14-bit data in uint16), else the type maximum; `saturation_basis` says which.
 - **Trust**: `assurance` (in `info`, `check` and MCP replies) says how far this file's variant was validated against an independent reader. `partially_validated`: mention what `reasons` lists. `unvalidated`: values in `strict_refuses` may be wrong; suggest checking them in the vendor software. `strict_withholds` and `inferred` values are unverified. `--strict` (MCP `strict: true`) refuses unvalidated values with exit 6.
-- **New variants**: when a file is refused (exit 3/4/6) or not `validated`, `openreadout check FILE --report` writes a local, privacy-reviewed bundle for a new-variant issue, to file with a vendor export of the same file. Free text goes in only with `--include-text` and the user's consent; the user files it.
+- **New variants**: when a file is refused (exit 3/4/6) or not `validated`, `openreadout report FILE` writes a local, privacy-reviewed bundle for a new-variant issue, to file with a vendor export of the same file. Free text goes in only with `--include-text` and the user's consent; the user files it.
 - **Growing files**: `acquisition.state: in_progress` means an instrument is still writing; it is not corruption.
 - **Vendor results**: when the file stores the vendor's own peak table, Cq, fit or counts (`vendor_peaks`, `cq`, `fits`, `stored_count`), those are what the vendor software reported; recomputed values are close to, not identical with, them.
 - **Missing facts**: a field absent from `experiment` was not recorded in the file.
-- **Writes**: only `export`, `check --report`, `-o` tables and `index` write, always to new files; exports are read back and verified before they are renamed into place and never replace a file without `--overwrite`.
+- **Writes**: only `export`, `report`, `-o` tables and `index` write, always to new files; exports are read back and verified before they are renamed into place and never replace a file without `--overwrite`.
 
 ## In Python and R
 

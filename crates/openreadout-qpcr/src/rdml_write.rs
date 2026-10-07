@@ -1,4 +1,4 @@
-//! `export --to rdml`: any readable qPCR file as RDML 1.3 (`rdml_data.xml` in a zip), written
+//! `export --format rdml`: any readable qPCR file as RDML 1.3 (`rdml_data.xml` in a zip), written
 //! to a temporary file, read back and compared, then renamed into place.
 
 use std::collections::BTreeMap;
@@ -19,7 +19,7 @@ use openreadout_core::zip::{ZipIndex, ZipWriter};
 /// Version of RDML written.
 pub const RDML_WRITE_VERSION: &str = "1.3";
 
-/// What `export --to rdml` wrote.
+/// What `export --format rdml` wrote.
 #[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
 pub struct RdmlExportReport {
     /// The input file.

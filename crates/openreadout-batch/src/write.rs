@@ -5,7 +5,7 @@
 //! (row and column counts; Parquet from its footer and record batches), and only then renamed
 //! into place. Parquet files carry every column's role, unit and description in the field
 //! metadata (`openreadout:role`, `unit`, `description`) and the measure and grain in the file
-//! metadata (`openreadout:measure`, `openreadout:grain`), so `batch summarize` knows them again.
+//! metadata (`openreadout:measure`, `openreadout:grain`), so `summarize` knows them again.
 
 use std::collections::HashMap;
 use std::fs::File;

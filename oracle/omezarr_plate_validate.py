@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Validate an OME-NGFF HCS plate written by `openreadout export PLATE --to ome-zarr` with
+"""Validate an OME-NGFF HCS plate written by `openreadout export PLATE --format ome-zarr` with
 third-party readers, and compare its pixels with the source plane files read by tifffile.
 
     python omezarr_plate_validate.py STORE.ome.zarr ORACLE_JSON
