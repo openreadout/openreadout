@@ -809,6 +809,14 @@ impl SciexDataset {
                             extra.insert("precursor_slot_value".into(), json!(v));
                         }
                     }
+                    // Without data-dependent precursors (SWATH), the experiment's fixed m/z is
+                    // its isolation window's centre.
+                    if s.precursors.is_empty()
+                        && let Some(m) = exp.header.and_then(|h| h.fixed_mz).filter(|&m| m > 0.0)
+                    {
+                        sp.precursor_mz = Some(m);
+                        extra.insert("data_independent".into(), json!(true));
+                    }
                     // No field states it: the exports label QSTAR (Analyst QS) product ions
                     // collision-induced dissociation and TripleTOF ones beam-type CID.
                     sp.activation = Some(

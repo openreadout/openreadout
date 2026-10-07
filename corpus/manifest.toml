@@ -60338,6 +60338,7 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS1266 (MetaboKit, mouse liver)"
 attribution = "MTBLS1266 submitters (MetaboLights)"
 notes = "TripleTOF 6600 SWATH (data-independent MS/MS windows)"
+oracle_skip = "the export is centroided by a vendor tool and labels the product-ion scans collision-induced dissociation; MS level, scan time and precursor (the SWATH window centre) of all 28,657 shared spectra agree (docs/provenance/sciex-wiff.md, 2026-10-06)"
 
 [[file]]
 id = "mtbls1266-swath-neg-wt1-scan"
