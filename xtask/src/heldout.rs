@@ -341,11 +341,7 @@ fn record_token(key: &str) -> Option<(String, &'static [&'static str])> {
 /// fail on them. A provenance log is history, so the owner decides what to do about them, for
 /// example whether the record's entry should carry `exposed`. A new citation fails the check, and
 /// so does an entry here that no longer matches.
-const KNOWN_CITATIONS: &[(&str, &str)] = &[
-    ("docs/formats/bench-instruments-survey.md", "zenodo:6754439"),
-    ("docs/formats/czi.md", "zenodo:19047136"),
-    ("docs/provenance/czi.md", "zenodo:19047136"),
-];
+const KNOWN_CITATIONS: &[(&str, &str)] = &[];
 
 /// A line that says a record is held out or reserved. Naming a reserved record in order to say
 /// that no development file comes from it, or that a development record is its sibling, is how
