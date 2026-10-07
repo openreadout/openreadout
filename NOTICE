@@ -12,23 +12,28 @@ Code derived from permissively licensed sources (their licences retained):
   ("New BSD License"); the licence text is crates/openreadout-jpegxr/LICENSE. The sources read were
   those bundled in the `jpegxr` 0.3.1 crate (https://crates.io/crates/jpegxr).
 
+Christoph Gohlke's libraries were read while writing several readers and are used as independent
+references in testing. Copyright (c) 2008-2026 Christoph Gohlke, BSD-3-Clause; the licence text is
+licenses/gohlke-BSD-3-Clause.txt.
+- czifile     — https://github.com/cgohlke/czifile
+- liffile     — https://github.com/cgohlke/liffile
+- oiffile     — https://github.com/cgohlke/oiffile
+- oirfile     — https://github.com/cgohlke/oirfile
+- tifffile    — https://github.com/cgohlke/tifffile
+- imagecodecs — https://github.com/cgohlke/imagecodecs (EER electron-event decoding rule in imcd.c)
+
 Prior art consulted as documentation (permissively licensed; no code copied):
-- czifile  — Christoph Gohlke, BSD-3-Clause, https://github.com/cgohlke/czifile
-- liffile  — Christoph Gohlke, BSD-3-Clause, https://github.com/cgohlke/liffile
 - nd2      — Talley Lambert and contributors, BSD-3-Clause, https://github.com/tlambert03/nd2
-- tifffile — Christoph Gohlke, BSD-3-Clause, https://github.com/cgohlke/tifffile
 - bioio    — Allen Institute for Cell Science, BSD-3-Clause, https://github.com/bioio-devs/bioio
 - OME Data Model and OME-TIFF specification — Open Microscopy Environment, https://ome-model.readthedocs.io/
 - ZEISS libCZI documentation pages (concept pages only, not source): resolution protocol, valid-pixel mask, https://zeiss.github.io/libczi/
 - FCS 3.1 normative specification — International Society for Advancement of Cytometry (ISAC), CC BY-SA 3.0, https://isac-net.org/data-standards/
 - FlowIO    — Scott White, BSD-3-Clause, https://github.com/whitews/FlowIO
-- oirfile   — Christoph Gohlke, BSD-3-Clause, https://github.com/cgohlke/oirfile
 - Bio-Formats format pages for Olympus OIR, cellSens VSI and Zeiss ZVI (documentation pages only, not source), https://bio-formats.readthedocs.io/
 - OME-NGFF specification (0.1–0.5) — Open Microscopy Environment, https://ngff.openmicroscopy.org/; Zarr v2/v3 specifications, https://zarr-specs.readthedocs.io/
 - c-blosc — The Blosc Developers, BSD-3-Clause, https://github.com/Blosc/c-blosc (chunk format document and blosc.c/blosclz.c decoding rules; shuffle.c bit-unshuffle block rules)
 - bitshuffle — Kiyoshi Masui and contributors, MIT, https://github.com/kiyo-masui/bitshuffle (the bit-transpose transform)
 - Snappy format description — Google, BSD-3-Clause, https://github.com/google/snappy/blob/main/format_description.txt
-- imagecodecs — Christoph Gohlke, BSD-3-Clause, https://github.com/cgohlke/imagecodecs (EER electron-event decoding rule in imcd.c)
 - hdf5_plugins LZ4 filter (H5Zlz4.c) — The HDF Group, BSD-style HDF5 licence, https://github.com/HDFGroup/hdf5_plugins (filter 32004 chunk layout)
 - NWB 2 schema documentation — Neurodata Without Borders, https://nwb-schema.readthedocs.io/; HDMF-common schema documentation (DynamicTable, VectorIndex), https://hdmf-common-schema.readthedocs.io/
 - Microsoft [MS-CFB] and [MS-OAUT] Open Specifications (compound files; VARIANT type codes), https://learn.microsoft.com/openspecs/

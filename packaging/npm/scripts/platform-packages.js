@@ -24,7 +24,7 @@ const { extractFromTarGz, extractFromZip } = require('./archive');
 const PKG_DIR = path.join(__dirname, '..');
 const REPO_ROOT = path.join(PKG_DIR, '..', '..');
 const MAIN = require('../package.json');
-const COPIED = ['LICENSE-MIT', 'LICENSE-APACHE', 'NOTICE', 'THIRD-PARTY-NOTICES.md'];
+const COPIED = ['LICENSE-MIT', 'LICENSE-APACHE', 'NOTICE', 'THIRD-PARTY-NOTICES.md', 'licenses/gohlke-BSD-3-Clause.txt'];
 
 function usage(msg) {
   if (msg) process.stderr.write(`error: ${msg}\n`);
@@ -126,7 +126,10 @@ function writePackage(p, binary, outDir) {
   fs.mkdirSync(path.join(dir, 'bin'), { recursive: true });
   fs.writeFileSync(path.join(dir, 'package.json'), `${JSON.stringify(manifest(p), null, 2)}\n`);
   fs.writeFileSync(path.join(dir, 'README.md'), readme(p));
-  for (const f of COPIED) fs.copyFileSync(path.join(REPO_ROOT, f), path.join(dir, f));
+  for (const f of COPIED) {
+    fs.mkdirSync(path.dirname(path.join(dir, f)), { recursive: true });
+    fs.copyFileSync(path.join(REPO_ROOT, f), path.join(dir, f));
+  }
   fs.writeFileSync(path.join(dir, 'bin', exeName(p.os)), binary, { mode: 0o755 });
   return dir;
 }
