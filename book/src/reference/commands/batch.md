@@ -3,16 +3,16 @@
 `batch` computes any measure over many files as one tidy table, joined to sample sheets and summarized by group.
 
 ```text
-openreadout batch [OPTIONS] <MEASURE> [INPUT]...
-openreadout batch summarize [OPTIONS] <TABLE>
+openreadout batch [OPTIONS] <MEASURE> [PATH]...
 ```
 
 `MEASURE` is one of:
 
 - `stats`, `trace`, `table`, `info`: the same rows as those commands in table mode.
-- `spectra`: one row per mass-spectrometry scan header.
-- `peaks`, `chromatogram`, `assay`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `gate`: the [`analyze`](analyze.md) subcommands.
-- `summarize`: group statistics of one table written earlier.
+- `scans`: one row per mass-spectrometry scan header.
+- `peaks`, `chromatogram`, `assay`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `gate`: the [`analyze`](analyze.md) subcommands. `assay` takes `--set analysis=wells|curve|dose-response|kinetics|growth|qc`.
+
+To summarize a table written earlier, see [`summarize`](summarize.md).
 
 Failures are rows with an `error` column, so one bad file does not stop the run, and the command exits 0 once the table is built. `--fail-fast` stops at the first failure and exits with its code. The [Batch tables guide](../../guides/batch.md) explains the row grain of each measure, sample-sheet keys and group summaries.
 
@@ -39,7 +39,7 @@ Failures are rows with an `error` column, so one bad file does not stop the run,
 
 ### Sample sheets
 
-- `--sample-sheet FILE` (alias `--samples`): join a sample sheet (CSV, TSV, XLSX) or plate layout onto the rows. The join key is chosen from the data and reported. Repeatable.
+- `--sample-sheet FILE`: join a sample sheet (CSV, TSV, XLSX) or plate layout onto the rows. The join key is chosen from the data and reported. Repeatable.
 - `--worksheet NAME`: worksheet of an XLSX sample sheet.
 - `--key SHEET_COLUMN=FIELD`: set the join key yourself. Fields: `path`, `file`, `stem`, `sample_id`, `sample_name`, `barcode`, `well`, `position`, `run_order`, `column:NAME`. Repeat for a composite key.
 
@@ -74,11 +74,11 @@ doctor.fcs,fcs,Time,47.5
 ```bash
 openreadout batch peaks runs/ -r --set rows=chromatogram --sample-sheet samples.csv -o rows.parquet
 openreadout batch assay plates/ --set analysis=curve --set layout=layout.csv -o curves.parquet
-openreadout batch summarize rows.parquet --by condition
+openreadout summarize rows.parquet --by condition
 ```
 
 ## JSON
 
-[Batch table](../json/batch-table.md), [batch summary](../json/batch-summary.md).
+[Batch table](../json/batch-table.md).
 
 Run `openreadout batch --help` for the full help of your installed version.

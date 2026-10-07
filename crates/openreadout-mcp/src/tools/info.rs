@@ -1,11 +1,10 @@
-//! `openreadout_info`: what a file holds, in five views, with a thumbnail of image 0; and
-//! `openreadout_formats`.
+//! `openreadout_info`: what a file holds, in five views, with a thumbnail of image 0.
 
 use std::path::Path;
 
 use base64::Engine as _;
 use openreadout_core::InfoOutput;
-use openreadout_core::model::{DetectOutput, Dump, FileInfo, FormatsOutput, Listing};
+use openreadout_core::model::{DetectOutput, Dump, FileInfo, Listing};
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::{CallToolResult, ContentBlock};
 use rmcp::{ErrorData as McpError, schemars, tool, tool_router};
@@ -225,17 +224,5 @@ impl InstrumentServer {
                 Ok(r)
             }
         }
-    }
-
-    #[tool(
-        name = "openreadout_formats",
-        annotations(title = "Supported formats", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<FormatsOutput>(),
-        description = "Supported formats with read/write support, confidence and known gaps (what is not decoded)."
-    )]
-    pub(crate) fn formats(&self) -> Result<CallToolResult, McpError> {
-        ok_json(&FormatsOutput {
-            formats: (self.registry)().descriptors(),
-        })
     }
 }

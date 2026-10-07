@@ -1,0 +1,39 @@
+{
+ "id": "zenodo21447249-magvector-df",
+ "file": "zenodo21447249-magvector-df.dm4",
+ "size": 205666,
+ "sha256": "b6b25d9b585a5fdfd63506d88119b02eefe7b01def181c4d0edeeef3f398f484",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "DF Image",
+   "size_x": 100,
+   "size_y": 30,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 2.640753611922264e-05,
+    "y": 2.640753611922264e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4213d65364fb68d36556ae486627d545"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

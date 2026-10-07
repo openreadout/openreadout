@@ -845,7 +845,7 @@ fn relative(
     let data = &ds.data;
     if refs.is_empty() {
         return Err(Error::Usage(format!(
-            "ΔΔCq needs a reference target (endogenous control): pass --reference TARGET; this file's targets: {}",
+            "ΔΔCq needs a reference target (endogenous control): pass --reference-target TARGET (MCP: reference_targets); this file's targets: {}",
             data.targets
                 .iter()
                 .map(|t| t.name.as_str())
@@ -997,7 +997,7 @@ fn relative(
     }
     let Some(control) = control else {
         notes.push(
-            "no control (calibrator) sample: ΔCq only; pass --control SAMPLE for ΔΔCq and RQ"
+            "no control (calibrator) sample: ΔCq only; pass --control-sample SAMPLE (MCP: control_sample) for ΔΔCq and RQ"
                 .into(),
         );
         return Ok(out);

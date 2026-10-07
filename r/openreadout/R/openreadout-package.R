@@ -13,10 +13,10 @@
 #'   or `"format"`), [openreadout_check()], [openreadout_formats()], [openreadout_ome_xml()].
 #' - Images: [openreadout_read_image()], [openreadout_read_plane()], [openreadout_levels()],
 #'   [openreadout_stats()].
-#' - Tables and signals: [openreadout_table()], [openreadout_trace()], [openreadout_spectra()].
+#' - Tables and signals: [openreadout_table()], [openreadout_trace()], [openreadout_scans()], [openreadout_spectrum()].
 #' - Analyses: [openreadout_analyze()] (chromatograms, peaks, NMR peaks, patch-clamp
 #'   features, spikes, qPCR, plate assays, gating).
-#' - Many files: [openreadout_batch()] (including `"summarize"`), [openreadout_link()].
+#' - Many files: [openreadout_batch()], [openreadout_summarize()], [openreadout_link()].
 #' - Open formats: [openreadout_export()].
 #'
 #' Indices given to these functions (`image`, `c`, `z`, `t`, `table`, `trace`, `sweep`, `run`,

@@ -249,6 +249,15 @@ pub(crate) fn activation(ps: &[Param]) -> Option<String> {
     }
 }
 
+/// `null-terminated ASCII string` (MS:1001479): a binary data type for arrays of text (OpenMS
+/// writes its string meta-data arrays with it). Such an array holds no numbers.
+pub(crate) const TEXT_ARRAY_TYPE: &str = "MS:1001479";
+
+/// Whether a `binaryDataArray` holds text rather than numbers.
+pub(crate) fn is_text_array(ps: &[Param]) -> bool {
+    ps.iter().any(|p| p.accession == TEXT_ARRAY_TYPE)
+}
+
 /// Binary value type of a `binaryDataArray`.
 pub(crate) fn value_type(ps: &[Param]) -> Option<ValueType> {
     ps.iter().find_map(|p| match p.accession.as_str() {

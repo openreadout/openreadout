@@ -62,39 +62,41 @@ fn observe(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED oib (cargo xtask assurance-audit --write; do not edit)
-const OIB_CONFIDENCE: Confidence = Confidence::Medium;
+const OIB_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const OIB_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "scan XY", 3, 2, 3),
+    a::row(K::Acquisition, "scan XY", 5, 4, 5),
     a::row(K::Acquisition, "scan XYL", 1, 1, 1),
     a::row(K::Acquisition, "scan XYT", 1, 1, 1),
-    a::row(K::Acquisition, "scan XYZ", 2, 2, 2),
+    a::row(K::Acquisition, "scan XYZ", 3, 3, 3),
     a::row(K::Codec, "lzw", 2, 1, 2),
-    a::row(K::Codec, "none", 5, 4, 5),
-    a::row(K::Field, "experiment.acquisition.started_at", 7, 5, 7),
-    a::row(K::Field, "experiment.instrument.model", 7, 5, 7),
-    a::row(K::FormatVersion, "1.2.6.0", 7, 5, 7),
-    a::row(K::Instrument, "FLUOVIEW FV1000", 7, 5, 7),
-    a::row(K::SampleLayout, "uint16", 7, 5, 7),
-    a::row(K::Writer, "FluoView", 7, 5, 7),
-    a::row(K::WriterVersion, "FluoView 4.2", 7, 5, 7),
+    a::row(K::Codec, "none", 8, 7, 8),
+    a::row(K::Field, "experiment.acquisition.started_at", 7, 5, 10),
+    a::row(K::Field, "experiment.instrument.model", 7, 5, 10),
+    a::row(K::FormatVersion, "1.2.6.0", 10, 8, 10),
+    a::row(K::Instrument, "FLUOVIEW FV1000", 10, 8, 10),
+    a::row(K::SampleLayout, "uint16", 10, 8, 10),
+    a::row(K::Writer, "FluoView", 10, 8, 10),
+    a::row(K::WriterVersion, "FluoView 4.0", 1, 1, 1),
+    a::row(K::WriterVersion, "FluoView 4.2", 9, 7, 9),
 ];
 // END GENERATED oib
 
 // BEGIN GENERATED oif (cargo xtask assurance-audit --write; do not edit)
-const OIF_CONFIDENCE: Confidence = Confidence::Low;
+const OIF_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const OIF_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "scan XT", 1, 1, 1),
-    a::row(K::Acquisition, "scan XY", 1, 1, 1),
-    a::row(K::Codec, "none", 2, 1, 2),
-    a::row(K::Field, "experiment.acquisition.started_at", 2, 1, 2),
-    a::row(K::Field, "experiment.instrument.model", 2, 1, 2),
-    a::row(K::FormatVersion, "1.2.6.0", 2, 1, 2),
-    a::row(K::Instrument, "FLUOVIEW FV1000", 2, 1, 2),
+    a::row(K::Acquisition, "scan XY", 2, 1, 2),
+    a::row(K::Codec, "none", 5, 2, 5),
+    a::row(K::Field, "experiment.acquisition.started_at", 2, 1, 3),
+    a::row(K::Field, "experiment.instrument.model", 2, 1, 3),
+    a::row(K::FormatVersion, "1.2.3.0", 2, 1, 2),
+    a::row(K::FormatVersion, "1.2.6.0", 3, 1, 3),
+    a::row(K::Instrument, "FLUOVIEW FV1000", 3, 1, 3),
     a::row(K::Layout, "reference_image", 1, 1, 1),
-    a::row(K::SampleLayout, "uint16", 2, 1, 2),
-    a::row(K::Writer, "FluoView", 2, 1, 2),
-    a::row(K::WriterVersion, "FluoView 4.2", 2, 1, 2),
+    a::row(K::SampleLayout, "uint16", 5, 2, 5),
+    a::row(K::Writer, "FluoView", 5, 2, 5),
+    a::row(K::WriterVersion, "FluoView 4.2", 3, 1, 3),
 ];
 // END GENERATED oif

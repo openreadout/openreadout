@@ -1,0 +1,39 @@
+{
+ "id": "zenodo14894490-hfn-pillar",
+ "file": "zenodo14894490-hfn-pillar.dm4",
+ "size": 2703668,
+ "sha256": "1f070c9243afd6ac874fc13ffa0c4824ab1cb01d830a3d89d88f1289d2c88073",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "115kx 02_1",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 10,
+   "physical_size_um": {
+    "x": 0.0008034356832504273,
+    "y": 0.0008034356832504273,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8f77a49124e72be6848afb88074d3186"
+    }
+   ],
+   "pixel_type": "uint16"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

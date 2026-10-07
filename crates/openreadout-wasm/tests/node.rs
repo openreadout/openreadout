@@ -95,8 +95,8 @@ fn traces_from_bytes() {
     assert_eq!(err["ok"], Value::Bool(false));
     assert!(err["error"]["exit_code"].as_i64().is_some());
     // not a mass-spectrometry file; unknown options are usage errors
-    assert_eq!(parse(&f.spectra(None))["ok"], Value::Bool(false));
-    let bad = parse(&f.spectra(Some(r#"{"nope": 1}"#.into())));
+    assert_eq!(parse(&f.scans(None))["ok"], Value::Bool(false));
+    let bad = parse(&f.scans(Some(r#"{"nope": 1}"#.into())));
     assert_eq!(bad["error"]["exit_code"], 2);
 }
 

@@ -1,0 +1,99 @@
+{
+ "id": "zenodo13335999-synuclein-4c",
+ "file": "zenodo13335999-synuclein-4c.nd2",
+ "size": 8249344,
+ "sha256": "7f437acc6bc250f826c6019b04a06fd6a5f86859a5444b317b8b78ead57518f9",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1416,
+   "size_y": 1416,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 1416, 'X': 1416}",
+   "physical_size_um": {
+    "x": 0.182643267892841,
+    "y": 0.182643267892841,
+    "z": null
+   },
+   "channel_names": [
+    "ThT_20uM",
+    "DIC_For488_60X"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a673f131c2ac10a48bd84a8f0dd76047"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "763f6638e6fc80ccf1ce402f4b0aeb71"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "ThT_20uM",
+    "color": "#36FF00",
+    "excitation_nm": null,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "camera"
+    ]
+   },
+   {
+    "name": "DIC_For488_60X",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "camera"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 3819.315639998764,
+    "tags": {
+     "CameraTemp1": -13.15,
+     "Camera_ExposureTime1": 50.0,
+     "PFS_OFFSET": 6939,
+     "PFS_STATUS": 3,
+     "X": 14053.1,
+     "Y": -6618.1,
+     "Z": 3195.8,
+     "Z1": 3295.8,
+     "Z2": 100.0
+    }
+   }
+  ],
+  "acquired_at": "2025-01-22T17:40:23.806Z",
+  "acquired_at_unix_ms": 1737567623806
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(2)\r\nCamera Name: Prime 95B, A21D203006\r\nNumerical Aperture: 1.49\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: ThT_20uM\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 50 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Temperature: -13.2\u00b0C\r\n  \r\n  Conversion Gain: HDR\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: Low\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  DIC Prism, position: In\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 2 (Continuous STORM)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  LightPath: L100\r\n  Condenser: 2 (Shutter)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  LAPP Lower Ports:\r\n     Port 1: On \r\n  \r\n  pE-4000, Shutter(pE-4000): Active\r\n  pE-4000, MultiLaser(pE-4000):\r\n     Line:1; ExW:405; Power: 50.0; On\r\n  \r\n  OptoSpin, FilterChanger(OptoSpin Wheel 0): 1 (EM 515/30)\r\nPlane #2:\r\n Name: DIC_For488_60X\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 40 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Temperature: -13.2\u00b0C\r\n  \r\n  Conversion Gain: HDR\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: Low\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Polarizer, position: In\r\n  DIC Prism, position: In\r\n  Nosepiece: 4\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 2 (Continuous STORM)\r\n  Nikon Ti2, Shutter(DIA LED): Active\r\n  LightPath: L100\r\n  Condenser: 1 (OPEN)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  PhysicalFromDeviceBuilder, FilterChanger(Twincam): 1 (Empty)\r\n  OptoSpin, FilterChanger(OptoSpin Wheel 0): 1 (EM 515/30)\r\n  OptoSpin, FilterChanger(OptoSpin Wheel 1): 1 (EM 525/50)",
+  "capturing": "Prime 95B, A21D203006\r\nSample 1:\r\n  Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 50 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Temperature: -13.2\u00b0C\r\n  \r\n  Conversion Gain: HDR\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: Low\r\n\r\nSample 2:\r\n  Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 40 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Temperature: -13.2\u00b0C\r\n  \r\n  Conversion Gain: HDR\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: Low\r\n",
+  "date": "22/01/2025  17:40:23",
+  "optics": "Apo TIRF 60x Oil DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=2, heightPx=1416, pixelDataType='unsigned', sequenceCount=1, widthBytes=5664, widthPx=1416, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

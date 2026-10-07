@@ -1,0 +1,97 @@
+{
+ "id": "pygecko-openlab-fkb-fa-060-ri",
+ "file": "FKB-FA-060-RI.dx",
+ "size": 616606,
+ "sha256": "0cbae715768ad3815198c59df0eed51c7131bb57000e56ee81f74fa0ba3e5e09",
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api (black box) + chromConverter 0.9.0 (black box)",
+ "oracle_note": "detector signals: rainbow-api parse_file on the extracted .CH parts, equal to chromConverter 0.9.0 (max |difference| 0); instrument curves: chromConverter 0.9.0 read_agilent_dx(what = 'instrument')",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FID2B"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 49.99999993336818,
+   "x_first_min": 0.0003333166758219401,
+   "x_last_min": 12.5,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 37500,
+     "channels": [
+      {
+       "xxh3": "ae1ec311a2a68dbc243eacdefcd0272b",
+       "first": [
+        10.183333333333334,
+        10.182421875,
+        10.189583333333333,
+        10.191145833333334,
+        10.179427083333334,
+        10.164583333333333,
+        10.164322916666666,
+        10.169010416666666
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "FID2B",
+   "parameters": {
+    "extra": {
+     "sample_name": "FKB-FA-060-RI",
+     "operator": "Admin",
+     "method_path": "D:\\Data\\GC-FID\\Results\\FKB\\FKB-FA-060-RI.rslt\\Polyarc_110_20_320_2.amx"
+    }
+   }
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FID1A"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 49.99999993336818,
+   "x_first_min": 0.0003333166758219401,
+   "x_last_min": 12.5,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 37500,
+     "channels": [
+      {
+       "xxh3": "ff40d1c04d211d493c390a7bff678dc1",
+       "first": [
+        17.067057291666668,
+        17.063671875,
+        17.071614583333332,
+        17.0703125,
+        17.069140625,
+        17.074609375,
+        17.099869791666666,
+        17.102864583333332
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "FID1A",
+   "parameters": {
+    "extra": {
+     "sample_name": "FKB-FA-060-RI",
+     "operator": "Admin",
+     "method_path": "D:\\Data\\GC-FID\\Results\\FKB\\FKB-FA-060-RI.rslt\\Polyarc_110_20_320_2.amx"
+    }
+   }
+  }
+ ]
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Compare `openreadout export --to asm` with allotropy's ASM for the same plate-reader exports.
+"""Compare `openreadout export --format asm` with allotropy's ASM for the same plate-reader exports.
 
 Usage: uv run python asm_compare.py [--bin PATH] [--corpus DIR] [--only SUBSTR] [--json OUT]
 
@@ -131,7 +131,7 @@ def main():
             if not src.exists():
                 continue
             out = Path(td) / f"{e['id']}.asm.json"
-            r = subprocess.run([a.bin, "export", str(src), "--to", "asm", "-o", str(out), "--json"], capture_output=True, text=True)
+            r = subprocess.run([a.bin, "export", str(src), "--format", "asm", "-o", str(out), "--json"], capture_output=True, text=True)
             if r.returncode != 0:
                 report[e["id"]] = {"error": r.stdout[-500:] + r.stderr[-500:]}
                 print(f"{e['id']}: export failed"); continue

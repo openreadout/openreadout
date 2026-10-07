@@ -1,0 +1,258 @@
+{
+ "id": "zetasizer-tdl-bkrucg-ecoli",
+ "format": "malvern-zetasizer-dts",
+ "independent": true,
+ "reader": "the Zetasizer software's export of the same records (vendor software)",
+ "tables": [
+  {
+   "table": 0,
+   "rows": 15,
+   "cells": [
+    [
+     0,
+     "record",
+     2.0
+    ],
+    [
+     0,
+     "sample_name",
+     "e.coli_pH6 1"
+    ],
+    [
+     0,
+     "zeta_potential",
+     -37.5,
+     0.050005
+    ],
+    [
+     1,
+     "record",
+     3.0
+    ],
+    [
+     1,
+     "sample_name",
+     "e.coli_pH6 2"
+    ],
+    [
+     1,
+     "zeta_potential",
+     -37.7,
+     0.050005
+    ],
+    [
+     2,
+     "record",
+     4.0
+    ],
+    [
+     2,
+     "sample_name",
+     "e.coli_pH6 3"
+    ],
+    [
+     2,
+     "zeta_potential",
+     -40.7,
+     0.050005
+    ],
+    [
+     3,
+     "record",
+     5.0
+    ],
+    [
+     3,
+     "sample_name",
+     "e.coli_pH8 1"
+    ],
+    [
+     3,
+     "zeta_potential",
+     -35.4,
+     0.050005
+    ],
+    [
+     4,
+     "record",
+     6.0
+    ],
+    [
+     4,
+     "sample_name",
+     "e.coli_pH8 2"
+    ],
+    [
+     4,
+     "zeta_potential",
+     -36.6,
+     0.050005
+    ],
+    [
+     5,
+     "record",
+     7.0
+    ],
+    [
+     5,
+     "sample_name",
+     "e.coli_pH8 3"
+    ],
+    [
+     5,
+     "zeta_potential",
+     -38.9,
+     0.050005
+    ],
+    [
+     6,
+     "record",
+     8.0
+    ],
+    [
+     6,
+     "sample_name",
+     "e.coli_pH5 1"
+    ],
+    [
+     6,
+     "zeta_potential",
+     -36.0,
+     0.50005
+    ],
+    [
+     7,
+     "record",
+     9.0
+    ],
+    [
+     7,
+     "sample_name",
+     "e.coli_pH5 2"
+    ],
+    [
+     7,
+     "zeta_potential",
+     -37.5,
+     0.050005
+    ],
+    [
+     8,
+     "record",
+     10.0
+    ],
+    [
+     8,
+     "sample_name",
+     "e.coli_pH5 3"
+    ],
+    [
+     8,
+     "zeta_potential",
+     -39.1,
+     0.050005
+    ],
+    [
+     9,
+     "record",
+     11.0
+    ],
+    [
+     9,
+     "sample_name",
+     "e.coli_pH7 1"
+    ],
+    [
+     9,
+     "zeta_potential",
+     -35.3,
+     0.050005
+    ],
+    [
+     10,
+     "record",
+     12.0
+    ],
+    [
+     10,
+     "sample_name",
+     "e.coli_pH7 2"
+    ],
+    [
+     10,
+     "zeta_potential",
+     -37.8,
+     0.050005
+    ],
+    [
+     11,
+     "record",
+     13.0
+    ],
+    [
+     11,
+     "sample_name",
+     "e.coli_pH7 3"
+    ],
+    [
+     11,
+     "zeta_potential",
+     -38.0,
+     0.50005
+    ],
+    [
+     12,
+     "record",
+     14.0
+    ],
+    [
+     12,
+     "sample_name",
+     "0.1x pbs_pH7 1"
+    ],
+    [
+     12,
+     "zeta_potential",
+     -33.6,
+     0.050005
+    ],
+    [
+     13,
+     "record",
+     15.0
+    ],
+    [
+     13,
+     "sample_name",
+     "0.1x pbs_pH7 2"
+    ],
+    [
+     13,
+     "zeta_potential",
+     -36.7,
+     0.050005
+    ],
+    [
+     14,
+     "record",
+     16.0
+    ],
+    [
+     14,
+     "sample_name",
+     "0.1x pbs_pH7 3"
+    ],
+    [
+     14,
+     "zeta_potential",
+     -36.8,
+     0.050005
+    ]
+   ],
+   "tol_rel": 0.005,
+   "tol_abs": 0.0006,
+   "time_tol_s": 1.0,
+   "source": "Zetasizer export zetasizer-tdl-bkrucg-ecoli-export.xlsx"
+  }
+ ]
+}

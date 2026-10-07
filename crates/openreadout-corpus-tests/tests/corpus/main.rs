@@ -8,7 +8,7 @@
 //! its own.
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus -- --nocapture`
-//! Env: `OPENREADOUT_CORPUS_DIR` overrides `corpus/files`; `CORPUS_ONLY=<substring>` filters ids;
+//! Env: `OPENREADOUT_CORPUS_DIR` overrides `corpus/files`; `CORPUS_ONLY=<substring>[,<substring>...]` filters ids;
 //! `CORPUS_FORMAT=<id>[,<id>...]` filters manifest formats;
 //! `CORPUS_REPORT=path` writes a Markdown table.
 #![cfg(feature = "corpus")]
@@ -183,9 +183,15 @@ struct Outcome {
 /// The outputs an oracle lets the comparison check (`docs/assurance.md`). A Thermo file's
 /// chromatograms are rebuilt from its spectra (`check_chromatograms`: the TIC from every scan, an
 /// SRM trace from the peaks in each scan's product window), so they check its spectra; its traces
-/// are the LC detectors', which no chromatogram covers.
+/// are the LC detectors', which no chromatogram covers. In the other vendor formats an SRM
+/// chromatogram is rebuilt from the spectra too, so it checks the spectra; their TIC and BPC
+/// can come from our traces, so those check traces.
 fn compared_scopes(o: &Oracle, format: &str) -> Vec<&'static str> {
     let thermo_chromatograms = format == "thermo-raw" && o.chromatograms.is_some();
+    let srm_from_spectra = !matches!(format, "mzml" | "mzxml")
+        && o.chromatograms
+            .as_ref()
+            .is_some_and(|c| c.iter().any(|t| t.kind == "srm"));
     let mut v = vec!["metadata"];
     if o.images
         .iter()
@@ -194,7 +200,7 @@ fn compared_scopes(o: &Oracle, format: &str) -> Vec<&'static str> {
     {
         v.push("pixels");
     }
-    if o.spectra.is_some() || o.tdf.is_some() || thermo_chromatograms {
+    if o.spectra.is_some() || o.tdf.is_some() || thermo_chromatograms || srm_from_spectra {
         v.push("spectra");
     }
     if o.traces.iter().any(|t| t.sweep_count.is_some())
@@ -659,6 +665,11 @@ fn apply_entry_settings(oracle: &mut Oracle, e: &Entry) {
     oracle.srm_product_tolerance = e.srm_product_tolerance;
 }
 
+/// `CORPUS_ONLY` holds one id substring or several separated by commas.
+fn only_matches(only: &str, id: &str) -> bool {
+    only.split(',').any(|o| id.contains(o.trim()))
+}
+
 #[test]
 fn corpus_matches_oracle() {
     let root = root();
@@ -678,7 +689,7 @@ fn corpus_matches_oracle() {
                 // depositor mzML/mzXML exports are open-format inputs in their own right
                 || (e.role == "oracle-export" && (e.format == "mzml" || e.format == "mzxml"))
     }) {
-        if only.as_ref().is_some_and(|o| !e.id.contains(o.as_str())) {
+        if only.as_ref().is_some_and(|o| !only_matches(o, &e.id)) {
             continue;
         }
         if formats
@@ -909,7 +920,7 @@ fn heldout_agreement_is_recorded() {
     let mut lines = String::new();
     let mut counts: BTreeMap<String, usize> = BTreeMap::new();
     for e in manifest.file.iter().filter(|e| e.role == "heldout") {
-        if only.as_ref().is_some_and(|o| !e.id.contains(o.as_str())) {
+        if only.as_ref().is_some_and(|o| !only_matches(o, &e.id)) {
             continue;
         }
         let path = files_dir.join(&e.filename);

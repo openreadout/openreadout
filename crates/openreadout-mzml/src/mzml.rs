@@ -95,6 +95,8 @@ pub struct MzmlDataset {
     notes: Vec<String>,
     summaries: OnceLock<std::result::Result<Vec<Summary>, String>>,
     chrom_meta: OnceLock<std::result::Result<Vec<ChromMeta>, String>>,
+    /// imzML: the MS level of a spectrum that states none (`default_ms_level`).
+    level_default: OnceLock<(u32, bool)>,
     /// imzML: the `.ibd` file holding the arrays.
     imaging: Option<Imaging>,
     /// mzMLb: the HDF5 datasets holding the arrays.
@@ -297,6 +299,7 @@ impl MzmlDataset {
             notes,
             summaries: OnceLock::new(),
             chrom_meta: OnceLock::new(),
+            level_default: OnceLock::new(),
             imaging: None,
             hdf5: None,
             fs: fs.clone(),
@@ -317,6 +320,55 @@ impl MzmlDataset {
     /// Length of the XML document in bytes.
     pub(crate) fn file_len(&self) -> u64 {
         self.file_len
+    }
+
+    /// The MS level of an imzML spectrum that states none, and whether it is assumed: 1 when the
+    /// file's `fileContent` names MS1 spectra and no other spectrum kind (an imaging file's
+    /// spectra are one kind); 1, assumed, when it names no specific kind (only the generic
+    /// `mass spectrum`, or nothing); else 0 (not stated). mzML files keep 0: their `fileContent`
+    /// lists every kind in the run.
+    fn default_ms_level(&self) -> u32 {
+        self.level_default().0
+    }
+
+    fn level_default(&self) -> (u32, bool) {
+        *self.level_default.get_or_init(|| {
+            if self.imaging.is_none() {
+                return (0, false);
+            }
+            let fc: Vec<Param> = self
+                .header_node("fileDescription")
+                .and_then(|f| f.child("fileContent"))
+                .map(|c| params(c, &self.groups))
+                .unwrap_or_default();
+            // spectrum kinds, not their representation (`centroid spectrum`, `profile spectrum`)
+            // or the generic parent term (`mass spectrum`)
+            let kinds = fc
+                .iter()
+                .filter(|p| {
+                    p.name.ends_with("spectrum")
+                        && !matches!(
+                            p.name.as_str(),
+                            "centroid spectrum" | "profile spectrum" | "mass spectrum"
+                        )
+                })
+                .count();
+            match (kinds, find(&fc, cv::MS1_SPECTRUM).is_some()) {
+                (1, true) => (1, false),
+                (0, _) => (1, true),
+                _ => (0, false),
+            }
+        })
+    }
+
+    /// `interpret`, with the file's default MS level for a spectrum that states none.
+    fn meta(&self, n: &Node, i: usize) -> Meta {
+        let mut m = interpret(n, &self.groups, i as u64);
+        if m.ms_level == 0 {
+            m.ms_level = self.default_ms_level();
+            m.spectrum.ms_level = m.ms_level;
+        }
+        m
     }
 
     fn header_node(&self, tag: &str) -> Option<&Node> {
@@ -383,7 +435,7 @@ impl MzmlDataset {
                             let node = self
                                 .spectrum_node(Some(&mut f), i, true)
                                 .map_err(|e| e.to_string())?;
-                            let m = interpret(&node, &self.groups, i as u64);
+                            let m = self.meta(&node, i);
                             Ok(Summary {
                                 ms_level: m.ms_level,
                                 rt_s: m.rt,
@@ -736,7 +788,7 @@ impl MzmlDataset {
         let start = usize::try_from(first).unwrap_or(usize::MAX);
         for i in start..self.spectra.len() {
             let n = self.spectrum_node(Some(&mut f), i, true)?;
-            let m = interpret(&n, &self.groups, i as u64);
+            let m = self.meta(&n, i);
             let mut h = openreadout_core::ScanHeader::from(m.spectrum);
             h.point_count = Some(m.points);
             if !visit(h) {
@@ -750,7 +802,7 @@ impl MzmlDataset {
     pub fn spectrum(&self, i: usize) -> Result<Spectrum> {
         let node = self.spectrum_node(None, i, false)?;
         let offset = self.spectra[i].offset;
-        let mut m = interpret(&node, &self.groups, i as u64);
+        let mut m = self.meta(&node, i);
         let arrays = decode_arrays(&node, &self.groups, m.points, offset, self.external())?;
         let mut mz = None;
         let mut intensity = None;
@@ -1448,6 +1500,17 @@ fn decode_one(
     ext: External<'_>,
 ) -> std::result::Result<(Array, bool), ArrayError> {
     let ps = params(bda, groups);
+    if cv::is_text_array(&ps) {
+        // Text, not numbers: listed by name (`other_arrays`), not decoded.
+        return Ok((
+            Array {
+                kind: format!("{} (text)", cv::array_kind(&ps)),
+                values: Vec::new(),
+                time_scale: None,
+            },
+            true,
+        ));
+    }
     let enc = encoding_of(&ps)?;
     let mut want = expected_len(bda, default_len);
     let ibd = match ext {
@@ -1558,11 +1621,27 @@ fn decode_arrays_checked(
     ext: External<'_>,
 ) -> std::result::Result<usize, ArrayError> {
     let mut enc_bad = 0;
+    let (mut mz, mut intensity) = (None, None);
     for bda in arrays_of(n) {
-        let (_, ok) = decode_one(bda, groups, points, ext)?;
+        let (a, ok) = decode_one(bda, groups, points, ext)?;
         if !ok {
             enc_bad += 1;
         }
+        match a.kind.as_str() {
+            "mz" if mz.is_none() => mz = Some(a.values.len()),
+            "intensity" if intensity.is_none() => intensity = Some(a.values.len()),
+            _ => {}
+        }
+    }
+    // the pair `spectrum` refuses (an imzML whose .ibd lengths disagree, for one)
+    if let (Some(m), Some(i)) = (mz, intensity)
+        && m != i
+        && m > 0
+        && i > 0
+    {
+        return Err(ArrayError::Layout(format!(
+            "m/z array has {m} values, intensity array {i}"
+        )));
     }
     Ok(enc_bad)
 }
@@ -1591,6 +1670,9 @@ fn chrom_meta_of(
     let mut arrays = Vec::new();
     for bda in arrays_of(n) {
         let aps = params(bda, groups);
+        if cv::is_text_array(&aps) {
+            continue;
+        }
         let name = cv::array_kind(&aps);
         let unit = if name == "time" {
             Some("s".to_string())
@@ -1650,6 +1732,12 @@ impl Dataset for MzmlDataset {
         };
         let mut notes = self.notes.clone();
         let spectra = self.spectra_info()?;
+        if self.level_default().1 {
+            notes.push(
+                "the imzML names no spectrum kind and its spectra state no MS level: they are taken as MS1 (assumed)"
+                    .into(),
+            );
+        }
         if spectra
             .extra
             .get("acquired_at")
@@ -1697,7 +1785,7 @@ impl Dataset for MzmlDataset {
     }
 
     fn provenance(&self) -> ProvenanceMap {
-        // Keys are paths into `info`; per-spectrum fields (`spectra --scan N --json`) are all read
+        // Keys are paths into `info`; per-spectrum fields (`spectrum --scan N --json`) are all read
         // from PSI-MS terms (Source::Spec) and documented in docs/formats/mzml.md.
         let mut m = ProvenanceMap::new();
         for k in [
@@ -1808,7 +1896,7 @@ impl Dataset for MzmlDataset {
         Err(Error::unsupported(
             FMT,
             "image planes",
-            "mzML holds mass spectra, not images: use `openreadout spectra` or `export --to mzml`.",
+            "mzML holds mass spectra, not images: use `openreadout scans` or `export --format mzml`.",
         ))
     }
 
@@ -1939,6 +2027,61 @@ pub(crate) fn descriptor() -> FormatDescriptor {
             "gzip-compressed files (.mzML.gz) are decompressed once at every open (restart points are kept in memory, not saved): `info` costs about two decompressions of the file; mzMLb is its own format id (mzmlb)".into(),
             "Only the first scan of a spectrum and the last precursor are normalized; the rest stay in the element tree".into(),
         ],
+    }
+}
+
+#[cfg(test)]
+mod text_array_tests {
+    use openreadout_core::Dataset;
+
+    /// OpenMS's `MzMLFile_6_uncompressed.mzML` layout: m/z and intensity, then a
+    /// `null-terminated ASCII string` (MS:1001479) meta-data array. The text array used to fail
+    /// the spectrum as corrupt ("no binary data type term").
+    #[test]
+    fn text_arrays_are_listed_not_decoded() {
+        let mzml = r#"<?xml version="1.0" encoding="utf-8"?>
+<mzML xmlns="http://psi.hupo.org/ms/mzml" version="1.1.0">
+ <run id="r">
+  <spectrumList count="1">
+   <spectrum id="index=1" index="0" defaultArrayLength="2">
+    <cvParam cvRef="MS" accession="MS:1000511" name="ms level" value="1"/>
+    <binaryDataArrayList count="3">
+     <binaryDataArray encodedLength="24">
+      <cvParam cvRef="MS" accession="MS:1000514" name="m/z array"/>
+      <cvParam cvRef="MS" accession="MS:1000523" name="64-bit float"/>
+      <cvParam cvRef="MS" accession="MS:1000576" name="no compression"/>
+      <binary>AAAAAAAA8D8AAAAAAAAAQA==</binary>
+     </binaryDataArray>
+     <binaryDataArray encodedLength="12">
+      <cvParam cvRef="MS" accession="MS:1000515" name="intensity array"/>
+      <cvParam cvRef="MS" accession="MS:1000521" name="32-bit float"/>
+      <cvParam cvRef="MS" accession="MS:1000576" name="no compression"/>
+      <binary>AABAQAAAgEA=</binary>
+     </binaryDataArray>
+     <binaryDataArray arrayLength="3" encodedLength="8">
+      <cvParam cvRef="MS" accession="MS:1001479" name="null-terminated ASCII string"/>
+      <cvParam cvRef="MS" accession="MS:1000576" name="no compression"/>
+      <cvParam cvRef="MS" accession="MS:1000786" name="non-standard data array" value="labels"/>
+      <binary>YQBiAGMA</binary>
+     </binaryDataArray>
+    </binaryDataArrayList>
+   </spectrum>
+  </spectrumList>
+ </run>
+</mzML>"#;
+        let dir = tempfile::tempdir().unwrap();
+        let p = dir.path().join("text-array.mzML");
+        std::fs::write(&p, mzml).unwrap();
+        let mut ds = super::MzmlDataset::open(&p).unwrap();
+        let s = ds.spectrum(0).unwrap();
+        assert_eq!(s.mz, vec![1.0, 2.0]);
+        assert_eq!(s.intensity, vec![3.0, 4.0]);
+        assert_eq!(
+            s.extra.get("other_arrays"),
+            Some(&serde_json::json!(["labels (text)"]))
+        );
+        let rep = ds.check().unwrap();
+        assert!(rep.ok, "{:?}", rep.findings);
     }
 }
 

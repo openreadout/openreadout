@@ -652,7 +652,7 @@ impl Dataset for FcsDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "image planes",
-            "FCS files hold event tables, not images: use `openreadout export FILE --to csv` or the openreadout_table MCP tool.",
+            "FCS files hold event tables, not images: use `openreadout export FILE --format csv` or the openreadout_table MCP tool.",
         ))
     }
 

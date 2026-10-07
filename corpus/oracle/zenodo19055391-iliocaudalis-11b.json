@@ -1,0 +1,142 @@
+{
+ "id": "zenodo19055391-iliocaudalis-11b",
+ "file": "zenodo19055391-iliocaudalis-11b.lif",
+ "size": 34509503,
+ "sha256": "551b876b961db0b243866d1f4d5c79c1a6ea821ef09eeea55dcb8bd7d19d2689",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "TileScan_001",
+   "path": "TileScan_001",
+   "size_x": 3896,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "MCYX",
+   "shape": [
+    3,
+    2,
+    1040,
+    1392
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.9145995686563047,
+    "y": 0.9145993262738017,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "092b3b3bc4b7a9119e61e81bbeabbbb9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8fb90ff145efe266f2c5ea98d55f7acc"
+    }
+   ],
+   "mosaic": {
+    "tile_count": 3,
+    "tile_width": 1392,
+    "tile_height": 1040,
+    "method": "stage_position",
+    "tiles": [
+     {
+      "index": 0,
+      "x_px": 2504,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "9fd5741a2dc70f7dfbd46e646c602968",
+      "visible": [
+       140,
+       0,
+       1252,
+       1040
+      ],
+      "xxh3_visible": "da38db8fa0475dc521da58c9823fd8cf"
+     },
+     {
+      "index": 1,
+      "x_px": 1252,
+      "y_px": 0,
+      "fully_visible": false,
+      "xxh3_c0z0t0": "a0631ccdc77e8c6704d809c1b193d42a",
+      "visible": [
+       140,
+       0,
+       1252,
+       1040
+      ],
+      "xxh3_visible": "1c7f5e1c75650988d7c313f645ceae95"
+     },
+     {
+      "index": 2,
+      "x_px": 0,
+      "y_px": 0,
+      "fully_visible": true,
+      "xxh3_c0z0t0": "849c1710ed7039554ebf2e79a6b7e341",
+      "visible": [
+       0,
+       0,
+       1392,
+       1040
+      ],
+      "xxh3_visible": "849c1710ed7039554ebf2e79a6b7e341"
+     }
+    ]
+   }
+  },
+  {
+   "index": 1,
+   "name": "TileScan_001_Merging001",
+   "path": "TileScan_001_Merging001",
+   "size_x": 3857,
+   "size_y": 1108,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1108,
+    3857
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.9141794605809128,
+    "y": 0.9145456187895212,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4527fa3e5cc53c22e8df73436da536de"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5f78e21e4ee356995c754471415f75fc"
+    }
+   ]
+  }
+ ]
+}

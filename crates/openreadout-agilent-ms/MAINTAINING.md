@@ -17,7 +17,7 @@ Agilent MassHunter `.d` mass-spectrometry directories: Q-TOF, TOF, triple quadru
 
 ## Debugging a new file
 
-- `openreadout info RUN.d --view structure` lists the `AcqData` files; `openreadout spectra RUN.d` lists the index without decoding peaks; `info --view full --json` → `vendor` has the XML documents.
+- `openreadout info RUN.d --view structure` lists the `AcqData` files; `openreadout scans RUN.d` lists the index without decoding peaks; `info --view full --json` → `vendor` has the XML documents.
 - A new acquisition software release usually changes `MSScan.xsd`: the reader follows the schema, so diff the new XSD with a corpus one first. `layout.rs` unit tests (`layouts_from_fallback_schemas`, `lzf_literal_and_backref`, `calibration_clamps_the_polynomial`) are the templates for new cases.
 - Ground truth: the depositor's mzML as `oracle-export`; `oracle/gen.py --export run.mzML --id ID RUN.d` (the oracle needs the export).
 - `tests/synthetic.rs` builds `AcqData` directories.
@@ -38,7 +38,7 @@ Agilent MassHunter `.d` mass-spectrometry directories: Q-TOF, TOF, triple quadru
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `agilent-masshunter` | [format note](../../docs/formats/agilent-masshunter.md), [provenance log](../../docs/provenance/agilent-masshunter.md) | high | reverse engineered | 17 / 17 | 7 | - |
+| `agilent-masshunter` | [format note](../../docs/formats/agilent-masshunter.md), [provenance log](../../docs/provenance/agilent-masshunter.md) | high | reverse engineered | 31 / 20 | 10 | - |
 
 ### Source map
 
@@ -63,6 +63,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature instrument `m` (descriptive)
 - feature writer_version `v` (descriptive)
 - feature record `format!("device {d}")` (descriptive)
+- undecoded "{f} (not in the data directory)"
 - calibration "time-of-flight to m/z (MSMassCal.bin, DefaultMassCal.xml)"
 
 ### Validated variants and the corpus files that pin them
@@ -70,56 +71,73 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
 | `agilent-masshunter` | acquisition | `device IM-QTOF` | spectra | 3 | 3 | `pwiz-agilent-ims-allions`, `pwiz-agilent-ims-ccs`, `pwiz-agilent-ims-chrom` |
-| `agilent-masshunter` | acquisition | `device QTOF` | spectra | 3 | 3 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129`, `mtbls874-BDV10076M3` |
-| `agilent-masshunter` | acquisition | `device TOF` | spectra | 1 | 1 | `pwiz-agilent-tof-sulfas` |
-| `agilent-masshunter` | acquisition | `device TandemQuadrupole` | spectra | 9 | 10 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `pwiz-agilent-apci-piscan` |
-| `agilent-masshunter` | acquisition | `scan type 1` | spectra | 9 | 9 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129`, `mtbls874-BDV10076M3` |
+| `agilent-masshunter` | acquisition | `device QTOF` | spectra | 6 | 8 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls1334-STD_neg_MSMS_1min0205` |
+| `agilent-masshunter` | acquisition | `device SingleQuadrupole` | spectra | 0 | 2 |  |
+| `agilent-masshunter` | acquisition | `device TOF` | spectra | 1 | 2 | `pwiz-agilent-tof-sulfas` |
+| `agilent-masshunter` | acquisition | `device TandemQuadrupole` | spectra | 9 | 12 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `pwiz-agilent-apci-piscan` |
+| `agilent-masshunter` | acquisition | `scan type 1` | spectra | 12 | 22 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls1334-STD_neg_MSMS_1min0205` |
 | `agilent-masshunter` | acquisition | `scan type 2` | spectra | 1 | 1 | `pwiz-agilent-reserpine-ms2sim` |
 | `agilent-masshunter` | acquisition | `scan type 2048` | spectra | 1 | 1 | `pwiz-agilent-neutral-loss` |
-| `agilent-masshunter` | acquisition | `scan type 256` | spectra | 5 | 6 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `pwiz-agilent-gfb-4scan-timesegs` |
-| `agilent-masshunter` | acquisition | `scan type 512` | spectra | 6 | 6 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls874-BDV10076M3`, `pwiz-agilent-apci-piscan` |
-| `agilent-masshunter` | acquisition | `stored centroid` | spectra | 10 | 11 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129` |
-| `agilent-masshunter` | acquisition | `stored profile` | spectra | 3 | 3 | `pwiz-agilent-ims-allions`, `pwiz-agilent-ims-ccs`, `pwiz-agilent-ims-chrom` |
-| `agilent-masshunter` | acquisition | `stored profile+centroid` | spectra | 3 | 3 | `mtbls1334-STD_neg_MSMS_1min0205`, `pwiz-agilent-thyrxox-ts-diff-scan`, `pwiz-agilent-tof-sulfas` |
-| `agilent-masshunter` | field | `experiment.acquisition.started_at` | descriptive | 17 | 17 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
-| `agilent-masshunter` | field | `experiment.instrument.model` | descriptive | 17 | 17 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
-| `agilent-masshunter` | format_version | `MSScan layout 4` | metadata, spectra, traces | 1 | 1 | `pwiz-agilent-tof-sulfas` |
-| `agilent-masshunter` | format_version | `MSScan layout 5` | metadata, spectra, traces | 10 | 10 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls4722-1` |
-| `agilent-masshunter` | format_version | `MSScan layout 6` | metadata, spectra, traces | 6 | 6 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129`, `mtbls874-BDV10076M3` |
+| `agilent-masshunter` | acquisition | `scan type 256` | spectra | 5 | 7 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `pwiz-agilent-gfb-4scan-timesegs` |
+| `agilent-masshunter` | acquisition | `scan type 512` | spectra | 7 | 9 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls14343-e-1-pos-041-ms2-d`, `mtbls874-BDV10076M3` |
+| `agilent-masshunter` | acquisition | `stored centroid` | spectra | 12 | 16 | `mtbls12837-n14-d`, `mtbls14343-e-1-pos-041-ms2-d`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3` |
+| `agilent-masshunter` | acquisition | `stored profile` | spectra | 4 | 10 | `mtbls12637-processblank2-pos-77-d`, `pwiz-agilent-ims-allions`, `pwiz-agilent-ims-ccs` |
+| `agilent-masshunter` | acquisition | `stored profile+centroid` | spectra | 3 | 5 | `mtbls1334-STD_neg_MSMS_1min0205`, `pwiz-agilent-thyrxox-ts-diff-scan`, `pwiz-agilent-tof-sulfas` |
+| `agilent-masshunter` | field | `experiment.acquisition.started_at` | descriptive | 20 | 27 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls1334-STD_neg_MSMS_1min0205` |
+| `agilent-masshunter` | field | `experiment.instrument.model` | descriptive | 20 | 27 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls1334-STD_neg_MSMS_1min0205` |
+| `agilent-masshunter` | format_version | `MSScan layout 2` | metadata, spectra, traces | 0 | 2 |  |
+| `agilent-masshunter` | format_version | `MSScan layout 4` | metadata, spectra, traces | 1 | 5 | `pwiz-agilent-tof-sulfas` |
+| `agilent-masshunter` | format_version | `MSScan layout 5` | metadata, spectra, traces | 10 | 12 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls4722-1` |
+| `agilent-masshunter` | format_version | `MSScan layout 6` | metadata, spectra, traces | 9 | 12 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls1334-STD_neg_MSMS_1min0205` |
+| `agilent-masshunter` | instrument | `5977` | spectra | 0 | 1 |  |
 | `agilent-masshunter` | instrument | `G6220A` | descriptive | 1 | 1 | `pwiz-agilent-tof-sulfas` |
-| `agilent-masshunter` | instrument | `G6410A` | descriptive | 9 | 9 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls4722-1` |
-| `agilent-masshunter` | instrument | `G6540B` | descriptive | 1 | 1 | `mtbls874-BDV10076M3` |
-| `agilent-masshunter` | instrument | `G6545B` | descriptive | 1 | 1 | `mtbls1334-STD_neg_MSMS_1min0205` |
+| `agilent-masshunter` | instrument | `G6224A` | descriptive | 0 | 1 |  |
+| `agilent-masshunter` | instrument | `G6410A` | descriptive | 9 | 10 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls4722-1` |
+| `agilent-masshunter` | instrument | `G6540B` | descriptive | 1 | 2 | `mtbls874-BDV10076M3` |
+| `agilent-masshunter` | instrument | `G6545A` | descriptive | 1 | 1 | `mtbls12837-n14-d` |
+| `agilent-masshunter` | instrument | `G6545B` | descriptive | 1 | 2 | `mtbls1334-STD_neg_MSMS_1min0205` |
+| `agilent-masshunter` | instrument | `G6546A` | descriptive | 2 | 2 | `mtbls12637-processblank2-pos-77-d`, `mtbls14343-e-1-pos-041-ms2-d` |
 | `agilent-masshunter` | instrument | `G6550B` | descriptive | 1 | 1 | `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129` |
 | `agilent-masshunter` | instrument | `G6560sim` | descriptive | 3 | 3 | `pwiz-agilent-ims-allions`, `pwiz-agilent-ims-ccs`, `pwiz-agilent-ims-chrom` |
+| `agilent-masshunter` | instrument | `G7010C` | spectra | 0 | 1 |  |
+| `agilent-masshunter` | instrument | `SingleQuadrupole` | spectra | 0 | 1 |  |
 | `agilent-masshunter` | instrument | `TandemQuadrupole` | descriptive | 1 | 1 | `pwiz-agilent-thyrxox-ts-diff-scan` |
-| `agilent-masshunter` | instrument | `generation 6200 TOF` | spectra | 1 | 1 | `pwiz-agilent-tof-sulfas` |
-| `agilent-masshunter` | instrument | `generation 6400 triple quadrupole` | spectra | 9 | 10 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `pwiz-agilent-apci-piscan` |
-| `agilent-masshunter` | instrument | `generation 6500 Q-TOF` | spectra | 3 | 3 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129`, `mtbls874-BDV10076M3` |
+| `agilent-masshunter` | instrument | `generation 6200 TOF` | spectra | 1 | 2 | `pwiz-agilent-tof-sulfas` |
+| `agilent-masshunter` | instrument | `generation 6400 triple quadrupole` | spectra | 9 | 11 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `pwiz-agilent-apci-piscan` |
+| `agilent-masshunter` | instrument | `generation 6500 Q-TOF` | spectra | 6 | 8 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls1334-STD_neg_MSMS_1min0205` |
 | `agilent-masshunter` | instrument | `generation 6560 ion-mobility Q-TOF` | spectra | 3 | 3 | `pwiz-agilent-ims-allions`, `pwiz-agilent-ims-ccs`, `pwiz-agilent-ims-chrom` |
 | `agilent-masshunter` | layout | `ion-mobility frames (IMSFrame.bin)` | spectra, traces | 3 | 3 | `pwiz-agilent-ims-allions`, `pwiz-agilent-ims-ccs`, `pwiz-agilent-ims-chrom` |
-| `agilent-masshunter` | record | `base peak` | traces | 6 | 17 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls4722-1` |
-| `agilent-masshunter` | record | `detector signal` | traces | 0 | 2 |  |
-| `agilent-masshunter` | record | `device BinPump` | descriptive | 2 | 2 | `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129`, `mtbls874-BDV10076M3` |
-| `agilent-masshunter` | record | `device DAD` | descriptive | 2 | 2 | `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129`, `mtbls874-BDV10076M3` |
-| `agilent-masshunter` | record | `device HiP-ALS` | descriptive | 3 | 3 | `mtbls4722-1`, `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129`, `mtbls874-BDV10076M3` |
-| `agilent-masshunter` | record | `device IsoPump` | descriptive | 1 | 1 | `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129` |
+| `agilent-masshunter` | record | `base peak` | traces | 6 | 31 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls4722-1` |
+| `agilent-masshunter` | record | `detector signal` | traces | 0 | 5 |  |
+| `agilent-masshunter` | record | `device BinPump` | descriptive | 5 | 7 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls14343-e-1-pos-041-ms2-d` |
+| `agilent-masshunter` | record | `device CE` | descriptive | 0 | 1 |  |
+| `agilent-masshunter` | record | `device CEDAD` | descriptive | 0 | 1 |  |
+| `agilent-masshunter` | record | `device DAD` | descriptive | 3 | 4 | `mtbls12637-processblank2-pos-77-d`, `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129`, `mtbls874-BDV10076M3` |
+| `agilent-masshunter` | record | `device FID` | descriptive | 0 | 1 |  |
+| `agilent-masshunter` | record | `device HiP-ALS` | descriptive | 6 | 8 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls14343-e-1-pos-041-ms2-d` |
+| `agilent-masshunter` | record | `device IsoPump` | descriptive | 2 | 3 | `mtbls12837-n14-d`, `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129` |
 | `agilent-masshunter` | record | `device QuatPump` | descriptive | 1 | 1 | `mtbls4722-1` |
-| `agilent-masshunter` | record | `device TCC` | descriptive | 11 | 11 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls4722-1` |
+| `agilent-masshunter` | record | `device TCC` | descriptive | 14 | 16 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls14343-e-1-pos-041-ms2-d` |
 | `agilent-masshunter` | record | `device TandemQuadrupole` | descriptive | 1 | 1 | `pwiz-agilent-gfb-4scan-timesegs` |
-| `agilent-masshunter` | record | `instrument reading` | traces | 6 | 12 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls4722-1` |
-| `agilent-masshunter` | record | `total ion current` | traces | 6 | 17 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls4722-1` |
-| `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF 10.1 (48.0)` | descriptive | 1 | 1 | `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129` |
-| `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF B.05.01 (B5125)` | descriptive | 1 | 1 | `mtbls874-BDV10076M3` |
+| `agilent-masshunter` | record | `instrument reading` | traces | 6 | 18 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls4722-1` |
+| `agilent-masshunter` | record | `total ion current` | traces | 6 | 31 | `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1`, `mtbls4722-1` |
+| `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF (11.0.230.2)` | descriptive | 0 | 1 |  |
+| `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF 10.1 (48.0)` | descriptive | 3 | 3 | `mtbls12637-processblank2-pos-77-d`, `mtbls14343-e-1-pos-041-ms2-d`, `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129` |
+| `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF B.05.01 (B5125)` | descriptive | 1 | 2 | `mtbls874-BDV10076M3` |
 | `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF B.06.00 (B6000)` | descriptive | 3 | 3 | `pwiz-agilent-ims-allions`, `pwiz-agilent-ims-ccs`, `pwiz-agilent-ims-chrom` |
+| `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF B.06.01 (B6172 SP1)` | descriptive | 0 | 1 |  |
 | `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF B.08.00 (B8058.0)` | descriptive | 1 | 1 | `mtbls1334-STD_neg_MSMS_1min0205` |
+| `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF B.09.00 (B9044.1 SP1)` | descriptive | 1 | 1 | `mtbls12837-n14-d` |
+| `agilent-masshunter` | writer_version | `6400 Series Triple Quadrupole 10.0 (127)` | descriptive | 0 | 1 |  |
 | `agilent-masshunter` | writer_version | `6400 Series Triple Quadrupole B.08.02 (B8260.0)` | descriptive | 1 | 1 | `mtbls4722-1` |
+| `agilent-masshunter` | writer_version | `MassHunter GC/MS Acquisition  10.2.489  02-Aug-2022…` | descriptive | 0 | 1 |  |
+| `agilent-masshunter` | writer_version | `MassHunter GC/MS Acquisition  10.2.524.1  26-Apr-2023…` | descriptive | 0 | 1 |  |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_masshunter`
-- corpus inputs by tier: heldout 2, smoke 1, standard 16
+- corpus inputs by tier: full 3, heldout 2, smoke 5, standard 23
 - golden snapshots: [`corpus/snapshots/agilent-masshunter.jsonl`](../../corpus/snapshots/agilent-masshunter.jsonl)
 
 ### Open new-variant intakes

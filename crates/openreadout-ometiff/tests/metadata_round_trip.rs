@@ -2,7 +2,7 @@
 //! 2026-09-25 audit found lost (detection bands of a λ scan, acquisition modes, objective model
 //! and immersion, software, sub-millisecond acquisition time, the instrument's detector next
 //! to per-channel detectors, an unnamed image) is exported and read back with OpenReadout's
-//! TIFF reader; `check --against`'s metadata diff must be empty.
+//! TIFF reader; `compare`'s metadata diff must be empty.
 
 use std::path::Path;
 

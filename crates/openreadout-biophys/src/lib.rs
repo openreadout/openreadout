@@ -535,6 +535,8 @@ impl FormatReader for ZetasizerReader {
             confidence: assurance::MALVERN_ZETASIZER_DTS.confidence,
             known_gaps: vec![
                 "Size and zeta results are returned as stored; the size distributions, correlation functions and phase plots are not decoded".into(),
+                "Size peak widths and the number and volume peaks are stored but withheld: no Zetasizer export in the corpus holds them to check against".into(),
+                "Size results are confirmed on Zetasizer software 7.10 and 7.12 only".into(),
                 "Number and volume means and the diffusion coefficient the software exports are computed at export and are not returned".into(),
                 "Molecular-weight, protein-mobility and other record kinds are listed, not decoded".into(),
                 "ZS Xplorer .zmes files are not read".into(),

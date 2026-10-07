@@ -1,0 +1,105 @@
+{
+ "id": "zenodo19666865-exm-artifact",
+ "file": "zenodo19666865-exm-artifact.ims",
+ "size": 7720171,
+ "sha256": "6b8bdd09f1cfcf20eaecbf3956fec89a88a56b48362f6aed8a2c7fd17cc4c6c2",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2000,
+   "size_y": 2000,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.1563000000000002,
+    "y": 0.15625,
+    "z": null
+   },
+   "channel_names": [
+    "Confocal - Green"
+   ],
+   "filters": [
+    1
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b2be95210b027ef74c21366e54676119"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 1000,
+     "size_y": 1000,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "8aa41739efaf50d1dabbf1a5297303ad"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 500,
+     "size_y": 500,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "e5b55ed3d843e876fe29a611e8607fc1"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 2000,
+   "height": 2000,
+   "size_z": 1,
+   "size_t": 1,
+   "size_c": 1,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint16",
+   "thumbnail": "false"
+  },
+  {
+   "series": 1,
+   "samples": 1,
+   "width": 1000,
+   "height": 1000,
+   "size_z": 1,
+   "size_t": 1,
+   "size_c": 1,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint16",
+   "thumbnail": "true"
+  },
+  {
+   "series": 2,
+   "samples": 1,
+   "width": 500,
+   "height": 500,
+   "size_z": 1,
+   "size_t": 1,
+   "size_c": 1,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint16",
+   "thumbnail": "true"
+  }
+ ]
+}

@@ -9,7 +9,7 @@ Every JSON result has the same outer object. These docs call it the *envelope*:
 ```json
 {
   "ok": true,
-  "schema_version": "1",
+  "schema_version": "2",
   "tool": { "name": "openreadout", "version": "0.1.0" },
   "data": { "...": "the command's result" }
 }
@@ -25,7 +25,7 @@ When the command fails, `ok` is `false`, there is no `data`, and `error` says wh
 ```json
 {
   "ok": false,
-  "schema_version": "1",
+  "schema_version": "2",
   "tool": { "name": "openreadout", "version": "0.1.0" },
   "error": {
     "code": "unknown_format",
@@ -50,8 +50,8 @@ Note the two different "ok"s in `check`. The envelope's `ok` says whether the co
 When a command gets several inputs (several paths, a directory or a glob), `--jsonl` prints one compact envelope per line, and `--json` prints a JSON array of envelopes. Each envelope then has a `path` naming its input, on success and on error:
 
 ```json
-{"ok":true,"schema_version":"1","tool":{...},"path":"mini.nd2","data":{...}}
-{"ok":false,"schema_version":"1","tool":{...},"path":"notes.txt","error":{"code":"unknown_format",...,"exit_code":3}}
+{"ok":true,"schema_version":"2","tool":{...},"path":"mini.nd2","data":{...}}
+{"ok":false,"schema_version":"2","tool":{...},"path":"notes.txt","error":{"code":"unknown_format",...,"exit_code":3}}
 ```
 
 ### Only some values

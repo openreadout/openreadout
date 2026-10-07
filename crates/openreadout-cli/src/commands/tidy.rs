@@ -33,12 +33,7 @@ pub struct TidyArgs {
     /// Join a sample sheet (CSV, TSV, XLSX) or plate layout (plate-map grids, 96–1536 wells)
     /// onto the rows. The key (file name, path, sample id recorded in the file, well, barcode,
     /// vial, run order) is chosen from the data and reported; repeatable.
-    #[arg(
-        long = "sample-sheet",
-        visible_alias = "samples",
-        alias = "layout",
-        value_name = "FILE"
-    )]
+    #[arg(long = "sample-sheet", value_name = "FILE")]
     pub sample_sheets: Vec<PathBuf>,
     /// Worksheet of an XLSX sample sheet (default: the plate-map sheets, else the first).
     #[arg(long, value_name = "NAME")]

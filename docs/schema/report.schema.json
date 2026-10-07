@@ -1,0 +1,1046 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReportOutput",
+  "description": "What `openreadout report FILE` prints under `--json`.",
+  "type": "object",
+  "properties": {
+    "output": {
+      "description": "Where the bundle was written; `None` with `--dry-run` (or from MCP without `output`).",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "bytes": {
+      "description": "Size of the written bundle.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "issue_url": {
+      "description": "Where to file it (never contacted by the program).",
+      "type": "string"
+    },
+    "report": {
+      "description": "The bundle, exactly as written.",
+      "$ref": "#/$defs/Report"
+    }
+  },
+  "required": [
+    "issue_url",
+    "report"
+  ],
+  "$defs": {
+    "Report": {
+      "description": "The diagnostic bundle.",
+      "type": "object",
+      "properties": {
+        "report_version": {
+          "description": "Bundle layout version ([`REPORT_VERSION`]).",
+          "type": "string"
+        },
+        "generator": {
+          "description": "The program that wrote it.",
+          "$ref": "#/$defs/Generator"
+        },
+        "privacy": {
+          "description": "What the bundle contains and leaves out; read before sharing.",
+          "$ref": "#/$defs/Privacy"
+        },
+        "input": {
+          "description": "The input, without its name or path.",
+          "$ref": "#/$defs/InputSummary"
+        },
+        "detection": {
+          "description": "The reader that claimed the input, when one did.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DetectionSummary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidates": {
+          "description": "Readers registered for the input's extension (what the user probably expected).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stages": {
+          "description": "The decode path: each stage in order with its result.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Stage"
+          }
+        },
+        "assurance": {
+          "description": "The assurance block (`info` → `assurance`), text scrubbed.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Assurance"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metadata": {
+          "description": "The normalized metadata (`info`) with numbers kept and free text replaced."
+        },
+        "structure": {
+          "description": "The container's structure (`info --view structure`).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StructureMap"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "integrity": {
+          "description": "Integrity findings (`check`).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Integrity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "vendor_keys": {
+          "description": "Key skeleton of the vendor metadata tree (`info --view full` → `vendor`): paths and value\ntypes.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VendorKeys"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "samples": {
+          "description": "Hex excerpts (only with `hex_bytes`).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HexSample"
+          }
+        }
+      },
+      "required": [
+        "report_version",
+        "generator",
+        "privacy",
+        "input",
+        "stages"
+      ]
+    },
+    "Generator": {
+      "description": "Program name and version.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "`openreadout`.",
+          "type": "string"
+        },
+        "version": {
+          "description": "Its version.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ]
+    },
+    "Privacy": {
+      "description": "The privacy statement of a bundle.",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "description": "`structure_only` (default) or `with_text` (`--include-text`).",
+          "type": "string"
+        },
+        "included": {
+          "description": "What the bundle contains, in plain words.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excluded": {
+          "description": "What it leaves out.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "redacted_strings": {
+          "description": "Distinct strings from the file replaced by `<redacted-N>` or `<text:LEN>` placeholders.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "personal_data": {
+          "description": "Personal-data flags (kind and rule, never the value) found in the metadata.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "mode",
+        "included",
+        "excluded",
+        "redacted_strings"
+      ]
+    },
+    "InputSummary": {
+      "description": "The input without its name.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "`file` or `directory`.",
+          "type": "string"
+        },
+        "size_bytes": {
+          "description": "Bytes (a directory: the sum over its members).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "extension": {
+          "description": "Lower-case extension without the dot (`nd2`, `raw`, `d`), when there is one.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sha256": {
+          "description": "SHA-256 of the whole file (files up to 1 GiB).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sha256_first_64mib": {
+          "description": "SHA-256 of the first 64 MiB (larger files).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "signature_hex": {
+          "description": "The first 16 bytes in hex; printable runs that are not a plain token are masked (`__`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "signature_text": {
+          "description": "The same bytes as text where they are a plain token (`ZISRAWFILE`, `ABF2`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text_like": {
+          "description": "The file looks like text (a delimited export, XML, JSON).",
+          "type": "boolean"
+        },
+        "members": {
+          "description": "A directory's members: relative paths with names that are not plain tokens replaced.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Member"
+          }
+        },
+        "members_omitted": {
+          "description": "Members not listed (more than 2000).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "member_extensions": {
+          "description": "Member counts per extension.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "uint64",
+            "minimum": 0
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "size_bytes"
+      ]
+    },
+    "Member": {
+      "description": "One member of a directory data set.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path relative to the data set, `/`-separated.",
+          "type": "string"
+        },
+        "size": {
+          "description": "Bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "path",
+        "size"
+      ]
+    },
+    "DetectionSummary": {
+      "description": "The reader that claimed the input.",
+      "type": "object",
+      "properties": {
+        "format": {
+          "description": "Format id.",
+          "type": "string"
+        },
+        "confidence": {
+          "description": "`definite`, `likely` or `extension_only`.",
+          "type": "string"
+        },
+        "note": {
+          "description": "Why the match is less than definite.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reader_confidence": {
+          "description": "The reader's confidence level (`high`, `medium`, `low`).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "format",
+        "confidence",
+        "reader_confidence"
+      ]
+    },
+    "Stage": {
+      "description": "One stage of the decode path.",
+      "type": "object",
+      "properties": {
+        "stage": {
+          "description": "`detect`, `open`, `info`, `assurance`, `ls`, `check`, `vendor`, `first_read`.",
+          "type": "string"
+        },
+        "status": {
+          "description": "`ok`, `error`, `skipped` or `panic` (a bug: the reader crashed in this stage).",
+          "type": "string"
+        },
+        "detail": {
+          "description": "What the stage found, in a few words (`12 entries`, `plane 512x512 uint16`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "error": {
+          "description": "The error, when the stage failed.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StageError"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "elapsed_ms": {
+          "description": "Milliseconds the stage took.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "stage",
+        "status"
+      ]
+    },
+    "StageError": {
+      "description": "An error as the CLI would report it, text scrubbed.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Stable code (`corrupt_file`, `unsupported_feature`, ...).",
+          "type": "string"
+        },
+        "exit_code": {
+          "description": "Process exit code the CLI would return.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "description": "The message.",
+          "type": "string"
+        },
+        "hint": {
+          "description": "The hint.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "offset": {
+          "description": "Byte offset of the problem, when the reader knows it.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "code",
+        "exit_code",
+        "message"
+      ]
+    },
+    "Assurance": {
+      "description": "The per-file assurance block of `info` (every view) and `check`.",
+      "type": "object",
+      "properties": {
+        "level": {
+          "description": "`validated`, `partially_validated` or `unvalidated`.",
+          "$ref": "#/$defs/AssuranceLevel"
+        },
+        "summary": {
+          "description": "One line for people and agents.",
+          "type": "string"
+        },
+        "fingerprint": {
+          "description": "The variant fingerprint: `format_id` then `kind=value` for each feature, sorted.",
+          "type": "string"
+        },
+        "variant": {
+          "description": "Each feature with its corpus evidence.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VariantFeature"
+          }
+        },
+        "reasons": {
+          "description": "Why the level is not `validated`, one reason per line.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "undecoded": {
+          "description": "Structures met but not decoded.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Undecoded"
+          }
+        },
+        "assumed": {
+          "description": "Values assumed instead of read.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Assumed"
+          }
+        },
+        "calibrations": {
+          "description": "Vendor calibrations and corrections the file carries, and whether they were applied.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Calibration"
+          }
+        },
+        "inferred_fields": {
+          "description": "Normalized fields whose meaning is inferred rather than specified.",
+          "$ref": "#/$defs/InferredFields"
+        },
+        "inferred": {
+          "description": "Values derived by a rule instead of read, with the evidence for each rule.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InferredValue"
+          }
+        },
+        "strict_refuses": {
+          "description": "Outputs `--strict` (MCP `strict: true`) refuses to return for this file.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Scope"
+          }
+        },
+        "strict_withholds": {
+          "description": "Fields `--strict` withholds (returned as null; asking for one with `--only` exits 6)\nwhile the rest of the output is returned.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Withheld"
+          }
+        },
+        "reader_confidence": {
+          "description": "The reader's overall confidence (evidence rubric), for context.",
+          "$ref": "#/$defs/Confidence"
+        }
+      },
+      "required": [
+        "level",
+        "summary",
+        "fingerprint",
+        "variant",
+        "reader_confidence"
+      ]
+    },
+    "AssuranceLevel": {
+      "description": "How far a file lies inside what its reader has been validated on.",
+      "oneOf": [
+        {
+          "description": "Every variant feature was read correctly on development files confirmed by an\nindependent reader; nothing undecoded, assumed or left uncalibrated.",
+          "type": "string",
+          "const": "validated"
+        },
+        {
+          "description": "Values are decoded along validated paths, but something is less certain: a descriptive\nfeature (writer version, instrument) never seen, a feature seen only without an\nindependent reader, a structure left out, or a value assumed.",
+          "type": "string",
+          "const": "partially_validated"
+        },
+        {
+          "description": "Some output depends on a variant never validated (or on an undecoded structure or an\nunapplied calibration): its values may be wrong. `strict_refuses` lists those outputs.",
+          "type": "string",
+          "const": "unvalidated"
+        }
+      ]
+    },
+    "VariantFeature": {
+      "description": "One feature of the file's fingerprint, with the corpus evidence for it.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "What the feature describes.",
+          "$ref": "#/$defs/FeatureKind"
+        },
+        "value": {
+          "description": "Its value.",
+          "type": "string"
+        },
+        "scope": {
+          "description": "Outputs whose decoding depends on it (empty: descriptive only).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Scope"
+          }
+        },
+        "status": {
+          "description": "`validated`, `seen` or `unseen`.",
+          "$ref": "#/$defs/FeatureStatus"
+        },
+        "corpus_files": {
+          "description": "Development-corpus files with this value confirmed by an independent reader.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "sources": {
+          "description": "Distinct depositors among them.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "kind",
+        "value",
+        "status",
+        "corpus_files",
+        "sources"
+      ]
+    },
+    "FeatureKind": {
+      "description": "What a variant feature describes.",
+      "oneOf": [
+        {
+          "description": "The container or format version stored in the file.",
+          "type": "string",
+          "const": "format_version"
+        },
+        {
+          "description": "The software (or library) that wrote the file.",
+          "type": "string",
+          "const": "writer"
+        },
+        {
+          "description": "The writer's version, usually reduced to major.minor.",
+          "type": "string",
+          "const": "writer_version"
+        },
+        {
+          "description": "The instrument model or family that acquired the data.",
+          "type": "string",
+          "const": "instrument"
+        },
+        {
+          "description": "Compression or encoding of the stored samples.",
+          "type": "string",
+          "const": "codec"
+        },
+        {
+          "description": "How samples are stored: pixel type, samples per pixel and their order, value width.",
+          "type": "string",
+          "const": "sample_layout"
+        },
+        {
+          "description": "Structural layout: pyramids, mosaics, multi-file sets, directory layouts, loops.",
+          "type": "string",
+          "const": "layout"
+        },
+        {
+          "description": "Acquisition mode (DDA, SRM, profile/centroid, episodic, 2-D NMR, kinetic read, ...).",
+          "type": "string",
+          "const": "acquisition"
+        },
+        {
+          "description": "Dialect of a text or spreadsheet export.",
+          "type": "string",
+          "const": "dialect"
+        },
+        {
+          "description": "A kind of record or block present in the file.",
+          "type": "string",
+          "const": "record"
+        },
+        {
+          "description": "A normalized field the file has, among those tracked for oracle coverage\n([`TRACKED_FIELDS`]): validated when development files' oracle comparisons checked it.",
+          "type": "string",
+          "const": "field"
+        },
+        {
+          "description": "A rule by which a normalized value was derived rather than read\n(`tables[].extra.reads[].mode by detector code`): validated when development files'\noracle comparisons checked the field it derives.",
+          "type": "string",
+          "const": "derivation"
+        }
+      ]
+    },
+    "Scope": {
+      "description": "Which outputs of a file a feature, a structure or a calibration affects.",
+      "oneOf": [
+        {
+          "description": "The normalized metadata (`info`, all its views): sizes, channels, instrument, times.",
+          "type": "string",
+          "const": "metadata"
+        },
+        {
+          "description": "Image planes (`planes`, `stats`, `export` of images, `preview`).",
+          "type": "string",
+          "const": "pixels"
+        },
+        {
+          "description": "Mass spectra and scan headers (`scans`, `spectrum`, `analyze chromatogram`, mzML export).",
+          "type": "string",
+          "const": "spectra"
+        },
+        {
+          "description": "Sampled signals (`trace`, electrophysiology, chromatograms, NMR and IR/Raman spectra).",
+          "type": "string",
+          "const": "traces"
+        },
+        {
+          "description": "Tables (FCS events, plate reads, qPCR results, event and peak tables).",
+          "type": "string",
+          "const": "tables"
+        }
+      ]
+    },
+    "FeatureStatus": {
+      "description": "How the corpus covers one feature value.",
+      "oneOf": [
+        {
+          "description": "Development files with this value match an independent reader.",
+          "type": "string",
+          "const": "validated"
+        },
+        {
+          "description": "Development files with this value were read, but no independent reader confirms them.",
+          "type": "string",
+          "const": "seen"
+        },
+        {
+          "description": "No development file has this value.",
+          "type": "string",
+          "const": "unseen"
+        }
+      ]
+    },
+    "Undecoded": {
+      "description": "A structure the reader met in the file but did not decode.",
+      "type": "object",
+      "properties": {
+        "structure": {
+          "description": "What the structure is, in the format notes' vocabulary.",
+          "type": "string"
+        },
+        "scope": {
+          "description": "Outputs that may be incomplete or wrong because of it. Empty: it is left out and the\nvalues returned do not depend on it.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Scope"
+          }
+        },
+        "detail": {
+          "description": "What is known about it and what the reader does instead.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "structure",
+        "detail"
+      ]
+    },
+    "Assumed": {
+      "description": "A value the reader assumed (a default, a guess from context) instead of reading it.",
+      "type": "object",
+      "properties": {
+        "field": {
+          "description": "JSON path of the value in `info` (e.g. `traces[0].channels[1].unit`).",
+          "type": "string"
+        },
+        "detail": {
+          "description": "Why it was assumed and from what.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "detail"
+      ]
+    },
+    "Calibration": {
+      "description": "A vendor calibration or correction the file carries.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "What it calibrates (`m/z (MzCalibration)`, `ADC to µV`, `spillover compensation`).",
+          "type": "string"
+        },
+        "status": {
+          "description": "Applied, not applied, or available on request.",
+          "$ref": "#/$defs/CalibrationStatus"
+        },
+        "scope": {
+          "description": "Outputs it applies to.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Scope"
+          }
+        },
+        "detail": {
+          "description": "How it is (or is not) applied and how to get calibrated values.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "status",
+        "detail"
+      ]
+    },
+    "CalibrationStatus": {
+      "description": "Whether a vendor calibration or correction stored in the file was applied.",
+      "oneOf": [
+        {
+          "description": "Applied: returned values are calibrated as the vendor software shows them.",
+          "type": "string",
+          "const": "applied"
+        },
+        {
+          "description": "Not applied: returned values differ from what the vendor software reports.",
+          "type": "string",
+          "const": "not_applied"
+        },
+        {
+          "description": "Carried by the file, applied only on request or by downstream analysis (the vendor's\nraw view does not apply it either), e.g. FCS compensation or a flat-field profile.",
+          "type": "string",
+          "const": "available"
+        }
+      ]
+    },
+    "InferredFields": {
+      "description": "Fields whose meaning was inferred (reverse-engineered from corpus files), not read from a\nspecification: the `inferred` entries of the reader's provenance map.",
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "How many normalized fields have inferred meaning.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "of": {
+          "description": "How many normalized fields carry provenance at all.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "examples": {
+          "description": "Up to 12 of their JSON paths (`info --view full` → `provenance` has all).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "count",
+        "of"
+      ]
+    },
+    "InferredValue": {
+      "description": "A value derived by a rule, with the corpus evidence for the rule.",
+      "type": "object",
+      "properties": {
+        "field": {
+          "description": "JSON path of the value in `info`.",
+          "type": "string"
+        },
+        "rule": {
+          "description": "The rule that derived it.",
+          "type": "string"
+        },
+        "status": {
+          "description": "`validated` when development files' oracles confirmed values derived by this rule.",
+          "$ref": "#/$defs/FeatureStatus"
+        },
+        "detail": {
+          "description": "What was derived from what.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "rule",
+        "status",
+        "detail"
+      ]
+    },
+    "Withheld": {
+      "description": "A field `--strict` withholds: it is present, but its value was assumed, derived by a rule no\nindependent reader confirmed, or never compared with an independent reader.",
+      "type": "object",
+      "properties": {
+        "field": {
+          "description": "JSON path pattern in `info` (`[]` matches any index).",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Why it is not validated.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "reason"
+      ]
+    },
+    "Confidence": {
+      "description": "Per-format confidence summary shown by `info` and `self formats`.",
+      "oneOf": [
+        {
+          "description": "Validated against an oracle across the corpus; structure from vendor docs or a spec.",
+          "type": "string",
+          "const": "high"
+        },
+        {
+          "description": "Validated on the corpus; some fields inferred.",
+          "type": "string",
+          "const": "medium"
+        },
+        {
+          "description": "Early support; expect gaps.",
+          "type": "string",
+          "const": "low"
+        }
+      ]
+    },
+    "StructureMap": {
+      "description": "The container's structure.",
+      "type": "object",
+      "properties": {
+        "entries_total": {
+          "description": "Entries `info --view structure` lists.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "by_kind": {
+          "description": "Count and bytes per entry kind.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/KindCount"
+          }
+        },
+        "entries": {
+          "description": "The first 400 entries in file order.",
+          "type": "array",
+          "items": true
+        }
+      },
+      "required": [
+        "entries_total",
+        "by_kind",
+        "entries"
+      ]
+    },
+    "KindCount": {
+      "description": "Count and bytes of one entry kind.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Entry kind.",
+          "type": "string"
+        },
+        "count": {
+          "description": "How many.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes": {
+          "description": "Their total size, where sizes are known.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "kind",
+        "count",
+        "bytes"
+      ]
+    },
+    "Integrity": {
+      "description": "Integrity findings.",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "description": "`headers` (`check --headers-only`) or `full`.",
+          "type": "string"
+        },
+        "ok": {
+          "description": "No finding of severity error.",
+          "type": "boolean"
+        },
+        "checks_performed": {
+          "description": "What was verified.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "findings": {
+          "description": "Findings: severity, code, message (scrubbed), offset.",
+          "type": "array",
+          "items": true
+        }
+      },
+      "required": [
+        "mode",
+        "ok",
+        "checks_performed",
+        "findings"
+      ]
+    },
+    "VendorKeys": {
+      "description": "Key skeleton of the vendor tree.",
+      "type": "object",
+      "properties": {
+        "total_paths": {
+          "description": "Distinct key paths (array indices folded to `[]`).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "omitted": {
+          "description": "Paths not listed (beyond 3000).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "paths": {
+          "description": "`path`, value `type` (`string`, `number`, `bool`, `null`, `object`, `array`), `count`.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VendorPath"
+          }
+        }
+      },
+      "required": [
+        "total_paths",
+        "paths"
+      ]
+    },
+    "VendorPath": {
+      "description": "One vendor key path.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Dotted key path, arrays as `[]`.",
+          "type": "string"
+        },
+        "type": {
+          "description": "JSON type of the values (several joined by `|`).",
+          "type": "string"
+        },
+        "count": {
+          "description": "Occurrences.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "path",
+        "type",
+        "count"
+      ]
+    },
+    "HexSample": {
+      "description": "A hex excerpt.",
+      "type": "object",
+      "properties": {
+        "at": {
+          "description": "`head` or the structure entry (`kind name`).",
+          "type": "string"
+        },
+        "offset": {
+          "description": "Byte offset.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "hex": {
+          "description": "Space-separated bytes; masked text bytes are `__`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "at",
+        "offset",
+        "hex"
+      ]
+    }
+  }
+}

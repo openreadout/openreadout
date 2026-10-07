@@ -21,7 +21,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 
 ## Debugging a new file
 
-- `openreadout info FILE --view structure` lists the zip members (or XML objects); `info --view full --json` → `vendor` has the setup and results trees; `openreadout analyze qpcr FILE --cq` compares our Cq with the vendor's for every well — a systematic difference points at the baseline or threshold reading.
+- `openreadout info FILE --view structure` lists the zip members (or XML objects); `info --view full --json` → `vendor` has the setup and results trees; `openreadout analyze qpcr FILE --compute-cq` compares our Cq with the vendor's for every well — a systematic difference points at the baseline or threshold reading.
 - `tests/synthetic.rs` builds `.eds` (all three layouts), RDML, `.rex` and `.ixo` files; the dialect modules hold unit tests of their parsers (`text_results`, `multicomponent_txt_records`, `small_rex`, `small_ixo`).
 - Oracles: `oracle/qpcr.py` (the vendor's own text exports as `oracle-export`, RDML via rdmlpython) and the `qpcr_*` corpus tests.
 
@@ -44,7 +44,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 | `rdml` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | high | open spec | 9 / 9 | 5 | 1 / 0 |
 | `applied-biosystems-eds` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | high | reverse engineered | 23 / 23 | 15 | 2 / 0 |
 | `bio-rad-pcrd` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | open spec | 0 / 0 | 0 | - |
-| `roche-lightcycler-ixo` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | reverse engineered | 4 / 0 | 0 | - |
+| `roche-lightcycler-ixo` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | medium | reverse engineered | 10 / 10 | 2 | - |
 | `rotor-gene-rex` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | reverse engineered | 1 / 1 | 1 | 1 / 0 |
 | `qpcr-results-export` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | medium | reverse engineered | 9 / 9 | 7 | - |
 
@@ -62,7 +62,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 | [`src/lib.rs`](src/lib.rs) | Real-time PCR (qPCR) readers: RDML (the open interchange format, read and written), Applied Biosystems / Thermo Fisher `.eds` experiment documents (QuantStudio, ViiA 7, |
 | [`src/model.rs`](src/model.rs) | The normalized qPCR model every dialect is parsed into (names: `docs/formats/qpcr.md`) |
 | [`src/rdml.rs`](src/rdml.rs) | RDML (Real-time PCR Data Markup Language) 1.0-1.4: a zip holding `rdml_data.xml`, or the bare XML |
-| [`src/rdml_write.rs`](src/rdml_write.rs) | `export --to rdml`: any readable qPCR file as RDML 1.3 (`rdml_data.xml` in a zip), written to a temporary file, read back and compared, then renamed into place |
+| [`src/rdml_write.rs`](src/rdml_write.rs) | `export --format rdml`: any readable qPCR file as RDML 1.3 (`rdml_data.xml` in a zip), written to a temporary file, read back and compared, then renamed into place |
 | [`src/report.rs`](src/report.rs) | `openreadout analyze qpcr`: named per-well records, and the analyses — our own threshold Cq compared with the vendor's, ΔΔCq relative quantification, standard curves |
 | [`src/rex.rs`](src/rex.rs) | Qiagen Rotor-Gene run files (`.rex`, XML): samples by tube, groups (targets), raw channel readings (cycling and melt) and the thermal profile |
 | [`src/xml.rs`](src/xml.rs) | Small helpers over `roxmltree` (namespace-agnostic: elements are matched by local name) |
@@ -168,22 +168,22 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `rdml` | record | `melt` | traces | 6 | 6 | `lc96p-pendo-hmuy-24h48h-r12`, `lc96p-pendo-hmuy-24h48h-r34`, `lc96p-pendo-hmuy-hm-dip` |
 | `rdml` | record | `melt derivative` | traces | 6 | 6 | `lc96p-pendo-hmuy-24h48h-r12`, `lc96p-pendo-hmuy-24h48h-r34`, `lc96p-pendo-hmuy-hm-dip` |
 | `rdml` | writer | `LightCycler` | descriptive | 4 | 4 | `lc96p-pendo-hmuy-24h48h-r12`, `lc96p-pendo-hmuy-24h48h-r34`, `lc96p-pendo-hmuy-hm-dip` |
-| `roche-lightcycler-ixo` | dialect | `ixo` | metadata, tables, traces | 0 | 4 |  |
-| `roche-lightcycler-ixo` | field | `experiment.acquisition.started_at` | descriptive | 0 | 4 |  |
-| `roche-lightcycler-ixo` | field | `experiment.instrument.model` | descriptive | 0 | 4 |  |
-| `roche-lightcycler-ixo` | instrument | `LightCycler 480 - LED lamp` | descriptive | 0 | 2 |  |
-| `roche-lightcycler-ixo` | instrument | `LightCycler 480 - Xenon lamp` | descriptive | 0 | 2 |  |
-| `roche-lightcycler-ixo` | record | `amplification` | traces | 0 | 4 |  |
-| `roche-lightcycler-ixo` | record | `melt` | traces | 0 | 4 |  |
+| `roche-lightcycler-ixo` | derivation | `traces[].melt by LightCycler 480 melting-program readings…` | descriptive | 4 | 4 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
+| `roche-lightcycler-ixo` | dialect | `ixo` | metadata, tables, traces | 10 | 10 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
+| `roche-lightcycler-ixo` | field | `experiment.acquisition.started_at` | descriptive | 10 | 10 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
+| `roche-lightcycler-ixo` | field | `experiment.instrument.model` | descriptive | 4 | 4 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
+| `roche-lightcycler-ixo` | instrument | `LightCycler 480 - LED lamp` | descriptive | 2 | 2 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2026a` |
+| `roche-lightcycler-ixo` | instrument | `LightCycler 480 - Xenon lamp` | descriptive | 2 | 2 | `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
+| `roche-lightcycler-ixo` | record | `amplification` | traces | 10 | 10 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
 
-… 10 more values: the generated table in `src/assurance.rs` has all of them.
+… 11 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 7 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_eds`, `whole_ixo`, `whole_pcrd`, `whole_qpcr_export`, `whole_rdml`, `whole_rex`
-- corpus inputs by tier: heldout 10, smoke 27, standard 20
+- corpus inputs by tier: heldout 10, smoke 27, standard 26
 - golden snapshots: [`corpus/snapshots/rdml.jsonl`](../../corpus/snapshots/rdml.jsonl), [`corpus/snapshots/applied-biosystems-eds.jsonl`](../../corpus/snapshots/applied-biosystems-eds.jsonl), [`corpus/snapshots/bio-rad-pcrd.jsonl`](../../corpus/snapshots/bio-rad-pcrd.jsonl), [`corpus/snapshots/roche-lightcycler-ixo.jsonl`](../../corpus/snapshots/roche-lightcycler-ixo.jsonl), [`corpus/snapshots/rotor-gene-rex.jsonl`](../../corpus/snapshots/rotor-gene-rex.jsonl), [`corpus/snapshots/qpcr-results-export.jsonl`](../../corpus/snapshots/qpcr-results-export.jsonl)
 
 ### Open new-variant intakes

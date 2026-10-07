@@ -197,7 +197,7 @@ impl<'a> Jet<'a> {
             return Err(Error::unsupported(
                 format,
                 format!("Jet database version {version}"),
-                "report the file with `openreadout check FILE --report`; the versions read are Jet 4 to ACE 16",
+                "report the file with `openreadout report FILE`; the versions read are Jet 4 to ACE 16",
             ));
         }
         let pages = b.len() / PAGE;

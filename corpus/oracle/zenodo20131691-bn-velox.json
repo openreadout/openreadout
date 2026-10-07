@@ -1,0 +1,36 @@
+{
+ "id": "zenodo20131691-bn-velox",
+ "file": "zenodo20131691-bn-velox.emd",
+ "size": 2373429,
+ "sha256": "826c19f55a6c1fa8a181054ab940badfdabda3c51a55f0f67ca466cfc2969d0d",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "518e886e1f4947e5905e11dbfc283624",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.015427423341998342,
+    "y": 0.015427423341998342,
+    "z": null
+   },
+   "detector": "HAADF",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ed7d3200b63ecb56e0f41a9113ecfffe"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"10\",\n    \"format\": \"Velox\"\n}\n"
+}

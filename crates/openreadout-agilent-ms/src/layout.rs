@@ -149,6 +149,9 @@ fn attr<'a>(tag: &'a str, name: &str) -> Option<&'a str> {
 
 /// `(name, type)` of every `xs:element` of complex type `ty`, in schema order.
 fn complex_type(xsd: &str, ty: &str) -> Option<Vec<(String, String)>> {
+    // A reference may carry the target namespace's prefix (`type="mstns:SpectrumParamsType"`);
+    // the definition is named without it.
+    let ty = ty.rsplit_once(':').map_or(ty, |(_, local)| local);
     let open = format!("<xs:complexType name=\"{ty}\"");
     let start = xsd.find(&open)?;
     let body = &xsd[start..];
@@ -618,6 +621,15 @@ pub fn decode_peaks(data: &[u8], n: usize) -> Result<PeakData, String> {
             .collect();
         return Ok(PeakData { x, y });
     }
+    // Single-quadrupole GC/MS point lists: 16 bytes per point, `n` f64 m/z then `n` f64
+    // abundances.
+    if n > 0 && Some(data.len()) == n.checked_mul(16) {
+        let x = (0..n).map(|k| le_f64(data, 8 * k).unwrap_or(0.0)).collect();
+        let y = (0..n)
+            .map(|k| le_f64(data, 8 * n + 8 * k).unwrap_or(0.0) as f32)
+            .collect();
+        return Ok(PeakData { x, y });
+    }
     if data.len() != need {
         return Err(format!(
             "peak block holds {} bytes; {n} points need {need} (compressed peak blocks are not decoded)",
@@ -629,6 +641,37 @@ pub fn decode_peaks(data: &[u8], n: usize) -> Result<PeakData, String> {
         .map(|k| le_f32(data, 8 * n + 4 * k).unwrap_or(0.0))
         .collect();
     Ok(PeakData { x, y })
+}
+
+/// An 8-byte point list (`n` f32 m/z, then `n` 4-byte abundances) stores its abundances as i32
+/// counts (triple-quadrupole MRM lists) or as f32 values (a 7010C GC triple quadrupole's full
+/// scans). `decoded` holds the i32 reading; the block's MaxY decides: the f32 reading is taken
+/// when its maximum equals MaxY and the i32 reading's does not.
+pub fn eight_byte_abundances(
+    data: &[u8],
+    n: usize,
+    decoded: PeakData,
+    max_y: Option<f64>,
+) -> PeakData {
+    let Some(max_y) = max_y.filter(|m| m.is_finite()) else {
+        return decoded;
+    };
+    let close = |m: f64| (m - max_y).abs() <= 1e-6 * max_y.abs().max(1.0);
+    let max_of = |y: &[f32]| y.iter().copied().fold(f32::NEG_INFINITY, f32::max);
+    if close(f64::from(max_of(&decoded.y))) {
+        return decoded;
+    }
+    let as_f32: Vec<f32> = (0..n)
+        .map(|k| le_f32(data, 4 * n + 4 * k).unwrap_or(0.0))
+        .collect();
+    if close(f64::from(max_of(&as_f32))) {
+        PeakData {
+            x: decoded.x,
+            y: as_f32,
+        }
+    } else {
+        decoded
+    }
 }
 
 /// A decoded profile: the flight time of bin 0, the bin width, and the counts per bin.
@@ -669,8 +712,34 @@ pub fn decode_quad_profile(data: &[u8], n: usize) -> Result<(f64, f64, Vec<i32>)
     Ok((first, step, counts))
 }
 
+/// Whether a profile block of `n` bins starts like a run-length (ion-mobility style) block:
+/// the u32 at byte 16 has the top byte [`IMS_PROFILE_FLAGS`] and `n` in its low 24 bits.
+fn is_run_length_profile(data: &[u8], n: usize) -> bool {
+    le_u32(data, 16)
+        .is_some_and(|h| h >> 24 == IMS_PROFILE_FLAGS && (h & 0x00FF_FFFF) as usize == n)
+}
+
+/// A run-length profile block as dense counts (skipped bins are zero).
+fn run_length_to_dense(data: &[u8], n: usize) -> Result<ProfileData, String> {
+    let p = decode_ims_profile(data)?;
+    let mut counts = vec![0i32; n];
+    for (bin, v) in p.bins {
+        let slot = counts
+            .get_mut(bin as usize)
+            .ok_or_else(|| format!("run-length profile writes bin {bin} of {n}"))?;
+        *slot = i32::try_from(v).map_err(|_| format!("profile count {v} does not fit 32 bits"))?;
+    }
+    Ok(ProfileData {
+        first_x: p.first_x,
+        step_x: p.step_x,
+        counts,
+    })
+}
+
 /// Decode an `MSProfile.bin` block (LZF-compressed unless its byte counts are equal):
-/// f64 first flight time, f64 bin width, then `n` i32 counts.
+/// f64 first flight time, f64 bin width, then `n` i32 counts. A block in the ion-mobility
+/// encoding (its u32 at byte 16 is [`IMS_PROFILE_FLAGS`] and `n` in the low 24 bits; written by
+/// MassHunter Acquisition 10) is decoded with [`decode_ims_profile`].
 pub fn decode_profile(
     data: &[u8],
     n: usize,
@@ -680,6 +749,13 @@ pub fn decode_profile(
         .checked_mul(4)
         .and_then(|v| v.checked_add(16))
         .ok_or("profile size overflows")?;
+    // Some writers store a non-mobility profile with the run-length encoding of ion-mobility
+    // blocks; `UncompressedByteCount` then holds 0 or the dense size, not an LZF one. A block
+    // in this encoding can be exactly as long as a dense one (6 of rainbow's `amber.D` scans);
+    // read as dense, its header word would be a negative count in bin 0, which no count is.
+    if is_run_length_profile(data, n) {
+        return run_length_to_dense(data, n);
+    }
     let raw;
     let body: &[u8] = match uncompressed {
         Some(u) if u > 0 && u as usize != data.len() => {
@@ -693,6 +769,9 @@ pub fn decode_profile(
         }
         _ => data,
     };
+    if body.len() != need && is_run_length_profile(body, n) {
+        return run_length_to_dense(body, n);
+    }
     if body.len() != need {
         return Err(format!(
             "profile decodes to {} bytes; {n} bins need {need}",
@@ -1216,6 +1295,91 @@ mod tests {
         assert_eq!(v5.field("MzOfInterest").unwrap().offset, 84);
     }
 
+    /// rainbow's test data `amber.D`: the schema refers to the block type through the target
+    /// namespace's prefix (`type="mstns:SpectrumParamsType"`), attributes in another order.
+    #[test]
+    fn prefixed_type_references() {
+        let plain = scan_layout_from_xsd(FALLBACK_XSD_V6).unwrap();
+        let prefixed = FALLBACK_XSD_V6.replace(
+            "type=\"SpectrumParamsType\"",
+            "type=\"mstns:SpectrumParamsType\"",
+        );
+        assert_ne!(prefixed, FALLBACK_XSD_V6);
+        assert_eq!(scan_layout_from_xsd(&prefixed).unwrap(), plain);
+    }
+
+    /// rainbow's `amber.D`, `cyan.D` and `magenta.D`: profile blocks of non-mobility scans in
+    /// the run-length encoding, uncompressed, with or without an `UncompressedByteCount` that
+    /// gives the dense size.
+    #[test]
+    fn run_length_profiles_outside_mobility_data() {
+        let mut b = ims_head(4, 1);
+        b.extend_from_slice(&7i32.to_le_bytes());
+        b.extend_from_slice(&8i32.to_le_bytes());
+        b.extend_from_slice(&(-2i32).to_le_bytes()); // no skip, 2-byte values follow
+        b.extend_from_slice(&9i16.to_le_bytes());
+        for declared in [None, Some(0), Some(16 + 4 * 4)] {
+            let p = decode_profile(&b, 4, declared).unwrap();
+            assert_eq!(p.counts, vec![0, 7, 8, 9]);
+            assert!((p.first_x - 18465.0).abs() < 1e-12 && (p.step_x - 0.5).abs() < 1e-12);
+        }
+        // a header naming another bin count is not taken for this encoding
+        assert!(decode_profile(&b, 5, None).is_err());
+        // a run-length block exactly as long as a dense block of the same bin count
+        let mut same = ims_head(3, 0);
+        same.extend_from_slice(&5i32.to_le_bytes());
+        assert_eq!(same.len(), 16 + 4 * 3);
+        assert_eq!(
+            decode_profile(&same, 3, None).unwrap().counts,
+            vec![5, 0, 0]
+        );
+    }
+
+    /// Single-quadrupole GC/MS point lists (MTBLS12630's 5977): `n` f64 m/z then `n` f64
+    /// abundances; and a 7010C's 8-byte lists whose abundances are f32, told from i32 counts
+    /// by the block's MaxY.
+    #[test]
+    fn gcms_point_lists() {
+        let mut b = Vec::new();
+        for x in [38.95f64, 40.0046] {
+            b.extend_from_slice(&x.to_le_bytes());
+        }
+        for y in [213.03f64, 13216.21] {
+            b.extend_from_slice(&y.to_le_bytes());
+        }
+        let d = decode_peaks(&b, 2).unwrap();
+        assert_eq!(d.x, vec![38.95, 40.0046]);
+        assert_eq!(d.y, vec![213.03f32, 13216.21]);
+
+        let mut q = Vec::new();
+        for x in [41.0f32, 42.0] {
+            q.extend_from_slice(&x.to_le_bytes());
+        }
+        for y in [64341.79f32, 58635.52] {
+            q.extend_from_slice(&y.to_le_bytes());
+        }
+        let as_counts = decode_peaks(&q, 2).unwrap();
+        let picked = eight_byte_abundances(&q, 2, as_counts.clone(), Some(f64::from(64341.79f32)));
+        assert_eq!(picked.y, vec![64341.79f32, 58635.52]);
+        // counts whose maximum is MaxY stay counts
+        let mut c = Vec::new();
+        for x in [41.0f32, 42.0] {
+            c.extend_from_slice(&x.to_le_bytes());
+        }
+        for y in [12i32, 7] {
+            c.extend_from_slice(&y.to_le_bytes());
+        }
+        let counts = decode_peaks(&c, 2).unwrap();
+        assert_eq!(
+            eight_byte_abundances(&c, 2, counts.clone(), Some(12.0)),
+            counts
+        );
+        assert_eq!(
+            eight_byte_abundances(&q, 2, as_counts.clone(), None),
+            as_counts
+        );
+    }
+
     /// Grid header, then the header word and the first bin.
     fn ims_head(npts: u32, first_bin: i32) -> Vec<u8> {
         let mut b = Vec::new();
@@ -1290,5 +1454,28 @@ mod tests {
         let at = |t: f64| (0.001 * (t - 1000.0)).powi(2);
         assert!((c.mz(2500.0) - (at(2500.0) - 1e-4 * 2500f64.powi(1))).abs() < 1e-12);
         assert!((c.mz(5000.0) - (at(5000.0) - 1e-4 * 3000.0)).abs() < 1e-12);
+    }
+
+    /// A Q-TOF profile block in the ion-mobility encoding (MassHunter Acquisition 10): counts 5
+    /// and 7 at bins 2 and 3, a skip of one bin that switches to 2-byte values, 9 at bin 5.
+    #[test]
+    fn profile_in_ion_mobility_encoding() {
+        let n = 10usize;
+        let mut b = Vec::new();
+        b.extend(26864.0f64.to_le_bytes());
+        b.extend(0.1f64.to_le_bytes());
+        b.extend((0x9000_0000u32 | n as u32).to_le_bytes());
+        b.extend((-2i32).to_le_bytes());
+        for v in [5i32, 7, -6] {
+            b.extend(v.to_le_bytes());
+        }
+        b.extend(9i16.to_le_bytes());
+        let p = decode_profile(&b, n, Some(16 + 4 * n as i64)).unwrap();
+        assert_eq!(p.counts, [0, 0, 5, 7, 0, 9, 0, 0, 0, 0]);
+        assert_eq!((p.first_x, p.step_x), (26864.0, 0.1));
+        // another point count in the header: not this encoding (and not valid LZF either)
+        let mut other = b.clone();
+        other[16..20].copy_from_slice(&(0x9000_0000u32 | 0x0b).to_le_bytes());
+        assert!(decode_profile(&other, n, Some(16 + 4 * n as i64)).is_err());
     }
 }

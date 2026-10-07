@@ -20,10 +20,10 @@ The functions are named after the commands of the \code{openreadout} command-lin
 or \code{"format"}), \code{\link[=openreadout_check]{openreadout_check()}}, \code{\link[=openreadout_formats]{openreadout_formats()}}, \code{\link[=openreadout_ome_xml]{openreadout_ome_xml()}}.
 \item Images: \code{\link[=openreadout_read_image]{openreadout_read_image()}}, \code{\link[=openreadout_read_plane]{openreadout_read_plane()}}, \code{\link[=openreadout_levels]{openreadout_levels()}},
 \code{\link[=openreadout_stats]{openreadout_stats()}}.
-\item Tables and signals: \code{\link[=openreadout_table]{openreadout_table()}}, \code{\link[=openreadout_trace]{openreadout_trace()}}, \code{\link[=openreadout_spectra]{openreadout_spectra()}}.
+\item Tables and signals: \code{\link[=openreadout_table]{openreadout_table()}}, \code{\link[=openreadout_trace]{openreadout_trace()}}, \code{\link[=openreadout_scans]{openreadout_scans()}}, \code{\link[=openreadout_spectrum]{openreadout_spectrum()}}.
 \item Analyses: \code{\link[=openreadout_analyze]{openreadout_analyze()}} (chromatograms, peaks, NMR peaks, patch-clamp
 features, spikes, qPCR, plate assays, gating).
-\item Many files: \code{\link[=openreadout_batch]{openreadout_batch()}} (including \code{"summarize"}), \code{\link[=openreadout_link]{openreadout_link()}}.
+\item Many files: \code{\link[=openreadout_batch]{openreadout_batch()}}, \code{\link[=openreadout_summarize]{openreadout_summarize()}}, \code{\link[=openreadout_link]{openreadout_link()}}.
 \item Open formats: \code{\link[=openreadout_export]{openreadout_export()}}.
 }
 

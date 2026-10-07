@@ -36,7 +36,7 @@ pub struct TableArgs {
     pub transform: Option<String>,
     /// FCS only: parameters ($PnN) to transform; default every fluorescence parameter.
     #[serde(default)]
-    pub transform_parameters: Vec<String>,
+    pub parameters: Vec<String>,
     /// FCS only: FlowJo workspace (.wsp) for compensate=gating, transform=workspace and populations.
     pub workspace: Option<String>,
     /// FCS only: Gating-ML 2.0 file (same uses as workspace).
@@ -111,7 +111,7 @@ impl InstrumentServer {
             Some(spec) => Some(openreadout_fcs::analysis::TransformChoice::Uniform {
                 transform: openreadout_fcs::analysis::parse_transform_spec(spec)
                     .map_err(|e| mcp_err(&e))?,
-                parameters: a.transform_parameters.clone(),
+                parameters: a.parameters.clone(),
             }),
         };
         let want = a.max_rows.unwrap_or(100).min(MAX_TABLE_ROWS);

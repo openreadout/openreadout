@@ -650,7 +650,7 @@ fn rs_read_planes(
 // ---------------------------------------------------------------------------------------------
 // Tables, traces, spectra
 
-/// A table, a trace or the spectra of a run as columns (the columns of `export --to parquet`):
+/// A table, a trace or the spectra of a run as columns (the columns of `export --format parquet`):
 /// `list(columns = <named list of vectors>, meta = <JSON: per-column unit/label/dtype, schema
 /// metadata>)`. `kind` is `table`, `trace`, `spectra` or `scans` (the per-scan summary).
 #[extendr]
@@ -743,7 +743,7 @@ fn rs_spectrum(h: Robj, run: i32, number: f64, by_scan: bool, centroid: bool) ->
     done(res)
 }
 
-/// Scan headers of run `run` without decoding peaks (`openreadout spectra --json` data):
+/// Scan headers of run `run` without decoding peaks (`openreadout scans --json` data):
 /// `filter` is a `ScanFilter` as JSON; `limit` < 0 lists every match.
 #[extendr]
 fn rs_scans(h: Robj, run: i32, filter: &str, offset: f64, limit: f64) -> Robj {
@@ -773,7 +773,7 @@ fn rs_scans(h: Robj, run: i32, filter: &str, offset: f64, limit: f64) -> Robj {
 // Analyses (JSON in, JSON out: the MCP tools' arguments and the CLI's --json data)
 
 /// `openreadout analyze KIND` on an open file, for the kinds that read one data set
-/// (`options`: the MCP `openreadout_analyze` options of that kind, as JSON).
+/// (`options`: the arguments of that kind's MCP tool, as JSON).
 #[extendr]
 fn rs_analyze_dataset(h: Robj, kind: &str, options: &str) -> Robj {
     json(
@@ -807,7 +807,7 @@ fn rs_analyze(path: &str, kind: &str, options: &str) -> Robj {
     done(res)
 }
 
-/// `chromatogram` query (the `options` of MCP `openreadout_analyze` kind `chromatogram`).
+/// `chromatogram` query (the arguments of MCP `openreadout_chromatogram`).
 #[extendr]
 fn rs_chromatogram(h: Robj, query: &str) -> Robj {
     json(
@@ -822,7 +822,7 @@ fn rs_chromatogram(h: Robj, query: &str) -> Robj {
     )
 }
 
-/// `peaks` query (the `options` of MCP `openreadout_analyze` kind `peaks`):
+/// `peaks` query (the arguments of MCP `openreadout_peaks`):
 /// `{"output": PeaksOutput, "rows": [PeakRow]}`.
 #[extendr]
 fn rs_peaks(h: Robj, query: &str) -> Robj {

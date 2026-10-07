@@ -31,14 +31,10 @@ const HEADER_ID: [u8; 16] = [
     0xc0, 0xfe, 0xe4, 0xa2, 0xb2, 0x26, 0xd6, 0x11, 0x99, 0x1b, 0x00, 0x90, 0x27, 0x9b, 0x77, 0x0c,
 ];
 
-/// First and last bytes of the 46-byte block after the material name.
-const MATERIAL_HEAD: [u8; 6] = [1, 0, 0, 0, 1, 0];
+/// The 46-byte block after the material name begins with `u32` 1 or 2 and the bytes `01 00`, and
+/// ends with these 14 bytes (two empty strings).
 const MATERIAL_TAIL: [u8; 14] = [2, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1, 0, 0];
 const MATERIAL_LEN: usize = 46;
-
-/// Size results (Z-average, PdI, peaks) are returned only once validated against a Zetasizer
-/// export of size records in the development corpus; none is there yet, so they are withheld.
-const SIZE_RESULTS: bool = false;
 
 /// Longest string accepted, in bytes.
 const MAX_STRING: usize = 4096;
@@ -259,7 +255,8 @@ pub(crate) fn parse_record(stream: &str, b: &[u8]) -> Result<Record> {
             continue;
         };
         if let Some(blk) = b.get(end..end + MATERIAL_LEN)
-            && blk.starts_with(&MATERIAL_HEAD)
+            && matches!(le_u32(blk, 0), Some(1 | 2))
+            && blk[4..6] == [1, 0]
             && blk.ends_with(&MATERIAL_TAIL)
             && let Some((name, _)) = string_at(b, end + MATERIAL_LEN)
         {
@@ -272,7 +269,7 @@ pub(crate) fn parse_record(stream: &str, b: &[u8]) -> Result<Record> {
     let mut zeta = None;
     let mut matches = 0;
     match kind {
-        1 if SIZE_RESULTS => {
+        1 => {
             for o in 0..b.len().saturating_sub(16) {
                 if let Some(s) = size_at(b, o) {
                     matches += 1;
@@ -337,7 +334,7 @@ pub(crate) fn parse(bytes: &[u8], path: &Path) -> Result<SeriesFile> {
         return Err(Error::unsupported(
             FORMAT_ID,
             "a Header stream with an unknown identifier",
-            "report the file with `openreadout check FILE --report`",
+            "report the file with `openreadout report FILE`",
         ));
     }
     let mut streams: Vec<(u32, &openreadout_core::cfb::CfbEntry)> = cfb
@@ -367,18 +364,17 @@ pub(crate) fn parse(bytes: &[u8], path: &Path) -> Result<SeriesFile> {
     if records.is_empty() {
         return Err(Error::corrupt(FORMAT_ID, "no record streams"));
     }
-    let size_records = records.iter().filter(|r| r.kind == 1).count();
-    if !SIZE_RESULTS && size_records > 0 {
+    let with_size = records.iter().filter(|r| r.size.is_some()).count();
+    if with_size > 0 {
         findings.push(Finding::info(
-            "size_results_withheld",
+            "size_values_withheld",
             format!(
-                "{size_records} size record(s): Z-average, PdI and peaks are not returned (not yet validated against a Zetasizer export of size records); export the records table from the Zetasizer software for them"
+                "{with_size} size record(s): peak widths and the peaks of the number and volume distributions are not returned (no Zetasizer export in the development corpus holds them); export them from the Zetasizer software"
             ),
         ));
     }
     for r in &records {
         match (r.kind, r.matches) {
-            (1, 0) if !SIZE_RESULTS => {}
             (1 | 2, 0) => findings.push(Finding::info(
                 "no_results",
                 format!(
@@ -452,10 +448,11 @@ pub(crate) fn parse(bytes: &[u8], path: &Path) -> Result<SeriesFile> {
             Some("%"),
             size(&|s| nan_at(&s.peaks[0].area, k)),
         ));
+        // withheld: no export in the development corpus holds the peak widths
         cols.push(SeriesColumn::numbers(
             format!("peak{}_width", k + 1),
             Some("nm"),
-            size(&|s| nan_at(&s.peaks[0].width, k)),
+            size(&|_| f64::NAN),
         ));
     }
     cols.extend([
@@ -490,7 +487,7 @@ pub(crate) fn parse(bytes: &[u8], path: &Path) -> Result<SeriesFile> {
     let mut extra = BTreeMap::new();
     extra.insert(
         "description".into(),
-        json!("one row per record: size results (Z-average, PdI, intensity peaks) or zeta results (zeta potential, mobility, conductivity, zeta peaks); NaN where the record has none"),
+        json!("one row per record: size results (Z-average, PdI, intensity peak means and areas) or zeta results (zeta potential, mobility, conductivity, zeta peaks); NaN where the record has none or the value is withheld"),
     );
     let mut tables = vec![SeriesTable {
         name: "records".into(),
@@ -520,10 +517,13 @@ pub(crate) fn parse(bytes: &[u8], path: &Path) -> Result<SeriesFile> {
                 units.push(unit.to_string());
             }
         };
+        // the intensity peaks without their widths; number and volume peaks are withheld
         if let Some(s) = &r.size {
-            add("intensity", "nm", &s.peaks[0]);
-            add("number", "nm", &s.peaks[1]);
-            add("volume", "nm", &s.peaks[2]);
+            let intensity = Peaks {
+                width: Vec::new(),
+                ..s.peaks[0].clone()
+            };
+            add("intensity", "nm", &intensity);
         }
         if let Some(z) = &r.zeta {
             add("zeta", "mV", &z.zeta_peaks);
@@ -534,7 +534,7 @@ pub(crate) fn parse(bytes: &[u8], path: &Path) -> Result<SeriesFile> {
         let mut extra = BTreeMap::new();
         extra.insert(
             "description".into(),
-            json!("every stored peak: size distributions by intensity, number and volume (d.nm), zeta potential (mV) and mobility; area in %"),
+            json!("every stored peak returned: the intensity size distribution (d.nm; widths withheld), zeta potential (mV) and mobility; area in %"),
         );
         tables.push(SeriesTable {
             name: "peaks".into(),
@@ -635,6 +635,13 @@ pub(crate) fn parse(bytes: &[u8], path: &Path) -> Result<SeriesFile> {
             format!("{} record", kind_name(r.kind)),
             &[Scope::Tables],
         );
+        // the result blocks, located by their structure
+        if r.size.is_some() {
+            observations.feature(FeatureKind::Record, "size result block", &[Scope::Tables]);
+        }
+        if r.zeta.is_some() {
+            observations.feature(FeatureKind::Record, "zeta result block", &[Scope::Tables]);
+        }
     }
     let entries = records
         .iter()

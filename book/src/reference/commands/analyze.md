@@ -1,21 +1,26 @@
 # analyze
 
-`analyze` runs analyses with documented methods: chromatographic peaks, chromatograms, NMR peaks, patch-clamp features, extracellular spikes, qPCR, plate assays and flow-cytometry gating.
+`analyze` runs analyses with documented methods: chromatographic peaks, chromatograms, NMR peaks, patch-clamp features, extracellular spikes, qPCR, flow-cytometry gating and plate-reader assays. Each analysis is a subcommand with its own flags, and an MCP tool with the same name and arguments: `analyze nmr-peaks --range-ppm 0:10` is `openreadout_nmr_peaks` with `range_ppm: [0, 10]`.
 
 ```text
 openreadout analyze <SUBCOMMAND> [OPTIONS] <FILE>...
 ```
 
-| subcommand | what it returns | guide |
-| --- | --- | --- |
-| `peaks` | detected and integrated peaks; bands and regions of spectra | [Quantitation](../../guides/quantitation.md) |
-| `chromatogram` | TIC, BPC, XIC, SRM/MRM and stored detector traces | [Quantitation](../../guides/quantitation.md) |
-| `nmr-peaks` | NMR peak list and integrals | [NMR](../../guides/nmr.md) |
-| `ephys-features` | action potentials, rheobase, f–I curve, passive properties | [Electrophysiology](../../guides/ephys.md) |
-| `spikes` | extracellular spike counts, rates and times | [Electrophysiology](../../guides/ephys.md) |
-| `qpcr` | Cq, Tm, ΔΔCq, standard curves | [qPCR formats](../../formats/qpcr.md) |
-| `assay` | plate-reader wells, curves, dose-response, kinetics, growth, QC | [Plate analysis](../../guides/plate-analysis.md) |
-| `gate` | FlowJo or Gating-ML gate hierarchy and population counts | [FlowJo workspaces](../../formats/flowjo-wsp.md) |
+| subcommand | MCP tool | what it returns | guide |
+| --- | --- | --- | --- |
+| `peaks` | `openreadout_peaks` | detected and integrated peaks; bands and regions of spectra | [Quantitation](../../guides/quantitation.md) |
+| `chromatogram` | `openreadout_chromatogram` | TIC, BPC, XIC, SRM/MRM and stored detector traces | [Quantitation](../../guides/quantitation.md) |
+| `nmr-peaks` | `openreadout_nmr_peaks` | NMR peak list and integrals | [NMR](../../guides/nmr.md) |
+| `ephys-features` | `openreadout_ephys_features` | action potentials, rheobase, f–I curve, passive properties | [Electrophysiology](../../guides/ephys.md) |
+| `spikes` | `openreadout_spikes` | extracellular spike counts, rates and times | [Electrophysiology](../../guides/ephys.md) |
+| `qpcr` | `openreadout_qpcr` | Cq, Tm, ΔΔCq, standard curves | [qPCR formats](../../formats/qpcr.md) |
+| `gate` | `openreadout_gate` | FlowJo or Gating-ML gate hierarchy and population counts | [FlowJo workspaces](../../formats/flowjo-wsp.md) |
+| `assay-wells` | `openreadout_assay_wells` | plate-reader wells: roles, blanks, replicate statistics | [Plate analysis](../../guides/plate-analysis.md) |
+| `assay-curve` | `openreadout_assay_curve` | a standard curve and back-calculated concentrations | [Plate analysis](../../guides/plate-analysis.md) |
+| `dose-response` | `openreadout_dose_response` | IC50/EC50 per compound | [Plate analysis](../../guides/plate-analysis.md) |
+| `kinetics` | `openreadout_kinetics` | per-well rates of a kinetic read | [Plate analysis](../../guides/plate-analysis.md) |
+| `growth` | `openreadout_growth` | growth rate and doubling time per well | [Plate analysis](../../guides/plate-analysis.md) |
+| `assay-qc` | `openreadout_assay_qc` | Z′ and other plate quality metrics | [Plate analysis](../../guides/plate-analysis.md) |
 
 Every subcommand takes `--json`. The guides describe the methods and how they were validated. To run any of these over many files as one table, use [`batch`](batch.md).
 
@@ -108,7 +113,7 @@ The input is a Bruker experiment directory, a Varian `.fid` directory, a JEOL `.
 - `--min-prominence X`: minimum prominence in noise SDs. Default 5.
 - `--min-height-fraction F`: minimum height as a fraction of the tallest point. Default 0.
 - `--negative`: also report negative peaks (DEPT, APT).
-- `--range A:B`: only pick peaks between two shifts, in ppm.
+- `--range-ppm A:B`: only pick peaks between two shifts, in ppm.
 - `--max-peaks N`: keep at most this many peaks. Default 1000.
 - `--integrate A:B`: integrate a region in ppm. Repeatable.
 - `--integral-reference I=V`: normalize integrals so that region I equals V. Default `0=1`.
@@ -128,7 +133,7 @@ openreadout analyze ephys-features [OPTIONS] <FILE>
 - `--trace N`: trace index. Default 0.
 - `--channel N`: channel index. Default: the first voltage channel, else the first current channel.
 - `--sweeps LIST`: sweeps to analyse, such as `0,3,5-9`. Default: all.
-- `--peak-threshold MV`: voltage a spike must cross upward. Default −20 mV.
+- `--peak-threshold-mv MV`: voltage a spike must cross upward. Default −20 mV.
 - `--dvdt-threshold V_PER_S`: dV/dt that defines spike onset. Default 10 V/s.
 - `--max-spikes N`: rows in the per-spike table. Default 25 with `--json`, every spike with `--csv`.
 - `--csv sweeps|spikes|fi`: print one tidy table as CSV instead.
@@ -146,7 +151,7 @@ openreadout analyze spikes [OPTIONS] <FILE>
 - `--trace N`: trace index; pick the broadband stream. Default 0.
 - `--channels LIST`: channels, such as `0-3,7`. Default: all.
 - `--sweeps LIST`: sweeps or segments. Default: all.
-- `--band LOW:HIGH`: band-pass in Hz (zero-phase Butterworth). Default `300:6000`.
+- `--band-hz LOW:HIGH`: band-pass in Hz (zero-phase Butterworth). Default `300:6000`.
 - `--order N`: Butterworth order. Default 5.
 - `--threshold K`: threshold in noise units (noise = median(|x|)/0.6745). Default 5.
 - `--sign neg|pos|both`: spike polarity. Default `neg`.
@@ -163,44 +168,47 @@ openreadout analyze qpcr [OPTIONS] <FILE>
 The input is an RDML file (also a LightCycler 96 `.lc96p`), an Applied Biosystems `.eds`, a Rotor-Gene `.rex` or a LightCycler 480 `.ixo`.
 
 - `--well WELL`, `--target TARGET`, `--sample SAMPLE`, `--run RUN`: only these records.
-- `--cq`: also compute a threshold Cq for every curve and compare it with the vendor's.
-- `--threshold T`: with `--cq`, the threshold in baseline-corrected units.
-- `--baseline START-END`: with `--cq`, the baseline window in cycles.
+- `--compute-cq`: also compute a threshold Cq for every curve and compare it with the vendor's.
+- `--threshold T`: with `--compute-cq`, the threshold in baseline-corrected units.
+- `--baseline-start CYCLE`, `--baseline-end CYCLE`: with `--compute-cq`, the baseline window in cycles.
 - `--ddcq`: relative quantification (2^−ΔΔCq) per sample and target.
-- `--reference TARGET`: ΔΔCq reference target. Repeatable. Default: the file's.
-- `--control SAMPLE`: ΔΔCq calibrator sample. Default: the file's.
+- `--reference-target TARGET`: ΔΔCq reference target. Repeatable. Default: the file's.
+- `--control-sample SAMPLE`: ΔΔCq calibrator sample. Default: the file's.
 - `--standard-curve`: fit a standard curve per target (slope, R², efficiency).
 - `--max-records N`: return at most this many records.
-- `--undetermined-as CQ`: count wells without a Cq at this value in means and ΔΔCq. Default: leave them out and count them.
+- `--undetermined-cq CQ`: count wells without a Cq at this value in means and ΔΔCq. Default: leave them out and count them.
 
 ```bash
-openreadout analyze qpcr plate.eds --ddcq --reference GAPDH --control untreated
+openreadout analyze qpcr plate.eds --ddcq --reference-target GAPDH --control-sample untreated
 ```
 
-## assay
+## Plate-reader assays
 
 ```text
-openreadout analyze assay <wells|curve|dose-response|kinetics|growth|qc> [OPTIONS] <FILE>
+openreadout analyze <assay-wells|assay-curve|dose-response|kinetics|growth|assay-qc> [OPTIONS] <FILE>
 ```
 
-- `wells`: per-well values with roles, blank subtraction, replicate statistics and outlier flags.
-- `curve`: fit a standard curve and back-calculate every well's concentration.
+- `assay-wells`: per-well values with roles, blank subtraction, replicate statistics and outlier flags.
+- `assay-curve`: fit a standard curve and back-calculate every well's concentration.
 - `dose-response`: fit a 4PL or 5PL per compound: IC50/EC50 with confidence interval, Hill slope, top, bottom.
 - `kinetics`: per-well max slope, lag time, time to max, mean slope and AUC.
 - `growth`: per-well growth rate, doubling time, lag time and a logistic fit.
-- `qc`: Z′, signal/background, signal/noise, SSMD and CVs from the control wells.
+- `assay-qc`: Z′, signal/background, signal/noise, SSMD and CVs from the control wells.
 
 The input is a plate-reader export or a long CSV with `well` and `value` columns.
 
 ### Flags of every assay subcommand
 
+In MCP, the flags after `--negative-wells` go in the `plate_options` object of the tool.
+
 - `--layout CSV`: plate layout: a plate-map grid or a long table with a `well` column.
+- `--blank-wells WELLS`, `--positive-wells WELLS`, `--negative-wells WELLS`: mark wells (`H1,H2` or `H1:H12`).
+- `--empty-wells WELLS`: wells to ignore.
 - `--no-embedded-layout`: ignore the layout the export embeds.
-- `--blank WELLS`, `--positive WELLS`, `--negative WELLS`, `--empty WELLS`: mark wells (`H1,H2` or `H1:H12`).
 - `--role NAME=ROLE`: role of the wells a layout names NAME, such as `--role DMSO=negative`. Repeatable.
 - `--table N`: plate index. Default 0.
 - `--read READ`: read to analyse, by 1-based number or label. Default: the first measured read.
-- `--wavelength NM`: the wavelength of a spectral read.
+- `--wavelength-nm NM`: the wavelength of a spectral read.
 - `--blank-subtraction auto|mean|median|none`: default `auto`.
 - `--outliers grubbs|mad|none`: outlier test within replicate groups. Default `grubbs`.
 - `--outlier-threshold X`: alpha (Grubbs) or modified z-score (MAD).
@@ -210,21 +218,21 @@ The input is a plate-reader export or a long CSV with `well` and `value` columns
 
 ### Flags of some assay subcommands
 
-- `--reduce first|last|max|min|mean|max-slope|mean-slope|auc`: `wells`, `curve`, `dose-response`, `qc`: how a kinetic read becomes one value per well.
+- `--reduce first|last|max|min|mean|max-slope|mean-slope|auc`: `assay-wells`, `assay-curve`, `dose-response`, `assay-qc`: how a kinetic read becomes one value per well.
 - `--window N`: points per window, for `--reduce max-slope` or for `kinetics` and `growth`.
-- `--normalize none|controls`: `wells`, `dose-response`, `qc`: percent effect between the negative (0 %) and positive (100 %) controls.
-- `--model linear|4pl|5pl`: `curve`, `dose-response`. Default `4pl`.
-- `--weighting none|1/y|1/y2|1/x|1/x2`: `curve`, `dose-response`. Default `none`.
-- `--confidence C`: `curve`, `dose-response`: confidence level. Default 0.95.
-- `--preview PNG`: `curve`, `dose-response`: draw the points and the fit.
-- `--standard WELLS=CONC`: `curve`: standard wells and their concentration. Repeatable.
-- `--fit-on replicates|means`: `curve`. Default `replicates`.
-- `--lloq X`, `--uloq X`: `curve`: limits of quantification. Default: from the standards' recovery.
+- `--normalize none|controls`: `assay-wells`, `dose-response`, `assay-qc`: percent effect between the negative (0 %) and positive (100 %) controls.
+- `--model linear|4pl|5pl`: `assay-curve`, `dose-response`. Default `4pl`.
+- `--weighting none|1/y|1/y2|1/x|1/x2`: `assay-curve`, `dose-response`. Default `none`.
+- `--confidence C`: `assay-curve`, `dose-response`: confidence level. Default 0.95.
+- `--plot PNG`: `assay-curve`, `dose-response`: draw the points and the fit. In MCP, `plot: true` returns the picture.
+- `--standard WELLS=CONC`: `assay-curve`: standard wells and their concentration. Repeatable.
+- `--fit-on replicates|means`: `assay-curve`. Default `replicates`.
+- `--lloq X`, `--uloq X`: `assay-curve`: limits of quantification. Default: from the standards' recovery.
 - `--wells WELLS`: `kinetics`, `growth`: only these wells.
-- `--threshold OD`: `growth`: values at or below this are left out of the log-scale fit.
+- `--growth-threshold OD`: `growth`: values at or below this are left out of the log-scale fit.
 
 ```console
-$ openreadout analyze assay curve assay-synth-elisa-5pl.csv --layout assay-synth-elisa-5pl-layout.csv --model 5pl
+$ openreadout analyze assay-curve assay-synth-elisa-5pl.csv --layout assay-synth-elisa-5pl-layout.csv --model 5pl
 assay-synth-elisa-5pl.csv — curve of read 1 `OD450`
 layout: assay-synth-elisa-5pl-layout.csv (blank 2, sample 80, standard 14)
 blank: mean of 2 wells = 0.0647
@@ -259,5 +267,7 @@ openreadout analyze gate fcs/ --workspace analysis.wsp --median Comp-FITC-A -o p
 ## JSON
 
 [`peaks`](../json/peaks.md), [`chromatogram`](../json/chromatogram.md), [`nmr-peaks`](../json/nmr-peaks.md), [`ephys-features`](../json/ephys-features.md), [`spikes`](../json/spikes.md), [`qpcr`](../json/qpcr.md), [`assay`](../json/assay.md), [`gate`](../json/gate.md).
+
+The plate-reader assays all return [`assay`](../json/assay.md).
 
 Run `openreadout analyze <subcommand> --help` for the full help of your installed version.

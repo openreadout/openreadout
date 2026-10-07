@@ -83,7 +83,7 @@ Other vendor wording is kept, such as `Brightfield (RGB)` from VSI.
 
 ## Per-frame records
 
-`info --view full` lists per-plane acquisition data under `images[].extra.frames`: the first 100 per image, or all with `--all-frames`. `frame_records_total` gives the count. ND2 and CZI files have them. All fields are optional except the indices:
+`info --view full` lists per-plane acquisition data under `images[].extra.frames`: the first 100 per image, or all with `--max-frames -1`. `frame_records_total` gives the count. ND2 and CZI files have them. All fields are optional except the indices:
 
 | field | meaning |
 | --- | --- |
@@ -240,11 +240,11 @@ openreadout info run.raw --ask "what was the gradient?"
 
 A question that matches no topic gets the technique, sample, method and run length.
 
-MS1 and MS/MS scans are interleaved in a run, so "the first MS/MS scan" is not simply the first scan after the MS1 scans. `openreadout spectra FILE --ms-level 2 --nth 1` returns it directly.
+MS1 and MS/MS scans are interleaved in a run, so "the first MS/MS scan" is not simply the first scan after the MS1 scans. `openreadout spectrum FILE --ms-level 2 --nth 1` returns it directly.
 
 ## OME-XML export
 
-`export --to ome-tiff` writes OME-XML, as does the `OME/METADATA.ome.xml` of a multi-image OME-Zarr store. It validates against the OME 2016-06 schema. Lengths avoid non-ASCII characters so that Bio-Formats can read them: `PhysicalSizeX/Y/Z` carry no unit attribute (the schema default is µm), and stage and plane positions are written in nm.
+`export --format ome-tiff` writes OME-XML, as does the `OME/METADATA.ome.xml` of a multi-image OME-Zarr store. It validates against the OME 2016-06 schema. Lengths avoid non-ASCII characters so that Bio-Formats can read them: `PhysicalSizeX/Y/Z` carry no unit attribute (the schema default is µm), and stage and plane positions are written in nm.
 
 | OME element | from |
 | --- | --- |
@@ -278,7 +278,7 @@ An export and read-back does not reproduce:
 - `time_increment_s` where the source had only per-frame times. The OME-TIFF reader infers the mean step from the planes, so the read-back has one.
 - Everything in `extra` except what the table above maps.
 
-`check --against` compares a source with its export and reports these differences; see [check](../reference/commands/check.md).
+`compare` compares a source with its export and reports these differences; see [check](../reference/commands/check.md).
 
 ## Conformance
 

@@ -1,0 +1,44 @@
+{
+ "id": "zenodo58804-openspim",
+ "file": "zenodo58804-openspim.tif",
+ "size": 2702968,
+ "sha256": "d0735dafbad19cc003b8500a79d9ecd8db4dd27538f7a23d0f5fc4ca73f85816",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YXS",
+   "shape": [
+    1140,
+    1822,
+    3
+   ],
+   "size_x": 1822,
+   "size_y": 1140,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31182c7cdbc0b4769f64e17ee17d85b5"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,51 @@
+{
+ "id": "zenodo6865142-sim-synapsed",
+ "file": "zenodo6865142-sim-synapsed.czi",
+ "size": 13198272,
+ "sha256": "b8ab0d964021dea89d787aea02fed5ac76b4d273fafbf4187bdd42bf18fd7b9f",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 2560,
+   "size_y": 2560,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "YX",
+   "shape": [
+    2560,
+    2560
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.03224205,
+    "y": 0.03224205,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b84564eb2c8aaffe7f541d58b7ef900b"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.03224205,
+  "y": 0.03224205,
+  "z": 0.0
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

@@ -56,7 +56,7 @@ pub struct EphysArgs {
     pub sweeps: Option<String>,
     /// Voltage a spike must cross upward, mV.
     #[arg(long, value_name = "MV", default_value_t = -20.0, allow_negative_numbers = true)]
-    pub peak_threshold: f64,
+    pub peak_threshold_mv: f64,
     /// dV/dt defining the spike onset (threshold), V/s.
     #[arg(long, value_name = "V_PER_S", default_value_t = 10.0)]
     pub dvdt_threshold: f64,
@@ -73,9 +73,9 @@ pub struct EphysArgs {
 
 fn cell_request(a: &EphysArgs) -> Result<CellRequest> {
     let dvdt_ok = a.dvdt_threshold.is_finite() && a.dvdt_threshold > 0.0;
-    if !a.peak_threshold.is_finite() || !dvdt_ok {
+    if !a.peak_threshold_mv.is_finite() || !dvdt_ok {
         return Err(Error::Usage(
-            "--peak-threshold must be finite and --dvdt-threshold positive".into(),
+            "--peak-threshold-mv must be finite and --dvdt-threshold positive".into(),
         ));
     }
     Ok(CellRequest {
@@ -87,7 +87,7 @@ fn cell_request(a: &EphysArgs) -> Result<CellRequest> {
             .map(|s| parse_list(s, "--sweeps"))
             .transpose()?,
         ap: ApSettings {
-            peak_threshold_mv: a.peak_threshold,
+            peak_threshold_mv: a.peak_threshold_mv,
             dvdt_threshold_v_per_s: a.dvdt_threshold,
             ..ApSettings::default()
         },
@@ -269,7 +269,7 @@ pub struct SpikesArgs {
     pub sweeps: Option<String>,
     /// Band-pass `LOW:HIGH` in Hz (Butterworth, zero phase).
     #[arg(long, value_name = "LOW:HIGH", default_value = "300:6000")]
-    pub band: String,
+    pub band_hz: String,
     /// Butterworth order.
     #[arg(long, default_value_t = 5)]
     pub order: usize,
@@ -300,8 +300,13 @@ pub enum SignArg {
 }
 
 fn spikes_request(a: &SpikesArgs) -> Result<SpikesRequest> {
-    let err = || Error::Usage(format!("--band {:?}: expected LOW:HIGH in Hz", a.band));
-    let (lo, hi) = a.band.split_once(':').ok_or_else(err)?;
+    let err = || {
+        Error::Usage(format!(
+            "--band-hz {:?}: expected LOW:HIGH in Hz",
+            a.band_hz
+        ))
+    };
+    let (lo, hi) = a.band_hz.split_once(':').ok_or_else(err)?;
     let lo: f64 = lo.trim().parse().map_err(|_| err())?;
     let hi: f64 = hi.trim().parse().map_err(|_| err())?;
     if !(lo > 0.0 && hi > lo && hi.is_finite()) {

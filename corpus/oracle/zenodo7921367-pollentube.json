@@ -1,0 +1,64 @@
+{
+ "id": "zenodo7921367-pollentube",
+ "file": "zenodo7921367-pollentube.czi",
+ "size": 2158304,
+ "sha256": "bb885bdfbafd1b6500d099fffc578cb57e7acb99a6f6d3b485e05d0b665a73cb",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 116,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    3,
+    116,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.14534607611384623,
+    "y": 0.14534607611384623,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4e8177ecd881c19e5aff107c1ca08c2c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5821cb52fd0da460e71c076ac742a40a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3a90b468e77e62ab98dea6a40b096957"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.14534607611384623,
+  "y": 0.14534607611384623,
+  "z": null
+ },
+ "subblock_count": 3,
+ "compression_ids": [
+  0
+ ]
+}

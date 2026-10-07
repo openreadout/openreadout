@@ -1,0 +1,89 @@
+{
+ "id": "hdf5-zenodo15463833-data-pmoke-mag",
+ "format": "hdf5",
+ "independent": true,
+ "reader": "h5py 3.16.0 (HDF5 2.0.0, BSD-3-Clause)",
+ "superblock_version": 0,
+ "groups": 1,
+ "datasets": 7,
+ "top_level": [
+  "R1_pol1",
+  "R1_pol2",
+  "R2_pol1",
+  "R2_pol2",
+  "Z_sim1",
+  "Z_sim2",
+  "magnetization_%"
+ ],
+ "objects": [
+  {
+   "path": "/",
+   "kind": "group",
+   "attributes": {}
+  },
+  {
+   "path": "/R1_pol1",
+   "kind": "dataset",
+   "shape": [
+    20
+   ],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/R1_pol2",
+   "kind": "dataset",
+   "shape": [
+    20
+   ],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/R2_pol1",
+   "kind": "dataset",
+   "shape": [
+    20
+   ],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/R2_pol2",
+   "kind": "dataset",
+   "shape": [
+    20
+   ],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/Z_sim1",
+   "kind": "dataset",
+   "shape": [
+    20
+   ],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/Z_sim2",
+   "kind": "dataset",
+   "shape": [
+    20
+   ],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/magnetization_%",
+   "kind": "dataset",
+   "shape": [
+    20
+   ],
+   "dtype": "float64",
+   "attributes": {}
+  }
+ ],
+ "links": []
+}

@@ -16,7 +16,7 @@
 //!   0, the first samples of trace 0, spectrum 0 and frame records return `Ok` or a clean
 //!   `Err` (a panic fails the test); for the image formats whose `check` verifies the data
 //!   extent (CZI, ND2, LIF), a truncated file never passes `check`;
-//! - through the CLI binary: `info`, `info --view structure`, `check`, one-plane `check --planes`
+//! - through the CLI binary: `info`, `info --view structure`, `check`, one-plane `planes`
 //!   and one-plane `stats`
 //!   exit with 0, 4 (corrupt), 5 (I/O) or 6 (unsupported) — 3 (unknown format) only when the
 //!   registry no longer recognises the damaged input — never 1 (internal error or panic), 101
@@ -289,12 +289,7 @@ fn cli_checks(bin: &Path, path: &Path, recognised: bool) -> Vec<String> {
         vec!["info", p, "--json"],
         vec!["info", "--view", "structure", p, "--json"],
         vec!["check", p, "--json"],
-        [
-            &["check", "--planes", p, "--image", "0"][..],
-            &one_plane,
-            &["--json"],
-        ]
-        .concat(),
+        [&["planes", p, "--image", "0"][..], &one_plane, &["--json"]].concat(),
         [&["stats", p, "--image", "0"][..], &one_plane, &["--json"]].concat(),
         // strict mode: refusals are exit 6, never an internal error
         vec!["--strict", "info", p, "--json"],

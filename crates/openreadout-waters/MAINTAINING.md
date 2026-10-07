@@ -10,6 +10,7 @@ Waters MassLynx `.raw` directories (`waters-raw`): full-scan spectra of TOF inst
 4. **Scan index** (`layout.rs` `parse_idx`): `_FUNCnnn.IDX` records of 22 or 30 bytes (`idx_record_len_for`) with offset, count, TIC, retention time and flags.
 5. **Values** (`layout.rs`): **the value layout is the main branch**: 12-byte values (`decode_value12`, `decode_mass27`, `decode_intensity12`), 8- and 6-byte (`decode_value8`, `decode_value6`), 4- and 2-byte MRM/SIR (`decode_packed32`, `decode_packed16`); `infer_bytes_per_value` picks it from the record and data sizes. Index flag 0x100 means values are stored calibrated; otherwise the `Cal Function n` polynomial is applied (`stored_calibrated`).
 6. **Dataset** (`dataset.rs` `WatersRawDataset`): spectra (`spectrum_at`, `visit_scan_headers`), MRM/SIR as tables and traces, PDA and analog channels (`_CHROnnn.DAT`, `_CHROMS.INF`) as traces, statistics (`_FUNCnnn.STS`, `parse_stats_layout`) in scan headers.
+7. **Drift bins** (`drift.rs`, `dataset.rs` `decode_drift`, `drift_spectrum`): `_funcNNN.ind` (`parse_drift_index`) locates each scan's three LZRW3-compressed sections in `_funcNNN.cdt` (`lzrw3_decompress`, `decode_drift_scan`); time-of-flight indices take the m/z of the drift-summed DAT spectrum's point of the same rank, after checking that the bins sum to it. Run 1 lists one spectrum per bin.
 
 ## Invariants and checks
 
@@ -18,14 +19,15 @@ Waters MassLynx `.raw` directories (`waters-raw`): full-scan spectra of TOF inst
 
 ## Debugging a new file
 
-- `openreadout info RUN.raw --view structure` lists every member file and function; `openreadout spectra RUN.raw` shows the index without decoding peaks.
-- A new instrument usually means a new function type or value layout: `openreadout check RUN.raw --report` names the function types and layouts (the assurance fingerprint); `layout.rs` has unit tests with rainbow's documented examples (`rainbow_examples`).
+- `openreadout info RUN.raw --view structure` lists every member file and function; `openreadout scans RUN.raw` shows the index without decoding peaks.
+- A new instrument usually means a new function type or value layout: `openreadout report RUN.raw` names the function types and layouts (the assurance fingerprint); `layout.rs` has unit tests with rainbow's documented examples (`rainbow_examples`).
 - The ground truth is a depositor mzML (`oracle-export`); `oracle/gen.py --export … RUN.raw` (use `uv run --group chrom` for rainbow-based chromatography oracles).
 - `tests/synthetic.rs` builds directories for each layout.
 
 ## Fragile spots
 
-- Lock-mass correction is not applied (reported per reference scan); ion-mobility drift bins (`_funcNNN.cdt`) are not decoded (drift-summed spectra are returned and say so).
+- Lock-mass correction is not applied (reported per reference scan).
+- Drift bins get their m/z from the drift-summed DAT spectrum, so they depend on it being stored as a profile of every time-of-flight index the bins use. A file whose DAT is centroided or thresholded fails the sum check and its bins are refused; deriving m/z from the time-of-flight index itself (the `.ind` header holds the sampling rate, `Lteff` and the mass range) would lift that. SONAR quadrupole windows per bin are not derived.
 - MRM 4-byte values are scaled so each scan sums to the IDX TIC (rainbow reports twice these values): a documented choice validated against exports.
 - PDA functions are unscaled absorbance counts; `.EE`/`.CMP` files and the third word of 12-byte values are listed, not decoded.
 
@@ -38,7 +40,7 @@ Waters MassLynx `.raw` directories (`waters-raw`): full-scan spectra of TOF inst
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `waters-raw` | [format note](../../docs/formats/waters-raw.md), [provenance log](../../docs/provenance/waters-raw.md) | high | reverse engineered | 18 / 18 | 6 | - |
+| `waters-raw` | [format note](../../docs/formats/waters-raw.md), [provenance log](../../docs/provenance/waters-raw.md) | high | reverse engineered | 22 / 21 | 9 | - |
 
 ### Source map
 
@@ -46,6 +48,7 @@ Waters MassLynx `.raw` directories (`waters-raw`): full-scan spectra of TOF inst
 | --- | --- |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`): the variant features of a Waters MassLynx `.raw` directory and the feature values the development corpus validates |
 | [`src/dataset.rs`](src/dataset.rs) | `Dataset` for Waters MassLynx `.raw` directories: text metadata (`_HEADER.TXT`, `_extern.inf`, `_INLET.INF`), the per-function scan index (`_FUNCnnn.IDX`), full-scan spectra |
+| [`src/drift.rs`](src/drift.rs) | Drift-resolved data of ion-mobility and SONAR functions: the per-scan index (`_funcNNN.ind`), the compressed sections of `_funcNNN.cdt` (LZRW3, a public-domain compression… |
 | [`src/layout.rs`](src/layout.rs) | Byte layouts of the files in a MassLynx `.raw` directory: the scan index (`_FUNCnnn.IDX`), the value layouts of `_FUNCnnn.DAT`, function blocks (`_FUNCTNS.INF`), per-scan… |
 | [`src/lib.rs`](src/lib.rs) | Clean-room reader for Waters MassLynx `.raw` directories: full-scan spectra of TOF instruments (SYNAPT, Xevo, Vion) with the m/z calibration applied, MS/MS precursors and |
 
@@ -57,6 +60,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature instrument `instrument_generation(&m)`
 - feature acquisition `k`
 - feature sample_layout `format!("{b}-byte values")`
+- feature record `format!("drift bins ({d})")`
 - feature acquisition `format!("stored {st}")`
 - feature record `"analog channel"`
 - feature instrument `m` (descriptive)
@@ -68,41 +72,45 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `waters-raw` | acquisition | `MOBILITY FAST DDA FUNCTION` | spectra, tables | 0 | 1 |  |
-| `waters-raw` | acquisition | `MOBILITY MSMS FUNCTION` | spectra, tables | 0 | 1 |  |
-| `waters-raw` | acquisition | `MOBILITY SURVEY FUNCTION` | spectra, tables | 0 | 1 |  |
-| `waters-raw` | acquisition | `REFERENCE` | spectra, tables | 5 | 5 | `pwiz-waters-091204-nfdm-008`, `pwiz-waters-atehlstlsek-lm-684-3469`, `pwiz-waters-atehlstlsek-lm-785-8426` |
+| `waters-raw` | acquisition | `MOBILITY FAST DDA FUNCTION` | spectra, tables | 1 | 1 | `pwiz-waters-hddda-short-nolm` |
+| `waters-raw` | acquisition | `MOBILITY MS FUNCTION` | spectra, tables | 1 | 1 | `msv92552-mnx-h340a-ims2-raw` |
+| `waters-raw` | acquisition | `MOBILITY MSMS FUNCTION` | spectra, tables | 1 | 1 | `pwiz-waters-hdmrm-short-nolm` |
+| `waters-raw` | acquisition | `MOBILITY SURVEY FUNCTION` | spectra, tables | 1 | 1 | `pwiz-waters-hddda-short-nolm` |
+| `waters-raw` | acquisition | `REFERENCE` | spectra, tables | 6 | 6 | `mtbls7324-8sa-lps-16h-3b-raw`, `pwiz-waters-091204-nfdm-008`, `pwiz-waters-atehlstlsek-lm-684-3469` |
 | `waters-raw` | acquisition | `TOF FAST DDA FUNCTION` | spectra, tables | 3 | 3 | `pwiz-waters-atehlstlsek-lm-684-3469`, `pwiz-waters-atehlstlsek-lm-785-8426`, `pwiz-waters-atehlstlsek-profile` |
-| `waters-raw` | acquisition | `TOF MS FUNCTION` | spectra, tables | 2 | 2 | `mtbls7290-scfa240-001-neg-blank-raw`, `pxd059722-mth2-alicine-td-1-raw` |
+| `waters-raw` | acquisition | `TOF MS FUNCTION` | spectra, tables | 3 | 3 | `mtbls7290-scfa240-001-neg-blank-raw`, `mtbls7324-8sa-lps-16h-3b-raw`, `pxd059722-mth2-alicine-td-1-raw` |
 | `waters-raw` | acquisition | `TOF MSMS FUNCTION` | spectra, tables | 1 | 1 | `pxd059722-mth2-alicine-td-1-raw` |
-| `waters-raw` | acquisition | `TOF PARENT FUNCTION` | spectra, tables | 1 | 3 | `pwiz-waters-mse-short` |
+| `waters-raw` | acquisition | `TOF PARENT FUNCTION` | spectra, tables | 3 | 4 | `pwiz-waters-hdmse-short-nolm`, `pwiz-waters-mse-short`, `pwiz-waters-sonar-short` |
 | `waters-raw` | acquisition | `TOF SURVEY FUNCTION` | spectra, tables | 4 | 4 | `pwiz-waters-091204-nfdm-008`, `pwiz-waters-atehlstlsek-lm-684-3469`, `pwiz-waters-atehlstlsek-lm-785-8426` |
-| `waters-raw` | acquisition | `stored centroid` | spectra | 5 | 5 | `mtbls7290-scfa240-001-neg-blank-raw`, `pwiz-waters-091204-nfdm-008`, `pwiz-waters-atehlstlsek-lm-684-3469` |
-| `waters-raw` | acquisition | `stored mixed` | spectra | 6 | 10 | `pwiz-waters-160109-mix1-calcurve-070`, `pwiz-waters-atehlstlsek-profile`, `pwiz-waters-dda-isolationwindow` |
-| `waters-raw` | field | `experiment.acquisition.started_at` | descriptive | 16 | 16 | `mtbls15166-brain-b1-raw`, `mtbls225-tqs-rln-20140623-056-raw`, `mtbls3555-bv-ix-alpha-raw` |
-| `waters-raw` | field | `experiment.instrument.model` | descriptive | 16 | 16 | `mtbls15166-brain-b1-raw`, `mtbls225-tqs-rln-20140623-056-raw`, `mtbls3555-bv-ix-alpha-raw` |
-| `waters-raw` | format_version | `01.00` | metadata, spectra, tables, traces | 18 | 18 | `mtbls15166-brain-b1-raw`, `mtbls225-tqs-rln-20140623-056-raw`, `mtbls3555-bv-ix-alpha-raw` |
+| `waters-raw` | acquisition | `stored centroid` | spectra | 6 | 6 | `mtbls7290-scfa240-001-neg-blank-raw`, `mtbls7324-8sa-lps-16h-3b-raw`, `pwiz-waters-091204-nfdm-008` |
+| `waters-raw` | acquisition | `stored mixed` | spectra | 12 | 13 | `msv92552-mnx-h340a-ims2-raw`, `mtbls13129-beejamrit-3-1-gcms-raw`, `pwiz-waters-160109-mix1-calcurve-070` |
+| `waters-raw` | field | `experiment.acquisition.started_at` | descriptive | 19 | 20 | `msv92552-mnx-h340a-ims2-raw`, `mtbls13129-beejamrit-3-1-gcms-raw`, `mtbls15166-brain-b1-raw` |
+| `waters-raw` | field | `experiment.instrument.model` | descriptive | 17 | 18 | `msv92552-mnx-h340a-ims2-raw`, `mtbls15166-brain-b1-raw`, `mtbls225-tqs-rln-20140623-056-raw` |
+| `waters-raw` | format_version | `01.00` | metadata, spectra, tables, traces | 21 | 22 | `msv92552-mnx-h340a-ims2-raw`, `mtbls13129-beejamrit-3-1-gcms-raw`, `mtbls15166-brain-b1-raw` |
 | `waters-raw` | instrument | `ACQ-SQD` | descriptive | 1 | 1 | `pwiz-waters-qc-lcms2-2-23-268-1-1` |
 | `waters-raw` | instrument | `JAA143 Synapt MS` | descriptive | 1 | 1 | `pwiz-waters-091204-nfdm-008` |
 | `waters-raw` | instrument | `SYNAPT-G2` | descriptive | 1 | 1 | `mtbls7290-scfa240-001-neg-blank-raw` |
 | `waters-raw` | instrument | `SYNAPT-XS` | descriptive | 1 | 1 | `pxd059722-mth2-alicine-td-1-raw` |
-| `waters-raw` | instrument | `SYNAPTG2-Si` | descriptive | 7 | 7 | `pwiz-waters-atehlstlsek-lm-684-3469`, `pwiz-waters-atehlstlsek-lm-785-8426`, `pwiz-waters-atehlstlsek-profile` |
-| `waters-raw` | instrument | `XEVO-G2XSQTOF` | descriptive | 1 | 1 | `pwiz-waters-sonar-short` |
+| `waters-raw` | instrument | `SYNAPTG2-Si` | descriptive | 8 | 8 | `msv92552-mnx-h340a-ims2-raw`, `pwiz-waters-atehlstlsek-lm-684-3469`, `pwiz-waters-atehlstlsek-lm-785-8426` |
+| `waters-raw` | instrument | `XEVO-G2XSQTOF` | descriptive | 1 | 2 | `pwiz-waters-sonar-short` |
 | `waters-raw` | instrument | `XEVO-TQMS` | descriptive | 1 | 1 | `pwiz-waters-160109-mix1-calcurve-070` |
 | `waters-raw` | instrument | `XEVO-TQS` | descriptive | 1 | 1 | `mtbls225-tqs-rln-20140623-056-raw` |
 | `waters-raw` | instrument | `XEVO-TQXS` | descriptive | 2 | 2 | `mtbls15166-brain-b1-raw`, `mtbls3555-bv-ix-alpha-raw` |
-| `waters-raw` | instrument | `generation Synapt` | spectra, tables | 7 | 10 | `mtbls7290-scfa240-001-neg-blank-raw`, `pwiz-waters-091204-nfdm-008`, `pwiz-waters-atehlstlsek-lm-684-3469` |
-| `waters-raw` | instrument | `generation Xevo QTOF` | spectra, tables | 0 | 1 |  |
+| `waters-raw` | instrument | `generation Synapt` | spectra, tables | 11 | 11 | `msv92552-mnx-h340a-ims2-raw`, `mtbls7290-scfa240-001-neg-blank-raw`, `pwiz-waters-091204-nfdm-008` |
+| `waters-raw` | instrument | `generation Xevo QTOF` | spectra, tables | 1 | 2 | `pwiz-waters-sonar-short` |
 | `waters-raw` | instrument | `generation Xevo TQ` | spectra, tables | 4 | 4 | `mtbls15166-brain-b1-raw`, `mtbls225-tqs-rln-20140623-056-raw`, `mtbls3555-bv-ix-alpha-raw` |
 | `waters-raw` | instrument | `generation single quadrupole` | spectra, tables | 1 | 1 | `pwiz-waters-qc-lcms2-2-23-268-1-1` |
-| `waters-raw` | record | `analog channel` | traces | 0 | 3 |  |
-| `waters-raw` | sample_layout | `12-byte values` | spectra, tables | 5 | 5 | `mtbls7290-scfa240-001-neg-blank-raw`, `pwiz-waters-091204-nfdm-008`, `pwiz-waters-atehlstlsek-lm-684-3469` |
+| `waters-raw` | record | `analog channel` | traces | 0 | 5 |  |
+| `waters-raw` | record | `drift bins (SONAR quadrupole steps)` | spectra | 1 | 1 | `pwiz-waters-sonar-short` |
+| `waters-raw` | record | `drift bins (ion mobility drift time)` | spectra | 4 | 4 | `msv92552-mnx-h340a-ims2-raw`, `pwiz-waters-hddda-short-nolm`, `pwiz-waters-hdmrm-short-nolm` |
+| `waters-raw` | sample_layout | `12-byte values` | spectra, tables | 6 | 6 | `mtbls7290-scfa240-001-neg-blank-raw`, `mtbls7324-8sa-lps-16h-3b-raw`, `pwiz-waters-091204-nfdm-008` |
 | `waters-raw` | sample_layout | `2-byte values` | spectra, tables | 2 | 2 | `mtbls225-tqs-rln-20140623-056-raw`, `pwiz-waters-160109-mix1-calcurve-070` |
 | `waters-raw` | sample_layout | `4-byte values` | spectra, tables | 2 | 2 | `mtbls15166-brain-b1-raw`, `mtbls3555-bv-ix-alpha-raw` |
-| `waters-raw` | sample_layout | `6-byte values` | spectra, tables | 2 | 2 | `pwiz-waters-160109-mix1-calcurve-070`, `pwiz-waters-qc-lcms2-2-23-268-1-1` |
-| `waters-raw` | sample_layout | `8-byte values` | spectra, tables | 5 | 9 | `pwiz-waters-atehlstlsek-profile`, `pwiz-waters-dda-isolationwindow`, `pwiz-waters-minimal-dda` |
-| `waters-raw` | writer_version | `MassLynx 4.1` | descriptive | 3 | 3 | `mtbls7290-scfa240-001-neg-blank-raw`, `pwiz-waters-091204-nfdm-008`, `pwiz-waters-sonar-short` |
+| `waters-raw` | sample_layout | `6-byte values` | spectra, tables | 3 | 3 | `mtbls13129-beejamrit-3-1-gcms-raw`, `pwiz-waters-160109-mix1-calcurve-070`, `pwiz-waters-qc-lcms2-2-23-268-1-1` |
+| `waters-raw` | sample_layout | `8-byte values` | spectra, tables | 10 | 11 | `msv92552-mnx-h340a-ims2-raw`, `pwiz-waters-atehlstlsek-profile`, `pwiz-waters-dda-isolationwindow` |
+| `waters-raw` | writer_version | `MassLynx 4.1` | descriptive | 4 | 5 | `mtbls7290-scfa240-001-neg-blank-raw`, `mtbls7324-8sa-lps-16h-3b-raw`, `pwiz-waters-091204-nfdm-008` |
 | `waters-raw` | writer_version | `MassLynx 4.1 SCN957` | descriptive | 3 | 3 | `pwiz-waters-atehlstlsek-lm-684-3469`, `pwiz-waters-atehlstlsek-lm-785-8426`, `pwiz-waters-atehlstlsek-profile` |
+| `waters-raw` | writer_version | `MassLynx 4.2 SCN1003` | descriptive | 1 | 1 | `msv92552-mnx-h340a-ims2-raw` |
 | `waters-raw` | writer_version | `MassLynx 4.2 SCN1028` | descriptive | 1 | 1 | `pxd059722-mth2-alicine-td-1-raw` |
 | `waters-raw` | writer_version | `MassLynx 4.2 SCN983` | descriptive | 4 | 4 | `pwiz-waters-hddda-short-nolm`, `pwiz-waters-hdmrm-short-nolm`, `pwiz-waters-hdmse-short-nolm` |
 
@@ -110,8 +118,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 2 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
-- fuzz targets (`fuzz/fuzz_targets/`): `whole_waters`
-- corpus inputs by tier: heldout 2, smoke 12, standard 6
+- fuzz targets (`fuzz/fuzz_targets/`): `waters_drift`, `whole_waters`
+- corpus inputs by tier: full 4, heldout 2, smoke 12, standard 6
 - golden snapshots: [`corpus/snapshots/waters-raw.jsonl`](../../corpus/snapshots/waters-raw.jsonl)
 
 ### Open new-variant intakes

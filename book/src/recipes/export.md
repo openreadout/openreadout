@@ -15,31 +15,31 @@ wrote mini.ome.tiff (1 images, 2 planes, 2612 bytes, verified=true)
 
 - `wrote` names the new file. Without `-o` it goes next to the input, named after it with the target's extension.
 - `verified=true` means the export was read back and compared with the source before it got its final name. Until then it has a temporary name, so an interrupted export doesn't leave a half-written file behind.
-- The target is chosen from the data: OME-TIFF for images, CSV for tables and traces, mzML for mass spectrometry. Pick another with `--to`.
+- The target is chosen from the data: OME-TIFF for images, CSV for tables and traces, mzML for mass spectrometry. Pick another with `--format`.
 - `export` won't replace an existing file unless you pass `--overwrite`. Without it, `export` stops with exit code 2.
-- A combination that does not fit, such as an image file `--to csv`, exits 6 with a hint that names the target to use.
+- A combination that does not fit, such as an image file `--format csv`, exits 6 with a hint that names the target to use.
 
 ## Variations
 
 ### Other targets
 
 ```text
-$ openreadout export mini.nd2 --to ome-zarr
+$ openreadout export mini.nd2 --format ome-zarr
 wrote mini.ome.zarr (1 images, 2 planes, 2876 bytes, verified=true)
 
-$ openreadout export fcsparser-cyflow-cube-8.fcs --to parquet
+$ openreadout export fcsparser-cyflow-cube-8.fcs --format parquet
 wrote fcsparser-cyflow-cube-8.parquet (parquet table 0, 725 rows x 10 columns, snappy, 52461 bytes, verified=true)
 
 $ openreadout export pyteomics-tiny-pwiz.mzML -o tiny.mzML
 wrote tiny.mzML (4 spectra, 40 points, 15667 bytes, verified=true)
 
-$ openreadout export pyabf-2018-12-09-pclamp11-0001.abf --to nwb
+$ openreadout export pyabf-2018-12-09-pclamp11-0001.abf --format nwb
 wrote pyabf-2018-12-09-pclamp11-0001.nwb (NWB 2.7.0: 20 TimeSeries, 40000 samples, 783281 bytes, verified=true)
   acquisition/trace0_sweep0: trace 0, sweep 0, 2000 samples x 1 channels (A)
   ...
 ```
 
-| `--to` | for |
+| `--format` | for |
 | --- | --- |
 | `ome-tiff`, `ome-zarr` | images; `ome-zarr` also for screening plates |
 | `csv`, `parquet`, `arrow` | tables (FCS events, plate reads), traces; Parquet and Arrow also mass spectra |
@@ -67,7 +67,7 @@ wrote c0.ome.tiff (1 images, 21 planes, 12639 bytes, verified=true)
 The export is verified as it is written, but you can confirm it yourself at any time, for example after copying it to an archive:
 
 ```text
-$ openreadout check mini.nd2 --against mini.ome.tiff
+$ openreadout compare mini.nd2 mini.ome.tiff
 mini.nd2 (nd2)
 mini.ome.tiff (tiff)
 => identical
@@ -76,7 +76,7 @@ image 0: geometry same, channel names same, physical size same
 planes: 2 compared, 2 identical, 0 within tolerance, 0 mismatched
 ```
 
-It exits 0 when the files are identical and 1 when they differ. The comparison covers metadata as well as pixels, and OME-Zarr does not store every vendor field, so `mini.nd2 --against mini.ome.zarr` reports `different` (objective and instrument are absent) even though all planes are identical. Add `--no-metadata` to compare the data only. Planes are compared only between images of the same geometry, so check a `--select` export by comparing plane hashes: `check zstack.czi --planes --select c=0` and `check c0.ome.tiff --planes` print the same xxh3-128 hash for each plane.
+It exits 0 when the files are identical and 1 when they differ. The comparison covers metadata as well as pixels, and OME-Zarr does not store every vendor field, so `compare mini.nd2 mini.ome.zarr` reports `different` (objective and instrument are absent) even though all planes are identical. Add `--no-metadata` to compare the data only. Planes are compared only between images of the same geometry, so check a `--select` export with `compare --select` or by comparing plane hashes: `planes zstack.czi --select c=0` and `planes c0.ome.tiff` print the same xxh3-128 hash for each plane.
 
 ### A folder, or from an assistant
 
@@ -89,6 +89,6 @@ An assistant calls the MCP tool `openreadout_export` with `file` and `format`. I
 ## More
 
 - [`export` reference](../reference/commands/export.md): every flag, pyramids, plates and attachments.
-- [Is this file intact?](check-files.md): `check` and `check --against`.
+- [Is this file intact?](check-files.md): `check` and `compare`.
 - [Metadata](../guides/metadata.md#ome-xml-export): what goes into the OME-XML.
-- JSON: [`export`](../reference/json/export.md), [`check --against`](../reference/json/check-against.md).
+- JSON: [`export`](../reference/json/export.md), [`compare`](../reference/json/compare.md).

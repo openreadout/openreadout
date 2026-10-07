@@ -90,6 +90,8 @@ listed names in a scratch directory (`whole_bundle`).
 | `signal_analysis` | NMR processing (group delay, apodization, FFT, phasing, baseline), NMR peak picking and integration, the JEOL digital-filter parser, action-potential detection and passive fits, band-pass filtering and extracellular spike detection on arbitrary samples and parameters |
 | `quant_peaks` | compound lists (CSV/TSV/JSON) and peak detection/integration (every baseline mode, manual integration) on arbitrary f32 chromatograms |
 | `tims_sqlite` | the read-only SQLite reader: header, b-trees, schema, every table |
+| `sciex_grid` | Sciex QTRAP grid scans (segments, then 4-bit point codes) and `DDERealTimeDataEx` charge records |
+| `waters_drift` | Waters drift index (`_funcNNN.ind`) and `.cdt` scan data (LZRW3 sections); first 4 bytes: length of the index part |
 | `tims_frame` | TDF frame blobs (zstd, four byte planes) and TSF line spectra; first 4 bytes: scan count or peak count, byte 4: which |
 | `jcamp_asdf` | JCAMP-DX ASDF (SQZ/DIF/DUP) tables, grouped decoding and the line lexer |
 | `mzml_binary` | base64, zlib/zstd and MS-Numpress arrays; the first byte picks value type, compression and byte order |

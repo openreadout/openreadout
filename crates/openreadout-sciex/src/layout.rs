@@ -11,6 +11,13 @@ pub const STREAM_PREAMBLE: usize = 32;
 pub const INDEX_RECORD: usize = 54;
 /// Bytes of the `.wiff.scan` header; index offsets count from here.
 pub const SCAN_FILE_HEADER: u64 = 0x2C;
+/// Bytes of the header of each sample's block in `.wiff.scan` (u32 0x11111111, u32 0x582,
+/// u32 sample number, 12 zero bytes); the first block starts at 0x14, so sample 1's data starts
+/// at [`SCAN_FILE_HEADER`].
+pub const SAMPLE_BLOCK_HEADER: u64 = 24;
+/// First u32 of a sample block's header.
+pub const SAMPLE_BLOCK_MAGIC: u32 = 0x1111_1111;
+
 /// Bytes per record of `TOFCalibrationData` after its 0x38-byte head.
 pub const TOF_CAL_RECORD: usize = 20;
 /// Offset of the first per-scan record of `TOFCalibrationData`.
@@ -24,6 +31,45 @@ pub const SCAN_TYPE_MRM: u16 = 4;
 pub const SCAN_TYPE_TOF_MS: u16 = 8;
 /// Scan type code of a TOF product-ion (MS/MS) experiment.
 pub const SCAN_TYPE_TOF_PRODUCT: u16 = 9;
+/// Bytes per record of `DDERealTimeDataEx` (one per data-dependent scan).
+pub const DEPENDENT_RECORD: usize = 76;
+
+/// Precursor charges of the data-dependent scans (`DDERealTimeDataEx`, after the preamble):
+/// 76-byte records holding, among others, the u16 charge at 16 (0: not determined), the
+/// dependent experiment's position (from 1) at 40 and the cycle (from 0) at 44. Returns
+/// ((cycle from 1, dependent position from 1), charge) for every record with a charge; empty
+/// when the stream is not whole records.
+pub fn dependent_charges(b: &[u8]) -> Vec<((u32, u32), u16)> {
+    let Some(body) = b.get(STREAM_PREAMBLE..) else {
+        return Vec::new();
+    };
+    if body.is_empty() || !body.len().is_multiple_of(DEPENDENT_RECORD) {
+        return Vec::new();
+    }
+    body.as_chunks::<DEPENDENT_RECORD>()
+        .0
+        .iter()
+        .filter_map(|r| {
+            let charge = le_u16(r, 16)?;
+            let position = le_u32(r, 40)?;
+            let cycle = le_u32(r, 44)?.checked_add(1)?;
+            (charge > 0).then_some(((cycle, position), charge))
+        })
+        .collect()
+}
+
+/// Scan type code of a Q1 full scan (quadrupole MS1).
+pub const SCAN_TYPE_Q1: u16 = 0;
+/// Scan type code of a precursor-ion scan (quadrupole; a fixed product m/z).
+pub const SCAN_TYPE_PRECURSOR_ION: u16 = 5;
+/// Scan type code of a constant neutral loss scan (quadrupole; a fixed loss).
+pub const SCAN_TYPE_NEUTRAL_LOSS: u16 = 7;
+/// Scan type code of an enhanced product ion scan (linear ion trap MS/MS of a selected ion).
+pub const SCAN_TYPE_ENHANCED_PRODUCT_ION: u16 = 11;
+/// Scan type code of an enhanced MS scan (linear ion trap full scan).
+pub const SCAN_TYPE_ENHANCED_MS: u16 = 15;
+/// First i32 of a scan stored as counts on an m/z grid (quadrupole and ion-trap scans).
+pub const GRID_SCAN_MARKER: i32 = -2;
 
 /// One record of the scan index.
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -327,7 +373,7 @@ pub fn parse_device_data(b: &[u8], channels: usize) -> Vec<Vec<f64>> {
 }
 
 /// What `ExperimentHeader` says about an experiment.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[derive(Debug, Clone, Copy, PartialEq, Default)]
 pub struct ExperimentHeader {
     /// Scan type code (u16 at 0x7A): [`SCAN_TYPE_MRM`], [`SCAN_TYPE_TOF_MS`], …
     pub scan_type: u16,
@@ -335,6 +381,9 @@ pub struct ExperimentHeader {
     pub polarity: u16,
     /// Number of mass ranges (u32 at 0xB0).
     pub range_count: u32,
+    /// The experiment's fixed m/z (f64 at 0x2A): the product of a precursor-ion scan, the loss
+    /// of a neutral-loss scan.
+    pub fixed_mz: Option<f64>,
 }
 
 /// Parse `ExperimentHeader`.
@@ -343,7 +392,155 @@ pub fn parse_experiment_header(b: &[u8]) -> Option<ExperimentHeader> {
         scan_type: le_u16(b, 0x7A)?,
         polarity: le_u16(b, 0x56)?,
         range_count: le_u32(b, 0xB0)?,
+        fixed_mz: le_f64(b, 0x2A).filter(|v| v.is_finite()),
     })
+}
+
+/// One segment of a grid scan: m/z from `first` towards `end` in steps of `step`; a point's
+/// intensity is its count × `scale`.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct GridSegment {
+    /// m/z of the segment's first step.
+    pub first: f64,
+    /// m/z where the segment ends (the next segment's first).
+    pub end: f64,
+    /// Step, m/z.
+    pub step: f64,
+    /// Intensity of one count.
+    pub scale: f64,
+}
+
+impl GridSegment {
+    /// Steps in the segment (its `end` belongs to the next segment).
+    pub fn steps(&self) -> Option<u64> {
+        let n = ((self.end - self.first) / self.step).round();
+        (self.step > 0.0 && n.is_finite() && (0.0..=1e9).contains(&n)).then_some(n as u64)
+    }
+}
+
+/// A decoded grid scan: its segments and the non-zero points as (step number counted over all
+/// segments, count).
+#[derive(Debug, Clone, PartialEq)]
+pub struct GridScan {
+    /// The grid's segments.
+    pub segments: Vec<GridSegment>,
+    /// (step number, count) of every non-zero point, ascending.
+    pub points: Vec<(u64, u32)>,
+}
+
+impl GridScan {
+    /// Steps of the whole grid: every segment's steps and the last segment's end.
+    pub fn grid_len(&self) -> u64 {
+        self.segments
+            .iter()
+            .filter_map(GridSegment::steps)
+            .sum::<u64>()
+            + 1
+    }
+    /// m/z and intensity scale of step `k` (`None` past the grid's end).
+    pub fn at(&self, k: u64) -> Option<(f64, f64)> {
+        let mut base = 0u64;
+        for (i, s) in self.segments.iter().enumerate() {
+            let n = s.steps()?;
+            let last = i + 1 == self.segments.len();
+            if k < base + n || (last && k == base + n) {
+                return Some((s.first + (k - base) as f64 * s.step, s.scale));
+            }
+            base += n;
+        }
+        None
+    }
+}
+
+/// Decode a grid scan (quadrupole and ion-trap scans of QTRAP instruments): i32
+/// [`GRID_SCAN_MARKER`], u32 segment count, per segment four f64 (first m/z, end m/z, step,
+/// intensity scale), u32 number of non-zero points, then 4-bit codes, high nibble first: 1–7 a
+/// point with that count, 9–15 skip (code − 8) empty steps, 0 a point and 8 a skip whose value is
+/// the next whole byte (0 there: a u32 follows).
+pub fn decode_grid_scan(b: &[u8]) -> Result<GridScan, String> {
+    let marker = le_u32(b, 0).ok_or("scan shorter than its header")? as i32;
+    if marker != GRID_SCAN_MARKER {
+        return Err(format!("scan starts with {marker}, not a grid scan"));
+    }
+    let n = le_u32(b, 4).ok_or("scan shorter than its header")? as usize;
+    if n == 0 || n > 64 {
+        return Err(format!("{n} grid segments"));
+    }
+    let mut segments = Vec::with_capacity(n);
+    for i in 0..n {
+        let at = 8 + 32 * i;
+        let f = |k: usize| le_f64(b, at + 8 * k).ok_or("segment table runs past the scan");
+        let s = GridSegment {
+            first: f(0)?,
+            end: f(1)?,
+            step: f(2)?,
+            scale: f(3)?,
+        };
+        if s.steps().is_none() || !s.first.is_finite() || !s.scale.is_finite() {
+            return Err(format!("grid segment {i} is not a usable m/z range: {s:?}"));
+        }
+        segments.push(s);
+    }
+    let head = 8 + 32 * n;
+    let count = le_u32(b, head).ok_or("point count missing")? as usize;
+    let data = &b[head + 4..];
+    let mut points = Vec::with_capacity(count.min(data.len() * 2));
+    let mut pos = 0usize; // nibble position
+    let mut step = 0u64;
+    let nibble = |p: usize| {
+        data.get(p / 2).map(|&x| {
+            if p.is_multiple_of(2) {
+                x >> 4
+            } else {
+                x & 0x0F
+            }
+        })
+    };
+    while points.len() < count {
+        let code = nibble(pos).ok_or("point stream ends early")?;
+        if code == 0 || code == 8 {
+            // the value is the next whole byte: the rest of the current one is padding
+            let j = pos / 2 + 1;
+            let mut v = u32::from(*data.get(j).ok_or("point stream ends early")?);
+            pos = 2 * (j + 1);
+            if v == 0 {
+                v = le_u32(data, j + 1).ok_or("point stream ends early")?;
+                pos = 2 * (j + 5);
+            }
+            if code == 0 {
+                points.push((step, v));
+                step += 1;
+            } else {
+                step = step.checked_add(u64::from(v)).ok_or("step overflows")?;
+            }
+        } else if code < 8 {
+            points.push((step, u32::from(code)));
+            step += 1;
+            pos += 1;
+        } else {
+            step += u64::from(code - 8);
+            pos += 1;
+        }
+    }
+    let scan = GridScan { segments, points };
+    if let Some(&(last, _)) = scan.points.last()
+        && last >= scan.grid_len()
+    {
+        return Err(format!(
+            "point at step {last} lies past the grid's {} steps",
+            scan.grid_len()
+        ));
+    }
+    Ok(scan)
+}
+
+/// An MRM experiment's `sMRM` stream: the detection window in seconds (u32 at 0x28) when the
+/// experiment is scheduled (u32 at 0x24 is 1); `None` when it is not.
+pub fn parse_smrm_window_s(b: &[u8]) -> Option<u32> {
+    (le_u32(b, 0x24)? == 1)
+        .then(|| le_u32(b, 0x28))
+        .flatten()
+        .filter(|&w| w > 0)
 }
 
 /// Scheduled-MRM windows (`sMRMPro_adw_Times`): (start ms, end ms) per transition.
@@ -582,5 +779,54 @@ mod tests {
         assert_eq!(r[0].name, "Cer");
         assert_eq!(r[0].parameter("ce"), Some(37.5));
         assert!(parse_mass_ranges(&b[..40], 5).is_empty());
+    }
+
+    /// The first enhanced MS scan of `msv97113-cm-5-pos-2`, cut after its first 11 points:
+    /// `8 0 0 9 1 2 8 0 0 a 1 8 1 a 2 2 d 2 9 1 9 3 5 d 3 3`.
+    #[test]
+    fn grid_scan() {
+        let mut b = Vec::new();
+        b.extend((-2i32).to_le_bytes());
+        b.extend(1u32.to_le_bytes());
+        for v in [50.04f64, 102.84, 0.12, 83_333.332_608_971_34] {
+            b.extend(v.to_le_bytes());
+        }
+        b.extend(11u32.to_le_bytes());
+        b.extend(hex("800912800a181a22d291935d33"));
+        let g = decode_grid_scan(&b).unwrap();
+        let steps: Vec<u64> = g.points.iter().map(|p| p.0).collect();
+        let counts: Vec<u32> = g.points.iter().map(|p| p.1).collect();
+        assert_eq!(steps, [9, 10, 21, 48, 49, 55, 57, 59, 60, 66, 67]);
+        assert_eq!(counts, [1, 2, 1, 2, 2, 2, 1, 3, 5, 3, 3]);
+        let (mz, scale) = g.at(9).unwrap();
+        assert!((mz - 51.12).abs() < 1e-9 && scale > 83_333.0);
+        assert_eq!(g.grid_len(), 441);
+        // a count above 255: byte 0, then a u32
+        let mut big = b[..b.len() - 13].to_vec();
+        big.splice(big.len() - 4.., 1u32.to_le_bytes());
+        big.extend(hex("0000110100000000"));
+        let g = decode_grid_scan(&big).unwrap();
+        assert_eq!(g.points, [(0, 273)]);
+        // malformed: wrong marker, truncated stream, a point past the grid
+        let mut bad = b.clone();
+        bad[0] = 0;
+        assert!(decode_grid_scan(&bad).is_err());
+        assert!(decode_grid_scan(&b[..b.len() - 4]).is_err());
+        let mut past = b[..b.len() - 13].to_vec();
+        past.splice(past.len() - 4.., 1u32.to_le_bytes());
+        past.extend(hex("80ff80ff80ff10"));
+        assert!(decode_grid_scan(&past).is_err());
+    }
+
+    #[test]
+    fn charges() {
+        let mut b = vec![0u8; STREAM_PREAMBLE];
+        let mut r = vec![0u8; DEPENDENT_RECORD];
+        r[16] = 2;
+        r[40] = 3;
+        r[44] = 4;
+        b.extend(&r);
+        assert_eq!(dependent_charges(&b), [((5, 3), 2)]);
+        assert!(dependent_charges(&b[..b.len() - 1]).is_empty());
     }
 }

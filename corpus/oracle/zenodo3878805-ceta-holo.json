@@ -1,0 +1,36 @@
+{
+ "id": "zenodo3878805-ceta-holo",
+ "file": "zenodo3878805-ceta-holo.emd",
+ "size": 33791882,
+ "sha256": "86c6264e9964550f671aa87a243ba18643a99538b4865df26f1666a320adb57c",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "images": [
+  {
+   "index": 0,
+   "velox_id": "5ba534e6e19c43918c1006ccbfae861b",
+   "size_x": 4096,
+   "size_y": 4096,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int16",
+   "physical_size_um": {
+    "x": 0.006326052692084457,
+    "y": 0.006326052692084457,
+    "z": null
+   },
+   "detector": "BM-Ceta",
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "691abd42bb0511f98bd53dc51253ffe3"
+    }
+   ]
+  }
+ ],
+ "traces": [],
+ "version": "{\n    \"version\": \"8\",\n    \"format\": \"Velox\"\n}\n"
+}

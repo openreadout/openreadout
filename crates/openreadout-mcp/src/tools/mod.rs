@@ -1,7 +1,8 @@
 //! The tools, one module per tool or tool family. Each module holds the tool's arguments,
 //! its `#[tool]` method and the helpers only it uses; [`router`] joins their routers.
 
-pub(crate) mod analyze;
+pub(crate) mod analyses;
+pub(crate) mod assay;
 pub(crate) mod batch;
 pub(crate) mod check;
 pub(crate) mod export;
@@ -20,8 +21,9 @@ use crate::InstrumentServer;
 
 /// Every tool of the server.
 pub(crate) fn router() -> ToolRouter<InstrumentServer> {
-    InstrumentServer::analyze_router()
-        + InstrumentServer::info_router()
+    InstrumentServer::info_router()
+        + InstrumentServer::analyses_router()
+        + InstrumentServer::assay_router()
         + InstrumentServer::check_router()
         + InstrumentServer::export_router()
         + InstrumentServer::spectra_router()

@@ -19,11 +19,14 @@ use openreadout_core::{Error, Plane, Result};
 use serde_json::{Value, json};
 
 use crate::layout::{
-    DeviceChannel, ExperimentHeader, IndexRecord, MassRange, SCAN_FILE_HEADER, SCAN_TYPE_MRM,
-    SCAN_TYPE_TOF_MS, SCAN_TYPE_TOF_PRODUCT, STREAM_PREAMBLE, decode_tdc, expand_zero_runs,
-    index_trailing, log_fields, parse_device_channels, parse_device_data, parse_experiment_header,
-    parse_index, parse_mass_ranges, parse_windows, precursor_slot, sample_strings, tdc_step,
-    tof_calibration, tof_default_calibration, tof_mz, utf16_runs,
+    DeviceChannel, ExperimentHeader, IndexRecord, MassRange, SAMPLE_BLOCK_HEADER,
+    SAMPLE_BLOCK_MAGIC, SCAN_FILE_HEADER, SCAN_TYPE_ENHANCED_MS, SCAN_TYPE_ENHANCED_PRODUCT_ION,
+    SCAN_TYPE_MRM, SCAN_TYPE_NEUTRAL_LOSS, SCAN_TYPE_PRECURSOR_ION, SCAN_TYPE_Q1, SCAN_TYPE_TOF_MS,
+    SCAN_TYPE_TOF_PRODUCT, STREAM_PREAMBLE, decode_grid_scan, decode_tdc, dependent_charges,
+    expand_zero_runs, index_trailing, log_fields, parse_device_channels, parse_device_data,
+    parse_experiment_header, parse_index, parse_mass_ranges, parse_smrm_window_s, parse_windows,
+    precursor_slot, sample_strings, tdc_step, tof_calibration, tof_default_calibration, tof_mz,
+    utf16_runs,
 };
 use crate::{FORMAT_ID, SciexWiffReader};
 
@@ -45,6 +48,8 @@ pub struct Experiment {
     pub ranges: Vec<MassRange>,
     /// TDC bins per stored step of the experiment's TOF data (`ExperimentHeaderEx`).
     pub tdc_step: u64,
+    /// Detection window (s) of a scheduled MRM experiment (`sMRM`), when it is scheduled.
+    pub scheduled_window_s: Option<u32>,
 }
 
 impl Experiment {
@@ -63,13 +68,18 @@ impl Experiment {
             Some(SCAN_TYPE_MRM) => "MRM",
             Some(SCAN_TYPE_TOF_MS) => "TOF MS",
             Some(SCAN_TYPE_TOF_PRODUCT) => "TOF product ion",
+            Some(SCAN_TYPE_Q1) => "Q1 scan",
+            Some(SCAN_TYPE_PRECURSOR_ION) => "precursor ion",
+            Some(SCAN_TYPE_NEUTRAL_LOSS) => "neutral loss",
+            Some(SCAN_TYPE_ENHANCED_PRODUCT_ION) => "enhanced product ion",
+            Some(SCAN_TYPE_ENHANCED_MS) => "enhanced MS",
             Some(_) => "other",
             None => "unknown",
         }
     }
     fn ms_level(&self) -> u32 {
         match self.scan_type() {
-            Some(SCAN_TYPE_TOF_MS) => 1,
+            Some(SCAN_TYPE_TOF_MS | SCAN_TYPE_ENHANCED_MS | SCAN_TYPE_Q1) => 1,
             _ => 2,
         }
     }
@@ -82,12 +92,16 @@ enum SpectrumRef {
     Srm { record: u32, transitions: Vec<u32> },
     /// A TOF scan (one index record).
     Tof { record: u32 },
+    /// A quadrupole or ion-trap scan stored as counts on an m/z grid (one index record).
+    Grid { record: u32 },
 }
 
 impl SpectrumRef {
     fn record(&self) -> u32 {
         match self {
-            SpectrumRef::Srm { record, .. } | SpectrumRef::Tof { record } => *record,
+            SpectrumRef::Srm { record, .. }
+            | SpectrumRef::Tof { record }
+            | SpectrumRef::Grid { record } => *record,
         }
     }
 }
@@ -103,6 +117,8 @@ pub struct Sample {
     pub index_trailing: usize,
     /// Scheduled-MRM windows (start, end) in ms per transition.
     pub windows: Vec<(u32, u32)>,
+    /// The windows come from the method (expected times and detection window), not the sample.
+    pub windows_from_method: bool,
     /// Text of the `Log` stream.
     pub log: Option<String>,
     /// Strings of `SampleDABE/DATA` (sample name, id, comment, data file, method, …).
@@ -112,9 +128,16 @@ pub struct Sample {
     tof_calibration: Vec<u8>,
     tdc_width_ns: Option<f64>,
     precursors: Vec<u8>,
+    /// Precursor charges of data-dependent scans by (cycle, dependent position)
+    /// (`DDERealTimeDataEx`).
+    charges: BTreeMap<(u32, u32), u16>,
     /// Single-file layout (no `.wiff.scan`): the sample's `Scan` stream inside the `.wiff`,
     /// as its sectors and size; index offsets count from its 32-byte preamble.
     scan_stream: Option<(Vec<u32>, u64)>,
+    /// Where the sample's scan data start in `.wiff.scan`: after its block header, the samples'
+    /// blocks following each other; `None` when the block header is not where the earlier
+    /// samples' data end.
+    scan_base: Option<u64>,
     spectra: Vec<SpectrumRef>,
     /// LC devices recorded with the sample: their channels and values (one per sample time).
     pub devices: Vec<Device>,
@@ -289,11 +312,14 @@ impl SciexDataset {
             }
             let tdc_step = read_stream(&cfb, &mut f, &path, &format!("{dir}/ExperimentHeaderEx"))
                 .map_or(1, |b| tdc_step(&b));
+            let scheduled_window_s = read_stream(&cfb, &mut f, &path, &format!("{dir}/sMRM"))
+                .and_then(|b| parse_smrm_window_s(&b));
             experiments.push(Experiment {
                 number: n,
                 header,
                 ranges,
                 tdc_step,
+                scheduled_window_s,
             });
         }
         if periods > 1 {
@@ -373,7 +399,10 @@ impl SciexDataset {
                 &format!("{dir}/SampleDAM/sMRMPro_adw1/sMRMPro_adw_Times"),
             )
             .map(|b| parse_windows(&b))
-            .unwrap_or_default();
+            .filter(|w| !w.is_empty());
+            let windows_from_method =
+                windows.is_none() && !derived_windows(&experiments).is_empty();
+            let windows = windows.unwrap_or_else(|| derived_windows(&experiments));
             let log = read_stream(&cfb, &mut f, &path, &format!("{dir}/Log"))
                 .map(|b| utf16_runs(&b, 2).join("\n"));
             let strings = read_stream(&cfb, &mut f, &path, &format!("{dir}/SampleDABE/DATA"))
@@ -390,6 +419,9 @@ impl SciexDataset {
                 .and_then(|b| le_f64(&b, 32))
                 .filter(|w| w.is_finite() && *w > 0.0);
             let precursors = read_stream(&cfb, &mut f, &path, &format!("{dir}/DDERealTimeData"))
+                .unwrap_or_default();
+            let charges = read_stream(&cfb, &mut f, &path, &format!("{dir}/DDERealTimeDataEx"))
+                .map(|b| dependent_charges(&b).into_iter().collect())
                 .unwrap_or_default();
             let scan_stream = if single_file {
                 match cfb.stream(&format!("{dir}/Scan")) {
@@ -418,19 +450,52 @@ impl SciexDataset {
                 index,
                 index_trailing,
                 windows,
+                windows_from_method,
                 log,
                 strings,
                 started_at,
                 tof_calibration,
                 tdc_width_ns,
                 precursors,
+                charges,
                 scan_stream,
+                scan_base: None,
                 spectra: Vec::new(),
                 devices,
             };
             let have_scan = scan_path.is_some() || s.scan_stream.is_some();
             s.spectra = spectrum_refs(&s, &experiments, have_scan);
             samples.push(s);
+        }
+        // `.wiff.scan` holds one block per sample: a 24-byte header, then the scans its index
+        // points to (offsets count from the end of that header).
+        if let Some(sp) = &scan_path
+            && let Ok(mut h) = fs.open(sp)
+        {
+            let mut pos = SCAN_FILE_HEADER - SAMPLE_BLOCK_HEADER;
+            let mut ok = true;
+            for s in &mut samples {
+                let mut head = [0u8; 12];
+                ok = ok
+                    && h.seek(SeekFrom::Start(pos)).is_ok()
+                    && h.read_exact(&mut head).is_ok()
+                    && le_u32(&head, 0) == Some(SAMPLE_BLOCK_MAGIC)
+                    && le_u32(&head, 8) == Some(s.number);
+                s.scan_base = ok.then_some(pos + SAMPLE_BLOCK_HEADER);
+                let data = s
+                    .index
+                    .iter()
+                    .map(|r| u64::from(r.offset) + u64::from(r.byte_len))
+                    .max()
+                    .unwrap_or(0);
+                pos = pos + SAMPLE_BLOCK_HEADER + data;
+            }
+            // Files whose first block has no header keep the fixed start of the scan data.
+            if let Some(first) = samples.first_mut()
+                && first.scan_base.is_none()
+            {
+                first.scan_base = Some(SCAN_FILE_HEADER);
+            }
         }
         if samples.is_empty() {
             return Err(Error::corrupt(
@@ -443,7 +508,16 @@ impl SciexDataset {
             .filter(|e| {
                 !matches!(
                     e.scan_type(),
-                    Some(SCAN_TYPE_MRM | SCAN_TYPE_TOF_MS | SCAN_TYPE_TOF_PRODUCT)
+                    Some(
+                        SCAN_TYPE_MRM
+                            | SCAN_TYPE_TOF_MS
+                            | SCAN_TYPE_TOF_PRODUCT
+                            | SCAN_TYPE_Q1
+                            | SCAN_TYPE_PRECURSOR_ION
+                            | SCAN_TYPE_NEUTRAL_LOSS
+                            | SCAN_TYPE_ENHANCED_PRODUCT_ION
+                            | SCAN_TYPE_ENHANCED_MS
+                    )
                 )
             })
             .map(Experiment::kind)
@@ -521,7 +595,14 @@ impl SciexDataset {
                 "Scans above 256 MiB are not read.",
             ));
         }
-        let start = SCAN_FILE_HEADER + u64::from(rec.offset);
+        let base = s.scan_base.ok_or_else(|| {
+            Error::unsupported(
+                FORMAT_ID,
+                format!("the scans of sample {} in the .wiff.scan", s.number),
+                "The sample's block in the .wiff.scan is not where the earlier samples' data end; read sample 1, or export mzML from the vendor software.",
+            )
+        })?;
+        let start = base + u64::from(rec.offset);
         let file_len = self.scan_len.unwrap_or(0);
         if start + len > file_len {
             return Err(Error::corrupt_at(
@@ -740,6 +821,14 @@ impl SciexDataset {
                             extra.insert("precursor_slot_value".into(), json!(v));
                         }
                     }
+                    // Without data-dependent precursors (SWATH), the experiment's fixed m/z is
+                    // its isolation window's centre.
+                    if s.precursors.is_empty()
+                        && let Some(m) = exp.header.and_then(|h| h.fixed_mz).filter(|&m| m > 0.0)
+                    {
+                        sp.precursor_mz = Some(m);
+                        extra.insert("data_independent".into(), json!(true));
+                    }
                     // No field states it: the exports label QSTAR (Analyst QS) product ions
                     // collision-induced dissociation and TripleTOF ones beam-type CID.
                     sp.activation = Some(
@@ -771,9 +860,131 @@ impl SciexDataset {
                 sp.mz = mz;
                 sp.intensity = it;
             }
+            SpectrumRef::Grid { .. } => {
+                self.fill_grid(s, rec, exp, cycle, &bytes, decode, &mut sp, &mut extra)?;
+                sp.native_id = Some(native);
+            }
         }
         sp.extra = extra;
         Ok(sp)
+    }
+
+    /// Fill a grid scan (precursor ion, neutral loss, enhanced MS, enhanced product ion) into
+    /// `sp`: the counts on the scan's m/z grid times their segment's scale, with the empty step on
+    /// either side of every run of points; precursor, fixed m/z and collision energy from the
+    /// method and `DDERealTimeData`.
+    #[allow(clippy::too_many_arguments)]
+    fn fill_grid(
+        &self,
+        s: &Sample,
+        rec: &IndexRecord,
+        exp: &Experiment,
+        cycle: u32,
+        bytes: &[u8],
+        decode: bool,
+        sp: &mut Spectrum,
+        extra: &mut BTreeMap<String, Value>,
+    ) -> Result<()> {
+        let st = exp.scan_type();
+        let fixed = exp.header.and_then(|h| h.fixed_mz).filter(|&m| m > 0.0);
+        match st {
+            // The exports give a precursor-ion scan's fixed product as its selected ion.
+            Some(SCAN_TYPE_PRECURSOR_ION) => {
+                sp.precursor_mz = fixed;
+                if let Some(m) = fixed {
+                    extra.insert("product_mz".into(), json!(m));
+                }
+            }
+            Some(SCAN_TYPE_NEUTRAL_LOSS) => {
+                if let Some(m) = fixed {
+                    extra.insert("neutral_loss_mz".into(), json!(m));
+                }
+            }
+            Some(SCAN_TYPE_ENHANCED_PRODUCT_ION) => {
+                let dependent: Vec<u32> = self
+                    .experiments
+                    .iter()
+                    .filter(|e| e.scan_type() == Some(SCAN_TYPE_ENHANCED_PRODUCT_ION))
+                    .map(|e| e.number)
+                    .collect();
+                if let Some(pos) = dependent.iter().position(|&n| n == exp.number) {
+                    let slot = (cycle as usize - 1) * dependent.len() + pos;
+                    if let Some((p, _)) = precursor_slot(&s.precursors, slot) {
+                        sp.precursor_mz = Some(p);
+                    }
+                    sp.precursor_charge = s
+                        .charges
+                        .get(&(cycle, pos as u32 + 1))
+                        .map(|&z| i32::from(z));
+                }
+            }
+            _ => {}
+        }
+        if sp.ms_level >= 2 {
+            // Beam-type CID in the collision cell, as the exports label these scans.
+            sp.activation = Some("HCD".into());
+            let first = exp.ranges.first();
+            sp.collision_energy = first
+                .and_then(|m| m.parameter("CE"))
+                .map(f64::from)
+                .filter(|&ce| ce != 0.0);
+            if let Some(spread) = first.and_then(|m| m.parameter("CES")).filter(|&v| v != 0.0) {
+                extra.insert("collision_energy_spread".into(), json!(spread));
+            }
+        }
+        sp.total_ion_current = Some(rec.tic);
+        if !decode {
+            return Ok(());
+        }
+        let g = decode_grid_scan(bytes).map_err(|e| {
+            Error::corrupt_at(FORMAT_ID, SCAN_FILE_HEADER + u64::from(rec.offset), e)
+        })?;
+        // The grid's range is in the scan itself, which a header read does not open: it goes
+        // in `extra`, so headers and spectra agree on `scan_window_mz` (not set).
+        if let (Some(a), Some(b)) = (g.segments.first(), g.segments.last()) {
+            extra.insert("grid_mz".into(), json!([a.first, b.end]));
+        }
+        // Empty steps between runs of points are kept (one on each side of a run); the
+        // vendor library leaves out the one before the first point and after the last.
+        let mut mz = Vec::with_capacity(g.points.len() * 2);
+        let mut it = Vec::with_capacity(g.points.len() * 2);
+        let mut last: Option<u64> = None;
+        let mut base: Option<(f64, f64)> = None;
+        for (i, &(k, count)) in g.points.iter().enumerate() {
+            if last.is_some_and(|l| l + 1 < k)
+                && let Some((m, _)) = g.at(k - 1)
+            {
+                mz.push(m);
+                it.push(0.0);
+            }
+            let (m, scale) = g.at(k).ok_or_else(|| {
+                Error::corrupt_at(
+                    FORMAT_ID,
+                    SCAN_FILE_HEADER + u64::from(rec.offset),
+                    format!("point at step {k} lies past the grid"),
+                )
+            })?;
+            let v = f64::from(count) * scale;
+            if base.is_none_or(|b| v > b.1) {
+                base = Some((m, v));
+            }
+            mz.push(m);
+            it.push(v as f32);
+            last = Some(k);
+            let next = g.points.get(i + 1).map(|p| p.0);
+            if next.is_some_and(|n| n > k + 1)
+                && let Some((m, _)) = g.at(k + 1)
+            {
+                mz.push(m);
+                it.push(0.0);
+                last = Some(k + 1);
+            }
+        }
+        sp.base_peak_mz = base.map(|b| b.0);
+        sp.base_peak_intensity = base.map(|b| b.1);
+        sp.mz = mz;
+        sp.intensity = it;
+        Ok(())
     }
 
     fn log_value(&self, s: &Sample, key: &str) -> Option<String> {
@@ -843,6 +1054,9 @@ impl SciexDataset {
             "cycles".into(),
             json!(s.index.len() / self.experiments.len().max(1)),
         );
+        if s.windows_from_method {
+            extra.insert("scheduled_windows".into(), json!("from the method"));
+        }
         extra.insert(
             "stored_spectra".into(),
             json!(if self
@@ -1015,6 +1229,27 @@ impl SciexDataset {
             return Ok(r.base_peak_intensity);
         }
         match self.experiment_of(record) {
+            Some((_, e))
+                if matches!(
+                    e.scan_type(),
+                    Some(
+                        SCAN_TYPE_Q1
+                            | SCAN_TYPE_PRECURSOR_ION
+                            | SCAN_TYPE_NEUTRAL_LOSS
+                            | SCAN_TYPE_ENHANCED_PRODUCT_ION
+                            | SCAN_TYPE_ENHANCED_MS
+                    )
+                ) =>
+            {
+                let bytes = self.read_scan_bytes(s, r)?;
+                let g = decode_grid_scan(&bytes).map_err(|err| {
+                    Error::corrupt_at(FORMAT_ID, SCAN_FILE_HEADER + u64::from(r.offset), err)
+                })?;
+                Ok(g.points
+                    .iter()
+                    .filter_map(|&(k, c)| g.at(k).map(|(_, scale)| f64::from(c) * scale))
+                    .fold(0.0, f64::max))
+            }
             Some((_, e)) if e.scan_type() == Some(SCAN_TYPE_MRM) => {
                 let bytes = self.read_scan_bytes(s, r)?;
                 let row =
@@ -1026,6 +1261,40 @@ impl SciexDataset {
             _ => Ok(r.base_peak_intensity),
         }
     }
+}
+
+/// Windows of a scheduled MRM experiment whose sample stores none (`sMRMPro_adw_Times` absent):
+/// each transition's expected retention time ± half the method's detection window, in ms
+/// (docs/provenance/sciex-wiff.md, 2026-10-06); a transition whose expected time is 0 is not
+/// scheduled and is active throughout. Empty when the first experiment is not a scheduled MRM
+/// experiment. Analyst judges a window at each transition's own time within the cycle, which the
+/// file does not give us, so a cycle at a window's edge may be kept or left out differently.
+#[allow(clippy::float_cmp)] // 0.0 is the stored value of an unscheduled transition
+fn derived_windows(experiments: &[Experiment]) -> Vec<(u32, u32)> {
+    let Some(exp) = experiments.first() else {
+        return Vec::new();
+    };
+    let (Some(SCAN_TYPE_MRM), Some(w)) = (exp.scan_type(), exp.scheduled_window_s) else {
+        return Vec::new();
+    };
+    let half_ms = f64::from(w) * 500.0;
+    let mut out = Vec::with_capacity(exp.ranges.len());
+    for r in &exp.ranges {
+        let rt = f64::from(r.expected_rt_min);
+        if !rt.is_finite() || rt < 0.0 {
+            return Vec::new();
+        }
+        // a transition without an expected time is acquired in every cycle
+        if rt == 0.0 {
+            out.push((0, u32::MAX));
+            continue;
+        }
+        let centre = rt * 60_000.0;
+        #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
+        let clamp = |x: f64| x.round().clamp(0.0, f64::from(u32::MAX)) as u32;
+        out.push((clamp(centre - half_ms), clamp(centre + half_ms)));
+    }
+    out
 }
 
 /// The spectra of a sample, in index order: one per (cycle, Q1) for MRM experiments (the
@@ -1080,6 +1349,15 @@ fn spectrum_refs(sample: &Sample, experiments: &[Experiment], have_scan: bool) -
             Some(SCAN_TYPE_TOF_MS | SCAN_TYPE_TOF_PRODUCT) => {
                 out.push(SpectrumRef::Tof { record: i });
             }
+            Some(
+                SCAN_TYPE_Q1
+                | SCAN_TYPE_PRECURSOR_ION
+                | SCAN_TYPE_NEUTRAL_LOSS
+                | SCAN_TYPE_ENHANCED_PRODUCT_ION
+                | SCAN_TYPE_ENHANCED_MS,
+            ) => {
+                out.push(SpectrumRef::Grid { record: i });
+            }
             _ => {}
         }
     }
@@ -1103,6 +1381,20 @@ impl Dataset for SciexDataset {
             )
         }) {
             notes.push("TOF: the stored time-to-digital histogram of each scan as a profile (non-empty bins and their empty neighbours), calibrated per scan; vendor peak picking is not reproduced".into());
+        }
+        if self.experiments.iter().any(|e| {
+            matches!(
+                e.scan_type(),
+                Some(
+                    SCAN_TYPE_Q1
+                        | SCAN_TYPE_PRECURSOR_ION
+                        | SCAN_TYPE_NEUTRAL_LOSS
+                        | SCAN_TYPE_ENHANCED_PRODUCT_ION
+                        | SCAN_TYPE_ENHANCED_MS
+                )
+            )
+        }) {
+            notes.push("Q1, precursor ion, neutral loss, enhanced MS and enhanced product ion scans: the stored counts on the scan's m/z grid as a profile (non-empty steps and their empty neighbours), each count times its segment's intensity scale".into());
         }
         Ok(FileInfo {
             path: self.path.display().to_string(),
@@ -1196,6 +1488,7 @@ impl Dataset for SciexDataset {
                     "TOFCalibrationData" => "TOF calibration per scan",
                     "TDCInfo" => "TDC bin width",
                     "DDERealTimeData" => "data-dependent precursors",
+                    "DDERealTimeDataEx" => "data-dependent precursor charges",
                     "SampleTable" => "acquisition start",
                     _ => "stream",
                 };
@@ -1243,7 +1536,7 @@ impl Dataset for SciexDataset {
         Err(Error::unsupported(
             FORMAT_ID,
             "images",
-            "WIFF files hold spectra and chromatograms; use `spectra` or `trace`.",
+            "WIFF files hold spectra and chromatograms; use `scans`, `spectrum` or `trace`.",
         ))
     }
 
@@ -1279,8 +1572,21 @@ impl Dataset for SciexDataset {
                     format!("sample {}: scan times decrease somewhere", s.number),
                 ));
             }
+            if self.scan_len.is_some() && s.scan_base.is_none() && !s.index.is_empty() {
+                rep.push(Finding::error(
+                    "container",
+                    format!(
+                        "sample {}: its block in the .wiff.scan is not where the earlier samples' data end",
+                        s.number
+                    ),
+                ));
+            }
             let bound = match (self.scan_len, &s.scan_stream) {
-                (Some(len), _) => Some((len, SCAN_FILE_HEADER, "the .wiff.scan")),
+                (Some(len), _) => Some((
+                    len,
+                    s.scan_base.unwrap_or(SCAN_FILE_HEADER),
+                    "the .wiff.scan",
+                )),
                 (None, Some((_, size))) => Some((*size, STREAM_PREAMBLE as u64, "its Scan stream")),
                 (None, None) => None,
             };

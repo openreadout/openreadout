@@ -1,8 +1,8 @@
 //! The JSON envelope every command emits with `--json`.
 //!
 //! ```json
-//! {"ok":true,"schema_version":"1","tool":{"name":"openreadout","version":"0.1.0"},"data":{...}}
-//! {"ok":false,"schema_version":"1","tool":{...},"error":{"code":"corrupt_file","message":"...","hint":"...","exit_code":4}}
+//! {"ok":true,"schema_version":"2","tool":{"name":"openreadout","version":"0.1.0"},"data":{...}}
+//! {"ok":false,"schema_version":"2","tool":{...},"error":{"code":"corrupt_file","message":"...","hint":"...","exit_code":4}}
 //! ```
 
 use schemars::JsonSchema;
@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use crate::Error;
 
 /// Bumped only when the shape of existing fields changes. Adding fields is not a bump.
-pub const SCHEMA_VERSION: &str = "1";
+pub const SCHEMA_VERSION: &str = "2";
 
 /// Identifies the producing tool so consumers can reason about compatibility.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]

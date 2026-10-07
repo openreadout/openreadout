@@ -1577,7 +1577,7 @@ impl Dataset for ShimadzuDataset {
                     "{} spectra of LabSolutions LC-MS data",
                     t::acquisition_name(head.code)
                 ),
-                "The file stores these as profiles that the vendor software reports differently (full scans: a calibration the file does not state; product-ion scans: not checked). Convert the .lcd with ProteoWizard msconvert (vendor reader) and read the mzML; the TIC, retention time and precursor of these scans are available (`spectra`, `analyze chromatogram --tic`).",
+                "The file stores these as profiles that the vendor software reports differently (full scans: a calibration the file does not state; product-ion scans: not checked). Convert the .lcd with ProteoWizard msconvert (vendor reader) and read the mzML; the TIC, retention time and precursor of these scans are available (`scans`, `analyze chromatogram --tic`).",
             ));
         }
         let decoded = t::decode(&record).map_err(|m| Error::corrupt(SHIMADZU_ID, m))?;

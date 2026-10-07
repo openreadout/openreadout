@@ -18,7 +18,7 @@ Electrochemistry and battery-cycler data: BioLogic EC-Lab binary `.mpr` and `.mp
 
 ## Debugging a new file
 
-- `openreadout check FILE --report` names the technique, version and column set (fingerprint); `openreadout info FILE --view structure` lists the `.mpr` modules or the `.ndax` members; `info --view full --json` → `vendor` has the settings text and headers.
+- `openreadout report FILE` names the technique, version and column set (fingerprint); `openreadout info FILE --view structure` lists the `.mpr` modules or the `.ndax` members; `info --view full --json` → `vendor` has the settings text and headers.
 - A refused EC-Lab column id: export the same file as `.mpt` from EC-Lab, then add the id with its label and unit after comparing the two (never guess a unit).
 - `tests/synthetic.rs` builds `.mpr`, `.mpt`, `.DTA`, `.nda` and `.ndax` files; unit tests in each module pin layouts (`labels_and_times`, `tables_and_sweeps`, `ranges_and_names`, `calendar_stamps`).
 - Oracles: the vendor's text exports and permissive readers' outputs, through `oracle/series_oracle.py` (`corpus/oracle/series/`), compared by the corpus test's series comparison.
@@ -40,7 +40,7 @@ Electrochemistry and battery-cycler data: BioLogic EC-Lab binary `.mpr` and `.mp
 | --- | --- | --- | --- | --- | --- | --- |
 | `biologic-mpr` | [format note](../../docs/formats/arbin-res.md), [provenance log](../../docs/provenance/arbin-res.md) | high | reverse engineered | 23 / 23 | 6 | - |
 | `biologic-mpt` | [format note](../../docs/formats/arbin-res.md), [provenance log](../../docs/provenance/arbin-res.md) | medium | reverse engineered | 24 / 21 | 4 | - |
-| `gamry-dta` | [format note](../../docs/formats/gamry-dta.md), [provenance log](../../docs/provenance/gamry-dta.md) | medium | prior art | 6 / 5 | 3 | - |
+| `gamry-dta` | [format note](../../docs/formats/gamry-dta.md), [provenance log](../../docs/provenance/gamry-dta.md) | medium | prior art | 6 / 6 | 3 | - |
 | `neware-nda` | [format note](../../docs/formats/neware.md), [provenance log](../../docs/provenance/neware.md) | medium | prior art | 5 / 5 | 2 | - |
 | `neware-ndax` | [format note](../../docs/formats/neware.md), [provenance log](../../docs/provenance/neware.md) | medium | prior art | 4 / 4 | 3 | - |
 | `arbin-res` | [format note](../../docs/formats/arbin-res.md), [provenance log](../../docs/provenance/arbin-res.md) | medium | prior art | 7 / 7 | 4 | - |

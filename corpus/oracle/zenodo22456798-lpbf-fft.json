@@ -1,0 +1,39 @@
+{
+ "id": "zenodo22456798-lpbf-fft",
+ "file": "zenodo22456798-lpbf-fft.dm4",
+ "size": 4810056,
+ "sha256": "6e9908688ef9e8b8c1755f88924a09716be78421255cc9d6c798a7bd63d055ec",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "FFT of 0030 - JIA CHI 1.05 Mx Radial Wiener(Crop#1(DCFI(Ceta)))",
+   "size_x": 513,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 27,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a3eea61ad69cc7d90b0e66960c220f59"
+    }
+   ],
+   "pixel_type": "complex"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

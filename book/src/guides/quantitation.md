@@ -1,6 +1,6 @@
 # Chromatograms and peaks
 
-`openreadout analyze chromatogram` extracts chromatograms from mass spectra and detector signals. `openreadout analyze peaks` detects and integrates their peaks, and also measures bands and regions of IR, Raman, UV-Vis and NMR spectra. This page explains what both compute and lists their output fields. The same analyses are available as the MCP tool `openreadout_analyze` (kinds `chromatogram` and `peaks`) as the Python function `openreadout.analyze(path, "chromatogram" | "peaks", ...)` and as the R function `openreadout_analyze(x, "chromatogram" | "peaks", ...)`.
+`openreadout analyze chromatogram` extracts chromatograms from mass spectra and detector signals. `openreadout analyze peaks` detects and integrates their peaks, and also measures bands and regions of IR, Raman, UV-Vis and NMR spectra. This page explains what both compute and lists their output fields. The same analyses are available as the MCP tools `openreadout_chromatogram` and `openreadout_peaks`, as the Python function `openreadout.analyze(path, "chromatogram" | "peaks", ...)` and as the R function `openreadout_analyze(x, "chromatogram" | "peaks", ...)`.
 
 ```bash
 openreadout analyze peaks run.D

@@ -1,0 +1,58 @@
+{
+ "id": "zenodo17350040-prophigel-max",
+ "file": "zenodo17350040-prophigel-max.czi",
+ "size": 2228096,
+ "sha256": "a0ef5d69b76269e95d4743bef0f65c9924a443cced606b17f4c5b978f34ff61a",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.219647046944918,
+    "y": 0.219647046944918,
+    "z": 0.6867409572532318
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d0f354748d6437284bed02f9ad96cb89"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "56a6f86c48ac97d866aef5dce306c68f"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.219647046944918,
+  "y": 0.219647046944918,
+  "z": 0.6867409572532318
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

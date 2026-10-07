@@ -32,3 +32,34 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **Corpus files:** every development input of this format on disk (`corpus/assurance/evidence.json` lists them); no held-out file.
 **Prior art consulted:** none.
 **What was done.** No parsing logic changed. The reader declares an assurance profile (docs/assurance.md) that fingerprints each file from this reader's own normalized output: compression, scan mode, reference images and the plane-file grouping notes (OIB and OIF). The table of validated feature values and the confidence level are generated from the development corpus by `cargo xtask assurance-audit`.
+
+## 2026-10-06 — more FluoView files (Richard Zimring with Claude as assistant)
+
+**Corpus files (OIF):** `zenodo4421962-bead6-50x-noosc` (Zenodo 4421962, CC0-1.0, member
+`OIF/bead6/50x_noosc.oif` of OIF.zip and its folder); `figshare19409903-fig2a`,
+`figshare19409903-fig2b` (figshare 19409903, CC BY 4.0, Corridon). figshare stores the
+`.oif.files` folders flat, with repeated file names. Each folder was rebuilt from the 12 files
+uploaded right after the ROI file that the `.oif` names in `[ProfileSaveInfo]`; their sizes add up
+to the `.oif`'s `TotalFileSize` (2,759,904 and 8,581,508 bytes).
+
+**Corpus files (OIB):** `figshare26030764-cg-nap-atb-acemehta-01` (CC BY 4.0, Ohta),
+`figshare12325037-vcfs-prox1-ctnt-x20-f1` (CC BY 4.0, Iwamiya and Segard; its FluoView text export
+`figshare12325037-vcfs-prox1-ctnt-x20-f1-txt` as an oracle export),
+`figshare31929921-a-03-05-syn488-btx555` (CC BY 4.0, Fogarty). figshare 12325037 is one of 15
+single-image items by the same depositors (listed in the manifest notes).
+
+**Prior art consulted:** none beyond the existing oracles (Bio-Formats 8.5.0, GPL, run as a black
+box; oiffile 2026.2.8, BSD-3, through `gen.py`).
+
+**Ground truth:** `gen.py` (Bio-Formats, cross-checked with oiffile) for the OIB files and the bead6
+OIF; all agree with openreadout plane for plane. For the two figshare 19409903 OIF files Bio-Formats
+disagrees with both oiffile and openreadout: these files say `FileVersion` 1.2.3.0,
+`FileType="Color32Bit"`, `ValidBitCounts=8`, and store 16-bit plane TIFFs with values up to 255.
+Bio-Formats returns uint8 planes whose values are neither the stored values nor their low or high
+bytes, and a 1 µm pixel size the file does not give (its axes are in pixels). Their oracle is
+`oracle/oif_oiffile_oracle.py` (new): oiffile and tifffile only. openreadout agrees with it.
+
+**Observed:** OIF `FileVersion` 1.2.3.0 is a new value next to 1.2.6.0. The OIB in figshare
+12325037 stores the image name `190821_Control_PROX1_cTnT_x20_F1` although its figshare item is in
+the "+ VCF" group.
+

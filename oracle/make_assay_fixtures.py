@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Write the synthetic plate-analysis fixtures (known truth) used by `openreadout analyze assay` tests and
+"""Write the synthetic plate-analysis fixtures (known truth) used by the plate-reader assays of `openreadout analyze` tests and
 evals.
 
 Usage:  python oracle/make_assay_fixtures.py [--check]

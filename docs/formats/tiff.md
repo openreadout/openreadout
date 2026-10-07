@@ -147,7 +147,7 @@ Photometric RGB without JFIF but with an `Adobe` segment declaring YCbCr is deco
 - `MapAnnotation`s of namespace `openreadout.dev/normalized` (`NORMALIZED_NS`, written by our own export) hold model fields OME cannot carry exactly; linked from the `Image` they give `acquired_at` (full precision, used only when it agrees with `AcquisitionDate` to the second), `instrument.software`, `instrument.software_version` and `objective.immersion`; linked from a `Channel`, `acquisition_mode`. They are read into the model and not repeated in `extra.annotations`.
 - An `XMLAnnotation` of namespace `openmicroscopy.org/omero/dimension/modulo` (`MODULO_NS`; OME model documentation, "6D, 7D and 8D storage") folds an extra dimension into Z, C or T: `Value/Modulo/ModuloAlongZ` (or `C`, `T`) with `Type` (angle, phase, tile, lifetime, lambda, other), optional `TypeDescription` and `Unit`, and either `Label` children or `Start`/`Step`/`End`. Its size is the number of labels, else `(End − Start) / Step + 1`; it varies fastest inside its parent axis (stored index = parent index × size + sub index). Each one linked from the image whose size divides the parent axis is listed in `images[].extra.modulo[]` (`along`, `type`, `size`, `parent_size`, and `type_description`, `unit`, `start`, `step`, `end`, `labels` when present); planes keep their stored C/Z/T indices. `Label` text comes from the element, or from a `Text` attribute as in the OME sample files. Checked against tifffile's series axes on the four OME `modulo/` sample files (sub-dimension sizes).
 - SubIFDs of the first plane's page → `pyramid_levels` and `info --view structure` entries; only full resolution is read.
-- Our own exports (`openreadout export … -o x.ome.tiff`) round-trip: geometry, pixel type, every plane hash and the normalized metadata (channels with bands and modes, objective, instrument with software, exact acquisition time, image names) are reproduced; `check --against` finds them identical (`ome_tiff_round_trip_keeps_metadata_corpus` for LIF, CZI and ND2 files, `crates/openreadout-ometiff/tests/metadata_round_trip.rs`). What does not round-trip is listed in `book/src/guides/metadata.md` § OME-XML export.
+- Our own exports (`openreadout export … -o x.ome.tiff`) round-trip: geometry, pixel type, every plane hash and the normalized metadata (channels with bands and modes, objective, instrument with software, exact acquisition time, image names) are reproduced; `compare` finds them identical (`ome_tiff_round_trip_keeps_metadata_corpus` for LIF, CZI and ND2 files, `crates/openreadout-ometiff/tests/metadata_round_trip.rs`). What does not round-trip is listed in `book/src/guides/metadata.md` § OME-XML export.
 
 ## ImageJ hyperstacks
 
@@ -257,7 +257,7 @@ layout read from the corpus files (`docs/provenance/tiff.md`).
   `dicom_datetime`) → `acquired_at`; `extra.philips`: `barcode` (`PIM_DP_UFS_BARCODE`, base64,
   `base64_decode`), `device_serial_number`, `interface_version`, `derivation`, `representations`.
 - The XML's `LABELIMAGE`/`MACROIMAGE` `PIM_DP_IMAGE_DATA` (base64 JPEG) are the attachments
-  `label` and `macro` (`attachments`, `export --attachment`).
+  `label` and `macro` (`attachments`, `extract`).
 
 ## Hamamatsu NDPI
 

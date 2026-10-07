@@ -213,7 +213,7 @@ pub struct NmrPeaksArgs {
     pub negative: bool,
     /// Only pick peaks between two shifts, `A:B` in ppm.
     #[arg(long, value_name = "A:B", allow_hyphen_values = true)]
-    pub range: Option<String>,
+    pub range_ppm: Option<String>,
     /// Keep at most this many peaks (the tallest).
     #[arg(long, value_name = "N", default_value_t = 1000)]
     pub max_peaks: usize,
@@ -299,9 +299,9 @@ fn request(a: &NmrPeaksArgs) -> Result<NmrRequest> {
             min_prominence_snr: a.min_prominence,
             include_negative: a.negative,
             range_ppm: a
-                .range
+                .range_ppm
                 .as_deref()
-                .map(|r| parse_range(r, "--range"))
+                .map(|r| parse_range(r, "--range-ppm"))
                 .transpose()?,
             max_peaks: a.max_peaks,
         },

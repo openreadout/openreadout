@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PlanesOutput",
+  "description": "Output of `planes`.",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The input file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id of the input file.",
+      "type": "string"
+    },
+    "planes": {
+      "description": "One row per plane, in the order read.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PlaneHash"
+      }
+    },
+    "acquisition": {
+      "description": "Present when the file is not finished; while it is `in_progress` only complete planes\nare read. See `book/src/guides/lab-shares.md`.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Acquisition"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "planes"
+  ],
+  "$defs": {
+    "PlaneHash": {
+      "description": "One row of `planes`.",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "Image index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "level": {
+          "description": "Pyramid level (0 = full resolution); omitted when 0.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "region": {
+          "description": "The rectangle read (level pixel coordinates) when `--region` was given; the hash and\n`width`/`height` are then those of the region. Absent = the whole plane.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Region"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "c": {
+          "description": "Channel index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "z": {
+          "description": "Z index (focal plane).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "t": {
+          "description": "Time index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "width": {
+          "description": "Plane width in pixels.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "height": {
+          "description": "Plane height in pixels.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "pixel_type": {
+          "description": "Sample type.",
+          "$ref": "#/$defs/PixelType"
+        },
+        "samples_per_pixel": {
+          "description": "1 for grayscale, 3 for interleaved RGB.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "xxh3": {
+          "description": "xxh3-128 of the raw little-endian sample bytes, 32 hex chars.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "image",
+        "c",
+        "z",
+        "t",
+        "width",
+        "height",
+        "pixel_type",
+        "samples_per_pixel",
+        "xxh3"
+      ]
+    },
+    "Region": {
+      "description": "A rectangle of a plane, in the pixel coordinates of the resolution level it is read at.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "description": "Left edge (column of the first pixel).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "y": {
+          "description": "Top edge (row of the first pixel).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "width": {
+          "description": "Width in pixels (at least 1).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "height": {
+          "description": "Height in pixels (at least 1).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ]
+    },
+    "PixelType": {
+      "description": "Sample type of one channel value. Names follow OME-XML `PixelType` values.",
+      "oneOf": [
+        {
+          "description": "Signed 8-bit integer.",
+          "type": "string",
+          "const": "int8"
+        },
+        {
+          "description": "Signed 16-bit integer.",
+          "type": "string",
+          "const": "int16"
+        },
+        {
+          "description": "Signed 32-bit integer.",
+          "type": "string",
+          "const": "int32"
+        },
+        {
+          "description": "Unsigned 8-bit integer.",
+          "type": "string",
+          "const": "uint8"
+        },
+        {
+          "description": "Unsigned 16-bit integer (the usual microscope camera output).",
+          "type": "string",
+          "const": "uint16"
+        },
+        {
+          "description": "Unsigned 32-bit integer.",
+          "type": "string",
+          "const": "uint32"
+        },
+        {
+          "description": "32-bit IEEE 754 floating point.",
+          "type": "string",
+          "const": "float"
+        },
+        {
+          "description": "64-bit IEEE 754 floating point.",
+          "type": "string",
+          "const": "double"
+        },
+        {
+          "description": "Signed 64-bit integer.",
+          "type": "string",
+          "const": "int64"
+        },
+        {
+          "description": "Unsigned 64-bit integer.",
+          "type": "string",
+          "const": "uint64"
+        },
+        {
+          "description": "Complex number of two 32-bit floats (real, then imaginary): OME `complex`.",
+          "type": "string",
+          "const": "complex"
+        },
+        {
+          "description": "Complex number of two 64-bit floats (real, then imaginary): OME `double-complex`.",
+          "type": "string",
+          "const": "double-complex"
+        }
+      ]
+    },
+    "Acquisition": {
+      "description": "`acquisition` in `info`, `info --view structure`, `check` and `planes`: present only for\nfiles that are not finished. See `book/src/guides/lab-shares.md`.",
+      "type": "object",
+      "properties": {
+        "state": {
+          "description": "`in_progress` or `interrupted`.",
+          "$ref": "#/$defs/AcquisitionState"
+        },
+        "complete_planes": {
+          "description": "Planes whose data is entirely on disk.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "expected_planes": {
+          "description": "Planes the finished file will hold, when the metadata written so far says so.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "modified_ago_s": {
+          "description": "Seconds since the file (or the newest member of a directory store) was modified.",
+          "type": "number",
+          "format": "double"
+        },
+        "window_s": {
+          "description": "The live window used for the decision, in seconds.",
+          "type": "number",
+          "format": "double"
+        },
+        "missing": {
+          "description": "Structures written at the end of an acquisition that are absent.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tail_bytes": {
+          "description": "Bytes after the last complete unit (a unit still being written).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "evidence": {
+          "description": "The observations behind the decision.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "state",
+        "complete_planes",
+        "modified_ago_s",
+        "window_s",
+        "missing",
+        "tail_bytes",
+        "evidence"
+      ]
+    },
+    "AcquisitionState": {
+      "description": "Whether an incomplete file is still being written.",
+      "oneOf": [
+        {
+          "description": "Recently modified and missing only what is written last: still acquiring.",
+          "type": "string",
+          "const": "in_progress"
+        },
+        {
+          "description": "Missing what is written last, but unchanged for longer than the live window: the\nacquisition (or a copy) stopped before the end.",
+          "type": "string",
+          "const": "interrupted"
+        }
+      ]
+    }
+  }
+}

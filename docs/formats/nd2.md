@@ -89,7 +89,7 @@ When the loops describe fewer frames than the file holds (`ome-aryeh-b16-14-12`:
 
 `ePixelType` 1 with `uiBpcInMemory` 8/16/32 → `uint8`/`uint16`/`uint32`; `ePixelType` 2 with 32 → `float` (inferred from prior art, no float corpus file yet). Planes whose `uiCompCount` is 3 are RGB (`samples_per_pixel` 3); `uiComp` is the sum of the planes' component counts (`zenodo8161776-VPA002`: four RGB planes, `uiComp` 12).
 
-**RGB sample order.** A modern file stores the three samples of a colour-camera plane as B, G, R (validated: in `zenodo8161776-VPA002` the DAPI plane lights sample 0 and the Texas Red plane sample 2; the `nd2` package's pseudo-wavelengths 420/515/590 nm per component agree). Planes are returned R, G, B, so `export --to ome-tiff` writes true photometric RGB; `info` says so per RGB image with `extra.sample_order` (`RGB`) and `extra.stored_sample_order` (`BGR`). The `nd2` package returns stored order, so the corpus oracle reverses its `S` axis for modern RGB files. Legacy (JPEG 2000) planes keep the codestream order, which each `jp2h` `colr` box declares as sRGB (`stored_sample_order` `RGB`; **inferred**, no legacy file with a reference). Four-component planes are not handled as RGB.
+**RGB sample order.** A modern file stores the three samples of a colour-camera plane as B, G, R (validated: in `zenodo8161776-VPA002` the DAPI plane lights sample 0 and the Texas Red plane sample 2; the `nd2` package's pseudo-wavelengths 420/515/590 nm per component agree). Planes are returned R, G, B, so `export --format ome-tiff` writes true photometric RGB; `info` says so per RGB image with `extra.sample_order` (`RGB`) and `extra.stored_sample_order` (`BGR`). The `nd2` package returns stored order, so the corpus oracle reverses its `S` axis for modern RGB files. Legacy (JPEG 2000) planes keep the codestream order, which each `jp2h` `colr` box declares as sRGB (`stored_sample_order` `RGB`; **inferred**, no legacy file with a reference). Four-component planes are not handled as RGB.
 
 `eCompression`: 2 = uncompressed; 0 = lossless, where the block after the timestamp is a zlib stream inflating to `uiHeight × uiWidthBytes` (confirmed on `ome-jonas-nd2Test-Exception-2`); 1 = lossy. No public lossy sample exists (checked: every modern corpus file, the four ND2 files of Zenodo records 21162526 and 8161776, and the ND2 of Zenodo 5277605 read over HTTP ranges, all `eCompression` 2; the `nd2` package's published sample metadata lists no lossy file and its reader has no lossy decoder). The codec is therefore unknown and lossy frames report `Unsupported` (exit 6) with metadata still readable.
 
@@ -127,7 +127,7 @@ When `acquired_at` comes from the text (`extra.acquired_at_source` = `text_local
 
 ## Per-frame records
 
-`info --view full` embeds one record per frame under `images[i].extra.frames` (the first 100 per image; `--all-frames` for all), with `frame_records_total` and `frames_truncated`. A record covers all channels of a frame (they are interleaved in one frame and share one timestamp).
+`info --view full` embeds one record per frame under `images[i].extra.frames` (the first 100 per image; `--max-frames -1` for all), with `frame_records_total` and `frames_truncated`. A record covers all channels of a frame (they are interleaved in one frame and share one timestamp).
 
 | field | source |
 | --- | --- |

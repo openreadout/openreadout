@@ -19,7 +19,7 @@ Nikon ND2 (`nd2`): chunk-based files (NIS-Elements 3.x–5.x, format versions 2.
 
 ## Debugging a new file
 
-- `openreadout info FILE --view structure` lists every chunk (name, offset, size) or legacy box; `info --view full --json` → `vendor` has the decoded LV/variant trees under the chunk names; `info --view full --all-frames` the per-frame records.
+- `openreadout info FILE --view structure` lists every chunk (name, offset, size) or legacy box; `info --view full --json` → `vendor` has the decoded LV/variant trees under the chunk names; `info --view full --max-frames -1` the per-frame records.
 - A new NIS-Elements version usually adds LV keys or a loop kind: `meta.rs` unit tests (`loop_tree_masks_and_merging`, `ne_time_periods_respect_validity`, `layout_handles_extra_and_missing_frames`, `wavelengths_follow_probe_then_filter`) are the templates; `lv.rs` tests pin the encoding.
 - Oracles: the `nd2` package (primary), Bio-Formats (second opinion, black box).
 
@@ -39,7 +39,7 @@ Nikon ND2 (`nd2`): chunk-based files (NIS-Elements 3.x–5.x, format versions 2.
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `nd2` | [format note](../../docs/formats/nd2.md), [provenance log](../../docs/provenance/nd2.md) | high | prior art | 28 / 27 | 7 | 4 / 0 |
+| `nd2` | [format note](../../docs/formats/nd2.md), [provenance log](../../docs/provenance/nd2.md) | high | prior art | 42 / 41 | 21 | 4 / 0 |
 
 ### Source map
 
@@ -77,40 +77,45 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
 | `nd2` | codec | `jpeg2000` | pixels | 5 | 5 | `aics-ND2-aryeh-but3-cont200-1`, `ome-aryeh-Time-sequence-24`, `ome-aryeh-b16-14-12` |
-| `nd2` | codec | `uncompressed` | pixels | 20 | 21 | `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
+| `nd2` | codec | `uncompressed` | pixels | 34 | 35 | `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
 | `nd2` | codec | `zlib` | pixels | 2 | 2 | `ome-jonas-nd2Test-Exception-2`, `ome-jonas-nd2Test-Exception61` |
-| `nd2` | field | `experiment.acquisition.started_at` | descriptive | 24 | 24 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
+| `nd2` | field | `experiment.acquisition.started_at` | descriptive | 38 | 38 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
 | `nd2` | format_version | `2.0` | metadata, pixels | 2 | 2 | `ome-jonas-nd2Test-Exception-2`, `ome-jonas-nd2Test-Exception61` |
 | `nd2` | format_version | `2.1` | metadata, pixels | 3 | 4 | `aics-ND2-jonas-header-test2`, `ome-jonas-control002`, `ome-jonas-header-test1` |
-| `nd2` | format_version | `3.0` | metadata, pixels | 17 | 17 | `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
+| `nd2` | format_version | `3.0` | metadata, pixels | 31 | 31 | `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
 | `nd2` | format_version | `legacy-jp2` | metadata, pixels | 5 | 5 | `aics-ND2-aryeh-but3-cont200-1`, `ome-aryeh-Time-sequence-24`, `ome-aryeh-b16-14-12` |
-| `nd2` | layout | `loop ne_time_loop` | metadata, pixels | 10 | 10 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-jonas-header-test2` |
+| `nd2` | layout | `loop ne_time_loop` | metadata, pixels | 11 | 11 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-jonas-header-test2` |
 | `nd2` | layout | `loop time_loop` | metadata, pixels | 9 | 10 | `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p4z5t3c2y32x32`, `aics-ND2-dims-rgb-t3p2c2z3x64y64` |
-| `nd2` | layout | `loop xy_position_loop` | metadata, pixels | 11 | 11 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
-| `nd2` | layout | `loop z_stack_loop` | metadata, pixels | 12 | 13 | `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-dims-p4z5t3c2y32x32` |
-| `nd2` | layout | `multi_position` | pixels | 9 | 9 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-dims-p4z5t3c2y32x32` |
-| `nd2` | sample_layout | `stored BGR` | pixels | 3 | 3 | `aics-ND2-dims-rgb`, `aics-ND2-dims-rgb-t3p2c2z3x64y64`, `zenodo8161776-VPA002` |
+| `nd2` | layout | `loop xy_position_loop` | metadata, pixels | 13 | 13 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
+| `nd2` | layout | `loop z_stack_loop` | metadata, pixels | 16 | 17 | `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-dims-p4z5t3c2y32x32` |
+| `nd2` | layout | `multi_position` | pixels | 10 | 10 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-dims-p4z5t3c2y32x32` |
+| `nd2` | sample_layout | `stored BGR` | pixels | 5 | 5 | `aics-ND2-dims-rgb`, `aics-ND2-dims-rgb-t3p2c2z3x64y64`, `zenodo10277961-mrap1` |
 | `nd2` | sample_layout | `stored RGB` | pixels | 1 | 1 | `ome-aryeh-Time-sequence-24` |
-| `nd2` | sample_layout | `uint16` | pixels | 22 | 23 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
-| `nd2` | sample_layout | `uint8` | pixels | 1 | 1 | `ome-aryeh-b16-14-12` |
-| `nd2` | sample_layout | `uint8x3` | pixels | 4 | 4 | `aics-ND2-dims-rgb`, `aics-ND2-dims-rgb-t3p2c2z3x64y64`, `ome-aryeh-Time-sequence-24` |
-| `nd2` | writer | `NIS-Elements` | descriptive | 27 | 28 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
+| `nd2` | sample_layout | `uint16` | pixels | 33 | 34 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
+| `nd2` | sample_layout | `uint8` | pixels | 2 | 2 | `ome-aryeh-b16-14-12`, `zenodo17186598-skewed` |
+| `nd2` | sample_layout | `uint8x3` | pixels | 6 | 6 | `aics-ND2-dims-rgb`, `aics-ND2-dims-rgb-t3p2c2z3x64y64`, `ome-aryeh-Time-sequence-24` |
+| `nd2` | writer | `NIS-Elements` | descriptive | 41 | 42 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
 | `nd2` | writer_version | `NIS-Elements 2.30` | descriptive | 2 | 2 | `ome-jonas-nd2Test-Exception-2`, `ome-jonas-nd2Test-Exception61` |
 | `nd2` | writer_version | `NIS-Elements 3.0` | descriptive | 3 | 4 | `aics-ND2-jonas-header-test2`, `ome-jonas-control002`, `ome-jonas-header-test1` |
 | `nd2` | writer_version | `NIS-Elements 3.20` | descriptive | 3 | 3 | `ome-aryeh-MeOh-high-fluo-003`, `ome-aryeh-MeOh-high-fluo-007`, `ome-aryeh-MeOh-high-fluo-011` |
 | `nd2` | writer_version | `NIS-Elements 4.13` | descriptive | 1 | 1 | `aics-ND2-maxime-BF007` |
+| `nd2` | writer_version | `NIS-Elements 4.30` | descriptive | 1 | 1 | `zenodo15679243-leadingstrand` |
 | `nd2` | writer_version | `NIS-Elements 4.50` | descriptive | 1 | 1 | `ome-karl-sample-image` |
 | `nd2` | writer_version | `NIS-Elements 4.51` | descriptive | 1 | 1 | `zenodo21162526-nested-loop` |
+| `nd2` | writer_version | `NIS-Elements 4.60` | descriptive | 1 | 1 | `zenodo14243556-adhm-pir` |
+| `nd2` | writer_version | `NIS-Elements 5.11` | descriptive | 2 | 2 | `zenodo10277961-mrap1`, `zenodo15236968-nimbus` |
 | `nd2` | writer_version | `NIS-Elements 5.20` | descriptive | 7 | 7 | `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
-| `nd2` | writer_version | `NIS-Elements 5.30` | descriptive | 1 | 1 | `zenodo8161776-VPA002` |
-| `nd2` | writer_version | `NIS-Elements 5.42` | descriptive | 3 | 3 | `zenodo14231228-Sla2-WT-18-roi`, `zenodo21162526-NDacquisition`, `zenodo21162526-nd2jobs` |
+| `nd2` | writer_version | `NIS-Elements 5.21` | descriptive | 5 | 5 | `zenodo13821490-brdu`, `zenodo14007546-fdaa`, `zenodo15641410-barley-arabido` |
+| `nd2` | writer_version | `NIS-Elements 5.30` | descriptive | 2 | 2 | `zenodo14590332-color-problems`, `zenodo8161776-VPA002` |
+| `nd2` | writer_version | `NIS-Elements 5.42` | descriptive | 6 | 6 | `zenodo13335999-synuclein-4c`, `zenodo14231228-Sla2-WT-18-roi`, `zenodo15046688-n1-bugged-raw` |
+| `nd2` | writer_version | `NIS-Elements 6.10` | descriptive | 1 | 1 | `zenodo17186598-skewed` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
 - committed fixtures: 7 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `nd2_chunk_map`, `nd2_lv`, `nd2_variant_xml`, `whole_nd2`
-- corpus inputs by tier: full 9, heldout 11, smoke 13, standard 14
+- corpus inputs by tier: full 9, heldout 11, smoke 13, standard 28
 - golden snapshots: [`corpus/snapshots/nd2.jsonl`](../../corpus/snapshots/nd2.jsonl)
 
 ### Open new-variant intakes

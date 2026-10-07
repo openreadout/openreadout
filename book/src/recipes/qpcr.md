@@ -52,20 +52,20 @@ Lenvatinib/Vector      ABHD17C            3   27.145  19.706    0.000   1.000
 Vector                 ABHD17C            3   27.192  19.530   -0.177   1.130
 ```
 
-`eds-7500-abhd17c-ddct.eds` is a 7500 run with two targets, ABHD17C and the 18S reference, from [Figshare](https://doi.org/10.6084/m9.figshare.32706510.v1) (CC-BY-4.0). The file records 18s as the endogenous control and Lenvatinib/Vector as the calibrator, so no flags are needed; `--reference TARGET` and `--control SAMPLE` override them. Each sample and target gets ΔCq, ΔΔCq and RQ = 2^−ΔΔCq with its range. ABHD17C OE reads about 49 times the calibrator's level. A file without a reference target gives a usage error that lists its targets:
+`eds-7500-abhd17c-ddct.eds` is a 7500 run with two targets, ABHD17C and the 18S reference, from [Figshare](https://doi.org/10.6084/m9.figshare.32706510.v1) (CC-BY-4.0). The file records 18s as the endogenous control and Lenvatinib/Vector as the calibrator, so no flags are needed; `--reference-target TARGET` and `--control-sample SAMPLE` override them. Each sample and target gets ΔCq, ΔΔCq and RQ = 2^−ΔΔCq with its range. ABHD17C OE reads about 49 times the calibrator's level. A file without a reference target gives a usage error that lists its targets:
 
 ```text
 $ openreadout analyze qpcr rdml-stepone-std.rdml --ddcq
-error: usage error: ΔΔCq needs a reference target (endogenous control): pass --reference TARGET; this file's targets: RNase P
+error: usage error: ΔΔCq needs a reference target (endogenous control): pass --reference-target TARGET; this file's targets: RNase P
 hint: Check the arguments with `openreadout help <command>`; `openreadout info FILE --json` shows what the file holds.
 ```
 
 ### Recompute Cq from the curves
 
-`--cq` computes a threshold Cq for every curve and compares it with the stored one:
+`--compute-cq` computes a threshold Cq for every curve and compares it with the stored one:
 
 ```text
-$ openreadout analyze qpcr rdml-stepone-std.rdml --cq
+$ openreadout analyze qpcr rdml-stepone-std.rdml --compute-cq
 ...
 our Cq vs vendor: 24 curves, 24 both with Cq, 0 both undetermined, 0 only vendor, 0 only ours; mean diff -7.369, median |diff| 6.909, max |diff| 28.629, within 0.5 cycles 0.042, r = 0.50760
 ```
@@ -87,7 +87,7 @@ qruns/small.rdml             rdml    -             -       -       -          - 
 
 ### From an assistant
 
-The MCP tool is `openreadout_analyze` with `kind: "qpcr"` and options such as `standard_curve`, `ddcq`, `reference_targets` and `control_sample`.
+The MCP tool is `openreadout_qpcr`, with arguments such as `standard_curve`, `ddcq`, `reference_targets` and `control_sample`.
 
 ## More
 

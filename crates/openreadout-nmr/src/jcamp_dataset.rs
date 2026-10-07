@@ -1104,7 +1104,7 @@ impl Dataset for JcampDataset {
         Err(Error::unsupported(
             JCAMP_FORMAT_ID,
             "image planes",
-            "JCAMP-DX files hold spectra (traces), not images: use `openreadout trace`, `openreadout export --to csv`, or the openreadout_trace MCP tool.",
+            "JCAMP-DX files hold spectra (traces), not images: use `openreadout trace`, `openreadout export --format csv`, or the openreadout_trace MCP tool.",
         ))
     }
 

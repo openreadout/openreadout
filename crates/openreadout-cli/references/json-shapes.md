@@ -1,6 +1,6 @@
 # JSON shapes (schema_version 1)
 
-Authoritative: `openreadout self schema <info|info-format|info-full|info-explain|info-structure|check|check-planes|check-against|export|export-attachment|trace|spectra|spectrum|formats|envelope>` prints the JSON Schema (MCP tools list theirs). This file is the human summary.
+Authoritative: `openreadout self schema <info|info-format|info-full|info-explain|info-structure|check|planes|compare|export|extract|trace|scans|spectrum|formats|envelope>` prints the JSON Schema (MCP tools list theirs). This file is the human summary.
 
 ## `info` → `FileInfo`
 
@@ -53,13 +53,13 @@ traces[] (Bruker NMR: fid/ser then one per pdata/<n>; JCAMP-DX: one per data tab
 }
 ```
 
-## `spectra --scan N` (one spectrum; schema `spectrum`) → `SpectrumOutput`
+## `spectrum --scan N` (one spectrum; schema `spectrum`) → `SpectrumOutput`
 
 `path, format, run, view (primary|centroid), point_count, truncated, spectrum {index, scan_number, ms_level, rt_s, polarity (positive|negative|unknown), centroided, precursor_mz, precursor_charge, scan_filter, total_ion_current, mz[] (f64), intensity[] (f32)}`.
 
 ## `info --view full` → `Dump`
 
-`file` (a `FileInfo`; per-frame records under `images[].extra.frames`, capped at 100 per image unless `--all-frames`, with `frame_records_total` and `frames_truncated`), `vendor` (JSON tree of the vendor metadata; CZI = the ImageDocument XML, ND2 = the LV/variant chunks by name (legacy files: the XML boxes by tag), LIF = the XML header), `provenance` (map of JSON path → `spec|vendor-impl|prior-art|inferred`).
+`file` (a `FileInfo`; per-frame records under `images[].extra.frames`, capped at 100 per image unless `--max-frames -1`, with `frame_records_total` and `frames_truncated`), `vendor` (JSON tree of the vendor metadata; CZI = the ImageDocument XML, ND2 = the LV/variant chunks by name (legacy files: the XML boxes by tag), LIF = the XML header), `provenance` (map of JSON path → `spec|vendor-impl|prior-art|inferred`).
 
 CZI frame records are one per plane, ordered t, z, c: `{frame, c, z, t, acquired_at, time_ms, stage_x_um, stage_y_um, stage_z_um, exposure_ms, time_stamp_s}`. CZI `images[].extra` also carries `scene` (`center_position_um`, `contour_size_um`, `well` {`name`, `id`, `row_index`, `column_index`}), `experiment` (`active_setups`, `time_series_cycles`, `time_series_interval_s`), `time_stamps_s` (per T), `events` (`time_s`, `kind`, `description`), `pyramid` (per level: `size_x`, `size_y`, `downsample_x/_y`).
 
@@ -69,7 +69,7 @@ CZI frame records are one per plane, ordered t, z, c: `{frame, c, z, t, acquired
 
 ## `info --view structure` → `Listing`
 
-`path, format, entries[]: {kind, name, offset, size, image, details}`. Kinds: `image`, `metadata`, `block` (LIF), `segment` (FCS: `HEADER`, `TEXT`, `STEXT`, `DATA`, `ANALYSIS`, `OTHERn`, `CRC`, with `details.data_set`), `subblock`/`pyramid-subblock`/`pyramid-level`/`attachment`/`file-part`/`file-header`/`subblock-directory`/`attachment-directory`/`deleted` (CZI; `attachment` rows have `details.index`, `details.content_type` for `export --attachment`), `frame`/`metadata`/`custom-data`/`chunk` (ND2; legacy JPEG 2000 files: `frame`/`metadata`/`box`), `time-domain`/`processed-data`/`parameters`/`file` (Bruker: every file of the experiment directory, `name` relative to it), `block`/`table` (JCAMP-DX), `header`/`metadata`/`attachment`/`method`/`stream`/`index`/`scan` (Thermo RAW; one `scan` row per spectrum with `ms_level`, `rt_s`, `polarity`, `filter` in `details`).
+`path, format, entries[]: {kind, name, offset, size, image, details}`. Kinds: `image`, `metadata`, `block` (LIF), `segment` (FCS: `HEADER`, `TEXT`, `STEXT`, `DATA`, `ANALYSIS`, `OTHERn`, `CRC`, with `details.data_set`), `subblock`/`pyramid-subblock`/`pyramid-level`/`attachment`/`file-part`/`file-header`/`subblock-directory`/`attachment-directory`/`deleted` (CZI; `attachment` rows have `details.index`, `details.content_type` for `extract`), `frame`/`metadata`/`custom-data`/`chunk` (ND2; legacy JPEG 2000 files: `frame`/`metadata`/`box`), `time-domain`/`processed-data`/`parameters`/`file` (Bruker: every file of the experiment directory, `name` relative to it), `block`/`table` (JCAMP-DX), `header`/`metadata`/`attachment`/`method`/`stream`/`index`/`scan` (Thermo RAW; one `scan` row per spectrum with `ms_level`, `rt_s`, `polarity`, `filter` in `details`).
 
 ## `check` → `CheckReport`
 
@@ -77,11 +77,11 @@ CZI frame records are one per plane, ordered t, z, c: `{frame, c, z, t, acquired
 
 ## `export` → `ExportReport`
 
-`input, output, format ("ome-tiff" | "ome-zarr"), images_written, planes_written, bytes_written, verified, codec, ome_xml_bytes`. For `--to mzml` the report is `{input, output, format: "mzml", spectra_written, points_written, bytes_written, verified, view, sha1}`. For OME-Zarr `bytes_written` is the total size of the store directory, `codec` `deflate` means the Zarr `gzip` codec, and `ome_xml_bytes` is the size of `OME/METADATA.ome.xml` (0 when a single image was exported).
+`input, output, format ("ome-tiff" | "ome-zarr"), images_written, planes_written, bytes_written, verified, codec, ome_xml_bytes`. For `--format mzml` the report is `{input, output, format: "mzml", spectra_written, points_written, bytes_written, verified, view, sha1}`. For OME-Zarr `bytes_written` is the total size of the store directory, `codec` `deflate` means the Zarr `gzip` codec, and `ome_xml_bytes` is the size of `OME/METADATA.ome.xml` (0 when a single image was exported).
 
-`export --to csv` → `TableExportReport`: `input, output, format ("csv"), table, first_row, rows_written, columns_written, header_lines, bytes_written, verified`; for a trace → `TraceExportReport`: `input, output, format ("csv"), trace, sweep, first_sample, samples_written, channels_written, bytes_written, verified`.
+`export --format csv` → `TableExportReport`: `input, output, format ("csv"), table, first_row, rows_written, columns_written, header_lines, bytes_written, verified`; for a trace → `TraceExportReport`: `input, output, format ("csv"), trace, sweep, first_sample, samples_written, channels_written, bytes_written, verified`.
 
-`export --to csv` of a trace → `TraceExportReport`: `input, output, format ("csv"), trace, sweep, first_sample, samples_written, channels_written, bytes_written, verified`.
+`export --format csv` of a trace → `TraceExportReport`: `input, output, format ("csv"), trace, sweep, first_sample, samples_written, channels_written, bytes_written, verified`.
 
 ## `trace` (CLI) / `openreadout_trace` (MCP) → `TraceSlice`
 
@@ -95,11 +95,11 @@ CZI frame records are one per plane, ordered t, z, c: `{frame, c, z, t, acquired
 
 `path, format, trace, sweep, sweep_count, sample_rate_hz, sweep_sample_count, first_sample, sample_count, start_s, channels[]: {index, name, unit, stats {count, finite, min, max, mean, std, argmin, argmax}, samples[]}, truncated`. Statistics cover the whole window; `samples` is capped (CLI `--max-samples`, default 1000; MCP `max_samples`, default 200, max 10000).
 
-## `check --planes` → `PlanesOutput`
+## `planes` → `PlanesOutput`
 
 `path, format, planes[]: {image, level?, c, z, t, width, height, pixel_type, samples_per_pixel, xxh3}`; `xxh3` is xxh3-128 of the little-endian samples, 32 hex chars; `level` appears only for `--level N` with N > 0.
 
-## `export --attachment` → `ExtractOutput`
+## `extract` → `ExtractOutput`
 
 `path, format, attachment {index, name, content_type, extension, offset, size, extra}, output, bytes_written, xxh3, verified`.
 

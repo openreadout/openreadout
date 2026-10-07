@@ -1,0 +1,58 @@
+{
+ "id": "zenodo6685822-heliorhodopsin",
+ "file": "zenodo6685822-heliorhodopsin.czi",
+ "size": 570656,
+ "sha256": "e569bf9dad09654620224810686aa2e470040e8496d9fa4e4f538a1d94979c8f",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CYX",
+   "shape": [
+    2,
+    512,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.2075664552409598,
+    "y": 0.2075664552409598,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a4a5b2c192954e6e71591dfb19a59336"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2213475b989fdc2c6fdca8fca46401a5"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.2075664552409598,
+  "y": 0.2075664552409598,
+  "z": 0.0
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

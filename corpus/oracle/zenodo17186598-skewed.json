@@ -1,0 +1,349 @@
+{
+ "id": "zenodo17186598-skewed",
+ "file": "zenodo17186598-skewed.nd2",
+ "size": 49790976,
+ "sha256": "cdba1aa1625a9a93cd0ee00628400ef049a7034f90cd6a33161e502846e099aa",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1750,
+   "size_y": 1664,
+   "size_z": 17,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "sizes": "{'Z': 17, 'Y': 1664, 'X': 1750}",
+   "physical_size_um": {
+    "x": 0.05714285714285715,
+    "y": 0.05714285714285715,
+    "z": 1.0
+   },
+   "channel_names": [
+    "Mono"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6eff42c87494a0b56fea98a37ce7f93c"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "d8e395e4c5bfc224e338f7d42b5c9e0c"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "8403e5ffb3bfa2770e179374af4b5d33"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "f4ef8ce682ce4bf1dce187606ec8ecca"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "689da5c6bf731258c65f6b423f4108a3"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "78869ebf4dbdb009dd95a1e6711aeff2"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "f01b51e6c95b458501a6b05848eae4ae"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "4e5027166ce7a563e5d1f65c033652d2"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "d41c57033957ebcf5e51ca46344d8cc2"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "fe7e713b93f9fcdd09fb50b4568eb238"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "3914a6d1d1b63a8c1f859a8bd1507ef6"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "e193a0abe2a4684fc7b23f7a3df76024"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "8bf490f0ad85b5e19df2f2ad56afa307"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "dc8cf55ac06481be1b1541ba1d2eeac8"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "3d54331be380f42c95a24b2aae708c83"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "26c7231dab472bde304bcf66a080432a"
+    },
+    {
+     "c": 0,
+     "z": 16,
+     "t": 0,
+     "xxh3": "e82ccdb7aa971d0432993bb022e71b77"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Mono",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": 500.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "camera"
+    ]
+   }
+  ],
+  "frame_count": 17,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 967.1633999943733,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -14.52,
+     "Z1": -14.52
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 1366.8004999756813,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -13.52,
+     "Z1": -13.52
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 1834.794999986887,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -12.52,
+     "Z1": -12.52
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 2234.8354000151157,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -11.52,
+     "Z1": -11.52
+    }
+   },
+   {
+    "index": 4,
+    "time_ms": 2701.8143000006676,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -10.52,
+     "Z1": -10.52
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 3202.7971999943256,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -9.52,
+     "Z1": -9.52
+    }
+   },
+   {
+    "index": 6,
+    "time_ms": 3669.801300019026,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -8.52,
+     "Z1": -8.52
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 4136.791599988937,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -7.52,
+     "Z1": -7.52
+    }
+   },
+   {
+    "index": 8,
+    "time_ms": 4636.839599996805,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -6.52,
+     "Z1": -6.52
+    }
+   },
+   {
+    "index": 9,
+    "time_ms": 5103.811500012875,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -5.52,
+     "Z1": -5.52
+    }
+   },
+   {
+    "index": 10,
+    "time_ms": 5604.791199982166,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -4.52,
+     "Z1": -4.52
+    }
+   },
+   {
+    "index": 11,
+    "time_ms": 6071.838400006294,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -3.5199999999999996,
+     "Z1": -3.5199999999999996
+    }
+   },
+   {
+    "index": 12,
+    "time_ms": 6538.816100001335,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -2.5199999999999996,
+     "Z1": -2.5199999999999996
+    }
+   },
+   {
+    "index": 13,
+    "time_ms": 7039.803299993277,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -1.5199999999999996,
+     "Z1": -1.5199999999999996
+    }
+   },
+   {
+    "index": 14,
+    "time_ms": 7506.8215999901295,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": -0.5199999999999996,
+     "Z1": -0.5199999999999996
+    }
+   },
+   {
+    "index": 15,
+    "time_ms": 8006.793399989604,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": 0.4800000000000004,
+     "Z1": 0.4800000000000004
+    }
+   },
+   {
+    "index": 16,
+    "time_ms": 8474.830899983644,
+    "tags": {
+     "Camera_ExposureTime1": 128.0,
+     "X": 7583.0,
+     "Y": 1946.7,
+     "Z": 1.4800000000000004,
+     "Z1": 1.4800000000000004
+    }
+   }
+  ],
+  "acquired_at": "2025-05-01T16:24:36.322Z",
+  "acquired_at_unix_ms": 1746116676322
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: Z(17)\r\nCamera Name: Mono Camera Nikon DS-Fi3 (emulated)\r\nNumerical Aperture: 1.4\r\nRefractive Index: 1.515\r\n Name: Mono\r\n Component Count: 1\r\n Relay Lens Magnification: 0.7x\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Nikon DS-Fi3\r\n  Binning: 1.0x1.0\r\n  Exposure: 128 ms\r\n  Gain: 2.0x\r\n  Sharpness: Medium\r\n  Brightness: 0.00\r\n  Hue: 0.00\r\n  Saturation: 0.00\r\n  WB Red: 1.02\r\n  WB Blue: 3.79\r\n  Scene Mode: Neutral\r\n Microscope Settings:   Microscope: Manual Microscope\r\n  Manual Microscope, FilterChanger(FilterBlock): 5 (Empty)\r\n  MAC5000, FilterChanger(FilterWheel (EPI)): 0\r\n  MAC5000, Shutter(DIA): Open\r\nZ Stack Loop: 17\r\n\u2010 Step: 1 \u00b5m\r\n\u2010 Device: LUDL MAC5000 Z",
+  "capturing": "Mono Camera Nikon DS-Fi3 (emulated)\r\n\r\nCamera Type: Nikon DS-Fi3\r\nBinning: 1.0x1.0\r\nExposure: 128 ms\r\nGain: 2.0x\r\nSharpness: Medium\r\nBrightness: 0.00\r\nHue: 0.00\r\nSaturation: 0.00\r\nWB Red: 1.02\r\nWB Blue: 3.79\r\nScene Mode: Neutral",
+  "date": "5/1/2025  12:24:43 PM",
+  "optics": "Plan Apo 60x Oil DIC H"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=8, bitsPerComponentSignificant=8, componentCount=1, heightPx=1664, pixelDataType='unsigned', sequenceCount=17, widthBytes=1752, widthPx=1750, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

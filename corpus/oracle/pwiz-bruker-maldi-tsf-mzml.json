@@ -1,0 +1,164 @@
+{
+ "id": "pwiz-bruker-maldi-tsf-mzml",
+ "file": "20percLaser_100fold_1_0_H6_MS.mzML",
+ "size": 618546,
+ "sha256": "59fc18aa32d7bb98abdf3e92b10fbd1a6f67a3fc4dae42b95a6200a057a2a6dd",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1,
+     "channels": [
+      {
+       "xxh3": "2c0a8a99dc147d5445c3b49d035665b2",
+       "first": [
+        0.0
+       ]
+      },
+      {
+       "xxh3": "e100e91f36735f4bbf2c7764d4ad8ea1",
+       "first": [
+        226376.0
+       ]
+      },
+      {
+       "xxh3": "1d85e13540b8f55dacbcf3ae8a39cd07",
+       "first": [
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "id": "BPC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1,
+     "channels": [
+      {
+       "xxh3": "2c0a8a99dc147d5445c3b49d035665b2",
+       "first": [
+        0.0
+       ]
+      },
+      {
+       "xxh3": "8bcc9d21a7ce6bd77992f237b11c0bf2",
+       "first": [
+        27622.0
+       ]
+      },
+      {
+       "xxh3": "1d85e13540b8f55dacbcf3ae8a39cd07",
+       "first": [
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "frame=1",
+    "ms_level": 1,
+    "rt_s": null,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "isolation_target_mz": null,
+    "activation": null,
+    "collision_energy": null,
+    "total_ion_current": 226376.0,
+    "base_peak_mz": null,
+    "n_peaks": 157218,
+    "n_nonzero": 117464,
+    "mz_bits": 32,
+    "xxh3_mz": "f48eb43f2e5f17b221a2fd77bd7ff607",
+    "xxh3_intensity": "a337500d6b0f69a4ce9c6571805d8083",
+    "xxh3_mz_nonzero": "588a40e278eb08efe758fee38a96f6b0",
+    "xxh3_intensity_nonzero": "02cb6c222ec57b622e41ca343275be97",
+    "sum_intensity": 4215855.0,
+    "mz_min": 149.99826049804688,
+    "mz_max": 2500.0048828125,
+    "first_peaks": [
+     [
+      149.99826049804688,
+      0.0
+     ],
+     [
+      164.04437255859375,
+      0.0
+     ],
+     [
+      164.04637145996094,
+      9.0
+     ],
+     [
+      164.0483856201172,
+      0.0
+     ],
+     [
+      170.08447265625,
+      0.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      164.04637145996094,
+      9.0
+     ],
+     [
+      170.08651733398438,
+      16.0
+     ],
+     [
+      170.08856201171875,
+      27.0
+     ],
+     [
+      170.09059143066406,
+      26.0
+     ],
+     [
+      170.09263610839844,
+      13.0
+     ]
+    ]
+   }
+  ]
+ }
+}

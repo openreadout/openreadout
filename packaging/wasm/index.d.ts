@@ -64,23 +64,28 @@ export class InstrumentFile {
     trace?: number,
     options?: { sweep?: number; firstSample?: number; count?: number; maxSamples?: number },
   ): Promise<Record<string, any>>;
-  /** Scan headers of a run, or one spectrum with `index` or `scan`. */
-  spectra(options?: {
+  /** Scan headers of a mass-spectrometry run. */
+  scans(options?: {
     run?: number;
-    index?: number;
-    scan?: number;
-    centroid?: boolean;
-    max_points?: number;
     ms_level?: number;
     polarity?: "positive" | "negative";
     rt_range?: [number, number];
-    precursor_mz?: number;
-    ppm?: number;
+    precursor?: number;
+    precursor_tol?: number;
+    precursor_ppm?: number;
     charge?: number;
     activation?: string;
     scan_filter?: string;
     offset?: number;
     limit?: number;
+  }): Promise<Record<string, any>>;
+  /** One mass spectrum, by `spectrum` (zero-based index) or `scan` (scan number). */
+  spectrum(options: {
+    run?: number;
+    spectrum?: number;
+    scan?: number;
+    centroid?: boolean;
+    max_points?: number;
   }): Promise<Record<string, any>>;
   close(): void;
 }

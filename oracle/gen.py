@@ -3643,6 +3643,11 @@ def _mzml_scans(q: Path, reader=None, skip_detectors=False):
                 a = pl[-1].get("activation", {})
                 energy = a.get("collision energy")
                 act = sorted(k for k in a if k != "collision energy")
+            # ProteoWizard gives a constant neutral loss scan's loss as its selected ion: it is
+            # no precursor m/z
+            loss = None
+            if "constant neutral loss spectrum" in sp and prec is not None:
+                loss, prec = prec, None
             mza = sp.get("m/z array")
             bits = int(np.asarray(mza).dtype.itemsize * 8) if mza is not None and len(mza) else None
             polarity = "positive" if "positive scan" in sp else "negative" if "negative scan" in sp else "unknown"
@@ -3657,6 +3662,7 @@ def _mzml_scans(q: Path, reader=None, skip_detectors=False):
                 "filter": scan.get("filter string"),
                 "precursor_mz": float(prec) if prec is not None else None,
                 "precursor_charge": int(charge) if charge is not None else None,
+                **({"neutral_loss_mz": float(loss)} if loss is not None else {}),
                 "isolation_target_mz": float(iso) if iso is not None else None,
                 "activation": act,
                 "collision_energy": float(energy) if energy is not None else None,
@@ -3911,11 +3917,21 @@ def imzml_(p: Path) -> dict:
     from importlib.metadata import version as pkg_version
     from pyimzml.ImzMLParser import ImzMLParser
     scans = []
+    # pyimzML does not report the MS level: take it from the file's own cvParams (`MS1 spectrum`
+    # or a non-zero `ms level`, usually in a referenceableParamGroup); with neither, 1 unless MSn
+    text = p.read_text(encoding="utf-8", errors="replace")
+    lv = re.search(r'accession="MS:1000511"[^>]*value="(\d+)"', text)
+    ms_level = int(lv.group(1)) if lv else 0
+    if ms_level == 0 and 'accession="MS:1000579"' in text:
+        ms_level = 1
+    elif ms_level == 0 and 'accession="MS:1000580"' not in text:
+        # no MSn either: imaging spectra are MS1 by convention (the reader reports it as assumed)
+        ms_level = 1
     with ImzMLParser(str(p)) as parser:
         for i, xyz in enumerate(parser.coordinates):
             mz, it = parser.getspectrum(i)
             scans.append({
-                "index": i, "scan_number": i + 1, "ms_level": 1, "rt_s": None, "polarity": None,
+                "index": i, "scan_number": i + 1, "ms_level": ms_level, "rt_s": None, "polarity": None,
                 "centroided": None, "filter": None, "precursor_mz": None, "precursor_charge": None,
                 "activation": None, "position": list(xyz),
                 **_peaks(mz, it, int(np.asarray(mz).dtype.itemsize * 8)),
@@ -4047,6 +4063,38 @@ def agilent_ms(p: Path, q: Path) -> dict:
     if "spectra" in out:
         out["spectra"]["by_index"] = True
     return out
+
+
+def agilent_ms_rainbow(p: Path) -> dict:
+    """Ground truth for an Agilent MassHunter .d without a depositor export: its MSProfile.bin
+    scans through rainbow-api (LGPL-3.0, run as a black box only; `uv run --group chrom`) with
+    `hrms=True`. rainbow returns every bin of a scan's grid; the spectra openreadout defines keep
+    the non-zero bins and the zero bins next to them (docs/formats/agilent-masshunter.md), so the
+    same rule is applied here. rainbow reports neither scan ids, MS levels nor polarity: scans
+    are compared by position, native ids are a placeholder (`native_id_not_compared` in the
+    manifest) and the MS level is 1 (the runs this oracle is used on are MS1 profile runs)."""
+    from importlib.metadata import version as pkg_version
+    rb = _rainbow()
+    f = rb.read(str(p), hrms=True).get_file("MSProfile.bin")
+    times = np.asarray(f.xlabels, dtype=np.float64)
+    scans = []
+    for i in range(len(times)):
+        mz, y = f.scan(i)
+        mz = np.asarray(mz, dtype=np.float64)
+        y = np.asarray(y, dtype=np.float64)
+        nz = y != 0
+        keep = nz.copy()
+        keep[1:] |= nz[:-1]
+        keep[:-1] |= nz[1:]
+        rec = {"index": i, "scan_number": i + 1, "native_id": f"position={i}", "ms_level": 1,
+               "rt_s": float(times[i] * 60.0), "polarity": None, "centroided": False,
+               "filter": None, "precursor_mz": None, "precursor_charge": None, "activation": None,
+               "total_ion_current": None, "base_peak_mz": None}
+        rec.update(_peaks(mz[keep], y[keep], 64))
+        scans.append(rec)
+    return {"reader": f"rainbow-api {pkg_version('rainbow-api')} (black box), hrms=True",
+            "oracle_note": "rainbow's dense bins reduced to the non-zero bins and their zero neighbours; MS level 1 assumed; no scan ids or polarity",
+            "spectra": {"scan_count": len(scans), "by_index": True, "scans": scans}}
 
 
 def waters_chromatogram_export(p: Path, q: Path) -> dict:
@@ -5637,8 +5685,8 @@ def main():
                 data = getattr(spectro, sk)(p, MAX_SWEEPS)
             elif p.is_dir() and (p / "AcqData" / "MSScan.bin").exists():
                 if export is None:
-                    raise ValueError("an Agilent MassHunter .d needs --export <depositor mzML> before its path")
-                data = agilent_ms(p, export)
+                    raise ValueError("an Agilent MassHunter .d needs --export <depositor mzML> (or --export rainbow) before its path")
+                data = agilent_ms_rainbow(p) if str(export) == "rainbow" else agilent_ms(p, export)
             elif p.is_dir() and ext == ".d" and not any((p / f).exists() for f in ("analysis.tdf", "analysis.tsf")):
                 data = chemstation(p)
             elif p.is_dir() and ext == ".raw" and export is not None:

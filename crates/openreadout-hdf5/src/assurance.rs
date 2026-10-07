@@ -157,24 +157,33 @@ fn observe_hdf5(info: &FileInfo) -> Observations {
 const IMS_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const IMS_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "SpinningDiskConfocal", 3, 1, 3),
-    a::row(K::Codec, "hdf5 deflate", 6, 4, 6),
+    a::row(K::Acquisition, "SpinningDiskConfocal", 5, 3, 5),
+    a::row(K::Codec, "hdf5 deflate", 10, 8, 10),
     a::row(K::Codec, "hdf5 lz4", 2, 1, 2),
     a::row(K::Codec, "hdf5 shuffle", 1, 1, 1),
-    a::row(K::Codec, "hdf5 unfiltered", 2, 1, 2),
-    a::row(K::Field, "experiment.acquisition.started_at", 6, 3, 9),
-    a::row(K::FormatVersion, "5.5.0", 10, 5, 10),
-    a::row(K::Layout, "resolution_levels", 6, 4, 6),
+    a::row(K::Codec, "hdf5 unfiltered", 4, 3, 4),
+    a::row(K::Field, "experiment.acquisition.started_at", 6, 3, 15),
+    a::row(K::FormatVersion, "5.5.0", 16, 11, 16),
+    a::row(K::Layout, "resolution_levels", 9, 7, 9),
+    a::row(K::Record, "scene records: Cells", 1, 1, 1),
     a::row(K::Record, "scene records: Filaments", 3, 1, 3),
+    a::row(K::Record, "scene records: ImageMasks", 1, 1, 1),
+    a::row(K::Record, "scene records: MegaSurfaces", 1, 1, 1),
+    a::row(K::Record, "scene records: Surfaces", 1, 1, 1),
+    a::row(K::Record, "scene statistics: Cells", 1, 1, 1),
     a::row(K::Record, "scene statistics: Filaments", 3, 1, 3),
-    a::row(K::SampleLayout, "uint16", 8, 4, 8),
-    a::row(K::SampleLayout, "uint8", 2, 2, 2),
-    a::row(K::Writer, "Imaris", 10, 5, 10),
+    a::row(K::Record, "scene statistics: MegaSurfaces", 1, 1, 1),
+    a::row(K::Record, "scene statistics: Surfaces", 1, 1, 1),
+    a::row(K::SampleLayout, "uint16", 11, 7, 11),
+    a::row(K::SampleLayout, "uint8", 5, 5, 5),
+    a::row(K::Writer, "Imaris", 16, 11, 16),
     a::row(K::WriterVersion, "Imaris 10.1", 1, 1, 1),
-    a::row(K::WriterVersion, "Imaris 10.2", 1, 1, 1),
-    a::row(K::WriterVersion, "Imaris 5.5", 4, 2, 4),
+    a::row(K::WriterVersion, "Imaris 10.2", 2, 2, 2),
+    a::row(K::WriterVersion, "Imaris 5.5", 5, 3, 5),
     a::row(K::WriterVersion, "Imaris 9.0", 1, 1, 1),
-    a::row(K::WriterVersion, "Imaris 9.8", 3, 1, 3),
+    a::row(K::WriterVersion, "Imaris 9.5", 2, 2, 2),
+    a::row(K::WriterVersion, "Imaris 9.7", 1, 1, 1),
+    a::row(K::WriterVersion, "Imaris 9.8", 4, 2, 4),
 ];
 // END GENERATED ims
 
@@ -215,6 +224,11 @@ const NWB_VALIDATED: &[Validated] = &[
 // END GENERATED nwb
 
 // BEGIN GENERATED hdf5 (cargo xtask assurance-audit --write; do not edit)
-const HDF5_CONFIDENCE: Confidence = Confidence::Low;
-const HDF5_VALIDATED: &[Validated] = &[];
+const HDF5_CONFIDENCE: Confidence = Confidence::Medium;
+#[rustfmt::skip]
+const HDF5_VALIDATED: &[Validated] = &[
+    a::row(K::Dialect, "generic hdf5", 4, 4, 4),
+    a::row(K::FormatVersion, "superblock version 0", 3, 3, 3),
+    a::row(K::FormatVersion, "superblock version 2", 1, 1, 1),
+];
 // END GENERATED hdf5

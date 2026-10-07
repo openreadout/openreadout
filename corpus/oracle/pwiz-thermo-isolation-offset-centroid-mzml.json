@@ -1,0 +1,128 @@
+{
+ "id": "pwiz-thermo-isolation-offset-centroid-mzml",
+ "file": "IsolationMzOffset-ReportedMassOffset-centroid.mzML",
+ "size": 12783,
+ "sha256": "cb95d6779d6226452217fbf8fe755d3d8b899c1d996f02805334e3690ab6a606",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1,
+     "channels": [
+      {
+       "xxh3": "597823761b9234bb3a8a845250d365ef",
+       "first": [
+        408.0073070526123
+       ]
+      },
+      {
+       "xxh3": "1ecf9d7390b2478ae4114578cb0e2ab4",
+       "first": [
+        99695936.0
+       ]
+      },
+      {
+       "xxh3": "8753298b7c547799cb9c7524838faacd",
+       "first": [
+        2.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "controllerType=0 controllerNumber=1 scan=1",
+    "ms_level": 2,
+    "rt_s": 408.00731269266,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": "FTMS + p NSI d Full ms2 379.71@hcd27.00 [150.00-1700.00]",
+    "precursor_mz": 379.711334228516,
+    "precursor_charge": 2,
+    "isolation_target_mz": 379.711334228516,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 27.0,
+    "total_ion_current": 99695936.0,
+    "base_peak_mz": 517.2729184,
+    "n_peaks": 241,
+    "n_nonzero": 241,
+    "mz_bits": 32,
+    "xxh3_mz": "420a1fcfd074af1567634a9a6b95e6a5",
+    "xxh3_intensity": "e07aedc3e28de85efe2deebf4c8b1ab4",
+    "xxh3_mz_nonzero": "420a1fcfd074af1567634a9a6b95e6a5",
+    "xxh3_intensity_nonzero": "e07aedc3e28de85efe2deebf4c8b1ab4",
+    "sum_intensity": 98008709.0234375,
+    "mz_min": 155.08164978027344,
+    "mz_max": 1299.0946044921875,
+    "first_peaks": [
+     [
+      155.08164978027344,
+      214923.765625
+     ],
+     [
+      157.10873413085938,
+      77555.9609375
+     ],
+     [
+      157.13365173339844,
+      4388875.0
+     ],
+     [
+      158.09259033203125,
+      735187.875
+     ],
+     [
+      158.13064575195312,
+      22763.88671875
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      155.08164978027344,
+      214923.765625
+     ],
+     [
+      157.10873413085938,
+      77555.9609375
+     ],
+     [
+      157.13365173339844,
+      4388875.0
+     ],
+     [
+      158.09259033203125,
+      735187.875
+     ],
+     [
+      158.13064575195312,
+      22763.88671875
+     ]
+    ]
+   }
+  ]
+ }
+}

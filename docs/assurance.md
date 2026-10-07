@@ -83,7 +83,11 @@ implementation that read the same raw data. It is recorded as its own evidence c
 `stored_result` and `stored_result_compared` in `corpus/assurance/evidence.json`), and it is
 scoped: it validates only the features of the outputs the results were computed from (for
 Chromeleon, `traces`: the signals' values, time axis and scaling), never a descriptive feature,
-metadata, the decoding of the stored result table itself, or a tracked field. A file confirmed
+metadata, the decoding of the stored result table itself, or a tracked field. Within that scope
+it validates only the signals the results were computed from: the results line lists their
+features (`features`, `stored_result_features` in the evidence), so peaks integrated on a UV
+signal do not confirm the codec or layout of a pressure or flow signal in the same archive
+(since 2026-10-06; before, every trace feature of the archive counted). A file confirmed
 this way counts as a confirmed file in the rubric (the evidence page says how many were
 confirmed only so); a stored result our values do not reproduce is a failure. Agreement must be
 non-trivial: for Chromeleon, at least 10 stored peaks per archive, every one reproduced with area
@@ -106,7 +110,7 @@ reader reports both since 2026-10-06: an export that yields no values, or a plat
 values, is undecoded with the tables scope (draw D's BMG kinetic export was `validated` with no
 values, and three fuzz fixtures without plate data were too), and a read or plate section it refuses
 by name (`multiple_reads_without_mean`, `plate_not_decoded`, `read_not_decoded`, `table_axis_not_decoded`,
-`unsupported_read_type`) is left out. A table with no rows is not enough on its own: event tables
+`unsupported_read_type`) is left out. The UNICORN reader does the same for curves it refuses (a member cut short, or bare floats instead of a serialized array): `info` notes that the file is damaged, and the traces are undecoded, so the file is never `validated` for them, whatever its comparison covered. A table with no rows is not enough on its own: event tables
 of electrophysiology files are often empty, and correctly so.
 
 ## Cross-validation on the development corpus

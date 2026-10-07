@@ -1,0 +1,350 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExportDatasetReport",
+  "description": "`datasheet.json`, and the payload of `export-dataset --json`.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "description": "Datasheet schema version.",
+      "type": "string"
+    },
+    "output": {
+      "description": "The output directory.",
+      "type": "string"
+    },
+    "created_at": {
+      "description": "When the export finished.",
+      "type": "string"
+    },
+    "tool": {
+      "description": "Tool and version.",
+      "type": "string"
+    },
+    "query": {
+      "description": "The query.",
+      "type": "string"
+    },
+    "index_dir": {
+      "description": "The index it came from.",
+      "type": "string"
+    },
+    "index_roots": {
+      "description": "The index's roots.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "index_updated_at": {
+      "description": "When the index was written.",
+      "type": "string"
+    },
+    "table_format": {
+      "description": "Tables written as `parquet` or `csv`.",
+      "$ref": "#/$defs/TableFormat"
+    },
+    "redaction": {
+      "description": "Whether personal data was redacted, and how.",
+      "type": "string"
+    },
+    "counts": {
+      "description": "Totals over the exported data sets.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "uint64",
+        "minimum": 0
+      }
+    },
+    "formats": {
+      "description": "Data sets per source format.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "uint64",
+        "minimum": 0
+      }
+    },
+    "licenses": {
+      "description": "Data sets per licence (`unknown` when none was found).",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "uint64",
+        "minimum": 0
+      }
+    },
+    "exported_now": {
+      "description": "Data sets exported in this run (the rest were already done).",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "resumed": {
+      "description": "Data sets reused from an earlier, interrupted run.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "datasets": {
+      "description": "Every exported data set.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ExportedDataset"
+      }
+    },
+    "skipped": {
+      "description": "Data sets that could not be exported.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SkippedDataset"
+      }
+    },
+    "verified": {
+      "description": "Every output verified.",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "output",
+    "created_at",
+    "tool",
+    "query",
+    "index_dir",
+    "index_roots",
+    "index_updated_at",
+    "table_format",
+    "redaction",
+    "counts",
+    "formats",
+    "licenses",
+    "exported_now",
+    "resumed",
+    "datasets",
+    "skipped",
+    "verified"
+  ],
+  "$defs": {
+    "TableFormat": {
+      "description": "File format for tables, traces and spectra.",
+      "oneOf": [
+        {
+          "description": "Apache Parquet (Snappy).",
+          "type": "string",
+          "const": "parquet"
+        },
+        {
+          "description": "Comma-separated values.",
+          "type": "string",
+          "const": "csv"
+        }
+      ]
+    },
+    "ExportedDataset": {
+      "description": "One exported data set.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Output id (file-name prefix).",
+          "type": "string"
+        },
+        "source": {
+          "description": "Source path.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Source format id.",
+          "type": "string"
+        },
+        "family": {
+          "description": "Source family.",
+          "type": "string"
+        },
+        "size_bytes": {
+          "description": "Source bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "fingerprint": {
+          "description": "Source content fingerprint (from the index).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "counts": {
+          "description": "Images, planes, tables, table rows, traces, trace samples, spectra runs, spectra.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "uint64",
+            "minimum": 0
+          }
+        },
+        "outputs": {
+          "description": "Files written.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OutputFile"
+          }
+        },
+        "experiment": {
+          "description": "The experiment (redacted when asked), with provenance."
+        },
+        "license": {
+          "description": "Licence, when known.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LicenseInfo"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pii": {
+          "description": "Personal-data flags (field, kind, rule).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PiiFlag"
+          }
+        },
+        "redacted_values": {
+          "description": "Values replaced by redaction.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "notes": {
+          "description": "Things to know (parts that could not be exported).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "format",
+        "family",
+        "size_bytes",
+        "counts",
+        "outputs",
+        "redacted_values"
+      ]
+    },
+    "OutputFile": {
+      "description": "One written file.",
+      "type": "object",
+      "properties": {
+        "file": {
+          "description": "Path relative to the output directory.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "`metadata`, `image`, `table`, `trace` or `spectra`.",
+          "type": "string"
+        },
+        "rows": {
+          "description": "Rows (tables, traces, spectra) or planes (images).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "columns": {
+          "description": "Columns written (tables, traces, spectra).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bytes": {
+          "description": "Bytes on disk.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "digest": {
+          "description": "xxh3-64 digest of every value written (rows in order), hex; empty for images.",
+          "type": "string",
+          "default": ""
+        },
+        "verified": {
+          "description": "Read back and compared.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "file",
+        "kind",
+        "rows",
+        "bytes",
+        "verified"
+      ]
+    },
+    "LicenseInfo": {
+      "description": "The licence of a data set, when known.",
+      "type": "object",
+      "properties": {
+        "spdx": {
+          "description": "SPDX id, when recognised (`CC-BY-4.0`, `CC0-1.0`, `MIT`, ...).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "description": "Where it came from: `user` (`--license`) or the licence file's path.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source"
+      ]
+    },
+    "PiiFlag": {
+      "description": "One personal-data flag: which field, what kind, which rule. The value itself is never\nstored in the index.",
+      "type": "object",
+      "properties": {
+        "field": {
+          "description": "Path of the field in the `info` JSON (`experiment.acquisition.operator`,\n`tables[0].extra.vendor_keywords.EXPORT.EXPORT USER NAME`).",
+          "type": "string"
+        },
+        "kind": {
+          "description": "`person_name`, `email`, `phone`, `patient_id`, `date_of_birth` or `free_text`.",
+          "type": "string"
+        },
+        "rule": {
+          "description": "The rule that fired (`book/src/guides/lab-shares.md#personal-data`).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "kind",
+        "rule"
+      ]
+    },
+    "SkippedDataset": {
+      "description": "A data set that could not be exported.",
+      "type": "object",
+      "properties": {
+        "source": {
+          "description": "Source path.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Why.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "reason"
+      ]
+    }
+  }
+}

@@ -1,0 +1,404 @@
+{
+ "id": "pwiz-sciex-enolase-mzml",
+ "file": "Enolase_repeats_AQv1.4.2.mzML",
+ "size": 206701,
+ "sha256": "34a7019c6d59cd2271051892f6229b892f14a3e97c9c1025f6d66b7159988b61",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4762,
+     "channels": [
+      {
+       "xxh3": "c683ec8f0048056879628d07560f088b",
+       "first": [
+        0.0010000000111176632,
+        0.6320000253617764,
+        1.2609999999403954,
+        1.892000064253807,
+        2.5219999998807907,
+        3.1519999355077744,
+        3.782000094652176,
+        4.4120000302791595
+       ]
+      },
+      {
+       "xxh3": "6f81b55005049dbddfed736e873a54b8",
+       "first": [
+        20.0,
+        0.0,
+        10.0,
+        0.0,
+        20.0,
+        40.0,
+        10.0,
+        10.0
+       ]
+      },
+      {
+       "xxh3": "ca0dfb34132ea584e7df322fe5af7c10",
+       "first": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "id": "BPC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4762,
+     "channels": [
+      {
+       "xxh3": "c683ec8f0048056879628d07560f088b",
+       "first": [
+        0.0010000000111176632,
+        0.6320000253617764,
+        1.2609999999403954,
+        1.892000064253807,
+        2.5219999998807907,
+        3.1519999355077744,
+        3.782000094652176,
+        4.4120000302791595
+       ]
+      },
+      {
+       "xxh3": "35d73463b8489f322967f59429bc51b1",
+       "first": [
+        20.0,
+        0.0,
+        10.0,
+        0.0,
+        20.0,
+        40.0,
+        10.0,
+        10.0
+       ]
+      },
+      {
+       "xxh3": "ca0dfb34132ea584e7df322fe5af7c10",
+       "first": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "id": "SRM SIC Q1=580.31 Q3=674.41 sample=1 period=1 experiment=1 transition=0 start=100 end=100 ce=30 name=580.3 / 674.4",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4707,
+     "channels": [
+      {
+       "xxh3": "360fd1c57246df31bf8896fc8cfe9fca",
+       "first": [
+        34.668999910354614,
+        35.29999852180481,
+        35.929999351501465,
+        36.56000018119812,
+        37.190001010894775,
+        37.82099962234497,
+        38.451000452041626,
+        39.08100128173828
+       ]
+      },
+      {
+       "xxh3": "3ac018da389a48bf45490a22df0305de",
+       "first": [
+        10.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "id": "SRM SIC Q1=643.86 Q3=561.37 sample=1 period=1 experiment=1 transition=1 start=100 end=100 ce=30 name=643.9 / 561.4",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4755,
+     "channels": [
+      {
+       "xxh3": "01f0fe6a57d215c28484c346cc09f228",
+       "first": [
+        0.0010000000111176632,
+        0.6320000253617764,
+        1.2609999999403954,
+        1.892000064253807,
+        2.5219999998807907,
+        3.1519999355077744,
+        3.782000094652176,
+        4.4120000302791595
+       ]
+      },
+      {
+       "xxh3": "7b4ab2f5ede4d0f809e30745d8234921",
+       "first": [
+        20.0,
+        0.0,
+        10.0,
+        0.0,
+        20.0,
+        40.0,
+        10.0,
+        10.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "id": "SRM SIC Q1=644.86 Q3=834.53 sample=1 period=1 experiment=1 transition=2 start=100 end=100 ce=30 name=644.9 / 834.5",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4648,
+     "channels": [
+      {
+       "xxh3": "002bdac025da8028d02a3e3b63bd71bb",
+       "first": [
+        71.8589973449707,
+        72.48900175094604,
+        73.12000036239624,
+        73.74999761581421,
+        74.38000202178955,
+        75.01100063323975,
+        75.64199924468994,
+        76.27100229263306
+       ]
+      },
+      {
+       "xxh3": "e2a397bcb8ac87270dda76338a558dec",
+       "first": [
+        10.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "id": "SRM SIC Q1=708.97 Q3=948.57 sample=1 period=1 experiment=1 transition=3 start=100 end=100 ce=30 name=709.0 / 948.6",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4350,
+     "channels": [
+      {
+       "xxh3": "7e3da402e1c813878ea0900fe72deb45",
+       "first": [
+        259.7010040283203,
+        260.3310012817383,
+        260.96099853515625,
+        261.5909957885742,
+        262.2219944000244,
+        262.8519916534424,
+        263.48198890686035,
+        264.11298751831055
+       ]
+      },
+      {
+       "xxh3": "1764c17367f3483dea0712173d6f0482",
+       "first": [
+        10.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "id": "SRM SIC Q1=789.9 Q3=805.46 sample=1 period=1 experiment=1 transition=4 start=100 end=100 ce=30 name=789.9 / 805.5",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4607,
+     "channels": [
+      {
+       "xxh3": "f50998b66d692db1562653b05414cbf0",
+       "first": [
+        97.70299673080444,
+        98.33400249481201,
+        98.96299839019775,
+        99.59399700164795,
+        100.22400140762329,
+        100.85500001907349,
+        101.48499727249146,
+        102.1150016784668
+       ]
+      },
+      {
+       "xxh3": "bc9a1a602fae45a0a644b4e549e34cd8",
+       "first": [
+        10.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "id": "SRM SIC Q1=878.49 Q3=1172.71 sample=1 period=1 experiment=1 transition=5 start=100 end=100 ce=30 name=878.5 / 1172.7",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4682,
+     "channels": [
+      {
+       "xxh3": "252f6a31670f164a21950adc811ca4b7",
+       "first": [
+        50.428000688552856,
+        51.05800151824951,
+        51.68799877166748,
+        52.317999601364136,
+        52.94899821281433,
+        53.578999042510986,
+        54.20899987220764,
+        54.83999848365784
+       ]
+      },
+      {
+       "xxh3": "1dd8723f3fdae2bee8d0a42962944a38",
+       "first": [
+        10.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 0,
+  "by_index": true,
+  "scans": []
+ }
+}

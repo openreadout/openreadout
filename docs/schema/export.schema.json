@@ -263,7 +263,7 @@
       ]
     },
     "TableExportReport": {
-      "description": "Output of `export --to csv`.",
+      "description": "Output of `export --format csv`.",
       "type": "object",
       "properties": {
         "input": {
@@ -333,7 +333,7 @@
       ]
     },
     "TraceExportReport": {
-      "description": "Output of `export --to csv` for a trace (one sweep: a time column plus one column per channel).",
+      "description": "Output of `export --format csv` for a trace (one sweep: a time column plus one column per channel).",
       "type": "object",
       "properties": {
         "input": {
@@ -462,7 +462,7 @@
       ]
     },
     "AsmExportReport": {
-      "description": "Output of `export --to asm`.",
+      "description": "Output of `export --format asm`.",
       "type": "object",
       "properties": {
         "input": {
@@ -657,7 +657,7 @@
       ]
     },
     "NwbExportReport": {
-      "description": "Output of `export --to nwb`.",
+      "description": "Output of `export --format nwb`.",
       "type": "object",
       "properties": {
         "input": {
@@ -799,7 +799,7 @@
       ]
     },
     "JcampExportReport": {
-      "description": "Output of `export --to jcamp`.",
+      "description": "Output of `export --format jcamp`.",
       "type": "object",
       "properties": {
         "input": {
@@ -919,7 +919,7 @@
       ]
     },
     "RdmlExportReport": {
-      "description": "What `export --to rdml` wrote.",
+      "description": "What `export --format rdml` wrote.",
       "type": "object",
       "properties": {
         "input": {
@@ -1030,7 +1030,7 @@
       ]
     },
     "PerImageExport": {
-      "description": "Output of `export --to ome-tiff --per-image`.",
+      "description": "Output of `export --format ome-tiff --per-image`.",
       "type": "object",
       "properties": {
         "input": {

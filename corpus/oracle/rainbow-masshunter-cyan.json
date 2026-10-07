@@ -1,0 +1,221 @@
+{
+ "id": "rainbow-masshunter-cyan",
+ "file": "cyan.D",
+ "size": 642733,
+ "max_planes_hashed": 64,
+ "reader": "rainbow-api 1.5.3 (black box), hrms=True",
+ "oracle_note": "rainbow's dense bins reduced to the non-zero bins and their zero neighbours; MS level 1 assumed; no scan ids or polarity",
+ "spectra": {
+  "scan_count": 3,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "position=0",
+    "ms_level": 1,
+    "rt_s": 174.739,
+    "polarity": null,
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "total_ion_current": null,
+    "base_peak_mz": null,
+    "n_peaks": 105123,
+    "n_nonzero": 105122,
+    "mz_bits": 64,
+    "xxh3_mz": "542908e842d984c3c7f3b855cdace443",
+    "xxh3_intensity": "2bd0781f9689f01f8e7d93bda084978c",
+    "xxh3_mz_nonzero": "c9b31804c657ab91f43833b10316090a",
+    "xxh3_intensity_nonzero": "8bfbbbd6ae03ad8a08cdf854f0cb1ad3",
+    "sum_intensity": 443120404.0,
+    "mz_min": 599.9698627365169,
+    "mz_max": 2997.1983380905403,
+    "first_peaks": [
+     [
+      599.9698627365169,
+      0.0
+     ],
+     [
+      599.9839608938131,
+      333.0
+     ],
+     [
+      599.9980592167474,
+      322.0
+     ],
+     [
+      600.0121577053192,
+      522.0
+     ],
+     [
+      600.0262563595288,
+      771.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      599.9839608938131,
+      333.0
+     ],
+     [
+      599.9980592167474,
+      322.0
+     ],
+     [
+      600.0121577053192,
+      522.0
+     ],
+     [
+      600.0262563595288,
+      771.0
+     ],
+     [
+      600.0403551793762,
+      891.0
+     ]
+    ]
+   },
+   {
+    "index": 1,
+    "scan_number": 2,
+    "native_id": "position=1",
+    "ms_level": 1,
+    "rt_s": 175.238,
+    "polarity": null,
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "total_ion_current": null,
+    "base_peak_mz": null,
+    "n_peaks": 105123,
+    "n_nonzero": 105122,
+    "mz_bits": 64,
+    "xxh3_mz": "552861af6cf390dc0618b56664c9d608",
+    "xxh3_intensity": "554ec7d17d9435050cd7a536465ca62a",
+    "xxh3_mz_nonzero": "b0bb51ba2342d6f43b007e4af3d09507",
+    "xxh3_intensity_nonzero": "994e0cde6c1963f330d43e28bbd3d853",
+    "sum_intensity": 636630459.0,
+    "mz_min": 599.9684012339466,
+    "mz_max": 2997.1910370296278,
+    "first_peaks": [
+     [
+      599.9684012339466,
+      0.0
+     ],
+     [
+      599.9824993569002,
+      531.0
+     ],
+     [
+      599.9965976454913,
+      500.0
+     ],
+     [
+      600.0106960997196,
+      475.0
+     ],
+     [
+      600.0247947195853,
+      570.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      599.9824993569002,
+      531.0
+     ],
+     [
+      599.9965976454913,
+      500.0
+     ],
+     [
+      600.0106960997196,
+      475.0
+     ],
+     [
+      600.0247947195853,
+      570.0
+     ],
+     [
+      600.0388935050885,
+      736.0
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "scan_number": 3,
+    "native_id": "position=2",
+    "ms_level": 1,
+    "rt_s": 175.737,
+    "polarity": null,
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "total_ion_current": null,
+    "base_peak_mz": null,
+    "n_peaks": 105123,
+    "n_nonzero": 105122,
+    "mz_bits": 64,
+    "xxh3_mz": "3eaf4f3acbbd8ba19b30e55cde9fe907",
+    "xxh3_intensity": "f9a180756cd44003c2cb1b5190d5a6af",
+    "xxh3_mz_nonzero": "310f332ad68123510d4334256dc747fb",
+    "xxh3_intensity_nonzero": "c37e067742eae674d1b773552d2d67c9",
+    "sum_intensity": 710420594.0,
+    "mz_min": 599.9694862651273,
+    "mz_max": 2997.196457395561,
+    "first_peaks": [
+     [
+      599.9694862651273,
+      0.0
+     ],
+     [
+      599.9835844135773,
+      204.0
+     ],
+     [
+      599.9976827276649,
+      247.0
+     ],
+     [
+      600.0117812073902,
+      333.0
+     ],
+     [
+      600.0258798527531,
+      469.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      599.9835844135773,
+      204.0
+     ],
+     [
+      599.9976827276649,
+      247.0
+     ],
+     [
+      600.0117812073902,
+      333.0
+     ],
+     [
+      600.0258798527531,
+      469.0
+     ],
+     [
+      600.0399786637538,
+      679.0
+     ]
+    ]
+   }
+  ]
+ }
+}

@@ -5,7 +5,7 @@
 use std::path::{Path, PathBuf};
 
 use openreadout_core::{Error, Registry, Result};
-use openreadout_qpcr::{CqMethod, QpcrDataset, QpcrReport, QpcrReportRequest, qpcr_report};
+use openreadout_qpcr::{QpcrDataset, QpcrReport, QpcrReportRequest, qpcr_report};
 
 use crate::output::{emit, fail};
 
@@ -31,27 +31,26 @@ pub struct QpcrArgs {
     /// Also compute our own threshold Cq for every curve and compare it with the vendor's
     /// (agreement statistics under `cq_comparison`).
     #[arg(long)]
-    pub cq: bool,
-    /// With --cq: existing estimator, independently stored settings, or an empirical
-    /// second-derivative estimator calibrated on LC480 QC runs.
-    #[arg(long, requires = "cq", value_parser = ["threshold", "stored-threshold", "second-derivative"])]
-    pub method: Option<String>,
-    /// With `--cq`: threshold in baseline-corrected fluorescence units (default: the file's own
-    /// where it records the threshold in force, else 10 SD of the baseline).
-    #[arg(long, requires = "cq")]
+    pub compute_cq: bool,
+    /// With `--compute-cq`: threshold in baseline-corrected fluorescence units (default: the
+    /// file's own where it records the threshold in force, else 10 SD of the baseline).
+    #[arg(long, requires = "compute_cq")]
     pub threshold: Option<f64>,
-    /// With `--cq`: baseline window `START-END` in cycles (default: the file's, else 3-15).
-    #[arg(long, requires = "cq", value_name = "START-END")]
-    pub baseline: Option<String>,
+    /// With `--compute-cq`: first cycle of the baseline window (default: the file's, else 3).
+    #[arg(long, requires_all = ["compute_cq", "baseline_end"], value_name = "CYCLE")]
+    pub baseline_start: Option<u32>,
+    /// With `--compute-cq`: last cycle of the baseline window (default: the file's, else 15).
+    #[arg(long, requires_all = ["compute_cq", "baseline_start"], value_name = "CYCLE")]
+    pub baseline_end: Option<u32>,
     /// ΔΔCq relative quantification (2^-ΔΔCq) per sample and target.
     #[arg(long)]
     pub ddcq: bool,
     /// ΔΔCq reference (endogenous control) target; repeatable. Default: the file's.
-    #[arg(long = "reference", value_name = "TARGET")]
-    pub references: Vec<String>,
+    #[arg(long = "reference-target", value_name = "TARGET")]
+    pub reference_targets: Vec<String>,
     /// ΔΔCq control (calibrator) sample. Default: the file's.
     #[arg(long, value_name = "SAMPLE")]
-    pub control: Option<String>,
+    pub control_sample: Option<String>,
     /// Fit a standard curve per target from the standard wells (slope, R², efficiency).
     #[arg(long)]
     pub standard_curve: bool,
@@ -61,27 +60,19 @@ pub struct QpcrArgs {
     /// Count undetermined wells (no Cq) at this Cq in the per-target means and ΔΔCq (e.g. the
     /// cycle count). Default: they are left out and counted.
     #[arg(long, value_name = "CQ")]
-    pub undetermined_as: Option<f64>,
+    pub undetermined_cq: Option<f64>,
     #[arg(long)]
     pub json: bool,
 }
 
-fn baseline(s: &str) -> Result<(u32, u32)> {
-    let (a, b) = s
-        .split_once('-')
-        .ok_or_else(|| Error::Usage(format!("--baseline takes START-END, got {s:?}")))?;
-    let (a, b) = (
-        a.trim()
-            .parse::<u32>()
-            .map_err(|_| Error::Usage(format!("bad --baseline start {a:?}")))?,
-        b.trim()
-            .parse::<u32>()
-            .map_err(|_| Error::Usage(format!("bad --baseline end {b:?}")))?,
-    );
-    if a < 1 || b <= a {
-        return Err(Error::Usage("--baseline needs 1 <= START < END".into()));
+fn baseline(start: Option<u32>, end: Option<u32>) -> Result<Option<(u32, u32)>> {
+    match (start, end) {
+        (None, None) => Ok(None),
+        (Some(a), Some(b)) if a >= 1 && b > a => Ok(Some((a, b))),
+        _ => Err(Error::Usage(
+            "--baseline-start and --baseline-end go together, with 1 <= start < end".into(),
+        )),
     }
-    Ok((a, b))
 }
 
 /// Open a qPCR file through the registry (so `.pcrd` and non-qPCR files get their own errors).
@@ -96,20 +87,15 @@ fn report(reg: &Registry, a: &QpcrArgs) -> Result<QpcrReport> {
     req.target.clone_from(&a.target);
     req.sample.clone_from(&a.sample);
     req.run.clone_from(&a.run);
-    req.compute_cq = a.cq;
-    req.method = match a.method.as_deref() {
-        Some("stored-threshold") => CqMethod::StoredThreshold,
-        Some("second-derivative") => CqMethod::SecondDerivative,
-        _ => CqMethod::Threshold,
-    };
+    req.compute_cq = a.compute_cq;
     req.threshold = a.threshold;
-    req.baseline = a.baseline.as_deref().map(baseline).transpose()?;
+    req.baseline = baseline(a.baseline_start, a.baseline_end)?;
     req.relative = a.ddcq;
-    req.reference_targets.clone_from(&a.references);
-    req.control_sample.clone_from(&a.control);
+    req.reference_targets.clone_from(&a.reference_targets);
+    req.control_sample.clone_from(&a.control_sample);
     req.standard_curve = a.standard_curve;
     req.max_records = a.max_records;
-    req.undetermined_cq = a.undetermined_as;
+    req.undetermined_cq = a.undetermined_cq;
     qpcr_report(&ds, &req)
 }
 

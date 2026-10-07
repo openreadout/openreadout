@@ -1,0 +1,89 @@
+{
+ "id": "zenodo13821490-brdu",
+ "file": "zenodo13821490-brdu.nd2",
+ "size": 11763712,
+ "sha256": "eebf3aa4a00eda7e000394f7414dca104fafe8e8fc1ecf7b39d59d7359ac0d3f",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2323,
+   "size_y": 1246,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 1246, 'X': 2323}",
+   "physical_size_um": {
+    "x": 0.55,
+    "y": 0.55,
+    "z": null
+   },
+   "channel_names": [
+    "SD GFP",
+    "SD DAPI"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "153ed6f6ab7d927d4531fcad1ca9289b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e6ceb9adb900ed184545ab1f68e768dc"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "SD GFP",
+    "color": "#FF0000",
+    "excitation_nm": 488.0,
+    "emission_nm": 511.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "SD DAPI",
+    "color": "#0000FF",
+    "excitation_nm": 488.0,
+    "emission_nm": 511.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 312180.8027400002,
+    "tags": {}
+   }
+  ],
+  "acquired_at": "2023-08-07T14:50:45.714Z",
+  "acquired_at_unix_ms": 1691419845714
+ },
+ "text_info": {
+  "description": "Dimensions: XY(1) x \u03bb(3)\r\nCamera Name: Prime 95B, A19E203009\r\nNumerical Aperture: 0.75\r\nRefractive Index: 1\r\nNumber of Picture Planes: 3\r\nPlane #1:\r\n Name: SD PE\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 800 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Temperature: -15.0\u00b0C\r\n  \r\n  Conversion Gain: HDR\r\n  Denoising: Off\r\n  Fan Speed: Medium\r\n\r\nPlane #2:\r\n Name: SD GFP\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Emission Wavelength: 511.0 nm\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 800 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Temperature: -15.0\u00b0C\r\n  \r\n  Conversion Gain: HDR\r\n  Denoising: Off\r\n  Fan Speed: Medium\r\n\r\nPlane #3:\r\n Name: SD DAPI\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 600 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Temperature: -15.0\u00b0C\r\n  \r\n  Conversion Gain: HDR\r\n  Denoising: Off\r\n  Fan Speed: Medium\r\n\r\n",
+  "capturing": "Prime 95B, A19E203009\r\nSample 1:\r\n  Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 800 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Temperature: -15.0\u00b0C\r\n  \r\n  Conversion Gain: HDR\r\n  Denoising: Off\r\n  Fan Speed: Medium\r\n\r\nSample 2:\r\n  Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 800 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Temperature: -15.0\u00b0C\r\n  \r\n  Conversion Gain: HDR\r\n  Denoising: Off\r\n  Fan Speed: Medium\r\n\r\nSample 3:\r\n  Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 600 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Temperature: -15.0\u00b0C\r\n  \r\n  Conversion Gain: HDR\r\n  Denoising: Off\r\n  Fan Speed: Medium\r\n",
+  "date": "07/08/2023  16:50:45",
+  "optics": "Plan Apo \u03bb 20x"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=2, heightPx=1246, pixelDataType='unsigned', sequenceCount=1, widthBytes=9292, widthPx=2323, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

@@ -82,7 +82,7 @@ runs/cheminfo-agilent-hplc.cdf  andi-chrom           17    140.5482             
 
 ### From an assistant
 
-The MCP tool is `openreadout_analyze` with `kind: "peaks"`. Its options are the flag names in snake case (`rt`, `window`, `min_snr`, `baseline`), and `compounds` takes the compound list as a JSON array.
+The MCP tool is `openreadout_peaks`. Its arguments are the flag names in snake case (`rt`, `window`, `min_snr`, `baseline`), and `compounds` takes the compound list as a JSON array.
 
 ## More
 

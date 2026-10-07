@@ -112,3 +112,44 @@ RASX `Data*/Profile*.txt`); FAIRmat readers-xrd (Apache-2.0) `readers.py` (the s
   the first line) and `Data*/MesurementConditions*.xml` (the same keys as RAS as XML elements).
 - The attenuation column is 1 in every development file; values are returned as stored, and a
   file with other attenuation factors is reported (the meaning of the factor is not validated).
+
+## 2026-10-06 — trace ground truth for the files geddes cannot open (Richard Zimring with Claude as assistant)
+
+**Why these files had no trace oracle:** geddes refuses `xrd-zenodo18522047-ras-5ysz` (its
+`MEAS_DATA_COUNT` is written as a decimal, `"6998.0000000000"`) and
+`xrd-zenodo20341379-rasx-as48` (no `root.xml` in the archive). Their evidence entries compared
+only the acquisition time and instrument model, which is why the layouts `2θ/θ scan` (RAS) and
+`TwoThetaTheta scan` (RASX) were unvalidated.
+
+**Corpus files:** `xrd-zenodo18522047-ras-5ysz`, `xrd-zenodo20341379-rasx-as48` (existing), and new
+from FAIRmat-NFDI/readers-xrd (commit 3f3eb8b, Apache-2.0, the source of `xrd-fairmat-rasx-powder`):
+`xrd-fairmat-rasx-zno-ald`, `xrd-fairmat-rasx-omega2theta-ht`, `xrd-fairmat-rasx-rsm111`.
+
+**Prior art consulted:** fairmat-readers-xrd 0.0.10 (https://github.com/FAIRmat-NFDI/readers-xrd,
+Apache-2.0), `readers.py` (`read_rigaku_rasx`) and `ikz.py` (`RASXfile`), read to see that it
+takes every `Data<k>/Profile<k>.txt` in zip order with its `MesurementConditions<k>.xml` and needs no
+`root.xml`. xrayutilities 1.8.0 (GPL-2.0-or-later) was only run (`xrayutilities.io.RASFile`); its
+source was not read.
+
+**Ground truth:** `oracle/rigaku_oracle.py` (new): `.ras` through xrayutilities, `.rasx` through
+fairmat-readers-xrd; for a reciprocal-space map, scans 0, 200 and 400 in `Data<k>` order.
+
+Also new, from three figshare items (CC BY 4.0): `xrd-figshare32834120-ras-bc` and
+`xrd-figshare32834120-rasx-bc` (Jiang: the same SmartLab scan saved as RAS and as RASX),
+`xrd-figshare31861468-rasx-mos2cqd` (Tan), `xrd-figshare28490114-rasx-prosser-cultivated` (Varga et
+al.).
+
+**Result:** the two RAS files and six RASX files (`as48`, `zno-ald`, `omega2theta-ht` and the three
+figshare files) agree exactly. The RAS and RASX copies of the figshare 32834120 scan also agree
+with each other on every compared row. The reciprocal-space map
+`xrd-fairmat-rasx-rsm111` does not: openreadout's trace k is not `Data<k>` (trace 2 holds Data10,
+trace 200 holds Data279), the order of the folder names sorted as text. The fix belongs on this
+development file.
+
+## 2026-10-06 — RASX scans in numeric order (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** `xrd-fairmat-rasx-rsm111` (GitHub FAIRmat-NFDI/readers-xrd test data, Apache-2.0), a reciprocal-space map of several hundred `Data<k>/Profile<k>.txt` members. **Prior art consulted:** FAIRmat readers-xrd (Apache-2.0), run as a black box through `oracle/rigaku_oracle.py`; its source was not needed.
+
+**What was found:** the reader sorted the `Data<k>` members as text (`Data0`, `Data1`, `Data10`, `Data100`, …), so trace 2 held `Data10` while its name said scan 3. Scans 0 and 1 agreed with FAIRmat's reader, scans 200 and 400 did not.
+
+**Decided:** members are ordered by the number in their `Data<k>` folder, then by the number in the profile's name, then by name. Archives with ten or fewer scans read as before.

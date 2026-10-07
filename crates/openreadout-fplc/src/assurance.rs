@@ -44,6 +44,10 @@ fn observe(info: &FileInfo) -> Observations {
             o.feature(K::Layout, "volume-grid curve", &[Scope::Traces]);
         }
     }
+    // `check` could not read a curve: the curves it lists, if any, hold no confirmed values
+    if let Some(note) = a::note_with(info, "the file is damaged (") {
+        o.undecoded("curves", &[Scope::Traces], note);
+    }
     for t in &info.tables {
         if a::extra_str(&t.extra, "kind") == Some("vendor_peaks") {
             o.feature(K::Record, "UNICORN peak table", &[Scope::Tables]);
@@ -55,23 +59,23 @@ fn observe(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED cytiva-unicorn-res (cargo xtask assurance-audit --write; do not edit)
-const CYTIVA_UNICORN_RES_CONFIDENCE: Confidence = Confidence::Low;
+const CYTIVA_UNICORN_RES_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const CYTIVA_UNICORN_RES_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 2),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 2),
-    a::row(K::FormatVersion, "UNICORN 3", 2, 2, 2),
-    a::row(K::Record, "curve concentration_b", 2, 2, 2),
-    a::row(K::Record, "curve conductivity", 2, 2, 2),
-    a::row(K::Record, "curve conductivity_percent", 1, 1, 1),
-    a::row(K::Record, "curve flow", 1, 1, 1),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 5),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 5),
+    a::row(K::FormatVersion, "UNICORN 3", 5, 3, 5),
+    a::row(K::Record, "curve concentration_b", 5, 3, 5),
+    a::row(K::Record, "curve conductivity", 5, 3, 5),
+    a::row(K::Record, "curve conductivity_percent", 4, 2, 4),
+    a::row(K::Record, "curve flow", 4, 2, 4),
     a::row(K::Record, "curve ph", 1, 1, 1),
-    a::row(K::Record, "curve pressure", 2, 2, 2),
-    a::row(K::Record, "curve temperature", 2, 2, 2),
-    a::row(K::Record, "curve uv", 2, 2, 2),
-    a::row(K::Record, "events fractions", 2, 2, 2),
-    a::row(K::Record, "events injections", 1, 1, 1),
-    a::row(K::Record, "events logbook", 2, 2, 2),
+    a::row(K::Record, "curve pressure", 5, 3, 5),
+    a::row(K::Record, "curve temperature", 5, 3, 5),
+    a::row(K::Record, "curve uv", 5, 3, 5),
+    a::row(K::Record, "events fractions", 5, 3, 5),
+    a::row(K::Record, "events injections", 4, 2, 4),
+    a::row(K::Record, "events logbook", 5, 3, 5),
 ];
 // END GENERATED cytiva-unicorn-res
 
@@ -99,3 +103,31 @@ const CYTIVA_UNICORN_ZIP_VALIDATED: &[Validated] = &[
     a::row(K::Record, "events logbook", 11, 4, 11),
 ];
 // END GENERATED cytiva-unicorn-zip
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn unreadable_curves_leave_the_traces_unvalidated() {
+        let mut info: FileInfo = serde_json::from_value(serde_json::json!({
+            "path": "run.zip",
+            "size_bytes": 0,
+            "format": {
+                "id": "cytiva-unicorn-zip", "name": "", "vendor": "", "extensions": [],
+                "family": "chromatography", "can_read": true, "can_write": false,
+                "confidence": "medium", "known_gaps": []
+            },
+            "images": [],
+            "plane_count": 0
+        }))
+        .expect("a minimal FileInfo");
+        assert!(observe(&info).undecoded.is_empty());
+        info.notes.push(
+            "the file is damaged (curve `UV`: `CoordinateData.Amplitudes`: no serialization header); run `check` for the list".into(),
+        );
+        let o = observe(&info);
+        assert_eq!(o.undecoded.len(), 1);
+        assert_eq!(o.undecoded[0].scope, vec![Scope::Traces]);
+    }
+}

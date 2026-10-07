@@ -18,7 +18,7 @@ The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; 
 
 ## Debugging a new file
 
-- `openreadout spectra FILE` lists spectrum headers from the index without decoding arrays; `openreadout spectra FILE --index N --json` decodes one; `info --view full --json` → `vendor` has the header (cvList, fileDescription, software, instrument configurations).
+- `openreadout scans FILE` lists spectrum headers from the index without decoding arrays; `openreadout spectrum FILE --spectrum N --json` decodes one; `info --view full --json` → `vendor` has the header (cvList, fileDescription, software, instrument configurations).
 - A file written by new software: compare its `softwareList` and native-id format with a corpus file (`corpus/snapshots/mzml.jsonl` lists the writers seen).
 - The CV terms interpreted are listed in `cv.rs`; a new term is added there with its accession checked against `psi-ms.obo`.
 - No integration tests in this crate: unit tests in `binary.rs`, `numpress.rs`, `scan.rs`, `mzmlb.rs`; the corpus (pyteomics oracles in `oracle/gen.py`, and the m/z agreement test against vendor-library conversions) and `oracle/make_mzml_fixtures.py` synthetic files pin it.
@@ -38,9 +38,9 @@ The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; 
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `mzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 107 / 55 | 41 | 3 / 0 |
-| `imzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | low | open spec | 2 / 2 | 1 | - |
-| `mzxml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 8 / 7 | 6 | - |
+| `mzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 131 / 112 | 48 | 3 / 0 |
+| `imzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 12 / 12 | 7 | - |
+| `mzxml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 15 / 8 | 7 | - |
 | `mzmlb` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | medium | open spec | 4 / 4 | 1 | 1 / 0 |
 
 ### Source map
@@ -73,50 +73,61 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature writer `n` (descriptive)
 - feature instrument `m` (descriptive)
 - undecoded "chromatograms"
+- assumed "spectra[].ms_levels"
 
 ### Validated variants and the corpus files that pin them
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `imzml` | acquisition | `MS1 spectrum` | spectra, traces | 2 | 2 | `imzml-example-continuous`, `imzml-example-processed` |
-| `imzml` | acquisition | `continuous` | spectra, traces | 1 | 1 | `imzml-example-continuous` |
-| `imzml` | acquisition | `ibd SHA-1` | spectra, traces | 2 | 2 | `imzml-example-continuous`, `imzml-example-processed` |
-| `imzml` | acquisition | `processed` | spectra, traces | 1 | 1 | `imzml-example-processed` |
-| `imzml` | acquisition | `profile spectrum` | spectra, traces | 2 | 2 | `imzml-example-continuous`, `imzml-example-processed` |
-| `imzml` | acquisition | `universally unique identifier` | spectra, traces | 2 | 2 | `imzml-example-continuous`, `imzml-example-processed` |
+| `imzml` | acquisition | `MS1 spectrum` | spectra, traces | 8 | 8 | `i2nca-cp`, `i2nca-pc`, `i2nca-pp` |
+| `imzml` | acquisition | `centroid spectrum` | spectra, traces | 3 | 3 | `i2nca-pc`, `zenodo17374882-spheroid-section01`, `zenodo17374882-spheroid-section46` |
+| `imzml` | acquisition | `continuous` | spectra, traces | 6 | 6 | `i2nca-cp`, `imzml-example-continuous`, `zenodo1560646-mouse-kidney-cut` |
+| `imzml` | acquisition | `ibd MD5` | spectra, traces | 2 | 2 | `kineticmsi-hd-rep6`, `kineticmsi-wt-rep1` |
+| `imzml` | acquisition | `ibd SHA-1` | spectra, traces | 10 | 10 | `i2nca-cp`, `i2nca-pc`, `i2nca-pp` |
+| `imzml` | acquisition | `mass spectrum` | spectra, traces | 4 | 4 | `kineticmsi-hd-rep6`, `kineticmsi-wt-rep1`, `zenodo17374882-spheroid-section01` |
+| `imzml` | acquisition | `processed` | spectra, traces | 6 | 6 | `i2nca-pc`, `i2nca-pp`, `imzml-example-processed` |
+| `imzml` | acquisition | `profile spectrum` | spectra, traces | 6 | 6 | `i2nca-cp`, `i2nca-pp`, `imzml-example-continuous` |
+| `imzml` | acquisition | `universally unique identifier` | spectra, traces | 12 | 12 | `i2nca-cp`, `i2nca-pc`, `i2nca-pp` |
 | `imzml` | field | `experiment.acquisition.started_at` | descriptive | 2 | 2 | `imzml-example-continuous`, `imzml-example-processed` |
-| `imzml` | format_version | `1.1` | metadata, spectra, traces | 2 | 2 | `imzml-example-continuous`, `imzml-example-processed` |
+| `imzml` | format_version | `1.1` | metadata, spectra, traces | 12 | 12 | `i2nca-cp`, `i2nca-pc`, `i2nca-pp` |
 | `imzml` | instrument | `LTQ FT Ultra` | descriptive | 2 | 2 | `imzml-example-continuous`, `imzml-example-processed` |
-| `imzml` | layout | `imaging (.ibd)` | spectra | 2 | 2 | `imzml-example-continuous`, `imzml-example-processed` |
+| `imzml` | instrument | `Unknown` | descriptive | 2 | 2 | `zenodo17374882-spheroid-section01`, `zenodo17374882-spheroid-section46` |
+| `imzml` | instrument | `solariX` | descriptive | 2 | 2 | `kineticmsi-hd-rep6`, `kineticmsi-wt-rep1` |
+| `imzml` | layout | `imaging (.ibd)` | spectra | 12 | 12 | `i2nca-cp`, `i2nca-pc`, `i2nca-pp` |
+| `imzml` | writer | `SCiLS Lab` | descriptive | 2 | 2 | `kineticmsi-hd-rep6`, `kineticmsi-wt-rep1` |
 | `imzml` | writer | `Xcalibur` | descriptive | 2 | 2 | `imzml-example-continuous`, `imzml-example-processed` |
-| `imzml` | writer | `custom unreleased software tool` | descriptive | 2 | 2 | `imzml-example-continuous`, `imzml-example-processed` |
-| `mzml` | acquisition | `MS1 spectrum` | spectra, traces | 42 | 70 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
-| `mzml` | acquisition | `MSn spectrum` | spectra, traces | 37 | 71 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv99294-astral-nanopots-1cell-b9` |
-| `mzml` | acquisition | `SRM spectrum` | spectra, traces | 0 | 1 |  |
-| `mzml` | acquisition | `centroid spectrum` | spectra, traces | 4 | 7 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129`, `mtbls874-BDV10076M3` |
-| `mzml` | acquisition | `electromagnetic radiation spectrum` | spectra, traces | 0 | 1 |  |
+| `imzml` | writer | `custom unreleased software tool` | descriptive | 7 | 7 | `i2nca-cp`, `i2nca-pc`, `i2nca-pp` |
+| `imzml` | writer | `pyimzml` | descriptive | 1 | 1 | `metaspace-untreated-3-434` |
+| `mzml` | acquisition | `MS1 spectrum` | spectra, traces | 73 | 84 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
+| `mzml` | acquisition | `MSn spectrum` | spectra, traces | 73 | 79 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv99294-astral-nanopots-1cell-b9` |
+| `mzml` | acquisition | `SRM spectrum` | spectra, traces | 1 | 1 | `pwiz-waters-160109-mix1-calcurve-070-mzml` |
+| `mzml` | acquisition | `centroid spectrum` | spectra, traces | 9 | 12 | `mtbls12837-n14-d-mzml`, `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls14343-e-1-pos-041-ms2-d-mzml` |
+| `mzml` | acquisition | `constant neutral loss spectrum` | spectra, traces | 0 | 2 |  |
+| `mzml` | acquisition | `electromagnetic radiation spectrum` | spectra, traces | 1 | 1 | `pwiz-waters-qc-lcms2-2-23-268-1-1-mzml` |
 | `mzml` | acquisition | `ion current chromatogram` | spectra, traces | 4 | 4 | `pxd032908-velos-etd-pep38`, `pxd058413-chem-iz11-6-3`, `pxd064311-lumos-hela-gluc` |
 | `mzml` | acquisition | `mass spectrum` | spectra, traces | 1 | 1 | `openms-tutorial-gaussfilter` |
-| `mzml` | acquisition | `profile spectrum` | spectra, traces | 1 | 9 | `mtbls1334-STD_neg_MSMS_1min0205` |
-| `mzml` | acquisition | `selected ion monitoring chromatogram` | spectra, traces | 0 | 3 |  |
-| `mzml` | acquisition | `selected reaction monitoring chromatogram` | spectra, traces | 6 | 11 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
-| `mzml` | acquisition | `total ion current chromatogram` | spectra, traces | 6 | 17 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | acquisition | `precursor ion spectrum` | spectra, traces | 0 | 1 |  |
+| `mzml` | acquisition | `profile spectrum` | spectra, traces | 9 | 12 | `mtbls1334-STD_neg_MSMS_1min0205`, `pwiz-agilent-apci-piscan-mzml`, `pwiz-agilent-gfb-4scan-timesegs-mzml` |
+| `mzml` | acquisition | `selected ion monitoring chromatogram` | spectra, traces | 3 | 3 | `pwiz-agilent-reserpine-ms2sim-mzml`, `pwiz-thermo-ltqvelos-centroid-mzml`, `pwiz-thermo-ltqvelos-mzml` |
+| `mzml` | acquisition | `selected reaction monitoring chromatogram` | spectra, traces | 13 | 15 | `mtbls1822-tsq-74`, `mtbls2240-bal-214-ecoli`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3` |
+| `mzml` | acquisition | `total ion current chromatogram` | spectra, traces | 19 | 24 | `mtbls12837-n14-d-mzml`, `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls14343-e-1-pos-041-ms2-d-mzml` |
 | `mzml` | codec | `gzip container` | spectra, traces | 3 | 3 | `mzdata-small-gz`, `mzdata-timstof-gz`, `synthetic-mzml-gz-members` |
-| `mzml` | field | `experiment.acquisition.started_at` | descriptive | 50 | 100 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
-| `mzml` | format_version | `1.1.0` | metadata, spectra, traces | 54 | 106 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
-| `mzml` | instrument | `4000 QTRAP` | descriptive | 0 | 1 |  |
-| `mzml` | instrument | `Agilent instrument model` | descriptive | 6 | 17 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | field | `experiment.acquisition.started_at` | descriptive | 105 | 122 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
+| `mzml` | format_version | `1.1.0` | metadata, spectra, traces | 111 | 130 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
+| `mzml` | instrument | `4000 QTRAP` | descriptive | 1 | 1 | `pwiz-sciex-enolase-mzml` |
+| `mzml` | instrument | `AB SCIEX instrument model` | descriptive | 0 | 1 |  |
+| `mzml` | instrument | `Agilent instrument model` | descriptive | 19 | 24 | `mtbls12837-n14-d-mzml`, `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls14343-e-1-pos-041-ms2-d-mzml` |
 | `mzml` | instrument | `Applied Biosystems instrument model` | descriptive | 0 | 1 |  |
-| `mzml` | instrument | `Bruker Daltonics timsTOF series` | descriptive | 2 | 9 | `mzdata-diapasef`, `mzdata-timstof-gz` |
+| `mzml` | instrument | `Bruker Daltonics timsTOF series` | descriptive | 9 | 9 | `mzdata-diapasef`, `mzdata-timstof-gz`, `pwiz-bruker-diapasef-mzml` |
 | `mzml` | instrument | `Exactive` | descriptive | 1 | 1 | `mtbls797-dotsha05` |
 | `mzml` | instrument | `LCQ Deca` | descriptive | 1 | 1 | `pyteomics-tiny-pwiz` |
 | `mzml` | instrument | `LTQ FT` | descriptive | 7 | 7 | `mzdata-small`, `mzdata-small-gz`, `pyteomics-test` |
 | `mzml` | instrument | `LTQ Orbitrap` | descriptive | 1 | 1 | `pxd000792-ltq-orbitrap-yeast-900` |
-| `mzml` | instrument | `LTQ Orbitrap Discovery` | descriptive | 6 | 6 | `mtbls20-caffeine-pos`, `mtbls20-hydroxymethoxycinnamic-neg`, `mtbls404-Blanc04` |
-| `mzml` | instrument | `LTQ Orbitrap Elite` | descriptive | 1 | 1 | `mtbls13066-elite-318a-b5-35nce` |
+| `mzml` | instrument | `LTQ Orbitrap Discovery` | descriptive | 6 | 7 | `mtbls20-caffeine-pos`, `mtbls20-hydroxymethoxycinnamic-neg`, `mtbls404-Blanc04` |
+| `mzml` | instrument | `LTQ Orbitrap Elite` | descriptive | 1 | 2 | `mtbls13066-elite-318a-b5-35nce` |
 | `mzml` | instrument | `LTQ Orbitrap Velos` | descriptive | 1 | 1 | `pxd032908-velos-etd-pep38` |
 | `mzml` | instrument | `LTQ Orbitrap XL` | descriptive | 1 | 1 | `mtbls773-001-blank-start` |
-| `mzml` | instrument | `LTQ Velos` | descriptive | 0 | 2 |  |
+| `mzml` | instrument | `LTQ Velos` | descriptive | 2 | 2 | `pwiz-thermo-ltqvelos-centroid-mzml`, `pwiz-thermo-ltqvelos-mzml` |
 | `mzml` | instrument | `LTQ XL` | descriptive | 1 | 1 | `pxd059878-amrutha-050713-1` |
 | `mzml` | instrument | `Orbitrap Ascend` | descriptive | 1 | 1 | `pxd059315-ascend-etd-wkl-1` |
 | `mzml` | instrument | `Orbitrap Astral` | descriptive | 2 | 2 | `msv99294-astral-nanopots-1cell-b9`, `pxd069324-astral-dia-ihsp-lo2` |
@@ -130,43 +141,33 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `mzml` | instrument | `Q Exactive` | descriptive | 4 | 4 | `mtbls755-hilic-dpoly`, `mtbls805-imaging-732`, `mtbls805-msms-869` |
 | `mzml` | instrument | `Q Exactive HF` | descriptive | 1 | 1 | `mtbls13880-bcells-lipidomics-pos-cko-ab` |
 | `mzml` | instrument | `Q Exactive HF-X` | descriptive | 2 | 2 | `mtbls14308-mwy251008a-mix01`, `pxd058413-chem-iz11-6-3` |
-| `mzml` | instrument | `QTRAP 6500` | descriptive | 1 | 2 | `mtbls6084-sl-st-blank2` |
-| `mzml` | instrument | `Stellar` | descriptive | 0 | 2 |  |
-| `mzml` | instrument | `TSQ Vantage` | descriptive | 1 | 1 | `mtbls1822-tsq-74` |
-| `mzml` | instrument | `Thermo Electron instrument model` | descriptive | 1 | 11 | `msv97728-tsq9610-gc-crbalf03` |
-| `mzml` | instrument | `TripleTOF 5600` | descriptive | 1 | 1 | `pxd069939-dda-pbqc-hf75` |
-| `mzml` | instrument | `TripleTOF 6600` | descriptive | 1 | 1 | `mtbls11360-col-0-3-n` |
-| `mzml` | instrument | `Waters instrument model` | descriptive | 2 | 19 | `mtbls7290-scfa240-001-neg-blank-raw`, `pxd059722-mth2-alicine-td-1-raw` |
+| `mzml` | instrument | `Q Exactive Plus` | descriptive | 0 | 1 |  |
+| `mzml` | instrument | `QTRAP 5500` | descriptive | 1 | 2 | `mtbls3956-arg-1` |
+| `mzml` | instrument | `QTRAP 6500` | descriptive | 3 | 6 | `mtbls2240-bal-214-ecoli`, `mtbls6084-sl-st-blank2`, `pwiz-sciex-pressuretrace-mzml` |
+| `mzml` | instrument | `Stellar` | descriptive | 2 | 2 | `pwiz-thermo-source-cid-centroid-mzml`, `pwiz-thermo-source-cid-mzml` |
+| `mzml` | instrument | `TSQ Vantage` | descriptive | 1 | 2 | `mtbls1822-tsq-74` |
+| `mzml` | instrument | `Thermo Electron instrument model` | descriptive | 11 | 11 | `msv97728-tsq9610-gc-crbalf03`, `pwiz-thermo-bsa-ft-etd-centroid-mzml`, `pwiz-thermo-bsa-ft-etd-mzml` |
+| `mzml` | instrument | `TripleTOF 5600` | descriptive | 2 | 2 | `mtbls851-dry-cal20180201114106110`, `pxd069939-dda-pbqc-hf75` |
+| `mzml` | instrument | `TripleTOF 6600` | descriptive | 2 | 2 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg` |
+| `mzml` | instrument | `Waters instrument model` | descriptive | 19 | 23 | `mtbls7290-scfa240-001-neg-blank-raw`, `pwiz-waters-091204-nfdm-008-mzml`, `pwiz-waters-160109-mix1-calcurve-070-mzml` |
 | `mzml` | instrument | `instrument model` | descriptive | 2 | 2 | `mtbls6991-tsq-altis-plus-sar11-40`, `openms-tutorial-gaussfilter` |
-| `mzml` | layout | `index rebuilt by scanning` | spectra | 3 | 3 | `mtbls20-caffeine-pos`, `mtbls20-hydroxymethoxycinnamic-neg`, `pyteomics-test` |
-| `mzml` | record | `absorption chromatogram` | traces | 0 | 2 |  |
-| `mzml` | record | `basepeak chromatogram` | traces | 4 | 20 | `mtbls6084-sl-st-blank2`, `mzdata-diapasef`, `mzdata-three-test-scans` |
-| `mzml` | record | `chromatogram` | traces | 0 | 2 |  |
-| `mzml` | record | `electromagnetic radiation chromatogram` | traces | 0 | 1 |  |
+| `mzml` | layout | `index rebuilt by scanning` | spectra | 3 | 4 | `mtbls20-caffeine-pos`, `mtbls20-hydroxymethoxycinnamic-neg`, `pyteomics-test` |
+| `mzml` | record | `absorption chromatogram` | traces | 1 | 2 | `pwiz-agilent-tof-sulfas-mzml` |
+| `mzml` | record | `basepeak chromatogram` | traces | 14 | 27 | `mtbls2240-bal-214-ecoli`, `mtbls6084-sl-st-blank2`, `mzdata-diapasef` |
+| `mzml` | record | `chromatogram` | traces | 2 | 2 | `pwiz-bruker-urine-tsf-centroid-mzml`, `pwiz-bruker-urine-tsf-mzml` |
+| `mzml` | record | `electromagnetic radiation chromatogram` | traces | 1 | 1 | `pwiz-waters-qc-lcms2-2-23-268-1-1-mzml` |
 | `mzml` | record | `emission chromatogram` | traces | 0 | 1 |  |
-| `mzml` | record | `flow rate chromatogram` | traces | 1 | 6 | `mtbls4722-1` |
-| `mzml` | record | `pressure chromatogram` | traces | 1 | 12 | `mtbls4722-1` |
-| `mzml` | record | `selected ion current chromatogram` | traces | 1 | 1 | `pyteomics-tiny-pwiz` |
-| `mzml` | record | `selected ion monitoring chromatogram` | traces | 0 | 3 |  |
-| `mzml` | record | `selected reaction monitoring chromatogram` | traces | 6 | 12 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
-| `mzml` | record | `temperature chromatogram` | traces | 0 | 3 |  |
-| `mzml` | record | `total ion current chromatogram` | traces | 17 | 102 | `mtbls1822-tsq-74`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
-| `mzml` | writer | `Analyst` | descriptive | 3 | 6 | `mtbls11360-col-0-3-n`, `mtbls6084-sl-st-blank2`, `pxd069939-dda-pbqc-hf75` |
-| `mzml` | writer | `Bioworks` | descriptive | 1 | 1 | `pyteomics-tiny-pwiz` |
-| `mzml` | writer | `Bruker software` | descriptive | 2 | 9 | `mzdata-diapasef`, `mzdata-timstof-gz` |
-| `mzml` | writer | `Compass` | descriptive | 0 | 4 |  |
-| `mzml` | writer | `CompassXtract` | descriptive | 1 | 1 | `pyteomics-tiny-pwiz` |
-| `mzml` | writer | `FileConverter` | descriptive | 1 | 1 | `openms-tutorial-gaussfilter` |
-| `mzml` | writer | `MassHunter Data Acquisition` | descriptive | 6 | 17 | `mtbls1334-STD_neg_MSMS_1min0205`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `mzml` | record | `flow rate chromatogram` | traces | 4 | 10 | `mtbls4722-1`, `pwiz-bruker-urine-tsf-centroid-mzml`, `pwiz-bruker-urine-tsf-mzml` |
+| `mzml` | record | `pressure chromatogram` | traces | 5 | 16 | `mtbls4722-1`, `pwiz-bruker-urine-tsf-centroid-mzml`, `pwiz-bruker-urine-tsf-mzml` |
 
-… 32 more values: the generated table in `src/assurance.rs` has all of them.
+… 49 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `mzml_binary`, `whole_imzml`, `whole_mzml_gz`, `whole_mzml`, `whole_mzmlb`, `whole_mzxml`
-- corpus inputs by tier: heldout 12, smoke 20
+- corpus inputs by tier: heldout 12, smoke 22, standard 8
 - golden snapshots: [`corpus/snapshots/mzml.jsonl`](../../corpus/snapshots/mzml.jsonl), [`corpus/snapshots/imzml.jsonl`](../../corpus/snapshots/imzml.jsonl), [`corpus/snapshots/mzxml.jsonl`](../../corpus/snapshots/mzxml.jsonl), [`corpus/snapshots/mzmlb.jsonl`](../../corpus/snapshots/mzmlb.jsonl)
 
 ### Open new-variant intakes

@@ -1,0 +1,64 @@
+{
+ "id": "zenodo5823010-inflammasome",
+ "file": "zenodo5823010-inflammasome.czi",
+ "size": 3342976,
+ "sha256": "31a42d668cce24480ff3dfd91ff17198d2204448fa072d20fee18b6959ab672b",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.4151329104819196,
+    "y": 0.4151329104819196,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d6e97fdb6b51f6b772e506a60a9b5be6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "605b0c02865c4c6f83f2e0e215f2aadb"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5be987a8982fbd542e25d423ca5c9319"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.4151329104819196,
+  "y": 0.4151329104819196,
+  "z": 0.0
+ },
+ "subblock_count": 3,
+ "compression_ids": [
+  0
+ ]
+}

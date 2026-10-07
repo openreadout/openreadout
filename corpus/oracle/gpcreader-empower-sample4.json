@@ -1,0 +1,46 @@
+{
+ "id": "gpcreader-empower-sample4",
+ "file": "sample4.arw",
+ "size": 23463,
+ "sha256": "be763df26eb1038927d83805e7fafd629255059dcade4c2e2f520b7840aec908",
+ "reader": "chromConverter 0.9.0 read_chroms(format_in = 'waters_arw') (GPL-3.0, black box)",
+ "oracle_note": "rows chromConverter returned as two numbers (1200); 6 header rows it returned as data rows were left out",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "410 "
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 1.0000000001668057,
+   "x_first_min": 0.01666667,
+   "x_last_min": 20.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1200,
+     "channels": [
+      {
+       "xxh3": "c1dbb621f789e15a82da8376030a3306",
+       "first": [
+        0.01404255,
+        0.004680851,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMMAfourplus / 410 "
+  }
+ ]
+}
