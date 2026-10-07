@@ -20,6 +20,8 @@ All notable changes to this project are documented here. The format is based on 
 - Roche LightCycler 480 `.ixo`: `vendor.export_scale` gives the factor that turns each stored amplification reading into the value the LightCycler 480 software exports. The instrument model is taken from the run's instrument name only when that names a LightCycler, so a lab's serial number is no longer reported as the model.
 - Sciex QTRAP quadrupole and ion-trap scans: Q1, precursor ion, neutral loss, enhanced MS and enhanced product ion (with precursor charges), validated point for point against the depositors' conversions of five public files.
 - Waters ion-mobility and SONAR acquisitions: the drift bins in `_funcNNN.cdt` are read as run 1, one spectrum per bin with its drift time; the 2,000 bins of four test acquisitions equal the vendor library's conversions.
+- Empower `.arw` exports whose header has one `"name"<TAB>value` field per line are read. They were refused.
+- New development files with independent ground truth raise the confidence of imzML, Bruker ESP and FluoView OIB to high, and of Empower `.arw`, UNICORN `.res`, Zetasizer `.dts`, LightCycler 480 `.ixo`, FluoView OIF, WinWCP, Rigaku RASX and generic HDF5 to medium (`docs/benchmark/gaps-2026-10.md`).
 
 ### Changed
 
@@ -30,6 +32,11 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- imzML: spectra that state no MS level are MS1 when the file's `fileContent` names only MS1 spectra, and `check` reports a spectrum whose m/z and intensity arrays differ in length (`bad_array`).
+- Rigaku RASX: reciprocal-space maps returned their scans in text order (`Data10` before `Data2`). They are now in scan order.
+- Sciex `.wiff`: a scheduled MRM file without stored windows returned every transition in every cycle. Each transition now has its expected time ± half the method's detection window; the layout stays unvalidated, because Analyst decides a window's edge cycles in a way the file does not record.
+- Empower `.arw`: channel names no longer keep trailing spaces.
+- Assurance: Chromeleon's stored peaks confirm only the signals they were found on, not every trace layout in the archive.
 - SoftMax Pro 6/7 documents (`.sda`) that read two wavelengths, as dual-wavelength ELISAs do, were refused. Each wavelength is now a read of the plate table.
 - Gen5 experiment files written by Gen5 1.x were refused. Their reads are now decoded, and the reader, serial number and Gen5 version of their plate description are read at the right offsets. A refused Gen5 file now says why.
 - Tecan i-control exports with several reads per well returned no values, and German i-control exports were not recognised. Each well's value is now i-control's `Mean`, and a workbook with one export per sheet gives one plate read per sheet.
