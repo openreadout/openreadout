@@ -18,15 +18,15 @@ Knowledge basis: 15 open spec, 47 prior art, 27 reverse engineered, 8 vendor doc
 
 ## Corpus
 
-4212 manifest entries; 1879 development inputs of 96 formats from 706 depositors (distinct source records: a Zenodo record, a study, a repository) (291 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
+4253 manifest entries; 1912 development inputs of 96 formats from 706 depositors (distinct source records: a Zenodo record, a study, a repository) (302 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 25 distinct (every entry has one).
 
 | tier | entries | declared size |
 | --- | --- | --- |
 | full | 119 | 48.5 GB |
 | heldout | 730 | 6.6 GB |
 | hold | 26 | 132.6 MB |
-| smoke | 1854 | 1.1 GB |
-| standard | 1483 | 23.0 GB |
+| smoke | 1858 | 1.1 GB |
+| standard | 1520 | 23.6 GB |
 
 Formats without a development-corpus input of their own id (read through a sibling format's files, or not yet in the corpus): `hdf5`.
 
@@ -86,7 +86,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 
 - New-variant intakes (`corpus/intake/`): none.
 - Second-opinion disagreements adjudicated (`corpus/oracle/second/adjudications.toml`, 0 where neither reader was right): 26 whole-file entries, and 33 field entries that settle 123 per-file field differences ([second opinions](../../../docs/benchmark/second-opinions.md)).
-- Corpus files whose oracle is known to disagree for a documented reason (`oracle_skip`): 15.
+- Corpus files whose oracle is known to disagree for a documented reason (`oracle_skip`): 16.
 - Corpus entries whose licence or source is not yet confirmed (from intakes; tier `hold`, not fetched automatically): 0.
 - Known upstream dependency bugs with reproducers (`fuzz/known-upstream/`): 6.
 
@@ -96,7 +96,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 | --- | --- |
 | reader crates with a maintainer guide (`MAINTAINING.md`, generated facts checked by `cargo xtask guides`) | 40 of 40 |
 | golden-output snapshots of committed fixtures (`cargo test`) | 109 |
-| golden-output snapshots of development-corpus files | 1858 |
-| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3242 |
+| golden-output snapshots of development-corpus files | 1891 |
+| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3261 |
 | fuzz targets (`fuzz/fuzz_targets/`) | 138 |
 | Rust source files under `crates/` | 786 |
