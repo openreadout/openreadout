@@ -188,6 +188,11 @@ pub(crate) fn parse_icontrol(book: &Book) -> Export {
         .collect();
     let sheet = exports.first().copied().unwrap_or(&book.sheets[0]);
     let mut ex = Export::new(Kind::TecanIControl, book.container.clone());
+    ex.sheets_read = if exports.is_empty() {
+        vec![sheet.name.clone()]
+    } else {
+        exports.iter().map(|s| s.name.clone()).collect()
+    };
     let n = sheet.rows.len();
     let first_label = (0..n)
         .find(|&r| sheet.text(r, 0).starts_with("Label:"))
@@ -559,6 +564,7 @@ pub(crate) fn parse_magellan(book: &Book) -> Export {
         })
         .unwrap_or(&book.sheets[0]);
     let mut ex = Export::new(Kind::TecanMagellan, book.container.clone());
+    ex.sheets_read.push(sheet.name.clone());
     let n = sheet.rows.len();
     let header = (0..n.min(3))
         .find(|&r| sheet.row_texts(r).iter().any(|t| t == "Well positions"))

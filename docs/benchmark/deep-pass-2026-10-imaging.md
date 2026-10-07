@@ -74,8 +74,8 @@ beyond what the documented model says, S4 a wrong message.
 
 ## `stats` memory on `openslide-zeiss-5-flat.czi`
 
-A reviewer saw 1.37 GB with the strip-reading `stats` change (pull request #40, not merged yet)
-against 1.06 GB before it. Measured here with `/usr/bin/time -l`, 8 threads, three runs each:
+A reviewer saw 1.37 GB with the strip-reading `stats` change (pull request #40, merged while
+this pass ran) against 1.06 GB before it. Measured here with `/usr/bin/time -l`, 8 threads, three runs each:
 
 | build | 1 thread | 4 threads | 8 threads | wall (8 threads) |
 | --- | --- | --- | --- | --- |
@@ -87,7 +87,7 @@ reproduce 1.37 GB. Time did regress, by 1.75 times. The two scenes are CZI mosai
 2,464 tiles placed at stage positions, so the strips, which follow a regular grid of that tile
 height, cut through most tiles and each tile is decoded twice. Memory stays near 1 GB with
 several threads because four strips of 84 MB are read at once, each with its own decoded tiles.
-We did not change #40 from this branch. Reading CZI mosaics whole when the plane fits the decode
+We did not change the strip reader here. Reading CZI mosaics whole when the plane fits the decode
 window, or cutting strips at the tile rows the subblock directory records, would remove the extra
 decoding.
 

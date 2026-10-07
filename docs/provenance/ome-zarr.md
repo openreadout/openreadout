@@ -75,6 +75,18 @@ OME-Zarr is an open standard; no vendor format is involved and nothing was rever
 **Prior art consulted:** the OME-NGFF 0.4/0.5 specification's `bioformats2raw.layout` section (https://ngff.openmicroscopy.org/, CC-BY-4.0): the `OME` group holds `METADATA.ome.xml`.
 **What was decided.** OpenReadout's OME-Zarr writer now also writes `OME/METADATA.ome.xml` (and an empty `OME` group) for a single image stored at the root, as it did for collections, so the objective, instrument, acquisition mode, exposures and fluorophores survive the export. When a root image's store has `OME/METADATA.ome.xml`, the reader applies OME `Image` 0 to it as it does for collection series. A document whose `Creator` is `openreadout …` is authoritative for channel colours: OpenReadout's writer gives every `omero` channel a display colour and states in the OME-XML whether the source recorded one, so a channel without an OME `Color` has none. Other writers' colours are read as before. The writer no longer invents a `name` ("Image N") for an unnamed source image (OME-NGFF makes it optional).
 
+## 2026-10-07 — First public NGFF 0.5 stores; tile size of sharded arrays
+
+**Why.** The October imaging bug hunt (`docs/benchmark/hunt-2026-10-imaging.md`) noted that NGFF 0.5 had no development file: only our synthetic fixtures and our own exports covered Zarr v3 with `ome` attributes.
+
+**Corpus files used (new):** `idr0062A-6001240-labels-ngff05` and `idr0066-chicken-embryo-mip-ngff05`, the Image Data Resource's NGFF 0.5 sample stores (`zarr/v0.5/` on its EBI S3 endpoint, CC BY 4.0 by each store's `ro-crate-metadata.json`), copied file by file. The first is the same image as `zenodo14641597-idr6001240` (NGFF 0.4), written again by omero-zarr as 0.5 with sharded uint16 arrays (shards of 1 × 10 × 512 × 512, inner chunks of 1 × 1 × 256 × 256, Blosc zstd with byte shuffle, crc32c shard index) and an unsharded int8 label image (zstd). The second is a 6510 × 8978 uint8 mesoSPIM projection with 8 levels written by ome2024-ngff-challenge 1.0.2 (shards of 2048 × 2048, inner chunks of 256 × 256, Blosc zstd with bit shuffle).
+
+**Prior art consulted:** the OME-NGFF 0.5 specification (https://ngff.openmicroscopy.org/0.5/, CC-BY-4.0): metadata under the `ome` key of a Zarr v3 group's attributes, `ome.version`; the Zarr v3 specification's `sharding_indexed` codec (https://zarr-specs.readthedocs.io/, CC-BY-4.0): the array's `chunk_grid` gives the shard shape, the codec's `chunk_shape` the inner chunks, and a reader decodes one inner chunk at a time. zarr-python 3.4 (MIT) is the oracle, as before.
+
+**What was compared.** Every hashed plane of both stores, the label image, the axes, units and scales agree with zarr-python, and the planes of the 0.5 copy of image 6001240 hash the same as the 0.4 copy's. No change to reading was needed.
+
+**Rule changed.** `resolution_levels` gave no tile size for a sharded array whose shard is larger than the image (the 0.5 copy of 6001240), and the shard size for the projection, although region reads decode inner chunks. The tile size of a sharded array is now its inner chunk shape (`ArrayMeta.inner_chunks`).
+
 ## 2026-10-07 — Growing stores: finished images count as complete
 
 **Corpus files:** `zenodo20559997-scmx-mip` (an NGFF 0.4 plate with an empty label image), exported to OME-Zarr by OpenReadout during the imaging deep pass (`docs/benchmark/deep-pass-2026-10-imaging.md`); `gdal-empty1bit`, `rsciio-emd-si100-2x1x1-3d` and `rsciio-emd-example-axis-len-1` (all-zero images), exported the same way.

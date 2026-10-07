@@ -26,6 +26,7 @@ VENDORS = {
     # exports allotropy rejects: this module's independent text readers (TEXT_DIALECTS)
     "bmg-table-": "BMG_CSV",
     "envision-text-": "ENVISION_CSV",
+    "zenodo4449746-gen5-": "GEN5_XLSX",
     "gen5-": "AGILENT_GEN5",
     "softmax-": "MOLDEV_SOFTMAX_PRO",
     "bmg-mars-": "BMG_MARS",
@@ -679,7 +680,80 @@ def envision_csv_summary(path: Path) -> dict:
     return {"groups": _groups(groups), "header": {}}
 
 
-TEXT_DIALECTS = {"GEN5_TEXT": gen5_text_summary, "BMG_CSV": bmg_csv_summary, "ENVISION_CSV": envision_csv_summary}
+def gen5_xlsx_summary(path: Path) -> dict:
+    """Independent reader for BioTek Gen5 Excel exports with kinetic tables, read with openpyxl.
+    Every worksheet whose column A holds `Software Version` is one export. Its `Read` procedure
+    steps are numbered in order (`Absorbance Endpoint`, `Fluorescence Endpoint`, ...), with the
+    `Wavelengths:` or `Emission:` of each. A kinetic table is a `Time` cell followed by a
+    `T° Read <n>:<spec>` cell and well names (`A1` ... `H12`); `<n>` is the procedure step, which
+    gives the mode. Its rows are the cells under it while the `Time` column holds a time
+    (`datetime.time`, or `timedelta` from 24 h on); rows without a numeric well value are
+    padding. Written for exports allotropy 0.1.x cannot read (its Gen5 parser takes text only);
+    numeric cells only."""
+    import datetime as dt
+
+    import openpyxl
+
+    wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
+    groups: dict = {}
+    times: dict = {}
+    wls: dict = {}
+    header: dict = {}
+    for ws in wb.worksheets:
+        rows = [list(r) for r in ws.iter_rows(values_only=True)]
+        if not any(r and r[0] == "Software Version" for r in rows):
+            continue
+        steps = []  # (mode, wavelength) per `Read` step, in order
+        for k, r in enumerate(rows):
+            a = r[0].strip() if r and isinstance(r[0], str) else ""
+            b = r[1] if len(r) > 1 else None
+            if not header and a == "Software Version":
+                header["software_version"] = str(b)
+            if a == "Reader Type:" and "model" not in header:
+                header["model"] = str(b)
+            if a == "Reader Serial Number:" and "serial_number" not in header:
+                header["serial_number"] = str(int(b)) if isinstance(b, (int, float)) else str(b)
+            if a == "Read" and isinstance(b, str):
+                steps.append([mode_of(b.strip()), None])
+            if steps and a == "" and isinstance(b, str):
+                m = re.search(r"Wavelengths:\s*(\d+(?:\.\d+)?)", b) or re.search(r"Emission:\s*(\d+(?:\.\d+)?)", b)
+                if m and steps[-1][1] is None:
+                    steps[-1][1] = float(m.group(1))
+        for k, r in enumerate(rows):
+            for c, v in enumerate(r):
+                nxt = r[c + 1] if c + 1 < len(r) else None
+                if v != "Time" or not (isinstance(nxt, str) and nxt.startswith("T")):
+                    continue
+                m = re.search(r"Read (\d+):", nxt)
+                if not m:
+                    continue
+                mode, wl = steps[int(m.group(1)) - 1]
+                wells = [(j, parse_well(w)) for j, w in enumerate(r) if j > c + 1 and isinstance(w, str) and parse_well(w)]
+                for row in rows[k + 1:]:
+                    t = row[c] if c < len(row) else None
+                    if isinstance(t, dt.time):
+                        secs = t.hour * 3600 + t.minute * 60 + t.second
+                    elif isinstance(t, dt.timedelta):
+                        secs = t.total_seconds()
+                    else:
+                        break
+                    found = False
+                    for j, (wr, wc) in wells:
+                        x = row[j] if j < len(row) else None
+                        if isinstance(x, (int, float)) and not isinstance(x, bool):
+                            groups.setdefault(mode, []).append((wr, wc, float(x)))
+                            found = True
+                    if found:
+                        times.setdefault(mode, set()).add(float(secs))
+                if wl is not None:
+                    wls.setdefault(mode, set()).add(wl)
+    out = _groups(groups, wls)
+    for g in out:
+        g["times_s"] = sorted(times.get(g["mode"], []))
+    return {"groups": out, "header": header}
+
+
+TEXT_DIALECTS = {"GEN5_TEXT": gen5_text_summary, "GEN5_XLSX": gen5_xlsx_summary, "BMG_CSV": bmg_csv_summary, "ENVISION_CSV": envision_csv_summary}
 
 
 def plate(p: Path) -> dict:

@@ -768,37 +768,63 @@ fn parse_flat(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed> {
     }
     let id = flat_text(&b, 0x08, 16);
     let version = flat_text(&b, 0x20, 16);
-    let structure = (b.bytes_at(0xA1, 3), b.bytes_at(0xA5, 3));
     if !(id == "SPECMAN" || id == "SPECIRM")
         || version != "R2.0.0"
-        || structure != (Some(&[1u8, 0, 0x10][..]), Some(&[0u8, 0, 0][..]))
+        || b.bytes_at(0xA1, 3) != Some(&[1u8, 0, 0x10][..])
     {
         return Err(Error::unsupported(
             FMT,
             format!("a flat JASCO container `{id} {version}` with an unexpected axis descriptor"),
-            "Only SPECMAN/SPECIRM R2.0.0 files have been validated; please share this file.",
+            "Only SPECMAN/SPECIRM R2.0.0 files with a wavenumber or wavelength axis have been validated; please share this file.",
         ));
     }
-    let (Some(npoints), Some(first), Some(last), Some(step), Some(xunit), Some(ymode), Some(len)) = (
+    let (Some(nch), Some(npoints), Some(first), Some(last), Some(step), Some(xunit), Some(len)) = (
+        b.u16_at(0x82),
         b.i32_at(0x84),
         b.f64_at(0x88),
         b.f64_at(0x90),
         b.f64_at(0x98),
         b.u8_at(0xA0),
-        b.u8_at(0xA4),
         b.i64_at(0xC8),
     ) else {
         return Err(Error::corrupt(FMT, "flat .jws header truncated"));
     };
+    // One channel code per channel after the x descriptor (the codes of the compound files'
+    // `DataInfo`). Validated: one channel of %T, %R, absorbance or single-beam, or CD with HT.
+    let codes: Vec<u32> = (0..usize::from(nch.min(8)))
+        .map_while(|i| b.u32_at(0xA4 + 4 * i))
+        .collect();
+    let validated = match codes.as_slice() {
+        [c] => matches!(c, 0 | 2 | 3 | 9 | 10),
+        [0x1001, 0x2001] => true,
+        _ => false,
+    };
+    if !validated || codes.len() != usize::from(nch) {
+        return Err(Error::unsupported(
+            FMT,
+            format!(
+                "a flat JASCO file with {nch} channel(s), codes [{}]",
+                codes
+                    .iter()
+                    .map(|c| format!("{c:#x}"))
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            ),
+            "Validated flat files hold one %T, %R, absorbance or single-beam channel, or circular dichroism (0x1001) with HT voltage (0x2001). Export the spectrum from Spectra Manager as text, or share this file.",
+        ));
+    }
+    let nch = codes.len() as u64;
     let points = u64::try_from(npoints)
         .ok()
         .filter(|&p| p > 0)
         .ok_or_else(|| Error::corrupt(FMT, format!("{npoints} points")))?;
     let len = u64::try_from(len).map_err(|_| Error::corrupt(FMT, "negative data length"))?;
-    if points.checked_mul(4) != Some(len) || len > file_len || file_len - len < 0x300 {
+    if points.checked_mul(4 * nch) != Some(len) || len > file_len || file_len - len < 0x300 {
         return Err(Error::corrupt(
             FMT,
-            format!("data length {len} for {npoints} float32 points in a {file_len}-byte file"),
+            format!(
+                "data length {len} for {nch} channel(s) of {npoints} float32 points in a {file_len}-byte file"
+            ),
         ));
     }
     if !step.is_finite() || step == 0.0 || !first.is_finite() {
@@ -826,15 +852,11 @@ fn parse_flat(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed> {
             ));
         }
     };
-    let Some(kind) =
-        channel_kind(u32::from(ymode), None).filter(|_| matches!(ymode, 0 | 2 | 3 | 9 | 10))
-    else {
-        return Err(Error::unsupported(
-            FMT,
-            format!("y-mode code {ymode:#x}"),
-            "Only %T, %R, absorbance and single-beam modes have been validated; please share this file.",
-        ));
-    };
+    // every code passed the validated list above, so each has a kind
+    let kinds: Vec<(u32, ChannelKind)> = codes
+        .iter()
+        .filter_map(|&c| channel_kind(c, None).map(|k| (c, k)))
+        .collect();
     let mut parsed = Parsed::default();
     let computed = first + step * (points - 1) as f64;
     if (computed - last).abs() > step.abs() {
@@ -863,40 +885,43 @@ fn parse_flat(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed> {
         ));
     }
     parsed.format_version = Some(format!("{id} {version}"));
-    let mut extra = std::collections::BTreeMap::new();
-    extra.insert("channel_code".into(), json!(format!("{ymode:#x}")));
-    if !title.is_empty() {
-        extra.insert("title".into(), json!(title));
+    // channel-major: each channel's float32 values follow the previous channel's
+    for (i, (code, kind)) in kinds.into_iter().enumerate() {
+        let mut extra = std::collections::BTreeMap::new();
+        extra.insert("channel_code".into(), json!(format!("{code:#x}")));
+        if !title.is_empty() {
+            extra.insert("title".into(), json!(title));
+        }
+        parsed.sets.push(SpectrumSet {
+            name: kind.name.to_string(),
+            x_quantity: xq,
+            x_unit: Some(xu.into()),
+            x: XValues::Regular {
+                first,
+                last: computed,
+            },
+            y_name: kind.name.to_string(),
+            y_unit: kind.unit,
+            points,
+            count: 1,
+            rows: Rows::Listed(vec![file_len - len + 4 * points * i as u64]),
+            stored: Stored::F32,
+            scale: 1.0,
+            data_type: if ir {
+                "INFRARED SPECTRUM"
+            } else {
+                kind.nm_type
+            },
+            extra,
+        });
     }
-    parsed.sets.push(SpectrumSet {
-        name: kind.name.to_string(),
-        x_quantity: xq,
-        x_unit: Some(xu.into()),
-        x: XValues::Regular {
-            first,
-            last: computed,
-        },
-        y_name: kind.name.to_string(),
-        y_unit: kind.unit,
-        points,
-        count: 1,
-        rows: Rows::Listed(vec![file_len - len]),
-        stored: Stored::F32,
-        scale: 1.0,
-        data_type: if ir {
-            "INFRARED SPECTRUM"
-        } else {
-            kind.nm_type
-        },
-        extra,
-    });
     parsed.facts = facts;
     parsed.vendor = json!({"jasco": {
         "container": "flat",
         "format": id, "version": version,
         "architecture": flat_text(&b, 0x30, 16), "compiler": flat_text(&b, 0x40, 16),
         "points": npoints, "first_x": num(first), "last_x": num(last), "step": num(step),
-        "x_unit_code": xunit, "y_mode_code": ymode,
+        "x_unit_code": xunit, "y_mode_code": codes[0], "channel_codes": codes,
         "model": model, "serial": serial, "title": title, "comment": comment,
         "unix_time": epoch,
     }});

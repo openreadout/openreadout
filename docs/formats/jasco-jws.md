@@ -51,14 +51,15 @@ sizes that do not match are corrupt (exit 4).
 | 0x20 | `R2.0.0` |
 | 0x84 | i32 points |
 | 0x88, 0x90, 0x98 | f64 first x, last x, step |
-| 0xA0 | x unit: 0 cm⁻¹, 3 nm (followed by `01 00 10`) |
-| 0xA4 | y mode: 0 %T, 2 %R, 3 absorbance, 9 single-beam reference, 10 single-beam sample (followed by `00 00 00`) |
-| 0xC8 | i64 data length (= 4 × points) |
+| 0x82 | u16 channel count: 1, or 2 in circular-dichroism files |
+| 0xA0 | x unit: 0 cm⁻¹, 3 nm (followed by `01 00 10`: the compound files' x descriptor) |
+| 0xA4 | one u32 channel code per channel, the compound files' codes: 0 %T, 2 %R, 3 absorbance, 9 single-beam reference, 10 single-beam sample; `0x1001` CD then `0x2001` HT voltage in a CD file |
+| 0xC8 | i64 data length (= 4 × points × channels) |
 | 0x140, 0x160, 0x180, 0x1C0 | model, serial, title, comment (NUL-terminated) |
 | 0x2C0 | i32 time (Unix seconds, UTC) |
-| 0x740 to the end | float32 y values (the data run from file length − data length, which is 0x740 in every file; any other value is refused as a truncated or extended file) |
+| 0x740 to the end | float32 y values, channel by channel (the data run from file length − data length, which is 0x740 in every file; any other value is refused as a truncated or extended file) |
 
-Other container ids, versions, x units or y modes are refused.
+Other container ids, versions and x units are refused, and so are channel counts and codes other than one %T, %R, absorbance or single-beam channel, or CD with HT (the refusal names the count and the codes). The flat header does not say that CD values are in mdeg, so the CD unit is left unset.
 
 ## What the reader returns
 
@@ -86,7 +87,8 @@ Other container ids, versions, x units or y modes are refused.
 `oracle/jasco_oracle.py`):
 
 - Spectra Manager exports of five measurements (FT-IR %T compound files in two locales, the Raman
-  compound file with its `X-Data` axis, the V-730 flat file): point count, axis unit, y quantity, x
+  compound file with its `X-Data` axis, the V-730 flat file, the J-810 flat CD file with its HT
+  column): point count, axis unit, y quantity, x
   within 0.005 and y to the export's six significant digits at 256 rows; model and serial; the
   eight FT-IR settings; the measurement time equal to the export's local time minus whole hours.
   One more export has the same name but is another acquisition: its instrument facts only.

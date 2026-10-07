@@ -181,7 +181,9 @@ pub(crate) fn load(fs: &Fs, path: &Path) -> Result<model::Export> {
         let kind = sniff_book(&book).ok_or_else(|| Error::UnknownFormat {
             path: path.to_path_buf(),
         })?;
-        parse_kind(kind, &book, &file_name)
+        let mut ex = parse_kind(kind, &book, &file_name);
+        note_unread_sheets(&book, &mut ex);
+        ex
     } else {
         let book = sheet::text_book(&bytes);
         let (text, _) = text::decode(&bytes[..bytes.len().min(1 << 20)]);
@@ -293,6 +295,61 @@ fn binary_document(path: &Path, bytes: &[u8]) -> Result<Option<model::Export>> {
         ));
     }
     Ok(Some(ex))
+}
+
+/// Report the non-blank worksheets of a workbook that the dialect did not read. A sheet that is
+/// an export on its own (any dialect but the generic matrix scan) holds plate data the file
+/// does not return; any other sheet (notes or calculations added to the workbook) is only named.
+fn note_unread_sheets(book: &sheet::Book, ex: &mut model::Export) {
+    use openreadout_core::model::Finding;
+    let read: std::collections::BTreeSet<&str> = ex
+        .sheets_read
+        .iter()
+        .map(String::as_str)
+        .chain(ex.blocks.iter().filter_map(|b| b.sheet.as_deref()))
+        .collect();
+    let unread: Vec<(String, Option<model::Kind>)> = book
+        .sheets
+        .iter()
+        .filter(|s| !read.contains(s.name.as_str()))
+        .filter(|s| (0..s.rows.len()).any(|r| !s.row_is_blank(r)))
+        .map(|s| {
+            let alone = sheet::Book {
+                sheets: vec![s.clone()],
+                container: book.container.clone(),
+            };
+            let kind = sniff_book(&alone).filter(|k| *k != model::Kind::Generic);
+            (s.name.clone(), kind)
+        })
+        .collect();
+    for (name, kind) in &unread {
+        match kind {
+            Some(k) => ex.findings.push(Finding::warning(
+                "worksheet_not_read",
+                format!(
+                    "worksheet {name:?} looks like a separate `{}` export and was not read; its values are not in the tables (save that sheet as its own file and read it)",
+                    k.id()
+                ),
+            )),
+            None => ex.findings.push(Finding::info(
+                "worksheet_not_read",
+                format!(
+                    "worksheet {name:?} holds no plate export this reader recognises and was not read (open it in a spreadsheet program if it matters)"
+                ),
+            )),
+        }
+    }
+    if !unread.is_empty() {
+        ex.notes.push(format!(
+            "worksheets not read: {} (`check` says why)",
+            unread
+                .iter()
+                .map(|(n, _)| format!("{n:?}"))
+                .collect::<Vec<_>>()
+                .join(", ")
+        ));
+    }
+    ex.unread_sheets = unread;
 }
 
 fn parse_kind(kind: model::Kind, book: &sheet::Book, file_name: &str) -> model::Export {

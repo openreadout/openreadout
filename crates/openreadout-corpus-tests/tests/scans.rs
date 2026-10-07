@@ -65,6 +65,11 @@ struct Entry {
     /// `tests/corpus/`): neither is compared.
     #[serde(default)]
     precursor_not_compared: Option<String>,
+    /// The export calls a full scan with a collision energy MS2, with the centre of its scan
+    /// window as the precursor (see `tests/corpus/`): level, precursor and activation are not
+    /// compared on such scans.
+    #[serde(default)]
+    window_centre_precursor: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -113,6 +118,10 @@ struct OracleScan {
     inverse_reduced_mobility: Option<f64>,
     #[serde(default)]
     position: Option<Vec<f64>>,
+    #[serde(default)]
+    mz_min: Option<f64>,
+    #[serde(default)]
+    mz_max: Option<f64>,
 }
 
 fn root() -> PathBuf {
@@ -170,7 +179,17 @@ fn compare(h: &ScanHeader, s: &OracleScan, e: &Entry, same_file: bool) -> Vec<St
             h.scan_number, s.scan_number
         ));
     }
-    if h.ms_level != s.ms_level {
+    let window_centre = e.window_centre_precursor.is_some()
+        && openreadout_corpus_tests::window_centre_precursor(
+            h.ms_level,
+            s.ms_level,
+            &[
+                h.scan_window_mz,
+                s.mz_min.zip(s.mz_max).map(|(a, b)| [a, b]),
+            ],
+            s.precursor_mz,
+        );
+    if h.ms_level != s.ms_level && !window_centre {
         m.push(format!("ms level {} != {}", h.ms_level, s.ms_level));
     }
     if let Some(p) = &s.polarity
@@ -204,6 +223,7 @@ fn compare(h: &ScanHeader, s: &OracleScan, e: &Entry, same_file: bool) -> Vec<St
     );
     if let Some(p) = s.precursor_mz
         && e.precursor_not_compared.is_none()
+        && !window_centre
         && !precursor
             .into_iter()
             // an MS^n or multiplexed scan lists every precursor in `extra.precursors`
@@ -228,6 +248,7 @@ fn compare(h: &ScanHeader, s: &OracleScan, e: &Entry, same_file: bool) -> Vec<St
     if let Some(act) = &s.activation
         && !act.is_null()
         && e.precursor_not_compared.is_none()
+        && !window_centre
     {
         let theirs = bucket(&act.to_string());
         let ours = h.activation.as_deref().map_or_else(

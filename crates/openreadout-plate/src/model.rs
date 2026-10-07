@@ -519,6 +519,10 @@ pub(crate) struct Export {
     pub(crate) blocks: Vec<Block>,
     pub(crate) findings: Vec<Finding>,
     pub(crate) notes: Vec<String>,
+    /// The worksheets the dialect read (workbooks only; tables name their sheet too).
+    pub(crate) sheets_read: Vec<String>,
+    /// Non-blank worksheets nothing read, each with the dialect it looks like on its own.
+    pub(crate) unread_sheets: Vec<(String, Option<Kind>)>,
 }
 
 impl Export {
@@ -541,6 +545,8 @@ impl Export {
             blocks: Vec::new(),
             findings: Vec::new(),
             notes: Vec::new(),
+            sheets_read: Vec::new(),
+            unread_sheets: Vec::new(),
         }
     }
     /// First header value whose key matches (case-insensitive, trailing `:` ignored).

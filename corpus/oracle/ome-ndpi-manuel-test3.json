@@ -1,0 +1,69 @@
+{
+ "id": "ome-ndpi-manuel-test3",
+ "file": "test3.ndpis",
+ "size": 152,
+ "sha256": "35542dff44d7844f1fac04c1703bdb1476f90f484457907ead132203e6de066e",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20 (each listed NDPI; the set file parsed in gen.py)",
+ "kind": "ndpis",
+ "files": [
+  "test3-DAPI 2 (387) .ndpi",
+  "test3-FITC 2 (485).ndpi",
+  "test3-TRITC 2 (560).ndpi"
+ ],
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "ndpis",
+   "axes": "YXS",
+   "shape": [
+    4864,
+    3968,
+    3
+   ],
+   "size_x": 3968,
+   "size_y": 4864,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 4,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.2281750559028887,
+    "y": 0.2281750559028887
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "89e53252b3a636c7e3f57e00631bf8a4",
+     "mean": 13.353720232667259
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0999720869f0ced0ae5ab95e5ceb66a7",
+     "mean": 7.256088956305046
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7b9f026ffa2a479c5627b18eacfab3c8",
+     "mean": 6.005968768514343
+    }
+   ],
+   "check_channel_names": [
+    "DAPI 2 (387)",
+    "FITC 2 (485)",
+    "TRITC 2 (560)"
+   ]
+  }
+ ]
+}

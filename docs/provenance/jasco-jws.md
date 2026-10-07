@@ -70,3 +70,20 @@
   (90.1726 %T) and measurement time (11:26 local) differ from the file's (93.4457 %T, 10:14 UTC).
 - Modern flat files: `0xA4` y-mode 0 %T, 2 %R, 3 absorbance, 9 and 10 single-beam reference and
   sample; x-unit 0 cm⁻¹ and 3 nm; data at file length − data length (0x740).
+
+## 2026-10-07 — flat files with two channels: circular dichroism and HT voltage (Richard Zimring with Claude as assistant)
+
+**Why:** the signals bug hunt (`docs/benchmark/hunt-2026-10-signals.md`) found a flat J-810 circular-dichroism file refused with exit 6 ("unexpected axis descriptor").
+
+**Corpus files:** `figshare13601282-dk-cd` (`DK_27xi20.jws`) and its depositor's Spectra Manager text export `figshare13601282-dk-cd-txt` (`DK_27xi20.txt`); for the layout, four more pairs of the same record (`DQ_27xi20`, `QW_27xi20`, `WQ_27xi20`, `water_27xi20` with their `.txt`). Figshare 13601282 "peptides_CD and FRET" (Laurents, CC BY 4.0; no held-out record; the record numbers the survey lists as held-out CD files are other records).
+
+**Prior art consulted:** none. The export is JASCO's own text export (`SPECTROMETER/DATA SYSTEM JASCO Corp., J-810, Rev. 1.00`).
+
+**What was inferred from what** (hex dumps of the five files, set against the exports line by line):
+- The header is the flat `L~S ` / `SPECMAN` / `R2.0.0` header. The u16 at 0x82 is 2 where every single-channel flat file of the corpus has 1; it is the channel count.
+- At 0xA0 the x descriptor is `0x10000103` (wavelength, nm), the same descriptor as in the compound files' `DataInfo`. At 0xA4 and 0xA8 follow two channel codes, `0x1001` and `0x2001`: circular dichroism and HT voltage in the compound files' code list. In the single-channel flat files the slot at 0xA4 holds 0, 2, 3, 9 or 10, which are codes of the same list, so the 0xA4 "y mode" is the first channel code.
+- 0x84 points 141, first x 260, last x 190, step −0.5; the data length at 0xC8 is 1128 = 4 × 141 × 2; the data start at file length − data length = 0x740, as in the other flat files.
+- The float32 data are channel-major: the first 141 values are the export's `CD[mdeg]` column and the next 141 its `HT[V]` column, at the export's six significant digits, in all five files.
+- The model `J-810` (0x140), serial `B015960750` (0x160) and the title (0x180) are those of the single-channel files. The Unix time at 0x2C0 is 16:12:56 UTC where the export says 17:12:56 (Spain, UTC+1), as for the other flat files.
+- The header does not say that the CD values are in mdeg (the export's column title does), so the CD unit is left unset, as for compound files without a sensitivity record.
+- **Rule:** a flat file with 1 channel reads as before. A flat file with 2 channels is read when its codes are `0x1001` and `0x2001` (CD and HT), each channel a trace of its own, channel-major. Other channel counts and code pairs stay refused (exit 6), and the refusal names the count and the codes.

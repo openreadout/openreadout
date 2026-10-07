@@ -47,6 +47,30 @@ pub fn export_excludes_flagged_peaks(export_software: &[Vec<String>]) -> bool {
     })
 }
 
+/// Is this the export's MS2 reading of a full scan with a collision energy? Older ProteoWizard
+/// conversions of Agilent Q-TOF runs call such a scan MS2 and name the centre of its scan window
+/// as the precursor, where the file's record says MS level 1 (`window_centre_precursor` in the
+/// manifest). True when ours is MS1, theirs MS2, and their precursor is the centre of one of
+/// `windows` within 1e-6 relative: our scan window (the record's range), or the export's own m/z
+/// range (scans with their own mass calibration, where the export's range is the calibrated one).
+#[must_use]
+pub fn window_centre_precursor(
+    ours_level: u32,
+    theirs_level: u32,
+    windows: &[Option<[f64; 2]>],
+    theirs_precursor: Option<f64>,
+) -> bool {
+    let Some(p) = theirs_precursor else {
+        return false;
+    };
+    ours_level == 1
+        && theirs_level == 2
+        && windows
+            .iter()
+            .flatten()
+            .any(|[lo, hi]| ((lo + hi) / 2.0 - p).abs() <= 1e-6 * p.abs())
+}
+
 /// The precursor m/z an export names when its converter took the monoisotopic m/z only within
 /// `max_shift` of the isolation target as the filter text prints it (`713.06@cid35.00`;
 /// ProteoWizard 3.0.4337: 1.5), where ours takes it within 3.0: ours within that distance, else

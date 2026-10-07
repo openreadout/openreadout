@@ -152,8 +152,11 @@ h5py for Imaris tables, the depositor's Imaris statistics exports as vendor-comp
 
 ## Remaining differences that are conventions
 
-- Channel names: we report the LAS X LUT name (`Green`), Bio-Formats the dye (`Leica/Kaede
-  (Green)`) or an empty string; ND2 RGB planes are one channel for us, three for Bio-Formats.
+- Channel names: LIF channels are named after the dye LAS X records for them (`DAPI`) and
+  otherwise after the LUT (`Green`); Bio-Formats keeps the `Leica/` prefix, reads only the
+  detector bands and names some channels where we do not (`Leica/Kaede (Green)` in a file whose
+  detectors we cannot match to its channels). ND2 RGB planes are one channel for us, three for
+  Bio-Formats.
 - Extra dimensions: CZI H-split files and SIM phases are one image per H for us, folded into T by
   Bio-Formats; LIF lambda scans are channels for us, T for Bio-Formats; per-scene T extents
   (`aics-variable-per-scene-dims`) are per scene for us, file-wide for Bio-Formats.

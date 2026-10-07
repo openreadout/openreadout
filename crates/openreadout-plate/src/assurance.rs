@@ -161,6 +161,17 @@ pub(crate) fn left_out(ex: &crate::model::Export) -> Observations {
             f.message.clone(),
         );
     }
+    // A worksheet that is an export of its own and was not read: the tables read from the
+    // other sheets do not depend on it.
+    for (name, kind) in &ex.unread_sheets {
+        if let Some(k) = kind {
+            o.undecoded(
+                format!("worksheet not read ({name})"),
+                &[],
+                format!("the worksheet looks like a separate `{}` export", k.id()),
+            );
+        }
+    }
     if ex.blocks.iter().all(|b| b.obs.is_empty()) {
         o.undecoded(
             "plate values",
@@ -183,31 +194,31 @@ pub(crate) fn left_out(ex: &crate::model::Export) -> Observations {
 const PLATE_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const PLATE_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "absorbance", 38, 14, 39),
-    a::row(K::Acquisition, "endpoint read", 47, 14, 50),
-    a::row(K::Acquisition, "fluorescence", 20, 8, 21),
-    a::row(K::Acquisition, "kinetic read", 16, 10, 16),
+    a::row(K::Acquisition, "absorbance", 39, 15, 40),
+    a::row(K::Acquisition, "endpoint read", 47, 14, 52),
+    a::row(K::Acquisition, "fluorescence", 21, 9, 26),
+    a::row(K::Acquisition, "kinetic read", 17, 11, 19),
     a::row(K::Acquisition, "luminescence", 11, 6, 12),
     a::row(K::Acquisition, "spectrum read", 5, 4, 5),
-    a::row(K::Acquisition, "unknown", 1, 0, 1),
+    a::row(K::Acquisition, "unknown", 1, 0, 3),
     a::row(K::Derivation, "tables[].extra.reads[].mode by detector code", 7, 4, 7),
     a::row(K::Derivation, "tables[].extra.reads[].mode by label keywords", 1, 1, 13),
     a::row(K::Derivation, "tables[].extra.reads[].mode by read settings", 1, 1, 1),
     a::row(K::Derivation, "tables[].extra.reads[].wavelength_nm by label keywords", 0, 0, 2),
     a::row(K::Dialect, "bmg-mars", 11, 6, 11),
-    a::row(K::Dialect, "bmg-smart-control", 1, 1, 1),
+    a::row(K::Dialect, "bmg-smart-control", 1, 1, 3),
     a::row(K::Dialect, "envision", 7, 4, 7),
-    a::row(K::Dialect, "gen5", 17, 5, 19),
+    a::row(K::Dialect, "gen5", 18, 6, 20),
     a::row(K::Dialect, "generic", 2, 0, 2),
     a::row(K::Dialect, "kaleido", 1, 1, 1),
     a::row(K::Dialect, "skanit", 2, 1, 2),
     a::row(K::Dialect, "softmax-pro", 16, 5, 17),
-    a::row(K::Dialect, "tecan-i-control", 9, 6, 9),
+    a::row(K::Dialect, "tecan-i-control", 9, 6, 11),
     a::row(K::Dialect, "tecan-magellan", 2, 1, 2),
-    a::row(K::Field, "experiment.acquisition.started_at", 21, 1, 57),
-    a::row(K::Field, "experiment.instrument.model", 18, 7, 56),
-    a::row(K::Field, "tables[].extra.reads[].mode", 55, 19, 69),
-    a::row(K::Instrument, "CLARIOstar", 7, 5, 7),
+    a::row(K::Field, "experiment.acquisition.started_at", 21, 1, 62),
+    a::row(K::Field, "experiment.instrument.model", 19, 8, 61),
+    a::row(K::Field, "tables[].extra.reads[].mode", 56, 20, 74),
+    a::row(K::Instrument, "CLARIOstar", 7, 5, 9),
     a::row(K::Instrument, "Cytation3", 0, 0, 1),
     a::row(K::Instrument, "Cytation5", 2, 1, 2),
     a::row(K::Instrument, "EnVision", 7, 4, 7),
@@ -217,12 +228,13 @@ const PLATE_VALIDATED: &[Validated] = &[
     a::row(K::Instrument, "SPECTRAmax 340PC", 1, 1, 1),
     a::row(K::Instrument, "SPECTRAmax M2e", 1, 1, 1),
     a::row(K::Instrument, "SPECTRAmax M5", 2, 1, 2),
-    a::row(K::Instrument, "Spark", 2, 1, 2),
+    a::row(K::Instrument, "Spark", 2, 1, 4),
     a::row(K::Instrument, "SpectraMax ABS", 2, 1, 2),
     a::row(K::Instrument, "SpectraMax M3", 6, 1, 6),
     a::row(K::Instrument, "SpectraMax M5", 0, 0, 1),
     a::row(K::Instrument, "Synergy H1", 8, 3, 9),
     a::row(K::Instrument, "Synergy HT", 1, 1, 1),
+    a::row(K::Instrument, "Synergy HTX", 1, 1, 1),
     a::row(K::Instrument, "ULTRA", 1, 1, 1),
     a::row(K::Instrument, "Varioskan LUX", 1, 1, 1),
     a::row(K::Instrument, "infinite 200Pro", 7, 5, 7),
@@ -232,27 +244,27 @@ const PLATE_VALIDATED: &[Validated] = &[
     a::row(K::Layout, "container text (comma)", 21, 9, 21),
     a::row(K::Layout, "container text (semicolon)", 2, 2, 2),
     a::row(K::Layout, "container text (tab)", 16, 3, 16),
-    a::row(K::Layout, "container xlsx", 10, 4, 10),
+    a::row(K::Layout, "container xlsx", 11, 5, 15),
     a::row(K::Layout, "export format PlateFormat", 3, 1, 3),
     a::row(K::Layout, "export format TimeFormat", 1, 1, 1),
     a::row(K::Writer, "EnVision Workstation", 7, 4, 7),
-    a::row(K::Writer, "Gen5", 17, 5, 19),
+    a::row(K::Writer, "Gen5", 18, 6, 20),
     a::row(K::Writer, "Kaleido", 1, 1, 1),
     a::row(K::Writer, "MARS", 11, 6, 11),
     a::row(K::Writer, "Magellan", 2, 1, 2),
-    a::row(K::Writer, "SMART Control", 1, 1, 1),
+    a::row(K::Writer, "SMART Control", 1, 1, 3),
     a::row(K::Writer, "SkanIt", 2, 1, 2),
     a::row(K::Writer, "SoftMax Pro", 16, 5, 17),
-    a::row(K::Writer, "i-control", 9, 6, 9),
+    a::row(K::Writer, "i-control", 9, 6, 11),
     a::row(K::WriterVersion, "EnVision Workstation 1", 7, 4, 7),
     a::row(K::WriterVersion, "Gen5 1", 3, 1, 3),
     a::row(K::WriterVersion, "Gen5 2", 1, 1, 2),
-    a::row(K::WriterVersion, "Gen5 3", 11, 3, 12),
+    a::row(K::WriterVersion, "Gen5 3", 12, 4, 13),
     a::row(K::WriterVersion, "Kaleido 2", 1, 1, 1),
     a::row(K::WriterVersion, "SkanIt 7", 1, 1, 1),
     a::row(K::WriterVersion, "SoftMax Pro 5", 4, 2, 4),
     a::row(K::WriterVersion, "i-control 1", 3, 3, 3),
-    a::row(K::WriterVersion, "i-control 2", 6, 3, 6),
+    a::row(K::WriterVersion, "i-control 2", 6, 3, 8),
 ];
 // END GENERATED plate
 

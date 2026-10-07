@@ -31,6 +31,8 @@ cargo xtask assurance-audit --write                                # regenerates
 cargo xtask assurance-audit                                        # CI: fails when anything is stale
 ```
 
+`refresh --format FMT` (repeatable) observes only the files of those formats and keeps the
+evidence of every other format as it is, so a change to a few readers needs only their results.
 `refresh` runs `info --json` on every development input on disk. It never runs on a held-out
 file. It records each file's features, depositor (source record) and corpus-test result (a file both tests compare fails if either fails; the m/z agreement test, against vendor-library conversions, covers `spectra`): `pass`
 or `FAIL`, whether the oracle is independent, and which outputs the comparison covered. A

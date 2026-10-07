@@ -27,6 +27,7 @@ pub(crate) fn parse(book: &Book) -> Export {
         if grids.is_empty() {
             continue;
         }
+        ex.sheets_read.push(s.name.clone());
         let name = if s.name.is_empty() {
             format!("Plate {}", si + 1)
         } else {

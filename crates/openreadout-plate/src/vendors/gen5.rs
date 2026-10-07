@@ -302,11 +302,24 @@ fn channel_for(label: &str, reads: &[Read]) -> Channel {
             match (unnamed.as_slice(), plain) {
                 ([r], true) => (Some(*r), label.to_string()),
                 (many, true) if !many.is_empty() => {
-                    // several unnamed reads: pick the one whose mode fits the label
+                    // several unnamed reads: the one whose filter set is the label's
+                    // (`485/20,528/20`), else the first whose mode fits the label
                     let fl = label.contains(',');
+                    let filters = label
+                        .split_once(',')
+                        .map(|(ex, em)| (first_number(ex), first_number(em)))
+                        .filter(|(ex, em)| ex.is_some() && em.is_some());
                     let r = many
                         .iter()
-                        .find(|r| (r.mode == Mode::Fluorescence) == fl)
+                        .find(|r| {
+                            filters.is_some_and(|(ex, em)| {
+                                r.specs.iter().any(|s| {
+                                    s.excitation.as_deref().and_then(first_number) == ex
+                                        && s.emission.as_deref().and_then(first_number) == em
+                                })
+                            })
+                        })
+                        .or_else(|| many.iter().find(|r| (r.mode == Mode::Fluorescence) == fl))
                         .unwrap_or(&many[0]);
                     (Some(*r), label.to_string())
                 }
@@ -378,40 +391,110 @@ fn strip_read_prefix(label: &str) -> &str {
     label
 }
 
+/// Does this worksheet start with a Gen5 export (its header, or a section of a header-less one)?
+fn sheet_holds_export(sheet: &Sheet) -> bool {
+    let head: String = (0..sheet.rows.len().min(200))
+        .map(|r| {
+            sheet.rows[r]
+                .iter()
+                .map(crate::sheet::Cell::text)
+                .collect::<Vec<_>>()
+                .join("\t")
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+    sniff(&head)
+}
+
+/// Where a plate comes from: its worksheet (named when the workbook holds several exports) and
+/// its position among the plates.
+#[derive(Clone, Copy)]
+struct Origin<'a> {
+    sheet: Option<&'a str>,
+    /// Plates read before this one, over every sheet.
+    index: usize,
+    /// Plates before this one in the same sheet.
+    in_sheet: usize,
+}
+
+impl Origin<'_> {
+    /// Prefix of this plate's header keys and section names (none for the first plate of a
+    /// one-export file).
+    fn prefix(&self) -> Option<String> {
+        match (self.sheet, self.in_sheet) {
+            (Some(s), 0) => Some(s.to_string()),
+            (Some(s), n) => Some(format!("{s} / plate {}", n + 1)),
+            (None, 0) => None,
+            (None, n) => Some(format!("plate {}", n + 1)),
+        }
+    }
+}
+
 pub(crate) fn parse(book: &Book, file_name: &str) -> Export {
-    let sheet = &book.sheets[0];
     let mut ex = Export::new(Kind::Gen5, book.container.clone());
-    let starts: Vec<usize> = (0..sheet.rows.len())
-        .filter(|&r| sheet.text(r, 0).trim_start_matches('\u{feff}') == "Software Version")
+    // A workbook can hold several exports, one per worksheet.
+    let mut sheets: Vec<&Sheet> = book
+        .sheets
+        .iter()
+        .filter(|s| sheet_holds_export(s))
         .collect();
+    if sheets.is_empty() {
+        sheets.extend(book.sheets.first());
+    }
+    let several = sheets.len() > 1;
     let barcode = barcode_from_name(file_name);
-    if starts.is_empty() {
-        // no `Software Version` line: an export without its file header
-        parse_plate(
-            sheet,
-            0,
-            sheet.rows.len(),
-            &mut ex,
-            barcode.as_deref(),
-            0,
-            true,
-        );
-        ex.notes.push(
-            "Gen5 export without its file header: reader, serial number, date and (unless the export keeps it) the procedure are not recorded; reads are named from the result labels".into(),
-        );
-        return ex;
+    let mut index = 0;
+    for sheet in &sheets {
+        ex.sheets_read.push(sheet.name.clone());
+        let name = several.then_some(sheet.name.as_str());
+        index += parse_sheet(sheet, name, index, &mut ex, barcode.as_deref());
     }
-    for (i, &s) in starts.iter().enumerate() {
-        let end = starts.get(i + 1).copied().unwrap_or(sheet.rows.len());
-        parse_plate(sheet, s, end, &mut ex, barcode.as_deref(), i, false);
-    }
-    if starts.len() > 1 {
+    if several {
         ex.notes.push(format!(
-            "{} plates in one export; each is one table",
-            starts.len()
+            "the workbook holds {} Gen5 exports, one per worksheet; each plate is one table named after its sheet",
+            sheets.len()
         ));
     }
     ex
+}
+
+/// The plates of one sheet; returns how many there are.
+fn parse_sheet(
+    sheet: &Sheet,
+    name: Option<&str>,
+    index: usize,
+    ex: &mut Export,
+    barcode: Option<&str>,
+) -> usize {
+    let starts: Vec<usize> = (0..sheet.rows.len())
+        .filter(|&r| sheet.text(r, 0).trim_start_matches('\u{feff}') == "Software Version")
+        .collect();
+    let origin = |in_sheet| Origin {
+        sheet: name,
+        index: index + in_sheet,
+        in_sheet,
+    };
+    if starts.is_empty() {
+        // no `Software Version` line: an export without its file header
+        parse_plate(sheet, 0, sheet.rows.len(), ex, barcode, origin(0), true);
+        ex.notes.push(
+            "Gen5 export without its file header: reader, serial number, date and (unless the export keeps it) the procedure are not recorded; reads are named from the result labels".into(),
+        );
+        return 1;
+    }
+    for (i, &s) in starts.iter().enumerate() {
+        let end = starts.get(i + 1).copied().unwrap_or(sheet.rows.len());
+        parse_plate(sheet, s, end, ex, barcode, origin(i), false);
+    }
+    if starts.len() > 1 {
+        ex.notes.push(format!(
+            "{} plates in one export{}; each is one table",
+            starts.len(),
+            name.map(|n| format!(" (worksheet {n:?})"))
+                .unwrap_or_default()
+        ));
+    }
+    starts.len()
 }
 
 /// Gen5 export names often start `yymmdd_hhmmss_<barcode>_…` (pattern from allotropy).
@@ -443,9 +526,10 @@ fn parse_plate(
     end: usize,
     ex: &mut Export,
     barcode: Option<&str>,
-    index: usize,
+    origin: Origin,
     headerless: bool,
 ) {
+    let index = origin.index;
     let mut r = start;
     let mut header: Vec<(String, String)> = Vec::new();
     if headerless {
@@ -484,19 +568,24 @@ fn parse_plate(
             ex.set_acquired(&d, get("Time").as_deref());
         }
     }
+    let prefix = origin.prefix();
     for (k, v) in &header {
-        let key = if index == 0 {
-            k.clone()
-        } else {
-            format!("plate {} / {k}", index + 1)
+        let key = match &prefix {
+            None => k.clone(),
+            Some(p) => format!("{p} / {k}"),
         };
         ex.put(key, v.clone());
     }
-    let plate_number = get("Plate Number").unwrap_or_else(|| format!("Plate {}", index + 1));
+    let plate_number =
+        get("Plate Number").unwrap_or_else(|| format!("Plate {}", origin.in_sheet + 1));
     let mut block = Block::new(
-        plate_number.clone(),
+        match origin.sheet {
+            Some(s) => format!("{plate_number} ({s})"),
+            None => plate_number.clone(),
+        },
         barcode.map_or_else(|| plate_number.clone(), str::to_string),
     );
+    block.sheet = (!sheet.name.is_empty()).then(|| sheet.name.clone());
     block.barcode = barcode.map(str::to_string);
     block.decimal_comma = true;
     block.line = Some(start + 1);
@@ -562,10 +651,9 @@ fn parse_plate(
     if let Some(k) = &proc_.kinetic {
         block.extra.insert("kinetic".into(), k.clone());
     }
-    let key = if index == 0 {
-        "procedure".to_string()
-    } else {
-        format!("procedure (plate {})", index + 1)
+    let key = match &prefix {
+        None => "procedure".to_string(),
+        Some(p) => format!("procedure ({p})"),
     };
     if !proc_.lines.is_empty() || !headerless {
         ex.sections.insert(key, json!(proc_.lines));
@@ -620,15 +708,21 @@ fn parse_plate(
             );
             continue;
         }
-        if t0 == "Time" || t0 == "Wavelength" {
+        // Kinetic and spectral tables: `Time` / `Wavelength` in column A (text exports) or B
+        // (Excel exports, column A empty).
+        if title == "Time" || title == "Wavelength" {
             let label = last_title.take().unwrap_or_default();
-            let (next, kind) = parse_table(sheet, r, end, &label, &reads, &mut block);
+            let c0 = usize::from(t0.is_empty());
+            let (next, kind) = parse_table(sheet, (r, c0), end, &label, &reads, &mut block);
             read_types.push(kind);
             r = next;
             continue;
         }
-        // A title line: the next non-blank line holds the section.
-        last_title = Some(title);
+        // A title line: the next non-blank line holds the section. A line with nothing in its
+        // first two columns (cells a depositor added to the sheet) is not a title.
+        if !title.is_empty() {
+            last_title = Some(title);
+        }
         r += 1;
     }
     if !layout.is_empty() {
@@ -786,28 +880,41 @@ fn parse_matrix(
     r
 }
 
-/// A kinetic `Time` table or a spectral `Wavelength` table: wells as columns.
+/// A kinetic `Time` table or a spectral `Wavelength` table: wells as columns. `c0` is the
+/// column of `Time` / `Wavelength`: 0 in text exports, 1 in Excel exports.
 fn parse_table(
     sheet: &Sheet,
-    header: usize,
+    (header, c0): (usize, usize),
     end: usize,
     label: &str,
     reads: &[Read],
     block: &mut Block,
 ) -> (usize, ReadType) {
-    let spectral = sheet.text(header, 0) == "Wavelength";
+    let key_title = sheet.text(header, c0);
+    let spectral = key_title == "Wavelength";
     let width = sheet.rows.get(header).map_or(0, Vec::len);
     let mut wells = Vec::new();
     let mut temp_col = None;
-    for c in 1..width {
+    for c in c0 + 1..width {
         let t = sheet.text(header, c);
         if let Some(w) = parse_well(&t) {
             wells.push((c, w));
-        } else if c == 1 && !t.is_empty() {
+        } else if c == c0 + 1 && !t.is_empty() {
             temp_col = Some(c);
         }
     }
+    // The title line names the read. Failing that, the temperature column's header repeats
+    // the title (`T° 600`, `T° Read 2:485/20,528/20`).
     let mut ch = channel_for(label, reads);
+    if ch.calculated
+        && let Some(h) = temp_col.map(|c| sheet.text(header, c))
+        && let Some((_, title)) = h.split_once(char::is_whitespace)
+    {
+        let alt = channel_for(title.trim(), reads);
+        if !alt.calculated {
+            ch = alt;
+        }
+    }
     if ch.calculated && label.is_empty() {
         // unlabelled table: the only read
         if let [only] = reads {
@@ -820,13 +927,21 @@ fn parse_table(
     let mut temps = Vec::new();
     let mut r = header + 1;
     while r < end && !sheet.row_is_blank(r) {
-        let key = sheet.text(r, 0);
+        // The table ends at a title left of it or at the next table's header, even without a
+        // blank line between them (a depositor may have filled the blank lines).
+        if (0..c0).any(|c| !sheet.cell(r, c).is_blank()) {
+            break;
+        }
+        let key = sheet.text(r, c0);
+        if key == key_title {
+            break;
+        }
         let has_values = wells.iter().any(|(c, _)| !sheet.cell(r, *c).is_blank());
         if has_values {
             let (time, wl) = if spectral {
                 (None, crate::sheet::parse_number(&key))
             } else {
-                (parse_duration(&key), None)
+                (duration_s(sheet.cell(r, c0)), None)
             };
             if let Some(tc) = temp_col
                 && let Some(t) = sheet.cell(r, tc).number()
@@ -853,6 +968,17 @@ fn parse_table(
             ReadType::Kinetic
         },
     )
+}
+
+/// A kinetic table's time: text (`0:04:22`), or in an Excel export a time value, which is a
+/// fraction of a day (above 1 from 24 h on).
+fn duration_s(cell: &crate::sheet::Cell) -> Option<f64> {
+    match cell {
+        crate::sheet::Cell::Date(days) if days.is_finite() && *days >= 0.0 => {
+            Some((days * 86_400_000.0).round() / 1000.0)
+        }
+        other => parse_duration(&other.trimmed()),
+    }
 }
 
 #[cfg(test)]
@@ -940,6 +1066,164 @@ mod tests {
         let ex = parse(&text_book(with_layout.as_bytes()), "x.txt");
         assert_eq!(ex.blocks[0].channels[0].wavelength_nm, Some(420.0));
         assert!(!ex.blocks[0].channels[0].calculated);
+    }
+
+    /// Gen5's Excel export, as `zenodo4449746-gen5-synergy-htx` lays it out: the kinetic table
+    /// starts in column B, times are Excel time values (above one day from 24 h on), a depositor
+    /// added lines between the title and the table and cells after the wells, and two unnamed
+    /// fluorescence reads are told apart by their filter sets. Each worksheet is one export.
+    fn excel_sheet(name: &str, plate_time: f64) -> Sheet {
+        use crate::sheet::Cell::{Date, Empty, Number, Text};
+        let t = |s: &str| Text(s.into());
+        let mut rows = vec![
+            vec![t("Software Version"), t("3.03.14")],
+            vec![t("Plate Number"), t("Plate 1")],
+            vec![t("Reader Type:"), t("Synergy HTX")],
+            vec![t("Procedure Details")],
+            vec![],
+            vec![t("Plate Type"), t("96 WELL PLATE")],
+            vec![
+                t("Start Kinetic"),
+                t("Runtime 24:00:00 (HH:MM:SS), Interval 0:10:00, 145 Reads"),
+            ],
+            vec![t("    Read"), t("Fluorescence Endpoint")],
+            vec![Empty, t("Filter Set 1")],
+            vec![Empty, t("    Excitation: 485/20,  Emission: 528/20")],
+            vec![t("    Read"), t("Fluorescence Endpoint")],
+            vec![Empty, t("Filter Set 1")],
+            vec![Empty, t("    Excitation: 590/20,  Emission: 635/32")],
+            vec![t("End Kinetic")],
+            vec![],
+        ];
+        for (n, spec) in [(1, "485/20,528/20"), (2, "590/20,635/32")] {
+            rows.push(vec![t(&format!("Read {n}:{spec}"))]);
+            // the depositor's annotation lines
+            rows.push(vec![Empty, Empty, Empty, t("replicate 1")]);
+            rows.push(vec![t("(GFP)")]);
+            rows.push(vec![
+                Empty,
+                t("Time"),
+                t(&format!("T° Read {n}:{spec}")),
+                t("A1"),
+                t("A2"),
+                t("comp. A"),
+            ]);
+            rows.push(vec![
+                Empty,
+                Date(plate_time),
+                Number(37.0),
+                Number(10.0 * f64::from(n)),
+                Number(11.0),
+                Number(99.0),
+            ]);
+            rows.push(vec![
+                Empty,
+                Date(1.005_243_055_555_555_6),
+                Number(37.0),
+                Number(12.0),
+                Number(13.0),
+            ]);
+            // padding row, then a depositor's cell where the blank line was
+            rows.push(vec![Empty, Date(0.0), Number(0.0)]);
+            rows.push(vec![Empty, Empty, Empty, Empty, Empty, t("#DIV/0!")]);
+        }
+        Sheet {
+            name: name.into(),
+            rows,
+        }
+    }
+
+    #[test]
+    fn excel_kinetic_tables_in_every_sheet() {
+        let book = Book {
+            sheets: vec![
+                excel_sheet("experiment 1", 0.005_243_055_555_555_556),
+                Sheet {
+                    name: "notes".into(),
+                    rows: vec![vec![crate::sheet::Cell::Text("a note".into())]],
+                },
+                excel_sheet("experiment 2", 0.005_243_055_555_555_556),
+            ],
+            container: crate::sheet::Container::Workbook { kind: "xlsx" },
+        };
+        let ex = parse(&book, "x.xlsx");
+        assert_eq!(ex.sheets_read, ["experiment 1", "experiment 2"]);
+        assert_eq!(ex.blocks.len(), 2);
+        let b = &ex.blocks[1];
+        assert_eq!(b.name, "Plate 1 (experiment 2)");
+        assert_eq!(b.sheet.as_deref(), Some("experiment 2"));
+        assert_eq!(b.read_type, Some(ReadType::Kinetic));
+        assert!(b.findings.is_empty(), "{:?}", b.findings);
+        // two reads, named by the `T°` header where the depositor's line hid the title
+        assert_eq!(b.channels.len(), 2);
+        assert!(b.channels.iter().all(|c| !c.calculated));
+        assert_eq!(b.channels[1].excitation_nm, Some(590.0));
+        assert_eq!(b.channels[1].emission_nm, Some(635.0));
+        // 2 reads x 2 times x 2 wells; the depositor's `comp. A` column is not a well
+        assert_eq!(b.obs.len(), 8);
+        let mut times: Vec<f64> = b.obs.iter().filter_map(|o| o.time_s).collect();
+        times.sort_by(f64::total_cmp);
+        times.dedup();
+        assert_eq!(times, [453.0, 86_853.0]);
+        assert!(
+            ex.header
+                .iter()
+                .any(|(k, _)| k == "experiment 2 / Software Version")
+        );
+    }
+
+    /// Worksheets no dialect read are reported: one that is an export of its own as left out
+    /// (a warning, and `undecoded` without a scope), any other only named (info).
+    #[test]
+    fn unread_worksheets_are_reported() {
+        use crate::sheet::Cell::Text;
+        let tecan = Sheet {
+            name: "Sheet1".into(),
+            rows: vec![vec![Text("Application: Tecan i-control".into())]],
+        };
+        let notes = Sheet {
+            name: "notes".into(),
+            rows: vec![vec![Text("a note".into())]],
+        };
+        let book = Book {
+            sheets: vec![
+                tecan,
+                excel_sheet("experiment 1", 0.005),
+                notes,
+                Sheet::default(),
+            ],
+            container: crate::sheet::Container::Workbook { kind: "xlsx" },
+        };
+        let kind = crate::sniff_book(&book).unwrap();
+        assert_eq!(kind, Kind::TecanIControl);
+        let mut ex = crate::parse_kind(kind, &book, "x.xlsx");
+        crate::note_unread_sheets(&book, &mut ex);
+        assert_eq!(
+            ex.unread_sheets,
+            [
+                ("experiment 1".to_string(), Some(Kind::Gen5)),
+                ("notes".to_string(), None)
+            ]
+        );
+        let codes: Vec<_> = ex
+            .findings
+            .iter()
+            .filter(|f| f.code == "worksheet_not_read")
+            .map(|f| f.severity)
+            .collect();
+        assert_eq!(
+            codes,
+            [
+                openreadout_core::model::Severity::Warning,
+                openreadout_core::model::Severity::Info
+            ]
+        );
+        let o = crate::assurance::left_out(&ex);
+        assert!(
+            o.undecoded
+                .iter()
+                .any(|u| u.structure.contains("experiment 1") && u.scope.is_empty())
+        );
     }
 
     #[test]
