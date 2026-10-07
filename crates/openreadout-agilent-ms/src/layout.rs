@@ -1332,7 +1332,7 @@ mod tests {
         assert_eq!((p.first_x, p.step_x), (26864.0, 0.1));
         // another point count in the header: not this encoding (and not valid LZF either)
         let mut other = b.clone();
-        other[16..20].copy_from_slice(&(0x9000_0000u32 | 11).to_le_bytes());
+        other[16..20].copy_from_slice(&(0x9000_0000u32 | 0x0b).to_le_bytes());
         assert!(decode_profile(&other, n, Some(16 + 4 * n as i64)).is_err());
     }
 }

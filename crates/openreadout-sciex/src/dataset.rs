@@ -927,10 +927,11 @@ impl SciexDataset {
         let g = decode_grid_scan(bytes).map_err(|e| {
             Error::corrupt_at(FORMAT_ID, SCAN_FILE_HEADER + u64::from(rec.offset), e)
         })?;
-        sp.scan_window_mz = match (g.segments.first(), g.segments.last()) {
-            (Some(a), Some(b)) => Some([a.first, b.end]),
-            _ => None,
-        };
+        // The grid's range is in the scan itself, which a header read does not open: it goes
+        // in `extra`, so headers and spectra agree on `scan_window_mz` (not set).
+        if let (Some(a), Some(b)) = (g.segments.first(), g.segments.last()) {
+            extra.insert("grid_mz".into(), json!([a.first, b.end]));
+        }
         // Empty steps between runs of points are kept (one on each side of a run); the
         // vendor library leaves out the one before the first point and after the last.
         let mut mz = Vec::with_capacity(g.points.len() * 2);
