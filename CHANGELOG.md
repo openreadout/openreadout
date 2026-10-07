@@ -35,6 +35,11 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- OME-Zarr export stores chunks that hold only zeros. A fresh export whose last image was blank (an empty label image, a dark frame) read as an acquisition in progress for five minutes, and `planes` returned nothing in that time.
+- OME-Zarr: while a store is still being written, the planes of its finished images (earlier wells of a plate) count as complete. `planes` and `check` left them out.
+- VSI: reading a whole slide plane holds it once, not twice (3.8 GB to 2.2 GB peak for a 1.9 GB plane, same pixels).
+- Exporting a file that holds no images (a VSI without its `.ets` folder) exits 6 and says why. It exited 2 with a hint about `--select`.
+- OME-TIFF and OME-Zarr export of 64-bit integer and complex images, and OME-TIFF export of 2- and 4-sample images, exit 6 with a hint that says what works. The hints sent each writer to the other, which refused the same file.
 - imzML: spectra that state no MS level are MS1 when the file's `fileContent` names only MS1 spectra, and `check` reports a spectrum whose m/z and intensity arrays differ in length (`bad_array`).
 - Rigaku RASX: reciprocal-space maps returned their scans in text order (`Data10` before `Data2`). They are now in scan order.
 - Sciex `.wiff`: a scheduled MRM file without stored windows returned every transition in every cycle. Each transition now has its expected time ± half the method's detection window; the layout stays unvalidated, because Analyst decides a window's edge cycles in a way the file does not record.
