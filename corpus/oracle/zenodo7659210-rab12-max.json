@@ -1,0 +1,45 @@
+{
+ "id": "zenodo7659210-rab12-max",
+ "file": "zenodo7659210-rab12-max.tif",
+ "size": 524459,
+ "sha256": "dd481294e46d80389bf487f36dff373663da880cb15e3716dc7809a7d37286ab",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "imagej",
+ "flags": [
+  "imagej"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "imagej",
+   "axes": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "982e8a4fa8e88b6ffadc3076a3663a18"
+    }
+   ]
+  }
+ ]
+}

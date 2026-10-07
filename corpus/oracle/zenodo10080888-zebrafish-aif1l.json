@@ -1,0 +1,52 @@
+{
+ "id": "zenodo10080888-zebrafish-aif1l",
+ "file": "zenodo10080888-zebrafish-aif1l.czi",
+ "size": 14835328,
+ "sha256": "82862f5cdfc2128b057865fae5b6791125407e466b6c599f5f2ed68be4a3343d",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 2560,
+   "size_y": 1920,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "dims": "YXS",
+   "shape": [
+    1920,
+    2560,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.21999999999999995,
+    "y": 0.21999999999999995,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "74a1c287e627a899358ae610bd2588da"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.21999999999999995,
+  "y": 0.21999999999999995,
+  "z": null
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

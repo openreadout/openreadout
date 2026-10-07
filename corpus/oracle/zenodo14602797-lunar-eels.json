@@ -1,0 +1,139 @@
+{
+ "id": "zenodo14602797-lunar-eels",
+ "file": "zenodo14602797-lunar-eels.dm4",
+ "size": 516407,
+ "sha256": "a1740a9fefd38efd4a4265b869b66ae34c8fbb5f3b0702ffcfca9514873270d7",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "EELS LL Spectrum",
+   "size_x": 1980,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "66ca8a63056fc2910bae0ccab6f55239"
+    }
+   ],
+   "pixel_type": "float"
+  },
+  {
+   "index": 1,
+   "image_list_index": 2,
+   "name": "EELS HL Spectrum",
+   "size_x": 1980,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b9c7760e8e46863aa838202b41c566c5"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "EELS LL Spectrum",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "Counts"
+   ],
+   "ppm_first": -60.00000238418579,
+   "ppm_last": 533.7000212073326,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1980,
+     "channels": [
+      {
+       "xxh3": "e9aa902b83de411e0c5bce8109c11b47",
+       "first": [
+        1887.3662109375,
+        229.05859375,
+        321.64453125,
+        1808.7578125,
+        4396.5908203125,
+        2299.541015625,
+        2919.52734375,
+        3887.73046875
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "EELS HL Spectrum",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "Counts"
+   ],
+   "ppm_first": 459.99999386469426,
+   "ppm_last": 1053.7000174562127,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1980,
+     "channels": [
+      {
+       "xxh3": "c0fd06f31029390f5b3f711f29e7121e",
+       "first": [
+        5808025.0,
+        5789545.5,
+        5777105.0,
+        5748298.0,
+        5723181.0,
+        5716591.0,
+        5734891.0,
+        5725661.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}

@@ -1,0 +1,79 @@
+{
+ "id": "zenodo17487086-glycopaint-bf",
+ "file": "zenodo17487086-glycopaint-bf.nd2",
+ "size": 708608,
+ "sha256": "ed5eea46290a374eae9a514bed3ee2b4483ebaf596182c42b10bbb3a8c8af165",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Y': 512, 'X': 512}",
+   "physical_size_um": {
+    "x": 0.160325079653625,
+    "y": 0.160325079653625,
+    "z": null
+   },
+   "channel_names": [
+    "Empty"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5fa8d826558a35653123a01f51a50d6d"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Empty",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 5948732.824207031,
+    "tags": {
+     "Camera_ExposureTime1": 400.0,
+     "PFS_OFFSET": 5784,
+     "PFS_STATUS": 0,
+     "X": 17875.9,
+     "Y": -25037.300000000003,
+     "Z": 2862.231044394637,
+     "Z1": 2913.14,
+     "Z2": 50.90895560536289
+    }
+   }
+  ],
+  "acquired_at": "2022-10-12T10:32:10.615Z",
+  "acquired_at_unix_ms": 1665570730615
+ },
+ "text_info": {
+  "description": "Camera Name: Flash4.0, SN:303894\r\nNumerical Aperture: 1.49\r\nRefractive Index: 1.515\r\n Name: Empty\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 400 ms\r\n  Binning: 1x1\r\n  Scan Mode: Slow\r\n  Temperature: -10.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  External Phase, position: 0\r\n  DIC Prism, position: Out\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 6 (Empty)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Open\r\n  Nikon Ti2, Illuminator(DIA): On\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 23.8\r\n  LightPath: R100\r\n  Analyzer Slider: Extracted\r\n  Condenser: 4 ()\r\n  PFS, state: Off\r\n  PFS, offset: 5784\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Eyepiece Ports:\r\n     Port 1: Off  (Camera)\r\n     Port 2: On  (Eye)\r\n  \r\n  LAPP Lower Ports:\r\n     Port 1: Off  (EPI)\r\n     Port 2: On  (N-STORM)\r\n  \r\n  N-STORM Angle: 66.1\r\n  N-STORM Direction: 250.0\r\n  N-STORM Focus: -54400.0\r\n  N-STORM Zoom: 1x\r\n  N-STORM Penetration Depth: 202.1\r\n  N-STORM Lambda 1/4: Out\r\n  N-STORM Gradation ND: In\r\n     N-STORM Focus Point: -26319.0\r\n     N-STORM Critical Angle: 64.0\r\n  N-STORM Angle: 66.1\r\n  N-STORM Direction: 250.0\r\n  N-STORM Focus: -54400.0\r\n  N-STORM Zoom: 1x\r\n  N-STORM Penetration Depth: 202.1\r\n  N-STORM Lambda 1/4: Out\r\n  N-STORM Gradation ND: In\r\n     N-STORM Focus Point: -26319.0\r\n     N-STORM Critical Angle: 64.0\r\n  N-STORM alignment information:\r\n     N-STORM Alignment Name: user-spec_1_071022\r\n  Nikon LU-NV, Shutter(AOTF(4)): Closed\r\n  Nikon LU-NV, MultiLaser(TIRF):\r\n     Line:1; ExW:405; Power:  0.0; Off; ND:0; Head Power:100.0\r\n     Line:2; ExW:445; Power:  0.0; Off; ND:0; Head Power:100.0\r\n     Line:3; ExW:488; Power:  0.0; Off; ND:0; Head Power:100.0\r\n     Line:4; ExW:514; Power:  0.0; Off; ND:0; Head Power:100.0\r\n     Line:5; ExW:561; Power:  0.0; Off; ND:0; Head Power:100.0\r\n     Line:6; ExW:594; Power:  0.0; Off; ND:0; Head Power:100.0\r\n     Line:7; ExW:647; Power: 25.0; Off; ND:0; Head Power:100.0\r\n  \r\n  STORM Relay Lens:\r\n     Port 1: Off  (Out)\r\n     Port 2: On  (In)\r\n  \r\n  LU-NV Switcher:\r\n     Port 1: Off  (A1)\r\n     Port 2: Off  (2)\r\n     Port 3: Off  (3)\r\n     Port 4: On  (STORM)\r\n     Port 5: Off  (5)\r\n  \r\n  STORM Cylindrical Lens:\r\n     Port 1: On  (Out)\r\n     Port 2: Off  (In)\r\n\r\n",
+  "capturing": "Flash4.0, SN:303894\r\nExposure: 400 ms\r\nBinning: 1x1\r\nScan Mode: Slow\r\nTemperature: -10.0\u00b0C",
+  "date": "12/10/2022  12:32:10",
+  "optics": "SR HP Apo TIRF 100xAC Oil"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=1, heightPx=512, pixelDataType='unsigned', sequenceCount=1, widthBytes=1024, widthPx=512, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

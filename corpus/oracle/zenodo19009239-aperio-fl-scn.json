@@ -1,0 +1,79 @@
+{
+ "id": "zenodo19009239-aperio-fl-scn",
+ "file": "zenodo19009239-aperio-fl-scn.scn",
+ "size": 139786467,
+ "sha256": "1f2b8bb9a2136569e4b95802f11c4b8b9b5e6a709087c7ecf4ed2256ca63d061",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "scn",
+ "flags": [
+  "bigtiff",
+  "scn"
+ ],
+ "page_count": 13,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "StitchF4680A34-193A-4ED7-BAF4-10A1F9B3DE34",
+   "kind": "scn",
+   "axes": "YXS",
+   "shape": [
+    12695,
+    5720,
+    3
+   ],
+   "size_x": 5720,
+   "size_y": 12695,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 6,
+   "lossy": true,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "035c6fff79d452987cc957260617e36b",
+     "mean": 222.25607143939163
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "StitchAEAA277C-DB32-41EB-9801-87165E769249",
+   "kind": "scn",
+   "axes": "YXS",
+   "shape": [
+    14953,
+    11428,
+    3
+   ],
+   "size_x": 11428,
+   "size_y": 14953,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 6,
+   "lossy": true,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "019d521269bc79217ceb5b3e3f7490c9",
+     "mean": 234.11071713887975
+    }
+   ]
+  }
+ ]
+}

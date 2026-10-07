@@ -1,0 +1,48 @@
+{
+ "id": "zenodo10046394-macrostomum",
+ "file": "zenodo10046394-macrostomum.lsm",
+ "size": 22051215,
+ "sha256": "373d55e60988435cdcec9fe4c8fc7d425040841b5eb698854774379ef7f35361",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "YX",
+   "shape": [
+    3304,
+    3318
+   ],
+   "size_x": 3318,
+   "size_y": 3304,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.04250161972883955,
+    "y": 0.04250161972883955
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1a19bafa9f9e86b5d5efbb2fc70a7aa9"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,70 @@
+{
+ "id": "zenodo17181554-kinesin-mut017",
+ "file": "zenodo17181554-kinesin-mut017.czi",
+ "size": 2137056,
+ "sha256": "6a761b0e014cea8623aa088282784107d142daceb8859d19a7b593d17d0c88f9",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1024,
+   "size_y": 250,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    4,
+    250,
+    1024
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.04392940851660445,
+    "y": 0.04392940851660444,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "82f3e3e49f37d7c1daaf5cefe0aad277"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "43cf4f7a560be894ace546617fe86627"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e6002559db32e0df529508210e0c3b8"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3d631fec2667d6c787e0a98e62d42734"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.04392940851660445,
+  "y": 0.04392940851660444,
+  "z": 0.0
+ },
+ "subblock_count": 4,
+ "compression_ids": [
+  0
+ ]
+}

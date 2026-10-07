@@ -1,0 +1,39 @@
+{
+ "id": "ome-dm4-smallmontage0001",
+ "file": "SmallMontage0001.dm4",
+ "size": 4811349,
+ "sha256": "bb78045439da50ce269c2a23899d1ca74352d5a3acda9a45efe090a3430fa1cb",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "SmallMontage",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.021704670041799545,
+    "y": 0.021704670041799545,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "934230074f1968b8bacfa15075f6f688"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

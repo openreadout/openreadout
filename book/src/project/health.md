@@ -10,29 +10,29 @@ The state of the project, computed from the files in the repository: the readers
 
 | confidence | formats | which |
 | --- | --- | --- |
-| high | 45 | `abf`, `agilent-masshunter`, `blackrock`, `bruker-tdf`, `chemstation`, `andi-chrom`, `biologic-mpr`, `mrc`, `dm`, `emd`, `heka-patchmaster`, `ced-spike2`, `open-ephys`, `fcs`, `biorad-scn`, `opera-harmony`, `ims`, `nwb`, `intan`, `lif`, `mzml`, `mzxml`, `nd2`, `neuralynx`, `bruker-nmr`, `jcamp-dx`, `varian-nmr`, `jeol-jdf`, `oir`, `rdml`, `applied-biosystems-eds`, `sciex-wiff`, `bruker-opus`, `renishaw-wdf`, `galactic-spc`, `jasco-jws`, `witec-project`, `spikeglx`, `tiff`, `vsi`, `waters-raw`, `panalytical-xrdml`, `bruker-raw`, `ome-zarr`, `zvi` |
-| medium | 38 | `atf`, `microcal-itc`, `cytiva-biacore-blr`, `cytiva-biacore-bme`, `sartorius-octet-frd`, `genepix-gpr`, `openlab-cds`, `shimadzu`, `chromeleon`, `czi`, `dcimg`, `biologic-mpt`, `gamry-dta`, `neware-nda`, `neware-ndax`, `arbin-res`, `ser`, `bruker-bes3t`, `cytiva-unicorn-zip`, `imagexpress`, `cellvoyager`, `mzmlb`, `magritek-spinsolve`, `oib`, `plate`, `plexon`, `qpcr-results-export`, `thermo-omnic`, `perkinelmer-sp`, `agilent-fpa`, `agilent-cary`, `netzsch-ngb`, `ta-universal-analysis`, `ta-trios`, `thermo-raw`, `mirax`, `bruker-brml`, `rigaku-ras` |
+| high | 46 | `abf`, `agilent-masshunter`, `blackrock`, `bruker-tdf`, `chemstation`, `andi-chrom`, `biologic-mpr`, `mrc`, `dm`, `ser`, `emd`, `heka-patchmaster`, `ced-spike2`, `open-ephys`, `fcs`, `biorad-scn`, `opera-harmony`, `ims`, `nwb`, `intan`, `lif`, `mzml`, `mzxml`, `nd2`, `neuralynx`, `bruker-nmr`, `jcamp-dx`, `varian-nmr`, `jeol-jdf`, `oir`, `rdml`, `applied-biosystems-eds`, `sciex-wiff`, `bruker-opus`, `renishaw-wdf`, `galactic-spc`, `jasco-jws`, `witec-project`, `spikeglx`, `tiff`, `vsi`, `waters-raw`, `panalytical-xrdml`, `bruker-raw`, `ome-zarr`, `zvi` |
+| medium | 37 | `atf`, `microcal-itc`, `cytiva-biacore-blr`, `cytiva-biacore-bme`, `sartorius-octet-frd`, `genepix-gpr`, `openlab-cds`, `shimadzu`, `chromeleon`, `czi`, `dcimg`, `biologic-mpt`, `gamry-dta`, `neware-nda`, `neware-ndax`, `arbin-res`, `bruker-bes3t`, `cytiva-unicorn-zip`, `imagexpress`, `cellvoyager`, `mzmlb`, `magritek-spinsolve`, `oib`, `plate`, `plexon`, `qpcr-results-export`, `thermo-omnic`, `perkinelmer-sp`, `agilent-fpa`, `agilent-cary`, `netzsch-ngb`, `ta-universal-analysis`, `ta-trios`, `thermo-raw`, `mirax`, `bruker-brml`, `rigaku-ras` |
 | low | 14 | `agilent-seahorse-asyr`, `malvern-zetasizer-dts`, `empower-arw`, `winwcp`, `bruker-esp`, `cytiva-unicorn-res`, `hdf5`, `imzml`, `oif`, `bio-rad-pcrd`, `roche-lightcycler-ixo`, `rotor-gene-rex`, `perkinelmer-fsm`, `rigaku-rasx` |
 
 Knowledge basis: 15 open spec, 47 prior art, 27 reverse engineered, 8 vendor docs.
 
 ## Corpus
 
-4117 manifest entries; 1780 development inputs of 96 formats from 579 depositors (distinct source records: a Zenodo record, a study, a repository) (301 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 25 distinct (every entry has one).
+4212 manifest entries; 1879 development inputs of 96 formats from 706 depositors (distinct source records: a Zenodo record, a study, a repository) (291 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
 
 | tier | entries | declared size |
 | --- | --- | --- |
 | full | 119 | 48.5 GB |
 | heldout | 730 | 6.6 GB |
 | hold | 26 | 132.6 MB |
-| smoke | 1858 | 1.1 GB |
-| standard | 1384 | 20.7 GB |
+| smoke | 1854 | 1.1 GB |
+| standard | 1483 | 23.0 GB |
 
 Formats without a development-corpus input of their own id (read through a sibling format's files, or not yet in the corpus): `hdf5`.
 
 ## Assurance evidence
 
-From `corpus/assurance/evidence.json` (development files only): 1723 files read; 1590 compared with an oracle, 1590 agree (100%); 1562 confirmed by an independent reader. 2321 distinct variant-feature values observed, 2207 of them validated (95%); the others make files that use them `partially_validated` or `unvalidated`.
+From `corpus/assurance/evidence.json` (development files only): 1855 files read; 1722 compared with an oracle, 1722 agree (100%); 1694 confirmed by an independent reader. 2374 distinct variant-feature values observed, 2260 of them validated (95%); the others make files that use them `partially_validated` or `unvalidated`.
 
 Development files `info` cannot read (3): `pcrd-cfx-primerpickr` (bio-rad-pcrd), `gen5prt-elisa-reader` (plate), `softmax5-cuvette-spectra-s2` (plate).
 
@@ -86,7 +86,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 
 - New-variant intakes (`corpus/intake/`): none.
 - Second-opinion disagreements adjudicated (`corpus/oracle/second/adjudications.toml`, 0 where neither reader was right): 26 whole-file entries, and 33 field entries that settle 123 per-file field differences ([second opinions](../../../docs/benchmark/second-opinions.md)).
-- Corpus files whose oracle is known to disagree for a documented reason (`oracle_skip`): 16.
+- Corpus files whose oracle is known to disagree for a documented reason (`oracle_skip`): 15.
 - Corpus entries whose licence or source is not yet confirmed (from intakes; tier `hold`, not fetched automatically): 0.
 - Known upstream dependency bugs with reproducers (`fuzz/known-upstream/`): 6.
 
@@ -96,7 +96,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 | --- | --- |
 | reader crates with a maintainer guide (`MAINTAINING.md`, generated facts checked by `cargo xtask guides`) | 40 of 40 |
 | golden-output snapshots of committed fixtures (`cargo test`) | 109 |
-| golden-output snapshots of development-corpus files | 1759 |
-| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3129 |
+| golden-output snapshots of development-corpus files | 1858 |
+| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3242 |
 | fuzz targets (`fuzz/fuzz_targets/`) | 138 |
-| Rust source files under `crates/` | 785 |
+| Rust source files under `crates/` | 786 |

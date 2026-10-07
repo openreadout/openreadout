@@ -138,3 +138,13 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **Corpus files used:** those two. **Prior art consulted:** none.
 
 **Rule implemented:** a tile whose level and other indices are valid and that lies outside the image by less than one tile in X and Y is counted in one `tiles_off_canvas` info finding (reads crop it away, as before); anything farther out is still `tile_out_of_range` (exit 4). Grid indices in messages are signed.
+
+## 2026-10-06 — Raw RGB tiles hold blue, green, red
+
+**Why.** The imaging bug hunt (`docs/benchmark/hunt-2026-10-imaging.md`) ran a PRECiV DSX-2000 file. Its 24-bit texture map came out with red and blue exchanged against Bio-Formats. No development file had raw tiles with three samples (the raw files were 8- and 16-bit grey), so the combination was never compared.
+
+**Corpus files used:** `zenodo19893921-dsx-efi-vsi` (new; Zenodo 19893921, Brenden Ferland, CC-BY-4.0): an Olympus DSX-2000 EFI scan written by PRECiV ADM 3, with two stacks: `stack1`, raw tiles, 8-bit, 3 samples (the texture map), and `stack10000`, raw 16-bit grey (the height map). **Prior art consulted:** none. Bio-Formats 8.5.0 `bfconvert` run as a black box.
+
+**Inferred from the file:** the `.vsi` holds a TIFF preview page (512 × 375, JPEG, photometric RGB, so its sample order is fixed by the TIFF specification). Its channel means are 161.1, 142.6, 139.5. The raw `stack1` tile read in stored order has means 138.9, 142.1, 160.5, and read in reverse order 160.5, 142.1, 138.9. The stored order is therefore blue, green, red. Bio-Formats' plane equals the reversed tile exactly.
+
+**Rule implemented:** a raw ETS tile with three samples per pixel is returned as red, green, blue (first and third samples exchanged). JPEG and JPEG 2000 tiles are unchanged: their decoders already return red, green, blue.

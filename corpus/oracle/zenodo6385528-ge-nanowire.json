@@ -1,0 +1,39 @@
+{
+ "id": "zenodo6385528-ge-nanowire",
+ "file": "zenodo6385528-ge-nanowire.dm3",
+ "size": 4802768,
+ "sha256": "79bb2c57bf8f1d1cbb74f12c8547938c7aee9d3037c9d48508c5ff188a2e0be7",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "22",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 7,
+   "physical_size_um": {
+    "x": 5.410471558570862e-05,
+    "y": 5.410471558570862e-05,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7327214181e38f604b1659c83bac1efa"
+    }
+   ],
+   "pixel_type": "int32"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

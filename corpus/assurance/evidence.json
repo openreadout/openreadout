@@ -34270,6 +34270,9 @@
       "inferred": [
         2,
         2
+      ],
+      "fixed_refuses": [
+        "traces"
       ]
     },
     {
@@ -34317,6 +34320,9 @@
       "inferred": [
         2,
         2
+      ],
+      "fixed_refuses": [
+        "traces"
       ]
     },
     {
@@ -37863,6 +37869,198 @@
       ]
     },
     {
+      "id": "zenodo10080888-zebrafish-aif1l",
+      "format": "czi",
+      "source": "zenodo:10080888",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored bgr24",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN 3.8",
+          []
+        ],
+        [
+          "instrument",
+          "Other Microscope",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo10219682-sim-mip",
+      "format": "czi",
+      "source": "zenodo:10219682",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 16.0",
+          []
+        ],
+        [
+          "instrument",
+          "Andor1, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo10221545-ctcf-livesr",
+      "format": "czi",
+      "source": "zenodo:10221545",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 16.0",
+          []
+        ],
+        [
+          "instrument",
+          "Andor1, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
       "id": "zenodo10577621-Channel-ZStack-LineScan-Bidirectional-Averaging",
       "format": "czi",
       "source": "zenodo:10577621",
@@ -38815,6 +39013,134 @@
       ]
     },
     {
+      "id": "zenodo10798945-esat6",
+      "format": "czi",
+      "source": "zenodo:10798945",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 3.5",
+          []
+        ],
+        [
+          "instrument",
+          "Axio Observer.Z1 / 7",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo10989097-gat-colon",
+      "format": "czi",
+      "source": "zenodo:10989097",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 1.1",
+          []
+        ],
+        [
+          "instrument",
+          "Axio Imager.Z1",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
       "id": "zenodo11260215-LS-foto-1",
       "format": "czi",
       "source": "zenodo:11260215",
@@ -38957,6 +39283,70 @@
       ]
     },
     {
+      "id": "zenodo12515325-nanocompartment-spf",
+      "format": "czi",
+      "source": "zenodo:12515325",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 3.2",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 880 IndiMo, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
       "id": "zenodo13144501-airyscan-processed-100x-004",
       "format": "czi",
       "source": "zenodo:13144501",
@@ -39012,6 +39402,70 @@
         [
           "instrument",
           "LSM 780, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo13736595-ycharos-fus",
+      "format": "czi",
+      "source": "zenodo:13736595",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 14.0",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 880, AxioObserver",
           []
         ]
       ],
@@ -39228,6 +39682,70 @@
       ]
     },
     {
+      "id": "zenodo16950892-nodose-sum",
+      "format": "czi",
+      "source": "zenodo:16950892",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN 3.10",
+          []
+        ],
+        [
+          "instrument",
+          "Axio Observer.Z1 / 7",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
       "id": "zenodo16966021-HILO-SIM-GFP-ER-timelapse",
       "format": "czi",
       "source": "zenodo:16966021",
@@ -39356,6 +39874,70 @@
       ]
     },
     {
+      "id": "zenodo17181554-kinesin-mut017",
+      "format": "czi",
+      "source": "zenodo:17181554",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 14.0",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 880, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
       "id": "zenodo17252016-Figure-6G-CTRL",
       "format": "czi",
       "source": "zenodo:17252016",
@@ -39384,6 +39966,70 @@
         [
           "codec",
           "zstd1",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 14.0",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 780, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo17350040-prophigel-max",
+      "format": "czi",
+      "source": "zenodo:17350040",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
           [
             "pixels"
           ]
@@ -39634,6 +40280,70 @@
             "metadata",
             "pixels"
           ]
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo17652131-gpnmb-dan",
+      "format": "czi",
+      "source": "zenodo:17652131",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 14.0",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 880, AxioObserver",
+          []
         ]
       ],
       "inferred": [
@@ -40018,6 +40728,141 @@
       ]
     },
     {
+      "id": "zenodo19890985-piezo-capins",
+      "format": "czi",
+      "source": "zenodo:19890985",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 3.6",
+          []
+        ],
+        [
+          "instrument",
+          "Axio Observer.Z1 / 7",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo21426640-droplet-pdms",
+      "format": "czi",
+      "source": "zenodo:21426640",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "mosaic",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 14.0",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 780, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
       "id": "zenodo22090339-6h-timelapse-06-MIP",
       "format": "czi",
       "source": "zenodo:22090339",
@@ -40068,6 +40913,518 @@
         [
           "writer_version",
           "ZEN 3.13",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo5574569-kapb",
+      "format": "czi",
+      "source": "zenodo:5574569",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 14.0",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 880, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo5602160-celegans-nlp45",
+      "format": "czi",
+      "source": "zenodo:5602160",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 14.0",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 880, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo5714530-autophagy-do45",
+      "format": "czi",
+      "source": "zenodo:5714530",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 2.3",
+          []
+        ],
+        [
+          "instrument",
+          "Axio Observer.Z1 / 7",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo5823010-inflammasome",
+      "format": "czi",
+      "source": "zenodo:5823010",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 14.0",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 710, Axio Imager 2",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo5908580-cdt1",
+      "format": "czi",
+      "source": "zenodo:5908580",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 14.0",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 710, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo6685822-heliorhodopsin",
+      "format": "czi",
+      "source": "zenodo:6685822",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 14.0",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 880, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo6865142-sim-synapsed",
+      "format": "czi",
+      "source": "zenodo:6865142",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 16.0",
+          []
+        ],
+        [
+          "instrument",
+          "Andor1, AxioObserver",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo7011051-airyscan2",
+      "format": "czi",
+      "source": "zenodo:7011051",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 3.1",
+          []
+        ],
+        [
+          "instrument",
+          "Axio Observer.Z1 / 7",
           []
         ]
       ],
@@ -41874,6 +43231,463 @@
         [
           "instrument",
           "Celldiscoverer 7",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo7017487-frap3d",
+      "format": "czi",
+      "source": "zenodo:7017487",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 3.1",
+          []
+        ],
+        [
+          "instrument",
+          "Axio Observer.Z1 / 7",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo7430767-smfish-dacv",
+      "format": "czi",
+      "source": "zenodo:7430767",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 2.6",
+          []
+        ],
+        [
+          "instrument",
+          "Axio Observer.Z1 / 7",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo7921367-pollentube",
+      "format": "czi",
+      "source": "zenodo:7921367",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 3.5",
+          []
+        ],
+        [
+          "instrument",
+          "Axio Observer.Z1 / 7",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo8164709-syk-lsmcr",
+      "format": "czi",
+      "source": "zenodo:8164709",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 3.4",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo8321543-zen-black-3d",
+      "format": "czi",
+      "source": "zenodo:8321543",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "mosaic",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN black",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN black 14.0",
+          []
+        ],
+        [
+          "instrument",
+          "LSM 880 Indimo, Axio Imager 2",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo8358320-import-issue",
+      "format": "czi",
+      "source": "zenodo:8358320",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 3.6",
+          []
+        ],
+        [
+          "instrument",
+          "Axio Observer.Z1 / 7",
+          []
+        ]
+      ],
+      "inferred": [
+        7,
+        23
+      ]
+    },
+    {
+      "id": "zenodo8420587-igem-leiden",
+      "format": "czi",
+      "source": "zenodo:8420587",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "stored gray16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ZEN blue",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ZEN blue 3.6",
+          []
+        ],
+        [
+          "instrument",
+          "Axio Imager.M2",
           []
         ]
       ],
@@ -43857,6 +45671,144 @@
         [
           "writer",
           "Gatan DigitalMicrograph",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "ome-dm4-smallmontage0000",
+      "format": "dm",
+      "source": "ome-sample:gatan/imagesc-36590",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "IMAGING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.31",
+          []
+        ],
+        [
+          "instrument",
+          "FEI Tecnai Remote TCPIP",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "ome-dm4-smallmontage0001",
+      "format": "dm",
+      "source": "ome-sample:gatan/imagesc-36590",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "IMAGING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.31",
+          []
+        ],
+        [
+          "instrument",
+          "FEI Tecnai Remote TCPIP",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
           []
         ]
       ],
@@ -46079,6 +48031,183 @@
       ]
     },
     {
+      "id": "zenodo10635128-quartz",
+      "format": "dm",
+      "source": "zenodo:10635128",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo10848941-go-zno",
+      "format": "dm",
+      "source": "zenodo:10848941",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SCANNING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.43",
+          []
+        ],
+        [
+          "instrument",
+          "JEOL COM",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo1108559-diamond-1c",
+      "format": "dm",
+      "source": "zenodo:1108559",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SCANNING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "instrument",
+          "JEOL COM",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
       "id": "zenodo11471263-wte2-HRTEM",
       "format": "dm",
       "source": "zenodo:11471263",
@@ -46379,6 +48508,431 @@
       ]
     },
     {
+      "id": "zenodo14602797-lunar-eels",
+      "format": "dm",
+      "source": "zenodo:14602797",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "1-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SCANNING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.43",
+          []
+        ],
+        [
+          "instrument",
+          "FEI Tecnai Remote TCPIP",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo1478664-sorter-47r",
+      "format": "dm",
+      "source": "zenodo:1478664",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Imaging",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "instrument",
+          "Tecnai F20",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo14894490-hfn-pillar",
+      "format": "dm",
+      "source": "zenodo:14894490",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "3-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.21",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo15381627-crphys-eels",
+      "format": "dm",
+      "source": "zenodo:15381627",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.51",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo17113003-picker-si",
+      "format": "dm",
+      "source": "zenodo:17113003",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "1-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SCANNING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.53",
+          []
+        ],
+        [
+          "instrument",
+          "JEOL COM, F200",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo17176730-bf-issue-4366",
+      "format": "dm",
+      "source": "zenodo:17176730",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "IMAGING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.43",
+          []
+        ],
+        [
+          "instrument",
+          "JEOL COM",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo17454201-ice-si",
+      "format": "dm",
+      "source": "zenodo:17454201",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "3-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SCANNING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.22",
+          []
+        ],
+        [
+          "instrument",
+          "JEOL COM",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
       "id": "zenodo18016957-MoS2-ref-EELS",
       "format": "dm",
       "source": "zenodo:18016957",
@@ -46563,6 +49117,119 @@
       ]
     },
     {
+      "id": "zenodo18373896-hzo-ptycho",
+      "format": "dm",
+      "source": "zenodo:18373896",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "3-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.51",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo18695090-methanol-2a",
+      "format": "dm",
+      "source": "zenodo:18695090",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "IMAGING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "instrument",
+          "JEOL COM",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
       "id": "zenodo20131420-SI-nanoFe",
       "format": "dm",
       "source": "zenodo:20131420",
@@ -46646,6 +49313,184 @@
       ]
     },
     {
+      "id": "zenodo20131691-bn-eels",
+      "format": "dm",
+      "source": "zenodo:20131691",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "1-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SCANNING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.53",
+          []
+        ],
+        [
+          "instrument",
+          "FEI Tecnai Remote TCPIP",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo21447249-magvector-df",
+      "format": "dm",
+      "source": "zenodo:21447249",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SCANNING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.53",
+          []
+        ],
+        [
+          "instrument",
+          "JEOL COM",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo22456798-lpbf-fft",
+      "format": "dm",
+      "source": "zenodo:22456798",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "packed-complex64",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.40",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
       "id": "zenodo2580185-Gatan-STEM-Image",
       "format": "dm",
       "source": "zenodo:2580185",
@@ -46701,6 +49546,247 @@
         [
           "field",
           "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo3878707-oam-gif",
+      "format": "dm",
+      "source": "zenodo:3878707",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "DIFFRACTION",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "instrument",
+          "Titan Holo",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo6385528-ge-nanowire",
+      "format": "dm",
+      "source": "zenodo:6385528",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "IMAGING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "instrument",
+          "FEI Titan",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo6532308-nanowire-line",
+      "format": "dm",
+      "source": "zenodo:6532308",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SCANNING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.21",
+          []
+        ],
+        [
+          "instrument",
+          "FEI Tecnai Remote",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo6793320-spim-spade",
+      "format": "dm",
+      "source": "zenodo:6793320",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
           []
         ]
       ],
@@ -46774,6 +49860,135 @@
       ]
     },
     {
+      "id": "zenodo8002432-periplasmic",
+      "format": "dm",
+      "source": "zenodo:8002432",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SCANNING",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 3.42",
+          []
+        ],
+        [
+          "instrument",
+          "JEOL COM",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo8010278-epdf-zeroloss",
+      "format": "dm",
+      "source": "zenodo:8010278",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "1-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "DIFFRACTION",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "instrument",
+          "JEOL COM",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
       "id": "zenodo8045363-fem-TbCoSiN-stack",
       "format": "dm",
       "source": "zenodo:8045363",
@@ -46829,6 +50044,55 @@
         [
           "field",
           "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo8188933-irradiated-df",
+      "format": "dm",
+      "source": "zenodo:8188933",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "writer_version",
+          "Gatan DigitalMicrograph 2.32",
           []
         ]
       ],
@@ -46933,6 +50197,70 @@
         [
           "writer_version",
           "Gatan DigitalMicrograph 2.31",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        13
+      ]
+    },
+    {
+      "id": "zenodo8216192-chirality-probe",
+      "format": "dm",
+      "source": "zenodo:8216192",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "DM4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2-D",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "DIFFRACTION",
+          []
+        ],
+        [
+          "writer",
+          "Gatan DigitalMicrograph",
+          []
+        ],
+        [
+          "instrument",
+          "TitanX",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
           []
         ]
       ],
@@ -48081,6 +51409,149 @@
       ]
     },
     {
+      "id": "zenodo13893137-alcumg-haadf",
+      "format": "emd",
+      "source": "zenodo:13893137",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "Velox 9",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "detector HAADF",
+          []
+        ],
+        [
+          "writer",
+          "Velox",
+          []
+        ],
+        [
+          "writer_version",
+          "Velox 3.12",
+          []
+        ],
+        [
+          "instrument",
+          "Spectra",
+          []
+        ],
+        [
+          "layout",
+          "multi-frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        10
+      ]
+    },
+    {
+      "id": "zenodo17464971-coreshell-mag",
+      "format": "emd",
+      "source": "zenodo:17464971",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "Velox 11",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "detector DF4",
+          []
+        ],
+        [
+          "sample_layout",
+          "complex",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "detector HAADF",
+          []
+        ],
+        [
+          "writer",
+          "Velox",
+          []
+        ],
+        [
+          "writer_version",
+          "Velox 2.11",
+          []
+        ],
+        [
+          "instrument",
+          "Titan Cubed",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        10
+      ]
+    },
+    {
       "id": "zenodo18267156-STEM-EELS-1-DyScO3",
       "format": "emd",
       "source": "zenodo:18267156",
@@ -48535,6 +52006,68 @@
       ]
     },
     {
+      "id": "zenodo20131691-bn-velox",
+      "format": "emd",
+      "source": "zenodo:20131691",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "Velox 10",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "detector HAADF",
+          []
+        ],
+        [
+          "writer",
+          "Velox",
+          []
+        ],
+        [
+          "writer_version",
+          "Velox 3.17",
+          []
+        ],
+        [
+          "instrument",
+          "Spectra",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        10
+      ]
+    },
+    {
       "id": "zenodo20131712-0002-Spectrum-Micro",
       "format": "emd",
       "source": "zenodo:20131712",
@@ -48773,6 +52306,152 @@
           [
             "traces"
           ]
+        ]
+      ],
+      "inferred": [
+        9,
+        10
+      ]
+    },
+    {
+      "id": "zenodo3878805-ceta-holo",
+      "format": "emd",
+      "source": "zenodo:3878805",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "Velox 8",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "detector BM-Ceta",
+          []
+        ],
+        [
+          "writer",
+          "Velox",
+          []
+        ],
+        [
+          "writer_version",
+          "Velox 1.15",
+          []
+        ],
+        [
+          "instrument",
+          "Talos F200S",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        10
+      ]
+    },
+    {
+      "id": "zenodo6414955-sigma3",
+      "format": "emd",
+      "source": "zenodo:6414955",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "Velox 9",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "detector BF",
+          []
+        ],
+        [
+          "record",
+          "detector HAADF",
+          []
+        ],
+        [
+          "record",
+          "detector DF2",
+          []
+        ],
+        [
+          "record",
+          "detector DF4",
+          []
+        ],
+        [
+          "writer",
+          "Velox",
+          []
+        ],
+        [
+          "writer_version",
+          "Velox 2.15",
+          []
+        ],
+        [
+          "instrument",
+          "Titan",
+          []
+        ],
+        [
+          "layout",
+          "multi-frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
         ]
       ],
       "inferred": [
@@ -53918,6 +57597,207 @@
       ]
     },
     {
+      "id": "zenodo17257407-bf-issue-anna",
+      "format": "ims",
+      "source": "zenodo:17257407",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.5.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Imaris",
+          []
+        ],
+        [
+          "writer_version",
+          "Imaris 5.5",
+          []
+        ],
+        [
+          "acquisition",
+          "SpinningDiskConfocal",
+          []
+        ],
+        [
+          "codec",
+          "hdf5 unfiltered",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "zenodo19630647-btbr-lab",
+      "format": "ims",
+      "source": "zenodo:19630647",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.5.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Imaris",
+          []
+        ],
+        [
+          "writer_version",
+          "Imaris 9.8",
+          []
+        ],
+        [
+          "layout",
+          "resolution_levels",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "scene statistics: MegaSurfaces",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "scene records: MegaSurfaces",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "hdf5 deflate",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "zenodo19666865-exm-artifact",
+      "format": "ims",
+      "source": "zenodo:19666865",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.5.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Imaris",
+          []
+        ],
+        [
+          "writer_version",
+          "Imaris 10.2",
+          []
+        ],
+        [
+          "layout",
+          "resolution_levels",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SpinningDiskConfocal",
+          []
+        ],
+        [
+          "codec",
+          "hdf5 deflate",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        12
+      ]
+    },
+    {
       "id": "zenodo20758452-181-c2-wt-20w-x60",
       "format": "ims",
       "source": "zenodo:20758452",
@@ -54143,6 +58023,211 @@
       "inferred": [
         11,
         12
+      ]
+    },
+    {
+      "id": "zenodo4433202-ovule-732",
+      "format": "ims",
+      "source": "zenodo:4433202",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.5.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Imaris",
+          []
+        ],
+        [
+          "writer_version",
+          "Imaris 9.5",
+          []
+        ],
+        [
+          "layout",
+          "resolution_levels",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "scene statistics: Cells",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "scene records: Cells",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "scene records: ImageMasks",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "scene statistics: Surfaces",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "scene records: Surfaces",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "hdf5 deflate",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "zenodo4449687-hela-h2b",
+      "format": "ims",
+      "source": "zenodo:4449687",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.5.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Imaris",
+          []
+        ],
+        [
+          "writer_version",
+          "Imaris 9.5",
+          []
+        ],
+        [
+          "codec",
+          "hdf5 unfiltered",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "zenodo5895076-polymersome-spot",
+      "format": "ims",
+      "source": "zenodo:5895076",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.5.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Imaris",
+          []
+        ],
+        [
+          "writer_version",
+          "Imaris 9.7",
+          []
+        ],
+        [
+          "codec",
+          "hdf5 deflate",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        11
       ]
     },
     {
@@ -60074,6 +64159,237 @@
       ]
     },
     {
+      "id": "zenodo18462868-raman-spombe",
+      "format": "lif",
+      "source": "zenodo:18462868",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "LAS X",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "writer_version",
+          "LAS X 4",
+          []
+        ],
+        [
+          "instrument",
+          "DMI8-CS",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        27
+      ]
+    },
+    {
+      "id": "zenodo19055391-iliocaudalis-11b",
+      "format": "lif",
+      "source": "zenodo:19055391",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "DM6000B",
+          []
+        ],
+        [
+          "layout",
+          "tile_scan",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        27
+      ]
+    },
+    {
+      "id": "zenodo19217336-dnge-notjammed",
+      "format": "lif",
+      "source": "zenodo:19217336",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "LAS X",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "writer_version",
+          "LAS X 3",
+          []
+        ],
+        [
+          "instrument",
+          "DM6B-Z-CS",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        27
+      ]
+    },
+    {
+      "id": "zenodo20760621-stellaris-metadata",
+      "format": "lif",
+      "source": "zenodo:20760621",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "LAS X",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "writer_version",
+          "LAS X 4",
+          []
+        ],
+        [
+          "instrument",
+          "DMI8-CS",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        27
+      ]
+    },
+    {
       "id": "zenodo3382102-y293-Gal4-vmat-GFP-f01",
       "format": "lif",
       "source": "zenodo:3382102",
@@ -60099,6 +64415,147 @@
         [
           "sample_layout",
           "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "TCS SP5",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        27
+      ]
+    },
+    {
+      "id": "zenodo5576217-nmj-starved",
+      "format": "lif",
+      "source": "zenodo:5576217",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "TCS SP5",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        27
+      ]
+    },
+    {
+      "id": "zenodo5895076-polymersome-unstain",
+      "format": "lif",
+      "source": "zenodo:5895076",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "TCS SP5",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        27
+      ]
+    },
+    {
+      "id": "zenodo6259698-ob-f8211",
+      "format": "lif",
+      "source": "zenodo:6259698",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
           [
             "pixels"
           ]
@@ -60176,6 +64633,230 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        27
+      ]
+    },
+    {
+      "id": "zenodo6643649-ki67-untreated",
+      "format": "lif",
+      "source": "zenodo:6643649",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "LAS X",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "writer_version",
+          "LAS X 3",
+          []
+        ],
+        [
+          "instrument",
+          "DMI6000B-CS",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        27
+      ]
+    },
+    {
+      "id": "zenodo7225975-polyoma-6e",
+      "format": "lif",
+      "source": "zenodo:7225975",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "LAS X",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "writer_version",
+          "LAS X 3",
+          []
+        ],
+        [
+          "instrument",
+          "DM4000B-CA",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        27
+      ]
+    },
+    {
+      "id": "zenodo7509202-ileum-ctrl",
+      "format": "lif",
+      "source": "zenodo:7509202",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "TCS SP5",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        27
+      ]
+    },
+    {
+      "id": "zenodo7840078-bodipy-mcf7",
+      "format": "lif",
+      "source": "zenodo:7840078",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "LAS X",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "writer_version",
+          "LAS X 3",
+          []
+        ],
+        [
+          "instrument",
+          "DMI8-CS",
+          []
         ],
         [
           "field",
@@ -63602,6 +68283,241 @@
       ]
     },
     {
+      "id": "zenodo10814409-chlamy-seg",
+      "format": "mrc",
+      "source": "zenodo:10814409",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "20141",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 0",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
+      "id": "zenodo13134260-tomo-tilt",
+      "format": "mrc",
+      "source": "zenodo:13134260",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "20141",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 6",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
+      "id": "zenodo15579074-hif2-cryosparc",
+      "format": "mrc",
+      "source": "zenodo:15579074",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pre-2014 (no NVERSION)",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "image-stack",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
+      "id": "zenodo15871573-carbon-ctf",
+      "format": "mrc",
+      "source": "zenodo:15871573",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "20140",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 1",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "image-stack",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
+      "id": "zenodo16423583-leopard-dws",
+      "format": "mrc",
+      "source": "zenodo:16423583",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "20141",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "image-stack",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
       "id": "zenodo16462008-8RRH-molmap-30A",
       "format": "mrc",
       "source": "zenodo:16462008",
@@ -63649,6 +68565,154 @@
       ]
     },
     {
+      "id": "zenodo19102039-cas9-block12",
+      "format": "mrc",
+      "source": "zenodo:19102039",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "20141",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
+      "id": "zenodo20804244-ribotunnel",
+      "format": "mrc",
+      "source": "zenodo:20804244",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pre-2014 (no NVERSION)",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "image-stack",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
+      "id": "zenodo23184057-cryonet-0775",
+      "format": "mrc",
+      "source": "zenodo:23184057",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "20140",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "permuted axes",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
       "id": "zenodo2578866-HAADF-aligned",
       "format": "mrc",
       "source": "zenodo:2578866",
@@ -63660,6 +68724,100 @@
       ],
       "assumed": [
         "images[].physical_size"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pre-2014 (no NVERSION)",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "image-stack",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
+      "id": "zenodo4783151-chemoarray-relion",
+      "format": "mrc",
+      "source": "zenodo:4783151",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pre-2014 (no NVERSION)",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "image-stack",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
+      "id": "zenodo7222413-ifta",
+      "format": "mrc",
+      "source": "zenodo:7222413",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
       ],
       "features": [
         [
@@ -74448,6 +79606,249 @@
       ]
     },
     {
+      "id": "zenodo10277961-mrap1",
+      "format": "nd2",
+      "source": "zenodo:10277961",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 5.11",
+          []
+        ],
+        [
+          "sample_layout",
+          "stored BGR",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo13335999-synuclein-4c",
+      "format": "nd2",
+      "source": "zenodo:13335999",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 5.42",
+          []
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo13821490-brdu",
+      "format": "nd2",
+      "source": "zenodo:13821490",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 5.21",
+          []
+        ],
+        [
+          "layout",
+          "loop xy_position_loop",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo14007546-fdaa",
+      "format": "nd2",
+      "source": "zenodo:14007546",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 5.21",
+          []
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
       "id": "zenodo14231228-Sla2-WT-18-roi",
       "format": "nd2",
       "source": "zenodo:14231228",
@@ -74489,6 +79890,635 @@
         [
           "layout",
           "loop ne_time_loop",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo14243556-adhm-pir",
+      "format": "nd2",
+      "source": "zenodo:14243556",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 4.60",
+          []
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo14590332-color-problems",
+      "format": "nd2",
+      "source": "zenodo:14590332",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 5.30",
+          []
+        ],
+        [
+          "layout",
+          "loop z_stack_loop",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo15046688-n1-bugged-raw",
+      "format": "nd2",
+      "source": "zenodo:15046688",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 5.42",
+          []
+        ],
+        [
+          "layout",
+          "loop xy_position_loop",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "multi_position",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo15236968-nimbus",
+      "format": "nd2",
+      "source": "zenodo:15236968",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 5.11",
+          []
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo15493140-fiji811-cropped",
+      "format": "nd2",
+      "source": "zenodo:15493140",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 5.42",
+          []
+        ],
+        [
+          "sample_layout",
+          "stored BGR",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "loop z_stack_loop",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo15641410-barley-arabido",
+      "format": "nd2",
+      "source": "zenodo:15641410",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 5.21",
+          []
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo15679243-leadingstrand",
+      "format": "nd2",
+      "source": "zenodo:15679243",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 4.30",
+          []
+        ],
+        [
+          "layout",
+          "loop ne_time_loop",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo17186598-skewed",
+      "format": "nd2",
+      "source": "zenodo:17186598",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 6.10",
+          []
+        ],
+        [
+          "layout",
+          "loop z_stack_loop",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo17487086-glycopaint-bf",
+      "format": "nd2",
+      "source": "zenodo:17487086",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 5.21",
+          []
+        ],
+        [
+          "codec",
+          "uncompressed",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        24
+      ]
+    },
+    {
+      "id": "zenodo18078402-bee-ventral",
+      "format": "nd2",
+      "source": "zenodo:18078402",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NIS-Elements",
+          []
+        ],
+        [
+          "writer_version",
+          "NIS-Elements 5.21",
+          []
+        ],
+        [
+          "layout",
+          "loop z_stack_loop",
           [
             "metadata",
             "pixels"
@@ -82328,6 +88358,101 @@
         [
           "layout",
           "axes cyx",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "blosc/lz4",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo20559997-scmx-mip",
+      "format": "ome-zarr",
+      "source": "zenodo:20559997",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NGFF 0.4",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "format_version",
+          "Zarr v2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "zip store",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "dtype <u2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "axes czyx",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "plate",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "dtype <u4",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "axes zyx",
           [
             "pixels"
           ]
@@ -96330,6 +102455,70 @@
         [
           "instrument",
           "Microscope TecnaiOsiris 200 kV D675 AnalyticalTwin",
+          []
+        ],
+        [
+          "layout",
+          "with .emi",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        10
+      ]
+    },
+    {
+      "id": "zenodo17466079-coreshell-ser",
+      "format": "ser",
+      "source": "zenodo:17466079",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "assumed": [
+        "images[].physical_size"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0x0220",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "2d elements",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "TIA / ES Vision",
+          []
+        ],
+        [
+          "instrument",
+          "Microscope TitanCubed 300 kV D3320 SuperTwin",
           []
         ],
         [
@@ -112303,6 +118492,294 @@
       ]
     },
     {
+      "id": "ome-ndpi-manuel-test3-dapi",
+      "format": "tiff",
+      "source": "ome-sample:hamamatsu-ndpi/manuel",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NDP.scan",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "NDP.scan 2",
+          []
+        ],
+        [
+          "instrument",
+          "C9600-12",
+          []
+        ],
+        [
+          "dialect",
+          "hamamatsu-ndpi",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg (ycbcr)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        5
+      ]
+    },
+    {
+      "id": "ome-ndpi-manuel-test3-fitc",
+      "format": "tiff",
+      "source": "ome-sample:hamamatsu-ndpi/manuel",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NDP.scan",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "NDP.scan 2",
+          []
+        ],
+        [
+          "instrument",
+          "C9600-12",
+          []
+        ],
+        [
+          "dialect",
+          "hamamatsu-ndpi",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg (ycbcr)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        5
+      ]
+    },
+    {
+      "id": "ome-ndpi-manuel-test3-tritc",
+      "format": "tiff",
+      "source": "ome-sample:hamamatsu-ndpi/manuel",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NDP.scan",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "NDP.scan 2",
+          []
+        ],
+        [
+          "instrument",
+          "C9600-12",
+          []
+        ],
+        [
+          "dialect",
+          "hamamatsu-ndpi",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg (ycbcr)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        5
+      ]
+    },
+    {
       "id": "ome-qptiff-hande-compressed-scan1",
       "format": "tiff",
       "source": "ome-sample:vectra-qptiff/perkinelmer",
@@ -113986,6 +120463,194 @@
       ]
     },
     {
+      "id": "zenodo10046394-macrostomum",
+      "format": "tiff",
+      "source": "zenodo:10046394",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "zeiss-lsm",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo10471496-polcam-tcell",
+      "format": "tiff",
+      "source": "zenodo:10471496",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ImageJ",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ImageJ 1",
+          []
+        ],
+        [
+          "dialect",
+          "imagej",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo1204334-metamorph-smart34",
+      "format": "tiff",
+      "source": "zenodo:1204334",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "MetaMorph",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "MetaMorph 7",
+          []
+        ],
+        [
+          "dialect",
+          "plain",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        8
+      ]
+    },
+    {
       "id": "zenodo12697479-ndpi-izd",
       "format": "tiff",
       "source": "zenodo:12697479",
@@ -114082,6 +120747,162 @@
       ]
     },
     {
+      "id": "zenodo13137435-leptin-ndpi",
+      "format": "tiff",
+      "source": "zenodo:13137435",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "NDP.scan",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "NDP.scan 3",
+          []
+        ],
+        [
+          "instrument",
+          "C9600-01",
+          []
+        ],
+        [
+          "dialect",
+          "hamamatsu-ndpi",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg (ycbcr)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        5
+      ]
+    },
+    {
+      "id": "zenodo13625087-phasor-unmix",
+      "format": "tiff",
+      "source": "zenodo:13625087",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "zeiss-lsm",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "planar samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "zenodo14025917-ex3-5x",
       "format": "tiff",
       "source": "zenodo:14025917",
@@ -114170,6 +120991,101 @@
       ]
     },
     {
+      "id": "zenodo14243592-adhm-svs",
+      "format": "tiff",
+      "source": "zenodo:14243592",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Aperio Image Library",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "Aperio Image Library 12",
+          []
+        ],
+        [
+          "instrument",
+          "ScanScope SS1639",
+          []
+        ],
+        [
+          "dialect",
+          "aperio-svs",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg-2000 (rgb)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "tiles",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        6
+      ]
+    },
+    {
       "id": "zenodo14510432-lsm-10-01",
       "format": "tiff",
       "source": "zenodo:14510432",
@@ -114213,6 +121129,1055 @@
         [
           "sample_layout",
           "planar samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo14649225-pff-s3c",
+      "format": "tiff",
+      "source": "zenodo:14649225",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ImageJ",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ImageJ 1",
+          []
+        ],
+        [
+          "dialect",
+          "imagej",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo14918442-aqp2-fsk",
+      "format": "tiff",
+      "source": "zenodo:14918442",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "zeiss-lsm",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "planar samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo15587142-pancreatitis-cd11b",
+      "format": "tiff",
+      "source": "zenodo:15587142",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Aperio Image Library",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "Aperio Image Library 12",
+          []
+        ],
+        [
+          "instrument",
+          "ScanScope SS7497",
+          []
+        ],
+        [
+          "dialect",
+          "aperio-svs",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg (rgb)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "tiles",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        6
+      ]
+    },
+    {
+      "id": "zenodo15757766-phenocycler-mask",
+      "format": "tiff",
+      "source": "zenodo:15757766",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0+BigTIFF",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "format_version",
+          "OME-XML 2016-06",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "ome-tiff",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "lzw",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "tiles",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "zenodo16894639-laurdan-spectra",
+      "format": "tiff",
+      "source": "zenodo:16894639",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "zeiss-lsm",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "planar samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo16916709-brachiopod",
+      "format": "tiff",
+      "source": "zenodo:16916709",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "zeiss-lsm",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "planar samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo17230216-sem-tio2",
+      "format": "tiff",
+      "source": "zenodo:17230216",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "LYRA3 GMU 118-0085",
+          []
+        ],
+        [
+          "dialect",
+          "plain",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        8
+      ]
+    },
+    {
+      "id": "zenodo17272402-microct-maize",
+      "format": "tiff",
+      "source": "zenodo:17272402",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ImageJ",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ImageJ 1",
+          []
+        ],
+        [
+          "dialect",
+          "imagej",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo18601952-sem-tins",
+      "format": "tiff",
+      "source": "zenodo:18601952",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "plain",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "lzw",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "predictor 2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        8
+      ]
+    },
+    {
+      "id": "zenodo18686988-aydin-tribolium",
+      "format": "tiff",
+      "source": "zenodo:18686988",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "tifffile",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "plain",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "zstd",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "predictor 2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        8
+      ]
+    },
+    {
+      "id": "zenodo19009239-aperio-fl-scn",
+      "format": "tiff",
+      "source": "zenodo:19009239",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0+BigTIFF",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Aperio Leica Biosystems FL",
+          []
+        ],
+        [
+          "dialect",
+          "leica-scn",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg (ycbcr)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "tiles",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "zenodo21991618-motility",
+      "format": "tiff",
+      "source": "zenodo:21991618",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "tifffile",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "plain",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        8
+      ]
+    },
+    {
+      "id": "zenodo22261325-flim-fret2",
+      "format": "tiff",
+      "source": "zenodo:22261325",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "format_version",
+          "OME-XML 2016-06",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "PhasorPy",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "PhasorPy 0",
+          []
+        ],
+        [
+          "sample_layout",
+          "uint32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "ome-tiff",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "deflate",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "zenodo22820799-luxar-cells3d",
+      "format": "tiff",
+      "source": "zenodo:22820799",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "format_version",
+          "OME-XML 2016-06",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "tifffile",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "tifffile 2026",
+          []
+        ],
+        [
+          "dialect",
+          "ome-tiff",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "deflate",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "zenodo5410324-huvec-sd",
+      "format": "tiff",
+      "source": "zenodo:5410324",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ImageJ",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ImageJ 1",
+          []
+        ],
+        [
+          "dialect",
+          "imagej",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
           [
             "pixels"
           ]
@@ -114328,6 +122293,397 @@
         [
           "codec",
           "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo58804-openspim",
+      "format": "tiff",
+      "source": "zenodo:58804",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Adobe Photoshop CS6 (Windows)",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "Adobe Photoshop CS6 (Windows) 6",
+          []
+        ],
+        [
+          "dialect",
+          "plain",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "lzw",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "predictor 2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        8
+      ]
+    },
+    {
+      "id": "zenodo6850745-arabidopsis-confocal",
+      "format": "tiff",
+      "source": "zenodo:6850745",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ImageJ",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ImageJ 1",
+          []
+        ],
+        [
+          "dialect",
+          "imagej",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo7151866-p58-2009",
+      "format": "tiff",
+      "source": "zenodo:7151866",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "zeiss-lsm",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo7659210-rab12-max",
+      "format": "tiff",
+      "source": "zenodo:7659210",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "ImageJ",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "ImageJ 1",
+          []
+        ],
+        [
+          "dialect",
+          "imagej",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo7709903-sqstm1",
+      "format": "tiff",
+      "source": "zenodo:7709903",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "zeiss-lsm",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "planar samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "zenodo8417894-phasorpy-paramecium",
+      "format": "tiff",
+      "source": "zenodo:8417894",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "zeiss-lsm",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "planar samples",
           [
             "pixels"
           ]
@@ -116245,6 +124601,82 @@
         [
           "writer_version",
           "OLYMPUS VS200 ASW 4",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        18,
+        18
+      ]
+    },
+    {
+      "id": "zenodo19893921-dsx-efi-vsi",
+      "format": "vsi",
+      "source": "zenodo:19893921",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0x00030006",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "size from ets_header",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "PRECiV ADM",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "PRECiV ADM 3",
           []
         ],
         [

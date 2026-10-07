@@ -1,0 +1,506 @@
+{
+ "id": "zenodo19217336-dnge-notjammed",
+ "file": "zenodo19217336-dnge-notjammed.lif",
+ "size": 60137807,
+ "sha256": "4dad6877bacf5158cd0af51875370b11751b6f56b8e7a123920263d95f0c1de7",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Image001",
+   "path": "Image001",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.5681818181818181,
+    "y": 0.5681818181818181,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d62e6f10fb36c922be197e5b03488c7e"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Image002",
+   "path": "Image002",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0cb534a20b7f4ac8d3c350e03eb96b0c"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Image003",
+   "path": "Image003",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0b1cf819a4f89535866b8147ee636f2a"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Image004",
+   "path": "Image004",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1367358a8e965930b01be71f7c1569f1"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Image005",
+   "path": "Image005",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e3f1ec6f207eeead8ba827ab9574dcaa"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "Image006",
+   "path": "Image006",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "57ec19a707c8fccfdd7f08141d0ed89e"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "Series007",
+   "path": "Series007",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "15f035ba986d8db073ddfd906562cc51"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "Image008",
+   "path": "Image008",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8f17a0dba589a55ac0f0ff66c34a8384"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "Image009",
+   "path": "Image009",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "98cf33c2b83e9ffba2d49210e878553c"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "Image010",
+   "path": "Image010",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "94b4406ee3a576ad6a461124094a4d06"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "Image011",
+   "path": "Image011",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3a9c6847a7fb92d0ebfa0a0c1a52a3c6"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "Image012",
+   "path": "Image012",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dc02fb070e7408acd8983ca6ba26829c"
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "name": "Image013",
+   "path": "Image013",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a7d21b4971afeecfa84bf8ea3cb2ec11"
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "name": "Image014",
+   "path": "Image014",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.283952125061065,
+    "y": 0.283952125061065,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5c6a8586d5939b15639165c40d353d1d"
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "name": "Image015",
+   "path": "Image015",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.07280815828041036,
+    "y": 0.07280815828041036,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2082997292ebd53c4a5f943c2390dbfc"
+    }
+   ]
+  }
+ ]
+}

@@ -35,7 +35,7 @@ OME-Zarr / OME-NGFF 0.1–0.5 on Zarr v2 and v3, directory and zip stores (`ome-
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ome-zarr` | [format note](../../docs/formats/ome-zarr.md), [provenance log](../../docs/provenance/ome-zarr.md) | high | open spec | 7 / 7 | 5 | - |
+| `ome-zarr` | [format note](../../docs/formats/ome-zarr.md), [provenance log](../../docs/provenance/ome-zarr.md) | high | open spec | 8 / 8 | 6 | - |
 
 ### Source map
 
@@ -68,31 +68,31 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ome-zarr` | codec | `blosc/lz4` | pixels | 6 | 6 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
+| `ome-zarr` | codec | `blosc/lz4` | pixels | 7 | 7 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
 | `ome-zarr` | codec | `zstd` | pixels | 1 | 1 | `zenodo22727474-ri-c2bf7d19` |
-| `ome-zarr` | format_version | `NGFF 0.4` | metadata, pixels | 7 | 7 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
-| `ome-zarr` | format_version | `Zarr v2` | pixels | 7 | 7 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
+| `ome-zarr` | format_version | `NGFF 0.4` | metadata, pixels | 8 | 8 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
+| `ome-zarr` | format_version | `Zarr v2` | pixels | 8 | 8 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
 | `ome-zarr` | layout | `axes cyx` | pixels | 1 | 1 | `zenodo14841309-scportrait-input` |
-| `ome-zarr` | layout | `axes czyx` | pixels | 5 | 5 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
+| `ome-zarr` | layout | `axes czyx` | pixels | 6 | 6 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
 | `ome-zarr` | layout | `axes tczyx` | pixels | 1 | 1 | `zenodo22727474-ri-c2bf7d19` |
-| `ome-zarr` | layout | `axes zyx` | pixels | 3 | 3 | `zenodo13305156-cardio-mip`, `zenodo13982701-organoid`, `zenodo13982701-organoid-mip` |
-| `ome-zarr` | layout | `plate` | metadata | 4 | 4 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
-| `ome-zarr` | layout | `zip store` | pixels | 7 | 7 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
+| `ome-zarr` | layout | `axes zyx` | pixels | 4 | 4 | `zenodo13305156-cardio-mip`, `zenodo13982701-organoid`, `zenodo13982701-organoid-mip` |
+| `ome-zarr` | layout | `plate` | metadata | 5 | 5 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
+| `ome-zarr` | layout | `zip store` | pixels | 8 | 8 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
 | `ome-zarr` | sample_layout | `dtype <f4` | pixels | 1 | 1 | `zenodo22727474-ri-c2bf7d19` |
-| `ome-zarr` | sample_layout | `dtype <u2` | pixels | 6 | 6 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
-| `ome-zarr` | sample_layout | `dtype <u4` | pixels | 3 | 3 | `zenodo13305156-cardio-mip`, `zenodo13982701-organoid`, `zenodo13982701-organoid-mip` |
+| `ome-zarr` | sample_layout | `dtype <u2` | pixels | 7 | 7 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
+| `ome-zarr` | sample_layout | `dtype <u4` | pixels | 4 | 4 | `zenodo13305156-cardio-mip`, `zenodo13982701-organoid`, `zenodo13982701-organoid-mip` |
 | `ome-zarr` | sample_layout | `dtype \|i1` | pixels | 1 | 1 | `zenodo14641597-idr6001240` |
 | `ome-zarr` | sample_layout | `float` | pixels | 1 | 1 | `zenodo22727474-ri-c2bf7d19` |
 | `ome-zarr` | sample_layout | `int8` | pixels | 1 | 1 | `zenodo14641597-idr6001240` |
-| `ome-zarr` | sample_layout | `uint16` | pixels | 6 | 6 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
-| `ome-zarr` | sample_layout | `uint32` | pixels | 3 | 3 | `zenodo13305156-cardio-mip`, `zenodo13982701-organoid`, `zenodo13982701-organoid-mip` |
+| `ome-zarr` | sample_layout | `uint16` | pixels | 7 | 7 | `zenodo13305156-cardio`, `zenodo13305156-cardio-mip`, `zenodo13982701-organoid` |
+| `ome-zarr` | sample_layout | `uint32` | pixels | 4 | 4 | `zenodo13305156-cardio-mip`, `zenodo13982701-organoid`, `zenodo13982701-organoid-mip` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/fixtures.rs`](tests/fixtures.rs)
 - committed fixtures: 14 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_zarr_zip`, `whole_zarr`
-- corpus inputs by tier: heldout 1, smoke 1, standard 6
+- corpus inputs by tier: heldout 1, smoke 1, standard 7
 - golden snapshots: [`corpus/snapshots/ome-zarr.jsonl`](../../corpus/snapshots/ome-zarr.jsonl)
 
 ### Open new-variant intakes

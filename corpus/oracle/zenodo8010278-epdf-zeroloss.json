@@ -1,0 +1,79 @@
+{
+ "id": "zenodo8010278-epdf-zeroloss",
+ "file": "zenodo8010278-epdf-zeroloss.dm3",
+ "size": 322175,
+ "sha256": "0d11c6018e01c481354cb58b320985f492737e063c2aa8910b46d9428327696f",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "EELS Spectrum Acquire ZL (dark ref corrected)calib",
+   "size_x": 2048,
+   "size_y": 1,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fa248c0dd92c7d03e70be351a2e8d4d5"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "EELS Spectrum Acquire ZL (dark ref corrected)calib",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "intensity"
+   ],
+   "channel_units": [
+    "e-"
+   ],
+   "ppm_first": -38.20000056922436,
+   "ppm_last": 371.20000553131104,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2048,
+     "channels": [
+      {
+       "xxh3": "d01b0521fbdc64f3660a9e55bc2f4a09",
+       "first": [
+        2175.3828125,
+        1988.298828125,
+        1873.111083984375,
+        2019.2021484375,
+        1478.92578125,
+        1449.8076171875,
+        2756.3466796875,
+        1376.90087890625
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "dm3_lib constructor: KeyError: 'root.ImageList.1.ImageData.Dimensions.1'"
+ ]
+}
