@@ -60964,3 +60964,680 @@ license_checked = "https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1129
 source = "BioImage Archive S-BIAD1129: Artificial intelligence-based quantification of lymphocytes in feline small intestinal biopsies, slide ow52 (training/tuning set)"
 attribution = "Judit Magnusson Wulcan; Stefan M Keller (University of California, Davis)"
 notes = "pixel data of ho-biad1129-vsi-feline (stack10001)"
+
+[[file]]
+id = "rainbow-masshunter-amber"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "smoke"
+filename = "rainbow/amber.D"
+url = ""
+license = "LGPL-3.0-only"
+license_checked = "https://github.com/evanyeyeye/rainbow/blob/4918ad4c4f5957284143026fd21d300f53b76d2a/COPYING (GNU LGPL 3.0; the test data carry no other licence), 2026-10-06"
+source = "rainbow-api test data (github.com/evanyeyeye/rainbow, commit 4918ad4, tests/inputs/amber.D)"
+attribution = "rainbow-api developers (github.com/evanyeyeye/rainbow)"
+notes = "Agilent MassHunter data directory, AcqData only: 500 negative-ion MS1 profile scans of a 206-bin window (823.8-827.2), stored uncompressed in the run-length encoding of ion-mobility profiles; MSScan.xsd refers to its types with the mstns: prefix. Oracle: rainbow-api (LGPL, black box), hrms=True."
+parts_url = "https://raw.githubusercontent.com/evanyeyeye/rainbow/4918ad4c4f5957284143026fd21d300f53b76d2a/tests/inputs/amber.D/"
+native_id_not_compared = "rainbow reports no scan ids; scans are compared by position"
+parts = [
+  "AcqData/DefaultMassCal.xml  b6986d0b32bb475d681cc8d940e50e653c4573af1a3e70eeb1bcca91808f64b8",
+  "AcqData/MSMassCal.bin  c09c3c7677599e5065c9d3feb7fa77263e765bcc64949daca0ccc54d8caca9a7",
+  "AcqData/MSProfile.bin  d4a48a0e09d996f23f77e4b7b7e261d6f19b2b65da6a349d05afe48d9af9f169",
+  "AcqData/MSScan.bin  f60c1647469b64fb5f241fa4ae69002f8d9476f8b2751a803054e542df100859",
+  "AcqData/MSScan.xsd  8f0dcaf911c440167f03c94972ac8ae18d7f0c2a1f504f05097164ae14992772",
+]
+
+[[file]]
+id = "rainbow-masshunter-cyan"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "smoke"
+filename = "rainbow/cyan.D"
+url = ""
+license = "LGPL-3.0-only"
+license_checked = "https://github.com/evanyeyeye/rainbow/blob/4918ad4c4f5957284143026fd21d300f53b76d2a/COPYING (GNU LGPL 3.0; the test data carry no other licence), 2026-10-06"
+source = "rainbow-api test data (github.com/evanyeyeye/rainbow, commit 4918ad4, tests/inputs/cyan.D)"
+attribution = "rainbow-api developers (github.com/evanyeyeye/rainbow)"
+notes = "Agilent MassHunter data directory cut to 3 MS1 profile scans (105,152 bins, 600-3000), stored uncompressed in the run-length encoding; MSScan.xsd uses the mstns: prefix; its MSMassCal.bin ends before the scans' calibration records, so DefaultMassCal.xml calibrates. Oracle: rainbow-api (LGPL, black box), hrms=True."
+parts_url = "https://raw.githubusercontent.com/evanyeyeye/rainbow/4918ad4c4f5957284143026fd21d300f53b76d2a/tests/inputs/cyan.D/"
+native_id_not_compared = "rainbow reports no scan ids; scans are compared by position"
+mz_not_compared = "rainbow's m/z lie about 43 ppm below the base-peak m/z the file stores for each scan (825.4575 for scan 174747); ours equal it to 1e-12 relative. Counts are compared, and their sums equal each record's TIC."
+parts = [
+  "AcqData/DefaultMassCal.xml  b6986d0b32bb475d681cc8d940e50e653c4573af1a3e70eeb1bcca91808f64b8",
+  "AcqData/MSMassCal.bin  c05a34426b51d7b62b7536ec1ad12dcff234543a6c480b8087f46d2fb2392180",
+  "AcqData/MSProfile.bin  294362000a4a36a435b007cdcd4806c22da3d4d6cc0723040b07d24fe8a0f232",
+  "AcqData/MSScan.bin  a2922a49c03973b273f0e0a64c072b6f9c9aa81cfe29a5e4573c74d3b025a0b5",
+  "AcqData/MSScan.xsd  8f0dcaf911c440167f03c94972ac8ae18d7f0c2a1f504f05097164ae14992772",
+]
+
+[[file]]
+id = "rainbow-masshunter-magenta"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "smoke"
+filename = "rainbow/magenta.D"
+url = ""
+license = "LGPL-3.0-only"
+license_checked = "https://github.com/evanyeyeye/rainbow/blob/4918ad4c4f5957284143026fd21d300f53b76d2a/COPYING (GNU LGPL 3.0; the test data carry no other licence), 2026-10-06"
+source = "rainbow-api test data (github.com/evanyeyeye/rainbow, commit 4918ad4, tests/inputs/magenta.D)"
+attribution = "rainbow-api developers (github.com/evanyeyeye/rainbow)"
+notes = "Agilent MassHunter data directory cut to 3 MS1 profile scans (127,616 bins, 400-3200) in the run-length encoding, with UncompressedByteCount giving the dense size (the blocks are not LZF); version-6 scan records. Oracle: rainbow-api (LGPL, black box), hrms=True."
+parts_url = "https://raw.githubusercontent.com/evanyeyeye/rainbow/4918ad4c4f5957284143026fd21d300f53b76d2a/tests/inputs/magenta.D/"
+native_id_not_compared = "rainbow reports no scan ids; scans are compared by position"
+mz_not_compared = "rainbow's m/z lie about 29 ppm below the base-peak m/z the file stores for each scan (734.5049 for scan 195402); ours equal it to 5e-11 relative. Counts are compared, and their sums equal each record's TIC."
+parts = [
+  "AcqData/DefaultMassCal.xml  73a4dc15a7df17dd19123d22ef1e7522ced919f952be81ef939c2051cb083c53",
+  "AcqData/MSMassCal.bin  bf593aa5a59a35c2f7b714d611ff56fa24756c706a1b409adf49177a6f5b2976",
+  "AcqData/MSProfile.bin  9b8e7236101d6ed10eb33e5a114beb849a38bb44f2cf6efd3ea503a31b24c624",
+  "AcqData/MSScan.bin  a82c3c5b89524624c1077e82473485ca321d6fc73020f36bc25eadc520f72a69",
+  "AcqData/MSScan.xsd  2f1d3de114d7b1ef0ba6e133d7326420d6c487450b598c3e27e9bc421582177c",
+]
+
+[[file]]
+id = "rainbow-masshunter-gold"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "smoke"
+filename = "rainbow/gold.D"
+url = ""
+license = "LGPL-3.0-only"
+license_checked = "https://github.com/evanyeyeye/rainbow/blob/4918ad4c4f5957284143026fd21d300f53b76d2a/COPYING (GNU LGPL 3.0; the test data carry no other licence), 2026-10-06"
+source = "rainbow-api test data (github.com/evanyeyeye/rainbow, commit 4918ad4, tests/inputs/gold.D)"
+attribution = "rainbow-api developers (github.com/evanyeyeye/rainbow)"
+notes = "Agilent MassHunter data directory cut to 3 profile scans (74,963 bins, 100-1000) with LZF-compressed profiles and centroid peak lists (MSPeak.bin). Oracle: rainbow-api (LGPL, black box), hrms=True."
+parts_url = "https://raw.githubusercontent.com/evanyeyeye/rainbow/4918ad4c4f5957284143026fd21d300f53b76d2a/tests/inputs/gold.D/"
+native_id_not_compared = "rainbow reports no scan ids; scans are compared by position"
+parts = [
+  "AcqData/DefaultMassCal.xml  d866f30adf539e625bce1e50073b724e358959be8df1ece6114be5fbfa5b08de",
+  "AcqData/MSPeak.bin  cba0d1a2ea1794588406ac5285b9570799f9a71327eb8fdc0e25c57b5e77f6a4",
+  "AcqData/MSProfile.bin  f212057b0ecd370587395b88089879d7615b58194bd00e1079e6daafed1af465",
+  "AcqData/MSScan.bin  4329b198e27a5baa1bda8abd3d17c3223f3d081e297456d264c55c1dae40bf18",
+  "AcqData/MSScan.xsd  0662339fecc71b7c48b65da1e00436da5229f8cfb8b8143ab82b92557db64dd8",
+  "AcqData/MSTS.xml  3ad7d096d1dbdc69d3ef92483e5f8c39436449d6336b254587053a2686035dc3",
+]
+
+
+[[file]]
+id = "mtbls12630-5977b-bar004-d"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls12630-5977b-bar004.D.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12630/FILES/RAW_FILES/GC-MS/BAR004_HiSorb_BosNAT2.2.D.zip"
+sha256 = "08e412e2d8635e731c64e4802e9375e2bc1b474eb4f7255419d5e9a4f8c4899e"
+size = 37640273
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12630/i_Investigation.txt (Comment[License] CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS12630 (viral lysis and salt-marsh sediment metabolism), RAW_FILES/GC-MS/BAR004_HiSorb_BosNAT2.2.D.zip"
+attribution = "MTBLS12630 depositors (MetaboLights)"
+notes = "the zipped vendor directory as deposited; extracted into mtbls12630-5977b-bar004-d/ by corpus fetch"
+
+[[file]]
+id = "mtbls12630-5977b-bar004"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls12630-5977b-bar004-d/BAR004_HiSorb_BosNAT2.2.D"
+url = ""
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12630/i_Investigation.txt (Comment[License] CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS12630 (viral lysis and salt-marsh sediment metabolism), RAW_FILES/GC-MS/BAR004_HiSorb_BosNAT2.2.D.zip"
+attribution = "MTBLS12630 depositors (MetaboLights)"
+notes = "5977 single-quadrupole GC/MSD, MassHunter GC/MS Acquisition 10.2, EI full scans, 12,257 scans, 2024; MSScan layout 2 with no MSProfile.bin: every scan's point list (spectrum format 1) lies in MSPeak.bin; the directory also holds the ChemStation data.ms"
+bundle = "mtbls12630-5977b-bar004-d"
+
+[[file]]
+id = "mtbls12630-5977b-bar004"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls12630-5977b-bar004.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12630/FILES/DERIVED_FILES/GC-MS/BAR004_HiSorb_BosNAT2.2.mzML"
+sha256 = "df5742f39ccda737e7ed867af0be7045d41e796e07726abc7487ca485f0e03be"
+size = 78835834
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12630/i_Investigation.txt (Comment[License] CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS12630 (viral lysis and salt-marsh sediment metabolism), RAW_FILES/GC-MS/BAR004_HiSorb_BosNAT2.2.D.zip"
+attribution = "MTBLS12630 depositors (MetaboLights)"
+notes = "depositor-made mzML conversion (ProteoWizard 3.0.22284 with the vendor library)"
+
+[[file]]
+id = "mtbls13090-6224-ce-d09c-neg-d"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls13090-6224-ce-d09c-neg.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13090/FILES/RAW_FILES/NEG/Cohort_study/D09C_NEG.d.zip"
+sha256 = "ff965b99bd3baeb5bc18e15fd5a26e469ca5da554d0cfed0785f63bbeb9412c3"
+size = 2263413
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13090/i_Investigation.txt (Comment[License] CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS13090 (blood microsampling with CE-MS), RAW_FILES/NEG/Cohort_study/D09C_NEG.d.zip"
+attribution = "MTBLS13090 depositors (MetaboLights)"
+notes = "the zipped vendor directory as deposited; extracted into mtbls13090-6224-ce-d09c-neg-d/ by corpus fetch"
+
+[[file]]
+id = "mtbls13090-6224-ce-d09c-neg"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls13090-6224-ce-d09c-neg-d/D09C_NEG.d"
+url = ""
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13090/i_Investigation.txt (Comment[License] CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS13090 (blood microsampling with CE-MS), RAW_FILES/NEG/Cohort_study/D09C_NEG.d.zip"
+attribution = "MTBLS13090 depositors (MetaboLights)"
+notes = "6224 TOF (G6224A), MassHunter B.06.01, capillary electrophoresis, negative ESI, 1,676 centroid MS1 scans, 2024"
+bundle = "mtbls13090-6224-ce-d09c-neg-d"
+
+[[file]]
+id = "mtbls13090-6224-ce-d09c-neg"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls13090-6224-ce-d09c-neg.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13090/FILES/DERIVED_FILES/NEG/Cohort_study/D09C_NEG.mzML"
+sha256 = "25ee5edb99d6469af893a5162e0519543c93b515bc3cf50854f47eaef254581d"
+size = 8854787
+license = "CC0-1.0"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13090/i_Investigation.txt (Comment[License] CC0 1.0 Universal), 2026-10-06"
+source = "MetaboLights MTBLS13090 (blood microsampling with CE-MS), RAW_FILES/NEG/Cohort_study/D09C_NEG.d.zip"
+attribution = "MTBLS13090 depositors (MetaboLights)"
+notes = "depositor-made mzML conversion (ProteoWizard 3.0.25261 with the vendor library)"
+
+[[file]]
+id = "mtbls1375-6495a-tqc-b1-d"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls1375-6495a-tqc-b1.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1375/FILES/103_TQC_B-1.d.zip"
+sha256 = "c68b9d80626b9b1111afc0d25a96bb49b58f44d03b228c0863e9c184ba450d20"
+size = 14507458
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1375/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1375 (LipidCreator targeted lipidomics of human plasma), 103_TQC_B-1.d.zip"
+attribution = "MTBLS1375 depositors (MetaboLights)"
+notes = "the zipped vendor directory as deposited; extracted into mtbls1375-6495a-tqc-b1-d/ by corpus fetch"
+
+[[file]]
+id = "mtbls1375-6495a-tqc-b1"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls1375-6495a-tqc-b1-d/103_TQC_B-1.d"
+url = ""
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1375/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1375 (LipidCreator targeted lipidomics of human plasma), 103_TQC_B-1.d.zip"
+attribution = "MTBLS1375 depositors (MetaboLights)"
+notes = "triple quadrupole (Devices.xml: G6410A), MassHunter 10.0, MRM lipid panel, positive ESI, 38,238 scans, 2019; the depositor's mzML holds 487 chromatograms"
+bundle = "mtbls1375-6495a-tqc-b1-d"
+srm_product_tolerance = 0.005
+
+[[file]]
+id = "mtbls1375-6495a-tqc-b1"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls1375-6495a-tqc-b1.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1375/FILES/103_TQC_B-1.mzML"
+sha256 = "4345d423012c165232a97256b12d8b6a6ddd66e7275a58685bffe32c6227eee2"
+size = 2161761
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1375/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1375 (LipidCreator targeted lipidomics of human plasma), 103_TQC_B-1.d.zip"
+attribution = "MTBLS1375 depositors (MetaboLights)"
+notes = "depositor-made mzML conversion (ProteoWizard 3.0.19190 with the vendor library)"
+
+[[file]]
+id = "mtbls13904-7010c-wsc-qc03-d"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls13904-7010c-wsc-qc03.D.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13904/FILES/RAW_FILES/RS_01062024_WSC_QC_03.D.zip"
+sha256 = "fcc9ed6968a7fb161351588ac74bbe444202e866da1a7693013f2adf1071f572"
+size = 23034342
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13904/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS13904 (Withania somnifera under insect herbivory), RAW_FILES/RS_01062024_WSC_QC_03.D.zip"
+attribution = "MTBLS13904 depositors (MetaboLights)"
+notes = "the zipped vendor directory as deposited; extracted into mtbls13904-7010c-wsc-qc03-d/ by corpus fetch"
+
+[[file]]
+id = "mtbls13904-7010c-wsc-qc03"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls13904-7010c-wsc-qc03-d/RS_01062024_WSC_QC_03.D"
+url = ""
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13904/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS13904 (Withania somnifera under insect herbivory), RAW_FILES/RS_01062024_WSC_QC_03.D.zip"
+attribution = "MTBLS13904 depositors (MetaboLights)"
+notes = "7010C GC triple quadrupole (G7010C), MassHunter GC/MS Acquisition 10.2, EI full scans, 4,492 scans, 2024; paired with the depositor's ANDI-MS export"
+bundle = "mtbls13904-7010c-wsc-qc03-d"
+oracle_skip = "the depositor's ANDI-MS export stores each abundance with a reduced mantissa (64336 for the stored 64341.79, 344320 for 344360.31), so peak lists cannot be compared exactly; on every scan our point counts and m/z equal the export's, our abundances sum to the scan record's TIC and the most intense point is the record's base peak (2026-10-06)"
+
+[[file]]
+id = "mtbls13904-7010c-wsc-qc03"
+format = "andi-chrom"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls13904-7010c-wsc-qc03.cdf"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13904/FILES/DERIVED_FILES/RS_01062024_WSC_QC_03.cdf"
+sha256 = "c6b48896f996abd8ece2e96b10378b1591baa434cec43c626f977c4877be06f2"
+size = 27374092
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS13904/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS13904 (Withania somnifera under insect herbivory), RAW_FILES/RS_01062024_WSC_QC_03.D.zip"
+attribution = "MTBLS13904 depositors (MetaboLights)"
+notes = "depositor-made ANDI-MS (netCDF) export of the same run"
+
+[[file]]
+id = "mtbls1980-5975-ehux4s-d"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls1980-5975-ehux4s.D.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1980/FILES/RAW_FILES/EHUX%204_S.D.zip"
+sha256 = "ccbba6a61f19dd342417fb9419abd84507a31a46e7e4dafab2957aa1454cafec"
+size = 16013118
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1980/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1980 (chemotaxis and the ocean microbiome), RAW_FILES/EHUX 4_S.D.zip"
+attribution = "MTBLS1980 depositors (MetaboLights)"
+notes = "the zipped vendor directory as deposited; extracted into mtbls1980-5975-ehux4s-d/ by corpus fetch"
+
+[[file]]
+id = "mtbls1980-5975-ehux4s"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls1980-5975-ehux4s-d/EHUX 4_S.D"
+url = ""
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1980/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1980 (chemotaxis and the ocean microbiome), RAW_FILES/EHUX 4_S.D.zip"
+attribution = "MTBLS1980 depositors (MetaboLights)"
+notes = "single-quadrupole GC/MSD (Devices.xml: SingleQuadrupole), MassHunter GC/MS, EI full scans, 5,808 scans, 2018; MSScan layout 2 with no MSProfile.bin"
+bundle = "mtbls1980-5975-ehux4s-d"
+
+[[file]]
+id = "mtbls1980-5975-ehux4s"
+format = "mzxml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls1980-5975-ehux4s.mzXML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1980/FILES/DERIVED_FILES/EHUX%204_S.mzXML"
+sha256 = "8f1b45230cba60710cb4f9fc75268ef438772d571539ede69a957d26df926a10"
+size = 8246288
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS1980/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS1980 (chemotaxis and the ocean microbiome), RAW_FILES/EHUX 4_S.D.zip"
+attribution = "MTBLS1980 depositors (MetaboLights)"
+notes = "depositor-made mzXML conversion (ProteoWizard 3.0.20357 with the vendor library)"
+
+[[file]]
+id = "mtbls599-6540-aza-26-50-d"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "mtbls599-6540-aza-26-50.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS599/FILES/AZA-26-50.d.zip"
+sha256 = "c5312c2b2c92f807bf11a1d943656e242b442fd29eafdd4e8535ae4dad6f8b23"
+size = 3215574
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS599/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS599 (marine toxins spectral database), AZA-26-50.d.zip"
+attribution = "MTBLS599 depositors (MetaboLights)"
+notes = "the zipped vendor directory as deposited; extracted into mtbls599-6540-aza-26-50-d/ by corpus fetch"
+
+[[file]]
+id = "mtbls599-6540-aza-26-50"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls599-6540-aza-26-50-d/AZA-26-50.d"
+url = ""
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS599/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS599 (marine toxins spectral database), AZA-26-50.d.zip"
+attribution = "MTBLS599 depositors (MetaboLights)"
+notes = "6540 Q-TOF (G6540B), MassHunter B.05.01, positive ESI, MS1 and targeted MS2, 1,689 scans"
+bundle = "mtbls599-6540-aza-26-50-d"
+
+[[file]]
+id = "mtbls599-6540-aza-26-50"
+format = "mzxml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls599-6540-aza-26-50.mzXML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS599/FILES/AZA-26-50.mzXML"
+sha256 = "26346786841a35a68fbb313280e7cd7363ae94d9a309f68ea9e4c4a2cc0dc9e1"
+size = 2160163
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS599/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS599 (marine toxins spectral database), AZA-26-50.d.zip"
+attribution = "MTBLS599 depositors (MetaboLights)"
+notes = "depositor-made mzXML conversion (ProteoWizard 3.0.11799 with the vendor library)"
+
+[[file]]
+id = "pxd068773-mobilion-100fmol-r001-d"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "pxd068773-mobilion-100fmol-r001.d.zip"
+url = "https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/07/PXD068773/100fmolQQ_200SPD_r001.d.zip"
+sha256 = "737c73d1ff1313d3ebfb98f8202d424a638bb425939adc7ca11270702e3c5dc8"
+size = 11144372
+license = "CC0-1.0"
+license_checked = "https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD068773 (license: Creative Commons Public Domain (CC0)), 2026-10-06"
+source = "PRIDE PXD068773, 100fmolQQ_200SPD_r001.d.zip"
+attribution = "PXD068773 depositors (PRIDE)"
+notes = "the zipped vendor directory as deposited; extracted into pxd068773-mobilion-100fmol-r001-d/ by corpus fetch"
+
+[[file]]
+id = "pxd068773-mobilion-100fmol-r001"
+format = "agilent-masshunter"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "pxd068773-mobilion-100fmol-r001-d/100fmolQQ_200SPD_r001.d"
+url = ""
+license = "CC0-1.0"
+license_checked = "https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD068773 (license: Creative Commons Public Domain (CC0)), 2026-10-06"
+source = "PRIDE PXD068773, 100fmolQQ_200SPD_r001.d.zip"
+attribution = "PXD068773 depositors (PRIDE)"
+notes = "6545 Q-TOF (G6545B) data directory of a MOBILion ion-mobility platform run, MassHunter 11.0, MS1 and MS2, 958 scans, 2024"
+bundle = "pxd068773-mobilion-100fmol-r001-d"
+
+[[file]]
+id = "pxd068773-mobilion-100fmol-r001"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "pxd068773-mobilion-100fmol-r001.mzML"
+url = "https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/07/PXD068773/100fmolQQ_200SPD_r001.mzML"
+sha256 = "d8974c31c3b3748560324499100e7a431fbefdb6d952d85b65a35d9c562ac9cc"
+size = 6672592
+license = "CC0-1.0"
+license_checked = "https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD068773 (license: Creative Commons Public Domain (CC0)), 2026-10-06"
+source = "PRIDE PXD068773, 100fmolQQ_200SPD_r001.d.zip"
+attribution = "PXD068773 depositors (PRIDE)"
+notes = "depositor-made mzML conversion (ProteoWizard 3.0.25011 with the vendor library)"
+
+[[file]]
+id = "mtbls3177-qe-gc-qc-start"
+format = "thermo-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls3177-qe-gc-qc-start.raw"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3177/FILES/RAW_FILES/GCMS/Sc_QC_1.1start.raw"
+sha256 = "e02e25c918540471672e43e89f5c9f0713bc4ed085854d2000fdddbb502c2265"
+size = 27535267
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3177/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS3177 (diatom adaptation to hypersalinity), RAW_FILES/GCMS/Sc_QC_1.1start.raw"
+attribution = "MTBLS3177 depositors (MetaboLights)"
+notes = "Q Exactive GC Orbitrap, Xcalibur 2.8, file version 66, electron ionisation, 555 MS1 scans, 2020"
+
+[[file]]
+id = "mtbls3177-qe-gc-qc-start"
+format = "mzxml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls3177-qe-gc-qc-start.mzXML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3177/FILES/DERIVED_FILES/GCMS/Sc_QC_1.1start.mzXML"
+sha256 = "f4aec5609a8b0d8409850bce432f3c2e2de4aa07189285642e6007cc1144880f"
+size = 9364147
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3177/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS3177 (diatom adaptation to hypersalinity), RAW_FILES/GCMS/Sc_QC_1.1start.raw"
+attribution = "MTBLS3177 depositors (MetaboLights)"
+notes = "depositor-made mzXML conversion (ProteoWizard 3.0.10827 with the vendor library)"
+
+[[file]]
+id = "mtbls5747-vantage-sponge-35"
+format = "thermo-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls5747-vantage-sponge-35.raw"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5747/FILES/mtab_Fiore_sponge_2021_0623_35.raw"
+sha256 = "408c29921873e927cebd5eb3c2db09e7415c479ddb50ca417fd8bdbc1ea98d1f"
+size = 6135800
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5747/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS5747 (sponge exudates and reef picoplankton), mtab_Fiore_sponge_2021_0623_35.raw"
+attribution = "MTBLS5747 depositors (MetaboLights)"
+notes = "TSQ Vantage, Xcalibur 2.3 SP1, file version 64, SRM, 14,763 scans, 2021; the depositor's mzML holds 194 chromatograms"
+
+[[file]]
+id = "mtbls5747-vantage-sponge-35"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls5747-vantage-sponge-35.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5747/FILES/mtab_Fiore_sponge_2021_0623_35.mzML"
+sha256 = "83f557fa096e0ff271c755f3bb53cfb7c6062463bcf59181d4d2b9fd4abc7b06"
+size = 1185775
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5747/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS5747 (sponge exudates and reef picoplankton), mtab_Fiore_sponge_2021_0623_35.raw"
+attribution = "MTBLS5747 depositors (MetaboLights)"
+notes = "depositor-made mzML conversion (ProteoWizard 3.0.19277 with the vendor library)"
+
+[[file]]
+id = "mtbls9526-elite-liver-neg-a01"
+format = "thermo-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls9526-elite-liver-neg-a01.raw"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS9526/FILES/LIVER_LIPIDS_NEGMODE_A01.raw"
+sha256 = "dd5b02d49a918e77d467cb036779939eeb8b736718f260c99d2e640657548fc6"
+size = 48958361
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS9526/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS9526 (inorganic nitrate in diet-induced obesity), LIVER_LIPIDS_NEGMODE_A01.raw"
+attribution = "MTBLS9526 depositors (MetaboLights)"
+notes = "LTQ Orbitrap Elite, Xcalibur 2.7 SP2, file version 66, negative ESI, 2,446 MS1 scans, with a detector channel controller, 2020"
+
+[[file]]
+id = "mtbls9526-elite-liver-neg-a01"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls9526-elite-liver-neg-a01.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS9526/FILES/LIVER_LIPIDS_NEGMODE_A01.mzML"
+sha256 = "7d4522d75089545ac1d358009a8e760e3d1b53f47d2b504f76d95fd2133251f8"
+size = 125036180
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS9526/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS9526 (inorganic nitrate in diet-induced obesity), LIVER_LIPIDS_NEGMODE_A01.raw"
+attribution = "MTBLS9526 depositors (MetaboLights)"
+notes = "depositor-made mzML conversion (ProteoWizard 3.0.20132 with the vendor library)"
+
+[[file]]
+id = "mtbls10098-discovery-desi-174"
+format = "thermo-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls10098-discovery-desi-174.raw"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS10098/FILES/RAW_FILES/NEGATIVE/174%20ab0583_ftms%20neg%20310317_Recal.raw"
+sha256 = "41c0a0744888349ed7fe9d628625747ebc955c68edb2c9e1f4d54484aaf5007a"
+size = 620182
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS10098/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS10098 (vaginal bacteria and host interactions, DESI-MS of swabs), RAW_FILES/NEGATIVE/174 ab0583_ftms neg 310317_Recal.raw"
+attribution = "MTBLS10098 depositors (MetaboLights)"
+notes = "LTQ Orbitrap Discovery, Xcalibur 2.5.5, file version 66 (recalibrated copy), DESI, negative mode, 34 FTMS scans, 2017"
+
+[[file]]
+id = "mtbls10098-discovery-desi-174"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls10098-discovery-desi-174.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS10098/FILES/DERIVED_FILES/NEGATIVE/174%20ab0583_ftms%20neg%20310317_Recal.mzML"
+sha256 = "4c85eae2744267e85cff837f3e17382d34ae25c1f476dbbc9b47501e3e65ac1d"
+size = 1571812
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS10098/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS10098 (vaginal bacteria and host interactions, DESI-MS of swabs), RAW_FILES/NEGATIVE/174 ab0583_ftms neg 310317_Recal.raw"
+attribution = "MTBLS10098 depositors (MetaboLights)"
+notes = "depositor-made mzML conversion (ProteoWizard 3.0.11806 with the vendor library)"
+
+[[file]]
+id = "mtbls7859-orbixl-0909a"
+format = "thermo-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls7859-orbixl-0909a.raw"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS7859/FILES/RAW_FILES/FULL_SCAN/0-0909a.raw"
+sha256 = "1a70f2c0c4243792d2f448cad86bcef4dd5c94b80f479fc83c961ac4fe0e7528"
+size = 17835577
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS7859/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS7859 (ammonia inhibition of anaerobic digestion), RAW_FILES/FULL_SCAN/0-0909a.raw"
+attribution = "MTBLS7859 depositors (MetaboLights)"
+notes = "LTQ Orbitrap XL, Xcalibur 2.5.5 SP2, file version 64, positive ESI, 1,697 MS1 scans, with analog controllers, 2021"
+
+[[file]]
+id = "mtbls7859-orbixl-0909a"
+format = "mzxml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls7859-orbixl-0909a.mzXML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS7859/FILES/DERIVED_FILES/POS/0-0909a.mzXML"
+sha256 = "d81b9694ab2b63acc94780994254923e64d513e73a480d961ba9f35807e0b3d8"
+size = 21179343
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS7859/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS7859 (ammonia inhibition of anaerobic digestion), RAW_FILES/FULL_SCAN/0-0909a.raw"
+attribution = "MTBLS7859 depositors (MetaboLights)"
+notes = "depositor-made mzXML conversion (ProteoWizard 3.0.21193 with the vendor library)"
+
+[[file]]
+id = "mtbls9798-qeplus-prm-control-1"
+format = "thermo-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls9798-qeplus-prm-control-1.raw"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS9798/FILES/RAW_FILES/Sample1_Control_1.raw"
+sha256 = "df0022d2c3072c56fa22f6cc82d4761195306326261f59ff675aa4d49878cfdc"
+size = 20751760
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS9798/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS9798 (ferroptosis-induced secretomes), RAW_FILES/Sample1_Control_1.raw"
+attribution = "MTBLS9798 depositors (MetaboLights)"
+notes = "Q Exactive Plus, Xcalibur 2.12, file version 66, negative-mode PRM (targeted HCD MS2), 4,338 scans, 2023"
+
+[[file]]
+id = "mtbls9798-qeplus-prm-control-1"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls9798-qeplus-prm-control-1.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS9798/FILES/DERIVED_FILES/Sample1_Control_1.mzML"
+sha256 = "9f5d994b8f677ea706f17db845dca5675b79643289cc050905bc70524fa1478f"
+size = 40830122
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS9798/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS9798 (ferroptosis-induced secretomes), RAW_FILES/Sample1_Control_1.raw"
+attribution = "MTBLS9798 depositors (MetaboLights)"
+notes = "depositor-made mzML conversion (ProteoWizard 3.0.22083 with the vendor library)"
+
+[[file]]
+id = "mtbls2400-sesi-breath-001"
+format = "thermo-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls2400-sesi-breath-001.raw"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2400/FILES/RAW_FILES/UKBB/20171101_01_Neg_BreathTDM_001.raw"
+sha256 = "b853f9dcab0c67b2f4c7fb6f398fc29c512347bd6f7e57d32f9c054b4a4ad598"
+size = 1680766
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2400/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS2400 (breath metabolomics in epilepsy), RAW_FILES/UKBB/20171101_01_Neg_BreathTDM_001.raw"
+attribution = "MTBLS2400 depositors (MetaboLights)"
+notes = "LTQ Orbitrap XL (the study names a Q Exactive Plus), Xcalibur 2.5.5 SP2, file version 64, secondary electrospray of breath, negative mode, 98 scans, 2017"
+
+[[file]]
+id = "mtbls2400-sesi-breath-001"
+format = "mzxml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls2400-sesi-breath-001.mzXML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2400/FILES/DERIVED_FILES/UKBB/20171101_01_Neg_BreathTDM_001.mzXML"
+sha256 = "a3624e14e8e68380d202db02167585c3653872b9fb7192dffa8b883fa885bfbf"
+size = 6847783
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2400/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS2400 (breath metabolomics in epilepsy), RAW_FILES/UKBB/20171101_01_Neg_BreathTDM_001.raw"
+attribution = "MTBLS2400 depositors (MetaboLights)"
+notes = "depositor-made mzXML conversion (ProteoWizard 3.0.11220 with the vendor library)"
+
+[[file]]
+id = "mtbls2688-qefocus-neg-ad-1"
+format = "thermo-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls2688-qefocus-neg-ad-1.raw"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2688/FILES/RAW_FILES/neg_AD_1.raw"
+sha256 = "6436742595ced254b7c15bfdd78e2fd1078e310a1c55631811a586087eded4a5"
+size = 39194234
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2688/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS2688 (gut microbiota and serum metabolome in alcohol withdrawal), RAW_FILES/neg_AD_1.raw"
+attribution = "MTBLS2688 depositors (MetaboLights)"
+notes = "Q Exactive Focus, Xcalibur 2.9, file version 66, negative ESI, 5,338 scans (MS1 and data-dependent MS2), 2018; the depositor's mzXML holds the 2,427 MS1 scans"
+
+[[file]]
+id = "mtbls2688-qefocus-neg-ad-1"
+format = "mzxml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls2688-qefocus-neg-ad-1.mzXML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2688/FILES/neg_AD_1.mzXML"
+sha256 = "9b98e08c6e29ae9fea713589d2519dc3319de04e7cb415802b4ff62e5afc788b"
+size = 21213524
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2688/i_Investigation.txt (Comment[License] EMBL-EBI Terms of Use), 2026-10-06"
+source = "MetaboLights MTBLS2688 (gut microbiota and serum metabolome in alcohol withdrawal), RAW_FILES/neg_AD_1.raw"
+attribution = "MTBLS2688 depositors (MetaboLights)"
+notes = "depositor-made mzXML conversion of the MS1 scans (ProteoWizard 3.0.9576 with the vendor library)"
+
