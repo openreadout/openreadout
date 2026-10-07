@@ -98,6 +98,16 @@ the last cycle's values (2026-10-07):
 | `analyze chromatogram` (TIC, 1.2 M points) | 5.4 GiB, 16 s | 287 MiB, 1.9 s |
 | `export --format mzml` (4.1 GB of mzML) | 1.8 GiB, 50 s | 196 MiB, 43 s |
 
+`figshare28409411-vsi-dotslide` (a cellSens VSI slide, level 0 31,740 x 20,970 RGB, 1.9 GB as one
+plane). The VSI reader used to decode every tile of a plane before pasting any, so it held the
+plane twice. It now decodes and pastes 64 MiB of tiles at a time (2026-10-07, found by the
+imaging deep pass, `docs/benchmark/deep-pass-2026-10-imaging.md`; test
+`crates/openreadout-corpus-tests/tests/vsi_memory.rs`):
+
+| command | before | after |
+| --- | --- | --- |
+| `planes` (level 0) | 3.8 GB | 2.2 GB |
+
 ## Known limits
 
 - A CZI mosaic plane is materialized whole (stitched). Whole-slide scans whose level-0 plane

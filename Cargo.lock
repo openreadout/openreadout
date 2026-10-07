@@ -2208,6 +2208,7 @@ dependencies = [
  "openreadout-xrd",
  "openreadout-zarr",
  "openreadout-zvi",
+ "peak_alloc",
  "png",
  "rayon",
  "schemars",
