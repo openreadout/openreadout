@@ -1,0 +1,45 @@
+{
+ "id": "zenodo14649225-pff-s3c",
+ "file": "zenodo14649225-pff-s3c.tif",
+ "size": 1765070,
+ "sha256": "5d320348c0507cb711bb1e2e0fd8cd53aa7914c445af46b56280598c460f942e",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "imagej",
+ "flags": [
+  "imagej"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "imagej",
+   "axes": "YX",
+   "shape": [
+    1327,
+    1330
+   ],
+   "size_x": 1330,
+   "size_y": 1327,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "38e7576049da5a357b9e67c3dd6d1aa6"
+    }
+   ]
+  }
+ ]
+}

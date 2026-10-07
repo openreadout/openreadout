@@ -1,0 +1,43 @@
+{
+ "id": "zenodo1204334-metamorph-smart34",
+ "file": "zenodo1204334-metamorph-smart34.TIF",
+ "size": 183027,
+ "sha256": "e4716d306035df0ca0c946cdc71b75d0eb9a02821730ab75433249b9ba758713",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "stk",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "Fitc Camera",
+   "kind": "stk",
+   "axes": "YX",
+   "shape": [
+    260,
+    348
+   ],
+   "size_x": 348,
+   "size_y": 260,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "43a1ae5226cd5b1094fb48a762109179"
+    }
+   ]
+  }
+ ]
+}

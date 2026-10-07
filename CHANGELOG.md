@@ -18,6 +18,7 @@ All notable changes to this project are documented here. The format is based on 
 - VSI: ETS tiles with compression code 5 (lossless JPEG, as some VS120 slides store them) are decoded.
 - Malvern Zetasizer `.dts`: size records now return their Z-average, PdI and intensity peak means and areas, checked against the Zetasizer software's exports of two depositors (software 7.10 and 7.12). Peak widths and the number and volume peaks stay withheld, because no export in the corpus holds them. Sample names whose material block begins with 2 instead of 1 are no longer empty.
 - Roche LightCycler 480 `.ixo`: `vendor.export_scale` gives the factor that turns each stored amplification reading into the value the LightCycler 480 software exports. The instrument model is taken from the run's instrument name only when that names a LightCycler, so a lab's serial number is no longer reported as the model.
+- OME-TIFF export writes int8, int16 and int32 planes (MRC micrographs and segmentations), which it used to refuse with exit 6.
 - Sciex QTRAP quadrupole and ion-trap scans: Q1, precursor ion, neutral loss, enhanced MS and enhanced product ion (with precursor charges), validated point for point against the depositors' conversions of five public files.
 - Waters ion-mobility and SONAR acquisitions: the drift bins in `_funcNNN.cdt` are read as run 1, one spectrum per bin with its drift time; the 2,000 bins of four test acquisitions equal the vendor library's conversions.
 - Empower `.arw` exports whose header has one `"name"<TAB>value` field per line are read. They were refused.
@@ -38,6 +39,9 @@ All notable changes to this project are documented here. The format is based on 
 - Sciex `.wiff`: a scheduled MRM file without stored windows returned every transition in every cycle. Each transition now has its expected time ± half the method's detection window; the layout stays unvalidated, because Analyst decides a window's edge cycles in a way the file does not record.
 - Empower `.arw`: channel names no longer keep trailing spaces.
 - Assurance: Chromeleon's stored peaks confirm only the signals they were found on, not every trace layout in the archive.
+- VSI: raw ETS tiles with three samples per pixel (a DSX-2000 texture map written by PRECiV) came out with red and blue exchanged. They are now returned as red, green, blue.
+- Imaris files whose lower resolution levels have fewer z planes failed to export (exit 2), and `preview` failed when it picked such a level. Export no longer copies those levels, and `preview` no longer picks them.
+- A file that matched a format only by its extension and then failed to open (a JSON file named `.emd`, a Java object file named `.ser`, a library catalogue named `.mrc`) was reported as truncated. The error now says that only the extension matched.
 - SoftMax Pro 6/7 documents (`.sda`) that read two wavelengths, as dual-wavelength ELISAs do, were refused. Each wavelength is now a read of the plate table.
 - Gen5 experiment files written by Gen5 1.x were refused. Their reads are now decoded, and the reader, serial number and Gen5 version of their plate description are read at the right offsets. A refused Gen5 file now says why.
 - Tecan i-control exports with several reads per well returned no values, and German i-control exports were not recognised. Each well's value is now i-control's `Mean`, and a workbook with one export per sheet gives one plate read per sheet.

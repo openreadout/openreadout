@@ -1,0 +1,666 @@
+{
+ "id": "zenodo15493140-fiji811-cropped",
+ "file": "zenodo15493140-fiji811-cropped.nd2",
+ "size": 138366976,
+ "sha256": "35d9cb31cf1e826a3b88d1891a8b4b75b84e4352af50d9434fab36fc977ae88b",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 919,
+   "size_y": 877,
+   "size_z": 57,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "sizes": "{'Z': 57, 'Y': 877, 'X': 919, 'S': 3}",
+   "physical_size_um": {
+    "x": 0.0483955701500212,
+    "y": 0.0483955701500212,
+    "z": 0.2
+   },
+   "channel_names": [
+    "Brightfield"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "75ea1af8f6967034dc9bbeba1536b720"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "201acc4e4432031ee0797023e401c77b"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "824ab079c3a16212d05df301a901232d"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "34e8fa0e96468429106ce2d925e955a9"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "f58e8dde0bba9500f442fee72941d58f"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "d939836a32804602c5db11561ae4acbe"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "0dbb15c32917c85956a0c9b644f05ed7"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "adca784b297d610a719b466d97ec6b3b"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "9b16081ed985beaa0eb957942adc6b68"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "ef778b72a029de7e1307ca576f1b645c"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "fde7b31a280f7f2f723c0e39ef147d15"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "753b6ba7a48fbf2303fcc5c1873bb48e"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "b51f281b376c26fe476cd6cd5b031f7b"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "dda040b4de78203f2443b51b23cde55d"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "57b555fa47c5623e112f679d7888d3a9"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "eebb862a1d84fd0de186f4e10a1b883a"
+    },
+    {
+     "c": 0,
+     "z": 16,
+     "t": 0,
+     "xxh3": "2890a9b0bf29848ae635e79dc651c30d"
+    },
+    {
+     "c": 0,
+     "z": 17,
+     "t": 0,
+     "xxh3": "0533f175e4fff30f80f46065a84676f9"
+    },
+    {
+     "c": 0,
+     "z": 18,
+     "t": 0,
+     "xxh3": "433c8b97f3a82f350d66a88041addc0a"
+    },
+    {
+     "c": 0,
+     "z": 19,
+     "t": 0,
+     "xxh3": "715a81fc69c418b4820c4a118498bca0"
+    },
+    {
+     "c": 0,
+     "z": 20,
+     "t": 0,
+     "xxh3": "4696f384771785df71ce09326cd54593"
+    },
+    {
+     "c": 0,
+     "z": 21,
+     "t": 0,
+     "xxh3": "a483369eaa218b597565e82ede232a45"
+    },
+    {
+     "c": 0,
+     "z": 22,
+     "t": 0,
+     "xxh3": "ec67295e593fa446304fcfbc1e10e309"
+    },
+    {
+     "c": 0,
+     "z": 23,
+     "t": 0,
+     "xxh3": "80a69835c767bb00929f1efd1eacbfbc"
+    },
+    {
+     "c": 0,
+     "z": 24,
+     "t": 0,
+     "xxh3": "9cb20e8c7d641f1ebc43ca8b8f48d7d7"
+    },
+    {
+     "c": 0,
+     "z": 25,
+     "t": 0,
+     "xxh3": "7f14e18ef99aafe90e26acb851ad2541"
+    },
+    {
+     "c": 0,
+     "z": 26,
+     "t": 0,
+     "xxh3": "6b9e514271fc2a6ef12aa9851a895ac0"
+    },
+    {
+     "c": 0,
+     "z": 27,
+     "t": 0,
+     "xxh3": "6710e0bee6f882b664502b8521770cc3"
+    },
+    {
+     "c": 0,
+     "z": 28,
+     "t": 0,
+     "xxh3": "b7d86bc899649e3a56c1cf884f8d0df1"
+    },
+    {
+     "c": 0,
+     "z": 29,
+     "t": 0,
+     "xxh3": "c61b99bcf8c80046af10a7cdf45e0d05"
+    },
+    {
+     "c": 0,
+     "z": 30,
+     "t": 0,
+     "xxh3": "30d43be7068edb2d80ac1be204279073"
+    },
+    {
+     "c": 0,
+     "z": 31,
+     "t": 0,
+     "xxh3": "b7b9c60107a386fb269e8163b9806a45"
+    },
+    {
+     "c": 0,
+     "z": 32,
+     "t": 0,
+     "xxh3": "d790095534f2908862aad2e011203c03"
+    },
+    {
+     "c": 0,
+     "z": 33,
+     "t": 0,
+     "xxh3": "730c7c8cd263273379972ea2821da4e8"
+    },
+    {
+     "c": 0,
+     "z": 34,
+     "t": 0,
+     "xxh3": "a5b7606918d1308d8fd03477e0ac0897"
+    },
+    {
+     "c": 0,
+     "z": 35,
+     "t": 0,
+     "xxh3": "1b0df53714c032680d1d895699a82a1a"
+    },
+    {
+     "c": 0,
+     "z": 36,
+     "t": 0,
+     "xxh3": "5e46065f4cfb9d87fe18d5b7ade07a07"
+    },
+    {
+     "c": 0,
+     "z": 37,
+     "t": 0,
+     "xxh3": "6782d9b64c7b164c87b163a2d87c6d77"
+    },
+    {
+     "c": 0,
+     "z": 38,
+     "t": 0,
+     "xxh3": "312c88c063e6d0bbc6a8ddeb6fcb49a3"
+    },
+    {
+     "c": 0,
+     "z": 39,
+     "t": 0,
+     "xxh3": "fca512328c1508a6195a563d9742f14d"
+    },
+    {
+     "c": 0,
+     "z": 40,
+     "t": 0,
+     "xxh3": "a8211caa1b89f67490568c880d4faa2a"
+    },
+    {
+     "c": 0,
+     "z": 41,
+     "t": 0,
+     "xxh3": "c9a2e35e79dad0b0126973f339dd495a"
+    },
+    {
+     "c": 0,
+     "z": 42,
+     "t": 0,
+     "xxh3": "37a299a97d5276b7d5405e8945d05b96"
+    },
+    {
+     "c": 0,
+     "z": 43,
+     "t": 0,
+     "xxh3": "48fc5cdf0f77037293b4394f64b7d35f"
+    },
+    {
+     "c": 0,
+     "z": 44,
+     "t": 0,
+     "xxh3": "fbccfd82cc056483d197bd2034dad071"
+    },
+    {
+     "c": 0,
+     "z": 45,
+     "t": 0,
+     "xxh3": "665bd52e4120dc051990bb64344def72"
+    },
+    {
+     "c": 0,
+     "z": 46,
+     "t": 0,
+     "xxh3": "b5b86b0c8e2b67750de18ed784f60a8a"
+    },
+    {
+     "c": 0,
+     "z": 47,
+     "t": 0,
+     "xxh3": "40723c5f05d78a82181ae2dbe0bdd4fc"
+    },
+    {
+     "c": 0,
+     "z": 48,
+     "t": 0,
+     "xxh3": "e52a69b35351d413dad13918ced0d345"
+    },
+    {
+     "c": 0,
+     "z": 49,
+     "t": 0,
+     "xxh3": "859a028372abad533320b90032eb3b3f"
+    },
+    {
+     "c": 0,
+     "z": 50,
+     "t": 0,
+     "xxh3": "e396702d8c2e846e7b883e18ce7dfee0"
+    },
+    {
+     "c": 0,
+     "z": 51,
+     "t": 0,
+     "xxh3": "4e3225b12be59fa8c975d71c360569a6"
+    },
+    {
+     "c": 0,
+     "z": 52,
+     "t": 0,
+     "xxh3": "68d8a930be610ee2aea1d35183e38687"
+    },
+    {
+     "c": 0,
+     "z": 53,
+     "t": 0,
+     "xxh3": "586afea7aae15db9e566b0fa286beafd"
+    },
+    {
+     "c": 0,
+     "z": 54,
+     "t": 0,
+     "xxh3": "48393f7efe03d3826c4f6c212ea5b655"
+    },
+    {
+     "c": 0,
+     "z": 55,
+     "t": 0,
+     "xxh3": "5ab452355d69af7045d8c78414997799"
+    },
+    {
+     "c": 0,
+     "z": 56,
+     "t": 0,
+     "xxh3": "9d999eafef52295f31c7121ffc3ea7c2"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Brightfield",
+    "color": "#FFFFFF",
+    "excitation_nm": 420.0,
+    "emission_nm": 420.0,
+    "component_count": 3,
+    "modality": [
+     "brightfield",
+     "camera"
+    ]
+   }
+  ],
+  "frame_count": 57,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 185510.51960003376,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -288.6300048828125,
+     "Z1": -288.6300048828125
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 187371.60790002346,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -288.2300109863281,
+     "Z1": -288.2300109863281
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 190151.54680001736,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -287.6300048828125,
+     "Z1": -287.6300048828125
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 191999.521600008,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -287.2300109863281,
+     "Z1": -287.2300109863281
+    }
+   },
+   {
+    "index": 10,
+    "time_ms": 194785.59159994125,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -286.6300048828125,
+     "Z1": -286.6300048828125
+    }
+   },
+   {
+    "index": 12,
+    "time_ms": 196640.30480003357,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -286.2300109863281,
+     "Z1": -286.2300109863281
+    }
+   },
+   {
+    "index": 15,
+    "time_ms": 199390.59080004692,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -285.6300048828125,
+     "Z1": -285.6300048828125
+    }
+   },
+   {
+    "index": 17,
+    "time_ms": 201240.59150004387,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -285.2300109863281,
+     "Z1": -285.2300109863281
+    }
+   },
+   {
+    "index": 19,
+    "time_ms": 203057.59020006657,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -284.8290100097656,
+     "Z1": -284.8290100097656
+    }
+   },
+   {
+    "index": 22,
+    "time_ms": 205832.31860005856,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -284.2300109863281,
+     "Z1": -284.2300109863281
+    }
+   },
+   {
+    "index": 24,
+    "time_ms": 207691.58749997616,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -283.8290100097656,
+     "Z1": -283.8290100097656
+    }
+   },
+   {
+    "index": 27,
+    "time_ms": 210474.5205000639,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -283.2300109863281,
+     "Z1": -283.2300109863281
+    }
+   },
+   {
+    "index": 29,
+    "time_ms": 212325.58039999008,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -282.8290100097656,
+     "Z1": -282.8290100097656
+    }
+   },
+   {
+    "index": 32,
+    "time_ms": 215103.49259996414,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -282.2300109863281,
+     "Z1": -282.2300109863281
+    }
+   },
+   {
+    "index": 34,
+    "time_ms": 216965.5598000288,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -281.8290100097656,
+     "Z1": -281.8290100097656
+    }
+   },
+   {
+    "index": 37,
+    "time_ms": 219738.49830007553,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -281.2300109863281,
+     "Z1": -281.2300109863281
+    }
+   },
+   {
+    "index": 39,
+    "time_ms": 221552.47099995613,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -280.8290100097656,
+     "Z1": -280.8290100097656
+    }
+   },
+   {
+    "index": 41,
+    "time_ms": 223401.49250006676,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -280.42999267578125,
+     "Z1": -280.42999267578125
+    }
+   },
+   {
+    "index": 44,
+    "time_ms": 226158.51950001717,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -279.8290100097656,
+     "Z1": -279.8290100097656
+    }
+   },
+   {
+    "index": 46,
+    "time_ms": 228016.41660010815,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -279.42999267578125,
+     "Z1": -279.42999267578125
+    }
+   },
+   {
+    "index": 49,
+    "time_ms": 230786.36090004444,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -278.8290100097656,
+     "Z1": -278.8290100097656
+    }
+   },
+   {
+    "index": 51,
+    "time_ms": 232602.54129993916,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -278.42999267578125,
+     "Z1": -278.42999267578125
+    }
+   },
+   {
+    "index": 54,
+    "time_ms": 235392.55900001526,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -277.8290100097656,
+     "Z1": -277.8290100097656
+    }
+   },
+   {
+    "index": 56,
+    "time_ms": 237072.5597000122,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "X": 57464.98046875,
+     "Y": 38609.0390625,
+     "Z": -277.42999267578125,
+     "Z1": -277.42999267578125
+    }
+   }
+  ],
+  "acquired_at": "2025-04-24T14:18:03.812Z",
+  "acquired_at_unix_ms": 1745504283812
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: Z(88) x \u03bb(1)\r\nCamera Name: Color Camera Nikon DS-Ri2\r\nNumerical Aperture: 1.42\r\nRefractive Index: 1.515\r\n Camera Settings: \r\nCamera Type: Nikon DS-Ri2\r\nBinning: 1.0x1.0\r\nExposure: 200 ms\r\nGain: 2.0x\r\nSharpness: Medium\r\nBrightness: 0.00\r\nHue: 0.00\r\nSaturation: 0.00\r\nWB Red: 1.13\r\nWB Blue: 4.41\r\nScene Mode: Biological: Bright Field\r\nTrigger Mode: Internal\r\nAE Compensation: -+0.0 EV\r\n Microscope Settings:   Microscope: Manual Microscope\r\n  Nosepiece: 5\r\nZ Stack Loop: 88\r\n- Step: 0.2 \u00b5m\r\n- Device: Prior Z Drive",
+  "capturing": "Color Camera Nikon DS-Ri2\r\n\r\nCamera Type: Nikon DS-Ri2\r\nBinning: 1.0x1.0\r\nExposure: 200 ms\r\nGain: 2.0x\r\nSharpness: Medium\r\nBrightness: 0.00\r\nHue: 0.00\r\nSaturation: 0.00\r\nWB Red: 1.13\r\nWB Blue: 4.41\r\nScene Mode: Biological: Bright Field\r\nTrigger Mode: Internal\r\nAE Compensation: -+0.0 EV",
+  "date": "4/24/2025  9:19:23 AM",
+  "optics": "PLAN APO \u03bbD 60x OIL OFN25 DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=8, bitsPerComponentSignificant=8, componentCount=3, heightPx=877, pixelDataType='unsigned', sequenceCount=57, widthBytes=2760, widthPx=919, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

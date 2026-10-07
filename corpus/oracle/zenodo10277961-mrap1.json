@@ -1,0 +1,72 @@
+{
+ "id": "zenodo10277961-mrap1",
+ "file": "zenodo10277961-mrap1.nd2",
+ "size": 17801216,
+ "sha256": "e5580afa1e3331656ac4822eeb351de5ce6a5493446fbdf8d21f232355efe87c",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2880,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "sizes": "{'Y': 2048, 'X': 2880, 'S': 3}",
+   "physical_size_um": {
+    "x": 0.24,
+    "y": 0.24,
+    "z": null
+   },
+   "channel_names": [
+    "Brightfield"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1ae2ba466ca8cb91c6bd2329c10ee98b"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Brightfield",
+    "color": "#FFFFFF",
+    "excitation_nm": 420.0,
+    "emission_nm": 420.0,
+    "component_count": 3,
+    "modality": [
+     "brightfield"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 631499.7613999844,
+    "tags": {
+     "Camera_ExposureTime1": 2.8
+    }
+   }
+  ],
+  "acquired_at": "2023-11-01T19:10:05.996Z",
+  "acquired_at_unix_ms": 1698865805996
+ },
+ "text_info": {
+  "description": "Camera Name: Color Camera Nikon DS-Fi3\r\nNumerical Aperture: 0.3\r\nRefractive Index: 1\r\n Camera Settings: \r\nCamera Type: Nikon DS-Fi3\r\nBinning: 1.0x1.0\r\nExposure: 2.8 ms\r\nGain: 1.0x\r\nSharpness: Medium\r\nBrightness: 0.00\r\nHue: 0.00\r\nSaturation: 0.00\r\nWB Red: 1.23\r\nWB Blue: 3.62\r\nScene Mode: Neutral\r\nAE Compensation: -+0.0 EV\r\n Microscope Settings:   Microscope: Manual Microscope\r\n  Manual Microscope, FilterChanger(FilterBlock): 1 (Empty)\r\n",
+  "capturing": "Color Camera Nikon DS-Fi3\r\n\r\nCamera Type: Nikon DS-Fi3\r\nBinning: 1.0x1.0\r\nExposure: 2.8 ms\r\nGain: 1.0x\r\nSharpness: Medium\r\nBrightness: 0.00\r\nHue: 0.00\r\nSaturation: 0.00\r\nWB Red: 1.23\r\nWB Blue: 3.62\r\nScene Mode: Neutral\r\nAE Compensation: -+0.0 EV",
+  "date": "11/1/2023  3:10:05 PM",
+  "optics": "Plan Fluor 10x DIC L"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=8, bitsPerComponentSignificant=8, componentCount=3, heightPx=2048, pixelDataType='unsigned', sequenceCount=1, widthBytes=8640, widthPx=2880, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

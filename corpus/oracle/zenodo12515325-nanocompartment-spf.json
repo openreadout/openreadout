@@ -1,0 +1,58 @@
+{
+ "id": "zenodo12515325-nanocompartment-spf",
+ "file": "zenodo12515325-nanocompartment-spf.czi",
+ "size": 4236192,
+ "sha256": "9dcb6083bd39b354de76db338565814f616a197bb8de8cff95c9549d8556d556",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.21964704258302623,
+    "y": 0.21964704258302623,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6eafbc2bb8ab8515508df69c5078720c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "59871f793123d28ca1372f62a70005f2"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.21964704258302623,
+  "y": 0.21964704258302623,
+  "z": 0.0
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

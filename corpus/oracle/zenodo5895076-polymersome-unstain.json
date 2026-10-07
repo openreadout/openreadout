@@ -1,0 +1,535 @@
+{
+ "id": "zenodo5895076-polymersome-unstain",
+ "file": "zenodo5895076-polymersome-unstain.lif",
+ "size": 37223019,
+ "sha256": "ec7e7ed93e6d06be0e00be3280cb93c1282ce0afb04d4d6f842b0ff783eaa194",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Series003",
+   "path": "Series003",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.7575757575757576,
+    "y": 0.7575757575757576,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "77c1ab3591ea936b3f6b0f2692ec2da7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "54718cd965e587b3b5e0285998608ca9"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8758d9f4d7bda91c56228ea87074e8bc"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Series004",
+   "path": "Series004",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.7575757575757576,
+    "y": 0.7575757575757576,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ffb9e7d259b939ca7bb6b3ebf339ec84"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c2f2702f74d0a6d9e41103b36f50f60d"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a1c1f3ca0391257f8db4a3920eda7a54"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Image009",
+   "path": "Image009",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.7575757575757576,
+    "y": 0.7575757575757576,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "15c6412055131cdfecdc5c02f3c20628"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "970ed02514b28bf2812038431d380ec8"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a19482e98a291e65380536b397c52530"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Image011",
+   "path": "Image011",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.7575757575757576,
+    "y": 0.7575757575757576,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d328e1d2be2e4b160ecefd1c24882a0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d934ab3e5ea62c7b584181dbc94f191"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "208304d4b340c9211d8b1428fa3c66a7"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Image014",
+   "path": "Image014",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.3787878787878788,
+    "y": 0.3787878787878788,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c92f6859d14eb822fcc23ad1cdc23979"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "15121eef145ce95de57e7a97bdd4fafd"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "545426af5cda84b33cdc9db22024d1a6"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "Image016",
+   "path": "Image016",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.3787878787878788,
+    "y": 0.3787878787878788,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31d6875df7cb5246ed724d62e7705560"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a0e5bacd74734317d8031d5731fd9b25"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cb14a8fc2a2f119163c7ca688b763453"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "Image018",
+   "path": "Image018",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.3787878787878788,
+    "y": 0.3787878787878788,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "69b0661647e06088ac355ba8050d7442"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "46b42bb620a5e3a284f7c27c9ddab2b2"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2064713081e0298dce3a167dce7c4a41"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "Image020",
+   "path": "Image020",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.2405001955034213,
+    "y": 0.2405001955034213,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "40c4132b699569be89b498f097f0290c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3e4e262b771bdecd7eff1890739cb6c6"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e828d0126e46086809e1c4891020f7de"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "Preview021Snapshot All1",
+   "path": "Preview021Snapshot All1",
+   "skip": "ValueError: stride=2610 % dim.bytes_inc=2612 == 2 != 0"
+  },
+  {
+   "index": 9,
+   "name": "Preview021Snapshot All1Snapshot1",
+   "path": "Preview021Snapshot All1Snapshot1",
+   "size_x": 872,
+   "size_y": 872,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "YXS",
+   "shape": [
+    872,
+    872,
+    3
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eacd0cc30698b4b5c85fd84ca97a02d2"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "34385591068f286abda7c28b5865bc51"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "810351cd0dc9ec42ee9589263e417c8c"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "Preview022",
+   "path": "Preview022",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.2405001955034213,
+    "y": 0.2405001955034213,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2462f9239b1fd6e122abac2c82fa4a7c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fd74f8dc212213f381b84783294b322b"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "71f329f719f69973eeb7963646a17c58"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "Preview022Snapshot1",
+   "path": "Preview022Snapshot1",
+   "skip": "ValueError: stride=1290 % dim.bytes_inc=1292 == 2 != 0"
+  },
+  {
+   "index": 12,
+   "name": "Preview022Snapshot1Snapshot1",
+   "path": "Preview022Snapshot1Snapshot1",
+   "skip": "ValueError: stride=1290 % dim.bytes_inc=1292 == 2 != 0"
+  },
+  {
+   "index": 13,
+   "name": "Preview022Snapshot3",
+   "path": "Preview022Snapshot3",
+   "size_x": 1063,
+   "size_y": 852,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "YXS",
+   "shape": [
+    852,
+    1063,
+    3
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e5bff91027817a6e16807f2dea171ca8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ce4e11bf4b3c55fc040de9c156e48c16"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "72d1854cf962aeb3a48a47a9ff4461e7"
+    }
+   ]
+  }
+ ]
+}

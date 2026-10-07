@@ -110,7 +110,7 @@ reader reports both since 2026-10-06: an export that yields no values, or a plat
 values, is undecoded with the tables scope (draw D's BMG kinetic export was `validated` with no
 values, and three fuzz fixtures without plate data were too), and a read or plate section it refuses
 by name (`multiple_reads_without_mean`, `plate_not_decoded`, `read_not_decoded`, `table_axis_not_decoded`,
-`unsupported_read_type`) is left out. A table with no rows is not enough on its own: event tables
+`unsupported_read_type`) is left out. The UNICORN reader does the same for curves it refuses (a member cut short, or bare floats instead of a serialized array): `info` notes that the file is damaged, and the traces are undecoded, so the file is never `validated` for them, whatever its comparison covered. A table with no rows is not enough on its own: event tables
 of electrophysiology files are often empty, and correctly so.
 
 ## Cross-validation on the development corpus

@@ -1,0 +1,271 @@
+{
+ "id": "zenodo6643649-ki67-untreated",
+ "file": "zenodo6643649-ki67-untreated.lif",
+ "size": 21573343,
+ "sha256": "c2fb01a0040f246d9f123d67e40840cde1c2f380117a2fc96d5ecff8ed36403c",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Series003",
+   "path": "Series003",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    4,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.07215011730204784,
+    "y": 0.07215011730205292,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4e779e87abc7e1f0ea3fa90513cf454c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7b8884b04c424e1439e9489ca57f7aa9"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8287e5da685d26cb5beca455293e5249"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8259e55c5f15fa5cad6fb052f08ccb08"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Series004",
+   "path": "Series004",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    4,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.07215011730204784,
+    "y": 0.07215011730205292,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "18621c4ed6b16fef62cb66edde20b2b0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2725975fd57901b05c1aec446186e1a8"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c57c1129b843efee982862b745ca4069"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "026ae24f72d5407c2145cf4f02a9c351"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Series005",
+   "path": "Series005",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    4,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.07215011730204784,
+    "y": 0.07215011730205292,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f4553b2484f0fa5a112e2203405c96fa"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ff7838a6ac72c91600196060e254abdd"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "af9d810e5e650b20026acfbd738fb7e8"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "12ceff99c5d6741c5916b162b7051a1c"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Series006",
+   "path": "Series006",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    4,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.07215011730204784,
+    "y": 0.07215011730205292,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e04650aef770c768059c88c8666d3ad8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "29380d84109fe355a9509f3881a5fc06"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "35a25b4d75819e4b7efc18614973daeb"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d809f4461733cab796de97015f962df9"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Nice",
+   "path": "Nice",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    4,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.07215011730204784,
+    "y": 0.07215011730205292,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "950c1631fd496b76b83f34bf77588ec7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bb7563b78fc31a745b7606b41648b34a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1a0a02258dc9aa5800c80d26b96ceeed"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0276b0a49f7384338c426a7bb9941ad6"
+    }
+   ]
+  }
+ ]
+}

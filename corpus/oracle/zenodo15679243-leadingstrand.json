@@ -1,0 +1,814 @@
+{
+ "id": "zenodo15679243-leadingstrand",
+ "file": "zenodo15679243-leadingstrand.nd2",
+ "size": 58388480,
+ "sha256": "951d083dfa3e237795989dfcde90132459b27afd322d1b05131a522103a25368",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 55,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 55, 'C': 2, 'Y': 512, 'X': 512}",
+   "physical_size_um": {
+    "x": 0.1584252917034,
+    "y": 0.1584252917034,
+    "z": null
+   },
+   "channel_names": [
+    "SYTOX orange 3 colour",
+    "488"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a4d4fdaadc374ab9e89042bb51857ad2"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "b8b510c7b44b0ce5ad41c090b1a35553"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "0f4bb831a5a6ec87e7fd7fc57ce9cd55"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "e4ba140c0970ae4600bd4a1fbce3c393"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "7c03061c4feab14768f838e3699ef52f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "60dbe31e118a0a05ca36bb6da0705b2a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 10,
+     "xxh3": "e79080d1af8cc3681ce096fa26175a28"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 12,
+     "xxh3": "5d7438273d13e99d55af1b7f8b9e9805"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 14,
+     "xxh3": "8e2697d929377acc475d83052e9abe95"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 16,
+     "xxh3": "f3fdba9fecca8e151e69347844fee3f5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 17,
+     "xxh3": "b9238eb435d300021819e81500d912dd"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 19,
+     "xxh3": "dfad37af9a739ab1edfee17c150d09a3"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 21,
+     "xxh3": "d8541c22ed85ac107c2a3d2a56831295"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 22,
+     "xxh3": "8b03102f994688315c1e1c5aaa635799"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 24,
+     "xxh3": "92cc7dc5d4084438eb5185b9a92cc04b"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 26,
+     "xxh3": "8e84fbcc849ba5ae1dfabb929c564fa1"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 28,
+     "xxh3": "fee0d4fe6878d461c60a0f23ee6a4ae8"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 29,
+     "xxh3": "a8152e1e9ccc1d96e19aae34663b6ad9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 31,
+     "xxh3": "168e8045829f39c1e046d156fc795981"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 33,
+     "xxh3": "317bd3cafd65d9e2afc0461b411655a2"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 35,
+     "xxh3": "de95135b1477a091e60fd60ef16c37f3"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 36,
+     "xxh3": "806c71bb92dc59b078cff6e613798451"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 38,
+     "xxh3": "24b2f1277a685cb3b9c4f0726fc7c592"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 40,
+     "xxh3": "bee684cd6ca196bce297e81fac850d75"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 42,
+     "xxh3": "8cc66afeb534721fe0fba17f0d8f96fd"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 43,
+     "xxh3": "03e96ab94307609f11c46da8d52f6623"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 45,
+     "xxh3": "b39edd02ee6dbc1e6bb465d73d6dab11"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 47,
+     "xxh3": "dbd769dcac504b062fc07b9f5d4155ba"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 48,
+     "xxh3": "7617b26a7cbc815fb546d26442c976b9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 50,
+     "xxh3": "839005af17561787174a5634337d2feb"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 52,
+     "xxh3": "f8d0171b2711ecf6354f23e4a46b89b6"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 54,
+     "xxh3": "8079afa7cf7316dc342e191aadf68755"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e91d9b82a3269f45bde478492242d67a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 2,
+     "xxh3": "4563aae8445e60e5a44e6ee25a428069"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 4,
+     "xxh3": "0742e38f67955b5b9e0aa7fc2b6a86b3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 6,
+     "xxh3": "f6c769a13f9d4be993b3f20f17f5f6f3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 7,
+     "xxh3": "cfab26566d731aa97a0bf4ea3a291c70"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 9,
+     "xxh3": "744d648d1b57c3b3b2255382a716cf98"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 11,
+     "xxh3": "b513fae38f3bb7f9a5b1beb44741bcbf"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 12,
+     "xxh3": "5b00f47dbc0648808586e6968bc8d3cb"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 14,
+     "xxh3": "6c7e848e188505fe1f424065dbfca054"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 16,
+     "xxh3": "bdbc6837b7485efcfb71abf1137ddb92"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 18,
+     "xxh3": "a66eac3c40d5a2ad44b03f5817cd2cd3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 19,
+     "xxh3": "69f5c08852f8b69302eacab4c4ee4124"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 21,
+     "xxh3": "87397a786581b7e81c43392a31dcb656"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 23,
+     "xxh3": "e28d3f153834178d9f5c0e38eb3bc3e2"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 25,
+     "xxh3": "135431ba997a4a70f1d91ee2477f1365"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 26,
+     "xxh3": "de5031add05a90fa5cc04b2c94957965"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 28,
+     "xxh3": "aeec3c159f0600cbbde77ba5b0fefb0a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 30,
+     "xxh3": "be6f308fe946fc8cf73b7c83f8d80104"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 32,
+     "xxh3": "83b081ef90ae4a04e6f1871111d6bb25"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 33,
+     "xxh3": "96fa81715870b6daceeb9b2be3e22fd6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 35,
+     "xxh3": "c541afeb6552b1d0ca0b0ea21b73e100"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 37,
+     "xxh3": "ec5c5345f728b63a1386e33f7fd1837e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 38,
+     "xxh3": "d863051f51ad8f25ea3904bfc74cba92"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 40,
+     "xxh3": "ab57cd14c601d8fb906047ae52a4a9ec"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 42,
+     "xxh3": "1e13aa6742500bee5b01d49f9ad3af74"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 44,
+     "xxh3": "3452a56f6e593d95d663b1001cc327f2"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 45,
+     "xxh3": "70aee67a1d54045df12cbb0cd9460d05"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 47,
+     "xxh3": "a4ffb92105d75dfa386f6b3344826fe4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 49,
+     "xxh3": "db64e29378f1b91ebd22e1609e804d31"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 51,
+     "xxh3": "a8790fdedde6ceb91a23469edf0c5229"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 52,
+     "xxh3": "43e8cfd2b9cb9336c8f323a9c603b4b4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 54,
+     "xxh3": "288527bf12db9f189b184d5e7049e815"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "SYTOX orange 3 colour",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "488",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 55,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 198.40234643220901,
+    "tags": {
+     "CameraTemp1": -70.11,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.2000000000003
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 5294.751278981566,
+    "tags": {
+     "CameraTemp1": -70.11,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.2000000000003
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 11771.9031496346,
+    "tags": {
+     "CameraTemp1": -70.11,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.25
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 16249.515413805842,
+    "tags": {
+     "CameraTemp1": -70.11,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.25
+    }
+   },
+   {
+    "index": 9,
+    "time_ms": 20631.439424827695,
+    "tags": {
+     "CameraTemp1": -70.11,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.25
+    }
+   },
+   {
+    "index": 12,
+    "time_ms": 27172.870152026415,
+    "tags": {
+     "CameraTemp1": -70.06,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.275
+    }
+   },
+   {
+    "index": 14,
+    "time_ms": 31539.201190814376,
+    "tags": {
+     "CameraTemp1": -70.06,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.25
+    }
+   },
+   {
+    "index": 16,
+    "time_ms": 35873.02873852849,
+    "tags": {
+     "CameraTemp1": -70.06,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.2250000000004
+    }
+   },
+   {
+    "index": 19,
+    "time_ms": 42334.128416374326,
+    "tags": {
+     "CameraTemp1": -70.06,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.2250000000004
+    }
+   },
+   {
+    "index": 21,
+    "time_ms": 46668.5659122318,
+    "tags": {
+     "CameraTemp1": -70.06,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.25
+    }
+   },
+   {
+    "index": 23,
+    "time_ms": 51001.88409462571,
+    "tags": {
+     "CameraTemp1": -70.06,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.275
+    }
+   },
+   {
+    "index": 26,
+    "time_ms": 57478.817498236895,
+    "tags": {
+     "CameraTemp1": -69.94,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.275
+    }
+   },
+   {
+    "index": 28,
+    "time_ms": 61877.61947800219,
+    "tags": {
+     "CameraTemp1": -69.94,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.3500000000004
+    }
+   },
+   {
+    "index": 31,
+    "time_ms": 68882.20405933261,
+    "tags": {
+     "CameraTemp1": -69.94,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.3500000000004
+    }
+   },
+   {
+    "index": 33,
+    "time_ms": 73248.10490873456,
+    "tags": {
+     "CameraTemp1": -69.94,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 5,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.3500000000004
+    }
+   },
+   {
+    "index": 35,
+    "time_ms": 78045.9763070494,
+    "tags": {
+     "CameraTemp1": -69.94,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.3500000000004
+    }
+   },
+   {
+    "index": 38,
+    "time_ms": 84538.93375201523,
+    "tags": {
+     "CameraTemp1": -69.94,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.3
+    }
+   },
+   {
+    "index": 40,
+    "time_ms": 89160.66503114998,
+    "tags": {
+     "CameraTemp1": -69.84,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.3
+    }
+   },
+   {
+    "index": 42,
+    "time_ms": 93863.03350669146,
+    "tags": {
+     "CameraTemp1": -69.84,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.3
+    }
+   },
+   {
+    "index": 45,
+    "time_ms": 100387.85047826171,
+    "tags": {
+     "CameraTemp1": -69.84,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.3500000000004
+    }
+   },
+   {
+    "index": 47,
+    "time_ms": 105041.94771689177,
+    "tags": {
+     "CameraTemp1": -69.84,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.3500000000004
+    }
+   },
+   {
+    "index": 49,
+    "time_ms": 109391.96645520627,
+    "tags": {
+     "CameraTemp1": -69.84,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.375
+    }
+   },
+   {
+    "index": 52,
+    "time_ms": 115916.33388327062,
+    "tags": {
+     "CameraTemp1": -69.84,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 1,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.3500000000004
+    }
+   },
+   {
+    "index": 54,
+    "time_ms": 120266.64029423892,
+    "tags": {
+     "CameraTemp1": -69.82,
+     "Camera_ExposureTime1": 400.0,
+     "Dev1/port0/line0": 0,
+     "Dev1/port0/line2": 0,
+     "PFS_OFFSET": 6830,
+     "PFS_STATUS": 5,
+     "X": 89542.0,
+     "Y": 37122.0,
+     "Z": 3416.3
+    }
+   }
+  ],
+  "acquired_at": "2019-07-11T00:47:48.276Z",
+  "acquired_at_unix_ms": 1562806068276
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T'(55) x \u03bb(2)\r\nCamera Name: Photometrics Evolve Delta\r\nNumerical Aperture: 1.49\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: SYTOX orange 3 colour\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Evolve Delta\r\n  Binning: 1x1\r\n  Exposure: 400 ms\r\n  Multiplier: 1000\r\n  Readout Speed: 20 MHz\r\n  Conversion Gain: 2\r\n  Temperature: -70.1\u00b0C\r\n  B.E.R.T.: Off\r\n  Quant-View: Off\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1 (SYTOX)\r\n  Sutter Lambda SC, Shutter(405): Closed\r\n  Sutter Lambda SC, Shutter(405) mode: Fast\r\n  Sutter Lambda SC1, Shutter(568): Active\r\n  Sutter Lambda SC1, Shutter(568) mode: Fast\r\n  NIDAQ, Shutter(Laser Power): Opened\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch Off\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 0.5\r\n  LightPath: L100\r\n  PFS-S, state: On\r\n  PFS-S, offset: 6830\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\n  NIDAQ, MultiLaser(Laser Power):\r\n     Line:1; ExW:514; Power:  0.0; Off\r\n     Line:2; ExW:488; Power:100.0; On\r\n     Line:3; ExW:405; Power:100.0; Off\r\n     Line:4; ExW:568; Power:100.0; On\r\n     Line:5; ExW:647; Power:100.0; Off\r\n\r\nPlane #2:\r\n Name: 488\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Evolve Delta\r\n  Binning: 1x1\r\n  Exposure: 400 ms\r\n  Multiplier: 1000\r\n  Readout Speed: 20 MHz\r\n  Conversion Gain: 2\r\n  Temperature: -70.1\u00b0C\r\n  B.E.R.T.: Off\r\n  Quant-View: Off\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 3 (488)\r\n  Sutter Lambda SC, Shutter(405): Active\r\n  Sutter Lambda SC, Shutter(405) mode: Fast\r\n  Sutter Lambda SC1, Shutter(568): Closed\r\n  Sutter Lambda SC1, Shutter(568) mode: Fast\r\n  NIDAQ, Shutter(Laser Power): Opened\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch Off\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 0.5\r\n  LightPath: L100\r\n  PFS-S, state: On\r\n  PFS-S, offset: 6830\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\n  NIDAQ, MultiLaser(Laser Power):\r\n     Line:1; ExW:514; Power:  0.0; Off\r\n     Line:2; ExW:488; Power:100.0; On\r\n     Line:3; ExW:405; Power:100.0; Off\r\n     Line:4; ExW:568; Power:100.0; On\r\n     Line:5; ExW:647; Power:  0.0; Off\r\n\r\nTime Loop: 55\r\n- Nonequidistant",
+  "capturing": "Photometrics Evolve Delta\r\nSample 1:\r\n  \r\n  Camera Type: Evolve Delta\r\n  Binning: 1x1\r\n  Exposure: 400 ms\r\n  Multiplier: 1000\r\n  Readout Speed: 20 MHz\r\n  Conversion Gain: 2\r\n  Temperature: -70.1\u00b0C\r\n  B.E.R.T.: Off\r\n  Quant-View: Off\r\nSample 2:\r\n  \r\n  Camera Type: Evolve Delta\r\n  Binning: 1x1\r\n  Exposure: 400 ms\r\n  Multiplier: 1000\r\n  Readout Speed: 20 MHz\r\n  Conversion Gain: 2\r\n  Temperature: -70.1\u00b0C\r\n  B.E.R.T.: Off\r\n  Quant-View: Off",
+  "date": "11/07/2019  10:47:48 AM",
+  "optics": "Apo TIRF 100x Oil DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=2, heightPx=512, pixelDataType='unsigned', sequenceCount=55, widthBytes=2048, widthPx=512, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

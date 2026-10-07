@@ -1,0 +1,129 @@
+{
+ "id": "zenodo18373896-hzo-ptycho",
+ "file": "zenodo18373896-hzo-ptycho.dm3",
+ "size": 5919004,
+ "sha256": "12cb5ae43ea745efdd13a0561b7f1e3b4ec1ada7ab46cb6a48abbca1ba013662",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "Slices_CDW_Thickness",
+   "size_x": 300,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 16,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 9.703137911856175e-06,
+    "y": 9.703137911856175e-06,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "186dbdc6e843fa619b9b9e5cb355eb83"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "f270574dfb3799e3686b344f25591554"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "cdba9168870424244544194b8ec133be"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "be2e9df6f8281d7411b78abd7eab5a43"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "152c15507868a7b5c18172ab1a8425f3"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "ddfb3f243cce4e927c29b296bb5cd739"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "819decfd70d60874bd907cb83065e24a"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "62da85bc63b308f10c0eb3da21f223a5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "c980358b88f75a1e8c2ce56849fe0316"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "a9fa475ddd0a79419f489f4aeec88fe3"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 10,
+     "xxh3": "01de41b220195089e755fc72c63f4e6e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 11,
+     "xxh3": "5055ce4e0bd575bacad84201b6f1dddf"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 12,
+     "xxh3": "6fab11048edde10ff0fae7749f871457"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 13,
+     "xxh3": "5f7226f24bc9406a406669e636f8f4f4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 14,
+     "xxh3": "bd43efaf4dd2b9ac195061bb40429b88"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 15,
+     "xxh3": "46f9cdbab2deb93d26830bbe19022913"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 3,
+ "thumbnails": [
+  0
+ ]
+}

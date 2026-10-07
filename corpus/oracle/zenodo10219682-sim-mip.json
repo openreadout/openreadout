@@ -1,0 +1,64 @@
+{
+ "id": "zenodo10219682-sim-mip",
+ "file": "zenodo10219682-sim-mip.czi",
+ "size": 25492128,
+ "sha256": "b845d572f60c599adb85822c594eec556d38232b571991d6b35627d23cb4521b",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    3,
+    2048,
+    2048
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.031302974264139305,
+    "y": 0.031302974264139305,
+    "z": 0.1
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "16c3007210a1cbc72293aad36aaafa88"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8305693df6f27be451b0780b69505b3b"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1f5dbd6620d907a86f5a5b244548e759"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.031302974264139305,
+  "y": 0.031302974264139305,
+  "z": 0.1
+ },
+ "subblock_count": 3,
+ "compression_ids": [
+  0
+ ]
+}

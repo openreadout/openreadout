@@ -1,0 +1,571 @@
+{
+ "id": "zenodo14590332-color-problems",
+ "file": "zenodo14590332-color-problems.nd2",
+ "size": 63258624,
+ "sha256": "e2ebdbf3bc0574144c7228847da1496008d9ae277ed1f2e1a992fa3d928ee806",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 15,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Z': 15, 'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.11515296820497305,
+    "y": 0.11515296820497305,
+    "z": 0.5
+   },
+   "channel_names": [
+    "TRITC",
+    "DAPI"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8bd58b989a1fd2aa2e609945ad2f6c74"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "d5ae0acf656af024cfe5480ac32eaccb"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "91e2efae6751242f654e9f5864bd36dc"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "acf9b0ead146df91f177ee7ce8a927fa"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "aa7e02bacb1da458eb7387e6bba49dc0"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "7d78cdde34d6199d11c72f6fd76e1f10"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "4ef99de0e2e08fe86db5f7aa4556dd42"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "5c11d9a89c399d756d3ca7f813158eb3"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "5d9f2bf030958412fe44777a32932086"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "2efe58a326555653b97c556b5469bd8d"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "9e0481850420c287615f0697e583210b"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "7c3f508e5e58b3b29187d339cdc4c8a4"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "0bdf5789af60e4a8e672db89629ff186"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "3c8b568900aa3f19c657a742078313fd"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "d732813583eb505bd829b5320ad711b7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cbd58dbabbcfe96405095ced2c00b940"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "9160addaca08ab721fdf0daf43ebef30"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "3d494387eb4f068f698fdf00eb833d3b"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "2618ccec103a3d2991667a980796929a"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "0707ab1f3e6ff9c7bcc2cf5070cc3b2a"
+    },
+    {
+     "c": 1,
+     "z": 5,
+     "t": 0,
+     "xxh3": "196858fa362d46f8a449aa5dd15b9fac"
+    },
+    {
+     "c": 1,
+     "z": 6,
+     "t": 0,
+     "xxh3": "03d8c4d19f1545ea3327573b66a6303e"
+    },
+    {
+     "c": 1,
+     "z": 7,
+     "t": 0,
+     "xxh3": "c62a5082922a9a143feabf6758dc722c"
+    },
+    {
+     "c": 1,
+     "z": 8,
+     "t": 0,
+     "xxh3": "d59c4d83e51caa98dc3d64a44b9235d2"
+    },
+    {
+     "c": 1,
+     "z": 9,
+     "t": 0,
+     "xxh3": "90b6159a5e45e313604dff5bbde4c0cf"
+    },
+    {
+     "c": 1,
+     "z": 10,
+     "t": 0,
+     "xxh3": "2b5c71f59b514e5235e036c0baf760da"
+    },
+    {
+     "c": 1,
+     "z": 11,
+     "t": 0,
+     "xxh3": "5287824c66541c8e1006367a53689e35"
+    },
+    {
+     "c": 1,
+     "z": 12,
+     "t": 0,
+     "xxh3": "8c5b4ffe9f6a9831e5adff42d77caad8"
+    },
+    {
+     "c": 1,
+     "z": 13,
+     "t": 0,
+     "xxh3": "305a38c414919068984f26d7baac5606"
+    },
+    {
+     "c": 1,
+     "z": 14,
+     "t": 0,
+     "xxh3": "70ba04a4e72f2b4b61586f45e580ebd7"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "TRITC",
+    "color": "#FF0000",
+    "excitation_nm": 561.0,
+    "emission_nm": 605.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ],
+    "emission_note": "band centre (adjudicated; nd2 reports the rising edge)"
+   },
+   {
+    "name": "DAPI",
+    "color": "#0080FF",
+    "excitation_nm": 405.0,
+    "emission_nm": 455.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ],
+    "emission_note": "band centre (adjudicated; nd2 reports the rising edge)"
+   }
+  ],
+  "frame_count": 15,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1098.342509912327,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1910.4,
+     "Z1": 1910.4
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 6924.974771311507,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1910.92,
+     "Z1": 1910.92
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 12761.507937155664,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1911.42,
+     "Z1": 1911.42
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 18592.040554853156,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1911.9,
+     "Z1": 1911.9
+    }
+   },
+   {
+    "index": 4,
+    "time_ms": 24410.172039708123,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1912.38,
+     "Z1": 1912.38
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 30207.00157863833,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1912.92,
+     "Z1": 1912.92
+    }
+   },
+   {
+    "index": 6,
+    "time_ms": 36055.435831645504,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1913.4,
+     "Z1": 1913.4
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 41863.06635724008,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1913.9,
+     "Z1": 1913.9
+    }
+   },
+   {
+    "index": 8,
+    "time_ms": 47701.499696666375,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1914.4,
+     "Z1": 1914.4
+    }
+   },
+   {
+    "index": 9,
+    "time_ms": 53548.233794363216,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1914.92,
+     "Z1": 1914.92
+    }
+   },
+   {
+    "index": 10,
+    "time_ms": 59347.46355255321,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1915.42,
+     "Z1": 1915.42
+    }
+   },
+   {
+    "index": 11,
+    "time_ms": 65175.595950989045,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1915.94,
+     "Z1": 1915.94
+    }
+   },
+   {
+    "index": 12,
+    "time_ms": 71003.52833115496,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1916.42,
+     "Z1": 1916.42
+    }
+   },
+   {
+    "index": 13,
+    "time_ms": 76831.460711319,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1916.92,
+     "Z1": 1916.92
+    }
+   },
+   {
+    "index": 14,
+    "time_ms": 82677.6947633382,
+    "tags": {
+     "Camera_CH1LaserPower": 50.0,
+     "Camera_CH2LaserPower": 6.5,
+     "Camera_CH3LaserPower": 2.1,
+     "Camera_CH4LaserPower": 4.0,
+     "Camera_OptionCHGain": 63,
+     "Camera_OptionCHLaserPower": 3.31,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 80,
+     "Camera_VFCH2Gain": 70,
+     "Camera_VFCH3Gain": 50,
+     "Camera_VFCH4Gain": 50,
+     "X": 5954.700000000001,
+     "Y": -2939.2000000000003,
+     "Z": 1917.4,
+     "Z1": 1917.4
+    }
+   }
+  ],
+  "acquired_at": "2024-12-05T18:51:19.548Z",
+  "acquired_at_unix_ms": 1733424679548
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: Z(15)\r\nCamera Name: Nikon A1 LFOV\r\nNumerical Aperture: 1.4\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: TRITC\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DUVB_VB\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  CH3\t{Laser Wavelength}: 561.0\t{Laser Power}: 6.5\r\n  CH5\t{Laser Wavelength}: 405.0\t{Laser Power}: 4.0\r\n  CH3\t{Laser Wavelength}: 561.0\t{Gain}: 70\r\n  CH5\t{Laser Wavelength}: 405.0\t{Gain}: 50\r\n  {DUVB PMT Offset}: -9\r\n  {Pinhole Size(um)}: 35.8\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.799\r\n  {Scan Speed}: 0.5\r\n  {Channel Series Mode}: None\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  {KeepPixelBrightnessEnable}: 0\r\n  {ScalingMode}: 0\r\n  {Head type}: LFOV (FOV25)\r\n  {Scanner Zoom}: 2.499 (25mm FOV) / 1.799 (18mm legacy FOV)\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 6 (Empty)\r\n  LightPath: L100\r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: DAPI\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DUVB_VB\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  CH3\t{Laser Wavelength}: 561.0\t{Laser Power}: 6.5\r\n  CH5\t{Laser Wavelength}: 405.0\t{Laser Power}: 4.0\r\n  CH3\t{Laser Wavelength}: 561.0\t{Gain}: 70\r\n  CH5\t{Laser Wavelength}: 405.0\t{Gain}: 50\r\n  {DUVB PMT Offset}: -9\r\n  {Pinhole Size(um)}: 35.8\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.799\r\n  {Scan Speed}: 0.5\r\n  {Channel Series Mode}: None\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  {KeepPixelBrightnessEnable}: 0\r\n  {ScalingMode}: 0\r\n  {Head type}: LFOV (FOV25)\r\n  {Scanner Zoom}: 2.499 (25mm FOV) / 1.799 (18mm legacy FOV)\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 6 (Empty)\r\n  LightPath: L100\r\n  Zoom: 1.00x\r\nZ Stack Loop: 15\r\n- Step: 0.5 \u00b5m\r\n- Device: Ti2 ZDrive",
+  "capturing": "Nikon A1 LFOV\r\n              \r\n{Scanner Selection}: Galvano\r\n{Detector Selection}: DUVB_VB\r\n{Optical Path Mode}: Manual\r\n{First Dichroic Mirror}: 405/488/561/640\r\nCH3\t{Laser Wavelength}: 561.0\t{Laser Power}: 6.5\r\nCH5\t{Laser Wavelength}: 405.0\t{Laser Power}: 4.0\r\nCH3\t{Laser Wavelength}: 561.0\t{Gain}: 70\r\nCH5\t{Laser Wavelength}: 405.0\t{Gain}: 50\r\n{DUVB PMT Offset}: -9\r\n{Pinhole Size(um)}: 35.8\r\n{HV LinearCorrection}: Off\r\n{Scan Direction}: One way\r\n{Scanner Zoom}: 1.799\r\n{Scan Speed}: 0.5\r\n{Channel Series Mode}: None\r\n{Line Skip}: None\r\n{Frame Skip}: 0\r\n{Line Average Mode}: None\r\n{Line Average/Integrate Count}: 0\r\nStim1\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim2\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim3\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n{KeepPixelBrightnessEnable}: 0\r\n{ScalingMode}: 0\r\n{Head type}: LFOV (FOV25)\r\n{Scanner Zoom}: 2.499 (25mm FOV) / 1.799 (18mm legacy FOV)\r\n\r\n",
+  "date": "12/5/2024  1:51:19 PM",
+  "optics": "Plan Apo VC 60x Oil DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=2, heightPx=1024, pixelDataType='unsigned', sequenceCount=15, widthBytes=4096, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

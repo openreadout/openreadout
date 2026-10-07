@@ -128,12 +128,15 @@ fn block_average(src: &[f32], w: usize, h: usize, spp: usize, s: usize, f: usize
 }
 
 /// `(level, width, height)` of every pyramid level the reader describes (level 0 first).
+/// Levels with fewer z planes than the image (Imaris downsamples z too) are left out: the
+/// picture's z index counts level-0 planes.
 fn pyramid(im: &ImageInfo) -> Vec<(u32, u32, u32)> {
     if !im.resolution_levels.is_empty() {
         return im
             .resolution_levels
             .iter()
             .filter(|l| l.level < im.pyramid_levels.max(1))
+            .filter(|l| l.size_z.is_none_or(|z| z == im.size_z))
             .map(|l| (l.level, l.size_x, l.size_y))
             .collect();
     }
@@ -1057,5 +1060,10 @@ mod tests {
         ];
         assert_eq!(choose_level(&im, 1024), 2);
         assert_eq!(level_dims(&im, 1), Some((4000, 3000)));
+        // A level with fewer z planes (Imaris) is not chosen: the middle z of level 0 may not
+        // exist there (zenodo4433202-ovule-732).
+        im.size_z = 219;
+        im.resolution_levels[2].size_z = Some(109);
+        assert_eq!(choose_level(&im, 1024), 1);
     }
 }

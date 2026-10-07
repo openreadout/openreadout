@@ -63,6 +63,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `"volume-grid curve"`
 - feature record `"UNICORN peak table"`
 - feature record `format!("events {n}")`
+- undecoded "curves"
 
 ### Validated variants and the corpus files that pin them
 

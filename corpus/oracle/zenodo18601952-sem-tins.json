@@ -1,0 +1,44 @@
+{
+ "id": "zenodo18601952-sem-tins",
+ "file": "zenodo18601952-sem-tins.tif",
+ "size": 514806,
+ "sha256": "3f675e489bf88d0c7b9cdf216ba5995b585e20b65a8ef6608c1a5d3634f81df2",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YXS",
+   "shape": [
+    720,
+    1280,
+    3
+   ],
+   "size_x": 1280,
+   "size_y": 720,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "402f66d9c9309366f684fb36583217e0"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,51 @@
+{
+ "id": "zenodo10798945-esat6",
+ "file": "zenodo10798945-esat6.czi",
+ "size": 1400416,
+ "sha256": "27541cbe87d8e8221cc9a6b78e0b1ad0a19cc88fd262a4e9fbab431f2b56781e",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 607,
+   "size_y": 607,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "YX",
+   "shape": [
+    607,
+    607
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.08501714285457426,
+    "y": 0.08501714285457426,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ed35418832883faf93bf9c81d4fc35db"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.08501714285457426,
+  "y": 0.08501714285457426,
+  "z": null
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

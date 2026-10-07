@@ -8,7 +8,7 @@
 //! its own.
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus -- --nocapture`
-//! Env: `OPENREADOUT_CORPUS_DIR` overrides `corpus/files`; `CORPUS_ONLY=<substring>` filters ids;
+//! Env: `OPENREADOUT_CORPUS_DIR` overrides `corpus/files`; `CORPUS_ONLY=<substring>[,<substring>...]` filters ids;
 //! `CORPUS_FORMAT=<id>[,<id>...]` filters manifest formats;
 //! `CORPUS_REPORT=path` writes a Markdown table.
 #![cfg(feature = "corpus")]
@@ -665,6 +665,11 @@ fn apply_entry_settings(oracle: &mut Oracle, e: &Entry) {
     oracle.srm_product_tolerance = e.srm_product_tolerance;
 }
 
+/// `CORPUS_ONLY` holds one id substring or several separated by commas.
+fn only_matches(only: &str, id: &str) -> bool {
+    only.split(',').any(|o| id.contains(o.trim()))
+}
+
 #[test]
 fn corpus_matches_oracle() {
     let root = root();
@@ -684,7 +689,7 @@ fn corpus_matches_oracle() {
                 // depositor mzML/mzXML exports are open-format inputs in their own right
                 || (e.role == "oracle-export" && (e.format == "mzml" || e.format == "mzxml"))
     }) {
-        if only.as_ref().is_some_and(|o| !e.id.contains(o.as_str())) {
+        if only.as_ref().is_some_and(|o| !only_matches(o, &e.id)) {
             continue;
         }
         if formats
@@ -915,7 +920,7 @@ fn heldout_agreement_is_recorded() {
     let mut lines = String::new();
     let mut counts: BTreeMap<String, usize> = BTreeMap::new();
     for e in manifest.file.iter().filter(|e| e.role == "heldout") {
-        if only.as_ref().is_some_and(|o| !e.id.contains(o.as_str())) {
+        if only.as_ref().is_some_and(|o| !only_matches(o, &e.id)) {
             continue;
         }
         let path = files_dir.join(&e.filename);

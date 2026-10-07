@@ -1,0 +1,48 @@
+{
+ "id": "zenodo5410324-huvec-sd",
+ "file": "zenodo5410324-huvec-sd.tif",
+ "size": 10197352,
+ "sha256": "10a8ca70b36a53c5bdfdacfe09fc8690a14ed7e570e84aa79846c01c8e440424",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "imagej",
+ "flags": [
+  "imagej"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "imagej",
+   "axes": "YX",
+   "shape": [
+    2253,
+    2253
+   ],
+   "size_x": 2253,
+   "size_y": 2253,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.13899099826812744,
+    "y": 0.13899099826812744
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3ab4a4aac16f87c5fc4ba04a98f32443"
+    }
+   ]
+  }
+ ]
+}
