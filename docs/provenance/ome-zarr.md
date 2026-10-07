@@ -87,6 +87,11 @@ OME-Zarr is an open standard; no vendor format is involved and nothing was rever
 
 **Rule changed.** `resolution_levels` gave no tile size for a sharded array whose shard is larger than the image (the 0.5 copy of 6001240), and the shard size for the projection, although region reads decode inner chunks. The tile size of a sharded array is now its inner chunk shape (`ArrayMeta.inner_chunks`).
 
+## 2026-10-07 — Large planes go through the streaming writer
+
+**Corpus files:** `openslide-zeiss-5-cropped` (a 20563 × 20164 RGB plane) and `ome-qptiff-hande-compressed-scan1`. **Prior art consulted:** none. This changes only how OpenReadout writes a store, not how it reads one.
+**What was changed.** The in-memory writer took planes up to 4 GiB. It holds the decoded plane, the deinterleaved samples, the compressed chunks and the read-back copy at once, so exporting the zeiss plane with `--pyramid none` peaked at 2.9 GB of RSS, and the QPTIFF plane at 4.6 GB. Planes larger than the streaming writer's 256 MiB block now go through the streaming writer: 0.90 GB and 1.0 GB. The stores of both files are byte-identical to the ones the in-memory writer made, with `--pyramid none` and, for the zeiss file, `--pyramid mean`. The memory-ceiling test in `openreadout-bench` exports one 512 MiB synthetic plane and checks that the peak heap stays within one block plus a small allowance.
+
 ## 2026-10-07 — Growing stores: finished images count as complete
 
 **Corpus files:** `zenodo20559997-scmx-mip` (an NGFF 0.4 plate with an empty label image), exported to OME-Zarr by OpenReadout during the imaging deep pass (`docs/benchmark/deep-pass-2026-10-imaging.md`); `gdal-empty1bit`, `rsciio-emd-si100-2x1x1-3d` and `rsciio-emd-example-axis-len-1` (all-zero images), exported the same way.

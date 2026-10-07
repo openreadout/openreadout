@@ -75,9 +75,9 @@ Deflate is limited by compression and gains the most from threads. Uncompressed 
 
 ## Memory
 
-Export holds a bounded number of decoded planes, whatever the size of the file. Planes are decoded in windows of at most `threads` planes and at most 1 GiB, and at most two windows are alive at a time. So peak memory is a few planes plus a few tens of MiB, however large the file. Planes larger than 4 GiB are read and exported block by block instead of being assembled in memory.
+Export holds a bounded number of decoded planes, whatever the size of the file. Planes are decoded in windows of at most `threads` planes and at most 1 GiB, and at most two windows are alive at a time. So peak memory is a few planes plus a few tens of MiB, however large the file. OME-TIFF export reads and writes planes larger than 4 GiB block by block instead of assembling them in memory. OME-Zarr export does the same for planes larger than 256 MiB.
 
-`crates/openreadout-bench/tests/memory_ceiling.rs` enforces this. It counts heap bytes while exporting synthetic images of 16 and 64 planes at 1 and 4 threads, and checks that the peak does not grow with the number of planes.
+`crates/openreadout-bench/tests/memory_ceiling.rs` enforces this. It counts heap bytes while exporting synthetic images of 16 and 64 planes at 1 and 4 threads, and checks that the peak does not grow with the number of planes. It also exports one 512 MiB plane to OME-Zarr and checks that the peak stays within one 256 MiB block plus a small allowance.
 
 ## Large images and whole slides
 

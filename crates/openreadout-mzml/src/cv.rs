@@ -130,6 +130,7 @@ pub(crate) fn value_f64(ps: &[Param], accession: &str) -> Option<f64> {
 // spectrum
 pub(crate) const MS_LEVEL: &str = "MS:1000511";
 pub(crate) const MS1_SPECTRUM: &str = "MS:1000579";
+pub(crate) const EM_SPECTRUM: &str = "MS:1000804";
 pub(crate) const CENTROID: &str = "MS:1000127";
 pub(crate) const NEGATIVE: &str = "MS:1000129";
 pub(crate) const POSITIVE: &str = "MS:1000130";
