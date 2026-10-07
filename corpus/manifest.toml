@@ -26376,6 +26376,7 @@ license_checked = "https://zenodo.org/records/19047136, 2026-09-23"
 source = "Zenodo 19047136: CZI file examples"
 attribution = "Nicolas Chiaruttini (EPFL PTBIOP)"
 notes = "Metadata says Zeiss LSM 800 on an Axio Observer (despite the file name), ZEN blue 3.6, 2023-08-30: an XZ-T line scan, X=512, Y=1, Z=715, T=5, 0.2072 um pixels, 0.21 um z step. Degenerate Y=1 geometry. Ground truth: czifile (pylibCZIrw second opinion)."
+exposed = "2026-09-22: CZI development read the file names of this record (Image_1_…(1).czi) while searching for multi-file CZIs; the `<master stem>(k).czi` part spelling in docs/formats/czi.md was taken from them; no pixel or metadata values were used."
 
 [[file]]
 id = "ho-zenodo17736625-axioscan-12scenes"

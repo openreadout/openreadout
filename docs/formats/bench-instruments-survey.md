@@ -59,7 +59,7 @@ notes). Still open:
 | Biacore `.bme` | Harvard GTNOTI/XHRSGM (CC0), SGC Toronto (Zenodo, 5 records, KD fits as PDF) | evaluation files; no sensorgram export to validate against |
 | Cary `.BSW` | DataverseNL 10.34894/BQNQJX (CC-BY-4.0): two `.BSW` with CSV of the same measurement; Zenodo 21041480 and 15644941 (CC0, no CSV) | implemented (`agilent-cary`) from the corpus files and the depositors' CSV exports |
 | NanoDrop `.twbk` | tbwk-opener (MIT, 2 files with expected counts in its tests) | one depositor |
-| Typhoon scans in Image Lab `.scn` | Zenodo 6754439 (one FLA 9500 scan; its TIFF is an 8-bit RGB rendering) | no linear export to validate square-root-encoded values |
+| Typhoon scans in Image Lab `.scn` | Zenodo 6754439 (one FLA 9500 scan; its TIFF is an 8-bit RGB rendering; the record's Rotor-Gene file is held out, and nothing here was developed on it) | no linear export to validate square-root-encoded values |
 | Bioanalyzer `.xad`, TapeStation | none with a licence | no files |
 | Neware held-out `.ndax` (BTS 8.2) | SINTEF Zenodo 20802274 | held out (measurement only) |
 | Arbin `.res`, Maccor | galvani/cellpy/beep test files (Arbin is an MS Access database) | not started |

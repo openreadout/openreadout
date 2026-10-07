@@ -153,7 +153,7 @@ their base name without them):
   after the end record) with `CoordinateData.Volumes` and `CoordinateData.Amplitudes`, each an
   [MS-NRBF] array of 32-bit floats (record 15, primitive type 11) and a `…DataType` member
   (`System.Single[]`). The declared array length must fill the member exactly; a member cut short
-  or holding bare floats is refused (the curve is left out, `check` reports it). An evaluated curve
+  or holding bare floats is refused (the curve is left out, `check` reports it, and the file's assurance leaves the traces unvalidated: allotropy's `unicorn-zip-allotropy-single-uv` and the re-packed `unicorn-zip-allotropy-1` are such files). An evaluated curve
   on a volume grid may store no volumes: they are `volume_start_ml + i × volume_step_ml`.
 - Time of sample *i* = `DistanceToStartPoint + i × DistanceBetweenPoints` (validated against every
   event of six exports, see provenance). A curve with a zero or missing interval keeps its volumes
