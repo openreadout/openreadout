@@ -737,7 +737,10 @@ mod tests {
         std::fs::write(&path, b"{\"json\": true}").unwrap();
         let err = reg.open(&path).map(|_| ()).unwrap_err();
         assert_eq!(err.exit_code(), 4);
-        assert!(err.to_string().contains("only the file extension matched"), "{err}");
+        assert!(
+            err.to_string().contains("only the file extension matched"),
+            "{err}"
+        );
         assert!(err.hint().unwrap().contains("another kind of file"));
     }
 }
