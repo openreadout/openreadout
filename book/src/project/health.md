@@ -18,11 +18,11 @@ Knowledge basis: 15 open spec, 47 prior art, 26 reverse engineered, 8 vendor doc
 
 ## Corpus
 
-3985 manifest entries; 1678 development inputs of 95 formats from 541 depositors (distinct source records: a Zenodo record, a study, a repository) (276 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
+4024 manifest entries; 1704 development inputs of 95 formats from 560 depositors (distinct source records: a Zenodo record, a study, a repository) (283 without a download URL: synthetic fixtures and bundle members); 292 held-out inputs. Licences recorded: 24 distinct (every entry has one).
 
 | tier | entries | declared size |
 | --- | --- | --- |
-| full | 77 | 48.2 GB |
+| full | 116 | 48.2 GB |
 | heldout | 730 | 6.6 GB |
 | hold | 26 | 132.6 MB |
 | smoke | 1839 | 1.1 GB |
@@ -32,7 +32,7 @@ Formats without a development-corpus input of their own id (read through a sibli
 
 ## Assurance evidence
 
-From `corpus/assurance/evidence.json` (development files only): 1654 files read; 1539 compared with an oracle, 1539 agree (100%); 1513 confirmed by an independent reader. 2255 distinct variant-feature values observed, 2143 of them validated (95%); the others make files that use them `partially_validated` or `unvalidated`.
+From `corpus/assurance/evidence.json` (development files only): 1680 files read; 1549 compared with an oracle, 1549 agree (100%); 1523 confirmed by an independent reader. 2278 distinct variant-feature values observed, 2164 of them validated (95%); the others make files that use them `partially_validated` or `unvalidated`.
 
 Development files `info` cannot read (3): `pcrd-cfx-primerpickr` (bio-rad-pcrd), `gen5prt-elisa-reader` (plate), `softmax5-cuvette-spectra-s2` (plate).
 
@@ -50,8 +50,8 @@ Variant values the development corpus reaches but no independent reader confirms
 | `jcamp-dx` | acquisition=`CONTINUOUS MASS SPECTRUM`, acquisition=`ND NMR SPECTRUM` |
 | `malvern-zetasizer-dts` | acquisition=`size record`, format_version=`record schema 10`, writer_version=`Zetasizer 7.02`, writer_version=`Zetasizer 7.13`, writer_version=`Zetasizer 8.00`, writer_version=`Zetasizer 8.01` |
 | `microcal-itc` | writer=`MicroCalITC`, writer_version=`ITC200 1.25`, writer_version=`MicroCalITC 1.29` |
-| `mzml` | acquisition=`SRM spectrum`, acquisition=`electromagnetic radiation spectrum`, acquisition=`selected ion monitoring chromatogram`, instrument=`4000 QTRAP`, instrument=`Applied Biosystems instrument model`, instrument=`LTQ Velos`, instrument=`Stellar`, record=`absorption chromatogram`, record=`chromatogram`, record=`electromagnetic radiation chromatogram`, record=`emission chromatogram`, record=`flow rate chromatogram`, record=`pressure chromatogram`, record=`selected ion monitoring chromatogram`, record=`temperature chromatogram`, writer=`Compass` |
-| `mzxml` | format_version=`2.1` |
+| `mzml` | acquisition=`SRM spectrum`, acquisition=`constant neutral loss spectrum`, acquisition=`electromagnetic radiation spectrum`, acquisition=`precursor ion spectrum`, acquisition=`selected ion monitoring chromatogram`, instrument=`4000 QTRAP`, instrument=`AB SCIEX instrument model`, instrument=`Applied Biosystems instrument model`, instrument=`LTQ Velos`, instrument=`QTRAP 5500`, instrument=`Stellar`, record=`absorption chromatogram`, record=`chromatogram`, record=`electromagnetic radiation chromatogram`, record=`emission chromatogram`, record=`flow rate chromatogram`, record=`pressure chromatogram`, record=`selected ion monitoring chromatogram`, record=`temperature chromatogram`, writer=`Compass`, writer=`ProteinPilot Software` |
+| `mzxml` | format_version=`2.1`, instrument=`API 2000` |
 | `plate` | instrument=`Cytation3`, instrument=`Cytation5`, instrument=`SpectraMax M5`, instrument=`Synergy HT`, layout=`container gen5-experiment`, writer_version=`Gen5 2` |
 | `plexon` | format_version=`PL2`, record=`PL2 continuous` |
 | `rigaku-ras` | layout=`2θ/θ scan` |
@@ -85,7 +85,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 
 - New-variant intakes (`corpus/intake/`): none.
 - Second-opinion disagreements adjudicated (`corpus/oracle/second/adjudications.toml`, 0 where neither reader was right): 26 whole-file entries, and 33 field entries that settle 123 per-file field differences ([second opinions](../../../docs/benchmark/second-opinions.md)).
-- Corpus files whose oracle is known to disagree for a documented reason (`oracle_skip`): 8.
+- Corpus files whose oracle is known to disagree for a documented reason (`oracle_skip`): 16.
 - Corpus entries whose licence or source is not yet confirmed (from intakes; tier `hold`, not fetched automatically): 0.
 - Known upstream dependency bugs with reproducers (`fuzz/known-upstream/`): 5.
 
@@ -95,7 +95,7 @@ Held-out corpus-test results in the evidence (what the confidence rubric uses): 
 | --- | --- |
 | reader crates with a maintainer guide (`MAINTAINING.md`, generated facts checked by `cargo xtask guides`) | 40 of 40 |
 | golden-output snapshots of committed fixtures (`cargo test`) | 107 |
-| golden-output snapshots of development-corpus files | 1657 |
-| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3058 |
-| fuzz targets (`fuzz/fuzz_targets/`) | 134 |
-| Rust source files under `crates/` | 776 |
+| golden-output snapshots of development-corpus files | 1683 |
+| committed ground-truth files (`corpus/oracle/**.json`, `.json.gz` over 1 MiB) | 3062 |
+| fuzz targets (`fuzz/fuzz_targets/`) | 135 |
+| Rust source files under `crates/` | 779 |
