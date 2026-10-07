@@ -92,6 +92,10 @@ struct FileEvidence {
     /// Outputs those stored results constrain.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     stored_result_compared: Vec<String>,
+    /// The (kind, value) features of the signals the stored results were computed from, when
+    /// the results line names them: only those are confirmed (absent: every feature in scope).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    stored_result_features: Option<Vec<(String, String)>>,
     /// Outputs `--strict` refuses whatever the corpus holds: structures met but not decoded, and
     /// vendor calibrations not applied (from the file's assurance block).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -213,6 +217,10 @@ struct ResultLine {
     /// `vendor_stored_result` for vendor-stored results reproduced; absent for an oracle.
     #[serde(default)]
     evidence: Option<String>,
+    /// Vendor-stored results: the (kind, value) features of the signals they were computed
+    /// from. Absent: every feature in the compared scopes.
+    #[serde(default)]
+    features: Option<Vec<(String, String)>>,
 }
 
 const VENDOR_STORED: &str = "vendor_stored_result";
@@ -243,6 +251,17 @@ fn join_line(slot: &mut Option<ResultLine>, r: ResultLine) {
                     o.fields.push(c);
                 }
             }
+            o.features = match (o.features.take(), r.features) {
+                (Some(mut a), Some(b)) => {
+                    for f in b {
+                        if !a.contains(&f) {
+                            a.push(f);
+                        }
+                    }
+                    Some(a)
+                }
+                _ => None,
+            };
         }
     }
 }
@@ -355,9 +374,13 @@ fn observe(
     let joined = results.get(&(e.id.clone(), e.format.clone()));
     let result = joined.and_then(|j| j.oracle.as_ref());
     let stored = joined.and_then(|j| j.stored.as_ref());
-    let (stored_result, stored_result_compared) = match stored {
-        Some(r) => (Some(r.status.clone()), r.compared.clone()),
-        None => (None, Vec::new()),
+    let (stored_result, stored_result_compared, stored_result_features) = match stored {
+        Some(r) => (
+            Some(r.status.clone()),
+            r.compared.clone(),
+            r.features.clone(),
+        ),
+        None => (None, Vec::new(), None),
     };
     let (oracle, independent, compared, fields) = match result {
         Some(r) => (
@@ -382,6 +405,7 @@ fn observe(
             fields: Vec::new(),
             stored_result: None,
             stored_result_compared: Vec::new(),
+            stored_result_features: None,
             fixed_refuses: Vec::new(),
             assumed: Vec::new(),
             features: Vec::new(),
@@ -462,6 +486,7 @@ fn observe(
         fields,
         stored_result,
         stored_result_compared,
+        stored_result_features,
         fixed_refuses,
         assumed,
         features,
@@ -476,6 +501,20 @@ fn load(root: &Path) -> Result<Evidence> {
     let text = fs::read_to_string(root.join(EVIDENCE))
         .with_context(|| format!("read {EVIDENCE}; run `cargo xtask assurance-audit refresh`"))?;
     serde_json::from_str(&text).context("parse evidence")
+}
+
+/// Whether each variant-feature value the development corpus reaches, as (format, kind,
+/// value), is validated: the rule the generated tables use (`validates_feature`).
+pub fn feature_validation(root: &Path) -> Result<BTreeMap<(String, String, String), bool>> {
+    let ev = load(root)?;
+    let mut out: BTreeMap<(String, String, String), bool> = BTreeMap::new();
+    for f in ev.files.iter().filter(|f| f.oracle != "unreadable") {
+        for (kind, value, scope) in &f.features {
+            *out.entry((f.format.clone(), kind.clone(), value.clone()))
+                .or_insert(false) |= validates_feature(f, kind, value, scope);
+        }
+    }
+    Ok(out)
 }
 
 /// Corpus coverage of one feature value.
@@ -518,11 +557,15 @@ fn validates_feature(f: &FileEvidence, kind: &str, value: &str, scope: &[String]
         _ => None,
     };
     let by_oracle = validates(f, scope) && field.is_none_or(|fd| f.fields.iter().any(|c| c == fd));
-    // Vendor-stored results confirm only the outputs they were computed from.
+    // Vendor-stored results confirm only the outputs they were computed from, and when the
+    // results line names the signals' features, only those.
     let by_stored = f.stored_result.as_deref() == Some("pass")
         && field.is_none()
         && !scope.is_empty()
-        && scope.iter().any(|s| f.stored_result_compared.contains(s));
+        && scope.iter().any(|s| f.stored_result_compared.contains(s))
+        && f.stored_result_features
+            .as_ref()
+            .is_none_or(|fs| fs.iter().any(|(k, v)| k == kind && v == value));
     by_oracle || by_stored
 }
 
@@ -1150,6 +1193,7 @@ mod tests {
             fields: Vec::new(),
             stored_result: None,
             stored_result_compared: Vec::new(),
+            stored_result_features: None,
             fixed_refuses: Vec::new(),
             assumed: Vec::new(),
             features: features
@@ -1239,6 +1283,27 @@ mod tests {
         assert_eq!(fe.rows[&("layout".into(), "cmbx".into())].files, 0);
         assert_eq!(
             fe.rows[&("field".into(), "experiment.acquisition.started_at".into())].files,
+            0
+        );
+        // Naming the integrated signals' features confirms those and no other trace feature.
+        let mut g = f.clone();
+        g.features.push((
+            "layout".into(),
+            "10 Hz signal in bar".into(),
+            vec!["traces".into()],
+        ));
+        g.stored_result_features = Some(vec![("sample_layout".into(), "f64".into())]);
+        let ev = Evidence {
+            files: vec![g],
+            ..Evidence::default()
+        };
+        let per = by_format(&ev);
+        assert_eq!(
+            per["fmt"].rows[&("sample_layout".into(), "f64".into())].files,
+            1
+        );
+        assert_eq!(
+            per["fmt"].rows[&("layout".into(), "10 Hz signal in bar".into())].files,
             0
         );
         // A stored result the decoded values do not reproduce is a failure.

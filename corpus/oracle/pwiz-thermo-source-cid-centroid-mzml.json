@@ -1,0 +1,280 @@
+{
+ "id": "pwiz-thermo-source-cid-centroid-mzml",
+ "file": "source_cid_test_3scans-centroid.mzML",
+ "size": 30458,
+ "sha256": "88f8566a2eef07959d4d0e376f9142f5fb7dd4f42777d2f9ec47ea0ab353762c",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "ms level"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3,
+     "channels": [
+      {
+       "xxh3": "b6f25f24886ca045d196d10b656e2605",
+       "first": [
+        15.573393702507019,
+        15.821682214736938,
+        16.068559885025024
+       ]
+      },
+      {
+       "xxh3": "918d3f08cc1e6993fc0fe85092d8602b",
+       "first": [
+        7088.73486328125,
+        5707.26611328125,
+        5398.5927734375
+       ]
+      },
+      {
+       "xxh3": "6ca37662eed7a79e00b19b5f039168ed",
+       "first": [
+        2.0,
+        2.0,
+        2.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 3,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "controllerType=0 controllerNumber=1 scan=1",
+    "ms_level": 2,
+    "rt_s": 15.57339296898,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": "ITMS + c NSI t Full ms2 413.2496@hcd30.00 [200.0000-1500.0000]",
+    "precursor_mz": 413.249603271484,
+    "precursor_charge": 2,
+    "isolation_target_mz": 413.249603271484,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 30.0,
+    "total_ion_current": 7088.734724938869,
+    "base_peak_mz": 413.175018310547,
+    "n_peaks": 401,
+    "n_nonzero": 401,
+    "mz_bits": 32,
+    "xxh3_mz": "6f546f2130fe8bb0fc2730dc5b5b9669",
+    "xxh3_intensity": "8c122d2507040347e3b28b8257100300",
+    "xxh3_mz_nonzero": "6f546f2130fe8bb0fc2730dc5b5b9669",
+    "xxh3_intensity_nonzero": "8c122d2507040347e3b28b8257100300",
+    "sum_intensity": 7088.7347249388695,
+    "mz_min": 200.3130340576172,
+    "mz_max": 982.4700317382812,
+    "first_peaks": [
+     [
+      200.3130340576172,
+      1.0822219848632812
+     ],
+     [
+      200.9870147705078,
+      7.852446556091309
+     ],
+     [
+      202.0380096435547,
+      5.917462348937988
+     ],
+     [
+      203.04904174804688,
+      13.941927909851074
+     ],
+     [
+      203.8560028076172,
+      14.226489067077637
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      200.3130340576172,
+      1.0822219848632812
+     ],
+     [
+      200.9870147705078,
+      7.852446556091309
+     ],
+     [
+      202.0380096435547,
+      5.917462348937988
+     ],
+     [
+      203.04904174804688,
+      13.941927909851074
+     ],
+     [
+      203.8560028076172,
+      14.226489067077637
+     ]
+    ]
+   },
+   {
+    "index": 1,
+    "scan_number": 2,
+    "native_id": "controllerType=0 controllerNumber=1 scan=2",
+    "ms_level": 2,
+    "rt_s": 15.821681796,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": "ITMS + c NSI sid=10.00 t Full ms2 413.2496@hcd30.00 [200.0000-1500.0000]",
+    "precursor_mz": 413.249603271484,
+    "precursor_charge": 2,
+    "isolation_target_mz": 413.249603271484,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 30.0,
+    "total_ion_current": 5707.266325235367,
+    "base_peak_mz": 413.158020019531,
+    "n_peaks": 317,
+    "n_nonzero": 317,
+    "mz_bits": 32,
+    "xxh3_mz": "754daedba22e42d247e02e3b7d731f6e",
+    "xxh3_intensity": "9d95103490251171ea42bf0539600446",
+    "xxh3_mz_nonzero": "754daedba22e42d247e02e3b7d731f6e",
+    "xxh3_intensity_nonzero": "9d95103490251171ea42bf0539600446",
+    "sum_intensity": 5707.266325235367,
+    "mz_min": 200.28700256347656,
+    "mz_max": 813.3729858398438,
+    "first_peaks": [
+     [
+      200.28700256347656,
+      1.0755250453948975
+     ],
+     [
+      201.02000427246094,
+      3.8939337730407715
+     ],
+     [
+      201.94403076171875,
+      10.649166107177734
+     ],
+     [
+      202.6100311279297,
+      2.5485734939575195
+     ],
+     [
+      203.08604431152344,
+      5.507782459259033
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      200.28700256347656,
+      1.0755250453948975
+     ],
+     [
+      201.02000427246094,
+      3.8939337730407715
+     ],
+     [
+      201.94403076171875,
+      10.649166107177734
+     ],
+     [
+      202.6100311279297,
+      2.5485734939575195
+     ],
+     [
+      203.08604431152344,
+      5.507782459259033
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "scan_number": 3,
+    "native_id": "controllerType=0 controllerNumber=1 scan=3",
+    "ms_level": 2,
+    "rt_s": 16.068559164,
+    "polarity": "positive",
+    "centroided": true,
+    "filter": "ITMS + c NSI sid=20.00 t Full ms2 413.2496@hcd30.00 [200.0000-1500.0000]",
+    "precursor_mz": 413.249603271484,
+    "precursor_charge": 2,
+    "isolation_target_mz": 413.249603271484,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 30.0,
+    "total_ion_current": 5398.592826068401,
+    "base_peak_mz": 413.023010253906,
+    "n_peaks": 321,
+    "n_nonzero": 321,
+    "mz_bits": 32,
+    "xxh3_mz": "e9a4da09e919c4df0f1b74899d80210c",
+    "xxh3_intensity": "73fcd88b7b829cb51d05f51569f30ee0",
+    "xxh3_mz_nonzero": "e9a4da09e919c4df0f1b74899d80210c",
+    "xxh3_intensity_nonzero": "73fcd88b7b829cb51d05f51569f30ee0",
+    "sum_intensity": 5398.592826068401,
+    "mz_min": 200.33204650878906,
+    "mz_max": 905.3030395507812,
+    "first_peaks": [
+     [
+      200.33204650878906,
+      0.7900064587593079
+     ],
+     [
+      200.8590087890625,
+      7.746231555938721
+     ],
+     [
+      202.14605712890625,
+      6.464971542358398
+     ],
+     [
+      202.9640350341797,
+      7.497591972351074
+     ],
+     [
+      203.47503662109375,
+      3.1818959712982178
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      200.33204650878906,
+      0.7900064587593079
+     ],
+     [
+      200.8590087890625,
+      7.746231555938721
+     ],
+     [
+      202.14605712890625,
+      6.464971542358398
+     ],
+     [
+      202.9640350341797,
+      7.497591972351074
+     ],
+     [
+      203.47503662109375,
+      3.1818959712982178
+     ]
+    ]
+   }
+  ]
+ }
+}

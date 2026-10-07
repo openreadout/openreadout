@@ -1,0 +1,46 @@
+{
+ "id": "gpcreader-empower-calib1",
+ "file": "calib1.arw",
+ "size": 23086,
+ "sha256": "352083734320a1a485a469b11f465d6330fd6af34bbd86fb5e61f592ed87095c",
+ "reader": "chromConverter 0.9.0 read_chroms(format_in = 'waters_arw') (GPL-3.0, black box)",
+ "oracle_note": "rows chromConverter returned as two numbers (1200); 6 header rows it returned as data rows were left out",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "410 "
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 1.0000000001668057,
+   "x_first_min": 0.01666667,
+   "x_last_min": 20.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1200,
+     "channels": [
+      {
+       "xxh3": "555530b35f77811728e39fd5646803b8",
+       "first": [
+        0.009361702,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ],
+   "name": "PMMA459kDa / 410 "
+  }
+ ]
+}

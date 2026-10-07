@@ -137,28 +137,29 @@ const BRUKER_BRML_VALIDATED: &[Validated] = &[
 const RIGAKU_RAS_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const RIGAKU_RAS_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 4, 4, 4),
-    a::row(K::Field, "experiment.instrument.model", 1, 1, 1),
-    a::row(K::FormatVersion, "RAS 1", 2, 2, 2),
+    a::row(K::Field, "experiment.acquisition.started_at", 4, 4, 5),
+    a::row(K::Field, "experiment.instrument.model", 1, 1, 2),
+    a::row(K::FormatVersion, "RAS 1", 3, 3, 3),
     a::row(K::FormatVersion, "RAS 1.0000000000", 2, 2, 2),
-    a::row(K::Layout, "2θ/θ scan", 0, 0, 1),
+    a::row(K::Layout, "2θ/θ scan", 1, 1, 1),
     a::row(K::Layout, "Theta/2-Theta scan", 1, 1, 1),
-    a::row(K::Layout, "TwoThetaTheta scan", 2, 2, 2),
+    a::row(K::Layout, "TwoThetaTheta scan", 3, 3, 3),
     a::row(K::Record, "angle axis", 1, 1, 1),
-    a::row(K::Record, "two_theta axis", 2, 2, 3),
-    a::row(K::SampleLayout, "intensity in counts", 3, 3, 4),
+    a::row(K::Record, "two_theta axis", 4, 4, 4),
+    a::row(K::SampleLayout, "intensity in counts", 5, 5, 5),
 ];
 // END GENERATED rigaku-ras
 
 // BEGIN GENERATED rigaku-rasx (cargo xtask assurance-audit --write; do not edit)
-const RIGAKU_RASX_CONFIDENCE: Confidence = Confidence::Low;
+const RIGAKU_RASX_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const RIGAKU_RASX_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 2, 2, 2),
-    a::row(K::Field, "experiment.instrument.model", 2, 2, 2),
-    a::row(K::Layout, "TwoTheta scan", 1, 1, 1),
-    a::row(K::Layout, "TwoThetaTheta scan", 0, 0, 1),
-    a::row(K::Record, "two_theta axis", 1, 1, 2),
-    a::row(K::SampleLayout, "intensity in counts", 1, 1, 2),
+    a::row(K::Field, "experiment.acquisition.started_at", 2, 2, 8),
+    a::row(K::Field, "experiment.instrument.model", 2, 2, 8),
+    a::row(K::Layout, "TwoTheta scan", 2, 1, 2),
+    a::row(K::Layout, "TwoThetaOmega scan", 1, 1, 1),
+    a::row(K::Layout, "TwoThetaTheta scan", 5, 5, 5),
+    a::row(K::Record, "two_theta axis", 8, 5, 8),
+    a::row(K::SampleLayout, "intensity in counts", 8, 5, 8),
 ];
 // END GENERATED rigaku-rasx

@@ -1,0 +1,106 @@
+{
+ "id": "pwiz-agilent-reserpine-ms2sim-mzml",
+ "file": "reserpine-MS2sim-010.mzML",
+ "size": 23288,
+ "sha256": "702e332a8dd638c28c0e4fdc416933ae42621da4bf663df7ca135f37218f7e79",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 869,
+     "channels": [
+      {
+       "xxh3": "f11a7eb730ff3ba553c0f79acb9b0ea5",
+       "first": [
+        0.0029999999242136255,
+        0.10700000217184424,
+        0.21000000648200512,
+        0.3140000067651272,
+        0.41699999012053013,
+        0.5209999904036522,
+        0.6250000186264515,
+        0.7279999740421772
+       ]
+      },
+      {
+       "xxh3": "e937ccce8aab1b0a1a359910160205e0",
+       "first": [
+        1630.0,
+        1934.0,
+        1639.0,
+        1656.0,
+        1663.0,
+        1635.0,
+        1616.0,
+        1638.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "id": "SIM SIC Q1=609.25 start=0.00005 end=1.498616667",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "time",
+    "intensity"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 869,
+     "channels": [
+      {
+       "xxh3": "f11a7eb730ff3ba553c0f79acb9b0ea5",
+       "first": [
+        0.0029999999242136255,
+        0.10700000217184424,
+        0.21000000648200512,
+        0.3140000067651272,
+        0.41699999012053013,
+        0.5209999904036522,
+        0.6250000186264515,
+        0.7279999740421772
+       ]
+      },
+      {
+       "xxh3": "e937ccce8aab1b0a1a359910160205e0",
+       "first": [
+        1630.0,
+        1934.0,
+        1639.0,
+        1656.0,
+        1663.0,
+        1635.0,
+        1616.0,
+        1638.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 0,
+  "by_index": true,
+  "scans": []
+ }
+}

@@ -1,0 +1,216 @@
+{
+ "id": "hdf5-zenodo14794967-picoharp-histogram-cl1-det2",
+ "format": "hdf5",
+ "independent": true,
+ "reader": "h5py 3.16.0 (HDF5 2.0.0, BSD-3-Clause)",
+ "superblock_version": 0,
+ "groups": 15,
+ "datasets": 3,
+ "top_level": [
+  "app",
+  "hardware",
+  "measurement"
+ ],
+ "objects": [
+  {
+   "path": "/",
+   "kind": "group",
+   "attributes": {
+    "ScopeFoundry_version": 101,
+    "time_id": 1705057829.673075
+   }
+  },
+  {
+   "path": "/app",
+   "kind": "group",
+   "attributes": {
+    "ScopeFoundry_type": "App",
+    "name": "app"
+   }
+  },
+  {
+   "path": "/hardware",
+   "kind": "group",
+   "attributes": {
+    "ScopeFoundry_type": "HardwareList"
+   }
+  },
+  {
+   "path": "/measurement",
+   "kind": "group",
+   "attributes": {}
+  },
+  {
+   "path": "/app/settings",
+   "kind": "group",
+   "attributes": {
+    "data_fname_format": "{timestamp:%y%m%d_%H%M%S}_{measurement.name}.{ext}",
+    "sample": "",
+    "save_dir": "C:\\ProgramData\\Anaconda3\\envs\\scopefoundry\\Lib\\site-packages\\ScopeFoundryHW\\microPL_SpectroscopyLab_before220601\\data"
+   }
+  },
+  {
+   "path": "/hardware/PI_XYZpiezo_hw",
+   "kind": "group",
+   "attributes": {
+    "ScopeFoundry_type": "Hardware",
+    "name": "PI_XYZpiezo_hw"
+   }
+  },
+  {
+   "path": "/hardware/picoharp",
+   "kind": "group",
+   "attributes": {
+    "ScopeFoundry_type": "Hardware",
+    "name": "picoharp"
+   }
+  },
+  {
+   "path": "/measurement/picoharp_histogram",
+   "kind": "group",
+   "attributes": {
+    "ScopeFoundry_type": "Measurement",
+    "name": "picoharp_histogram"
+   }
+  },
+  {
+   "path": "/app/settings/units",
+   "kind": "group",
+   "attributes": {}
+  },
+  {
+   "path": "/hardware/PI_XYZpiezo_hw/settings",
+   "kind": "group",
+   "attributes": {
+    "Axis_rangemax": 200.0,
+    "Axis_rangemin": 0.0,
+    "connected": true,
+    "controller": "E-727",
+    "debug_mode": false,
+    "h_axis": "X",
+    "port": "USB:0121031763",
+    "stage": "P-545.3R8H",
+    "v_axis": "Y",
+    "x_max": 100.0,
+    "x_on_target": true,
+    "x_position": 29.40559006,
+    "x_servo": true,
+    "x_target": 29.405099999999997,
+    "x_velocity": 10000.0,
+    "xyz_axis_map": "123",
+    "y_max": 100.0,
+    "y_on_target": true,
+    "y_position": 9.78855896,
+    "y_servo": true,
+    "y_target": 9.7904,
+    "y_velocity": 10000.0,
+    "z_max": 100.0,
+    "z_on_target": true,
+    "z_position": -0.0002899169922,
+    "z_servo": true,
+    "z_target": 0.0,
+    "z_velocity": 10000.0
+   }
+  },
+  {
+   "path": "/hardware/picoharp/settings",
+   "kind": "group",
+   "attributes": {
+    "Binning": 2,
+    "CFDLevel0": 100,
+    "CFDLevel1": 100,
+    "CFDZeroCross0": 10,
+    "CFDZeroCross1": 10,
+    "Mode": "HIST",
+    "Resolution": 16,
+    "SyncDivider": 1,
+    "SyncOffset": 0,
+    "Tacq": 20.0,
+    "connected": true,
+    "count_rate0": 9999940,
+    "count_rate1": 13730,
+    "debug_mode": false,
+    "histogram_channels": 6251,
+    "stop_on_overflow": true
+   }
+  },
+  {
+   "path": "/measurement/picoharp_histogram/elapsed_meas_time",
+   "kind": "dataset",
+   "shape": [],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/measurement/picoharp_histogram/settings",
+   "kind": "group",
+   "attributes": {
+    "activation": true,
+    "continuous": false,
+    "profile": false,
+    "progress": 99.45302724838257,
+    "run_state": "run_thread_run",
+    "save_h5": true,
+    "use_calc_hist_chans": true
+   }
+  },
+  {
+   "path": "/measurement/picoharp_histogram/time_array",
+   "kind": "dataset",
+   "shape": [
+    6251
+   ],
+   "dtype": "float64",
+   "attributes": {}
+  },
+  {
+   "path": "/measurement/picoharp_histogram/time_histogram",
+   "kind": "dataset",
+   "shape": [
+    6251
+   ],
+   "dtype": "uint32",
+   "attributes": {}
+  },
+  {
+   "path": "/hardware/PI_XYZpiezo_hw/settings/units",
+   "kind": "group",
+   "attributes": {
+    "Axis_rangemax": "um",
+    "Axis_rangemin": "um",
+    "x_max": "um",
+    "x_position": "um",
+    "x_target": "um",
+    "x_velocity": "um/s",
+    "y_max": "um",
+    "y_position": "um",
+    "y_target": "um",
+    "y_velocity": "um/s",
+    "z_max": "um",
+    "z_position": "um",
+    "z_target": "um",
+    "z_velocity": "um/s"
+   }
+  },
+  {
+   "path": "/hardware/picoharp/settings/units",
+   "kind": "group",
+   "attributes": {
+    "CFDLevel0": "mV",
+    "CFDLevel1": "mV",
+    "CFDZeroCross0": "mV",
+    "CFDZeroCross1": "mV",
+    "Resolution": "ps",
+    "Tacq": "s"
+   }
+  },
+  {
+   "path": "/measurement/picoharp_histogram/settings/units",
+   "kind": "group",
+   "attributes": {
+    "progress": "%"
+   }
+  }
+ ],
+ "links": []
+}

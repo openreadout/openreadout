@@ -8,6 +8,10 @@
 //! - `softmax5-cuvette-spectra-s2` (cuvette-set spectra) is refused (exit 6), not guessed.
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus --test plate_binary -- --nocapture`
+//!
+//! With `PLATE_RESULTS=<file>`, each Gen5 experiment that matched its export is written as a
+//! results line for `cargo xtask assurance-audit refresh` (docs/assurance.md): Gen5 printed
+//! those values from the same file, so they independently confirm its tables and metadata.
 #![cfg(feature = "corpus")]
 // exact stored values are compared bit for bit; r/c/w/v/t/o name row, column, well, value, time, oracle
 #![allow(clippy::float_cmp, clippy::many_single_char_names)]
@@ -260,6 +264,7 @@ fn labelled(path: &Path) -> BTreeMap<(String, String, u64), f64> {
 fn gen5_experiments_match_their_exports() {
     let dir = root().join("corpus/oracle/plate-binary");
     let mut compared = 0;
+    let mut results = String::new();
     for entry in std::fs::read_dir(&dir).unwrap() {
         let p = entry.unwrap().path();
         let o: serde_json::Value =
@@ -337,6 +342,19 @@ fn gen5_experiments_match_their_exports() {
         }
         eprintln!("{id}: {n} exported values equal the decoded ones");
         compared += n;
+        if n > 0 {
+            results.push_str(
+                &serde_json::json!({
+                    "id": id, "format": "plate", "status": "pass", "independent": true,
+                    "compared": ["metadata", "tables"],
+                })
+                .to_string(),
+            );
+            results.push('\n');
+        }
+    }
+    if let Ok(p) = std::env::var("PLATE_RESULTS") {
+        std::fs::write(p, results).unwrap();
     }
     eprintln!("{compared} Gen5 export values compared");
 }

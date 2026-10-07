@@ -35,8 +35,8 @@ Olympus FluoView OIF and OIB data sets (`oif`, `oib`; FV1000/FV1200/FV10i). Proj
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `oib` | [format note](../../docs/formats/oif.md), [provenance log](../../docs/provenance/oif.md) | medium | prior art | 7 / 7 | 5 | 1 / 0 |
-| `oif` | [format note](../../docs/formats/oif.md), [provenance log](../../docs/provenance/oif.md) | low | prior art | 2 / 2 | 1 | - |
+| `oib` | [format note](../../docs/formats/oif.md), [provenance log](../../docs/provenance/oif.md) | high | prior art | 10 / 10 | 8 | 1 / 0 |
+| `oif` | [format note](../../docs/formats/oif.md), [provenance log](../../docs/provenance/oif.md) | medium | prior art | 5 / 5 | 2 | - |
 
 ### Source map
 
@@ -64,36 +64,38 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `oib` | acquisition | `scan XY` | metadata, pixels | 3 | 3 | `zenodo4598136-htx40`, `zenodo4598136-spleenx20`, `zenodo6795923-nmr119-rside` |
+| `oib` | acquisition | `scan XY` | metadata, pixels | 5 | 5 | `figshare12325037-vcfs-prox1-ctnt-x20-f1`, `figshare26030764-cg-nap-atb-acemehta-01`, `zenodo4598136-htx40` |
 | `oib` | acquisition | `scan XYL` | metadata, pixels | 1 | 1 | `zenodo14925254-abeta5-spectral` |
 | `oib` | acquisition | `scan XYT` | metadata, pixels | 1 | 1 | `zenodo11075037-rics-h1-45-1` |
-| `oib` | acquisition | `scan XYZ` | metadata, pixels | 2 | 2 | `zenodo6795923-nmr117-rside-z`, `zenodo7080902-cord-dapi-iba568-60x` |
+| `oib` | acquisition | `scan XYZ` | metadata, pixels | 3 | 3 | `figshare31929921-a-03-05-syn488-btx555`, `zenodo6795923-nmr117-rside-z`, `zenodo7080902-cord-dapi-iba568-60x` |
 | `oib` | codec | `lzw` | pixels | 2 | 2 | `zenodo4598136-htx40`, `zenodo4598136-spleenx20` |
-| `oib` | codec | `none` | pixels | 5 | 5 | `zenodo11075037-rics-h1-45-1`, `zenodo14925254-abeta5-spectral`, `zenodo6795923-nmr117-rside-z` |
-| `oib` | field | `experiment.acquisition.started_at` | descriptive | 7 | 7 | `zenodo11075037-rics-h1-45-1`, `zenodo14925254-abeta5-spectral`, `zenodo4598136-htx40` |
-| `oib` | field | `experiment.instrument.model` | descriptive | 7 | 7 | `zenodo11075037-rics-h1-45-1`, `zenodo14925254-abeta5-spectral`, `zenodo4598136-htx40` |
-| `oib` | format_version | `1.2.6.0` | metadata, pixels | 7 | 7 | `zenodo11075037-rics-h1-45-1`, `zenodo14925254-abeta5-spectral`, `zenodo4598136-htx40` |
-| `oib` | instrument | `FLUOVIEW FV1000` | descriptive | 7 | 7 | `zenodo11075037-rics-h1-45-1`, `zenodo14925254-abeta5-spectral`, `zenodo4598136-htx40` |
-| `oib` | sample_layout | `uint16` | pixels | 7 | 7 | `zenodo11075037-rics-h1-45-1`, `zenodo14925254-abeta5-spectral`, `zenodo4598136-htx40` |
-| `oib` | writer | `FluoView` | descriptive | 7 | 7 | `zenodo11075037-rics-h1-45-1`, `zenodo14925254-abeta5-spectral`, `zenodo4598136-htx40` |
-| `oib` | writer_version | `FluoView 4.2` | descriptive | 7 | 7 | `zenodo11075037-rics-h1-45-1`, `zenodo14925254-abeta5-spectral`, `zenodo4598136-htx40` |
+| `oib` | codec | `none` | pixels | 8 | 8 | `figshare12325037-vcfs-prox1-ctnt-x20-f1`, `figshare26030764-cg-nap-atb-acemehta-01`, `figshare31929921-a-03-05-syn488-btx555` |
+| `oib` | field | `experiment.acquisition.started_at` | descriptive | 10 | 10 | `figshare12325037-vcfs-prox1-ctnt-x20-f1`, `figshare26030764-cg-nap-atb-acemehta-01`, `figshare31929921-a-03-05-syn488-btx555` |
+| `oib` | field | `experiment.instrument.model` | descriptive | 10 | 10 | `figshare12325037-vcfs-prox1-ctnt-x20-f1`, `figshare26030764-cg-nap-atb-acemehta-01`, `figshare31929921-a-03-05-syn488-btx555` |
+| `oib` | format_version | `1.2.6.0` | metadata, pixels | 10 | 10 | `figshare12325037-vcfs-prox1-ctnt-x20-f1`, `figshare26030764-cg-nap-atb-acemehta-01`, `figshare31929921-a-03-05-syn488-btx555` |
+| `oib` | instrument | `FLUOVIEW FV1000` | descriptive | 10 | 10 | `figshare12325037-vcfs-prox1-ctnt-x20-f1`, `figshare26030764-cg-nap-atb-acemehta-01`, `figshare31929921-a-03-05-syn488-btx555` |
+| `oib` | sample_layout | `uint16` | pixels | 10 | 10 | `figshare12325037-vcfs-prox1-ctnt-x20-f1`, `figshare26030764-cg-nap-atb-acemehta-01`, `figshare31929921-a-03-05-syn488-btx555` |
+| `oib` | writer | `FluoView` | descriptive | 10 | 10 | `figshare12325037-vcfs-prox1-ctnt-x20-f1`, `figshare26030764-cg-nap-atb-acemehta-01`, `figshare31929921-a-03-05-syn488-btx555` |
+| `oib` | writer_version | `FluoView 4.0` | descriptive | 1 | 1 | `figshare26030764-cg-nap-atb-acemehta-01` |
+| `oib` | writer_version | `FluoView 4.2` | descriptive | 9 | 9 | `figshare12325037-vcfs-prox1-ctnt-x20-f1`, `figshare31929921-a-03-05-syn488-btx555`, `zenodo11075037-rics-h1-45-1` |
 | `oif` | acquisition | `scan XT` | metadata, pixels | 1 | 1 | `zenodo4421962-bead4-linescan-4hz` |
-| `oif` | acquisition | `scan XY` | metadata, pixels | 1 | 1 | `zenodo4421962-bead12-50x` |
-| `oif` | codec | `none` | pixels | 2 | 2 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz` |
-| `oif` | field | `experiment.acquisition.started_at` | descriptive | 2 | 2 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz` |
-| `oif` | field | `experiment.instrument.model` | descriptive | 2 | 2 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz` |
-| `oif` | format_version | `1.2.6.0` | metadata, pixels | 2 | 2 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz` |
-| `oif` | instrument | `FLUOVIEW FV1000` | descriptive | 2 | 2 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz` |
+| `oif` | acquisition | `scan XY` | metadata, pixels | 2 | 2 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead6-50x-noosc` |
+| `oif` | codec | `none` | pixels | 5 | 5 | `figshare19409903-fig2a`, `figshare19409903-fig2b`, `zenodo4421962-bead12-50x` |
+| `oif` | field | `experiment.acquisition.started_at` | descriptive | 3 | 3 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz`, `zenodo4421962-bead6-50x-noosc` |
+| `oif` | field | `experiment.instrument.model` | descriptive | 3 | 3 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz`, `zenodo4421962-bead6-50x-noosc` |
+| `oif` | format_version | `1.2.3.0` | metadata, pixels | 2 | 2 | `figshare19409903-fig2a`, `figshare19409903-fig2b` |
+| `oif` | format_version | `1.2.6.0` | metadata, pixels | 3 | 3 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz`, `zenodo4421962-bead6-50x-noosc` |
+| `oif` | instrument | `FLUOVIEW FV1000` | descriptive | 3 | 3 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz`, `zenodo4421962-bead6-50x-noosc` |
 | `oif` | layout | `reference_image` | pixels | 1 | 1 | `zenodo4421962-bead4-linescan-4hz` |
-| `oif` | sample_layout | `uint16` | pixels | 2 | 2 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz` |
-| `oif` | writer | `FluoView` | descriptive | 2 | 2 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz` |
-| `oif` | writer_version | `FluoView 4.2` | descriptive | 2 | 2 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz` |
+| `oif` | sample_layout | `uint16` | pixels | 5 | 5 | `figshare19409903-fig2a`, `figshare19409903-fig2b`, `zenodo4421962-bead12-50x` |
+| `oif` | writer | `FluoView` | descriptive | 5 | 5 | `figshare19409903-fig2a`, `figshare19409903-fig2b`, `zenodo4421962-bead12-50x` |
+| `oif` | writer_version | `FluoView 4.2` | descriptive | 3 | 3 | `zenodo4421962-bead12-50x`, `zenodo4421962-bead4-linescan-4hz`, `zenodo4421962-bead6-50x-noosc` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_oib`, `whole_oif`
-- corpus inputs by tier: heldout 4, smoke 5, standard 4
+- corpus inputs by tier: heldout 4, smoke 6, standard 9
 - golden snapshots: [`corpus/snapshots/oib.jsonl`](../../corpus/snapshots/oib.jsonl), [`corpus/snapshots/oif.jsonl`](../../corpus/snapshots/oif.jsonl)
 
 ### Open new-variant intakes

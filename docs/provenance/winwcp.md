@@ -30,3 +30,25 @@ ephy_testing_data on G-Node GIN, CC-BY-SA-4.0; file versions 8 and 9, WinWCP 5.3
 - `YZ<c>` (0 in both files) is reported, not applied, as Neo does.
 - `RTIME` (`dd/mm/yyyy hh:mm:ss`, version 9) is the recording start in local time; `CTIME` the
   file's creation; `VERPROG` the program version.
+
+## 2026-10-06 — files from two more sources (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `winwcp-myokit-wcp-file`, `winwcp-myokit-wcp-file-empty` (Myokit test data,
+commit d178282, BSD-3-Clause), `winwcp-xarray-graph-example` (xarray-graph example data, commit
+ec5f7f0, MIT; written by WinWCP V5.8.1).
+
+**Prior art consulted:** Neo 0.14.5 `neo/rawio/winwcprawio.py` (BSD-3), lines 86-90 only, to see
+why Neo failed: it parses the header's `RTIME` with `%d/%m/%Y %H:%M:%S` and raises on anything else
+before it reads a record. Myokit 1.39.2 `myokit/formats/wcp/_wcp.py` (BSD-3) was looked at for its
+API; it reads only version 9, returns float32 values and does not parse the decimal-comma `DT` of
+`winwcp-file-winwcp-2`, so it is not used as an oracle.
+
+**Ground truth:** `gen.py` (Neo) for `winwcp-myokit-wcp-file`. `oracle/winwcp_oracle.py` (new) for
+`winwcp-xarray-graph-example`: `gen.py` unchanged, with Neo's one `RTIME` parse made to return no
+date instead of raising. Neo's date is not part of the oracle. Both files agree with openreadout
+bit for bit (every channel of sweeps 0, 5 and 10), and so do names, units and sample rates. Neo
+cannot read the empty file (no records); openreadout opens it with no traces.
+
+**Observed:** `winwcp-xarray-graph-example` stores `RTIME=17:24:56.377` (a time without a date) and
+`CTIME=3-13-2025`; openreadout reports no start time, which is right for a time without a date.
+

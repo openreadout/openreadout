@@ -463,6 +463,12 @@ fn rasx_header(xml: &str) -> Result<Header> {
     Ok(h)
 }
 
+/// The number a member name ends with (`Data12` → 12); `u64::MAX` when it ends with none.
+fn trailing_number(s: &str) -> u64 {
+    let digits = s.len() - s.trim_end_matches(|c: char| c.is_ascii_digit()).len();
+    s[s.len() - digits..].parse().unwrap_or(u64::MAX)
+}
+
 /// Parse a RASX zip.
 pub(crate) fn parse_rasx(zip: &ZipIndex) -> Result<SeriesFile> {
     let mut profiles: Vec<String> = zip
@@ -474,7 +480,15 @@ pub(crate) fn parse_rasx(zip: &ZipIndex) -> Result<SeriesFile> {
             l.starts_with("data") && l.contains("profile") && crate::brml::has_ext(&l, "txt")
         })
         .collect();
-    profiles.sort();
+    // `Data2` before `Data10`: by the folder's number, then the profile's, then the name
+    profiles.sort_by_key(|n| {
+        let (dir, file) = n.rsplit_once('/').unwrap_or(("", n.as_str()));
+        (
+            trailing_number(dir),
+            trailing_number(file.trim_end_matches(".txt")),
+            n.clone(),
+        )
+    });
     let mut scans = Vec::new();
     let mut headers = Vec::new();
     let mut findings = Vec::new();
@@ -558,6 +572,27 @@ pub(crate) fn parse_rasx(zip: &ZipIndex) -> Result<SeriesFile> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn rasx_members_in_numeric_order() {
+        assert_eq!(trailing_number("Data12"), 12);
+        assert_eq!(trailing_number("Profile0"), 0);
+        assert_eq!(trailing_number("Data"), u64::MAX);
+        assert_eq!(trailing_number(""), u64::MAX);
+        let mut v = [
+            "Data10/Profile10.txt",
+            "Data2/Profile2.txt",
+            "Data1/Profile1.txt",
+        ];
+        v.sort_by_key(|n| {
+            let (dir, file) = n.rsplit_once('/').unwrap_or(("", n));
+            (
+                trailing_number(dir),
+                trailing_number(file.trim_end_matches(".txt")),
+            )
+        });
+        assert_eq!(v[2], "Data10/Profile10.txt");
+    }
 
     #[test]
     fn ras_blocks() {

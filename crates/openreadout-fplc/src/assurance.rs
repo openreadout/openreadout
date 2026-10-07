@@ -59,23 +59,23 @@ fn observe(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED cytiva-unicorn-res (cargo xtask assurance-audit --write; do not edit)
-const CYTIVA_UNICORN_RES_CONFIDENCE: Confidence = Confidence::Low;
+const CYTIVA_UNICORN_RES_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const CYTIVA_UNICORN_RES_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 2),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 2),
-    a::row(K::FormatVersion, "UNICORN 3", 2, 2, 2),
-    a::row(K::Record, "curve concentration_b", 2, 2, 2),
-    a::row(K::Record, "curve conductivity", 2, 2, 2),
-    a::row(K::Record, "curve conductivity_percent", 1, 1, 1),
-    a::row(K::Record, "curve flow", 1, 1, 1),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 5),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 5),
+    a::row(K::FormatVersion, "UNICORN 3", 5, 3, 5),
+    a::row(K::Record, "curve concentration_b", 5, 3, 5),
+    a::row(K::Record, "curve conductivity", 5, 3, 5),
+    a::row(K::Record, "curve conductivity_percent", 4, 2, 4),
+    a::row(K::Record, "curve flow", 4, 2, 4),
     a::row(K::Record, "curve ph", 1, 1, 1),
-    a::row(K::Record, "curve pressure", 2, 2, 2),
-    a::row(K::Record, "curve temperature", 2, 2, 2),
-    a::row(K::Record, "curve uv", 2, 2, 2),
-    a::row(K::Record, "events fractions", 2, 2, 2),
-    a::row(K::Record, "events injections", 1, 1, 1),
-    a::row(K::Record, "events logbook", 2, 2, 2),
+    a::row(K::Record, "curve pressure", 5, 3, 5),
+    a::row(K::Record, "curve temperature", 5, 3, 5),
+    a::row(K::Record, "curve uv", 5, 3, 5),
+    a::row(K::Record, "events fractions", 5, 3, 5),
+    a::row(K::Record, "events injections", 4, 2, 4),
+    a::row(K::Record, "events logbook", 5, 3, 5),
 ];
 // END GENERATED cytiva-unicorn-res
 

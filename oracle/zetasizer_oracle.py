@@ -12,7 +12,11 @@ PdI, intensity peaks 1-3 (mean, area; width from %Pd of peak 1), zeta potential,
 conductivity, each within half a unit of the export's last digit. Peaks the export lists as 0
 are absent.
 
-Usage:  python zetasizer_oracle.py --id ID EXPORT [--out DIR]
+With `--subset` the export may list only some of the file's records (a depositor who exported the
+size records and left out the zeta ones): `rows` is left out and the table says `"key": "record"`,
+so a comparison has to find each oracle row by its record number instead of by its position.
+
+Usage:  python zetasizer_oracle.py --id ID EXPORT [--out DIR] [--subset]
 """
 from __future__ import annotations
 
@@ -87,6 +91,15 @@ def num(v) -> float | None:
         return None
 
 
+def _csv_rows(text: str) -> list[list[str]]:
+    """A comma-separated export (`.csv`, decimal point), split with the csv module so quoted sample
+    names that hold commas stay one field."""
+    import csv
+    import io
+
+    return [r for r in csv.reader(io.StringIO(text))]
+
+
 def rows_of(path: Path) -> list[dict]:
     if path.suffix.lower() == ".xlsx":
         import openpyxl  # type: ignore
@@ -101,8 +114,8 @@ def rows_of(path: Path) -> list[dict]:
                 break
             except UnicodeDecodeError:
                 continue
-        raw = [l.split("\t") for l in text.splitlines()]
-    head = [str(h or "").strip() for h in raw[0]]
+        raw = _csv_rows(text) if path.suffix.lower() == ".csv" else [l.split("\t") for l in text.splitlines()]
+    head =[str(h or "").strip() for h in raw[0]]
     out = []
     for r in raw[1:]:
         if not r or num(r[0]) is None or not float(num(r[0])).is_integer():
@@ -112,10 +125,12 @@ def rows_of(path: Path) -> list[dict]:
 
 
 def main(argv: list[str]) -> int:
-    out_dir, ident, files = OUT, None, []
+    out_dir, ident, files, subset = OUT, None, [], False
     it = iter(argv)
     for a in it:
-        if a == "--out":
+        if a == "--subset":
+            subset = True
+        elif a == "--out":
             out_dir = Path(next(it))
         elif a == "--id":
             ident = next(it)
@@ -157,6 +172,9 @@ def main(argv: list[str]) -> int:
            "reader": "the Zetasizer software's export of the same records (vendor software)",
            "tables": [{"table": 0, "rows": len(recs), "cells": cells, "tol_rel": 0.005, "tol_abs": 0.0006,
                        "time_tol_s": 1.0, "source": src}]}
+    if subset:
+        del out["tables"][0]["rows"]
+        out["tables"][0]["key"] = "record"
     out_dir.mkdir(parents=True, exist_ok=True)
     dst = out_dir / f"{ident}.json"
     dst.write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n")

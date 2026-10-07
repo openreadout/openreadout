@@ -108,6 +108,37 @@ Corpus: every mzML, mzXML and imzML file (`cargo test -p openreadout-corpus-test
 **Corpus files:** `pyteomics-tiny-pwiz` (pyteomics test data, Apache-2.0), and its export by `export --to mzml`. **Prior art consulted:** the PSI-MS ontology (`psi-ms.obo`, CC-BY-4.0) for the parent terms MS:1000031 instrument model, MS:1000531 software, MS:1000008 ionization type, MS:1000443 mass analyzer type, MS:1000026 detector type.
 **What was inferred.** Some writers (OpenReadout's own mzML writer among them) state a component, software or model for which they have no specific term as its generic parent term with the specific name in `value` (`<cvParam accession="MS:1000531" name="software" value="Xcalibur"/>`), or the parent `instrument model` term with a user param `instrument model name`. Reading the parent term's name gave "software", "detector type" and "instrument model" back. The summary (`instrument.model`, `software`, `detector`, `extra.instrument_configurations[].components[].terms`, `extra.software[].name`) now takes the value of these five parent terms when it is not empty, and the `instrument model name` user param for a value-less `instrument model`. New keys (additions): `extra.instrument_configurations[].components[].accessions` (parallel to `terms`; empty for user params and value-carrying parent terms) and `extra.software[].accession`, so a writer can copy the exact terms. Specific terms read as before.
 
+## 2026-10-06 — imzML: eleven more files from six depositors (no parsing change) (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `zenodo1560646-mouse-kidney-cut` (Zenodo 1560646, MIT), `zenodo2628280-nglycan-control` (Zenodo 2628280, MIT), `zenodo17374882-spheroid-section01` and `-section46` (members of `zenodo17374882-spheroid`, Zenodo 17374882, CC-BY-4.0), `metaspace-untreated-3-434` (metaspace2020/metaspace test data, Apache-2.0), `kineticmsi-hd-rep6` and `kineticmsi-wt-rep1` (MSeidelFed/KineticMSI example data, BSD-2-Clause), `i2nca-pp`, `i2nca-cp`, `i2nca-pc` and `i2nca-cc` (cKNUSPeR/i2nca test data, GPL-3.0), each with its `.ibd`.
+
+**Prior art consulted:** pyimzML 1.5.5 (Apache-2.0, https://github.com/alexandrovteam/pyimzML), run through `oracle/gen.py` as before. No source was read.
+
+**How they were found:** the Zenodo search API (`q=imzml`, all 44 hits) and GitHub code search (`extension:imzML`, 91 hits), keeping licensed records whose `.ibd` is under 200 MB and that hold no patient material.
+
+**What the files add:** writers not seen before (Cardinal 1.12.1, SCiLS Lab 7.02 exporting Bruker solariX data, the pyimzML writer, and a writer that leaves out `softwareList`), centroid spectra in both storage modes, 64-bit m/z with 32-bit intensity, an `ibd MD5` instead of an SHA-1, and instrument scan-pattern terms.
+
+**What was compared:** pyimzML reads every pixel of ten files. The release binary agreed with it on every pixel compared (30 sampled pixels per file, all pixels of the four-pixel i2nca files): the m/z and intensity arrays bit for bit and the pixel positions. The corpus test compares every pixel.
+
+**Found:** `i2nca-cc` declares continuous storage, but its eight spectra have m/z arrays of 1,990 to 1,999 values and intensity arrays of other lengths. pyimzML fails on it, so it has no oracle. `openreadout spectrum --index 1` refuses it (exit 4, "m/z array has 1999 values, intensity array 1997"), while `openreadout check` reports the file OK (exit 0). It is proposed as a malformed-file case, not as validation.
+
+**Inferred:** nothing new. In the Zenodo 2628280 record the imzML and its binary file `control.ibd` have different stems (the imzML's is misspelled). The corpus stores both under one stem so that a reader finds the `.ibd`, as the specification requires.
+
+## 2026-10-06 — `check` compares the m/z and intensity array lengths (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** `i2nca-cc` (GitHub cKNUSPeR/i2nca @517c91e, GPL-3.0), now a `corrupt` entry. **Prior art consulted:** none.
+
+**What was found, and decided:** reading a spectrum already refused one whose m/z and intensity arrays differ in length (exit 4), but `check` decoded each array on its own and reported the file OK. `check` now applies the same rule to every spectrum and reports `bad_array`, so the two agree. Nothing about the layout was inferred.
+
+## 2026-10-06 — imzML: the MS level a file states only in `fileContent` (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** `metaspace-untreated-3-434` (metaspace2020/metaspace test data, Apache-2.0), and for comparison `imzml-example-continuous`, `i2nca-pp`, `kineticmsi-hd-rep6`, `zenodo17374882-spheroid-section01`. **Prior art consulted:** the imzML 1.1 specification (open, imzml.org) for the meaning of `fileContent`.
+
+**What was found:** `metaspace-untreated-3-434` names `MS1 spectrum` only in `fileDescription/fileContent`, not on its spectra, and the reader reported MS level 0 (not stated) for its 4,850 spectra. The files that state the level on each spectrum or in a referenceable group were read as 1. Files that name no spectrum kind at all (`kineticmsi-*`, the spheroid sections) stay 0. The oracle had hard-coded MS level 1 for every imzML pixel, because pyimzML does not report it. It now takes the level from the file's own cvParams with the reader's rule (a non-zero `ms level`, else 1 when `MS1 spectrum` is named, else 0), and the oracles were regenerated.
+
+**Decided:** in an imzML file, a spectrum that states no MS level takes level 1 when `fileContent` names `MS1 spectrum` and no other spectrum kind (centroid and profile describe the representation and are not counted). mzML files are unchanged: their `fileContent` lists every kind in the run.
+
+**Amended the same day:** the metadata conformance test (CI, smoke tier) requires every spectrum to have an MS level, and `kineticmsi-hd-rep6` names no spectrum kind beyond the generic `mass spectrum`. An imzML file that names no specific kind now has its spectra taken as MS1, and the reader says so in a note that the assurance profile reports as an assumed value (`spectra[].ms_levels`), so those files are `partially_validated`. A file that names MSn spectra keeps level 0 where a spectrum states none. The oracle applies the same convention.
 ## 2026-10-06 — text arrays (`null-terminated ASCII string`) (Richard Zimring with Claude as assistant)
 
 **Corpus files:** `openms-mzmlfile-6-uncompressed` and `openms-mzmlfile-6-compressed` (OpenMS class-test data, BSD-3-Clause, pinned to commit cd3bb55): after the m/z and intensity arrays, each spectrum carries three non-standard data arrays, which spectrum 1 stores as text. **Prior art consulted:** the PSI-MS ontology (`psi-ms.obo`, CC-BY-4.0): MS:1001479 *null-terminated ASCII string* is a child of *binary data type* (MS:1000518), like the 32/64-bit float and integer terms.

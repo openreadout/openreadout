@@ -1,0 +1,202 @@
+{
+ "id": "pwiz-waters-hddda-short-nolm-combineims-mzml",
+ "file": "HDDDA_Short_noLM-combineIMS.mzML",
+ "size": 2304710,
+ "sha256": "fea2afcd3d60f64c5d324798c2145f4cbd7607d5b1409c85a7b0dd4556e7df58",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 MzML",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "id": "TIC",
+   "sweep_count": 1,
+   "channel_count": 3,
+   "channel_names": [
+    "time",
+    "intensity",
+    "function"
+   ],
+   "sample_rate_hz": 0.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "ed2fc95ab5f645696c844f9ad0249cba",
+       "first": [
+        3.636000081896782,
+        4.678000062704086
+       ]
+      },
+      {
+       "xxh3": "c3f804e7d782d755a43fd710f21aa79c",
+       "first": [
+        3692876.0,
+        49461.0
+       ]
+      },
+      {
+       "xxh3": "cd5d4ed9d0bb36b22029723e30b63531",
+       "first": [
+        1.0,
+        2.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "spectra": {
+  "scan_count": 2,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "merged=1 function=1 block=1",
+    "ms_level": 1,
+    "rt_s": 3.6360000819000002,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "isolation_target_mz": null,
+    "activation": null,
+    "collision_energy": null,
+    "total_ion_current": 3692876.0,
+    "base_peak_mz": 445.122192,
+    "n_peaks": 521802,
+    "n_nonzero": 271715,
+    "mz_bits": 32,
+    "xxh3_mz": "9252f9098ba4d3c7fffb1d8ef7e1e60a",
+    "xxh3_intensity": "8dbc4aac84d29e7725c64a11468d72ba",
+    "xxh3_mz_nonzero": "72f5a8688522d8a0a1b5c9a309fa9cfb",
+    "xxh3_intensity_nonzero": "136828caf186a96086ef12376298c6c8",
+    "sum_intensity": 3692876.0,
+    "mz_min": 49.97978210449219,
+    "mz_max": 2000.115966796875,
+    "first_peaks": [
+     [
+      49.97978210449219,
+      0.0
+     ],
+     [
+      81.0301284790039,
+      0.0
+     ],
+     [
+      81.0340576171875,
+      11.0
+     ],
+     [
+      81.0379867553711,
+      2.0
+     ],
+     [
+      81.04191589355469,
+      0.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      81.0340576171875,
+      11.0
+     ],
+     [
+      81.0379867553711,
+      2.0
+     ],
+     [
+      82.02325439453125,
+      5.0
+     ],
+     [
+      82.02721405029297,
+      11.0
+     ],
+     [
+      74.07090759277344,
+      14.0
+     ]
+    ]
+   },
+   {
+    "index": 1,
+    "scan_number": 2,
+    "native_id": "merged=2 function=2 block=1",
+    "ms_level": 2,
+    "rt_s": 4.678000062720001,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": 445.122,
+    "precursor_charge": null,
+    "isolation_target_mz": 445.122,
+    "activation": [
+     "beam-type collision-induced dissociation"
+    ],
+    "collision_energy": 34.5704,
+    "total_ion_current": 49461.0,
+    "base_peak_mz": 149.047363,
+    "n_peaks": 4055,
+    "n_nonzero": 2203,
+    "mz_bits": 32,
+    "xxh3_mz": "22587c4d7f2e086351f82a642cfd4c65",
+    "xxh3_intensity": "b0933b2eaa90b0ba8b9957b87c201805",
+    "xxh3_mz_nonzero": "3dbc8439fcf7b5ebd693dc886a42cad3",
+    "xxh3_intensity_nonzero": "7c639a0ab141d0bd7e2587dbded5f7d1",
+    "sum_intensity": 49461.0,
+    "mz_min": 49.97978210449219,
+    "mz_max": 2000.115966796875,
+    "first_peaks": [
+     [
+      49.97978210449219,
+      0.0
+     ],
+     [
+      73.03401947021484,
+      0.0
+     ],
+     [
+      73.03775024414062,
+      8.0
+     ],
+     [
+      73.0414810180664,
+      7.0
+     ],
+     [
+      73.04521179199219,
+      14.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      73.03775024414062,
+      8.0
+     ],
+     [
+      73.0414810180664,
+      7.0
+     ],
+     [
+      73.04521179199219,
+      14.0
+     ],
+     [
+      73.04894256591797,
+      12.0
+     ],
+     [
+      73.05266571044922,
+      4.0
+     ]
+    ]
+   }
+  ]
+ }
+}

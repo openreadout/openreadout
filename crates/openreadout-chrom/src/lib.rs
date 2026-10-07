@@ -576,6 +576,14 @@ impl FormatReader for EmpowerArwReader {
     fn sniff(&self, head: &[u8], path: &Path) -> Option<Detection> {
         let text = empower_arw::looks_like_arw(head);
         let ext = has_extension(path, &["arw"]);
+        if !text && ext && empower_arw::looks_like_arw_field_lines(head) {
+            // one field per line, the first value a number: named `.arw`
+            return Some(Detection {
+                format_id: EMPOWER_ARW_ID,
+                confidence: DetectConfidence::Likely,
+                note: Some("a header of one quoted field name and its value per line".into()),
+            });
+        }
         if !text {
             // an export without its header rows: rows of two numbers, named `.arw`
             return (ext && empower_arw::looks_like_headerless_arw(head)).then_some(Detection {

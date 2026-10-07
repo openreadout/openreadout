@@ -534,6 +534,15 @@ pub fn decode_grid_scan(b: &[u8]) -> Result<GridScan, String> {
     Ok(scan)
 }
 
+/// An MRM experiment's `sMRM` stream: the detection window in seconds (u32 at 0x28) when the
+/// experiment is scheduled (u32 at 0x24 is 1); `None` when it is not.
+pub fn parse_smrm_window_s(b: &[u8]) -> Option<u32> {
+    (le_u32(b, 0x24)? == 1)
+        .then(|| le_u32(b, 0x28))
+        .flatten()
+        .filter(|&w| w > 0)
+}
+
 /// Scheduled-MRM windows (`sMRMPro_adw_Times`): (start ms, end ms) per transition.
 pub fn parse_windows(b: &[u8]) -> Vec<(u32, u32)> {
     b.get(STREAM_PREAMBLE..)

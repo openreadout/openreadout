@@ -39,7 +39,7 @@ Legacy Sciex `.wiff` files with their `.wiff.scan` companions (`sciex-wiff`); `.
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `sciex-wiff` | [format note](../../docs/formats/sciex-wiff.md), [provenance log](../../docs/provenance/sciex-wiff.md) | high | reverse engineered | 13 / 11 | 9 | - |
+| `sciex-wiff` | [format note](../../docs/formats/sciex-wiff.md), [provenance log](../../docs/provenance/sciex-wiff.md) | high | reverse engineered | 17 / 14 | 12 | - |
 
 ### Source map
 
@@ -56,6 +56,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - feature writer `sw`
 - feature instrument `instrument_generation(m)`
+- feature layout `"scheduled MRM, method windows"`
 - feature acquisition `format!("stored {st}")`
 - feature acquisition `format!("scan type {t}")`
 - feature layout `"several periods"`
@@ -73,42 +74,45 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `sciex-wiff` | acquisition | `scan type MRM` | spectra | 0 | 3 |  |
+| `sciex-wiff` | acquisition | `scan type MRM` | spectra | 3 | 5 | `mtbls6084-sl-st-blank2`, `pwiz-sciex-enolase`, `pwiz-sciex-pressuretrace` |
 | `sciex-wiff` | acquisition | `scan type Q1 scan` | spectra | 1 | 1 | `mtbls1969-exosomes` |
-| `sciex-wiff` | acquisition | `scan type TOF MS` | spectra | 3 | 5 | `mtbls11360-col-0-3-n`, `pxd002265-qstar-xl-mmp2-gluc`, `pxd069939-dda-pbqc-hf75` |
-| `sciex-wiff` | acquisition | `scan type TOF product ion` | spectra | 3 | 5 | `mtbls11360-col-0-3-n`, `pxd002265-qstar-xl-mmp2-gluc`, `pxd069939-dda-pbqc-hf75` |
+| `sciex-wiff` | acquisition | `scan type TOF MS` | spectra | 5 | 7 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
+| `sciex-wiff` | acquisition | `scan type TOF product ion` | spectra | 5 | 7 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
 | `sciex-wiff` | acquisition | `scan type enhanced MS` | spectra | 1 | 2 | `msv97113-cm-5-pos-2` |
 | `sciex-wiff` | acquisition | `scan type enhanced product ion` | spectra | 1 | 2 | `msv97113-cm-5-pos-2` |
 | `sciex-wiff` | acquisition | `scan type neutral loss` | spectra | 2 | 2 | `zenodo7897576-dag`, `zenodo7897576-lpds` |
 | `sciex-wiff` | acquisition | `scan type precursor ion` | spectra | 1 | 1 | `zenodo7897576-lpds` |
-| `sciex-wiff` | acquisition | `stored SRM` | spectra | 0 | 3 |  |
-| `sciex-wiff` | acquisition | `stored profile` | spectra | 7 | 10 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
-| `sciex-wiff` | field | `experiment.acquisition.started_at` | descriptive | 11 | 13 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
-| `sciex-wiff` | field | `experiment.instrument.model` | descriptive | 11 | 13 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
+| `sciex-wiff` | acquisition | `stored SRM` | spectra | 3 | 5 | `mtbls6084-sl-st-blank2`, `pwiz-sciex-enolase`, `pwiz-sciex-pressuretrace` |
+| `sciex-wiff` | acquisition | `stored profile` | spectra | 9 | 12 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
+| `sciex-wiff` | field | `experiment.acquisition.started_at` | descriptive | 14 | 17 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
+| `sciex-wiff` | field | `experiment.instrument.model` | descriptive | 14 | 17 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
 | `sciex-wiff` | instrument | `4000 Q TRAP` | descriptive | 1 | 1 | `pwiz-sciex-enolase` |
 | `sciex-wiff` | instrument | `API 2000` | spectra | 1 | 1 | `mtbls1969-exosomes` |
 | `sciex-wiff` | instrument | `QStar XL` | descriptive | 1 | 1 | `pxd002265-qstar-xl-mmp2-gluc` |
-| `sciex-wiff` | instrument | `QTRAP 5500` | descriptive | 1 | 1 | `zenodo7897576-dag` |
-| `sciex-wiff` | instrument | `QTRAP 6500` | descriptive | 2 | 3 | `msv97113-cm-5-pos-2`, `pwiz-sciex-pressuretrace` |
+| `sciex-wiff` | instrument | `QTRAP 5500` | descriptive | 2 | 2 | `mtbls3956-arg-1`, `zenodo7897576-dag` |
+| `sciex-wiff` | instrument | `QTRAP 6500` | descriptive | 2 | 4 | `msv97113-cm-5-pos-2`, `pwiz-sciex-pressuretrace` |
 | `sciex-wiff` | instrument | `QTRAP 6500+` | descriptive | 2 | 2 | `mtbls6084-sl-st-blank2`, `zenodo7897576-lpds` |
+| `sciex-wiff` | instrument | `Triple TOF 5600` | descriptive | 1 | 1 | `mtbls851-dry-cal20180201114106110` |
 | `sciex-wiff` | instrument | `TripleTOF 5600+` | descriptive | 1 | 1 | `pxd069939-dda-pbqc-hf75` |
-| `sciex-wiff` | instrument | `TripleTOF 6600` | descriptive | 1 | 2 | `mtbls11360-col-0-3-n` |
+| `sciex-wiff` | instrument | `TripleTOF 6600` | descriptive | 2 | 3 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg` |
 | `sciex-wiff` | instrument | `ZenoTOF 7600+ system` | descriptive | 1 | 1 | `pxd070374-excid-classi-ke6-rep2` |
 | `sciex-wiff` | instrument | `generation QSTAR` | spectra | 1 | 1 | `pxd002265-qstar-xl-mmp2-gluc` |
-| `sciex-wiff` | instrument | `generation QTRAP` | spectra | 3 | 7 | `msv97113-cm-5-pos-2`, `zenodo7897576-dag`, `zenodo7897576-lpds` |
-| `sciex-wiff` | instrument | `generation TripleTOF` | spectra | 2 | 3 | `mtbls11360-col-0-3-n`, `pxd069939-dda-pbqc-hf75` |
+| `sciex-wiff` | instrument | `generation QTRAP` | spectra | 6 | 9 | `msv97113-cm-5-pos-2`, `mtbls6084-sl-st-blank2`, `pwiz-sciex-enolase` |
+| `sciex-wiff` | instrument | `generation TripleTOF` | spectra | 4 | 5 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
 | `sciex-wiff` | instrument | `generation ZenoTOF` | spectra | 0 | 1 |  |
+| `sciex-wiff` | layout | `scheduled MRM, method windows` | spectra | 0 | 1 |  |
 | `sciex-wiff` | layout | `single file (Scan stream)` | spectra | 1 | 1 | `pxd002265-qstar-xl-mmp2-gluc` |
-| `sciex-wiff` | writer | `Analyst` | metadata, spectra | 7 | 8 | `msv97113-cm-5-pos-2`, `mtbls1969-exosomes`, `mtbls6084-sl-st-blank2` |
+| `sciex-wiff` | writer | `Analyst` | metadata, spectra | 8 | 10 | `msv97113-cm-5-pos-2`, `mtbls1969-exosomes`, `mtbls3956-arg-1` |
 | `sciex-wiff` | writer | `Analyst QS` | metadata, spectra | 1 | 1 | `pxd002265-qstar-xl-mmp2-gluc` |
-| `sciex-wiff` | writer | `Analyst TF` | metadata, spectra | 2 | 3 | `mtbls11360-col-0-3-n`, `pxd069939-dda-pbqc-hf75` |
+| `sciex-wiff` | writer | `Analyst TF` | metadata, spectra | 4 | 5 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
 | `sciex-wiff` | writer | `SCIEX OS` | metadata, spectra | 1 | 1 | `pxd070374-excid-classi-ke6-rep2` |
 | `sciex-wiff` | writer_version | `Analyst 1.4` | descriptive | 1 | 1 | `pwiz-sciex-enolase` |
 | `sciex-wiff` | writer_version | `Analyst 1.5` | descriptive | 1 | 1 | `mtbls1969-exosomes` |
-| `sciex-wiff` | writer_version | `Analyst 1.6` | descriptive | 3 | 4 | `msv97113-cm-5-pos-2`, `zenodo7897576-dag`, `zenodo7897576-lpds` |
+| `sciex-wiff` | writer_version | `Analyst 1.6` | descriptive | 4 | 6 | `msv97113-cm-5-pos-2`, `mtbls3956-arg-1`, `zenodo7897576-dag` |
 | `sciex-wiff` | writer_version | `Analyst 1.7` | descriptive | 2 | 2 | `mtbls6084-sl-st-blank2`, `pwiz-sciex-pressuretrace` |
 | `sciex-wiff` | writer_version | `Analyst QS 1.1` | descriptive | 1 | 1 | `pxd002265-qstar-xl-mmp2-gluc` |
-| `sciex-wiff` | writer_version | `Analyst TF 1.7` | descriptive | 0 | 1 |  |
+| `sciex-wiff` | writer_version | `Analyst TF 1.6` | descriptive | 1 | 1 | `mtbls851-dry-cal20180201114106110` |
+| `sciex-wiff` | writer_version | `Analyst TF 1.7` | descriptive | 1 | 2 | `mtbls4618-t-i-128-1-hilic-neg` |
 | `sciex-wiff` | writer_version | `Analyst TF 1.8` | descriptive | 2 | 2 | `mtbls11360-col-0-3-n`, `pxd069939-dda-pbqc-hf75` |
 | `sciex-wiff` | writer_version | `SCIEX OS 3.4` | descriptive | 1 | 1 | `pxd070374-excid-classi-ke6-rep2` |
 
@@ -116,7 +120,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/memory.rs`](tests/memory.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `sciex_grid`, `whole_sciex`
-- corpus inputs by tier: full 7, heldout 3, smoke 3, standard 3
+- corpus inputs by tier: full 7, heldout 3, smoke 4, standard 6
 - golden snapshots: [`corpus/snapshots/sciex-wiff.jsonl`](../../corpus/snapshots/sciex-wiff.jsonl)
 
 ### Open new-variant intakes
