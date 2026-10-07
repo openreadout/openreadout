@@ -1,0 +1,16 @@
+{
+ "id": "zenodo10800686-17-hsqc",
+ "file": "zenodo10800686-17-hsqc.jdx",
+ "size": 760607,
+ "sha256": "d2e966a6b5a31a139ed3b07070ee304ed2aadda5022897aa6aa7ad3cc055e13c",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "Nov18-2021.52.ser",
+   "kind": "ntuples",
+   "data_type": "ND NMR SPECTRUM"
+  }
+ ]
+}

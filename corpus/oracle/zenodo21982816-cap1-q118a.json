@@ -1,0 +1,60 @@
+{
+ "id": "zenodo21982816-cap1-q118a",
+ "file": "zenodo21982816-cap1-q118a.fcs",
+ "size": 4082514,
+ "sha256": "d5039417318c5b6a9520317081ab968dc62cac085997571a71bc060ff88df041",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 10,
+   "event_count": 102008,
+   "parameter_names": [
+    "Time",
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "488C-515-A",
+    "488B-586-A",
+    "561C-610-A"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "610/20",
+    null
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "8efb60b96120df291b4c3522b080a4b8",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 102008,
+  "xxh3": "8efb60b96120df291b4c3522b080a4b8",
+  "agrees_with_flowio": true
+ }
+}

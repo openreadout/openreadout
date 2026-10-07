@@ -1,0 +1,47 @@
+{
+ "id": "figshare91210-ddw",
+ "file": "figshare91210-ddw.SPG",
+ "size": 84436,
+ "sha256": "c889faf2a0b8c5345d9d84fe3126d93f19a1c3f0e175d139c8dcc6808f3bccc1",
+ "max_planes_hashed": 64,
+ "reader": "spectrochempy 1.0.0 (CeCILL-B)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "spectrochempy 1.0.0 read_omnic",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 4149,
+   "x_first": 9999.259,
+   "x_last": 1999.852,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4149,
+     "channels": [
+      {
+       "xxh3": "9936871b9bd9aa7790ab341f1b4522d1",
+       "first": [
+        52.944278717041016,
+        52.916725158691406,
+        52.210479736328125,
+        51.8627815246582,
+        52.29094696044922,
+        52.933372497558594,
+        53.03373336791992,
+        52.641998291015625
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "laser_wavenumber_cm1": 15798.25
+    }
+   },
+   "x_tolerance": 0.002
+  }
+ ],
+ "acquisition_date": "2012-02-22 10:54:17-08:00"
+}

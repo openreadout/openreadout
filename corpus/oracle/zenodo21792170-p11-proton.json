@@ -1,0 +1,110 @@
+{
+ "id": "zenodo21792170-p11-proton",
+ "file": "zenodo21792170-p11-proton.jdf",
+ "size": 546624,
+ "sha256": "4cd91e12ca128ceb1132672de31e64d443c38c4888df9d7b64217ea8757c8d86",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "fid",
+   "sample_count": 32768,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 jeol.read",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 32768,
+     "channels": [
+      {
+       "xxh3": "38b94b2b9f92d9ffc2b30162175507cc",
+       "first": [
+        3.834976582392809e-06,
+        -0.0037571835938901175,
+        0.19095056072835734,
+        0.2238696991076424,
+        -0.5687971339929844,
+        0.9076551134659803,
+        -0.989914186360154,
+        1.310171305959783
+       ]
+      },
+      {
+       "xxh3": "96e8fc753a35a99185f521ae74368e89",
+       "first": [
+        4.5252586439220925e-06,
+        -0.0005881152601713039,
+        0.10936547804806504,
+        0.4697407902583769,
+        -0.286978306019781,
+        0.24641166258104813,
+        -0.24016167968808985,
+        0.04003991987261067
+       ]
+      }
+     ]
+    }
+   ],
+   "sample_rate_hz": 10016.02564102564,
+   "parameters": {
+    "extra": {
+     "spectrometer_frequency_mhz": 500.15991520961256,
+     "spectral_width_hz": 10016.02564102564,
+     "scans": 16,
+     "time_domain_size": 32768,
+     "solvent": "CHLOROFORM-D",
+     "pulse_program": "proton.jxp"
+    }
+   }
+  }
+ ],
+ "header": {
+  "major_version": 1,
+  "minor_version": 2,
+  "data_format": "one_d",
+  "data_axis_type": [
+   "complex",
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+  "data_points": [
+   32768,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "data_offset_start": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "data_offset_stop": [
+   32767,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "endian": "little_endian",
+  "data_type": "float64"
+ }
+}

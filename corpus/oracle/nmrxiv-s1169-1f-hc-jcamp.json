@@ -1,0 +1,54 @@
+{
+ "id": "nmrxiv-s1169-1f-hc-jcamp",
+ "file": "nmrxiv-s1169-1f-hc-jcamp.jcamp",
+ "size": 545387,
+ "sha256": "aa64613998fd9c0110d448ada18d33ca0c7970501b894d3b572913850a016be6",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "HXY-17-48-1.2.fid",
+   "kind": "xydata",
+   "data_type": "NMRSPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 65536,
+     "channels": [
+      {
+       "xxh3": "2fddfc4bc71ab7fe5d32e69581c00918",
+       "first": [
+        0.27582387183599855,
+        0.02625171460040283,
+        -0.22332086870947265,
+        -0.45313340514575196,
+        -0.6829459415820313,
+        -0.6756387676837158,
+        -0.3521721220307007,
+        0.32038655468444827
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 65536,
+   "channel_count": 1,
+   "reader": "nmrglue 0.12 jcampdx.read",
+   "second_opinion": {
+    "reader": "jcamp 1.2.2",
+    "agrees": true
+   }
+  },
+  {
+   "index": 1,
+   "name": "HXY-17-48-1.2.fid",
+   "kind": "peak_table",
+   "data_type": "NMRPEAKTABLE"
+  }
+ ],
+ "notes": [
+  "jcamp decoded 1 tables, the block walk found 2"
+ ]
+}

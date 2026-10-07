@@ -1,0 +1,198 @@
+{
+ "id": "figshare27161757-feed-on-0003",
+ "file": "figshare27161757-feed-on-0003.0003",
+ "size": 46588,
+ "sha256": "59bc487121c6f1124e2ff26fad243ddfe288a79ecb1178ee18163b50aff52d8f",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "a",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1582,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1582,
+     "channels": [
+      {
+       "xxh3": "07858547d590dea276e33a3c12818a6f",
+       "first": [
+        0.04092547670006752,
+        0.04092547670006752,
+        0.04092547670006752,
+        0.04092547670006752,
+        0.04092547670006752,
+        0.04092547670006752,
+        0.04092547670006752,
+        0.04090806841850281
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3997.659053122925,
+   "x_last": 948.7931761391601,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.792071,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Narrow [Internal Pos.1]",
+     "instrument": "VERTEX",
+     "sample_name": "3cu15la",
+     "operator": "Admin",
+     "aperture": "6 mm",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "a_2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1582,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1582,
+     "channels": [
+      {
+       "xxh3": "1bb65c56c4fd3ae77f74c4a0a85a40f7",
+       "first": [
+        0.040778085589408875,
+        0.04076201841235161,
+        0.041175466030836105,
+        0.04148644953966141,
+        0.04123295843601227,
+        0.040644437074661255,
+        0.040400441735982895,
+        0.04064389690756798
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3997.659053122925,
+   "x_last": 948.7931761391601,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.792071,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Narrow [Internal Pos.1]",
+     "instrument": "VERTEX",
+     "sample_name": "3cu15la",
+     "operator": "Admin",
+     "aperture": "6 mm",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1582,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1582,
+     "channels": [
+      {
+       "xxh3": "4254ea13be792b031dc49709d1b8d75d",
+       "first": [
+        0.008744259364902973,
+        0.008700435981154442,
+        0.008671559393405914,
+        0.008668836206197739,
+        0.008702496066689491,
+        0.008786863647401333,
+        0.008849600329995155,
+        0.008840013295412064
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3997.659053122925,
+   "x_last": 948.7931761391601,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.792071,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Narrow [Internal Pos.1]",
+     "instrument": "VERTEX",
+     "sample_name": "3cu15la",
+     "operator": "Admin",
+     "aperture": "6 mm",
+     "scans": 32
+    }
+   }
+  },
+  {
+   "index": 3,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1588,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1588,
+     "channels": [
+      {
+       "xxh3": "cb695ab18618c0577f7b855436521383",
+       "first": [
+        0.009502185508608818,
+        0.009567034430801868,
+        0.00960003025829792,
+        0.009622619487345219,
+        0.00960508268326521,
+        0.009556591510772705,
+        0.009533945471048355,
+        0.009537778794765472
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4005.3728187825927,
+   "x_last": 944.9362933093271,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15797.792071,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "LN-MCT Narrow [Internal Pos.1]",
+     "instrument": "VERTEX",
+     "sample_name": "3cu15la",
+     "operator": "Admin",
+     "aperture": "6 mm",
+     "scans": 256
+    }
+   }
+  }
+ ],
+ "second_opinion": {
+  "reader": "brukeropusreader (GPL-3.0, black box)",
+  "absorbance_agrees": true
+ }
+}

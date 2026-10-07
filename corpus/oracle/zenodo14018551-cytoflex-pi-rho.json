@@ -1,0 +1,72 @@
+{
+ "id": "zenodo14018551-cytoflex-pi-rho",
+ "file": "zenodo14018551-cytoflex-pi-rho.fcs",
+ "size": 5604920,
+ "sha256": "7454a71a8960dfbb7b90abf7942582f2e4bff0f1fa5c757f376c753d0e542eaa",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 14,
+   "event_count": 100000,
+   "parameter_names": [
+    "FSC-H",
+    "FSC-A",
+    "SSC-H",
+    "SSC-A",
+    "FL1-H",
+    "FL1-A",
+    "FL2-H",
+    "FL2-A",
+    "FL3-H",
+    "FL3-A",
+    "FL4-H",
+    "FL4-A",
+    "FSC-Width",
+    "Time"
+   ],
+   "parameter_labels": [
+    "FSC-H",
+    "FSC-A",
+    "SSC-H",
+    "SSC-A",
+    "FITC-H",
+    "FITC-A",
+    "PE-H",
+    "PE-A",
+    "ECD-H",
+    "ECD-A",
+    "PC5.5-H",
+    "PC5.5-A",
+    "FSC-Width",
+    "Time"
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "48ab933b0561918dbae08b798a92d8fc",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 100000,
+  "xxh3": "48ab933b0561918dbae08b798a92d8fc",
+  "agrees_with_flowio": true
+ }
+}

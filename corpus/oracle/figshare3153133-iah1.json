@@ -1,0 +1,104 @@
+{
+ "id": "figshare3153133-iah1",
+ "file": "figshare3153133-iah1.0",
+ "size": 17792,
+ "sha256": "70573d087eb790c0fedbcffaff69a9aa86e62911e90c48e0b3749b39c5c9b5d8",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "t",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1764,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1764,
+     "channels": [
+      {
+       "xxh3": "18bf1b16fac5e34292f507584a598b4a",
+       "first": [
+        1.0250155925750732,
+        1.0243865251541138,
+        1.0241903066635132,
+        1.0247182846069336,
+        1.025158405303955,
+        1.0250366926193237,
+        1.02467942237854,
+        1.0247321128845215
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3997.84876511625,
+   "x_last": 398.151434728125,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11615.586016,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha",
+     "instrument_serial": "1 01302",
+     "sample_name": "I-AH-1",
+     "operator": "Student",
+     "accessory": "ATR platinum Diamond 1 Refl #1F1829A2D",
+     "scans": 8
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "t_2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1764,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1764,
+     "channels": [
+      {
+       "xxh3": "d876243d003dd46fa7d99a7419a350ab",
+       "first": [
+        1.0213351249694824,
+        1.019819974899292,
+        1.0187373161315918,
+        1.0183753967285156,
+        1.0179262161254883,
+        1.0169196128845215,
+        1.0156804323196411,
+        1.0148487091064453
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3997.84876511625,
+   "x_last": 398.151434728125,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 11615.586016,
+     "apodization": "B3",
+     "beamsplitter": "KBr",
+     "source": "MIR",
+     "detector": "RT-DLATGS [Internal Pos.1]",
+     "instrument": "Alpha",
+     "instrument_serial": "1 01302",
+     "sample_name": "I-AH-1",
+     "operator": "Student",
+     "accessory": "ATR platinum Diamond 1 Refl #1F1829A2D",
+     "scans": 8
+    }
+   }
+  }
+ ]
+}

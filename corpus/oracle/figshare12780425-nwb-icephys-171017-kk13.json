@@ -1,0 +1,131 @@
+{
+ "id": "figshare12780425-nwb-icephys-171017-kk13",
+ "file": "figshare12780425-nwb-icephys-171017-kk13.nwb",
+ "size": 31784686,
+ "sha256": "d5a73fe2021439a89bd58413614bcaff311d6ba46f03984f6d49208f8a393aef",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.2.2",
+ "session": {
+  "session_description": "171017_KK_13_FN",
+  "identifier": "1cc5cbc3-4c35-4ecf-b085-06365470fe7d",
+  "session_start_time": "2017-10-17T00:00:00+02:00"
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "CurrentClampSeries_01",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampSeries_01"
+   ],
+   "sample_rate_hz": 1000000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3600000,
+     "channels": [
+      {
+       "xxh3": "4019cb095fbad0138391828a45908ebf",
+       "first": [
+        -0.07100000232458115,
+        -0.07078125327825546,
+        -0.07084374874830246,
+        -0.07093749940395355,
+        -0.07103125005960464,
+        -0.07090625166893005,
+        -0.07090625166893005,
+        -0.07090625166893005
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 1
+  },
+  {
+   "index": 1,
+   "name": "HiddenStateSeries_01",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "HiddenStateSeries_01"
+   ],
+   "sample_rate_hz": 1000000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3600000,
+     "channels": [
+      {
+       "xxh3": "e9d111fc9966c1984928453de0ab6111",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "CurrentClampStimulusSeries_01",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "CurrentClampStimulusSeries_01"
+   ],
+   "sample_rate_hz": 1000000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3600000,
+     "channels": [
+      {
+       "xxh3": "ce7371b0768bdd0525b8925a9750a588",
+       "first": [
+        3e-11,
+        3e-11,
+        3e-11,
+        3e-11,
+        3e-11,
+        3e-11,
+        3e-11,
+        3e-11
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_number": 1
+  }
+ ],
+ "pynwb_error": "(root/acquisition/CurrentClampSeries_01 GroupBuilder {'attributes': {'comments': 'Extracted from: 171017_KK_13_FN.mat, MATLAB 5.0 MAT-file, Platform: PCWIN64, Created on: Thu Oct 19 15:12:38 2017', 'd",
+ "tables": [
+  {
+   "index": 0,
+   "name": "general/intracellular_ephys/sweep_table",
+   "event_count": 2,
+   "parameter_names": [
+    "id",
+    "series_count",
+    "sweep_number"
+   ],
+   "dtypes": [],
+   "xxh3": null,
+   "column_hashes": {
+    "id": "117f627aa058ede2fba430a78bffd779",
+    "series_count": "99a4d6792566364eab5818513a61cbed",
+    "sweep_number": "99a4d6792566364eab5818513a61cbed"
+   }
+  }
+ ]
+}

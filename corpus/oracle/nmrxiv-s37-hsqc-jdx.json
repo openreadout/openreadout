@@ -1,0 +1,16 @@
+{
+ "id": "nmrxiv-s37-hsqc-jdx",
+ "file": "nmrxiv-s37-hsqc-jdx.jdx",
+ "size": 5488559,
+ "sha256": "3ef8dc1c8ee5268ec6851ecd76940ca60c9f8b4f302c2c11b4d6c84925374342",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "ethylbenzene",
+   "kind": "ntuples",
+   "data_type": "ND NMR SPECTRUM"
+  }
+ ]
+}

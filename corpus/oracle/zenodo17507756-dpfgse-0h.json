@@ -1,0 +1,98 @@
+{
+ "id": "zenodo17507756-dpfgse-0h",
+ "file": "zenodo17507756-dpfgse-0h.jdf",
+ "size": 250560,
+ "sha256": "7d18287a4843460f2f0b7309075458396da60de7057230668321fafe97641ed4",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue 0.12",
+ "traces": [
+  {
+   "index": 0,
+   "name": "spectrum",
+   "sample_count": 26214,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "reader": "nmrglue 0.12 jeol.read",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 26214,
+     "channels": [
+      {
+       "xxh3": "66226a1280ee7eff938d2935acef5ecd",
+       "first": [
+        -8.264595190815322e-06,
+        2.672861846293148e-06,
+        5.588668433895936e-06,
+        1.092159982075242e-05,
+        1.8647151431821916e-05,
+        2.138620142378187e-05,
+        2.156143216184024e-05,
+        1.8104265802871617e-05
+       ]
+      }
+     ]
+    }
+   ],
+   "ppm_first": 12.311030676260685,
+   "ppm_last": -2.7202332487407084,
+   "parameters": {
+    "extra": {
+     "spectrometer_frequency_mhz": 600.17230460376,
+     "spectral_width_hz": 11281.58844765343,
+     "scans": 64,
+     "time_domain_size": 32768,
+     "solvent": "D2O",
+     "pulse_program": "wgh_dpfgse.jxp"
+    }
+   }
+  }
+ ],
+ "header": {
+  "major_version": 1,
+  "minor_version": 2,
+  "data_format": "one_d",
+  "data_axis_type": [
+   "real",
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+  "data_points": [
+   26224,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "data_offset_start": [
+   5,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "data_offset_stop": [
+   26218,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "endian": "little_endian",
+  "data_type": "float64"
+ }
+}

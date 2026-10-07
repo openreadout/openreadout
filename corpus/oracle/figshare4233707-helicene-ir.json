@@ -1,0 +1,51 @@
+{
+ "id": "figshare4233707-helicene-ir",
+ "file": "figshare4233707-helicene-ir.sp",
+ "size": 29446,
+ "sha256": "c36d39b464a4805366938cf4cc7b54abab697ed7a15eecd891221921f1c609a1",
+ "max_planes_hashed": 64,
+ "reader": "specio (BSD-3)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "specio 0.1.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 3351,
+   "x_first": 4000.0,
+   "x_last": 650.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3351,
+     "channels": [
+      {
+       "xxh3": "426a9c1049252a928994af4ff88ca10c",
+       "first": [
+        95.32699484280073,
+        95.3274954667248,
+        95.32795892527078,
+        95.33914569303204,
+        95.35805450255872,
+        95.377579244429,
+        95.3906757497847,
+        95.39327953465353
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "instrument": "Frontier FT-IR",
+     "instrument_serial": "88484",
+     "scans": 4,
+     "detector": "LiTa03",
+     "source": "MIR",
+     "beamsplitter": "OptKBr",
+     "apodization": "Strong"
+    }
+   }
+  }
+ ]
+}

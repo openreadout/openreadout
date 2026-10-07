@@ -1,0 +1,54 @@
+{
+ "id": "zenodo4043154-pig-feces-50",
+ "file": "zenodo4043154-pig-feces-50.dx",
+ "size": 702592,
+ "sha256": "a294ec3a9bdb8e1d662311c2eb75f3e2eb42d6300fbc0e590e4d420d65635b77",
+ "max_planes_hashed": 64,
+ "reader": "nmrglue jcampdx + jcamp (second opinion)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "ntuples",
+   "data_type": "NMR SPECTRUM",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 65536,
+     "channels": [
+      {
+       "xxh3": "db247b7f09902bb3ab2e1accfca937cd",
+       "first": [
+        2846.0,
+        2311.0,
+        2320.0,
+        7066.0,
+        8027.0,
+        4602.0,
+        5032.0,
+        4258.0
+       ]
+      },
+      {
+       "xxh3": "65cd083d05a909a6825d252e98c47ed9",
+       "first": [
+        -28832.0,
+        -28979.0,
+        -25333.0,
+        -24433.0,
+        -29348.0,
+        -28859.0,
+        -28569.0,
+        -27106.0
+       ]
+      }
+     ]
+    }
+   ],
+   "sweep_count": 1,
+   "sample_count": 65536,
+   "channel_count": 2,
+   "reader": "nmrglue 0.12 jcampdx.read"
+  }
+ ]
+}

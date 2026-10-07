@@ -1,0 +1,151 @@
+{
+ "id": "figshare31861468-1n-opus",
+ "file": "figshare31861468-1n-opus.0",
+ "size": 29712,
+ "sha256": "b8b23d5c5c0abb8fea5a7f94d397e2a6a3835ae4c96e3e38f6694578ddeab22c",
+ "max_planes_hashed": 64,
+ "reader": "brukeropus (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "brukeropus",
+   "brukeropus_key": "t",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1866,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1866,
+     "channels": [
+      {
+       "xxh3": "4f3f05d4783e69c4b5d582d08875f7dc",
+       "first": [
+        1.0001535415649414,
+        0.999690592288971,
+        0.9990758299827576,
+        0.9985300302505493,
+        0.9985280632972717,
+        0.9992365837097168,
+        0.9998905062675476,
+        1.0002485513687134
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3996.210627486328,
+   "x_last": 399.23532813208004,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.689894,
+     "apodization": "B3",
+     "beamsplitter": "Wide Range MIR-FIR",
+     "source": "MIR",
+     "detector": "RT-DLaTGS Wide Range [Internal Pos.1]",
+     "instrument": "VERTEX 70V",
+     "instrument_serial": "1593",
+     "sample_name": "0",
+     "operator": "Admin",
+     "aperture": "6 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 1,
+   "reader": "brukeropus",
+   "brukeropus_key": "sm",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1866,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1866,
+     "channels": [
+      {
+       "xxh3": "ee5e623882a80e16000c77ac5d41f00f",
+       "first": [
+        0.00532128382474184,
+        0.005318921059370041,
+        0.0053245569579303265,
+        0.005337520036846399,
+        0.00536190252751112,
+        0.005384237505495548,
+        0.00539066456258297,
+        0.005393898114562035
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 3996.210627486328,
+   "x_last": 399.23532813208004,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.689894,
+     "apodization": "B3",
+     "beamsplitter": "Wide Range MIR-FIR",
+     "source": "MIR",
+     "detector": "RT-DLaTGS Wide Range [Internal Pos.1]",
+     "instrument": "VERTEX 70V",
+     "instrument_serial": "1593",
+     "sample_name": "0",
+     "operator": "Admin",
+     "aperture": "6 mm",
+     "scans": 128
+    }
+   }
+  },
+  {
+   "index": 2,
+   "reader": "brukeropus",
+   "brukeropus_key": "rf",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 1872,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1872,
+     "channels": [
+      {
+       "xxh3": "952e9b8358ef2490fd8ba14b251eea0a",
+       "first": [
+        0.005309168249368668,
+        0.005323492921888828,
+        0.0053319004364311695,
+        0.0053291767835617065,
+        0.005320467054843903,
+        0.005320567172020674,
+        0.00532948225736618,
+        0.00534537760540843
+       ]
+      }
+     ]
+    }
+   ],
+   "x_first": 4003.925319817381,
+   "x_last": 395.3779819665524,
+   "parameters": {
+    "extra": {
+     "resolution_cm1": 4.0,
+     "laser_wavenumber_cm1": 15799.689894,
+     "apodization": "B3",
+     "beamsplitter": "Wide Range MIR-FIR",
+     "source": "MIR",
+     "detector": "RT-DLaTGS Wide Range [Internal Pos.1]",
+     "instrument": "VERTEX 70V",
+     "instrument_serial": "1593",
+     "sample_name": "0",
+     "operator": "Admin",
+     "aperture": "6 mm",
+     "scans": 128
+    }
+   }
+  }
+ ]
+}

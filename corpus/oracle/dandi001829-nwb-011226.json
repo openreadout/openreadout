@@ -1,0 +1,50 @@
+{
+ "id": "dandi001829-nwb-011226",
+ "file": "dandi001829-nwb-011226.nwb",
+ "size": 202960,
+ "sha256": "894d9de1c856c74195f0beee96b58b455b86ae8544d7648dd34e74d4738d1c1f",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0",
+ "nwb_version": "2.10.0",
+ "session": {
+  "session_description": "ABCDE",
+  "identifier": "978c5b8d-679d-42b4-89db-da62a2ade941",
+  "session_start_time": "2026-01-12T09:30:00-06:00"
+ },
+ "traces": [
+  {
+   "index": 0,
+   "name": "MembranePotential",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "MembranePotential"
+   ],
+   "sample_rate_hz": 100.00000000000213,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1235,
+     "channels": [
+      {
+       "xxh3": "9b57f14b4c27f3205af694fd64735468",
+       "first": [
+        -1.0000000000000001e-07,
+        -1.0000000000000001e-07,
+        -1.0000000000000001e-07,
+        0.0,
+        0.0,
+        0.0,
+        -1.0000000000000001e-07,
+        -1.0000000000000001e-07
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "pynwb_version": "4.2.0",
+ "pynwb_series_checked": 1,
+ "pynwb_values_agree": true
+}
