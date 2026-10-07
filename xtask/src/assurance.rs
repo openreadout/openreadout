@@ -478,6 +478,20 @@ fn load(root: &Path) -> Result<Evidence> {
     serde_json::from_str(&text).context("parse evidence")
 }
 
+/// Whether each variant-feature value the development corpus reaches, as (format, kind,
+/// value), is validated: the rule the generated tables use (`validates_feature`).
+pub fn feature_validation(root: &Path) -> Result<BTreeMap<(String, String, String), bool>> {
+    let ev = load(root)?;
+    let mut out: BTreeMap<(String, String, String), bool> = BTreeMap::new();
+    for f in ev.files.iter().filter(|f| f.oracle != "unreadable") {
+        for (kind, value, scope) in &f.features {
+            *out.entry((f.format.clone(), kind.clone(), value.clone()))
+                .or_insert(false) |= validates_feature(f, kind, value, scope);
+        }
+    }
+    Ok(out)
+}
+
 /// Corpus coverage of one feature value.
 #[derive(Debug, Default, Clone)]
 struct Row {
