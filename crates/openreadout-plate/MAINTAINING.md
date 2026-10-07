@@ -37,7 +37,7 @@ Microplate-reader exports (`plate`): the text, CSV and workbook files plate-read
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `plate` | [format note](../../docs/formats/plate-readers.md), [provenance log](../../docs/provenance/plate-readers.md) | medium | prior art | 71 / 68 | 23 | 2 / 1 |
+| `plate` | [format note](../../docs/formats/plate-readers.md), [provenance log](../../docs/provenance/plate-readers.md) | medium | prior art | 76 / 69 | 24 | 2 / 1 |
 
 ### Source map
 
@@ -79,6 +79,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature writer_version `format!("{sw} {v}")` (descriptive)
 - feature instrument `i` (descriptive)
 - undecoded "plate data refused ({})"
+- undecoded "worksheet not read ({name})"
 - undecoded "plate values"
 - undecoded "plate block without values ({})"
 - assumed "the export writes dates without saying whether day or month comes first; the order was assumed"
@@ -88,31 +89,31 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `plate` | acquisition | `absorbance` | tables | 38 | 39 | `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc`, `bmg-mars-pherastar-abs` |
-| `plate` | acquisition | `endpoint read` | tables | 47 | 50 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
-| `plate` | acquisition | `fluorescence` | tables | 20 | 21 | `bmg-mars-fi-transcreener`, `bmg-smart-control-fi`, `bmg-table-bostock-calcein-kinetic` |
-| `plate` | acquisition | `kinetic read` | tables | 16 | 16 | `bmg-table-bostock-calcein-kinetic`, `bmg-table-rpazuki-od600-kinetic`, `gen5-abs-kinetic-meanv-4pl` |
+| `plate` | acquisition | `absorbance` | tables | 39 | 40 | `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc`, `bmg-mars-pherastar-abs` |
+| `plate` | acquisition | `endpoint read` | tables | 47 | 52 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
+| `plate` | acquisition | `fluorescence` | tables | 21 | 26 | `bmg-mars-fi-transcreener`, `bmg-smart-control-fi`, `bmg-table-bostock-calcein-kinetic` |
+| `plate` | acquisition | `kinetic read` | tables | 17 | 19 | `bmg-table-bostock-calcein-kinetic`, `bmg-table-rpazuki-od600-kinetic`, `gen5-abs-kinetic-meanv-4pl` |
 | `plate` | acquisition | `luminescence` | tables | 11 | 12 | `bmg-mars-lum-1536`, `envision-lum-384`, `envision-text-dse-ctg-lum384-semicolon` |
 | `plate` | acquisition | `spectrum read` | tables | 5 | 5 | `bmg-table-kelp-pigments-absspectrum`, `bmg-table-tjlane-absspectrum-semicolon`, `bmg-table-wehi-emscan-averaged` |
-| `plate` | acquisition | `unknown` | tables | 1 | 1 | `assay-synth-dose-response` |
+| `plate` | acquisition | `unknown` | tables | 1 | 3 | `assay-synth-dose-response` |
 | `plate` | derivation | `tables[].extra.reads[].mode by detector code` | descriptive | 7 | 7 | `envision-abs-a450`, `envision-fluor-htrf`, `envision-lum-384` |
 | `plate` | derivation | `tables[].extra.reads[].mode by label keywords` | descriptive | 11 | 13 | `assay-synth-elisa-5pl`, `gen5xpt-cytation5-elisa-ifng`, `gen5xpt-cytation5-elisa-region` |
 | `plate` | derivation | `tables[].extra.reads[].mode by read settings` | descriptive | 1 | 1 | `tecan-icontrol-kinetic-xlsx` |
 | `plate` | derivation | `tables[].extra.reads[].wavelength_nm by label keywords` | descriptive | 2 | 2 | `synthetic-gen5-headerless-kinetic-meanv-4pl`, `synthetic-gen5-headerless-stdcurve-linear` |
 | `plate` | dialect | `bmg-mars` | metadata, tables | 11 | 11 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
-| `plate` | dialect | `bmg-smart-control` | metadata, tables | 1 | 1 | `bmg-smart-control-fi` |
+| `plate` | dialect | `bmg-smart-control` | metadata, tables | 1 | 3 | `bmg-smart-control-fi` |
 | `plate` | dialect | `envision` | metadata, tables | 7 | 7 | `envision-abs-a450`, `envision-fluor-htrf`, `envision-lum-384` |
-| `plate` | dialect | `gen5` | metadata, tables | 17 | 19 | `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum`, `gen5-abs-stdcurve-linear` |
+| `plate` | dialect | `gen5` | metadata, tables | 18 | 20 | `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum`, `gen5-abs-stdcurve-linear` |
 | `plate` | dialect | `generic` | metadata, tables | 2 | 2 | `assay-synth-dose-response`, `assay-synth-elisa-5pl` |
 | `plate` | dialect | `kaleido` | metadata, tables | 1 | 1 | `kaleido-abs-endpoint` |
 | `plate` | dialect | `skanit` | metadata, tables | 2 | 2 | `skanit-elisa-steps`, `skanit-luciferase` |
 | `plate` | dialect | `softmax-pro` | metadata, tables | 16 | 17 | `softmax-abs-endpoint-plates`, `softmax-fl-kinetic-plates`, `softmax-lum-endpoint-utf16` |
-| `plate` | dialect | `tecan-i-control` | metadata, tables | 9 | 9 | `tecan-icontrol-csv-kinetic-wellr`, `tecan-icontrol-de-multiread-kinetic-sgt`, `tecan-icontrol-f200-txt` |
+| `plate` | dialect | `tecan-i-control` | metadata, tables | 9 | 11 | `tecan-icontrol-csv-kinetic-wellr`, `tecan-icontrol-de-multiread-kinetic-sgt`, `tecan-icontrol-f200-txt` |
 | `plate` | dialect | `tecan-magellan` | metadata, tables | 2 | 2 | `magellan-elisa-384`, `magellan-pro-compact` |
-| `plate` | field | `experiment.acquisition.started_at` | descriptive | 54 | 57 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
-| `plate` | field | `experiment.instrument.model` | descriptive | 53 | 56 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
-| `plate` | field | `tables[].extra.reads[].mode` | descriptive | 66 | 69 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
-| `plate` | instrument | `CLARIOstar` | descriptive | 7 | 7 | `bmg-mars-lum-1536`, `bmg-table-bostock-calcein-kinetic`, `bmg-table-kelp-pigments-absspectrum` |
+| `plate` | field | `experiment.acquisition.started_at` | descriptive | 55 | 62 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
+| `plate` | field | `experiment.instrument.model` | descriptive | 54 | 61 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
+| `plate` | field | `tables[].extra.reads[].mode` | descriptive | 67 | 74 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
+| `plate` | instrument | `CLARIOstar` | descriptive | 7 | 9 | `bmg-mars-lum-1536`, `bmg-table-bostock-calcein-kinetic`, `bmg-table-kelp-pigments-absspectrum` |
 | `plate` | instrument | `Cytation3` | descriptive | 0 | 1 |  |
 | `plate` | instrument | `Cytation5` | descriptive | 2 | 2 | `gen5xpt-cytation5-elisa-ifng`, `gen5xpt-cytation5-elisa-region` |
 | `plate` | instrument | `EnVision` | descriptive | 7 | 7 | `envision-abs-a450`, `envision-fluor-htrf`, `envision-lum-384` |
@@ -122,12 +123,13 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `plate` | instrument | `SPECTRAmax 340PC` | descriptive | 1 | 1 | `softmax5-kinetic-phage-120308b` |
 | `plate` | instrument | `SPECTRAmax M2e` | descriptive | 1 | 1 | `softmax5-kinetic-phage-120524` |
 | `plate` | instrument | `SPECTRAmax M5` | descriptive | 2 | 2 | `softmax5-elisa-il10`, `softmax5-elisa-tnf` |
-| `plate` | instrument | `Spark` | descriptive | 2 | 2 | `tecan-sparkcontrol-csv-endpoint-flopr`, `tecan-sparkcontrol-csv-kinetic-flopr` |
+| `plate` | instrument | `Spark` | descriptive | 2 | 4 | `tecan-sparkcontrol-csv-endpoint-flopr`, `tecan-sparkcontrol-csv-kinetic-flopr` |
 | `plate` | instrument | `SpectraMax ABS` | descriptive | 2 | 2 | `softmax7-elisa2wl-ha-0513`, `softmax7-elisa2wl-ha-0630` |
 | `plate` | instrument | `SpectraMax M3` | descriptive | 6 | 6 | `softmax7-lum-7skexp53`, `softmax7-prestoblue-7skexp53`, `softmax7-prestoblue-7skexp58` |
 | `plate` | instrument | `SpectraMax M5` | descriptive | 0 | 1 |  |
 | `plate` | instrument | `Synergy H1` | descriptive | 8 | 9 | `gen5-abs-spectrum`, `gen5-abs450-non-numeric`, `gen5-fluor-filter-step-label` |
 | `plate` | instrument | `Synergy HT` | descriptive | 1 | 1 | `gen5xpt-synergyht-abs-calibration` |
+| `plate` | instrument | `Synergy HTX` | descriptive | 1 | 1 | `zenodo4449746-gen5-synergy-htx` |
 | `plate` | instrument | `ULTRA` | descriptive | 1 | 1 | `magellan-elisa-384` |
 | `plate` | instrument | `Varioskan LUX` | descriptive | 1 | 1 | `skanit-elisa-steps` |
 | `plate` | instrument | `infinite 200Pro` | descriptive | 7 | 7 | `tecan-icontrol-csv-kinetic-wellr`, `tecan-icontrol-de-multiread-kinetic-sgt`, `tecan-icontrol-f200-txt` |
@@ -137,27 +139,27 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `plate` | layout | `container text (comma)` | tables | 21 | 21 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
 | `plate` | layout | `container text (semicolon)` | tables | 2 | 2 | `bmg-table-tjlane-absspectrum-semicolon`, `envision-text-dse-ctg-lum384-semicolon` |
 | `plate` | layout | `container text (tab)` | tables | 16 | 16 | `envision-text-dse-lum1536-tab`, `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum` |
-| `plate` | layout | `container xlsx` | tables | 10 | 10 | `bmg-smart-control-fi`, `magellan-elisa-384`, `magellan-pro-compact` |
+| `plate` | layout | `container xlsx` | tables | 11 | 15 | `bmg-smart-control-fi`, `magellan-elisa-384`, `magellan-pro-compact` |
 | `plate` | layout | `export format PlateFormat` | metadata, tables | 3 | 3 | `softmax-abs-endpoint-plates`, `softmax-fl-kinetic-plates`, `softmax-spectramax340-kinetic-partial` |
 | `plate` | layout | `export format TimeFormat` | metadata, tables | 1 | 1 | `softmax-lum-endpoint-utf16` |
 | `plate` | writer | `EnVision Workstation` | descriptive | 7 | 7 | `envision-abs-a450`, `envision-fluor-htrf`, `envision-lum-384` |
-| `plate` | writer | `Gen5` | descriptive | 17 | 19 | `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum`, `gen5-abs-stdcurve-linear` |
+| `plate` | writer | `Gen5` | descriptive | 18 | 20 | `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum`, `gen5-abs-stdcurve-linear` |
 | `plate` | writer | `Kaleido` | descriptive | 1 | 1 | `kaleido-abs-endpoint` |
 | `plate` | writer | `MARS` | descriptive | 11 | 11 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
 | `plate` | writer | `Magellan` | descriptive | 2 | 2 | `magellan-elisa-384`, `magellan-pro-compact` |
-| `plate` | writer | `SMART Control` | descriptive | 1 | 1 | `bmg-smart-control-fi` |
+| `plate` | writer | `SMART Control` | descriptive | 1 | 3 | `bmg-smart-control-fi` |
 | `plate` | writer | `SkanIt` | descriptive | 2 | 2 | `skanit-elisa-steps`, `skanit-luciferase` |
 | `plate` | writer | `SoftMax Pro` | descriptive | 16 | 17 | `softmax-abs-endpoint-plates`, `softmax-fl-kinetic-plates`, `softmax-lum-endpoint-utf16` |
-| `plate` | writer | `i-control` | descriptive | 9 | 9 | `tecan-icontrol-csv-kinetic-wellr`, `tecan-icontrol-de-multiread-kinetic-sgt`, `tecan-icontrol-f200-txt` |
+| `plate` | writer | `i-control` | descriptive | 9 | 11 | `tecan-icontrol-csv-kinetic-wellr`, `tecan-icontrol-de-multiread-kinetic-sgt`, `tecan-icontrol-f200-txt` |
 | `plate` | writer_version | `EnVision Workstation 1` | descriptive | 7 | 7 | `envision-abs-a450`, `envision-fluor-htrf`, `envision-lum-384` |
 | `plate` | writer_version | `Gen5 1` | descriptive | 3 | 3 | `gen5xpt-gen5v1-synergyh1-cdneg`, `gen5xpt-gen5v1-synergyh1-cdpos`, `gen5xpt-gen5v1-synergyh1-dextran` |
 | `plate` | writer_version | `Gen5 2` | descriptive | 1 | 2 | `gen5xpt-synergyh1-fl-kinetic` |
-| `plate` | writer_version | `Gen5 3` | descriptive | 11 | 12 | `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum`, `gen5-abs-stdcurve-linear` |
+| `plate` | writer_version | `Gen5 3` | descriptive | 12 | 13 | `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum`, `gen5-abs-stdcurve-linear` |
 | `plate` | writer_version | `Kaleido 2` | descriptive | 1 | 1 | `kaleido-abs-endpoint` |
 | `plate` | writer_version | `SkanIt 7` | descriptive | 1 | 1 | `skanit-elisa-steps` |
 | `plate` | writer_version | `SoftMax Pro 5` | descriptive | 4 | 4 | `softmax5-elisa-il10`, `softmax5-elisa-tnf`, `softmax5-kinetic-phage-120308b` |
 | `plate` | writer_version | `i-control 1` | descriptive | 3 | 3 | `tecan-icontrol-csv-kinetic-wellr`, `tecan-icontrol-de-multiread-kinetic-sgt`, `tecan-icontrol-f200-txt` |
-| `plate` | writer_version | `i-control 2` | descriptive | 6 | 6 | `tecan-icontrol-kinetic-xlsx`, `tecan-icontrol-multiread-endpoint-tread`, `tecan-icontrol-multiread-kinetic-tread` |
+| `plate` | writer_version | `i-control 2` | descriptive | 6 | 8 | `tecan-icontrol-kinetic-xlsx`, `tecan-icontrol-multiread-endpoint-tread`, `tecan-icontrol-multiread-kinetic-tread` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 

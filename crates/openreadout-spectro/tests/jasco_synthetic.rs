@@ -29,6 +29,7 @@ fn flat(ymode: u8, values: &[f32]) -> Vec<u8> {
     put_str(&mut b, 0x08, "SPECMAN");
     put_str(&mut b, 0x20, "R2.0.0");
     put_str(&mut b, 0x30, "i80x86");
+    b[0x82] = 1; // channel count
     b[0x84..0x88].copy_from_slice(&(values.len() as i32).to_le_bytes());
     let last = 700.0 - 5.0 * (values.len() as f64 - 1.0);
     b[0x88..0x90].copy_from_slice(&700.0f64.to_le_bytes());
@@ -160,6 +161,46 @@ fn flat_file() {
     let mut short = flat(3, &vals);
     short.truncate(short.len() - 4);
     assert!(open("x.jws", short).is_err());
+}
+
+/// A flat CD file (J-810 style): two channels, CD (0x1001) then HT (0x2001), channel-major.
+#[test]
+fn flat_cd_file() {
+    let cd: Vec<f32> = (0..61).map(|i| -0.1 * i as f32).collect();
+    let ht: Vec<f32> = (0..61).map(|i| 290.0 + i as f32).collect();
+    let both: Vec<f32> = cd.iter().chain(&ht).copied().collect();
+    let two = |codes: [u32; 2]| {
+        let mut b = flat(0, &both);
+        b[0x82] = 2;
+        b[0x84..0x88].copy_from_slice(&61i32.to_le_bytes());
+        b[0xA4..0xA8].copy_from_slice(&codes[0].to_le_bytes());
+        b[0xA8..0xAC].copy_from_slice(&codes[1].to_le_bytes());
+        b
+    };
+    let mut ds = open("cd.jws", two([0x1001, 0x2001])).unwrap();
+    let info = ds.info().unwrap();
+    assert_eq!(info.traces.len(), 2);
+    assert_eq!(info.traces[0].extra["y_quantity"], "circular_dichroism");
+    assert_eq!(info.traces[1].extra["y_quantity"], "ht_voltage");
+    assert_eq!(info.traces[1].sample_count, 61);
+    let t0 = ds.read_trace(0, 0, 0, u64::MAX).unwrap();
+    let t1 = ds.read_trace(1, 0, 0, u64::MAX).unwrap();
+    assert_eq!(t0.channels[0][60], f64::from(-0.1f32 * 60.0));
+    assert_eq!(t1.channels[0][0], 290.0);
+    assert!(ds.check().unwrap().ok);
+    // another code pair, or a count that disagrees with the codes, is refused with its codes
+    for bytes in [two([0x1001, 0x3]), {
+        let mut b = two([0x1001, 0x2001]);
+        b[0x82] = 3;
+        b
+    }] {
+        match open("x.jws", bytes) {
+            Err(Error::Unsupported { feature, .. }) => {
+                assert!(feature.contains("0x1001"), "{feature}");
+            }
+            other => panic!("expected a refusal, got {:?}", other.map(|_| ())),
+        }
+    }
 }
 
 #[test]

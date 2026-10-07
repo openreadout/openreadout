@@ -27,7 +27,7 @@ session parts and bundles; 97 on the smoke tier). We left out the rest:
 | 2 Shimadzu UVProbe `.spc` (OLE compound files) | a format OpenReadout does not read (exit 3) |
 | 2 `.wdf`, 1 `.esp`, 1 Mettler TGA `.txt`, 2 Bruker `fid` without `acqus`, 1 EDAX `.spc` | not the format their extension suggests, or not a supported format; correctly refused (exit 3 or 4) |
 | 1 X-ray `.raw` starting `FI` | an unidentified diffractometer format (exit 3) |
-| 2 Rigaku `.ras`, 1 JASCO CD `.jws` | open findings below |
+| 2 Rigaku `.ras`, 1 JASCO CD `.jws` | open findings below (added and read since 2026-10-07) |
 
 | family | inputs added | formats |
 | --- | --- | --- |
@@ -84,21 +84,17 @@ the Stop and Start events. Every other sample of the channels we checked is equa
 
 These need a file we may use for development, or belong to another workstream.
 
-- **Gen5 workbooks (plate reader).** In Gen5's Excel export the kinetic `Time` table starts in
-  column B, as its matrices do. The reader looks for `Time` in column A only, so
-  `zenodo4449746-gen5-synergy-htx` reads no values (the file is `unvalidated`, "plate values
-  present but not decoded", and `check` exits 4 with `no_plate_data`). The reader also reads only
-  the first worksheet of a workbook and says nothing about the others; this depositor's workbook
-  holds seven Gen5 exports, one per sheet. We found no clean public Gen5 Excel kinetic export to
-  validate a fix against, and a note for unread worksheets would change the assurance of every
-  multi-sheet development workbook, so both are left for a separate change.
-- **Rigaku `.ras` edited by hand** (Zenodo 21511646). One file has no `*RAS_INT_END` although all
-  2251 points that `*MEAS_DATA_COUNT` declares are present; the other has data rows commented out
-  with `#`. Both exit 4. Reading the first would be reasonable, but the RAS reader belongs to the
-  gaps workstream this week.
-- **JASCO circular dichroism `.jws`** (figshare 13601282) is refused with exit 6, "a flat JASCO
-  container `SPECMAN R2.0.0` with an unexpected axis descriptor". JASCO channels belong to the gaps
-  workstream.
+- **Gen5 workbooks (plate reader).** Fixed on 2026-10-07. The reader now finds `Time` tables in
+  column B, reads every worksheet that holds a Gen5 export (one table per sheet), and reports
+  sheets it does not read (`worksheet_not_read`). `zenodo4449746-gen5-synergy-htx` gives 7 tables
+  that agree with an independent openpyxl reading (`oracle/plate.py`, `gen5_xlsx_summary`): 93,696
+  absorbance and 187,392 fluorescence values with their times.
+- **Rigaku `.ras` edited by hand** (Zenodo 21511646). Fixed on 2026-10-07. Rows commented out with
+  `#` are left out with a warning, and a file without `*RAS_INT_END` is read when all the rows
+  `MEAS_DATA_COUNT` declares are there. Both files agree with xrayutilities (black box).
+- **JASCO circular dichroism `.jws`** (figshare 13601282). Fixed on 2026-10-07. Flat files with two
+  channels (CD and HT voltage) are read, and both channels agree with the depositor's Spectra
+  Manager text export.
 - **Shimadzu UVProbe `.spc`** (OLE compound files with a `DataStorage1/DataSpectrumStorage`
   tree, two records) exit 3 with the generic unknown-format hint. A hint that names the format
   would help users; reading it is a new reader.

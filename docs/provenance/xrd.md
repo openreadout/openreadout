@@ -153,3 +153,16 @@ development file.
 **What was found:** the reader sorted the `Data<k>` members as text (`Data0`, `Data1`, `Data10`, `Data100`, …), so trace 2 held `Data10` while its name said scan 3. Scans 0 and 1 agreed with FAIRmat's reader, scans 200 and 400 did not.
 
 **Decided:** members are ordered by the number in their `Data<k>` folder, then by the number in the profile's name, then by name. Archives with ten or fewer scans read as before.
+
+## 2026-10-07 — RAS files edited by hand: no end marker, data rows commented out (Richard Zimring with Claude as assistant)
+
+**Why:** the signals bug hunt (`docs/benchmark/hunt-2026-10-signals.md`) left two RAS files from one record exiting 4.
+
+**Corpus files:** `zenodo21511646-ras-kagome-tar012` (`FigS1_TAR_012_XRD_08212024.ras`) and `zenodo21511646-ras-kagome-pml321` (`FigS1_PML 321 Fe-(Fe3Sn2-CoSn)-CaF2 XRD.ras`), Zenodo 21511646 "Data in: Confined Room-Temperature Ferromagnetism in Kagome (Fe3Sn2/CoSn) Superlattices" (Dutta, Jensen, Tandon et al., CC-BY-4.0; no held-out record). Both are SmartLab 2θ/ω scans.
+
+**Prior art consulted:** none read. xrayutilities 1.8 (GPL-2.0-or-later) was run as a black box (`xrayutilities.io.RASFile`), as `oracle/rigaku_oracle.py` does; its source was not read.
+
+**What was inferred from what** (the files read as text):
+- `tar012` has its header and `*RAS_INT_START`, then exactly the 2251 rows `*MEAS_DATA_COUNT` declares, from 10.00 to 55.00 in steps of 0.02 (`MEAS_SCAN_START`, `MEAS_SCAN_STEP`, `MEAS_SCAN_STOP`). The file ends after the last row. `*RAS_INT_END` and `*RAS_DATA_END` are missing. xrayutilities returns the same 2251 rows.
+- `pml321` declares 18751 rows (10 to 100 in steps of 0.0048). Its rows from 70.0048 on (6250 of them) start with `#`, and the rest of the file is intact. xrayutilities skips those rows and returns 12501 rows, 10 to 70.
+- **Rule:** a data row starting with `#` is a comment. It is not returned, a warning counts the rows, and the assurance block reports them as left out. A file that ends inside its last data block is read when that block holds every row its `MEAS_DATA_COUNT` declares, with a warning. A block that ends short of its count is still corrupt (exit 4), and the error now says how many rows it holds.

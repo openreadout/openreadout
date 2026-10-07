@@ -255,6 +255,14 @@ fn observe_jws(info: &FileInfo) -> Observations {
     if let Some(v) = &info.format_version {
         // `SPCMAN2 R2.00.00` (compound file), `SPECMAN R2.0.0` / `SPECIRM R2.0.0` (flat)
         o.feature(K::FormatVersion, v, &[Scope::Metadata, Scope::Traces]);
+        // a flat file with several channels stores them one after the other
+        if (v.starts_with("SPECMAN") || v.starts_with("SPECIRM")) && info.traces.len() > 1 {
+            o.feature(
+                K::Layout,
+                format!("flat, {} channels", info.traces.len()),
+                &[Scope::Traces],
+            );
+        }
     }
     common(&mut o, info);
     for t in &info.traces {
@@ -462,25 +470,26 @@ const WITEC_PROJECT_VALIDATED: &[Validated] = &[
 const JASCO_JWS_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const JASCO_JWS_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "CIRCULAR DICHROISM SPECTRUM", 5, 2, 5),
+    a::row(K::Acquisition, "CIRCULAR DICHROISM SPECTRUM", 6, 3, 6),
     a::row(K::Acquisition, "FLUORESCENCE SPECTRUM", 3, 1, 3),
-    a::row(K::Acquisition, "INFRARED SPECTRUM", 9, 4, 10),
+    a::row(K::Acquisition, "INFRARED SPECTRUM", 11, 6, 12),
     a::row(K::Acquisition, "RAMAN SPECTRUM", 1, 1, 1),
     a::row(K::Acquisition, "UV/VIS KINETICS", 1, 1, 1),
     a::row(K::Acquisition, "UV/VIS SPECTRUM", 5, 3, 9),
-    a::row(K::Field, "experiment.acquisition.started_at", 4, 2, 25),
-    a::row(K::Field, "experiment.instrument.model", 6, 2, 25),
-    a::row(K::FormatVersion, "SPCMAN2 R2.00.00", 19, 6, 19),
-    a::row(K::FormatVersion, "SPECMAN R2.0.0", 1, 1, 6),
+    a::row(K::Field, "experiment.acquisition.started_at", 4, 2, 28),
+    a::row(K::Field, "experiment.instrument.model", 6, 2, 28),
+    a::row(K::FormatVersion, "SPCMAN2 R2.00.00", 21, 8, 21),
+    a::row(K::FormatVersion, "SPECMAN R2.0.0", 2, 2, 7),
     a::row(K::Layout, "explicit x values", 1, 1, 1),
+    a::row(K::Layout, "flat, 2 channels", 1, 1, 1),
     a::row(K::Layout, "x raman_shift", 1, 1, 1),
     a::row(K::Layout, "x time", 1, 1, 1),
-    a::row(K::Layout, "x wavelength", 9, 3, 13),
-    a::row(K::Layout, "x wavenumber", 9, 4, 10),
-    a::row(K::Record, "channel 0x0", 7, 4, 8),
-    a::row(K::Record, "channel 0x1001", 5, 2, 5),
+    a::row(K::Layout, "x wavelength", 10, 4, 14),
+    a::row(K::Layout, "x wavenumber", 11, 6, 12),
+    a::row(K::Record, "channel 0x0", 9, 6, 10),
+    a::row(K::Record, "channel 0x1001", 6, 3, 6),
     a::row(K::Record, "channel 0x2", 0, 0, 1),
-    a::row(K::Record, "channel 0x2001", 5, 2, 5),
+    a::row(K::Record, "channel 0x2001", 6, 3, 6),
     a::row(K::Record, "channel 0x3", 7, 3, 8),
     a::row(K::Record, "channel 0x8", 1, 1, 1),
     a::row(K::Record, "channel 0x9", 0, 0, 1),

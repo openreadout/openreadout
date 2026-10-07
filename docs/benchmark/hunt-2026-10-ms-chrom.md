@@ -45,6 +45,14 @@ Discovery DESI (34), SESI breath on an Orbitrap XL (98) and TSQ Vantage SRM (194
 Agilent 6224 TOF (1,676), 6540 Q-TOF (1,689), 6545 with MOBILion (958) and 6400-series MRM
 (487 chromatograms). All agree exactly with their depositors' conversions.
 
+Their peak lists do. Later (2026-10-07) the scan-header comparisons of the 6540 and 6545 runs
+turned out to fail: the depositors' ProteoWizard conversions average the stored precursor m/z over
+the MS/MS scans that share a precursor (each group's export value is the mean of the records'
+`MzOfInterest`, to 1e-15), and the older conversion of the 6540 run calls every full scan recorded
+with a 50 V collision energy MS2, with the centre of its scan window (or of the calibrated m/z range, on scans with their own mass
+calibration) as the precursor, where the records say MS level 1. The reader follows the records. The manifest now gives both files a
+precursor tolerance (1e-5 and 1.2e-5) and the 6540 run `window_centre_precursor`.
+
 ## Left open, and why
 
 - **MALDI PASEF frames without precursors (timsTOF fleX, mzmine's `tims_spot.d`).** The reader

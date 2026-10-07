@@ -239,6 +239,30 @@ fn what_id(what: &str) -> &'static str {
     }
 }
 
+/// Data rows of scan `k` that start with `#`: a warning, and left out in the assurance block.
+fn note_commented(
+    k: usize,
+    commented: usize,
+    findings: &mut Vec<Finding>,
+    observations: &mut openreadout_core::assurance::Observations,
+) {
+    if commented == 0 {
+        return;
+    }
+    findings.push(Finding::warning(
+        "commented_rows",
+        format!(
+            "scan {}: {commented} data rows start with `#` (commented out by hand); they are not returned",
+            k + 1
+        ),
+    ));
+    observations.undecoded(
+        format!("commented-out data rows (scan {})", k + 1),
+        &[],
+        format!("{commented} rows start with `#`"),
+    );
+}
+
 /// Parse a RAS file.
 pub(crate) fn parse_ras(bytes: &[u8]) -> Result<SeriesFile> {
     let text: String = match std::str::from_utf8(bytes) {
@@ -251,6 +275,7 @@ pub(crate) fn parse_ras(bytes: &[u8]) -> Result<SeriesFile> {
     let mut observations = openreadout_core::assurance::Observations::default();
     let mut h = Header::new();
     let mut rows: Vec<[f64; 3]> = Vec::new();
+    let mut commented = 0usize;
     let mut state = 0u8; // 0 outside, 1 header, 2 data
     for line in text.lines() {
         let l = line.trim_end_matches('\r');
@@ -266,6 +291,7 @@ pub(crate) fn parse_ras(bytes: &[u8]) -> Result<SeriesFile> {
             }
             "*RAS_INT_START" => {
                 rows.clear();
+                commented = 0;
                 state = 2;
                 continue;
             }
@@ -283,6 +309,7 @@ pub(crate) fn parse_ras(bytes: &[u8]) -> Result<SeriesFile> {
                         ),
                     ));
                 }
+                note_commented(k, commented, &mut findings, &mut observations);
                 scans.push(scan(
                     &h,
                     std::mem::take(&mut rows),
@@ -295,6 +322,11 @@ pub(crate) fn parse_ras(bytes: &[u8]) -> Result<SeriesFile> {
                 continue;
             }
             _ => {}
+        }
+        // A data row starting with `#` was commented out by hand: not returned, but counted.
+        if state == 2 && l.trim_start().starts_with('#') {
+            commented += 1;
+            continue;
         }
         match state {
             1 => {
@@ -317,10 +349,53 @@ pub(crate) fn parse_ras(bytes: &[u8]) -> Result<SeriesFile> {
         }
     }
     if state == 2 {
-        return Err(Error::corrupt(
-            RAS_FORMAT_ID,
-            "the file ends inside a data block (no *RAS_INT_END)",
-        ));
+        // The end markers are missing. When the block holds every row its header declares
+        // (rows commented out with `#` included), the file lost only its trailer (seen in files
+        // edited by hand): the scan is read.
+        let k = scans.len();
+        let present = rows.len() + commented;
+        match num(&h, "MEAS_DATA_COUNT") {
+            Some(n) if !rows.is_empty() && (n - present as f64).abs() <= 0.5 => {
+                findings.push(Finding::warning(
+                    "missing_end_marker",
+                    format!(
+                        "scan {}: the file ends after the last data row without *RAS_INT_END; all {present} rows MEAS_DATA_COUNT declares are present",
+                        k + 1,
+                    ),
+                ));
+                if commented > 0 {
+                    findings.push(Finding::warning(
+                        "count_mismatch",
+                        format!(
+                            "scan {}: {} data rows, MEAS_DATA_COUNT says {n}",
+                            k + 1,
+                            rows.len()
+                        ),
+                    ));
+                }
+                note_commented(k, commented, &mut findings, &mut observations);
+                scans.push(scan(
+                    &h,
+                    std::mem::take(&mut rows),
+                    k,
+                    &mut findings,
+                    &mut observations,
+                ));
+                headers.push(h.clone());
+            }
+            declared => {
+                return Err(Error::corrupt(
+                    RAS_FORMAT_ID,
+                    format!(
+                        "the file ends inside data block {} (no *RAS_INT_END) after {present} rows{}",
+                        k + 1,
+                        declared
+                            .map(|n| format!(" of the {n} MEAS_DATA_COUNT declares"))
+                            .unwrap_or_default()
+                    ),
+                ));
+            }
+        }
     }
     if scans.is_empty() {
         return Err(Error::corrupt(
@@ -601,6 +676,29 @@ mod tests {
         assert_eq!(f.traces.len(), 1);
         assert_eq!(f.traces[0].sweeps[0][0], vec![5.0, 6.0]);
         assert!(parse_ras(b"*RAS_DATA_START\n*RAS_INT_START\n1 2 1\n").is_err());
+        // edited by hand: the trailer is gone, but every declared row is there
+        let cut = &t[..t.len() - b"*RAS_INT_END\n*RAS_DATA_END\n".len()];
+        let f = parse_ras(cut).unwrap();
+        assert_eq!(f.traces[0].sweeps[0][0], vec![5.0, 6.0]);
+        assert!(f.findings.iter().any(|x| x.code == "missing_end_marker"));
+        // one row short of the count: still corrupt, and the error says how far it got
+        let short = &t[..t.len() - b"10.1 6 1\n*RAS_INT_END\n*RAS_DATA_END\n".len()];
+        let e = parse_ras(short).unwrap_err().to_string();
+        assert!(e.contains("after 1 rows of the 2"), "{e}");
+        // a row commented out with `#` is counted, not returned
+        let hashed = String::from_utf8_lossy(t).replace("10.1 6 1", "#10.1 6 1");
+        let f = parse_ras(hashed.as_bytes()).unwrap();
+        assert_eq!(f.traces[0].sweeps[0][0], vec![5.0]);
+        assert!(f.findings.iter().any(|x| x.code == "commented_rows"));
+        assert_eq!(
+            f.observations.undecoded.len(),
+            1,
+            "commented rows are reported as left out"
+        );
+        // both at once: the commented rows count toward the declared total
+        let both = hashed.replace("*RAS_INT_END\n*RAS_DATA_END\n", "");
+        let f = parse_ras(both.as_bytes()).unwrap();
+        assert_eq!(f.traces[0].sweeps[0][0], vec![5.0]);
         assert_eq!(
             rigaku_time("12/12/2022 14:42:50").as_deref(),
             Some("2022-12-12T14:42:50")

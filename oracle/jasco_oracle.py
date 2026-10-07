@@ -52,9 +52,16 @@ def read_export(p: Path) -> dict:
     delim = "\t" if any("\t" in l for l in lines[:5]) else ","
     header, footer, rows = {}, {}, []
     i = 0
+    yunits = []  # one per y column: `YUNITS<TAB>CD[mdeg]`, then `<TAB>HT[V]` for a second channel
+    last = None
     while i < len(lines) and lines[i].strip() != "XYDATA":
         k, _, v = lines[i].partition(delim)
-        header[k.strip()] = v.strip()
+        k = k.strip()
+        if k == "YUNITS" or (not k and last == "YUNITS"):
+            yunits.append(v.strip())
+        if k:
+            header[k] = v.strip()
+            last = k
         i += 1
     # decimal commas: tab-separated with a comma in the numbers (Polish locale)
     comma = delim == "\t" and "," in header.get("DELTAX", "") + header.get("FIRSTX", "")
@@ -64,11 +71,13 @@ def read_export(p: Path) -> dict:
         l = lines[i]
         if not l.strip():
             break
-        a, _, b = l.partition(delim)
-        x, y = _num(a, comma), _num(b, comma)
+        fields = l.split(delim)
+        x, y = _num(fields[0], comma), _num(fields[1], comma) if len(fields) > 1 else None
         if x is None or y is None:
             break
-        rows.append((x, y))
+        more = [_num(c, comma) for c in fields[2:] if c.strip()]
+        # further y columns (one per channel) when the header names them
+        rows.append((x, y, *more) if len(yunits) > 1 and None not in more else (x, y))
         i += 1
         if npoints and len(rows) == npoints:
             break
@@ -82,8 +91,12 @@ def read_export(p: Path) -> dict:
     for k in ("FIRSTX", "LASTX", "DELTAX", "NPOINTS"):
         if hdr.get(k) is not None:
             hdr[k] = _num(hdr[k], comma)
-    return {"file": p.name, "decimal_comma": comma, "header": hdr, "footer": footer, "n": n,
-            "samples": [[j, rows[j][0], rows[j][1]] for j in idx]}
+    out = {"file": p.name, "decimal_comma": comma, "header": hdr, "footer": footer, "n": n,
+           # [row, x, y] (a second y column, as in CD exports: [row, x, y, y2])
+           "samples": [[j, *rows[j]] for j in idx]}
+    if len(yunits) > 1:
+        out["yunits"] = yunits
+    return out
 
 
 def second_opinion(path: Path, lib: Path) -> dict:

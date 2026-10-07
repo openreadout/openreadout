@@ -63198,6 +63198,76 @@
       ]
     },
     {
+      "id": "figshare13601282-dk-cd",
+      "format": "jasco-jws",
+      "source": "figshare 13601282 'peptides_cd and fret'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "SPECMAN R2.0.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "flat, 2 channels",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "CIRCULAR DICHROISM SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel 0x1001",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "x wavelength",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel 0x2001",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
       "id": "jws-jascofiles-ftir-modern",
       "format": "jasco-jws",
       "source": "github:garrekstemo/jascofiles.jl",
@@ -64670,6 +64740,118 @@
       "fields": [
         "experiment.acquisition.started_at",
         "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "SPCMAN2 R2.00.00",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "INFRARED SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel 0x0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "x wavenumber",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zenodo10377791-ftir-jws-4",
+      "format": "jasco-jws",
+      "source": "zenodo:10377791",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "SPCMAN2 R2.00.00",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "INFRARED SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel 0x0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "x wavenumber",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zenodo10805054-ftir-jws",
+      "format": "jasco-jws",
+      "source": "zenodo:10805054",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
       ],
       "features": [
         [
@@ -103809,6 +103991,402 @@
       ]
     },
     {
+      "id": "zenodo21627132-clariostar-cou3-050",
+      "format": "plate",
+      "source": "zenodo:21627132",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "assumed": [
+        "tables[].extra.acquired_at"
+      ],
+      "features": [
+        [
+          "dialect",
+          "bmg-smart-control",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "SMART Control",
+          []
+        ],
+        [
+          "acquisition",
+          "endpoint read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "fluorescence",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "CLARIOstar",
+          []
+        ],
+        [
+          "layout",
+          "container xlsx",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "zenodo21627132-clariostar-cou3-200",
+      "format": "plate",
+      "source": "zenodo:21627132",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "assumed": [
+        "tables[].extra.acquired_at"
+      ],
+      "features": [
+        [
+          "dialect",
+          "bmg-smart-control",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "SMART Control",
+          []
+        ],
+        [
+          "acquisition",
+          "endpoint read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "fluorescence",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "CLARIOstar",
+          []
+        ],
+        [
+          "layout",
+          "container xlsx",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "zenodo4449746-gen5-synergy-htx",
+      "format": "plate",
+      "source": "zenodo:4449746",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.instrument.model",
+        "tables[].extra.reads[].mode",
+        "tables[].extra.reads[].wavelength_nm"
+      ],
+      "features": [
+        [
+          "dialect",
+          "gen5",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Gen5",
+          []
+        ],
+        [
+          "writer_version",
+          "Gen5 3",
+          []
+        ],
+        [
+          "acquisition",
+          "kinetic read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "absorbance",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "fluorescence",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "Synergy HTX",
+          []
+        ],
+        [
+          "layout",
+          "container xlsx",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "zenodo7922369-spark-dithionite",
+      "format": "plate",
+      "source": "zenodo:7922369",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "assumed": [
+        "tables[0].extra.reads[1].mode"
+      ],
+      "features": [
+        [
+          "dialect",
+          "tecan-i-control",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "i-control",
+          []
+        ],
+        [
+          "writer_version",
+          "i-control 2",
+          []
+        ],
+        [
+          "acquisition",
+          "kinetic read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "fluorescence",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "unknown",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "Spark",
+          []
+        ],
+        [
+          "layout",
+          "container xlsx",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "zenodo7922369-spark-lipid-mixing",
+      "format": "plate",
+      "source": "zenodo:7922369",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "assumed": [
+        "tables[0].extra.reads[1].mode"
+      ],
+      "features": [
+        [
+          "dialect",
+          "tecan-i-control",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "i-control",
+          []
+        ],
+        [
+          "writer_version",
+          "i-control 2",
+          []
+        ],
+        [
+          "acquisition",
+          "kinetic read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "fluorescence",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "unknown",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "Spark",
+          []
+        ],
+        [
+          "layout",
+          "container xlsx",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
       "id": "plexon-4chdemopl2-pl2",
       "format": "plexon",
       "source": "gin:neuralensemble/ephy_testing_data",
@@ -106219,6 +106797,220 @@
         [
           "field",
           "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "zenodo16968888-ras-raw",
+      "format": "rigaku-ras",
+      "source": "zenodo:16968888",
+      "oracle": "pass",
+      "independent": false,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "record",
+          "angle axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "Theta/2-Theta scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RAS 1.0000000000",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "zenodo16968888-ras-scba14",
+      "format": "rigaku-ras",
+      "source": "zenodo:16968888",
+      "oracle": "pass",
+      "independent": false,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "record",
+          "angle axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "Theta/2-Theta scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RAS 1.0000000000",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "zenodo21511646-ras-kagome-pml321",
+      "format": "rigaku-ras",
+      "source": "zenodo:21511646",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "TwoThetaOmega scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RAS 1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "zenodo21511646-ras-kagome-tar012",
+      "format": "rigaku-ras",
+      "source": "zenodo:21511646",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "TwoThetaOmega scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RAS 1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
           []
         ]
       ],

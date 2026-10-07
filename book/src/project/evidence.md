@@ -50,7 +50,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `ims` | high | vendor docs | 16 | 16 | 11 | 9 | 100% | 91% | 1/0 |
 | `imzml` | high | open spec | 12 | 12 | 7 | 5 | 100% | 0% | - |
 | `intan` | high | vendor docs | 12 | 12 | 3 | 4 | 100% | 10% | - |
-| `jasco-jws` | high | prior art | 25 | 20 | 6 | 2 | 100% | 100% | - |
+| `jasco-jws` | high | prior art | 28 | 23 | 9 | 2 | 100% | 100% | - |
 | `jcamp-dx` | high | open spec | 22 | 21 | 4 | 5 | 100% | 29% | 1/0 |
 | `jeol-jdf` | high | prior art | 14 | 14 | 8 | 5 | 100% | 56% | 2/0 |
 | `lif` | high | prior art | 33 | 33 | 22 | 5 | 100% | 52% | 3/0 |
@@ -78,12 +78,12 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `panalytical-xrdml` | high | open spec | 7 | 7 | 7 | 11 | 100% | 0% | - |
 | `perkinelmer-fsm` | low | prior art | 2 | 2 | 2 | 0 | 100% | 38% | - |
 | `perkinelmer-sp` | medium | prior art | 9 | 9 | 7 | 0 | 100% | 57% | 1/0 |
-| `plate` | medium | prior art | 71 | 68 | 23 | 18 | 100% | 52% | 2/1 |
+| `plate` | medium | prior art | 76 | 69 | 24 | 18 | 100% | 52% | 2/1 |
 | `plexon` | medium | prior art | 6 | 4 | 1 | 3 | 100% | 54% | - |
 | `qpcr-results-export` | medium | reverse engineered | 9 | 9 | 7 | 0 | 100% | 100% | - |
 | `rdml` | high | open spec | 9 | 9 | 5 | 5 | 100% | 4% | 1/0 |
 | `renishaw-wdf` | high | prior art | 15 | 15 | 6 | 3 | 100% | 33% | 2/0 |
-| `rigaku-ras` | medium | reverse engineered | 5 | 5 | 5 | 2 | 100% | 0% | - |
+| `rigaku-ras` | medium | reverse engineered | 9 | 7 | 6 | 2 | 100% | 0% | - |
 | `rigaku-rasx` | medium | reverse engineered | 8 | 8 | 5 | 0 | 100% | 0% | - |
 | `roche-lightcycler-ixo` | medium | reverse engineered | 10 | 10 | 2 | 1 | 100% | 46% | - |
 | `rotor-gene-rex` | low | reverse engineered | 1 | 1 | 1 | 2 | 100% | 46% | 1/0 |
