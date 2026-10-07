@@ -179,6 +179,7 @@ pub struct QpcrArgs {
     run: Option<String>,
     #[serde(default)]
     compute_cq: bool,
+    cq_method: Option<openreadout_qpcr::CqMethod>,
     threshold: Option<f64>,
     baseline: Option<(u32, u32)>,
     #[serde(default)]
@@ -200,6 +201,7 @@ impl QpcrArgs {
         r.sample = self.sample;
         r.run = self.run;
         r.compute_cq = self.compute_cq;
+        r.cq_method = self.cq_method;
         r.threshold = self.threshold;
         r.baseline = self.baseline;
         r.relative = self.ddcq;

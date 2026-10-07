@@ -326,6 +326,7 @@ fn qpcr(reg: &Registry, file: &str, o: QpcrOptions) -> Result<openreadout_qpcr::
     req.sample = q.sample;
     req.run = q.run;
     req.compute_cq = q.compute_cq;
+    req.cq_method = q.cq_method;
     req.threshold = q.threshold;
     req.baseline = match (q.baseline_start, q.baseline_end) {
         (Some(s), Some(e)) if s >= 1 && e > s => Some((s, e)),

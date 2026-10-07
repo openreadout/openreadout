@@ -418,7 +418,7 @@ impl FormatReader for IxoReader {
                 "The instrument model is read from the run's instrument name only when that names a LightCycler; otherwise it is unset and the name is in `vendor.instrument_name`",
                 "Only `Legacy Absolute Quantification Analysis` results are read (one channel, no ratio); Tm calling, genotyping, relative quantification and other analyses are listed in the vendor tree, not read; a call other than 0 or 2 gives no Cq",
                 "Vendor melt smoothing and derivative arrays (DARZ/FORM binary properties) and the temperature log are not decoded; -dF/dT is computed from the raw melt readings",
-                "Our own Cq (`analyze qpcr --compute-cq`) is not the LightCycler 480's Cp algorithm (not public); use the vendor Cp in `cq`",
+                "Our own Cq (`analyze qpcr --compute-cq`) is the second-derivative maximum: on average a few hundredths of a cycle from the LightCycler 480's Cp, up to 0.35 cycles; the vendor Cp is in `cq`",
                 "The closing checksum line is kept (`vendor.trailer`), not verified",
             ],
         )

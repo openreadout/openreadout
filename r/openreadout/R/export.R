@@ -101,11 +101,11 @@ openreadout_export <- function(x, output, to = NULL, image = NULL, select = NULL
 
 # openreadout_analyze() kind "qpcr".
 .analyze_qpcr <- function(path, well = NULL, target = NULL, sample = NULL, run = NULL, compute_cq = FALSE,
-                    threshold = NULL, baseline = NULL, ddcq = FALSE, reference_targets = NULL,
+                    cq_method = NULL, threshold = NULL, baseline = NULL, ddcq = FALSE, reference_targets = NULL,
                     control_sample = NULL, standard_curve = FALSE, max_records = NULL,
                     undetermined_cq = NULL) {
   req <- list(well = well, target = target, sample = sample, run = run,
-              compute_cq = if (isTRUE(compute_cq)) TRUE, threshold = threshold,
+              compute_cq = if (isTRUE(compute_cq)) TRUE, cq_method = cq_method, threshold = threshold,
               baseline = if (!is.null(baseline)) I(as.integer(baseline)),
               ddcq = if (isTRUE(ddcq)) TRUE,
               reference_targets = if (!is.null(reference_targets)) I(as.character(reference_targets)),
