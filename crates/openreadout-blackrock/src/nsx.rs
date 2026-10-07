@@ -21,6 +21,11 @@ pub const CC_LEN: u64 = 66;
 pub const SPEC21_HEADER_LEN: u64 = 32;
 /// Timestamp resolution of PTP files (nanoseconds).
 pub const PTP_RESOLUTION: u32 = 1_000_000_000;
+/// PTP files whose packets take at most this many bytes have every timestamp read, even by
+/// `info`; larger ones are probed at `PTP_PROBES` packets.
+pub const PTP_FULL_SCAN_BYTES: u64 = 64 << 20;
+/// Evenly spaced packets whose timestamps `info` checks in a large PTP file.
+pub const PTP_PROBES: u64 = 64;
 /// Most channels accepted (guards allocation on a damaged header).
 pub const MAX_CHANNELS: u32 = 65_535;
 
@@ -110,6 +115,9 @@ pub struct NsxFile {
     /// One sample per packet (PTP): bytes from one packet to the next.
     pub ptp_stride: Option<u64>,
     pub ptp_packet_count: u64,
+    /// PTP: the sweeps were taken as gap-free from probed timestamps, not from every timestamp
+    /// (`info` on a file whose packets take more than `PTP_FULL_SCAN_BYTES`).
+    pub ptp_sweeps_assumed: bool,
     /// Where spec 2.1 scaling came from (the companion NEV path), if anywhere.
     pub scaling_source: Option<String>,
     pub file_len: u64,
@@ -243,6 +251,7 @@ pub fn parse_nsx(
         sweeps: Vec::new(),
         ptp_stride: None,
         ptp_packet_count: 0,
+        ptp_sweeps_assumed: false,
         scaling_source: None,
         file_len,
         findings: Vec::new(),
@@ -510,18 +519,33 @@ fn index_packets(
             points: 1,
         });
         let period_ns = f64::from(nsx.period) / PERIOD_CLOCK_HZ * 1e9;
-        let last_at = pos + (count - 1) * stride;
-        let last = read_block(f, path, last_at, hl, file_len)?;
-        let ts_last = packet_at(&last, last_at, nsx.spec).map_or(ts0, |p| p.1);
-        let expect = ts0 as f64 + (count - 1) as f64 * period_ns;
-        if !full_scan && (ts_last as f64 - expect).abs() <= period_ns / 2.0 {
-            nsx.sweeps.push(NsxSweep {
-                first_packet: 0,
-                packet_count: count,
-                sample_count: count,
-                timestamp: ts0,
-            });
-            return Ok(());
+        // A large file is probed at evenly spaced packets: when each sits on the expected time
+        // the file is taken as one sweep (and says so); a small file, or one whose probes are
+        // off, has every timestamp read. First and last alone can agree across gaps that
+        // cancel out (a jump forward and a clock reset).
+        if !full_scan && count.saturating_mul(stride) > PTP_FULL_SCAN_BYTES {
+            let mut on_time = true;
+            for k in 0..PTP_PROBES {
+                let i = (count - 1) * k / (PTP_PROBES - 1);
+                let at = pos + i * stride;
+                let b = read_block(f, path, at, hl, file_len)?;
+                let ts = packet_at(&b, at, nsx.spec).map_or(0, |p| p.1);
+                let expect = ts0 as f64 + i as f64 * period_ns;
+                if (ts as f64 - expect).abs() > period_ns / 2.0 {
+                    on_time = false;
+                    break;
+                }
+            }
+            if on_time {
+                nsx.sweeps.push(NsxSweep {
+                    first_packet: 0,
+                    packet_count: count,
+                    sample_count: count,
+                    timestamp: ts0,
+                });
+                nsx.ptp_sweeps_assumed = true;
+                return Ok(());
+            }
         }
         let mut prev: Option<u64> = None;
         let mut done = 0u64;

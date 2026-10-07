@@ -139,6 +139,40 @@ fn ptp_one_sample_packets_split_at_gaps() {
     assert!((s1.channels[1][1] - 50.0 * scale).abs() < 1e-12);
 }
 
+#[test]
+fn ptp_gaps_that_cancel_out_still_split_sweeps() {
+    // a jump forward and a clock reset of the same size: first and last timestamps agree
+    let d = dir();
+    let mut b = nsx23(&[]);
+    b[0..8].copy_from_slice(b"BRSMPGRP");
+    b[8] = 3;
+    b[9] = 0;
+    b[290..294].copy_from_slice(&1_000_000_000u32.to_le_bytes());
+    let mut ts = 1_000_000_000u64;
+    for i in 0..8i16 {
+        if i == 3 {
+            ts += 5_000_000;
+        }
+        if i == 6 {
+            ts -= 5_000_000;
+        }
+        b.push(1);
+        b.extend_from_slice(&ts.to_le_bytes());
+        b.extend_from_slice(&1u32.to_le_bytes());
+        b.extend_from_slice(&i.to_le_bytes());
+        b.extend_from_slice(&(10 * i).to_le_bytes());
+        ts += 1_000_000;
+    }
+    let p = write(&d, "e.ns2", &b);
+    let mut ds = open(&p);
+    let t = ds.info().unwrap().traces[0].clone();
+    assert_eq!(t.extra["ptp_timestamps_read"], "all");
+    assert_eq!(t.sweep_count, 3);
+    assert_eq!(t.extra["sweep_sample_counts"], serde_json::json!([3, 3, 2]));
+    let r = ds.check().unwrap();
+    assert!(r.findings.iter().any(|f| f.code == "segments"));
+}
+
 fn nev(version: (u8, u8), waveform_nv: u16) -> Vec<u8> {
     let plen = 8 + 8u32; // 4-byte ts, id, unit, reserved, 8 one-byte samples
     let mut b = vec![0u8; 336];
