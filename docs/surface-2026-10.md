@@ -1,10 +1,13 @@
 # CLI and MCP surface, October 2026
 
-Status: partly implemented on `feat/surface`.
+Status: implemented on `feat/surface`. The owner approved the whole proposal, including the items first held for review.
 
-- Done: one MCP tool per analysis (with `plate_options` on the six assay tools), `check` split into `check`, `planes`, `compare` and `report` on both surfaces, the argument renames and naming conventions below, CSV in `openreadout_export`, `schema_version` 2. The plate-reader subcommands are `analyze assay-wells`, `assay-curve`, `dose-response`, `kinetics`, `growth` and `assay-qc`, and `analyze` stays a CLI group. The `spectra` renames (`--spectrum`, `--rt-range`, `--precursor-tol`, `--precursor-ppm`, `--scan-filter`, `count`) apply to `spectra` as it is today. The `--samples` and `--layout` spellings of `--sample-sheet` are gone (rule 4).
-- Held for the owner: splitting `spectra` into `scans` and `spectrum`, `export --attachment` into `extract`, `batch summarize` into `summarize`, `search --health` and `--export` into `health` and `export-dataset` (with `index --health`), adding `openreadout_health`, dropping `openreadout_formats`, and whether the analyses move to the top level of the CLI. The MCP crate keeps these as separate modules (`tools/spectra.rs`, `tools/export.rs`, `tools/batch.rs`, `tools/index.rs`) so each is one change.
-- Measured after the change: 29 tools, 77 kB of input schemas (58 kB before). The largest is `openreadout_peaks` at 6.8 kB; the six assay tools are 3.4 to 5.4 kB each, against 26 kB for `openreadout_analyze`.
+- One MCP tool per analysis, with `plate_options` on the six assay tools. The plate-reader subcommands are `analyze assay-wells`, `assay-curve`, `dose-response`, `kinetics`, `growth` and `assay-qc`, and `analyze` stays a CLI group.
+- `check` is split into `check`, `planes`, `compare` and `report`, `spectra` into `scans` and `spectrum`, `export --attachment` into `extract`, `batch summarize` into `summarize`, and `search --health` and `--export` into `health` and `export-dataset`. `index --health` is gone. `openreadout_health` is new, and `openreadout_formats` is gone (the `openreadout://formats` resource stays).
+- The argument renames and naming conventions below, CSV in `openreadout_export`, and `schema_version` 2. The `--samples` and `--layout` spellings of `--sample-sheet` are gone (rule 4).
+- `batch` keeps `measure` and `options`.
+- The Python and R bindings follow: `scans()` and `summarize()` in Python, `openreadout_scans()`, `openreadout_spectrum()` and `openreadout_summarize()` in R, and `scans()` and `spectrum()` in the WebAssembly package.
+- Measured after the change: 24 top-level commands and 32 tools, with 80 kB of input schemas (58 kB before). The largest is `openreadout_peaks` at 6.8 kB. The six assay tools are 3.4 to 5.4 kB each, against 26 kB for `openreadout_analyze`.
 
 The rest of this note is the proposal as reviewed.
 
@@ -153,7 +156,7 @@ That is 24 top-level commands (`info check planes compare report preview stats t
 | `openreadout_watch` | `openreadout_watch` | kept. |
 | `openreadout_formats` | (none) | dropped from tools (rule 3). The `openreadout://formats` resource keeps the same JSON, and `openreadout_info` names the format of any file it opens. |
 
-That is 31 tools, above the 20–25 the coordinator expected. The six assay tools account for five of the extra. Merging them back into one `openreadout_assay` would give 26, but breaks rule 2 (see rejected options).
+That is 32 tools, above the 20–25 the coordinator expected. The six assay tools account for five of the extra. Merging them back into one `openreadout_assay` would give 27, but breaks rule 2 (see rejected options).
 
 Per tool, the proposed input schemas (estimated from today's option schemas) are each at most the size of the tool they come from: the largest is `openreadout_peaks` (33 arguments, about 5 kB, against 26 kB for `openreadout_analyze`). The six assay tools share 15 plate-layout arguments. I propose to keep the four everyone uses (`layout`, `blank_wells`, `positive_wells`, `negative_wells`) at the top level and put the other eleven (`table`, `read`, `wavelength_nm`, `embedded_layout`, `layout_text`, `empty_wells`, `roles`, `blank_subtraction`, `outliers`, `outlier_threshold`, `exclude_outliers`) in a nested object named `plate_options` (rule 5). The CLI keeps them as flat flags with the same names.
 
@@ -227,7 +230,7 @@ Arguments not listed here keep their names on both surfaces. "CLI only" argument
 
 - `index` keeps `-o/--output INDEX_DIR` on the CLI and `index_dir` in MCP: the CLI value name is `INDEX_DIR`, as for `search`, `health`, `from_index`.
 - `index` keeps `--no-pii` / `pii` (the default-on convention).
-- `compare` keeps `--no-pixels` / `no_pixels` and `link` keeps `--no-recursive` / `no_recursive`: both default off, so the name is the same on both surfaces.
+- `compare` keeps `--no-pixels` / `no_pixels`, `link` keeps `--no-recursive` / `no_recursive`, and `health` has `--no-hash` / `no_hash`. These flags default to off, so the name is the same on both surfaces.
 - Peaks keeps `--targets FILE` on the CLI and `compounds` (inline list) in MCP. They are different inputs (a file, or the list itself).
 - `strict` stays on every tool that reads values, as an override of the server default.
 
