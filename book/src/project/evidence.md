@@ -98,7 +98,7 @@ Each reader's confidence level is computed from the development corpus by the [c
 | `tiff` | high | open spec | 118 | 117 | 23 | 39 | 100% | 10% | 5/0 |
 | `varian-nmr` | high | prior art | 12 | 12 | 6 | 4 | 100% | 53% | 1/0 |
 | `vsi` | high | prior art | 28 | 12 | 10 | 16 | 100% | 100% | - |
-| `waters-raw` | high | reverse engineered | 18 | 18 | 6 | 5 | 100% | 81% | - |
+| `waters-raw` | high | reverse engineered | 22 | 21 | 9 | 6 | 100% | 81% | - |
 | `winwcp` | low | prior art | 2 | 2 | 1 | 3 | 100% | 22% | - |
 | `witec-project` | high | prior art | 12 | 12 | 7 | 3 | 100% | 43% | - |
 | `zvi` | high | reverse engineered | 16 | 15 | 12 | 2 | 100% | 100% | 1/0 |
