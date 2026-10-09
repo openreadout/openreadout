@@ -197,7 +197,7 @@ openreadout info any-file --json
 | Plate readers and qPCR | Plate-reader exports, RDML, Applied Biosystems, LightCycler, Rotor-Gene | Allotrope ASM, RDML, CSV |
 | Other | ÄKTA, ITC, Biacore, Seahorse, Octet, Zetasizer, XRD, EPR, electrochemistry, thermal analysis | CSV, Parquet |
 
-The [format list](https://openreadout.github.io/openreadout/formats.html) has all 96 formats and their known gaps.
+The [format list](https://openreadout.github.io/openreadout/formats.html) lists every format OpenReadout reads, with its known gaps.
 
 ## Use Cases
 
@@ -256,7 +256,7 @@ openreadout mcp --install vscode          # VS Code / Copilot
 openreadout mcp --install gemini          # Gemini CLI
 ```
 
-Windsurf, Zed, Continue, and Cline are supported too. The server exposes 32 tools (`openreadout_info`, `openreadout_check`, `openreadout_preview`, `openreadout_export`, `openreadout_peaks`, ...) over JSON-RPC — no shell access needed.
+Windsurf, Zed, Continue, and Cline are supported too. The server exposes 32 tools (`openreadout_info`, `openreadout_check`, `openreadout_preview`, `openreadout_export`, `openreadout_peaks`, ...) over JSON-RPC, so the client doesn't need shell access.
 
 ### Claude Code Plugin
 
@@ -280,7 +280,7 @@ codex plugin marketplace add openreadout/agent-plugins
 codex plugin add openreadout@openreadout
 ```
 
-The Claude Code plugin, the Gemini CLI extension and the Codex plugin each add the skill and the MCP server. They come from the small [openreadout/agent-plugins](https://github.com/openreadout/agent-plugins) repository, which each release updates. The server runs the `openreadout` binary from your `PATH`, so [install](#installation) it first.
+Each of these adds the skill and the MCP server from the [openreadout/agent-plugins](https://github.com/openreadout/agent-plugins) repository. The server runs the `openreadout` binary from your `PATH`, so [install](#installation) it first.
 
 ### Agent Skill
 
@@ -352,7 +352,7 @@ with openreadout.File("cells.lif") as f:
 
 ## Validation
 
-Readers are checked against independent readers on public instrument files, as [How we validate](https://openreadout.github.io/openreadout/project/how-we-validate.html) explains.
+Each reader is tested on public instrument files and compared with independent libraries, as [How we validate](https://openreadout.github.io/openreadout/project/how-we-validate.html) explains.
 
 Every reader was written from public files and permissively licensed documentation — no vendor SDKs, headers, DLLs, or GPL source code. See the [clean-room policy](docs/legal/clean-room-policy.md).
 
@@ -363,7 +363,7 @@ The [documentation](https://openreadout.github.io/openreadout/) has guides for e
 - **Getting started:** [Install](https://openreadout.github.io/openreadout/getting-started/install.html) | [Your first file](https://openreadout.github.io/openreadout/getting-started/first-file.html) | [Reading the JSON output](https://openreadout.github.io/openreadout/getting-started/reading-json.html)
 - **Reference:** [Commands](https://openreadout.github.io/openreadout/reference/commands.html) | [MCP tools](https://openreadout.github.io/openreadout/reference/mcp.html) | [Formats](https://openreadout.github.io/openreadout/formats.html)
 - **Guides:** [AI agents](https://openreadout.github.io/openreadout/guides/agents.html) | [Python](https://openreadout.github.io/openreadout/guides/python.html) | [R](https://openreadout.github.io/openreadout/guides/r.html) | [Recipes](https://openreadout.github.io/openreadout/recipes.html) | [Batch tables](https://openreadout.github.io/openreadout/guides/batch.html)
-- **A file that does not work:** run `openreadout report FILE` and attach the bundle to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). It contains no data values, sample names, or paths.
+- **A file that does not work:** run `openreadout report FILE` and attach the bundle to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). The bundle contains no data values, sample names, or paths.
 
 ## Privacy
 

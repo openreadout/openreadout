@@ -1,6 +1,6 @@
 # How we validate
 
-Most lab-instrument formats have no public specification, so a reader needs evidence that it reads real files correctly. This page explains where that evidence comes from and how OpenReadout tells you when it has none.
+Most lab-instrument formats have no public specification, so a reader needs evidence that it reads real files correctly.
 
 ## Readers written in a clean room
 
@@ -10,13 +10,13 @@ We work out each format from files we are allowed to use and from the published 
 
 The readers are tested on public files from real instruments, deposited by labs in open repositories. The test corpus lists each file with its source, license and checksum ([`corpus/manifest.toml`](../../../corpus/manifest.toml)).
 
-For each file, we compare OpenReadout's output with another program that opens the same file: an independent reader such as czifile, nd2, Bio-Formats, FlowIO or pyABF, an export made with the vendor's own software, or results the vendor software stored in the file. We run these programs as black boxes and keep only their output. Decoded pixels must match exactly (lossy codecs such as JPEG get a small tolerance), and sizes, channels and metadata must agree. When two readers disagree, a third one decides, and we write down which reader was right and why. We don't tweak OpenReadout's output until it matches.
+For each file, we compare OpenReadout's output with another program that opens the same file: an independent reader such as czifile, nd2, Bio-Formats, FlowIO or pyABF, an export made with the vendor's own software, or results the vendor software stored in the file. We run these programs as black boxes and keep only their output. Decoded pixels must match exactly (lossy codecs such as JPEG get a small tolerance), and sizes, channels and metadata must agree. When two readers disagree, a third one decides, and we write down which reader was right and why. We don't adjust OpenReadout's output just to make it agree with another reader.
 
 From this evidence, each reader gets a confidence level of high, medium or low. A fixed rule computes the level from how many files and depositors confirm the reader. Nobody sets it by hand. The [format list](../formats/index.md) shows the level of every format.
 
 ## What validated means for your file
 
-A reader can pass all its tests and still misread a variant it hasn't seen, such as a new software version or an unusual codec. So `info` and `check` say how well your particular file is covered:
+A reader can pass all its tests and still misread a variant it hasn't seen, such as a new software version or an unusual codec. So `info` and `check` say how well that particular file is covered:
 
 - **Validated**: other files of the same variant were read correctly and confirmed by an independent reader.
 - **Partially validated**: the values are decoded the same way as on confirmed files, but something is less certain. For example, the writer version is new, or a value was assumed.

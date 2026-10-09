@@ -12,8 +12,8 @@ Each export is written under a temporary name, read back and compared with the s
 
 ### Target and output
 
-- `--format FORMAT`: target format: `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `asm`, `parquet`, `arrow`, `nwb`, `jcamp` or `rdml`. The default depends on the file; see [Export formats](#export-formats).
-- `-o`, `--output PATH`: output path. Default: the input name with the target's extension. With several inputs, a directory.
+- `--format FORMAT`: target format: `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `asm`, `parquet`, `arrow`, `nwb`, `jcamp` or `rdml`. Without it, the extension of `-o` sets the format, or the file's kind when there is no `-o`; see [Export formats](#export-formats).
+- `-o`, `--output PATH`: output path. Default: the input name with the target's extension. With several inputs, or with `--per-image`, a directory.
 - `--overwrite`: replace an existing output file or OME-Zarr store.
 - `--compression MODE`: images `none`, `deflate` (default) or `lzw`; Parquet `none`, `snappy` (default) or `lz4`; Arrow `none` (default) or `lz4`.
 - `--json`: print the export report as JSON.
@@ -93,6 +93,8 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 - **JCAMP-DX** is version 5.01 or 6.00. Values round-trip exactly when they are integer multiples of one factor; the report says whether they did.
 - **ASM** is Allotrope Simple Model plate-reader JSON, one document per plate and well.
 - **RDML** is RDML 1.3 with the plate setup, Cq values, amplification curves and melt data.
+
+With `-o` and no `--format`, the output's extension picks the format: `.ome.tiff`, `.ome.tif`, `.tiff` and `.tif` give OME-TIFF, `.ome.zarr` and `.zarr` OME-Zarr, `.mzML` mzML, `.csv` CSV, `.parquet` Parquet, `.arrow` and `.feather` Arrow, `.nwb` NWB, `.jdx` and `.dx` JCAMP-DX, `.json` ASM and `.rdml` RDML. `export x.lif -o x.ome.zarr` writes OME-Zarr. An extension that names no format, or one that contradicts `--format` (`-o x.ome.zarr --format ome-tiff`), exits 2 and writes nothing. With `--format`, an output name without one of these extensions is fine.
 
 A combination that does not fit, such as an image file `--format csv`, exits 6.
 

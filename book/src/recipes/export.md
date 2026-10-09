@@ -84,7 +84,7 @@ It exits 0 when the files are identical and 1 when they differ. The comparison c
 openreadout export -r --skip-unknown raw/ -o ome/      # keeps the folder layout
 ```
 
-An assistant calls the MCP tool `openreadout_export` with `file` and `format`. It writes and verifies the same way, and replaces an existing output only with `overwrite: true`. CSV export is available only on the command line.
+An assistant calls the MCP tool `openreadout_export` with `file` and `format` or `output`. It writes and verifies the same way, and replaces an existing output only with `overwrite: true`.
 
 ## More
 
