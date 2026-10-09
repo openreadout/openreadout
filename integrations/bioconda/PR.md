@@ -4,12 +4,12 @@ To submit, fork bioconda/bioconda-recipes, copy `meta.yaml` and `build.sh` from 
 `recipes/openreadout/`, and open a pull request with the title and body below.
 
 After the merge, the bioconda autobump bot opens update pull requests upstream for new releases.
-`scripts/bump-version.sh` keeps the version here in step, but it doesn't update the `sha256`, so
-this copy only needs to be correct for the first submission.
+`scripts/bump-version.sh` keeps the version here in step, and `scripts/recipe-sha256.sh` sets the
+`sha256` once the release is published. Only the first submission uses this copy.
 
 ## Title
 
-Add openreadout 0.1.0
+Add openreadout 0.2.0
 
 ## Body
 
@@ -19,7 +19,7 @@ chromatography systems, plate readers, qPCR machines, electrophysiology rigs and
 spectrometers) without vendor software. It prints their metadata as JSON, exports them to open
 formats (OME-TIFF, OME-Zarr, mzML, Parquet) and checks them for damage.
 
-- Built from the v0.1.0 GitHub release tarball with conda's Rust compiler. The repository's
+- Built from the v0.2.0 GitHub release tarball with conda's Rust compiler. The repository's
   `rust-toolchain.toml` is removed in `build.sh` so cargo doesn't ask for rustup. The crates need
   Rust 1.91 or newer.
 - License is `MIT OR Apache-2.0`. Both license texts, `NOTICE` and the licenses of the bundled
@@ -36,10 +36,12 @@ I maintain the upstream project.
 ## Local verification (2026-10-06, macOS 26 on Apple silicon)
 
 These steps aren't part of the pull request. They record what was checked before submitting.
+They ran on 0.1.0. For 0.2.0 (2026-10-08) the `sha256` was recomputed from
+`https://github.com/openreadout/openreadout/archive/refs/tags/v0.2.0.tar.gz` and the lint was
+run again. The build wasn't repeated.
 
-- The `sha256` is that of
-  `https://github.com/openreadout/openreadout/archive/refs/tags/v0.1.0.tar.gz`, downloaded twice
-  (once by hand, once by conda-build, which checks it).
+- The `sha256` matched the 0.1.0 archive, downloaded twice (once by hand, once by conda-build,
+  which checks it).
 - `bioconda-utils lint recipes config.yml --packages openreadout` with bioconda-utils 5.0.0 passes
   ("All checks OK"). bioconda-utils has no osx-arm64 build, so it ran from an osx-64 environment
   under Rosetta (`CONDA_SUBDIR=osx-64`), in a copy of the bioconda-recipes layout with its

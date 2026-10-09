@@ -6,9 +6,9 @@
 # FROM scratch: the binary only.) Use the biocontainers image instead once the bioconda recipe
 # (integrations/bioconda) is merged.
 #
-#   docker build -t openreadout-pipeline:0.1.0 --build-arg VERSION=0.1.0 integrations/containers
-#   nextflow run ... -with-docker openreadout-pipeline:0.1.0
-#   (or process.container = 'openreadout-pipeline:0.1.0' in nextflow.config)
+#   docker build -t openreadout-pipeline:0.2.0 --build-arg VERSION=0.2.0 integrations/containers
+#   nextflow run ... -with-docker openreadout-pipeline:0.2.0
+#   (or process.container = 'openreadout-pipeline:0.2.0' in nextflow.config)
 
 ARG VERSION=latest
 FROM ghcr.io/openreadout/openreadout:${VERSION} AS bin

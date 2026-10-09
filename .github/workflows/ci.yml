@@ -402,6 +402,7 @@ jobs:
       - name: Scripts parse
         run: |
           bash -n scripts/bump-version.sh
+          bash -n scripts/recipe-sha256.sh
           bash -n scripts/macos-sign.sh
           bash -n packaging/npm/scripts/smoke-test.sh
           sh -n scripts/install.sh
