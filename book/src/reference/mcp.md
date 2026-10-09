@@ -123,8 +123,8 @@ Each `analyze` subcommand is a tool whose arguments are its flags. An argument t
 
 Writes a new file, reads it back to check it, then gives it its final name. It doesn't modify the source. An existing output is replaced only with `overwrite: true`.
 
-- `format`: `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `asm`, `rdml`, `parquet`, `arrow`, `nwb` or `jcamp`. The default is `mzml` for mass spectra, `csv` for tables and traces, and `ome-tiff` for images, as on the command line.
-- `output`: the output path. The default is next to the input.
+- `format`: `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `asm`, `rdml`, `parquet`, `arrow`, `nwb` or `jcamp`. Without it, the extension of `output` sets the format, as on the command line. With neither, the default is `mzml` for mass spectra, `csv` for tables and traces, and `ome-tiff` for images.
+- `output`: the output path. The default is next to the input. An extension that names no format, or one that contradicts `format`, is a usage error (exit code 2).
 - Images: `image`, `select`, `level`, `region` and `wells` (OME-Zarr plates).
 - Tables, traces and spectra: `table`, `trace`, `sweep`, `rows`, `labels` (CSV), `spectra`, `run` and `centroid`.
 
