@@ -1,6 +1,8 @@
 //! Region and pyramid-level reads against third-party ground truth
 //! (`corpus/oracle/regions/<id>.json`, written by `oracle/gen_regions.py` with czifile,
-//! tifffile + zarr, h5py, zarr-python, liffile and Bio-Formats as a black box).
+//! tifffile + zarr, h5py, zarr-python, liffile and Bio-Formats as a black box), and 16 sampled
+//! 2048 × 2048 rectangles of each slide level 0 over the plane limit
+//! (`corpus/oracle/regions-sampled/<id>.json`, `oracle/gen_regions_sampled.py`).
 //!
 //! For every recorded rectangle, `Dataset::read_region` must return the oracle's pixels:
 //! bit-exact (xxh3) for lossless data; for lossy codecs (JPEG tiles decode slightly differently in
@@ -163,7 +165,6 @@ fn grid(p: &Plane) -> Vec<Vec<f64>> {
 
 #[test]
 fn regions_match_oracles() {
-    let dir = root().join("corpus/oracle/regions");
     let only = std::env::var("CORPUS_ONLY").ok();
     let reg = registry();
     let mut files = 0usize;
@@ -171,10 +172,16 @@ fn regions_match_oracles() {
     let (mut alt_exact, mut disputed) = (0usize, Vec::new());
     let mut worst = 0f64;
     let mut problems = Vec::new();
-    let mut entries: Vec<PathBuf> = std::fs::read_dir(&dir)
-        .map(|rd| rd.filter_map(|e| e.ok().map(|e| e.path())).collect())
-        .unwrap_or_default();
-    entries.sort();
+    // The standard rectangles, then 16 sampled rectangles of the slide levels too large to read
+    // as one plane (`oracle/gen_regions_sampled.py`).
+    let mut entries: Vec<PathBuf> = Vec::new();
+    for dir in ["corpus/oracle/regions", "corpus/oracle/regions-sampled"] {
+        let mut more: Vec<PathBuf> = std::fs::read_dir(root().join(dir))
+            .map(|rd| rd.filter_map(|e| e.ok().map(|e| e.path())).collect())
+            .unwrap_or_default();
+        more.sort();
+        entries.extend(more);
+    }
     for p in entries
         .iter()
         .filter(|p| p.extension().is_some_and(|e| e == "json"))
