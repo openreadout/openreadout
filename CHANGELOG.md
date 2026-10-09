@@ -12,6 +12,7 @@ All notable changes to this project are documented here. The format is based on 
 - The viewer's channel chips for traces with many channels (a 96-well qPCR run) took over the page. Long names are cut and the chips scroll.
 - `openreadout_preview` with `channels` on an image file now has a hint pointing to `select`.
 - The README said 96 formats while the binary reads 97. It now points to the format list, whose count comes from the binary.
+- The bioconda recipe has the checksum of the 0.2.0 source archive, and the conda-forge recipes build 0.2.0.
 
 ## [0.2.0] - 2026-10-07
 

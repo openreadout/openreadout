@@ -5,7 +5,7 @@ staged-recipes asks new recipes to use (the v0 `meta.yaml` format is deprecated 
 
 | Directory here | Conda package | Built from |
 | --- | --- | --- |
-| `python-openreadout/` | `python-openreadout` | PyPI sdist `openreadout-0.1.0.tar.gz`, maturin, abi3 |
+| `python-openreadout/` | `python-openreadout` | PyPI sdist `openreadout-0.2.0.tar.gz`, maturin, abi3 |
 | `bioio-openreadout/` | `bioio-openreadout` | PyPI sdist, `noarch: python` |
 | `napari-openreadout/` | `napari-openreadout` | PyPI sdist, `noarch: python` |
 
@@ -60,6 +60,9 @@ Checklist
 ## Local verification (2026-10-06, macOS 26 on Apple silicon)
 
 These steps aren't part of the pull request. They record what was checked before submitting.
+They ran on 0.1.0. For 0.2.0 (2026-10-08) the `sha256` values were set from the downloaded 0.2.0
+sdists, which match what PyPI publishes, and `conda-smithy recipe-lint --conda-forge` passed
+again. The builds weren't repeated.
 
 - The `sha256` values are those PyPI publishes for the three sdists, and match the downloaded
   files.

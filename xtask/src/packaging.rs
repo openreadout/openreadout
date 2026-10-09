@@ -485,6 +485,31 @@ fn pinned_versions(c: &mut Checker, r: &Path) -> Result<()> {
             &['"'][..],
         ),
         (
+            "integrations/conda-forge/python-openreadout/recipe.yaml",
+            "\n  version: \"",
+            &['"'][..],
+        ),
+        (
+            "integrations/conda-forge/bioio-openreadout/recipe.yaml",
+            "\n  version: \"",
+            &['"'][..],
+        ),
+        (
+            "integrations/conda-forge/bioio-openreadout/recipe.yaml",
+            "python-openreadout >=",
+            &[','][..],
+        ),
+        (
+            "integrations/conda-forge/napari-openreadout/recipe.yaml",
+            "\n  version: \"",
+            &['"'][..],
+        ),
+        (
+            "integrations/conda-forge/napari-openreadout/recipe.yaml",
+            "python-openreadout >=",
+            &[','][..],
+        ),
+        (
             "integrations/nextflow/modules/openreadout/info/environment.yml",
             "openreadout=",
             &[][..],

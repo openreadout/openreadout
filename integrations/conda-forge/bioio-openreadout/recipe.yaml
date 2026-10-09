@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: bioio-openreadout
-  version: "0.1.0"
+  version: "0.2.0"
 
 package:
   name: ${{ name }}
@@ -10,7 +10,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/bioio_openreadout-${{ version }}.tar.gz
-  sha256: 7e1410132537b937c7d90a48bcd93fdfcada19f847735d26399c14498f55aaec
+  sha256: 7611801b53750e5867b882721aeca971334c28d19779e36e86af3e88f74164f2
 
 build:
   number: 0
@@ -25,7 +25,7 @@ requirements:
   run:
     - python >=${{ python_min }}
     - bioio-base >=3.4,<4
-    - python-openreadout >=0.1.0,<0.2
+    - python-openreadout >=0.2.0,<0.3
     - dask-core >=2022.2
     - fsspec >=2022.8.0
     - numpy >=1.22
