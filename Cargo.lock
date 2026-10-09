@@ -2547,6 +2547,7 @@ dependencies = [
  "openreadout-core",
  "openreadout-ometiff",
  "openreadout-zarr",
+ "rayon",
  "schemars",
  "serde",
  "serde_json",

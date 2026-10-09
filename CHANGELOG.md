@@ -15,6 +15,7 @@ All notable changes to this project are documented here. The format is based on 
 - `openreadout_preview` with `channels` on an image file now has a hint pointing to `select`.
 - The README said 96 formats while the binary reads 97. It now points to the format list, whose count comes from the binary.
 - The bioconda recipe has the checksum of the 0.2.0 source archive, and the conda-forge recipes build 0.2.0.
+- OME-Zarr export of RGB images is several times faster and needs much less memory, which matters most for whole slides. Splitting the colour samples into channels and finding each channel's value range ran on one thread, and the copies grew their buffers as they went. The output is the same byte for byte.
 
 ## [0.2.0] - 2026-10-07
 

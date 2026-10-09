@@ -109,6 +109,17 @@ imaging deep pass; test
 | --- | --- | --- |
 | `planes` (level 0) | 3.8 GB | 2.2 GB |
 
+`openslide-mirax2-2-4-bmp` (a MIRAX slide, level 0 100,736 x 218,264 RGB, 61 GiB as one plane;
+`export --format ome-zarr`, 8 threads, 2026-10-09). The writer splits each block's RGB samples
+into three channels and finds each channel's value range. Both ran on one thread, and the split
+grew its three buffers from empty. They now fill buffers of the right size on the thread pool,
+and the store is byte-identical to before:
+
+| command | before | after |
+| --- | --- | --- |
+| `export --format ome-zarr` (2.1 GB, 337,492 files) | 2.9 GiB, 538 s | 1.0 GiB, 110 s |
+| `export --format ome-tiff`, for comparison | 1.1 GiB, 65 s | |
+
 ## Known limits
 
 - A CZI mosaic plane is materialized whole (stitched). Whole-slide scans whose level-0 plane

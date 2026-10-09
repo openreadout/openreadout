@@ -2,6 +2,7 @@
 //! (de)interleaving and value ranges.
 
 use openreadout_core::PixelType;
+use rayon::prelude::*;
 
 use crate::ngff::ChannelRange;
 
@@ -105,46 +106,81 @@ pub fn downsample_2x(data: &[u8], w: u32, h: u32, pt: PixelType) -> Vec<u8> {
     for_type!(pt, go, Vec::new())
 }
 
+/// Pixels per task when a block is shuffled or scanned on the thread pool.
+const PIXELS_PER_TASK: usize = 1 << 16;
+
 /// Split interleaved samples (`spp` per pixel) into `spp` single-sample planes.
 pub fn deinterleave(data: &[u8], spp: usize, bytes_per_sample: usize) -> Vec<Vec<u8>> {
     if spp <= 1 {
         return vec![data.to_vec()];
     }
-    let px = spp * bytes_per_sample;
+    let bps = bytes_per_sample.max(1);
+    let px = spp * bps;
     let n = data.len() / px;
-    let mut out = vec![Vec::with_capacity(n * bytes_per_sample); spp];
-    for pixel in data.chunks_exact(px) {
-        for (s, o) in out.iter_mut().enumerate() {
-            o.extend_from_slice(&pixel[s * bytes_per_sample..(s + 1) * bytes_per_sample]);
-        }
-    }
-    out
+    let src = &data[..n * px];
+    (0..spp)
+        .map(|s| {
+            let mut plane = vec![0u8; n * bps];
+            plane
+                .par_chunks_mut(PIXELS_PER_TASK * bps)
+                .zip(src.par_chunks(PIXELS_PER_TASK * px))
+                .for_each(|(out, pixels)| {
+                    if bps == 1 {
+                        for (o, p) in out.iter_mut().zip(pixels.chunks_exact(px)) {
+                            *o = p[s];
+                        }
+                    } else {
+                        for (o, p) in out.chunks_exact_mut(bps).zip(pixels.chunks_exact(px)) {
+                            o.copy_from_slice(&p[s * bps..(s + 1) * bps]);
+                        }
+                    }
+                });
+            plane
+        })
+        .collect()
 }
 
-/// Inverse of [`deinterleave`]. Planes must have equal length.
+/// Inverse of [`deinterleave`]. Planes must have equal length (only the samples all of them
+/// hold are interleaved).
 pub fn interleave(planes: &[Vec<u8>], bytes_per_sample: usize) -> Vec<u8> {
     if planes.len() == 1 {
         return planes[0].clone();
     }
-    let n = planes
-        .first()
-        .map_or(0, |p| p.len() / bytes_per_sample.max(1));
-    let mut out = Vec::with_capacity(n * bytes_per_sample * planes.len());
-    for i in 0..n {
-        for p in planes {
-            out.extend_from_slice(&p[i * bytes_per_sample..(i + 1) * bytes_per_sample]);
-        }
-    }
+    let bps = bytes_per_sample.max(1);
+    let spp = planes.len();
+    let px = spp * bps;
+    let n = planes.iter().map(|p| p.len() / bps).min().unwrap_or(0);
+    let mut out = vec![0u8; n * px];
+    out.par_chunks_mut(PIXELS_PER_TASK * px)
+        .enumerate()
+        .for_each(|(k, chunk)| {
+            let first = k * PIXELS_PER_TASK;
+            for (s, p) in planes.iter().enumerate() {
+                let samples = &p[first * bps..(first + chunk.len() / px) * bps];
+                if bps == 1 {
+                    for (o, v) in chunk.chunks_exact_mut(px).zip(samples) {
+                        o[s] = *v;
+                    }
+                } else {
+                    for (o, v) in chunk.chunks_exact_mut(px).zip(samples.chunks_exact(bps)) {
+                        o[s * bps..(s + 1) * bps].copy_from_slice(v);
+                    }
+                }
+            }
+        });
     out
 }
 
-/// Min and max sample value of a single-sample plane (NaNs ignored).
+/// Min and max sample value of a single-sample plane (NaNs ignored). Equal to a scan from the
+/// first sample to the last that keeps the first of equal values (`-0.0` and `0.0` compare
+/// equal), whatever the thread count: the parts are scanned on the thread pool and merged in
+/// order by the same rule.
 pub fn range(data: &[u8], pt: PixelType) -> ChannelRange {
-    macro_rules! go {
-        ($t:ty, $n:expr) => {{
+    fn scan<T: FromMean, const N: usize>(data: &[u8], from: fn([u8; N]) -> T) -> ChannelRange {
+        let part = |chunk: &[u8]| {
             let mut r = ChannelRange::EMPTY;
-            for c in data.as_chunks::<$n>().0 {
-                let v = <$t>::from_le_bytes(*c).to_f64();
+            for c in chunk.as_chunks::<N>().0 {
+                let v = from(*c).to_f64();
                 if v < r.min {
                     r.min = v;
                 }
@@ -153,9 +189,50 @@ pub fn range(data: &[u8], pt: PixelType) -> ChannelRange {
                 }
             }
             r
-        }};
+        };
+        data.par_chunks(PIXELS_PER_TASK * N).map(part).reduce(
+            || ChannelRange::EMPTY,
+            |a, b| ChannelRange {
+                min: if b.min < a.min { b.min } else { a.min },
+                max: if b.max > a.max { b.max } else { a.max },
+            },
+        )
     }
-    for_type!(pt, go, ChannelRange::EMPTY)
+    // Integers have no signed zero or NaN, so their parts can be scanned with integer
+    // comparisons and converted once.
+    fn scan_int<T: FromMean + Ord + Send, const N: usize>(
+        data: &[u8],
+        from: fn([u8; N]) -> T,
+    ) -> ChannelRange {
+        data.par_chunks(PIXELS_PER_TASK * N)
+            .filter_map(|chunk| {
+                let mut it = chunk.as_chunks::<N>().0.iter().map(|c| from(*c));
+                let first = it.next()?;
+                Some(it.fold((first, first), |(lo, hi), v| (lo.min(v), hi.max(v))))
+            })
+            .map(|(lo, hi)| ChannelRange {
+                min: lo.to_f64(),
+                max: hi.to_f64(),
+            })
+            .reduce(
+                || ChannelRange::EMPTY,
+                |a, b| ChannelRange {
+                    min: a.min.min(b.min),
+                    max: a.max.max(b.max),
+                },
+            )
+    }
+    match pt {
+        PixelType::Int8 => scan_int(data, i8::from_le_bytes),
+        PixelType::Int16 => scan_int(data, i16::from_le_bytes),
+        PixelType::Int32 => scan_int(data, i32::from_le_bytes),
+        PixelType::Uint8 => scan_int(data, u8::from_le_bytes),
+        PixelType::Uint16 => scan_int(data, u16::from_le_bytes),
+        PixelType::Uint32 => scan_int(data, u32::from_le_bytes),
+        PixelType::Float => scan(data, f32::from_le_bytes),
+        PixelType::Double => scan(data, f64::from_le_bytes),
+        _ => ChannelRange::EMPTY,
+    }
 }
 
 /// Merge two ranges.
@@ -224,6 +301,36 @@ mod tests {
         let p = deinterleave(&rgb16, 3, 2);
         assert_eq!(p[1], u16s(&[2, 5]));
         assert_eq!(interleave(&p, 2), rgb16);
+    }
+
+    #[test]
+    fn shuffles_and_ranges_span_tasks() {
+        // More pixels than one task holds, so the work is split and merged.
+        let n = PIXELS_PER_TASK * 2 + 7;
+        let rgb: Vec<u8> = (0..n * 3).map(|i| (i * 7 % 251) as u8).collect();
+        let planes = deinterleave(&rgb, 3, 1);
+        assert_eq!(planes[1][n - 1], rgb[(n - 1) * 3 + 1]);
+        assert_eq!(interleave(&planes, 1), rgb);
+        let wide: Vec<u8> = (0..n * 4 * 2).map(|i| (i % 253) as u8).collect();
+        let p = deinterleave(&wide, 4, 2);
+        assert_eq!(&p[3][..2], &wide[6..8]);
+        assert_eq!(interleave(&p, 2), wide);
+        let r = range(&planes[0], PixelType::Uint8);
+        let lo = planes[0].iter().min().copied().unwrap_or(0);
+        let hi = planes[0].iter().max().copied().unwrap_or(0);
+        assert_eq!((r.min, r.max), (f64::from(lo), f64::from(hi)));
+        // The first of equal values is kept, as a scan in order keeps it.
+        let mut z = vec![0.0f32; n];
+        z[n - 1] = -0.0;
+        let zb: Vec<u8> = z.iter().flat_map(|x| x.to_le_bytes()).collect();
+        let r = range(&zb, PixelType::Float);
+        assert!(r.min.is_sign_positive() && r.max.is_sign_positive());
+        let mut z = vec![-0.0f32; n];
+        z[n - 1] = 0.0;
+        z[3] = f32::NAN;
+        let zb: Vec<u8> = z.iter().flat_map(|x| x.to_le_bytes()).collect();
+        let r = range(&zb, PixelType::Float);
+        assert!(r.min.is_sign_negative() && r.max.is_sign_negative());
     }
 
     #[test]
