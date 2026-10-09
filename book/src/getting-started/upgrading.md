@@ -1,6 +1,6 @@
 # Upgrading from 0.1
 
-OpenReadout 0.2 renames several commands, MCP tools and flags so that the command line and the MCP server use the same names, and so that each command does one thing. The JSON output is `schema_version` 2. There are no aliases for the old names: a script or prompt written for 0.1 needs the changes below. The full rationale is in the [surface note](https://github.com/openreadout/openreadout/blob/main/docs/surface-2026-10.md).
+OpenReadout 0.2 renames several commands, MCP tools and flags so that the command line and the MCP server use the same names, and so that each command does one thing. The JSON output is `schema_version` 2. The old names have no aliases, so a script or prompt written for 0.1 needs the changes below.
 
 ## Commands
 
@@ -68,7 +68,7 @@ The envelope's `schema_version` is `"2"`. Besides the renames above, two default
 
 ## Plugins and integrations
 
-The Claude Code plugin now installs from its own repository, openreadout/agent-plugins. Add that marketplace and install the plugin from it:
+The Claude Code plugin now comes from its own repository, openreadout/agent-plugins. Add that marketplace and install the plugin from it:
 
 ```text
 /plugin marketplace add openreadout/agent-plugins
