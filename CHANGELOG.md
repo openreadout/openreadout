@@ -6,6 +6,7 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- `stats` on large CZI mosaics is fast again. Reading the plane in strips had made it decode the tiles that cross a strip edge twice. Now each tile is decoded once, and `stats` also accumulates the colour components of a strip in parallel.
 - BMG SMART Control workbooks of kinetic runs: each cycle is now its own time point. `check` used to report the whole run as one time point with many values per well.
 - `export -o x.ome.zarr` without `--format` wrote an OME-TIFF under the `.zarr` name. The output's extension now picks the format, on the command line and in `openreadout_export`, and an extension that names no format or contradicts `--format` exits 2.
 - The viewer's composite showed every channel when `select` gave a range such as `c=0-2`. It now reads `select` with the same parser as `--select`.

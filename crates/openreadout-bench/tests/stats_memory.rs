@@ -7,6 +7,9 @@
 //! 1. the peak heap stays far below the plane (at most 96 MiB on 1 and 4 threads), and
 //! 2. the result equals the statistics of the same plane read whole.
 //!
+//! It does so twice: once with strips read as separate regions (TIFF-family slides), and once
+//! with a reader that reads the strips itself (`Dataset::read_strips`, as CZI mosaics do).
+//!
 //! The heap high-water mark comes from a counting global allocator ([`peak_alloc`]), as in
 //! `memory_ceiling.rs`.
 
@@ -31,8 +34,11 @@ fn sample(x: u32, y: u32) -> u8 {
     (x.wrapping_mul(7) ^ y.wrapping_mul(13)).wrapping_add(x / 97) as u8
 }
 
+/// `stitched`: the reader reads the strips of a plane itself (`Dataset::reads_strips`).
 #[derive(Clone)]
-struct TiledSlide;
+struct TiledSlide {
+    stitched: bool,
+}
 
 impl Dataset for TiledSlide {
     fn info(&self) -> Result<FileInfo> {
@@ -94,6 +100,9 @@ impl Dataset for TiledSlide {
             data,
         })
     }
+    fn reads_strips(&self, _image: u32, _level: u32) -> bool {
+        self.stitched
+    }
     fn check(&mut self) -> Result<CheckReport> {
         Ok(CheckReport::new("synthetic", "synthetic"))
     }
@@ -107,18 +116,18 @@ fn mib(b: usize) -> f64 {
 #[test]
 fn stats_memory_is_bounded_by_strips_not_plane() {
     let plane = SIDE as usize * SIDE as usize;
-    let mut ds = TiledSlide;
-    let info = ds.info().unwrap();
+    let info = TiledSlide { stitched: false }.info().unwrap();
     let mut req = StatsRequest::default();
     req.bins = 16;
     let mut peaks = Vec::new();
     let mut results = Vec::new();
-    for threads in [1usize, 4] {
+    for (stitched, threads) in [(false, 1usize), (false, 4), (true, 1), (true, 4)] {
+        let mut ds = TiledSlide { stitched };
         let pool = rayon::ThreadPoolBuilder::new()
             .num_threads(threads)
             .build()
             .unwrap();
-        let opener = || -> Result<Box<dyn Dataset>> { Ok(Box::new(TiledSlide)) };
+        let opener = || -> Result<Box<dyn Dataset>> { Ok(Box::new(TiledSlide { stitched })) };
         let out = pool.install(|| {
             let ctx = ReadContext {
                 opener: Some(&opener),
@@ -131,20 +140,22 @@ fn stats_memory_is_bounded_by_strips_not_plane() {
             out
         });
         eprintln!(
-            "stats, {threads} thread(s): peak heap {:.1} MiB for a {:.0} MiB plane",
+            "stats, {threads} thread(s), stitched {stitched}: peak heap {:.1} MiB for a {:.0} MiB plane",
             mib(*peaks.last().unwrap()),
             mib(plane)
         );
         results.push(serde_json::to_string(&out.images[0].stats).unwrap());
     }
-    for (p, threads) in peaks.iter().zip([1, 4]) {
+    for (p, threads) in peaks.iter().zip([1, 4, 1, 4]) {
         assert!(
             *p <= 96 << 20,
             "stats peak heap {p} B on {threads} thread(s) exceeds 96 MiB (plane {plane} B)"
         );
     }
     // The same plane read whole gives the same statistics.
-    let whole = ds.read_plane(0, PlaneIndex::default()).unwrap();
+    let whole = TiledSlide { stitched: false }
+        .read_plane(0, PlaneIndex::default())
+        .unwrap();
     let expected =
         serde_json::to_string(&Accumulator::from_plane(&whole).finish(16, HistogramScale::Linear))
             .unwrap();

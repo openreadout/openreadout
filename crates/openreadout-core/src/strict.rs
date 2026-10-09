@@ -170,6 +170,20 @@ impl Dataset for StrictDataset {
         self.gate(Scope::Pixels)?;
         self.inner.read_region(image, index, level, region)
     }
+    fn reads_strips(&self, image: u32, level: u32) -> bool {
+        self.inner.reads_strips(image, level)
+    }
+    fn read_strips(
+        &mut self,
+        image: u32,
+        index: PlaneIndex,
+        level: u32,
+        strips: &[crate::region::Region],
+        sink: &mut dyn FnMut(Plane) -> Result<()>,
+    ) -> Result<()> {
+        self.gate(Scope::Pixels)?;
+        self.inner.read_strips(image, index, level, strips, sink)
+    }
     fn attachments(&self) -> Result<Vec<AttachmentInfo>> {
         self.inner.attachments()
     }

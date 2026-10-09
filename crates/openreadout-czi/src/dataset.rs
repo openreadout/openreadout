@@ -42,6 +42,9 @@ const TILE_BATCH_BYTES: u64 = 256 << 20;
 /// Decoded subblocks kept between region reads (neighbouring windows share subblocks).
 const REGION_TILE_CACHE_BYTES: usize = 64 << 20;
 
+/// Where a subblock's top-left corner falls in the pixels of its level.
+type Placer = Box<dyn Fn(&DirectoryEntry) -> (i64, i64) + Send + Sync>;
+
 /// Bounding box of subblocks, in the pixel coordinates of their level.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct Bounds {
@@ -745,6 +748,18 @@ impl CziDataset {
     ) -> Result<Plane> {
         let s = self.scene(image)?.clone();
         Self::check_plane_index(&s, image, idx)?;
+        let (entries, size, place) = self.level_layout(&s, image, level)?;
+        self.composite(&s, idx, entries, size, &*place, image, region)
+    }
+
+    /// The subblocks of level `level` of scene `s`, the level's size, and where each subblock's
+    /// top-left corner falls in the level's pixels.
+    fn level_layout(
+        &self,
+        s: &Scene,
+        image: u32,
+        level: u32,
+    ) -> Result<(Vec<DirectoryEntry>, (u32, u32), Placer)> {
         if level == 0 {
             let entries: Vec<DirectoryEntry> = s
                 .level0
@@ -759,17 +774,9 @@ impl CziDataset {
                     stored_start(e.dim('Y').map_or(0, |d| d.start), ratio) - my,
                 )
             };
-            return self.composite(
-                &s,
-                idx,
-                entries,
-                (s.bounds.width, s.bounds.height),
-                &place,
-                image,
-                region,
-            );
+            return Ok((entries, (s.bounds.width, s.bounds.height), Box::new(place)));
         }
-        let l = s.levels.get(level as usize - 1).cloned().ok_or_else(|| {
+        let l = s.levels.get(level as usize - 1).ok_or_else(|| {
             Error::Usage(format!(
                 "pyramid level {level} out of range for image {image} (0..{})",
                 s.pyramid_levels
@@ -782,50 +789,18 @@ impl CziDataset {
             .collect();
         let (fx, fy, x0, y0) = (l.scale_x, l.scale_y, l.bounds.min_x, l.bounds.min_y);
         let place = move |e: &DirectoryEntry| level_place(e, fx, fy, x0, y0);
-        self.composite(
-            &s,
-            idx,
-            entries,
-            (l.bounds.width, l.bounds.height),
-            &place,
-            image,
-            region,
-        )
+        Ok((entries, (l.bounds.width, l.bounds.height), Box::new(place)))
     }
 
-    /// The subblock's valid-pixel mask, when its attachment carries one that is not all-valid.
-    /// A malformed or unreadable mask is ignored (every pixel is then treated as valid).
-    fn valid_mask(&mut self, e: &DirectoryEntry, sb: &SubBlockHeader) -> Option<ValidMask> {
-        if sb.attachment_size < 32 || sb.attachment_size > MAX_SUBBLOCK_METADATA {
-            return None;
-        }
-        let off = e
-            .file_position
-            .saturating_add(SEGMENT_HEADER_LEN + sb.header_len)
-            .saturating_add(u64::from(sb.metadata_size))
-            .saturating_add(sb.data_size);
-        let att = self
-            .read_part(e.file_part, off, u64::from(sb.attachment_size))
-            .ok()?;
-        parse_valid_mask(&att).filter(|m| !m.all_valid())
-    }
-
-    /// Composite the wanted plane from `entries`, placing each at `place(entry)` (top-left
-    /// corner in plane pixels), or only the `region` of it (`None` = the whole `width` ×
-    /// `height` plane). A region read decodes only the subblocks it overlaps and keeps them in
-    /// the tile cache for the next read.
-    fn composite(
-        &mut self,
+    /// The subblocks of `entries` that hold plane `idx` of scene `s`, in the order they are
+    /// pasted, and the plane's (z, c, t) in directory coordinates. Empty for a channel absent at
+    /// this image's coordinates.
+    fn plane_entries(
         s: &Scene,
         idx: PlaneIndex,
         mut entries: Vec<DirectoryEntry>,
-        (width, height): (u32, u32),
-        place: &dyn Fn(&DirectoryEntry) -> (i64, i64),
         image: u32,
-        region: Option<Region>,
-    ) -> Result<Plane> {
-        let (pt, spp) = Self::pixel_type(s.pixel_type)?;
-        let bpp = spp as usize * pt.bytes_per_sample();
+    ) -> Result<(Vec<DirectoryEntry>, (i32, i32, i32))> {
         let want = |min: i32, i: u32| i32::try_from(i64::from(min) + i64::from(i)).ok();
         let (Some(want_z), Some(want_c), Some(want_t)) = (
             want(s.min_z, idx.z),
@@ -859,6 +834,185 @@ impl CziDataset {
                 ),
             ));
         }
+        Ok((entries, (want_z, want_c, want_t)))
+    }
+
+    /// How many subblocks of `entries` to decode at once: one per thread, and at most
+    /// `TILE_BATCH_BYTES` of decoded data (never fewer than one).
+    fn decode_batch(entries: &[DirectoryEntry], bpp: usize) -> usize {
+        let tile_bytes = entries
+            .iter()
+            .map(|e| {
+                let side = |d: char| e.dim(d).map_or(1, |x| u64::from(x.stored_size.max(1)));
+                ['X', 'Y', 'Z', 'C', 'T'].iter().fold(bpp as u64, |n, &d| {
+                    let count = if matches!(d, 'X' | 'Y') {
+                        side(d)
+                    } else {
+                        e.dim(d).map_or(1, |x| u64::from(x.size.max(1)))
+                    };
+                    n.saturating_mul(count)
+                })
+            })
+            .max()
+            .unwrap_or(1);
+        rayon::current_num_threads()
+            .min(usize::try_from(TILE_BATCH_BYTES / tile_bytes.max(1)).unwrap_or(usize::MAX))
+            .max(1)
+    }
+
+    /// Read the `strips` of plane `idx` (regions of level `level`, top to bottom) and hand
+    /// each to `sink` in order. Mosaic tiles overlap, so a tile often crosses the edge between
+    /// two strips. Each subblock is decoded once, when the first strip that overlaps it is
+    /// built, and kept until the last strip that overlaps it is done. The strips equal
+    /// [`Self::composite`] regions bit for bit: the same subblocks are pasted in the same
+    /// order.
+    fn stitch_strips(
+        &mut self,
+        image: u32,
+        idx: PlaneIndex,
+        level: u32,
+        strips: &[Region],
+        sink: &mut dyn FnMut(Plane) -> Result<()>,
+    ) -> Result<()> {
+        let s = self.scene(image)?.clone();
+        Self::check_plane_index(&s, image, idx)?;
+        let (entries, (width, height), place) = self.level_layout(&s, image, level)?;
+        let (pt, spp) = Self::pixel_type(s.pixel_type)?;
+        let bpp = spp as usize * pt.bytes_per_sample();
+        let (entries, want) = Self::plane_entries(&s, idx, entries, image)?;
+        for r in strips {
+            r.check_within(width, height, &format!("image {image}"))?;
+        }
+        let overlaps = |e: &DirectoryEntry, r: &Region| {
+            let (tx, ty) = place(e);
+            let sx = e.dim('X').map_or(0, |d| d.stored_size);
+            let sy = e.dim('Y').map_or(0, |d| d.stored_size);
+            r.overlap(tx, ty, u64::from(sx), u64::from(sy)).is_some()
+        };
+        // The first and last strip each subblock overlaps. It is decoded for the first and
+        // dropped after the last.
+        let first: Vec<Option<usize>> = entries
+            .iter()
+            .map(|e| strips.iter().position(|r| overlaps(e, r)))
+            .collect();
+        let last: Vec<Option<usize>> = entries
+            .iter()
+            .map(|e| strips.iter().rposition(|r| overlaps(e, r)))
+            .collect();
+        // Subblocks in the order they are first needed. Batches run ahead into the next strip's
+        // subblocks, so every thread has a subblock to decode.
+        let mut order: Vec<usize> = (0..entries.len()).filter(|&i| first[i].is_some()).collect();
+        order.sort_by_key(|&i| first[i]);
+        let batch = Self::decode_batch(&entries, bpp);
+        let mut decoded_up_to = 0;
+        let mut live: BTreeMap<usize, Decoded> = BTreeMap::new();
+        for (k, r) in strips.iter().enumerate() {
+            while order
+                .get(decoded_up_to)
+                .is_some_and(|&i| first[i].is_some_and(|f| f <= k))
+            {
+                let end = decoded_up_to.saturating_add(batch).min(order.len());
+                let chunk = &order[decoded_up_to..end];
+                decoded_up_to = end;
+                // Read in order, decoded on the `--threads` pool.
+                let fetched: Vec<Result<Fetched>> = chunk
+                    .iter()
+                    .map(|&i| {
+                        let e = &entries[i];
+                        if e.pixel_type != s.pixel_type {
+                            return Err(Error::unsupported(
+                                FORMAT_ID,
+                                "mixed pixel types within one scene",
+                                "Subblocks of one scene use different pixel types; not handled yet.",
+                            ));
+                        }
+                        self.fetch_entry(e)
+                    })
+                    .collect();
+                let decode = |(&i, f): (&usize, Result<Fetched>)| {
+                    f.and_then(|f| decode_fetched(&entries[i], f))
+                };
+                let decoded: Vec<Result<Decoded>> = if chunk.len() > 1 {
+                    chunk.par_iter().zip(fetched).map(decode).collect()
+                } else {
+                    chunk.iter().zip(fetched).map(decode).collect()
+                };
+                for (&i, d) in chunk.iter().zip(decoded) {
+                    live.insert(i, d?);
+                }
+            }
+            let here = (0..entries.len()).filter(|&i| overlaps(&entries[i], r));
+            let total =
+                openreadout_core::pixel::plane_bytes_checked(FORMAT_ID, r.width, r.height, bpp)?;
+            let mut strip = vec![0u8; total];
+            let (ox, oy) = (i64::from(r.x), i64::from(r.y));
+            let place_in = |e: &DirectoryEntry| {
+                let (x, y) = place(e);
+                (x - ox, y - oy)
+            };
+            for i in here {
+                let Some(d) = live.get(&i) else {
+                    return Err(Error::Other(format!(
+                        "czi: subblock {i} of strip {k} was not decoded"
+                    )));
+                };
+                Self::paste_decoded(
+                    &mut strip,
+                    &entries[i],
+                    d,
+                    want,
+                    bpp,
+                    r.width,
+                    r.height,
+                    &place_in,
+                )?;
+            }
+            live.retain(|&i, _| last[i].is_some_and(|l| l > k));
+            sink(Plane {
+                width: r.width,
+                height: r.height,
+                pixel_type: pt,
+                samples_per_pixel: spp,
+                data: strip,
+            })?;
+        }
+        Ok(())
+    }
+
+    /// The subblock's valid-pixel mask, when its attachment carries one that is not all-valid.
+    /// A malformed or unreadable mask is ignored (every pixel is then treated as valid).
+    fn valid_mask(&mut self, e: &DirectoryEntry, sb: &SubBlockHeader) -> Option<ValidMask> {
+        if sb.attachment_size < 32 || sb.attachment_size > MAX_SUBBLOCK_METADATA {
+            return None;
+        }
+        let off = e
+            .file_position
+            .saturating_add(SEGMENT_HEADER_LEN + sb.header_len)
+            .saturating_add(u64::from(sb.metadata_size))
+            .saturating_add(sb.data_size);
+        let att = self
+            .read_part(e.file_part, off, u64::from(sb.attachment_size))
+            .ok()?;
+        parse_valid_mask(&att).filter(|m| !m.all_valid())
+    }
+
+    /// Composite the wanted plane from `entries`, placing each at `place(entry)` (top-left
+    /// corner in plane pixels), or only the `region` of it (`None` = the whole `width` ×
+    /// `height` plane). A region read decodes only the subblocks it overlaps and keeps them in
+    /// the tile cache for the next read.
+    fn composite(
+        &mut self,
+        s: &Scene,
+        idx: PlaneIndex,
+        entries: Vec<DirectoryEntry>,
+        (width, height): (u32, u32),
+        place: &dyn Fn(&DirectoryEntry) -> (i64, i64),
+        image: u32,
+        region: Option<Region>,
+    ) -> Result<Plane> {
+        let (pt, spp) = Self::pixel_type(s.pixel_type)?;
+        let bpp = spp as usize * pt.bytes_per_sample();
+        let (mut entries, (want_z, want_c, want_t)) = Self::plane_entries(s, idx, entries, image)?;
         let window = match region {
             Some(r) => {
                 r.check_within(width, height, &format!("image {image}"))?;
@@ -901,26 +1055,8 @@ impl CziDataset {
         let mut plane = vec![0u8; total];
         // Tiles are read in order, decoded in batches on the `--threads` pool and pasted in
         // order, so the plane does not depend on the thread count; errors surface in the order
-        // a sequential walk would meet them. A batch holds at most one decoded tile per thread
-        // and at most `TILE_BATCH_BYTES` of them (never fewer than one tile).
-        let tile_bytes = entries
-            .iter()
-            .map(|e| {
-                let side = |d: char| e.dim(d).map_or(1, |x| u64::from(x.stored_size.max(1)));
-                ['X', 'Y', 'Z', 'C', 'T'].iter().fold(bpp as u64, |n, &d| {
-                    let count = if matches!(d, 'X' | 'Y') {
-                        side(d)
-                    } else {
-                        e.dim(d).map_or(1, |x| u64::from(x.size.max(1)))
-                    };
-                    n.saturating_mul(count)
-                })
-            })
-            .max()
-            .unwrap_or(1);
-        let batch = rayon::current_num_threads()
-            .min(usize::try_from(TILE_BATCH_BYTES / tile_bytes.max(1)).unwrap_or(usize::MAX))
-            .max(1);
+        // a sequential walk would meet them.
+        let batch = Self::decode_batch(&entries, bpp);
         for chunk in entries.chunks(batch) {
             // Cached subblocks (region reads) are reused; the rest are read in order.
             let fetched: Vec<Result<Got>> = chunk
@@ -1830,6 +1966,21 @@ impl Dataset for CziDataset {
         region: Region,
     ) -> Result<Plane> {
         self.read_level(image, idx, level, Some(region))
+    }
+
+    fn reads_strips(&self, _image: u32, _level: u32) -> bool {
+        true
+    }
+
+    fn read_strips(
+        &mut self,
+        image: u32,
+        idx: PlaneIndex,
+        level: u32,
+        strips: &[Region],
+        sink: &mut dyn FnMut(Plane) -> Result<()>,
+    ) -> Result<()> {
+        self.stitch_strips(image, idx, level, strips, sink)
     }
 
     fn attachments(&self) -> Result<Vec<AttachmentInfo>> {

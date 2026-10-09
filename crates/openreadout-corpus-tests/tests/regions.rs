@@ -167,7 +167,7 @@ fn regions_match_oracles() {
     let only = std::env::var("CORPUS_ONLY").ok();
     let reg = registry();
     let mut files = 0usize;
-    let (mut exact, mut within, mut cross) = (0usize, 0usize, 0usize);
+    let (mut exact, mut within, mut cross, mut strips_equal) = (0usize, 0usize, 0usize, 0usize);
     let (mut alt_exact, mut disputed) = (0usize, Vec::new());
     let mut worst = 0f64;
     let mut problems = Vec::new();
@@ -223,6 +223,31 @@ fn regions_match_oracles() {
             if (got.width, got.height) != (region.width, region.height) {
                 problems.push(format!("{what}: {}x{} returned", got.width, got.height));
                 continue;
+            }
+            // A reader that reads strips itself (`stats` on large CZI planes) returns the same
+            // pixels for the region cut into three strips.
+            if ds.reads_strips(r.image, r.level) && region.height >= 3 {
+                let third = region.height / 3;
+                let strips = [
+                    Region::new(region.x, region.y, region.width, third),
+                    Region::new(region.x, region.y + third, region.width, third),
+                    Region::new(
+                        region.x,
+                        region.y + 2 * third,
+                        region.width,
+                        region.height - 2 * third,
+                    ),
+                ];
+                let mut data = Vec::with_capacity(got.data.len());
+                let read = ds.read_strips(r.image, idx, r.level, &strips, &mut |p| {
+                    data.extend_from_slice(&p.data);
+                    Ok(())
+                });
+                match read {
+                    Ok(()) if data == got.data => strips_equal += 1,
+                    Ok(()) => problems.push(format!("{what}: read_strips differs from the region")),
+                    Err(e) => problems.push(format!("{what}: read_strips failed: {e}")),
+                }
             }
             let h = got.xxh3_hex();
             if h == r.xxh3 {
@@ -285,7 +310,7 @@ fn regions_match_oracles() {
         eprintln!("{}: {} regions ({})", o.id, o.regions.len(), o.reader);
     }
     eprintln!(
-        "regions: {files} files, {exact} bit-exact, {alt_exact} bit-exact with the second reader only, {within} within the lossy tolerance (worst cell {worst:.3}), {cross} equal to the crop of the whole level, {} disputed",
+        "regions: {files} files, {exact} bit-exact, {alt_exact} bit-exact with the second reader only, {within} within the lossy tolerance (worst cell {worst:.3}), {cross} equal to the crop of the whole level, {strips_equal} equal to the same region read in strips, {} disputed",
         disputed.len()
     );
     for d in &disputed {
