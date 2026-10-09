@@ -25,6 +25,7 @@ import xxhash
 VENDORS = {
     # exports allotropy rejects: this module's independent text readers (TEXT_DIALECTS)
     "bmg-table-": "BMG_CSV",
+    "zenodo21627132-clariostar-": "BMG_SMART_TABLE",
     "envision-text-": "ENVISION_CSV",
     "zenodo4449746-gen5-": "GEN5_XLSX",
     "gen5-": "AGILENT_GEN5",
@@ -753,7 +754,46 @@ def gen5_xlsx_summary(path: Path) -> dict:
     return {"groups": out, "header": header}
 
 
-TEXT_DIALECTS = {"GEN5_TEXT": gen5_text_summary, "GEN5_XLSX": gen5_xlsx_summary, "BMG_CSV": bmg_csv_summary, "ENVISION_CSV": envision_csv_summary}
+def bmg_smart_table_summary(path: Path) -> dict:
+    """Independent reader for BMG SMART Control workbooks of kinetic reads, read with openpyxl from
+    the `Table All Cycles` sheet, which the reader under test does not read (it reads the
+    per-cycle plate matrices of the `Microplate …` sheet). A `Well` line names the wells
+    (`A01` …) from column C on, then come `Content` and `Group` lines, then one line per cycle
+    and section: the section title in column A (` Raw Data (402-8/474-9)`, ` Temperature`, …),
+    the cycle's time in column B (`0 min `, `0 min 38 s`, `1 h 2 min`), the wells' values.
+    Lines titled `Raw Data (…)` are the measured values; non-numeric cells (`Inj.`) are not
+    values. The mode comes from the mode line (`Fluorescence (FI)`); `times_s` lists the times
+    of the raw lines that hold a value (the injection cycle holds none). Written for exports
+    allotropy 0.1.x cannot read."""
+    import openpyxl
+
+    wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
+    ws = wb["Table All Cycles"]
+    rows = [list(r) for r in ws.iter_rows(values_only=True)]
+    mode, wells, groups, times = None, None, {}, []
+    for r in rows:
+        a = r[0].strip() if r and isinstance(r[0], str) else ""
+        if mode is None and a and ":" not in a:
+            mode = mode_of(a)
+        if a == "Well":
+            wells = [parse_well(w) if isinstance(w, str) else None for w in r[2:]]
+            continue
+        if wells is None or not a.startswith("Raw Data") or len(r) < 2:
+            continue
+        parts = re.findall(r"(\d+(?:\.\d+)?)\s*(h|min|s)\b", str(r[1]))
+        t = sum(float(n) * {"h": 3600, "min": 60, "s": 1}[u] for n, u in parts)
+        for w, v in zip(wells, r[2:]):
+            if w is not None and isinstance(v, (int, float)) and not isinstance(v, bool):
+                groups.setdefault(mode or "fluorescence", []).append((*w, float(v)))
+                times.append(t)
+    out = {"groups": _groups(groups), "header": {}}
+    for g in out["groups"]:
+        g["times_s"] = sorted(set(times))
+    return out
+
+
+TEXT_DIALECTS = {"GEN5_TEXT": gen5_text_summary, "GEN5_XLSX": gen5_xlsx_summary, "BMG_CSV": bmg_csv_summary,
+                 "BMG_SMART_TABLE": bmg_smart_table_summary, "ENVISION_CSV": envision_csv_summary}
 
 
 def plate(p: Path) -> dict:
