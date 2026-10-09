@@ -117379,9 +117379,15 @@
       "id": "zenodo21627132-clariostar-cou3-050",
       "format": "plate",
       "source": "zenodo:21627132",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "tables[].extra.reads[].mode"
+      ],
       "assumed": [
         "tables[].extra.acquired_at"
       ],
@@ -117401,7 +117407,7 @@
         ],
         [
           "acquisition",
-          "endpoint read",
+          "kinetic read",
           [
             "tables"
           ]
@@ -117450,9 +117456,15 @@
       "id": "zenodo21627132-clariostar-cou3-200",
       "format": "plate",
       "source": "zenodo:21627132",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "tables[].extra.reads[].mode"
+      ],
       "assumed": [
         "tables[].extra.acquired_at"
       ],
@@ -117472,7 +117484,7 @@
         ],
         [
           "acquisition",
-          "endpoint read",
+          "kinetic read",
           [
             "tables"
           ]
