@@ -14,7 +14,9 @@
 //! and image aggregates and the histograms.
 
 use std::collections::{BTreeMap, HashMap, HashSet};
+use std::sync::mpsc;
 
+use rayon::prelude::*;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -1022,12 +1024,15 @@ fn request_bytes(im: &ImageInfo, r: &PlaneRequest) -> u64 {
         * im.pixel_type.bytes_per_sample() as u64
 }
 
-/// The full-width strips, top to bottom, that read `r` piece by piece, and the bytes of the
-/// largest. `None` means `r` is read whole: the plane is under [`STREAM_MIN_BYTES`], or the
-/// image is neither tiled nor a pyramid, so its reader may crop regions out of the whole
-/// plane and would decode it once per strip. Strip edges fall on the tile grid, so each tile
-/// is decoded once.
-fn strips_of(im: &ImageInfo, r: &PlaneRequest) -> Option<(Vec<Region>, u64)> {
+/// The full-width strips, top to bottom, that read `r` piece by piece, the bytes of the
+/// largest, and the bytes of one full-width row of tiles. `None` means `r` is read whole: the
+/// plane is under [`STREAM_MIN_BYTES`], or the image is neither tiled nor a pyramid, so its
+/// reader may crop regions out of the whole plane and would decode it once per strip. Strip
+/// edges fall on the tile grid, so each tile is decoded once. With `stitched` the reader reads
+/// the strips itself and decodes each tile once wherever the edges fall
+/// ([`Dataset::read_strips`]), so the strips are about [`STRIP_BYTES`] high whatever the tile
+/// height.
+fn strips_of(im: &ImageInfo, r: &PlaneRequest, stitched: bool) -> Option<(Vec<Region>, u64, u64)> {
     let bytes = request_bytes(im, r);
     if bytes < STREAM_MIN_BYTES {
         return None;
@@ -1047,8 +1052,10 @@ fn strips_of(im: &ImageInfo, r: &PlaneRequest) -> Option<(Vec<Region>, u64)> {
         return None;
     }
     let row = bytes / u64::from(area.height);
-    let tiles = (STRIP_BYTES / row.saturating_mul(u64::from(tile_h)).max(1)).max(1);
-    let rows = u32::try_from(u64::from(tile_h).saturating_mul(tiles)).unwrap_or(u32::MAX);
+    let tile_row = row.saturating_mul(u64::from(tile_h));
+    let align = if stitched { 1 } else { tile_h };
+    let tiles = (STRIP_BYTES / row.saturating_mul(u64::from(align)).max(1)).max(1);
+    let rows = u32::try_from(u64::from(align).saturating_mul(tiles)).unwrap_or(u32::MAX);
     let bottom = area.y.checked_add(area.height)?;
     let mut strips = Vec::new();
     let mut y = area.y;
@@ -1061,7 +1068,7 @@ fn strips_of(im: &ImageInfo, r: &PlaneRequest) -> Option<(Vec<Region>, u64)> {
         y = next;
     }
     let largest = strips.iter().map(|s| u64::from(s.height)).max()? * row;
-    Some((strips, largest))
+    Some((strips, largest, tile_row))
 }
 
 /// One read of [`compute_stats`]: a whole plane, or one strip of a plane read in strips.
@@ -1072,6 +1079,9 @@ struct Unit {
     read: PlaneRequest,
     /// For a strip, whether it is the plane's last.
     strip: Option<bool>,
+    /// The strips of a plane the reader reads itself ([`Dataset::read_strips`]), and about
+    /// how many bytes reading them holds at once.
+    stitch: Option<(Vec<Region>, u64)>,
 }
 
 /// What a worker hands back for a [`Unit`]: the accumulators of a whole plane (width,
@@ -1122,8 +1132,14 @@ impl StripFeeds {
             ));
         }
         self.height += p.height;
-        for f in &mut self.feeds {
-            f.feed(&p.data);
+        // Each component has its own feed, so feeding them on separate threads gives the same
+        // result as feeding them one after the other.
+        if self.feeds.len() > 1 {
+            self.feeds.par_iter_mut().for_each(|f| f.feed(&p.data));
+        } else {
+            for f in &mut self.feeds {
+                f.feed(&p.data);
+            }
         }
         Ok(())
     }
@@ -1141,6 +1157,107 @@ impl StripFeeds {
         }
         (all, accs)
     }
+}
+
+/// The statistics of one plane read strip by strip by its reader ([`Dataset::read_strips`]):
+/// width, height, sample type, samples per pixel, pooled and per-component accumulators. The
+/// reader runs on its own thread, at most one strip ahead, while this thread accumulates.
+fn stitched_plane(
+    ds: &mut dyn Dataset,
+    r: PlaneRequest,
+    strips: &[Region],
+    level: Option<(f64, &'static str)>,
+) -> Result<PlaneAccs> {
+    let feeds = std::thread::scope(|s| {
+        let (tx, rx) = mpsc::sync_channel::<Plane>(1);
+        let reader = s.spawn(move || {
+            ds.read_strips(r.image, r.index, r.level, strips, &mut |p| {
+                tx.send(p)
+                    .map_err(|_| Error::Other("stats stopped reading the plane".into()))
+            })
+        });
+        // Dropping `rx` when this returns stops the reader after an error here.
+        let fed = (move || -> Result<Option<StripFeeds>> {
+            let mut feeds: Option<StripFeeds> = None;
+            for p in rx {
+                feeds
+                    .get_or_insert_with(|| StripFeeds::new(&p, level))
+                    .feed(&p)?;
+            }
+            Ok(feeds)
+        })();
+        let read = reader
+            .join()
+            .unwrap_or_else(|e| std::panic::resume_unwind(e));
+        let feeds = fed?;
+        read?;
+        feeds.ok_or_else(|| Error::Other("stats: the reader returned no strips".into()))
+    })?;
+    let (w, h, pixel_type, spp) = (feeds.width, feeds.height, feeds.pixel_type, feeds.spp);
+    let (acc, comps) = feeds.finish();
+    Ok((w, h, pixel_type, spp, acc, comps))
+}
+
+/// The statistics [`stitched_plane`] returns.
+type PlaneAccs = (u32, u32, PixelType, u32, Accumulator, Vec<Accumulator>);
+
+/// The planes at the start of `units` that the reader reads strip by strip and that are read
+/// side by side: one per thread and as many as fit [`IN_FLIGHT_BYTES`], but only one without
+/// an opener for more handles.
+fn stitched_group<'u>(units: &'u [Unit], ctx: &ReadContext<'_>) -> &'u [Unit] {
+    let run = units
+        .iter()
+        .position(|u| u.stitch.is_none())
+        .unwrap_or(units.len());
+    let bytes = units[..run]
+        .iter()
+        .filter_map(|u| u.stitch.as_ref().map(|(_, b)| *b))
+        .max()
+        .unwrap_or(0);
+    let side = if ctx.opener.is_some() {
+        crate::parallel::window(bytes)
+    } else {
+        1
+    };
+    &units[..side.clamp(1, run.max(1))]
+}
+
+/// [`stitched_plane`] for each unit of `group`, side by side: the first on `ds`, the others
+/// on handles from `ctx.opener`. The results are in the order of `group`.
+fn stitched_planes(
+    ds: &mut dyn Dataset,
+    ctx: &ReadContext<'_>,
+    requests: &[PlaneRequest],
+    group: &[Unit],
+    level_of: &(dyn Fn(u32) -> Option<(f64, &'static str)> + Sync),
+) -> Result<Vec<Result<PlaneAccs>>> {
+    let job = |ds: &mut dyn Dataset, u: &Unit| -> Result<PlaneAccs> {
+        let r = requests[u.request];
+        let strips = u.stitch.as_ref().map_or(&[][..], |(s, _)| s.as_slice());
+        stitched_plane(ds, r, strips, level_of(r.image))
+    };
+    let Some((first, rest)) = group.split_first() else {
+        return Ok(Vec::new());
+    };
+    let opener = match ctx.opener {
+        Some(o) if !rest.is_empty() => o,
+        _ => return Ok(group.iter().map(|u| job(&mut *ds, u)).collect()),
+    };
+    let mut handles = rest.iter().map(|_| opener()).collect::<Result<Vec<_>>>()?;
+    Ok(std::thread::scope(|s| {
+        let others: Vec<_> = rest
+            .iter()
+            .zip(handles.iter_mut())
+            .map(|(u, h)| s.spawn(move || job(h.as_mut(), u)))
+            .collect();
+        let mut out = vec![job(ds, first)];
+        out.extend(
+            others
+                .into_iter()
+                .map(|t| t.join().unwrap_or_else(|e| std::panic::resume_unwind(e))),
+        );
+        out
+    }))
 }
 
 /// Per image and channel: planes, pooled samples, samples per pixel, per-component samples.
@@ -1430,7 +1547,24 @@ pub fn compute_stats(
         let mut unit_bytes = 0u64;
         for (i, r) in requests.iter().enumerate() {
             let im = info.images.iter().find(|im| im.index == r.image);
-            if let Some((strips, bytes)) = im.and_then(|im| strips_of(im, r)) {
+            // A reader whose tiles cross strip edges reads the strips itself and decodes each
+            // tile once.
+            let stitched = ds.reads_strips(r.image, r.level);
+            if let Some((strips, bytes, tile_row)) = im.and_then(|im| strips_of(im, r, stitched)) {
+                if stitched {
+                    // The reader holds the decoded tiles a strip overlaps, about two rows of
+                    // tiles, besides the strips on their way.
+                    let held = tile_row
+                        .saturating_mul(2)
+                        .saturating_add(bytes.saturating_mul(STRIPS_IN_FLIGHT));
+                    units.push(Unit {
+                        request: i,
+                        read: *r,
+                        strip: None,
+                        stitch: Some((strips, held)),
+                    });
+                    continue;
+                }
                 let n = strips.len();
                 units.extend(strips.into_iter().enumerate().map(|(k, region)| Unit {
                     request: i,
@@ -1439,6 +1573,7 @@ pub fn compute_stats(
                         ..*r
                     },
                     strip: Some(k + 1 == n),
+                    stitch: None,
                 }));
                 // Sized so that at most a few strips are decoded at once, and fewer when a
                 // strip is large (a level stored in tall tiles).
@@ -1452,63 +1587,87 @@ pub fn compute_stats(
                     request: i,
                     read: *r,
                     strip: None,
+                    stitch: None,
                 });
                 unit_bytes = unit_bytes.max(im.map_or(plane_bytes, |im| request_bytes(im, r)));
             }
         }
-        let reads: Vec<PlaneRequest> = units.iter().map(|u| u.read).collect();
-        // Requests are distinct planes, so (image, index) tells a strip from a whole plane.
-        let streamed: HashSet<(u32, PlaneIndex)> = units
-            .iter()
-            .filter(|u| u.strip.is_some())
-            .map(|u| (u.read.image, u.read.index))
-            .collect();
-        let mut strips: Option<StripFeeds> = None;
-        read_in_order(
-            ds,
-            ctx,
-            &reads,
-            unit_bytes,
-            &|r, p| {
-                if streamed.contains(&(r.image, r.index)) {
-                    return Ok(Piece::Strip(p));
+        // Runs of units go through `read_in_order`. Planes their reader reads strip by strip
+        // are read side by side instead, each on its own handle.
+        let mut start = 0;
+        while start < units.len() {
+            if units[start].stitch.is_some() {
+                let group = stitched_group(&units[start..], ctx);
+                let results = stitched_planes(ds, ctx, &requests, group, &level_of)?;
+                for (u, res) in group.iter().zip(results) {
+                    let r = requests[u.request];
+                    let (w, h, pixel_type, spp, acc, comps) = res?;
+                    add(r, w, h, pixel_type, spp, acc, comps);
+                    ctx.report(u.request as u64 + 1, total);
                 }
-                let (acc, comps) = plane_accumulators(&p, level_of(r.image));
-                Ok(Piece::Whole(
-                    p.width,
-                    p.height,
-                    p.pixel_type,
-                    p.samples_per_pixel,
-                    acc,
-                    comps,
-                ))
-            },
-            &mut |k, piece| {
-                let unit = &units[k];
-                let r = requests[unit.request];
-                match piece {
-                    Piece::Whole(width, height, pixel_type, spp, acc, comps) => {
-                        add(r, width, height, pixel_type, spp, acc, comps);
+                start += group.len();
+                continue;
+            }
+            let end = units[start..]
+                .iter()
+                .position(|u| u.stitch.is_some())
+                .map_or(units.len(), |n| start + n);
+            let run = &units[start..end];
+            start = end;
+            let reads: Vec<PlaneRequest> = run.iter().map(|u| u.read).collect();
+            // Requests are distinct planes, so (image, index) tells a strip from a whole plane.
+            let streamed: HashSet<(u32, PlaneIndex)> = run
+                .iter()
+                .filter(|u| u.strip.is_some())
+                .map(|u| (u.read.image, u.read.index))
+                .collect();
+            let mut strips: Option<StripFeeds> = None;
+            read_in_order(
+                ds,
+                ctx,
+                &reads,
+                unit_bytes,
+                &|r, p| {
+                    if streamed.contains(&(r.image, r.index)) {
+                        return Ok(Piece::Strip(p));
                     }
-                    Piece::Strip(p) => {
-                        let feeds =
-                            strips.get_or_insert_with(|| StripFeeds::new(&p, level_of(r.image)));
-                        feeds.feed(&p)?;
-                        if unit.strip == Some(true) {
-                            let feeds = strips.take().unwrap_or_else(|| unreachable!());
-                            let (w, h, pixel_type, spp) =
-                                (feeds.width, feeds.height, feeds.pixel_type, feeds.spp);
-                            let (acc, comps) = feeds.finish();
-                            add(r, w, h, pixel_type, spp, acc, comps);
-                        } else {
-                            return Ok(());
+                    let (acc, comps) = plane_accumulators(&p, level_of(r.image));
+                    Ok(Piece::Whole(
+                        p.width,
+                        p.height,
+                        p.pixel_type,
+                        p.samples_per_pixel,
+                        acc,
+                        comps,
+                    ))
+                },
+                &mut |k, piece| {
+                    let unit = &run[k];
+                    let r = requests[unit.request];
+                    match piece {
+                        Piece::Whole(width, height, pixel_type, spp, acc, comps) => {
+                            add(r, width, height, pixel_type, spp, acc, comps);
+                        }
+                        Piece::Strip(p) => {
+                            let feeds = strips
+                                .get_or_insert_with(|| StripFeeds::new(&p, level_of(r.image)));
+                            feeds.feed(&p)?;
+                            if unit.strip == Some(true) {
+                                let feeds = strips.take().unwrap_or_else(|| unreachable!());
+                                let (w, h, pixel_type, spp) =
+                                    (feeds.width, feeds.height, feeds.pixel_type, feeds.spp);
+                                let (acc, comps) = feeds.finish();
+                                add(r, w, h, pixel_type, spp, acc, comps);
+                            } else {
+                                return Ok(());
+                            }
                         }
                     }
-                }
-                ctx.report(unit.request as u64 + 1, total);
-                Ok(())
-            },
-        )?;
+                    ctx.report(unit.request as u64 + 1, total);
+                    Ok(())
+                },
+            )?;
+        }
     }
     let channel_name = |image: u32, c: u32| {
         info.images
