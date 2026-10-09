@@ -31,6 +31,7 @@ pub mod analyze;
 pub mod api;
 pub mod companion;
 pub mod csv;
+pub mod export_format;
 pub mod join;
 pub mod link;
 pub mod measure;

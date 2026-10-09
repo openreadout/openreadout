@@ -23,7 +23,7 @@ metadata:
 - `table` — rows of a table: FCS events, plate reads, the vendor's own peak tables.
 - `scans` — the scan list of a mass-spectrometry run; `spectrum` — one spectrum (`--scan`, `--spectrum`, `--ms-level L --nth K`).
 - `analyze KIND` — `peaks`, `chromatogram`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `assay`, `gate`.
-- `export` — OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, ASM, RDML; `extract` writes an embedded label or thumbnail as stored.
+- `export` — OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, ASM, RDML; the extension of `-o` picks the format (`-o x.ome.zarr`) unless `--format` does. `extract` writes an embedded label or thumbnail as stored.
 - `batch` — one measure over many files as one tidy table joined to a sample sheet; `summarize TABLE --by …`.
 - `link` (files of the same sample), `index` then `search` and `health` (catalog a share, query it, find damaged or duplicate files), `watch` (a running acquisition).
 - `mcp`, `self` (`formats`, `doctor`, `schema`, `skill`, `completions`, `man`).

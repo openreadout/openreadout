@@ -25,6 +25,12 @@ test("numbers are short", () => {
   assert.equal(v.fmt(null), "–");
 });
 
+test("legend labels are short", () => {
+  assert.equal(v.legendLabel("A1 FAM", 18), "A1 FAM");
+  assert.equal(v.legendLabel("A1 FAM@30116ec1-44f6-4c9c-9c69-5d6f00226d4e", 18), "A1 FAM@30116ec1-4…");
+  assert.equal(v.legendLabel(null, 18), "");
+});
+
 test("trace x values follow the axis and the window", () => {
   // 4 points of 10 samples each from sample 100, 1 ms per sample
   const plot = { x: { first: 0, step: 0.001 }, first_sample: 100, samples_per_point: 10 };

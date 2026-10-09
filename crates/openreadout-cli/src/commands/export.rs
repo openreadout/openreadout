@@ -24,10 +24,13 @@ pub struct ExportArgs {
     /// (ABF, ..., NMR, JCAMP-DX, chromatography) files, `mzml` for mass-spectrometry files;
     /// `asm` writes Allotrope plate-reader JSON; `parquet`/`arrow` write tables, traces and
     /// spectra; `nwb` writes electrophysiology traces; `jcamp` writes NMR and 1-D spectra.
+    /// With `-o`, the output's extension sets the format, and `--format` must agree with it.
     #[arg(long = "format", value_enum)]
     pub to: Option<ExportFormat>,
     /// Output path. Defaults to the input name with `.ome.tiff`, `.ome.zarr`, `.csv`, `.mzML`,
-    /// `.asm.json`, `.parquet`, `.arrow`, `.nwb` or `.jdx`.
+    /// `.asm.json`, `.parquet`, `.arrow`, `.nwb`, `.jdx` or `.rdml`. Without `--format`, its
+    /// extension picks the format (`.tif` and `.tiff` mean OME-TIFF, `.zarr` OME-Zarr,
+    /// `.json` ASM).
     #[arg(short, long)]
     pub output: Option<PathBuf>,
     /// CSV, Parquet, Arrow: export this table (FCS data set, plate read, event or peak table) index (see `info`). Default 0.
@@ -134,6 +137,33 @@ pub enum ExportFormat {
     /// RDML 1.3 (Real-time PCR Data Markup Language): qPCR files (RDML, .eds, .rex) with plate
     /// setup, Cq, curves and melt data.
     Rdml,
+}
+
+impl ExportFormat {
+    /// The `--format` value, as `openreadout_batch::export_format` names formats.
+    fn name(self) -> &'static str {
+        match self {
+            ExportFormat::OmeTiff => "ome-tiff",
+            ExportFormat::OmeZarr => "ome-zarr",
+            ExportFormat::Mzml => "mzml",
+            ExportFormat::Csv => "csv",
+            ExportFormat::Asm => "asm",
+            ExportFormat::Parquet => "parquet",
+            ExportFormat::Arrow => "arrow",
+            ExportFormat::Nwb => "nwb",
+            ExportFormat::Jcamp => "jcamp",
+            ExportFormat::Rdml => "rdml",
+        }
+    }
+
+    /// The format of `-o`: `--format` when given, else the one the output name implies. An
+    /// error (exit 2) when they disagree, or when neither says.
+    fn for_output(to: Option<Self>, output: &Path) -> Result<Self> {
+        let name =
+            openreadout_batch::export_format::resolve(to.map(Self::name), output, "--format")?;
+        Self::from_str(name, true)
+            .map_err(|_| Error::Other(format!("export format {name} has no --format value")))
+    }
 }
 
 #[derive(Debug, Clone, Copy, ValueEnum, PartialEq, Eq)]
@@ -525,6 +555,11 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         }
         (out, _) => (file.to_path_buf(), out.clone()),
     };
+    // `-o` names one file or store, except with `--per-image`, where it is a directory.
+    let requested = match &explicit {
+        Some(out) if !req.plate.per_image => Some(ExportFormat::for_output(req.to, out)?),
+        _ => req.to,
+    };
     let opener =
         || -> Result<Box<dyn openreadout_core::Dataset>> { reg.open(file).map(|(_, d)| d) };
     let bar: std::sync::OnceLock<crate::ui::Progress> = std::sync::OnceLock::new();
@@ -544,7 +579,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         Some(Compression::Lzw) => openreadout_ometiff::Codec::Lzw,
         Some(Compression::Snappy | Compression::Lz4) => {
             if matches!(
-                req.to,
+                requested,
                 None | Some(ExportFormat::OmeTiff | ExportFormat::OmeZarr)
             ) {
                 return Err(Error::Usage(
@@ -554,19 +589,20 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
             openreadout_ometiff::Codec::Deflate
         }
     };
-    if matches!(req.to, Some(ExportFormat::OmeZarr)) && codec == openreadout_ometiff::Codec::Lzw {
+    if matches!(requested, Some(ExportFormat::OmeZarr)) && codec == openreadout_ometiff::Codec::Lzw
+    {
         return Err(Error::Usage(
             "OME-Zarr export supports --compression none or deflate (gzip), not lzw".into(),
         ));
     }
-    if req.to == Some(ExportFormat::Rdml) {
+    if requested == Some(ExportFormat::Rdml) {
         let qds = qpcr::open(reg, file)?;
         let output = explicit.unwrap_or_else(|| openreadout_qpcr::default_rdml_output(&name_base));
         return openreadout_qpcr::export_rdml(&qds, &output, req.overwrite).map(ExportOutput::Rdml);
     }
     let (det, ds) = reg.open(file)?;
     let mut ds = req.process.wrap(ds)?;
-    if req.to == Some(ExportFormat::Asm) {
+    if requested == Some(ExportFormat::Asm) {
         if det.format_id != openreadout_plate::FORMAT_ID {
             return Err(Error::unsupported(
                 "export",
@@ -586,7 +622,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         return openreadout_plate::export_asm(&plate, &output, req.overwrite)
             .map(ExportOutput::Asm);
     }
-    let to = if let Some(t) = req.to {
+    let to = if let Some(t) = requested {
         t
     } else {
         match openreadout_batch::csv::default_export_format(&ds.info()?) {

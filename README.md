@@ -197,7 +197,7 @@ openreadout info any-file --json
 | Plate readers and qPCR | Plate-reader exports, RDML, Applied Biosystems, LightCycler, Rotor-Gene | Allotrope ASM, RDML, CSV |
 | Other | ÄKTA, ITC, Biacore, Seahorse, Octet, Zetasizer, XRD, EPR, electrochemistry, thermal analysis | CSV, Parquet |
 
-The [format list](https://openreadout.github.io/openreadout/formats.html) has all 96 formats and their known gaps.
+The [format list](https://openreadout.github.io/openreadout/formats.html) lists every format OpenReadout reads, with its known gaps.
 
 ## Use Cases
 

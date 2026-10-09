@@ -339,7 +339,17 @@ fn jpeg_decodes_and_budget_is_respected() {
     let (small, b) = finish_within(&r, Encoding::Png, 90, 100).unwrap();
     assert!(b.len() <= 100 || small.width <= 32, "{} bytes", b.len());
     assert_eq!(small.encoding, "jpeg");
-    assert!(!small.notes.is_empty());
+    // one note, for the person looking at the picture, not about byte budgets
+    assert!(
+        small.notes.iter().any(|n| n.contains("reduced resolution")),
+        "{:?}",
+        small.notes
+    );
+    assert!(
+        !small.notes.iter().any(|n| n.contains("budget")),
+        "{:?}",
+        small.notes
+    );
 }
 
 #[test]
@@ -388,4 +398,15 @@ fn rulers_frame_the_unchanged_plane() {
     let si = s.output.image.as_ref().unwrap();
     assert!(si.axes);
     assert!(si.source_per_pixel > 1.0);
+}
+
+#[test]
+fn trace_channels_on_an_image_file_point_to_select() {
+    let mut info = info();
+    info.traces.clear();
+    let mut req = PreviewRequest::default();
+    req.channels = vec![0];
+    let e = render(&mut Synth, &info, &req).unwrap_err();
+    assert_eq!(e.exit_code(), 6);
+    assert!(e.hint().unwrap().contains("c=0-2"), "{:?}", e.hint());
 }

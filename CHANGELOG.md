@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- `export -o x.ome.zarr` without `--format` wrote an OME-TIFF under the `.zarr` name. The output's extension now picks the format, on the command line and in `openreadout_export`, and an extension that names no format or contradicts `--format` exits 2.
+- The viewer's composite showed every channel when `select` gave a range such as `c=0-2`. It now reads `select` with the same parser as `--select`.
+- The viewer no longer shows a note about the preview byte budget under large images. `openreadout_preview` says "shown at reduced resolution" when it had to shrink a picture.
+- The viewer's channel chips for traces with many channels (a 96-well qPCR run) took over the page. Long names are cut and the chips scroll.
+- `openreadout_preview` with `channels` on an image file now has a hint pointing to `select`.
+- The README said 96 formats while the binary reads 97. It now points to the format list, whose count comes from the binary.
 - The bioconda recipe has the checksum of the 0.2.0 source archive, and the conda-forge recipes build 0.2.0.
 
 ## [0.2.0] - 2026-10-07
