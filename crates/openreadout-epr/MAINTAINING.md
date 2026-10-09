@@ -36,7 +36,7 @@ Electron paramagnetic resonance data: Bruker BES3T (`bruker-bes3t`: `.DSC` descr
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bruker-bes3t` | [format note](../../docs/formats/bruker-epr.md), [provenance log](../../docs/provenance/bruker-epr.md) | medium | prior art | 16 / 14 | 11 | - |
+| `bruker-bes3t` | [format note](../../docs/formats/bruker-epr.md), [provenance log](../../docs/provenance/bruker-epr.md) | medium | prior art | 20 / 17 | 13 | - |
 | `bruker-esp` | [format note](../../docs/formats/bruker-epr.md), [provenance log](../../docs/provenance/bruker-epr.md) | high | prior art | 15 / 15 | 5 | - |
 
 ### Source map
@@ -63,20 +63,20 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bruker-bes3t` | acquisition | `cw` | descriptive | 9 | 11 | `epr-cwepr-bdpa-2dfieldpower`, `epr-easyspin-e580-cwx`, `epr-killian-tot-accu` |
-| `bruker-bes3t` | acquisition | `cwimg` | descriptive | 1 | 1 | `epr-zenodo14034164-img` |
-| `bruker-bes3t` | acquisition | `pls` | descriptive | 3 | 3 | `epr-deernet-white-1b`, `epr-zenodo15590546-deer`, `epr-zenodo18969515-eseem` |
-| `bruker-bes3t` | field | `experiment.acquisition.started_at` | descriptive | 12 | 14 | `epr-cwepr-bdpa-2dfieldpower`, `epr-deernet-deer-252cl`, `epr-deernet-white-1b` |
-| `bruker-bes3t` | format_version | `BES3T 1.2` | metadata, traces | 14 | 16 | `epr-cwepr-bdpa-2dfieldpower`, `epr-deernet-deer-252cl`, `epr-deernet-white-1b` |
-| `bruker-bes3t` | layout | `magnetic_field axis` | traces | 9 | 11 | `epr-cwepr-bdpa-2dfieldpower`, `epr-easyspin-e580-cwx`, `epr-killian-tot-accu` |
-| `bruker-bes3t` | layout | `time axis` | traces | 4 | 4 | `epr-deernet-deer-252cl`, `epr-deernet-white-1b`, `epr-zenodo15590546-deer` |
+| `bruker-bes3t` | acquisition | `cw` | descriptive | 9 | 12 | `epr-cwepr-bdpa-2dfieldpower`, `epr-easyspin-e580-cwx`, `epr-killian-tot-accu` |
+| `bruker-bes3t` | acquisition | `cwimg` | descriptive | 2 | 2 | `epr-zenodo14034164-img`, `zenodo10623150-bes3t-imaging` |
+| `bruker-bes3t` | acquisition | `pls` | descriptive | 5 | 5 | `epr-deernet-white-1b`, `epr-zenodo15590546-deer`, `epr-zenodo18969515-eseem` |
+| `bruker-bes3t` | field | `experiment.acquisition.started_at` | descriptive | 14 | 17 | `epr-cwepr-bdpa-2dfieldpower`, `epr-deernet-deer-252cl`, `epr-deernet-white-1b` |
+| `bruker-bes3t` | format_version | `BES3T 1.2` | metadata, traces | 17 | 20 | `epr-cwepr-bdpa-2dfieldpower`, `epr-deernet-deer-252cl`, `epr-deernet-white-1b` |
+| `bruker-bes3t` | layout | `magnetic_field axis` | traces | 11 | 14 | `epr-cwepr-bdpa-2dfieldpower`, `epr-easyspin-e580-cwx`, `epr-killian-tot-accu` |
+| `bruker-bes3t` | layout | `time axis` | traces | 5 | 5 | `epr-deernet-deer-252cl`, `epr-deernet-white-1b`, `epr-zenodo15590546-deer` |
 | `bruker-bes3t` | layout | `x axis` | traces | 1 | 1 | `epr-zenodo14034164-img` |
-| `bruker-bes3t` | record | `1D complex` | traces | 2 | 2 | `epr-deernet-deer-252cl`, `epr-deernet-white-1b` |
-| `bruker-bes3t` | record | `1D real` | traces | 8 | 9 | `epr-easyspin-e580-cwx`, `epr-killian-tot-accu`, `epr-mars-ky3-96k` |
+| `bruker-bes3t` | record | `1D complex` | traces | 4 | 4 | `epr-deernet-deer-252cl`, `epr-deernet-white-1b`, `zenodo7433815-bes3t-efs` |
+| `bruker-bes3t` | record | `1D real` | traces | 8 | 10 | `epr-easyspin-e580-cwx`, `epr-killian-tot-accu`, `epr-mars-ky3-96k` |
 | `bruker-bes3t` | record | `2D complex` | traces | 1 | 1 | `epr-zenodo15590546-deer` |
-| `bruker-bes3t` | record | `2D real` | traces | 3 | 4 | `epr-cwepr-bdpa-2dfieldpower`, `epr-killian-tot-kinetics`, `epr-zenodo14034164-img` |
-| `bruker-bes3t` | sample_layout | `big-endian float64` | traces | 11 | 13 | `epr-cwepr-bdpa-2dfieldpower`, `epr-easyspin-e580-cwx`, `epr-killian-tot-accu` |
-| `bruker-bes3t` | sample_layout | `big-endian float64 complex` | traces | 3 | 3 | `epr-deernet-deer-252cl`, `epr-deernet-white-1b`, `epr-zenodo15590546-deer` |
+| `bruker-bes3t` | record | `2D real` | traces | 4 | 5 | `epr-cwepr-bdpa-2dfieldpower`, `epr-killian-tot-kinetics`, `epr-zenodo14034164-img` |
+| `bruker-bes3t` | sample_layout | `big-endian float64` | traces | 12 | 15 | `epr-cwepr-bdpa-2dfieldpower`, `epr-easyspin-e580-cwx`, `epr-killian-tot-accu` |
+| `bruker-bes3t` | sample_layout | `big-endian float64 complex` | traces | 5 | 5 | `epr-deernet-deer-252cl`, `epr-deernet-white-1b`, `epr-zenodo15590546-deer` |
 | `bruker-esp` | acquisition | `field-sweep` | descriptive | 15 | 15 | `epr-cwepr-emx-winepr`, `epr-cwepr-esp`, `epr-cwepr-winepr` |
 | `bruker-esp` | field | `experiment.acquisition.started_at` | descriptive | 13 | 13 | `epr-cwepr-esp`, `epr-cwepr-winepr`, `epr-easyspin-00011201` |
 | `bruker-esp` | format_version | `ESP` | metadata, traces | 5 | 5 | `epr-cwepr-esp`, `epr-easyspin-00011201`, `epr-easyspin-100416-wt60min` |

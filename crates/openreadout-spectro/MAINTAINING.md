@@ -40,13 +40,13 @@ Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruke
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bruker-opus` | [format note](../../docs/formats/bruker-opus.md), [provenance log](../../docs/provenance/bruker-opus.md) | high | prior art | 16 / 16 | 5 | 2 / 0 |
-| `thermo-omnic` | [format note](../../docs/formats/thermo-omnic.md), [provenance log](../../docs/provenance/thermo-omnic.md) | medium | prior art | 27 / 27 | 9 | 2 / 0 |
+| `bruker-opus` | [format note](../../docs/formats/bruker-opus.md), [provenance log](../../docs/provenance/bruker-opus.md) | high | prior art | 26 / 25 | 12 | 2 / 0 |
+| `thermo-omnic` | [format note](../../docs/formats/thermo-omnic.md), [provenance log](../../docs/provenance/thermo-omnic.md) | medium | prior art | 32 / 32 | 14 | 2 / 0 |
 | `renishaw-wdf` | [format note](../../docs/formats/renishaw-wdf.md), [provenance log](../../docs/provenance/renishaw-wdf.md) | high | prior art | 15 / 15 | 6 | 2 / 0 |
-| `perkinelmer-sp` | [format note](../../docs/formats/perkinelmer-sp.md), [provenance log](../../docs/provenance/perkinelmer-sp.md) | medium | prior art | 9 / 9 | 7 | 1 / 0 |
-| `galactic-spc` | [format note](../../docs/formats/galactic-spc.md), [provenance log](../../docs/provenance/galactic-spc.md) | high | prior art | 12 / 12 | 10 | - |
+| `perkinelmer-sp` | [format note](../../docs/formats/perkinelmer-sp.md), [provenance log](../../docs/provenance/perkinelmer-sp.md) | medium | prior art | 16 / 13 | 11 | 1 / 0 |
+| `galactic-spc` | [format note](../../docs/formats/galactic-spc.md), [provenance log](../../docs/provenance/galactic-spc.md) | high | prior art | 13 / 13 | 11 | - |
 | `jasco-jws` | [format note](../../docs/formats/jasco-jws.md), [provenance log](../../docs/provenance/jasco-jws.md) | high | prior art | 28 / 23 | 9 | - |
-| `witec-project` | [format note](../../docs/formats/witec-project.md), [provenance log](../../docs/provenance/witec-project.md) | high | prior art | 12 / 12 | 7 | - |
+| `witec-project` | [format note](../../docs/formats/witec-project.md), [provenance log](../../docs/provenance/witec-project.md) | high | prior art | 14 / 14 | 9 | - |
 | `perkinelmer-fsm` | [format note](../../docs/formats/perkinelmer-fsm.md), [provenance log](../../docs/provenance/perkinelmer-fsm.md) | low | prior art | 2 / 2 | 2 | - |
 | `agilent-fpa` | [format note](../../docs/formats/agilent-fpa.md), [provenance log](../../docs/provenance/agilent-fpa.md) | medium | prior art | 13 / 13 | 2 | - |
 | `agilent-cary` | [format note](../../docs/formats/agilent-cary.md), [provenance log](../../docs/provenance/agilent-cary.md) | medium | reverse engineered | 24 / 20 | 5 | - |
@@ -145,71 +145,71 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `agilent-fpa` | field | `experiment.acquisition.started_at` | descriptive | 13 | 13 | `agilentformat-4-noimage-agg256-dat`, `agilentformat-4-noimage-agg256-seq`, `agilentformat-5-mosaic-agg1024-0000-0000-dmd` |
 | `agilent-fpa` | field | `experiment.instrument.model` | descriptive | 13 | 13 | `agilentformat-4-noimage-agg256-dat`, `agilentformat-4-noimage-agg256-seq`, `agilentformat-5-mosaic-agg1024-0000-0000-dmd` |
 | `agilent-fpa` | format_version | `3.4.0.0` | metadata, pixels, traces | 13 | 13 | `agilentformat-4-noimage-agg256-dat`, `agilentformat-4-noimage-agg256-seq`, `agilentformat-5-mosaic-agg1024-0000-0000-dmd` |
-| `bruker-opus` | acquisition | `INFRARED INTERFEROGRAM` | traces | 5 | 5 | `opus-brukeropus-example`, `opus-or2-617262-1tp-c-1-a5`, `opus-or2-629266-1tp-a-1-c1` |
-| `bruker-opus` | acquisition | `INFRARED SPECTRUM` | traces | 16 | 16 | `opus-bitumen-1h-180c-2`, `opus-bitumen-5h-120c-3`, `opus-bitumen-unaged-2` |
-| `bruker-opus` | field | `experiment.acquisition.started_at` | descriptive | 15 | 15 | `opus-bitumen-1h-180c-2`, `opus-bitumen-5h-120c-3`, `opus-bitumen-unaged-2` |
-| `bruker-opus` | field | `experiment.instrument.model` | descriptive | 16 | 16 | `opus-bitumen-1h-180c-2`, `opus-bitumen-5h-120c-3`, `opus-bitumen-unaged-2` |
-| `bruker-opus` | format_version | `920622` | metadata, traces | 16 | 16 | `opus-bitumen-1h-180c-2`, `opus-bitumen-5h-120c-3`, `opus-bitumen-unaged-2` |
-| `bruker-opus` | instrument | `Alpha` | descriptive | 1 | 1 | `opus-or2-bf-lo-01-soil-cal` |
+| `bruker-opus` | acquisition | `INFRARED INTERFEROGRAM` | traces | 6 | 6 | `figshare27268119-precursor-pcd`, `opus-brukeropus-example`, `opus-or2-617262-1tp-c-1-a5` |
+| `bruker-opus` | acquisition | `INFRARED SPECTRUM` | traces | 25 | 26 | `figshare11750730-benzoic-al2o3-drifts`, `figshare11750730-co-pt-al2o3`, `figshare12141147-termite-opus` |
+| `bruker-opus` | field | `experiment.acquisition.started_at` | descriptive | 24 | 25 | `figshare11750730-benzoic-al2o3-drifts`, `figshare11750730-co-pt-al2o3`, `figshare12141147-termite-opus` |
+| `bruker-opus` | field | `experiment.instrument.model` | descriptive | 25 | 26 | `figshare11750730-benzoic-al2o3-drifts`, `figshare11750730-co-pt-al2o3`, `figshare12141147-termite-opus` |
+| `bruker-opus` | format_version | `920622` | metadata, traces | 25 | 26 | `figshare11750730-benzoic-al2o3-drifts`, `figshare11750730-co-pt-al2o3`, `figshare12141147-termite-opus` |
+| `bruker-opus` | instrument | `Alpha` | descriptive | 2 | 2 | `figshare3153133-iah1`, `opus-or2-bf-lo-01-soil-cal` |
 | `bruker-opus` | instrument | `Alpha II` | descriptive | 4 | 4 | `opus-bitumen-1h-180c-2`, `opus-bitumen-5h-120c-3`, `opus-bitumen-unaged-2` |
-| `bruker-opus` | instrument | `IFS66V/S` | descriptive | 1 | 1 | `opus-orange-peach-juice` |
+| `bruker-opus` | instrument | `IFS66V/S` | descriptive | 2 | 2 | `figshare27268119-precursor-pcd`, `opus-orange-peach-juice` |
 | `bruker-opus` | instrument | `INVENIO-R` | descriptive | 1 | 1 | `opus-or2-617262-1tp-c-1-a5` |
+| `bruker-opus` | instrument | `Lumos` | descriptive | 1 | 1 | `figshare19248036-adipocyte-extract` |
 | `bruker-opus` | instrument | `MPA` | descriptive | 1 | 1 | `opus-or2-issue82-opus-test` |
+| `bruker-opus` | instrument | `TENSOR 27` | descriptive | 1 | 1 | `figshare11750730-co-pt-al2o3` |
 | `bruker-opus` | instrument | `TENSOR II` | descriptive | 1 | 1 | `opus-or2-test-spectra` |
 | `bruker-opus` | instrument | `Tango` | descriptive | 1 | 1 | `opus-or2-mmp-2107-test1` |
-| `bruker-opus` | instrument | `Tensor 27` | descriptive | 1 | 1 | `opus-or2-issue81-a1-1` |
+| `bruker-opus` | instrument | `Tensor 27` | descriptive | 2 | 2 | `figshare12141147-termite-opus`, `opus-or2-issue81-a1-1` |
+| `bruker-opus` | instrument | `Tensor II` | descriptive | 1 | 1 | `figshare11750730-benzoic-al2o3-drifts` |
+| `bruker-opus` | instrument | `VERTEX` | descriptive | 2 | 2 | `figshare27161757-co2-h2-on1`, `figshare27161757-feed-on-0003` |
 | `bruker-opus` | instrument | `VERTEX 70` | descriptive | 1 | 1 | `opus-or2-629266-1tp-a-1-c1` |
-| `bruker-opus` | instrument | `VERTEX 80V` | descriptive | 1 | 1 | `opus-brukeropus-example` |
+| `bruker-opus` | instrument | `VERTEX 70V` | descriptive | 1 | 1 | `figshare31861468-1n-opus` |
+| `bruker-opus` | instrument | `VERTEX 80V` | descriptive | 1 | 2 | `opus-brukeropus-example` |
 | `bruker-opus` | instrument | `Vertex 70` | descriptive | 3 | 3 | `opus-chrysene-003-0`, `opus-chrysene-003-1`, `opus-chrysene-003-2` |
-| `bruker-opus` | record | `block 3.1.0.1.0.0` | traces | 16 | 16 | `opus-bitumen-1h-180c-2`, `opus-bitumen-5h-120c-3`, `opus-bitumen-unaged-2` |
-| `bruker-opus` | record | `block 3.1.0.2.0.0` | traces | 5 | 5 | `opus-brukeropus-example`, `opus-or2-617262-1tp-c-1-a5`, `opus-or2-629266-1tp-a-1-c1` |
-| `bruker-opus` | record | `block 3.1.0.3.0.0` | traces | 2 | 2 | `opus-brukeropus-example`, `opus-orange-peach-juice` |
-| `bruker-opus` | record | `block 3.2.0.1.0.0` | traces | 16 | 16 | `opus-bitumen-1h-180c-2`, `opus-bitumen-5h-120c-3`, `opus-bitumen-unaged-2` |
-| `bruker-opus` | record | `block 3.2.0.2.0.0` | traces | 5 | 5 | `opus-brukeropus-example`, `opus-or2-617262-1tp-c-1-a5`, `opus-or2-629266-1tp-a-1-c1` |
+| `bruker-opus` | record | `block 0.0.0.7.0.2` | traces | 0 | 1 |  |
+| `bruker-opus` | record | `block 3.1.0.1.0.0` | traces | 22 | 22 | `figshare12141147-termite-opus`, `figshare19248036-adipocyte-extract`, `figshare27161757-co2-h2-on1` |
+| `bruker-opus` | record | `block 3.1.0.1.0.2` | traces | 0 | 1 |  |
+| `bruker-opus` | record | `block 3.1.0.2.0.0` | traces | 6 | 6 | `figshare27268119-precursor-pcd`, `opus-brukeropus-example`, `opus-or2-617262-1tp-c-1-a5` |
+| `bruker-opus` | record | `block 3.1.0.3.0.0` | traces | 3 | 3 | `figshare27268119-precursor-pcd`, `opus-brukeropus-example`, `opus-orange-peach-juice` |
+| `bruker-opus` | record | `block 3.2.0.1.0.0` | traces | 22 | 23 | `figshare12141147-termite-opus`, `figshare19248036-adipocyte-extract`, `figshare27161757-co2-h2-on1` |
+| `bruker-opus` | record | `block 3.2.0.2.0.0` | traces | 6 | 6 | `figshare27268119-precursor-pcd`, `opus-brukeropus-example`, `opus-or2-617262-1tp-c-1-a5` |
 | `bruker-opus` | record | `block 3.3.0.12.0.0` | traces | 2 | 2 | `opus-or2-test-spectra`, `opus-orange-peach-juice` |
 | `bruker-opus` | record | `block 3.3.0.22.0.0` | traces | 2 | 2 | `opus-or2-issue82-opus-test`, `opus-or2-mmp-2107-test1` |
-| `bruker-opus` | record | `block 3.3.0.4.0.0` | traces | 14 | 14 | `opus-bitumen-1h-180c-2`, `opus-bitumen-5h-120c-3`, `opus-bitumen-unaged-2` |
+| `bruker-opus` | record | `block 3.3.0.4.0.0` | traces | 21 | 21 | `figshare11750730-benzoic-al2o3-drifts`, `figshare11750730-co-pt-al2o3`, `figshare12141147-termite-opus` |
+| `bruker-opus` | record | `block 3.3.0.4.0.2` | traces | 0 | 1 |  |
+| `bruker-opus` | record | `block 3.3.0.4.2.2` | traces | 0 | 1 |  |
+| `bruker-opus` | record | `block 3.3.0.5.0.0` | traces | 2 | 2 | `figshare3153133-iah1`, `figshare31861468-1n-opus` |
 | `bruker-opus` | record | `block 3.3.0.54.0.0` | traces | 2 | 2 | `opus-or2-issue82-opus-test`, `opus-or2-mmp-2107-test1` |
-| `bruker-opus` | writer | `OPUS` | descriptive | 16 | 16 | `opus-bitumen-1h-180c-2`, `opus-bitumen-5h-120c-3`, `opus-bitumen-unaged-2` |
-| `bruker-opus` | writer_version | `OPUS 6.5` | descriptive | 5 | 5 | `opus-chrysene-003-0`, `opus-chrysene-003-1`, `opus-chrysene-003-2` |
+| `bruker-opus` | writer | `OPUS` | descriptive | 25 | 26 | `figshare11750730-benzoic-al2o3-drifts`, `figshare11750730-co-pt-al2o3`, `figshare12141147-termite-opus` |
+| `bruker-opus` | writer_version | `OPUS 5.5` | descriptive | 4 | 4 | `figshare11750730-benzoic-al2o3-drifts`, `figshare11750730-co-pt-al2o3`, `figshare27161757-co2-h2-on1` |
+| `bruker-opus` | writer_version | `OPUS 6.5` | descriptive | 6 | 6 | `figshare12141147-termite-opus`, `opus-chrysene-003-0`, `opus-chrysene-003-1` |
 | `bruker-opus` | writer_version | `OPUS 7.2` | descriptive | 2 | 2 | `opus-or2-bf-lo-01-soil-cal`, `opus-or2-issue82-opus-test` |
-| `bruker-opus` | writer_version | `OPUS 7.5` | descriptive | 2 | 2 | `opus-or2-mmp-2107-test1`, `opus-or2-test-spectra` |
+| `bruker-opus` | writer_version | `OPUS 7.5` | descriptive | 3 | 3 | `figshare3153133-iah1`, `opus-or2-mmp-2107-test1`, `opus-or2-test-spectra` |
+| `bruker-opus` | writer_version | `OPUS 7.7` | descriptive | 1 | 1 | `figshare19248036-adipocyte-extract` |
 | `bruker-opus` | writer_version | `OPUS 7.8` | descriptive | 1 | 1 | `opus-or2-629266-1tp-a-1-c1` |
+| `bruker-opus` | writer_version | `OPUS 8.0` | descriptive | 0 | 1 |  |
 | `bruker-opus` | writer_version | `OPUS 8.1` | descriptive | 1 | 1 | `opus-brukeropus-example` |
-| `bruker-opus` | writer_version | `OPUS 8.5` | descriptive | 4 | 4 | `opus-bitumen-1h-180c-2`, `opus-bitumen-5h-120c-3`, `opus-bitumen-unaged-2` |
-| `bruker-opus` | writer_version | `OPUS 8.7` | descriptive | 1 | 1 | `opus-or2-issue94-rt-01-1-23-02-21-13-23-54` |
+| `bruker-opus` | writer_version | `OPUS 8.5` | descriptive | 5 | 5 | `figshare31861468-1n-opus`, `opus-bitumen-1h-180c-2`, `opus-bitumen-5h-120c-3` |
+| `bruker-opus` | writer_version | `OPUS 8.7` | descriptive | 2 | 2 | `figshare27161757-feed-on-0003`, `opus-or2-issue94-rt-01-1-23-02-21-13-23-54` |
 | `galactic-spc` | acquisition | `INFRARED SPECTRUM` | traces | 9 | 9 | `zenodo14601517-bi183`, `zenodo16108826-sample-45-21`, `zenodo16108826-sample-5-13` |
-| `galactic-spc` | acquisition | `RAMAN SPECTRUM` | traces | 2 | 2 | `zenodo10391436-ters-map-cycle300`, `zenodo15233137-box9-b3-n-s-mapping` |
+| `galactic-spc` | acquisition | `RAMAN SPECTRUM` | traces | 3 | 3 | `figshare29990276-pbio-raman-spc`, `zenodo10391436-ters-map-cycle300`, `zenodo15233137-box9-b3-n-s-mapping` |
 | `galactic-spc` | acquisition | `UV/VIS SPECTRUM` | traces | 1 | 1 | `zenodo20328362-016-backing-det1` |
 | `galactic-spc` | field | `experiment.acquisition.started_at` | descriptive | 6 | 6 | `zenodo16108826-sample-45-21`, `zenodo16108826-sample-5-13`, `zenodo20218285-001-backing-pristine-1` |
-| `galactic-spc` | field | `experiment.instrument.model` | descriptive | 5 | 5 | `zenodo10391436-ters-map-cycle300`, `zenodo16108826-sample-45-21`, `zenodo16108826-sample-5-13` |
-| `galactic-spc` | format_version | `new (0x4B)` | metadata, traces | 10 | 10 | `zenodo10391436-ters-map-cycle300`, `zenodo15233137-box9-b3-n-s-mapping`, `zenodo16108826-sample-45-21` |
+| `galactic-spc` | field | `experiment.instrument.model` | descriptive | 6 | 6 | `figshare29990276-pbio-raman-spc`, `zenodo10391436-ters-map-cycle300`, `zenodo16108826-sample-45-21` |
+| `galactic-spc` | format_version | `new (0x4B)` | metadata, traces | 11 | 11 | `figshare29990276-pbio-raman-spc`, `zenodo10391436-ters-map-cycle300`, `zenodo15233137-box9-b3-n-s-mapping` |
 | `galactic-spc` | format_version | `old (0x4D)` | metadata, traces | 2 | 2 | `zenodo14601517-bi183`, `zenodo2248038-nujol1` |
 | `galactic-spc` | layout | `multifile` | traces | 2 | 2 | `zenodo10391436-ters-map-cycle300`, `zenodo15233137-box9-b3-n-s-mapping` |
-| `galactic-spc` | layout | `x array` | traces | 1 | 1 | `zenodo10391436-ters-map-cycle300` |
+| `galactic-spc` | layout | `x array` | traces | 2 | 2 | `figshare29990276-pbio-raman-spc`, `zenodo10391436-ters-map-cycle300` |
 | `galactic-spc` | sample_layout | `fixed32` | traces | 3 | 3 | `zenodo16108826-sample-45-21`, `zenodo16108826-sample-5-13`, `zenodo20218285-001-backing-pristine-1` |
 | `galactic-spc` | sample_layout | `fixed32-word-swapped` | traces | 2 | 2 | `zenodo14601517-bi183`, `zenodo2248038-nujol1` |
-| `galactic-spc` | sample_layout | `float32` | traces | 7 | 7 | `zenodo10391436-ters-map-cycle300`, `zenodo15233137-box9-b3-n-s-mapping`, `zenodo20328362-016-backing-det1` |
+| `galactic-spc` | sample_layout | `float32` | traces | 8 | 8 | `figshare29990276-pbio-raman-spc`, `zenodo10391436-ters-map-cycle300`, `zenodo15233137-box9-b3-n-s-mapping` |
 | `galactic-spc` | writer | `Aist-NT` | descriptive | 1 | 1 | `zenodo10391436-ters-map-cycle300` |
 | `galactic-spc` | writer | `Digilab` | descriptive | 1 | 1 | `zenodo22745748-pf1801` |
 | `galactic-spc` | writer | `OMNIC` | descriptive | 3 | 3 | `zenodo16108826-sample-45-21`, `zenodo16108826-sample-5-13`, `zenodo20218285-001-backing-pristine-1` |
+| `galactic-spc` | writer | `WITec` | descriptive | 1 | 1 | `figshare29990276-pbio-raman-spc` |
 | `jasco-jws` | acquisition | `CIRCULAR DICHROISM SPECTRUM` | traces | 6 | 6 | `figshare13601282-dk-cd`, `jws-jws2txt-001hg`, `jws-jws2txt-bgr` |
-| `jasco-jws` | acquisition | `FLUORESCENCE SPECTRUM` | traces | 3 | 3 | `jws-jwsreader-fluor-1`, `jws-jwsreader-fluor-2`, `jws-jwsreader-fluor-3` |
-| `jasco-jws` | acquisition | `INFRARED SPECTRUM` | traces | 11 | 12 | `jws-jascofiles-legacy-abs-512`, `jws-jascofiles-legacy-bg-512`, `jws-jascofiles-legacy-trans-4096` |
-| `jasco-jws` | acquisition | `RAMAN SPECTRUM` | traces | 1 | 1 | `jws-jascofiles-legacy-raman` |
-| `jasco-jws` | acquisition | `UV/VIS KINETICS` | traces | 1 | 1 | `jws-jws2txt-14` |
-| `jasco-jws` | acquisition | `UV/VIS SPECTRUM` | traces | 5 | 9 | `jws-jascofiles-uvvis-abs`, `jws-jws2txt-001hg`, `jws-jws2txt-smth` |
-| `jasco-jws` | field | `experiment.acquisition.started_at` | descriptive | 23 | 28 | `figshare13601282-dk-cd`, `jws-jascofiles-legacy-abs-512`, `jws-jascofiles-legacy-bg-512` |
-| `jasco-jws` | field | `experiment.instrument.model` | descriptive | 23 | 28 | `figshare13601282-dk-cd`, `jws-jascofiles-legacy-abs-512`, `jws-jascofiles-legacy-bg-512` |
-| `jasco-jws` | format_version | `SPCMAN2 R2.00.00` | metadata, traces | 21 | 21 | `jws-jascofiles-legacy-abs-512`, `jws-jascofiles-legacy-bg-512`, `jws-jascofiles-legacy-raman` |
-| `jasco-jws` | format_version | `SPECMAN R2.0.0` | metadata, traces | 2 | 7 | `figshare13601282-dk-cd`, `jws-jascofiles-uvvis-abs` |
-| `jasco-jws` | layout | `explicit x values` | traces | 1 | 1 | `jws-jascofiles-legacy-raman` |
-| `jasco-jws` | layout | `flat, 2 channels` | traces | 1 | 1 | `figshare13601282-dk-cd` |
-| `jasco-jws` | layout | `x raman_shift` | traces | 1 | 1 | `jws-jascofiles-legacy-raman` |
-| `jasco-jws` | layout | `x time` | traces | 1 | 1 | `jws-jws2txt-14` |
-| `jasco-jws` | layout | `x wavelength` | traces | 10 | 14 | `figshare13601282-dk-cd`, `jws-jascofiles-uvvis-abs`, `jws-jws2txt-001hg` |
 
-… 77 more values: the generated table in `src/assurance.rs` has all of them.
+… 95 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 

@@ -35,7 +35,7 @@ from typing import Any, Dict, List, Optional
 
 ROOT = Path(__file__).resolve().parent.parent
 CORPUS = Path(os.environ.get("OPENREADOUT_CORPUS_DIR", ROOT / "corpus" / "files"))
-OUT = ROOT / "bench" / "results" / "python_arrays.json"
+OUT = ROOT / "target" / "reports" / "bench" / "python_arrays.json"
 
 # (id, file, image, comparator reader module, tasks)
 CASES = [

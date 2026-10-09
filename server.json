@@ -3,7 +3,7 @@
   "name": "io.github.openreadout/openreadout",
   "title": "OpenReadout",
   "description": "Read raw lab-instrument files offline: metadata, previews, integrity checks, open-format export.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "repository": {
     "url": "https://github.com/openreadout/openreadout",
     "source": "github"
@@ -25,7 +25,7 @@
     {
       "registryType": "npm",
       "identifier": "openreadout",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
@@ -41,7 +41,7 @@
     {
       "registryType": "cargo",
       "identifier": "openreadout",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "transport": {
         "type": "stdio"
       },
@@ -55,7 +55,7 @@
     },
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/openreadout/openreadout/releases/download/v0.1.0/openreadout-mcp-aarch64-apple-darwin.mcpb",
+      "identifier": "https://github.com/openreadout/openreadout/releases/download/v0.2.0/openreadout-mcp-aarch64-apple-darwin.mcpb",
       "fileSha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "transport": {
         "type": "stdio"
@@ -63,7 +63,7 @@
     },
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/openreadout/openreadout/releases/download/v0.1.0/openreadout-mcp-x86_64-apple-darwin.mcpb",
+      "identifier": "https://github.com/openreadout/openreadout/releases/download/v0.2.0/openreadout-mcp-x86_64-apple-darwin.mcpb",
       "fileSha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "transport": {
         "type": "stdio"
@@ -71,7 +71,7 @@
     },
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/openreadout/openreadout/releases/download/v0.1.0/openreadout-mcp-x86_64-unknown-linux-musl.mcpb",
+      "identifier": "https://github.com/openreadout/openreadout/releases/download/v0.2.0/openreadout-mcp-x86_64-unknown-linux-musl.mcpb",
       "fileSha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "transport": {
         "type": "stdio"
@@ -79,7 +79,7 @@
     },
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/openreadout/openreadout/releases/download/v0.1.0/openreadout-mcp-aarch64-unknown-linux-musl.mcpb",
+      "identifier": "https://github.com/openreadout/openreadout/releases/download/v0.2.0/openreadout-mcp-aarch64-unknown-linux-musl.mcpb",
       "fileSha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "transport": {
         "type": "stdio"
@@ -87,7 +87,7 @@
     },
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/openreadout/openreadout/releases/download/v0.1.0/openreadout-mcp-x86_64-pc-windows-msvc.mcpb",
+      "identifier": "https://github.com/openreadout/openreadout/releases/download/v0.2.0/openreadout-mcp-x86_64-pc-windows-msvc.mcpb",
       "fileSha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "transport": {
         "type": "stdio"

@@ -1,6 +1,6 @@
 # Comparison with other tools
 
-How OpenReadout relates to tools you may already use. Facts about other projects come from their public documentation. If something here is out of date, please [open an issue](https://github.com/openreadout/openreadout/issues/new/choose). Several of these projects are the reference readers that OpenReadout is [validated](validation.md) against.
+How OpenReadout relates to tools you may already use. Facts about other projects come from their public documentation. If something here is out of date, please [open an issue](https://github.com/openreadout/openreadout/issues/new/choose). Several of these projects are the reference readers that OpenReadout is [validated](how-we-validate.md) against.
 
 ## At a glance
 
@@ -29,4 +29,4 @@ How OpenReadout relates to tools you may already use. Facts about other projects
 
 ## How OpenReadout uses them
 
-czifile, nd2 and liffile are the main reference readers for microscopy in the [validation](validation.md) tests. Bio-Formats (`bfconvert`) decides when they disagree with OpenReadout. bioio and its plugins give second opinions and check exports. We wrote OpenReadout's parsers from files and permissively licensed documentation, not from the source code of the copyleft projects above ([clean-room policy](clean-room.md)).
+czifile, nd2 and liffile are the main reference readers for microscopy in the [validation](how-we-validate.md) tests. Bio-Formats (`bfconvert`) decides when they disagree with OpenReadout. bioio and its plugins give second opinions and check exports. We wrote OpenReadout's parsers from files and permissively licensed documentation, not from the source code of the copyleft projects above ([clean-room policy](clean-room.md)).

@@ -42,14 +42,11 @@ Measured on v0.1.0 (`tools/list` of `openreadout mcp`, bytes of JSON):
 
 ## Evidence from the evals
 
-The transcripts in `evals/results/transcripts/` (2026-09-24 and 25, 281 questions, Haiku 4.5, plus visual reruns with Sonnet 5 and Opus 5.5) predate the consolidation: they used the 34-tool surface under its old name. What they show:
+Transcripts of earlier eval runs, which used the 34-tool surface under its old name, show:
 
-- Agents picked a tool per question without trouble. Tool calls that failed were rare: 2 of 180 `info`, 2 of 69 `trace` (an empty `x_range`), 1 of 8 `spectrum` (index -1), and 3 of 12 `export`.
-- All 3 failed `export` calls asked for `format: "csv"` on an FCS file. CSV export exists on the command line but not in MCP.
+- Agents picked a tool per question without trouble, and tool calls rarely failed.
+- The failed `export` calls asked for `format: "csv"` on an FCS file. CSV export exists on the command line but not in MCP.
 - The most used arguments were `trace`: `max_samples`, `trace`, `sweep`, `channels`, `x_range`; `scans`: `limit`, `ms_level`, `offset`; `stats`: `select`, `image`, `mip`, `region`, `level`. Rarely used options were rarely touched.
-- The only questions that did worse with OpenReadout than without were two plate-reader questions (`plate-gen5-kinetic-reads`, `ana-plate-tecan-doubling-time`).
-
-No eval has run on the v0.1.0 surface yet. The owner's Sonnet 5.5 run after this change will be the first.
 
 ## Rules
 
@@ -196,7 +193,7 @@ Arguments not listed here keep their names on both surfaces. "CLI only" argument
 | `scans` | `--count` | `limit: 0` | `--count` / `count` | as `table`; `limit: 0` stays valid. |
 | `spectrum` (was `spectra`) | `--index I` | `index` | `--spectrum I` / `spectrum` | as `preview`, which already says `--spectrum`. |
 | `export` | `--to FORMAT` | `format` | `--format` / `format` | same name; `preview` also says `--format`. |
-| `export` | `--to csv` | (none) | `csv` in MCP too | the three failed export calls in the evals. Default format is the same on both: `mzml` for mass spectra, `csv` for tables and traces, `ome-tiff` for images (MCP defaulted to `ome-tiff` for tables). |
+| `export` | `--to csv` | (none) | `csv` in MCP too | the failed export calls in the evals. Default format is the same on both: `mzml` for mass spectra, `csv` for tables and traces, `ome-tiff` for images (MCP defaulted to `ome-tiff` for tables). |
 | `export` | `--labels` | (none) | `--labels` / `labels` | goes with CSV. |
 | `extract` (was `export --attachment`) | `--attachment NAME` | `attachment` | positional `NAME` / `attachment` | the name is the whole request. |
 | `compare` (was `check --against`) | `check A --against B` | `file`, `against` | `compare A B` / `file`, `against` | |

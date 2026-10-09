@@ -141,7 +141,7 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 
 ## 2026-10-06 — Raw RGB tiles hold blue, green, red
 
-**Why.** The imaging bug hunt (`docs/benchmark/hunt-2026-10-imaging.md`) ran a PRECiV DSX-2000 file. Its 24-bit texture map came out with red and blue exchanged against Bio-Formats. No development file had raw tiles with three samples (the raw files were 8- and 16-bit grey), so the combination was never compared.
+**Why.** The imaging bug hunt (2026-10) ran a PRECiV DSX-2000 file. Its 24-bit texture map came out with red and blue exchanged against Bio-Formats. No development file had raw tiles with three samples (the raw files were 8- and 16-bit grey), so the combination was never compared.
 
 **Corpus files used:** `zenodo19893921-dsx-efi-vsi` (new; Zenodo 19893921, Brenden Ferland, CC-BY-4.0): an Olympus DSX-2000 EFI scan written by PRECiV ADM 3, with two stacks: `stack1`, raw tiles, 8-bit, 3 samples (the texture map), and `stack10000`, raw 16-bit grey (the height map). **Prior art consulted:** none. Bio-Formats 8.5.0 `bfconvert` run as a black box.
 

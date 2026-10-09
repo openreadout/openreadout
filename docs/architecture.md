@@ -32,8 +32,8 @@ OpenReadout is a Cargo workspace. Format readers know nothing about the command 
 | `openreadout-py` | Python bindings (PyO3, abi3 wheels via maturin) | PyPI |
 | `openreadout-r` | native part of the R package in `r/openreadout` (extendr) | no |
 | `openreadout-wasm` | WebAssembly build (`wasm-bindgen`); npm package in `packaging/wasm`, demo page in `web/` | npm |
-| `openreadout-corpus-tests` | the [validation](../book/src/project/validation.md) tests against reference readers | no |
-| `openreadout-bench` | benchmarks and memory-ceiling tests ([performance](../book/src/project/performance.md)) | no |
+| `openreadout-corpus-tests` | the [validation](../book/src/project/how-we-validate.md) tests against reference readers | no |
+| `openreadout-bench` | benchmarks and memory-ceiling tests | no |
 | `xtask` | repository automation (corpus, schemas, vocabulary check, skill parity, packaging); the only crate allowed network access | no |
 
 `cargo deny` checks that nothing linked into the binary can open a network connection, and that every dependency's license is compatible with MIT OR Apache-2.0.
@@ -87,7 +87,7 @@ One error type, `openreadout_core::Error`, maps every failure to a stable string
 
 ## Rules every reader follows
 
-- **Headers only for `info`.** Pixel data is read lazily, per plane. `info` on a 3.7 GB CZI takes about 20 ms ([performance](../book/src/project/performance.md)).
+- **Headers only for `info`.** Pixel data is read lazily, per plane.
 - **Never write to the source.** Writers go to a temporary file next to the destination, read every plane back and compare hashes, then rename the file into place.
 - **No panics on bad input.** Checked arithmetic, bounds-checked slices and no `unsafe`; a malformed file becomes `corrupt_file` (exit 4).
 - **Bounded memory.** Every size read from a file is checked before it is allocated; the limits are in [the memory model](architecture-memory.md).

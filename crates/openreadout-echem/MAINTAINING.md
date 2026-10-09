@@ -38,8 +38,8 @@ Electrochemistry and battery-cycler data: BioLogic EC-Lab binary `.mpr` and `.mp
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `biologic-mpr` | [format note](../../docs/formats/arbin-res.md), [provenance log](../../docs/provenance/arbin-res.md) | high | reverse engineered | 23 / 23 | 6 | - |
-| `biologic-mpt` | [format note](../../docs/formats/arbin-res.md), [provenance log](../../docs/provenance/arbin-res.md) | medium | reverse engineered | 24 / 21 | 4 | - |
+| `biologic-mpr` | [format note](../../docs/formats/arbin-res.md), [provenance log](../../docs/provenance/arbin-res.md) | high | reverse engineered | 31 / 30 | 11 | - |
+| `biologic-mpt` | [format note](../../docs/formats/arbin-res.md), [provenance log](../../docs/provenance/arbin-res.md) | medium | reverse engineered | 29 / 21 | 4 | - |
 | `gamry-dta` | [format note](../../docs/formats/gamry-dta.md), [provenance log](../../docs/provenance/gamry-dta.md) | medium | prior art | 6 / 6 | 3 | - |
 | `neware-nda` | [format note](../../docs/formats/neware.md), [provenance log](../../docs/provenance/neware.md) | medium | prior art | 5 / 5 | 2 | - |
 | `neware-ndax` | [format note](../../docs/formats/neware.md), [provenance log](../../docs/provenance/neware.md) | medium | prior art | 4 / 4 | 3 | - |
@@ -126,28 +126,28 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `arbin-res` | writer_version | `MITS Pro 7.00` | metadata | 1 | 1 | `echem-cellpy-arbin-aux-dxdt` |
 | `biologic-mpr` | acquisition | `Battery Capacity Determination` | descriptive | 1 | 1 | `echem-yadg-bcd-issue-241` |
 | `biologic-mpr` | acquisition | `Chronoamperometry / Chronocoulometry` | descriptive | 2 | 2 | `echem-galvani-v1150-ca`, `echem-yadg-ca-issue-149` |
-| `biologic-mpr` | acquisition | `Chronopotentiometry` | descriptive | 1 | 1 | `echem-yadg-cp` |
+| `biologic-mpr` | acquisition | `Chronopotentiometry` | descriptive | 2 | 2 | `echem-yadg-cp`, `zenodo19222974-mpr-cp-c04` |
 | `biologic-mpr` | acquisition | `Constant Current` | descriptive | 1 | 1 | `echem-yadg-coc-issue-185` |
-| `biologic-mpr` | acquisition | `Cyclic Voltammetry` | descriptive | 2 | 2 | `echem-yadg-cv`, `echem-zenodo15211416-cv-ferri` |
+| `biologic-mpr` | acquisition | `Cyclic Voltammetry` | descriptive | 3 | 4 | `echem-yadg-cv`, `echem-zenodo15211416-cv-ferri`, `zenodo3631156-mpr-cv-bol` |
 | `biologic-mpr` | acquisition | `Cyclic Voltammetry Advanced` | descriptive | 1 | 1 | `echem-yadg-cva-issue-202` |
 | `biologic-mpr` | acquisition | `Galvano Electrochemical Impedance Spectroscopy` | descriptive | 1 | 1 | `echem-yadg-geis-issue-149` |
-| `biologic-mpr` | acquisition | `Galvanostatic Cycling with Potential Limitation` | descriptive | 3 | 3 | `echem-figshare1228760-bio-logic1`, `echem-yadg-gcpl-issue-149`, `echem-yadg-gcpl-pr-182-1` |
+| `biologic-mpr` | acquisition | `Galvanostatic Cycling with Potential Limitation` | descriptive | 6 | 6 | `echem-figshare1228760-bio-logic1`, `echem-yadg-gcpl-issue-149`, `echem-yadg-gcpl-pr-182-1` |
 | `biologic-mpr` | acquisition | `IR compensation (PEIS)` | descriptive | 1 | 1 | `echem-yadg-zir` |
 | `biologic-mpr` | acquisition | `Linear Sweep Voltammetry` | descriptive | 1 | 1 | `echem-yadg-lsv` |
 | `biologic-mpr` | acquisition | `Modulo Bat` | descriptive | 2 | 2 | `echem-yadg-mb-issue-223`, `echem-yadg-mb-issue-95` |
 | `biologic-mpr` | acquisition | `Open Circuit Voltage` | descriptive | 4 | 4 | `echem-navani-ocv`, `echem-yadg-ocv`, `echem-yadg-vsp-ocv-with` |
-| `biologic-mpr` | acquisition | `Potentio Electrochemical Impedance Spectroscopy` | descriptive | 2 | 2 | `echem-yadg-peis`, `echem-yadg-peis-issue-225-ewe-ece` |
+| `biologic-mpr` | acquisition | `Potentio Electrochemical Impedance Spectroscopy` | descriptive | 4 | 4 | `echem-yadg-peis`, `echem-yadg-peis-issue-225-ewe-ece`, `zenodo14809707-mpr-peis` |
 | `biologic-mpr` | acquisition | `technique code 0x05` | descriptive | 1 | 1 | `echem-figshare1228760-bio-logic4` |
-| `biologic-mpr` | field | `experiment.acquisition.started_at` | descriptive | 21 | 21 | `echem-figshare1228760-bio-logic1`, `echem-figshare1228760-bio-logic4`, `echem-galvani-v1150-ca` |
-| `biologic-mpr` | format_version | `data module 0` | metadata, traces | 2 | 2 | `echem-figshare1228760-bio-logic1`, `echem-figshare1228760-bio-logic4` |
-| `biologic-mpr` | format_version | `data module 11` | metadata, traces | 9 | 9 | `echem-galvani-v1150-ca`, `echem-navani-ocv`, `echem-yadg-ca-issue-149` |
+| `biologic-mpr` | field | `experiment.acquisition.started_at` | descriptive | 28 | 29 | `echem-figshare1228760-bio-logic1`, `echem-figshare1228760-bio-logic4`, `echem-galvani-v1150-ca` |
+| `biologic-mpr` | format_version | `data module 0` | metadata, traces | 3 | 3 | `echem-figshare1228760-bio-logic1`, `echem-figshare1228760-bio-logic4`, `zenodo3631156-mpr-cv-bol` |
+| `biologic-mpr` | format_version | `data module 11` | metadata, traces | 12 | 13 | `echem-galvani-v1150-ca`, `echem-navani-ocv`, `echem-yadg-ca-issue-149` |
 | `biologic-mpr` | format_version | `data module 2` | metadata, traces | 2 | 2 | `echem-yadg-cv`, `echem-yadg-zir` |
-| `biologic-mpr` | format_version | `data module 3` | metadata, traces | 10 | 10 | `echem-yadg-bcd-issue-241`, `echem-yadg-cp`, `echem-yadg-gcpl-pr-182-1` |
-| `biologic-mpr` | format_version | `mpr data module 0` | metadata, traces | 2 | 2 | `echem-figshare1228760-bio-logic1`, `echem-figshare1228760-bio-logic4` |
-| `biologic-mpr` | format_version | `mpr data module 11` | metadata, traces | 9 | 9 | `echem-galvani-v1150-ca`, `echem-navani-ocv`, `echem-yadg-ca-issue-149` |
+| `biologic-mpr` | format_version | `data module 3` | metadata, traces | 13 | 13 | `echem-yadg-bcd-issue-241`, `echem-yadg-cp`, `echem-yadg-gcpl-pr-182-1` |
+| `biologic-mpr` | format_version | `mpr data module 0` | metadata, traces | 3 | 3 | `echem-figshare1228760-bio-logic1`, `echem-figshare1228760-bio-logic4`, `zenodo3631156-mpr-cv-bol` |
+| `biologic-mpr` | format_version | `mpr data module 11` | metadata, traces | 12 | 13 | `echem-galvani-v1150-ca`, `echem-navani-ocv`, `echem-yadg-ca-issue-149` |
 | `biologic-mpr` | format_version | `mpr data module 2` | metadata, traces | 2 | 2 | `echem-yadg-cv`, `echem-yadg-zir` |
-| `biologic-mpr` | format_version | `mpr data module 3` | metadata, traces | 10 | 10 | `echem-yadg-bcd-issue-241`, `echem-yadg-cp`, `echem-yadg-gcpl-pr-182-1` |
-| `biologic-mpr` | record | `column analog_in_1` | traces | 2 | 2 | `echem-yadg-vsp-ocv-with`, `echem-zenodo15211416-cv-ferri` |
+| `biologic-mpr` | format_version | `mpr data module 3` | metadata, traces | 13 | 13 | `echem-yadg-bcd-issue-241`, `echem-yadg-cp`, `echem-yadg-gcpl-pr-182-1` |
+| `biologic-mpr` | record | `column analog_in_1` | traces | 2 | 3 | `echem-yadg-vsp-ocv-with`, `echem-zenodo15211416-cv-ferri` |
 
 … 280 more values: the generated table in `src/assurance.rs` has all of them.
 

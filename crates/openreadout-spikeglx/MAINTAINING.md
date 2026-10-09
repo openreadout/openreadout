@@ -33,7 +33,7 @@ SpikeGLX recordings: a `.meta` text file beside a headerless interleaved int16 `
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `spikeglx` | [format note](../../docs/formats/spikeglx.md), [provenance log](../../docs/provenance/spikeglx.md) | high | vendor docs | 15 / 15 | 3 | - |
+| `spikeglx` | [format note](../../docs/formats/spikeglx.md), [provenance log](../../docs/provenance/spikeglx.md) | high | vendor docs | 19 / 18 | 3 | - |
 
 ### Source map
 
@@ -59,20 +59,21 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `spikeglx` | field | `experiment.acquisition.started_at` | descriptive | 14 | 14 | `sglx-5-19-2022-ci1-g0-t0-imec0-ap-bin`, `sglx-5-19-2022-ci1-g0-t0-imec0-lf-bin`, `sglx-digitalchanneltest-g0-t0-nidq-bin` |
-| `spikeglx` | field | `experiment.instrument.model` | descriptive | 12 | 12 | `sglx-5-19-2022-ci1-g0-t0-imec0-ap-bin`, `sglx-5-19-2022-ci1-g0-t0-imec0-lf-bin`, `sglx-noise4sam-g0-run` |
+| `spikeglx` | field | `experiment.acquisition.started_at` | descriptive | 17 | 18 | `gin-ephy-testing-data-spikeglx-multi-gate-ci1-g0-t0`, `gin-ephy-testing-data-spikeglx-nhp-snippet-imec0`, `gin-ephy-testing-data-spikeglx-np2-nidq-sync` |
+| `spikeglx` | field | `experiment.instrument.model` | descriptive | 14 | 15 | `gin-ephy-testing-data-spikeglx-multi-gate-ci1-g0-t0`, `gin-ephy-testing-data-spikeglx-nhp-snippet-imec0`, `sglx-5-19-2022-ci1-g0-t0-imec0-ap-bin` |
 | `spikeglx` | format_version | `SpikeGLX 2019` | metadata, traces | 4 | 4 | `sglx-noise4sam-g0-run`, `sglx-noise4sam-g0-t0-imec0-ap-bin`, `sglx-noise4sam-g0-t0-imec0-lf-bin` |
-| `spikeglx` | format_version | `SpikeGLX 2020` | metadata, traces | 4 | 4 | `sglx-5-19-2022-ci1-g0-t0-imec0-ap-bin`, `sglx-5-19-2022-ci1-g0-t0-imec0-lf-bin`, `sglx-test-20210920-0-g0-t0-imec0-ap-bin` |
-| `spikeglx` | format_version | `SpikeGLX 2023` | metadata, traces | 7 | 7 | `sglx-digitalchanneltest-g0-t0-nidq-bin`, `sglx-np2-no-sync-exported-imec0-ap-bin`, `sglx-np2-subset-with-sync-imec0-ap-bin` |
-| `spikeglx` | instrument | `probe type 0.0` | traces | 6 | 6 | `sglx-5-19-2022-ci1-g0-t0-imec0-ap-bin`, `sglx-5-19-2022-ci1-g0-t0-imec0-lf-bin`, `sglx-noise4sam-g0-run` |
+| `spikeglx` | format_version | `SpikeGLX 2020` | metadata, traces | 5 | 6 | `gin-ephy-testing-data-spikeglx-multi-gate-ci1-g0-t0`, `sglx-5-19-2022-ci1-g0-t0-imec0-ap-bin`, `sglx-5-19-2022-ci1-g0-t0-imec0-lf-bin` |
+| `spikeglx` | format_version | `SpikeGLX 2023` | metadata, traces | 9 | 9 | `gin-ephy-testing-data-spikeglx-nhp-snippet-imec0`, `gin-ephy-testing-data-spikeglx-np2-nidq-sync`, `sglx-digitalchanneltest-g0-t0-nidq-bin` |
+| `spikeglx` | instrument | `probe type 0.0` | traces | 7 | 7 | `gin-ephy-testing-data-spikeglx-multi-gate-ci1-g0-t0`, `sglx-5-19-2022-ci1-g0-t0-imec0-ap-bin`, `sglx-5-19-2022-ci1-g0-t0-imec0-lf-bin` |
+| `spikeglx` | instrument | `probe type 1030.0` | traces | 1 | 1 | `gin-ephy-testing-data-spikeglx-nhp-snippet-imec0` |
 | `spikeglx` | instrument | `probe type 2013.0` | traces | 4 | 4 | `sglx-np2-no-sync-exported-imec0-ap-bin`, `sglx-np2-subset-with-sync-imec0-ap-bin`, `sglx-np2-with-sync-imec0-ap-bin` |
-| `spikeglx` | instrument | `probe type 24.0` | traces | 2 | 2 | `sglx-test-20210920-0-g0-t0-imec0-ap-bin`, `zenodo21908762-sub-001-ses-001-g0-t0-imec0-ap-bin` |
-| `spikeglx` | record | `imec stream` | traces | 12 | 12 | `sglx-5-19-2022-ci1-g0-t0-imec0-ap-bin`, `sglx-5-19-2022-ci1-g0-t0-imec0-lf-bin`, `sglx-noise4sam-g0-run` |
-| `spikeglx` | record | `nidq stream` | traces | 5 | 5 | `sglx-digitalchanneltest-g0-t0-nidq-bin`, `sglx-noise4sam-g0-run`, `sglx-noise4sam-g0-t0-nidq-bin` |
+| `spikeglx` | instrument | `probe type 24.0` | traces | 2 | 3 | `sglx-test-20210920-0-g0-t0-imec0-ap-bin`, `zenodo21908762-sub-001-ses-001-g0-t0-imec0-ap-bin` |
+| `spikeglx` | record | `imec stream` | traces | 14 | 15 | `gin-ephy-testing-data-spikeglx-multi-gate-ci1-g0-t0`, `gin-ephy-testing-data-spikeglx-nhp-snippet-imec0`, `sglx-5-19-2022-ci1-g0-t0-imec0-ap-bin` |
+| `spikeglx` | record | `nidq stream` | traces | 6 | 6 | `gin-ephy-testing-data-spikeglx-np2-nidq-sync`, `sglx-digitalchanneltest-g0-t0-nidq-bin`, `sglx-noise4sam-g0-run` |
 | `spikeglx` | sample_layout | `max int 2048.0` | traces | 4 | 4 | `sglx-np2-no-sync-exported-imec0-ap-bin`, `sglx-np2-subset-with-sync-imec0-ap-bin`, `sglx-np2-with-sync-imec0-ap-bin` |
-| `spikeglx` | sample_layout | `max int 32768.0` | traces | 3 | 3 | `sglx-digitalchanneltest-g0-t0-nidq-bin`, `sglx-np2-with-sync-nidq-bin`, `sglx-np2-with-sync-run` |
-| `spikeglx` | sample_layout | `max int 512.0` | traces | 3 | 3 | `sglx-5-19-2022-ci1-g0-t0-imec0-ap-bin`, `sglx-5-19-2022-ci1-g0-t0-imec0-lf-bin`, `zenodo5899237-pt03-imec0-lf-bin` |
-| `spikeglx` | sample_layout | `max int 8192.0` | traces | 2 | 2 | `sglx-test-20210920-0-g0-t0-imec0-ap-bin`, `zenodo21908762-sub-001-ses-001-g0-t0-imec0-ap-bin` |
+| `spikeglx` | sample_layout | `max int 32768.0` | traces | 4 | 4 | `gin-ephy-testing-data-spikeglx-np2-nidq-sync`, `sglx-digitalchanneltest-g0-t0-nidq-bin`, `sglx-np2-with-sync-nidq-bin` |
+| `spikeglx` | sample_layout | `max int 512.0` | traces | 5 | 5 | `gin-ephy-testing-data-spikeglx-multi-gate-ci1-g0-t0`, `gin-ephy-testing-data-spikeglx-nhp-snippet-imec0`, `sglx-5-19-2022-ci1-g0-t0-imec0-ap-bin` |
+| `spikeglx` | sample_layout | `max int 8192.0` | traces | 2 | 3 | `sglx-test-20210920-0-g0-t0-imec0-ap-bin`, `zenodo21908762-sub-001-ses-001-g0-t0-imec0-ap-bin` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 

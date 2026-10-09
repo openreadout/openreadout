@@ -74,7 +74,7 @@ The scopes are:
 - `inferred_fields`: how many normalized fields have a meaning that was worked out from files rather than taken from a specification. See [Provenance](../guides/metadata.md#provenance).
 - `strict_refuses`: the outputs `--strict` refuses for this file.
 - `strict_withholds`: single fields `--strict` replaces with null (below).
-- `reader_confidence`: the reader's overall level (`high`, `medium` or `low`), for context. It is computed from the test evidence by a fixed [rubric](https://github.com/openreadout/openreadout/blob/main/docs/assurance.md#the-confidence-rubric), not set by hand. The [evidence page](../project/evidence.md) lists it per format with the files behind it.
+- `reader_confidence`: the reader's overall level (`high`, `medium` or `low`), for context. It is computed from the test evidence by a fixed [rubric](https://github.com/openreadout/openreadout/blob/main/docs/assurance.md#the-confidence-rubric), not set by hand. The [format list](../formats/index.md) shows it for every format.
 
 ### What to do with it
 

@@ -80,19 +80,19 @@ fn observe(info: &FileInfo) -> Observations {
 const BLACKROCK_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const BLACKROCK_VALIDATED: &[Validated] = &[
-    a::row(K::FormatVersion, "NEV 2.1", 3, 2, 3),
-    a::row(K::FormatVersion, "NEV 2.3", 3, 2, 3),
-    a::row(K::FormatVersion, "NEV 3.0", 2, 1, 2),
-    a::row(K::FormatVersion, "NSx 2.1", 2, 1, 3),
-    a::row(K::FormatVersion, "NSx 2.2/2.3", 3, 1, 3),
-    a::row(K::FormatVersion, "NSx 3.0", 3, 1, 3),
-    a::row(K::Layout, "PTP timestamps", 1, 1, 1),
-    a::row(K::Layout, "paused (several data packets)", 2, 1, 2),
-    a::row(K::Record, "BREVENTS", 2, 1, 2),
-    a::row(K::Record, "NEURALEV", 6, 3, 6),
-    a::row(K::SampleLayout, "104-byte packets", 5, 3, 5),
-    a::row(K::SampleLayout, "108-byte packets", 2, 1, 2),
-    a::row(K::SampleLayout, "84-byte packets", 1, 1, 1),
-    a::row(K::Writer, "File Dialog", 8, 3, 8),
+    a::row(K::FormatVersion, "NEV 2.1", 4, 2, 4),
+    a::row(K::FormatVersion, "NEV 2.3", 5, 2, 5),
+    a::row(K::FormatVersion, "NEV 3.0", 3, 1, 4),
+    a::row(K::FormatVersion, "NSx 2.1", 2, 1, 4),
+    a::row(K::FormatVersion, "NSx 2.2/2.3", 6, 3, 6),
+    a::row(K::FormatVersion, "NSx 3.0", 4, 1, 5),
+    a::row(K::Layout, "PTP timestamps", 2, 1, 3),
+    a::row(K::Layout, "paused (several data packets)", 2, 1, 3),
+    a::row(K::Record, "BREVENTS", 3, 1, 4),
+    a::row(K::Record, "NEURALEV", 9, 3, 9),
+    a::row(K::SampleLayout, "104-byte packets", 6, 3, 6),
+    a::row(K::SampleLayout, "108-byte packets", 3, 1, 4),
+    a::row(K::SampleLayout, "84-byte packets", 3, 1, 3),
+    a::row(K::Writer, "File Dialog", 12, 3, 13),
 ];
 // END GENERATED blackrock

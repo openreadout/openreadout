@@ -9,7 +9,7 @@
   set against our normalized fields and `extra`.
 - JASCO .jws already have two second opinions (the Spectra Manager export and jws2txt;
   oracle/jasco_oracle.py); Renishaw .wdf and PerkinElmer .sp have no second reader available
-  offline (docs/benchmark/second-opinions.md).
+  offline.
 """
 from __future__ import annotations
 

@@ -60,6 +60,7 @@ export default defineConfig({
             { label: "Install", slug: "getting-started/install" },
             { label: "Your first file", slug: "getting-started/first-file" },
             { label: "Connect an assistant", slug: "getting-started/assistant" },
+            { label: "Upgrading from 0.1", slug: "getting-started/upgrading" },
             { label: "Try it in the browser", link: "https://openreadout.github.io/openreadout/demo/" },
           ],
         },
@@ -150,7 +151,7 @@ export default defineConfig({
           label: "Trust",
           collapsed: true,
           items: [
-            { label: "Validation", slug: "project/validation" },
+            { label: "How we validate", slug: "project/how-we-validate" },
             { label: "Comparison with other tools", slug: "project/comparison" },
             { label: "FAQ", slug: "project/faq" },
             { label: "Clean-room policy", slug: "project/clean-room" },

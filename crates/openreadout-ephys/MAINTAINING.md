@@ -47,8 +47,8 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `heka-patchmaster` | [format note](../../docs/formats/heka-patchmaster.md), [provenance log](../../docs/provenance/heka-patchmaster.md) | high | vendor docs | 6 / 6 | 5 | - |
-| `ced-spike2` | [format note](../../docs/formats/ced-spike2.md), [provenance log](../../docs/provenance/ced-spike2.md) | high | prior art | 17 / 16 | 8 | - |
+| `heka-patchmaster` | [format note](../../docs/formats/heka-patchmaster.md), [provenance log](../../docs/provenance/heka-patchmaster.md) | high | vendor docs | 10 / 10 | 6 | - |
+| `ced-spike2` | [format note](../../docs/formats/ced-spike2.md), [provenance log](../../docs/provenance/ced-spike2.md) | high | prior art | 24 / 22 | 11 | - |
 | `winwcp` | [format note](../../docs/formats/winwcp.md), [provenance log](../../docs/provenance/winwcp.md) | medium | prior art | 4 / 4 | 3 | - |
 | `open-ephys` | [format note](../../docs/formats/open-ephys.md), [provenance log](../../docs/provenance/open-ephys.md) | high | vendor docs | 17 / 17 | 3 | - |
 
@@ -110,49 +110,52 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ced-spike2` | field | `experiment.acquisition.started_at` | descriptive | 15 | 16 | `figshare25112837-fig2-aud-smrx`, `figshare26177569-sssort-doubleab-smrx`, `figshare26177569-sssort-singlea-smrx` |
+| `ced-spike2` | field | `experiment.acquisition.started_at` | descriptive | 21 | 23 | `figshare25112837-fig2-aud-smrx`, `figshare26177569-sssort-doubleab-smrx`, `figshare26177569-sssort-singlea-smrx` |
 | `ced-spike2` | format_version | `3` | metadata, tables, traces | 2 | 2 | `spike2-file-spike2-3-smr`, `zenodo4985334-aa-mvc-smr` |
 | `ced-spike2` | format_version | `4` | metadata, tables, traces | 1 | 1 | `spike2-file-spike2-1-smr` |
-| `ced-spike2` | format_version | `5` | metadata, tables, traces | 3 | 3 | `spike2-130322-1ly-smr`, `spike2-file-spike2-2-smr`, `spike2-multi-sampling-smr` |
-| `ced-spike2` | format_version | `6` | metadata, tables, traces | 2 | 2 | `zenodo10624872-21022013-smr`, `zenodo4437568-fig1-rec-f-control-smr` |
-| `ced-spike2` | format_version | `7` | metadata, tables, traces | 3 | 3 | `figshare26177569-sssort-singleb-asym03-smr`, `zenodo15783208-cpp600-c7e-da-smr`, `zenodo20750122-sub3-transpai-smr` |
+| `ced-spike2` | format_version | `5` | metadata, tables, traces | 6 | 6 | `figshare695021-smr-n80108repre`, `figshare695021-smr-n80117li`, `figshare695021-smr-n90120re` |
+| `ced-spike2` | format_version | `6` | metadata, tables, traces | 4 | 4 | `figshare639946-smr-day0-dark`, `figshare639946-smr-day1-light`, `zenodo10624872-21022013-smr` |
+| `ced-spike2` | format_version | `7` | metadata, tables, traces | 4 | 4 | `figshare26177569-sssort-singleb-asym03-smr`, `zenodo14706945-smr-07152022-n1`, `zenodo15783208-cpp600-c7e-da-smr` |
 | `ced-spike2` | format_version | `9` | metadata, tables, traces | 1 | 1 | `spike2-two-mice-bigfile-test000-smr` |
 | `ced-spike2` | format_version | `smrx 0.1` | metadata, tables, traces | 1 | 1 | `figshare25112837-fig2-aud-smrx` |
-| `ced-spike2` | format_version | `smrx 1.1` | metadata, tables, traces | 3 | 4 | `figshare26177569-sssort-doubleab-smrx`, `figshare26177569-sssort-singlea-smrx`, `figshare26177569-sssort-singleb-smrx` |
-| `ced-spike2` | record | `adc` | traces | 15 | 16 | `figshare25112837-fig2-aud-smrx`, `figshare26177569-sssort-doubleab-smrx`, `figshare26177569-sssort-singlea-smrx` |
+| `ced-spike2` | format_version | `smrx 1.1` | metadata, tables, traces | 3 | 5 | `figshare26177569-sssort-doubleab-smrx`, `figshare26177569-sssort-singlea-smrx`, `figshare26177569-sssort-singleb-smrx` |
+| `ced-spike2` | record | `adc` | traces | 21 | 23 | `figshare25112837-fig2-aud-smrx`, `figshare26177569-sssort-doubleab-smrx`, `figshare26177569-sssort-singlea-smrx` |
 | `ced-spike2` | record | `adc-mark` | tables | 3 | 3 | `spike2-file-spike2-1-smr`, `spike2-file-spike2-2-smr`, `spike2-multi-sampling-smr` |
 | `ced-spike2` | record | `event-falling` | tables | 1 | 1 | `spike2-file-spike2-1-smr` |
 | `ced-spike2` | record | `event-level` | tables | 1 | 1 | `spike2-file-spike2-1-smr` |
 | `ced-spike2` | record | `event-rising` | tables | 6 | 6 | `figshare25112837-fig2-aud-smrx`, `figshare26177569-sssort-doubleab-smrx`, `figshare26177569-sssort-singlea-smrx` |
-| `ced-spike2` | record | `marker` | tables | 2 | 2 | `spike2-file-spike2-1-smr`, `spike2-multi-sampling-smr` |
-| `ced-spike2` | record | `text-mark` | tables | 3 | 3 | `spike2-130322-1ly-smr`, `spike2-file-spike2-2-smr`, `spike2-multi-sampling-smr` |
+| `ced-spike2` | record | `marker` | tables | 6 | 7 | `figshare639946-smr-day0-dark`, `figshare695021-smr-n80108repre`, `figshare695021-smr-n80117li` |
+| `ced-spike2` | record | `text-mark` | tables | 5 | 6 | `figshare695021-smr-n90120re`, `spike2-130322-1ly-smr`, `spike2-file-spike2-2-smr` |
 | `ced-spike2` | writer_version | `00000000` | descriptive | 1 | 1 | `spike2-file-spike2-1-smr` |
 | `ced-spike2` | writer_version | `S2050123` | descriptive | 1 | 1 | `spike2-file-spike2-3-smr` |
 | `ced-spike2` | writer_version | `S2050210` | descriptive | 1 | 1 | `zenodo4437568-fig1-rec-f-control-smr` |
+| `ced-spike2` | writer_version | `S2051454` | descriptive | 3 | 3 | `figshare695021-smr-n80108repre`, `figshare695021-smr-n80117li`, `figshare695021-smr-n90120re` |
 | `ced-spike2` | writer_version | `S2061895` | descriptive | 1 | 1 | `spike2-130322-1ly-smr` |
 | `ced-spike2` | writer_version | `S2071033` | descriptive | 1 | 1 | `spike2-multi-sampling-smr` |
+| `ced-spike2` | writer_version | `S2071345` | descriptive | 2 | 2 | `figshare639946-smr-day0-dark`, `figshare639946-smr-day1-light` |
 | `ced-spike2` | writer_version | `S2071431` | descriptive | 1 | 1 | `zenodo10624872-21022013-smr` |
 | `ced-spike2` | writer_version | `S2071635` | descriptive | 1 | 1 | `spike2-two-mice-bigfile-test000-smr` |
 | `ced-spike2` | writer_version | `S2072307` | descriptive | 1 | 1 | `zenodo4985334-aa-mvc-smr` |
 | `ced-spike2` | writer_version | `S2083226` | descriptive | 1 | 1 | `figshare25112837-fig2-aud-smrx` |
 | `ced-spike2` | writer_version | `S2083331` | descriptive | 1 | 1 | `zenodo15783208-cpp600-c7e-da-smr` |
 | `ced-spike2` | writer_version | `S2090130` | descriptive | 2 | 2 | `figshare26177569-sssort-doubleab-smrx`, `figshare26177569-sssort-singleb-asym03-smr` |
+| `ced-spike2` | writer_version | `S2090302` | descriptive | 1 | 2 | `zenodo14706945-smr-07152022-n1` |
 | `ced-spike2` | writer_version | `S2091349` | descriptive | 0 | 1 |  |
 | `ced-spike2` | writer_version | `S2103724` | descriptive | 1 | 1 | `zenodo20750122-sub3-transpai-smr` |
-| `heka-patchmaster` | acquisition | `current-clamp` | descriptive | 3 | 3 | `hekareader-180514s1c1r1`, `zenodo3827171-w2019-07-08b`, `zenodo4311847-feb0821c` |
+| `heka-patchmaster` | acquisition | `current-clamp` | descriptive | 7 | 7 | `gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes`, `gin-ephy-testing-data-heka-generation-v2x90-2-two-amplifier-channels`, `gin-ephy-testing-data-heka-generation-v2x90-3-eight-headstages` |
 | `heka-patchmaster` | acquisition | `no-mode` | descriptive | 1 | 1 | `zenodo4311847-feb0821c` |
-| `heka-patchmaster` | acquisition | `whole-cell` | descriptive | 4 | 4 | `zenodo3827171-w2019-07-08b`, `zenodo4992914-04-11-12-hek-prestin`, `zenodo7530512-2018-12-21c4` |
+| `heka-patchmaster` | acquisition | `whole-cell` | descriptive | 6 | 6 | `gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes`, `gin-ephy-testing-data-heka-generation-v2x90-2-two-amplifier-channels`, `zenodo3827171-w2019-07-08b` |
 | `heka-patchmaster` | format_version | `2.11` | metadata, traces | 1 | 1 | `zenodo4992914-04-11-12-hek-prestin` |
 | `heka-patchmaster` | format_version | `2x60` | metadata, traces | 2 | 2 | `zenodo7530512-2018-12-21c4`, `zenodo7530512-2019-10-02c1` |
-| `heka-patchmaster` | format_version | `2x65` | metadata, traces | 1 | 1 | `zenodo4311847-feb0821c` |
-| `heka-patchmaster` | format_version | `2x90.2` | metadata, traces | 1 | 1 | `zenodo3827171-w2019-07-08b` |
-| `heka-patchmaster` | format_version | `2x90.3` | metadata, traces | 1 | 1 | `hekareader-180514s1c1r1` |
-| `heka-patchmaster` | layout | `pulsed tree 1000` | metadata, traces | 1 | 1 | `hekareader-180514s1c1r1` |
-| `heka-patchmaster` | layout | `pulsed tree 9` | metadata, traces | 5 | 5 | `zenodo3827171-w2019-07-08b`, `zenodo4311847-feb0821c`, `zenodo4992914-04-11-12-hek-prestin` |
+| `heka-patchmaster` | format_version | `2x65` | metadata, traces | 2 | 2 | `gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes`, `zenodo4311847-feb0821c` |
+| `heka-patchmaster` | format_version | `2x90.2` | metadata, traces | 2 | 2 | `gin-ephy-testing-data-heka-generation-v2x90-2-two-amplifier-channels`, `zenodo3827171-w2019-07-08b` |
+| `heka-patchmaster` | format_version | `2x90.3` | metadata, traces | 3 | 3 | `gin-ephy-testing-data-heka-generation-v2x90-3-eight-headstages`, `gin-ephy-testing-data-heka-generation-v2x90-3-single-channel-current-clamp`, `hekareader-180514s1c1r1` |
+| `heka-patchmaster` | layout | `pulsed tree 1000` | metadata, traces | 3 | 3 | `gin-ephy-testing-data-heka-generation-v2x90-3-eight-headstages`, `gin-ephy-testing-data-heka-generation-v2x90-3-single-channel-current-clamp`, `hekareader-180514s1c1r1` |
+| `heka-patchmaster` | layout | `pulsed tree 9` | metadata, traces | 7 | 7 | `gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes`, `gin-ephy-testing-data-heka-generation-v2x90-2-two-amplifier-channels`, `zenodo3827171-w2019-07-08b` |
 | `heka-patchmaster` | layout | `series split by sample grid` | descriptive | 1 | 1 | `zenodo4992914-04-11-12-hek-prestin` |
 | `heka-patchmaster` | record | `virtual traces` | traces | 1 | 1 | `zenodo4992914-04-11-12-hek-prestin` |
 | `heka-patchmaster` | sample_layout | `float32` | traces | 1 | 1 | `zenodo4992914-04-11-12-hek-prestin` |
-| `heka-patchmaster` | sample_layout | `int16` | traces | 6 | 6 | `hekareader-180514s1c1r1`, `zenodo3827171-w2019-07-08b`, `zenodo4311847-feb0821c` |
+| `heka-patchmaster` | sample_layout | `int16` | traces | 10 | 10 | `gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes`, `gin-ephy-testing-data-heka-generation-v2x90-2-two-amplifier-channels`, `gin-ephy-testing-data-heka-generation-v2x90-3-eight-headstages` |
 | `open-ephys` | format_version | `GUI 0.4` | metadata, tables, traces | 3 | 3 | `oe-bin-neural-and-non-neural-data-mixed`, `oe-bin-v0-4-4-1-with-spikes`, `oe-bin-v0-4-4-1-with-video-tracking` |
 | `open-ephys` | format_version | `GUI 0.5` | metadata, tables, traces | 2 | 2 | `oe-bin-v0-5-3-two-neuropixels-stream`, `oe-bin-v0-5-x-two-nodes` |
 | `open-ephys` | format_version | `GUI 0.6` | metadata, tables, traces | 5 | 5 | `oe-bin-v0-6-x-neuropixels-missing-folders`, `oe-bin-v0-6-x-neuropixels-multiexp-multistream`, `oe-bin-v0-6-x-neuropixels-with-sync` |

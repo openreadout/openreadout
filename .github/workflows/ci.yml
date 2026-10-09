@@ -64,6 +64,8 @@ jobs:
         run: cargo xtask heldout-check
       - name: Skill parity
         run: cargo xtask skill-parity
+      - name: Assurance tables and confidence match the committed evidence (docs/assurance.md)
+        run: cargo xtask assurance-audit
       - name: Ground truth over 1 MiB is stored as .json.gz
         run: cargo xtask corpus compress --check
       - name: API documentation builds without warnings (missing docs, broken links)

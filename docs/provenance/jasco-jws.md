@@ -73,7 +73,7 @@
 
 ## 2026-10-07 — flat files with two channels: circular dichroism and HT voltage (Richard Zimring with Claude as assistant)
 
-**Why:** the signals bug hunt (`docs/benchmark/hunt-2026-10-signals.md`) found a flat J-810 circular-dichroism file refused with exit 6 ("unexpected axis descriptor").
+**Why:** the signals bug hunt (2026-10) found a flat J-810 circular-dichroism file refused with exit 6 ("unexpected axis descriptor").
 
 **Corpus files:** `figshare13601282-dk-cd` (`DK_27xi20.jws`) and its depositor's Spectra Manager text export `figshare13601282-dk-cd-txt` (`DK_27xi20.txt`); for the layout, four more pairs of the same record (`DQ_27xi20`, `QW_27xi20`, `WQ_27xi20`, `water_27xi20` with their `.txt`). Figshare 13601282 "peptides_CD and FRET" (Laurents, CC BY 4.0; no held-out record; the record numbers the survey lists as held-out CD files are other records).
 

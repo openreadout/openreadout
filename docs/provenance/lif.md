@@ -121,7 +121,7 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 
 ## 2026-09-26 — Start time from `TimeStamp` children of `TimeStampList`
 
-**Why.** The per-field comparison with Bio-Formats (`oracle/metadata_compare.py`, docs/benchmark/microscopy-metadata.md) found `acquired_at` missing on 45 images of 8 LIF files that Bio-Formats dates (`bsst749-2a-ishi-hf-fshr-*`, `bsst749-4i-bodipy-ctl`, `bsst749-4ii-bodipy-ctl`, `zenodo3382102-y293-Gal4-vmat-GFP-f01`, …).
+**Why.** The per-field comparison with Bio-Formats (`oracle/metadata_compare.py`) found `acquired_at` missing on 45 images of 8 LIF files that Bio-Formats dates (`bsst749-2a-ishi-hf-fshr-*`, `bsst749-4i-bodipy-ctl`, `bsst749-4ii-bodipy-ctl`, `zenodo3382102-y293-Gal4-vmat-GFP-f01`, …).
 
 **Corpus files used:** the files above; every development LIF for the check. **Prior art consulted:** liffile (BSD-3-Clause, https://github.com/cgohlke/liffile), run as a second reader of `timestamps` (not its source).
 
@@ -131,7 +131,7 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 
 ## 2026-10-07 — channel names from the dye names LAS X records
 
-**Why.** The imaging hunt (`docs/benchmark/hunt-2026-10-imaging.md`) noted that LIF channels were named after their display colour (`Red`, `Gray`) while the XML also records dye names.
+**Why.** The imaging bug hunt (2026-10) noted that LIF channels were named after their display colour (`Red`, `Gray`) while the XML also records dye names.
 
 **Corpus files used** (development inputs only; no held-out file): every development LIF on disk — `zenodo6606445-Project007`, `zenodo20760621-stellaris-metadata`, `ome-imagesc-110520-AMR1`, `bsst749-4i-bodipy-ctl`, `bsst749-4ii-bodipy-ctl`, `zenodo6643649-ki67-untreated`, `zenodo5576217-nmj-starved`, `zenodo6259698-ob-f8211`, `zenodo7509202-ileum-ctrl`, `zenodo19217336-dnge-notjammed`, `ome-imagesc-30856-20191025-Test-FRET-585-423-426`, `zenodo7840078-bodipy-mcf7`, `zenodo5895076-polymersome-unstain`, `zenodo3382102-y293-Gal4-vmat-GFP-f01`, `zenodo13752242-FLIM250523`, `zenodo14976703-Convalaria-LambdaScan`, `zenodo18462868-raman-spombe`, the `aics-*`, `bsst749-2a-*` and `ome-michael-*` files, and the two XLIF exports.
 

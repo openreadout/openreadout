@@ -6,7 +6,7 @@
 
 Open-source. Single binary. No vendor software. No dependencies. No network access. Works everywhere.
 
-**OpenReadout makes data stored in proprietary instrument file formats readable: it pulls out the metadata, images, traces, spectra, and tables as structured JSON and renders previews so your agent can see and understand the data.** Every format is validated against real data and independent libraries. On files from labs, instruments and software versions that no reader was developed on, 85 of 94 agree with an independent reference (90 %, 95 % CI 83–95 %). Mass spectrometry generalizes least well, at 8 of 13 ([held-out report](docs/benchmark/heldout-2026-10-06d.md)).
+**OpenReadout makes data stored in proprietary instrument file formats readable: it pulls out the metadata, images, traces, spectra, and tables as structured JSON and renders previews so your agent can see and understand the data.** Every format is validated against real data and independent libraries.
 
 [![CI](https://github.com/openreadout/openreadout/actions/workflows/ci.yml/badge.svg)](https://github.com/openreadout/openreadout/actions/workflows/ci.yml)
 [![Docs](https://github.com/openreadout/openreadout/actions/workflows/docs.yml/badge.svg)](https://openreadout.github.io/openreadout/)
@@ -352,7 +352,7 @@ with openreadout.File("cells.lif") as f:
 
 ## Validation
 
-Readers are tested against about 1,500 public instrument files. Each file's geometry, metadata, and plane hashes are compared with independent libraries (czifile, nd2, liffile, Bio-Formats, FlowIO, pyABF, and others), and pixel data must match exactly. See [Validation](https://openreadout.github.io/openreadout/project/validation.html).
+Readers are checked against independent readers on public instrument files, as [How we validate](https://openreadout.github.io/openreadout/project/how-we-validate.html) explains.
 
 Every reader was written from public files and permissively licensed documentation — no vendor SDKs, headers, DLLs, or GPL source code. See the [clean-room policy](docs/legal/clean-room-policy.md).
 

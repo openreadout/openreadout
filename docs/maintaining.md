@@ -10,7 +10,7 @@ OpenReadout reads over ninety vendor formats, most of them reverse-engineered, a
 | the corpus and its oracles | over a thousand public development files with independent ground truth; a held-out set that measures generalisation | `corpus/`, [corpus README](../corpus/README.md) |
 | golden snapshots | every reader's output on every fixture and corpus file, so an unintended change anywhere is visible in review | `corpus/snapshots/`, `crates/openreadout-cli/tests/snapshots/` |
 | the new-variant loop | a privacy-reviewed report from the user, an intake that turns it into a failing test, a playbook to make it pass | this page |
-| project health | the numbers above, generated | [Project health](../book/src/project/health.md) (`cargo xtask health`) |
+| project health | the numbers above, generated | `cargo xtask health` (an internal report; `--write` saves it to `target/reports/health.md`) |
 
 ## The new-variant loop
 
@@ -91,11 +91,11 @@ Formats whose oracle is a vendor export (Thermo, Sciex, Waters, Agilent MassHunt
 ```bash
 cargo build --release -p openreadout
 CORPUS_RESULTS=/tmp/results.jsonl cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test corpus corpus_matches_oracle
-cargo xtask assurance-audit refresh --results /tmp/results.jsonl     # (+ --results /tmp/mz.jsonl for MS)
-cargo xtask assurance-audit --write                                   # validated tables, confidence, evidence page
+cargo xtask assurance-audit refresh --format FMT --results /tmp/results.jsonl   # (+ the other results files, docs/assurance.md)
+cargo xtask assurance-audit --write                                   # validated tables and confidence
 cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test snapshots
 cargo xtask snapshot review && cargo xtask snapshot accept            # every changed output, reviewed
-cargo xtask guides --write && cargo xtask health --write
+cargo xtask guides --write
 ```
 
 Then set `status = "validated"` in `corpus/intake/<id>.toml` (from now on the intake test pins the variant), confirm the manifest entry's URL and licence and move it from `hold` to `standard` (or `smoke` if it is small enough for CI), add a CHANGELOG line, and link the pull request in the issue.
@@ -135,9 +135,9 @@ Evidence only grows through the corpus: a new file with an oracle, `assurance-au
 ## Release cadence
 
 - **Monthly minor releases** while the version is 0.x, from `main` when CI is green; patch releases for S1 fixes as soon as they land. Steps: [release-process.md](release-process.md).
-- Before tagging: refresh the assurance evidence on the full development corpus, rerun the corpus snapshot test (review every difference since the last release), run `cargo xtask guides`, `cargo xtask variant check`, `cargo xtask health --write`, and make sure no intake is `validated` while its manifest entry is still on `hold`.
-- The release notes list: new variants validated (from closed intakes), S1/S2 fixes, confidence changes (the evidence page's diff), readers deprecated.
-- A held-out draw is re-run at least every other release; its report goes in `docs/benchmark/`.
+- Before tagging: refresh the assurance evidence on the full development corpus, rerun the corpus snapshot test (review every difference since the last release), run `cargo xtask guides` and `cargo xtask variant check`, read `cargo xtask health`, and make sure no intake is `validated` while its manifest entry is still on `hold`.
+- The release notes list: new variants validated (from closed intakes), S1/S2 fixes, confidence changes (the diff of the generated confidence levels), readers deprecated.
+- A held-out draw is re-run at least every other release. Its report stays with the maintainers' notes, outside the repository.
 
 ## Deprecating a reader
 

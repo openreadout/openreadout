@@ -24176,7 +24176,7 @@ license = "CC-BY-4.0"
 source = "Figshare 10.6084/m9.figshare.30598193.v1 'Skin Repair Plus Ointment on Molecular and Morphological Changes in Burn Wounds'"
 attribution = "Mohammad Al-Zghoul"
 notes = "Rotor-Gene Q (REX 3.15), 72-well rotor: 40-cycle Green channel and 55-99 °C melt readings for 72 tubes, profile; no sample names, no results. Licence: CC-BY-4.0 (Figshare record licence 'CC BY 4.0', checked via the Figshare API 2026-09-23)."
-# ---- Shimadzu .lcd with its LabSolutions ASCII export (N-L1 of docs/benchmark/heldout-2026-09-24b), added 2026-09-24.
+# ---- Shimadzu .lcd with its LabSolutions ASCII export (finding N-L1 of held-out draw B, 2026-09-24), added 2026-09-24.
 
 [[file]]
 id = "lcd-streamfind-adc-uv"
@@ -24208,7 +24208,7 @@ source = "GitHub odea-project/streamfind @69f75b6, bindings/r/dev/dev_reader/exa
 attribution = "odea-project/streamfind contributors (Ricardo Cunha)"
 notes = "LabSolutions ASCII export of lcd-streamfind-adc-uv: [LC Chromatogram(Detector A-Ch1)], [LC Chromatogram(AD1)], six [LC Status Trace(...)] sections, peak tables"
 
-# ---- WiRE map with a LiveTrack Z list named `Z data` (N-L2 of docs/benchmark/heldout-2026-09-24b), added 2026-09-24.
+# ---- WiRE map with a LiveTrack Z list named `Z data` (finding N-L2 of held-out draw B, 2026-09-24), added 2026-09-24.
 
 [[file]]
 id = "wdf-zenodo10694741-streamline-livetrack"
@@ -24227,7 +24227,7 @@ source = "Zenodo 10694741 'Function to correct cosmic rays and Raman images' (do
 attribution = "Hery Mitsutake, Douglas Rutledge, Heloisa Bordallo, Eneida de Paula"
 notes = "WiRE 5.4 StreamLine map with LiveTrack focus tracking: 91 x 91 map, 8,281 spectra; ORGN lists X, Y, Z (type 5, name 'Z data', not primary), Z actual, Z difference, LT Signal Used, time. Ground truth: renishawWiRE (MIT)."
 
-# ---- Harmony 6/7 Index.xml with channel descriptions in Maps (N-M2 of docs/benchmark/heldout-2026-09-24b), added 2026-09-24.
+# ---- Harmony 6/7 Index.xml with channel descriptions in Maps (finding N-M2 of held-out draw B, 2026-09-24), added 2026-09-24.
 
 [[file]]
 id = "hcs-harmony6-cpg0048-41005680-index"
@@ -24439,7 +24439,7 @@ source = "Cell Painting Gallery (AWS Open Data, s3://cellpainting-gallery/cpg004
 attribution = "Cell Painting Gallery cpg0047-amish depositors"
 notes = "plane file of hcs-harmony7-cpg0047-br00143056-index"
 
-# ---- Gen5 exports without their file header (N-M2 of docs/benchmark/heldout-2026-09-24b), added 2026-09-24.
+# ---- Gen5 exports without their file header (finding N-M2 of held-out draw B, 2026-09-24), added 2026-09-24.
 # Made by oracle/make_gen5_headerless.py from the two allotropy Gen5 exports above (MIT): every line
 # before `Layout` dropped, nothing else changed. No licensed public header-less export with an
 # embedded layout and standards was found (docs/provenance/plate-readers.md, 2026-09-24).
@@ -24472,7 +24472,7 @@ source = "synthetic, oracle/make_gen5_headerless.py from gen5-abs-kinetic-meanv-
 attribution = "Benchling, Inc. and allotropy contributors"
 notes = "gen5-abs-kinetic-meanv-4pl from its `Layout` line on: no header and no procedure (the kinetic loop and the unnamed 420 nm read are known only from the table titles); layout with STD1-12 concentrations, kinetic table, Gen5's Mean V [420], [Concentration] and 4PL Curve Fitting Results"
 
-# ---- qPCR "Undetermined" wells stored as Ct = cycle count (N-H1 of docs/benchmark/heldout-2026-09-24b), added 2026-09-24.
+# ---- qPCR "Undetermined" wells stored as Ct = cycle count (finding N-H1 of held-out draw B, 2026-09-24), added 2026-09-24.
 
 [[file]]
 id = "eds-viia7-npff-ddct"
@@ -24634,7 +24634,7 @@ source = "Figshare 10.6084/m9.figshare.21205784.v1 'Lab data qPCR 2020', file 37
 attribution = "Haidong Yu"
 notes = "vendor Results export (QuantStudio 3 and 5 software; CT, Amp Status, Cq Conf) of eds-qs35-npff-mtrna-ampstatus"
 
-# ---- JPEG colour in TIFF (H2 of docs/benchmark/heldout-2026-09-24.md), added 2026-09-24.
+# ---- JPEG colour in TIFF (finding H2 of the first held-out draw, 2026-09-24), added 2026-09-24.
 # Regenerate: `cd oracle && BFTOOLS_670_DIR=<bftools 6.7.0> uv run python make_tiff_jpeg_fixtures.py --out <corpus dir> --oracle`.
 # Pixels: a crop of openslide-aperio-cmu-1-small-region (CC0-1.0); Bio-Formats (GPL) run as a
 # black box writes the OME-TIFFs. No url and no sha256 (Bio-Formats writes fresh UUIDs); the oracle
@@ -39198,7 +39198,7 @@ source = "Zenodo record 20802274, SINTEF___duracell-mn2400-2026-02-tpejqj_127.0.
 attribution = "Clark, Simon; Stokes-Rodriguez, Killian (SINTEF)"
 notes = "A Neware .ndax (BTS 8.2) from a depositor no development .ndax comes from. Not opened while developing. Ground truth: NewareNDA (black box)."
 # ---------------------------------------------------------------------------------------------
-# Held-out draw C (2026-09-26, docs/benchmark/heldout-2026-09-26c.md): third generalization draw.
+# Held-out draw C (2026-09-26): third generalization draw.
 # Every source record below is held out entirely; development work must not take files from them.
 # ---------------------------------------------------------------------------------------------
 
@@ -61295,7 +61295,7 @@ source = "BioImage Archive S-BIAD1129: Artificial intelligence-based quantificat
 attribution = "Judit Magnusson Wulcan; Stefan M Keller (University of California, Davis)"
 notes = "Olympus VS120 virtual slide microscope, VSI with its ETS folder (stack1 and stack10001): an RGB overview of 13217 x 6191 and a 40x scan of 83504 x 14908 (0.173 um pixels, 2021-04-03) of a brightfield H&E slide of a feline small-intestine biopsy (veterinary diagnostic archive), deposited 2024. The corpus has no held-out VSI so far. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: Bio-Formats (black box)."
 pixel_tolerance = 4
-lossy = true  # JPEG tiles, like the development VS120/VS200 slides (set after the first run; docs/benchmark/heldout-2026-10-06d.md)
+lossy = true  # JPEG tiles, like the development VS120/VS200 slides (set after the first run, held-out draw D, 2026-10-06)
 
 [[file]]
 id = "ho-biad1129-vsi-feline-ets-stack1"
@@ -61331,7 +61331,7 @@ source = "BioImage Archive S-BIAD1129: Artificial intelligence-based quantificat
 attribution = "Judit Magnusson Wulcan; Stefan M Keller (University of California, Davis)"
 notes = "pixel data of ho-biad1129-vsi-feline (stack10001)"
 
-# ---------- Imaging bug hunt, 2026-10 (development files; docs/benchmark/hunt-2026-10-imaging.md) ----------
+# ---------- Imaging bug hunt, 2026-10 (development files) ----------
 
 [[file]]
 id = "zenodo21426640-droplet-pdms"
@@ -67316,6 +67316,7 @@ license_checked = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/publ
 source = "MetaboLights MTBLS5747 (sponge exudates and reef picoplankton), mtab_Fiore_sponge_2021_0623_35.raw"
 attribution = "MTBLS5747 depositors (MetaboLights)"
 notes = "TSQ Vantage, Xcalibur 2.3 SP1, file version 64, SRM, 14,763 scans, 2021; the depositor's mzML holds 194 chromatograms"
+srm_energy_not_compared = "the export (ProteoWizard 3.0.19277) gives every one of its 193 SRM traces a collision energy of 0.0, while every scan's reaction records 25.0 and the method's SRM table lists 5 to 51 V per transition, so the export's 0.0 does not tell the transitions apart (docs/provenance/thermo-raw.md, 2026-10-07)"
 
 [[file]]
 id = "mtbls5747-vantage-sponge-35"
@@ -70122,7 +70123,7 @@ license_checked = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data (LICE
 source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), commit 43e1961, plexon/plx/recording_intervals/two_intervals_with_continuous_gaps/spikes_field_potentials_and_events.plx"
 attribution = "NeuralEnsemble ephy_testing_data contributors"
 notes = "Plexon PLX with two recording intervals; upstream path plexon/plx/recording_intervals/two_intervals_with_continuous_gaps/spikes_field_potentials_and_events.plx; not in the corpus manifest"
-oracle_skip = "Neo 0.14.5 joins the two recording intervals into one 2680-sample segment and zero-fills the last 10 samples of the final block; OpenReadout keeps them as two sweeps (1410 + 1270 samples, split at the gap between the Stop and Start events) and reads the final block whole. Every other sample of channels AD01, AD06 and AD101 is equal (2026-10-06, docs/benchmark/hunt-2026-10-signals.md). Neo also drops the final Stop event."
+oracle_skip = "Neo 0.14.5 joins the two recording intervals into one 2680-sample segment and zero-fills the last 10 samples of the final block; OpenReadout keeps them as two sweeps (1410 + 1270 samples, split at the gap between the Stop and Start events) and reads the final block whole. Every other sample of channels AD01, AD06 and AD101 is equal (2026-10-06, the signals bug hunt). Neo also drops the final Stop event."
 
 [[file]]
 id = "gin-ephy-testing-data-neuralynx-cheetah-v1-1-0-original-data-csc67-trunc"
@@ -72948,7 +72949,7 @@ source = "Zenodo 4449746 'Phages weaponize their bacteria with biosynthetic gene
 attribution = "Dragos A, Andersen AJC et al."
 notes = "BioTek Gen5 3.03.14 export from a Synergy HTX, continuous OD and GFP kinetic read at 37 C, 96-well, Bacillus subtilis cultures; upstream 'Dragos et al., raw data_plate reader.xlsx'"
 
-# Files the signals bug hunt (docs/benchmark/hunt-2026-10-signals.md) left open, added 2026-10-07.
+# Files the signals bug hunt left open, added 2026-10-07.
 [[file]]
 id = "zenodo21511646-ras-kagome-tar012"
 format = "rigaku-ras"

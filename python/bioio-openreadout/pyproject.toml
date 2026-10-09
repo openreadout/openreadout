@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "bioio-openreadout"
-version = "0.1.0"
+version = "0.2.0"
 description = "bioio reader plugin that reads microscopy files with OpenReadout"
 readme = "README.md"
 license = "MIT OR Apache-2.0"
@@ -25,7 +25,7 @@ classifiers = [
 # Deliberately no dependency on the GPL-licensed bioio-czi / bioio-lif.
 dependencies = [
   "bioio-base>=3.4,<4",
-  "openreadout[xarray]>=0.1.0,<0.2",
+  "openreadout[xarray]>=0.2.0,<0.3",
   "dask[array]>=2022.2",
   "fsspec>=2022.8.0",
   "numpy>=1.22",

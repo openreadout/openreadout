@@ -114,7 +114,7 @@ why = "single-subfile Galactic SPC written by OMNIC with a main exponent of 2 an
 # Field second opinions (oracle/second_fields/, corpus/oracle/second/fields/): checked by
 # `second_opinion_fields_agree` (crates/openreadout-corpus-tests/tests/second_fields.rs).
 # `ids` and `fields` are glob patterns over corpus ids and field names. Investigated 2026-09-26;
-# docs/benchmark/second-opinions.md lists them per family.
+# oracle/second_report.py lists them per family.
 # ======================================================================================
 
 # ---- mass spectrometry --------------------------------------------------------------------

@@ -39,7 +39,7 @@ Nikon ND2 (`nd2`): chunk-based files (NIS-Elements 3.x–5.x, format versions 2.
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `nd2` | [format note](../../docs/formats/nd2.md), [provenance log](../../docs/provenance/nd2.md) | high | prior art | 42 / 41 | 21 | 4 / 0 |
+| `nd2` | [format note](../../docs/formats/nd2.md), [provenance log](../../docs/provenance/nd2.md) | high | prior art | 50 / 41 | 21 | 4 / 0 |
 
 ### Source map
 
@@ -76,27 +76,29 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `nd2` | codec | `jpeg2000` | pixels | 5 | 5 | `aics-ND2-aryeh-but3-cont200-1`, `ome-aryeh-Time-sequence-24`, `ome-aryeh-b16-14-12` |
-| `nd2` | codec | `uncompressed` | pixels | 34 | 35 | `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
+| `nd2` | codec | `jpeg2000` | pixels | 5 | 7 | `aics-ND2-aryeh-but3-cont200-1`, `ome-aryeh-Time-sequence-24`, `ome-aryeh-b16-14-12` |
+| `nd2` | codec | `uncompressed` | pixels | 34 | 41 | `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
 | `nd2` | codec | `zlib` | pixels | 2 | 2 | `ome-jonas-nd2Test-Exception-2`, `ome-jonas-nd2Test-Exception61` |
-| `nd2` | field | `experiment.acquisition.started_at` | descriptive | 38 | 38 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
+| `nd2` | field | `experiment.acquisition.started_at` | descriptive | 38 | 45 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
 | `nd2` | format_version | `2.0` | metadata, pixels | 2 | 2 | `ome-jonas-nd2Test-Exception-2`, `ome-jonas-nd2Test-Exception61` |
-| `nd2` | format_version | `2.1` | metadata, pixels | 3 | 4 | `aics-ND2-jonas-header-test2`, `ome-jonas-control002`, `ome-jonas-header-test1` |
+| `nd2` | format_version | `2.1` | metadata, pixels | 3 | 8 | `aics-ND2-jonas-header-test2`, `ome-jonas-control002`, `ome-jonas-header-test1` |
+| `nd2` | format_version | `2.2` | metadata, pixels | 0 | 2 |  |
 | `nd2` | format_version | `3.0` | metadata, pixels | 31 | 31 | `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
-| `nd2` | format_version | `legacy-jp2` | metadata, pixels | 5 | 5 | `aics-ND2-aryeh-but3-cont200-1`, `ome-aryeh-Time-sequence-24`, `ome-aryeh-b16-14-12` |
-| `nd2` | layout | `loop ne_time_loop` | metadata, pixels | 11 | 11 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-jonas-header-test2` |
-| `nd2` | layout | `loop time_loop` | metadata, pixels | 9 | 10 | `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p4z5t3c2y32x32`, `aics-ND2-dims-rgb-t3p2c2z3x64y64` |
-| `nd2` | layout | `loop xy_position_loop` | metadata, pixels | 13 | 13 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
-| `nd2` | layout | `loop z_stack_loop` | metadata, pixels | 16 | 17 | `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-dims-p4z5t3c2y32x32` |
-| `nd2` | layout | `multi_position` | pixels | 10 | 10 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-dims-p4z5t3c2y32x32` |
+| `nd2` | format_version | `legacy-jp2` | metadata, pixels | 5 | 7 | `aics-ND2-aryeh-but3-cont200-1`, `ome-aryeh-Time-sequence-24`, `ome-aryeh-b16-14-12` |
+| `nd2` | layout | `loop ne_time_loop` | metadata, pixels | 11 | 17 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-jonas-header-test2` |
+| `nd2` | layout | `loop time_loop` | metadata, pixels | 9 | 12 | `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p4z5t3c2y32x32`, `aics-ND2-dims-rgb-t3p2c2z3x64y64` |
+| `nd2` | layout | `loop xy_position_loop` | metadata, pixels | 13 | 17 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32` |
+| `nd2` | layout | `loop z_stack_loop` | metadata, pixels | 16 | 24 | `aics-ND2-dims-p1z5t3c2y32x32`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-dims-p4z5t3c2y32x32` |
+| `nd2` | layout | `multi_position` | pixels | 10 | 14 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-p2z5t3-2c4y32x32`, `aics-ND2-dims-p4z5t3c2y32x32` |
 | `nd2` | sample_layout | `stored BGR` | pixels | 5 | 5 | `aics-ND2-dims-rgb`, `aics-ND2-dims-rgb-t3p2c2z3x64y64`, `zenodo10277961-mrap1` |
 | `nd2` | sample_layout | `stored RGB` | pixels | 1 | 1 | `ome-aryeh-Time-sequence-24` |
-| `nd2` | sample_layout | `uint16` | pixels | 33 | 34 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
-| `nd2` | sample_layout | `uint8` | pixels | 2 | 2 | `ome-aryeh-b16-14-12`, `zenodo17186598-skewed` |
+| `nd2` | sample_layout | `uint16` | pixels | 33 | 40 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
+| `nd2` | sample_layout | `uint8` | pixels | 2 | 4 | `ome-aryeh-b16-14-12`, `zenodo17186598-skewed` |
 | `nd2` | sample_layout | `uint8x3` | pixels | 6 | 6 | `aics-ND2-dims-rgb`, `aics-ND2-dims-rgb-t3p2c2z3x64y64`, `ome-aryeh-Time-sequence-24` |
-| `nd2` | writer | `NIS-Elements` | descriptive | 41 | 42 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
+| `nd2` | writer | `NIS-Elements` | descriptive | 41 | 50 | `aics-ND2-aryeh-but3-cont200-1`, `aics-ND2-dims-c2y32x32`, `aics-ND2-dims-p1z5t3c2y32x32` |
 | `nd2` | writer_version | `NIS-Elements 2.30` | descriptive | 2 | 2 | `ome-jonas-nd2Test-Exception-2`, `ome-jonas-nd2Test-Exception61` |
-| `nd2` | writer_version | `NIS-Elements 3.0` | descriptive | 3 | 4 | `aics-ND2-jonas-header-test2`, `ome-jonas-control002`, `ome-jonas-header-test1` |
+| `nd2` | writer_version | `NIS-Elements 3.0` | descriptive | 3 | 8 | `aics-ND2-jonas-header-test2`, `ome-jonas-control002`, `ome-jonas-header-test1` |
+| `nd2` | writer_version | `NIS-Elements 3.10` | descriptive | 0 | 1 |  |
 | `nd2` | writer_version | `NIS-Elements 3.20` | descriptive | 3 | 3 | `ome-aryeh-MeOh-high-fluo-003`, `ome-aryeh-MeOh-high-fluo-007`, `ome-aryeh-MeOh-high-fluo-011` |
 | `nd2` | writer_version | `NIS-Elements 4.13` | descriptive | 1 | 1 | `aics-ND2-maxime-BF007` |
 | `nd2` | writer_version | `NIS-Elements 4.30` | descriptive | 1 | 1 | `zenodo15679243-leadingstrand` |

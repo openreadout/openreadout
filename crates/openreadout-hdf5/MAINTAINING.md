@@ -38,7 +38,7 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `ims` | [format note](../../docs/formats/ims.md), [provenance log](../../docs/provenance/ims.md) | high | vendor docs | 16 / 16 | 11 | 1 / 0 |
-| `nwb` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | high | open spec | 11 / 11 | 11 | 1 / 0 |
+| `nwb` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | high | open spec | 22 / 21 | 19 | 1 / 0 |
 | `hdf5` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | medium | open spec | 4 / 4 | 4 | - |
 
 ### Source map
@@ -112,18 +112,25 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `nwb` | format_version | `2.0.2` | metadata, tables, traces | 1 | 1 | `dandi000006-anm372907-20170613` |
 | `nwb` | format_version | `2.0b` | metadata, tables, traces | 1 | 1 | `dandi000027-sub-rat123` |
 | `nwb` | format_version | `2.1.0` | metadata, tables, traces | 1 | 1 | `dandi000035-sub-mouse-zudob-sample-27-icephys` |
+| `nwb` | format_version | `2.10.0` | metadata, tables, traces | 1 | 1 | `dandi001829-nwb-011226` |
+| `nwb` | format_version | `2.2.2` | metadata, tables, traces | 1 | 1 | `figshare12780425-nwb-icephys-171017-kk13` |
 | `nwb` | format_version | `2.2.4` | metadata, tables, traces | 1 | 1 | `dandi000043-sub-m19-01-001-ses-20190228t222559-icephys` |
 | `nwb` | format_version | `2.2.5` | metadata, tables, traces | 3 | 3 | `dandi000034-mouse412804-155542`, `dandi000059-ms10-170314`, `dandi000067-ee-044` |
-| `nwb` | format_version | `2.3.0` | metadata, tables, traces | 2 | 2 | `dandi000117-sub-20210511003-0019-icephys`, `dandi000126-sub-1` |
+| `nwb` | format_version | `2.3.0` | metadata, tables, traces | 2 | 3 | `dandi000117-sub-20210511003-0019-icephys`, `dandi000126-sub-1` |
 | `nwb` | format_version | `2.4.0` | metadata, tables, traces | 1 | 1 | `dandi000221-hi198-060619` |
-| `nwb` | format_version | `2.6.0` | metadata, tables, traces | 1 | 1 | `dandi000968-sub-na-icephys` |
-| `nwb` | layout | `time base starting_time + rate` | traces | 5 | 5 | `dandi000035-sub-mouse-zudob-sample-27-icephys`, `dandi000043-sub-m19-01-001-ses-20190228t222559-icephys`, `dandi000067-ee-044` |
-| `nwb` | layout | `time base timestamps` | traces | 2 | 2 | `dandi000006-anm372907-20170613`, `dandi000059-ms10-170314` |
+| `nwb` | format_version | `2.5.0` | metadata, tables, traces | 1 | 1 | `dandi001746-icephys-mfa180730` |
+| `nwb` | format_version | `2.6.0` | metadata, tables, traces | 2 | 2 | `dandi000968-sub-na-icephys`, `dandi000987-ecephys-a7802` |
+| `nwb` | format_version | `2.7.0` | metadata, tables, traces | 3 | 3 | `dandi001358-ecephys-a19034-s062`, `dandi001544-icephys-cc328`, `dandi001544-icephys-cc356` |
+| `nwb` | format_version | `2.8.0` | metadata, tables, traces | 1 | 1 | `dandi001475-patchseq-rmbe91m1` |
+| `nwb` | format_version | `2.9.0` | metadata, tables, traces | 2 | 2 | `dandi001641-ecephys-le31-s1-03`, `dandi001641-ecephys-le31-s1-06` |
+| `nwb` | layout | `time base starting_time + rate` | traces | 11 | 12 | `dandi000035-sub-mouse-zudob-sample-27-icephys`, `dandi000043-sub-m19-01-001-ses-20190228t222559-icephys`, `dandi000067-ee-044` |
+| `nwb` | layout | `time base timestamps` | traces | 3 | 4 | `dandi000006-anm372907-20170613`, `dandi000059-ms10-170314`, `dandi000987-ecephys-a7802` |
 | `nwb` | layout | `time base uniform timestamps` | traces | 1 | 1 | `dandi000126-sub-1` |
-| `nwb` | record | `CurrentClampSeries` | traces | 2 | 2 | `dandi000035-sub-mouse-zudob-sample-27-icephys`, `dandi000043-sub-m19-01-001-ses-20190228t222559-icephys` |
-| `nwb` | record | `CurrentClampStimulusSeries` | traces | 2 | 2 | `dandi000035-sub-mouse-zudob-sample-27-icephys`, `dandi000043-sub-m19-01-001-ses-20190228t222559-icephys` |
-| `nwb` | record | `DynamicTable` | tables | 4 | 4 | `dandi000006-anm372907-20170613`, `dandi000059-ms10-170314`, `dandi000067-ee-044` |
-| `nwb` | record | `ElectricalSeries` | traces | 1 | 1 | `dandi000067-ee-044` |
+| `nwb` | record | `CurrentClampSeries` | traces | 7 | 8 | `dandi000035-sub-mouse-zudob-sample-27-icephys`, `dandi000043-sub-m19-01-001-ses-20190228t222559-icephys`, `dandi001544-icephys-cc328` |
+| `nwb` | record | `CurrentClampStimulusSeries` | traces | 6 | 7 | `dandi000035-sub-mouse-zudob-sample-27-icephys`, `dandi000043-sub-m19-01-001-ses-20190228t222559-icephys`, `dandi001544-icephys-cc328` |
+| `nwb` | record | `DynamicTable` | tables | 7 | 7 | `dandi000006-anm372907-20170613`, `dandi000059-ms10-170314`, `dandi000067-ee-044` |
+| `nwb` | record | `ElectricalSeries` | traces | 2 | 2 | `dandi000067-ee-044`, `dandi001475-patchseq-rmbe91m1` |
+| `nwb` | record | `ElectrodesTable` | tables | 2 | 2 | `dandi001641-ecephys-le31-s1-03`, `dandi001641-ecephys-le31-s1-06` |
 | `nwb` | record | `IZeroClampSeries` | traces | 3 | 3 | `dandi000035-sub-mouse-zudob-sample-27-icephys`, `dandi000117-sub-20210511003-0019-icephys`, `dandi000968-sub-na-icephys` |
 | `nwb` | record | `IntracellularElectrodesTable` | tables | 1 | 1 | `dandi000968-sub-na-icephys` |
 | `nwb` | record | `IntracellularRecordingsTable` | tables | 1 | 1 | `dandi000968-sub-na-icephys` |
@@ -131,13 +138,15 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `nwb` | record | `IntracellularStimuliTable` | tables | 1 | 1 | `dandi000968-sub-na-icephys` |
 | `nwb` | record | `SequentialRecordingsTable` | tables | 1 | 1 | `dandi000968-sub-na-icephys` |
 | `nwb` | record | `SimultaneousRecordingsTable` | tables | 1 | 1 | `dandi000968-sub-na-icephys` |
-| `nwb` | record | `SpatialSeries` | traces | 1 | 1 | `dandi000059-ms10-170314` |
+| `nwb` | record | `SpatialSeries` | traces | 2 | 2 | `dandi000059-ms10-170314`, `dandi000987-ecephys-a7802` |
 | `nwb` | record | `SpikeEventSeries` | tables | 1 | 1 | `dandi000221-hi198-060619` |
-| `nwb` | record | `SweepTable` | tables | 3 | 3 | `dandi000035-sub-mouse-zudob-sample-27-icephys`, `dandi000043-sub-m19-01-001-ses-20190228t222559-icephys`, `dandi000117-sub-20210511003-0019-icephys` |
-| `nwb` | record | `TimeIntervals` | tables | 3 | 3 | `dandi000006-anm372907-20170613`, `dandi000059-ms10-170314`, `dandi000221-hi198-060619` |
-| `nwb` | record | `TimeSeries` | traces | 3 | 3 | `dandi000006-anm372907-20170613`, `dandi000059-ms10-170314`, `dandi000126-sub-1` |
-| `nwb` | record | `Units` | tables | 3 | 3 | `dandi000006-anm372907-20170613`, `dandi000034-mouse412804-155542`, `dandi000221-hi198-060619` |
-| `nwb` | record | `VectorData` | tables | 3 | 3 | `dandi000006-anm372907-20170613`, `dandi000034-mouse412804-155542`, `dandi000221-hi198-060619` |
+| `nwb` | record | `SweepTable` | tables | 6 | 7 | `dandi000035-sub-mouse-zudob-sample-27-icephys`, `dandi000043-sub-m19-01-001-ses-20190228t222559-icephys`, `dandi000117-sub-20210511003-0019-icephys` |
+| `nwb` | record | `TimeIntervals` | tables | 7 | 8 | `dandi000006-anm372907-20170613`, `dandi000059-ms10-170314`, `dandi000221-hi198-060619` |
+| `nwb` | record | `TimeSeries` | traces | 4 | 5 | `dandi000006-anm372907-20170613`, `dandi000059-ms10-170314`, `dandi000126-sub-1` |
+| `nwb` | record | `Units` | tables | 7 | 7 | `dandi000006-anm372907-20170613`, `dandi000034-mouse412804-155542`, `dandi000221-hi198-060619` |
+| `nwb` | record | `VectorData` | tables | 7 | 7 | `dandi000006-anm372907-20170613`, `dandi000034-mouse412804-155542`, `dandi000221-hi198-060619` |
+| `nwb` | record | `VoltageClampSeries` | traces | 0 | 1 |  |
+| `nwb` | record | `VoltageClampStimulusSeries` | traces | 0 | 1 |  |
 
 ### Tests, fixtures, fuzz targets, snapshots
 

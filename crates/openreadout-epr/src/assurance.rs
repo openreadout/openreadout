@@ -66,20 +66,20 @@ fn observe(info: &FileInfo) -> Observations {
 const BRUKER_BES3T_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const BRUKER_BES3T_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "cw", 9, 8, 11),
-    a::row(K::Acquisition, "cwimg", 1, 1, 1),
-    a::row(K::Acquisition, "pls", 3, 3, 3),
-    a::row(K::Field, "experiment.acquisition.started_at", 12, 10, 14),
-    a::row(K::FormatVersion, "BES3T 1.2", 14, 11, 16),
-    a::row(K::Layout, "magnetic_field axis", 9, 8, 11),
-    a::row(K::Layout, "time axis", 4, 3, 4),
+    a::row(K::Acquisition, "cw", 9, 8, 12),
+    a::row(K::Acquisition, "cwimg", 2, 2, 2),
+    a::row(K::Acquisition, "pls", 5, 4, 5),
+    a::row(K::Field, "experiment.acquisition.started_at", 12, 10, 17),
+    a::row(K::FormatVersion, "BES3T 1.2", 17, 13, 20),
+    a::row(K::Layout, "magnetic_field axis", 11, 10, 14),
+    a::row(K::Layout, "time axis", 5, 4, 5),
     a::row(K::Layout, "x axis", 1, 1, 1),
-    a::row(K::Record, "1D complex", 2, 1, 2),
-    a::row(K::Record, "1D real", 8, 8, 9),
+    a::row(K::Record, "1D complex", 4, 2, 4),
+    a::row(K::Record, "1D real", 8, 8, 10),
     a::row(K::Record, "2D complex", 1, 1, 1),
-    a::row(K::Record, "2D real", 3, 3, 4),
-    a::row(K::SampleLayout, "big-endian float64", 11, 9, 13),
-    a::row(K::SampleLayout, "big-endian float64 complex", 3, 2, 3),
+    a::row(K::Record, "2D real", 4, 4, 5),
+    a::row(K::SampleLayout, "big-endian float64", 12, 10, 15),
+    a::row(K::SampleLayout, "big-endian float64 complex", 5, 3, 5),
 ];
 // END GENERATED bruker-bes3t
 

@@ -61,19 +61,20 @@ fn observe(info: &FileInfo) -> Observations {
 const SPIKEGLX_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const SPIKEGLX_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 12, 2, 14),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 12),
+    a::row(K::Field, "experiment.acquisition.started_at", 12, 2, 18),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 15),
     a::row(K::FormatVersion, "SpikeGLX 2019", 4, 1, 4),
-    a::row(K::FormatVersion, "SpikeGLX 2020", 4, 2, 4),
-    a::row(K::FormatVersion, "SpikeGLX 2023", 7, 2, 7),
-    a::row(K::Instrument, "probe type 0.0", 6, 2, 6),
+    a::row(K::FormatVersion, "SpikeGLX 2020", 5, 2, 6),
+    a::row(K::FormatVersion, "SpikeGLX 2023", 9, 2, 9),
+    a::row(K::Instrument, "probe type 0.0", 7, 2, 7),
+    a::row(K::Instrument, "probe type 1030.0", 1, 1, 1),
     a::row(K::Instrument, "probe type 2013.0", 4, 1, 4),
-    a::row(K::Instrument, "probe type 24.0", 2, 2, 2),
-    a::row(K::Record, "imec stream", 12, 3, 12),
-    a::row(K::Record, "nidq stream", 5, 1, 5),
+    a::row(K::Instrument, "probe type 24.0", 2, 2, 3),
+    a::row(K::Record, "imec stream", 14, 3, 15),
+    a::row(K::Record, "nidq stream", 6, 1, 6),
     a::row(K::SampleLayout, "max int 2048.0", 4, 1, 4),
-    a::row(K::SampleLayout, "max int 32768.0", 3, 1, 3),
-    a::row(K::SampleLayout, "max int 512.0", 3, 2, 3),
-    a::row(K::SampleLayout, "max int 8192.0", 2, 2, 2),
+    a::row(K::SampleLayout, "max int 32768.0", 4, 1, 4),
+    a::row(K::SampleLayout, "max int 512.0", 5, 2, 5),
+    a::row(K::SampleLayout, "max int 8192.0", 2, 2, 3),
 ];
 // END GENERATED spikeglx

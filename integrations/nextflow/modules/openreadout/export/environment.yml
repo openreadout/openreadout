@@ -5,4 +5,4 @@ channels:
   - bioconda
 dependencies:
   # bioconda recipe: integrations/bioconda (not yet submitted)
-  - bioconda::openreadout=0.1.0
+  - bioconda::openreadout=0.2.0

@@ -69,7 +69,7 @@ perl -pi -e '
 TODAY="$(date -u +%Y-%m-%d)" perl -pi -e 's/^version: "\Q$ENV{OLD}\E"/version: "$ENV{NEW}"/; s/^date-released: .*/date-released: "$ENV{TODAY}"/' CITATION.cff
 
 # THIRD-PARTY-NOTICES.md lists our own crates with their version.
-perl -pi -e 's/\[(openreadout-[a-z0-9-]+) \Q$ENV{OLD}\E\]/[$1 $ENV{NEW}]/g' THIRD-PARTY-NOTICES.md
+perl -pi -e 's/\[(openreadout(?:-[a-z0-9-]+)?) \Q$ENV{OLD}\E\]/[$1 $ENV{NEW}]/g' THIRD-PARTY-NOTICES.md
 
 # R package, and the version the workflow integrations pin (bioconda recipe, conda environments,
 # container tags, Galaxy macros; book/src/guides/r.md, book/src/guides/pipelines.md).
@@ -78,6 +78,13 @@ perl -pi -e 's/("\@TOOL_VERSION\@">)\Q$ENV{OLD}\E</${1}$ENV{NEW}</' integrations
 perl -pi -e 's/(set version = ")\Q$ENV{OLD}\E"/${1}$ENV{NEW}"/' integrations/bioconda/meta.yaml
 for f in integrations/nextflow/modules/openreadout/*/environment.yml integrations/nextflow/modules/openreadout/*/main.nf integrations/snakemake/wrappers/openreadout/*/environment.yaml; do
   perl -pi -e 's/(openreadout(?:=| =|:))\Q$ENV{OLD}\E/${1}$ENV{NEW}/g' "$f"
+done
+# The nf-test snapshots record the MD5 of each module's versions.yml, which holds the version.
+for d in integrations/nextflow/modules/openreadout/*/; do
+  m=$(basename "$d"); snap="$d/tests/main.nf.test.snap"
+  [ -f "$snap" ] || continue
+  MOD=$(echo "$m" | tr '[:lower:]' '[:upper:]') perl -MDigest::MD5=md5_hex -pi -e \
+    'BEGIN { $o = md5_hex(qq("OPENREADOUT_$ENV{MOD}":\n    openreadout: $ENV{OLD}\n)); $n = md5_hex(qq("OPENREADOUT_$ENV{MOD}":\n    openreadout: $ENV{NEW}\n)) } s/$o/$n/g' "$snap"
 done
 
 # Cargo.lock: refresh only the workspace members' entries.

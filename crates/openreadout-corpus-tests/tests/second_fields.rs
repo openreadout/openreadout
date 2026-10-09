@@ -1,5 +1,5 @@
 //! Second opinions on normalized fields and key values, for every family (docs/assurance.md,
-//! "differential cross-checks"; docs/benchmark/second-opinions.md).
+//! "differential cross-checks").
 //!
 //! `oracle/second_fields.py` runs a reader independent of OpenReadout — and, where one exists,
 //! independent of the primary oracle too (pyopenms and SQLite beside pyteomics and timsrust,
@@ -42,7 +42,7 @@
 //! that `cargo xtask assurance-audit refresh --results` reads (a file whose checks agree counts
 //! as confirmed by an independent reader for the scopes compared; a difference adjudicated
 //! against OpenReadout is a failure); with `SECOND_REPORT=<file>` one line per check for
-//! `oracle/second_report.py` (docs/benchmark/second-opinions.md).
+//! `oracle/second_report.py`.
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test second_fields -- --nocapture`
 //! Env: `OPENREADOUT_CORPUS_DIR`, `CORPUS_ONLY=<substring>` (ids), `SECOND_FAMILY=<family>[,<family>...]`.

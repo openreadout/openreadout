@@ -76,4 +76,4 @@ Plane files are named `r<RR>c<CC>f<FF>p<PP>-ch<C>sk<T>fk1fl1.tiff`; files of tha
 | `hcs-columbus-zenodo6327496-flex-index` | the same plate with Opera `.flex` files | 12 planes bit-exact vs tifffile; Bio-Formats 12/12; OME-Zarr plate export valid NGFF 0.5 (ome-zarr-models), 12/12 planes equal |
 | `hcs-harmony-jump-br00117035-index` | V5 Phenix, 384 wells x 9 fields x 8 channels (47 MB index); partial copy | 16 planes bit-exact; 27,632 missing reported; Bio-Formats 16/16, 3,456 series mapped |
 
-Channel names, plate geometry, pixel sizes and the well/field of every image agree with the stdlib parse and Bio-Formats' OME Plate. Performance: see `book/src/project/performance.md` (HCS row).
+Channel names, plate geometry, pixel sizes and the well/field of every image agree with the stdlib parse and Bio-Formats' OME Plate.

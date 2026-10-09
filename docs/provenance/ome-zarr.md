@@ -77,7 +77,7 @@ OME-Zarr is an open standard; no vendor format is involved and nothing was rever
 
 ## 2026-10-07 — First public NGFF 0.5 stores; tile size of sharded arrays
 
-**Why.** The October imaging bug hunt (`docs/benchmark/hunt-2026-10-imaging.md`) noted that NGFF 0.5 had no development file: only our synthetic fixtures and our own exports covered Zarr v3 with `ome` attributes.
+**Why.** The October imaging bug hunt (2026-10) noted that NGFF 0.5 had no development file: only our synthetic fixtures and our own exports covered Zarr v3 with `ome` attributes.
 
 **Corpus files used (new):** `idr0062A-6001240-labels-ngff05` and `idr0066-chicken-embryo-mip-ngff05`, the Image Data Resource's NGFF 0.5 sample stores (`zarr/v0.5/` on its EBI S3 endpoint, CC BY 4.0 by each store's `ro-crate-metadata.json`), copied file by file. The first is the same image as `zenodo14641597-idr6001240` (NGFF 0.4), written again by omero-zarr as 0.5 with sharded uint16 arrays (shards of 1 × 10 × 512 × 512, inner chunks of 1 × 1 × 256 × 256, Blosc zstd with byte shuffle, crc32c shard index) and an unsharded int8 label image (zstd). The second is a 6510 × 8978 uint8 mesoSPIM projection with 8 levels written by ome2024-ngff-challenge 1.0.2 (shards of 2048 × 2048, inner chunks of 256 × 256, Blosc zstd with bit shuffle).
 
@@ -94,6 +94,6 @@ OME-Zarr is an open standard; no vendor format is involved and nothing was rever
 
 ## 2026-10-07 — Growing stores: finished images count as complete
 
-**Corpus files:** `zenodo20559997-scmx-mip` (an NGFF 0.4 plate with an empty label image), exported to OME-Zarr by OpenReadout during the imaging deep pass (`docs/benchmark/deep-pass-2026-10-imaging.md`); `gdal-empty1bit`, `rsciio-emd-si100-2x1x1-3d` and `rsciio-emd-example-axis-len-1` (all-zero images), exported the same way.
+**Corpus files:** `zenodo20559997-scmx-mip` (an NGFF 0.4 plate with an empty label image), exported to OME-Zarr by OpenReadout during the imaging deep pass (2026-10); `gdal-empty1bit`, `rsciio-emd-si100-2x1x1-3d` and `rsciio-emd-example-axis-len-1` (all-zero images), exported the same way.
 **Prior art consulted:** none.
 **What changed.** No parsing logic changed. `growing_state` decides whether a directory store is still being written. When it found an unfinished image, it listed the complete planes of that image only, so the planes of images already finished (earlier wells of a plate) were left out and `planes` returned none of them. Every plane of a finished image is now complete. The writer side of the same finding: OpenReadout's OME-Zarr export now stores chunks that hold only zeros, which `zarrs` leaves out by default. A store whose last image was blank looked unfinished for five minutes after the export.

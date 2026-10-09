@@ -42,7 +42,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `rdml` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | high | open spec | 9 / 9 | 5 | 1 / 0 |
-| `applied-biosystems-eds` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | high | reverse engineered | 23 / 23 | 15 | 2 / 0 |
+| `applied-biosystems-eds` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | high | reverse engineered | 28 / 28 | 20 | 2 / 0 |
 | `bio-rad-pcrd` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | open spec | 0 / 0 | 0 | - |
 | `roche-lightcycler-ixo` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | medium | reverse engineered | 10 / 10 | 2 | - |
 | `rotor-gene-rex` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | reverse engineered | 1 / 1 | 1 | 1 / 0 |
@@ -96,47 +96,49 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
 | `applied-biosystems-eds` | acquisition | `Comparative CT (ΔΔCT)` | descriptive | 1 | 1 | `eds-qs1-hp-unanalysed` |
-| `applied-biosystems-eds` | acquisition | `Comparative Cт (ΔΔCт)` | descriptive | 3 | 3 | `eds-qs35-npff-mtrna-ampstatus`, `eds-qs35-sybr-water-test`, `eds-viia7-npff-ddct` |
+| `applied-biosystems-eds` | acquisition | `Comparative Cт (ΔΔCт)` | descriptive | 4 | 4 | `eds-qs35-npff-mtrna-ampstatus`, `eds-qs35-sybr-water-test`, `eds-viia7-npff-ddct` |
 | `applied-biosystems-eds` | acquisition | `Custom` | descriptive | 1 | 1 | `eds-qs5-qslib-test` |
 | `applied-biosystems-eds` | acquisition | `Genotyping` | descriptive | 1 | 1 | `eds-qs7-snv-genotyping` |
 | `applied-biosystems-eds` | acquisition | `Quantitation - Comparative Cт (ΔΔCт)` | descriptive | 4 | 4 | `eds-7500-abhd17c-ddct`, `eds-stepone-caco2-dss-eps-ccl2`, `eds-stepone-caco2-dss-eps-il6` |
-| `applied-biosystems-eds` | acquisition | `Quantitation - Standard Curve` | descriptive | 8 | 8 | `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example`, `eds-stepone-taec-24h-0819` |
+| `applied-biosystems-eds` | acquisition | `Quantitation - Standard Curve` | descriptive | 11 | 11 | `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example`, `eds-stepone-taec-24h-0819` |
 | `applied-biosystems-eds` | acquisition | `Standard Curve` | descriptive | 3 | 3 | `eds-qs12k-tdmmc-stdcurve`, `eds-qs7flex-tac-hmsc-stdcurve`, `eds-viia7-hmsc-siexo-stdcurve` |
 | `applied-biosystems-eds` | acquisition | `chemistry OTHER` | descriptive | 1 | 1 | `eds-qs5-qslib-test` |
-| `applied-biosystems-eds` | acquisition | `chemistry SYBR_GREEN` | descriptive | 17 | 17 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-qs12k-tdmmc-stdcurve` |
-| `applied-biosystems-eds` | acquisition | `chemistry TAQMAN` | descriptive | 3 | 3 | `eds-7500fast-std-example`, `eds-qs1-hp-unanalysed`, `eds-qs7-snv-genotyping` |
+| `applied-biosystems-eds` | acquisition | `chemistry SYBR_GREEN` | descriptive | 21 | 21 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-qs12k-tdmmc-stdcurve` |
+| `applied-biosystems-eds` | acquisition | `chemistry TAQMAN` | descriptive | 4 | 4 | `eds-7500fast-std-example`, `eds-qs1-hp-unanalysed`, `eds-qs7-snv-genotyping` |
 | `applied-biosystems-eds` | acquisition | `genotyping` | tables | 1 | 1 | `eds-qs7-snv-genotyping` |
-| `applied-biosystems-eds` | dialect | `eds-7500` | metadata, tables, traces | 11 | 11 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
+| `applied-biosystems-eds` | acquisition | `定量 - 比较 Cт (ΔΔCт)` | descriptive | 1 | 1 | `zenodo21487917-eds-cell-0326` |
+| `applied-biosystems-eds` | dialect | `eds-7500` | metadata, tables, traces | 14 | 14 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
 | `applied-biosystems-eds` | dialect | `eds-json` | metadata, tables, traces | 3 | 3 | `eds-json-qslib-v2-test`, `eds-qs1-hp-unanalysed`, `eds-qs7pro-tb18s-stdcurve` |
-| `applied-biosystems-eds` | dialect | `eds-sds` | metadata, tables, traces | 9 | 9 | `eds-qs12k-tdmmc-stdcurve`, `eds-qs35-npff-mtrna-ampstatus`, `eds-qs35-sybr-water-test` |
-| `applied-biosystems-eds` | field | `experiment.acquisition.started_at` | descriptive | 17 | 17 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
-| `applied-biosystems-eds` | field | `experiment.instrument.model` | descriptive | 23 | 23 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
-| `applied-biosystems-eds` | format_version | `1.1.1` | metadata, tables, traces | 12 | 12 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
+| `applied-biosystems-eds` | dialect | `eds-sds` | metadata, tables, traces | 11 | 11 | `eds-qs12k-tdmmc-stdcurve`, `eds-qs35-npff-mtrna-ampstatus`, `eds-qs35-sybr-water-test` |
+| `applied-biosystems-eds` | field | `experiment.acquisition.started_at` | descriptive | 22 | 22 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
+| `applied-biosystems-eds` | field | `experiment.instrument.model` | descriptive | 28 | 28 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
+| `applied-biosystems-eds` | format_version | `1.1.1` | metadata, tables, traces | 15 | 15 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
 | `applied-biosystems-eds` | format_version | `1.3.0` | metadata, tables, traces | 3 | 3 | `eds-qs7-snv-genotyping`, `eds-viia7-hmsc-siexo-stdcurve`, `eds-viia7-npff-ddct` |
 | `applied-biosystems-eds` | format_version | `1.3.1` | metadata, tables, traces | 2 | 2 | `eds-qs12k-tdmmc-stdcurve`, `eds-qs7flex-tac-hmsc-stdcurve` |
-| `applied-biosystems-eds` | format_version | `1.3.2` | metadata, tables, traces | 3 | 3 | `eds-qs35-npff-mtrna-ampstatus`, `eds-qs35-sybr-water-test`, `eds-qs5-qslib-test` |
+| `applied-biosystems-eds` | format_version | `1.3.2` | metadata, tables, traces | 5 | 5 | `eds-qs35-npff-mtrna-ampstatus`, `eds-qs35-sybr-water-test`, `eds-qs5-qslib-test` |
 | `applied-biosystems-eds` | format_version | `2.0.0` | metadata, tables, traces | 3 | 3 | `eds-json-qslib-v2-test`, `eds-qs1-hp-unanalysed`, `eds-qs7pro-tb18s-stdcurve` |
 | `applied-biosystems-eds` | instrument | `QS7Flex` | descriptive | 1 | 1 | `eds-qs7flex-tac-hmsc-stdcurve` |
 | `applied-biosystems-eds` | instrument | `QuantStudio 1` | descriptive | 1 | 1 | `eds-qs1-hp-unanalysed` |
 | `applied-biosystems-eds` | instrument | `QuantStudio 6 Pro` | descriptive | 1 | 1 | `eds-json-qslib-v2-test` |
 | `applied-biosystems-eds` | instrument | `QuantStudio 7 Pro` | descriptive | 1 | 1 | `eds-qs7pro-tb18s-stdcurve` |
-| `applied-biosystems-eds` | instrument | `appletini` | descriptive | 3 | 3 | `eds-qs35-npff-mtrna-ampstatus`, `eds-qs35-sybr-water-test`, `eds-qs5-qslib-test` |
+| `applied-biosystems-eds` | instrument | `appletini` | descriptive | 5 | 5 | `eds-qs35-npff-mtrna-ampstatus`, `eds-qs35-sybr-water-test`, `eds-qs5-qslib-test` |
 | `applied-biosystems-eds` | instrument | `paragon` | descriptive | 3 | 3 | `eds-qs7-snv-genotyping`, `eds-viia7-hmsc-siexo-stdcurve`, `eds-viia7-npff-ddct` |
 | `applied-biosystems-eds` | instrument | `sds7500` | descriptive | 2 | 2 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2` |
-| `applied-biosystems-eds` | instrument | `sds7500fast` | descriptive | 1 | 1 | `eds-7500fast-std-example` |
+| `applied-biosystems-eds` | instrument | `sds7500fast` | descriptive | 4 | 4 | `eds-7500fast-std-example`, `zenodo10061192-qs-eds-cover-crop-i`, `zenodo14917325-eds-7500fast-16s` |
 | `applied-biosystems-eds` | instrument | `spyder` | descriptive | 1 | 1 | `eds-qs12k-tdmmc-stdcurve` |
 | `applied-biosystems-eds` | instrument | `steponeplus` | descriptive | 9 | 9 | `eds-stepone-caco2-dss-eps-ccl2`, `eds-stepone-caco2-dss-eps-il6`, `eds-stepone-setup-only` |
 | `applied-biosystems-eds` | layout | `no fluorescence data` | traces | 1 | 1 | `eds-stepone-setup-only` |
 | `applied-biosystems-eds` | layout | `not analysed (no Cq)` | tables | 2 | 2 | `eds-7500fast-std-example`, `eds-qs1-hp-unanalysed` |
-| `applied-biosystems-eds` | record | `amplification` | traces | 21 | 21 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
-| `applied-biosystems-eds` | record | `amplification baseline-corrected` | traces | 18 | 18 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-qs12k-tdmmc-stdcurve` |
-| `applied-biosystems-eds` | record | `melt` | traces | 15 | 15 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-qs35-npff-mtrna-ampstatus` |
-| `applied-biosystems-eds` | record | `melt derivative` | traces | 15 | 15 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-qs35-npff-mtrna-ampstatus` |
-| `applied-biosystems-eds` | record | `multicomponent` | traces | 22 | 22 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
+| `applied-biosystems-eds` | record | `amplification` | traces | 26 | 26 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
+| `applied-biosystems-eds` | record | `amplification baseline-corrected` | traces | 23 | 23 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-qs12k-tdmmc-stdcurve` |
+| `applied-biosystems-eds` | record | `melt` | traces | 19 | 19 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-qs35-npff-mtrna-ampstatus` |
+| `applied-biosystems-eds` | record | `melt derivative` | traces | 19 | 19 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-qs35-npff-mtrna-ampstatus` |
+| `applied-biosystems-eds` | record | `multicomponent` | traces | 27 | 27 | `eds-7500-abhd17c-ddct`, `eds-7500-zvs203e-sgrna2`, `eds-7500fast-std-example` |
 | `applied-biosystems-eds` | writer | `QuantStudio` | descriptive | 1 | 1 | `eds-qs1-hp-unanalysed` |
 | `applied-biosystems-eds` | writer | `QuantStudio Design & Analysis` | descriptive | 2 | 2 | `eds-json-qslib-v2-test`, `eds-qs7pro-tb18s-stdcurve` |
 | `applied-biosystems-eds` | writer | `QuantStudio™` | descriptive | 1 | 1 | `eds-qs12k-tdmmc-stdcurve` |
-| `applied-biosystems-eds` | writer | `QuantStudio™ Design & Analysis Software` | descriptive | 3 | 3 | `eds-qs35-npff-mtrna-ampstatus`, `eds-qs35-sybr-water-test`, `eds-qs5-qslib-test` |
+| `applied-biosystems-eds` | writer | `QuantStudio™ Design & Analysis SE Software` | descriptive | 1 | 1 | `zenodo21487917-eds-cell-0326` |
+| `applied-biosystems-eds` | writer | `QuantStudio™ Design & Analysis Software` | descriptive | 4 | 4 | `eds-qs35-npff-mtrna-ampstatus`, `eds-qs35-sybr-water-test`, `eds-qs5-qslib-test` |
 | `applied-biosystems-eds` | writer | `QuantStudio™ Real-Time PCR Software` | descriptive | 4 | 4 | `eds-qs7-snv-genotyping`, `eds-qs7flex-tac-hmsc-stdcurve`, `eds-viia7-hmsc-siexo-stdcurve` |
 | `applied-biosystems-eds` | writer | `StepOne Software` | descriptive | 9 | 9 | `eds-stepone-caco2-dss-eps-ccl2`, `eds-stepone-caco2-dss-eps-il6`, `eds-stepone-setup-only` |
 | `qpcr-results-export` | acquisition | `Comparative Cт (ΔΔCт)` | descriptive | 2 | 2 | `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-viia7-npff-ddct` |
@@ -173,10 +175,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `roche-lightcycler-ixo` | field | `experiment.acquisition.started_at` | descriptive | 10 | 10 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
 | `roche-lightcycler-ixo` | field | `experiment.instrument.model` | descriptive | 4 | 4 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
 | `roche-lightcycler-ixo` | instrument | `LightCycler 480 - LED lamp` | descriptive | 2 | 2 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2026a` |
-| `roche-lightcycler-ixo` | instrument | `LightCycler 480 - Xenon lamp` | descriptive | 2 | 2 | `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
-| `roche-lightcycler-ixo` | record | `amplification` | traces | 10 | 10 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
 
-… 11 more values: the generated table in `src/assurance.rs` has all of them.
+… 13 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 

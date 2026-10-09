@@ -39,8 +39,8 @@ Axon Binary Format (`abf`: ABF 1 and ABF 2) and Axon Text File (`atf`) electroph
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `abf` | [format note](../../docs/formats/abf.md), [provenance log](../../docs/provenance/abf.md) | high | prior art | 37 / 37 | 10 | 4 / 0 |
-| `atf` | [format note](../../docs/formats/abf.md), [provenance log](../../docs/provenance/abf.md) | medium | vendor docs | 7 / 7 | 4 | - |
+| `abf` | [format note](../../docs/formats/abf.md), [provenance log](../../docs/provenance/abf.md) | high | prior art | 81 / 81 | 18 | 4 / 0 |
+| `atf` | [format note](../../docs/formats/abf.md), [provenance log](../../docs/provenance/abf.md) | medium | vendor docs | 11 / 11 | 4 | - |
 
 ### Source map
 
@@ -72,38 +72,45 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `abf` | acquisition | `episodic` | traces | 30 | 30 | `pyabf-05210017-vc-abf1`, `pyabf-130618-1-12`, `pyabf-14o16001-vc-pair-step` |
-| `abf` | acquisition | `event-variable-length` | traces | 1 | 1 | `pyabf-2020-06-16-0000` |
-| `abf` | acquisition | `gap-free` | traces | 6 | 6 | `pyabf-16d22006-kim-gapfree`, `pyabf-2020-07-29-0062`, `pyabf-file-axon-2` |
-| `abf` | field | `experiment.acquisition.started_at` | descriptive | 36 | 36 | `pyabf-05210017-vc-abf1`, `pyabf-130618-1-12`, `pyabf-14o16001-vc-pair-step` |
-| `abf` | format_version | `1.30` | metadata, traces | 2 | 2 | `pyabf-130618-1-12`, `pyabf-invaliddate-abf1` |
+| `abf` | acquisition | `episodic` | traces | 62 | 62 | `figshare12611522-abf-19313022`, `figshare12611657-abf-19411000`, `figshare12613496-abf-19314002` |
+| `abf` | acquisition | `event-fixed-length` | traces | 2 | 2 | `figshare5400649-abf-lps`, `figshare5400649-abf-vehicle` |
+| `abf` | acquisition | `event-variable-length` | traces | 2 | 2 | `gin-ephy-testing-data-axon-intracellular-data-abf2-event-driven-variable-length`, `pyabf-2020-06-16-0000` |
+| `abf` | acquisition | `gap-free` | traces | 15 | 15 | `figshare28941296-abf-24402001`, `figshare28941296-abf-24604000`, `figshare28941296-abf-24910011` |
+| `abf` | field | `experiment.acquisition.started_at` | descriptive | 80 | 80 | `figshare12611522-abf-19313022`, `figshare12611657-abf-19411000`, `figshare12613496-abf-19314002` |
+| `abf` | format_version | `1.30` | metadata, traces | 3 | 3 | `gin-ephy-testing-data-axon-intracellular-data-abf1-episodic-empty-channel-name`, `pyabf-130618-1-12`, `pyabf-invaliddate-abf1` |
 | `abf` | format_version | `1.65` | metadata, traces | 1 | 1 | `pyabf-sample-trace-0054` |
-| `abf` | format_version | `1.83` | metadata, traces | 5 | 5 | `pyabf-05210017-vc-abf1`, `pyabf-190619b-0003`, `pyabf-file-axon-2` |
-| `abf` | format_version | `1.84` | metadata, traces | 4 | 4 | `pyabf-18425108-abf1`, `pyabf-multichannelabf1withtags`, `pyabf-pclamp11-4ch-abf1` |
-| `abf` | format_version | `2.0.0.0` | metadata, traces | 8 | 8 | `pyabf-14o16001-vc-pair-step`, `pyabf-16d22006-kim-gapfree`, `pyabf-171117-hfmixfret` |
-| `abf` | format_version | `2.3.0.0` | metadata, traces | 3 | 3 | `pyabf-180415-aaron-temp`, `pyabf-2020-06-16-0000`, `zenodo3539297-140107-1-1-48um` |
-| `abf` | format_version | `2.6.0.0` | metadata, traces | 9 | 9 | `pyabf-171116sh-0011`, `pyabf-171116sh-0018`, `pyabf-17o05024-vc-steps` |
-| `abf` | format_version | `2.9.0.0` | metadata, traces | 5 | 5 | `pyabf-18425108`, `pyabf-2018-12-09-pclamp11-0001`, `pyabf-2020-07-29-0062` |
-| `abf` | layout | `abf1` | metadata, traces | 12 | 12 | `pyabf-05210017-vc-abf1`, `pyabf-130618-1-12`, `pyabf-18425108-abf1` |
-| `abf` | layout | `abf2` | metadata, traces | 25 | 25 | `pyabf-14o16001-vc-pair-step`, `pyabf-16d22006-kim-gapfree`, `pyabf-171116sh-0011` |
-| `abf` | record | `command waveform (epoch table)` | traces | 16 | 16 | `pyabf-14o16001-vc-pair-step`, `pyabf-171116sh-0011`, `pyabf-171116sh-0018` |
-| `abf` | sample_layout | `float32` | traces | 6 | 6 | `pyabf-file-axon-7`, `pyabf-user-list-durations`, `zenodo14047871-fig4-type1-adp` |
-| `abf` | sample_layout | `int16` | traces | 31 | 31 | `pyabf-05210017-vc-abf1`, `pyabf-130618-1-12`, `pyabf-14o16001-vc-pair-step` |
+| `abf` | format_version | `1.83` | metadata, traces | 10 | 10 | `figshare6849977-abf-m0215000`, `figshare6849977-abf-m1026029`, `figshare6849977-abf-m1216023` |
+| `abf` | format_version | `1.84` | metadata, traces | 6 | 6 | `figshare28941296-abf-24604000`, `gin-ephy-testing-data-axon-intracellular-data-tags-abf1`, `pyabf-18425108-abf1` |
+| `abf` | format_version | `2.0.0.0` | metadata, traces | 15 | 15 | `gh-swharden-pyabf-14o08011-ic-pair`, `gh-swharden-pyabf-16d05007-vc-tags`, `gh-swharden-pyabf-19212027` |
+| `abf` | format_version | `2.3.0.0` | metadata, traces | 4 | 4 | `gin-ephy-testing-data-axon-intracellular-data-abf2-event-driven-variable-length`, `pyabf-180415-aaron-temp`, `pyabf-2020-06-16-0000` |
+| `abf` | format_version | `2.4.0.0` | metadata, traces | 2 | 2 | `figshare5400649-abf-lps`, `figshare5400649-abf-vehicle` |
+| `abf` | format_version | `2.5.0.0` | metadata, traces | 2 | 2 | `gh-swharden-pyabf-test-0001`, `gin-ephy-testing-data-axon-intracellular-data-abf2-gapfree-max-channels` |
+| `abf` | format_version | `2.6.0.0` | metadata, traces | 26 | 26 | `figshare12611522-abf-19313022`, `figshare12611657-abf-19411000`, `figshare12613496-abf-19314002` |
+| `abf` | format_version | `2.9.0.0` | metadata, traces | 12 | 12 | `figshare28941296-abf-24402001`, `figshare28941296-abf-24910011`, `figshare33253845-abf-demo` |
+| `abf` | layout | `abf1` | metadata, traces | 20 | 20 | `figshare28941296-abf-24604000`, `figshare6849977-abf-m0215000`, `figshare6849977-abf-m1026029` |
+| `abf` | layout | `abf2` | metadata, traces | 61 | 61 | `figshare12611522-abf-19313022`, `figshare12611657-abf-19411000`, `figshare12613496-abf-19314002` |
+| `abf` | record | `command waveform (epoch table)` | traces | 36 | 36 | `figshare12611657-abf-19411000`, `figshare12613496-abf-19314002`, `gh-swharden-pyabf-14o08011-ic-pair` |
+| `abf` | sample_layout | `float32` | traces | 12 | 12 | `figshare28941296-abf-24402001`, `figshare28941296-abf-24910011`, `figshare5400649-abf-lps` |
+| `abf` | sample_layout | `int16` | traces | 69 | 69 | `figshare12611522-abf-19313022`, `figshare12611657-abf-19411000`, `figshare12613496-abf-19314002` |
 | `abf` | writer | `AXENGN` | descriptive | 3 | 3 | `pyabf-file-axon-7`, `pyabf-sample-trace-0054`, `pyabf-user-list-durations` |
 | `abf` | writer | `AxoScope` | descriptive | 2 | 2 | `pyabf-16d22006-kim-gapfree`, `pyabf-file-axon-2` |
-| `abf` | writer | `Clampex` | descriptive | 29 | 29 | `pyabf-14o16001-vc-pair-step`, `pyabf-171116sh-0011`, `pyabf-171116sh-0018` |
-| `abf` | writer | `FETCHEX` | descriptive | 1 | 1 | `pyabf-130618-1-12` |
-| `abf` | writer | `clampex` | descriptive | 1 | 1 | `pyabf-05210017-vc-abf1` |
+| `abf` | writer | `Clampex` | descriptive | 68 | 68 | `figshare12611522-abf-19313022`, `figshare12611657-abf-19411000`, `figshare12613496-abf-19314002` |
+| `abf` | writer | `Clampfit` | descriptive | 2 | 2 | `figshare5400649-abf-lps`, `figshare5400649-abf-vehicle` |
+| `abf` | writer | `FETCHEX` | descriptive | 2 | 2 | `gin-ephy-testing-data-axon-intracellular-data-abf1-episodic-empty-channel-name`, `pyabf-130618-1-12` |
+| `abf` | writer | `clampex` | descriptive | 3 | 3 | `gh-swharden-pyabf-file-axon-5`, `gh-swharden-pyabf-file-axon-6`, `pyabf-05210017-vc-abf1` |
 | `abf` | writer_version | `AxoScope 10` | descriptive | 1 | 1 | `pyabf-16d22006-kim-gapfree` |
 | `abf` | writer_version | `AxoScope 9` | descriptive | 1 | 1 | `pyabf-file-axon-2` |
-| `abf` | writer_version | `Clampex 10` | descriptive | 20 | 20 | `pyabf-14o16001-vc-pair-step`, `pyabf-171116sh-0011`, `pyabf-171116sh-0018` |
-| `abf` | writer_version | `Clampex 11` | descriptive | 6 | 6 | `pyabf-18425108`, `pyabf-18425108-abf1`, `pyabf-2018-12-09-pclamp11-0001` |
-| `abf` | writer_version | `Clampex 9` | descriptive | 3 | 3 | `pyabf-190619b-0003`, `pyabf-file-axon-3`, `zenodo17794-pyr5-rebound` |
+| `abf` | writer_version | `Clampex 10` | descriptive | 50 | 50 | `figshare12611522-abf-19313022`, `figshare12611657-abf-19411000`, `figshare12613496-abf-19314002` |
+| `abf` | writer_version | `Clampex 11` | descriptive | 10 | 10 | `figshare33253845-abf-demo`, `gh-swharden-pyabf-2018-12-15-0000`, `gh-swharden-pyabf-dm1-0002` |
+| `abf` | writer_version | `Clampex 9` | descriptive | 8 | 8 | `figshare6849977-abf-m0215000`, `figshare6849977-abf-m1026029`, `figshare6849977-abf-m1216023` |
+| `abf` | writer_version | `Clampfit 10` | descriptive | 2 | 2 | `figshare5400649-abf-lps`, `figshare5400649-abf-vehicle` |
+| `abf` | writer_version | `clampex 10` | descriptive | 2 | 2 | `gh-swharden-pyabf-file-axon-5`, `gh-swharden-pyabf-file-axon-6` |
 | `abf` | writer_version | `clampex 9` | descriptive | 1 | 1 | `pyabf-05210017-vc-abf1` |
 | `atf` | acquisition | `Episodic Stimulation` | traces | 5 | 5 | `pyabf-18702001-step-atf`, `pyabf-model-vc-ramp-atf`, `pyabf-model-vc-step-atf` |
+| `atf` | acquisition | `Fixed-Length Event-Driven` | traces | 4 | 4 | `gh-swharden-pyabf-stim-capacitance5`, `gh-swharden-pyabf-stim-chirp`, `gh-swharden-pyabf-stim-ssfinest` |
 | `atf` | acquisition | `Gap Free` | traces | 1 | 1 | `zenodo17181681-cyma-r5c-control` |
 | `atf` | acquisition | `High-Speed Oscilloscope` | traces | 1 | 1 | `zenodo11043270-megachile-gcead` |
-| `atf` | format_version | `ATF 1.0` | metadata, traces | 7 | 7 | `pyabf-18702001-step-atf`, `pyabf-model-vc-ramp-atf`, `pyabf-model-vc-step-atf` |
+| `atf` | format_version | `ATF 1.0` | metadata, traces | 11 | 11 | `gh-swharden-pyabf-stim-capacitance5`, `gh-swharden-pyabf-stim-chirp`, `gh-swharden-pyabf-stim-ssfinest` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
