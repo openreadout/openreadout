@@ -263,6 +263,19 @@ pub(crate) fn column_time_s(text: &str, unit_s: Option<f64>) -> Option<f64> {
     any.then_some(total)
 }
 
+/// The time label of a cycle line, `Cycle <n> (<time>)`, or `None` when the line is not one.
+/// The time is written as a kinetic table column (`0 min 38 s`), and the first cycle may add a
+/// remark after ` - ` (`Cycle 1 (0 min  - Inj. only)`), which is left out.
+fn cycle_label(line: &str) -> Option<&str> {
+    let rest = line.trim().strip_prefix("Cycle ")?;
+    let (n, rest) = rest.split_once(' ')?;
+    if n.is_empty() || !n.bytes().all(|c| c.is_ascii_digit()) {
+        return None;
+    }
+    let label = rest.trim().strip_prefix('(')?.strip_suffix(')')?;
+    Some(label.split_once(" - ").map_or(label, |(t, _)| t))
+}
+
 fn find_table(sheet: &Sheet, upto: usize) -> Option<TableView> {
     for r in 0..upto.min(sheet.rows.len()) {
         let c0 = sheet.text(r, 0);
@@ -524,9 +537,29 @@ pub(crate) fn parse(book: &Book, smart_control: bool) -> Export {
         }
     }
     let mut last_raw: Option<Channel> = None;
+    // Kinetic SMART Control workbooks: a `Cycle <n> (<time>)` line gives its time to the
+    // matrices after it, up to the next cycle line.
+    let mut time_s: Option<f64> = None;
+    let mut cycles = 0usize;
     for t in &grids {
+        if let Some((line, label)) = t
+            .find(|l| cycle_label(l).is_some())
+            .and_then(|l| Some((l, cycle_label(l)?)))
+        {
+            cycles += 1;
+            time_s = column_time_s(label, None);
+            if time_s.is_none() {
+                b.findings.push(Finding::warning(
+                    "cycle_time_not_read",
+                    format!(
+                        "{}: the cycle line {line:?} gives no time this reader can read; its values have no time",
+                        b.name
+                    ),
+                ));
+            }
+        }
         let title = t
-            .find(|l| !l.starts_with("Plate:"))
+            .find(|l| !l.starts_with("Plate:") && cycle_label(l).is_none())
             .unwrap_or("")
             .to_string();
         if b.line.is_none() {
@@ -537,7 +570,7 @@ pub(crate) fn parse(book: &Book, smart_control: bool) -> Export {
             let ch = raw_channel(&title, mode);
             last_raw = Some(ch.clone());
             let i = b.channel(ch);
-            push_grid(data_sheet, &t.grid, &mut b, i, None);
+            push_grid(data_sheet, &t.grid, &mut b, i, time_s);
         } else if ["Layout", "Content", "Concentration", "Dilution"]
             .iter()
             .any(|k| title.contains(k))
@@ -562,8 +595,11 @@ pub(crate) fn parse(book: &Book, smart_control: bool) -> Export {
                 .trim_start_matches(|c: char| c.is_ascii_digit() || c == '.' || c == ' ')
                 .to_string();
             let i = b.channel(calculated(&label, last_raw.as_ref()));
-            push_grid(data_sheet, &t.grid, &mut b, i, None);
+            push_grid(data_sheet, &t.grid, &mut b, i, time_s);
         }
+    }
+    if cycles > 1 {
+        b.read_type = Some(ReadType::Kinetic);
     }
     if !layout.is_empty() {
         b.extra.insert("layout".into(), json!(layout));
@@ -633,6 +669,42 @@ mod tests {
         // a bare number under a bare `Time` label states no unit: refused
         assert_eq!(column_time_s("90", None), None);
         assert_eq!(column_time_s("Cycle 1", None), None);
+    }
+
+    #[test]
+    fn smart_control_cycles_are_time_points() {
+        // zenodo21627132-clariostar-cou3-050: one block of numbered matrices per cycle, each
+        // after a `Cycle <n> (<time>)` line; the first cycle holds the injection.
+        let t = "User: U\nPath: C:\\BMG\\CLARIOstar\\U\\Data\nTest ID: 154\nTest Name: x\nDate: 07/05/2025\nTime: 15:22:11\nID1: 011-01\nFluorescence (FI)\n\nCycle 1 (0 min  - Inj. only)\n,1. Raw Data (402-8/474-9)\n,1,2\nA,Inj.,Inj.\n\n,2. Layout\n,1,2\nA,B,X1\n\nCycle 2 (0 min 38 s)\n,1. Raw Data (402-8/474-9)\n,1,2\nA,54,922\n\n,2. Layout\n,1,2\nA,B,X1\n\nCycle 3 (1 h 1 min 16 s)\n,1. Raw Data (402-8/474-9)\n,1,2\nA,53,1868\n";
+        let ex = parse(&text_book(t.as_bytes()), false);
+        let b = &ex.blocks[0];
+        assert!(b.findings.is_empty(), "{:?}", b.findings);
+        assert_eq!(b.read_type, Some(ReadType::Kinetic));
+        assert_eq!(b.channels.len(), 1);
+        let times: Vec<Option<f64>> = b.obs.iter().map(|o| o.time_s).collect();
+        assert_eq!(
+            times,
+            [
+                Some(0.0),
+                Some(0.0),
+                Some(38.0),
+                Some(38.0),
+                Some(3676.0),
+                Some(3676.0)
+            ]
+        );
+        assert_eq!(b.obs[2].value, 54.0);
+        assert_eq!(b.extra["layout"]["Layout"]["A2"], json!("X1"));
+        assert_eq!(cycle_label("Cycle 12 (62 min 42 s)"), Some("62 min 42 s"));
+        assert_eq!(cycle_label("Cycle 1 (0 min  - Inj. only)"), Some("0 min "));
+        assert_eq!(cycle_label("Cycles: 100"), None);
+        assert_eq!(cycle_label("Cycle time [s]: 38"), None);
+        // a cycle line whose time does not read is reported
+        let t = "User: U\nPath: C:\\BMG\\CLARIOstar\\U\\Data\nTest ID: 1\nTest Name: x\nFluorescence (FI)\n\nCycle 1 (soon)\n,1. Raw Data (402-8/474-9)\n,1,2\nA,54,922\n";
+        let ex = parse(&text_book(t.as_bytes()), false);
+        let b = &ex.blocks[0];
+        assert_eq!(b.findings[0].code, "cycle_time_not_read");
+        assert_eq!(b.obs[0].time_s, None);
     }
 
     #[test]
