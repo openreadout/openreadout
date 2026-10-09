@@ -186,6 +186,32 @@ pub trait Dataset: Send {
         let plane = self.read_plane_level(image, index, level)?;
         crate::region::crop(plane, region, &format!("image {image} level {level}"))
     }
+    /// Whether [`Dataset::read_strips`] decodes each stored tile of `image` at `level` once for
+    /// all the strips of a plane. A reader whose tiles are not on a grid (overlapping CZI
+    /// mosaic tiles) returns `true`, because separate strip reads would decode the tiles that
+    /// cross a strip edge once per strip. `stats` then reads the plane through
+    /// [`Dataset::read_strips`] instead of as separate regions.
+    fn reads_strips(&self, image: u32, level: u32) -> bool {
+        let _ = (image, level);
+        false
+    }
+    /// Read the `strips` of one plane of level `level` (regions of the level, top to bottom)
+    /// and hand each to `sink` in order. The default reads each strip with
+    /// [`Dataset::read_region`].
+    fn read_strips(
+        &mut self,
+        image: u32,
+        index: PlaneIndex,
+        level: u32,
+        strips: &[crate::region::Region],
+        sink: &mut dyn FnMut(Plane) -> Result<()>,
+    ) -> Result<()> {
+        for &r in strips {
+            let p = self.read_region(image, index, level, r)?;
+            sink(p)?;
+        }
+        Ok(())
+    }
     /// Files embedded in the container (thumbnails, label images, time stamps, ...).
     fn attachments(&self) -> Result<Vec<AttachmentInfo>> {
         Ok(Vec::new())
