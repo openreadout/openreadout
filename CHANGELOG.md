@@ -4,6 +4,10 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### Fixed
+
+- The bioconda recipe has the checksum of the 0.2.0 source archive, and the conda-forge recipes build 0.2.0.
+
 ## [0.2.0] - 2026-10-07
 
 The second release. In short:

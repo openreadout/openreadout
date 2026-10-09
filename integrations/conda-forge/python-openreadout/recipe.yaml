@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: openreadout
-  version: "0.1.0"
+  version: "0.2.0"
 
 package:
   # bioconda already uses the name `openreadout` for the command-line tool (integrations/bioconda),
@@ -12,7 +12,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
-  sha256: fca5eaec0e3b96b79c2298cf426a2789a59f437a7c180948528ec0097f70b92c
+  sha256: dcdf532fa81f68b976c211c7e90476c6b887bb0e0d4b7b5f8be2e7109862bb6a
 
 build:
   number: 0

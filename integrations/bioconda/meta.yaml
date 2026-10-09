@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/openreadout/openreadout/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: fc403b382b700fd9059821decb404aadb61779c270fae42a2d03c0519810bb18
+  sha256: a348de96398b3e85f94bcdfed47762a592ead748395b9cfc930183ba05db9755
 
 build:
   number: 0
