@@ -38,7 +38,13 @@ pub(crate) fn render(
         .iter()
         .find(|t| t.index == ti)
         .ok_or_else(|| {
-            if info.traces.is_empty() {
+            if info.traces.is_empty() && !info.images.is_empty() {
+                Error::unsupported(
+                    "preview",
+                    format!("trace preview of a {} file", info.format.name),
+                    "This file holds images, not traces. Pick image channels with a selection such as `c=0-2` (`select` in MCP, `--select` on the command line) instead of `channels` or `--channel`, which pick trace channels.",
+                )
+            } else if info.traces.is_empty() {
                 Error::unsupported(
                     "preview",
                     format!("trace preview of a {} file", info.format.name),

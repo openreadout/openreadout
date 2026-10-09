@@ -57,6 +57,12 @@ function fmt(v, digits) {
   return String(s);
 }
 
+/** A legend entry: the series name cut to `max` characters. */
+function legendLabel(name, max) {
+  const s = String(name || "");
+  return s.length > max ? s.slice(0, max - 1) + "…" : s;
+}
+
 /** Viridis colour for t in [0, 1]. */
 function viridis(t) {
   t = Math.min(1, Math.max(0, isFinite(t) ? t : 0));
@@ -562,13 +568,15 @@ function main() {
       }
       const t = traces.find((x) => x.index === p.trace);
       if (t && t.channel_count > 1) {
-        // One chip per channel; the plotted ones are pressed. At most 8 at once.
+        // One chip per channel; the plotted ones are pressed. At most 8 at once. Long names
+        // are cut (the full name is the tooltip), and many chips scroll in a few rows.
         const shown = p.series.map((s) => s.channel);
         const chips = el("span", { className: "chips" });
         t.channels.forEach((ch, c) => {
           const on = shown.includes(c);
-          const chip = el("span", { className: "chip", role: "button", tabIndex: 0 },
-            el("span", { className: "swatch", style: `background:${PALETTE[c % PALETTE.length]}` }), ch.name || `ch ${c}`);
+          const name = ch.name || `ch ${c}`;
+          const chip = el("span", { className: "chip", role: "button", tabIndex: 0, title: name },
+            el("span", { className: "swatch", style: `background:${PALETTE[c % PALETTE.length]}` }), legendLabel(name, 24));
           chip.setAttribute("aria-pressed", String(on));
           const toggle = () => {
             const next = on ? shown.filter((x) => x !== c) : shown.concat([c]).sort((a, b) => a - b);
@@ -915,11 +923,21 @@ function main() {
     if (first && first.series.length > 1) {
       ctx2d.textAlign = "left";
       ctx2d.textBaseline = "middle";
-      let lx = left + 8, ly = top + 9;
-      for (const s of first.series.slice(0, 8)) {
-        const label = s.name || "";
+      // at most two rows of short labels, so the curves stay visible under the legend
+      let lx = left + 8, ly = top + 9, row = 0;
+      const series = first.series.slice(0, 8);
+      for (let k = 0; k < series.length; k++) {
+        const s = series[k];
+        const label = legendLabel(s.name, 18);
         const lw = ctx2d.measureText(label).width + 22;
-        if (lx + lw > left + pw) { lx = left + 8; ly += 15; }
+        if (lx + lw > left + pw) {
+          if (row === 1) {
+            ctx2d.fillStyle = c.muted;
+            ctx2d.fillText(`+${first.series.length - k} more`, lx, ly);
+            break;
+          }
+          lx = left + 8; ly += 15; row++;
+        }
         ctx2d.fillStyle = s.color;
         ctx2d.fillRect(lx, ly - 1, 10, 3);
         ctx2d.fillStyle = c.text;
@@ -1402,7 +1420,7 @@ function main() {
 }
 
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { niceTicks, niceBelow, fmt, viridis, plotXs, sampleWindow, f32FromBase64, scaleFn, percentile, hintFrom };
+  module.exports = { niceTicks, niceBelow, fmt, legendLabel, viridis, plotXs, sampleWindow, f32FromBase64, scaleFn, percentile, hintFrom };
 } else {
   main();
 }
