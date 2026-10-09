@@ -183,37 +183,34 @@ fn yes() -> bool {
     true
 }
 
-/// `select` strings of `openreadout_preview` (`c=1`, `z=4`, `c=0,1,z=2`) as view arguments.
+/// `select` strings of `openreadout_preview` (`c=1`, `z=4`, `c=0-2`, `c=0,1,z=2`) as view
+/// arguments, parsed as `--select` is. Strings that do not parse are left out.
 pub fn select_into(select: &[Value], out: &mut Map<String, Value>) {
     let strings: Vec<String> = select
         .iter()
         .filter_map(Value::as_str)
         .map(str::to_string)
         .collect();
-    for s in openreadout_preview::split_select(&strings) {
-        let Some((axis, vals)) = s.split_once('=') else {
-            continue;
-        };
-        let nums: Vec<u64> = vals
-            .split(',')
-            .filter_map(|v| v.trim().parse().ok())
-            .collect();
-        match (axis.trim(), nums.as_slice()) {
-            ("c", [one]) => {
-                out.insert("c".into(), json!(one));
-            }
-            ("c", many) if many.len() > 1 => {
-                out.insert("composite".into(), json!(true));
-                out.insert("channels".into(), json!(many));
-            }
-            ("z", [one]) => {
-                out.insert("z".into(), json!(one));
-            }
-            ("t", [one]) => {
-                out.insert("t".into(), json!(one));
-            }
-            _ => {}
+    let Ok(sel) =
+        openreadout_core::select::Selection::parse(&openreadout_preview::split_select(&strings))
+    else {
+        return;
+    };
+    match sel.c.as_slice() {
+        [] => {}
+        [one] => {
+            out.insert("c".into(), json!(one));
         }
+        many => {
+            out.insert("composite".into(), json!(true));
+            out.insert("channels".into(), json!(many));
+        }
+    }
+    if let [one] = sel.z.as_slice() {
+        out.insert("z".into(), json!(one));
+    }
+    if let [one] = sel.t.as_slice() {
+        out.insert("t".into(), json!(one));
     }
 }
 
@@ -620,7 +617,9 @@ fn image(
         crate::resources::PREVIEW_BUDGET,
     )
     .map_err(|e| err(&e))?;
-    notes.extend(out.notes.iter().cloned());
+    // The rendering's own notes. Fitting the byte budget only shrinks the picture further,
+    // and the viewer loads full detail when the user zooms in, so that is not news to them.
+    notes.extend(r.output.notes.iter().cloned());
     let mime = if out.encoding == "jpeg" {
         "image/jpeg"
     } else {
@@ -1292,6 +1291,15 @@ mod tests {
         let mut m = Map::new();
         select_into(&[json!("c=3")], &mut m);
         assert_eq!(m["c"], json!(3));
+        // ranges, as `--select` takes them
+        let mut m = Map::new();
+        select_into(&[json!("c=0-2")], &mut m);
+        assert_eq!(m["composite"], json!(true));
+        assert_eq!(m["channels"], json!([0, 1, 2]));
+        let mut m = Map::new();
+        select_into(&[json!("c=0-1,3"), json!("z=2-2")], &mut m);
+        assert_eq!(m["channels"], json!([0, 1, 3]));
+        assert_eq!(m["z"], json!(2));
     }
 
     #[test]

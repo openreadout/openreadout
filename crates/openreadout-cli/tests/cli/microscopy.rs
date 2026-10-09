@@ -780,6 +780,56 @@ fn export_ome_zarr_nd2_multiposition_rgb() {
     std::fs::remove_dir_all(&dir).ok();
 }
 
+/// Without `--format`, the output's extension picks the format; a contradicting `--format`
+/// or an extension that names no format is a usage error that writes nothing.
+#[test]
+fn export_format_follows_the_output_name() {
+    let p = lif_fixture("synthetic-dims.lif");
+    let dir = std::env::temp_dir().join(format!("openreadout-ext-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let export = |out: &std::path::Path, extra: &[&str]| {
+        let mut args = vec![
+            "export",
+            p.to_str().unwrap(),
+            "--image",
+            "0",
+            "-o",
+            out.to_str().unwrap(),
+            "--json",
+        ];
+        args.extend_from_slice(extra);
+        bin().args(args).output().unwrap()
+    };
+    let zarr = dir.join("x.ome.zarr");
+    let out = export(&zarr, &[]);
+    assert!(
+        out.status.success(),
+        "{}",
+        String::from_utf8_lossy(&out.stdout)
+    );
+    assert_eq!(json(&out)["data"]["format"], "ome-zarr");
+    assert!(zarr.join("zarr.json").is_file());
+    let tif = dir.join("x.tif");
+    let out = export(&tif, &[]);
+    assert!(
+        out.status.success(),
+        "{}",
+        String::from_utf8_lossy(&out.stdout)
+    );
+    assert!(tif.is_file());
+    for (out_path, extra) in [
+        (dir.join("y.ome.zarr"), &["--format", "ome-tiff"][..]),
+        (dir.join("y.bin"), &[][..]),
+    ] {
+        let out = export(&out_path, extra);
+        assert_eq!(out.status.code(), Some(2), "{}", out_path.display());
+        let v = json(&out);
+        assert!(v["error"]["hint"].as_str().unwrap().contains(".ome.zarr"));
+        assert!(!out_path.exists());
+    }
+    std::fs::remove_dir_all(&dir).ok();
+}
+
 #[test]
 fn export_ome_zarr_czi_scene_selection_and_pyramid() {
     let Some(p) = corpus("aics-s-3-t-1-c-3-z-5.czi") else {

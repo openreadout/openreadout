@@ -9,7 +9,9 @@ use std::path::PathBuf;
 /// What to do about a usage error, from the kind of mistake its message describes.
 fn usage_hint(message: &str) -> &'static str {
     let m = message.to_ascii_lowercase();
-    if m.contains("--overwrite") {
+    if m.contains("the output name `") {
+        "Name the output with the extension of the format you want (.ome.tiff, .ome.zarr, .mzML, .csv, .parquet, .arrow, .nwb, .jdx, .asm.json, .rdml), or set the format explicitly."
+    } else if m.contains("--overwrite") {
         "Choose another output path, or pass --overwrite to replace that file (the input is never modified)."
     } else if m.contains("select") {
         "Selections are zero-based and repeatable: `c=0`, `z=1-3`, `t=0,2`; `openreadout info FILE --json` gives each image's size_c, size_z and size_t."

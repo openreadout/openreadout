@@ -820,7 +820,9 @@ pub fn finish(
 }
 
 /// Encode within a byte budget (for inline MCP image content): the requested encoding first,
-/// then JPEG at quality 85, then halving the image until it fits. Notes record what changed.
+/// then JPEG at quality 85, then halving the image until it fits. `encoding` in the output
+/// says when the image became a JPEG. Halving adds one note, worded for the person looking
+/// at the picture.
 pub fn finish_within(
     r: &Rendered,
     encoding: Encoding,
@@ -836,18 +838,17 @@ pub fn finish_within(
     if enc == Encoding::Png {
         enc = Encoding::Jpeg;
         (out, bytes) = finish(&cur, enc, 85)?;
-        out.notes.push(format!(
-            "PNG exceeded the {max_bytes}-byte budget; re-encoded as JPEG (quality 85)"
-        ));
     }
+    let mut halved = false;
     while bytes.len() > max_bytes && cur.canvas.width.max(cur.canvas.height) > 32 {
         cur.canvas = cur.canvas.half();
         cur.output.halved();
-        let notes = out.notes.clone();
         (out, bytes) = finish(&cur, enc, 85)?;
-        out.notes = notes;
+        halved = true;
+    }
+    if halved {
         out.notes.push(format!(
-            "halved to {}x{} to fit the {max_bytes}-byte budget",
+            "shown at reduced resolution ({}x{} px); preview a region for full detail",
             cur.canvas.width, cur.canvas.height
         ));
     }

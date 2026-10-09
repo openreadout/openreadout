@@ -10,7 +10,8 @@
 # python/bioio-openreadout/pyproject.toml and python/napari-openreadout/pyproject.toml
 # (version + openreadout requirement),
 # packaging/npm/package.json (version + platform package requirements), packaging/wasm/package.json, CITATION.cff, THIRD-PARTY-NOTICES.md (our own crates' versions), CHANGELOG.md.
-# Also r/openreadout/DESCRIPTION and the integrations/ version pins (Galaxy, Nextflow, Snakemake, bioconda).
+# Also r/openreadout/DESCRIPTION and the integrations/ version pins (Galaxy, Nextflow, Snakemake,
+# bioconda, conda-forge). The recipes' sha256 lines are set after the release by scripts/recipe-sha256.sh.
 # The Python extension (pyproject.toml) and the Nix flake read the version from Cargo.toml.
 # Afterwards `cargo xtask version-check` must pass; see docs/release-process.md.
 set -euo pipefail
@@ -76,6 +77,12 @@ perl -pi -e 's/\[(openreadout(?:-[a-z0-9-]+)?) \Q$ENV{OLD}\E\]/[$1 $ENV{NEW}]/g'
 perl -pi -e 's/^Version: \Q$ENV{OLD}\E$/Version: $ENV{NEW}/' r/openreadout/DESCRIPTION
 perl -pi -e 's/("\@TOOL_VERSION\@">)\Q$ENV{OLD}\E</${1}$ENV{NEW}</' integrations/galaxy/macros.xml
 perl -pi -e 's/(set version = ")\Q$ENV{OLD}\E"/${1}$ENV{NEW}"/' integrations/bioconda/meta.yaml
+# conda-forge recipes: their version, and the plugins' python-openreadout requirement. The sha256
+# lines need the published archives, so scripts/recipe-sha256.sh sets them after the release.
+perl -pi -e '
+  s/^(  version: ")\Q$ENV{OLD}\E"/${1}$ENV{NEW}"/;
+  s/(python-openreadout >=)\S+,<\S+/${1}$ENV{NEW},<$ENV{NEXT}/;
+' integrations/conda-forge/*/recipe.yaml
 for f in integrations/nextflow/modules/openreadout/*/environment.yml integrations/nextflow/modules/openreadout/*/main.nf integrations/snakemake/wrappers/openreadout/*/environment.yaml; do
   perl -pi -e 's/(openreadout(?:=| =|:))\Q$ENV{OLD}\E/${1}$ENV{NEW}/g' "$f"
 done

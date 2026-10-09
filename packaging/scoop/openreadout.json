@@ -1,6 +1,6 @@
 {
     "version": "{{version}}",
-    "description": "Read raw lab-instrument files without the vendor software: inspect, check, export to open formats, MCP server.",
+    "description": "Read raw lab-instrument files without the vendor software, check them for damage and export them to open formats. Also runs as an MCP server.",
     "homepage": "https://github.com/openreadout/openreadout",
     "license": "MIT|Apache-2.0",
     "architecture": {

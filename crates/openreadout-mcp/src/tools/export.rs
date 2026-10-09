@@ -23,10 +23,12 @@ pub struct ExportArgs {
     /// or `arrow` (Arrow IPC file) for a table, a trace (all sweeps) or mass spectra
     /// (`spectra=true`), `nwb` (NWB 2.x; electrophysiology traces), `jcamp` (JCAMP-DX 5.01; NMR
     /// FIDs and spectra, other 1-D spectra and chromatograms), `asm` (Allotrope Simple Model
-    /// plate-reader JSON) or `rdml` (RDML 1.3; qPCR files).
+    /// plate-reader JSON) or `rdml` (RDML 1.3; qPCR files). Without it, the extension of
+    /// `output` decides; it must not contradict `output`.
     pub format: Option<String>,
     /// Output path; defaults to the input with `.ome.tiff`, `.ome.zarr`, `.mzML`, `.csv`,
-    /// `.asm.json`, `.rdml`, `.parquet`, `.arrow`, `.nwb` or `.jdx`.
+    /// `.asm.json`, `.rdml`, `.parquet`, `.arrow`, `.nwb` or `.jdx`. Its extension sets the
+    /// format when `format` is not given.
     pub output: Option<String>,
     /// Replace an existing output file or directory.
     #[serde(default)]
@@ -316,6 +318,22 @@ fn export_blocking(
     let reg = with_strict(registry(), a.strict);
     let input = PathBuf::from(&a.file);
     let mut requested = a.format.as_deref().map(str::to_ascii_lowercase);
+    // The output name and `format` have to agree, and the name decides when `format` is
+    // missing (the CLI does the same). An unknown `format` fails further down.
+    if let Some(out) = &a.output {
+        let asked = requested
+            .as_deref()
+            .map(openreadout_batch::export_format::canonical);
+        if asked != Some(None) {
+            let format = openreadout_batch::export_format::resolve(
+                asked.flatten(),
+                Path::new(out),
+                "format",
+            )
+            .map_err(|e| mcp_err(&e))?;
+            requested = Some(format.to_string());
+        }
+    }
     if requested.is_none() {
         let (_, ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
         let info = ds.info().map_err(|e| mcp_err(&e))?;
@@ -536,5 +554,43 @@ impl InstrumentServer {
             let _ = f.await;
         }
         Ok(CallToolResult::structured(r?))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn args(format: Option<&str>, output: &str) -> ExportArgs {
+        serde_json::from_value(serde_json::json!({
+            "file": "missing.lif",
+            "format": format,
+            "output": output,
+        }))
+        .unwrap()
+    }
+
+    fn exit_code(e: &McpError) -> Option<i64> {
+        e.data.as_ref()?.get("exit_code")?.as_i64()
+    }
+
+    /// The output name and `format` are checked as on the command line, before the file is
+    /// opened.
+    #[test]
+    fn the_output_name_sets_or_checks_the_format() {
+        for (format, output) in [(Some("ome-tiff"), "x.ome.zarr"), (None, "x.bin")] {
+            let e = export_blocking(Registry::new, args(format, output), None).unwrap_err();
+            assert_eq!(exit_code(&e), Some(2), "{output}: {e:?}");
+            assert!(e.message.contains("format"), "{}", e.message);
+        }
+        // agreeing, implied and aliased formats get as far as opening the file
+        for (format, output) in [
+            (None, "x.ome.zarr"),
+            (Some("zarr"), "x.ome.zarr"),
+            (Some("csv"), "x.txt"),
+        ] {
+            let e = export_blocking(Registry::new, args(format, output), None).unwrap_err();
+            assert_ne!(exit_code(&e), Some(2), "{output}: {e:?}");
+        }
     }
 }
