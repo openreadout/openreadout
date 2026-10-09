@@ -46,17 +46,15 @@ gh attestation verify openreadout-aarch64-apple-darwin.tar.gz --repo openreadout
 
 ### If macOS blocks the program
 
-Only a binary downloaded with a web browser is checked by Gatekeeper. The install script, Homebrew, npm, pip and cargo don't mark their downloads, so their binaries are not affected.
+Gatekeeper checks only binaries downloaded with a web browser. The install script, Homebrew, npm, pip and cargo don't mark their downloads, so their binaries are not affected.
 
-The v0.1.0 binaries are not notarized. If you downloaded an archive in a browser and macOS says it can't verify that `openreadout` is free of malware, remove the mark and run it again:
+Release binaries from 0.2.0 on are signed with a Developer ID and notarized by Apple. macOS checks the notarization online the first time you run a copy downloaded in a browser, so that first run needs an internet connection. If you are offline, or macOS says it can't verify that a v0.1.0 binary is free of malware, remove the mark and run it again:
 
 ```bash
 xattr -d com.apple.quarantine openreadout
 ```
 
-Later releases are signed with a Developer ID and notarized by Apple. macOS checks the notarization online the first time you run a downloaded copy, so that first run needs an internet connection. Offline, the same `xattr` command lets it run. `codesign -dv openreadout` shows who signed a binary.
-
-The Windows binaries of v0.1.0 are not signed either. A command-line program started from a terminal usually runs without a SmartScreen prompt.
+The v0.1.0 Windows binaries are not signed. A command-line program started from a terminal usually runs without a SmartScreen prompt.
 
 ## Check it works
 
