@@ -4,7 +4,13 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### Changed
+
+- `spectrum --ms-level L --spectrum I` picks the spectrum at zero-based index `I` among the spectra of MS level `L`, and `--nth` is gone. `--nth` counted from 1 while every other index counts from 0. The first MS/MS scan is now `--ms-level 2 --spectrum 0` (MCP: `ms_level: 2, spectrum: 0`).
+
 ### Fixed
+
+- Claude Code 2.1.292 showed no OpenReadout MCP tools. With MCP protocol version 2026-07-28 the server left `ttlMs` and `cacheScope` off its list results, and the client rejected the whole tool list. The server now sends them.
 
 - `stats` on large CZI mosaics is fast again. Reading the plane in strips had made it decode the tiles that cross a strip edge twice. Now each tile is decoded once, and `stats` also accumulates the colour components of a strip in parallel.
 - BMG SMART Control workbooks of kinetic runs: each cycle is now its own time point. `check` used to report the whole run as one time point with many values per well.
