@@ -1,6 +1,6 @@
-# Shimadzu LabSolutions `.lcd` / `.gcd`
+# Shimadzu LabSolutions `.lcd` / `.gcd` and GCMSsolution `.qgd`
 
-Shimadzu LabSolutions writes HPLC data as `.lcd` and GC data as `.gcd` files. OpenReadout returns the chromatograms, the status traces (pressures, temperatures), the PDA field, LC-MS spectra (MRM and SIM; profile spectra are refused) and LabSolutions' own peak tables. Two layouts exist: an older one (File Property version 3.00) and a newer one (5.01).
+Shimadzu LabSolutions writes HPLC data as `.lcd` and GC data as `.gcd` files, and GCMSsolution writes GC-MS data as `.qgd` files in the same container. OpenReadout returns the chromatograms, the status traces (pressures, temperatures), the PDA field, LC-MS spectra (MRM and SIM; profile spectra are refused), GC-MS scans and LabSolutions' own peak tables. Two layouts exist: an older one (File Property version 3.00) and a newer one (5.01).
 
 The container is Microsoft's compound file format, a public open specification; the LabSolutions streams inside were decoded from hex dumps of public Zenodo files (CC-BY-4.0). olefile (BSD-2-Clause) is the reference reader for the container walk. Chromatograms are checked against chromConverter (GPL-3.0, run as a black box) and LabSolutions ASCII exports, and peak tables against the vendor's own peak areas. See `docs/provenance/shimadzu.md`. Format id: `shimadzu`; crate `openreadout-chrom` (`shimadzu_dataset.rs`; the compound-file reader is `openreadout-core/src/cfb.rs`, shared with the ZVI reader). Confidence (computed by the evidence rubric, `docs/assurance.md`): medium.
 
@@ -70,6 +70,21 @@ The spectra run (`name` `LC-MS`) lists every record: `scan_count`, `ms_levels`, 
 
 Validated (`tests/corpus/`, oracle `oracle/shimadzu_ms_gt.py`): 610 MRM and SIM spectra of three CC0 files equal to the ground-truth slices converted with ProteoWizard msconvert (vendor reader), point for point; the profile spectra of the four files are refused.
 
+## GC-MS data (`.qgd`, `GCMS Raw Data`, spectra run 0, 2026-10-12)
+
+| stream | layout |
+| --- | --- |
+| `GCMS Raw Data/Retention Time` | u32 ms per record |
+| `GCMS Raw Data/TIC Data` | u64 per record: the sum of the record's stored intensities |
+| `GCMS Raw Data/Spectrum Index` | the byte offset of each record in `MS Raw Data`: u32 each (GCMS-QP2010 files), or a u16 1 then u64 each (`wide_offsets`, a GCMS-TQ8040 file); a record ends where the next begins |
+| `GCMS Raw Data/MS Raw Data` | the records, back to back |
+
+A record (`GcmsHeader`) starts with 32 bytes: u32 `record`, u32 `rt_ms`, u16 `event`, u16 `intensity_offset` (470 in every corpus file), two u32, then for a scan (`GcmsRecordKind::Scan`) u16 width code, u16 point count and 8 zero bytes. Its points are u16 m/z × 20 (`GCMS_MZ_SCALE`) and an intensity of 2 bytes (width code 2), 3 bytes (3) or 4 bytes (1); a 4-byte intensity's top bit (`GCMS_FLAG_BIT`) is a flag, not part of the value. Records of the other kinds hold 0 in the width code and point count and give a layout code and an entry count in the 8 bytes instead: entries of u16 m/z × 20 and an intensity for selected ions (`Sim`, codes 1–3), or u16 Q1 × 20, u16 Q3 × 20 and an intensity for MRM (`Mrm`, codes 101–103, `GCMS_MRM_CODE` + the width code). A record whose body does not fill it exactly is an error.
+
+**Values.** A scan's intensities are the stored values minus `intensity_offset`, every point kept (some become negative): equal to the vendor's ANDI-MS exports on all 8,000 scans of a GCMS-QP2010 Ultra file and all 1,961 scans of a GCMS-TQ8040 file (m/z, intensity, time, and `total_intensity` = the sum of the points), and to Shimadzu's mzXML exporter on all 12,600 scans of a second QP2010 Ultra file once its points that are not positive are left out, as that exporter does. `total_ion_current` is `TIC Data` minus the offset of every point. Selected-ion and MRM records are listed by `scans` (time, event, MRM's first Q1) and refused when read (exit 6): no export holds them.
+
+The run (`name` `GC-MS`): `scan_count` (every record), `ms_levels` (1 for scans and selected ions, 2 for MRM), `rt_range_s`, `extra.acquisitions` (records per kind: `scan`, `sim`, `mrm`), `extra.events`, `extra.unreadable_records`, `extra.intensity_offsets`. Spectra: MS level 1, centroids, polarity `unknown` (no field states it), `extra.acquisition`, `event`, `intensity_offset`, `flagged_points`. `check` reads every header, compares each record's time with the stream and each scan's points with its `TIC Data` value.
+
 ## Vendor peaks (`vendor_peaks`, 2026-09-26)
 
 `tables[0]`, when the file holds LabSolutions peak tables, has one row per peak of every channel: `signal` (code into `extra.categories`: the trace name, or `PDA Ch<k> <wl> nm` for PDA channels), `peak`, `rt_min`, `start_min`, `end_min`, `area`, `height`, `baseline_start`, `baseline_end` (LabSolutions' µ-units: µV·s/µV, µAU·s/µAU — 1000 × a trace in mV or mAU), `capacity_factor`, `plates`, `plate_height`, `tailing`, `resolution` (older layout only; NaN otherwise), `flags` (0x10 on peaks the export does not mark `V`). `extra.source` is `vendor`, `extra.streams` names the stream of each signal's table.
@@ -119,6 +134,7 @@ The generated time is taken as the start in UTC: the 3.00 file's is 2023-06-06 0
 | `label_lc_status`, `label_lss_status`, `DATA_ITEM_STATUS`, `is_chromatogram_item`, `is_status_item`, `data_set` | names and scales of status logs (older/newer layout); `DT` 48; whether a `2D Data Item` entry is a chromatogram (its title contains `Chromatogram` and not `Status Trace(`, whatever its `DT`) or a status log (`DT` 48 and a `Status Trace(` title); its `DSID` |
 | `TlmEntry`, `offset`, `size`, `TlmIndex`, `entries`, `rt_ms`, `tic`, `parse_index` | the LC-MS index streams (§ LC-MS data) |
 | `TlmHeader`, `cycle_rt_ms`, `event`, `cycle`, `record`, `code`, `polarity_code`, `polarity`, `count`, `first_q1`, `precursor_mz`, `header`, `record_header`, `inflate_record`, `point_precursors`, `precursors` | an LC-MS record's header; reading it (the header alone, or the record inflated) |
+| `GcmsIndex`, `rt_ms`, `offsets`, `tic`, `wide_offsets`, `GcmsHeader`, `record`, `event`, `intensity_offset`, `kind`, `count`, `GcmsRecordKind` { `Scan`, `Sim`, `Mrm` }, `intensity_bytes`, `GCMS_HEADER_LEN`, `GCMS_MRM_CODE`, `GCMS_MZ_SCALE`, `GCMS_FLAG_BIT`, `parse_index`, `header`, `scan_points`, `mrm_first_precursor`, `reported_tic`, `intensity_offsets`, `flagged_points` | GC-MS records of a `.qgd` (section above) |
 | `TlmSpectrum`, `ms_level`, `centroided`, `scan_window_mz`, `points`, `decode`, `acquisition_name`, `MAX_TLM_RECORD`, `TLM_MRM`, `TLM_SIM`, `TLM_FULL_SCAN`, `TLM_PRODUCT_ION_SCAN` | a decoded record (MRM, SIM; profiles refused); acquisition codes; the largest record inflated |
 | `VendorPeak`, `signal`, `number`, `flags`, `rt_min`, `start_min`, `end_min`, `area`, `height`, `baseline_start`, `baseline_end`, `capacity_factor`, `plates`, `plate_height`, `tailing`, `resolution` | one peak of a LabSolutions peak table (see Vendor peaks) |
 | `peak_table_old`, `peak_table_new`, `multi_chromato_wavelengths`, `PEAK_RECORD_OLD`, `MAX_PEAKS` | parse an older/newer peak table; PDA channel wavelengths; older record size; most peaks accepted |

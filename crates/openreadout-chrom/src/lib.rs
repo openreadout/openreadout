@@ -93,6 +93,8 @@ pub mod shimadzu_channels;
 #[doc(hidden)]
 pub mod shimadzu_dataset;
 #[doc(hidden)]
+pub mod shimadzu_gcms;
+#[doc(hidden)]
 pub mod shimadzu_peaks;
 #[doc(hidden)]
 pub mod shimadzu_signal;
@@ -352,9 +354,9 @@ impl FormatReader for ShimadzuReader {
     fn descriptor(&self) -> FormatDescriptor {
         FormatDescriptor {
             id: SHIMADZU_ID.into(),
-            name: "Shimadzu LabSolutions data file (.lcd, .gcd)".into(),
+            name: "Shimadzu LabSolutions data file (.lcd, .gcd, .qgd)".into(),
             vendor: "Shimadzu".into(),
-            extensions: vec!["lcd".into(), "gcd".into()],
+            extensions: vec!["lcd".into(), "gcd".into(), "qgd".into()],
             family: "chromatography".into(),
             can_read: true,
             can_write: false,
@@ -366,13 +368,13 @@ impl FormatReader for ShimadzuReader {
                 "Older-layout status traces are named by module model and quantity (LC-20AD pressure 1): the file stores no names; LabSolutions' export names (Pump A Pressure, Oven Temp.) are its own".into(),
                 "LC-MS (TLM Raw Data): MRM and SIM records are spectra (run 0), equal to msconvert's on 610 spectra of 3 CC0 files and to the vendor's own mzXML on a two-polarity LCMS-8060 run (polarity, time, points and each point's precursor, MRM events with several precursors included); full-scan and product-ion-scan spectra are refused (exit 6: the vendor's reader returns other values), their retention time, TIC and precursor listed. MS quantitative results, compound and calibration tables and method streams are listed, not decoded".into(),
                 "LCMS-9030 Q-TOF data (QTFL RawData) are not read: the stored m/z are flight times whose calibration is not decoded; info names the storage and its scan count, and the file is partially validated".into(),
-                "GCMSsolution .qgd files (GC-MS) are another format and are not read".into(),
+                "GCMSsolution .qgd GC-MS (GCMS Raw Data): scans are spectra, intensities minus the record's stored offset, equal to the vendor's ANDI and mzXML exports on 22,561 scans of 3 files (GCMS-QP2010 Ultra, GCMS-TQ8040); MRM records are listed and refused (exit 6). Polarity is not stated".into(),
             ],
         }
     }
 
     fn sniff(&self, head: &[u8], path: &Path) -> Option<Detection> {
-        if !has_extension(path, &["lcd", "gcd"]) {
+        if !has_extension(path, &["lcd", "gcd", "qgd"]) {
             return None;
         }
         Some(Detection {

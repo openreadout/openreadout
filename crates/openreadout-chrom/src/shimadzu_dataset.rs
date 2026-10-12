@@ -177,6 +177,8 @@ pub struct ShimadzuDataset {
     peak_errors: Vec<String>,
     /// LC-MS records (`TLM Raw Data`), when the file has them.
     tlm: Option<Tlm>,
+    /// GC-MS records (`GCMS Raw Data` of a `.qgd`), when the file has them.
+    gcms: Option<Gcms>,
 }
 
 /// The LC-MS part of a file: the index, every record's header, and `MS Raw Data`.
@@ -263,6 +265,215 @@ impl Tlm {
             instrument: None,
             extra,
         }
+    }
+}
+
+/// The GC-MS part of a `.qgd` file: the index, every record's header and `MS Raw Data`.
+#[derive(Debug)]
+struct Gcms {
+    index: crate::shimadzu_gcms::GcmsIndex,
+    /// Per record: its header, or why it could not be read.
+    headers: Vec<std::result::Result<crate::shimadzu_gcms::GcmsHeader, String>>,
+    raw: Vec<u8>,
+}
+
+impl Gcms {
+    fn read<R: std::io::Read + std::io::Seek + ?Sized>(
+        cfb: &Cfb,
+        f: &mut R,
+        path: &Path,
+    ) -> Result<Option<Gcms>> {
+        use crate::shimadzu_gcms as g;
+        let (Some(rt), Some(si), Some(tic), Some(raw)) = (
+            cfb.stream("GCMS Raw Data/Retention Time").cloned(),
+            cfb.stream("GCMS Raw Data/Spectrum Index").cloned(),
+            cfb.stream("GCMS Raw Data/TIC Data").cloned(),
+            cfb.stream("GCMS Raw Data/MS Raw Data").cloned(),
+        ) else {
+            return Ok(None);
+        };
+        if raw.size > MAX_TLM_STREAM || rt.size == 0 {
+            return Ok(None);
+        }
+        let index = g::parse_index(
+            &cfb.read(f, path, &rt, MAX_STREAM)?,
+            &cfb.read(f, path, &si, MAX_STREAM)?,
+            &cfb.read(f, path, &tic, MAX_STREAM)?,
+        )
+        .map_err(|e| Error::corrupt(SHIMADZU_ID, format!("GCMS Raw Data: {e}")))?;
+        let raw = cfb.read(f, path, &raw, MAX_TLM_STREAM)?;
+        let headers = (0..index.offsets.len())
+            .map(|k| g::record(&raw, &index, k).and_then(g::header))
+            .collect();
+        Ok(Some(Gcms {
+            index,
+            headers,
+            raw,
+        }))
+    }
+
+    fn info(&self) -> SpectraInfo {
+        use crate::shimadzu_gcms::GcmsRecordKind;
+        let (mut scans, mut sim, mut mrm) = (0u64, 0u64, 0u64);
+        let mut events: Vec<u16> = Vec::new();
+        for h in self.headers.iter().flatten() {
+            match h.kind {
+                GcmsRecordKind::Scan { .. } => scans += 1,
+                GcmsRecordKind::Sim { .. } => sim += 1,
+                GcmsRecordKind::Mrm { .. } => mrm += 1,
+            }
+            if !events.contains(&h.event) {
+                events.push(h.event);
+            }
+        }
+        let mut levels = Vec::new();
+        if scans + sim > 0 {
+            levels.push(1);
+        }
+        if mrm > 0 {
+            levels.push(2);
+        }
+        let mut kinds = BTreeMap::new();
+        if scans > 0 {
+            kinds.insert("scan".to_string(), scans);
+        }
+        if sim > 0 {
+            kinds.insert("sim".to_string(), sim);
+        }
+        if mrm > 0 {
+            kinds.insert("mrm".to_string(), mrm);
+        }
+        let rt = |v: Option<&u32>| v.map(|x| f64::from(*x) / 1000.0);
+        let mut extra = BTreeMap::new();
+        extra.insert("acquisitions".into(), json!(kinds));
+        extra.insert("events".into(), json!(events.len()));
+        extra.insert(
+            "unreadable_records".into(),
+            json!(self.headers.iter().filter(|h| h.is_err()).count()),
+        );
+        let offsets: Vec<u16> = self
+            .headers
+            .iter()
+            .flatten()
+            .map(|h| h.intensity_offset)
+            .fold(Vec::new(), |mut v, o| {
+                if !v.contains(&o) {
+                    v.push(o);
+                }
+                v
+            });
+        extra.insert("intensity_offsets".into(), json!(offsets));
+        SpectraInfo {
+            index: 0,
+            name: Some("GC-MS".into()),
+            scan_count: self.index.offsets.len() as u64,
+            ms_levels: levels,
+            rt_range_s: rt(self.index.rt_ms.iter().min())
+                .zip(rt(self.index.rt_ms.iter().max()))
+                .map(|(a, b)| [a, b]),
+            instrument: None,
+            extra,
+        }
+    }
+
+    fn header(&self, k: usize) -> Result<crate::shimadzu_gcms::GcmsHeader> {
+        self.headers
+            .get(k)
+            .ok_or_else(|| {
+                Error::Usage(format!(
+                    "spectrum {k} out of range ({} spectra)",
+                    self.headers.len()
+                ))
+            })?
+            .clone()
+            .map_err(|m| Error::corrupt(SHIMADZU_ID, format!("GC-MS record {k}: {m}")))
+    }
+
+    fn scan_header(&self, k: usize) -> Result<openreadout_core::ScanHeader> {
+        use crate::shimadzu_gcms::{self as g, GcmsRecordKind};
+        let h = self.header(k)?;
+        let mut extra = BTreeMap::new();
+        extra.insert("event".into(), json!(h.event));
+        let mrm = matches!(h.kind, GcmsRecordKind::Mrm { .. });
+        let scan = matches!(h.kind, GcmsRecordKind::Scan { .. });
+        extra.insert(
+            "acquisition".into(),
+            json!(match h.kind {
+                GcmsRecordKind::Scan { .. } => "scan",
+                GcmsRecordKind::Sim { .. } => "sim",
+                GcmsRecordKind::Mrm { .. } => "mrm",
+            }),
+        );
+        Ok(openreadout_core::ScanHeader {
+            index: k as u64,
+            scan_number: k as u64 + 1,
+            ms_level: if mrm { 2 } else { 1 },
+            rt_s: Some(f64::from(h.rt_ms) / 1000.0),
+            polarity: "unknown".into(),
+            centroided: true,
+            precursor_mz: if mrm {
+                g::record(&self.raw, &self.index, k)
+                    .ok()
+                    .and_then(g::mrm_first_precursor)
+            } else {
+                None
+            },
+            total_ion_current: self
+                .index
+                .tic
+                .get(k)
+                .filter(|_| scan)
+                .map(|t| g::reported_tic(*t, &h)),
+            extra,
+            ..openreadout_core::ScanHeader::default()
+        })
+    }
+
+    fn spectrum(&self, k: usize) -> Result<Spectrum> {
+        use crate::shimadzu_gcms::{self as g, GcmsRecordKind};
+        let h = self.header(k)?;
+        if !matches!(h.kind, GcmsRecordKind::Scan { .. }) {
+            return Err(Error::unsupported(
+                SHIMADZU_ID,
+                "selected-ion and MRM records of GCMSsolution GC-MS data",
+                "No export confirms how their values are stored; their time, event and (MRM) first precursor are listed (`scans`). Export the run from GCMSsolution to read their values.",
+            ));
+        }
+        let rec = g::record(&self.raw, &self.index, k)
+            .map_err(|m| Error::corrupt(SHIMADZU_ID, format!("GC-MS record {k}: {m}")))?;
+        let (points, flagged) = g::scan_points(rec)
+            .map_err(|m| Error::corrupt(SHIMADZU_ID, format!("GC-MS record {k}: {m}")))?;
+        let mut extra = BTreeMap::new();
+        extra.insert("acquisition".into(), json!("scan"));
+        extra.insert("event".into(), json!(h.event));
+        extra.insert("intensity_offset".into(), json!(h.intensity_offset));
+        if flagged > 0 {
+            extra.insert("flagged_points".into(), json!(flagged));
+        }
+        let base = points
+            .iter()
+            .copied()
+            .fold(None, |b: Option<(f64, f64)>, p| match b {
+                Some(q) if q.1 >= p.1 => Some(q),
+                _ => Some(p),
+            });
+        let (mz, intensity): (Vec<f64>, Vec<f32>) =
+            points.iter().map(|(m, v)| (*m, *v as f32)).unzip();
+        Ok(Spectrum {
+            index: k as u64,
+            scan_number: k as u64 + 1,
+            ms_level: 1,
+            rt_s: Some(f64::from(h.rt_ms) / 1000.0),
+            polarity: "unknown".into(),
+            centroided: true,
+            total_ion_current: self.index.tic.get(k).map(|t| g::reported_tic(*t, &h)),
+            base_peak_mz: base.map(|b| b.0),
+            base_peak_intensity: base.map(|b| b.1),
+            extra,
+            mz,
+            intensity,
+            ..Spectrum::default()
+        })
     }
 }
 
@@ -624,8 +835,10 @@ impl ShimadzuDataset {
         }
         let (peaks, peak_sources, peak_errors) = vendor_peaks(&cfb, &mut f, path, &signals);
         let tlm = Tlm::read(&cfb, &mut f, path)?;
+        let gcms = Gcms::read(&cfb, &mut f, path)?;
         Ok(ShimadzuDataset {
             tlm,
+            gcms,
             peaks,
             peak_sources,
             peak_errors,
@@ -1282,7 +1495,27 @@ impl Dataset for ShimadzuDataset {
             self.cfb.entries.iter().filter(|e| e.is_stream).count(),
             self.raw_storages().join(", ")
         )];
-        if self.signals.is_empty() && self.tlm.is_none() {
+        if let Some(g) = &self.gcms {
+            let info = g.info();
+            let count = |k: &str| {
+                info.extra
+                    .get("acquisitions")
+                    .and_then(|a| a.get(k))
+                    .and_then(serde_json::Value::as_u64)
+                    .unwrap_or(0)
+            };
+            let mrm = count("mrm") + count("sim");
+            notes.push(format!(
+                "GC-MS data (GCMS Raw Data): {} records as spectra run 0; scan intensities are the stored values minus the record's offset, as GCMSsolution's exports give them{}",
+                info.scan_count,
+                if mrm > 0 {
+                    format!("; {mrm} selected-ion or MRM records are listed (time, event, first precursor) but their values are not read (exit 6): no export confirms them")
+                } else {
+                    String::new()
+                }
+            ));
+        }
+        if self.signals.is_empty() && self.tlm.is_none() && self.gcms.is_none() {
             notes.push("no decodable signal stream (no `Chromatogram ChN`, PDA 3-D or LC-MS data); see `info --view structure`".into());
         }
         if let Some(n) = self.qtof_records() {
@@ -1361,7 +1594,13 @@ impl Dataset for ShimadzuDataset {
             format_version: version,
             images: Vec::new(),
             tables: self.peak_table_info().into_iter().collect(),
-            spectra: self.tlm.as_ref().map(Tlm::info).into_iter().collect(),
+            spectra: self
+                .tlm
+                .as_ref()
+                .map(Tlm::info)
+                .or_else(|| self.gcms.as_ref().map(Gcms::info))
+                .into_iter()
+                .collect(),
             traces: self
                 .signals
                 .iter()
@@ -1569,6 +1808,13 @@ impl Dataset for ShimadzuDataset {
 
     fn read_spectrum(&mut self, index: u32, spectrum: u64) -> Result<Spectrum> {
         use crate::shimadzu_tlm as t;
+        if let Some(g) = self
+            .gcms
+            .as_ref()
+            .filter(|_| index == 0 && self.tlm.is_none())
+        {
+            return g.spectrum(usize::try_from(spectrum).unwrap_or(usize::MAX));
+        }
         let tl = self.tlm.as_ref().filter(|_| index == 0).ok_or_else(|| {
             Error::Usage(format!(
                 "spectra run {index} not found (LC-MS data are run 0)"
@@ -1651,6 +1897,18 @@ impl Dataset for ShimadzuDataset {
         visit: &mut dyn FnMut(openreadout_core::ScanHeader) -> bool,
     ) -> Result<bool> {
         use crate::shimadzu_tlm as t;
+        if let Some(g) = self
+            .gcms
+            .as_ref()
+            .filter(|_| run == 0 && self.tlm.is_none())
+        {
+            for k in usize::try_from(first).unwrap_or(usize::MAX)..g.headers.len() {
+                if !visit(g.scan_header(k)?) {
+                    break;
+                }
+            }
+            return Ok(true);
+        }
         let Some(tl) = self.tlm.as_ref().filter(|_| run == 0) else {
             return Ok(false);
         };
@@ -1687,6 +1945,55 @@ impl Dataset for ShimadzuDataset {
 
     fn check(&mut self) -> Result<CheckReport> {
         let mut r = CheckReport::new(self.path.display().to_string(), SHIMADZU_ID);
+        if let Some(g) = &self.gcms {
+            use crate::shimadzu_gcms::{self as gc, GcmsRecordKind};
+            r.performed("GC-MS: every record's header read and its body filling the record; its retention time equals the Retention Time stream; every scan decoded and its stored intensities summed to the TIC Data value");
+            let (mut bad, mut tic_off, mut rt_off) = (Vec::new(), 0usize, 0usize);
+            for (k, h) in g.headers.iter().enumerate() {
+                match h {
+                    Err(m) => bad.push(format!("record {k}: {m}")),
+                    Ok(h) => {
+                        if g.index.rt_ms.get(k) != Some(&h.rt_ms) {
+                            rt_off += 1;
+                        }
+                        if matches!(h.kind, GcmsRecordKind::Scan { .. }) {
+                            match gc::record(&g.raw, &g.index, k).and_then(gc::scan_points) {
+                                Err(m) => bad.push(format!("record {k}: {m}")),
+                                Ok((p, _)) => {
+                                    let sum: f64 = p.iter().map(|x| x.1).sum();
+                                    let want = g.index.tic.get(k).map(|t| gc::reported_tic(*t, h));
+                                    if want.is_none_or(|w| (w - sum).abs() > 0.5) {
+                                        tic_off += 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if !bad.is_empty() {
+                r.push(Finding::error(
+                    "bad_ms_record",
+                    format!(
+                        "{} GC-MS records could not be read; first: {}",
+                        bad.len(),
+                        bad[0]
+                    ),
+                ));
+            }
+            if rt_off > 0 {
+                r.push(Finding::error(
+                    "ms_rt_mismatch",
+                    format!("{rt_off} GC-MS records disagree with the Retention Time stream"),
+                ));
+            }
+            if tic_off > 0 {
+                r.push(Finding::warning(
+                    "ms_tic_mismatch",
+                    format!("{tic_off} GC-MS scans do not sum to their TIC Data value"),
+                ));
+            }
+        }
         if let Some(tl) = &self.tlm {
             use crate::shimadzu_tlm as t;
             r.performed("LC-MS: every record inflated; its retention time equals the Retention Time stream; MRM/SIM/product-ion records decoded and their intensities summed to the TIC Data value");

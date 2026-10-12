@@ -9,7 +9,9 @@ Python standard library; written to corpus/oracle/shimadzu/<id>.json as `ms_grou
 With `--export`, the ground truth is a whole open-format export of the run instead (the vendor's
 own LabSolutions mzXML, or a ProteoWizard mzML), read with pyteomics: every spectrum with its
 retention time (s), polarity and the precursor of each point in the export's order
-(`precursors`). To keep the committed JSON under 1 MiB it holds every spectrum whose points have
+(`precursors`). An ANDI-MS export (`.cdf`, GCMSsolution) gives every scan without polarity or
+precursors; its spectra are matched to ours by time (`match_by_rt`), as it leaves out a GC-MS
+run's selected-ion and MRM records. To keep the committed JSON under 1 MiB it holds every spectrum whose points have
 more than one precursor and every 50th of the others (`ORACLE_SHIMADZU_EVERY` changes the 50).
 
 Usage: shimadzu_ms_gt.py --id ID FILE.lcd GT.csv.gz
@@ -31,6 +33,30 @@ def from_export(path: Path) -> tuple[str, list]:
     import os
     every = int(os.environ.get("ORACLE_SHIMADZU_EVERY", "50"))
     out = []
+    if path.suffix.lower() == ".cdf":
+        # an ANDI-MS export (GCMSsolution): every scan; no polarity, no precursor
+        from scipy.io import netcdf_file
+        with netcdf_file(str(path), "r", mmap=False) as f:
+            v = f.variables
+            t = v["scan_acquisition_time"][:].copy()
+            first = v["scan_index"][:].copy()
+            n = v["point_count"][:].copy()
+            mz_all = v["mass_values"][:].copy()
+            it_all = v["intensity_values"][:].copy()
+        for k in range(len(t)):
+            mz = mz_all[first[k]: first[k] + n[k]]
+            it = it_all[first[k]: first[k] + n[k]]
+            # every N-th scan, and every scan with a value of 2^22 or more (the ones stored in four
+            # bytes are among them)
+            if k % every and (len(it) == 0 or it.max() < (1 << 22)):
+                continue
+            out.append({
+                "scan": k, "ms_level": 1, "n_points": int(n[k]), "rt_s": float(t[k]), "polarity": None,
+                "precursors": [],
+                "points": [[float(m), float(x)] for m, x in zip(mz, it) if x != 0],
+            })
+        from importlib.metadata import version as pkg_version
+        return f"SciPy {pkg_version('scipy')} netcdf_file on {path.name}", out
     if path.suffix.lower() == ".mzxml":
         from pyteomics import mzxml
         reader, name = mzxml.MzXML(str(path)), "MzXML"
@@ -68,13 +94,17 @@ def main() -> None:
         import oracle_json
         fid, lcd, export = args[1], Path(args[2]), Path(args[4])
         reader, spectra = from_export(export)
+        gt = {"source": export.name, "spectra": spectra}
+        if export.suffix.lower() == ".cdf":
+            # the ANDI export holds a run's scans only: its spectra are found by their time
+            gt["match_by_rt"] = True
         data = {
             "id": fid,
             "file": lcd.name,
             "size": lcd.stat().st_size,
             "sha256": hashlib.sha256(lcd.read_bytes()).hexdigest(),
             "reader": reader,
-            "ms_ground_truth": {"source": export.name, "spectra": spectra},
+            "ms_ground_truth": gt,
         }
         OUT.mkdir(parents=True, exist_ok=True)
         written = oracle_json.write_text(OUT / f"{fid}.json", json.dumps(data) + "\n")

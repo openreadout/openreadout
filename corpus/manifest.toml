@@ -74611,3 +74611,63 @@ license_checked = "MetaboLights MTBLS14362 i_Investigation.txt, Comment[License]
 source = "MetaboLights MTBLS14362 (MetaboFIMS: flow-injection metabolic screening)"
 attribution = "Schmitt, Schmidlin et al., MetaboLights MTBLS14362"
 notes = "depositor's ProteoWizard 3.0.23146 conversion, profile, no peak picking"
+
+[[file]]
+id = "mtbls2984-qp2010-101-8"
+format = "shimadzu"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls2984-qp2010-101-8.qgd"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2984/FILES/RAW_FILES/101__20210222_8.qgd"
+sha256 = "ca2c0a75c2923cba187c47144277636959c03a95af3a60a20c0bcb17760cb4f6"
+size = 14393344
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution, checked 2026-10-12)"
+source = "MetaboLights MTBLS2984 (ultrasound treatment and the metabolites of tempe)"
+attribution = "Dahlan, Putri et al., MetaboLights MTBLS2984"
+notes = "GCMSsolution .qgd, GCMS-QP2010 Ultra, electron ionization full scans (8,000), 2021; 2- and 3-byte intensities"
+
+[[file]]
+id = "mtbls2984-qp2010-101-8"
+format = "andi-chrom"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls2984-qp2010-101-8.cdf"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2984/FILES/DERIVED_FILES/101__20210222_8.CDF"
+sha256 = "f81b283bc4a5b7f52fb50cf0def7b8153a0623ce0afc80797d89fb0c73ba9251"
+size = 40722704
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution, checked 2026-10-12)"
+source = "MetaboLights MTBLS2984 (ultrasound treatment and the metabolites of tempe)"
+attribution = "Dahlan, Putri et al., MetaboLights MTBLS2984"
+notes = "the vendor's ANDI-MS export of the .qgd (source_file_format Shimadzu GCMSsolution): all 8,000 scans"
+
+[[file]]
+id = "mtbls2235-tq8040-u13c-cit-r2"
+format = "shimadzu"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls2235-tq8040-u13c-cit-r2.qgd"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2235/FILES/RAW_FILES/U13C_Cit_Lysates_R2.qgd"
+sha256 = "6839008c0deaa221cca013534a1abc451de398510dfa4052f6b81a9e0190eba6"
+size = 10428416
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution, checked 2026-10-12)"
+source = "MetaboLights MTBLS2235 (a TCA cycle subnetwork in the mammalian nucleus)"
+attribution = "Kafkia et al., MetaboLights MTBLS2235"
+notes = "GCMSsolution .qgd, GCMS-TQ8040, synchronous full scan and MRM/selected-ion acquisition, 2018: 1,961 scans (2-, 3- and 4-byte intensities) among 37,687 records"
+
+[[file]]
+id = "mtbls2235-tq8040-u13c-cit-r2"
+format = "andi-chrom"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls2235-tq8040-u13c-cit-r2.cdf"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2235/FILES/DERIVED_FILES/U13C_Cit_Lysates_R2.CDF"
+sha256 = "03ee7c347775fa4707d6a5f5404b4bb56b257d4ce7782aa3ae30d49adcfd3aac"
+size = 13254780
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution, checked 2026-10-12)"
+source = "MetaboLights MTBLS2235 (a TCA cycle subnetwork in the mammalian nucleus)"
+attribution = "Kafkia et al., MetaboLights MTBLS2235"
+notes = "the vendor's ANDI-MS export of the .qgd (source_file_format Shimadzu GCMSsolution): the 1,961 scans, no selected-ion or MRM records"

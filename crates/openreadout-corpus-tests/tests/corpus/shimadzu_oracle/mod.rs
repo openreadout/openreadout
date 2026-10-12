@@ -101,7 +101,8 @@ pub fn compare_file(id: &str, path: &Path, oracle: &Value) -> Result<String, Str
         compare_export_peaks(ds.as_mut(), &info, tables, &mut problems, &mut done);
     }
     if let Some(spectra) = oracle["ms_ground_truth"]["spectra"].as_array() {
-        compare_ms_ground_truth(ds.as_mut(), spectra, &mut problems, &mut done);
+        let by_rt = oracle["ms_ground_truth"]["match_by_rt"].as_bool() == Some(true);
+        compare_ms_ground_truth(ds.as_mut(), spectra, by_rt, &mut problems, &mut done);
     }
     if done.is_empty() && problems.is_empty() {
         return Err(format!(
@@ -370,12 +371,34 @@ fn compare_export_peaks(
 fn compare_ms_ground_truth(
     ds: &mut dyn openreadout_core::Dataset,
     spectra: &[Value],
+    by_rt: bool,
     problems: &mut Vec<String>,
     done: &mut Vec<String>,
 ) {
+    // An export that holds only some records (a GC-MS run's scans, without its MRM records)
+    // names each spectrum by its time: find our spectrum with that time (to the millisecond).
+    let mut index_of_ms = std::collections::HashMap::new();
+    if by_rt {
+        let _ = ds.visit_scan_headers(0, 0, &mut |h| {
+            if let Some(t) = h.rt_s {
+                index_of_ms.insert((t * 1000.0).round() as i64, h.index);
+            }
+            true
+        });
+    }
     let (mut matched, mut points, mut refused) = (0usize, 0usize, 0usize);
     for g in spectra {
-        let scan = g["scan"].as_u64().unwrap_or(0);
+        let mut scan = g["scan"].as_u64().unwrap_or(0);
+        if by_rt {
+            let Some(&k) = g["rt_s"]
+                .as_f64()
+                .and_then(|t| index_of_ms.get(&((t * 1000.0).round() as i64)))
+            else {
+                problems.push(format!("spectrum {scan}: no spectrum of ours at its time"));
+                continue;
+            };
+            scan = k;
+        }
         let level = g["ms_level"].as_u64().unwrap_or(0);
         match ds.read_spectrum(0, scan) {
             Err(e) if e.exit_code() == 6 => refused += 1,

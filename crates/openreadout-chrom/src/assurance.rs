@@ -373,11 +373,19 @@ fn observe_shimadzu(info: &FileInfo) -> Observations {
             .get("acquisitions")
             .and_then(serde_json::Value::as_object)
         {
+            let gc = s.name.as_deref() == Some("GC-MS");
             for (name, _) in k {
-                if name == "mrm" || name == "sim" {
-                    o.feature(K::Acquisition, format!("LC-MS {name}"), &[Scope::Spectra]);
+                // the kinds the reader decodes: LC-MS MRM and SIM records, GC-MS scans
+                let decoded = if gc {
+                    name == "scan"
                 } else {
-                    o.context(K::Acquisition, format!("LC-MS {name}"));
+                    name == "mrm" || name == "sim"
+                };
+                let label = format!("{} {name}", if gc { "GC-MS" } else { "LC-MS" });
+                if decoded {
+                    o.feature(K::Acquisition, label, &[Scope::Spectra]);
+                } else {
+                    o.context(K::Acquisition, label);
                 }
             }
         }
@@ -388,6 +396,9 @@ fn observe_shimadzu(info: &FileInfo) -> Observations {
             &[],
             n.to_string(),
         );
+    }
+    if let Some(n) = a::note_with(info, "selected-ion or MRM records are listed") {
+        o.undecoded("GC-MS selected-ion and MRM records", &[], n.to_string());
     }
     if let Some(n) = a::note_with(info, "LC-MS Q-TOF data (QTFL RawData") {
         o.undecoded("LC-MS Q-TOF spectra", &[], n.to_string());
