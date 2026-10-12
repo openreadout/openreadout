@@ -529,24 +529,7 @@ struct Session {
 
 impl Session {
     async fn start(capabilities: Value) -> Session {
-        use rmcp::ServiceExt as _;
-        use tokio::io::AsyncBufReadExt as _;
-        let (client, server) = tokio::io::duplex(1 << 22);
-        let (sr, sw) = tokio::io::split(server);
-        tokio::spawn(async move {
-            if let Ok(s) = crate::InstrumentServer::new(fake_registry)
-                .serve((sr, sw))
-                .await
-            {
-                let _ = s.waiting().await;
-            }
-        });
-        let (cr, cw) = tokio::io::split(client);
-        let mut s = Session {
-            lines: tokio::io::BufReader::new(cr).lines(),
-            write: cw,
-            id: 0,
-        };
+        let mut s = Session::connect();
         let init = s
             .call(
                 "initialize",
@@ -564,6 +547,28 @@ impl Session {
         s.send(json!({"jsonrpc": "2.0", "method": "notifications/initialized"}))
             .await;
         s
+    }
+
+    /// A running server with no handshake yet.
+    fn connect() -> Session {
+        use rmcp::ServiceExt as _;
+        use tokio::io::AsyncBufReadExt as _;
+        let (client, server) = tokio::io::duplex(1 << 22);
+        let (sr, sw) = tokio::io::split(server);
+        tokio::spawn(async move {
+            if let Ok(s) = crate::InstrumentServer::new(fake_registry)
+                .serve((sr, sw))
+                .await
+            {
+                let _ = s.waiting().await;
+            }
+        });
+        let (cr, cw) = tokio::io::split(client);
+        Session {
+            lines: tokio::io::BufReader::new(cr).lines(),
+            write: cw,
+            id: 0,
+        }
     }
 
     async fn send(&mut self, v: Value) {
@@ -675,4 +680,32 @@ async fn sessions_offer_the_viewer_only_when_negotiated() {
         .await;
     assert!(info.get("_meta").is_none(), "{info}");
     let _ = std::fs::remove_file(f);
+}
+
+// Protocol 2026-07-28 has no initialize. The client sends `server/discover`, every request carries
+// the version in `_meta`, and list results must carry `ttlMs` and `cacheScope`. Claude Code 2.1.292
+// drops a server's whole tool list when they are missing, as it did with rmcp 3.5.0.
+#[tokio::test]
+async fn sessions_without_initialize_get_cache_hints() {
+    let meta = json!({
+        "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+        "io.modelcontextprotocol/clientInfo": {"name": "test-host", "version": "1"},
+        "io.modelcontextprotocol/clientCapabilities": {},
+    });
+    let mut s = Session::connect();
+    let discover = s.call("server/discover", json!({"_meta": meta})).await;
+    assert!(
+        discover["supportedVersions"]
+            .to_string()
+            .contains("2026-07-28"),
+        "{discover}"
+    );
+    for method in ["tools/list", "prompts/list", "resources/list"] {
+        let list = s.call(method, json!({"_meta": meta})).await;
+        assert!(list["ttlMs"].is_number(), "{method}: {list}");
+        assert!(
+            matches!(list["cacheScope"].as_str(), Some("public" | "private")),
+            "{method}: {list}"
+        );
+    }
 }

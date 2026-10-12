@@ -109,7 +109,15 @@ fn waters_full_scan_spectrum_export_and_truncation() {
     assert_eq!(s["native_id"], "function=3 process=0 scan=1");
     assert_eq!(s["extra"]["lock_mass_reference"], true);
     let out = bin()
-        .args(["spectrum", f, "--ms-level", "2", "--nth", "1", "--json"])
+        .args([
+            "spectrum",
+            f,
+            "--ms-level",
+            "2",
+            "--spectrum",
+            "0",
+            "--json",
+        ])
         .output()
         .unwrap();
     assert!(out.status.success());
