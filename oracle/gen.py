@@ -922,6 +922,20 @@ def tiff(p: Path) -> dict:
             # pixel size; openreadout reports none for them
             for im in images:
                 im["physical_size_um"] = {}
+        if tf.is_lsm and len(images) == 1:
+            # Recording-level scan information as tifffile parses it: the objective text, and
+            # Sample0time as an OLE Automation date (local time; Bio-Formats, run as a black
+            # box, gives the same wall-clock time shifted by its machine's zone).
+            si = (tf.lsm_metadata or {}).get("ScanInformation") or {}
+            if si.get("Objective"):
+                images[0]["check_objective"] = si["Objective"].strip()
+            d = si.get("Sample0time")
+            if isinstance(d, float) and 32874.0 <= d < 73051.0:
+                import datetime
+                ms = round((d - 25569.0) * 86400000.0)
+                t = datetime.datetime(1970, 1, 1) + datetime.timedelta(milliseconds=ms)
+                s = t.strftime("%Y-%m-%dT%H:%M:%S") + (f".{ms % 1000:03d}" if ms % 1000 else "")
+                images[0]["check_acquired_at"] = s
         flags = [f for f in ("ome", "imagej", "lsm", "svs", "ndpi", "qpi", "micromanager", "bigtiff", "shaped", "scn") if getattr(tf, "is_" + f, False)]
         out = {"reader": f"tifffile {tifffile.__version__}", "kind": kind, "flags": flags,
                "page_count": len(tf.pages), "series_count": len(series), "images": images}
