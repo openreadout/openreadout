@@ -289,6 +289,7 @@ pub(crate) fn check_spectra(
         }
         if let Some(c) = s.precursor_charge
             && c != 0
+            && o.charge_not_compared.is_none()
             && sp.precursor_charge != Some(c)
         {
             m.push(format!("charge {:?} != {c}", sp.precursor_charge));

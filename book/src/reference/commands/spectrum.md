@@ -17,6 +17,7 @@ MCP: `openreadout_spectrum`.
 - `--ms-level L` with `--spectrum I`: count `I` among the spectra of MS level `L` only. MS1 and MS/MS scans are interleaved, and `--ms-level 2 --spectrum 0` is the first MS/MS scan.
 - `--centroid`: the instrument's stored centroid list instead of the profile, when a scan has both.
 - `--exclude-flagged`: Thermo `.raw`: leave out peaks the instrument flags as reference or background ions. Otherwise they are listed in `extra.flagged_peaks`.
+- `--lock-mass MZ|auto`: Waters `.raw`: correct m/z with the lock-spray reference scans, `MZ` being the lock compound's m/z (`auto`: the Lock Mass the file records). Each scan is multiplied by the reference over the lock peak measured in the lock-spray scans within 60 s of it; `extra.lock_mass_correction` gives the factor. Off by default: m/z are as stored. Against MassLynx's own correction of the same runs the result agrees to about 2 ppm. `chromatogram` takes the same option for accurate-mass XICs.
 - `--max-points N`: return at most this many points. `point_count` still reports the full size.
 
 ## Examples

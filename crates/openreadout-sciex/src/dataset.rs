@@ -11,11 +11,14 @@ use openreadout_core::bytes::{le_f64, le_u32};
 use openreadout_core::cfb::Cfb;
 use openreadout_core::model::{
     CheckReport, FileInfo, Finding, InstrumentInfo, LsEntry, SignalChannelInfo, SpectraInfo,
-    Spectrum, Trace, TraceInfo,
+    Spectrum, Table, Trace, TraceInfo,
 };
 use openreadout_core::provenance::{ProvenanceMap, Source};
 use openreadout_core::reader::{Dataset, FormatReader, PlaneIndex};
 use openreadout_core::source::{Fs, Input};
+use openreadout_core::transitions::{
+    Transition, transition_summary, transition_table, transition_table_info,
+};
 use openreadout_core::{Error, Plane, Result};
 use serde_json::{Value, json};
 
@@ -232,6 +235,12 @@ pub fn wiff_path(fs: &Fs, path: &Path) -> PathBuf {
     path.to_path_buf()
 }
 
+/// An f32 the method stores, as the f64 of its shortest decimal form (538.519, not
+/// 538.5189819335938).
+fn decimal(x: f32) -> f64 {
+    x.to_string().parse().unwrap_or(f64::from(x))
+}
+
 /// The `.wiff.scan` beside a `.wiff` (name matched case-insensitively).
 fn scan_file(fs: &Fs, wiff: &Path) -> Option<PathBuf> {
     let want = format!("{}.scan", wiff.file_name()?.to_string_lossy());
@@ -408,7 +417,7 @@ impl SciexDataset {
             );
         } else if scan_path.is_none() {
             notes.push(format!(
-                "no {}.scan beside the .wiff: metadata and the scan index only, no spectra",
+                "no {}.scan beside the .wiff: scan headers (times, MS levels, precursors) are read from the .wiff, peaks and MRM values need the .wiff.scan",
                 path.file_name()
                     .map(|n| n.to_string_lossy().into_owned())
                     .unwrap_or_default()
@@ -505,8 +514,7 @@ impl SciexDataset {
                 spectra: SpectrumTable::default(),
                 devices,
             };
-            let have_scan = scan_path.is_some() || s.scan_stream.is_some();
-            s.spectra = spectrum_table(&s, &experiments, have_scan);
+            s.spectra = spectrum_table(&s, &experiments);
             samples.push(s);
         }
         // `.wiff.scan` holds one block per sample: a 24-byte header, then the scans its index
@@ -1076,6 +1084,36 @@ impl SciexDataset {
             .filter(|v| !v.is_empty() && v != "N/A")
     }
 
+    /// The MRM transitions as the method lists them, each with sample `s`'s scheduled window
+    /// (the sample's windows follow the transitions of a single MRM experiment).
+    fn mrm_transitions(&self, s: &Sample) -> Vec<Transition> {
+        let mrm: Vec<&Experiment> = self
+            .experiments
+            .iter()
+            .filter(|e| e.scan_type() == Some(SCAN_TYPE_MRM))
+            .collect();
+        let mut rows = Vec::new();
+        for e in &mrm {
+            for (k, m) in e.ranges.iter().enumerate() {
+                rows.push(Transition {
+                    id: Some(i64::from(e.number) + 1),
+                    precursor_mz: Some(decimal(m.first_mz)),
+                    product_mz: Some(decimal(m.second_mz)),
+                    products: 1,
+                    collision_energy: m.parameter("CE").map(decimal),
+                    polarity: e.polarity(),
+                    name: Some(m.name.clone()).filter(|n| !n.is_empty()),
+                    rt_min: s
+                        .windows
+                        .get(k)
+                        .filter(|w| mrm.len() == 1 && w.1 > 0)
+                        .map(|&(a, b)| [f64::from(a) / 60_000.0, f64::from(b) / 60_000.0]),
+                });
+            }
+        }
+        rows
+    }
+
     fn spectra_info(&self, s: &Sample) -> SpectraInfo {
         let times: Vec<f64> = s
             .spectra
@@ -1132,6 +1170,13 @@ impl SciexDataset {
         );
         if s.windows_from_method {
             extra.insert("scheduled_windows".into(), json!("from the method"));
+        }
+        let transitions = self.mrm_transitions(s);
+        if !transitions.is_empty() {
+            extra.insert(
+                "mrm_transitions".into(),
+                transition_summary(&transitions, "one per transition of the method", 0),
+            );
         }
         extra.insert(
             "stored_spectra".into(),
@@ -1374,10 +1419,11 @@ fn derived_windows(experiments: &[Experiment]) -> Vec<(u32, u32)> {
 }
 
 /// The spectra of a sample, in index order: one per (cycle, Q1) for MRM experiments (the
-/// scheduled transitions only), one per non-empty record for TOF and grid experiments.
-fn spectrum_table(sample: &Sample, experiments: &[Experiment], have_scan: bool) -> SpectrumTable {
+/// scheduled transitions only), one per non-empty record for TOF and grid experiments. It needs
+/// only the `.wiff`: without the scan data the headers are listed and the peaks are refused.
+fn spectrum_table(sample: &Sample, experiments: &[Experiment]) -> SpectrumTable {
     let mut table = SpectrumTable::default();
-    if experiments.is_empty() || !have_scan {
+    if experiments.is_empty() {
         return table;
     }
     let n_exp = experiments.len() as u32;
@@ -1500,7 +1546,13 @@ impl Dataset for SciexDataset {
             format: SciexWiffReader.descriptor(),
             format_version: None,
             images: Vec::new(),
-            tables: Vec::new(),
+            tables: self
+                .samples
+                .first()
+                .map(|s| self.mrm_transitions(s))
+                .filter(|rows| !rows.is_empty())
+                .map(|rows| vec![transition_table_info(&rows, 0, "experiment")])
+                .unwrap_or_default(),
             spectra: self
                 .samples
                 .iter()
@@ -1691,7 +1743,7 @@ impl Dataset for SciexDataset {
             match bound {
                 None => rep.push(Finding::warning(
                     "missing_file",
-                    "the .wiff.scan companion is missing: no spectra can be read",
+                    "the .wiff.scan companion is missing: scan headers are listed, peaks cannot be read",
                 )),
                 Some((len, base, what)) => {
                     let outside = s
@@ -1728,7 +1780,7 @@ impl Dataset for SciexDataset {
         rep.performed("scan index: whole 54-byte records; every scan inside the .wiff.scan");
         // Decode the first and last spectrum of each sample; TOF: counts sum to the index TIC.
         for (run, s) in self.samples.iter().enumerate() {
-            if s.spectra.is_empty() {
+            if s.spectra.is_empty() || (self.scan_path.is_none() && s.scan_stream.is_none()) {
                 continue;
             }
             let last = s.spectra.len() - 1;
@@ -1770,6 +1822,21 @@ impl Dataset for SciexDataset {
         }
         rep.performed("decoded the first and last spectrum of every sample (TOF: counts sum to the index TIC)");
         Ok(rep)
+    }
+
+    fn read_table(&mut self, index: u32, first_row: u64, max_rows: u64) -> Result<Table> {
+        let rows = self
+            .samples
+            .first()
+            .map(|s| self.mrm_transitions(s))
+            .unwrap_or_default();
+        if index != 0 || rows.is_empty() {
+            return Err(Error::Usage(format!(
+                "table {index} not found (this data set has {} tables)",
+                usize::from(!rows.is_empty())
+            )));
+        }
+        Ok(transition_table(&rows, 0, first_row, max_rows))
     }
 
     fn read_trace(

@@ -1272,9 +1272,138 @@ pub fn signal_block(cg: &[u8], def: &SignalDef) -> Option<(f64, f64, Vec<f64>)> 
     Some((start, step, v))
 }
 
+/// Bytes of one record of a DAD spectrum index (`DADn.sd`).
+pub const DAD_RECORD: usize = 80;
+
+/// One DAD spectrum as its index (`DADn.sd`) describes it; its values are in `DADn.sp`.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct DadRecord {
+    /// Spectrum number, from 1.
+    pub number: u32,
+    /// Retention time, minutes.
+    pub time_min: f64,
+    /// Mean of the spectrum's values.
+    pub mean: f64,
+    /// Wavelength step, nm.
+    pub step_nm: f64,
+    /// Offset of the spectrum in `DADn.sp`.
+    pub offset: u32,
+    /// Byte length of the spectrum in `DADn.sp` (16 + 8 × points).
+    pub byte_len: u32,
+    /// Number of wavelengths.
+    pub points: u32,
+    /// First and last wavelength, nm.
+    pub first_nm: f64,
+    /// Last wavelength, nm.
+    pub last_nm: f64,
+}
+
+/// Parse a DAD spectrum index (`DADn.sd`): u32 at 0x4C the first record's offset, u32 at 0x50
+/// the record count, then `DAD_RECORD`-byte records (u32 number, f64 time in minutes, f64 mean,
+/// f64 wavelength step, u32 1, u32 offset in `DADn.sp`, u32 0, u32 byte length, u32 points,
+/// f64 first and last wavelength, f64 first and last value). Each record must hold
+/// 16 + 8 × points bytes.
+pub fn parse_dad_index(b: &[u8]) -> Result<Vec<DadRecord>, String> {
+    let first = le_u32(b, 0x4C).ok_or("DAD index shorter than its header")? as usize;
+    let count = le_u32(b, 0x50).ok_or("DAD index shorter than its header")? as usize;
+    count
+        .checked_mul(DAD_RECORD)
+        .and_then(|n| n.checked_add(first))
+        .filter(|&e| e <= b.len())
+        .ok_or_else(|| {
+            format!(
+                "DAD index declares {count} spectra from 0x{first:X}; it holds {} bytes",
+                b.len()
+            )
+        })?;
+    let mut out = Vec::with_capacity(count);
+    for k in 0..count {
+        let at0 = first + k * DAD_RECORD;
+        let f = |at: usize| le_f64(b, at0 + at).unwrap_or(f64::NAN);
+        let u = |at: usize| le_u32(b, at0 + at).unwrap_or(0);
+        let r = DadRecord {
+            number: u(0),
+            time_min: f(4),
+            mean: f(12),
+            step_nm: f(20),
+            offset: u(32),
+            byte_len: u(40),
+            points: u(44),
+            first_nm: f(48),
+            last_nm: f(56),
+        };
+        if u64::from(r.byte_len) != 16 + 8 * u64::from(r.points) {
+            return Err(format!(
+                "DAD spectrum {}: {} bytes for {} points",
+                k + 1,
+                r.byte_len,
+                r.points
+            ));
+        }
+        out.push(r);
+    }
+    Ok(out)
+}
+
+/// The values of one DAD spectrum: `bytes` holds its `DADn.sp` record (f64 first wavelength,
+/// f64 step, then one f64 per point).
+pub fn dad_values(bytes: &[u8], points: u32) -> Option<Vec<f64>> {
+    let n = points as usize;
+    if bytes.len() < 16 + 8 * n {
+        return None;
+    }
+    Some(
+        (0..n)
+            .map(|k| le_f64(bytes, 16 + 8 * k).unwrap_or(f64::NAN))
+            .collect(),
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The first record of `TOFsulfasMS4GHzDualMode+DADSpectra+UVSignal272-NoProfile.d`'s
+    /// `DAD1.sd` (96 wavelengths 210-400 nm, 0.00183 min), with its header fields.
+    #[test]
+    fn dad_index_record() {
+        let mut b = vec![0u8; 0xA4];
+        b[0x4C..0x50].copy_from_slice(&0xA4u32.to_le_bytes());
+        b[0x50..0x54].copy_from_slice(&1u32.to_le_bytes());
+        let mut r = Vec::new();
+        r.extend_from_slice(&1u32.to_le_bytes());
+        for v in [0.001_833_333_333_333_333_5f64, -0.011_876, 2.0] {
+            r.extend_from_slice(&v.to_le_bytes());
+        }
+        for v in [1u32, 0x44, 0, 784, 96] {
+            r.extend_from_slice(&v.to_le_bytes());
+        }
+        for v in [210.0f64, 400.0, -0.109, -0.0033] {
+            r.extend_from_slice(&v.to_le_bytes());
+        }
+        assert_eq!(r.len(), DAD_RECORD);
+        b.extend_from_slice(&r);
+        let recs = parse_dad_index(&b).unwrap();
+        assert_eq!(recs.len(), 1);
+        assert_eq!(recs[0].offset, 0x44);
+        assert_eq!(recs[0].points, 96);
+        assert_eq!(
+            (recs[0].first_nm, recs[0].last_nm, recs[0].step_nm),
+            (210.0, 400.0, 2.0)
+        );
+        assert!((recs[0].time_min - 0.001_833_333).abs() < 1e-9);
+        // a count past the end, and a byte length that does not fit the points
+        assert!(parse_dad_index(&b[..b.len() - 1]).is_err());
+        let mut bad = b.clone();
+        bad[0xA4 + 40..0xA4 + 44].copy_from_slice(&700u32.to_le_bytes());
+        assert!(parse_dad_index(&bad).is_err());
+        let mut sp = Vec::new();
+        for v in [210.0f64, 2.0, 0.5, -0.25] {
+            sp.extend_from_slice(&v.to_le_bytes());
+        }
+        assert_eq!(dad_values(&sp, 2), Some(vec![0.5, -0.25]));
+        assert_eq!(dad_values(&sp, 3), None);
+    }
 
     #[test]
     fn lzf_literal_and_backref() {

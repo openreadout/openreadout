@@ -1,6 +1,6 @@
 # Waters MassLynx `.raw` directories
 
-Waters MassLynx writes each acquisition (Xevo, SYNAPT, ACQUITY and other instruments) as a directory ending in `.raw`. OpenReadout returns MRM and SIR data as tables and traces, full-scan spectra, the drift bins of ion-mobility and SONAR acquisitions, PDA traces and analog channels. Lock-mass correction is not applied.
+Waters MassLynx writes each acquisition (Xevo, SYNAPT, ACQUITY and other instruments) as a directory ending in `.raw`. OpenReadout returns MRM and SIR data as tables and traces, full-scan spectra, the drift bins of ion-mobility and SONAR acquisitions, PDA traces and analog channels. Lock-mass correction is off by default and applied on request (see *Lock-mass correction* below).
 
 Derived from public MetaboLights and PRIDE acquisitions compared with the depositors' mzML conversions, and from rainbow's public documentation pages for the binary files (rainbow, LGPL-3.0, run as a reference reader). Spectra are also checked against ProteoWizard conversions, made with Waters' own library, of acquisitions from ProteoWizard's test data (`crates/openreadout-corpus-tests/tests/mz_agreement.rs`). See `docs/provenance/waters-raw.md`. Format id: `waters-raw`; crate `openreadout-waters`. Confidence (computed by the evidence rubric, `docs/assurance.md`): high.
 
@@ -48,6 +48,12 @@ A scanning function's stored masses are calibrated with its `Cal Function n` lin
 ## `check` finding codes
 
 `truncated` (IDX not whole records, DAT shorter than the index needs, CHRO pairs incomplete, a drift index with a partial block), `missing_file`, `undecodable` (a spectrum that fails to decode), `drift_undecodable` (the first or last drift-resolved scan of a function does not decode, or its bins do not sum to the stored spectrum) (errors); `missing_header`, `bad_functions_inf`, `function_count_mismatch`, `time_not_monotonic`, `tic_mismatch`, `statistics_count_mismatch` (warnings).
+
+## Lock-mass correction
+
+Off by default: m/z are as stored (calibrated with the `Cal Function` lines). `set_lock_mass` (CLI `spectrum`/`chromatogram --lock-mass MZ|auto`) corrects them with the lock-spray `REFERENCE` function: in each of its scans the lock peak is measured (`measure_lock_peak`: the point flagged 0x40 when there is one; else, of the local maxima within 500 ppm of the reference and at least a tenth of the largest there, the one nearest the reference, as the intensity-weighted centroid of the points above half its height), a scan without it is skipped, and every m/z of every scan is multiplied by the mean of reference / measured over the lock-spray scans within 60 s of it, or the nearest one's when none is that close (`LockCorrection::factor`). The reference is the given m/z, or with `auto` the `Lock Mass` of `_extern.inf`. Each corrected spectrum carries `extra.lock_mass_correction` (`reference_mz`, `factor`, `ppm`, `rule`). Drift-bin spectra (run 1) and precursor m/z are not corrected.
+
+Evidence (`docs/provenance/waters-raw.md`, 2026-10-12): MassLynx's corrected copies multiply every m/z of a scan by one factor; against them our corrected profile peaks lie 1.2 and 1.9 ppm (medians) from MassLynx's centroids in the ProteoWizard SYNAPT G2-Si pair (corpus test `waters_lock_mass`), and −0.6 ppm (per-scan RMS 1.2 ppm) in a Xevo G2-XS run from MassIVE MSV000098857 that was 140.7 ppm off uncorrected. How MassLynx smooths the lock-spray measurements is not established; within these runs averaging rules differ by less than the 1–2 ppm by which our centroids differ from MassLynx's.
 
 ## Vocabulary (every public identifier in `crates/openreadout-waters` must appear here)
 

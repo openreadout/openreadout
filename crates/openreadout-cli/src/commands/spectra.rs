@@ -95,6 +95,10 @@ pub struct SpectrumArgs {
     /// before 3.0.20286 do.
     #[arg(long)]
     pub exclude_flagged: bool,
+    /// Correct m/z with the lock-spray reference scans (Waters `.raw`): the lock compound's
+    /// m/z, or `auto` for the Lock Mass the file records. Off by default: values are as stored.
+    #[arg(long, value_name = "MZ|auto")]
+    pub lock_mass: Option<String>,
     /// At most this many points (`point_count` still reports the full size).
     #[arg(long, value_name = "N")]
     pub max_points: Option<usize>,
@@ -400,6 +404,7 @@ pub fn run_spectrum(reg: &Registry, a: &SpectrumArgs) -> i32 {
         a.run,
         a.centroid,
         a.exclude_flagged,
+        a.lock_mass.as_deref(),
         a.max_points,
     ) {
         Ok(v) => emit(a.json, &v, render_spectrum),
@@ -423,6 +428,7 @@ pub fn spectrum(
     run: u32,
     centroid: bool,
     exclude_flagged: bool,
+    lock_mass: Option<&str>,
     max_points: Option<usize>,
 ) -> Result<SpectrumOutput> {
     let (det, mut ds) = reg.open(file)?;
@@ -432,6 +438,7 @@ pub fn spectrum(
             det.format_id
         ));
     }
+    apply_lock_mass(ds.as_mut(), lock_mass, det.format_id)?;
     let view = if centroid {
         SpectrumView::Centroid
     } else {
@@ -520,6 +527,38 @@ pub fn render_spectrum(o: &SpectrumOutput) -> String {
         ));
     }
     out.trim_end().to_string()
+}
+
+/// `--lock-mass MZ|auto`: ask the reader to correct m/z with the file's lock-spray scans. A
+/// format without lock-spray reference scans leaves the values unchanged, with a warning.
+pub fn apply_lock_mass(
+    ds: &mut dyn openreadout_core::Dataset,
+    arg: Option<&str>,
+    format_id: &str,
+) -> Result<()> {
+    let Some(arg) = arg else {
+        return Ok(());
+    };
+    let reference = if arg.eq_ignore_ascii_case("auto") {
+        None
+    } else {
+        Some(
+            arg.parse::<f64>()
+                .ok()
+                .filter(|m| m.is_finite() && *m > 0.0)
+                .ok_or_else(|| {
+                    Error::Usage(format!(
+                        "--lock-mass {arg:?}: expected the lock compound's m/z (e.g. 556.2771) or auto"
+                    ))
+                })?,
+        )
+    };
+    if !ds.set_lock_mass(reference)? {
+        crate::output::warn(&format!(
+            "--lock-mass: {format_id} files have no lock-spray reference scans; m/z are unchanged"
+        ));
+    }
+    Ok(())
 }
 
 #[cfg(test)]

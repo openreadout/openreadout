@@ -42,6 +42,7 @@ Both take the flags in [Several inputs](index.md#several-inputs).
 - `--da DA`: XIC half-width in m/z units instead.
 - `--transition Q1>Q3`: SRM/MRM transition. Repeatable.
 - `--transition-tol DA`: Q1 and Q3 tolerance. Default 0.5.
+- `--lock-mass MZ|auto`: Waters `.raw`: correct m/z with the lock-spray reference scans before extracting (`auto`: the Lock Mass the file records). Off by default.
 - `--trace N`: a stored chromatogram or detector signal (UV/DAD, FID, TCD), by `traces[]` index. Repeatable. The default for files with traces and no spectra.
 - `--channel C`: channel of `--trace`, such as one wavelength of a DAD.
 - `--sweep N`: sweep of `--trace`. Default 0.
