@@ -53,10 +53,11 @@
      "nucleus": "13C",
      "spectrometer_frequency_mhz": 125.6811107,
      "spectral_width_hz": 50000.0,
-     "scans": 512,
+     "requested_scans": 512,
      "time_domain_size": 3000,
      "pulse_program": "tancpx",
-     "solvent": "none"
+     "solvent": "none",
+     "scans": 512
     }
    }
   }

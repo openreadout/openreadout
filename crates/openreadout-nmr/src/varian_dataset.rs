@@ -281,8 +281,10 @@ impl VarianDataset {
             e.insert("spectral_width_ppm".into(), json!(sw / sf));
         }
         put(&mut e, "time_domain_size", int("np"));
-        put(&mut e, "scans", int("nt"));
-        put(&mut e, "completed_scans", int("ct"));
+        // the FID holds the transients completed (`ct`); `nt` is what was asked for
+        let completed = int("ct").filter(|v| v.as_i64().is_some_and(|n| n > 0));
+        put(&mut e, "scans", completed.or_else(|| int("nt")));
+        put(&mut e, "requested_scans", int("nt"));
         put(&mut e, "dummy_scans", int("ss"));
         put(&mut e, "receiver_gain", real("gain"));
         put(&mut e, "pulse_program", text("seqfil"));
@@ -469,6 +471,14 @@ impl Dataset for VarianDataset {
             notes.push("sweeps are the fid's traces in disk order (block by block); arrayed and multidimensional data are not reordered by phase or array".into());
         }
         notes.push("values are returned as stored: block scale factors and drift corrections are reported, not applied".into());
+        let whole = |k: &str| self.pp_real(k).filter(|v| v.fract() == 0.0 && *v > 0.0);
+        if let (Some(nt), Some(ct)) = (whole("nt"), whole("ct"))
+            && ct < nt
+        {
+            notes.push(format!(
+                "the acquisition stopped after {ct} of {nt} scans: the FID holds {ct} (extra.scans; extra.requested_scans is {nt})"
+            ));
+        }
         let processed = self.processed_files();
         if !processed.is_empty() {
             notes.push(format!(
@@ -531,6 +541,7 @@ impl Dataset for VarianDataset {
             ("traces[0].extra.spectral_width_hz", Source::PriorArt),
             ("traces[0].extra.spectral_width_ppm", Source::Inferred),
             ("traces[0].extra.scans", Source::Inferred),
+            ("traces[0].extra.requested_scans", Source::Inferred),
             ("traces[0].extra.pulse_program", Source::Inferred),
             ("traces[0].extra.solvent", Source::Inferred),
             ("traces[0].extra.temperature_c", Source::Inferred),

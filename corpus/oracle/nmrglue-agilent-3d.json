@@ -32021,10 +32021,11 @@
      "nucleus": "13C",
      "spectrometer_frequency_mhz": 125.6761172,
      "spectral_width_hz": 50000.0,
-     "scans": 2,
+     "requested_scans": 2,
      "time_domain_size": 2500,
      "pulse_program": "cpj3ddcprad",
-     "solvent": "none"
+     "solvent": "none",
+     "scans": 2
     }
    }
   }

@@ -1,6 +1,6 @@
 {
  "id": "nmrxiv-s500-gcosy-vnmrj",
- "file": "nmrxiv-s500-gcosy-vnmrj",
+ "file": "gCOSY_01.fid",
  "size": 3350968,
  "max_planes_hashed": 64,
  "reader": "nmrglue 0.12",
@@ -8213,10 +8213,11 @@
      "nucleus": "1H",
      "spectrometer_frequency_mhz": 599.6948962,
      "spectral_width_hz": 10775.862069,
-     "scans": 2,
+     "requested_scans": 2,
      "time_domain_size": 3232,
      "pulse_program": "gCOSY",
-     "solvent": "dmso"
+     "solvent": "dmso",
+     "scans": 2
     }
    }
   }

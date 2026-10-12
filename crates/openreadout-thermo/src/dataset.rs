@@ -1446,7 +1446,7 @@ impl Dataset for ThermoDataset {
                     &mut f,
                     &self.path,
                     rh.streams.instrument_log,
-                    4 + len as u64,
+                    (len as u64).saturating_add(4),
                     "instrument log",
                 )
             {
@@ -1690,7 +1690,7 @@ impl Dataset for ThermoDataset {
                 "stream",
                 "scan parameters",
                 s.scan_parameters,
-                Some(len as u64 * self.index.len() as u64),
+                Some((len as u64).saturating_mul(self.index.len() as u64)),
                 json!({"record_bytes": len}),
             );
         }
@@ -1972,7 +1972,9 @@ impl Dataset for ThermoDataset {
             .as_ref()
             .and_then(GenericHeader::record_len)
         {
-            let end = s.scan_parameters + len as u64 * self.scan_count();
+            let end = s
+                .scan_parameters
+                .saturating_add((len as u64).saturating_mul(self.scan_count()));
             if end > file_len {
                 r.push(
                     Finding::error(
@@ -1992,15 +1994,16 @@ impl Dataset for ThermoDataset {
             .as_ref()
             .and_then(GenericHeader::record_len)
         {
-            let expect = s.instrument_log + u64::from(rh.instrument_log_count) * (4 + len as u64);
+            let record = (len as u64).saturating_add(4);
+            let expect = s
+                .instrument_log
+                .saturating_add(u64::from(rh.instrument_log_count).saturating_mul(record));
             if expect != s.error_log {
                 r.push(Finding::warning(
                     "instrument_log_length",
                     format!(
                         "{} log records of {} bytes end at {expect}, error log starts at {}",
-                        rh.instrument_log_count,
-                        4 + len,
-                        s.error_log
+                        rh.instrument_log_count, record, s.error_log
                     ),
                 ));
             }

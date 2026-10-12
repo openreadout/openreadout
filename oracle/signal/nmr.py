@@ -85,6 +85,10 @@ BRUKER = [
     ("nmrxiv-s853-2", "nmrxiv-s853/2"),
     ("nmrxiv-s853-3", "nmrxiv-s853/3"),
     ("nmrxiv-s853-4", "nmrxiv-s853/4"),
+    # water-suppressed metabolomics in D2O / H2O+D2O (2026-10-11)
+    ("zenodo20308061-andrographis-mac50-3", "zenodo20308061-andrographis-bundle/AP_MAC_50%ok/3"),
+    ("zenodo20308061-andrographis-ult100-2", "zenodo20308061-andrographis-bundle/Andrographis extr_ULT_100%/2"),
+    ("zenodo22712212-aiw-61", "zenodo22712212-aiw-bundle/61"),
 ]
 JEOL = [
     ("nmrxiv-s200-qhnmr-jdf", "nmrxiv-s200/Limonene_7020ug200uL_CDCl3_qHNMR_400MHz_Jeol.jdf",
@@ -151,7 +155,9 @@ def bruker(eid, rel):
     # nmrglue pipeline from the FID with the stored parameters
     if a.get("AQ_mod") in (1, 3):
         data = ng.bruker.remove_digital_filter(dic, fid)
-        data = ng.proc_base.zf_size(data, p["SI"])
+        # TopSpin uses TDeff points (real + imaginary) when set, and never more than SI
+        keep = min(len(data), int(p.get("TDeff") or 0) // 2 or len(data), int(p["SI"]))
+        data = ng.proc_base.zf_size(data[:keep], p["SI"])
         data = ng.proc_base.em(data, lb=p["LB"] / a["SW_h"])
         data = ng.proc_base.fft(data)
         best = None
