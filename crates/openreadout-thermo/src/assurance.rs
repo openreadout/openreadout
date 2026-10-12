@@ -138,6 +138,18 @@ fn observe(info: &FileInfo) -> Observations {
         if pol.len() > 1 {
             o.feature(K::Acquisition, "polarity switching", &[Scope::Spectra]);
         }
+        // Bare peak lists (ITQ 900) have their own packet layout, and their events leave the
+        // data kind, MS level and scan range unstated (filled in as the format note says).
+        if s.extra.get("peak_list_scans").is_some() {
+            o.feature(K::Acquisition, "peak-list spectra", &[Scope::Spectra]);
+        }
+        if s.extra.get("events_completed").is_some() {
+            o.derived(
+                format!("spectra[{}].ms_levels", s.index),
+                "an event with no MS level and no reaction is a full scan",
+                "the scan events state no MS level; scans without a precursor are read as MS1",
+            );
+        }
         for src in a::extra_values_in(&s.extra, "ion_sources") {
             o.context(K::Acquisition, format!("ion source {src}"));
         }

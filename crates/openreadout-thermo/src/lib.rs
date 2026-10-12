@@ -89,9 +89,10 @@ pub use layout::{
 };
 #[doc(hidden)]
 pub use packet::{
-    AcquisitionWindow, Centroid, FLAG_EXCLUDED, MAX_WINDOWS, MONOTONIC_NUDGE, MzScale,
-    PROFILE_PAD_BINS, Packet, PacketHeader, PeakDescriptor, Profile, ProfileChunk, WINDOW_LEN,
-    WINDOW_PEAK_LEN, WINDOW_RECORD_KIND, WindowRecord,
+    AcquisitionWindow, Centroid, FLAG_EXCLUDED, MAX_PEAK_LIST_PEAKS, MAX_WINDOWS, MONOTONIC_NUDGE,
+    MzScale, PEAK_LIST_KIND, PEAK_LIST_PEAK_LEN, PROFILE_PAD_BINS, Packet, PacketHeader,
+    PeakDescriptor, Profile, ProfileChunk, WINDOW_LEN, WINDOW_PEAK_LEN, WINDOW_RECORD_KIND,
+    WindowRecord,
 };
 
 /// Format id used on the command line and in JSON.

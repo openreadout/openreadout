@@ -226,6 +226,35 @@ pub fn parse_window_peaks(buf: &[u8], base: u64, n: usize) -> Result<(Vec<Centro
     Ok((peaks, flags))
 }
 
+/// Scan-index `kind_code` of scans stored as a bare peak list with no packet header (every
+/// scan of an ITQ 900 GC ion trap). For these the index `data_size` is the peak count.
+pub const PEAK_LIST_KIND: u32 = 15;
+/// Bytes of one peak-list peak: flag byte, u24 intensity, u16 integer m/z, u16 fraction.
+pub const PEAK_LIST_PEAK_LEN: u64 = 8;
+/// Most peaks accepted in one peak-list scan.
+pub const MAX_PEAK_LIST_PEAKS: u32 = 1 << 24;
+
+/// Decode a [`PEAK_LIST_KIND`] scan of `n` peaks: m/z = integer + fraction / 65536, intensity
+/// = u24 × 8^(flag & 3). The flag bytes are returned as they are stored.
+pub fn parse_peak_list(buf: &[u8], base: u64, n: usize) -> Result<(Vec<Centroid>, Vec<u8>)> {
+    let mut c = Cursor::new(buf, base);
+    let mut peaks = Vec::with_capacity(n.min(c.remaining() / PEAK_LIST_PEAK_LEN as usize));
+    let mut flags = Vec::with_capacity(peaks.capacity());
+    for _ in 0..n {
+        let p = c.take(PEAK_LIST_PEAK_LEN as usize)?;
+        let raw = u32::from(p[1]) | (u32::from(p[2]) << 8) | (u32::from(p[3]) << 16);
+        let exponent = i32::from(p[0] & 3);
+        let whole = u16::from_le_bytes([p[4], p[5]]);
+        let fraction = u16::from_le_bytes([p[6], p[7]]);
+        peaks.push(Centroid {
+            mz: f64::from(whole) + f64::from(fraction) / 65536.0,
+            intensity: (f64::from(raw) * 8f64.powi(exponent)) as f32,
+        });
+        flags.push(p[0]);
+    }
+    Ok((peaks, flags))
+}
+
 /// Decode a whole packet from `buf` (which must start at the packet header).
 pub fn parse_packet(buf: &[u8], base: u64) -> Result<Packet> {
     let mut c = Cursor::new(buf, base);
@@ -564,6 +593,26 @@ pub fn render_profile(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The first two peaks of scan 2 of `mtbls370-itq900-fbs150-fs-4` as stored, then two
+    /// made-up peaks: one with flag 0x20, one whose exponent bit is set.
+    #[test]
+    fn peak_list_peaks() {
+        let buf = [
+            0x00, 0x64, 0x14, 0x00, 0x2d, 0x00, 0xc0, 0x27, // 45.1553, 5220
+            0x00, 0xf9, 0x00, 0x00, 0x2e, 0x00, 0xad, 0x24, // 46.1433, 249
+            0x20, 0xa7, 0x26, 0x00, 0x31, 0x00, 0x00, 0x00, // 49.0, 9895, flag 0x20
+            0x01, 0x4a, 0xe5, 0x28, 0x92, 0x00, 0xcc, 0x1f, // 146.1242, 2680138 × 8
+        ];
+        let (peaks, flags) = parse_peak_list(&buf, 0, 4).unwrap();
+        assert!((peaks[0].mz - 45.155_273_437_5).abs() < 1e-12);
+        assert_eq!(peaks[0].intensity, 5220.0);
+        assert_eq!(peaks[1].intensity, 249.0);
+        assert_eq!(peaks[2].intensity, 9895.0);
+        assert_eq!(peaks[3].intensity, 2_680_138.0 * 8.0);
+        assert_eq!(flags, vec![0, 0, 0x20, 1]);
+        assert!(parse_peak_list(&buf, 0, 5).is_err());
+    }
 
     /// Scan 5 of mtbls1822 laid out as stored: one peak, its flag, then a one-window record.
     #[test]

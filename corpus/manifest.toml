@@ -74501,3 +74501,33 @@ license = "CC-BY-SA-4.0"
 source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
 attribution = "NeuralEnsemble ephy_testing_data contributors"
 notes = "MC_DataTool 2.6.10 binary export with header: 60 electrode streams (El_12 … El_87), 100,000 uint16 frames at 20 kHz, 0.2083 µV per count; upstream `rawmcs/raw_mcs_with_header_1.raw`"
+
+[[file]]
+id = "mtbls370-itq900-fbs150-fs-4"
+format = "thermo-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls370-itq900-fbs150-fs-4.raw"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS370/FILES/FBS150_New_FS_4.raw"
+sha256 = "79cda2baf79a512124434bb558a550d8abe12713999f181e4379781a2e4894d5"
+size = 11163302
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution, checked 2026-10-12)"
+source = "MetaboLights MTBLS370 (GC-Orbitrap metabolomics of Candida albicans and Staphylococcus aureus biofilms)"
+attribution = "Weidt et al., MetaboLights MTBLS370"
+notes = "ITQ 900 GC ion trap (electron ionization), file version 66, 2015: 5,184 full scans stored as bare peak lists (scan-index kind 15) whose scan events state no polarity, data kind or MS level"
+
+[[file]]
+id = "mtbls370-itq900-fbs150-fs-4"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls370-itq900-fbs150-fs-4.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS370/FILES/FBS150_New_FS_4.mzML"
+sha256 = "cad2141ed79d3833e82a94dc0fcaf2cadc183b79f17d4af88dd76a6cd1ba6285"
+size = 37022351
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution, checked 2026-10-12)"
+source = "MetaboLights MTBLS370 (GC-Orbitrap metabolomics of Candida albicans and Staphylococcus aureus biofilms)"
+attribution = "Weidt et al., MetaboLights MTBLS370"
+notes = "depositor-made ProteoWizard 3.0.3324 mzML of the .raw with the same stem (sourceFile SHA-1 equals the .raw's)"
