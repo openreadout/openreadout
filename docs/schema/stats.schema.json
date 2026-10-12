@@ -73,6 +73,15 @@
           "type": "null"
         }
       ]
+    },
+    "images_skipped": {
+      "description": "Images left out of a run over every image because the reader refuses their pixel data\n(raw FLIM photon histograms, for one; `info` notes say which). Absent when none were.",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "uint32",
+        "minimum": 0
+      }
     }
   },
   "required": [
