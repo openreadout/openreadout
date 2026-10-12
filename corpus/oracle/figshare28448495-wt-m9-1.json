@@ -1,0 +1,51 @@
+{
+ "id": "figshare28448495-wt-m9-1",
+ "file": "figshare28448495-wt-m9-1.czi",
+ "size": 342496,
+ "sha256": "884c49161c57945c77a7820fdcda8d12183fc91fc87bb61b1149d17c0bb77745",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.06589411277490786,
+    "y": 0.06589411277490786,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "13f8ca854828706a324c051b6f4f7df9"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.06589411277490786,
+  "y": 0.06589411277490786,
+  "z": 0.0
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

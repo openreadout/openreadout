@@ -74586,3 +74586,648 @@ license = "CC-BY-4.0"
 license_checked = "https://zenodo.org/records/14210611 (cc-by-4.0), 2026-10-12"
 source = "Zenodo 14210611: Chapter 5 - File A, Am.Ph3-,Phalloidin-_A01_G003_0001.oir"
 attribution = "Cullen, Georgia"
+
+[[file]]
+id = "figshare31073320-456-0-5ugDAPI-3-7FA-0826-2X-3-Draw-Scale"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare31073320-456-0-5ugDAPI-3-7FA-0826-2X-3-Draw-Scale.czi"
+url = "https://ndownloader.figshare.com/files/61031314"
+sha256 = "49b54efc031bd4962b4b710d7b01454d1ab1ab2e7345180e1025585235be5771"
+size = 1569760
+md5 = "efb25805e469ed20a033807fd95d3636"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31073320 (CC BY 4.0), 2026-10-12"
+source = "Figshare 31073320: PEP Confocal Microscopy Raw Images, 456_0_5ugDAPI_3_7FA__0826_2X-3-Draw Scale Bar Annotation-05.czi (figshare file 61031314)"
+attribution = "Cheuk-Ling Wun, Robert Collison, Silvia Ramundo"
+
+[[file]]
+id = "figshare33945238-Figure-1A-WT-1h-czi"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare33945238-Figure-1A-WT-1h-czi.czi"
+url = "https://ndownloader.figshare.com/files/69151042"
+sha256 = "960bc68326bc4fd684c7d4d52766f4217353cdd88c17c3cab5dd0ae16dc42ed3"
+size = 12251840
+md5 = "5476f890ba7aeef992b429393f0c6dc3"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/33945238 (CC BY 4.0), 2026-10-12"
+source = "Figshare 33945238: Raw data for '(p)ppGpp Synthetases Differentially Contribute to NaF-Induced Persistence in Streptococcus mutans', Figure_1A_WT 1h_czi.czi (figshare file 69151042)"
+attribution = "Woo Jun Jung, In Gyu Yun, Jeong Nam Kim"
+
+[[file]]
+id = "figshare33246348-AD4"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare33246348-AD4.czi"
+url = "https://ndownloader.figshare.com/files/68246080"
+sha256 = "b7b5d8d11072990b05e5f2ffc30956c3434dd027895af375e6873490a6bac5aa"
+size = 733024
+md5 = "37d54b99dc9a459d673f8462981e3e61"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/33246348 (CC BY 4.0), 2026-10-12"
+source = "Figshare 33246348: Raw and Processed Data Supporting Porphyromonas gingivalis promotes lipid droplet-mediated microglial dysfunction, AD4.czi (figshare file 68246080)"
+attribution = "MUHAMMAD SHAHID RIAZ, Kristina Nicole Valladares, Chloe La Prairie et al."
+
+[[file]]
+id = "figshare33437809-Fig5a-ricOOE"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare33437809-Fig5a-ricOOE.czi"
+url = "https://ndownloader.figshare.com/files/68213182"
+sha256 = "d76f5d2ff3cf6e6c921ca0dfd3eb306b060a9f3652daa0ed77b79398fe130df8"
+size = 5986560
+md5 = "3300d05a3c4fccbd009d4a90fe3fe735"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/33437809 (CC BY 4.0), 2026-10-12"
+source = "Figshare 33437809: Full fields-of-view for all fluorescence micrographs shown in the main figures., Fig5a_ricOOE.czi (figshare file 68213182)"
+attribution = "Simon Schäper"
+
+[[file]]
+id = "figshare33425479-Snap-29835"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare33425479-Snap-29835.czi"
+url = "https://ndownloader.figshare.com/files/68171629"
+sha256 = "f4d6ae165fb0048282cb019aeaf98e8efae0fc8d6bb49b2460dece48432a6dfc"
+size = 9528192
+md5 = "9fcf1cc0af81e5945c92d87842d159fa"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/33425479 (CC BY 4.0), 2026-10-12"
+source = "Figshare 33425479: HGC-27 and HGC-27-OLA-R, Snap-29835.czi (figshare file 68171629)"
+attribution = "Katia De Marco"
+
+[[file]]
+id = "figshare33425635-Snap-8587"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare33425635-Snap-8587.czi"
+url = "https://ndownloader.figshare.com/files/68171929"
+sha256 = "39616ff162685228352c12f5b083a7e32034c76c9e8c8472df44f7ff9f6896fd"
+size = 4823392
+md5 = "bac4eef92a9adb6bbacb8ffc2d8586dd"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/33425635 (CC BY 4.0), 2026-10-12"
+source = "Figshare 33425635: Live/dead staining of AGS, NCI-N87, HGC-27-OLA-R cells grown as tumorspheres treated or not with SMYD3 and/or PARP inhibitors., Snap-8587.czi (figshare file 68171929)"
+attribution = "Katia De Marco"
+
+[[file]]
+id = "figshare32789232-H-mac-1-3"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare32789232-H-mac-1-3.czi"
+url = "https://ndownloader.figshare.com/files/65853528"
+sha256 = "86b83580b95cadd48df58503a46dba5c820ac89f666d96dedb10d6f78a4be612"
+size = 1442848
+md5 = "82538ab6365e54284ff500f5ed03af04"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/32789232 (CC BY 4.0), 2026-10-12"
+source = "Figshare 32789232: Qing Tang 1, H-mac-1%-3.czi (figshare file 65853528)"
+attribution = "Jijun Fu"
+
+[[file]]
+id = "figshare32231409-6-p62-b"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare32231409-6-p62-b.czi"
+url = "https://ndownloader.figshare.com/files/64416036"
+sha256 = "50138750002acd75e043dfaa53357014d096c3d581bb6e9d7aada9a2b4856cf7"
+size = 3174080
+md5 = "b4b6a9c4b490a3eefbd666c66fd74377"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/32231409 (CC BY 4.0), 2026-10-12"
+source = "Figshare 32231409: Raw data for the manuscript 'Intrinsic autophagy suppression in tumor cores limits the efficacy of pharmacological autophagy inhibitionin a genetically defined, immunocompetent mouse model of pancreatic cancer' submitted to the 'Autophagy Reports' journal., 6 p62 b.czi (figshare file 64416036)"
+attribution = "Andrej Udelnow"
+
+[[file]]
+id = "figshare31399992-242-Dapi-GPER-488-63-2-1"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare31399992-242-Dapi-GPER-488-63-2-1.czi"
+url = "https://ndownloader.figshare.com/files/62121447"
+sha256 = "93ddfb194de74673b7d8af2065eb9e64d4b07ffe16fac3e80ae97faf0dbc4b33"
+size = 13823168
+md5 = "cf4a5fe27a06d57a80fe33d995c6ecd5"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31399992 (CC BY 4.0), 2026-10-12"
+source = "Figshare 31399992: Investigation of the role of N-terminal region in G protein-coupled oestrogen receptor 1 (GPER) localisation, 242_Dapi_GPER_488_63_2 (1).czi (figshare file 62121447)"
+attribution = "Tlotlo Matladi"
+
+[[file]]
+id = "figshare32174592-Mock-transfected-DMSO-treatment-IR1-TR2"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare32174592-Mock-transfected-DMSO-treatment-IR1-TR2.czi"
+url = "https://ndownloader.figshare.com/files/64253094"
+sha256 = "318d2045f3e3f9f8e1670e55b7b0e67547d6c3bc6e45a77e28093b53dd0eba14"
+size = 1078400
+md5 = "b97ec2ca5693a793fe6e2a0c2fdb4369"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/32174592 (CC BY 4.0), 2026-10-12"
+source = "Figshare 32174592: BromoCatch: a self-labelling tag platform for protein analysis and live cell imaging, Mock transfected DMSO treatment  IR1 TR2.czi (figshare file 64253094)"
+attribution = "Maria Rodriguez-Rios, Conner Craigon, Mark A Nakasone et al."
+
+[[file]]
+id = "figshare30581381-CandidaConA1"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare30581381-CandidaConA1.czi"
+url = "https://ndownloader.figshare.com/files/59440703"
+sha256 = "db718cda080e8c7272bf3678efa8fabaa3ccf75c94fcbae477adb7cf6a19f085"
+size = 7346720
+md5 = "f27a1d12452dbd27528637394f96a0fe"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/30581381 (CC BY 4.0), 2026-10-12"
+source = "Figshare 30581381: Raw Data of Activity of Lactobacillus gasseri strain LLG1 and its exopolysaccharides in inflammatory cell model and on Candida albicans proliferation, CandidaConA1.czi (figshare file 59440703)"
+attribution = "rogatien charlet, Karine Lecointe, oksana plu et al."
+
+[[file]]
+id = "figshare30630299-FigureS7-c-FUS-WT"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare30630299-FigureS7-c-FUS-WT.czi"
+url = "https://ndownloader.figshare.com/files/64176709"
+sha256 = "7fdcb6a83b31db9116f53997692ea792cde2db4e725137cf47cd2dfa6bd04452"
+size = 637312
+md5 = "0e7b9e93179972eacebe0a12b83ac0f6"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/30630299 (CC BY 4.0), 2026-10-12"
+source = "Figshare 30630299: Mapping high resolution, multidimensional phase diagrams of physiological protein condensates, FigureS7_c_FUS-WT.czi (figshare file 64176709)"
+attribution = "Jonathon Nixon-Abell"
+
+[[file]]
+id = "figshare32087253-CrJAG-cYFP-CrMSI4-nYFP"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare32087253-CrJAG-cYFP-CrMSI4-nYFP.czi"
+url = "https://ndownloader.figshare.com/files/63970704"
+sha256 = "a61dcc7ad674fa06a5ffb286989ded7a572002598e1754c686c6822e321ff317"
+size = 12049760
+md5 = "1e3fbf8ee50de4b75daabf07ce59fdb0"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/32087253 (CC BY 4.0), 2026-10-12"
+source = "Figshare 32087253: Confocal image of BiFC analysis, CrJAG-cYFP+CrMSI4-nYFP.czi (figshare file 63970704)"
+attribution = "Tian-Feng Lü"
+
+[[file]]
+id = "figshare31165393-1-0PE-0-14EDTA-1430-p-12"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare31165393-1-0PE-0-14EDTA-1430-p-12.czi"
+url = "https://ndownloader.figshare.com/files/61563862"
+sha256 = "d8838281bc8107544311042e70348059b664c592c1a7af3607d6019fa8ccc502"
+size = 29543136
+md5 = "7e57b218f7318d13d7e0a379e654c4bb"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31165393 (CC BY 4.0), 2026-10-12"
+source = "Figshare 31165393: Time‑lapse videos of Staphylococcus ureilyticus under 1.2% Phenoxyethanol and 1.0% PE + 0.14% EDTA (Supplementary videos), 1.0PE+0.14EDTA_1430_p(12).czi (figshare file 61563862)"
+attribution = "Yoshiko Miyahara, Takehisa Yano"
+
+[[file]]
+id = "figshare29204072-mt-opto-con-raw"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare29204072-mt-opto-con-raw.czi"
+url = "https://ndownloader.figshare.com/files/62450779"
+sha256 = "c29384418290be1f942d9312383d8599c77ce5e3607ad7eeea7c066af2d8f7f6"
+size = 1457248
+md5 = "8c53d027d964f57be90fa9351abf2dd4"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29204072 (CC BY 4.0), 2026-10-12"
+source = "Figshare 29204072: Membranes arrest the coarsening of mitochondrial condensates in human cells, mt_opto_con_raw.czi (figshare file 62450779)"
+attribution = "Sanjaya VBD Aththawala Gedara, Surya Teja Penna, Marina Feric"
+
+[[file]]
+id = "figshare31537051-SAP10-CD226-SAP10-1-stack"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare31537051-SAP10-CD226-SAP10-1-stack.czi"
+url = "https://ndownloader.figshare.com/files/62431102"
+sha256 = "d1f7cd1a6c58604f3f8a25dfcf4826b5dce666b48341ed5d8326c7c6cf742568"
+size = 7697376
+md5 = "669d9928620469da19d6481578229167"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31537051 (CC BY 4.0), 2026-10-12"
+source = "Figshare 31537051: Figure 6 raw datasets, microscopy images, SAP10_CD226_SAP10_1_stack.czi (figshare file 62431102)"
+attribution = "Ulrich Terpitz"
+
+[[file]]
+id = "figshare31329073-a3-eten5-fitc-flag-cy3"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare31329073-a3-eten5-fitc-flag-cy3.czi"
+url = "https://ndownloader.figshare.com/files/61854343"
+sha256 = "ae80b910687ce4f19e235ab94a12aadf7de24efaf0d2b848a69f499bff6e7c36"
+size = 559584
+md5 = "122f2b7761571fa29e454a73fe0ab9cf"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31329073 (CC BY 4.0), 2026-10-12"
+source = "Figshare 31329073: Functional characterization of EtAMA3 in Eimeria tenella and immunogenicity of its knockout line, a3-eten5(fitc)-flag(cy3).czi (figshare file 61854343)"
+attribution = "shiqi Du, ying Pang, rongqing Dong et al."
+
+[[file]]
+id = "figshare30992542-Snap-31484-0-3"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare30992542-Snap-31484-0-3.czi"
+url = "https://ndownloader.figshare.com/files/60775237"
+sha256 = "d1c6a051a0f9332738bd074f102e1ae388a38a54951b5ba4d8de37d4921c883a"
+size = 4545344
+md5 = "6d286bc76990252b5cb1778dd33024ed"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/30992542 (CC BY 4.0), 2026-10-12"
+source = "Figshare 30992542: Single-cell transcriptomic analysis of plant quiescent center microscopy images data, Snap-31484-0.3.czi (figshare file 60775237)"
+attribution = "Guihua Hu"
+
+[[file]]
+id = "figshare30853862-BMDC-Citine-YP-2hr-infection-8-Airyscan"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare30853862-BMDC-Citine-YP-2hr-infection-8-Airyscan.czi"
+url = "https://ndownloader.figshare.com/files/60275438"
+sha256 = "87a2e0734df41a75a6eb329a5de4d9e654c0b3531eb05806e6eec514fc182025"
+size = 1529696
+md5 = "d09e5674c186ce148f812dc2023ce0fb"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/30853862 (CC BY 4.0), 2026-10-12"
+source = "Figshare 30853862: Figure 5. F. Images Folder, BMDC Citine_YP_2hr infection_8_Airyscan Processingexample3 in Figure 5F cropped image.czi (figshare file 60275438)"
+attribution = "Nadia Holness"
+
+[[file]]
+id = "figshare30084322-6-2-mut6"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare30084322-6-2-mut6.czi"
+url = "https://ndownloader.figshare.com/files/57789268"
+sha256 = "b363b5b7b7ec04d8d61c3d477094f3524f906d35b1ef301a1e00999a72ca2ebe"
+size = 16993184
+md5 = "d6b73f42368f40de50c94cc988d0c042"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/30084322 (CC BY 4.0), 2026-10-12"
+source = "Figshare 30084322: Microscopy images documenting cellular morphology and infection phenotypes of wild-type and attenuated HCV variants, 6-2  mut6.czi (figshare file 57789268)"
+attribution = "Roba Dabour, Shaked Bergman, Zohar Zafrir et al."
+
+[[file]]
+id = "figshare29966063-overview-2-scenes"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare29966063-overview-2-scenes.czi"
+url = "https://ndownloader.figshare.com/files/57354050"
+sha256 = "0d72d2b40bcaf97e23ff9c30a367d14c9c1bb33dd72f088a4a2e84128ef03bd8"
+size = 224054336
+md5 = "48361fc27767d974bd70d828ed01a0c1"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29966063 (CC BY 4.0), 2026-10-12"
+source = "Figshare 29966063: overview_2_scenes.czi, overview_2_scenes.czi (figshare file 57354050)"
+attribution = "David Nguyen"
+
+[[file]]
+id = "figshare29318432-WT-20x-z-Maximum-intensity-projection"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare29318432-WT-20x-z-Maximum-intensity-projection.czi"
+url = "https://ndownloader.figshare.com/files/56114402"
+sha256 = "ac1171b0476c697ec57182d04c756be045149ca6515d2e9a110f97800ecdcfa7"
+size = 4308032
+md5 = "69489ba9ff586b77c8e19545be7f7909"
+license = "CC0-1.0"
+license_checked = "https://figshare.com/articles/29318432 (Public Domain), 2026-10-12"
+source = "Figshare 29318432: Supporting data of manuscript 'The transcription factors Tfeb and Tfe3 are required for survival and embryonic development of pancreas and liver in zebrafish', WT_20x_z_Maximum intensity projection.czi (figshare file 56114402)"
+attribution = "Alberto Rissone, Martina La Spina, Erica Bresciani et al."
+
+[[file]]
+id = "figshare29451836-PH-mCherry-TTP-OST4-mCherry-Nanos3-1-117"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare29451836-PH-mCherry-TTP-OST4-mCherry-Nanos3-1-117.czi"
+url = "https://ndownloader.figshare.com/files/55908818"
+sha256 = "022b4bffaa08a579d35bbbe063a86e10855068ca39eef91a9c699517cefc965b"
+size = 6387072
+md5 = "048e7f8a5d0c61c0520f8203d15cbcab"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29451836 (CC BY 4.0), 2026-10-12"
+source = "Figshare 29451836: Multivalent Interactions with CCR4-NOT and PABPC1 Determine mRNA Repression Efficiency by Tristetraprolin, PH-mCherry-TTP + OST4-mCherry-Nanos3(1-117) + EGFP-NOT1(SHD) 12.czi (figshare file 55908818)"
+attribution = "Filip Pekovic"
+
+[[file]]
+id = "figshare29396375-sample5-31"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare29396375-sample5-31.czi"
+url = "https://ndownloader.figshare.com/files/55622408"
+sha256 = "8c444f010c195d2c7316761c66c32bf822844ba4e9de5484307fd3c0da1702cf"
+size = 2890624
+md5 = "b7c07b4b89ae3c90f7c4a50dda9a0c77"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29396375 (CC BY 4.0), 2026-10-12"
+source = "Figshare 29396375: Epimicroscopy images of SAR11, sample5_31.czi (figshare file 55622408)"
+attribution = "Cameron Thrash"
+
+[[file]]
+id = "figshare29256827-AAV9-GFP-8-weeks-HEMI"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare29256827-AAV9-GFP-8-weeks-HEMI.czi"
+url = "https://ndownloader.figshare.com/files/55173050"
+sha256 = "2c6c29954e518ee8fff1591aba698d455553f0feed99add325c7abac9e92eb8d"
+size = 6188288
+md5 = "c11b5634a4364ab0a7b4f29019df6fb3"
+license = "CC0-1.0"
+license_checked = "https://figshare.com/articles/29256827 (CC0), 2026-10-12"
+source = "Figshare 29256827: Figure 4D Raw data - Increased in vivo transduction of AAV-9 cargo in Alport podocytes, AAV9-GFP 8 weeks HEMI.czi (figshare file 55173050)"
+attribution = "Maryline Fresquet, Emily Williams, gema bolas et al."
+
+[[file]]
+id = "figshare28448495-wt-m9-1"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare28448495-wt-m9-1.czi"
+url = "https://ndownloader.figshare.com/files/52482293"
+sha256 = "884c49161c57945c77a7820fdcda8d12183fc91fc87bb61b1149d17c0bb77745"
+size = 342496
+md5 = "235af78b909740fc03162015d806ef46"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/28448495 (CC BY 4.0), 2026-10-12"
+source = "Figshare 28448495: HADA Probe Staining and Analysis (Fig 3H, 3I, and 3J), wt m9 1.czi (figshare file 52482293)"
+attribution = "Jeanette Critchlow"
+
+[[file]]
+id = "figshare29052365-2019-11-15-Ng2-DsRed-Ret-RFPgr-DSREDrd-L"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare29052365-2019-11-15-Ng2-DsRed-Ret-RFPgr-DSREDrd-L.czi"
+url = "https://ndownloader.figshare.com/files/54502421"
+sha256 = "3160c9c4d2b4fcc49705785ecbbfe3eb8587ce74b83105849e6bd793b4f79fc3"
+size = 8633088
+md5 = "a668726c3f649e3254587a582ded808a"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29052365 (CC BY 4.0), 2026-10-12"
+source = "Figshare 29052365: Observational study to cross-validate the use of NG2 and PDGFRbeta as markers for vascular pericytes on murine cerebral capillaries., 2019-11-15--Ng2-DsRed_Ret-RFPgr_DSREDrd_LECbl_DAPIw-40x_08zm-001.czi (figshare file 54502421)"
+attribution = "John Chappell"
+
+[[file]]
+id = "figshare27940407-20230706-MN-Diff-20210906-d21-FUS-R244C"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare27940407-20230706-MN-Diff-20210906-d21-FUS-R244C.czi"
+url = "https://ndownloader.figshare.com/files/53319461"
+sha256 = "9d9d13da37ac722abcd16d5c426199f03b07ae9a87e56c9ef6c3feb5683445fa"
+size = 11066944
+md5 = "d131c43088e141b6fb98814dcfecdef9"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/27940407 (CC BY 4.0), 2026-10-12"
+source = "Figshare 27940407: Fig. 3j | Cholinergic markers in the in-vitro derived motor neurons, 20230706_MN_Diff_20210906_d21_FUS_R244C_B5_3.czi (figshare file 53319461)"
+attribution = "Christoph Schweingruber"
+
+[[file]]
+id = "figshare27173274-10x-cy5-zoom-avg8"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare27173274-10x-cy5-zoom-avg8.czi"
+url = "https://ndownloader.figshare.com/files/49618335"
+sha256 = "0a655adb9db15592e4828d005c4b205a84a6e892301d74c1124b66abe1cf3c76"
+size = 33742176
+md5 = "af45242090f93b67f0b09646260b33ed"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/27173274 (CC BY 4.0), 2026-10-12"
+source = "Figshare 27173274: Raman spectra and confocal raw .czi files associated with Figures 3,4,5,6 (confocal) and figures 1,7 (raman)., 10x cy5 zoom avg8.czi (figshare file 49618335)"
+attribution = "Victoria Orphan, Kriti Sharma, Laura Quinn"
+
+[[file]]
+id = "figshare28810667-Retina-6hr-40x-001"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "figshare28810667-Retina-6hr-40x-001.czi"
+url = "https://ndownloader.figshare.com/files/53711975"
+sha256 = "b96d72355b1138f33e27e72c66c75b2cd2e7b672e467024869ef037c6a3c7177"
+size = 33609248
+md5 = "1b1012225dd85540fa4ecd2b4623aa4f"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/28810667 (CC BY 4.0), 2026-10-12"
+source = "Figshare 28810667: Imaging Ng2:DsRed+ Murine Retina over 6 Hours in Culture, Retina-6hr_40x-001.czi (figshare file 53711975)"
+attribution = "John Chappell"
+
+[[file]]
+id = "figshare28067108-38-Hoechst-Golgi-Mito-Lyso-CellMask-mixt"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare28067108-38-Hoechst-Golgi-Mito-Lyso-CellMask-mixt.lsm"
+url = "https://ndownloader.figshare.com/files/67832028"
+sha256 = "092ac050edf55e26dcda8cba10122408c6f1b81d19accf07214385d6eebfcf3e"
+size = 2861115
+md5 = "0d9db6847c058e68998eae3c5e7bc366"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/28067108 (CC BY 4.0), 2026-10-12"
+source = "Figshare 28067108: FLIM and Spectral dataset for GSLab, 38_Hoechst_Golgi_Mito_Lyso_CellMask_mixture.lsm (figshare file 67832028)"
+attribution = "Alexander Vallmitjana"
+
+[[file]]
+id = "figshare30225319-ROXY10"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare30225319-ROXY10.lsm"
+url = "https://ndownloader.figshare.com/files/58313530"
+sha256 = "1565cbd81d49a068ec0223676537c801ddd4cfda8646d2675ef0d95a16a4c7cb"
+size = 1292028
+md5 = "b990c404d0cfbf69cff4b2f75fc5a9c3"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/30225319 (CC BY 4.0), 2026-10-12"
+source = "Figshare 30225319: Figure 4-figure supplement 2, ROXY10.lsm (figshare file 58313530)"
+attribution = "Hiroshi Takagi"
+
+[[file]]
+id = "figshare30207526-544-545No8RFP"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare30207526-544-545No8RFP.lsm"
+url = "https://ndownloader.figshare.com/files/58284676"
+sha256 = "3b55ecbdaf6446c78d9589fe3e43949453bafea7988e78ddab4a5f155d1d7f56"
+size = 386730
+md5 = "fbb25a522b9e3fd97fe0b4dca8928430"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/30207526 (CC BY 4.0), 2026-10-12"
+source = "Figshare 30207526: Figure 4B, 544-545No8RFP.lsm (figshare file 58284676)"
+attribution = "Hiroshi Takagi"
+
+[[file]]
+id = "figshare29469896-Image-7"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare29469896-Image-7.lsm"
+url = "https://ndownloader.figshare.com/files/55964819"
+sha256 = "1535c1461080051850300e8125c2399aa6f5699fff30db30ae5ba1f30ebaee2a"
+size = 6494699
+md5 = "746028c25ab8e6cb2b097bf9c4c156ca"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29469896 (CC BY 4.0), 2026-10-12"
+source = "Figshare 29469896: ADPact: a versatile sensor for ADP-F-actin, Image 7.lsm (figshare file 55964819)"
+attribution = "YANSONG MIAO, qianqian ma"
+
+[[file]]
+id = "figshare29380658-3h-1"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare29380658-3h-1.lsm"
+url = "https://ndownloader.figshare.com/files/55943258"
+sha256 = "54e78b32874ebc3466770a8d405b2180b5db434f7ca81147c5fb2a0b84f34bf2"
+size = 43145349
+md5 = "4ac541325f9ff108b0e61b49abb28040"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29380658 (CC BY 4.0), 2026-10-12"
+source = "Figshare 29380658: Progressive chromosome shape changes during cell divisions recapitulated by loop capture simulations, 3h_1.lsm (figshare file 55943258)"
+attribution = "Yasutaka Kakui"
+
+[[file]]
+id = "figshare28071797-FigureS9G-Rawimage"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare28071797-FigureS9G-Rawimage.lsm"
+url = "https://ndownloader.figshare.com/files/51329600"
+sha256 = "0014d52ffd227e826efa399f660d58b8e42ace9dfdf504d64a9053d58d4088d2"
+size = 684881
+md5 = "82b56b7231ee64a318d33a5d1644c52a"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/28071797 (CC BY 4.0), 2026-10-12"
+source = "Figshare 28071797: FigureS9G_Rawimage.lsm, FigureS9G_Rawimage.lsm (figshare file 51329600)"
+attribution = "Hiroshi Takagi"
+
+[[file]]
+id = "figshare28054007-a-Synuclein"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare28054007-a-Synuclein.lsm"
+url = "https://ndownloader.figshare.com/files/51277157"
+sha256 = "3144c5dd6a57c92350f4694bd9dcffeaa08494952a008ae94a69a1569ae0d433"
+size = 2258495
+md5 = "a2fc17d22c53383569ae8edb3ec7b687"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/28054007 (CC BY 4.0), 2026-10-12"
+source = "Figshare 28054007: Figure S6 - LSM Images, a-Synuclein.lsm (figshare file 51277157)"
+attribution = "Lia-Raluca Olari"
+
+[[file]]
+id = "figshare26045854-221011-C3"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare26045854-221011-C3.lsm"
+url = "https://ndownloader.figshare.com/files/47092090"
+sha256 = "79755702ff657e34b5d24127fa7ca12d069865e5afdfd30418875782f97eb6e0"
+size = 2122193
+md5 = "a81a3255df8ef9d3dbe73e09aa810d05"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/26045854 (CC BY 4.0), 2026-10-12"
+source = "Figshare 26045854: The imaging data related to the publication: Multiple embryonic sources converge to form the pectoral girdle skeleton in zebrafish, 221011-C3.lsm (figshare file 47092090)"
+attribution = "Shunya Kuroda, Robert L. Lalonde, Thomas A. Monsour et al."
+
+[[file]]
+id = "figshare23651496-fig1-SP-AO-50uM-ADN-0-1mg-ul"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare23651496-fig1-SP-AO-50uM-ADN-0-1mg-ul.lsm"
+url = "https://ndownloader.figshare.com/files/41510040"
+sha256 = "a3331e892dced9f51257c34a2a65fbaafb7d2ebb2d55b6023c35501b41794a79"
+size = 2265063
+md5 = "89dbb96a0edd04db2080fadb649128c6"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/23651496 (CC BY 4.0), 2026-10-12"
+source = "Figshare 23651496: Figure 1_Data, fig1_SP_AO_50uM_ADN 0-1mg-ul.lsm (figshare file 41510040)"
+attribution = "Marcela Díaz, Leonel Malacrida, Flavio Zolessi"
+
+[[file]]
+id = "figshare19606885-OsRCI-EGFP-Image20"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare19606885-OsRCI-EGFP-Image20.lsm"
+url = "https://ndownloader.figshare.com/files/34826812"
+sha256 = "6de61b1d82047751e9d9ead6d5eea74d2a357b951b1291129df718612a977aff"
+size = 3345111
+md5 = "0d8a412da7bf1e483135ba661d01597f"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/19606885 (CC BY 4.0), 2026-10-12"
+source = "Figshare 19606885: The function of OsRCI in rice resistance to BPH(20220416), OsRCI-EGFP Image20.lsm (figshare file 34826812)"
+attribution = "Guoxin Zhou"
+
+[[file]]
+id = "figshare16639537-Fig-5a-Normal-Chow-20x-1-800"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare16639537-Fig-5a-Normal-Chow-20x-1-800.lsm"
+url = "https://ndownloader.figshare.com/files/30814096"
+sha256 = "30341a102bab0156c7e13fe3de909ac54bf74e9e2a6964ab8703480cbf3691c6"
+size = 4433350
+md5 = "678235485a672f63d2b6da706271b6f3"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/16639537 (CC BY 4.0), 2026-10-12"
+source = "Figshare 16639537: Figure 5 Source Data, Fig_5a_Normal_Chow_20x-1-800.lsm (figshare file 30814096)"
+attribution = "Chris Chang"
+
+[[file]]
+id = "figshare13281014-CS1-W195A-1"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare13281014-CS1-W195A-1.lsm"
+url = "https://ndownloader.figshare.com/files/25586861"
+sha256 = "b0bbda1a6c1cab3adcc3fa044f3cd813a7c5afccc16884c9432b7311c1ec01aa"
+size = 2221996
+md5 = "24f61b8ed2192d0600644b84a4fb898f"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/13281014 (CC BY 4.0), 2026-10-12"
+source = "Figshare 13281014: Figure 5 A, CS1 W195A 1 .lsm (figshare file 25586861)"
+attribution = "Richard Ward, John Pediani, Sara Marsango et al."
+
+[[file]]
+id = "figshare14910291-5-PLA-containing-1-3-wt-of-200-nm-NR-lab"
+format = "tiff"
+role = "input"
+tier = "standard"
+filename = "figshare14910291-5-PLA-containing-1-3-wt-of-200-nm-NR-lab.lsm"
+url = "https://ndownloader.figshare.com/files/28715841"
+sha256 = "a21c007322f2cc55e04f6fa62efc32949c591d9d57e84fd68a4aebbfd5365e0e"
+size = 37427415
+md5 = "38e13edb0f39f440df0d5eb004eaf137"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/14910291 (CC BY 4.0), 2026-10-12"
+source = "Figshare 14910291: Bowls, Vases and Goblets – The Microcrockery of Polymer and Nanocomposite Morphology Revealed by Two-Photon Optical Tomography, 5_PLA containing 1.3 wt% of 200 nm NR-labelled NPs crystallized at 130 C for 10 min.lsm (figshare file 28715841)"
+attribution = "Shugui Yang, Zhen-Zhen Wei, Liliana Cseh et al."

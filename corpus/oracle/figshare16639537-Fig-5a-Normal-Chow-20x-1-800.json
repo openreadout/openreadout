@@ -1,0 +1,69 @@
+{
+ "id": "figshare16639537-Fig-5a-Normal-Chow-20x-1-800",
+ "file": "figshare16639537-Fig-5a-Normal-Chow-20x-1-800.lsm",
+ "size": 4433350,
+ "sha256": "30341a102bab0156c7e13fe3de909ac54bf74e9e2a6964ab8703480cbf3691c6",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "CYX",
+   "shape": [
+    4,
+    1024,
+    1024
+   ],
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.4151329104819196,
+    "y": 0.4151329104819196
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "709cb8f37384d854b4873150fedf7eb8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f26cad8c1fccb34a3afd2cd241ead23e"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7c1f329e7e810d39e251401b67f90764"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dcb7fe5e3157b595e3a08a5dc6c720f7"
+    }
+   ],
+   "check_objective": "Plan-Apochromat 20x/0.8 M27",
+   "check_acquired_at": "2017-09-30T22:45:46"
+  }
+ ]
+}

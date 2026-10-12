@@ -1,0 +1,63 @@
+{
+ "id": "figshare19606885-OsRCI-EGFP-Image20",
+ "file": "figshare19606885-OsRCI-EGFP-Image20.lsm",
+ "size": 3345111,
+ "sha256": "6de61b1d82047751e9d9ead6d5eea74d2a357b951b1291129df718612a977aff",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.20756645524096004,
+    "y": 0.20756645524096004
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3532ed4336795fd41e57ee6aef05bd1e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "34aa7cd8dc77ca59d2afb3d1f134f615"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f3409f7c0a758ac86036455a2c04932d"
+    }
+   ],
+   "check_objective": "EC Plan-Neofluar 20x/0.50 M27",
+   "check_acquired_at": "2017-06-23T10:51:18"
+  }
+ ]
+}

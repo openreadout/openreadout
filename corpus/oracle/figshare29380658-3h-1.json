@@ -1,0 +1,172 @@
+{
+ "id": "figshare29380658-3h-1",
+ "file": "figshare29380658-3h-1.lsm",
+ "size": 43145349,
+ "sha256": "54e78b32874ebc3466770a8d405b2180b5db434f7ca81147c5fb2a0b84f34bf2",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 42,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "ZYX",
+   "shape": [
+    21,
+    1000,
+    1000
+   ],
+   "size_x": 1000,
+   "size_y": 1000,
+   "size_z": 21,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.10137555811524286,
+    "y": 0.10137555811524286,
+    "z": 0.15945176520193188
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9297b89b5db0f640f9fa133cf52131b5"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "1f7e70ab3de0b7448b9155015cb80f57"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "8bb50e59856e75509838615f7c0badd2"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "79982614c4102d6bb79dda61d17fc8ef"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "bc423d71ed709fcec500e9ced663a220"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "259e92f3616a6a5707443da7e5bfab52"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "b5739b4debf73498cf3da7cbc4b7f4e2"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "4b7457e99bf3d59210aac4fd8260c20c"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "d9de52f9a437bea134dab9b8499e5b6d"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "dc89251abbe8c68498ae89bf1843b904"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "c5805d11b64f48241cd3c3cb5c036eae"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "ad15022ce6b79fb652e51fcde4d32c4d"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "54c87f8cf2805e98061433169e5eec69"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "0a095a14a89c8db90c3848e753975dbc"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "8a881fc71cadbb5fe8f298935765fb43"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "7e0f6d68d6b50a4d4e02b771a92118d4"
+    },
+    {
+     "c": 0,
+     "z": 16,
+     "t": 0,
+     "xxh3": "1669a99bc68d011093ea4648c95547e0"
+    },
+    {
+     "c": 0,
+     "z": 17,
+     "t": 0,
+     "xxh3": "88ef2152fe91ab89c98d6b67f75d95f3"
+    },
+    {
+     "c": 0,
+     "z": 18,
+     "t": 0,
+     "xxh3": "ce92341459e92eb90478ad94f1404c97"
+    },
+    {
+     "c": 0,
+     "z": 19,
+     "t": 0,
+     "xxh3": "d388b90ce8b00c9561bfed02e9e1c844"
+    },
+    {
+     "c": 0,
+     "z": 20,
+     "t": 0,
+     "xxh3": "34ecb2cecbc4c39695c539083e2e8f18"
+    }
+   ],
+   "check_objective": "Plan-Apochromat 63x/1.4 Oil DIC M27",
+   "check_acquired_at": "2024-02-09T19:50:57"
+  }
+ ]
+}
