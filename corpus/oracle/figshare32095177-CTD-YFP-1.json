@@ -4,5 +4,45 @@
  "size": 587676,
  "sha256": "94ac9501de8fbb7db55a538751636a6c93145799cc67b91aca3ce68af3614799",
  "max_planes_hashed": 64,
- "error": "OSError: file figshare32095177-CTD-YFP-1.nd2 not recognized as ND2.  First 4 bytes: b'MM\\x00*'"
+ "reader": "tifffile 2026.9.20",
+ "kind": "imagej",
+ "flags": [
+  "imagej"
+ ],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "imagej",
+   "axes": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.1600000113248825,
+    "y": 0.1600000113248825
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "23e68fab862362985b1a811d658dfa09"
+    }
+   ]
+  }
+ ]
 }

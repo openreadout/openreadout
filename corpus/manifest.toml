@@ -73906,7 +73906,6 @@ attribution = "Quan Zhang"
 
 [[file]]
 id = "figshare32095177-CTD-YFP-1"
-format = "nd2"
 role = "input"
 tier = "standard"
 filename = "figshare32095177-CTD-YFP-1.nd2"
@@ -73918,6 +73917,8 @@ license = "CC-BY-4.0"
 license_checked = "https://figshare.com/articles/32095177 (CC BY 4.0), 2026-10-12"
 source = "Figshare 32095177: Bacterial Ribonucleoprotein bodies maintain an acidic pH environment as a mechanism of enzyme regulation, CTD-YFP-1.nd2 (figshare file 63997081)"
 attribution = "Wade Schnorr"
+format = "tiff"
+notes = "an ImageJ TIFF (one frame of a ND2 time series exported from Fiji) saved with the .nd2 extension; recognised by its content as TIFF"
 
 [[file]]
 id = "figshare31840099-1b-3-Hela-YFP-SOAR-mch-O3CT-G290V-CAAX"
