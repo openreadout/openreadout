@@ -67,7 +67,7 @@ Problems (short value lists, non-numeric reals, missing lines) go to `issues`; `
 | `spectral_width_hz` | `sw` | also the trace's `sample_rate_hz` (complex data) |
 | `spectral_width_ppm` | `sw` / `sfrq` | computed |
 | `time_domain_size` | `np` | values per trace (real + imaginary) |
-| `scans`, `completed_scans`, `dummy_scans` | `nt`, `ct`, `ss` | |
+| `scans`, `requested_scans`, `dummy_scans` | `ct` (else `nt`), `nt`, `ss` | `scans` counts the transients in the FID: `ct`, the scans completed, which is below `nt` when an acquisition was stopped |
 | `receiver_gain` | `gain` | |
 | `pulse_program` | `seqfil` | sequence name |
 | `experiment` | `pslabel` | parameter-set label |

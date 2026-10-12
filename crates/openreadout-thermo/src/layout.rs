@@ -561,9 +561,11 @@ pub struct GenericHeader {
 }
 
 impl GenericHeader {
-    /// Bytes per record, if every kind is known.
+    /// Bytes per record, if every kind is known and the widths add up without overflowing.
     pub fn record_len(&self) -> Option<usize> {
-        self.fields.iter().map(GenericField::byte_len).sum()
+        self.fields
+            .iter()
+            .try_fold(0usize, |sum, f| sum.checked_add(f.byte_len()?))
     }
 
     /// Decode one record into (label, value) pairs; section headings are skipped.

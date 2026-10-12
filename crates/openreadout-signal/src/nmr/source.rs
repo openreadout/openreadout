@@ -294,6 +294,9 @@ pub fn fid_parameters(
                     .iter()
                     .any(|x| x.name.as_deref() == Some(name.as_str()));
             }
+            if sf.is_none() {
+                notes.push("no processing parameters (pdata/<n>/procs) hold the operator's referencing (SF): 0 ppm is the basic frequency BF1, so shifts can be off by the referencing correction (SR: 0 to 0.2 ppm in most development files, up to 1.4 ppm); reference to a known line (TMS, DSS or TSP at 0 ppm, a solvent line) before quoting shifts".into());
+            }
             let me_mod = procs
                 .as_ref()
                 .and_then(|(_, p)| num(p.get("ME_mod")))

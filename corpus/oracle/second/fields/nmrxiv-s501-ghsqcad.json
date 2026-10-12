@@ -45,6 +45,16 @@
    "cmd": [
     "info"
    ],
+   "ours": "/traces/0/extra/requested_scans",
+   "theirs": 24,
+   "cmp": "exact"
+  },
+  {
+   "field": "procpar ct (else nt)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
    "ours": "/traces/0/extra/scans",
    "theirs": 24,
    "cmp": "exact"

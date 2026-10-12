@@ -1455,7 +1455,10 @@ impl ShimadzuDataset {
             json!(
                 self.peak_sources
                     .iter()
-                    .map(|(s, st)| json!({"signal": s, "stream": st}))
+                    .map(|(s, st)| {
+                        let peaks = self.peaks.iter().filter(|p| &p.signal == s).count();
+                        json!({"signal": s, "stream": st, "peaks": peaks})
+                    })
                     .collect::<Vec<_>>()
             ),
         );

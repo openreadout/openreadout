@@ -201,8 +201,14 @@ CARBON_01: `proc='lp'`, `ddrtc` 364 µs) need a first-order phase beyond the aut
 - Linear prediction (Bruker `ME_mod`, VnmrJ `proc='lp'`) is not done: spectra the vendor processed
   with it differ at the start of the FID (a note says so). Varian `lp` is not reproduced.
 - Real-only (`AQ_mod` 0/2) FIDs are refused (exit 6).
-- Automatic phasing can miss on noise-dominated spectra (S/N < ~30) and on first-order phases
-  beyond ±1440°.
+- Bruker DIGMOD 3 FIDs processed here sit on a baseline about 0.3 % of the tallest line away
+  from TopSpin's `1r` (water-suppressed metabolomics spectra, 2026-10-11). Weak lines of nearly
+  equal height can then rank differently; when the data set has TopSpin's spectrum, the default
+  (`--from auto`) uses it.
+- Automatic phasing can miss on noise-dominated spectra (S/N < ~30), on first-order phases
+  beyond ±1440°, and on crowded water-suppressed spectra in D2O (signal correlation 0.97 on two
+  plant-extract spectra, where it settles on a first-order phase near 90°). The default uses the
+  stored phases when the data set has them.
 
 ## Vocabulary (public identifiers of `crates/openreadout-signal/src/nmr/*.rs`, `lib.rs`, `fft.rs`)
 
