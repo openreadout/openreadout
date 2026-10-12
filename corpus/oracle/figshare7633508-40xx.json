@@ -1,0 +1,76 @@
+{
+ "id": "figshare7633508-40xx",
+ "file": "figshare7633508-40xx.nd2",
+ "size": 4042752,
+ "sha256": "f85620bd96f03aef8c6a25c9e7efc26463db1e7ac4c781b9c20bcdc89903bcf6",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1280,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "sizes": "{'Y': 1024, 'X': 1280, 'S': 3}",
+   "physical_size_um": {
+    "x": 0.462969736179333,
+    "y": 0.462969736179333,
+    "z": null
+   },
+   "channel_names": [
+    "Brightfield"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3f1ae5603c178764ba23b0138e133738"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Brightfield",
+    "color": "#FFFFFF",
+    "excitation_nm": 420.0,
+    "emission_nm": 420.0,
+    "component_count": 3,
+    "modality": [
+     "brightfield"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 3844507.31641403,
+    "tags": {
+     "CameraTemp1": -5.0,
+     "Camera_ExposureTime1": 36.0,
+     "X": 15988.900000000001,
+     "Y": 8361.800000000001,
+     "Z": 68.7
+    }
+   }
+  ],
+  "acquired_at": "2018-12-05T23:38:42.773Z",
+  "acquired_at_unix_ms": 1544053122773
+ },
+ "text_info": {
+  "description": "Numerical Aperture: 0.5\r\nRefractive Index: 1\r\n Camera Settings: \r\nFormat: 1280x1024 Fine\r\nExposure: ME 36 ms (-+0.0 EV)\r\nAnalogGain: 1.30\r\nMeteringMode: Average\r\nNR: ON\r\nSharpness: Low\r\nOffset: -0.24\r\nSaturation: 0.00\r\nHue: 0.00\r\nWhiteBalanceRed: 1.35\r\nWhiteBalanceBlue: 1.42\r\nPresets: Neutral\r\nCoolingMode: -5 deg\r\nBitDepth: 8\r\nHigh Quality Capture: ON\r\n\r\n Microscope Settings:   Microscope: Ni-E Microscope\r\n  Manual Microscope, FilterChanger(FilterBlock): 1 (Empty)\r\n  Nikon Ni-E, Illuminator(Illuminator-DIA): Remote Switch Off\r\n  Nikon Ni-E, Illuminator(Illuminator-DIA): On\r\n  Nikon Ni-E, Illuminator(Illuminator-DIA) Voltage: 4.0\r\n  FieldStop: 30.6 mm\r\n",
+  "capturing": "DS-Ri1-U3\r\n\r\nFormat: 1280x1024 Fine\r\nExposure: ME 36 ms (-+0.0 EV)\r\nAnalogGain: 1.30\r\nMeteringMode: Average\r\nNR: ON\r\nSharpness: Low\r\nOffset: -0.24\r\nSaturation: 0.00\r\nHue: 0.00\r\nWhiteBalanceRed: 1.35\r\nWhiteBalanceBlue: 1.42\r\nPresets: Neutral\r\nCoolingMode: -5 deg\r\nBitDepth: 8\r\nHigh Quality Capture: ON\r\n",
+  "date": "6/12/2018  12:38:42 p.m.",
+  "optics": "Plan Fluor 20x Ph1 DLL"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=8, bitsPerComponentSignificant=8, componentCount=3, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=3840, widthPx=1280, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

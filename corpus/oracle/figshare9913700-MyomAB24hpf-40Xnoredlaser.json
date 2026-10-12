@@ -1,0 +1,81 @@
+{
+ "id": "figshare9913700-MyomAB24hpf-40Xnoredlaser",
+ "file": "figshare9913700-MyomAB24hpf-40Xnoredlaser.nd2",
+ "size": 405504,
+ "sha256": "c7291f790892b924cc94db3a14e0ad1bbdfddc1c2f8c3ebb1f2e5004ef6b834b",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Y': 256, 'X': 512}",
+   "physical_size_um": {
+    "x": 0.5553892487955665,
+    "y": 0.5553892487955665,
+    "z": null
+   },
+   "channel_names": [
+    "GREEN"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "25913f53ea3de099850187431ba4fde2"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "GREEN",
+    "color": "#00FF00",
+    "excitation_nm": 488.0,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 3508686.343576713,
+    "tags": {
+     "Camera_CH1LaserPower": 14.137600000000003,
+     "Camera_CH1PMTHighVoltage": 85,
+     "Camera_CH2LaserPower": 13.5424,
+     "Camera_CH2PMTHighVoltage": 85,
+     "Camera_CH3LaserPower": 16.9744,
+     "Camera_CH3PMTHighVoltage": 86,
+     "Camera_TDPMTHighVoltage": 0,
+     "Z": 212.20000000000002
+    }
+   }
+  ],
+  "acquired_at": "2016-12-01T19:25:32.114Z",
+  "acquired_at_unix_ms": 1480620332114
+ },
+ "text_info": {
+  "description": "Camera Name: Nikon C2plus\r\nNumerical Aperture: 1.3\r\nRefractive Index: 1.515\r\n Name: GREEN\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:   UNC.FRM\r\n Microscope Settings:   Microscope: Manual Microscope\r\n  Manual Microscope, FilterChanger(FilterBlock): 1 (Empty)\r\n  Zoom: 1.00x\r\n",
+  "capturing": "Nikon C2plus\r\nUNC.FRM",
+  "date": "12/1/2016  12:25:32 PM",
+  "optics": "Plan Fluor 40x Oil DIC H N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=1, heightPx=256, pixelDataType='unsigned', sequenceCount=1, widthBytes=1024, widthPx=512, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

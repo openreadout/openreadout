@@ -75231,3 +75231,213 @@ license = "CC-BY-4.0"
 license_checked = "https://figshare.com/articles/14910291 (CC BY 4.0), 2026-10-12"
 source = "Figshare 14910291: Bowls, Vases and Goblets – The Microcrockery of Polymer and Nanocomposite Morphology Revealed by Two-Photon Optical Tomography, 5_PLA containing 1.3 wt% of 200 nm NR-labelled NPs crystallized at 130 C for 10 min.lsm (figshare file 28715841)"
 attribution = "Shugui Yang, Zhen-Zhen Wei, Liliana Cseh et al."
+
+[[file]]
+id = "figshare22010150-655-BSI-4SoRa-fixed"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare22010150-655-BSI-4SoRa-fixed.nd2"
+url = "https://ndownloader.figshare.com/files/39066332"
+sha256 = "a5e147044573d2ffec34975a5258ad4f9381ccfbe8d3a00d81394dd574f27233"
+size = 25436160
+md5 = "4cc0f9f1c6c7f7e7ba8875619ed2f75b"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/22010150 (CC BY 4.0), 2026-10-12"
+source = "Figshare 22010150: NIR FPs fusion HeLa cells, 655_BSI-4SoRa-fixed.nd2 (figshare file 39066332)"
+attribution = "Hanbin Zhang, Stavrini Papadaki, Xiaoting Sun et al."
+
+[[file]]
+id = "figshare19723189-Fig-4e-4-1-G-Gata4-R-Wnt2-P-Nkx6-1-B-DAP"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare19723189-Fig-4e-4-1-G-Gata4-R-Wnt2-P-Nkx6-1-B-DAP.nd2"
+url = "https://ndownloader.figshare.com/files/35027194"
+sha256 = "0748dd152558f82256aef79572a8554dec53b07b60e25d47081e21bc2a552820"
+size = 4136960
+md5 = "d5900d1973af7c389e4f70e71adc04cd"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/19723189 (CC BY 4.0), 2026-10-12"
+source = "Figshare 19723189: Directed differentiation of human pluripotent stem cells into diverse organ-specific mesenchyme of the digestive and respiratory systems., Fig. 4e, 4-1 G Gata4 R Wnt2 P Nkx6-1 B DAPI.nd2 (figshare file 35027194)"
+attribution = "Keishi Kishimoto, Kentaro Iwasawa, Alice Sorel et al."
+
+[[file]]
+id = "figshare16543308-81-D-1-08-slide-145-x10"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare16543308-81-D-1-08-slide-145-x10.nd2"
+url = "https://ndownloader.figshare.com/files/30583188"
+sha256 = "a76e37aad5e91011e9244bd1b5801864fb6e59ae975fd3ac312f4ba6cb657ba1"
+size = 5644288
+md5 = "b47fb7b521b35e0c5fea77efa699235f"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/16543308 (CC BY 4.0), 2026-10-12"
+source = "Figshare 16543308: GCR labeled rabbit vocal folds, 81-D+1-08 slide 145 x10.nd2 (figshare file 30583188)"
+attribution = "Gary Gartling"
+
+[[file]]
+id = "figshare19067777-Empty"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare19067777-Empty.nd2"
+url = "https://ndownloader.figshare.com/files/33891911"
+sha256 = "dc85c2b24b609b9222d175080f8b0094ec90e27daa7a3f9b0efd4e503e15f99e"
+size = 1261568
+md5 = "cf2d1d96c86a4c4e0780523e7b1ed47b"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/19067777 (CC BY 4.0), 2026-10-12"
+source = "Figshare 19067777: Fig6A, Empty.nd2 (figshare file 33891911)"
+attribution = "Mafalda A Farelo, Kevin Maringer, Tiffany Russell"
+
+[[file]]
+id = "figshare18417593-H-CD11-C66-0003-l1034"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare18417593-H-CD11-C66-0003-l1034.nd2"
+url = "https://ndownloader.figshare.com/files/33181907"
+sha256 = "7b3c2990d4a390cdb8b75e29599139e59d9843ed931e32153ff9bc0aaafe6299"
+size = 2494464
+md5 = "f9fa653587994c881d24a4c4d04e7ecb"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/18417593 (CC BY 4.0), 2026-10-12"
+source = "Figshare 18417593: Hoechst, CD11b, CD66ace colocalization, H_CD11_C66_0003_l1034.nd2 (figshare file 33181907)"
+attribution = "Anastasia Sveshnikova"
+
+[[file]]
+id = "figshare17430695-tracks-after-30-mins-no-inv-strand"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare17430695-tracks-after-30-mins-no-inv-strand.nd2"
+url = "https://ndownloader.figshare.com/files/32118827"
+sha256 = "3b067c0b2d712ff401ac000baeae0e950af1e9015956cb328446258fb3f9dc13"
+size = 52158464
+md5 = "3e4ad9059b929ad257ee79066351ccad"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/17430695 (CC BY 4.0), 2026-10-12"
+source = "Figshare 17430695: DMOL1 tracks no input 30mins.nd2, tracks after 30 mins no inv strand.nd2 (figshare file 32118827)"
+attribution = "Selma Piranej"
+
+[[file]]
+id = "figshare14839146-58-Arc-Ant-NP"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare14839146-58-Arc-Ant-NP.nd2"
+url = "https://ndownloader.figshare.com/files/28566669"
+sha256 = "a0340d268be5b35c718a7ef2b56cd12520a43f8d38bfab65e603f2627c604c60"
+size = 6524928
+md5 = "f97f754dff47ff888d7c62126e17ee32"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/14839146 (CC BY 4.0), 2026-10-12"
+source = "Figshare 14839146: Arc Data and Analysis, 58 Arc-Ant NP.nd2 (figshare file 28566669)"
+attribution = "Gerard Beaudoin"
+
+[[file]]
+id = "figshare12713906-YZ-both-HLA004"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare12713906-YZ-both-HLA004.nd2"
+url = "https://ndownloader.figshare.com/files/24070142"
+sha256 = "3b5bb0ebf1297eafe271411b484b054ab0ee19b1bc0b250155d3561e7e3a6358"
+size = 6565888
+md5 = "d02467f34c7198135afe4b2877003dfa"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/12713906 (CC BY 4.0), 2026-10-12"
+source = "Figshare 12713906: Raw image data of Supplementary Figure 2e for paper 'MFSD7C Switches Mitochondrial ATP Synthesis to Thermogenesis in Response to Heme'., YZ_both+HLA004.nd2 (figshare file 24070142)"
+attribution = "Yingzhong Li, Marianna Kleyman, jianzhu Chen"
+
+[[file]]
+id = "figshare12027162-FB-2-DCV-Sim-10dpi"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare12027162-FB-2-DCV-Sim-10dpi.nd2"
+url = "https://ndownloader.figshare.com/files/22104294"
+sha256 = "a371eec40814d98d2605dbdc3b6d2a2b11860170deee3dbe707450e4fe3d1377"
+size = 6426624
+md5 = "86068238c75e07d6d4cf4664cd497b46"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/12027162 (CC BY 4.0), 2026-10-12"
+source = "Figshare 12027162: Raw Data_Imaging folder, FB 2_DCV Sim- 10dpi.nd2 (figshare file 22104294)"
+attribution = "Rupinder Kaur"
+
+[[file]]
+id = "figshare9913700-MyomAB24hpf-40Xnoredlaser"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare9913700-MyomAB24hpf-40Xnoredlaser.nd2"
+url = "https://ndownloader.figshare.com/files/17827721"
+sha256 = "c7291f790892b924cc94db3a14e0ad1bbdfddc1c2f8c3ebb1f2e5004ef6b834b"
+size = 405504
+md5 = "ba9f3cfaeb625bcc19364c2d79ef0ec5"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/9913700 (CC BY 4.0), 2026-10-12"
+source = "Figshare 9913700: Myomesin is part of an integrity pathway that responds to sarcomere damage and disease, MyomAB24hpf-40Xnoredlaser.nd2 (figshare file 17827721)"
+attribution = "Kendal Prill, Casey Carlisle"
+
+[[file]]
+id = "figshare8159180-FRC-GaAsP-AU04"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare8159180-FRC-GaAsP-AU04.nd2"
+url = "https://ndownloader.figshare.com/files/15203147"
+sha256 = "775d34b46d593b3dbaaf4b07592c11d20ccd1c32eced73ef2552ccce9bf82831"
+size = 757760
+md5 = "df1e7199d32ba8ed9aff97ef8dd18da6"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/8159180 (CC BY 4.0), 2026-10-12"
+source = "Figshare 8159180: Microtubules stained fixed HeLa cell, FRC_GaAsP_AU04_.nd2 (figshare file 15203147)"
+attribution = "Sami Koho"
+
+[[file]]
+id = "figshare7633508-40xx"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare7633508-40xx.nd2"
+url = "https://ndownloader.figshare.com/files/14180981"
+sha256 = "f85620bd96f03aef8c6a25c9e7efc26463db1e7ac4c781b9c20bcdc89903bcf6"
+size = 4042752
+md5 = "4db16971a126de08331132d8893296b3"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/7633508 (CC BY 4.0), 2026-10-12"
+source = "Figshare 7633508: Does the mouse tail vein injection method provide a good model of lung cancer? For F1000Research, 40xx.nd2 (figshare file 14180981)"
+attribution = "John Ashton, Nensi Shrestha"
+
+[[file]]
+id = "figshare4986389-24hr-2-POM"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare4986389-24hr-2-POM.nd2"
+url = "https://ndownloader.figshare.com/files/9142711"
+sha256 = "17e2cac0d313bc77a62e9fdafcb4666e60d431990a5080dde37c8e3a1008b066"
+size = 3108864
+md5 = "71801a7e15559c6a5f354f754bff58da"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/4986389 (CC BY 4.0), 2026-10-12"
+source = "Figshare 4986389: Polarized Optical Microscopy (POM)images, 24hr_2_POM.nd2 (figshare file 9142711)"
+attribution = "Tripti Vats, Prem Siril"
+
+[[file]]
+id = "figshare15086511-20210628-p21YFP-expressing-Ubc-mScarlet"
+format = "nd2"
+role = "input"
+tier = "standard"
+filename = "figshare15086511-20210628-p21YFP-expressing-Ubc-mScarlet.nd2"
+url = "https://ndownloader.figshare.com/files/29006685"
+sha256 = "5589f80a8a480c4c9332e14bc734e54631f133fe08816889b911a559592867f8"
+size = 107417600
+md5 = "529720389945f94d9df77e748ca50377"
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/15086511 (CC BY 4.0), 2026-10-12"
+source = "Figshare 15086511: Example movies of p21YFP CRISPR MCF7 cells expressing either Ubc-mScarlet control or Ubc-mScarlet Hes1, 20210628 p21YFP expressing Ubc mScarlet CONTROL.nd2 (figshare file 29006685)"
+attribution = "Nancy Papalopulu"

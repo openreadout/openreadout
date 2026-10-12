@@ -1,0 +1,85 @@
+{
+ "id": "figshare12027162-FB-2-DCV-Sim-10dpi",
+ "file": "figshare12027162-FB-2-DCV-Sim-10dpi.nd2",
+ "size": 6426624,
+ "sha256": "a371eec40814d98d2605dbdc3b6d2a2b11860170deee3dbe707450e4fe3d1377",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint16",
+   "sizes": "{'Y': 1024, 'X': 1024, 'S': 3}",
+   "physical_size_um": {
+    "x": 0.625742531210651,
+    "y": 0.625742531210651,
+    "z": null
+   },
+   "channel_names": [
+    "Brightfield"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6297e5bc1c5b5d728e17f4254c20d6da"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Brightfield",
+    "color": "#FFFFFF",
+    "excitation_nm": 420.0,
+    "emission_nm": 420.0,
+    "component_count": 3,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 581614.8388884477,
+    "tags": {
+     "Camera_CH1LaserPower": 31.360000000000007,
+     "Camera_CH1PMTHighVoltage": 177,
+     "Camera_CH2LaserPower": 1.96,
+     "Camera_CH2PMTHighVoltage": 100,
+     "Camera_CH3LaserPower": 1.1664,
+     "Camera_CH3PMTHighVoltage": 89,
+     "Camera_CH4LaserPower": 16.0,
+     "Camera_CH4PMTHighVoltage": 202,
+     "Camera_TDPMTHighVoltage": 75,
+     "PFS_OFFSET": 8178,
+     "PFS_STATUS": 0,
+     "X": 3913.9,
+     "Y": 3342.7000000000003,
+     "Z": 2447.35
+    }
+   }
+  ],
+  "acquired_at": "2015-08-26T10:26:16.583Z",
+  "acquired_at_unix_ms": 1440584776583
+ },
+ "text_info": {
+  "description": "Camera Name: \r\nNumerical Aperture: 0.75\r\nRefractive Index: 1\r\n",
+  "capturing": "\r\n",
+  "date": "26/08/2015  12:26:16",
+  "optics": "Plan Apo \u03bb 20x"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=3, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=6144, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

@@ -1,0 +1,121 @@
+{
+ "id": "figshare22010150-655-BSI-4SoRa-fixed",
+ "file": "figshare22010150-655-BSI-4SoRa-fixed.nd2",
+ "size": 25436160,
+ "sha256": "a5e147044573d2ffec34975a5258ad4f9381ccfbe8d3a00d81394dd574f27233",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 3,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Z': 3, 'Y': 2048, 'X': 2048}",
+   "physical_size_um": {
+    "x": 0.108333333333333,
+    "y": 0.108333333333333,
+    "z": 0.5
+   },
+   "channel_names": [
+    "SORA BSI-640"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6778c980549a1eb32cb265baa56f977b"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "972fa681a886d8e84b2575514804574f"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "43584cf2eae608c438cad875cef61aaf"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "SORA BSI-640",
+    "color": "#FF00FF",
+    "excitation_nm": null,
+    "emission_nm": 535.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal",
+     "sora"
+    ]
+   }
+  ],
+  "frame_count": 3,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 168.20999999996275,
+    "tags": {
+     "CameraTemp1": -12.26,
+     "Camera_ExposureTime1": 800.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 1868.5,
+     "Y": 411.40000000000003,
+     "Z": 2132.06,
+     "Z1": 2132.06
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 1196.7060000000056,
+    "tags": {
+     "CameraTemp1": -12.26,
+     "Camera_ExposureTime1": 800.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 1868.5,
+     "Y": 411.40000000000003,
+     "Z": 2132.56,
+     "Z1": 2132.56
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 2163.1091999998316,
+    "tags": {
+     "CameraTemp1": -12.26,
+     "Camera_ExposureTime1": 800.0,
+     "PFS_OFFSET": 0,
+     "PFS_STATUS": 0,
+     "X": 1868.5,
+     "Y": 411.40000000000003,
+     "Z": 2133.04,
+     "Z1": 2133.04
+    }
+   }
+  ],
+  "acquired_at": "2022-05-20T06:45:49.592Z",
+  "acquired_at_unix_ms": 1653029149592
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: Z(3)\r\nCamera Name: Prime BSI, A21J204022\r\nNumerical Aperture: 1.49\r\nRefractive Index: 1.515\r\n Name: SORA BSI-640\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal, \r\n           CSU-W1 SoRa\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 800 ms\r\n  Readout Speed: 0.0MHz\r\n  Multiplier: Off\r\n  Temperature: -12.3\u00b0C\r\n  \r\n  Conversion Gain: HDR\r\n  Denoising: Off\r\n  Fan Speed: High\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  DIC Prism, position: In\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 100.0\r\n  LightPath: L100\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  PFS, state: Off\r\n  PFS, offset: 7189\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  LAPP Lower Ports:\r\n     Port 1: On  (EPI)\r\n     Port 2: Off  (2)\r\n  \r\n  CSU-W1, FilterChanger(Light Path Changer): 1 (Full)\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (SIM 405/488/561/640)\r\n  CSU-W1, FilterChanger(EM1 Wheel): 5 (Empty)\r\n  CSU-W1, FilterChanger(EM2 Wheel): 4 (Cy5 (Em))\r\n  CSU-W1, Shutter(CSU): Closed\r\n  CSU-W1, Shutter(CSU NIR): Open\r\n  CSU-W1, Observation Mode: Confocal\r\n  CSU-W1, rpm: 4000\r\n  CSU-W1, Disk Position: SoRa\r\n  NIDAQ, Shutter(AOTF): Active\r\n  NIDAQ, MultiLaser(AOTF):\r\n     Line:1; ExW:405; Power: 74.0; Off\r\n     Line:2; ExW:488; Power: 25.7; Off\r\n     Line:3; ExW:561; Power: 81.6; Off\r\n     Line:4; ExW:640; Power:100.0; On\r\n\r\nZ Stack Loop: 3\r\n- Step: 0.5 \u00b5m\r\n- Device: Ti2 ZDrive",
+  "capturing": "Prime BSI, A21J204022\r\nBinning: 1x1\r\nBit Depth: 16-bit\r\nExposure: 800 ms\r\nReadout Speed: 0.0MHz\r\nMultiplier: Off\r\nTemperature: -12.3\u00b0C\r\n\r\nConversion Gain: HDR\r\nDenoising: Off\r\nFan Speed: High\r\n",
+  "date": "5/20/2022  2:45:49 PM",
+  "optics": "Apo TIRF 60x Oil DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=1, heightPx=2048, pixelDataType='unsigned', sequenceCount=3, widthBytes=4096, widthPx=2048, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

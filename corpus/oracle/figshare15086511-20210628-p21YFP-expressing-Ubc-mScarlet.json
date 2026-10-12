@@ -1,0 +1,592 @@
+{
+ "id": "figshare15086511-20210628-p21YFP-expressing-Ubc-mScarlet",
+ "file": "figshare15086511-20210628-p21YFP-expressing-Ubc-mScarlet.nd2",
+ "size": 107417600,
+ "sha256": "5589f80a8a480c4c9332e14bc734e54631f133fe08816889b911a559592867f8",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 68,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 68, 'C': 3, 'Y': 512, 'X': 512}",
+   "physical_size_um": {
+    "x": 1.243468837293642,
+    "y": 1.243468837293642,
+    "z": null
+   },
+   "channel_names": [
+    "mCherry",
+    "TD",
+    "EYFP/pH 7"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c9d578da51405237747c4f5d6cfd3079"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "e93da10bb94fb9c0359bb1a5d5e4e20f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "df314bc55462d999d6cc91e58390b23e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 10,
+     "xxh3": "66ba0f08eff2ce57c23197eac53cdd4e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 13,
+     "xxh3": "0238b8b33ed70b119d04f1d52bc529d1"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 16,
+     "xxh3": "f74ae3677508c82aef10053b810382dc"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 19,
+     "xxh3": "586d2bc8b7277c3c29d18c5fb14d750e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 23,
+     "xxh3": "1921d25d277bfdbc5f3e9211cf18d746"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 26,
+     "xxh3": "5457fa3c6c255d2c2cb95398b43283e7"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 29,
+     "xxh3": "7dac1b7f8d3b77067398d9a17c580e23"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 32,
+     "xxh3": "491b3fd36ecea90a861e9e3e5f59578d"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 35,
+     "xxh3": "e18dbde3dc1fb7174e07c7ba9bfa2ee6"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 39,
+     "xxh3": "9fecc3c71d66e6296877f1c73f6fa4f4"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 42,
+     "xxh3": "882cbd7a272e9cbf8030d98221232238"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 45,
+     "xxh3": "5769e3ae8389ffcaec669f846b275323"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 48,
+     "xxh3": "b3d2184937a6859136c46b08c8aaeab1"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 52,
+     "xxh3": "ff0432b4142f9a00ae95d66918696967"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 55,
+     "xxh3": "a5e64213c5bf1ccc061577fd870d4248"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 58,
+     "xxh3": "19e66d9e029a8a4651934f03815a28df"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 61,
+     "xxh3": "8060f09161236ae2b0f86f74e4253355"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 64,
+     "xxh3": "60db5c7b83589bb8ec14e96545369b09"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b35e2724e5d7c57593a0ed91a4fc0130"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 3,
+     "xxh3": "2b7c913f66901101bb4d0b1dd99d3158"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 6,
+     "xxh3": "eb335e4760e9857e60d94688688554cd"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 9,
+     "xxh3": "ff59afc8279531c87f227136532798a7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 13,
+     "xxh3": "ac0e56983d65f881d22c2a6b3a24e291"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 16,
+     "xxh3": "e77c337f84c53bc77dd61d2af7a13770"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 19,
+     "xxh3": "7c31db55fbef31286a3ad8833a9e51eb"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 22,
+     "xxh3": "9c71de8150c0f98dacff6e021c7962fd"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 25,
+     "xxh3": "1068f03e80d3f059e5684cb7add810bd"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 29,
+     "xxh3": "06da48e86985746b39464ec0a7b307fe"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 32,
+     "xxh3": "12bd5c9c2e5db76dada40eb544187d56"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 35,
+     "xxh3": "ede37866710a27a9ac14a5f1e193da01"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 38,
+     "xxh3": "bbc18bb1f2022907bf0e55135a5b8f54"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 42,
+     "xxh3": "35ce8b9e8471c6851de902deccbe446c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 45,
+     "xxh3": "c4269fabda812ca38afb4988c3e1a49c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 48,
+     "xxh3": "9d4d8fcc207b893c38192327c287dc1a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 51,
+     "xxh3": "b378a141ae13db34b13f78664bf15fad"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 54,
+     "xxh3": "ff3d780b0cf14f30305af90fe2339803"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 58,
+     "xxh3": "a9896f293d97e52fd8e2b8f3a0659d29"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 61,
+     "xxh3": "ee9c337b242dc1652ee4a1e3883cfe45"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 64,
+     "xxh3": "b9af15b83517f4bd9d7ca896a2fefe41"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 67,
+     "xxh3": "9eccb26022e6b94877bad97c5e0db71e"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 3,
+     "xxh3": "55ac8bb108aebb220ad535b972c0f650"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 6,
+     "xxh3": "d82cfa18ed5b50706eab939d0fa86cf0"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 9,
+     "xxh3": "e12635fc28ab2ecf0f618b1d50a04f49"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 12,
+     "xxh3": "d5ecb2e2c6cacb389ef88b2228d13319"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 15,
+     "xxh3": "24748a08a8e4bf77300cac606d01f677"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 19,
+     "xxh3": "14e88c986ad1f7aa9b65827ef4294c8f"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 22,
+     "xxh3": "d068564b235e7f6601496ee40fcebe46"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 25,
+     "xxh3": "e855a41fa2535d2e9b5ddc43ab02a008"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 28,
+     "xxh3": "7e95237829aaab43a854448a19ac2d09"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 32,
+     "xxh3": "239de37330ffee34cda859228ceae4ec"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 35,
+     "xxh3": "79980bc47d319f5757df7ba9efe42680"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 38,
+     "xxh3": "2c00d7b22bbf26245ccbe6d97b945ef3"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 41,
+     "xxh3": "988b2d50c9d160bde3959e4811d4f8f6"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 44,
+     "xxh3": "69b33b7faaf5fc53a5722f751b09ae7a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 48,
+     "xxh3": "a2ddc6608a9c68f22ad14f1dc8f71dc9"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 51,
+     "xxh3": "cdf9cd8a3fa5faee4c2d17e19632aac3"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 54,
+     "xxh3": "d83b1a6614198b0ccd362b57134473c2"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 57,
+     "xxh3": "f0a4b79ec2f0c36dd8324b8e9da0ff99"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 61,
+     "xxh3": "dd1a38b97d9dfeb62aa7128205a21fa1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 64,
+     "xxh3": "6088b16060cd66786138dfcd2b7a7162"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 67,
+     "xxh3": "09459c0f118ef98abf41ec181f9c3c45"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "mCherry",
+    "color": "#FF0000",
+    "excitation_nm": 561.0,
+    "emission_nm": 595.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   },
+   {
+    "name": "TD",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "brightfield",
+     "laserScanConfocal",
+     "transmitDetector"
+    ]
+   },
+   {
+    "name": "EYFP/pH 7",
+    "color": "#92ED01",
+    "excitation_nm": 514.0,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   }
+  ],
+  "frame_count": 68,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 2343154.6586333113,
+    "tags": {}
+   },
+   {
+    "index": 3,
+    "time_ms": 10441896.60555007,
+    "tags": {}
+   },
+   {
+    "index": 6,
+    "time_ms": 18540088.534710933,
+    "tags": {}
+   },
+   {
+    "index": 9,
+    "time_ms": 26639241.39489298,
+    "tags": {}
+   },
+   {
+    "index": 12,
+    "time_ms": 34741840.26632058,
+    "tags": {}
+   },
+   {
+    "index": 15,
+    "time_ms": 42839607.18176096,
+    "tags": {}
+   },
+   {
+    "index": 17,
+    "time_ms": 48237849.450036995,
+    "tags": {}
+   },
+   {
+    "index": 20,
+    "time_ms": 56343118.1076517,
+    "tags": {}
+   },
+   {
+    "index": 23,
+    "time_ms": 64437892.22647738,
+    "tags": {}
+   },
+   {
+    "index": 26,
+    "time_ms": 72535695.14307998,
+    "tags": {}
+   },
+   {
+    "index": 29,
+    "time_ms": 80641229.80928211,
+    "tags": {}
+   },
+   {
+    "index": 32,
+    "time_ms": 88739159.82998796,
+    "tags": {}
+   },
+   {
+    "index": 35,
+    "time_ms": 96837532.76499213,
+    "tags": {}
+   },
+   {
+    "index": 38,
+    "time_ms": 104941185.47043999,
+    "tags": {}
+   },
+   {
+    "index": 41,
+    "time_ms": 113048379.9902262,
+    "tags": {}
+   },
+   {
+    "index": 44,
+    "time_ms": 121141959.17047642,
+    "tags": {}
+   },
+   {
+    "index": 47,
+    "time_ms": 129242907.98863627,
+    "tags": {}
+   },
+   {
+    "index": 50,
+    "time_ms": 137345145.74840635,
+    "tags": {}
+   },
+   {
+    "index": 52,
+    "time_ms": 142744027.0373115,
+    "tags": {}
+   },
+   {
+    "index": 55,
+    "time_ms": 150842344.97054008,
+    "tags": {}
+   },
+   {
+    "index": 58,
+    "time_ms": 158943060.88118112,
+    "tags": {}
+   },
+   {
+    "index": 61,
+    "time_ms": 167042287.74375212,
+    "tags": {}
+   },
+   {
+    "index": 64,
+    "time_ms": 175145144.52350566,
+    "tags": {}
+   },
+   {
+    "index": 67,
+    "time_ms": 183241195.48355085,
+    "tags": {}
+   }
+  ],
+  "acquired_at": "2021-06-28T10:23:11.140Z",
+  "acquired_at_unix_ms": 1624875791140
+ },
+ "text_info": {
+  "description": "Dimensions: T(68) x \u03bb(2)\r\nCamera Name: Nikon A1\r\nNumerical Aperture: 0.75\r\nRefractive Index: 1\r\nNumber of Picture Planes: 3\r\nPlane #1:\r\n Name: mCherry\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561\r\n  {First Filter Cube}: \r\n  {Second Filter Cube}: Through\r\n  {Third Filter Cube}: 595/50\r\n  CH3\t{Laser Wavelength}: 561.0\t{Laser Power}: 15.4\r\n  \t{PMT HV}: 95\t{PMT Offset}: -40\r\n  TD\t{PMT HV}: 51\t{PMT Offset}: 1\r\n  {Pinhole Size(um)}: 255.43\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.25\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH3,TD]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: Average\r\n  {Line Average/Integrate Count}: 2\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \r\n\r\n Microscope Settings:   Zoom: 1.00x\r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch Off\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 0.5\r\n  LightPath: L100\r\n  Analyzer: Extracted\r\n  PFS, state: Off\r\n  PFS, offset: 7507\r\n  PFS, mirror: Inserted\r\n  PFS, mirror: Inserted\r\n\r\nPlane #2:\r\n Name: TD\r\n Component Count: 1\r\n Modality: Brightfield, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561\r\n  {First Filter Cube}: \r\n  {Second Filter Cube}: Through\r\n  {Third Filter Cube}: 595/50\r\n  CH3\t{Laser Wavelength}: 561.0\t{Laser Power}: 15.4\r\n  \t{PMT HV}: 95\t{PMT Offset}: -40\r\n  TD\t{PMT HV}: 51\t{PMT Offset}: 1\r\n  {Pinhole Size(um)}: 255.43\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.25\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH3,TD]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: Average\r\n  {Line Average/Integrate Count}: 2\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \r\n\r\n Microscope Settings:   Zoom: 1.00x\r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch Off\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 0.5\r\n  LightPath: L100\r\n  Analyzer: Extracted\r\n  PFS, state: Off\r\n  PFS, offset: 7507\r\n  PFS, mirror: Inserted\r\n  PFS, mirror: Inserted\r\n\r\nPlane #3:\r\n Name: EYFP/pH 7\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 457/514\r\n  {First Filter Cube}: \r\n  {Second Filter Cube}: 540/30\r\n  {Third Filter Cube}: Through\r\n  CH2\t{Laser Wavelength}: 514.0\t{Laser Power}: 7.5\r\n  \t{PMT HV}: 100\t{PMT Offset}: -25\r\n  {Pinhole Size(um)}: 255.43\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.25\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH2,TD]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: Average\r\n  {Line Average/Integrate Count}: 2\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \r\n\r\n Microscope Settings:   Zoom: 1.00x\r\n  Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch Off\r\n  Nikon Ti, Illuminator(Illuminator-DIA): On\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: 0.5\r\n  LightPath: L100\r\n  Analyzer: Extracted\r\n  PFS, state: Off\r\n  PFS, offset: 7507\r\n  PFS, mirror: Inserted\r\n  PFS, mirror: Inserted\r\n\r\nTime Loop: 68\r\n- Equidistant (Period 2700000 ms)\r\n",
+  "capturing": "Nikon A1\r\nSample 1:\r\n                \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561\r\n  {First Filter Cube}: \r\n  {Second Filter Cube}: Through\r\n  {Third Filter Cube}: 595/50\r\n  CH3\t{Laser Wavelength}: 561.0\t{Laser Power}: 15.4\r\n  \t{PMT HV}: 95\t{PMT Offset}: -40\r\n  TD\t{PMT HV}: 51\t{PMT Offset}: 1\r\n  {Pinhole Size(um)}: 255.43\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.25\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH3,TD]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: Average\r\n  {Line Average/Integrate Count}: 2\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \r\n\r\nSample 2:\r\n                \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 457/514\r\n  {First Filter Cube}: \r\n  {Second Filter Cube}: 540/30\r\n  {Third Filter Cube}: Through\r\n  CH2\t{Laser Wavelength}: 514.0\t{Laser Power}: 7.5\r\n  \t{PMT HV}: 100\t{PMT Offset}: -25\r\n  {Pinhole Size(um)}: 255.43\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.25\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH2,TD]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: Average\r\n  {Line Average/Integrate Count}: 2\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \r\n",
+  "sampling": "MaxIP",
+  "date": "28/06/2021  11:23:11",
+  "optics": "Plan Apo VC 20x DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=3, heightPx=512, pixelDataType='unsigned', sequenceCount=68, widthBytes=3072, widthPx=512, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=3)"
+}

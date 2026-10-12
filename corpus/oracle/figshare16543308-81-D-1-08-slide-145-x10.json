@@ -1,0 +1,90 @@
+{
+ "id": "figshare16543308-81-D-1-08-slide-145-x10",
+ "file": "figshare16543308-81-D-1-08-slide-145-x10.nd2",
+ "size": 5644288,
+ "sha256": "a76e37aad5e91011e9244bd1b5801864fb6e59ae975fd3ac312f4ba6cb657ba1",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1344,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 1024, 'X': 1344}",
+   "physical_size_um": {
+    "x": 0.645014880952381,
+    "y": 0.645014880952381,
+    "z": null
+   },
+   "channel_names": [
+    "TRITC",
+    "DA"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e3411b0e52e9eaafe579b839557df629"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8900349767d98c63416e8639adea8dbe"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "TRITC",
+    "color": "#FF0000",
+    "excitation_nm": 540.5,
+    "emission_nm": 620.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "DA",
+    "color": "#0066FF",
+    "excitation_nm": 360.0,
+    "emission_nm": 460.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1814.1310601234436,
+    "tags": {
+     "Camera_ExposureTime1": 1100.0,
+     "Z": -278.2
+    }
+   }
+  ],
+  "acquired_at": "2019-10-10T19:48:10.331Z",
+  "acquired_at_unix_ms": 1570736890331
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(2)\r\nCamera Name: ORCA-R2, SN:3Y0013\r\nNumerical Aperture: 0.45\r\nRefractive Index: 1\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: TRITC\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 1.1 s\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Contrast Gain: 0\r\n  Low Light Mode: Off\r\n Microscope Settings:   Microscope: Nikon 90i Microscope\r\n  90i, 80i, DIH, FilterChanger(Turret): 4 (TRITC)\r\n  90i, 80i, DIH, Shutter(EPI): Opened\r\n  90i, 80i, DIH, Illuminator(Illuminator (DIA)): Off\r\n  90i, 80i, DIH, Illuminator(Illuminator (DIA)) Voltage: -1.0\r\n  LightPath: Front\r\n  Field Stop: 5.9 mm\r\n  EpiField Stop: 6.3 mm\r\n  Analyzer: Extracted\r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: DA\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 200 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Contrast Gain: 0\r\n  Low Light Mode: Off\r\n Microscope Settings:   Microscope: Nikon 90i Microscope\r\n  90i, 80i, DIH, FilterChanger(Turret): 2 (DAPI)\r\n  90i, 80i, DIH, Shutter(EPI): Opened\r\n  90i, 80i, DIH, Illuminator(Illuminator (DIA)): Off\r\n  90i, 80i, DIH, Illuminator(Illuminator (DIA)) Voltage: -1.0\r\n  LightPath: Front\r\n  Field Stop: 5.9 mm\r\n  EpiField Stop: 6.3 mm\r\n  Analyzer: Extracted\r\n  Zoom: 1.00x",
+  "capturing": "ORCA-R2, SN:3Y0013\r\nSample 1:\r\n  Exposure: 1.1 s\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Contrast Gain: 0\r\n  Low Light Mode: Off\r\nSample 2:\r\n  Exposure: 200 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Contrast Gain: 0\r\n  Low Light Mode: Off",
+  "date": "10/10/2019  3:48:10 PM",
+  "optics": "Plan Apo 10x"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=2, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=5376, widthPx=1344, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}
