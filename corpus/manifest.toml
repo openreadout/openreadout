@@ -73017,3 +73017,331 @@ license_checked = "https://figshare.com/articles/dataset/13601282 (licence CC BY
 source = "Figshare 13601282 'peptides_CD and FRET', DK_27xi20.txt"
 attribution = "Laurents, Douglas V."
 notes = "JASCO Spectra Manager text export of the same measurement: CD[mdeg] and HT[V] columns."
+
+[[file]]
+id = "oept-v067-legacy"
+format = "open-ephys"
+role = "input"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101"
+url = ""
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "Open Ephys GUI 0.6.7 legacy-format (Open Ephys format) recording node: 16 .continuous channels, .events, .timestamps, messages.events, settings.xml and structure.openephys; read as one directory"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-events"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data.events"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data.events"
+sha256 = "859bb6e4d5829a273b5e54f4bc5c0ac11c5e4219ee2e3594af4f994dfe482b7f"
+size = 3072
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-timestamps"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data.timestamps"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data.timestamps"
+sha256 = "2c0f74f9d96f93dcbea2261e391fc18c704bdc31deca187fddf6b617f72c5c62"
+size = 1040
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch1-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH1.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH1.continuous"
+sha256 = "b53fe572d3cc67cf2cc7ba32772eca59abe3af37cfa404a5e4aab5d638ba99ca"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch10-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH10.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH10.continuous"
+sha256 = "c9d5040ee4b28d9ffbe1e95a3223670e1382e013810fc9a88ec05303269dcd16"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch11-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH11.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH11.continuous"
+sha256 = "e5892e9435862e3d560afcee26fd621e615ff6f1f64f1c5384b83760c317c915"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch12-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH12.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH12.continuous"
+sha256 = "7682c365fe46795f8ae7a63372d705bff8a14657d4c39120762757ad477e3fca"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch13-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH13.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH13.continuous"
+sha256 = "7c7cb886cdaa8088a4a6a8b8c97d180b5c8fd18154b5b38a015e755c5aad8885"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch14-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH14.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH14.continuous"
+sha256 = "be72beeece16ddf13ae35cd73c9e847ae255a3d9c5ff9a71e6ed493de945b31e"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch15-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH15.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH15.continuous"
+sha256 = "9bb7b95006eec755e51306e2f854392b3a5f81d88ed8a0801337cf095cf49894"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch16-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH16.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH16.continuous"
+sha256 = "3d731fb4634eb9f06df7e7f57c68e37c573764aa45d278982121051e867df97a"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch2-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH2.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH2.continuous"
+sha256 = "ff577be8c6db7bacf15a0f680a944ddbfee06eabf0187803c4a6983963dde928"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch3-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH3.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH3.continuous"
+sha256 = "d936a217e733b7b1228cdfa4e004e6a817ba03b9746c3998a7588f8ee9a29852"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch4-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH4.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH4.continuous"
+sha256 = "69a1612fc0f71c74b348b27307fe66199890ffb003cd9702175862789679c335"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch5-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH5.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH5.continuous"
+sha256 = "a567a9180f5b1b96820ea09eb13f2c7419c4a9ecf9492a1e94e3a1c4b2f24bd1"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch6-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH6.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH6.continuous"
+sha256 = "35a16bb3423b09dd00d6c5ae87240f1eeeb5648fadb5d6f173c9b52939835832"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch7-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH7.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH7.continuous"
+sha256 = "a1e4db917c32ae87a6c75b01fd118bebbac31bc97f34109a1470d429590c4b60"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch8-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH8.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH8.continuous"
+sha256 = "ebdac9e397c045524991246173cd49bf1a6632194322daae9ba08105ff0978a1"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-100-example-data-ch9-continuous"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/100_example-data_CH9.continuous"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/100_example-data_CH9.continuous"
+sha256 = "7c3f1b306a868899936a3a135b97c9f79c9ce8f3d0f21ed0b09b4dea2a1830a2"
+size = 270124
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-messages-events"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/messages.events"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/messages.events"
+sha256 = "4e9d46983bae686cae973808c2e1d2c983d9c00aa2facffc6e03705448216640"
+size = 560
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-settings-xml"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/settings.xml"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/settings.xml"
+sha256 = "c22e6cfd91b710ab584c465974fa7cdedb37b303e184cc2db9200380589b4ff4"
+size = 15871
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
+
+[[file]]
+id = "oept-v067-legacy-structure-openephys"
+format = "open-ephys"
+role = "part"
+tier = "standard"
+filename = "oept-v067-legacy/Record Node 101/structure.openephys"
+url = "https://raw.githubusercontent.com/open-ephys/open-ephys-python-tools/4032c290bbfde85320dc95ab53e83251cdae7edb/tests/data/v0.6.7_OpenEphys/Record%20Node%20101/structure.openephys"
+sha256 = "1d6dbc7a0a67f11bb09204fdb11e4609ab9853a851e94cdde9b0ae95e499f2ee"
+size = 2556
+license = "MIT"
+license_checked = "https://github.com/open-ephys/open-ephys-python-tools (LICENSE: MIT, GitHub API), 2026-10-12"
+source = "open-ephys/open-ephys-python-tools test data (tests/data/v0.6.7_OpenEphys), pinned to commit 4032c29"
+attribution = "Open Ephys"
+notes = "part of oept-v067-legacy"
