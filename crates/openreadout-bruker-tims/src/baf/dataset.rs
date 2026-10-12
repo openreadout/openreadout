@@ -227,7 +227,7 @@ impl BafDataset {
             while at < len {
                 let (rlen, tag) = record_head(&file, &baf, at, len)?;
                 if matches!(tag, TAG_SEGMENT | TAG_SPECTRUM | TAG_PROFILE | TAG_LINES) {
-                    let id_at = if tag == TAG_SEGMENT { 16 } else { 12 };
+                    let id_at = if matches!(tag, TAG_SEGMENT | TAG_SPECTRUM) { 16 } else { 12 };
                     let r = read_exact(&file, &baf, at + id_at, 4)?;
                     offsets
                         .entry(tag)

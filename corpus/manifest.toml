@@ -7396,6 +7396,8 @@ source = "ProteoWizard vendor-reader test data (github.com/ProteoWizard/pwiz, co
 attribution = "ProteoWizard developers and the laboratories that contributed the test files"
 notes = "apex-Qe FT-ICR (ApexControl 3.0, 2008, writer BCC4_3_72_0): one MS1 spectrum with a float32 profile of 433 465 samples, FT-ICR calibration. Reference: pwiz-bruker-csi-apexqe-mzml"
 bundle = "pwiz-bruker-testdata"
+mz_references = ["pwiz-bruker-csi-apexqe-mzml"]
+mz_match = "scan-number"
 
 [[file]]
 id = "pwiz-bruker-csi-apexqe-mzml"
@@ -51889,6 +51891,8 @@ source = "MetaboLights MTBLS4823, RAW_FILES/neg_Ex3_L_UE_Null_11-MSMS_1-D__3_01_
 attribution = "MTBLS4823 submitters"
 notes = "3538 spectra (1523 MS1, 2015 MS/MS), centroids of all f32 arrays (element code 1), kind-3 calibration with a Calibrator.ami recalibration"
 bundle = "mtbls4823-baf-microtofq-zip"
+mz_references = ["mtbls4823-baf-microtofq-mzml"]
+mz_match = "scan-number"
 
 [[file]]
 id = "mtbls4823-baf-microtofq-mzml"
@@ -51931,6 +51935,8 @@ source = "MetaboLights MTBLS14117, RAW_FILES/ACN_RA1_1_41512.d.zip"
 attribution = "MTBLS14117 submitters"
 notes = "5845 spectra (1787 MS1, 4058 MS/MS); the depositor's mzML was written by CompassXport (recalibrated, retention times in minutes to 6 digits)"
 bundle = "mtbls14117-baf-impacthd-zip"
+mz_references = ["mtbls14117-baf-impacthd-mzml"]
+mz_match = "scan-number"
 
 [[file]]
 id = "mtbls14117-baf-impacthd-mzml"
@@ -51959,6 +51965,8 @@ license = "CC0-1.0"
 source = "MassIVE MSV000080036 (dataset licence CC0 1.0 Universal), raw/Myo-in-TD1112_7-50uguL_P1-E-1_01_111.d/analysis.baf"
 attribution = "Delphine Vincent and MSV000080036 contributors"
 notes = "maXis (otofControl 3.4, 2016): 8 MS1 spectra with packed profiles of 395 808 samples, kind-10 calibration; the depositor's mzML holds the full profiles"
+mz_references = ["msv000080036-baf-maxis-mzml"]
+mz_match = "scan-number"
 
 [[file]]
 id = "msv000080036-baf-maxis-ami"
@@ -52001,6 +52009,8 @@ license = "CC0-1.0"
 source = "MassIVE MSV000088109 (dataset licence CC0 1.0 Universal), raw/Raw_Spectrum_Files/Dunbar_83A_15Jan18_Alder_Infuse_1_01_26514.d/analysis.baf"
 attribution = "John Dunbar and MSV000088109 contributors (Campbell et al., Front Microbiol 2022)"
 notes = "solariX FT-ICR (2018), direct infusion: 1 MS1 spectrum with a float32 profile of 7 472 642 samples"
+mz_references = ["msv000088109-baf-solarix-mzml"]
+mz_match = "scan-number"
 
 [[file]]
 id = "msv000088109-baf-solarix-mzml"
@@ -52029,6 +52039,8 @@ license = "CC0-1.0"
 source = "MassIVE MSV000094648 (dataset licence CC0 1.0 Universal), raw/keb-syn1__24374.d/analysis.baf"
 attribution = "Philip Yong-Xin Li and MSV000094648 contributors"
 notes = "impact II (otofControl 4.1, 2023), auto MS/MS, no analysis.sqlite: 2606 spectra (1555 MS1, 1051 MS/MS)"
+mz_references = ["msv000094648-baf-impact2-mzml"]
+mz_match = "scan-number"
 
 [[file]]
 id = "msv000094648-baf-impact2-ami"
