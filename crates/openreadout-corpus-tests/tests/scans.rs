@@ -65,6 +65,10 @@ struct Entry {
     /// `tests/corpus/`): neither is compared.
     #[serde(default)]
     precursor_not_compared: Option<String>,
+    /// The export's precursor charges come from its converter (see `tests/corpus/`): not
+    /// compared.
+    #[serde(default)]
+    charge_not_compared: Option<String>,
     /// The export calls a full scan with a collision energy MS2, with the centre of its scan
     /// window as the precursor (see `tests/corpus/`): level, precursor and activation are not
     /// compared on such scans.
@@ -242,6 +246,7 @@ fn compare(h: &ScanHeader, s: &OracleScan, e: &Entry, same_file: bool) -> Vec<St
     }
     if let Some(c) = s.precursor_charge
         && c != 0
+        && e.charge_not_compared.is_none()
         && h.precursor_charge != Some(c)
     {
         m.push(format!("charge {:?} != {c}", h.precursor_charge));

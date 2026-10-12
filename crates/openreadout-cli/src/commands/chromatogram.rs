@@ -230,6 +230,10 @@ pub struct ChromatogramArgs {
     pub overwrite: bool,
     #[arg(long)]
     pub json: bool,
+    /// Correct m/z with the lock-spray reference scans before extracting (Waters `.raw`): the
+    /// lock compound's m/z, or `auto` for the Lock Mass the file records. Off by default.
+    #[arg(long, value_name = "MZ|auto")]
+    pub lock_mass: Option<String>,
 }
 
 impl Item for ChromatogramOutput {
@@ -256,10 +260,19 @@ pub fn extract_file(
     path: &Path,
     req: &ChromRequest,
     show_progress: bool,
+    lock_mass: Option<&str>,
 ) -> Result<(ChromatogramOutput, Box<dyn Dataset>)> {
-    let (_, mut ds) = reg.open(path)?;
+    let (det, mut ds) = reg.open(path)?;
+    crate::commands::spectra::apply_lock_mass(ds.as_mut(), lock_mass, det.format_id)?;
     let info = ds.info()?;
-    let opener = || -> Result<Box<dyn Dataset>> { reg.open(path).map(|(_, d)| d) };
+    let opener = || -> Result<Box<dyn Dataset>> {
+        let (det, mut d) = reg.open(path)?;
+        if lock_mass.is_some() {
+            d.set_lock_mass(lock_mass.and_then(|m| m.parse().ok()))
+                .map_err(|e| Error::Usage(format!("--lock-mass on {}: {e}", det.format_id)))?;
+        }
+        Ok(d)
+    };
     let bar: OnceLock<Progress> = OnceLock::new();
     let progress = |done: u64, total: u64| {
         if show_progress {
@@ -372,7 +385,8 @@ pub fn run(reg: &Registry, a: &ChromatogramArgs) -> i32 {
             stdin: Stdin::Spool,
         },
         &mut |input| {
-            let (mut out, _) = extract_file(reg, input.path, &req, !input.batch)?;
+            let (mut out, _) =
+                extract_file(reg, input.path, &req, !input.batch, a.lock_mass.as_deref())?;
             if let Some(o) = &a.output {
                 write_output(input.path, o, &out, a.width, a.overwrite)?;
                 out.output = Some(o.display().to_string());

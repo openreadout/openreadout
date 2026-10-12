@@ -29,7 +29,8 @@ All integers and floats little-endian.
     sample_info.xml     sample name, position, method path, operator, ...
     AcqMethod.xml       method report (the method name is read)
     <Module><n>.cd/.cg  device signals: descriptor + data (validated layout, see below)
-    MSPeriodicActuals.bin, MSActualDefs.xml, DAD1.sd/.sp, MSTree2.bin, *.m/   listed, not decoded
+    DAD1.sd + DAD1.sp                                                   DAD spectra (trace `DAD1 spectra`)
+    MSPeriodicActuals.bin, MSActualDefs.xml, MSTree2.bin, *.m/           listed, not decoded
     IMSFrame.bin        ion-mobility frame index (6560 IM-MS; validated, see below)
     IMSFrame.xsd        the frame record's field list (schema, read to build the layout)
     IMSFrameMeth.xml    frame methods: drift-bin width, flight-time grid, polarity, calibration id
@@ -154,6 +155,8 @@ Validated layout (every corpus descriptor parses to its exact length; every bloc
 
 `.cg` block at `offset` (`signal_block`): f64 start time (min), f64 interval (min), then `count` f64 values. Exposed as traces after TIC and BPC: time (s) and value × scale.
 
+**DAD spectra** (`DADn.sd` index, `DADn.sp` values; `parse_dad_index`, `DadRecord`, `dad_values`, `DAD_RECORD`) — validated: all 520 spectra of `pwiz-agilent-tof-sulfas` equal its ProteoWizard export (times, wavelengths, values as f32; corpus test, `dad_spectra` in the oracle); the layout holds in three more files (every record chains through `.sp`, and its stored mean and end values equal those of its values). `.sd`: u32 at 0x4C the first record's offset (0xA4), u32 at 0x50 the record count, then 80-byte records: u32 `number` (from 1), f64 `time_min`, f64 `mean` of the values, f64 `step_nm`, u32 1, u32 `offset` into `.sp`, u32 0, u32 `byte_len` (16 + 8 × points), u32 `points`, f64 `first_nm`, f64 `last_nm`, f64 first and last value. `.sp` at `offset`: f64 first wavelength, f64 step, then `points` f64 values. Exposed after the device signals as one trace per `.sd` (`DAD1 spectra`, `extra.kind` `DAD spectra`, `wavelength_range_nm`): channel 0 the time (s), then one channel per wavelength (`230 nm`, `extra.wavelength_nm`, the unit of the detector's own `.cd` signals when they share one), one sample per spectrum. An index whose spectra use different wavelength grids is not exposed (a note says so).
+
 ## XML metadata (`Device`, `devices`, `sample_fields`, `tag_text`)
 
 - `Contents.xml`: `AcquiredTime` → `extra.acquired_at`; `AcqSoftwareVersion` → `instrument.software_version`; `InstrumentName` → `extra.instrument_name`.
@@ -164,7 +167,7 @@ Validated layout (every corpus descriptor parses to its exact length; every bloc
 
 ## Normalized output
 
-- `spectra[0]`: one run; `scan_count`, `ms_levels`, `rt_range_s`, `instrument` (manufacturer Agilent Technologies, the MS module's model number, "MassHunter Data Acquisition" and its version), `extra` as above plus `polarities`, `scan_types`, `stored_spectra` (`centroid`, `profile`, `profile+centroid`), `method_summary.devices` (module names).
+- `spectra[0]`: one run; `scan_count`, `ms_levels`, `rt_range_s`, `instrument` (manufacturer Agilent Technologies, the MS module's model number, "MassHunter Data Acquisition" and its version), `extra` as above plus `polarities`, `scan_types`, `stored_spectra` (`centroid`, `profile`, `profile+centroid`), `method_summary.devices` (module names). MRM runs add `mrm_transitions` (`count`: one per product of each scan method, time segment and precursor of the MRM scans; `precursor_product_pairs`; `counted_as`; `table`), and `tables[0]` (`MRM transitions`, `table FILE`) lists them: scan method, Q1, Q3 (the one-point block's `MinX`; for scans with several products, the point list of the scan with the most), products, collision energy, polarity and the first and last scan time. A dynamic-MRM method gives each transition row its own `ScanMethodID`, so a Q1/Q3 pair measured in two windows counts twice, as the depositors' SRM chromatograms do (424, 486, 116, 113 and 4 on the five development MRM files). In the two pwiz files whose MRM time segments hold several products per scan (8 and 2 transitions), the exports split transitions whose stored product m/z varies in the last float digit between scans (16 and 3 chromatograms).
 - Spectra: `scan_number` = `ScanID`, `native_id` `scanId=N`, `rt_s`, `polarity`, `centroided`, `precursor_mz`/`precursor_charge`/`collision_energy` for MS level ≥ 2 (the energy's magnitude: negative-ion scans store it negated, −20 where the method sets 20; neutral-loss scans, `ScanType` 2048, report no precursor: their `MzOfInterest` is the loss, `extra.neutral_loss_mz`), `activation` `HCD` (beam-type CID, MS:1000422, as the exports label Q-TOF and triple-quadrupole product-ion scans) and `CID` for MRM point lists, ion-mobility `extra.frame`, `extra.drift_bin`, `extra.drift_time_ms`, `scan_window_mz` = [`MinX`, `MaxX`], `total_ion_current`, `base_peak_*`; `extra`: `scan_type`, `fragmentor_v`, `ion_mode`, `scan_method`, `time_segment`, `cycle`, `parent_scan`. `SpectrumView::Primary` returns the profile when recorded, `Centroid` the peak list.
 - MRM (triple quadrupole) scans are one-point spectra: Q1 = `precursor_mz`, Q3 = the point's m/z; the corpus harness rebuilds every SRM chromatogram of the export from them.
 - Traces: `TIC`, `BPC` (all scans), then each device signal.
@@ -203,5 +206,6 @@ Validated layout (every corpus descriptor parses to its exact length; every bloc
 | `Calibration`, `a`, `t0`, `range`, `terms`, `from_values`, `mz`, `mass_cal_values` | layout | flight time → m/z |
 | `DefaultCalibration`, `flags`, `formulas`, `default_calibrations` | layout | `DefaultMassCal.xml` |
 | `SignalDef`, `description`, `kind`, `count`, `unit`, `scale`, `SignalDirectory`, `device_id`, `signals`, `signal_directory`, `signal_block` | layout | device signals |
+| `DAD_RECORD`, `DadRecord`, `number`, `time_min`, `mean`, `step_nm`, `offset`, `byte_len`, `points`, `first_nm`, `last_nm`, `parse_dad_index`, `dad_values` | layout | DAD spectra (`DADn.sd`, `DADn.sp`) |
 
 Schema field names quoted above (`ScanID`, `MzOfInterest`, …) are the file's own and appear only in `info --view full` output.

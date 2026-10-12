@@ -101,6 +101,7 @@ pub mod stats;
 pub mod strict;
 pub mod time;
 pub mod trace;
+pub mod transitions;
 pub mod vocab;
 pub mod xml;
 pub mod xmljson;

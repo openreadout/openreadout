@@ -591,6 +591,24 @@ impl MzmlDataset {
         extra.insert("profile_spectra".into(), json!(profile));
         extra.insert("total_points".into(), json!(points));
         extra.insert("chromatogram_count".into(), json!(self.chromatograms.len()));
+        // SRM/MRM transitions: one per SRM chromatogram (MS:1001473), or per chromatogram
+        // with both a precursor and a product.
+        if let Ok(meta) = self.chrom_meta() {
+            let srm = meta
+                .iter()
+                .filter(|m| {
+                    m.kind.as_ref().is_some_and(|k| k.accession == "MS:1001473")
+                        || (m.extra.contains_key("precursor_mz")
+                            && m.extra.contains_key("product_mz"))
+                })
+                .count();
+            if srm > 0 {
+                extra.insert(
+                    "mrm_transitions".into(),
+                    json!({"count": srm, "counted_as": "one per SRM chromatogram"}),
+                );
+            }
+        }
         extra.insert("indexed".into(), json!(self.written_index.is_some()));
         if let Some(img) = &self.imaging {
             extra.insert("imaging".into(), self.imaging_summary(img));

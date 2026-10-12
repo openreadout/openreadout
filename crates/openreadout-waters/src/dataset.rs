@@ -224,6 +224,96 @@ pub struct WatersRawDataset {
     drift_order: Vec<(usize, usize, u64, u64)>,
     /// The last scan whose drift bins were decoded: (function, scan) → per bin (m/z, intensity).
     drift_cache: Option<((usize, usize), DriftSpectra)>,
+    /// Lock-mass correction requested with `set_lock_mass`, applied to the spectra read after.
+    lock: Option<LockCorrection>,
+}
+
+/// A lock-mass correction: the reference m/z and, per lock-spray scan that holds the lock peak,
+/// its retention time (s) and its factor reference / measured.
+#[derive(Debug, Clone)]
+struct LockCorrection {
+    reference_mz: f64,
+    points: Vec<(f64, f64)>,
+}
+
+/// Lock-spray scans within this many seconds of a scan are averaged into its factor.
+const LOCK_AVERAGE_S: f64 = 60.0;
+/// Half width of the window searched for the lock peak, relative to the reference m/z.
+const LOCK_WINDOW_PPM: f64 = 500.0;
+/// A local maximum smaller than this fraction of the window's largest point is not a lock peak.
+const LOCK_MIN_FRACTION: f32 = 0.1;
+
+impl LockCorrection {
+    /// The factor at retention time `t` (s): the mean factor of the lock-spray scans within
+    /// `LOCK_AVERAGE_S` of it, or the nearest scan's when none is that close.
+    fn factor(&self, t: f64) -> f64 {
+        let near: Vec<f64> = self
+            .points
+            .iter()
+            .filter(|p| (p.0 - t).abs() <= LOCK_AVERAGE_S)
+            .map(|p| p.1)
+            .collect();
+        if near.is_empty() {
+            self.points
+                .iter()
+                .min_by(|a, b| (a.0 - t).abs().total_cmp(&(b.0 - t).abs()))
+                .map_or(1.0, |p| p.1)
+        } else {
+            near.iter().sum::<f64>() / near.len() as f64
+        }
+    }
+}
+
+/// The measured m/z of the lock peak near `reference` in one lock-spray scan: the point
+/// flagged as the lock peak when there is one (nearest the reference); else, of the local
+/// maxima within `LOCK_WINDOW_PPM` of the reference at least `LOCK_MIN_FRACTION` of the
+/// largest, the one nearest the reference, as the intensity-weighted centroid of the contiguous
+/// points above half its height.
+fn measure_lock_peak(
+    mz: &[f64],
+    intensity: &[f32],
+    flagged: &[f64],
+    reference: f64,
+) -> Option<f64> {
+    let half = (reference * LOCK_WINDOW_PPM * 1e-6).max(0.05);
+    if let Some(m) = flagged
+        .iter()
+        .copied()
+        .filter(|m| (m - reference).abs() <= half)
+        .min_by(|a, b| (a - reference).abs().total_cmp(&(b - reference).abs()))
+    {
+        return Some(m);
+    }
+    let lo = mz.partition_point(|&m| m < reference - half);
+    let hi = mz.partition_point(|&m| m <= reference + half);
+    let largest = (lo..hi).map(|k| intensity[k]).fold(0.0f32, f32::max);
+    if largest <= 0.0 {
+        return None;
+    }
+    let is_max = |k: usize| {
+        let v = intensity[k];
+        v >= largest * LOCK_MIN_FRACTION
+            && (k == 0 || intensity[k - 1] <= v)
+            && intensity.get(k + 1).is_none_or(|&n| n < v)
+    };
+    let k = (lo..hi).filter(|&k| is_max(k)).min_by(|&a, &b| {
+        (mz[a] - reference)
+            .abs()
+            .total_cmp(&(mz[b] - reference).abs())
+    })?;
+    let apex = intensity[k];
+    let (mut a, mut b) = (k, k);
+    while a > lo && intensity[a - 1] > apex / 2.0 {
+        a -= 1;
+    }
+    while b + 1 < hi && intensity[b + 1] > apex / 2.0 {
+        b += 1;
+    }
+    let (num, den) = (a..=b).fold((0.0, 0.0), |(n, d), j| {
+        let w = f64::from(intensity[j]);
+        (n + mz[j] * w, d + w)
+    });
+    (den > 0.0).then(|| num / den)
 }
 
 /// One scan's drift bins as spectra: per bin, m/z and intensity arrays.
@@ -514,6 +604,7 @@ impl WatersRawDataset {
         Ok(WatersRawDataset {
             drift_order,
             drift_cache: None,
+            lock: None,
             path: path.to_path_buf(),
             fs: fs.clone(),
             files,
@@ -1137,14 +1228,31 @@ impl WatersRawDataset {
         // The 12-byte layout is validated bit for bit with the calibrated mass rounded to single
         // precision; the 6- and 8-byte layouts keep double precision.
         let round32 = f.bytes_per_value == Some(12);
+        // A requested lock-mass correction multiplies every m/z of the scan by one factor.
+        let lock = self
+            .lock
+            .as_ref()
+            .map(|l| (l.reference_mz, l.factor(f64::from(s.rt_min) * 60.0)));
+        let k = lock.map_or(1.0, |l| l.1);
         let mut pts: Vec<(f64, f32)> = pairs
             .iter()
             .map(|&(m, i)| {
-                let m = cal.map_or(m, |c| c.apply(m));
+                let m = cal.map_or(m, |c| c.apply(m)) * k;
                 let m = if round32 { f64::from(m as f32) } else { m };
                 (m, i as f32)
             })
             .collect();
+        if let Some((reference, factor)) = lock {
+            sp.extra.insert(
+                "lock_mass_correction".into(),
+                json!({
+                    "reference_mz": reference,
+                    "factor": factor,
+                    "ppm": (factor - 1.0) * 1e6,
+                    "rule": "reference / lock peak measured in each lock-spray scan, mean over the lock-spray scans within 60 s (else the nearest)",
+                }),
+            );
+        }
         // Flagged points: the lock-mass peak of a reference scan (0x40), others counted.
         let lock_peaks: Vec<f64> = flags
             .iter()
@@ -1888,6 +1996,59 @@ impl Dataset for WatersRawDataset {
         Ok(true)
     }
 
+    fn set_lock_mass(&mut self, reference_mz: Option<f64>) -> Result<bool> {
+        let refs: Vec<u64> = self
+            .order
+            .iter()
+            .enumerate()
+            .filter(|(_, (fi, _))| self.functions[*fi].is_reference())
+            .map(|(k, _)| k as u64)
+            .collect();
+        if refs.is_empty() {
+            return Ok(false);
+        }
+        let reference = reference_mz
+            .or(self.extern_info.lock_mass)
+            .filter(|m| m.is_finite() && *m > 0.0)
+            .ok_or_else(|| {
+                Error::Usage(
+                    "this file records no Lock Mass: give the lock compound's m/z (--lock-mass MZ)"
+                        .into(),
+                )
+            })?;
+        self.lock = None;
+        let mut measured = Vec::new();
+        for k in refs {
+            let sp = self.spectrum_at(k)?;
+            let flagged: Vec<f64> = sp
+                .extra
+                .get("lock_mass_peak_mz")
+                .and_then(Value::as_array)
+                .map(|a| a.iter().filter_map(Value::as_f64).collect())
+                .unwrap_or_default();
+            if let (Some(t), Some(m)) = (
+                sp.rt_s,
+                measure_lock_peak(&sp.mz, &sp.intensity, &flagged, reference),
+            ) {
+                measured.push((t, reference / m));
+            }
+        }
+        if measured.is_empty() {
+            return Err(Error::unsupported(
+                WATERS_ID,
+                format!("lock-mass correction at m/z {reference}"),
+                format!(
+                    "No lock-spray scan holds a peak within {LOCK_WINDOW_PPM} ppm of {reference}; check the lock compound's m/z."
+                ),
+            ));
+        }
+        self.lock = Some(LockCorrection {
+            reference_mz: reference,
+            points: measured,
+        });
+        Ok(true)
+    }
+
     fn read_spectrum(&mut self, index: u32, spectrum: u64) -> Result<Spectrum> {
         if index == 1 && self.drift_count() > 0 {
             return self.drift_spectrum(spectrum);
@@ -2115,5 +2276,44 @@ impl Dataset for WatersRawDataset {
             }
         }
         Ok(r)
+    }
+}
+
+#[cfg(test)]
+mod lock_tests {
+    use super::*;
+
+    /// The first lock-spray scan of `ATEHLSTLSEK_profile.raw`: a weak lock peak at 684.369 next
+    /// to a stronger unrelated one at 684.209; the lock peak is the significant maximum nearest
+    /// the reference.
+    #[test]
+    fn lock_peak_is_the_nearest_significant_maximum() {
+        let mz = [
+            684.186, 684.198, 684.209, 684.221, 684.358, 684.369, 684.380,
+        ];
+        let it = [52.0f32, 111.0, 231.0, 176.0, 10.0, 35.0, 18.0];
+        let m = measure_lock_peak(&mz, &it, &[], 684.3469).unwrap();
+        assert!((m - 684.3727).abs() < 0.001, "{m}");
+        // a flagged lock peak wins; nothing near the reference gives none
+        assert_eq!(
+            measure_lock_peak(&mz, &it, &[684.35], 684.3469),
+            Some(684.35)
+        );
+        assert_eq!(measure_lock_peak(&mz, &it, &[], 600.0), None);
+    }
+
+    #[test]
+    fn factor_averages_nearby_lock_scans() {
+        let l = LockCorrection {
+            reference_mz: 554.2615,
+            points: vec![(1.5, 0.9), (100.0, 1.0), (130.0, 1.2), (1000.0, 2.0)],
+        };
+        assert!((l.factor(110.0) - 1.1).abs() < 1e-12);
+        assert!((l.factor(30.0) - 0.9).abs() < 1e-12);
+        assert!(
+            (l.factor(500.0) - 1.2).abs() < 1e-12,
+            "nearest when none within 60 s"
+        );
+        assert!((l.factor(5000.0) - 2.0).abs() < 1e-12);
     }
 }
