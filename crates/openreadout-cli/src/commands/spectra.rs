@@ -1,7 +1,7 @@
 //! Mass spectrometry: `scans` lists the scan headers of a run (scan number, MS level, retention
 //! time, polarity, precursor m/z and charge, isolation window, activation, filter string)
 //! without decoding peaks (`openreadout_core::scans`); `spectrum` returns one spectrum's m/z and
-//! intensity arrays, picked with `--scan`, `--spectrum` or `--ms-level L --nth K`.
+//! intensity arrays, picked with `--scan` or `--spectrum` (within one MS level with `--ms-level`).
 
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -69,7 +69,7 @@ pub struct ScansArgs {
 
 /// Arguments of `spectrum`.
 #[derive(Debug, Clone, clap::Args)]
-#[command(group(clap::ArgGroup::new("which").required(true).args(["scan", "spectrum", "nth"])))]
+#[command(group(clap::ArgGroup::new("which").required(true).args(["scan", "spectrum"])))]
 pub struct SpectrumArgs {
     /// The mass-spectrometry file (Thermo .raw, mzML/.mzML.gz/mzMLb, mzXML, imzML, Bruker .d,
     /// Agilent .d, Waters .raw, Sciex .wiff, ANDI/MS .cdf, ChemStation .ms).
@@ -78,17 +78,14 @@ pub struct SpectrumArgs {
     #[arg(long, default_value_t = 0)]
     pub run: u32,
     /// This scan number as the instrument counts it (1-based in Thermo files).
-    #[arg(long, value_name = "N", conflicts_with_all = ["spectrum", "nth"])]
+    #[arg(long, value_name = "N", conflicts_with = "spectrum")]
     pub scan: Option<u64>,
-    /// This zero-based spectrum index.
-    #[arg(long, value_name = "I", conflicts_with = "nth")]
+    /// This zero-based spectrum index, counted within `--ms-level` when it is given.
+    #[arg(long, value_name = "I")]
     pub spectrum: Option<u64>,
-    /// With `--ms-level`: the K-th spectrum (from 1) of that level (MS1 and MS/MS scans are
-    /// interleaved; `--ms-level 2 --nth 1` is the first MS/MS scan).
-    #[arg(long, value_name = "K", requires = "ms_level")]
-    pub nth: Option<u64>,
-    /// The MS level `--nth` counts in.
-    #[arg(long, value_name = "N", requires = "nth")]
+    /// Count `--spectrum` among the spectra of this MS level only. MS1 and MS/MS scans are
+    /// interleaved, and `--ms-level 2 --spectrum 0` is the first MS/MS scan.
+    #[arg(long, value_name = "L", requires = "spectrum")]
     pub ms_level: Option<u32>,
     /// The instrument's stored centroid list instead of the profile when a scan has both.
     #[arg(long)]
@@ -387,16 +384,16 @@ pub fn run_scans(reg: &Registry, a: &ScansArgs) -> i32 {
     }
 }
 
-/// `openreadout spectrum --scan N | --spectrum I | --ms-level L --nth K`: one spectrum.
+/// `openreadout spectrum --scan N | --spectrum I [--ms-level L]`: one spectrum.
 pub fn run_spectrum(reg: &Registry, a: &SpectrumArgs) -> i32 {
-    let by = match (a.nth, a.scan, a.spectrum) {
-        (Some(k), _, _) => SpectrumBy::Level(a.ms_level.unwrap_or(1), k),
-        (None, _, Some(i)) => SpectrumBy::Index(i),
-        (None, Some(n), None) => SpectrumBy::Scan(n),
-        (None, None, None) => {
+    let by = match (a.scan, a.spectrum, a.ms_level) {
+        (_, Some(i), Some(level)) => SpectrumBy::Level(level, i),
+        (_, Some(i), None) => SpectrumBy::Index(i),
+        (Some(n), None, _) => SpectrumBy::Scan(n),
+        (None, None, _) => {
             return fail(
                 a.json,
-                &Error::Usage("give --scan N, --spectrum I or --ms-level L --nth K".into()),
+                &Error::Usage("give --scan N or --spectrum I (with --ms-level L to count within one MS level)".into()),
             );
         }
     };
@@ -419,7 +416,7 @@ pub fn run_spectrum(reg: &Registry, a: &SpectrumArgs) -> i32 {
 pub enum SpectrumBy {
     Scan(u64),
     Index(u64),
-    /// MS level and 1-based rank within that level.
+    /// MS level and zero-based index within that level.
     Level(u32, u64),
 }
 
@@ -452,14 +449,21 @@ pub fn spectrum(
         SpectrumBy::Scan(n) => {
             openreadout_core::reader::spectrum_by_scan(ds.as_mut(), run, n, view)?
         }
-        SpectrumBy::Level(level, nth) => {
+        SpectrumBy::Level(level, index) => {
             let count = ds
                 .info()?
                 .spectra
                 .iter()
                 .find(|s| s.index == run)
                 .map_or(0, |s| s.scan_count);
-            openreadout_core::reader::spectrum_by_level(ds.as_mut(), run, level, nth, count, view)?
+            openreadout_core::reader::spectrum_by_level(
+                ds.as_mut(),
+                run,
+                level,
+                index,
+                count,
+                view,
+            )?
         }
     };
     let point_count = sp.mz.len() as u64;

@@ -14,7 +14,9 @@ it with the typed answer of the question (evals/questions/*.jsonl):
   `reject` variant anywhere makes the answer wrong (hedging "positive or negative" fails).
 - boolean: yes/no, true/false, intact/truncated, complete/incomplete, ...
 - list: every expected item (or one of its variants) must appear; a `reject` item anywhere makes
-  the answer wrong (listing every candidate is not an answer).
+  the answer wrong (listing every candidate is not an answer). Numbers joined by ×, x, X, `*` or
+  "by" ("25088 × 37632") are separate items. An expected decimal also matches a longer decimal
+  that rounds to it at the expected value's precision (1004.462 for 1004.46).
 - date: ISO or written dates, within `tolerance_days`.
 
 Conversion tasks are also checked on disk: the produced OME-TIFF is opened with tifffile and its
@@ -40,6 +42,7 @@ import sys
 import unicodedata
 import xml.etree.ElementTree as ET
 from collections import defaultdict
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
@@ -83,7 +86,7 @@ def normalize(text: str) -> str:
     text = text.replace("™", "").replace("®", "").replace("×", "x").replace("−", "-")
     text = unicodedata.normalize("NFKC", text)
     text = text.lower()
-    text = re.sub(r"(\d)\s+x\b", r"\1x", text)  # "100 x" -> "100x"
+    text = re.sub(r"(\d)\s+x\b(?!\s*\d)", r"\1x", text)  # "100 x" -> "100x", but not "25088 x 37632"
     text = re.sub(r"[\"'`*_]", "", text)
     return re.sub(r"\s+", " ", text).strip()
 
@@ -92,7 +95,10 @@ def contains_word(haystack: str, needle: str) -> bool:
     n = normalize(needle)
     if not n:
         return False
-    return re.search(r"(?<![a-z0-9])" + re.escape(n) + r"(?![a-z0-9])", haystack) is not None
+    # A number is not a prefix or suffix of a longer decimal: "12" is not in "12.4" or "0.12".
+    tail = r"(?!\.\d)" if n[-1].isdigit() else ""
+    head = r"(?<!\d\.)" if n[0].isdigit() else ""
+    return re.search(head + r"(?<![a-z0-9])" + re.escape(n) + r"(?![a-z0-9])" + tail, haystack) is not None
 
 
 # ---------------------------------------------------------------- units
@@ -441,12 +447,44 @@ def score_boolean(spec: dict, text: str) -> dict:
     return {"correct": got == bool(spec["value"]), "parsed": got}
 
 
+# A multiplication sign, "x", "X", "by" or "*" between two numbers separates them ("25088 × 37632",
+# "512x512", "25088 by 37632"). "2x2 binning" and a "100x" objective stay as written.
+DIMENSION_SEPARATOR = re.compile(r"(?<=\d)\s*(?:x|\*|by)\s*(?=[-+]?\.?\d)")
+DECIMAL_NUMBER = re.compile(r"(?<![A-Za-z0-9.])-?\d+\.\d+(?!\d)")
+PLAIN_DECIMAL = re.compile(r"-?\d+\.(\d+)")
+
+
+def rounds_to(text: str, expected: str) -> bool:
+    """True when `text` holds a number with more decimals than `expected` that rounds to it
+    (1004.462 rounds to 1004.46). Only an expected value with a decimal part is matched this way,
+    so an integer count must still be exact, and the rounding is to the expected value's own
+    precision, so 1004.466 does not match 1004.46."""
+    m = PLAIN_DECIMAL.fullmatch(expected.strip())
+    if m is None:
+        return False
+    places = len(m.group(1))
+    target = Decimal(expected.strip())
+    for found in DECIMAL_NUMBER.finditer(text):
+        got = Decimal(found.group())
+        if -(got.as_tuple().exponent) > places and abs(got - target) <= Decimal(5) * Decimal(10) ** -(places + 1):
+            return True
+    return False
+
+
+def list_item_found(variants: list[str], norm: str, separated: str) -> bool:
+    for v in variants:
+        if contains_word(norm, v) or contains_word(separated, v) or rounds_to(norm, v):
+            return True
+    return False
+
+
 def score_list(spec: dict, text: str) -> dict:
     norm = normalize(text)
     for bad in spec.get("reject", []):
         if contains_word(norm, bad):
             return {"correct": False, "reason": f"contains rejected {bad!r}"}
-    missing = [variants[0] for variants in spec["accept"] if not any(contains_word(norm, v) for v in variants)]
+    separated = DIMENSION_SEPARATOR.sub(", ", norm)
+    missing = [variants[0] for variants in spec["accept"] if not list_item_found(variants, norm, separated)]
     return {"correct": not missing, "missing": missing}
 
 

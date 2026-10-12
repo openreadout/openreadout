@@ -51,7 +51,7 @@ Every question's `source` field names where its answer came from. `generate.py -
 
 There are three conditions:
 
-- `with`: the `openreadout` binary, the skill and the MCP server.
+- `with`: the `openreadout` binary, the skill and the MCP server, as a user who installed the plugin has them (ToolSearch included, which loads the deferred MCP tools).
 - `baseline`: the open-source readers a well-equipped scientist would install (`baseline/pyproject.toml`), Bio-Formats, and a skill naming the right reader per format.
 - `without`: a shell and Python, with nothing preinstalled.
 
@@ -87,7 +87,7 @@ Everything goes to `results/`, which is not committed:
 - `results/<run>-triage-dev.md`: one cause per failed run, and for `with` failures whether the answer was in OpenReadout's output (`triage.py`).
 - `results/transcripts/`: full transcripts.
 
-`score.py` reads the text after the last `ANSWER:` line. Numbers are parsed with their units and compared within the question's tolerance; strings match whole words, case-insensitively; dates, lists, booleans, boxes and points have their own rules. `uv run python score.py answer ID "ANSWER: ..."` scores one answer.
+`score.py` reads the text after the last `ANSWER:` line. Numbers are parsed with their units and compared within the question's tolerance; strings match whole words, case-insensitively; dates, lists, booleans, boxes and points have their own rules. In a list, numbers joined by ×, x, `*` or "by" count as separate numbers ("25088 × 37632"), and an expected decimal also matches a longer decimal that rounds to it at the expected precision (1004.462 for 1004.46). `uv run python score.py answer ID "ANSWER: ..."` scores one answer.
 
 Rules for honest numbers:
 

@@ -7,7 +7,8 @@ settings, and only these tools: Bash, Read, Write, Edit, Glob, Grep.
 
 Conditions:
   with      + the openreadout binary on PATH, the openreadout skill (as a plugin) and the
-              openreadout MCP server (`openreadout mcp`). `--with-mode cli|mcp|all`.
+              openreadout MCP server (`openreadout mcp`, plus ToolSearch, which loads its deferred
+              tools). `--with-mode cli|mcp|all`.
   baseline  the same agent with the open-source reader stack preinstalled (bioio and its plugins,
             nd2, czifile, liffile, tifffile, flowio, pyabf, neo, nmrglue, pyteomics, rainbow, ...),
             Bio-Formats' showinf/bfconvert, and a skill naming the right reader per format
@@ -406,8 +407,12 @@ def claude_command(args: argparse.Namespace, harness: Harness, condition: str, p
             allowed.append("Skill")
             cmd += ["--plugin-dir", str(harness.plugin)]
         if harness.with_mode in ("mcp", "all"):
+            # Claude Code defers MCP tools and loads them through ToolSearch, as it does for a user
+            # who installed the plugin. Without ToolSearch in --tools the model cannot reach them.
+            # The server comes from --mcp-config because --strict-mcp-config also drops plugin servers.
             cmd += ["--mcp-config", str(harness.mcp_config)]
-            allowed.append("mcp__openreadout")
+            tools.append("ToolSearch")
+            allowed += ["ToolSearch", "mcp__openreadout"]
     elif condition == "baseline":
         missing = baseline.ready()
         if missing:
@@ -463,14 +468,23 @@ def parse_stream(lines: list[str]) -> dict:
     return out
 
 
+# The harness's temporary directory is named "openreadout-eval-XXXX", so every path in a run
+# contains the word. It does not count as using the tool.
+WORKDIR_PREFIX = re.compile(r"openreadout-(?:eval|preflight)-[A-Za-z0-9_]*")
+OPENREADOUT_WORD = re.compile(r"(?<![A-Za-z0-9])openreadout(?![A-Za-z0-9])")
+
+
+def mentions_openreadout(value: Any) -> bool:
+    text = WORKDIR_PREFIX.sub("", json.dumps(value))
+    return OPENREADOUT_WORD.search(text) is not None
+
+
 def used_openreadout(tool_inputs: list[dict]) -> bool:
     for call in tool_inputs:
         name = call.get("name") or ""
-        if name.startswith("mcp__openreadout"):
+        if name.startswith("mcp__") and "openreadout" in name:
             return True
-        if name == "Bash" and "openreadout" in json.dumps(call.get("input")):
-            return True
-        if name == "Skill" and "openreadout" in json.dumps(call.get("input")):
+        if name in ("Bash", "Skill") and mentions_openreadout(call.get("input")):
             return True
     return False
 
@@ -578,6 +592,10 @@ def run_one(args: argparse.Namespace, harness: Harness, q: dict, condition: str,
         "images_seen": parsed["images_seen"],
         "contamination": contamination(parsed["tool_inputs"], repo_roots()),
         "mcp_servers": (parsed["init"] or {}).get("mcp_servers"),
+        # OpenReadout MCP tools the session listed: 0 means the agent could not have called one
+        "mcp_tools": sum(
+            1 for t in (parsed["init"] or {}).get("tools") or [] if t.startswith("mcp__") and "openreadout" in t
+        ),
         "skills_loaded": [
             s for s in ((parsed["init"] or {}).get("skills") or []) if "openreadout" in str(s) or "lab-file" in str(s)
         ],

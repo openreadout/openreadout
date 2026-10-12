@@ -322,50 +322,47 @@ pub fn spectrum_by_scan(
     Ok(sp)
 }
 
-/// Read the `nth` (1-based) spectrum of MS level `ms_level` in run `run`. MS1 and MS/MS scans
-/// are interleaved in most runs, so the first MS2 scan cannot be found by assuming the MS1 scans
-/// come first: the reader's per-spectrum MS levels ([`Dataset::spectrum_ms_levels`]) locate it
-/// and only that spectrum is decoded; a reader without them is walked from its first spectrum,
+/// Read the spectrum at zero-based `index` among the spectra of MS level `ms_level` in run `run`
+/// (`index` 0 is the first MS/MS scan when `ms_level` is 2). MS1 and MS/MS scans are interleaved
+/// in most runs, so the first MS2 scan cannot be found by assuming the MS1 scans come first: the
+/// reader's per-spectrum MS levels ([`Dataset::spectrum_ms_levels`]) locate it and only that
+/// spectrum is decoded. A reader without them is walked from its first spectrum, with
 /// `scan_count` (from `info` → `spectra[run].scan_count`) bounding the walk.
 pub fn spectrum_by_level(
     ds: &mut dyn Dataset,
     run: u32,
     ms_level: u32,
-    nth: u64,
+    index: u64,
     scan_count: u64,
     view: SpectrumView,
 ) -> Result<Spectrum> {
-    if nth == 0 {
-        return Err(Error::Usage(
-            "--nth counts from 1 (the first scan of that level)".into(),
-        ));
-    }
     let mut seen = 0u64;
+    let too_few = |seen: u64| {
+        Error::Usage(format!(
+            "run {run} has {seen} MS{ms_level} spectra, so the zero-based index {index} is out of range; `info` → spectra[].extra.ms_level_counts lists the counts"
+        ))
+    };
     if let Some(levels) = ds.spectrum_ms_levels(run)? {
         for (i, l) in levels.iter().enumerate() {
             if *l == ms_level {
-                seen += 1;
-                if seen == nth {
+                if seen == index {
                     return ds.read_spectrum_view(run, i as u64, view);
                 }
+                seen += 1;
             }
         }
-        return Err(Error::Usage(format!(
-            "run {run} has {seen} MS{ms_level} spectra (asked for number {nth}); `info` → spectra[].extra.ms_level_counts lists the counts"
-        )));
+        return Err(too_few(seen));
     }
     for i in 0..scan_count {
         let sp = ds.read_spectrum_view(run, i, view)?;
         if sp.ms_level == ms_level {
-            seen += 1;
-            if seen == nth {
+            if seen == index {
                 return Ok(sp);
             }
+            seen += 1;
         }
     }
-    Err(Error::Usage(format!(
-        "run {run} has {seen} MS{ms_level} spectra (asked for number {nth}); `info` → spectra[].extra.ms_level_counts lists the counts"
-    )))
+    Err(too_few(seen))
 }
 
 /// Default number of per-frame records `info --view full` embeds per image (`--max-frames -1` lifts
@@ -824,17 +821,17 @@ mod level_tests {
     }
 
     #[test]
-    fn nth_of_level_uses_the_index_when_there_is_one() {
+    fn spectrum_of_level_uses_the_index_when_there_is_one() {
         for indexed in [true, false] {
             let mut r = Run {
                 levels: vec![1, 2, 2, 1, 2],
                 indexed,
                 reads: 0,
             };
-            let sp = spectrum_by_level(&mut r, 0, 2, 3, 5, SpectrumView::Primary).unwrap();
+            let sp = spectrum_by_level(&mut r, 0, 2, 2, 5, SpectrumView::Primary).unwrap();
             assert_eq!(sp.index, 4);
             assert_eq!(r.reads, if indexed { 1 } else { 5 });
-            let err = spectrum_by_level(&mut r, 0, 2, 4, 5, SpectrumView::Primary).unwrap_err();
+            let err = spectrum_by_level(&mut r, 0, 2, 3, 5, SpectrumView::Primary).unwrap_err();
             assert!(err.to_string().contains("has 3 MS2 spectra"), "{err}");
         }
     }
