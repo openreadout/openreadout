@@ -144,6 +144,7 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_mzml::MzxmlReader))
         .with(Box::new(openreadout_mzml::MzmlbReader))
         .with(Box::new(openreadout_bruker_tims::BrukerTimsReader))
+        .with(Box::new(openreadout_bruker_tims::BrukerBafReader))
 }
 
 fn rel_close(a: f64, b: f64, rel: f64) -> bool {

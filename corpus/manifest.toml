@@ -7385,6 +7385,33 @@ mz_intensity_rel_max = 0.0
 mz_unmatched_spectra_max = 0.05
 
 [[file]]
+id = "pwiz-bruker-csi-apexqe"
+format = "bruker-baf"
+role = "input"
+tier = "standard"
+filename = "Reader_Bruker_Test.data/CsI_Pos_0_G1_000003.d/analysis.baf"
+url = ""
+license = "Apache-2.0"
+source = "ProteoWizard vendor-reader test data (github.com/ProteoWizard/pwiz, commit 699dd48953f8, pwiz/data/vendor_readers; repository licence Apache-2.0)"
+attribution = "ProteoWizard developers and the laboratories that contributed the test files"
+notes = "apex-Qe FT-ICR (ApexControl 3.0, 2008, writer BCC4_3_72_0): one MS1 spectrum with a float32 profile of 433 465 samples, FT-ICR calibration. Reference: pwiz-bruker-csi-apexqe-mzml"
+bundle = "pwiz-bruker-testdata"
+
+[[file]]
+id = "pwiz-bruker-csi-apexqe-mzml"
+format = "mzml"
+role = "oracle-export"
+tier = "standard"
+filename = "Reader_Bruker_Test.data/CsI_Pos_0_G1_000003.mzML"
+url = ""
+license = "Apache-2.0"
+source = "ProteoWizard vendor-reader test data (github.com/ProteoWizard/pwiz, commit 699dd48953f8, pwiz/data/vendor_readers; repository licence Apache-2.0)"
+attribution = "ProteoWizard developers and the laboratories that contributed the test files"
+notes = "ProteoWizard conversion of pwiz-bruker-csi-apexqe with the vendor library"
+bundle = "pwiz-bruker-testdata"
+
+
+[[file]]
 id = "pwiz-bruker-hela-pasef-bin"
 format = "bruker-tdf"
 role = "companion"
@@ -51785,6 +51812,252 @@ license = "MIT"
 source = "Zenodo 5037046 (OpenPhi test slide; record licence mit-license)"
 attribution = "BioimageInformaticsGroup, OpenPhi (Tampere University)"
 notes = "Philips UFS scanner (software 1.8.6824), data model 5.0, compression method 16, 8 scales of 128 x 128 code blocks, 37382 x 73222 at 0.25 um; label and macro JPEGs and ICC profiles"
+
+# ---------------------------------------------------------------------------------------------
+# Bruker BAF .d directories with the depositor's own mzML conversion (vendor library: ProteoWizard
+# with BAF2SQL, or CompassXport). Licences checked 2026-10-12: MetaboLights study terms or the
+# CC0 declared on the study/dataset page. No study here is used by a held-out entry.
+# ---------------------------------------------------------------------------------------------
+
+[[file]]
+id = "mtbls6740-baf-methanolneg-4-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "mtbls6740-Methanolneg-4-auto-MS-MS-neg_108_1_2452.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6740/FILES/RAW_FILES/Methanolneg-4-auto-MS-MS-neg_108_1_2452.d.zip"
+sha256 = "700bcf2850ddeff20331121b6c95368cdf4cd6b39c90f49afc267867e1d1e019"
+size = 37677984
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS6740, RAW_FILES/Methanolneg-4-auto-MS-MS-neg_108_1_2452.d.zip"
+attribution = "MTBLS6740 submitters"
+notes = "timsTOF Pro recording BAF (otofControl 6.2), auto MS/MS, negative ions; unpacked into Methanolneg-4-auto-MS-MS-neg_108_1_2452.d/"
+unpack = true
+
+[[file]]
+id = "mtbls6740-baf-methanolneg-4"
+format = "bruker-baf"
+role = "input"
+tier = "full"
+filename = "Methanolneg-4-auto-MS-MS-neg_108_1_2452.d/analysis.baf"
+url = ""
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS6740, RAW_FILES/Methanolneg-4-auto-MS-MS-neg_108_1_2452.d.zip"
+attribution = "MTBLS6740 submitters"
+notes = "8521 spectra (2198 MS1 with a packed profile in spectrum 1, 6323 MS/MS), Calibrator.ami recalibration. The depositor's mzML keeps the 150 most intense centroids of MS1 spectra and combines repeated MS/MS of a precursor: peaks are not compared (MS1 metadata and the vendor-stored TIC are)"
+bundle = "mtbls6740-baf-methanolneg-4-zip"
+peaks_not_compared = "the depositor's conversion kept the 150 most intense centroids per MS1 spectrum and combined repeated MS/MS (docs/formats/bruker-baf.md)"
+
+[[file]]
+id = "mtbls6740-baf-methanolneg-4-mzml"
+format = "mzml"
+role = "oracle-export"
+tier = "full"
+filename = "mtbls6740-Methanolneg-4-auto-MS-MS-neg_108_1_2452.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6740/FILES/DERIVED_FILES/Methanolneg-4-auto-MS-MS-neg_108_1_2452.mzML"
+sha256 = "8f5fa3ee799ba718453e24e287272cd3ed72272da7b36f66cb267363e9360910"
+size = 17392554
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS6740, DERIVED_FILES/Methanolneg-4-auto-MS-MS-neg_108_1_2452.mzML"
+attribution = "MTBLS6740 submitters"
+notes = "ProteoWizard 3.0.21274 with BAF2SQL 2.7.300 conversion of mtbls6740-baf-methanolneg-4"
+
+[[file]]
+id = "mtbls4823-baf-microtofq-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "mtbls4823-neg_Ex3_L_UE_Null_11-MSMS_1-D__3_01_25171.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS4823/FILES/RAW_FILES/neg_Ex3_L_UE_Null_11-MSMS_1-D__3_01_25171.d.zip"
+sha256 = "4c24f0082477d1dda0e61f33049776241244eeab87d70c302a9c8043139a9d4d"
+size = 43857120
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS4823, RAW_FILES/neg_Ex3_L_UE_Null_11-MSMS_1-D__3_01_25171.d.zip"
+attribution = "MTBLS4823 submitters"
+notes = "micrOTOF-Q (otofControl 3.4), auto MS/MS, negative ions; unpacked into neg_Ex3_L_UE_Null_11-MSMS_1-D__3_01_25171.d/"
+unpack = true
+
+[[file]]
+id = "mtbls4823-baf-microtofq"
+format = "bruker-baf"
+role = "input"
+tier = "full"
+filename = "neg_Ex3_L_UE_Null_11-MSMS_1-D__3_01_25171.d/analysis.baf"
+url = ""
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS4823, RAW_FILES/neg_Ex3_L_UE_Null_11-MSMS_1-D__3_01_25171.d.zip"
+attribution = "MTBLS4823 submitters"
+notes = "3538 spectra (1523 MS1, 2015 MS/MS), centroids of all f32 arrays (element code 1), kind-3 calibration with a Calibrator.ami recalibration"
+bundle = "mtbls4823-baf-microtofq-zip"
+
+[[file]]
+id = "mtbls4823-baf-microtofq-mzml"
+format = "mzml"
+role = "oracle-export"
+tier = "full"
+filename = "mtbls4823-neg_Ex3_L_UE_Null_11-MSMS_1-D__3_01_25171.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS4823/FILES/DERIVED_FILES/neg_Ex3_L_UE_Null_11-MSMS_1-D__3_01_25171.mzML"
+sha256 = "e97e65cf82e8f03972ec8478545db78317504cd87815faa33f37306341ec31ee"
+size = 33896099
+license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on use or redistribution)"
+source = "MetaboLights MTBLS4823, DERIVED_FILES/neg_Ex3_L_UE_Null_11-MSMS_1-D__3_01_25171.mzML"
+attribution = "MTBLS4823 submitters"
+notes = "ProteoWizard 3.0.21354 with BAF2SQL 2.7.300 conversion of mtbls4823-baf-microtofq"
+
+[[file]]
+id = "mtbls14117-baf-impacthd-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "mtbls14117-ACN_RA1_1_41512.d.zip"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS14117/FILES/RAW_FILES/ACN_RA1_1_41512.d.zip"
+sha256 = "8caaef6aaa7e8fb872c96950aab6b8f63088e59e9ca1f3278b113076bab32c13"
+size = 45244205
+license = "CC0-1.0"
+source = "MetaboLights MTBLS14117 (i_Investigation.txt Comment[License]: CC0 1.0 Universal), RAW_FILES/ACN_RA1_1_41512.d.zip"
+attribution = "MTBLS14117 submitters"
+notes = "impact HD (otofControl 5.2), auto MS/MS, positive ions; unpacked into ACN_RA1_1_41512.d/"
+unpack = true
+
+[[file]]
+id = "mtbls14117-baf-impacthd"
+format = "bruker-baf"
+role = "input"
+tier = "full"
+filename = "ACN_RA1_1_41512.d/analysis.baf"
+url = ""
+license = "CC0-1.0"
+source = "MetaboLights MTBLS14117, RAW_FILES/ACN_RA1_1_41512.d.zip"
+attribution = "MTBLS14117 submitters"
+notes = "5845 spectra (1787 MS1, 4058 MS/MS); the depositor's mzML was written by CompassXport (recalibrated, retention times in minutes to 6 digits)"
+bundle = "mtbls14117-baf-impacthd-zip"
+
+[[file]]
+id = "mtbls14117-baf-impacthd-mzml"
+format = "mzml"
+role = "oracle-export"
+tier = "full"
+filename = "mtbls14117-ACN_RA1_1_41512.mzML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS14117/FILES/DERIVED_FILES/ACN_RA1_1_41512.mzML"
+sha256 = "8e65bff23868c00aa6dd7582219fca0b6e50374e7d5acd590a37de3b4889d1a5"
+size = 37179139
+license = "CC0-1.0"
+source = "MetaboLights MTBLS14117, DERIVED_FILES/ACN_RA1_1_41512.mzML"
+attribution = "MTBLS14117 submitters"
+notes = "CompassXport 3.0.13 conversion of mtbls14117-baf-impacthd"
+
+[[file]]
+id = "msv000080036-baf-maxis"
+format = "bruker-baf"
+role = "input"
+tier = "standard"
+filename = "msv000080036-baf/Myo-in-TD1112_7-50uguL_P1-E-1_01_111.d/analysis.baf"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000080036/raw/Myo-in-TD1112_7-50uguL_P1-E-1_01_111.d/analysis.baf&forceDownload=true"
+sha256 = "215e83d95eeb23d6f52bc4fadbd15f8e4e01f40652a3d34a4f9a2fa907012468"
+size = 7842476
+license = "CC0-1.0"
+source = "MassIVE MSV000080036 (dataset licence CC0 1.0 Universal), raw/Myo-in-TD1112_7-50uguL_P1-E-1_01_111.d/analysis.baf"
+attribution = "Delphine Vincent and MSV000080036 contributors"
+notes = "maXis (otofControl 3.4, 2016): 8 MS1 spectra with packed profiles of 395 808 samples, kind-10 calibration; the depositor's mzML holds the full profiles"
+
+[[file]]
+id = "msv000080036-baf-maxis-ami"
+format = "bruker-baf"
+role = "companion"
+tier = "standard"
+filename = "msv000080036-baf/Myo-in-TD1112_7-50uguL_P1-E-1_01_111.d/Calibrator.ami"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000080036/raw/Myo-in-TD1112_7-50uguL_P1-E-1_01_111.d/Calibrator.ami&forceDownload=true"
+sha256 = "2903fb938f94bec19a85c906fd776ac7997391680070daa8e92707a3419f2bdb"
+size = 10629
+license = "CC0-1.0"
+source = "MassIVE MSV000080036, raw/Myo-in-TD1112_7-50uguL_P1-E-1_01_111.d/Calibrator.ami"
+attribution = "Delphine Vincent and MSV000080036 contributors"
+notes = "recalibration of msv000080036-baf-maxis"
+
+[[file]]
+id = "msv000080036-baf-maxis-mzml"
+format = "mzml"
+role = "oracle-export"
+tier = "standard"
+filename = "msv000080036-baf/Myo-in-TD1112_7-50uguL_P1-E-1_01_111.mzML"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000080036/peak/Myo-in-TD1112_7-50uguL_P1-E-1_01_111.mzML&forceDownload=true"
+sha256 = "2b4fc2e20aa04f9c1215a3a8449e9f9a53ff0ad0cddb2e86af0a0076eea7a71d"
+size = 31858564
+license = "CC0-1.0"
+source = "MassIVE MSV000080036, peak/Myo-in-TD1112_7-50uguL_P1-E-1_01_111.mzML"
+attribution = "Delphine Vincent and MSV000080036 contributors"
+notes = "ProteoWizard 3.0.9810 with CompassXtract 3.1.7 conversion of msv000080036-baf-maxis (profiles)"
+
+[[file]]
+id = "msv000088109-baf-solarix"
+format = "bruker-baf"
+role = "input"
+tier = "full"
+filename = "msv000088109-baf/Dunbar_83A_15Jan18_Alder_Infuse_1_01_26514.d/analysis.baf"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000088109/raw/Raw_Spectrum_Files/Dunbar_83A_15Jan18_Alder_Infuse_1_01_26514.d/analysis.baf&forceDownload=true"
+sha256 = "5325bc3c53fa0f425175f49e8d7fd02d368833797854aebf5a7c88c4d5481d1e"
+size = 29966217
+license = "CC0-1.0"
+source = "MassIVE MSV000088109 (dataset licence CC0 1.0 Universal), raw/Raw_Spectrum_Files/Dunbar_83A_15Jan18_Alder_Infuse_1_01_26514.d/analysis.baf"
+attribution = "John Dunbar and MSV000088109 contributors (Campbell et al., Front Microbiol 2022)"
+notes = "solariX FT-ICR (2018), direct infusion: 1 MS1 spectrum with a float32 profile of 7 472 642 samples"
+
+[[file]]
+id = "msv000088109-baf-solarix-mzml"
+format = "mzml"
+role = "oracle-export"
+tier = "full"
+filename = "msv000088109-baf/Dunbar_83A_15Jan18_Alder_Infuse_1_01_26514.mzML"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000088109/ccms_peak/Peak_List_Files/Dunbar_83A_15Jan18_Alder_Infuse_1_01_26514.mzML&forceDownload=true"
+sha256 = "d93714e18e4512e1a88767d8e93ef2b3aec31fecede533f8165f065d7a037909"
+size = 49369124
+license = "CC0-1.0"
+source = "MassIVE MSV000088109, ccms_peak/Peak_List_Files/Dunbar_83A_15Jan18_Alder_Infuse_1_01_26514.mzML"
+attribution = "John Dunbar and MSV000088109 contributors"
+notes = "ProteoWizard 3.0.21257 with BAF2SQL 2.7.300 conversion of msv000088109-baf-solarix (profile)"
+
+[[file]]
+id = "msv000094648-baf-impact2"
+format = "bruker-baf"
+role = "input"
+tier = "full"
+filename = "msv000094648-baf/keb-syn1__24374.d/analysis.baf"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000094648/raw/keb-syn1__24374.d/analysis.baf&forceDownload=true"
+sha256 = "01f01ee5c0eec4c5d0262aab2716cfa37eeb5d902e7bc2ffcf9b4665b0e061d0"
+size = 32737523
+license = "CC0-1.0"
+source = "MassIVE MSV000094648 (dataset licence CC0 1.0 Universal), raw/keb-syn1__24374.d/analysis.baf"
+attribution = "Philip Yong-Xin Li and MSV000094648 contributors"
+notes = "impact II (otofControl 4.1, 2023), auto MS/MS, no analysis.sqlite: 2606 spectra (1555 MS1, 1051 MS/MS)"
+
+[[file]]
+id = "msv000094648-baf-impact2-ami"
+format = "bruker-baf"
+role = "companion"
+tier = "full"
+filename = "msv000094648-baf/keb-syn1__24374.d/Calibrator.ami"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000094648/raw/keb-syn1__24374.d/Calibrator.ami&forceDownload=true"
+sha256 = "7edde28393f2e9015f94c36499e2517f7aceff37946ef2abfc32d18150fbaa56"
+size = 11457
+license = "CC0-1.0"
+source = "MassIVE MSV000094648, raw/keb-syn1__24374.d/Calibrator.ami"
+attribution = "Philip Yong-Xin Li and MSV000094648 contributors"
+notes = "recalibration of msv000094648-baf-impact2"
+
+[[file]]
+id = "msv000094648-baf-impact2-mzml"
+format = "mzml"
+role = "oracle-export"
+tier = "full"
+filename = "msv000094648-baf/keb-syn1__24374.mzML"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000094648/peak/keb-syn1__24374.mzML&forceDownload=true"
+sha256 = "50658f3a378e37a30f44e1e3876a2a742c56ebee703852eeec579d3766c9d2d2"
+size = 8090436
+license = "CC0-1.0"
+source = "MassIVE MSV000094648, peak/keb-syn1__24374.mzML"
+attribution = "Philip Yong-Xin Li and MSV000094648 contributors"
+notes = "ProteoWizard 3.0.24117 with BAF2SQL 2.7.300 conversion of msv000094648-baf-impact2"
+
 
 
 # ---------------------------------------------------------------------------------------------

@@ -656,7 +656,7 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
     ("waters", &[("", "waters-raw")]),
     ("sciex", &[("", "sciex-wiff")]),
     ("mzml", &[("", "mzml")]),
-    ("bruker-tims", &[("", "bruker-tdf")]),
+    ("bruker-tims", &[("baf", "bruker-baf"), ("", "bruker-tdf")]),
     // file-name prefixes per format; lib.rs/binary.rs are checked against all four documents
     (
         "chrom",

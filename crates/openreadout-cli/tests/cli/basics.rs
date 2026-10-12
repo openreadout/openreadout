@@ -29,6 +29,7 @@ fn formats_lists_all_readers() {
             "mzxml",
             "mzmlb",
             "bruker-tdf",
+            "bruker-baf",
             "oir",
             "vsi",
             "mirax",

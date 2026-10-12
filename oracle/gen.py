@@ -3728,7 +3728,7 @@ def _mzml_scans(q: Path, reader=None, skip_detectors=False):
     from pyteomics import mzml
     from thermo_detectors import is_detector_id
     scans = []
-    with (reader or mzml.MzML(str(q), decode_binary=True)) as f:
+    with (reader or mzml.MzML(str(q), decode_binary=True, huge_tree=True)) as f:
         for i, sp in enumerate(f):
             if skip_detectors and is_detector_id(sp.get("id")):
                 continue
@@ -3890,7 +3890,7 @@ def _mzml_traces(q: Path, reader=None):
             el.clear()
     scale = {"minute": 60.0, "UO:0000031": 60.0, None: 60.0, "second": 1.0, "UO:0000010": 1.0, "millisecond": 0.001, "UO:0000028": 0.001}
     out = []
-    with (reader or mzml.MzML(str(q), decode_binary=True)) as f:
+    with (reader or mzml.MzML(str(q), decode_binary=True, huge_tree=True)) as f:
         for i, c in enumerate(f.iterfind("chromatogram")):
             arrays = [(k, np.asarray(v, dtype=np.float64)) for k, v in c.items() if isinstance(v, np.ndarray)]
             order = {"time array": 0, "intensity array": 1}
@@ -4169,6 +4169,37 @@ def agilent_ms(p: Path, q: Path) -> dict:
     out = thermo(p, q)
     if "spectra" in out:
         out["spectra"]["by_index"] = True
+    return out
+
+
+# BAF runs whose depositor mzML combined repeated MS/MS of one precursor into one spectrum (time
+# = the group's midpoint, ids reassigned): only their MS1 scans are ground truth.
+BAF_MS1_ONLY = {"Methanolneg-4-auto-MS-MS-neg_108_1_2452.d"}
+
+
+def bruker_baf(p: Path, q: Path) -> dict:
+    """Ground truth for a Bruker BAF .d (`analysis.baf`) = the depositor's own mzML conversion
+    of it (ProteoWizard or CompassXport, both with the vendor library). No reader of the BAF is
+    run (none may be: see docs/provenance/bruker-baf.md). Scans are matched by `scan=N`.
+    Retention times printed in minutes with few digits (CompassXport) carry half a unit of the
+    last printed digit as their tolerance."""
+    out = thermo(p, q)
+    scans = out.get("spectra", {}).get("scans", [])
+    text = q.read_bytes()
+    tols = []
+    for m in re.finditer(rb'name="scan start time" value="([0-9.eE+-]+)"[^>]*unitName="(minute|second)"', text):
+        txt = m.group(1).decode()
+        dec = len(txt.split(".")[1]) if "." in txt and "e" not in txt.lower() else 9
+        tols.append(0.5 * 10 ** -dec * (60.0 if m.group(2) == b"minute" else 1.0))
+    if len(tols) == len(scans):
+        for s_, t in zip(scans, tols):
+            if t > 5e-4:
+                s_["rt_tolerance_s"] = t
+    if p.parent.name in BAF_MS1_ONLY:
+        kept = [s_ for s_ in scans if s_.get("ms_level") == 1]
+        spectra = {**out.pop("spectra"), "scans": kept, "scan_count": len(kept)}
+        out["oracle_note"] = "MS1 scans only: the export combined repeated MS/MS of one precursor"
+        out["spectra"] = spectra  # (the writer keeps `spectra` last)
     return out
 
 
@@ -5797,6 +5828,10 @@ def main():
                 data = agilent_ms_rainbow(p) if str(export) == "rainbow" else agilent_ms(p, export)
             elif p.is_dir() and ext == ".d" and not any((p / f).exists() for f in ("analysis.tdf", "analysis.tsf")):
                 data = chemstation(p)
+            elif p.is_file() and p.name.lower() == "analysis.baf":
+                if export is None:
+                    raise ValueError("a Bruker BAF .d needs --export <depositor mzML> before its path")
+                data = bruker_baf(p, export)
             elif p.is_dir() and ext == ".raw" and export is not None:
                 data = waters_ms(p, export)
             elif p.is_dir() and ext == ".raw":

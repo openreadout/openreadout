@@ -153,6 +153,84 @@ fn observe(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static BRUKER_BAF: AssuranceProfile = AssuranceProfile {
+    format_id: "bruker-baf",
+    observe: observe_baf,
+    validated: BRUKER_BAF_VALIDATED,
+    confidence: BRUKER_BAF_CONFIDENCE,
+    basis: Basis::ReverseEngineered,
+};
+
+fn observe_baf(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    for s in &info.spectra {
+        if let Some(w) = a::extra_str(&s.extra, "writer") {
+            let family = w.split('.').next().unwrap_or(w);
+            o.feature(K::FormatVersion, family, &[Scope::Metadata, Scope::Spectra]);
+        }
+        if let Some(c) = a::extra_str(&s.extra, "profile_coding") {
+            o.feature(K::Codec, format!("{c} profile"), &[Scope::Spectra]);
+        }
+        if let Some(c) = s.extra.get("centroid_element_code").and_then(serde_json::Value::as_u64) {
+            o.feature(K::Layout, format!("centroid element code {c}"), &[Scope::Spectra]);
+        }
+        if let Some(c) = a::extra_str(&s.extra, "calibration") {
+            o.feature(K::Layout, format!("calibration {c}"), &[Scope::Spectra]);
+        }
+        if let Some(src) = a::extra_str(&s.extra, "index_source") {
+            o.feature(K::Layout, src, &[Scope::Spectra]);
+        }
+        for p in a::extra_values_in(&s.extra, "polarities") {
+            o.feature(K::Acquisition, format!("{p} ions"), &[Scope::Spectra]);
+        }
+        if s.ms_levels.iter().any(|&l| l > 1) {
+            o.feature(K::Acquisition, "MS/MS", &[Scope::Spectra]);
+        }
+        match a::extra_str(&s.extra, "mz_calibration_source") {
+            Some("Calibrator.ami") => {
+                o.calibration(
+                    "m/z (Calibrator.ami recalibration)",
+                    CalibrationStatus::Applied,
+                    &[Scope::Spectra],
+                    "the recalibration the vendor's processing software stored next to the run",
+                );
+                o.derived(
+                    "spectra[].mz",
+                    "Calibrator.ami payload found by scanning",
+                    "the recalibration payload is located by scanning Calibrator.ami for one like the spectra's; the file's container is not decoded",
+                );
+            }
+            Some(_) => o.calibration(
+                "m/z (acquisition calibration)",
+                CalibrationStatus::Applied,
+                &[Scope::Spectra],
+                "each spectrum's calibration with temperature drift compensation",
+            ),
+            None => {}
+        }
+        if let Some(i) = &s.instrument {
+            if let Some(m) = &i.model {
+                o.context(K::Instrument, m);
+            }
+            if let Some(v) = i
+                .software_version
+                .as_deref()
+                .and_then(|v| a::version_prefix(v, 1))
+            {
+                o.context(K::WriterVersion, format!("{} {v}", i.software.as_deref().unwrap_or("software")));
+            }
+        }
+    }
+    o
+}
+
+// BEGIN GENERATED bruker-baf (cargo xtask assurance-audit --write; do not edit)
+const BRUKER_BAF_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const BRUKER_BAF_VALIDATED: &[Validated] = &[
+];
+// END GENERATED bruker-baf
+
 // BEGIN GENERATED bruker-tdf (cargo xtask assurance-audit --write; do not edit)
 const BRUKER_TDF_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
