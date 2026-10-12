@@ -441,6 +441,12 @@ fn observe_uvprobe(info: &FileInfo) -> Observations {
 const SHIMADZU_UVPROBE_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
 const SHIMADZU_UVPROBE_VALIDATED: &[Validated] = &[
+    a::row(K::Acquisition, "UV/VIS SPECTRUM", 0, 0, 5),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 5),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 5),
+    a::row(K::FormatVersion, "file format 0x120", 0, 0, 5),
+    a::row(K::Record, "value code 2", 0, 0, 4),
+    a::row(K::Record, "value code 4", 0, 0, 1),
 ];
 // END GENERATED shimadzu-uvprobe
 
@@ -605,22 +611,22 @@ const RENISHAW_WDF_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const RENISHAW_WDF_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "RAMAN SPECTRUM", 14, 6, 14),
-    a::row(K::Acquisition, "UNKNOWN", 1, 1, 1),
-    a::row(K::Acquisition, "measurement map", 4, 2, 4),
+    a::row(K::Acquisition, "UNKNOWN", 3, 2, 3),
+    a::row(K::Acquisition, "measurement map", 5, 3, 5),
     a::row(K::Acquisition, "measurement series", 1, 1, 1),
-    a::row(K::Acquisition, "measurement single", 6, 3, 6),
+    a::row(K::Acquisition, "measurement single", 7, 4, 7),
     a::row(K::Acquisition, "measurement unspecified", 4, 3, 4),
     a::row(K::Acquisition, "scan StreamLine", 2, 2, 2),
     a::row(K::Acquisition, "scan StreamLineHR", 2, 1, 2),
     a::row(K::Acquisition, "scan static", 4, 2, 4),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 13),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 15),
     a::row(K::FormatVersion, "WiRE 4", 8, 2, 8),
-    a::row(K::FormatVersion, "WiRE 5", 5, 4, 5),
+    a::row(K::FormatVersion, "WiRE 5", 7, 5, 7),
     a::row(K::FormatVersion, "no WiRE version", 2, 2, 2),
     a::row(K::Layout, "x list type 0", 1, 1, 1),
-    a::row(K::Layout, "x list type 1", 14, 6, 14),
-    a::row(K::SampleLayout, "image float", 3, 2, 3),
-    a::row(K::SampleLayout, "image uint8x3", 4, 2, 4),
+    a::row(K::Layout, "x list type 1", 16, 7, 16),
+    a::row(K::SampleLayout, "image float", 4, 3, 4),
+    a::row(K::SampleLayout, "image uint8x3", 5, 3, 5),
 ];
 // END GENERATED renishaw-wdf
 

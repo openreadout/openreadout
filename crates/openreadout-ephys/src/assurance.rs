@@ -338,9 +338,9 @@ const OPEN_EPHYS_VALIDATED: &[Validated] = &[
     a::row(K::FormatVersion, "GUI 0.6", 5, 1, 5),
     a::row(K::FormatVersion, "GUI 1.0", 1, 1, 1),
     a::row(K::FormatVersion, "Open Ephys format 0.4", 5, 3, 5),
-    a::row(K::FormatVersion, "Open Ephys format 0.6", 1, 1, 1),
+    a::row(K::FormatVersion, "Open Ephys format 0.6", 2, 2, 2),
     a::row(K::Layout, "binary", 11, 1, 11),
-    a::row(K::Layout, "legacy", 6, 3, 6),
+    a::row(K::Layout, "legacy", 7, 4, 7),
     a::row(K::Layout, "several sweeps", 2, 1, 2),
 ];
 // END GENERATED open-ephys
