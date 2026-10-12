@@ -1,0 +1,96 @@
+{
+ "id": "figshare22555474-iPSC-FUS-KO-A488-4H11-A546-xxxx-20x069",
+ "file": "figshare22555474-iPSC-FUS-KO-A488-4H11-A546-xxxx-20x069.nd2",
+ "size": 6111232,
+ "sha256": "08825a319d099aa7662b6181fac152b00a34c7f52d0a14a33b78cc7f6c44a56b",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1080,
+   "size_y": 1280,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 1280, 'X': 1080}",
+   "physical_size_um": {
+    "x": 0.325,
+    "y": 0.325,
+    "z": null
+   },
+   "channel_names": [
+    "GFP",
+    "DAPI"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b95dd421fd3a679e9dd6323bf511b58a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fa9d8c367c06979ac32707d1e92a811e"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "GFP",
+    "color": "#00FF00",
+    "excitation_nm": null,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "DAPI",
+    "color": "#0000FF",
+    "excitation_nm": null,
+    "emission_nm": 460.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1234.38607500121,
+    "tags": {
+     "CameraTemp1": -30.259999999999998,
+     "Camera_ExposureTime1": 100.0,
+     "PFS_OFFSET": 7178,
+     "PFS_STATUS": 0,
+     "X": -12006.0,
+     "Y": -3710.3,
+     "Z": 1914.2,
+     "Z1": 1914.2
+    }
+   }
+  ],
+  "acquired_at": "2021-03-19T15:56:42.875Z",
+  "acquired_at_unix_ms": 1616169402875
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(2)\r\nCamera Name: Andor Neo SCC-02241\r\nNumerical Aperture: 0.75\r\nRefractive Index: 1\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: GFP\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Andor Neo\r\n  Binning: 1x1\r\n  Exposure: 100 ms\r\n  Readout Mode: Rolling shutter at 12-bit\r\n  Readout Rate: 560 MHz \r\n  Conversion Gain: Gain 4\r\n  Spurious Noise Filter: on\r\n  Sensor Mode: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -30.3\u00b0C\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 3 (49002 - ET-GFP (FITC/Cy2))\r\n  Nikon Ti, Shutter(EPI): Active\r\n  LightPath: L100\r\n  Analyzer: Extracted\r\n  PFS-S, state: Off\r\n  PFS-S, offset: 5678\r\n  PFS-S, mirror: Inserted\r\n  PFS-S, mirror: Inserted\r\n  \r\n  F3000, Shutter(F3000): Closed\r\n  F3000, Illuminator(F3000) Iris intensity: 11.0\r\nPlane #2:\r\n Name: DAPI\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Andor Neo\r\n  Binning: 1x1\r\n  Exposure: 40 ms\r\n  Readout Mode: Rolling shutter at 12-bit\r\n  Readout Rate: 560 MHz \r\n  Conversion Gain: Gain 4\r\n  Spurious Noise Filter: on\r\n  Sensor Mode: Overlap\r\n  Trigger Mode: Internal\r\n  Temperature: -30.3\u00b0C\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1 (49000 - ET-DAPI)\r\n  Nikon Ti, Shutter(EPI): Active\r\n  LightPath: L100\r\n  Analyzer: Extracted\r\n  PFS-S, state: Off\r\n  PFS-S, offset: 5678\r\n  PFS-S, mirror: Inserted\r\n  PFS-S, mirror: Inserted\r\n  \r\n  F3000, Shutter(F3000): Closed\r\n  F3000, Illuminator(F3000) Iris intensity: 11.0",
+  "capturing": "Andor Neo SCC-02241\r\nSample 1:\r\n  \r\n  Camera Type: Andor Neo\r\n  Binning: 1x1\r\n  Exposure: 100 ms\r\n  Readout Mode: Rolling shutter at 12-bit\r\n  Readout Rate: 560 MHz \r\n  Conversion Gain: Gain 4\r\n  Spurious Noise Filter: on\r\n  Sensor Mode: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -30.3\u00b0C\r\nSample 2:\r\n  \r\n  Camera Type: Andor Neo\r\n  Binning: 1x1\r\n  Exposure: 40 ms\r\n  Readout Mode: Rolling shutter at 12-bit\r\n  Readout Rate: 560 MHz \r\n  Conversion Gain: Gain 4\r\n  Spurious Noise Filter: on\r\n  Sensor Mode: Overlap\r\n  Trigger Mode: Internal\r\n  Temperature: -30.3\u00b0C",
+  "date": "3/19/2021  3:56:42 PM",
+  "optics": "Plan Apo VC 20x DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=2, heightPx=1280, pixelDataType='unsigned', sequenceCount=1, widthBytes=4320, widthPx=1080, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

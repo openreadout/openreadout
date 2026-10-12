@@ -1,0 +1,64 @@
+{
+ "id": "zenodo16990201-Avil-Gpr65-NG2-10x-8x-mean",
+ "file": "zenodo16990201-Avil-Gpr65-NG2-10x-8x-mean.czi",
+ "size": 23083296,
+ "sha256": "a8ce82680f4b43d6a87d0ce8dc4baba5b23d6e4bf92cd0589f92a025801a2f79",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1940,
+   "size_y": 1940,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    3,
+    1940,
+    1940
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.329329896907216,
+    "y": 0.329329896907216,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c3382f33c70e0b7c45c1a9aac6f1b53b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3f534b1fd732c2fdc4ce50d0d5d0f2b1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1f3c7e0c413ab6b7a4b8b0e38eddf628"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.329329896907216,
+  "y": 0.329329896907216,
+  "z": null
+ },
+ "subblock_count": 3,
+ "compression_ids": [
+  0
+ ]
+}

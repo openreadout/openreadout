@@ -1,0 +1,42 @@
+{
+ "id": "zenodo14225659-340DD-HE",
+ "file": "zenodo14225659-340DD-HE.svs",
+ "size": 181636387,
+ "sha256": "6466ec134cf463aeb804dff4d3d6e2a96f5cf28409e9e74abbb1042e431d1090",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "svs",
+ "flags": [
+  "svs"
+ ],
+ "page_count": 7,
+ "series_count": 4,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "svs",
+   "axes": "YXS",
+   "shape": [
+    17400,
+    93624,
+    3
+   ],
+   "size_x": 93624,
+   "size_y": 17400,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 4,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.5017,
+    "y": 0.5017
+   },
+   "planes_skipped": "series is 4887172800 bytes (> ORACLE_TIFF_MAX_BYTES)",
+   "planes": []
+  }
+ ]
+}

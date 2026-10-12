@@ -1,0 +1,365 @@
+{
+ "id": "figshare22336594-FLIM-testdata",
+ "file": "figshare22336594-FLIM-testdata.lif",
+ "size": 36473836,
+ "sha256": "902d8fa6cd39da7cf062b32d43aab518fa2a851eab72b4bd8b8eca1bad591850",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "sample1_slice1",
+   "path": "sample1_slice1",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.5438717497556207,
+    "y": 0.5438717497556207,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7037ee1d6dce79c6a4b9ff83e876b749"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "FLIM Compressed",
+   "path": "sample1_slice1/FLIM Compressed",
+   "flim": true,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YXH",
+   "shape": [
+    1024,
+    1024,
+    528
+   ],
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.5438717498,
+    "y": 0.5438717498,
+    "z": null
+   },
+   "planes": []
+  },
+  {
+   "index": 2,
+   "name": "Phasor Plot",
+   "path": "sample1_slice1/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    300,
+    512
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c7ca9a4827159c68a0202116b3373498"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Pattern Matching Scatter Plot Channel 1",
+   "path": "sample1_slice1/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    100,
+    100
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8244b2d4142c9a686932887f46b88686"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Intensity",
+   "path": "sample1_slice1/FLIM Compressed/Intensity",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    1024,
+    1024
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5438717497556207,
+    "y": 0.5438717497556207,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1b1e5541cd4de3e73e111595808e1dec"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "Fast Flim",
+   "path": "sample1_slice1/FLIM Compressed/Fast Flim",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    1024,
+    1024
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5438717497556207,
+    "y": 0.5438717497556207,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bf59bfe399a6754fdbfac1ad3ca90123"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "Standard Deviation",
+   "path": "sample1_slice1/FLIM Compressed/Standard Deviation",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    1024,
+    1024
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5438717497556207,
+    "y": 0.5438717497556207,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d403b7899fb8ee4f6752b2d937b24676"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "Phasor Real",
+   "path": "sample1_slice1/FLIM Compressed/Phasor Real",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    1024,
+    1024
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5438717497556207,
+    "y": 0.5438717497556207,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "84a7c5308f248df7554e177116775ff6"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "Phasor Imaginary",
+   "path": "sample1_slice1/FLIM Compressed/Phasor Imaginary",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    1024,
+    1024
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5438717497556207,
+    "y": 0.5438717497556207,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "03178c0072d3b3730a51643fe580ac8b"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "Phasor Intensity",
+   "path": "sample1_slice1/FLIM Compressed/Phasor Intensity",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    1024,
+    1024
+   ],
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.5438717497556207,
+    "y": 0.5438717497556207,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fec026c8c2dd6b00bfcdb8c6277f599b"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "Phasor Mask",
+   "path": "sample1_slice1/FLIM Compressed/Phasor Mask",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    1024,
+    1024
+   ],
+   "pixel_type": "uint32",
+   "physical_size_um": {
+    "x": null,
+    "y": null,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3cb1e8d32bf18cb480ee07f6edbaefcf"
+    }
+   ]
+  }
+ ]
+}

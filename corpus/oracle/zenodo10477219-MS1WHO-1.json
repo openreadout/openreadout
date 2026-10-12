@@ -1,0 +1,361 @@
+{
+ "id": "zenodo10477219-MS1WHO-1",
+ "file": "zenodo10477219-MS1WHO-1.ims",
+ "size": 110913780,
+ "sha256": "7fb6e60952e332c02d0121442b470f6349219bda859e76df7806616b3d7fd2d9",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2348,
+   "size_y": 2353,
+   "size_z": 9,
+   "size_c": 4,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.9072402044293003,
+    "y": 0.9072248193795143,
+    "z": 4.99777777777778
+   },
+   "channel_names": [
+    "Green",
+    "Blue",
+    "Magenta",
+    "Red"
+   ],
+   "filters": [
+    1
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cd1916a29666bc63dedf01186a2a34bf"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "1ea15622fd35e2baeb2957242e2325d4"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "52906fee3be56324f35dfc66f6578d5d"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "7b5477846da668d82ffac03c971e6635"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "795558a7487b171714e070ac60b8ec4e"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "fc388e38c6e461dced0f8d92e09a8dc0"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "5d34fb8c405bb8aa63eec94446501861"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "ee35bc41155d30a12c31e68e292697ca"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "c3a2d8d7dd6cde75c13edd829823f4d4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4d58bb6a53a75567ef17992a486cd3b6"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "1efdc5df66c2940e28595381052b573a"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "9ab9a6f88f29c118fb2f6b583f595923"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "801bccb0e5fe0c8dbacc43a328f886d9"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "c746ebb8309f53cd2fecf00cd08bcb59"
+    },
+    {
+     "c": 1,
+     "z": 5,
+     "t": 0,
+     "xxh3": "fe622e40b2e5a7fead226d56c6be50e9"
+    },
+    {
+     "c": 1,
+     "z": 6,
+     "t": 0,
+     "xxh3": "e7771187920712397884138fe85d94e9"
+    },
+    {
+     "c": 1,
+     "z": 7,
+     "t": 0,
+     "xxh3": "29a95b75ed56a3294bfe7333b8ac5fd4"
+    },
+    {
+     "c": 1,
+     "z": 8,
+     "t": 0,
+     "xxh3": "2359c1da9fdfd7d1b43447f035327e84"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0b01a9d16dc977c20864ea35a4eb4828"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "d4bf0a227d55a05040c402d13fb8cc32"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "9778ed225dedca196fb013cace0ccd83"
+    },
+    {
+     "c": 2,
+     "z": 3,
+     "t": 0,
+     "xxh3": "fce18b48f3776a2b5daa3f1e4bb0906f"
+    },
+    {
+     "c": 2,
+     "z": 4,
+     "t": 0,
+     "xxh3": "9d547a244630f7ad45a6a3912c597927"
+    },
+    {
+     "c": 2,
+     "z": 5,
+     "t": 0,
+     "xxh3": "77cc61fb26ba8ba0ec3c4b6b4cd06d0e"
+    },
+    {
+     "c": 2,
+     "z": 6,
+     "t": 0,
+     "xxh3": "c0b8d3ee929072c06cc65e3855709fe7"
+    },
+    {
+     "c": 2,
+     "z": 7,
+     "t": 0,
+     "xxh3": "c93318e22364543f4944b4b7369753f8"
+    },
+    {
+     "c": 2,
+     "z": 8,
+     "t": 0,
+     "xxh3": "61fe97599318adfad1aa62d69e2a6f50"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "376aaa952d5f116c844cf6ec921da7d4"
+    },
+    {
+     "c": 3,
+     "z": 1,
+     "t": 0,
+     "xxh3": "58f737ece2ff5a7ad3a6895288026890"
+    },
+    {
+     "c": 3,
+     "z": 2,
+     "t": 0,
+     "xxh3": "2ae23f2522477970ee7b642c0b9c54dc"
+    },
+    {
+     "c": 3,
+     "z": 3,
+     "t": 0,
+     "xxh3": "cb06b69faf436b750ec4b4d3b38ac74f"
+    },
+    {
+     "c": 3,
+     "z": 4,
+     "t": 0,
+     "xxh3": "98ec715c2d24d4282349da7aa1b8375a"
+    },
+    {
+     "c": 3,
+     "z": 5,
+     "t": 0,
+     "xxh3": "bafb05601d341e3ec52e6d5af48fb8cd"
+    },
+    {
+     "c": 3,
+     "z": 6,
+     "t": 0,
+     "xxh3": "370347f6f7f1a07e02dcf0594a5585e4"
+    },
+    {
+     "c": 3,
+     "z": 7,
+     "t": 0,
+     "xxh3": "83b7e166f1ffd9870d2c42e5eb0bb359"
+    },
+    {
+     "c": 3,
+     "z": 8,
+     "t": 0,
+     "xxh3": "045daadedacb370cd3583967027f1dc8"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 1174,
+     "size_y": 1176,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "4ff13b8098b9507dbc31cc2f7a45edbc"
+      },
+      {
+       "c": 0,
+       "z": 1,
+       "t": 0,
+       "xxh3": "f3c904bec71be9be2ef2ebe1652917e7"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 587,
+     "size_y": 588,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "6b1cdfcc4266d5c707032cde3f6b3011"
+      },
+      {
+       "c": 0,
+       "z": 1,
+       "t": 0,
+       "xxh3": "678b25d2552e4c50dc4596d23b7c1944"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 293,
+     "size_y": 294,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "b33756573906099d454bcb31b6acbdd3"
+      },
+      {
+       "c": 0,
+       "z": 1,
+       "t": 0,
+       "xxh3": "e22305017906c32f692f805714a123bf"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 2348,
+   "height": 2353,
+   "size_z": 9,
+   "size_t": 1,
+   "size_c": 5,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint8",
+   "thumbnail": "false"
+  },
+  {
+   "series": 1,
+   "samples": 1,
+   "width": 1174,
+   "height": 1176,
+   "size_z": 9,
+   "size_t": 1,
+   "size_c": 5,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint8",
+   "thumbnail": "true"
+  },
+  {
+   "series": 2,
+   "samples": 1,
+   "width": 587,
+   "height": 588,
+   "size_z": 9,
+   "size_t": 1,
+   "size_c": 5,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint8",
+   "thumbnail": "true"
+  },
+  {
+   "series": 3,
+   "samples": 1,
+   "width": 293,
+   "height": 294,
+   "size_z": 9,
+   "size_t": 1,
+   "size_c": 5,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint8",
+   "thumbnail": "true"
+  }
+ ]
+}

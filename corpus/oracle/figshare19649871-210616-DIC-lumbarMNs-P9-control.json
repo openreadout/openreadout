@@ -1,0 +1,84 @@
+{
+ "id": "figshare19649871-210616-DIC-lumbarMNs-P9-control",
+ "file": "figshare19649871-210616-DIC-lumbarMNs-P9-control.nd2",
+ "size": 7983104,
+ "sha256": "58f69ea010f2c490b868c1b09b44f37ac30dc5d050f63a0725d31b22515acc64",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1280,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint16",
+   "sizes": "{'Y': 1024, 'X': 1280, 'S': 3}",
+   "physical_size_um": {
+    "x": 1.6125,
+    "y": 1.6125,
+    "z": null
+   },
+   "channel_names": [
+    "Brightfield"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "56f973e05aa514e2d9309641409e84e6"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Brightfield",
+    "color": "#FFFFFF",
+    "excitation_nm": 420.0,
+    "emission_nm": 420.0,
+    "component_count": 3,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1973879.7705119955,
+    "tags": {
+     "CameraTemp2": -5.0,
+     "Camera_CH1LaserPower": 0.0,
+     "Camera_CH1PMTHighVoltage": 128,
+     "Camera_CH2LaserPower": 0.0,
+     "Camera_CH2PMTHighVoltage": 126,
+     "Camera_CH3LaserPower": 0.0,
+     "Camera_CH3PMTHighVoltage": 0,
+     "Camera_ExposureTime2": 33.0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Dev1/port0/line2": 0,
+     "Dev1/port0/line7": 0,
+     "Dev1/port1/line2": 0,
+     "Dev1/port1/line3": 0
+    }
+   }
+  ],
+  "acquired_at": "2021-06-16T10:11:49.770Z",
+  "acquired_at_unix_ms": 1623838309770
+ },
+ "text_info": {
+  "description": "Camera Name: DS-Qi1Mc-L2 USB  12 bit\r\nNumerical Aperture: 0.1\r\nRefractive Index: 1\r\n Name: \r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Format: 1280x1024 no binning\r\n  Exposure: ME 33 ms \r\n  Gain: 16.00x\r\n  Noise Reduction: Off\r\n  Offset: 0.00\r\n  Contrast: Linear\r\n\r\n Microscope Settings:   Microscope: Manual Microscope\r\n  Manual Microscope, FilterChanger(FilterBlock): 1 (Empty)\r\n  NIDAQ, Shutter(Lasers): Closed\r\n  NIDAQ, MultiLaser(Lasers):\r\n     Line:1; ExW:488; Power: 11.1; Active\r\n     Line:2; ExW:561; Power: 11.4; Active\r\n\r\n",
+  "capturing": "DS-Qi1Mc-L2 USB  12 bit\r\n\r\nFormat: 1280x1024 no binning\r\nExposure: ME 33 ms \r\nGain: 16.00x\r\nNoise Reduction: Off\r\nOffset: 0.00\r\nContrast: Linear\r\n",
+  "date": "16/06/2021  11:11:49",
+  "optics": "Plan 4x"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=3, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=7680, widthPx=1280, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

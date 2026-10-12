@@ -1,0 +1,51 @@
+{
+ "id": "figshare12133296-Ex1-panel-f-blochmannia-surrounds-germpl",
+ "file": "figshare12133296-Ex1-panel-f-blochmannia-surrounds-germpl.lif",
+ "size": 2170057,
+ "sha256": "513f96bf44fce64f350a45d0cea8f21d722fc17c5ffc606ca164dbdf6de5e605",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Series101",
+   "path": "Series101",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.6589961876832877,
+    "y": 0.6589961876832843,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "61238e50828d4d726a3692c68f52a0fa"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "201fea872efd9f79fffd00388f104097"
+    }
+   ]
+  }
+ ]
+}

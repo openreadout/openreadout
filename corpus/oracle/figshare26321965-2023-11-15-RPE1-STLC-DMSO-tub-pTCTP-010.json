@@ -1,0 +1,115 @@
+{
+ "id": "figshare26321965-2023-11-15-RPE1-STLC-DMSO-tub-pTCTP-010",
+ "file": "figshare26321965-2023-11-15-RPE1-STLC-DMSO-tub-pTCTP-010.nd2",
+ "size": 24186880,
+ "sha256": "9d4c2b9726bda36d62ba95b302dfd529a6d569af23d76aa7cc1941e16dac8778",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1952,
+   "size_y": 1952,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 3, 'Y': 1952, 'X': 1952}",
+   "physical_size_um": {
+    "x": 0.065,
+    "y": 0.065,
+    "z": null
+   },
+   "channel_names": [
+    "640",
+    "488",
+    "405"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9737c72e3927ebca501244d36d1607a5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "382dc9577c49bfc39addcf0d9a75a146"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "faa6f1fd70552813d144e4fe9626192b"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "640",
+    "color": "#FF00FF",
+    "excitation_nm": null,
+    "emission_nm": 705.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "488",
+    "color": "#36FF00",
+    "excitation_nm": null,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "405",
+    "color": "#0000FF",
+    "excitation_nm": null,
+    "emission_nm": 450.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 445.8225468748715,
+    "tags": {
+     "Camera_ExposureTime1": 300.0,
+     "PFS_OFFSET": 6777,
+     "PFS_STATUS": 3,
+     "X": 8075.700000000001,
+     "Y": -2575.1000000000004,
+     "Z": 1777.8,
+     "Z1": 1777.8
+    }
+   }
+  ],
+  "acquired_at": "2023-11-16T14:27:10.366Z",
+  "acquired_at_unix_ms": 1700144830366
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(3)\r\nCamera Name: Fusion, SN:000294\r\nNumerical Aperture: 1.45\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 3\r\nPlane #1:\r\n Name: 640\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Exposure: 300 ms\r\n  Binning: 1x1\r\n  Scan Mode: Ultra-quiet\r\n  Temperature: -5.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 5 (Empty)\r\n  Nikon Ti2, FilterChanger(Turret-Up): 2 (Empty)\r\n  Nikon Ti2, Shutter(FL-Lo): Closed\r\n  Nikon Ti2, Shutter(FL-Up): Closed\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 23.8\r\n  LightPath: L100\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  PFS, state: Off\r\n  PFS, offset: 10257\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola II, Shutter(Sola): Closed\r\n  Sola II, Illuminator(Sola) Iris intensity: 25.0\r\n  NIDAQ, Shutter(AOTF): Closed\r\n  NIDAQ, MultiLaser(AOTF):\r\n     Line:1; ExW:405; Power: 11.4; On\r\n  \r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Di01-T405/488/568/647-13x15x0.5)\r\n  CSU-W1, FilterChanger(EM Wheel): 4 (CY5 - 380845)\r\n  CSU-W1, Shutter(CSU): Open\r\n  CSU-W1 Aperture: 9\r\n  CSU-W1 Observation Mode:\r\n     Port 1: On \r\n     Port 2: Off \r\n  \r\n  LUN-F, Shutter(SD Laser): Active\r\n  LUN-F, MultiLaser(LUN-F):\r\n     Line:1; ExW:405; Power: 90.0; Off\r\n     Line:2; ExW:488; Power: 97.4; Off\r\n     Line:3; ExW:561; Power: 95.9; Off\r\n     Line:4; ExW:640; Power: 93.3; On\r\n\r\nPlane #2:\r\n Name: 488\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Exposure: 4 s\r\n  Binning: 1x1\r\n  Scan Mode: Ultra-quiet\r\n  Temperature: -5.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 5 (Empty)\r\n  Nikon Ti2, FilterChanger(Turret-Up): 2 (Empty)\r\n  Nikon Ti2, Shutter(FL-Lo): Closed\r\n  Nikon Ti2, Shutter(FL-Up): Closed\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 97.7\r\n  LightPath: L100\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  PFS, state: Off\r\n  PFS, offset: 6777\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola II, Shutter(Sola): Closed\r\n  Sola II, Illuminator(Sola) Iris intensity: 25.0\r\n  NIDAQ, Shutter(AOTF): Closed\r\n  NIDAQ, MultiLaser(AOTF):\r\n     Line:1; ExW:405; Power: 11.4; On\r\n  \r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Di01-T405/488/568/647-13x15x0.5)\r\n  CSU-W1, FilterChanger(EM Wheel): 2 (FITC - 385462)\r\n  CSU-W1, Shutter(CSU): Open\r\n  CSU-W1 Aperture: 9\r\n  CSU-W1 Observation Mode:\r\n     Port 1: On \r\n     Port 2: Off \r\n  \r\n  LUN-F, Shutter(SD Laser): Active\r\n  LUN-F, MultiLaser(LUN-F):\r\n     Line:1; ExW:405; Power: 90.0; Off\r\n     Line:2; ExW:488; Power: 97.4; On\r\n     Line:3; ExW:561; Power: 95.9; Off\r\n     Line:4; ExW:640; Power: 93.3; Off\r\n\r\nPlane #3:\r\n Name: 405\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Exposure: 200 ms\r\n  Binning: 1x1\r\n  Scan Mode: Ultra-quiet\r\n  Temperature: -5.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 5 (Empty)\r\n  Nikon Ti2, FilterChanger(Turret-Up): 2 (Empty)\r\n  Nikon Ti2, Shutter(FL-Lo): Closed\r\n  Nikon Ti2, Shutter(FL-Up): Closed\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 23.8\r\n  LightPath: L100\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  PFS, state: Off\r\n  PFS, offset: 6777\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola II, Shutter(Sola): Closed\r\n  Sola II, Illuminator(Sola) Iris intensity: 25.0\r\n  NIDAQ, Shutter(AOTF): Closed\r\n  NIDAQ, MultiLaser(AOTF):\r\n     Line:1; ExW:405; Power: 11.4; On\r\n  \r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Di01-T405/488/568/647-13x15x0.5)\r\n  CSU-W1, FilterChanger(EM Wheel): 1 (DAPI - 380818)\r\n  CSU-W1, Shutter(CSU): Open\r\n  CSU-W1 Aperture: 9\r\n  CSU-W1 Observation Mode:\r\n     Port 1: On \r\n     Port 2: Off \r\n  \r\n  LUN-F, Shutter(SD Laser): Active\r\n  LUN-F, MultiLaser(LUN-F):\r\n     Line:1; ExW:405; Power: 90.0; On\r\n     Line:2; ExW:488; Power: 97.4; Off\r\n     Line:3; ExW:561; Power: 95.9; Off\r\n     Line:4; ExW:640; Power: 93.3; Off",
+  "capturing": "Fusion, SN:000294\r\nSample 1:\r\n  Exposure: 300 ms\r\n  Binning: 1x1\r\n  Scan Mode: Ultra-quiet\r\n  Temperature: -5.0\u00b0C\r\nSample 2:\r\n  Exposure: 4 s\r\n  Binning: 1x1\r\n  Scan Mode: Ultra-quiet\r\n  Temperature: -5.0\u00b0C\r\nSample 3:\r\n  Exposure: 200 ms\r\n  Binning: 1x1\r\n  Scan Mode: Ultra-quiet\r\n  Temperature: -5.0\u00b0C",
+  "date": "11/16/2023  9:27:10 AM",
+  "optics": "Plan Apo \u03bb 100x Oil"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=3, heightPx=1952, pixelDataType='unsigned', sequenceCount=1, widthBytes=11712, widthPx=1952, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=3)"
+}

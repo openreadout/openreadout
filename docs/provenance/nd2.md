@@ -144,3 +144,9 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 **Rule implemented:** a filter spectrum made of a rising and a falling edge (`eType` 2 and 3) gives the centre of the edges as the excitation or emission wavelength (470 and 525 nm for `GFP/fitc`); the band stays in `emission_range_nm`. A probe spectrum's peak still takes precedence. When `sSampleSetting` holds a single entry, every plane uses it.
 
 **ROIs on a real file (same day).** A remote survey (chunk map and `CustomData|RoiMetadata_v1!` only, over HTTP ranges) of 452 public Zenodo ND2 files found 10 with a non-empty ROI tree; `zenodo14231228-Sla2-WT-18-roi` (CC-BY-4.0) was added. Our `extra.rois` equals the `nd2` package's `rois` field for field (one global background rectangle). The stored centre and size are small signed fractions, not pixels or µm; their unit is not established and they are reported as stored (docs/formats/nd2.md). No ND2 with lossy frames (`eCompression` 1) was found among the 452; 3 files use NE-time sub-loops (6.5, 12.4 and 32.2 GB, too large to fetch within the budget).
+
+## 2026-10-12 — imaging sweep: 27 public ND2 files from 27 figshare items
+
+**Corpus files used:** the `figshare*` ND2 entries added on 2026-10-12 (CC-BY-4.0 or CC0-1.0). **Prior art consulted:** the nd2 package 0.11.3 (BSD-3-Clause) as the oracle.
+
+**Result.** Every file matched nd2 on geometry, pixels, channels and acquisition time. In `figshare22565206-1-noFISH-na-noConnector-0011` nd2 reports an emission wavelength of -1 for a channel whose wavelength the file leaves unset; we report none. The corpus comparison now reads a non-positive oracle wavelength as unset. No reader change.

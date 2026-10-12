@@ -1,0 +1,8 @@
+{
+ "id": "figshare32095177-CTD-YFP-1",
+ "file": "figshare32095177-CTD-YFP-1.nd2",
+ "size": 587676,
+ "sha256": "94ac9501de8fbb7db55a538751636a6c93145799cc67b91aca3ce68af3614799",
+ "max_planes_hashed": 64,
+ "error": "OSError: file figshare32095177-CTD-YFP-1.nd2 not recognized as ND2.  First 4 bytes: b'MM\\x00*'"
+}

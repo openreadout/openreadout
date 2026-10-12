@@ -61,7 +61,9 @@
      "t": 0,
      "xxh3": "eeda89dba0de7142bcb7d942d4d4c867"
     }
-   ]
+   ],
+   "check_objective": "Plan-Apochromat 10x/0.45",
+   "check_acquired_at": "2021-01-13T13:46:40"
   }
  ]
 }

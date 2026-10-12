@@ -1,0 +1,58 @@
+{
+ "id": "zenodo7779321-IF-HAP1-CHCHD10-176-2567-1-AP",
+ "file": "zenodo7779321-IF-HAP1-CHCHD10-176-2567-1-AP.czi",
+ "size": 631680,
+ "sha256": "6124cdbba6174dd878398587a035dadbf79a872c3cefe2f305ec0889bbcdf3fc",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CYX",
+   "shape": [
+    2,
+    512,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.13178822554981573,
+    "y": 0.13178822554981573,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "77ca47f13ae92b1765dfeb20df471523"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d2d8ec795f8bbb01efc8408b401ff152"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.13178822554981573,
+  "y": 0.13178822554981573,
+  "z": 0.0
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

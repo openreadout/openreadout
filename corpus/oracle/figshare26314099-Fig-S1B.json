@@ -1,0 +1,116 @@
+{
+ "id": "figshare26314099-Fig-S1B",
+ "file": "figshare26314099-Fig-S1B.nd2",
+ "size": 6864896,
+ "sha256": "0c2abb297f413a2a78b5d23ac8d2a8be89363807e537b6ac52f5f709b3ab93fc",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 3, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.108333333333333,
+    "y": 0.108333333333333,
+    "z": null
+   },
+   "channel_names": [
+    "405 CSU",
+    "561 CSU",
+    "640 CSU"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dfcf8a077816c0d87d3eba5b960d3290"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eac711f9b6a55f9d18a4ea1399c6e4aa"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c6c34fb458e620b4c11e0c28ecc1f26"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "405 CSU",
+    "color": "#0047FF",
+    "excitation_nm": 405.0,
+    "emission_nm": 455.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "561 CSU",
+    "color": "#FF9900",
+    "excitation_nm": 561.0,
+    "emission_nm": 605.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "640 CSU",
+    "color": "#FFFFFF",
+    "excitation_nm": 405.0,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1688.0915749999695,
+    "tags": {
+     "Camera_ExposureTime1": 81.92,
+     "PFS_OFFSET": 6682,
+     "PFS_STATUS": 3,
+     "X": 11977.900000000001,
+     "Y": -274.90000000000003,
+     "Z": 3300.84,
+     "Z1": 3350.84,
+     "Z2": 50.0
+    }
+   }
+  ],
+  "acquired_at": "2022-04-30T19:04:37.319Z",
+  "acquired_at_unix_ms": 1651345477319
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: XY(1) x \u03bb(3)\r\nCamera Name: Fusion, SN:000458\r\nNumerical Aperture: 1.4\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 3\r\nPlane #1:\r\n Name: 405 CSU\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Exposure: 82 ms\r\n  Binning: 1x1\r\n  Scan Mode: Standard\r\n  Temperature: -5.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  Nikon Ti2, FilterChanger(Turret-Up): 1 (Empty)\r\n  LightPath: L100\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Di01-T405/488/568/647-13x15x0.5)\r\n  CSU-W1, FilterChanger(EM Wheel): 1 (455/50)\r\n  CSU-W1, Shutter(CSU): Open\r\n  CSU-W1 Aperture: 10\r\n  CSU-W1, Observation Mode: Confocal\r\n  CSU-W1, rpm: 4000\r\n  NIDAQ, Shutter(Laser): Open\r\n  NIDAQ, MultiLaser(Laser):\r\n     Line:1; ExW:405; Power: 35.1; On\r\n\r\nPlane #2:\r\n Name: 561 CSU\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Exposure: 50 ms\r\n  Binning: 1x1\r\n  Scan Mode: Ultra-quiet\r\n  Temperature: -5.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  Nikon Ti2, FilterChanger(Turret-Up): 1 (Empty)\r\n  LightPath: L100\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Di01-T405/488/568/647-13x15x0.5)\r\n  CSU-W1, FilterChanger(EM Wheel): 3 (605/52)\r\n  CSU-W1, Shutter(CSU): Open\r\n  CSU-W1 Aperture: 10\r\n  CSU-W1, Observation Mode: Confocal\r\n  CSU-W1, rpm: 4000\r\n  NIDAQ, Shutter(STIM): Open\r\n  NIDAQ, Shutter(Laser): Active\r\n  NIDAQ, MultiLaser(Laser):\r\n     Line:3; ExW:561; Power: 33.3; On\r\n\r\nPlane #3:\r\n Name: 640 CSU\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Exposure: 800 ms\r\n  Binning: 1x1\r\n  Scan Mode: Ultra-quiet\r\n  Temperature: -5.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  Nikon Ti2, FilterChanger(Turret-Up): 6 (FRAP Mirror)\r\n  LightPath: L100\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Di01-T405/488/568/647-13x15x0.5)\r\n  CSU-W1, FilterChanger(EM Wheel): 4 (705/72)\r\n  CSU-W1, Shutter(CSU): Open\r\n  CSU-W1 Aperture: 10\r\n  CSU-W1, Observation Mode: Confocal\r\n  CSU-W1, rpm: 4000\r\n  NIDAQ, Shutter(Laser): Open\r\n  NIDAQ, MultiLaser(Laser):\r\n     Line:4; ExW:640; Power: 73.4; On",
+  "capturing": "Fusion, SN:000458\r\nSample 1:\r\n  Exposure: 82 ms\r\n  Binning: 1x1\r\n  Scan Mode: Standard\r\n  Temperature: -5.0\u00b0C\r\nSample 2:\r\n  Exposure: 50 ms\r\n  Binning: 1x1\r\n  Scan Mode: Ultra-quiet\r\n  Temperature: -5.0\u00b0C\r\nSample 3:\r\n  Exposure: 800 ms\r\n  Binning: 1x1\r\n  Scan Mode: Ultra-quiet\r\n  Temperature: -5.0\u00b0C",
+  "date": "4/30/2022  3:04:37 PM",
+  "optics": "Plan Apo \u03bb 60x Oil"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=3, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=6144, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=3)"
+}

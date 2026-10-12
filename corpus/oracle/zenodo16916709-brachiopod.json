@@ -399,7 +399,9 @@
      "t": 0,
      "xxh3": "9cbfae83fee1fd28bbd66a43251ffe99"
     }
-   ]
+   ],
+   "check_objective": "Plan-Apochromat 20x/0.8 M27",
+   "check_acquired_at": "2015-09-23T06:55:34"
   }
  ]
 }

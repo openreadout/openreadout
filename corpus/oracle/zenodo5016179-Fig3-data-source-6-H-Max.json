@@ -1,0 +1,58 @@
+{
+ "id": "zenodo5016179-Fig3-data-source-6-H-Max",
+ "file": "zenodo5016179-Fig3-data-source-6-H-Max.czi",
+ "size": 1125440,
+ "sha256": "b038f0da852c56a967f0d7dfd6c8d3c7043f34fa5aba9d829ce09d15d420ccfd",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    2,
+    512,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.6918881841365326,
+    "y": 0.6918881841365326,
+    "z": 1.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5483b5947d6b5c4d08fc815cce027e37"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "234727693edb1bf07e12f466910c7503"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.6918881841365326,
+  "y": 0.6918881841365326,
+  "z": 1.0
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

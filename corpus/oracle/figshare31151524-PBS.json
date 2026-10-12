@@ -1,0 +1,79 @@
+{
+ "id": "figshare31151524-PBS",
+ "file": "figshare31151524-PBS.nd2",
+ "size": 10903552,
+ "sha256": "5b67a1da3377d94eb62beb237bc0d43011a3d3eee059b9bed89c9ad1cca40868",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2304,
+   "size_y": 2304,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Y': 2304, 'X': 2304}",
+   "physical_size_um": {
+    "x": 0.65,
+    "y": 0.65,
+    "z": null
+   },
+   "channel_names": [
+    "Widefield Blue"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f4d9fee65f69f8662fea84423a072c0e"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Widefield Blue",
+    "color": "#00FFFF",
+    "excitation_nm": null,
+    "emission_nm": 460.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1774.203272819519,
+    "tags": {
+     "Camera_ExposureTime1": 30.0,
+     "PFS_OFFSET": 8528,
+     "PFS_STATUS": 0,
+     "X": 42740.4,
+     "Y": -5758.8,
+     "Z": 5575.12,
+     "Z1": 5575.12
+    }
+   }
+  ],
+  "acquired_at": "2025-06-09T13:58:17.570Z",
+  "acquired_at_unix_ms": 1749477497570
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(1)\r\nCamera Name: Fusion, SN:500042\r\nNumerical Aperture: 0.45\r\nRefractive Index: 1\r\n Name: Widefield Blue\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Exposure: 30 ms\r\n  Binning: 1x1\r\n  Scan Mode: Standard\r\n  Temperature: -8.0\u00b0C\r\n Microscope Settings:   LUN-F, MultiLaser(LUNF-XL):\r\n     Line:1; ExW:405\r\n     Line:2; ExW:445\r\n     Line:3; ExW:488\r\n     Line:4; ExW:514\r\n     Line:5; ExW:561\r\n     Line:6; ExW:640\r\n  \r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Semrock DI01-T405/488/568/647-13X15X0.5)\r\n  CSU-W1, FilterChanger(EM Wheel): 1 (Empty)\r\n  CSU-W1, Shutter(CSU): Open\r\n  CSU-W1 Observation Mode:\r\n     Port 1: Off  (Confocal)\r\n     Port 2: On  (Widefield)\r\n  \r\n  NIDAQ, Shutter(DIA): Closed\r\n  Microscope: Ti2 Microscope\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 3 (DAPI)\r\n  Nikon Ti2, Shutter(FL-Lo): Open\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 1 (OPEN)\r\n  PFS, state: Off\r\n  PFS, offset: 10828\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Sola II, Shutter(Sola): Active\r\n  Sola II, Illuminator(Sola) Iris intensity: 19.0",
+  "capturing": "Fusion, SN:500042\r\nExposure: 30 ms\r\nBinning: 1x1\r\nScan Mode: Standard\r\nTemperature: -8.0\u00b0C",
+  "date": "6/9/2025  9:58:17 AM",
+  "optics": "Plan Apo \u03bb 10x"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=1, heightPx=2304, pixelDataType='unsigned', sequenceCount=1, widthBytes=4608, widthPx=2304, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

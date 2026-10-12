@@ -1,0 +1,103 @@
+{
+ "id": "figshare24849369-Fig-S3-Data",
+ "file": "figshare24849369-Fig-S3-Data.lif",
+ "size": 1714749,
+ "sha256": "3223c63265a404da4d661170d1d59c74dcc79a0bbfbeca2edd67256e4e832ffb",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Control",
+   "path": "Control",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.22749510763209418,
+    "y": 0.22749510763209418,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4fb2ff2ef2ee83efa98ab454beca9532"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "849cf8187d75df8ea898d623179f26f4"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "968f130a1e7083b74a0802e5c14fe567"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Preconditioned",
+   "path": "Preconditioned",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    3,
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.22749510763209393,
+    "y": 0.22749510763209393,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6b4cf9af41cd99933ef03a1cc03779de"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "da6acd8e93aca476fc7685aeff37e6a1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9eafa0e1b5919ba0d805893fb9e37aa7"
+    }
+   ]
+  }
+ ]
+}

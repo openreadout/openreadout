@@ -1,0 +1,64 @@
+{
+ "id": "zenodo7115828-Figure-S2B",
+ "file": "zenodo7115828-Figure-S2B.czi",
+ "size": 29160992,
+ "sha256": "9fc30e2567cacfe835394af6139a7449a49b5c6aba202298f8409dc02e796ce0",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 2186,
+   "size_y": 2186,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    3,
+    2186,
+    2186
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.03529853756098095,
+    "y": 0.03529853756098095,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0293a40a9b0736ff82305408245d19ce"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "07cd5f791202323c4fd1fb494a7b6b6a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "82afa17ab123306bc5cd1b7d0c91e865"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.03529853756098095,
+  "y": 0.03529853756098095,
+  "z": null
+ },
+ "subblock_count": 3,
+ "compression_ids": [
+  0
+ ]
+}
