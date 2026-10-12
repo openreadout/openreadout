@@ -83,11 +83,11 @@ pub fn looks_like_arw(head: &[u8]) -> bool {
             // header (`"iata","airport"`) or a quoted line of text is not one
             s.contains('\t')
                 && s.split('\t').all(|c| {
-                c.len() >= 2
-                    && c.starts_with('"')
-                    && c.ends_with('"')
-                    && !c[1..c.len() - 1].contains('"')
-            })
+                    c.len() >= 2
+                        && c.starts_with('"')
+                        && c.ends_with('"')
+                        && !c[1..c.len() - 1].contains('"')
+                })
         })
 }
 
@@ -585,7 +585,9 @@ mod tests {
         assert!(!looks_like_headerless_arw(b"Time\tValue\r0\t1\r"));
         assert!(!looks_like_headerless_arw(b""));
         // a comma-separated CSV with a quoted header is not an Empower export
-        assert!(!looks_like_arw(b"\"iata\",\"airport\",\"city\"\n\"00R\",\"Livingston\",\"TX\"\n"));
+        assert!(!looks_like_arw(
+            b"\"iata\",\"airport\",\"city\"\n\"00R\",\"Livingston\",\"TX\"\n"
+        ));
         assert!(looks_like_arw(b"\"SampleName\"\t\"Channel\"\r\n"));
         assert!(!looks_like_arw(b"\"Editorial: Space flight\"\n"));
         assert!(matches!(
