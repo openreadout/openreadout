@@ -432,8 +432,10 @@ fn analog_pressure_matches_the_exported_chromatograms() {
                     }
                     k < ch[0].len()
                         && (ch[0][k] - s).abs() <= 1e-6
+                        // (an f32 export holds our value rounded to single precision)
                         && ((ch[1][k] * 1e5 - v).abs() <= 1e-6 * v.abs().max(1.0)
-                            || f64::from((ch[1][k] * 1e5) as f32) == v)
+                            || (f64::from((ch[1][k] * 1e5) as f32) - v).abs()
+                                <= f64::EPSILON * v.abs())
                 })
             });
             let Some((name, ch)) = found else {

@@ -27,7 +27,7 @@ Agilent MassHunter `.d` mass-spectrometry directories: Q-TOF, TOF, triple quadru
 - Layouts other than 5, 6 and the 6560 ion-mobility layout are read through their own XSD but are unverified.
 - Q-TOF profiles are checked only against the index (TIC sum, base-peak m/z): no export holds them; zero runs between peaks are dropped.
 - Precursor m/z is each MS/MS scan's own value (ProteoWizard averages over scans sharing a precursor).
-- Ion mobility: drift-bin spectra only; compressed drift-bin profiles and CCS values are not supported. DAD spectra and several auxiliary files are listed, not decoded.
+- Ion mobility: drift-bin spectra only; compressed drift-bin profiles and CCS values are not supported. DAD spectra are a trace (`DAD1.sd`/`.sp`, `layout.rs` `parse_dad_index`); several auxiliary files (`MSPeriodicActuals.bin`) are listed, not decoded.
 
 <!-- BEGIN GENERATED guide -->
 ## Facts (generated)

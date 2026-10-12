@@ -29,7 +29,8 @@ All integers and floats little-endian.
     sample_info.xml     sample name, position, method path, operator, ...
     AcqMethod.xml       method report (the method name is read)
     <Module><n>.cd/.cg  device signals: descriptor + data (validated layout, see below)
-    MSPeriodicActuals.bin, MSActualDefs.xml, DAD1.sd/.sp, MSTree2.bin, *.m/   listed, not decoded
+    DAD1.sd + DAD1.sp                                                   DAD spectra (trace `DAD1 spectra`)
+    MSPeriodicActuals.bin, MSActualDefs.xml, MSTree2.bin, *.m/           listed, not decoded
     IMSFrame.bin        ion-mobility frame index (6560 IM-MS; validated, see below)
     IMSFrame.xsd        the frame record's field list (schema, read to build the layout)
     IMSFrameMeth.xml    frame methods: drift-bin width, flight-time grid, polarity, calibration id
@@ -154,6 +155,8 @@ Validated layout (every corpus descriptor parses to its exact length; every bloc
 
 `.cg` block at `offset` (`signal_block`): f64 start time (min), f64 interval (min), then `count` f64 values. Exposed as traces after TIC and BPC: time (s) and value × scale.
 
+**DAD spectra** (`DADn.sd` index, `DADn.sp` values; `parse_dad_index`, `DadRecord`, `dad_values`, `DAD_RECORD`) — validated: all 520 spectra of `pwiz-agilent-tof-sulfas` equal its ProteoWizard export (times, wavelengths, values as f32; corpus test, `dad_spectra` in the oracle); the layout holds in three more files (every record chains through `.sp`, and its stored mean and end values equal those of its values). `.sd`: u32 at 0x4C the first record's offset (0xA4), u32 at 0x50 the record count, then 80-byte records: u32 `number` (from 1), f64 `time_min`, f64 `mean` of the values, f64 `step_nm`, u32 1, u32 `offset` into `.sp`, u32 0, u32 `byte_len` (16 + 8 × points), u32 `points`, f64 `first_nm`, f64 `last_nm`, f64 first and last value. `.sp` at `offset`: f64 first wavelength, f64 step, then `points` f64 values. Exposed after the device signals as one trace per `.sd` (`DAD1 spectra`, `extra.kind` `DAD spectra`, `wavelength_range_nm`): channel 0 the time (s), then one channel per wavelength (`230 nm`, `extra.wavelength_nm`, the unit of the detector's own `.cd` signals when they share one), one sample per spectrum. An index whose spectra use different wavelength grids is not exposed (a note says so).
+
 ## XML metadata (`Device`, `devices`, `sample_fields`, `tag_text`)
 
 - `Contents.xml`: `AcquiredTime` → `extra.acquired_at`; `AcqSoftwareVersion` → `instrument.software_version`; `InstrumentName` → `extra.instrument_name`.
@@ -203,5 +206,6 @@ Validated layout (every corpus descriptor parses to its exact length; every bloc
 | `Calibration`, `a`, `t0`, `range`, `terms`, `from_values`, `mz`, `mass_cal_values` | layout | flight time → m/z |
 | `DefaultCalibration`, `flags`, `formulas`, `default_calibrations` | layout | `DefaultMassCal.xml` |
 | `SignalDef`, `description`, `kind`, `count`, `unit`, `scale`, `SignalDirectory`, `device_id`, `signals`, `signal_directory`, `signal_block` | layout | device signals |
+| `DAD_RECORD`, `DadRecord`, `number`, `time_min`, `mean`, `step_nm`, `offset`, `byte_len`, `points`, `first_nm`, `last_nm`, `parse_dad_index`, `dad_values` | layout | DAD spectra (`DADn.sd`, `DADn.sp`) |
 
 Schema field names quoted above (`ScanID`, `MzOfInterest`, …) are the file's own and appear only in `info --view full` output.

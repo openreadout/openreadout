@@ -218,6 +218,7 @@ fn compared_scopes(o: &Oracle, format: &str) -> Vec<&'static str> {
     }
     if o.traces.iter().any(|t| t.sweep_count.is_some())
         || (o.chromatograms.is_some() && !thermo_chromatograms)
+        || o.dad_spectra.is_some()
     {
         v.push("traces");
     }
@@ -325,6 +326,15 @@ fn check_one(
         && oracle.tables.is_empty()
     {
         let spectra = check_spectra(ds.as_mut(), &info, sp);
+        let spectra = match (&oracle.dad_spectra, spectra) {
+            (None, s) => s,
+            (Some(d), s) => match (s, check_dad(ds.as_mut(), &info, d)) {
+                (Ok(a), Ok(b)) => Ok(format!("{a}; {b}")),
+                (Err(a), Ok(_)) => Err(a),
+                (Ok(_), Err(b)) => Err(b),
+                (Err(a), Err(b)) => Err(format!("{a}; {b}")),
+            },
+        };
         if oracle.traces.is_empty() {
             return spectra;
         }
@@ -1015,4 +1025,76 @@ fn heldout_agreement_is_recorded() {
     if let Ok(p) = std::env::var("HELDOUT_REPORT") {
         std::fs::write(p, lines).unwrap();
     }
+}
+
+/// Our `DAD spectra` trace against an export's diode-array spectra: the same count, wavelengths
+/// and times (to 1e-9 min), and every value equal as f32.
+fn check_dad(
+    ds: &mut dyn openreadout_core::Dataset,
+    info: &openreadout_core::FileInfo,
+    d: &oracle::OracleDad,
+) -> Result<String, String> {
+    let t = info
+        .traces
+        .iter()
+        .find(|t| t.extra.get("kind").and_then(|v| v.as_str()) == Some("DAD spectra"))
+        .ok_or("the export holds DAD spectra; we list no DAD spectra trace")?;
+    if t.sample_count != d.count {
+        return Err(format!(
+            "DAD spectra: {} (export {})",
+            t.sample_count, d.count
+        ));
+    }
+    let wl: Vec<f64> = t.channels[1..]
+        .iter()
+        .filter_map(|c| {
+            c.extra
+                .get("wavelength_nm")
+                .and_then(serde_json::Value::as_f64)
+        })
+        .collect();
+    if wl.len() != d.wavelengths_nm.len()
+        || wl
+            .iter()
+            .zip(&d.wavelengths_nm)
+            .any(|(a, b)| (a - b).abs() > 1e-9)
+    {
+        return Err(format!(
+            "DAD wavelengths {} from {:?} (export {} from {:?})",
+            wl.len(),
+            wl.first(),
+            d.wavelengths_nm.len(),
+            d.wavelengths_nm.first()
+        ));
+    }
+    let tr = ds
+        .read_trace(t.index, 0, 0, t.sample_count)
+        .map_err(|e| format!("DAD spectra: {e}"))?;
+    if let Some(k) = tr.channels[0]
+        .iter()
+        .zip(&d.times_min)
+        .position(|(a, b)| (a / 60.0 - b).abs() > 1e-9)
+    {
+        return Err(format!(
+            "DAD spectrum {k}: time {} min (export {})",
+            tr.channels[0][k] / 60.0,
+            d.times_min[k]
+        ));
+    }
+    let mut bytes = Vec::with_capacity(tr.channels[0].len() * wl.len() * 4);
+    for k in 0..tr.channels[0].len() {
+        for c in &tr.channels[1..] {
+            #[allow(clippy::cast_possible_truncation)]
+            bytes.extend_from_slice(&(c[k] as f32).to_le_bytes());
+        }
+    }
+    let hash = format!("{:032x}", xxhash_rust::xxh3::xxh3_128(&bytes));
+    if hash != d.xxh3_f32 {
+        return Err("DAD spectra values differ from the export's".into());
+    }
+    Ok(format!(
+        "{} DAD spectra x {} wavelengths equal to the export's",
+        d.count,
+        wl.len()
+    ))
 }
