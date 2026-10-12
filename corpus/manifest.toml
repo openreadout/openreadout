@@ -73553,3 +73553,67 @@ license_checked = "https://figshare.com/articles/30273178 (CC BY 4.0, figshare A
 source = "figshare 30273178 'Flow Cytometry Dataset for Time Since Deposition (TSD) Signatures of Canine Blood Samples'"
 attribution = "Alysia Townsley, Gabrielle Wolfe, Madison Smith et al."
 notes = "Guava Mini2, InCyte 3.4, FCS 2.0, 14 parameters, 17759 events; Guava Mini2, InCyte, FCS 2.0; upstream Dog Blood TSD 90 Day Samples-3.fcs"
+
+[[file]]
+id = "figshare31425755-abf-25106001"
+format = "abf"
+family = "electrophysiology"
+role = "input"
+tier = "standard"
+filename = "figshare31425755-abf-25106001.abf"
+url = "https://ndownloader.figshare.com/files/62201567"
+sha256 = "fa265604579640a73c0f758ef1c9897a461ccad21f552a643c4c2eb61c952398"
+size = 12006144
+license = "CC0-1.0"
+license_checked = "https://figshare.com/articles/31425755 (CC0, figshare API), 2026-10-12"
+source = "figshare 31425755 'Data supporting the publication \"Suppression of astrocyte BMP signaling improves molecular signatures and functional deficits in a fragile X syndrome mouse model\"'"
+attribution = "James Deng, Nicola Allen, Tao Tao et al."
+notes = "ABF 1.84, Clampex 10.5, gap-free; upstream 25106001.abf"
+
+[[file]]
+id = "figshare31810441-abf-nhx8-col0"
+format = "abf"
+family = "electrophysiology"
+role = "input"
+tier = "standard"
+filename = "figshare31810441-abf-nhx8-col0.abf"
+url = "https://ndownloader.figshare.com/files/67362993"
+sha256 = "8bedf1a7f595c9cfdfa269d1586d74a6b0c0ea8ede72525e6ec37a314c54acf8"
+size = 4214272
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31810441 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 31810441 'Data for: <b>Seed lithium allocation is selectively promoted by</b><b><i> NHX8</i></b><b> and limited by </b><b><i>HKT1 </i></b><b>in Arabidopsis</b>'"
+attribution = "Sebastian Garcia-Daga, Stephen Tyerman, Robbie Waugh et al."
+notes = "ABF 2.0, Clampex 10.2, gap-free (plant vacuole patch clamp); upstream Mg NHX8 Col-0 Gap free Figure S16.abf"
+
+[[file]]
+id = "zenodo3250056-abf-rabbit-at-0026"
+format = "abf"
+family = "electrophysiology"
+role = "input"
+tier = "standard"
+filename = "zenodo3250056-abf-rabbit-at-0026.abf"
+url = "https://zenodo.org/api/records/3250056/files/20130903_rabbit_AT_0026.abf/content"
+sha256 = "e2f068486af196ebf97925b543d9477c652a74da05a0929632a93a81906ffee5"
+size = 3206656
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/3250056 (licence cc-by-4.0 in the record metadata), 2026-10-12"
+source = "Zenodo 3250056 'L-type Ca channel kinetics vs AP morphology'"
+attribution = "Kanaporis, Giedrius"
+notes = "ABF 2.0, Clampex 10.3, episodic (rabbit atrial action potentials); upstream 20130903_rabbit_AT_0026.abf"
+
+[[file]]
+id = "gin-snowden-abf-2025-09-22-0000"
+format = "abf"
+family = "electrophysiology"
+role = "input"
+tier = "standard"
+filename = "gin-snowden-abf-2025-09-22-0000.abf"
+url = "https://gin.g-node.org/maxjoffe/2026_Snowden_PFC.PV.M2.signaling/raw/master/Files/2025_09_22_0000.abf"
+sha256 = "e547ccbc8e78300069bea749665a45fe418432cd5032e578eb165c1eb5d53009"
+size = 1400320
+license = "CC0-1.0"
+license_checked = "https://gin.g-node.org/maxjoffe/2026_Snowden_PFC.PV.M2.signaling (LICENSE and datacite.yml: CC0-1.0), 2026-10-12"
+source = "G-Node GIN maxjoffe/2026_Snowden_PFC.PV.M2.signaling"
+attribution = "Snowden et al. (GIN depositor maxjoffe)"
+notes = "ABF 2.9, Clampex 11.2, episodic; upstream Files/2025_09_22_0000.abf"
