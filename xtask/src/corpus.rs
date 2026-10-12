@@ -715,6 +715,13 @@ fn download(url: &str, dst: &Path) -> Result<String> {
                 let have = fs::metadata(dst).map_or(0, |m| m.len());
                 eprintln!("  attempt {attempt}/{ATTEMPTS} stopped at {have} bytes: {e:#}");
                 last = Some(e);
+                // Hosts such as G-Node GIN answer 403 or 429 to a burst of requests. Waiting
+                // longer after each failure lets them recover instead of using up the attempts.
+                if attempt < ATTEMPTS {
+                    std::thread::sleep(std::time::Duration::from_secs(
+                        u64::from(attempt.min(10)) * 3,
+                    ));
+                }
             }
         }
     }
