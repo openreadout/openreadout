@@ -12,7 +12,8 @@ Not read: files of the 2019 generation (TRIOS 3/4; byte 2 = `0C`), whose steps h
 records of this layout — refused with exit 6 and a hint to export from TRIOS; variables TRIOS
 computes and does not store (normalised heat flow, derivatives, viscosities of flow steps, DMA
 moduli, the moduli of other geometries); per-point oscillation waveforms; analysis results
-(fits, peak integrations) stored in the file.
+(fits, peak integrations) stored in the file. A run that recorded no data points (its signal
+records hold 0 points) reads with its facts, no traces and a `no_data_points` warning.
 
 ## Layout
 

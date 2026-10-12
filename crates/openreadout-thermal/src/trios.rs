@@ -27,6 +27,8 @@ const STEP_PREFIX: [u8; 16] = [
 /// Second u32 of a signal record that holds values.
 const KIND_DATA: u32 = 1;
 
+/// What a signal record of a run without data points is.
+const NO_POINTS: &str = "signal without data points (the run recorded none)";
 /// A GUID as stored (the .NET little-endian layout) from its text form.
 const fn guid(s: &[u8; 36]) -> [u8; 16] {
     const fn hex(c: u8) -> u8 {
@@ -373,6 +375,11 @@ fn object(b: &[u8], at: usize) -> Option<Object> {
     let tail_ok = |from: usize| -> bool { from <= end && end - from <= 8 };
     // no values: the record ends here
     if b.get(cur..cur + 2) != Some(&[0x01, 0x10][..]) {
+        let other = if first == 1 && kind == KIND_DATA && count == 0 {
+            NO_POINTS
+        } else {
+            other
+        };
         return tail_ok(cur).then_some(Object::Signal {
             end,
             signal: None,
@@ -817,6 +824,9 @@ pub(crate) fn parse(b: &[u8]) -> Result<SeriesFile> {
                 hint: Some("export the run from TRIOS (File > Export) to text or Excel; files from TRIOS 5 are read".into()),
             });
         }
+        if let Some(&n) = others.get(NO_POINTS) {
+            return Ok(no_points(&get, &hdr, generation, &props, n));
+        }
         return Err(Error::Unsupported {
             format: FORMAT_ID,
             feature: "a TRIOS file without signal records in its procedure steps".into(),
@@ -900,6 +910,48 @@ pub(crate) fn parse(b: &[u8]) -> Result<SeriesFile> {
         ],
         members: Vec::new(),
     })
+}
+
+/// A run that recorded no data points: its signals are declared with 0 points. The file's facts,
+/// no traces.
+fn no_points(
+    get: &dyn Fn(&str) -> Option<String>,
+    hdr: &[(String, String)],
+    generation: u8,
+    props: &Props,
+    signals: usize,
+) -> SeriesFile {
+    let instrument = get("instrumenttype").unwrap_or_default();
+    let holder = get("holder").unwrap_or_default();
+    let facts = trios_facts(get, props, &instrument, &holder, &[]);
+    let message = format!(
+        "the run holds no data points: its {signals} signal records are stored with 0 points each (the run stopped before its first point, or the file was saved before the run)"
+    );
+    SeriesFile {
+        format_version: Some(generation.to_string()),
+        traces: Vec::new(),
+        tables: Vec::new(),
+        experiment: Some(facts.build()),
+        vendor: json!({"trios": trios_vendor(hdr, generation, None, None)}),
+        entries: Vec::new(),
+        findings: vec![Finding::warning("no_data_points", message.clone())],
+        notes: vec![message],
+        provenance: openreadout_core::ProvenanceMap::new(),
+        observations: trios_observations(
+            generation,
+            props,
+            &instrument,
+            false,
+            None,
+            &BTreeMap::new(),
+            &[],
+        ),
+        checks: vec![
+            "header entries".into(),
+            "procedure steps and their signal records, each parsed to its stated length".into(),
+        ],
+        members: Vec::new(),
+    }
 }
 
 /// Experiment facts of the header entries and properties.
