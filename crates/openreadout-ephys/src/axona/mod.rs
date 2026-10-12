@@ -43,7 +43,11 @@ pub const MAX_AXONA_READ: u64 = 1 << 24;
 /// the upper and the lower half.
 pub fn bin_channel_slot(i: usize) -> usize {
     let (g, r) = (i / 8, i % 8);
-    if g % 2 == 0 { 32 + g / 2 * 8 + r } else { g / 2 * 8 + r }
+    if g % 2 == 0 {
+        32 + g / 2 * 8 + r
+    } else {
+        g / 2 * 8 + r
+    }
 }
 
 /// Parse `key value` header lines up to `data_start` (or the end). Returns the entries in file
@@ -179,9 +183,11 @@ impl AxonaSession {
         .iter()
         .position(|m| mon.starts_with(m))? as u32
             + 1;
-        let hms: Vec<u32> = time.split(':').filter_map(|x| x.trim().parse().ok()).collect();
-        if !(1..=31).contains(&day) || hms.len() != 3 || hms[0] > 23 || hms[1] > 59 || hms[2] > 60
-        {
+        let hms: Vec<u32> = time
+            .split(':')
+            .filter_map(|x| x.trim().parse().ok())
+            .collect();
+        if !(1..=31).contains(&day) || hms.len() != 3 || hms[0] > 23 || hms[1] > 59 || hms[2] > 60 {
             return None;
         }
         Some(format!(
@@ -223,7 +229,13 @@ pub fn parse_session(input: &Input) -> Result<AxonaSession> {
             ),
         ));
     }
-    let set_bytes = read_file_capped_in(fs, &set_path, MAX_HEADER_BYTES, AXONA_FORMAT_ID, ".set file")?;
+    let set_bytes = read_file_capped_in(
+        fs,
+        &set_path,
+        MAX_HEADER_BYTES,
+        AXONA_FORMAT_ID,
+        ".set file",
+    )?;
     let (set, _) = parse_header(&set_bytes);
     let mut s = AxonaSession {
         dir: dir.clone(),
@@ -248,7 +260,10 @@ pub fn parse_session(input: &Input) -> Result<AxonaSession> {
         if s.bin_len % BIN_PACKET != 0 {
             s.findings.push(Finding::warning(
                 "partial_packet",
-                format!("{} bytes after the last whole .bin packet", s.bin_len % BIN_PACKET),
+                format!(
+                    "{} bytes after the last whole .bin packet",
+                    s.bin_len % BIN_PACKET
+                ),
             ));
         }
         s.bin = Some(bin);
@@ -265,7 +280,11 @@ pub fn parse_session(input: &Input) -> Result<AxonaSession> {
         let Some(data) = data else {
             s.findings.push(Finding::error(
                 "no_data_start",
-                format!("{}: no data_start in the first {} bytes", p.display(), head.len()),
+                format!(
+                    "{}: no data_start in the first {} bytes",
+                    p.display(),
+                    head.len()
+                ),
             ));
             continue;
         };
@@ -366,7 +385,9 @@ impl FormatReader for AxonaReader {
             });
         }
         let ext = ext_of(path);
-        let tetrode = ext.parse::<u32>().is_ok_and(|t| (1..=MAX_TETRODES).contains(&t));
+        let tetrode = ext
+            .parse::<u32>()
+            .is_ok_and(|t| (1..=MAX_TETRODES).contains(&t));
         if (tetrode || matches!(ext.as_str(), "eeg" | "egf" | "pos")) && looks_like_axona(head) {
             return Some(Detection {
                 format_id: AXONA_FORMAT_ID,
@@ -374,7 +395,10 @@ impl FormatReader for AxonaReader {
                 note: Some("reads the session this file belongs to (needs its .set)".into()),
             });
         }
-        if ext == "bin" && head.starts_with(b"ADU") && head.len() >= 436 && head[432..435] == *b"ADU"
+        if ext == "bin"
+            && head.starts_with(b"ADU")
+            && head.len() >= 436
+            && head[432..435] == *b"ADU"
         {
             return Some(Detection {
                 format_id: AXONA_FORMAT_ID,
@@ -429,7 +453,10 @@ impl AxonaDataset {
 
     fn has_trace(&self) -> bool {
         let s = &self.session;
-        s.bin.is_some() && s.packets() > 0 && !s.active_tetrodes.is_empty() && s.raw_rate_hz().is_some()
+        s.bin.is_some()
+            && s.packets() > 0
+            && !s.active_tetrodes.is_empty()
+            && s.raw_rate_hz().is_some()
     }
 
     fn spike_rows(&self) -> u64 {
@@ -486,9 +513,9 @@ impl AxonaDataset {
             let f = self.bin.as_mut().expect("just opened");
             self.window = read_block(f, &path, at, (4u64 << 20).max(n), len)?;
         }
-        self.window
-            .slice(at, n as usize)
-            .ok_or_else(|| Error::corrupt_at(AXONA_FORMAT_ID, at, "packet cut off by the end of the .bin"))
+        self.window.slice(at, n as usize).ok_or_else(|| {
+            Error::corrupt_at(AXONA_FORMAT_ID, at, "packet cut off by the end of the .bin")
+        })
     }
 }
 
@@ -515,7 +542,9 @@ impl Dataset for AxonaDataset {
             .iter()
             .any(|f| f.severity == openreadout_core::model::Severity::Error)
         {
-            notes.push("structural problems found (e.g. a cut-short tetrode file); run `check`".into());
+            notes.push(
+                "structural problems found (e.g. a cut-short tetrode file); run `check`".into(),
+            );
         }
         let recorded = s.recorded_at();
         let mut traces = Vec::new();
@@ -651,7 +680,11 @@ impl Dataset for AxonaDataset {
             add(b, "raw", json!({"packets": s.packets()}));
         }
         for t in &s.tetrode_files {
-            add(&t.path, "tetrode", json!({"tetrode": t.tetrode, "spikes": t.spikes}));
+            add(
+                &t.path,
+                "tetrode",
+                json!({"tetrode": t.tetrode, "spikes": t.spikes}),
+            );
         }
         for p in &s.other_files {
             add(p, "not read", json!({}));
@@ -680,7 +713,9 @@ impl Dataset for AxonaDataset {
             return Err(Error::Usage(format!("trace index {index} out of range")));
         }
         if sweep != 0 {
-            return Err(Error::Usage(format!("sweep {sweep} out of range (1 sweep)")));
+            return Err(Error::Usage(format!(
+                "sweep {sweep} out of range (1 sweep)"
+            )));
         }
         let n = self.session.packets() * BIN_SAMPLES_PER_PACKET;
         if first > n {
@@ -750,7 +785,11 @@ impl Dataset for AxonaDataset {
             let at = t.data_offset + skip * rb;
             let block = read_block(&mut f, &t.path, at, take * rb, len)?;
             if (block.len() as u64) < take * rb {
-                return Err(Error::corrupt_at(AXONA_FORMAT_ID, at, "spike records cut off"));
+                return Err(Error::corrupt_at(
+                    AXONA_FORMAT_ID,
+                    at,
+                    "spike records cut off",
+                ));
             }
             let w = t.samples_per_spike as usize;
             for r in block.bytes.chunks_exact(rb as usize) {
@@ -761,7 +800,8 @@ impl Dataset for AxonaDataset {
                 for c in 0..4 {
                     let g = &r[c * (4 + w) + 4..(c + 1) * (4 + w)];
                     for i in 0..width {
-                        cols[3 + c * width + i].push(g.get(i).map_or(f64::NAN, |b| f64::from(*b as i8)));
+                        cols[3 + c * width + i]
+                            .push(g.get(i).map_or(f64::NAN, |b| f64::from(*b as i8)));
                     }
                 }
             }
@@ -785,7 +825,10 @@ impl Dataset for AxonaDataset {
         let s = self.session.clone();
         if s.bin.is_some() {
             if s.raw_rate_hz().is_none() {
-                r.push(Finding::error("no_raw_rate", "the .set has no usable rawRate"));
+                r.push(Finding::error(
+                    "no_raw_rate",
+                    "the .set has no usable rawRate",
+                ));
             }
             for i in s.raw_channels() {
                 if !s.raw_scale(i).is_finite() {
@@ -818,7 +861,9 @@ impl Dataset for AxonaDataset {
             if jumps > 0 {
                 r.push(Finding::warning(
                     "packet_gaps",
-                    format!("the .bin packet counter skips {jumps} time(s): samples may be missing"),
+                    format!(
+                        "the .bin packet counter skips {jumps} time(s): samples may be missing"
+                    ),
                 ));
             }
         }

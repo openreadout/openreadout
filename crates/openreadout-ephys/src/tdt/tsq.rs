@@ -100,12 +100,9 @@ impl SampleFormat {
                     .map(|x| f64::from(i16::from_le_bytes(*x))),
             ),
             Self::Int8 => out.extend(b.iter().map(|x| f64::from(*x as i8))),
-            Self::Float64 => out.extend(
-                b.as_chunks::<8>()
-                    .0
-                    .iter()
-                    .map(|x| f64::from_le_bytes(*x)),
-            ),
+            Self::Float64 => {
+                out.extend(b.as_chunks::<8>().0.iter().map(|x| f64::from_le_bytes(*x)))
+            }
         }
     }
 }
@@ -159,8 +156,7 @@ impl StreamStore {
     }
     /// Samples per chunk.
     pub fn chunk_samples(&self) -> u64 {
-        self.format()
-            .map_or(0, |f| self.chunk_bytes() / f.width())
+        self.format().map_or(0, |f| self.chunk_bytes() / f.width())
     }
 }
 

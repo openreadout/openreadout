@@ -86,8 +86,7 @@ fn observe_tdt(info: &FileInfo) -> Observations {
             Some("spikes") => o.feature(K::Record, "snippet", &[Scope::Tables]),
             Some("epocs") => {
                 o.feature(K::Record, "strobe", &[Scope::Tables]);
-                if t
-                    .extra
+                if t.extra
                     .get("paired_offsets")
                     .and_then(serde_json::Value::as_u64)
                     .unwrap_or(0)
@@ -146,7 +145,11 @@ fn observe_axona(info: &FileInfo) -> Observations {
         o.undecoded("EEG, position and other session files", &[], n.to_string());
     }
     if let Some(n) = a::note_with(info, "structural problems found") {
-        o.undecoded("cut-short files", &[Scope::Traces, Scope::Tables], n.to_string());
+        o.undecoded(
+            "cut-short files",
+            &[Scope::Traces, Scope::Tables],
+            n.to_string(),
+        );
     }
     o
 }

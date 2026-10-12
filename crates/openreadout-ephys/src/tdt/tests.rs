@@ -41,7 +41,17 @@ fn synthetic() -> (Vec<u8>, Vec<u8>) {
     let t0 = 1_600_000_000.0;
     let mut tev = Vec::new();
     let mut recs: Vec<Vec<u8>> = Vec::new();
-    recs.push(rec(20, EVENT_MARK, &[1, 0, 0, 0], 0, 0, t0, off(40), 0, 0.0));
+    recs.push(rec(
+        20,
+        EVENT_MARK,
+        &[1, 0, 0, 0],
+        0,
+        0,
+        t0,
+        off(40),
+        0,
+        0.0,
+    ));
     for k in 0..3u16 {
         for ch in 1..=2u16 {
             let at = tev.len() as u64;
@@ -79,12 +89,52 @@ fn synthetic() -> (Vec<u8>, Vec<u8>) {
             ));
         }
     }
-    recs.push(rec(10, EVENT_STROBE_ON, b"Tri/", 0, 0, t0 + 0.02, 7.0f64.to_le_bytes(), 4, 0.0));
+    recs.push(rec(
+        10,
+        EVENT_STROBE_ON,
+        b"Tri/",
+        0,
+        0,
+        t0 + 0.02,
+        7.0f64.to_le_bytes(),
+        4,
+        0.0,
+    ));
     let buddy = u16::from_le_bytes(*b"Tr");
     let buddy2 = u16::from_le_bytes(*b"i/");
-    recs.push(rec(10, EVENT_STROBE_OFF, b"Tri\\", buddy, buddy2, t0 + 0.07, 7.0f64.to_le_bytes(), 4, 0.0));
-    recs.push(rec(10, EVENT_STROBE_ON, b"Tri/", 0, 0, t0 + 0.09, 8.0f64.to_le_bytes(), 4, 0.0));
-    recs.push(rec(20, EVENT_MARK, &[2, 0, 0, 0], 0, 0, t0 + 0.12, off(tev.len() as u64), 0, 0.0));
+    recs.push(rec(
+        10,
+        EVENT_STROBE_OFF,
+        b"Tri\\",
+        buddy,
+        buddy2,
+        t0 + 0.07,
+        7.0f64.to_le_bytes(),
+        4,
+        0.0,
+    ));
+    recs.push(rec(
+        10,
+        EVENT_STROBE_ON,
+        b"Tri/",
+        0,
+        0,
+        t0 + 0.09,
+        8.0f64.to_le_bytes(),
+        4,
+        0.0,
+    ));
+    recs.push(rec(
+        20,
+        EVENT_MARK,
+        &[2, 0, 0, 0],
+        0,
+        0,
+        t0 + 0.12,
+        off(tev.len() as u64),
+        0,
+        0.0,
+    ));
     let n = (recs.len() + 1) as i32 * 40;
     let mut tsq = rec(n, 0, &[0; 4], 0, 0, 0.0, off(0), 0, 0.0);
     for r in recs {
@@ -107,9 +157,15 @@ fn reads_a_synthetic_block() {
     let p = write_block(&d.path().join("T_B1"), "T_B1", &tsq, &tev);
     assert!(tsq::looks_like_tsq(&tsq));
     let det = TdtReader.sniff(&tsq, &p).unwrap();
-    assert_eq!(det.confidence, openreadout_core::model::DetectConfidence::Definite);
+    assert_eq!(
+        det.confidence,
+        openreadout_core::model::DetectConfidence::Definite
+    );
     let det = TdtReader.sniff(&[], &d.path().join("T_B1")).unwrap();
-    assert_eq!(det.confidence, openreadout_core::model::DetectConfidence::Definite);
+    assert_eq!(
+        det.confidence,
+        openreadout_core::model::DetectConfidence::Definite
+    );
     let mut ds = TdtReader.open(&d.path().join("T_B1")).unwrap();
     let info = ds.info().unwrap();
     assert_eq!(info.traces.len(), 1);
@@ -123,7 +179,10 @@ fn reads_a_synthetic_block() {
     assert!((t.start_s.unwrap() - 0.001).abs() < 1e-6);
     assert_eq!(t.extra["recorded_at"], "2020-09-13T12:26:40.000Z");
     let s = ds.read_trace(0, 0, 3, 6).unwrap();
-    assert_eq!(s.channels[0], vec![1003.0, 1004.0, 1005.0, 1006.0, 1007.0, 1008.0]);
+    assert_eq!(
+        s.channels[0],
+        vec![1003.0, 1004.0, 1005.0, 1006.0, 1007.0, 1008.0]
+    );
     assert_eq!(s.channels[1][0], 2003.0);
     assert_eq!(info.tables.len(), 2);
     let spikes = ds.read_table(0, 0, 10).unwrap();
@@ -136,7 +195,13 @@ fn reads_a_synthetic_block() {
     assert!((epocs.columns[4][0] - 0.05).abs() < 1e-6);
     assert!(epocs.columns[4][1].is_nan());
     let r = ds.check().unwrap();
-    assert!(!r.findings.iter().any(|f| f.severity == openreadout_core::model::Severity::Error), "{:?}", r.findings);
+    assert!(
+        !r.findings
+            .iter()
+            .any(|f| f.severity == openreadout_core::model::Severity::Error),
+        "{:?}",
+        r.findings
+    );
 }
 
 #[test]
@@ -150,13 +215,21 @@ fn a_tank_makes_blocks_sweeps() {
         let t = f64::from_le_bytes(r[16..24].try_into().unwrap());
         r[16..24].copy_from_slice(&(t + 100.0).to_le_bytes());
     }
-    write_block(&d.path().join("tank/B2"), "tank_B2", &tsq2, &tev[..tev.len() - 8]);
+    write_block(
+        &d.path().join("tank/B2"),
+        "tank_B2",
+        &tsq2,
+        &tev[..tev.len() - 8],
+    );
     let mut ds = TdtReader.open(&d.path().join("tank")).unwrap();
     let info = ds.info().unwrap();
     let t = &info.traces[0];
     assert_eq!(t.sweep_count, 2);
     assert_eq!(t.extra["sweep_sample_counts"], serde_json::json!([12, 8]));
-    assert_eq!(t.extra["sweep_starts_s"][1].as_f64().unwrap().round(), 100.0);
+    assert_eq!(
+        t.extra["sweep_starts_s"][1].as_f64().unwrap().round(),
+        100.0
+    );
     assert_eq!(ds.read_trace(0, 1, 0, 100).unwrap().channels[0].len(), 8);
     let r = ds.check().unwrap();
     assert!(r.findings.iter().any(|f| f.code == "truncated"));

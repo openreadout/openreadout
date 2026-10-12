@@ -12,9 +12,9 @@ use openreadout_core::source::{Fs, Input};
 use openreadout_core::{Error, Result};
 
 pub mod dataset;
-pub mod tsq;
 #[cfg(test)]
 mod tests;
+pub mod tsq;
 
 pub use dataset::TdtDataset;
 
@@ -217,9 +217,9 @@ fn looks_like_block_dir(fs: &Fs, dir: &Path) -> bool {
     let names = file_names(fs, dir);
     names.iter().any(|(n, d)| {
         !d && ext_of(n).as_deref() == Some("tsq")
-            && names.iter().any(|(m, e)| {
-                !e && stem_of(m) == stem_of(n) && ext_of(m).as_deref() == Some("tev")
-            })
+            && names
+                .iter()
+                .any(|(m, e)| !e && stem_of(m) == stem_of(n) && ext_of(m).as_deref() == Some("tev"))
     })
 }
 

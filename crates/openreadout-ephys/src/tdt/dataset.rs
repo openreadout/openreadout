@@ -72,7 +72,9 @@ impl TdtBlock {
             let f = self.handle.as_mut().expect("just opened");
             self.window = read_block(f, &path, at, WINDOW.max(n), self.tev_len)?;
         }
-        Ok(self.window.slice(at, usize::try_from(n).unwrap_or(usize::MAX)))
+        Ok(self
+            .window
+            .slice(at, usize::try_from(n).unwrap_or(usize::MAX)))
     }
 }
 
@@ -87,7 +89,8 @@ pub fn parse_store_headers(bytes: &[u8]) -> Vec<BTreeMap<String, String>> {
         let (Some(name), Some(ty), Some(value)) = (parts.next(), parts.next(), parts.next()) else {
             break;
         };
-        let (Some(_), Some(value)) = (ty.strip_prefix("TYPE="), value.strip_prefix("VALUE=")) else {
+        let (Some(_), Some(value)) = (ty.strip_prefix("TYPE="), value.strip_prefix("VALUE="))
+        else {
             continue;
         };
         if name.is_empty()
@@ -959,10 +962,7 @@ impl Dataset for TdtDataset {
             r.push(f.clone());
         }
         for (s, why) in &self.unread_stores {
-            r.push(Finding::info(
-                "store_not_read",
-                format!("store {s}: {why}"),
-            ));
+            r.push(Finding::info("store_not_read", format!("store {s}: {why}")));
         }
         if self.unpaired_offsets > 0 {
             r.push(Finding::warning(

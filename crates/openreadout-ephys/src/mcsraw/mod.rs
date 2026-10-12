@@ -74,7 +74,11 @@ pub fn parse_header(head: &[u8]) -> Result<McsRawHeader> {
         gain: f64::NAN,
         ..McsRawHeader::default()
     };
-    for line in text.split(['\r', '\n']).map(str::trim).filter(|l| !l.is_empty()) {
+    for line in text
+        .split(['\r', '\n'])
+        .map(str::trim)
+        .filter(|l| !l.is_empty())
+    {
         let (k, v) = match line.split_once(" = ") {
             Some((k, v)) => (k.trim(), v.trim()),
             None => match line.split_once(' ') {
@@ -91,7 +95,14 @@ pub fn parse_header(head: &[u8]) -> Result<McsRawHeader> {
             "El" => {
                 let v = v.trim_end_matches("/AD").trim();
                 let split = v
-                    .find(|c: char| !(c.is_ascii_digit() || c == '.' || c == '-' || c == 'e' || c == 'E' || c == '+'))
+                    .find(|c: char| {
+                        !(c.is_ascii_digit()
+                            || c == '.'
+                            || c == '-'
+                            || c == 'e'
+                            || c == 'E'
+                            || c == '+')
+                    })
                     .unwrap_or(v.len());
                 h.gain = v[..split].parse().unwrap_or(f64::NAN);
                 h.unit = v[split..].trim().to_string();
@@ -222,12 +233,17 @@ impl McsRawDataset {
 
     /// Whole frames in the file.
     pub fn frames(&self) -> u64 {
-        self.file_len.saturating_sub(self.header.data_offset) / (2 * self.header.streams.len() as u64)
+        self.file_len.saturating_sub(self.header.data_offset)
+            / (2 * self.header.streams.len() as u64)
     }
 
     fn handle(&mut self) -> Result<&mut SourceFile> {
         if self.handle.is_none() {
-            self.handle = Some(self.fs.open(&self.path).map_err(|e| Error::io(&self.path, e))?);
+            self.handle = Some(
+                self.fs
+                    .open(&self.path)
+                    .map_err(|e| Error::io(&self.path, e))?,
+            );
         }
         Ok(self.handle.as_mut().expect("just opened"))
     }
@@ -250,12 +266,12 @@ impl Dataset for McsRawDataset {
             "MC_DataTool binary export: {} electrode stream(s), uint16 samples",
             h.streams.len()
         )];
-        let extra_bytes = self
-            .file_len
-            .saturating_sub(h.data_offset)
-            % (2 * h.streams.len() as u64);
+        let extra_bytes =
+            self.file_len.saturating_sub(h.data_offset) % (2 * h.streams.len() as u64);
         if extra_bytes != 0 {
-            notes.push(format!("{extra_bytes} bytes after the last whole frame are ignored"));
+            notes.push(format!(
+                "{extra_bytes} bytes after the last whole frame are ignored"
+            ));
         }
         Ok(FileInfo {
             path: self.path.display().to_string(),
@@ -394,7 +410,10 @@ impl Dataset for McsRawDataset {
         let mut seen = std::collections::BTreeSet::new();
         for s in &h.streams {
             if !seen.insert(s) {
-                r.push(Finding::warning("duplicate_stream", format!("stream {s} is listed twice")));
+                r.push(Finding::warning(
+                    "duplicate_stream",
+                    format!("stream {s} is listed twice"),
+                ));
             }
         }
         Ok(r)
