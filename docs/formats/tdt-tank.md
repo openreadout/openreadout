@@ -15,8 +15,10 @@ Crate: `openreadout-ephys`, format id `tdt-tank` (`TDT_FORMAT_ID`), extensions `
 ## Detection and input
 
 - A directory with a `.tsq` and a `.tev` of the same stem is a block (definite).
-- A directory whose visible entries are subdirectories and note files (`.ini`, `.txt`, `.md`),
-  with at least one subdirectory holding a `.tsq`, is a tank (definite).
+- A directory `<tank>` whose visible entries are subdirectories and note files (`.ini`, `.txt`,
+  `.md`), with at least one subdirectory `<block>` holding `<tank>_<block>.tsq` (the names TDT
+  gives a tank's blocks), is a tank (definite). Opened, every subdirectory with a `.tsq` is a
+  block.
 - A `.tsq` whose record 1 is a start mark (`looks_like_tsq`) is definite; a `.tev`, `.Tbk`,
   `.Tdx`, `.tin`, `.tnt` or `.sev` next to a `.tsq` is definite (the block is read). Without a
   `.tsq` alongside, the extension alone matches and opening fails with exit 6.

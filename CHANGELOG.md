@@ -4,6 +4,12 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### Added
+
+- Tucker-Davis Technologies tanks and blocks (`tdt-tank`): stream stores as traces (a tank's blocks as sweeps), snippets as a `spikes` table and epoc onsets with their durations as an `epocs` table. Checked against Neo on six public blocks and tanks.
+- Axona DacqUSB sessions (`axona-dacqusb`): the raw `.bin` of the active tetrodes in µV and the tetrode spike files as a `spikes` table. Checked against Neo on three public sessions.
+- Multi Channel Systems MC_DataTool binary exports with a header (`mcs-raw`). Checked against Neo on a public file.
+
 ### Fixed
 
 - `stats` on large CZI mosaics is fast again. Reading the plane in strips had made it decode the tiles that cross a strip edge twice. Now each tile is decoded once, and `stats` also accumulates the colour components of a strip in parallel.

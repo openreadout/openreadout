@@ -185,18 +185,24 @@ pub fn find_blocks(input: &Input) -> Result<(Vec<BlockFiles>, bool)> {
 }
 
 /// True when every visible entry of the directory is a subdirectory or a small note file, and at
-/// least one subdirectory holds a `.tsq` (a tank).
+/// least one subdirectory `<block>` holds `<tank>_<block>.tsq`, the names TDT gives a tank's
+/// blocks (a tank).
 fn looks_like_tank(fs: &Fs, dir: &Path) -> bool {
     let names = file_names(fs, dir);
+    let tank = dir
+        .file_name()
+        .map(|n| n.to_string_lossy().to_string())
+        .unwrap_or_default();
     let mut blocks = 0;
     for (n, is_dir) in &names {
         if n.starts_with('.') {
             continue;
         }
         if *is_dir {
+            let want = format!("{tank}_{n}");
             if file_names(fs, &dir.join(n))
                 .iter()
-                .any(|(m, d)| !d && ext_of(m).as_deref() == Some("tsq"))
+                .any(|(m, d)| !d && ext_of(m).as_deref() == Some("tsq") && stem_of(m) == want)
             {
                 blocks += 1;
             }
