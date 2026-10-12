@@ -297,6 +297,117 @@
      ]
     }
    ]
+  },
+  {
+   "index": 1,
+   "name": "command",
+   "sweep_count": 5,
+   "channel_count": 1,
+   "channel_names": [
+    "Iimp RK01G"
+   ],
+   "channel_units": [
+    "nA"
+   ],
+   "sample_rate_hz": 20000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 20644,
+     "channels": [
+      {
+       "xxh3": "13ce8e64566eebcd83b22f17413575db",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 1,
+     "sample_count": 20644,
+     "channels": [
+      {
+       "xxh3": "13ce8e64566eebcd83b22f17413575db",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 2,
+     "sample_count": 20644,
+     "channels": [
+      {
+       "xxh3": "13ce8e64566eebcd83b22f17413575db",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 3,
+     "sample_count": 20644,
+     "channels": [
+      {
+       "xxh3": "13ce8e64566eebcd83b22f17413575db",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 4,
+     "sample_count": 20644,
+     "channels": [
+      {
+       "xxh3": "13ce8e64566eebcd83b22f17413575db",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
   }
  ]
 }

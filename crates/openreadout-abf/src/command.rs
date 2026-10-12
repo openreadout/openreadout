@@ -1,9 +1,10 @@
 //! Command (DAC) waveforms synthesized from the epoch table, one sweep at a time.
 //!
-//! Only what the header fixes completely is synthesized (right or refuse): ABF 2 episodic files
-//! whose DAC waveform comes from the epoch table (not a stimulus file), with step, ramp and
-//! pulse-train epochs only, fixed-length sweeps, and no user list, alternating DAC outputs or
-//! conditioning train. Anything else leaves the command out and says why (`CommandPlan::refused`).
+//! Only what the header fixes completely is synthesized (right or refuse): episodic files (ABF 2,
+//! and ABF 1 from version 1.6 with an epoch table on one DAC only) whose DAC waveform comes from
+//! the epoch table (not a stimulus file), with step, ramp and pulse-train epochs only,
+//! fixed-length sweeps, and no user list, alternating DAC outputs or conditioning train. Anything
+//! else leaves the command out and says why (`CommandPlan::refused`).
 //!
 //! Layout of a sweep of `n` samples (the rules pCLAMP applies, as pyABF documents them):
 //! the first `n / 64` samples hold the pre-sweep level, then the epochs in order (duration and
@@ -14,7 +15,9 @@
 //! pulse train holds the level before it and raises it to the epoch level for `pulse_width`
 //! samples every `pulse_period` samples.
 
-use crate::file::{AbfFile, AcquisitionMode, EpochKind, Generation, OutputChannel};
+use crate::file::{
+    AbfFile, AcquisitionMode, EpochKind, Generation, OutputChannel, ABF1_EXTENDED_LEN,
+};
 
 /// Which DACs get a synthesized command trace, or why none do.
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
@@ -38,8 +41,17 @@ pub fn command_plan(f: &AbfFile) -> CommandPlan {
     if declared.is_empty() {
         return plan;
     }
-    let file_reason = if f.generation != Generation::Abf2 {
-        Some("ABF 1 command waveforms are not synthesized (the epoch table is reported)")
+    let abf1 = f.generation == Generation::Abf1;
+    let file_reason = if abf1 && f.header_len < ABF1_EXTENDED_LEN {
+        Some("ABF 1 files before version 1.6 have no complete epoch table: the command waveform is not synthesized")
+    } else if abf1
+        && declared
+            .iter()
+            .filter(|&&i| !f.outputs[i].epochs.is_empty())
+            .count()
+            > 1
+    {
+        Some("ABF 1 does not record whether two epoch waveforms alternate between sweeps: the command waveform is not synthesized")
     } else if f.mode != AcquisitionMode::Episodic {
         Some("command waveforms are synthesized for episodic-stimulation files only")
     } else if f.variable_length() {
