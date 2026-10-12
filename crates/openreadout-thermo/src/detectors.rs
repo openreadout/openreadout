@@ -7,7 +7,7 @@
 use std::collections::BTreeMap;
 use std::path::Path;
 
-use openreadout_core::model::{SignalChannelInfo, TraceInfo};
+use openreadout_core::model::{SignalChannelInfo, TraceInfo, round_noise};
 use openreadout_core::source::SourceFile;
 use openreadout_core::{Error, Result};
 use serde_json::json;
@@ -550,6 +550,8 @@ pub fn wavelengths(t: &PdaTrailer) -> Vec<f64> {
         .collect()
 }
 
+/// `x` to 9 decimals. Not for the axis step: at 100 Hz a step in minutes keeps only six
+/// significant digits, and the error adds up over 60,000 samples.
 fn tidy(x: f64) -> f64 {
     (x * 1e9).round() / 1e9
 }
@@ -634,7 +636,7 @@ pub fn trace_info(index: u32, d: &Detector, method_text: &str) -> TraceInfo {
         extra.insert(
             "axis".into(),
             json!({"quantity": "retention_time", "unit": "min",
-                   "first": tidy(d.start_min), "step": tidy(step)}),
+                   "first": tidy(d.start_min), "step": round_noise(step)}),
         );
     }
     if irregular {
