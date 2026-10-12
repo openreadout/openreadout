@@ -149,8 +149,9 @@ impl FormatReader for FcsReader {
                     .then(|| format!("version identifier {version} is not supported yet")),
             });
         }
-        // A file that does not start with `FCS` is another kind of file (exit 3).
-        if has_extension(path, &["fcs", "lmd"]) && (head.len() < 6 || head.starts_with(b"FCS")) {
+        // A file shorter than the 58-byte FCS header is a cut-off FCS file (exit 4); a longer
+        // one that does not start with `FCS` is another kind of file (exit 3).
+        if has_extension(path, &["fcs", "lmd"]) && (head.len() < 58 || head.starts_with(b"FCS")) {
             return Some(Detection {
                 format_id: FORMAT_ID,
                 confidence: DetectConfidence::ExtensionOnly,

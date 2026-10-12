@@ -6,7 +6,7 @@ Crate: `openreadout-intan`. Three layouts are read: the **traditional single fil
 
 ## Detection
 
-Bytes 0–3 as a little-endian u32: `RHD_MAGIC` (0xC6912702) or `RHS_MAGIC` (0xD69127AC) → definite (`Family::Rhd` / `Family::Rhs`). The `.rhd`/`.rhs` extension without the magic number → extension only.
+Bytes 0–3 as a little-endian u32: `RHD_MAGIC` (0xC6912702) or `RHS_MAGIC` (0xD69127AC) → definite (`Family::Rhd` / `Family::Rhs`). The `.rhd`/`.rhs` extension without the magic number → extension only while the file is shorter than 4 bytes; a longer file is not this format (exit 3).
 
 ## Header (`IntanHeader`, `parse_header`, `Cursor`)
 

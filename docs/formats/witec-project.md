@@ -11,7 +11,8 @@ Crate: `openreadout-spectro`, format id `witec-project` (`WITEC_FORMAT_ID`), ext
 
 The first eight bytes: `WIT_PRCT` (project) or `WIT_DATA` (data file) for format versions 0–5,
 `WIT_PR06` / `WIT_DA06` for versions 6 and later → definite. A `.wip`/`.wid` name without one of
-them → extension only (open fails with exit 4).
+them → extension only when the file is shorter than 8 bytes or starts with `WIT_` (open fails
+with exit 4); any other file is not this format (exit 3).
 
 ## Container
 

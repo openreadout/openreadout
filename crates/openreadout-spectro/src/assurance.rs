@@ -153,6 +153,12 @@ fn observe_omnic(info: &FileInfo) -> Observations {
     if a::has_note(info, "OMNIC series file (.srs)") {
         o.feature(K::Layout, "srs", &[Scope::Metadata, Scope::Traces]);
     }
+    // map files (no independent reader: every output is unvalidated)
+    if a::has_note(info, "OMNIC map file in the series layout") {
+        o.feature(K::Layout, "map, series layout", &Scope::ALL);
+    } else if a::has_note(info, "OMNIC map file (.map)") {
+        o.feature(K::Layout, "map, spa layout", &Scope::ALL);
+    }
     if let Some(n) = a::note_with(info, "series records not decoded") {
         o.undecoded("series profile records", &[], n.to_string());
     }

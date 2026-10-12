@@ -8,7 +8,7 @@ Crate: `openreadout-blackrock`. All integers are little-endian; char arrays end 
 
 ## Detection
 
-Bytes 0–7 (`SIGNATURES`): `NEURALSG` (NSx 2.1), `NEURALCD` (NSx 2.2/2.3), `BRSMPGRP` (NSx 3.0), `NEURALEV` (NEV ≤ 2.3), `BREVENTS` (NEV 3.0) → definite. An extension in `EXTENSIONS` without a signature → extension only.
+Bytes 0–7 (`SIGNATURES`): `NEURALSG` (NSx 2.1), `NEURALCD` (NSx 2.2/2.3), `BRSMPGRP` (NSx 3.0), `NEURALEV` (NEV ≤ 2.3), `BREVENTS` (NEV 3.0) → definite. An extension in `EXTENSIONS` without a signature → extension only while the file is shorter than 8 bytes; a longer file is not this format (exit 3).
 
 ## NSx
 

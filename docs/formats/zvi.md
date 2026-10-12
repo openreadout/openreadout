@@ -8,7 +8,7 @@ Derived from hex dumps of public files from many depositors (several microscope 
 
 A ZVI file is an OLE2 compound file (Microsoft's public **[MS-CFB]** specification; signature `D0 CF 11 E0 A1 B1 1A E1`). The shared reader `openreadout_core::cfb` (moved there from the Shimadzu reader) parses the header, FAT/DIFAT, mini FAT and directory tree and reads streams through their sector chains.
 
-Detection: the `.zvi` extension and the compound-file signature → definite; the extension alone → extension-only.
+Detection: the `.zvi` extension and the compound-file signature → definite; the extension alone → extension-only while the file is shorter than the 8-byte signature; a longer file without it is not this format (exit 3).
 
 Streams observed:
 
