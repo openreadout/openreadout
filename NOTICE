@@ -11,6 +11,12 @@ Code derived from permissively licensed sources (their licences retained):
   library ("JPEG XR Device Porting Kit v1.0"), Copyright (c) 2009 Microsoft Corp., BSD 2-clause
   ("New BSD License"); the licence text is crates/openreadout-jpegxr/LICENSE. The sources read were
   those bundled in the `jpegxr` 0.3.1 crate (https://crates.io/crates/jpegxr).
+- crates/openreadout-wsi/src/isyntax — a Rust port of the decoding path of libisyntax
+  (https://github.com/amspath/libisyntax, commit 92471dbf6c70), Copyright (c) 2019-2026 Pieter
+  Valkema and contributors, BSD 2-Clause, including the 5/3 inverse lifting steps libisyntax takes
+  from OpenJPEG (Copyright (c) 2002-2014 Universite catholique de Louvain and others, BSD 2-Clause);
+  the licence texts are licenses/libisyntax-BSD-2-Clause.txt. libisyntax is also run, through
+  pyisyntax (Aiden Nibali, MIT), as the reference in testing.
 
 Christoph Gohlke's libraries were read while writing several readers and are used as independent
 references in testing. Copyright (c) 2008-2026 Christoph Gohlke, BSD-3-Clause; the licence text is

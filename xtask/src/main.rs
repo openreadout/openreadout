@@ -617,7 +617,14 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
     ("oir", &[("", "oir")]),
     ("vsi", &[("", "vsi")]),
     // whole-slide formats stored as many images: one module directory per format
-    ("wsi", &[("mirax", "mirax")]),
+    (
+        "wsi",
+        &[
+            ("mirax", "mirax"),
+            ("vms", "hamamatsu-vms"),
+            ("isyntax", "philips-isyntax"),
+        ],
+    ),
     ("abf", &[("", "abf")]),
     ("neuralynx", &[("", "neuralynx")]),
     ("blackrock", &[("", "blackrock")]),

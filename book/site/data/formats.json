@@ -309,6 +309,48 @@
    "field": "Light microscopy"
   },
   {
+   "id": "philips-isyntax",
+   "name": "Philips iSyntax slide",
+   "vendor": "Philips",
+   "extensions": [
+    "isyntax"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "No public specification: the decoder is a port of libisyntax (BSD-2-Clause) and was validated against it on one public slide",
+    "Only data model 5 with compression method 16 is read; data model 100 and later (cluster headers) and compression method 19 are refused (exit 6) until a public sample exists",
+    "Pixel coordinates follow libisyntax: level L starts (3·2^levels − 3) >> L pixels into the tile grid; the scanner's own origin is not documented",
+    "Pixels are the decoded YCoCg wavelet data converted to RGB; the stored post-processing settings (sharpness, CLAHE) and the ICC profile are not applied",
+    "Level 0 is too large to read whole: read a region (`--region`) or a coarser level (`--level`)"
+   ],
+   "page": "philips-isyntax",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "hamamatsu-vms",
+   "name": "Hamamatsu VMS slide",
+   "vendor": "Hamamatsu",
+   "extensions": [
+    "vms",
+    "vmu"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "No specification: the layout comes from OpenSlide's public format page and one public slide, checked against OpenSlide run as a black box",
+    "Levels the file does not store (1/2 and 1/4 of the slide images, 1/2 to 1/8 of the map) are decoded at reduced DCT size, as OpenSlide does; their values are close to OpenSlide's, not identical",
+    "VMU files (uncompressed NGR images) and slides with more than one focal layer are refused (exit 6): no public sample",
+    "Level 0 is too large to read whole: read a region (`--region`) or a coarser level (`--level`)"
+   ],
+   "page": "hamamatsu-vms",
+   "field": "Light microscopy"
+  },
+  {
    "id": "zvi",
    "name": "Zeiss AxioVision ZVI",
    "vendor": "Carl Zeiss (AxioVision)",

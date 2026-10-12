@@ -12,8 +12,9 @@ keywords.workspace = true
 categories.workspace = true
 readme = "README.md"
 documentation = "https://docs.rs/openreadout-wsi"
-# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
-include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus). The iSyntax
+# decoder is a port of libisyntax and keeps its licence (LICENSE-libisyntax).
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE", "/LICENSE-libisyntax"]
 
 [dependencies]
 openreadout-core = { workspace = true }

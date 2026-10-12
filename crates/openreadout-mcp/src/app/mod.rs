@@ -51,7 +51,7 @@ pub const ENV_SWITCH: &str = "OPENREADOUT_MCP_APPS";
 /// (`.d`) are not files.
 pub const FILE_EXTENSIONS: &[&str] = &[
     ".czi", ".nd2", ".lif", ".lof", ".oir", ".oib", ".oif", ".vsi", ".ims", ".zvi", ".mrxs",
-    ".ndpi", ".svs", ".dm3", ".dm4", ".fcs", ".abf", ".smr", ".smrx", ".wcp", ".wiff", ".wiff2",
+    ".isyntax", ".ndpi", ".svs", ".dm3", ".dm4", ".fcs", ".abf", ".smr", ".smrx", ".wcp", ".wiff", ".wiff2",
     ".asyr",
 ];
 

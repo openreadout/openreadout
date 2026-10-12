@@ -32,6 +32,8 @@ fn formats_lists_all_readers() {
             "oir",
             "vsi",
             "mirax",
+            "philips-isyntax",
+            "hamamatsu-vms",
             "zvi",
             "oib",
             "oif",

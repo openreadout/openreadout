@@ -284,16 +284,20 @@ impl VmsSlide {
                 downsample: 1 << s,
             });
         }
-        if let (Some(m), Some(d)) = (&map, map_downsample) {
+        if let (Some(_), Some(d)) = (&map, map_downsample) {
+            // Sizes as OpenSlide gives them: level 0 divided by the downsampling, rounded down
+            // (the reduced decode is cropped to it).
             for s in 0..4u32 {
+                let ds = d << s;
+                let (w, h) = (size.0 / ds, size.1 / ds);
+                if w == 0 || h == 0 {
+                    break;
+                }
                 levels.push(VmsLevel {
                     source: LevelSource::Map,
                     shift: s,
-                    size: (
-                        u64::from(m.layout.width).div_ceil(1 << s),
-                        u64::from(m.layout.height).div_ceil(1 << s),
-                    ),
-                    downsample: d << s,
+                    size: (w, h),
+                    downsample: ds,
                 });
             }
         }

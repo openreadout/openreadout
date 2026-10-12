@@ -456,6 +456,20 @@ doc = false
 bench = false
 
 [[bin]]
+name = "whole_isyntax"
+path = "fuzz_targets/whole_isyntax.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_vms"
+path = "fuzz_targets/whole_vms.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "whole_chemstation"
 path = "fuzz_targets/whole_chemstation.rs"
 test = false

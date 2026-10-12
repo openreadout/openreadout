@@ -39,6 +39,8 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_hcs_harmony`, `whole_hcs_cellvoyager`, `whole_hcs_imagexpress` | high-content screening plates: index file(s) plus plane TIFFs, as a bundle |
 | `whole_vsi` | `.vsi`, then `_s_/stack1/frame_t_0.ets` |
 | `whole_mirax` | 3DHISTECH MIRAX: `s.mrxs`, then `s/Slidedat.ini`, `s/Index.dat`, `s/Data0000.dat` |
+| `whole_vms` | Hamamatsu VMS: `s.vms`, the four grid JPEGs, the map, the optimisation file and the macro (seed: the synthetic fixture) |
+| `whole_isyntax` | Philips iSyntax `.isyntax` (seed: the synthetic fixture) |
 | `core_zip` | the shared zip reader (`openreadout_core::zip`) alone: every member decoded and CRC-checked, stored ranges read (seed: a whole RDML file) |
 | `whole_zarr_zip`; `whole_zarr` | OME-Zarr zip store; directory store (`.zgroup`, `.zattrs`, `0/.zarray`, one chunk, v3 `zarr.json` files). No-ops on macOS: `zarrs` registers codecs with `inventory` initializers that Apple's linker rejects under sanitizer coverage; they run in CI (Linux) |
 | `whole_ims`, `whole_nwb`, `whole_hdf5` | Imaris, NWB 2.x and generic HDF5 |

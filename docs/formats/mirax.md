@@ -138,7 +138,7 @@ absent), `slide_id_mismatch` (warning: a data file header that does not name the
 images of cameras flagged empty), `bad_image` (an image header whose size is not the level's, or the
 first image of a level that does not decode). `check --headers-only` skips the image headers.
 
-## Vocabulary (every public identifier in `openreadout-wsi` must appear here)
+## Vocabulary (every public identifier of the `mirax` module and the shared `image` module must appear here)
 
 | identifier | meaning |
 | --- | --- |
