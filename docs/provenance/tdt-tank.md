@@ -27,7 +27,8 @@ CC-BY-SA-4.0): `gin-tdt-aep-05` (a tank of two blocks, `Block-1` and `Block-2`);
 written from real event data by the depositors, as their README says).
 
 **What was inferred from the files:**
-- Record 0 of every `.tsq` has event type 0 and holds the `.tsq` file length in its size field;
+- Record 0 of every `.tsq` has event type 0 and holds the `.tsq` file length in its size field
+  (except in `gin-tdt-dataset-0-single-block`, whose `.tsq` the depositors cut short);
   record 1 is the start mark and the last record the stop mark. Their time stamps are seconds
   since 1970-01-01 UTC: the start of `gin-tdt-dataset-0-single-block` is 2018-11-23 15:03:02 UTC,
   and its `StoresListing.txt` says 11/23/2018 10:03:03am (US Eastern time).
