@@ -1817,9 +1817,9 @@ SPECS: list[g.Spec] = [
         "ho-nmr-varian-scans",
         "varian",
         "counts",
-        "How many transients (scans) were averaged in this FID?",
+        "How many transients (scans) were requested for this acquisition?",
         lambda o, m: g.integer(nmr_extra(o, "scans")),
-        "oracle: /traces/0/parameters/extra/scans (nmrglue varian, procpar nt)",
+        "oracle: /traces/0/parameters/extra/scans (nmrglue varian, procpar nt: the requested number)",
     ),
     spec(
         "ho-spec-jcamp-ir-points",
@@ -2310,11 +2310,10 @@ SPECS: list[g.Spec] = [
         "ho-ana-nmr-bruker-fid-600",
         "fid600",
         "analysis",
-        "This Bruker experiment holds only the raw 1H FID (no processed spectrum). Process it into a spectrum "
-        "(Fourier transform, phase, ppm referencing). Between 6 and 10 ppm, at what shift is the tallest peak?",
+        "This Bruker experiment holds the raw 1H FID and its processed spectrum. In the processed spectrum, "
+        "between 6 and 10 ppm, at what shift is the tallest peak?",
         fact("tallest_ppm_6_10", lambda v: g.number(v, None, abs_=0.01)),
         "facts-heldout: tallest_ppm_6_10 (TopSpin's own pdata/1/1r of the same FID, read with nmrglue; NumPy agrees)",
-        prepare={"remove": ["pdata"]},
         answer_hint="the chemical shift in ppm",
     ),
     spec(
@@ -2459,6 +2458,8 @@ def build_question(manifest: dict, spec: g.Spec) -> dict:
     }
     if spec.extra:
         q["extra_files"] = [g.file_ref(manifest, cid, sa) for cid, sa in spec.extra]
+    if spec.prepare:
+        q["prepare"] = spec.prepare
     q["split"] = SPLIT
     if m.get("exposed"):
         # developed on before the draw reserved the record (docs/benchmark/heldout.md): asked,
