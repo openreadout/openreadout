@@ -1,0 +1,57 @@
+{
+ "id": "figshare26045854-221011-C3",
+ "file": "figshare26045854-221011-C3.lsm",
+ "size": 2122193,
+ "sha256": "79755702ff657e34b5d24127fa7ca12d069865e5afdfd30418875782f97eb6e0",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "CYX",
+   "shape": [
+    2,
+    700,
+    700
+   ],
+   "size_x": 700,
+   "size_y": 700,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.4545686575399004,
+    "y": 0.4545686575399004
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3e398e715f19563a67ab2d1afe5c86c4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a418c06d168095d23158f5a742ed52e7"
+    }
+   ],
+   "check_objective": "C-Apochromat 40x/1.20 W Korr UV-VIS-IR M27",
+   "check_acquired_at": "2022-10-12T01:11:48"
+  }
+ ]
+}

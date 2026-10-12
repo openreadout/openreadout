@@ -1,0 +1,38 @@
+{
+ "id": "zenodo6385351-Extended-Figure3-E",
+ "file": "zenodo6385351-Extended-Figure3-E.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 750,
+   "size_y": 750,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a279204a080180d9a58a8b960635d784"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2b39fc6189f39596e6ce729efc901ef1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a38c4a12a72fca34c678dd9f62730a49"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cbeb274a187cba32acbb3a5bb39b003d"
+    }
+   ]
+  }
+ ]
+}

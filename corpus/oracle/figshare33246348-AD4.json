@@ -1,0 +1,51 @@
+{
+ "id": "figshare33246348-AD4",
+ "file": "figshare33246348-AD4.czi",
+ "size": 733024,
+ "sha256": "b7b5d8d11072990b05e5f2ffc30956c3434dd027895af375e6873490a6bac5aa",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 1.2478515625,
+    "y": 1.2478515625,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a8d0ecbfe14e2172198bf789228cf6e0"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 1.2478515625,
+  "y": 1.2478515625,
+  "z": null
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

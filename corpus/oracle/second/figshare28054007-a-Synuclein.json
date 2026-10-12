@@ -1,0 +1,26 @@
+{
+ "id": "figshare28054007-a-Synuclein",
+ "file": "figshare28054007-a-Synuclein.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "17f2b8bc850c6a3d3d2290ed52728d25"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3acca4405ea95996087dae84ff5bf201"
+    }
+   ]
+  }
+ ]
+}

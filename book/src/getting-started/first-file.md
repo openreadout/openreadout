@@ -11,7 +11,7 @@ mini.nd2
   assurance: validated - every variant feature of this file was read correctly in ...
   [0] -  8x8 z=1 c=1 t=2  uint16 XYCZT  px=0.2500 µm
       ch0 DAPI
-      objective: Plan Fluor 10x 10x NA 0
+      objective: Plan Fluor 10x 10x
 ```
 
 `info` reads headers and metadata but not pixel data, so it is as fast on a 100 GB file as on this one. Each `[n]` line is one image: a CZI scene, an ND2 XY position, a LIF series. Other commands select it with `--image n`.

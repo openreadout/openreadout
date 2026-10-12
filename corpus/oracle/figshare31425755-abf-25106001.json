@@ -1,0 +1,67 @@
+{
+ "id": "figshare31425755-abf-25106001",
+ "file": "figshare31425755-abf-25106001.abf",
+ "size": 12006144,
+ "sha256": "fa265604579640a73c0f758ef1c9897a461ccad21f552a643c4c2eb61c952398",
+ "max_planes_hashed": 64,
+ "reader": "pyabf 2.3.8",
+ "traces": [
+  {
+   "index": 0,
+   "abf_version": "1.8.4.0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "IN 0"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 20000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sample_count": 6000000,
+   "data_format": "int16",
+   "gain": [
+    0.6103515335098577
+   ],
+   "offset": [
+    0.0
+   ],
+   "protocol": "Spontaneous activity",
+   "created": "2025-01-06T14:49:37.505",
+   "tag_comments": [],
+   "f32_max_abs_diff": 1.52587890625e-05,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6000000,
+     "channels": [
+      {
+       "xxh3": "268114e4e4c96aa1ba0217600f766f66",
+       "first": [
+        25.634764407414025,
+        -5.49316380158872,
+        -2.441406134039431,
+        12.207030670197154,
+        -0.6103515335098577,
+        -6.103515335098577,
+        18.92089753880559,
+        18.31054600529573
+       ],
+       "first_f32_pyabf": [
+        25.634765625,
+        -5.4931640625,
+        -2.44140625,
+        12.20703125,
+        -0.6103515625,
+        -6.103515625,
+        18.9208984375,
+        18.310546875
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

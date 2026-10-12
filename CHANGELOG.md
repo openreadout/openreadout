@@ -12,6 +12,10 @@ All notable changes to this project are documented here. The format is based on 
 - Tucker-Davis Technologies tanks and blocks (`tdt-tank`): stream stores as traces (a tank's blocks as sweeps), snippets as a `spikes` table and epoc onsets with their durations as an `epocs` table. Checked against Neo on six public blocks and tanks.
 - Axona DacqUSB sessions (`axona-dacqusb`): the raw `.bin` of the active tetrodes in µV and the tetrode spike files as a `spikes` table. Checked against Neo on three public sessions.
 - Multi Channel Systems MC_DataTool binary exports with a header (`mcs-raw`). Checked against Neo on a public file.
+- Shimadzu UVProbe `.spc` reader (`shimadzu-uvprobe`): UV-Vis and UV-Vis-NIR spectra (absorbance, reflectance) from the compound file, with the instrument model, serial number, software version and the data set's date. Galactic SPC keeps the extension for its own files. Checked against UVProbe's text exports on 3 files and read on 5 files from 3 public records.
+- ABF 1 command waveforms: trace 1 now holds the synthesized DAC command for ABF 1.6 and later episodic files with an epoch table on one DAC, as for ABF 2. Checked against pyABF inside the epochs and against recorded command monitors over whole sweeps.
+- Zeiss LSM files report their objective (name, magnification, NA and immersion), the recording's name and the acquisition date. The date is the instrument's local time, without a time zone.
+- Harmony archives (the `hs` folder that "export as archive" writes, from Operetta CLS and Opera Phenix) open as plates, from the `hs` folder or the measurement folder.
 - MIRAX slides exported with overlaps removed, which have no camera position table, are read. Their pixels used to exit 6.
 
 ### Changed
@@ -20,9 +24,23 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- `stats` and `export` over a whole Leica file with FALCON FLIM elements used to exit 6 because the raw photon data is not decoded. They now leave those images out, list them in `images_skipped`, and read the rest.
+- A CZI whose attachment entries name a file part the document does not have (an Elyra 7 file saved from one scene) failed `check` and lost its time stamps. The attachments are in the file itself and are read from there.
+- `check` on an ND2 file now reports a declared frame that has no chunk. It used to pass the file because the chunk count added up, and `stats` then failed on the missing frame.
+- An Imaris file that holds only scene objects (spots, surfaces) and no image exits 6 with a hint instead of being called corrupt.
+- `stats` and `export` on Imaris files whose chunks span many Z planes used several times the memory with more threads and were no faster. Planes that share a chunk now go to one worker: 313 MB instead of 832 MB on a 205 MB image with 8 threads.
+- `info` printed `NA 0` and `0x` for objectives whose numerical aperture or magnification the file does not state. It now prints only what the file says.
+- The CZI `info` note said `export` writes full resolution only. It writes the pyramid levels too.
 - Claude Code 2.1.292 showed no OpenReadout MCP tools. With MCP protocol version 2026-07-28 the server left `ttlMs` and `cacheScope` off its list results, and the client rejected the whole tool list. The server now sends them.
 - DM3/DM4 files now name the microscope entered for the session (`JEM-ARM200F`) instead of DigitalMicrograph's microscope-control plug-in (`JEOL COM`) when the file has both.
 - Electron-microscopy pixel and voxel sizes in `experiment.method.parameters` are in nm. A 0.156 nm pixel read as 0.000156 µm was easy to misread.
+- FCS: `check` reported `crc_mismatch` on every file that stores a CRC. Writers store CRC-16/CCITT computed from 0x1D0F, not the bit-reflected form the standard describes; both are now accepted and `crc_ok` names the one that matched (14 files from 8 records).
+- FCS: acquisition times for `$DATE` written as `13 Mar 2014` (MoFlo), with Chinese month names (Accuri on a Chinese-language PC), as `dd-mm-yyyy` when the day is above 12 (partec), and for BeamCyte files that keep the date in `$BTIM`.
+- FCS: the instrument manufacturer is named for Gallios, Navios, Cytomics, DxFLEX, MoFlo, Accuri, FACSVerse, FACSLyric, Attune, NovoCyte, MACSQuant, Guava, partec and Apogee files, and Sony models written with an `LE-` prefix are recognised.
+- FCS: `table --compensate` failed on BD Accuri and Apogee files whose `$SPILLOVER` names parameters by number. A matrix that names parameters a file does not have now exits 6 with a hint instead of 2.
+- FlowJo: a non-XML file with the `.wsp` extension (CytExpert) is refused with a plain message instead of binary text.
+- Open Ephys GUI 0.6 legacy-format recording directories (with a `.timestamps` file) were refused as an unknown format.
+- Renishaw WiRE photoluminescence files: the x axis is wavelength in nm, not an unnamed `x`.
 - `stats` on large CZI mosaics is fast again. Reading the plane in strips had made it decode the tiles that cross a strip edge twice. Now each tile is decoded once, and `stats` also accumulates the colour components of a strip in parallel.
 - BMG SMART Control workbooks of kinetic runs: each cycle is now its own time point. `check` used to report the whole run as one time point with many values per well.
 - `export -o x.ome.zarr` without `--format` wrote an OME-TIFF under the `.zarr` name. The output's extension now picks the format, on the command line and in `openreadout_export`, and an extension that names no format or contradicts `--format` exits 2.

@@ -98,7 +98,7 @@
           ]
         },
         "images_skipped": {
-          "description": "Images left out because plane files they need are missing (`--skip-incomplete`).",
+          "description": "Images left out: plane files they need are missing (`--skip-incomplete`), or the reader\ndoes not decode their pixel data (raw FLIM photon histograms; `info` notes say which).",
           "type": "array",
           "items": {
             "type": "integer",

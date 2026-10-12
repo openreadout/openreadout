@@ -1,0 +1,58 @@
+{
+ "id": "figshare29318432-WT-20x-z-Maximum-intensity-projection",
+ "file": "figshare29318432-WT-20x-z-Maximum-intensity-projection.czi",
+ "size": 4308032,
+ "sha256": "ac1171b0476c697ec57182d04c756be045149ca6515d2e9a110f97800ecdcfa7",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.6918881841365326,
+    "y": 0.6918881841365326,
+    "z": 3.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "64700aafd487a281f2472d9aeb47e1df"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8d34db154af8837e44417c4f8368cb63"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.6918881841365326,
+  "y": 0.6918881841365326,
+  "z": 3.0
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

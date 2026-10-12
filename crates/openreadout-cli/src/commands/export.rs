@@ -397,9 +397,10 @@ fn render_export(r: &ExportOutput) -> String {
             if r.images_skipped.is_empty() {
                 String::new()
             } else {
+                let list: Vec<String> = r.images_skipped.iter().map(u32::to_string).collect();
                 format!(
-                    "; skipped {} image(s) with missing plane files",
-                    r.images_skipped.len()
+                    "; left out image(s) {} (missing plane files, or pixel data the reader does not decode; `info` says which)",
+                    list.join(", ")
                 )
             }
         ),

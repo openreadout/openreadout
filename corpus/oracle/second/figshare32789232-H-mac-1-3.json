@@ -1,0 +1,26 @@
+{
+ "id": "figshare32789232-H-mac-1-3",
+ "file": "figshare32789232-H-mac-1-3.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0387a5cbf1692172971e374f0624a8b6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2f374cc3d58493a41867c5c7d4837b5b"
+    }
+   ]
+  }
+ ]
+}

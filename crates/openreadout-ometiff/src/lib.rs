@@ -144,7 +144,8 @@ pub struct ExportReport {
     /// column and field groups); absent for single images and collections.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub layout: Option<String>,
-    /// Images left out because plane files they need are missing (`--skip-incomplete`).
+    /// Images left out: plane files they need are missing (`--skip-incomplete`), or the reader
+    /// does not decode their pixel data (raw FLIM photon histograms; `info` notes say which).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub images_skipped: Vec<u32>,
 }
@@ -490,10 +491,11 @@ pub fn export_ome_tiff_with(
         return Err(no_images_error(&info, "ome-tiff"));
     }
     let sel = Selection::parse(&opts.select)?;
+    let images_skipped = refused_images(ds, &info, opts.image);
     let mut written: Vec<WrittenImage<'_>> = Vec::new();
     let mut next_ifd = 0u32;
     for im in &info.images {
-        if opts.image.is_some_and(|i| i != im.index) {
+        if opts.image.is_some_and(|i| i != im.index) || images_skipped.contains(&im.index) {
             continue;
         }
         // OME-Zarr label images (`extra.label`) have no OME-TIFF counterpart: written only
@@ -552,7 +554,10 @@ pub fn export_ome_tiff_with(
         .iter()
         .any(|w| tiled_export::needs_tiled(w.info, opts))
     {
-        return export_tiled(ds, &info, &written, input, output, opts, ctx);
+        return export_tiled(ds, &info, &written, input, output, opts, ctx).map(|mut r| {
+            r.images_skipped = images_skipped;
+            r
+        });
     }
     // Fail before writing anything when a plane could not be held in memory.
     let mut max_plane = 0u64;
@@ -727,8 +732,32 @@ pub fn export_ome_tiff_with(
         ome_xml_bytes: xml.len() as u64,
         resolutions: Vec::new(),
         layout: None,
-        images_skipped: Vec::new(),
+        images_skipped,
     })
+}
+
+/// Without `--image`, the images whose planes the reader refuses
+/// ([`Dataset::pixels_refused`]): they are left out of the export and listed. When that would
+/// leave nothing, none are left out, so the reader's error says why.
+pub fn refused_images(
+    ds: &dyn Dataset,
+    info: &openreadout_core::FileInfo,
+    image: Option<u32>,
+) -> Vec<u32> {
+    if image.is_some() {
+        return Vec::new();
+    }
+    let refused: Vec<u32> = info
+        .images
+        .iter()
+        .filter(|im| ds.pixels_refused(im.index).is_some())
+        .map(|im| im.index)
+        .collect();
+    if refused.len() == info.images.len() {
+        Vec::new()
+    } else {
+        refused
+    }
 }
 
 /// The tiled path of [`export_ome_tiff_with`]: temporary file, stream, verify, rename.

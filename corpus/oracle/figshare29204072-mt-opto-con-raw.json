@@ -1,0 +1,58 @@
+{
+ "id": "figshare29204072-mt-opto-con-raw",
+ "file": "figshare29204072-mt-opto-con-raw.czi",
+ "size": 1457248,
+ "sha256": "c29384418290be1f942d9312383d8599c77ce5e3607ad7eeea7c066af2d8f7f6",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 426,
+   "size_y": 426,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    2,
+    426,
+    426
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.0488705738705738,
+    "y": 0.0488705738705738,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "390b7dbbd8842ff941168d2d97a6065a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c1d2a381746e500554c9485ea6c46931"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.0488705738705738,
+  "y": 0.0488705738705738,
+  "z": null
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

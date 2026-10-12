@@ -1,0 +1,63 @@
+{
+ "id": "zenodo6974577-F8B-DOX-PMA-4",
+ "file": "zenodo6974577-F8B-DOX-PMA-4.lsm",
+ "size": 1780576,
+ "sha256": "24895ecd0fd0e3f950e2b8fb406f8e50b4270064dcc0da04035398977605d2ac",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "CYX",
+   "shape": [
+    3,
+    512,
+    512
+   ],
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.26357645633390153,
+    "y": 0.26357645633390153
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3a2c12d02bc9be23774601d2e6deae39"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3a9bc67c0be06d5b19a2a85620337476"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "beda9581b9734a72fe33f94b3443efba"
+    }
+   ],
+   "check_objective": "Plan-Apochromat 63x/1.40 Oil DIC M27",
+   "check_acquired_at": "2021-09-07T16:35:55"
+  }
+ ]
+}

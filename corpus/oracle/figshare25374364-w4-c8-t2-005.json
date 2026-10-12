@@ -1,0 +1,135 @@
+{
+ "id": "figshare25374364-w4-c8-t2-005",
+ "file": "figshare25374364-w4-c8-t2-005.nd2",
+ "size": 2396160,
+ "sha256": "79ce2b68921d78dc2c4eacb6b15b086faf40091df984f67d6cb64df14e8616e4",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 4,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 4, 'Y': 512, 'X': 512}",
+   "physical_size_um": {
+    "x": 0.107473668216365,
+    "y": 0.107473668216365,
+    "z": null
+   },
+   "channel_names": [
+    "488-pol"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d3cfae62bdbf450d76215bf3b0b848d6"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "a0b5bf81b578073f17b224320c27977c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "bdd5eb9de3ee1e7ae6b2885f2018a8f5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "80b7ada32e4c75d046b70bbc420da559"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "488-pol",
+    "color": "#00FF00",
+    "excitation_nm": null,
+    "emission_nm": 450.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 4,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 0.0,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 6482,
+     "PFS_STATUS": 1,
+     "X": 17568.9,
+     "Y": 4602.0,
+     "Z": 2806.2200000000003,
+     "Z1": 2806.2200000000003
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 4518.0,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 6482,
+     "PFS_STATUS": 1,
+     "X": 17568.9,
+     "Y": 4602.0,
+     "Z": 2806.16,
+     "Z1": 2806.16
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 9523.0,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 6482,
+     "PFS_STATUS": 1,
+     "X": 17568.8,
+     "Y": 4602.0,
+     "Z": 2806.12,
+     "Z1": 2806.12
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 14615.0,
+    "tags": {
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 6482,
+     "PFS_STATUS": 1,
+     "X": 17568.8,
+     "Y": 4602.0,
+     "Z": 2806.2000000000003,
+     "Z1": 2806.2000000000003
+    }
+   }
+  ],
+  "acquired_at": "2017-11-18T18:26:24.667Z",
+  "acquired_at_unix_ms": 1511029584667
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T'(4) x \u03bb(1)\r\nCamera Name: Flash4.0, SN:300359\r\nNumerical Aperture: 1.49\r\nRefractive Index: 1.515\r\n Name: 488-pol\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Exposure: 200 ms\r\n  Binning: 1x1\r\n  Scan Mode: Slow\r\n  Temperature: -10.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  DIC Prism, position: Out\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(LOWER): 6 (Empty)\r\n  Nikon Ti2, FilterChanger(UPPER): 1 (Continuous STORM)\r\n  Nikon Ti2, Shutter(SOLA shutter): Closed\r\n  Nikon Ti2, Shutter(Laser shutter): Opened\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 23.0\r\n  LightPath: L100\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  PFS, state: On\r\n  PFS, offset: 6482\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  LAPP Upper Ports:\r\n     Port 1: Off  (1)\r\n     Port 2: On  (2)\r\n  \r\n  LAPP Lower Ports:\r\n     Port 1: Off  (EPI)\r\n     Port 2: On  (2)\r\n  \r\n  Sola II, Shutter(Sola): Closed\r\n  Sola II, Illuminator(Sola) Iris intensity: 50.0\r\n  NIDAQ, Shutter(Rotator-move): Closed\r\n  NIDAQ, Shutter(Rotator- home): Closed\r\n  NIDAQ, Shutter(561 laser): Closed\r\n  NIDAQ, Shutter(647 laser): Closed\r\n  NIDAQ, Shutter(488 laser): Opened\r\nTime Loop: 4\r\n- Nonequidistant",
+  "capturing": "Flash4.0, SN:300359\r\nExposure: 200 ms\r\nBinning: 1x1\r\nScan Mode: Slow\r\nTemperature: -10.0\u00b0C",
+  "date": "11/18/2017  12:26:24 PM",
+  "optics": "Apo TIRF 60x Oil DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=1, heightPx=512, pixelDataType='unsigned', sequenceCount=4, widthBytes=1024, widthPx=512, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

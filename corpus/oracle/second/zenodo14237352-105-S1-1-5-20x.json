@@ -1,0 +1,20 @@
+{
+ "id": "zenodo14237352-105-S1-1-5-20x",
+ "file": "zenodo14237352-105-S1-1-5-20x.svs",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 17928,
+   "size_y": 21775,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "970b51479587f40e9d355cd00714ca5c"
+    }
+   ]
+  }
+ ]
+}

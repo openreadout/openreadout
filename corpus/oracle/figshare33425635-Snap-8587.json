@@ -1,0 +1,51 @@
+{
+ "id": "figshare33425635-Snap-8587",
+ "file": "figshare33425635-Snap-8587.czi",
+ "size": 4823392,
+ "sha256": "39616ff162685228352c12f5b083a7e32034c76c9e8c8472df44f7ff9f6896fd",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1920,
+   "size_y": 1216,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "YX",
+   "shape": [
+    1216,
+    1920
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.586,
+    "y": 0.586,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "120007a6b7f4211843123ab726940ad8"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.586,
+  "y": 0.586,
+  "z": null
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

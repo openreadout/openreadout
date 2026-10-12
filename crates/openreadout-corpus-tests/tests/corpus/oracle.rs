@@ -412,6 +412,12 @@ pub(crate) struct OracleImage {
     /// Channel names, compared when present (MetaMorph `.nd` wavelength names).
     #[serde(default)]
     pub(crate) check_channel_names: Option<Vec<String>>,
+    /// Acquisition time in our convention, compared when present (Zeiss LSM sample-0 time).
+    #[serde(default)]
+    pub(crate) check_acquired_at: Option<String>,
+    /// Objective text, compared with `objective.model` when present (Zeiss LSM).
+    #[serde(default)]
+    pub(crate) check_objective: Option<String>,
     /// OME Modulo sub-dimension sizes by parent axis (`Z`, `C`, `T`), compared with
     /// `images[].extra.modulo` when present (tifffile's modulo axes).
     #[serde(default)]

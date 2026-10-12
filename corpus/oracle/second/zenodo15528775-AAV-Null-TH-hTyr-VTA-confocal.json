@@ -1,0 +1,26 @@
+{
+ "id": "zenodo15528775-AAV-Null-TH-hTyr-VTA-confocal",
+ "file": "zenodo15528775-AAV-Null-TH-hTyr-VTA-confocal.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c7b5fadeacb9828d756d8c5e1324e80b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e984739c626d541885560b9a66c4acf7"
+    }
+   ]
+  }
+ ]
+}

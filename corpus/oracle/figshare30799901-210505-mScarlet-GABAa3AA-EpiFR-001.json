@@ -1,0 +1,269 @@
+{
+ "id": "figshare30799901-210505-mScarlet-GABAa3AA-EpiFR-001",
+ "file": "figshare30799901-210505-mScarlet-GABAa3AA-EpiFR-001.nd2",
+ "size": 5443584,
+ "sha256": "0ecc98808d0d0a6b620f05dc73c359db380d00e58115d58e3ea61e90b48e5e7f",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 10,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'T': 10, 'Y': 512, 'X': 512}",
+   "physical_size_um": {
+    "x": 0.16,
+    "y": 0.16,
+    "z": null
+   },
+   "channel_names": [
+    "3DSTORM-EPI"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "95c2a5d07349544b81bb3225dce5a540"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "05445d9d3aa12116d869a109afdb23d5"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "059f6051c57bd720063359ba5e77fd21"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "2154994baa9a4cd1645fcc0cf6981797"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "e44de4640e9c2dd0aac0eca179b7562b"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "e7e86e4e6f6401e8700e4848c30362f3"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "1986ad0f9278823d2de227f04c547623"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "f4cde5735915f0feaa04a2b2812991d9"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "5b17eaf07fee416e1a3b15076b3aa993"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "0640b1c5680c21a8e62860ab3d1d2e78"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "3DSTORM-EPI",
+    "color": "#4A0000",
+    "excitation_nm": null,
+    "emission_nm": 488.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   }
+  ],
+  "frame_count": 10,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 856.4064271450043,
+    "tags": {
+     "CameraTemp1": -80.0,
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 8468,
+     "PFS_STATUS": 1,
+     "X": 6230.400000000001,
+     "Y": -22641.2,
+     "Z": 1596.825,
+     "Z1": 1596.825,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 1056.8866212368011,
+    "tags": {
+     "CameraTemp1": -80.0,
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 8468,
+     "PFS_STATUS": 1,
+     "X": 6230.400000000001,
+     "Y": -22641.2,
+     "Z": 1596.825,
+     "Z1": 1596.825,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 1257.366815328598,
+    "tags": {
+     "CameraTemp1": -80.0,
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 8468,
+     "PFS_STATUS": 1,
+     "X": 6230.400000000001,
+     "Y": -22641.2,
+     "Z": 1596.825,
+     "Z1": 1596.825,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 3,
+    "time_ms": 1457.847039937973,
+    "tags": {
+     "CameraTemp1": -80.0,
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 8468,
+     "PFS_STATUS": 1,
+     "X": 6230.400000000001,
+     "Y": -22641.2,
+     "Z": 1596.825,
+     "Z1": 1596.825,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 4,
+    "time_ms": 1658.3272035121918,
+    "tags": {
+     "CameraTemp1": -80.0,
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 8468,
+     "PFS_STATUS": 1,
+     "X": 6230.400000000001,
+     "Y": -22641.2,
+     "Z": 1596.825,
+     "Z1": 1596.825,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 5,
+    "time_ms": 1858.8074281215668,
+    "tags": {
+     "CameraTemp1": -80.0,
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 8468,
+     "PFS_STATUS": 1,
+     "X": 6230.400000000001,
+     "Y": -22641.2,
+     "Z": 1596.825,
+     "Z1": 1596.825,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 6,
+    "time_ms": 2059.2876527309418,
+    "tags": {
+     "CameraTemp1": -80.0,
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 8468,
+     "PFS_STATUS": 1,
+     "X": 6230.400000000001,
+     "Y": -22641.2,
+     "Z": 1596.825,
+     "Z1": 1596.825,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 7,
+    "time_ms": 2259.7678773403168,
+    "tags": {
+     "CameraTemp1": -80.0,
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 8468,
+     "PFS_STATUS": 1,
+     "X": 6230.400000000001,
+     "Y": -22641.2,
+     "Z": 1596.825,
+     "Z1": 1596.825,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 8,
+    "time_ms": 2460.2479798793793,
+    "tags": {
+     "CameraTemp1": -80.0,
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 8468,
+     "PFS_STATUS": 1,
+     "X": 6230.400000000001,
+     "Y": -22641.2,
+     "Z": 1596.825,
+     "Z1": 1596.825,
+     "Z2": 0.0
+    }
+   },
+   {
+    "index": 9,
+    "time_ms": 2660.7283265590668,
+    "tags": {
+     "CameraTemp1": -80.0,
+     "Camera_ExposureTime1": 200.0,
+     "PFS_OFFSET": 8468,
+     "PFS_STATUS": 1,
+     "X": 6230.400000000001,
+     "Y": -22641.2,
+     "Z": 1596.825,
+     "Z1": 1596.825,
+     "Z2": 0.0
+    }
+   }
+  ],
+  "acquired_at": "2021-05-05T13:58:22.373Z",
+  "acquired_at_unix_ms": 1620223102373
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T'(10)\r\nCamera Name: Andor DU-897 X-7861\r\nNumerical Aperture: 1.49\r\nRefractive Index: 1.515\r\n Name: 3DSTORM-EPI\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Andor DU-897\r\n  Binning: 1x1\r\n  Exposure: 200 ms\r\n  Multiplier: 300\r\n  Readout Speed: 10 MHz\r\n  Conversion Gain: Gain 3\r\n  Vertical Shift Speed: 0.9 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -80.0\u00b0C\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1\r\n  Nikon Ti, FilterChanger(Turret2): 2 (410/504/582/669)\r\n  Nikon Ti, FilterChanger(Emission Wheel): 5 (684)\r\n  Nikon Ti, FilterChanger(Excitation Wheel): 5 (EX650)\r\n  Intensilight, Shutter(INTSL): Opened\r\n  Intensilight, Illuminator(Illuminator (EPI)) NDFilter: 100.0\r\n  PFS-S, state: On\r\n  PFS-S, offset: 8468\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\n  TIRFMirror State: Off\r\n  TIRFPosition Position: 3100.0\r\nTime Loop: 10\r\n- Nonequidistant",
+  "capturing": "Andor DU-897 X-7861\r\n\r\nCamera Type: Andor DU-897\r\nBinning: 1x1\r\nExposure: 200 ms\r\nMultiplier: 300\r\nReadout Speed: 10 MHz\r\nConversion Gain: Gain 3\r\nVertical Shift Speed: 0.9 \u00b5s\r\nVertical Clock Voltage Amplitude: Normal\r\nTrigger Mode: Internal\r\nTemperature: -80.0\u00b0C",
+  "date": "05/05/2021  15:58:22",
+  "optics": "Apo TIRF 100x Oil DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=1, heightPx=512, pixelDataType='unsigned', sequenceCount=10, widthBytes=1024, widthPx=512, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

@@ -1,0 +1,20 @@
+{
+ "id": "zenodo5979613-451852-08",
+ "file": "zenodo5979613-451852-08.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8847bf30f39d724cb4927119e8bcd9bc"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "id": "zenodo6023185-12h-veh-rabCH25H-488-mCD31-546-H-4",
+ "file": "zenodo6023185-12h-veh-rabCH25H-488-mCD31-546-H-4.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1912,
+   "size_y": 1912,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eafbcc280ac3f0024317cdface2e9988"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "02b2624cda9c48c8bc87837415222fe3"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1f28d00bc0dc77d009560bccad61db5f"
+    }
+   ]
+  }
+ ]
+}

@@ -514,7 +514,14 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
         let extra = set_extra(&hd, &xl, &wxis, &wxdm, &wxcs, &wxda);
         let (xq, xu) = match (xl.type_code, xl.unit_code) {
             (_, 1) => ("raman_shift", Some("1/cm")),
+            // photoluminescence: emission wavelengths (docs/provenance/renishaw-wdf.md, 2026-10-12)
+            (_, 3) => ("wavelength", Some("nm")),
             _ => ("x", None),
+        };
+        let kind = if xq == "wavelength" {
+            "Spectral"
+        } else {
+            "Raman"
         };
         let yu = match hd.spectral_unit {
             6 => Some("counts"),
@@ -531,10 +538,11 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
         let listed = matches!(x, XValues::Listed(_));
         parsed.sets.push(SpectrumSet {
             name: match hd.measurement_type {
-                3 => format!("Raman map ({count32} spectra)"),
-                2 => format!("Raman series ({count32} spectra)"),
-                _ if count32 > 1 => format!("Raman spectra ({count32})"),
+                3 => format!("{kind} map ({count32} spectra)"),
+                2 => format!("{kind} series ({count32} spectra)"),
+                _ if count32 > 1 => format!("{kind} spectra ({count32})"),
                 _ if !hd.title.is_empty() => hd.title.clone(),
+                _ if xq == "wavelength" => "Spectrum".to_string(),
                 _ => "Raman spectrum".to_string(),
             },
             x_quantity: if listed { xq } else { "points" },
@@ -550,7 +558,7 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
             },
             stored: Stored::F32,
             scale: 1.0,
-            data_type: if xq == "raman_shift" || hd.laser_wn > 0.0 {
+            data_type: if xq == "raman_shift" || (hd.laser_wn > 0.0 && xq != "wavelength") {
                 "RAMAN SPECTRUM"
             } else {
                 "UNKNOWN"
@@ -1100,7 +1108,15 @@ fn map_geometry(
     mx.insert("spectra_placed".into(), json!(placed));
     mx.insert("wmap_flags".into(), json!(flags));
     parsed.maps.push(MapSpec {
-        name: format!("Raman map {w} × {h}"),
+        name: if parsed
+            .sets
+            .first()
+            .is_some_and(|s| s.x_quantity == "wavelength")
+        {
+            format!("Spectral map {w} × {h}")
+        } else {
+            format!("Raman map {w} × {h}")
+        },
         set: 0,
         width: w,
         height: h,

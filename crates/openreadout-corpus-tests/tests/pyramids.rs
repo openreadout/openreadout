@@ -39,6 +39,9 @@ const READ_BACK_PIXELS: u64 = 16_000_000;
 const WINDOW: u32 = 16;
 /// Lowest accepted correlation between a level window and its block-averaged level-0 window.
 const MIN_CORRELATION: f64 = 0.8;
+/// Windows less textured than this (sd in grey levels, samples averaged) may lose to a lossy
+/// level's coding noise: their failure counts only when no more textured window passed.
+const STRONG_WINDOW_SD: f64 = 6.0;
 
 #[derive(Deserialize)]
 struct Manifest {
@@ -262,7 +265,8 @@ fn best_phase(
 /// least 4 times (else the coarsest): up to three of its most textured `WINDOW`-pixel windows
 /// on a 5 × 5 grid are compared with the level-0 window at `position × factor`, block-averaged
 /// by the rounded factor, at the best block origin within one level pixel ([`best_phase`]). `Ok(Some((level, lowest r)))`, `Ok(None)` when no window is textured,
-/// `Err` when a correlation is below `MIN_CORRELATION`.
+/// `Err` when a correlation is below `MIN_CORRELATION` (for a window under `STRONG_WINDOW_SD`, only
+/// when no more textured window passed).
 fn check_factors(
     ds: &mut dyn Dataset,
     im: &openreadout_core::ImageInfo,
@@ -328,6 +332,8 @@ fn check_factors(
     }
     windows.sort_by(|a, b| b.0.total_cmp(&a.0));
     let mut lowest: Option<f64> = None;
+    let mut strong_passed = false;
+    let mut weak_failure: Option<String> = None;
     for (sd, x, y, v) in windows.into_iter().take(3) {
         if sd < 4.0 {
             break;
@@ -359,13 +365,29 @@ fn check_factors(
         };
         let best = best_phase(&v, &b, (r.width, r.height), (x0 - ax, y0 - ay), (kx, ky));
         let Some((r, dx, dy)) = best else { continue };
-        lowest = Some(lowest.map_or(r, |m: f64| m.min(r)));
-        if r.is_nan() || r < MIN_CORRELATION {
-            return Err(format!(
-                "level {} window at ({x}, {y}) correlates at best r = {r:.3} with level 0 at ({x0}{dx:+}, {y0}{dy:+}) under downsampling ({}, {})",
-                l.level, l.downsample_x, l.downsample_y
-            ));
+        let failed = r.is_nan() || r < MIN_CORRELATION;
+        let why = format!(
+            "level {} window at ({x}, {y}) correlates at best r = {r:.3} with level 0 at ({x0}{dx:+}, {y0}{dy:+}) under downsampling ({}, {})",
+            l.level, l.downsample_x, l.downsample_y
+        );
+        // A weakly textured window on a lossy level can lose to coding noise: on near-blank
+        // glass (openslide-olympus-os-3, overview level 2 at (836, 2133): sd 4.7 grey levels)
+        // JPEG noise decorrelates it (r = 0.77) although the level is placed right (it equals
+        // Bio-Formats' level within 1 grey level, and the 256-pixel region around it
+        // correlates at r = 0.94 with level 0). Such a failure counts only when no more
+        // textured window of the level passed; a wrong factor fails every window.
+        if sd < STRONG_WINDOW_SD && failed {
+            weak_failure.get_or_insert(why);
+            continue;
         }
+        if failed {
+            return Err(why);
+        }
+        strong_passed |= sd >= STRONG_WINDOW_SD;
+        lowest = Some(lowest.map_or(r, |m: f64| m.min(r)));
+    }
+    if let Some(why) = weak_failure.filter(|_| !strong_passed) {
+        return Err(why);
     }
     Ok(lowest.map(|r| (l.level, r)))
 }

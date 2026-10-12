@@ -110,7 +110,7 @@ impl FormatReader for AbfReader {
             can_write: false,
             confidence: assurance::ABF.confidence,
             known_gaps: vec![
-                "Command (DAC) waveforms are synthesized (trace 1) for ABF 2 episodic files with step, ramp and pulse-train epochs only; stimulus files, user lists, alternating outputs, conditioning trains, triangle/cosine/biphasic epochs and ABF 1 files keep the epoch table only".into(),
+                "Command (DAC) waveforms are synthesized (trace 1) for episodic files with step, ramp and pulse-train epochs only; stimulus files, user lists, alternating outputs, conditioning trains, triangle/cosine/biphasic epochs, ABF 1 files before 1.6 and ABF 1 files with epoch tables on both DACs keep the epoch table only".into(),
                 "User lists, statistics, math, scope and voice-tag sections are listed but not decoded".into(),
                 "Pre-1.6 ABF 1 files: telegraph, protocol path and 20-entry epoch tables are not in the header and are not reported".into(),
                 "Old pCLAMP/Axotape files without an `ABF ` signature (CLPX, FTCX) are not read".into(),

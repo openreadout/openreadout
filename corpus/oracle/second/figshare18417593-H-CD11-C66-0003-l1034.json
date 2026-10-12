@@ -1,0 +1,38 @@
+{
+ "id": "figshare18417593-H-CD11-C66-0003-l1034",
+ "file": "figshare18417593-H-CD11-C66-0003-l1034.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "061f6c4e01d4c2f3756bbbaded146f6a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c2db723ba8768593e6acd7acfd0dcad1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0efa0b6a9a5816e4b96476c659613564"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c99d93f7da6d48cfb156a1b402517ea"
+    }
+   ]
+  }
+ ]
+}

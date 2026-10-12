@@ -1,0 +1,51 @@
+{
+ "id": "zenodo8185119-Figure-7c-20x-Nociceptors-mMORp-eYFP-low",
+ "file": "zenodo8185119-Figure-7c-20x-Nociceptors-mMORp-eYFP-low.czi",
+ "size": 16816192,
+ "sha256": "e19a225442b5060781a473565cc2e2e858c9343726bb829b0a74a1477ee5a999",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 4096,
+   "size_y": 4096,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "YX",
+   "shape": [
+    4096,
+    4096
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.10378322968147374,
+    "y": 0.10378322968147374,
+    "z": 2.5
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "73ea0b6fad5ce0b9c8c59056b672a074"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.10378322968147374,
+  "y": 0.10378322968147374,
+  "z": 2.5
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

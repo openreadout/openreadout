@@ -1,0 +1,57 @@
+{
+ "id": "figshare28054007-a-Synuclein",
+ "file": "figshare28054007-a-Synuclein.lsm",
+ "size": 2258495,
+ "sha256": "3144c5dd6a57c92350f4694bd9dcffeaa08494952a008ae94a69a1569ae0d433",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "CYX",
+   "shape": [
+    2,
+    1024,
+    1024
+   ],
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.08785881703321047,
+    "y": 0.08785881703321047
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "17f2b8bc850c6a3d3d2290ed52728d25"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3acca4405ea95996087dae84ff5bf201"
+    }
+   ],
+   "check_objective": "Plan-Apochromat 63x/1.40 Oil DIC M27",
+   "check_acquired_at": "2012-11-12T11:24:45"
+  }
+ ]
+}

@@ -422,7 +422,9 @@
      "t": 0,
      "xxh3": "d5878c8bbfd27bcdb71c0a2c7e84fa87"
     }
-   ]
+   ],
+   "check_objective": "Achroplan 40x/0.8 W",
+   "check_acquired_at": "2009-02-25T03:21:00.219"
   }
  ]
 }

@@ -1,0 +1,110 @@
+{
+ "id": "figshare28697108-DIBAC-only-Figure8Q",
+ "file": "figshare28697108-DIBAC-only-Figure8Q.nd2",
+ "size": 4411392,
+ "sha256": "f2699a1296017c05c251855f794f73bae348045eaeee3b1c46009cf1dff7b054",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.08660543051870673,
+    "y": 0.08660543051870673,
+    "z": null
+   },
+   "channel_names": [
+    "FITC",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "063adc4396a8e6c8e4e5ec62fb1f7a65"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "87d0ba4edbd0689421aba5373c022a7d"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "FITC",
+    "color": "#00FF00",
+    "excitation_nm": 488.0,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ]
+   },
+   {
+    "name": "TD",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "brightfield",
+     "laserScanConfocal",
+     "transmitDetector"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 8979702.188266655,
+    "tags": {
+     "Camera_000CH1PMTHighVoltage": 101,
+     "Camera_001CH2PMTHighVoltage": 30,
+     "Camera_002CH3PMTHighVoltage": 43,
+     "Camera_003CH4PMTHighVoltage": 89,
+     "Camera_004TDPMTHighVoltage": 104,
+     "Camera_005SDHighVoltage": 0,
+     "Camera_006VFCH1Gain": 0,
+     "Camera_007VFCH2Gain": 0,
+     "Camera_008VFCH3Gain": 0,
+     "Camera_009VFCH4Gain": 0,
+     "Camera_014CH1LaserPower": 1.9000000000000001,
+     "Camera_015CH2LaserPower": 0.7,
+     "Camera_016CH3LaserPower": 1.46,
+     "Camera_017CH4LaserPower": 1.8,
+     "X": 10242.1,
+     "Y": -16213.6,
+     "Z": -135.1,
+     "Z1": -135.1
+    }
+   }
+  ],
+  "acquired_at": "2025-01-24T20:23:35.601Z",
+  "acquired_at_unix_ms": 1737750215601
+ },
+ "text_info": {
+  "description": "Camera Name: Nikon A1 LFOV\r\nNumerical Aperture: 1.4\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: FITC\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  \r\t\t{GaAsP}: CH2/3;\r\n  {Optical Path Mode}: Auto\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: 452/45\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 593/46\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 0.7\r\n  \t{PMT HV}: 30\t{PMT Offset}: 0\r\n  TD\t{PMT HV}: 104\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 35.76\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 2.392\r\n  {Scan Speed}: 0.5\r\n  {Channel Series Mode}: None\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: Average\r\n  {Line Average/Integrate Count}: 2\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 4.0\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 4.0\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 4.0\r\n  {KeepPixelBrightnessEnable}: 1\r\n  {ScalingMode}: 0\r\n  {Head type}: LFOV (FOV18)\r\n  \r\n\r\n Microscope Settings:   Microscope: Ni-E Microscope\r\n  Nikon Ni-E, FilterChanger(Turret1): 1\r\n  LightPath: Front\r\n  FieldStop: 30.6 mm\r\nPlane #2:\r\n Name: TD\r\n Component Count: 1\r\n Modality: Brightfield, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  \r\t\t{GaAsP}: CH2/3;\r\n  {Optical Path Mode}: Auto\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: 452/45\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 593/46\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 0.7\r\n  \t{PMT HV}: 30\t{PMT Offset}: 0\r\n  TD\t{PMT HV}: 104\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 35.76\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 2.392\r\n  {Scan Speed}: 0.5\r\n  {Channel Series Mode}: None\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: Average\r\n  {Line Average/Integrate Count}: 2\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 4.0\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 4.0\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 4.0\r\n  {KeepPixelBrightnessEnable}: 1\r\n  {ScalingMode}: 0\r\n  {Head type}: LFOV (FOV18)\r\n  \r\n\r\n Microscope Settings:   Microscope: Ni-E Microscope\r\n  Nikon Ni-E, FilterChanger(Turret1): 1\r\n  LightPath: Front\r\n  FieldStop: 30.6 mm\r\n",
+  "capturing": "Nikon A1 LFOV\r\n              \r\n{Scanner Selection}: Galvano\r\n{Detector Selection}: DU4\r\n\r\t\t{GaAsP}: CH2/3;\r\n{Optical Path Mode}: Auto\r\n{First Dichroic Mirror}: 405/488/561/640\r\n{First Filter Cube}: 452/45\r\n{Second Filter Cube}: 525/50\r\n{Third Filter Cube}: 593/46\r\nCH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 0.7\r\n\t{PMT HV}: 30\t{PMT Offset}: 0\r\nTD\t{PMT HV}: 104\t{PMT Offset}: 0\r\n{Pinhole Size(um)}: 35.76\r\n{HV LinearCorrection}: Off\r\n{Scan Direction}: One way\r\n{Scanner Zoom}: 2.392\r\n{Scan Speed}: 0.5\r\n{Channel Series Mode}: None\r\n{Line Skip}: None\r\n{Frame Skip}: 0\r\n{Line Average Mode}: Average\r\n{Line Average/Integrate Count}: 2\r\nStim1\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n\t{Laser Power(405.0)}: 4.0\r\nStim2\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n\t{Laser Power(405.0)}: 4.0\r\nStim3\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n\t{Laser Power(405.0)}: 4.0\r\n{KeepPixelBrightnessEnable}: 1\r\n{ScalingMode}: 0\r\n{Head type}: LFOV (FOV18)\r\n\r\n",
+  "date": "1/24/2025  3:23:35 PM",
+  "optics": "Plan Apo \u03bb 60x Oil"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=2, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=4096, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

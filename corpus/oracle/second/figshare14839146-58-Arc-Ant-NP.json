@@ -1,0 +1,32 @@
+{
+ "id": "figshare14839146-58-Arc-Ant-NP",
+ "file": "figshare14839146-58-Arc-Ant-NP.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fe45eb8a42cbed1c042835d04ad21535"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "56b999d0e48fa97f93023427e874093a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "68842064705ba37a69f8b50b36ceb67f"
+    }
+   ]
+  }
+ ]
+}

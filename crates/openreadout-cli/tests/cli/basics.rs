@@ -93,6 +93,7 @@ fn formats_lists_all_readers() {
             "witec-project",
             "agilent-fpa",
             "perkinelmer-fsm",
+            "shimadzu-uvprobe",
             "agilent-cary",
             "microcal-itc",
             "cytiva-biacore-blr",

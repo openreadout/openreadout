@@ -229,7 +229,9 @@
      "t": 0,
      "xxh3": "af2520b063031ad3acd9c69431ba6d96"
     }
-   ]
+   ],
+   "check_objective": "C-Apochromat 40x/1.20 W Korr M27",
+   "check_acquired_at": "2015-12-22T14:04:21"
   }
  ]
 }

@@ -1,0 +1,82 @@
+{
+ "id": "zenodo12659608-2023-10-16-hsdm-slide-IB-fov-01-03-2023",
+ "file": "zenodo12659608-2023-10-16-hsdm-slide-IB-fov-01-03-2023.czi",
+ "size": 50487200,
+ "sha256": "27e2267614ac22fef97f8199f7c331d3d25c190839645494262909188c32f23c",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 6,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    6,
+    2048,
+    2048
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.06589411408347538,
+    "y": 0.06589411408347538,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ff4ccce27dbc6293f6d102a0218da722"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f663770d6f1813776e42bda5cb2a5fc9"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "950d1fb842d0b13d4538a58764b3d49a"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "164f7f2ef23095146c7a8d0db9ff0dc8"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f7cbc80534da644df845399f574ec375"
+    },
+    {
+     "c": 5,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3082b64d569df458ef384530222ecc80"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.06589411408347538,
+  "y": 0.06589411408347538,
+  "z": 0.0
+ },
+ "subblock_count": 6,
+ "compression_ids": [
+  0
+ ]
+}

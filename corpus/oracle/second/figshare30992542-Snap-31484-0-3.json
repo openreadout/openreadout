@@ -1,0 +1,26 @@
+{
+ "id": "figshare30992542-Snap-31484-0-3",
+ "file": "figshare30992542-Snap-31484-0-3.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a301347a71750483347095aca83e8396"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4dfaba0437dd26a30775585723cec29b"
+    }
+   ]
+  }
+ ]
+}

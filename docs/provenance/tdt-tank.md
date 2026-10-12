@@ -53,3 +53,9 @@ written from real event data by the depositors, as their README says).
   records; they are listed, not read.
 - Blocks of a tank are ordered by their start mark; `Block-2` of `gin-tdt-aep-05` starts
   65,136 s after `Block-1`.
+
+## 2026-10-12: snippet width from a damaged index
+
+Corpus: none (a CI fuzz input, `crates/openreadout-ephys/tests/fixtures/malformed/bundle-whole_tdt-snippet-size-oom.bin`).
+Prior art: none. The spikes table's width now comes only from snippets that lie wholly in the
+`.tev`, and at most 4096 samples. A damaged record size had declared millions of columns.

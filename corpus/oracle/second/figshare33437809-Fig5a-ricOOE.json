@@ -1,0 +1,26 @@
+{
+ "id": "figshare33437809-Fig5a-ricOOE",
+ "file": "figshare33437809-Fig5a-ricOOE.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1392,
+   "size_y": 1040,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "58c3b5ec806a243819383ed514322b84"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5e613e05d3bf3e13fa337af001add379"
+    }
+   ]
+  }
+ ]
+}

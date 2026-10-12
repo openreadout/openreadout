@@ -37,7 +37,7 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ims` | [format note](../../docs/formats/ims.md), [provenance log](../../docs/provenance/ims.md) | high | vendor docs | 16 / 16 | 11 | 1 / 0 |
+| `ims` | [format note](../../docs/formats/ims.md), [provenance log](../../docs/provenance/ims.md) | high | vendor docs | 26 / 26 | 21 | 1 / 0 |
 | `nwb` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | high | open spec | 22 / 21 | 19 | 1 / 0 |
 | `hdf5` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | medium | open spec | 4 / 4 | 4 | - |
 
@@ -82,14 +82,15 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `hdf5` | dialect | `generic hdf5` | metadata, tables, traces | 4 | 4 | `hdf5-zenodo14794967-picoharp-histogram-cl1-det2`, `hdf5-zenodo15463833-data-pmoke-mag`, `hdf5-zenodo4165174-wse2-cb` |
 | `hdf5` | format_version | `superblock version 0` | descriptive | 3 | 3 | `hdf5-zenodo14794967-picoharp-histogram-cl1-det2`, `hdf5-zenodo15463833-data-pmoke-mag`, `hdf5-zenodo4165174-wse2-cb` |
 | `hdf5` | format_version | `superblock version 2` | descriptive | 1 | 1 | `hdf5-zenodo7806036-figure7-nexus` |
-| `ims` | acquisition | `SpinningDiskConfocal` | descriptive | 5 | 5 | `ome-imaris-convallaria-3c-10t`, `ome-imaris-convallaria-3c-1t`, `ome-imaris-convallaria-3c-1t-2x2grid` |
-| `ims` | codec | `hdf5 deflate` | pixels | 10 | 10 | `imariswriter-minimal-ims`, `ome-imaris-convallaria-3c-1t-2x2grid`, `ome-imaris-retina-large` |
+| `ims` | acquisition | `LaserScanningConfocalMicroscopy` | descriptive | 3 | 3 | `figshare26891368-103-EP-405-45-561-7-5-Airyscan-Processin`, `figshare27011572-117-EP-405-4-561-6-Airyscan-Processing-C`, `zenodo17406102-tmp` |
+| `ims` | acquisition | `SpinningDiskConfocal` | descriptive | 7 | 7 | `figshare19317977-Fig4c-static`, `figshare24966153-ICAM-2-S-Dev25-3-2021-09-30-Molly-iPSC-C`, `ome-imaris-convallaria-3c-10t` |
+| `ims` | codec | `hdf5 deflate` | pixels | 18 | 18 | `figshare20081261-SuppFile22-Tail-Practice-Image-3`, `figshare20484396-Extended-Data-Fig-3b`, `figshare26891368-103-EP-405-45-561-7-5-Airyscan-Processin` |
 | `ims` | codec | `hdf5 lz4` | pixels | 2 | 2 | `ome-imaris-cropped-cdm3d-lz4`, `ome-imaris-cropped-retina-lz4` |
 | `ims` | codec | `hdf5 shuffle` | pixels | 1 | 1 | `ome-imaris-cropped-cdm3d-lz4` |
-| `ims` | codec | `hdf5 unfiltered` | pixels | 4 | 4 | `ome-imaris-convallaria-3c-10t`, `ome-imaris-convallaria-3c-1t`, `zenodo17257407-bf-issue-anna` |
-| `ims` | field | `experiment.acquisition.started_at` | descriptive | 15 | 15 | `ome-imaris-convallaria-3c-10t`, `ome-imaris-convallaria-3c-1t`, `ome-imaris-convallaria-3c-1t-2x2grid` |
-| `ims` | format_version | `5.5.0` | metadata, pixels | 16 | 16 | `imariswriter-minimal-ims`, `ome-imaris-convallaria-3c-10t`, `ome-imaris-convallaria-3c-1t` |
-| `ims` | layout | `resolution_levels` | pixels | 9 | 9 | `ome-imaris-convallaria-3c-1t-2x2grid`, `ome-imaris-cropped-cdm3d-lz4`, `ome-imaris-retina-large` |
+| `ims` | codec | `hdf5 unfiltered` | pixels | 6 | 6 | `figshare19317977-Fig4c-static`, `figshare24966153-ICAM-2-S-Dev25-3-2021-09-30-Molly-iPSC-C`, `ome-imaris-convallaria-3c-10t` |
+| `ims` | field | `experiment.acquisition.started_at` | descriptive | 25 | 25 | `figshare19317977-Fig4c-static`, `figshare20081261-SuppFile22-Tail-Practice-Image-3`, `figshare20484396-Extended-Data-Fig-3b` |
+| `ims` | format_version | `5.5.0` | metadata, pixels | 26 | 26 | `figshare19317977-Fig4c-static`, `figshare20081261-SuppFile22-Tail-Practice-Image-3`, `figshare20484396-Extended-Data-Fig-3b` |
+| `ims` | layout | `resolution_levels` | pixels | 16 | 16 | `figshare20081261-SuppFile22-Tail-Practice-Image-3`, `figshare26891368-103-EP-405-45-561-7-5-Airyscan-Processin`, `figshare27011572-117-EP-405-4-561-6-Airyscan-Processing-C` |
 | `ims` | record | `scene records: Cells` | tables | 1 | 1 | `zenodo4433202-ovule-732` |
 | `ims` | record | `scene records: Filaments` | tables | 3 | 3 | `zenodo20758452-181-c2-wt-20w-x60`, `zenodo20758452-296-c2-ko-20w-x60`, `zenodo20758452-460-c3-ko-10w-x60` |
 | `ims` | record | `scene records: ImageMasks` | tables | 1 | 1 | `zenodo4433202-ovule-732` |
@@ -99,16 +100,20 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `ims` | record | `scene statistics: Filaments` | tables | 3 | 3 | `zenodo20758452-181-c2-wt-20w-x60`, `zenodo20758452-296-c2-ko-20w-x60`, `zenodo20758452-460-c3-ko-10w-x60` |
 | `ims` | record | `scene statistics: MegaSurfaces` | tables | 1 | 1 | `zenodo19630647-btbr-lab` |
 | `ims` | record | `scene statistics: Surfaces` | tables | 1 | 1 | `zenodo4433202-ovule-732` |
-| `ims` | sample_layout | `uint16` | pixels | 11 | 11 | `imariswriter-minimal-ims`, `ome-imaris-convallaria-3c-10t`, `ome-imaris-convallaria-3c-1t` |
-| `ims` | sample_layout | `uint8` | pixels | 5 | 5 | `ome-imaris-cropped-retina-lz4`, `ome-imaris-retina-large`, `zenodo4433202-ovule-732` |
-| `ims` | writer | `Imaris` | descriptive | 16 | 16 | `imariswriter-minimal-ims`, `ome-imaris-convallaria-3c-10t`, `ome-imaris-convallaria-3c-1t` |
-| `ims` | writer_version | `Imaris 10.1` | descriptive | 1 | 1 | `ome-imaris-cropped-retina-lz4` |
+| `ims` | sample_layout | `uint16` | pixels | 18 | 18 | `figshare19317977-Fig4c-static`, `figshare20081261-SuppFile22-Tail-Practice-Image-3`, `figshare24966153-ICAM-2-S-Dev25-3-2021-09-30-Molly-iPSC-C` |
+| `ims` | sample_layout | `uint8` | pixels | 8 | 8 | `figshare20484396-Extended-Data-Fig-3b`, `ome-imaris-cropped-retina-lz4`, `ome-imaris-retina-large` |
+| `ims` | writer | `Imaris` | descriptive | 26 | 26 | `figshare19317977-Fig4c-static`, `figshare20081261-SuppFile22-Tail-Practice-Image-3`, `figshare20484396-Extended-Data-Fig-3b` |
+| `ims` | writer_version | `Imaris 10.0` | descriptive | 2 | 2 | `zenodo10477219-MS1WHO-1`, `zenodo15001649-bfGetReaderTest` |
+| `ims` | writer_version | `Imaris 10.1` | descriptive | 2 | 2 | `ome-imaris-cropped-retina-lz4`, `zenodo14235726-performanceTestImage` |
 | `ims` | writer_version | `Imaris 10.2` | descriptive | 2 | 2 | `ome-imaris-cropped-cdm3d-lz4`, `zenodo19666865-exm-artifact` |
-| `ims` | writer_version | `Imaris 5.5` | descriptive | 5 | 5 | `imariswriter-minimal-ims`, `ome-imaris-convallaria-3c-10t`, `ome-imaris-convallaria-3c-1t` |
+| `ims` | writer_version | `Imaris 5.5` | descriptive | 7 | 7 | `figshare19317977-Fig4c-static`, `figshare24966153-ICAM-2-S-Dev25-3-2021-09-30-Molly-iPSC-C`, `imariswriter-minimal-ims` |
+| `ims` | writer_version | `Imaris 7.4` | descriptive | 1 | 1 | `figshare20484396-Extended-Data-Fig-3b` |
 | `ims` | writer_version | `Imaris 9.0` | descriptive | 1 | 1 | `ome-imaris-retina-large` |
 | `ims` | writer_version | `Imaris 9.5` | descriptive | 2 | 2 | `zenodo4433202-ovule-732`, `zenodo4449687-hela-h2b` |
-| `ims` | writer_version | `Imaris 9.7` | descriptive | 1 | 1 | `zenodo5895076-polymersome-spot` |
+| `ims` | writer_version | `Imaris 9.6` | descriptive | 1 | 1 | `figshare20081261-SuppFile22-Tail-Practice-Image-3` |
+| `ims` | writer_version | `Imaris 9.7` | descriptive | 3 | 3 | `figshare26891368-103-EP-405-45-561-7-5-Airyscan-Processin`, `figshare27011572-117-EP-405-4-561-6-Airyscan-Processing-C`, `zenodo5895076-polymersome-spot` |
 | `ims` | writer_version | `Imaris 9.8` | descriptive | 4 | 4 | `zenodo19630647-btbr-lab`, `zenodo20758452-181-c2-wt-20w-x60`, `zenodo20758452-296-c2-ko-20w-x60` |
+| `ims` | writer_version | `Imaris 9.9` | descriptive | 1 | 1 | `zenodo17406102-tmp` |
 | `nwb` | format_version | `2.0.2` | metadata, tables, traces | 1 | 1 | `dandi000006-anm372907-20170613` |
 | `nwb` | format_version | `2.0b` | metadata, tables, traces | 1 | 1 | `dandi000027-sub-rat123` |
 | `nwb` | format_version | `2.1.0` | metadata, tables, traces | 1 | 1 | `dandi000035-sub-mouse-zudob-sample-27-icephys` |
@@ -153,7 +158,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/fixtures.rs`](tests/fixtures.rs), [`tests/nwb_export.rs`](tests/nwb_export.rs)
 - committed fixtures: 11 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_hdf5`, `whole_ims`, `whole_nwb`
-- corpus inputs by tier: heldout 8, smoke 17, standard 25
+- corpus inputs by tier: heldout 8, smoke 17, standard 35
 - golden snapshots: [`corpus/snapshots/ims.jsonl`](../../corpus/snapshots/ims.jsonl), [`corpus/snapshots/nwb.jsonl`](../../corpus/snapshots/nwb.jsonl), [`corpus/snapshots/hdf5.jsonl`](../../corpus/snapshots/hdf5.jsonl)
 
 ### Open new-variant intakes

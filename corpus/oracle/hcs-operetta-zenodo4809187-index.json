@@ -1,0 +1,340 @@
+{
+ "id": "hcs-operetta-zenodo4809187-index",
+ "file": "Index.idx.xml",
+ "size": 29164,
+ "sha256": "61ad0f267ce0fe87fe858488d0144b7ba33e7c67ff70d7185c8e3fb8174194aa",
+ "max_planes_hashed": 64,
+ "reader": "Python stdlib index parse + tifffile 2026.9.20; Bio-Formats 8.5.0 showinf/bfconvert (GPL, black box)",
+ "hcs": {
+  "format": "opera-harmony",
+  "plate": {
+   "id": "Minimal_dataset_Anna_Ags_Debugging",
+   "rows": 1,
+   "columns": 4,
+   "wells_imaged": 1,
+   "fields": 4,
+   "planes_expected": 16,
+   "planes_missing": 0,
+   "planes_absent": 0,
+   "planes_not_recorded": 0,
+   "planes_present": 16
+  },
+  "channels": [
+   "HOECHST 33342",
+   "Alexa 568"
+  ],
+  "size_c": 2,
+  "size_z": 2,
+  "size_t": 1,
+  "size": [
+   2160,
+   2160
+  ],
+  "pixel_type": "uint16",
+  "pixel_size_um": [
+   0.14949402023919042,
+   0.14949402023919042
+  ],
+  "wells": [
+   {
+    "well": "A01",
+    "images": [
+     0,
+     1,
+     2,
+     3
+    ]
+   }
+  ],
+  "images": [
+   {
+    "index": 0,
+    "well": "A01",
+    "field": 1,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f01p01-ch1sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "c46a292ef5c91b371a3053c45028fb4b",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 0,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f01p02-ch1sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "c0b2f0239f5f4986465dd0b2c99f1f57",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f01p01-ch2sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "7d9cc1bb525dfc3caf97da3b11583b7b",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 1,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f01p02-ch2sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "783eb8a92a7686d44efb452a450e0de2",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     }
+    ]
+   },
+   {
+    "index": 1,
+    "well": "A01",
+    "field": 2,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f02p01-ch1sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "08956212c7e8c8f1949eca6ef618c8a4",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 0,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f02p02-ch1sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "2fdf65b0b9f0794ec1c503a0d6c46299",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f02p01-ch2sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "b57884a5b5dd5620520e5c09a0cd8876",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 1,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f02p02-ch2sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "948e7e3e970a1995475bf763c853afca",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     }
+    ]
+   },
+   {
+    "index": 2,
+    "well": "A01",
+    "field": 3,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f03p01-ch1sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "3199f9bc148368b6cf916e600fb5ec87",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 0,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f03p02-ch1sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "f9b92249b0992a2069d317c11a8e51f5",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f03p01-ch2sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "6382c8c2489e6deb8b43d77d8135a4fb",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 1,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f03p02-ch2sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "513f18f6a3628f8351f8ba20e12ef271",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     }
+    ]
+   },
+   {
+    "index": 3,
+    "well": "A01",
+    "field": 4,
+    "planes": [
+     {
+      "c": 0,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f04p01-ch1sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "45871065a9edce5cd19b5ca0a5800294",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 0,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f04p02-ch1sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "12a07370c798b1b9ccd5aa7002716036",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 1,
+      "z": 0,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f04p01-ch2sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "7ec1a8f4c83a110e55c8feb9135078ba",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     },
+     {
+      "c": 1,
+      "z": 1,
+      "t": 0,
+      "state": "present",
+      "file": "r01c01f04p02-ch2sk1fk1fl1.tiff",
+      "page": 0,
+      "xxh3": "a8632aafd2cd907b20bef4bbcc110103",
+      "dtype": "uint16",
+      "shape": [
+       2160,
+       2160
+      ]
+     }
+    ]
+   }
+  ],
+  "bioformats": {
+   "series": 4,
+   "size_c": [
+    2
+   ],
+   "size_z": [
+    2
+   ],
+   "size_t": [
+    1
+   ],
+   "sizes": [
+    [
+     2160,
+     2160
+    ]
+   ],
+   "types": [
+    "uint16"
+   ],
+   "physical_size_um": [
+    0.14949402023919042,
+    0.14949402023919042
+   ],
+   "channels": [
+    "HOECHST 33342",
+    "Alexa 568"
+   ],
+   "fields_mapped": 4,
+   "planes_compared": 16,
+   "planes_agree": 16,
+   "planes_disagree": 0,
+   "absent_planes_blank": 0,
+   "absent_planes_repeated": 0,
+   "problems": []
+  }
+ }
+}

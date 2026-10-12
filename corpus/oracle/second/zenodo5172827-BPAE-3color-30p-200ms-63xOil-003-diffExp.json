@@ -1,0 +1,32 @@
+{
+ "id": "zenodo5172827-BPAE-3color-30p-200ms-63xOil-003-diffExp",
+ "file": "zenodo5172827-BPAE-3color-30p-200ms-63xOil-003-diffExp.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1012,
+   "size_y": 1020,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4fef80db4305691854a93584f52a68b5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5c981cb6c05e705a4f298d1f2f8ed6a8"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4ad5cf79f5f29a815c9ecf0768fb02b6"
+    }
+   ]
+  }
+ ]
+}

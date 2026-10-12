@@ -1,0 +1,135 @@
+{
+ "id": "figshare12607805-FoxP-Tubgal80ElavGal4",
+ "file": "figshare12607805-FoxP-Tubgal80ElavGal4.lif",
+ "size": 16809281,
+ "sha256": "5374f3ff46ed079b9a74c1316b04a58651b1c38c491c2ce5d0fde6caefd466d8",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "Series002",
+   "path": "Series002",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 16,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "ZYX",
+   "shape": [
+    16,
+    1024,
+    1024
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.3866108504398827,
+    "y": 0.3866108504398827,
+    "z": 1.9987999999998562
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "724db3e4a5debb9e26a68465ab7e0fdc"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "346baf287ec3db82ad84f73935a36c29"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "874009c009e3a99bdf7c4ab9668dbe60"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "53c33aaeac456429c0eb5f870beaf375"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "60456a27915491679cae81fa27168224"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "90c58214df9b4b3cf485455688ff0a4e"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "1555ab2d0aca4278e1e00f6841f7d4f4"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "3d1fcbeeb23cb23ece70a413078aee61"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "0eb7356b555825a14292876d0255c83a"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "2edb59ea2ca4eed54269a2ec280f04ee"
+    },
+    {
+     "c": 0,
+     "z": 10,
+     "t": 0,
+     "xxh3": "6c9031e195eb96ad7b5644818c414231"
+    },
+    {
+     "c": 0,
+     "z": 11,
+     "t": 0,
+     "xxh3": "2635a7f2789b0d9005c9253b3abc3d0a"
+    },
+    {
+     "c": 0,
+     "z": 12,
+     "t": 0,
+     "xxh3": "b666fdd17a793438bfeb01bcc2bfb061"
+    },
+    {
+     "c": 0,
+     "z": 13,
+     "t": 0,
+     "xxh3": "87d503d216863af50d7faf9d60b3b66e"
+    },
+    {
+     "c": 0,
+     "z": 14,
+     "t": 0,
+     "xxh3": "1bfb37c5134e35d3a8df6a2bbd55b320"
+    },
+    {
+     "c": 0,
+     "z": 15,
+     "t": 0,
+     "xxh3": "30cf1c0a9fd4e0bd3d9150462da98d95"
+    }
+   ]
+  }
+ ]
+}

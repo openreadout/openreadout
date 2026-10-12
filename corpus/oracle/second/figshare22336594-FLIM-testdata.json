@@ -1,0 +1,123 @@
+{
+ "id": "figshare22336594-FLIM-testdata",
+ "file": "figshare22336594-FLIM-testdata.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "sample1_slice1",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7037ee1d6dce79c6a4b9ff83e876b749"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "sample1_slice1/FLIM Compressed/Phasor Plot",
+   "size_x": 512,
+   "size_y": 300,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 2,
+   "name": "sample1_slice1/FLIM Compressed/Pattern Matching Scatter Plot Channel 1",
+   "size_x": 100,
+   "size_y": 100,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 3,
+   "name": "sample1_slice1/FLIM Compressed/Intensity",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  },
+  {
+   "index": 4,
+   "name": "sample1_slice1/FLIM Compressed/Fast Flim",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "94d0409934aac37d49ce241f94333e82"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "sample1_slice1/FLIM Compressed/Standard Deviation",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c8f4ace1e2d059fbfc2efad9f2728084"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "sample1_slice1/FLIM Compressed/Phasor Real",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9c0d4f2e9886436193fd4ae860e67bfa"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "sample1_slice1/FLIM Compressed/Phasor Imaginary",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aa6a9dd03b264f10c1148bf1143be10a"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "sample1_slice1/FLIM Compressed/Phasor Intensity",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8878b0fe820df19a87173321eace2edf"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "sample1_slice1/FLIM Compressed/Phasor Mask",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [],
+   "skip": "readlif: ValueError: Unknown bit-depth, please submit a bug report on Github"
+  }
+ ]
+}

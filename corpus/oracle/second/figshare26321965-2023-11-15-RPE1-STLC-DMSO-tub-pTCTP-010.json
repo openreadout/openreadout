@@ -1,0 +1,32 @@
+{
+ "id": "figshare26321965-2023-11-15-RPE1-STLC-DMSO-tub-pTCTP-010",
+ "file": "figshare26321965-2023-11-15-RPE1-STLC-DMSO-tub-pTCTP-010.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1952,
+   "size_y": 1952,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9737c72e3927ebca501244d36d1607a5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "382dc9577c49bfc39addcf0d9a75a146"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "faa6f1fd70552813d144e4fe9626192b"
+    }
+   ]
+  }
+ ]
+}

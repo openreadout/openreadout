@@ -70,3 +70,9 @@ docs (µV headstage, V ADC/analog input), unknown otherwise.
 ## 2026-09-26 (later) — directory detection limited to the recording's own folders
 
 **Corpus files:** the whole development corpus (the `corpus_index` test). **What was found.** The first rule claimed any directory with a `structure.oebin` up to four levels down, so `index` of the corpus root read the entire share as one Open Ephys recording. A directory is now claimed only when all its entries belong to an Open Ephys recording (see the format note); no reading rule changed.
+
+## 2026-10-12 — GUI 0.6 legacy recording directories
+
+**Corpus files:** `v0.6.7_OpenEphys/Record Node 101` from open-ephys/open-ephys-python-tools (MIT, GitHub; added to the manifest as `oept-v067-legacy-*`). No held-out file.
+**Prior art consulted:** none; Neo 0.14.5 (BSD-3) `OpenEphysRawIO` was run as a black box on the same channels.
+**What was inferred from what.** Open Ephys GUI 0.6 writes a `<stream>.timestamps` file (8-byte values, one per record) next to the `.continuous` files of a legacy-format recording node. Directory detection required every entry to be a known recording file, so the whole node directory was refused as an unknown format (exit 3) although each `.continuous` file read correctly. `.timestamps` files are now accepted as members of the directory and listed; they are not decoded.

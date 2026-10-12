@@ -1,0 +1,70 @@
+{
+ "id": "figshare31073320-456-0-5ugDAPI-3-7FA-0826-2X-3-Draw-Scale",
+ "file": "figshare31073320-456-0-5ugDAPI-3-7FA-0826-2X-3-Draw-Scale.czi",
+ "size": 1569760,
+ "sha256": "49b54efc031bd4962b4b710d7b01454d1ab1ab2e7345180e1025585235be5771",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CYX",
+   "shape": [
+    4,
+    512,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.1315305679563492,
+    "y": 0.1315305679563492,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bc01dbeb5a50379dd85917b9f7bcc06c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "001e7abeaff32344a1ee2071c69b305f"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0821d99b47d1aac6f9456218a6b92112"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fe51a471319040fb9809abbfc91df962"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.1315305679563492,
+  "y": 0.1315305679563492,
+  "z": null
+ },
+ "subblock_count": 4,
+ "compression_ids": [
+  0
+ ]
+}

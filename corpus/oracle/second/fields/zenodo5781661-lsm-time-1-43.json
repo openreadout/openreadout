@@ -15,7 +15,7 @@
    ],
    "ours": "/experiment/acquisition/started_at",
    "theirs": "2018-04-04T18:42:43",
-   "cmp": "time_or_utc",
+   "cmp": "time_mod_zone",
    "abs": 60.0
   },
   {

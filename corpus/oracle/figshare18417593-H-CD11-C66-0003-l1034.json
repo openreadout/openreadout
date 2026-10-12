@@ -1,0 +1,129 @@
+{
+ "id": "figshare18417593-H-CD11-C66-0003-l1034",
+ "file": "figshare18417593-H-CD11-C66-0003-l1034.nd2",
+ "size": 2494464,
+ "sha256": "7b3c2990d4a390cdb8b75e29599139e59d9843ed931e32153ff9bc0aaafe6299",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 4, 'Y': 512, 'X': 512}",
+   "physical_size_um": {
+    "x": 0.159555420061708,
+    "y": 0.159555420061708,
+    "z": null
+   },
+   "channel_names": [
+    "405 nm",
+    "488 nm",
+    "640 nm",
+    "DIC_P"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "061f6c4e01d4c2f3756bbbaded146f6a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c2db723ba8768593e6acd7acfd0dcad1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0efa0b6a9a5816e4b96476c659613564"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6c99d93f7da6d48cfb156a1b402517ea"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "405 nm",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "488 nm",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "640 nm",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence"
+    ]
+   },
+   {
+    "name": "DIC_P",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": 446.0,
+    "component_count": 1,
+    "modality": [
+     "brightfield"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 3975.1427945271134,
+    "tags": {
+     "CameraTemp1": -68.86299896240234,
+     "Camera_ExposureTime1": 10.0,
+     "PFS_OFFSET": 9993,
+     "PFS_STATUS": 1,
+     "X": 74647.7109375,
+     "Y": -5440.02001953125,
+     "Z": 2888.875
+    }
+   }
+  ],
+  "acquired_at": "2020-12-22T15:12:39.329Z",
+  "acquired_at_unix_ms": 1608649959329
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(2)\r\nCamera Name: Andor DU-897 X-5093\r\nNumerical Aperture: 1.49\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 4\r\nPlane #1:\r\n Name: 405 nm\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Andor DU-897\r\n  Binning: 1x1\r\n  Exposure: 100 ms, 100 ms, 100 ms\r\n  Multiplier: 5\r\n  Readout Speed: 10 MHz\r\n  Conversion Gain: 1x\r\n  Vertical Shift Speed: 3.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -68.9\u00b0C\r\n  MultiExcitation: On\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5 (MultiSpec)\r\n  LightPath: L100\r\n  PFS-S, state: On\r\n  PFS-S, offset: 9993\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\n  Lower Turret Layer:\r\n     Port 1: On  (H-TIRF)\r\n     Port 2: Off  (FRAP)\r\n     Port 3: On  (EPI)\r\n  \r\n  H-TIRF Angle: 46.4\r\n  H-TIRF Direction: 180.0\r\n  H-TIRF Alignment Wavelength: 0.0nm\r\n  H-TIRF Focus: -18730.0\r\n  H-TIRF Penetration Depth: N/A\r\n  H-TIRF Lambda 1/4: In\r\n  H-TIRF Gradation ND: In\r\n  H-TIRF alignment information:\r\n     H-TIRF Alignment Name: user-spec_0_test\r\n     H-TIRF Focus Point: N/A\r\n     H-TIRF Critical Angle: N/A\r\n  Nikon LU-N3/N4, Shutter(LU-N): Active\r\n  Nikon LU-N3/N4, MultiLaser(LU-N3/N4):\r\n     Line:1; ExW:405; Power: 40.0; Off\r\n     Line:2; ExW:488; Power: 40.0; Off\r\n     Line:3; ExW:561; Power:  6.0; Off\r\n     Line:4; ExW:640; Power: 40.0; Off\r\n\r\nPlane #2:\r\n Name: 488 nm\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Andor DU-897\r\n  Binning: 1x1\r\n  Exposure: 100 ms, 100 ms, 100 ms\r\n  Multiplier: 5\r\n  Readout Speed: 10 MHz\r\n  Conversion Gain: 1x\r\n  Vertical Shift Speed: 3.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -68.9\u00b0C\r\n  MultiExcitation: On\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5 (MultiSpec)\r\n  LightPath: L100\r\n  PFS-S, state: On\r\n  PFS-S, offset: 9993\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\n  Lower Turret Layer:\r\n     Port 1: On  (H-TIRF)\r\n     Port 2: Off  (FRAP)\r\n     Port 3: On  (EPI)\r\n  \r\n  H-TIRF Angle: 46.4\r\n  H-TIRF Direction: 180.0\r\n  H-TIRF Alignment Wavelength: 0.0nm\r\n  H-TIRF Focus: -18730.0\r\n  H-TIRF Penetration Depth: N/A\r\n  H-TIRF Lambda 1/4: In\r\n  H-TIRF Gradation ND: In\r\n  H-TIRF alignment information:\r\n     H-TIRF Alignment Name: user-spec_0_test\r\n     H-TIRF Focus Point: N/A\r\n     H-TIRF Critical Angle: N/A\r\n  Nikon LU-N3/N4, Shutter(LU-N): Active\r\n  Nikon LU-N3/N4, MultiLaser(LU-N3/N4):\r\n     Line:1; ExW:405; Power: 40.0; Off\r\n     Line:2; ExW:488; Power: 40.0; Off\r\n     Line:3; ExW:561; Power:  6.0; Off\r\n     Line:4; ExW:640; Power: 40.0; Off\r\n\r\nPlane #3:\r\n Name: 640 nm\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   \r\n  Camera Type: Andor DU-897\r\n  Binning: 1x1\r\n  Exposure: 100 ms, 100 ms, 100 ms\r\n  Multiplier: 5\r\n  Readout Speed: 10 MHz\r\n  Conversion Gain: 1x\r\n  Vertical Shift Speed: 3.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -68.9\u00b0C\r\n  MultiExcitation: On\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5 (MultiSpec)\r\n  LightPath: L100\r\n  PFS-S, state: On\r\n  PFS-S, offset: 9993\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\n  Lower Turret Layer:\r\n     Port 1: On  (H-TIRF)\r\n     Port 2: Off  (FRAP)\r\n     Port 3: On  (EPI)\r\n  \r\n  H-TIRF Angle: 46.4\r\n  H-TIRF Direction: 180.0\r\n  H-TIRF Alignment Wavelength: 0.0nm\r\n  H-TIRF Focus: -18730.0\r\n  H-TIRF Penetration Depth: N/A\r\n  H-TIRF Lambda 1/4: In\r\n  H-TIRF Gradation ND: In\r\n  H-TIRF alignment information:\r\n     H-TIRF Alignment Name: user-spec_0_test\r\n     H-TIRF Focus Point: N/A\r\n     H-TIRF Critical Angle: N/A\r\n  Nikon LU-N3/N4, Shutter(LU-N): Active\r\n  Nikon LU-N3/N4, MultiLaser(LU-N3/N4):\r\n     Line:1; ExW:405; Power: 40.0; Off\r\n     Line:2; ExW:488; Power: 40.0; Off\r\n     Line:3; ExW:561; Power:  6.0; Off\r\n     Line:4; ExW:640; Power: 40.0; Off\r\n\r\nPlane #4:\r\n Name: DIC_P\r\n Component Count: 1\r\n Modality: Brightfield\r\n Camera Settings:   \r\n  Camera Type: Andor DU-897\r\n  Binning: 1x1\r\n  Exposure: 10 ms\r\n  Multiplier: 5\r\n  Readout Speed: 10 MHz\r\n  Conversion Gain: 1x\r\n  Vertical Shift Speed: 3.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -68.9\u00b0C\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 3 (DIC)\r\n  LightPath: L100\r\n  PFS-S, state: On\r\n  PFS-S, offset: 9993\r\n  PFS-S, mirror: Inserted\r\n  Zoom: 1.00x\r\n  Lower Turret Layer:\r\n     Port 1: On  (H-TIRF)\r\n     Port 2: Off  (FRAP)\r\n     Port 3: On  (EPI)\r\n  \r\n  Nikon LU-N3/N4, Shutter(LU-N): Closed\r\n  Nikon LU-N3/N4, MultiLaser(LU-N3/N4):\r\n     Line:1; ExW:405; Power: 17.0; Off\r\n     Line:2; ExW:488; Power:100.0; Off\r\n     Line:3; ExW:561; Power:  6.0; Off\r\n     Line:4; ExW:640; Power: 12.0; Off",
+  "capturing": "Andor DU-897 X-5093\r\nSample 1:\r\n  \r\n  Camera Type: Andor DU-897\r\n  Binning: 1x1\r\n  Exposure: 100 ms, 100 ms, 100 ms\r\n  Multiplier: 5\r\n  Readout Speed: 10 MHz\r\n  Conversion Gain: 1x\r\n  Vertical Shift Speed: 3.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -68.9\u00b0C\r\n  MultiExcitation: On\r\nSample 2:\r\n  \r\n  Camera Type: Andor DU-897\r\n  Binning: 1x1\r\n  Exposure: 10 ms\r\n  Multiplier: 5\r\n  Readout Speed: 10 MHz\r\n  Conversion Gain: 1x\r\n  Vertical Shift Speed: 3.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -68.9\u00b0C",
+  "date": "22/12/2020  19:12:39",
+  "optics": "Apo TIRF 100x Oil DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=14, componentCount=4, heightPx=512, pixelDataType='unsigned', sequenceCount=1, widthBytes=4096, widthPx=512, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=4)"
+}

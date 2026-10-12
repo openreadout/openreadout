@@ -313,6 +313,10 @@ pub struct StatsOutput {
     /// projections, with the projected axis's index reported as 0.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub mip: Option<Projection>,
+    /// Images left out of a run over every image because the reader refuses their pixel data
+    /// (raw FLIM photon histograms, for one; `info` notes say which). Absent when none were.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub images_skipped: Vec<u32>,
 }
 
 /// Streaming accumulator. Mergeable: statistics of a union are exact merges of its parts.
@@ -1359,10 +1363,24 @@ pub fn compute_stats(
         )));
     }
     let sel = Selection::parse(&req.select)?;
+    // Without --image, images whose planes the reader refuses are left out and listed. When
+    // that would leave nothing, they are read anyway, so the reader's error says why.
+    let mut images_skipped: Vec<u32> = if req.image.is_none() {
+        info.images
+            .iter()
+            .filter(|im| ds.pixels_refused(im.index).is_some())
+            .map(|im| im.index)
+            .collect()
+    } else {
+        Vec::new()
+    };
+    if images_skipped.len() == info.images.len() {
+        images_skipped.clear();
+    }
     let mut requests = Vec::new();
     let mut plane_bytes = 0u64;
     for im in &info.images {
-        if req.image.is_some_and(|i| i != im.index) {
+        if req.image.is_some_and(|i| i != im.index) || images_skipped.contains(&im.index) {
             continue;
         }
         let (w, h) = match req.region {
@@ -1703,6 +1721,7 @@ pub fn compute_stats(
             })
             .collect(),
         mip: req.mip,
+        images_skipped,
         images: images
             .into_iter()
             .map(|(image, (pixel_type, n, acc, spp, comps))| ImageStats {

@@ -1,0 +1,122 @@
+{
+ "id": "zenodo20040545-gallios",
+ "file": "zenodo20040545-gallios.lmd",
+ "size": 209740,
+ "sha256": "f865d989884c5761a6d4aaf8109920965671fac3f13ed1bf174d3ba7116351ce",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "2.0",
+   "parameter_count": 15,
+   "event_count": 2010,
+   "parameter_names": [
+    "FS INT LIN",
+    "SS INT LIN",
+    "FL1 INT LOG",
+    "FL2 INT LOG",
+    "TIME",
+    "FS INT LOG",
+    "SS INT LOG",
+    "FL6 INT LOG",
+    "FL9 INT LOG",
+    "FL10 INT LOG",
+    "FL7 INT LOG",
+    "FS PEAK LIN",
+    "SS PEAK LIN",
+    "SS PEAK LOG",
+    "FS PEAK LOG"
+   ],
+   "parameter_labels": [
+    "FS INT LIN",
+    "SS INT LIN",
+    "FL1 INT LOG",
+    "FL2 INT LOG",
+    "TIME",
+    "FS INT LOG",
+    "SS INT LOG",
+    "FL6 INT LOG",
+    "FL9 INT LOG",
+    "FL10 INT LOG",
+    "FL7 INT LOG",
+    "FS PEAK LIN",
+    "SS PEAK LIN",
+    "SS PEAK LOG",
+    "FS PEAK LOG"
+   ],
+   "dtypes": [
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16",
+    "uint16"
+   ],
+   "xxh3": "1f13f1ac63ce47cd6fc31de22d60953a",
+   "xxh3_reader": "flowio 1.4.0"
+  },
+  {
+   "index": 1,
+   "version": "3.0",
+   "parameter_count": 11,
+   "event_count": 2010,
+   "parameter_names": [
+    "FS-H",
+    "FS-A",
+    "SS-H",
+    "SS-A",
+    "FL1-A",
+    "FL2-A",
+    "FL6-A",
+    "FL7-A",
+    "FL9-A",
+    "FL10-A",
+    "TIME"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "dtypes": [
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32",
+    "uint32"
+   ],
+   "xxh3": "7763979a7950dac5aa9ab680d465f4d2",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 2010,
+  "xxh3": "1f13f1ac63ce47cd6fc31de22d60953a",
+  "agrees_with_flowio": true
+ }
+}

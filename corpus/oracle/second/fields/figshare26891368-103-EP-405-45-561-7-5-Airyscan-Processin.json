@@ -1,0 +1,45 @@
+{
+ "id": "figshare26891368-103-EP-405-45-561-7-5-Airyscan-Processin",
+ "file": "figshare26891368-103-EP-405-45-561-7-5-Airyscan-Processin.ims",
+ "format": "ims",
+ "family": "imaging",
+ "readers": [
+  "h5py 3.16.0 (BSD-3): DataSetInfo/Image RecordingDate",
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "RecordingDate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-12-02T14:46:51.341",
+   "cmp": "time",
+   "abs": 0.001
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 79,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 81,
+   "cmp": "exact",
+   "reader": 1
+  }
+ ]
+}

@@ -58,7 +58,7 @@
    "can_write": false,
    "confidence": "high",
    "known_gaps": [
-    "FLIM/TCSPC raw photon data (FALCON) is detected and described but not decoded; reading those planes exits 6",
+    "FLIM/TCSPC raw photon data (FALCON) is detected and described but not decoded; reading those planes exits 6, and `stats` and `export` without `--image` leave those images out",
     "XLIF frames stored as single-page TIFF files are read (validated on two LAS X exports); JPEG and PNG frames follow the same rule unvalidated (a note says so); BMP and multi-page OME/Aivia TIFF frames are not read (exit 6)",
     "LOF, XLEF and XLCF are implemented from liffile's documentation and synthetic test files only; XLLF folder lists and XLIF files with TIFF frames are validated on real LAS X 3.7 exports (two depositors)",
     "Tile scans are stitched from stage positions without registration or blending; LAS X 'Merged' images may differ where it registered overlapping tiles",
@@ -590,7 +590,7 @@
    "can_write": false,
    "confidence": "high",
    "known_gaps": [
-    "Command (DAC) waveforms are synthesized (trace 1) for ABF 2 episodic files with step, ramp and pulse-train epochs only; stimulus files, user lists, alternating outputs, conditioning trains, triangle/cosine/biphasic epochs and ABF 1 files keep the epoch table only",
+    "Command (DAC) waveforms are synthesized (trace 1) for episodic files with step, ramp and pulse-train epochs only; stimulus files, user lists, alternating outputs, conditioning trains, triangle/cosine/biphasic epochs, ABF 1 files before 1.6 and ABF 1 files with epoch tables on both DACs keep the epoch table only",
     "User lists, statistics, math, scope and voice-tag sections are listed but not decoded",
     "Pre-1.6 ABF 1 files: telegraph, protocol path and 20-entry epoch tables are not in the header and are not reported",
     "Old pCLAMP/Axotape files without an `ABF ` signature (CLPX, FTCX) are not read"
@@ -1312,6 +1312,7 @@
     "Imaris 3 (`.ims` TIFF-based files) is not this format; those files go to the TIFF reader",
     "Scene8 objects: their statistics and numeric record datasets are tables; surface meshes (`SurfaceModel`, `BlockData`), text fields and the legacy `Scene` group are not decoded",
     "Only the first data set is read when a file declares several (NumberOfDataSets > 1)",
+    "Scene files saved without an image (Scene groups, no DataSet) exit 6",
     "Chunks compressed with filters other than deflate, shuffle, fletcher32 and LZ4 exit 6"
    ],
    "page": "ims",
@@ -1561,7 +1562,7 @@
     "Big-endian (0x4C) files, per-subfile x arrays (TXYXYS, mass spectra) and old-format (0x4D) multifiles are refused",
     "16-bit fixed-point values follow the documented rule but no development file has them",
     "Multifile maps are returned as spectrum series with a subfile table (z, W); the map grid is not rebuilt",
-    "Other programs' .spc files (Bruker EPR, Becker & Hickl, EDAX, Shimadzu UV) are not Galactic SPC and are not read by this reader"
+    "Other programs' .spc files (Bruker EPR, Becker & Hickl, EDAX) are not Galactic SPC and are not read by this reader; Shimadzu UVProbe .spc files are read by shimadzu-uvprobe"
    ],
    "page": "galactic-spc",
    "field": "IR, Raman and UV-Vis"
@@ -1630,6 +1631,25 @@
     "Instrument settings are named as in the .sp reader (the same member ids); other settings are in the vendor tree"
    ],
    "page": "perkinelmer-fsm",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "shimadzu-uvprobe",
+   "name": "Shimadzu UVProbe (.spc)",
+   "vendor": "Shimadzu UVProbe",
+   "extensions": [
+    "spc"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Validated on UV-3600 Plus files (UVProbe 2.43 and 2.71, absorbance and reflectance scans) against the software's text exports; transmittance, photometric and kinetics files have no development file, and value codes not seen are returned unnamed",
+    "Files with several spectra per data set (`.2` arrays) read the first only",
+    "Text in a non-UTF-8 code page (GBK on Chinese-language PCs) is shown as Latin-1; the method pages are kept as text, not named"
+   ],
+   "page": "shimadzu-uvprobe",
    "field": "IR, Raman and UV-Vis"
   },
   {

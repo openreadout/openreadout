@@ -1,0 +1,20 @@
+{
+ "id": "figshare13281014-CS1-W195A-1",
+ "file": "figshare13281014-CS1-W195A-1.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "346a9fa57d3d5f2c4d8e24bf9b46eb96"
+    }
+   ]
+  }
+ ]
+}

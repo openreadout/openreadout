@@ -1,0 +1,171 @@
+{
+ "id": "figshare31440160-Project",
+ "file": "figshare31440160-Project.lif",
+ "size": 34028629,
+ "sha256": "dd4b1d017f6d71e111eb9fbd0b85f11e785a58e5877da628ed25e61e149cf0ce",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "\u4f4e\u500d\u566a\u58f0",
+   "path": "\u4f4e\u500d\u566a\u58f0",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.28395212506106515,
+    "y": 0.28395212506106854,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "87aefafb4812b66331923336b4a9b888"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a80caf4db7cadb9e9c38f3b95943fdce"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "\u4f4e\u500d\u6e05\u6670",
+   "path": "\u4f4e\u500d\u6e05\u6670",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.28395212506106515,
+    "y": 0.28395212506106854,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "341ea0f7a163bbcb74bbc2c81313a8de"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5fc40cc0e05b694eea694dd9042f97e8"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "\u9ad8\u500d\u566a\u58f0",
+   "path": "\u9ad8\u500d\u566a\u58f0",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.09014352711284873,
+    "y": 0.09014352711284704,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4bfd8546f7fafa9e00ccb553c5620709"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "255af3c42e61a296c0b0bca47fb0c810"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "\u9ad8\u500d\u6e05\u6670",
+   "path": "\u9ad8\u500d\u6e05\u6670",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "dims": "CYX",
+   "shape": [
+    2,
+    2048,
+    2048
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.09014352711284873,
+    "y": 0.09014352711284704,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9f2ddbb2509cd9445b7a89a608cd5ff9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b430d3614aa6f973b2433d8a29129689"
+    }
+   ]
+  }
+ ]
+}

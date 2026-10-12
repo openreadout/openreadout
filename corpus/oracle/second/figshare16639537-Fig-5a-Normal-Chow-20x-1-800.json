@@ -1,0 +1,38 @@
+{
+ "id": "figshare16639537-Fig-5a-Normal-Chow-20x-1-800",
+ "file": "figshare16639537-Fig-5a-Normal-Chow-20x-1-800.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "709cb8f37384d854b4873150fedf7eb8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f26cad8c1fccb34a3afd2cd241ead23e"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7c1f329e7e810d39e251401b67f90764"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dcb7fe5e3157b595e3a08a5dc6c720f7"
+    }
+   ]
+  }
+ ]
+}

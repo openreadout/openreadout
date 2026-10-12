@@ -1,0 +1,20 @@
+{
+ "id": "zenodo7818783-Rat-100um-MOR1-x500-TSA",
+ "file": "zenodo7818783-Rat-100um-MOR1-x500-TSA.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1920,
+   "size_y": 1216,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9a88b4aedd181025b95cb754b34ac329"
+    }
+   ]
+  }
+ ]
+}

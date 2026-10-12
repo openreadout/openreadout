@@ -1,0 +1,32 @@
+{
+ "id": "figshare24849369-Fig-1-Example-2-Data",
+ "file": "figshare24849369-Fig-1-Example-2-Data.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "88571224116831be198190b3b0724f1c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f3f72755533fb25dee4bcca6f32e9a86"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "304acff2f28b071a8a3c2028d32eff74"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+{
+ "id": "zenodo14968994-LPLC2-GF-Rescue-2",
+ "file": "zenodo14968994-LPLC2-GF-Rescue-2.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "469709028bdbf7992d862cc6f1aca33b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "67429c422fc8321104643be71c97c3d0"
+    }
+   ]
+  }
+ ]
+}

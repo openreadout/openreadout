@@ -1,0 +1,110 @@
+{
+ "id": "figshare24849369-Fig-1-Example-2-Data",
+ "file": "figshare24849369-Fig-1-Example-2-Data.nd2",
+ "size": 2060288,
+ "sha256": "a4a3a0a7ea5fa5d3cf6148a8b316c169138fff7afc9380cbbfa153bb092d6d5e",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 3, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.06686181488996665,
+    "y": 0.06686181488996665,
+    "z": null
+   },
+   "channel_names": [
+    "DAPi",
+    "GFP",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "88571224116831be198190b3b0724f1c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f3f72755533fb25dee4bcca6f32e9a86"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "304acff2f28b071a8a3c2028d32eff74"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "DAPi",
+    "color": "#0000FF",
+    "excitation_nm": 405.0,
+    "emission_nm": 450.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   },
+   {
+    "name": "GFP",
+    "color": "#00FF00",
+    "excitation_nm": 488.0,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   },
+   {
+    "name": "TD",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "brightfield",
+     "laserScanConfocal",
+     "transmitDetector"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1210395.8043427304,
+    "tags": {}
+   }
+  ],
+  "acquired_at": "2022-02-16T20:32:28.619Z",
+  "acquired_at_unix_ms": 1645043548619
+ },
+ "text_info": {
+  "description": "Numerical Aperture: 1.45\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 3\r\nPlane #1:\r\n Name: DAPi\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Block}: 450/50\r\n  {Second Filter Block}: 525/50\r\n  {Third Filter Block}: 595/50\r\n  CH1\t{Laser Wavelength}: 405.0\t{Laser Power}: 2.0\r\n  \t{PMT HV}: 100\t{PMT Offset}: 0\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 2.0\r\n  \t{PMT HV}: 100\t{PMT Offset}: 0\r\n  TD\t{PMT HV}: 92\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 87.3\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.859\r\n  {Scan Speed}: 1/2\r\n  {Channel Series Mode}: Line\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: Average\r\n  {Line Average/Integrate Count}: 2\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 0.0\r\n  \t{Laser Power(488.0)}: 0.0\r\n  \t{Laser Power(561.0)}: 0.0\r\n  \t{Laser Power(640.0)}: 0.0\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 0.0\r\n  \t{Laser Power(488.0)}: 0.0\r\n  \t{Laser Power(561.0)}: 0.0\r\n  \t{Laser Power(640.0)}: 0.0\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 0.0\r\n  \t{Laser Power(488.0)}: 0.0\r\n  \t{Laser Power(561.0)}: 0.0\r\n  \t{Laser Power(640.0)}: 0.0\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Ti, Turret1: 6 (A1)\r\n  Light-DIA: Remote Switch Off\r\n  Light-DIA: Off\r\n  Light-DIA Voltage: -1.0\r\n  LightPath: L100\r\n  Analyzer: Extracted\r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: GFP\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Block}: 450/50\r\n  {Second Filter Block}: 525/50\r\n  {Third Filter Block}: 595/50\r\n  CH1\t{Laser Wavelength}: 405.0\t{Laser Power}: 2.0\r\n  \t{PMT HV}: 100\t{PMT Offset}: 0\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 2.0\r\n  \t{PMT HV}: 100\t{PMT Offset}: 0\r\n  TD\t{PMT HV}: 92\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 87.3\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.859\r\n  {Scan Speed}: 1/2\r\n  {Channel Series Mode}: Line\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: Average\r\n  {Line Average/Integrate Count}: 2\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 0.0\r\n  \t{Laser Power(488.0)}: 0.0\r\n  \t{Laser Power(561.0)}: 0.0\r\n  \t{Laser Power(640.0)}: 0.0\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 0.0\r\n  \t{Laser Power(488.0)}: 0.0\r\n  \t{Laser Power(561.0)}: 0.0\r\n  \t{Laser Power(640.0)}: 0.0\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 0.0\r\n  \t{Laser Power(488.0)}: 0.0\r\n  \t{Laser Power(561.0)}: 0.0\r\n  \t{Laser Power(640.0)}: 0.0\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Ti, Turret1: 6 (A1)\r\n  Light-DIA: Remote Switch Off\r\n  Light-DIA: Off\r\n  Light-DIA Voltage: -1.0\r\n  LightPath: L100\r\n  Analyzer: Extracted\r\n  Zoom: 1.00x\r\nPlane #3:\r\n Name: TD\r\n Component Count: 1\r\n Modality: Brightfield, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Block}: 450/50\r\n  {Second Filter Block}: 525/50\r\n  {Third Filter Block}: 595/50\r\n  CH1\t{Laser Wavelength}: 405.0\t{Laser Power}: 2.0\r\n  \t{PMT HV}: 100\t{PMT Offset}: 0\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 2.0\r\n  \t{PMT HV}: 100\t{PMT Offset}: 0\r\n  TD\t{PMT HV}: 92\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 87.3\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.859\r\n  {Scan Speed}: 1/2\r\n  {Channel Series Mode}: Line\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: Average\r\n  {Line Average/Integrate Count}: 2\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 0.0\r\n  \t{Laser Power(488.0)}: 0.0\r\n  \t{Laser Power(561.0)}: 0.0\r\n  \t{Laser Power(640.0)}: 0.0\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 0.0\r\n  \t{Laser Power(488.0)}: 0.0\r\n  \t{Laser Power(561.0)}: 0.0\r\n  \t{Laser Power(640.0)}: 0.0\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \t{Laser Power(405.0)}: 0.0\r\n  \t{Laser Power(488.0)}: 0.0\r\n  \t{Laser Power(561.0)}: 0.0\r\n  \t{Laser Power(640.0)}: 0.0\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Ti, Turret1: 6 (A1)\r\n  Light-DIA: Remote Switch Off\r\n  Light-DIA: Off\r\n  Light-DIA Voltage: -1.0\r\n  LightPath: L100\r\n  Analyzer: Extracted\r\n  Zoom: 1.00x\r\n",
+  "capturing": "Nikon A1\r\n              \r\n{Scanner Selection}: Galvano\r\n{Detector Selection}: DU4\r\n{Optical Path Mode}: Manual\r\n{First Dichroic Mirror}: 405/488/561/640\r\n{First Filter Block}: 450/50\r\n{Second Filter Block}: 525/50\r\n{Third Filter Block}: 595/50\r\nCH1\t{Laser Wavelength}: 405.0\t{Laser Power}: 2.0\r\n\t{PMT HV}: 100\t{PMT Offset}: 0\r\nCH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 2.0\r\n\t{PMT HV}: 100\t{PMT Offset}: 0\r\nTD\t{PMT HV}: 92\t{PMT Offset}: 0\r\n{Pinhole Size(um)}: 87.3\r\n{Scan Direction}: One way\r\n{Scanner Zoom}: 1.859\r\n{Scan Speed}: 1/2\r\n{Channel Series Mode}: Line\r\n{Line Skip}: None\r\n{Frame Skip}: 0\r\n{Line Average Mode}: Average\r\n{Line Average/Integrate Count}: 2\r\nStim1\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n\t{Laser Power(405.0)}: 0.0\r\n\t{Laser Power(488.0)}: 0.0\r\n\t{Laser Power(561.0)}: 0.0\r\n\t{Laser Power(640.0)}: 0.0\r\nStim2\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n\t{Laser Power(405.0)}: 0.0\r\n\t{Laser Power(488.0)}: 0.0\r\n\t{Laser Power(561.0)}: 0.0\r\n\t{Laser Power(640.0)}: 0.0\r\nStim3\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n\t{Laser Power(405.0)}: 0.0\r\n\t{Laser Power(488.0)}: 0.0\r\n\t{Laser Power(561.0)}: 0.0\r\n\t{Laser Power(640.0)}: 0.0\r\n\r\n",
+  "date": "2/16/2022  3:32:28 PM",
+  "optics": "Plan Apo \u03bb 100x Oil"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=3, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=6144, widthPx=1024, compressionLevel=4.0, compressionType='lossless', tileHeightPx=None, tileWidthPx=None, channelCount=3)"
+}

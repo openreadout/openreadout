@@ -709,6 +709,7 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
             ("fsm", "perkinelmer-fsm"),
             ("jasco", "jasco-jws"),
             ("cary", "agilent-cary"),
+            ("uvprobe", "shimadzu-uvprobe"),
         ],
     ),
     // ÄKTA/UNICORN .res and result exports share one note

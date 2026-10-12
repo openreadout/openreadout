@@ -1,0 +1,32 @@
+{
+ "id": "zenodo16990201-Avil-Gpr65-NG2-10x-8x-mean",
+ "file": "zenodo16990201-Avil-Gpr65-NG2-10x-8x-mean.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1940,
+   "size_y": 1940,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c3382f33c70e0b7c45c1a9aac6f1b53b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3f534b1fd732c2fdc4ce50d0d5d0f2b1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1f3c7e0c413ab6b7a4b8b0e38eddf628"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "id": "zenodo14225659-340DD-HE",
+ "file": "zenodo14225659-340DD-HE.svs",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 93624,
+   "size_y": 17400,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7027c91c6960821cfe53ee5d2e6289c0"
+    }
+   ]
+  }
+ ]
+}

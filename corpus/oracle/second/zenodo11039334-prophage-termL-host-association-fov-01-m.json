@@ -1,0 +1,26 @@
+{
+ "id": "zenodo11039334-prophage-termL-host-association-fov-01-m",
+ "file": "zenodo11039334-prophage-termL-host-association-fov-01-m.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 3997,
+   "size_y": 3967,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ec728a9df82bbee5925113f01589a807"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "86818c02477d1292974d5124723fe7d4"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,59 @@
+{
+ "id": "figshare24966153-ICAM-2-S-Dev25-3-2021-09-30-Molly-iPSC-C",
+ "file": "figshare24966153-ICAM-2-S-Dev25-3-2021-09-30-Molly-iPSC-C.ims",
+ "size": 17394711,
+ "sha256": "6fabfbebe68fe8f909c12d11526d8bee1fb3ff1e1d81dddc3e77a610ccf63a7f",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.15074218750000012,
+    "y": 0.15074218749999999,
+    "z": null
+   },
+   "channel_names": [
+    "Molly iPSC Hoescht Z stack",
+    "Molly iPSC Green Z stack"
+   ],
+   "filters": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "484c9def094300f5ab916dc956117477"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8180b1752897b80839a6845be89b05d4"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 2048,
+   "height": 2048,
+   "size_z": 1,
+   "size_t": 1,
+   "size_c": 2,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint16",
+   "thumbnail": "false"
+  }
+ ]
+}

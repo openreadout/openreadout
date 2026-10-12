@@ -1615,6 +1615,326 @@
      ]
     }
    ]
+  },
+  {
+   "index": 1,
+   "name": "command",
+   "sweep_count": 16,
+   "channel_count": 1,
+   "channel_names": [
+    "Cmd 1"
+   ],
+   "channel_units": [
+    "pA"
+   ],
+   "sample_rate_hz": 10000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "d67cd95db84ea916e29c6a5666532d05",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 1,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "c2efd8e26515e28d05f244c376afb061",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 2,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "efdec130ec86c7eb88ac2b6322b5345f",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 3,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "d34490326350c82a42fd0048b2faec49",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 4,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "0f56d15cf96c434c45a2d8adc4b2b8e2",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 5,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "15a72fb77f95f6727ea68971f905200c",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 6,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "cd9b388c335b7dcb24336925871e89c2",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 7,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "4092bdffb139aff1dd06f732f7792b6b",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 8,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "0f8f6833a65189ad1c517f27981d3ab3",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 9,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "df605b2f909562dd0228d0a09448630e",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 10,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "773d70e612e09c407de15399755de657",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 11,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "5e459d63cf03d4be408cf28773d058e7",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 12,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "767801fef2a678a924815d7f72db54e0",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 13,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "3e304bba880599fa93b29c0abd60330c",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 14,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "8098e368b85e77357bb790739acfdff4",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 15,
+     "sample_count": 51612,
+     "channels": [
+      {
+       "xxh3": "3e7367c424d1c412f54b9eb7b40ab26a",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
   }
  ]
 }

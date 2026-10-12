@@ -1,0 +1,58 @@
+{
+ "id": "figshare31399992-242-Dapi-GPER-488-63-2-1",
+ "file": "figshare31399992-242-Dapi-GPER-488-63-2-1.czi",
+ "size": 13823168,
+ "sha256": "93ddfb194de74673b7d8af2065eb9e64d4b07ffe16fac3e80ae97faf0dbc4b33",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 2575,
+   "size_y": 2497,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CYX",
+   "shape": [
+    2,
+    2497,
+    2575
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.03938357219910618,
+    "y": 0.03938357219910618,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8585ba2b7715d61ee35433c441daf027"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dfcfc92edab520f5e7d19e647960aea7"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.03938357219910618,
+  "y": 0.03938357219910618,
+  "z": null
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

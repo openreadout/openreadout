@@ -375,8 +375,10 @@ def czi(p: Path) -> dict:
         # JPEG subblocks (compression 1): decoders may differ by one count (IDCT rounding); record
         # plane means for files marked `lossy` in the manifest, as for TIFF.
         lossy = 1 in comps
-        n_scenes = len(f.scenes)
-        for s in range(n_scenes):
+        # Scene ids as stored: a file saved from one scene of a larger acquisition keeps its
+        # index (S=12 alone in figshare31165393), which openreadout lists as image 0.
+        scene_ids = list(f.scenes.keys()) if hasattr(f.scenes, "keys") else list(range(len(f.scenes)))
+        for s in scene_ids:
             xa = f.asxarray(scene=s)
             dims = list(xa.dims); shape = dict(zip(dims, xa.shape))
             C = shape.get("C", 1); Z = shape.get("Z", 1); T = shape.get("T", 1)
@@ -922,6 +924,20 @@ def tiff(p: Path) -> dict:
             # pixel size; openreadout reports none for them
             for im in images:
                 im["physical_size_um"] = {}
+        if tf.is_lsm and len(images) == 1:
+            # Recording-level scan information as tifffile parses it: the objective text, and
+            # Sample0time as an OLE Automation date (local time; Bio-Formats, run as a black
+            # box, gives the same wall-clock time shifted by its machine's zone).
+            si = (tf.lsm_metadata or {}).get("ScanInformation") or {}
+            if si.get("Objective"):
+                images[0]["check_objective"] = si["Objective"].strip()
+            d = si.get("Sample0time")
+            if isinstance(d, float) and 32874.0 <= d < 73051.0:
+                import datetime
+                ms = round((d - 25569.0) * 86400000.0)
+                t = datetime.datetime(1970, 1, 1) + datetime.timedelta(milliseconds=ms)
+                s = t.strftime("%Y-%m-%dT%H:%M:%S") + (f".{ms % 1000:03d}" if ms % 1000 else "")
+                images[0]["check_acquired_at"] = s
         flags = [f for f in ("ome", "imagej", "lsm", "svs", "ndpi", "qpi", "micromanager", "bigtiff", "shaped", "scn") if getattr(tf, "is_" + f, False)]
         out = {"reader": f"tifffile {tifffile.__version__}", "kind": kind, "flags": flags,
                "page_count": len(tf.pages), "series_count": len(series), "images": images}
@@ -3203,6 +3219,8 @@ def _abf_command(a):
     waveform enabled with the epoch table as source, no conditioning train, only off/step/ramp/
     pulse-train epochs (pulse period > 0), epochs ending inside the sweep. None otherwise."""
     import pyabf.waveform
+    if a.abfVersion["major"] == 1:
+        return _abf1_command(a)
     if a.abfVersion["major"] != 2 or a.nOperationMode != 5:
         return None
     if hasattr(a, "_synchArraySection") and len(set(a._synchArraySection.lLength)) > 1:
@@ -3260,6 +3278,71 @@ def _abf_command(a):
             "channel_names": names, "channel_units": units, "sample_rate_hz": a.dataRate,
             "sample_rate_tolerance_hz": 1.0, "sweeps": sweeps}
 
+def _abf1_command(a):
+    """Trace 1 of an ABF 1 file: pyABF's epoch-table synthesis (EpochTable) with the two header
+    fields pyABF's ABF 1 path does not read put back: the DAC holding level (f32[4] at 1394;
+    pyABF takes the first epoch level instead) and the pulse-train period and width (i32[20] at
+    2136 and 2216; pyABF sets them to 0 for ABF 1). Both were confirmed against recorded command
+    monitors (docs/provenance/abf.md, 2026-10-12). Only the cases openreadout synthesizes: the
+    extended header (data at or after byte 6144), episodic stimulation, fixed-length sweeps, no
+    user list, one DAC with an epoch table, no conditioning train, off/step/ramp/pulse-train
+    epochs with a positive pulse period, epochs ending inside the sweep."""
+    import struct
+    import pyabf.waveform
+    h1 = a._headerV1
+    with open(a.abfFilePath, "rb") as fb:
+        head = fb.read(6144)
+    if len(head) < 6144 or h1.lDataSectionPtr * 512 < 6144 or a.nOperationMode != 5:
+        return None
+    if any(head[3360:3376]) or any(c not in (0, 32) for c in head[3376:4400]):
+        return None
+    hold = struct.unpack_from("<4f", head, 1394)
+    period = struct.unpack_from("<20i", head, 2136)
+    width = struct.unpack_from("<20i", head, 2216)
+    cond = struct.unpack_from("<2h", head, 3260)
+    declared = [d for d in (0, 1) if h1.nWaveformEnable[d] and h1.nWaveformSource[d]]
+    with_epochs = [d for d in declared if any(h1.nEpochType[d * 10:d * 10 + 10])]
+    if len(with_epochs) > 1:
+        return None
+    n = a.sweepPointCount
+    dacs, waves = [], {}
+    for d in declared:
+        if h1.nWaveformSource[d] != 1 or cond[d]:
+            continue
+        rows = range(d * 10, d * 10 + 10)
+        if any(h1.nEpochType[i] not in (0, 1, 2, 3) for i in rows):
+            continue
+        if any(h1.nEpochType[i] == 3 and (period[i] <= 0 or width[i] < 0) for i in rows):
+            continue
+        if any(h1.nEpochType[i] and h1.lEpochInitDuration[i] < 0 for i in rows):
+            continue
+        table = pyabf.waveform.EpochTable(a, d)
+        table.holdingLevel = hold[d]
+        live = [i for i in rows if h1.nEpochType[i]]
+        for e, i in zip(table.epochs, live):
+            e.pulsePeriod, e.pulseWidth = period[i], width[i]
+        try:
+            table.epochWaveformsBySweep = table.getEpochWaveformsBySweep(a)
+            ws = [np.asarray(table.epochWaveformsBySweep[s].getWaveform(), dtype=np.float64)
+                  for s in range(a.sweepCount)]
+        except ValueError:
+            continue
+        if any(len(y) != n for y in ws):
+            continue
+        dacs.append(d)
+        waves[d] = ws
+    if not dacs:
+        return None
+    sweeps = []
+    for s in range(min(a.sweepCount, MAX_SWEEPS)):
+        chans = [{"xxh3": _trace_hash(waves[d][s]), "first": _first(waves[d][s])} for d in dacs]
+        sweeps.append({"sweep": s, "sample_count": n, "channels": chans})
+    names = [a.dacNames[d] if d < len(a.dacNames) and a.dacNames[d] else f"DAC{d}" for d in dacs]
+    units = [a.dacUnits[d] if d < len(a.dacUnits) else "" for d in dacs]
+    return {"index": 1, "name": "command", "sweep_count": a.sweepCount, "channel_count": len(dacs),
+            "channel_names": names, "channel_units": units, "sample_rate_hz": a.dataRate,
+            "sample_rate_tolerance_hz": 1.0, "sweeps": sweeps}
+
 def _abf_neo(p: Path, why: str) -> dict:
     """Axon ABF via Neo's AxonRawIO (BSD-3) for files pyABF cannot read: segments are sweeps,
     values Neo's float64 rescaling (raw x gain + offset; float samples as stored)."""
@@ -3281,7 +3364,35 @@ def _abf_neo(p: Path, why: str) -> dict:
              # Neo removes the spaces inside ABF 1 channel names ("IN 0" -> "IN0"): recorded, not compared
              "neo_channel_names": [str(c["name"]) for c in sc], "channel_units": [str(c["units"]) for c in sc],
              "sample_rate_hz": float(sc[0]["sampling_rate"]), "sweeps": sweeps}
-    return {"reader": f"neo {neo.__version__} AxonRawIO", "oracle_note": why, "traces": [trace]}
+    traces = [trace]
+    cmd = _abf1_command_float(p)
+    if cmd is not None:
+        traces.append(cmd)
+    return {"reader": f"neo {neo.__version__} AxonRawIO", "oracle_note": why, "traces": traces}
+
+def _abf1_command_float(p: Path):
+    """The command trace of an ABF 1 file with float samples, which pyABF refuses to open: its
+    header is read by pyABF with the data-format field set to integers (only the sample size
+    depends on it; nothing is read from the data section), then `_abf1_command`."""
+    import pyabf
+    from pyabf.abf1.headerV1 import HeaderV1
+    with open(p, "rb") as fb:
+        if fb.read(4) != b"ABF ":
+            return None
+    orig = HeaderV1.__init__
+
+    def patched(self, *args, **kw):
+        orig(self, *args, **kw)
+        self.nDataFormat = 0
+
+    HeaderV1.__init__ = patched
+    try:
+        a = pyabf.ABF(str(p), loadData=False)
+    except Exception:
+        return None
+    finally:
+        HeaderV1.__init__ = orig
+    return _abf1_command(a)
 
 def _col_hash(values) -> str:
     """xxh3-128 of one table column as little-endian float64 (what openreadout hashes)."""
@@ -4179,36 +4290,6 @@ def agilent_ms(p: Path, q: Path) -> dict:
     return out
 
 
-def _uv_spectra(q: Path):
-    """The export's UV/Vis (diode-array) spectra, read with pyteomics: their count, wavelength
-    grid, every time (minutes) and a hash of every value as float32, spectrum after spectrum.
-    `None` when the export holds none."""
-    from pyteomics import mzml
-    times, wl, rows = [], None, []
-    with mzml.MzML(str(q), decode_binary=True) as f:
-        for sp in f:
-            if sp.get("m/z array") is not None or sp.get("wavelength array") is None:
-                continue
-            w = np.asarray(sp["wavelength array"], dtype=np.float64)
-            if wl is None:
-                wl = w
-            elif w.size != wl.size or np.any(w != wl):
-                raise ValueError(f"{sp.get('id')}: the wavelength grid changes")
-            scan = sp.get("scanList", {}).get("scan", [{}])[0]
-            times.append(float(scan.get("scan start time")))
-            rows.append(np.asarray(sp.get("intensity array", []), dtype=np.float64))
-    if wl is None:
-        return None
-    m = np.vstack(rows)
-    return {
-        "count": int(m.shape[0]),
-        "wavelengths_nm": [float(x) for x in wl],
-        "times_min": times,
-        "xxh3_f32": xxhash.xxh3_128_hexdigest(m.astype("<f4").tobytes()),
-        "sum": float(m.sum()),
-    }
-
-
 # BAF runs whose depositor mzML combined repeated MS/MS of one precursor into one spectrum (time
 # = the group's midpoint, ids reassigned): only their MS1 scans are ground truth.
 BAF_MS1_ONLY = {"Methanolneg-4-auto-MS-MS-neg_108_1_2452.d"}
@@ -4238,6 +4319,36 @@ def bruker_baf(p: Path, q: Path) -> dict:
         out["oracle_note"] = "MS1 scans only: the export combined repeated MS/MS of one precursor"
         out["spectra"] = spectra  # (the writer keeps `spectra` last)
     return out
+
+
+def _uv_spectra(q: Path):
+    """The export's UV/Vis (diode-array) spectra, read with pyteomics: their count, wavelength
+    grid, every time (minutes) and a hash of every value as float32, spectrum after spectrum.
+    `None` when the export holds none."""
+    from pyteomics import mzml
+    times, wl, rows = [], None, []
+    with mzml.MzML(str(q), decode_binary=True) as f:
+        for sp in f:
+            if sp.get("m/z array") is not None or sp.get("wavelength array") is None:
+                continue
+            w = np.asarray(sp["wavelength array"], dtype=np.float64)
+            if wl is None:
+                wl = w
+            elif w.size != wl.size or np.any(w != wl):
+                raise ValueError(f"{sp.get('id')}: the wavelength grid changes")
+            scan = sp.get("scanList", {}).get("scan", [{}])[0]
+            times.append(float(scan.get("scan start time")))
+            rows.append(np.asarray(sp.get("intensity array", []), dtype=np.float64))
+    if wl is None:
+        return None
+    m = np.vstack(rows)
+    return {
+        "count": int(m.shape[0]),
+        "wavelengths_nm": [float(x) for x in wl],
+        "times_min": times,
+        "xxh3_f32": xxhash.xxh3_128_hexdigest(m.astype("<f4").tobytes()),
+        "sum": float(m.sum()),
+    }
 
 
 def agilent_ms_rainbow(p: Path) -> dict:
