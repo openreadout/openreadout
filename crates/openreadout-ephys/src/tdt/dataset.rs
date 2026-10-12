@@ -19,6 +19,9 @@ use serde_json::{Value, json};
 use super::tsq::{SampleFormat, TsqIndex, parse_tsq, store_text};
 use super::{BlockFiles, TDT_FORMAT_ID, TdtReader, find_blocks};
 
+/// Samples per snippet at most. TDT snippets hold tens of samples. The spikes table keeps the
+/// first 4096 samples of a wider one.
+const MAX_SNIPPET_SAMPLES: u64 = 4096;
 /// Samples (all channels together) decoded per `read_trace` call at most.
 pub const MAX_TDT_READ_VALUES: u64 = 1 << 27;
 /// Bytes of a `.Tbk` read at most.
@@ -384,9 +387,17 @@ impl TdtDataset {
                     snippet_names.push(n.clone());
                 }
             }
+            // The width comes from snippets that lie in the .tev, so a damaged size field can't
+            // declare millions of columns.
             for s in &b.index.snippets {
-                if let Some(f) = SampleFormat::from_code(s.format_code) {
-                    width = width.max(u64::from(s.bytes) / f.width());
+                let in_tev = s
+                    .offset
+                    .checked_add(u64::from(s.bytes))
+                    .is_some_and(|e| e <= b.tev_len);
+                if let Some(f) = SampleFormat::from_code(s.format_code)
+                    && in_tev
+                {
+                    width = width.max((u64::from(s.bytes) / f.width()).min(MAX_SNIPPET_SAMPLES));
                 }
             }
         }

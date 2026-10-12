@@ -75,6 +75,8 @@ const BUNDLES: &[Bundle] = &[
         &["s.d/analysis.baf", "s.d/Calibrator.ami"],
         None,
     ),
+    ("whole_tdt", "b", &["b/s_B1.tsq", "b/s_B1.tev"], None),
+    ("whole_axona", "", &["s.set", "s.bin", "s.1"], Some(0)),
     (
         "whole_vms",
         "",
