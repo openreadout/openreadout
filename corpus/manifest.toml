@@ -14855,7 +14855,8 @@ license = "CC0-1.0"
 source = "PRIDE PXD070374 (isobaric amino-acid variants in the pancreatic-cancer immunopeptidome), raw file 20260311_RD_ExCID_C1RB57_ClassI_KE6_rxn20ms_rep2.wiff"
 attribution = "PXD070374 submitters"
 notes = "ZenoTOF 7600+, SCIEX OS (2026), data-dependent acquisition with ExCID fragmentation, 47,220 scans; the project also deposits the run as .wiff2 (not used). Oracle: every 10th spectrum of the depositor's export (ORACLE_SPECTRA_STRIDE=10 oracle/gen.py --export …)"
-oracle_skip = "not yet validated: the reader does not read this SCIEX OS run's precursor charges (the export lists 1 to 4 on every MS/MS scan) or its rolling collision energies (the export's CE = 0.05 m/z + 5 for charge 1); spectra times, levels, polarity and precursor m/z agree. Kept for the ZenoTOF work in docs/provenance/sciex-wiff.md"
+peaks_not_compared = "the export holds the vendor library's peak-picked centroids (ABI/Analyst peak picking); the reader returns the stored TDC profile"
+charge_not_compared = "no stream of the .wiff or .wiff.scan holds the export's precursor charges (docs/provenance/sciex-wiff.md, 2026-10-11); the converter determines them, and its collision energies follow from them"
 
 [[file]]
 id = "pxd070374-excid-classi-ke6-rep2-scan"

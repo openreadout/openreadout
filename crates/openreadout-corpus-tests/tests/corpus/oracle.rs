@@ -289,6 +289,9 @@ pub(crate) struct OracleSpectra {
     /// Set from the manifest entry (`precursor_not_compared`).
     #[serde(skip)]
     pub(crate) precursor_not_compared: Option<String>,
+    /// Set from the manifest entry (`charge_not_compared`).
+    #[serde(skip)]
+    pub(crate) charge_not_compared: Option<String>,
     /// Set from the manifest entry (`window_centre_precursor`).
     #[serde(skip)]
     pub(crate) window_centre_precursor: Option<String>,

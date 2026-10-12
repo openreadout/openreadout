@@ -119,9 +119,9 @@ fn observe(info: &FileInfo) -> Observations {
     if a::has_note(info, "single-file layout") {
         o.feature(K::Layout, "single file (Scan stream)", &[Scope::Spectra]);
     }
-    if let Some(n) = a::note_with(info, "beside the .wiff: metadata and the scan index only") {
+    if let Some(n) = a::note_with(info, "peaks and MRM values need the .wiff.scan") {
         o.feature(K::Layout, "without .wiff.scan", &[Scope::Metadata]);
-        o.undecoded("spectra in the missing .wiff.scan", &[], n.to_string());
+        o.undecoded("peaks in the missing .wiff.scan", &[], n.to_string());
     }
     o
 }

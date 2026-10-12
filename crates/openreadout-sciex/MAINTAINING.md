@@ -27,7 +27,7 @@ Legacy Sciex `.wiff` files with their `.wiff.scan` companions (`sciex-wiff`); `.
 - Scan types other than MRM, TOF and the grid scans (Q1, precursor ion, neutral loss, enhanced MS, enhanced product ion) are listed but not decoded: MRM³, Q3 scans, SWATH windows. A new QTRAP scan type that starts with the grid marker (−2) probably decodes with `decode_grid_scan`; validate it against an export before adding its code.
 - Multi-sample files: each sample's scans sit in their own block of `.wiff.scan` (`scan_base`), found by walking the block headers; a sample whose header is not where expected is refused.
 - TripleTOF 5600: the index TIC is not the sum of the stored counts; counts are returned as stored and `total_ion_current` is the index value (the format note explains the evidence).
-- ZenoTOF files open, but precursor charges and rolling collision energies are not read and no export validates them.
+- ZenoTOF files (SCIEX OS): no stream holds the precursor charge or the rolling collision energy the exports show (they appear to be computed by the converter); both are reported absent and the corpus test does not compare charges on that file (`charge_not_compared`).
 - The first half of every 2N-value MRM cycle (zero in the corpus files) is not interpreted.
 
 <!-- BEGIN GENERATED guide -->

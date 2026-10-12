@@ -113,6 +113,10 @@ struct Entry {
     /// frames: the scan window's centre as a pseudo-precursor); the text says why.
     #[serde(default)]
     precursor_not_compared: Option<String>,
+    /// Spectra: the export's precursor charges are computed by its converter, not read from a
+    /// field of the file (ZenoTOF runs written by SCIEX OS); the text says why.
+    #[serde(default)]
+    charge_not_compared: Option<String>,
     /// Spectra: the export calls a full scan with a collision energy MS2 and names the centre of
     /// its scan window as the precursor, where the file's record says MS level 1; such scans are
     /// compared without MS level, precursor and activation. The text says why.
@@ -676,6 +680,7 @@ fn apply_entry_settings(oracle: &mut Oracle, e: &Entry) {
             .clone_from(&e.native_id_not_compared);
         sp.precursor_not_compared
             .clone_from(&e.precursor_not_compared);
+        sp.charge_not_compared.clone_from(&e.charge_not_compared);
         sp.window_centre_precursor
             .clone_from(&e.window_centre_precursor);
     }
