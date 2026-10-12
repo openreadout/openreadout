@@ -592,6 +592,10 @@ def run_one(args: argparse.Namespace, harness: Harness, q: dict, condition: str,
         "images_seen": parsed["images_seen"],
         "contamination": contamination(parsed["tool_inputs"], repo_roots()),
         "mcp_servers": (parsed["init"] or {}).get("mcp_servers"),
+        # OpenReadout MCP tools the session listed: 0 means the agent could not have called one
+        "mcp_tools": sum(
+            1 for t in (parsed["init"] or {}).get("tools") or [] if t.startswith("mcp__") and "openreadout" in t
+        ),
         "skills_loaded": [
             s for s in ((parsed["init"] or {}).get("skills") or []) if "openreadout" in str(s) or "lab-file" in str(s)
         ],
