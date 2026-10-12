@@ -1,9 +1,10 @@
 //! `Dataset` implementation: opening (header chain, run header, index, events), spectra,
 //! metadata, listing and integrity checks.
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
+use std::sync::Arc;
 
 use openreadout_core::bytes::utf16le_z;
 use openreadout_core::cfb::{Cfb, CfbEntry};
@@ -152,7 +153,9 @@ pub struct ThermoDataset {
     pub method_table: Option<MethodTable>,
     pub scan_parameter_header: Option<GenericHeader>,
     pub index: Vec<ScanIndexEntry>,
-    pub events: Vec<ScanEvent>,
+    /// One event per scan. Scans whose stored events are byte-for-byte equal share one (a
+    /// DIA run of 200,000 scans holds a few hundred distinct events).
+    pub events: Vec<Arc<ScanEvent>>,
     /// Absolute offset where parsing of the event stream stopped.
     events_end: u64,
     /// Structural problems met while opening that did not prevent reading.
@@ -223,16 +226,17 @@ pub(crate) fn method_scan_events(text: &str) -> BTreeMap<(u32, u32), MethodScanE
 /// range; polarity and scan mode come from the method text's scan event for the scan's segment
 /// and event, when it states them. Returns how many events were changed.
 fn complete_peak_list_events(
-    events: &mut [ScanEvent],
+    events: &mut [Arc<ScanEvent>],
     index: &[ScanIndexEntry],
     method: &BTreeMap<(u32, u32), MethodScanEvent>,
 ) -> usize {
     use crate::event::{DATA_KIND_BYTE, MS_LEVEL_BYTE, POLARITY_BYTE, SCAN_KIND_BYTE};
     let mut changed = 0;
-    for (e, row) in events.iter_mut().zip(index) {
+    for (shared, row) in events.iter_mut().zip(index) {
         if row.kind_code != PEAK_LIST_KIND {
             continue;
         }
+        let e = Arc::make_mut(shared);
         let mut touched = false;
         let mut set = |e: &mut ScanEvent, at: usize, unstated: fn(u8) -> bool, value: u8| {
             if let Some(b) = e.preamble.get_mut(at)
@@ -525,10 +529,14 @@ impl ThermoDataset {
                     "the run stores no scan events and its segment/event table could not be read",
                 )
             })?;
-            let by_number: BTreeMap<(u32, u32), &ScanEvent> = table
+            let by_number: BTreeMap<(u32, u32), Arc<ScanEvent>> = table
                 .templates
                 .iter()
-                .filter_map(|t| t.scan_event.as_ref().map(|e| ((t.segment, t.event), e)))
+                .filter_map(|t| {
+                    t.scan_event
+                        .as_ref()
+                        .map(|e| ((t.segment, t.event), Arc::new(e.clone())))
+                })
                 .collect();
             for (i, row) in index.iter().enumerate() {
                 let e = by_number
@@ -544,13 +552,20 @@ impl ThermoDataset {
                             ),
                         )
                     })?;
-                events.push((*e).clone());
+                events.push(Arc::clone(e));
             }
         } else {
+            let mut seen: HashMap<&[u8], Arc<ScanEvent>> = HashMap::new();
             for i in 0..n {
+                let start = c.offset();
                 let e = parse_scan_event(&mut c, version)
                     .map_err(|e| corrupt(c.offset(), format!("scan event {}: {e}", i + 1)))?;
-                events.push(e);
+                let rel = |o: u64| usize::try_from(o - s.scan_events).unwrap_or(usize::MAX);
+                let shared = match ev_buf.get(rel(start)..rel(c.offset())) {
+                    Some(bytes) => Arc::clone(seen.entry(bytes).or_insert_with(|| Arc::new(e))),
+                    None => Arc::new(e),
+                };
+                events.push(shared);
             }
         }
         let events_end = c.offset();
@@ -689,7 +704,7 @@ impl ThermoDataset {
                 let ev = self.events.get(i);
                 ScanSummary {
                     scan_number: self.scan_number(i),
-                    ms_level: ev.map_or(0, ScanEvent::ms_level),
+                    ms_level: ev.map_or(0, |e| e.ms_level()),
                     rt_s: e.rt_min * 60.0,
                     polarity: ev.map_or("unknown", |e| e.polarity().word()).into(),
                     scan_filter: self.filter_text(i).unwrap_or_default(),
@@ -1905,7 +1920,7 @@ impl Dataset for ThermoDataset {
         self.broken_err()?;
         // One scan event per index row: the level is in the event, no packet is read.
         Ok((run == 0 && self.events.len() == self.index.len())
-            .then(|| self.events.iter().map(ScanEvent::ms_level).collect()))
+            .then(|| self.events.iter().map(|e| e.ms_level()).collect()))
     }
 
     fn read_table(&mut self, index: u32, first_row: u64, max_rows: u64) -> Result<Table> {
