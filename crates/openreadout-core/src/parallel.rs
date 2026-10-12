@@ -352,7 +352,15 @@ mod tests {
         let z = |c, z| PlaneRequest::plane(0, PlaneIndex { c, z, t: 0 }, 0);
         // z 0-3 share a chunk, z 4-5 the next; going back to z 0 (of another channel) starts a
         // new unit.
-        let rs = vec![z(0, 0), z(0, 1), z(0, 2), z(0, 3), z(0, 4), z(0, 5), z(1, 0)];
+        let rs = vec![
+            z(0, 0),
+            z(0, 1),
+            z(0, 2),
+            z(0, 3),
+            z(0, 4),
+            z(0, 5),
+            z(1, 0),
+        ];
         assert_eq!(units(&Chunked, &rs, 2), vec![0..4, 4..6, 6..7]);
         assert_eq!(units(&Fake, &rs, 2).len(), 7);
         let pool = rayon::ThreadPoolBuilder::new()

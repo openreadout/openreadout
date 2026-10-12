@@ -3,7 +3,9 @@
 //! `docs/formats/tiff.md` § Zeiss LSM and `docs/provenance/tiff.md`.
 
 use openreadout_core::bytes::{le_f64, le_u16, le_u32, until_nul};
-use openreadout_core::model::{ChannelInfo, ImageInfo, InstrumentInfo, ObjectiveInfo, PhysicalSize};
+use openreadout_core::model::{
+    ChannelInfo, ImageInfo, InstrumentInfo, ObjectiveInfo, PhysicalSize,
+};
 use openreadout_core::provenance::Source;
 use openreadout_core::{Error, PixelType, Result};
 use serde_json::json;
@@ -63,9 +65,22 @@ pub struct LsmScanInfo {
 
 /// Entry codes that open a list or an entry of the scan information tree; 0xFFFFFFFF closes one.
 const SCAN_OPENERS: [u32; 16] = [
-    0x2000_0000, 0x3000_0000, 0x6000_0000, 0x8000_0000, 0xA000_0000, 0xC000_0000, 0x1100_0000,
-    0x1300_0000, 0x4000_0000, 0x5000_0000, 0x7000_0000, 0x9000_0000, 0xB000_0000, 0xD000_0000,
-    0x1200_0000, 0x1400_0000,
+    0x2000_0000,
+    0x3000_0000,
+    0x6000_0000,
+    0x8000_0000,
+    0xA000_0000,
+    0xC000_0000,
+    0x1100_0000,
+    0x1300_0000,
+    0x4000_0000,
+    0x5000_0000,
+    0x7000_0000,
+    0x9000_0000,
+    0xB000_0000,
+    0xD000_0000,
+    0x1200_0000,
+    0x1400_0000,
 ];
 
 /// Walk the scan information at `off` and keep the recording-level values we report. Each
@@ -618,7 +633,11 @@ mod tests {
         b.extend(entry(0xFFFF_FFFF, 0, &[]));
         b.extend(entry(0xFFFF_FFFF, 0, &[]));
         b.extend(entry(0x1000_0004, 2, b"C-Apochromat 63x/1.20 W Korr M27\0"));
-        b.extend(entry(0x1000_0036, 5, &41_388.724_641_203_706_f64.to_le_bytes()));
+        b.extend(entry(
+            0x1000_0036,
+            5,
+            &41_388.724_641_203_706_f64.to_le_bytes(),
+        ));
         b.extend(entry(0xFFFF_FFFF, 0, &[]));
         b.extend(entry(0x1000_0001, 2, b"after the end\0"));
         let mut src = ByteSource::from_bytes(Path::new("t.lsm"), b);

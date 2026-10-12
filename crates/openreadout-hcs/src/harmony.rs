@@ -102,7 +102,11 @@ fn index_in_measurement(fs: &Fs, dir: &Path) -> Option<PathBuf> {
 fn entries_of(fs: &Fs, dir: &Path) -> Vec<PathBuf> {
     let mut v: Vec<PathBuf> = fs
         .read_dir(dir)
-        .map(|rd| rd.filter_map(std::result::Result::ok).map(|e| e.path()).collect())
+        .map(|rd| {
+            rd.filter_map(std::result::Result::ok)
+                .map(|e| e.path())
+                .collect()
+        })
         .unwrap_or_default();
     v.sort();
     v
@@ -891,7 +895,10 @@ mod tests {
         let src = || Arc::new(MemSource::new("i", INDEX.as_bytes().to_vec()));
         let fs = Fs::new(Arc::new(
             MemFs::new()
-                .with("hs/_hs.txt", Arc::new(MemSource::new("h", b"Version\t1.0.2".to_vec())))
+                .with(
+                    "hs/_hs.txt",
+                    Arc::new(MemSource::new("h", b"Version\t1.0.2".to_vec())),
+                )
                 .with("hs/3a1d/images/index.xml", src())
                 .with("hs/3a1d/images/r01c02/r01c02f01p01-ch01t01.tiff", src()),
         ));
