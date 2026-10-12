@@ -146,3 +146,8 @@ Main moved the chrom-crate Waters reader to byte sources while this crate was be
 
 **Corpus file:** `pxd073998-vion-msms-ce10-raw` (PRIDE PXD073998, CC0: a Vion IMS QTof `.raw` written by UNIFI 2.0 with lower-case file names, four TOF MSMS functions and a lock-spray reference) and the depositor's ProteoWizard 3.0.24263 mzML. **Prior art consulted:** none.
 **What was found.** The reader reads it unchanged: all 2,142 scans have the export's MS level, time, polarity and points. The export names the centre of the scan window (225 or 200) as the precursor of the MSMS scans, whose functions record no set mass; our spectra name none (`precursor_not_compared`). No parsing changed.
+
+## 2026-10-12 — the index of a truncated data file (Richard Zimring with Claude as assistant)
+
+**Run used, not added to the corpus for its size (3.5 GB):** PRIDE PXD028735, `LFQ_Waters_SynaptXS_SONAR_Ecoli_01.raw` (SYNAPT XS, SONAR). In the archive we downloaded, `_FUNC002.DAT` fails its CRC and unpacks 93 bytes short. **Prior art consulted:** none.
+**What was inferred from what.** `_FUNC001.IDX` and `_FUNC002.IDX` have the same length and 30-byte records. For function 2 the offsets step through the DAT as for function 1 but run past its end, so neither record length fitted the DAT exactly and the reader fell back to the flag test, which chose 22 bytes and misread every scan. When neither length fits the whole DAT, the reader now takes the length whose records step contiguously from offset 0 with a valid value width and whose last record ends past the DAT's end, so the intact scans read and `check` reports the truncation.
