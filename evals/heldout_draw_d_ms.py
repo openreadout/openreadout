@@ -26,6 +26,9 @@ C: dict[str, str] = {
     "d_ms_xevotq": "ho-mtbls11394-raw-xevotq",
     "d_ms_zenotof": "ho-mtbls14098-wiff-zenotof",
     "d_ms_tt6600": "ho-mtbls14234-wiff-tt6600",
+    # their scan data (companions), staged next to the .wiff
+    "d_ms_zenotof_scan": "ho-mtbls14098-wiff-zenotof-scan",
+    "d_ms_tt6600_scan": "ho-mtbls14234-wiff-tt6600-scan",
     "d_ms_tdf_blank": "ho-mtbls14519-tdf-blank",
     "d_ms_tdf_prm": "ho-mtbls14813-tdf-prm",
     # their frame blobs (companions), staged next to analysis.tdf in a `.d` folder
@@ -514,6 +517,7 @@ def specs(spec, fact, g, H) -> list[Any]:
             "How many MS2 spectra does this ZenoTOF run contain?",
             lambda o, m: g.integer(ms_level(o, 2)),
             "oracle: /spectra/scans with ms_level 2 (pyteomics on the depositor's mzML)",
+            extra=[(C["d_ms_zenotof_scan"], "sample.wiff.scan")],
         ),
         spec(
             "ho-d-ana-ms-wiff-zenotof-precursors",
@@ -522,6 +526,7 @@ def specs(spec, fact, g, H) -> list[Any]:
             "How many different precursor m/z values (to 0.01) were selected for fragmentation in this run?",
             fact("distinct_precursors", g.integer),
             "facts-heldout: distinct_precursors (pyteomics on the depositor's mzML)",
+            extra=[(C["d_ms_zenotof_scan"], "sample.wiff.scan")],
         ),
         spec(
             "ho-d-ms-wiff-tt6600-scans",
@@ -530,6 +535,7 @@ def specs(spec, fact, g, H) -> list[Any]:
             "How many spectra does this TripleTOF run contain?",
             lambda o, m: g.integer(o["spectra"]["scan_count"]),
             "oracle: /spectra/scan_count (pyteomics on the depositor's mzML)",
+            extra=[(C["d_ms_tt6600_scan"], "sample.wiff.scan")],
         ),
         # ------------------------------------------------ Bruker timsTOF
         spec(
@@ -692,7 +698,7 @@ def specs(spec, fact, g, H) -> list[Any]:
             "ho-d-chrom-lcd-peaks",
             "d_ms_lcd",
             "counts",
-            "How many peaks does the peak table stored with this HPLC run list?",
+            "How many peaks does the peak table stored with this HPLC run list for the PDA max plot chromatogram?",
             lambda o, m: g.integer(o["peak_count"]),
             "oracle: /peak_count (chromConverter, black box, reads the vendor's stored peak table)",
         ),
@@ -700,8 +706,8 @@ def specs(spec, fact, g, H) -> list[Any]:
             "ho-d-ana-chrom-lcd-largest",
             "d_ms_lcd",
             "analysis",
-            "According to the peak table stored with this HPLC run, at what retention time (minutes) "
-            "is the largest peak by area?",
+            "According to the peak table stored with this HPLC run for the PDA max plot chromatogram, at what "
+            "retention time (minutes) is the largest peak by area?",
             lambda o, m: g.number(round(max(o["peak_table"], key=lambda p: p["area"])["rt_min"], 3), "min", abs_=0.02),
             "oracle: /peak_table, largest area (chromConverter, black box, reads the vendor's stored peak table)",
             answer_hint=unit_hint,
