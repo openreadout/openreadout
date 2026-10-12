@@ -101,7 +101,7 @@ impl SampleFormat {
             ),
             Self::Int8 => out.extend(b.iter().map(|x| f64::from(*x as i8))),
             Self::Float64 => {
-                out.extend(b.as_chunks::<8>().0.iter().map(|x| f64::from_le_bytes(*x)))
+                out.extend(b.as_chunks::<8>().0.iter().map(|x| f64::from_le_bytes(*x)));
             }
         }
     }
@@ -251,6 +251,7 @@ pub fn looks_like_tsq(head: &[u8]) -> bool {
 }
 
 /// Parse a `.tsq`.
+#[allow(clippy::many_single_char_names)] // f, n, k, r: file, records, record index, record bytes
 pub fn parse_tsq(f: &mut SourceFile, path: &Path, file_len: u64) -> Result<TsqIndex> {
     let n = file_len / TSQ_RECORD_LEN;
     if n > MAX_TSQ_RECORDS {
@@ -277,7 +278,7 @@ pub fn parse_tsq(f: &mut SourceFile, path: &Path, file_len: u64) -> Result<TsqIn
         record_count: n,
         ..TsqIndex::default()
     };
-    if file_len % TSQ_RECORD_LEN != 0 {
+    if !file_len.is_multiple_of(TSQ_RECORD_LEN) {
         out.findings.push(
             Finding::warning(
                 "partial_record",

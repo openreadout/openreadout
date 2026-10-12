@@ -9,7 +9,7 @@ use openreadout_core::FormatReader;
 fn rec(
     size: i32,
     kind: i32,
-    name: &[u8; 4],
+    name: [u8; 4],
     channel: u16,
     sort: u16,
     time: f64,
@@ -20,7 +20,7 @@ fn rec(
     let mut v = Vec::with_capacity(40);
     v.extend_from_slice(&size.to_le_bytes());
     v.extend_from_slice(&kind.to_le_bytes());
-    v.extend_from_slice(name);
+    v.extend_from_slice(&name);
     v.extend_from_slice(&channel.to_le_bytes());
     v.extend_from_slice(&sort.to_le_bytes());
     v.extend_from_slice(&time.to_le_bytes());
@@ -41,17 +41,7 @@ fn synthetic() -> (Vec<u8>, Vec<u8>) {
     let t0 = 1_600_000_000.0;
     let mut tev = Vec::new();
     let mut recs: Vec<Vec<u8>> = Vec::new();
-    recs.push(rec(
-        20,
-        EVENT_MARK,
-        &[1, 0, 0, 0],
-        0,
-        0,
-        t0,
-        off(40),
-        0,
-        0.0,
-    ));
+    recs.push(rec(20, EVENT_MARK, [1, 0, 0, 0], 0, 0, t0, off(40), 0, 0.0));
     for k in 0..3u16 {
         for ch in 1..=2u16 {
             let at = tev.len() as u64;
@@ -62,7 +52,7 @@ fn synthetic() -> (Vec<u8>, Vec<u8>) {
             recs.push(rec(
                 12,
                 EVENT_STREAM,
-                b"Wave",
+                *b"Wave",
                 ch,
                 0,
                 t0 + f64::from(k) * 0.04 + 0.001,
@@ -79,7 +69,7 @@ fn synthetic() -> (Vec<u8>, Vec<u8>) {
             recs.push(rec(
                 13,
                 EVENT_SNIPPET,
-                b"eSpk",
+                *b"eSpk",
                 1 + k,
                 k,
                 t0 + 0.05 * f64::from(k),
@@ -92,7 +82,7 @@ fn synthetic() -> (Vec<u8>, Vec<u8>) {
     recs.push(rec(
         10,
         EVENT_STROBE_ON,
-        b"Tri/",
+        *b"Tri/",
         0,
         0,
         t0 + 0.02,
@@ -105,7 +95,7 @@ fn synthetic() -> (Vec<u8>, Vec<u8>) {
     recs.push(rec(
         10,
         EVENT_STROBE_OFF,
-        b"Tri\\",
+        *b"Tri\\",
         buddy,
         buddy2,
         t0 + 0.07,
@@ -116,7 +106,7 @@ fn synthetic() -> (Vec<u8>, Vec<u8>) {
     recs.push(rec(
         10,
         EVENT_STROBE_ON,
-        b"Tri/",
+        *b"Tri/",
         0,
         0,
         t0 + 0.09,
@@ -127,7 +117,7 @@ fn synthetic() -> (Vec<u8>, Vec<u8>) {
     recs.push(rec(
         20,
         EVENT_MARK,
-        &[2, 0, 0, 0],
+        [2, 0, 0, 0],
         0,
         0,
         t0 + 0.12,
@@ -136,7 +126,7 @@ fn synthetic() -> (Vec<u8>, Vec<u8>) {
         0.0,
     ));
     let n = (recs.len() + 1) as i32 * 40;
-    let mut tsq = rec(n, 0, &[0; 4], 0, 0, 0.0, off(0), 0, 0.0);
+    let mut tsq = rec(n, 0, [0; 4], 0, 0, 0.0, off(0), 0, 0.0);
     for r in recs {
         tsq.extend_from_slice(&r);
     }
@@ -151,6 +141,7 @@ fn write_block(dir: &Path, stem: &str, tsq: &[u8], tev: &[u8]) -> PathBuf {
 }
 
 #[test]
+#[allow(clippy::many_single_char_names)]
 fn reads_a_synthetic_block() {
     let d = tempfile::tempdir().unwrap();
     let (tsq, tev) = synthetic();

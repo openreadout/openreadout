@@ -257,7 +257,7 @@ pub fn parse_session(input: &Input) -> Result<AxonaSession> {
     let bin = dir.join(format!("{stem}.bin"));
     if fs.is_file(&bin) {
         s.bin_len = fs.metadata(&bin).map_err(|e| Error::io(&bin, e))?.len();
-        if s.bin_len % BIN_PACKET != 0 {
+        if !s.bin_len.is_multiple_of(BIN_PACKET) {
             s.findings.push(Finding::warning(
                 "partial_packet",
                 format!(

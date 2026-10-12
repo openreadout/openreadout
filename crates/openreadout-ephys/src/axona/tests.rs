@@ -76,6 +76,7 @@ fn slots_follow_the_interleaved_blocks() {
 }
 
 #[test]
+#[allow(clippy::many_single_char_names)]
 fn reads_a_synthetic_session() {
     let d = tempfile::tempdir().unwrap();
     let p = session(d.path(), 4);
